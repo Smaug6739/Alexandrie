@@ -10,15 +10,12 @@ const store = createPinia();
 
 const app = createSSRApp(App);
 
-import kt from './components/kt.vue';
 import Alert from './components/common/Alert.vue';
 import Collapse from './components/common/Collapse.vue';
 import Info from './components/common/Info.vue';
 import Table from './components/common/Table.vue';
 import Warning from './components/common/Warning.vue';
 
-app.component('kt', kt);
-app.component('kr', kt);
 app.component('Alert', Alert);
 app.component('Collapse', Collapse);
 app.component('Info', Info);

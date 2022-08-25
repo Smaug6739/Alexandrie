@@ -23,8 +23,6 @@ export default defineComponent({
 				username: (document.getElementById("form-username") as HTMLInputElement).value,
 				password: (document.getElementById("form-password") as HTMLInputElement).value,
 			});
-			console.log("OK");
-
 			const responce = await fetch(`http://192.168.0.25:8082/api/v1/auth`, {
 				method: "POST",
 				headers: {
@@ -81,11 +79,7 @@ input {
 	border-radius: 0.25rem;
 }
 
-
-
 button {
 	margin-top: 10px;
 }
-
-element.style {}
 </style>

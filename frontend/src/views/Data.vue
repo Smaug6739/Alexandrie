@@ -1,14 +1,8 @@
 <template>
 	<div>
 		<Sidebar />
-		<main class="view view-source">
-			<div v-html="article.content_html"></div>
-			<div v-html="article.content_html"></div>
-			<div v-html="article.content_html"></div>
-			<div v-html="article.content_html"></div>
-			<div v-html="article.content_html"></div>
+		<main class="view view-source" v-html="article.content_html">
 		</main>
-
 	</div>
 </template>
 <script lang="ts">
@@ -16,14 +10,12 @@ import { defineComponent } from "vue";
 import { Article, useArticlesStore } from "../store";
 
 import Sidebar from "../components/layout/sidebar/Sidebar.vue";
-import CustomComponent from "../components/CustomComponent.vue";
 const articlesStore = useArticlesStore();
 
 export default defineComponent({
 	name: "Data",
 	components: {
 		Sidebar,
-		CustomComponent
 	},
 	data() {
 		return {
