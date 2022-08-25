@@ -24,30 +24,6 @@ app.component('Collapse', Collapse);
 app.component('Info', Info);
 app.component('Table', Table);
 app.component('Warning', Warning);
-app.component('dynamic-link', {
-  template: `<component v-bind:is="transformed" /></component>`,
-  props: {
-    to: {
-      type: String,
-      required: true,
-    },
-    data() {
-      return {
-        text: `
-      <router-link to="${this.to}">
-        <button class="btn btn-pink">Edit
-        </button>
-      </router-link>
-      `,
-      };
-    },
-  },
-  computed: {
-    transformed() {
-      return { template: this.text };
-    },
-  },
-});
 
 app.use(router);
 app.use(store);
