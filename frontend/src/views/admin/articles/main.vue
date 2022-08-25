@@ -1,11 +1,6 @@
 <template>
 	<div>
-		<admin-sidebar />
-		<main class="view">
-			<h1>Dashboard: Articles</h1>
-			<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
-		</main>
-
+		<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
 	</div>
 
 </template>

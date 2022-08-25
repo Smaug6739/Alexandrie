@@ -1,7 +1,10 @@
 <template>
 	<div>
-		<h1>Dashboard: Admin</h1>
 		<admin-sidebar />
+		<main class="view view-source">
+			<h1>Dashboard: Admin</h1>
+			<router-view></router-view>
+		</main>
 	</div>
 
 </template>

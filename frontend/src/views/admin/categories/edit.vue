@@ -1,38 +1,34 @@
 <template>
 	<div>
-		<h1>Dashboard: Edit category</h1>
-		<admin-sidebar />
-		<div class="ctn">
-			<form>
-				<fieldset>
-					<legend>Catégorie</legend>
-					<label for="name">Name:</label>
-					<input type="text" placeholder="Name" name="name" v-model="theme.name" />
-					<label for="description">Description:</label>
-					<input type="text" placeholder="Description" name="description" v-model="theme.description" />
-					<label for="path">Path:</label>
-					<input type="text" placeholder="Path" name="path" v-model="theme.path" />
-					<label for="icon">Icon:</label>
-					<input type="text" placeholder="Icon" name="icon" v-model="theme.icon" />
-					<button type="button" class="btn btn-pink" @click="send">Edit</button>
-				</fieldset>
-			</form>
-			<h2>Sub categories</h2>
-			<fieldset style="padding:10px;">
-				<fieldset v-for="(sub, index) of theme.categories" :key="index">
-					<legend>Sub category: {{ sub.name }}</legend>
-					<label for="name">Name:</label>
-					<input type="text" placeholder="Name" name="name" v-model="sub.name" />
-					<label for="description">Description:</label>
-					<input type="text" placeholder="Description" name="description" v-model="sub.description" />
-					<label for="path">Path:</label>
-					<input type="text" placeholder="Path" name="path" v-model="sub.path" />
-					<label for="icon">Icon:</label>
-					<input type="text" placeholder="Icon" name="icon" v-model="sub.icon" />
-					<button type="button" class="btn btn-pink" @click="editSub(index)">Edit</button>
-				</fieldset>
+		<form>
+			<fieldset>
+				<legend>Catégorie</legend>
+				<label for="name">Name:</label>
+				<input type="text" placeholder="Name" name="name" v-model="theme.name" />
+				<label for="description">Description:</label>
+				<input type="text" placeholder="Description" name="description" v-model="theme.description" />
+				<label for="path">Path:</label>
+				<input type="text" placeholder="Path" name="path" v-model="theme.path" />
+				<label for="icon">Icon:</label>
+				<input type="text" placeholder="Icon" name="icon" v-model="theme.icon" />
+				<button type="button" class="btn btn-pink" @click="send">Edit</button>
 			</fieldset>
-		</div>
+		</form>
+		<h2>Sub categories</h2>
+		<fieldset style="padding:10px;">
+			<fieldset v-for="(sub, index) of theme.categories" :key="index">
+				<legend>Sub category: {{ sub.name }}</legend>
+				<label for="name">Name:</label>
+				<input type="text" placeholder="Name" name="name" v-model="sub.name" />
+				<label for="description">Description:</label>
+				<input type="text" placeholder="Description" name="description" v-model="sub.description" />
+				<label for="path">Path:</label>
+				<input type="text" placeholder="Path" name="path" v-model="sub.path" />
+				<label for="icon">Icon:</label>
+				<input type="text" placeholder="Icon" name="icon" v-model="sub.icon" />
+				<button type="button" class="btn btn-pink" @click="editSub(index)">Edit</button>
+			</fieldset>
+		</fieldset>
 	</div>
 
 </template>
@@ -73,12 +69,6 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.ctn {
-	width: 80%;
-	margin: auto;
-	margin-top: 3% !important;
-}
-
 fieldset {
 	padding: 10px;
 }

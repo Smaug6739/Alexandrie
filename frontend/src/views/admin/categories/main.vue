@@ -1,10 +1,6 @@
 <template>
 	<div>
-		<admin-sidebar />
-		<main class="view view-source">
-			<h1>Dashboard: Catégories</h1>
-			<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
-		</main>
+		<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
 	</div>
 </template>
 <script lang="ts">

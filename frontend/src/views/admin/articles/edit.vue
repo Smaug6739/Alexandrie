@@ -1,7 +1,5 @@
 <template>
 	<div>
-		<h1>Dashboard: Edit article</h1>
-		<admin-sidebar />
 		<form>
 			<fieldset>
 				<legend>Article</legend>
