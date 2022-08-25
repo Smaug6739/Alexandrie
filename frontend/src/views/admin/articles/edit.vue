@@ -14,7 +14,7 @@
 				<label for="path">Path:</label>
 				<input type="text" placeholder="Path" name="path" v-model="article.path" />
 				<label for="content">Content:</label>
-				<textarea name="content" id="" cols="30" rows="40" v-model="article.content_markdown"></textarea>
+				<textarea name="content" id="" cols="10" rows="20" v-model="article.content_markdown"></textarea>
 				<button type="button" class="btn btn-pink" @click="send">Edit</button>
 			</fieldset>
 		</form>
@@ -63,9 +63,11 @@ export default defineComponent({
 		html_content() {
 			let html = md.render(this.article.content_markdown);
 			// Replace "$<sequence>$" with katex expression
-			const regex = /\$(.+)\$/g;
+			const regex = /\$(\S+)\$/g;
 
 			html = html.replace(regex, (match, p1) => {
+				console.log(p1);
+
 				const render = katex.renderToString(p1, {
 					throwOnError: false,
 					displayMode: true,
