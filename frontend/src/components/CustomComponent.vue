@@ -2,7 +2,6 @@
 import { defineComponent } from "vue";
 // @ts-ignore
 import { compile, h } from "vue/dist/vue.esm-bundler.js";
-import kt from "./kt.vue"
 export default defineComponent({
 	props: {
 		src: {
@@ -10,9 +9,6 @@ export default defineComponent({
 			required: false,
 			default: "",
 		},
-	},
-	components: {
-		kt,
 	},
 	// @ts-ignore
 	render() {
