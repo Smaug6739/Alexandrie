@@ -4,24 +4,18 @@
 			<fieldset>
 				<legend>Article</legend>
 				<label for="title">Title:</label>
-				<input id="form-path" type="text" placeholder="Title" name="title" :value="article?.name"
-					v-model="article.name" />
+				<input type="text" placeholder="Title" name="title" v-model="article.name" />
 				<label for="description">Description:</label>
-				<input id="form-description" type="text" placeholder="Description" name="description"
-					:value="article?.description" v-model="article.description" />
+				<input type="text" placeholder="Description" name="description" v-model="article.description" />
 				<label for="main_category">Main category:</label>
-				<input id="form-main_category" type="text" placeholder="Main category" name="main_category"
-					:value="article?.main_category" v-model="article.main_category" />
+				<input type="text" placeholder="Main category" name="main_category" v-model="article.main_category" />
 				<label for="sub_category">Sub category:</label>
-				<input id="form-sub_category" type="text" placeholder="Sub category" name="sub_category"
-					:value="article?.sub_category" v-model="article.sub_category" />
+				<input type="text" placeholder="Sub category" name="sub_category" v-model="article.sub_category" />
 				<label for="path">Path:</label>
-				<input id="form-name" type="text" placeholder="Path" name="path" :value="article?.path"
-					v-model="article.path" />
+				<input type="text" placeholder="Path" name="path" v-model="article.path" />
 				<label for="content">Content:</label>
 				<textarea name="content" id="" cols="30" rows="40" v-model="article.content_markdown"></textarea>
 				<button type="button" class="btn btn-pink" @click="send">Edit</button>
-
 			</fieldset>
 		</form>
 		<div>
