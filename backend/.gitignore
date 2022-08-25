@@ -1,0 +1,21 @@
+#Nodejs
+node_modules
+package-lock.json
+
+#Public dir
+public/uploads/projects/archives/*
+public/uploads/projects/images/*
+
+!public/uploads/projects/archives/default
+!public/uploads/projects/images/default
+
+#ENV
+.env
+.env.development
+.env.production
+
+#Config
+config.js
+config.ts
+prod.config.ts
+prod.config.js
