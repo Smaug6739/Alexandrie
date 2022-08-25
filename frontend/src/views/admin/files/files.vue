@@ -6,7 +6,7 @@
 
 </template>
 <script lang="ts">
-import adminSidebar from '../../components/layout/admin-sidebar/Sidebar.vue';
+import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
 import { defineComponent } from 'vue';
 export default defineComponent({
 	name: 'admin-dashboard',

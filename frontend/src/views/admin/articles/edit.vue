@@ -36,11 +36,11 @@
 
 </template>
 <script lang="ts">
-import adminSidebar from '../../components/layout/admin-sidebar/Sidebar.vue';
-import CustomComponentVue from '../../components/CustomComponent.vue';
+import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
+import CustomComponentVue from '../../../components/CustomComponent.vue';
 import { defineComponent } from 'vue';
-import type { Article } from '../../store';
-import { useArticlesStore } from '../../store';
+import type { Article } from '../../../store';
+import { useArticlesStore } from '../../../store';
 import MarkdownIt from 'markdown-it';
 const md = new MarkdownIt({
 	html: true,

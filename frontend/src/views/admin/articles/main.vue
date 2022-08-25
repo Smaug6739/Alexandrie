@@ -10,11 +10,11 @@
 
 </template>
 <script lang="ts">
-import adminSidebar from '../../components/layout/admin-sidebar/Sidebar.vue';
-import Datatable from '../../components/common/DataTable.vue';
-import { useArticlesStore } from '../../store';
+import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
+import Datatable from '../../../components/common/DataTable.vue';
+import { useArticlesStore } from '../../../store';
 import { defineComponent } from 'vue';
-import { Article } from '../../store';
+import { Article } from '../../../store';
 const store = useArticlesStore();
 export default defineComponent({
 	name: 'admin-dashboard',

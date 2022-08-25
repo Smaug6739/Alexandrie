@@ -8,11 +8,11 @@
 	</div>
 </template>
 <script lang="ts">
-import adminSidebar from '../../components/layout/admin-sidebar/Sidebar.vue';
-import Datatable from '../../components/common/DataTable.vue';
-import { useCategoriesStore } from '../../store';
+import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
+import Datatable from '../../../components/common/DataTable.vue';
+import { useCategoriesStore } from '../../../store';
 import { defineComponent } from 'vue';
-import type { Theme } from '../../store';
+import type { Theme } from '../../../store';
 const store = useCategoriesStore();
 export default defineComponent({
 	name: 'admin-dashboard',
