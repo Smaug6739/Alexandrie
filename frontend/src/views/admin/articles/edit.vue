@@ -31,7 +31,6 @@
 </template>
 <script lang="ts">
 import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
-import CustomComponentVue from '../../../components/CustomComponent.vue';
 import { defineComponent } from 'vue';
 import type { Article } from '../../../store';
 import { useArticlesStore } from '../../../store';
@@ -46,7 +45,6 @@ export default defineComponent({
 	name: 'admin-articles-edit',
 	components: {
 		adminSidebar,
-		CustomComponentVue,
 	},
 	data() {
 		return {
@@ -94,8 +92,6 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-@import url("/katex/katex.css");
-
 fieldset {
 	padding: 10px;
 	width: 80%;

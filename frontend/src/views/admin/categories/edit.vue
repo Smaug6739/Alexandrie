@@ -34,7 +34,6 @@
 </template>
 <script lang="ts">
 import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
-import CustomComponentVue from '../../../components/CustomComponent.vue';
 import { defineComponent } from 'vue';
 import type { Theme } from '../../../store';
 import { useCategoriesStore } from '../../../store';
@@ -43,7 +42,6 @@ export default defineComponent({
 	name: 'admin-articles-edit',
 	components: {
 		adminSidebar,
-		CustomComponentVue,
 	},
 	data() {
 		return {

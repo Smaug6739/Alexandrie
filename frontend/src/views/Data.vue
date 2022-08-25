@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<Sidebar />
-		<main class="view view-source" v-html="article.content_html">
+		<main class="view view-source">
+			<div v-html="article.content_html"></div>
 		</main>
 	</div>
 </template>
@@ -23,11 +24,7 @@ export default defineComponent({
 		};
 	},
 	async beforeMount() {
-		console.log(0);
-
 		this.article = await this.getArticle();
-		console.log(this.article);
-
 	},
 	methods: {
 		async getArticle(): Promise<Article> {
