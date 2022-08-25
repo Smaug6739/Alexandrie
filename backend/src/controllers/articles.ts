@@ -27,8 +27,6 @@ export function add(req: IObject, res: IObject): void {
 }
 
 export function updateArticle(req: IObject, res: IObject) {
-  console.log(req.body);
-
   Articles.put(
     req.params.id,
     req.body.name,

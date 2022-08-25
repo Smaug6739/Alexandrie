@@ -20,7 +20,7 @@ export const useArticlesStore = defineStore('articles', {
   actions: {
     async getAll(category: string | undefined): Promise<Article[]> {
       if (!category || this.articles.filter(a => a.main_category == category).length) return this.articles;
-      const response = await fetch('http://localhost:8082/api/v1/articles/category/' + category);
+      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/category/' + category);
       const result = await response.json();
       if (result.status == 'success') {
         result.result.forEach((a: Article) => {
@@ -32,7 +32,7 @@ export const useArticlesStore = defineStore('articles', {
       return this.articles;
     },
     async getAllPage() {
-      const response = await fetch('http://localhost:8082/api/v1/articles/');
+      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/');
       const result = await response.json();
       if (result.status == 'success') {
         result.result.forEach((a: Article) => {
@@ -55,7 +55,7 @@ export const useArticlesStore = defineStore('articles', {
       return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
     },
     async updateArticle(article: Article) {
-      const response = await fetch('http://localhost:8082/api/v1/articles/' + article.id, {
+      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/' + article.id, {
         method: 'PATCH',
         body: JSON.stringify(article),
         credentials: 'include',
@@ -63,7 +63,9 @@ export const useArticlesStore = defineStore('articles', {
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
+
       const result = await response.json();
+
       if (result.status == 'success') {
         this.articles = this.articles.map(a => (a.id == article.id ? article : a));
       }

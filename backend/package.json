@@ -32,6 +32,7 @@
   "dependencies": {
     "array-paginator": "^1.0.4",
     "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",

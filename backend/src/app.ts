@@ -1,5 +1,6 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
+import bodyParser from 'body-parser';
 import type { Response } from 'express';
 
 //import * as express from 'express';
@@ -28,8 +29,8 @@ export class App {
     });
   }
   private handleMiddlewares(): void {
-    this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+    this.app.use(express.json({ limit: '5mb' }));
     const ALLOWED_DOMAINS = this.config.ALLOWED_DOMAINS;
     this.app.use(function (req: IObject, res: IObject, next: Function) {
       const origin = req.headers.origin;

@@ -24,7 +24,7 @@ export const useCategoriesStore = defineStore('categories', {
   actions: {
     async getAll(): Promise<Theme[]> {
       if (this.categories.length) return this.categories;
-      const response = await fetch('http://localhost:8082/api/v1/categories');
+      const response = await fetch('http://192.168.0.25:8082/api/v1/categories');
       const result = await response.json();
       if (result.status == 'success') {
         this.categories = result.result;
@@ -36,7 +36,7 @@ export const useCategoriesStore = defineStore('categories', {
       return this.categories.find((a: Theme) => a.id == id);
     },
     async updateMainCategory(category: Theme) {
-      const response = await fetch(`http://localhost:8082/api/v1/categories/main/${category.id}`, {
+      const response = await fetch(`http://192.168.0.25:8082/api/v1/categories/main/${category.id}`, {
         method: 'PATCH',
         body: JSON.stringify(category),
         credentials: 'include',
@@ -55,7 +55,7 @@ export const useCategoriesStore = defineStore('categories', {
       }
     },
     async updateSubCategory(parent: string, category: Category) {
-      const response = await fetch(`http://localhost:8082/api/v1/categories/sub/${category.id}`, {
+      const response = await fetch(`http://192.168.0.25:8082/api/v1/categories/sub/${category.id}`, {
         method: 'PATCH',
         body: JSON.stringify(category),
         credentials: 'include',

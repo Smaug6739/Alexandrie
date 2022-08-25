@@ -64,10 +64,9 @@ export default defineComponent({
   },
   mounted() {
     this.isOpened = this.isMenuOpen;
+    window.document.body.style.paddingLeft = '78px';
   },
-  beforeUnmount() {
-    window.document.body.style.paddingLeft = '0px';
-  },
+  beforeUnmount() {},
   computed: {
     menuItems2(): MenuItem2[] {
       const items: MenuItem2[] = [];
@@ -103,11 +102,7 @@ export default defineComponent({
     },
   },
   watch: {
-    isOpened() {
-      window.document.body.style.transition = 'all 0.3s ease';
-      window.document.body.style.paddingLeft =
-        this.isOpened && this.isPaddingLeft ? this.menuOpenedPaddingLeftBody : this.menuClosedPaddingLeftBody;
-    },
+    isOpened() {},
   },
 });
 

@@ -27,8 +27,8 @@ class App {
         });
     }
     handleMiddlewares() {
-        this.app.use(express.urlencoded({ extended: true }));
-        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+        this.app.use(express.json({ limit: '5mb' }));
         const ALLOWED_DOMAINS = this.config.ALLOWED_DOMAINS;
         this.app.use(function (req, res, next) {
             const origin = req.headers.origin;

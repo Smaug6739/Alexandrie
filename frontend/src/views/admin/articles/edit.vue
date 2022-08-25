@@ -21,7 +21,9 @@
 		<div>
 			<fieldset class="view preview">
 				<legend>Preview</legend>
-				<CustomComponentVue :src="html_content" />
+				<div id="preview" v-html="html_content">
+
+				</div>
 			</fieldset>
 		</div>
 	</div>
@@ -37,7 +39,9 @@ import MarkdownIt from 'markdown-it';
 const md = new MarkdownIt({
 	html: true,
 });
+
 const store = useArticlesStore();
+import katex from "katex";
 export default defineComponent({
 	name: 'admin-articles-edit',
 	components: {
@@ -46,17 +50,38 @@ export default defineComponent({
 	},
 	data() {
 		return {
-			article: {} as Article,
+			article: {
+				name: '',
+				description: '',
+				main_category: '',
+				sub_category: '',
+				path: '',
+				content_markdown: '',
+				content_html: '',
+			} as Article,
 		};
 	},
 	computed: {
 		html_content() {
-			return md.render(this.article.content_markdown);
+			let html = md.render(this.article.content_markdown);
+			// Replace "$<sequence>$" with katex expression
+			const regex = /\$(.+)\$/g;
+
+			html = html.replace(regex, (match, p1) => {
+				const render = katex.renderToString(p1, {
+					throwOnError: false,
+					displayMode: true,
+					leqno: true,
+					trust: true,
+				});
+				return `<span class="container"><i class="katex-i">${render}</i></span>`
+			});
+			return html
 		}
 	},
 	methods: {
 		send() {
-			this.article.content_html = this.html_content;
+			this.article.content_html = this.html_content
 			store.updateArticle(this.article).then(r => {
 				this.$router.push("/admin/articles");
 			})
@@ -68,7 +93,9 @@ export default defineComponent({
 	},
 });
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+@import url("/katex/katex.css");
+
 fieldset {
 	padding: 10px;
 	width: 80%;

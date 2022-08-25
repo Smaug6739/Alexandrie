@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@traptitech/markdown-it-katex": "^3.6.0",
     "katex": "^0.16.0",
     "markdown-it": "^13.0.1",
     "pinia": "^2.0.17",

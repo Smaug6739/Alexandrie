@@ -8,7 +8,7 @@ exports.default = (req, res, next) => {
         var cookies = req.headers.cookie;
         if (cookies) {
             req.cookies = cookies.split(';').reduce((obj, c) => {
-                var n = c.trim().split("=");
+                var n = c.trim().split('=');
                 obj[n[0]] = n[1].trim();
                 return obj;
             }, {});
@@ -25,6 +25,7 @@ exports.default = (req, res, next) => {
         next();
     }
     catch (err) {
+        console.log(err);
         return res.status(401).json((0, functions_1.error)('Requete non authentifiée'));
     }
 };
