@@ -66,7 +66,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "Collapse",
   methods: {
-    toggle(event: MouseEvent) {
+    toggle() {
       const element: HTMLElement = this.$refs.element as HTMLElement;
       element.classList.toggle("active");
       var content = this.$refs.content as HTMLElement;

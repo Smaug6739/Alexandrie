@@ -35,7 +35,7 @@ export default defineComponent({
 		},
 	},
 	watch: {
-		async $route(to, from) {
+		async $route() {
 			this.article = await this.getArticle();
 		}
 	},

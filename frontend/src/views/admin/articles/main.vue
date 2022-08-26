@@ -9,7 +9,7 @@ import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
 import Datatable from '../../../components/common/DataTable.vue';
 import { useArticlesStore } from '../../../store';
 import { defineComponent } from 'vue';
-import { Article } from '../../../store';
+import type { Article } from '../../../store';
 const store = useArticlesStore();
 export default defineComponent({
 	name: 'admin-dashboard',

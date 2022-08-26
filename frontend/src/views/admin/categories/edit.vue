@@ -50,14 +50,12 @@ export default defineComponent({
 	},
 	methods: {
 		send() {
-			store.updateMainCategory(this.theme).then(r => {
-				this.$router.push("/admin/categories");
-			})
+			store.updateMainCategory(this.theme).then(_ => this.$router.push("/admin/categories"))
 		},
 		editSub(index: number) {
-			store.updateSubCategory(this.theme.id, this.theme.categories[index]).then(r => {
-				this.$router.push("/admin/categories");
-			})
+			const category = this.theme.categories[index]
+			if (!category) return;
+			store.updateSubCategory(this.theme.id, category).then(_ => this.$router.push("/admin/categories"))
 		}
 	},
 	async beforeMount() {

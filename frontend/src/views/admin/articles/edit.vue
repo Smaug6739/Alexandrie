@@ -18,16 +18,11 @@
 				<button type="button" class="btn btn-pink" @click="send">Edit</button>
 			</fieldset>
 		</form>
-		<div>
-			<fieldset class="view preview">
-				<legend>Preview</legend>
-				<div id="preview" v-html="html_content">
-
-				</div>
-			</fieldset>
-		</div>
+		<fieldset class="view preview">
+			<legend>Preview</legend>
+			<div id="preview" v-html="html_content"></div>
+		</fieldset>
 	</div>
-
 </template>
 <script lang="ts">
 import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
@@ -70,9 +65,7 @@ export default defineComponent({
 	methods: {
 		send() {
 			this.article.content_html = this.html_content
-			store.updateArticle(this.article).then(r => {
-				this.$router.push("/admin/articles");
-			})
+			store.updateArticle(this.article).then(_ => this.$router.push("/admin/articles"))
 		}
 	},
 	async beforeMount() {

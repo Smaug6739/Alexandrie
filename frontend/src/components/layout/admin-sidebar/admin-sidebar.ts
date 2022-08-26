@@ -1,7 +1,4 @@
 import { defineComponent } from 'vue';
-import { useCategoriesStore, useArticlesStore, Theme, Article } from '../../../store';
-const CategoriesStore = useCategoriesStore();
-const articlesStore = useArticlesStore();
 export default defineComponent({
   name: 'SidebarMenu',
   props: {
