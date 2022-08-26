@@ -4,7 +4,6 @@
 	</div>
 </template>
 <script lang="ts">
-import adminSidebar from '../../../components/layout/admin-sidebar/Sidebar.vue';
 import Datatable from '../../../components/common/DataTable.vue';
 import { useCategoriesStore } from '../../../store';
 import { defineComponent } from 'vue';
@@ -13,7 +12,6 @@ const store = useCategoriesStore();
 export default defineComponent({
 	name: 'admin-dashboard',
 	components: {
-		adminSidebar,
 		Datatable,
 	},
 	data() {
