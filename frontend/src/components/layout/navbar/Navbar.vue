@@ -9,11 +9,8 @@
         <li class="destination">
           <a href="#" class="nav-links">Home</a>
         </li>
-        <li class="destination">
-          <router-link to="/maths">Mathématiques</router-link>
-        </li>
-        <li class="destination">
-          <router-link to="/physics">Physique</router-link>
+        <li v-for="(category, index) of categories" :key="index">
+          <router-link :to="'/doc/' + category.path">{{ category.name }}</router-link>
         </li>
         <li class="icon">
           <i @click="toggleTheme" class='bx bx-moon' ref="themeIcon"></i>
@@ -56,7 +53,7 @@ nav {
 }
 
 ul {
-  height: 60px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -88,10 +85,16 @@ li {
 }
 </style>
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
-
+import { defineComponent } from "vue";
+import { useCategoriesStore } from "../../../store";
+import type { Theme } from "../../../store";
 export default defineComponent({
   name: "Navbar",
+  data() {
+    return {
+      categories: [] as Theme[]
+    }
+  },
   methods: {
     toggleTheme() {
       const themeIcon = this.$refs.themeIcon as HTMLElement;
@@ -107,5 +110,9 @@ export default defineComponent({
       }
     },
   },
+  async beforeMount() {
+    const store = useCategoriesStore();
+    this.categories = await store.getAll()
+  }
 });
 </script>
