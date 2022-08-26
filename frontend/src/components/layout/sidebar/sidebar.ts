@@ -60,7 +60,7 @@ export default defineComponent({
   async beforeMount() {
     const subject = this.$route.params.subject as string;
     this.categories = await CategoriesStore.getAll();
-    this.articles = await articlesStore.getAll(this.categories.find(c => c.path == subject)?.path);
+    this.articles = await articlesStore.getAllByCategory(this.categories.find(c => c.path == subject)?.path);
   },
   mounted() {
     this.isOpened = this.isMenuOpen;

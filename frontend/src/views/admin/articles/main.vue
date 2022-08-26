@@ -85,7 +85,7 @@ export default defineComponent({
 		},
 	},
 	async beforeMount() {
-		this.articles = await store.getAllPage();
+		this.articles = await store.getAll();
 	},
 });
 

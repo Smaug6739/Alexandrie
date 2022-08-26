@@ -18,7 +18,19 @@ export const useArticlesStore = defineStore('articles', {
     articles: [] as Article[],
   }),
   actions: {
-    async getAll(category: string | undefined): Promise<Article[]> {
+    async getAll() {
+      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/');
+      const result = await response.json();
+      if (result.status == 'success') {
+        result.result.forEach((a: Article) => {
+          if (!this.getCache(a.main_category, a.sub_category, a.path)) {
+            this.articles.push(a);
+          }
+        });
+      }
+      return this.articles;
+    },
+    async getAllByCategory(category: string | undefined): Promise<Article[]> {
       if (!category || this.articles.filter(a => a.main_category == category).length) return this.articles;
       const response = await fetch('http://192.168.0.25:8082/api/v1/articles/category/' + category);
       const result = await response.json();
@@ -31,24 +43,13 @@ export const useArticlesStore = defineStore('articles', {
       }
       return this.articles;
     },
-    async getAllPage() {
-      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/');
-      const result = await response.json();
-      if (result.status == 'success') {
-        result.result.forEach((a: Article) => {
-          if (!this.getCache(a.main_category, a.sub_category, a.path)) {
-            this.articles.push(a);
-          }
-        });
-      }
-      return this.articles;
-    },
+
     async get(subject: string, category: string, article: string): Promise<Article | undefined> {
-      if (!this.articles.length) await this.getAll(subject);
+      if (!this.articles.length) await this.getAllByCategory(subject);
       return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
     },
     async getById(id: string): Promise<Article | undefined> {
-      if (!this.articles.length) await this.getAllPage();
+      if (!this.articles.length) await this.getAll();
       return this.articles.find((a: Article) => a.id == id);
     },
     getCache(subject: string, category: string, article: string): Article | undefined {
@@ -63,9 +64,7 @@ export const useArticlesStore = defineStore('articles', {
           'Content-type': 'application/json; charset=UTF-8',
         },
       });
-
       const result = await response.json();
-
       if (result.status == 'success') {
         this.articles = this.articles.map(a => (a.id == article.id ? article : a));
       }
