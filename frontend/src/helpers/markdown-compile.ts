@@ -1,7 +1,10 @@
 import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
+import container from 'markdown-it-container';
 
 import katex from 'katex';
+
+import { svg_info, svg_warning, containerOpen } from './constants';
 
 const md = new MarkdownIt({ html: true });
 md.use(anchor, {
@@ -14,6 +17,70 @@ md.use(anchor, {
   }),
 });
 
+md.use(container, 'definition', {
+  validate: function (params: any) {
+    return params.trim().match(/^definition\s+(.*)$/);
+  },
+  render: function (tokens: any, idx: any) {
+    var m = tokens[idx].info.trim().match(/^definition\s+(.*)$/);
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return containerOpen(m[1], svg_info, 'red');
+    } else {
+      // closing tag
+      return '</div>\n';
+    }
+  },
+});
+md.use(container, 'property', {
+  validate: function (params: any) {
+    return params.trim().match(/^property\s+(.*)$/);
+  },
+  render: function (tokens: any, idx: any) {
+    var m = tokens[idx].info.trim().match(/^property\s+(.*)$/);
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return containerOpen(m[1], svg_info, 'blue');
+    } else {
+      // closing tag
+      return '</div>\n';
+    }
+  },
+});
+md.use(container, 'theorem', {
+  validate: function (params: any) {
+    return params.trim().match(/^theorem\s+(.*)$/);
+  },
+  render: function (tokens: any, idx: any) {
+    var m = tokens[idx].info.trim().match(/^theorem\s+(.*)$/);
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return containerOpen(m[1], svg_info, 'turquoise');
+    } else {
+      // closing tag
+      return '</div>\n';
+    }
+  },
+});
+md.use(container, 'warning', {
+  validate: function (params: any) {
+    return params.trim().match(/^warning\s+(.*)$/);
+  },
+  render: function (tokens: any, idx: any) {
+    var m = tokens[idx].info.trim().match(/^warning\s+(.*)$/);
+
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return containerOpen(m[1], svg_warning, 'yellow');
+    } else {
+      // closing tag
+      return '</div>\n';
+    }
+  },
+});
 export default function compile(str: string, plugins: boolean): string {
   let render = md.render(str, {
     html: true,
@@ -59,6 +126,7 @@ function replaceText(text: string, results: Result[]): string {
     const render = katex.renderToString(expressionWithoutDollar, {
       throwOnError: false,
       displayMode: true,
+      trust: true,
     });
     text = text.replace(expression, `<span class="container"><i class="katex-i">${render}</i></span>`);
   }
