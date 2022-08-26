@@ -20,8 +20,6 @@ export default (req: IObject, res: IObject, next: any) => {
     if (req.cookies.user_id != decoded.userId) throw 'Bad user';
     next();
   } catch (err) {
-    console.log(err);
-
     return res.status(401).json(error('Requete non authentifiée'));
   }
 };

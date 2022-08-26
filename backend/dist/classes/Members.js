@@ -17,7 +17,6 @@ class MemberClass {
                 if (err)
                     return reject(new Error(err.message));
                 if (result[0]) {
-                    console.log(result[0].password, password);
                     (0, bcrypt_1.compare)(password, result[0].password).then((valid) => {
                         if (!valid)
                             return reject(new Error('Bad username/password.'));

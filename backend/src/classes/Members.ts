@@ -10,8 +10,6 @@ export class MemberClass {
       db.query('SELECT * FROM members WHERE username = ? LIMIT 1', [username], (err, result: Array<IObject>): void => {
         if (err) return reject(new Error(err.message));
         if (result[0]) {
-          console.log(result[0].password, password);
-
           compare(password, result[0].password).then((valid: Boolean): void => {
             if (!valid) return reject(new Error('Bad username/password.'));
             else return resolve(result[0]);

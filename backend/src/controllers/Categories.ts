@@ -22,8 +22,6 @@ export function addSubCategory(req: IObject, res: IObject): void {
 }
 
 export function updateMainCategory(req: IObject, res: IObject) {
-  console.log(req.body);
-
   Categories.updateMainCategory(req.params.id, req.body.name, req.body.path, req.body.description, req.body.icon)
     .then(() => res.status(200).json(success('success')))
     .catch(err => res.json(error(err.message)));

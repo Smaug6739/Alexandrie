@@ -3,20 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteArticle = exports.updateArticle = exports.add = exports.getAllArticles = exports.getArticlesByCat = void 0;
+exports.deleteArticle = exports.updateArticle = exports.add = exports.getAllArticles = void 0;
 const Articles_1 = __importDefault(require("../classes/Articles"));
 const functions_1 = require("../utils/functions");
 const Articles = new Articles_1.default();
-function getArticlesByCat(req, res) {
-    Articles.getAllByCategory(req.params.category)
-        .then((result) => res.status(201).json((0, functions_1.success)(result)))
-        .catch((err) => res.json((0, functions_1.error)(err.message)));
-}
-exports.getArticlesByCat = getArticlesByCat;
 function getAllArticles(req, res) {
-    Articles.getAll()
-        .then((result) => res.status(201).json((0, functions_1.success)(result)))
-        .catch((err) => res.json((0, functions_1.error)(err.message)));
+    if (req.query.category) {
+        Articles.getAllByCategory(req.query.category)
+            .then((result) => res.status(200).json((0, functions_1.success)(result)))
+            .catch((err) => res.json((0, functions_1.error)(err.message)));
+    }
+    else {
+        Articles.getAll()
+            .then((result) => res.status(200).json((0, functions_1.success)(result)))
+            .catch((err) => res.json((0, functions_1.error)(err.message)));
+    }
 }
 exports.getAllArticles = getAllArticles;
 function add(req, res) {

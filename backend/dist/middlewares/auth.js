@@ -25,7 +25,6 @@ exports.default = (req, res, next) => {
         next();
     }
     catch (err) {
-        console.log(err);
         return res.status(401).json((0, functions_1.error)('Requete non authentifiée'));
     }
 };

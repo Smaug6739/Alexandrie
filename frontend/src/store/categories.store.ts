@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { makeRequest } from './utils';
 
 export interface Theme {
   id: string;
@@ -22,30 +23,20 @@ export const useCategoriesStore = defineStore('categories', {
     categories: [] as Theme[],
   }),
   actions: {
-    async getAll(): Promise<Theme[]> {
-      if (this.categories.length) return this.categories;
-      const response = await fetch('http://192.168.0.25:8082/api/v1/categories');
-      const result = await response.json();
-      if (result.status == 'success') {
-        this.categories = result.result;
-      }
-      return this.categories;
-    },
     async getById(id: string): Promise<Theme | undefined> {
       if (!this.categories.length) await this.getAll();
       return this.categories.find((a: Theme) => a.id == id);
     },
+    async getAll(): Promise<Theme[]> {
+      if (!this.categories.length) {
+        const request = await makeRequest('categories', 'GET', {});
+        if (request.status == 'success') this.categories = request.data;
+      }
+      return this.categories;
+    },
     async updateMainCategory(category: Theme) {
-      const response = await fetch(`http://192.168.0.25:8082/api/v1/categories/main/${category.id}`, {
-        method: 'PATCH',
-        body: JSON.stringify(category),
-        credentials: 'include',
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      const result = await response.json();
-      if (result.status == 'success') {
+      const request = await makeRequest(`categories/main/${category.id}`, 'PATCH', category);
+      if (request.status == 'success') {
         this.categories = this.categories.map(c => {
           if (c.id == category.id) {
             return category;
@@ -55,16 +46,8 @@ export const useCategoriesStore = defineStore('categories', {
       }
     },
     async updateSubCategory(parent: string, category: Category) {
-      const response = await fetch(`http://192.168.0.25:8082/api/v1/categories/sub/${category.id}`, {
-        method: 'PATCH',
-        body: JSON.stringify(category),
-        credentials: 'include',
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      const result = await response.json();
-      if (result.status == 'success') {
+      const request = await makeRequest(`categories/sub/${category.id}`, 'PATCH', category);
+      if (request.status == 'success') {
         const p = await this.getById(parent);
         if (!p) return;
         p.categories = p.categories.map(c => {

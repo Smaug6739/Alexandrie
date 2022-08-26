@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { makeRequest } from './utils';
 
 export interface Article {
   id: string;
@@ -18,76 +19,49 @@ export const useArticlesStore = defineStore('articles', {
     articles: [] as Article[],
   }),
   actions: {
-    async getAll() {
-      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/');
-      const result = await response.json();
-      if (result.status == 'success') {
-        result.result.forEach((a: Article) => {
-          if (!this.getCache(a.main_category, a.sub_category, a.path)) {
-            this.articles.push(a);
-          }
-        });
-      }
-      return this.articles;
-    },
-    async getAllByCategory(category: string | undefined): Promise<Article[]> {
-      if (!category || this.articles.filter(a => a.main_category == category).length) return this.articles;
-      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/category/' + category);
-      const result = await response.json();
-      if (result.status == 'success') {
-        result.result.forEach((a: Article) => {
-          if (!this.getCache(a.main_category, a.sub_category, a.path)) {
-            this.articles.push(a);
-          }
-        });
-      }
-      return this.articles;
-    },
-
-    async get(subject: string, category: string, article: string): Promise<Article | undefined> {
-      if (!this.articles.length) await this.getAllByCategory(subject);
-      return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
-    },
     async getById(id: string): Promise<Article | undefined> {
       if (!this.articles.length) await this.getAll();
       return this.articles.find((a: Article) => a.id == id);
+    },
+    async getByPaths(subject: string, category: string, article: string): Promise<Article | undefined> {
+      if (!this.articles.length) await this.getAllByCategory(subject);
+      return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
+    },
+    async getAll(): Promise<Article[]> {
+      if (!this.articles.length) {
+        const request = await makeRequest('articles', 'GET', {});
+        if (request.status == 'success') this.articles = request.data;
+      }
+      return this.articles;
+    },
+    async getAllByCategory(category_path: string): Promise<Article[]> {
+      const results = this.articles.filter(article => article.main_category == category_path);
+      if (results.length > 0) return results;
+      const request = await makeRequest(`articles?category=${category_path}`, 'GET', {});
+      if (request.status == 'success') {
+        this.checkAndUpdateCache(request.data);
+        return request.data;
+      }
+      return [];
+    },
+    checkAndUpdateCache(articles: Article[]) {
+      for (const article of articles) {
+        this.articles.push(article);
+      }
     },
     getCache(subject: string, category: string, article: string): Article | undefined {
       return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
     },
     async updateArticle(article: Article) {
-      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/' + article.id, {
-        method: 'PATCH',
-        body: JSON.stringify(article),
-        credentials: 'include',
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      const result = await response.json();
-      if (result.status == 'success') {
+      const request = await makeRequest(`articles/${article.id}`, 'PATCH', article);
+      if (request.status == 'success') {
         this.articles = this.articles.map(a => (a.id == article.id ? article : a));
       }
     },
     async postArticle(article: Article) {
-      console.log('post article', article);
-
-      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/', {
-        method: 'POST',
-        body: JSON.stringify(article),
-        credentials: 'include',
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      });
-      console.log(response);
-      const result = await response.json();
-      console.log(result);
-
-      if (result.status == 'success') {
-        console.log(result.result);
-
-        this.articles.push(result.result);
+      const request = await makeRequest('articles', 'POST', article);
+      if (request.status == 'success') {
+        this.articles.push(request.data);
       }
     },
   },

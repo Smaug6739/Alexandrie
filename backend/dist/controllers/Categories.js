@@ -26,7 +26,6 @@ function addSubCategory(req, res) {
 }
 exports.addSubCategory = addSubCategory;
 function updateMainCategory(req, res) {
-    console.log(req.body);
     Categories.updateMainCategory(req.params.id, req.body.name, req.body.path, req.body.description, req.body.icon)
         .then(() => res.status(200).json((0, functions_1.success)('success')))
         .catch(err => res.json((0, functions_1.error)(err.message)));

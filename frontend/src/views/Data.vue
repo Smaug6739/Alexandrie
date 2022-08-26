@@ -36,7 +36,7 @@ export default defineComponent({
 	},
 	methods: {
 		async getArticle(): Promise<Article> {
-			const art = await articlesStore.get(this.$route.params.subject as string, this.$route.params.category as string, this.$route.params.doc_name as string)
+			const art = await articlesStore.getByPaths(this.$route.params.subject as string, this.$route.params.category as string, this.$route.params.doc_name as string)
 			if (art) return art
 
 			return this.article

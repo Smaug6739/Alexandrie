@@ -60,7 +60,8 @@ export default defineComponent({
   async beforeMount() {
     const subject = this.$route.params.subject as string;
     this.categories = await CategoriesStore.getAll();
-    this.articles = await articlesStore.getAllByCategory(this.categories.find(c => c.path == subject)?.path);
+    const category = this.categories.find(c => c.path == subject);
+    if (category) this.articles = await articlesStore.getAllByCategory(category.path);
   },
   mounted() {
     this.isOpened = window.innerWidth > 768;

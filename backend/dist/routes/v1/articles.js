@@ -31,7 +31,6 @@ const express_1 = require("express");
 const ArticlesCtrl = __importStar(require("../../controllers/articles"));
 const auth_1 = __importDefault(require("../../middlewares/auth"));
 const ArticlesRouter = (0, express_1.Router)();
-ArticlesRouter.get('/category/:category', ArticlesCtrl.getArticlesByCat);
 ArticlesRouter.get('/', ArticlesCtrl.getAllArticles);
 ArticlesRouter.post('/', auth_1.default, ArticlesCtrl.add);
 ArticlesRouter.patch('/:id', auth_1.default, ArticlesCtrl.updateArticle);
