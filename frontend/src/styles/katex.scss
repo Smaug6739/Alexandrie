@@ -19,7 +19,7 @@
 }
 
 
-.container {
+.katex-container {
 	line-height: 3em;
 
 	display: inline-flex;
@@ -27,8 +27,7 @@
 	max-width: 100%;
 	overflow-y: hidden;
 	overflow-x: auto;
-}
-
-.katex-i {
 	padding-right: 2px !important;
 }
+
+.katex-i {}

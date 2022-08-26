@@ -128,7 +128,7 @@ function replaceText(text: string, results: Result[]): string {
       displayMode: true,
       trust: true,
     });
-    text = text.replace(expression, `<span class="container"><i class="katex-i">${render}</i></span>`);
+    text = text.replace(expression, `<span class="katex-container">${render}</span>`);
   }
   return text;
 }
