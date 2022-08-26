@@ -73,5 +73,4 @@ export default defineComponent({
 		this.categories = await store.getAll();
 	},
 });
-
 </script>
