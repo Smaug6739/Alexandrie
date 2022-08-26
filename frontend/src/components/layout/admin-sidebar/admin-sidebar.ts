@@ -104,6 +104,16 @@ export default defineComponent({
         this.isOpened && this.isPaddingLeft ? this.menuOpenedPaddingLeftBody : this.menuClosedPaddingLeftBody;
     },
   },
+  methods: {
+    logout() {
+      fetch(`http://192.168.0.25:8082/api/v1/auth/disconnection`, {
+        method: 'GET',
+        credentials: 'include',
+      }).then(() => {
+        this.$router.push('/login');
+      });
+    },
+  },
 });
 
 interface MenuItem {

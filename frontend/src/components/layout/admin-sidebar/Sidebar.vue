@@ -37,8 +37,17 @@
 									</router-link>
 								</span>
 								<span class="tooltip">{{ menuItem.name }}</span>
-								<ul v-if="isOpened">
-								</ul>
+							</li>
+						</span>
+						<span>
+							<li class="li-style">
+								<span class="a-style">
+									<a href="#" class="a-block-style" @click="logout">
+										<i class="bx bx-power-off" />
+										<span cass="links_name">Log out</span>
+									</a>
+								</span>
+								<span class="tooltip">Log out</span>
 							</li>
 						</span>
 					</ul>
@@ -47,7 +56,9 @@
 		</div>
 	</aside>
 </template>
-<script lang="ts" src="./admin-sidebar.ts"></script>
+<script lang="ts" src="./admin-sidebar.ts">
+
+</script>
 <style lang="scss" scoped>
 @import "./admin-sidebar.scss";
 </style>
