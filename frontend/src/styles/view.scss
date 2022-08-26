@@ -9,6 +9,17 @@
 	}
 }
 
+.view-large {
+	width: 90%;
+	max-width: 100%;
+	margin: auto;
+	padding: 10px;
+
+	@media screen and (max-width: 768px) {
+		width: 100%;
+	}
+}
+
 .view {
 
 	img {

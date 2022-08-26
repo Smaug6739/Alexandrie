@@ -13,26 +13,25 @@
 				<input type="text" placeholder="Sub category" name="sub_category" v-model="article.sub_category" />
 				<label for="path">Path:</label>
 				<input type="text" placeholder="Path" name="path" v-model="article.path" />
-				<label for="content">Content:</label>
-				<textarea name="content" id="" cols="10" rows="20" v-model="article.content_markdown"></textarea>
+				<label for="content">Content</label>
+				<div style="width:100%; height:100%;">
+					<MarkdownEditorVue ref="editor" :value="article.content_markdown" />
+				</div>
 				<button type="button" class="btn btn-pink" @click="send">Edit</button>
 			</fieldset>
 		</form>
-		<fieldset class="view preview">
-			<legend>Preview</legend>
-			<div id="preview" v-html="html_content"></div>
-		</fieldset>
+
 	</div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useArticlesStore } from '../../../store';
 import type { Article } from '../../../store';
-import compile from "../../../helpers/markdown-compile";
-
+import MarkdownEditorVue from '../../../components/MarkdownEditor.vue';
 const store = useArticlesStore();
 export default defineComponent({
 	name: 'admin-articles-edit',
+
 	data() {
 		return {
 			article: {
@@ -46,17 +45,19 @@ export default defineComponent({
 			} as Article,
 		};
 	},
-	computed: {
-		html_content() {
-			return compile(this.article.content_markdown, true);
-		}
+	components: {
+		MarkdownEditorVue,
 	},
 	methods: {
 		send() {
-			this.article.content_html = this.html_content
+			const markdown = (this.$refs.editor as any).markdown;
+			const html = (this.$refs.editor as any).html;
+			this.article.content_markdown = markdown;
+			this.article.content_html = html
 			store.updateArticle(this.article).then(_ => this.$router.push("/admin/articles"))
 		}
 	},
+
 	async beforeMount() {
 		const article = await store.getById(this.$route.params.id as string);
 		if (article) this.article = article;

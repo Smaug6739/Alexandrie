@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<admin-sidebar />
-		<main class="view view-source">
+		<main class="view view-large">
 			<h1>Dashboard: Admin</h1>
 			<router-view></router-view>
 		</main>
