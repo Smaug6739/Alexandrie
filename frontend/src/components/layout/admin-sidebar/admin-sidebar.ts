@@ -68,12 +68,6 @@ export default defineComponent({
           icon: 'bx-category',
         },
         {
-          link: '/admin/tags',
-          name: 'Sub-categories',
-          tooltip: 'Analytics',
-          icon: 'bx-pie-chart-alt-2',
-        },
-        {
           link: '/admin/files',
           name: 'File Manager',
           tooltip: 'Files',
