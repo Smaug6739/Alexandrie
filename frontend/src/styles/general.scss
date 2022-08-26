@@ -205,6 +205,10 @@ pre {
 	border-radius: 3px;
 }
 
+table {
+	border-collapse: collapse;
+}
+
 td,
 th {
 	border: 1px solid var(--opposite-color);
