@@ -53,7 +53,7 @@ export default defineComponent({
 	width: 7px;
 	height: 7px;
 	border-radius: 50%;
-	background: rgb(255, 255, 255);
+	background: var(--font-color);
 	margin: -4px 0 0 -4px;
 }
 

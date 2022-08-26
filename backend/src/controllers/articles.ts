@@ -5,12 +5,12 @@ const Articles = new Article();
 
 export function getArticlesByCat(req: IObject, res: IObject): void {
   Articles.getAllByCategory(req.params.category)
-    .then((result: any) => res.status(201).json(success(result)))
+    .then((result: any) => res.status(200).json(success(result)))
     .catch((err: Error) => res.json(error(err.message)));
 }
 export function getAllArticles(req: IObject, res: IObject): void {
   Articles.getAll()
-    .then((result: any) => res.status(201).json(success(result)))
+    .then((result: any) => res.status(200).json(success(result)))
     .catch((err: Error) => res.json(error(err.message)));
 }
 export function add(req: IObject, res: IObject): void {
