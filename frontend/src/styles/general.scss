@@ -131,13 +131,12 @@ hr {
 	padding: 0;
 }
 
-
 iframe {
 	border: none !important;
 }
 
 img {
-	width: 75%;
+	width: 100%;
 	height: auto;
 	margin-bottom: 5px;
 }
@@ -159,7 +158,6 @@ textarea {
 	border: 1px solid #ced4da;
 	border-radius: 0.25rem;
 }
-
 
 legend {
 	float: left;
@@ -233,20 +231,4 @@ tr {
 
 tr:nth-child(even) {
 	background-color: var(--contrast-color-after);
-}
-
-ul,
-ol {
-	padding-left: 20px;
-}
-
-@media screen and (max-width: 600px) {
-	img {
-		max-width: 100%;
-	}
-
-	table {
-		border-collapse: collapse;
-		zoom: 0.9;
-	}
 }
