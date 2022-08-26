@@ -2,14 +2,17 @@
 	<div>
 		<Sidebar />
 		<main class="view view-source">
-			<div v-html="article.content_html"></div>
+			<div v-if="article.name" v-html="article.content_html"></div>
+			<div v-else>
+				<Loader msg="Loading" />
+			</div>
 		</main>
 	</div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 import { Article, useArticlesStore } from "../store";
-
+import Loader from "../components/common/Loader.vue"
 import Sidebar from "../components/layout/sidebar/Sidebar.vue";
 const articlesStore = useArticlesStore();
 
@@ -17,13 +20,14 @@ export default defineComponent({
 	name: "Data",
 	components: {
 		Sidebar,
+		Loader,
 	},
 	data() {
 		return {
 			article: {} as Article,
 		};
 	},
-	async beforeMount() {
+	async mounted() {
 		this.article = await this.getArticle();
 	},
 	methods: {

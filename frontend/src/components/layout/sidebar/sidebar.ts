@@ -63,10 +63,9 @@ export default defineComponent({
     this.articles = await articlesStore.getAllByCategory(this.categories.find(c => c.path == subject)?.path);
   },
   mounted() {
-    this.isOpened = this.isMenuOpen;
+    this.isOpened = window.innerWidth > 768;
     window.document.body.style.paddingLeft = '78px';
   },
-  beforeUnmount() {},
   computed: {
     menuItems(): MenuItem[] {
       const items: MenuItem[] = [];
