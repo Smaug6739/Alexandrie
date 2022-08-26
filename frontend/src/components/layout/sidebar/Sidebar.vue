@@ -45,7 +45,7 @@
               <span class="tooltip">{{ searchTooltip }}</span>
             </li>
 
-            <span v-for="(menuItem, index) of menuItems2" :key="index">
+            <span v-for="(menuItem, index) of menuItems" :key="index">
               <li class="li-style">
                 <span class="a-style"><a href="#" class="a-block-style">
                     <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />

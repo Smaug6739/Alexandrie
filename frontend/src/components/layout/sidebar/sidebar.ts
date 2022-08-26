@@ -68,8 +68,8 @@ export default defineComponent({
   },
   beforeUnmount() {},
   computed: {
-    menuItems2(): MenuItem2[] {
-      const items: MenuItem2[] = [];
+    menuItems(): MenuItem[] {
+      const items: MenuItem[] = [];
       const subject = this.$route.params.subject as string;
       const theme = this.categories.find(c => c.path == subject);
 
@@ -106,7 +106,7 @@ export default defineComponent({
   },
 });
 
-interface MenuItem2 {
+interface MenuItem {
   name: string;
   icon: string;
   childrens: Children[];

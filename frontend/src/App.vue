@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <id id="app-loader"></id>
     <Navbar />
     <router-view />
   </div>

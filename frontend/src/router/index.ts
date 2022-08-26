@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import publicRoutes from './public';
 import privateRoutes from './private';
-
+import Loader from '../utils/Loader';
 let routes: RouteRecordRaw[] = [];
 
 routes = routes.concat(publicRoutes);
@@ -10,6 +10,18 @@ routes = routes.concat(privateRoutes);
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+const loader = new Loader();
+router.beforeResolve((to, _, next) => {
+  if (to.name) {
+    loader.start();
+  }
+  next();
+});
+
+router.afterEach(() => {
+  loader.stop();
 });
 
 router.beforeEach((to, _, next) => {
