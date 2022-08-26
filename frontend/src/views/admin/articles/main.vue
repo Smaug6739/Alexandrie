@@ -8,6 +8,7 @@
 import Datatable from '../../../components/common/DataTable.vue';
 import { useArticlesStore } from '../../../store';
 import { defineComponent } from 'vue';
+import { timestampToString } from '../../../helpers/date';
 import type { Article } from '../../../store';
 const store = useArticlesStore();
 export default defineComponent({
@@ -68,11 +69,11 @@ export default defineComponent({
 						action: 'text'
 					},
 					{
-						title: article.created_timestamp,
+						title: timestampToString(article.created_timestamp),
 						action: 'text'
 					},
 					{
-						title: article.updated_timestamp,
+						title: timestampToString(article.updated_timestamp),
 						action: 'text'
 					},
 					{
