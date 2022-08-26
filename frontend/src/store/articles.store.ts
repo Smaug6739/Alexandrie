@@ -69,5 +69,26 @@ export const useArticlesStore = defineStore('articles', {
         this.articles = this.articles.map(a => (a.id == article.id ? article : a));
       }
     },
+    async postArticle(article: Article) {
+      console.log('post article', article);
+
+      const response = await fetch('http://192.168.0.25:8082/api/v1/articles/', {
+        method: 'POST',
+        body: JSON.stringify(article),
+        credentials: 'include',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      });
+      console.log(response);
+      const result = await response.json();
+      console.log(result);
+
+      if (result.status == 'success') {
+        console.log(result.result);
+
+        this.articles.push(result.result);
+      }
+    },
   },
 });

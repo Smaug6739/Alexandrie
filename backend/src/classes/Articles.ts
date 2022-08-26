@@ -15,6 +15,20 @@ marked.setOptions({
   xhtml: false,
 });
 
+interface Article {
+  id: string;
+  main_category: string;
+  sub_category: string;
+  path: string;
+  name: string;
+  description: string;
+  content_html: string;
+  content_markdown: string;
+  created_timestamp: string;
+  updated_timestamp: string;
+  author_id: string;
+}
+
 export default class Articles {
   public getAll() {
     return new Promise((resolve, reject) => {
@@ -36,27 +50,43 @@ export default class Articles {
   }
   public add(
     name: string,
+    path: string,
     main_category: string,
     sub_category: string,
     description: string,
-    content: string,
+    content_markdown: string,
+    content_html: string,
     author: string,
-  ): Promise<boolean | Error> {
+  ): Promise<Article | Error> {
     return new Promise((resolve, reject) => {
       if (!name) return reject(new Error('[MISSING_ARGUMENT] : name must be provided'));
       if (!main_category) return reject(new Error('[MISSING_ARGUMENT] : main_category must be provided'));
       if (!sub_category) return reject(new Error('[MISSING_ARGUMENT] : sub_category must be provided'));
       if (!description) return reject(new Error('[MISSING_ARGUMENT] : description must be provided'));
-      if (!content) return reject(new Error('[MISSING_ARGUMENT] : content must be provided'));
+      if (!content_markdown) return reject(new Error('[MISSING_ARGUMENT] : content_markdown must be provided'));
+      if (!content_html) return reject(new Error('[MISSING_ARGUMENT] : content_html must be provided'));
       if (!author) return reject(new Error('[MISSING_ARGUMENT] : author must be provided'));
       const time = Date.now();
-      const contentHTML = marked(content);
+      const id = idgen.generate().toString();
       db.query(
-        'INSERT INTO articles (`id`, `main_category`, `sub_category`, `name`, `description`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
-        [idgen.generate(), main_category, sub_category, name, description, contentHTML, content, time, time, author],
+        'INSERT INTO articles (`id`, `main_category`, `sub_category`, `path`, `name`, `description`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+        [id, main_category, sub_category, path, name, description, content_html, content_markdown, time, time, author],
         err => {
           if (err) return reject(new Error(err.message));
-          else resolve(true);
+          else
+            resolve({
+              id,
+              path,
+              name,
+              main_category,
+              sub_category,
+              description,
+              content_html,
+              content_markdown,
+              created_timestamp: time.toString(),
+              updated_timestamp: time.toString(),
+              author_id: author.toString(),
+            });
         },
       );
     });

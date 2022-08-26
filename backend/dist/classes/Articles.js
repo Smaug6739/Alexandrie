@@ -38,7 +38,7 @@ class Articles {
             });
         });
     }
-    add(name, main_category, sub_category, description, content, author) {
+    add(name, path, main_category, sub_category, description, content_markdown, content_html, author) {
         return new Promise((resolve, reject) => {
             if (!name)
                 return reject(new Error('[MISSING_ARGUMENT] : name must be provided'));
@@ -48,17 +48,31 @@ class Articles {
                 return reject(new Error('[MISSING_ARGUMENT] : sub_category must be provided'));
             if (!description)
                 return reject(new Error('[MISSING_ARGUMENT] : description must be provided'));
-            if (!content)
-                return reject(new Error('[MISSING_ARGUMENT] : content must be provided'));
+            if (!content_markdown)
+                return reject(new Error('[MISSING_ARGUMENT] : content_markdown must be provided'));
+            if (!content_html)
+                return reject(new Error('[MISSING_ARGUMENT] : content_html must be provided'));
             if (!author)
                 return reject(new Error('[MISSING_ARGUMENT] : author must be provided'));
             const time = Date.now();
-            const contentHTML = marked(content);
-            db_1.default.query('INSERT INTO articles (`id`, `main_category`, `sub_category`, `name`, `description`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [idgen.generate(), main_category, sub_category, name, description, contentHTML, content, time, time, author], err => {
+            const id = idgen.generate().toString();
+            db_1.default.query('INSERT INTO articles (`id`, `main_category`, `sub_category`, `path`, `name`, `description`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [id, main_category, sub_category, path, name, description, content_html, content_markdown, time, time, author], err => {
                 if (err)
                     return reject(new Error(err.message));
                 else
-                    resolve(true);
+                    resolve({
+                        id,
+                        path,
+                        name,
+                        main_category,
+                        sub_category,
+                        description,
+                        content_html,
+                        content_markdown,
+                        created_timestamp: time.toString(),
+                        updated_timestamp: time.toString(),
+                        author_id: author.toString(),
+                    });
             });
         });
     }

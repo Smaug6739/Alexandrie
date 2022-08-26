@@ -53,8 +53,7 @@ export default defineComponent({
 			const html = (this.$refs.editor as any).html;
 			this.article.content_markdown = markdown;
 			this.article.content_html = html;
-			console.log(store);
-
+			store.postArticle(this.article).then(() => this.$router.push('/admin/articles'));
 		}
 	},
 });
