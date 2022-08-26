@@ -25,6 +25,11 @@ const routes: RouteRecordRaw[] = [
     name: 'Login',
     component: () => import('../views/admin/login.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: '404 not found',
+    component: () => import('../views/404.vue'),
+  },
 ];
 
 export default routes.map(route => {

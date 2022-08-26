@@ -1,8 +1,12 @@
 <template>
 	<div>
 		<Sidebar />
-		<main class="view view-source">
-			<div v-if="article.name" v-html="article.content_html"></div>
+		<main class="view view-medium">
+			<div v-if="article.name">
+				<div v-html="article.content_html"></div>
+				<hr class="sep">
+				<p>Dernière mise à jour le {{ formatDate(article.updated_timestamp) }}</p>
+			</div>
 			<div v-else>
 				<Loader msg="Loading" />
 			</div>
@@ -37,6 +41,9 @@ export default defineComponent({
 
 			return this.article
 		},
+		formatDate(date: string) {
+			return new Date(parseInt(date)).toLocaleDateString();
+		}
 	},
 	watch: {
 		async $route() {
@@ -45,3 +52,9 @@ export default defineComponent({
 	},
 });
 </script>
+<style lang="scss" scoped>
+.sep {
+	margin-top: 2rem;
+	margin-bottom: 1rem;
+}
+</style>

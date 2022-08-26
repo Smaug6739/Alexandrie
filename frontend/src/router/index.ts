@@ -4,8 +4,8 @@ import privateRoutes from './private';
 import Loader from '../utils/Loader';
 let routes: RouteRecordRaw[] = [];
 
-routes = routes.concat(publicRoutes);
 routes = routes.concat(privateRoutes);
+routes = routes.concat(publicRoutes);
 
 const router = createRouter({
   history: createWebHistory(),
