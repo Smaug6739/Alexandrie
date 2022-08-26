@@ -446,7 +446,7 @@
   "resolved" "https://registry.npmjs.org/@types/linkify-it/-/linkify-it-3.0.2.tgz"
   "version" "3.0.2"
 
-"@types/markdown-it@^12.2.3":
+"@types/markdown-it@*", "@types/markdown-it@^12.2.3":
   "integrity" "sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ=="
   "resolved" "https://registry.npmjs.org/@types/markdown-it/-/markdown-it-12.2.3.tgz"
   "version" "12.2.3"
@@ -2842,7 +2842,12 @@
   dependencies:
     "sourcemap-codec" "^1.4.8"
 
-"markdown-it@^13.0.1":
+"markdown-it-anchor@^8.6.4":
+  "integrity" "sha512-Ul4YVYZNxMJYALpKtu+ZRdrryYt/GlQ5CK+4l1bp/gWXOG2QWElt6AqF3Mih/wfUKdZbNAZVXGR73/n6U/8img=="
+  "resolved" "https://registry.npmjs.org/markdown-it-anchor/-/markdown-it-anchor-8.6.4.tgz"
+  "version" "8.6.4"
+
+"markdown-it@*", "markdown-it@^13.0.1":
   "integrity" "sha512-lTlxriVoy2criHP0JKRhO2VDG9c2ypWCsT237eDiLqi09rmbKoUetyGHq2uOIRoRS//kfoJckS0eUzzkDR+k2Q=="
   "resolved" "https://registry.npmjs.org/markdown-it/-/markdown-it-13.0.1.tgz"
   "version" "13.0.1"

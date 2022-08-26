@@ -11,6 +11,7 @@
     "@traptitech/markdown-it-katex": "^3.6.0",
     "katex": "^0.16.0",
     "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.4",
     "pinia": "^2.0.17",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"

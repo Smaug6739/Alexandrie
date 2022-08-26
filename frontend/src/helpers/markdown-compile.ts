@@ -1,13 +1,25 @@
 import MarkdownIt from 'markdown-it';
+import anchor from 'markdown-it-anchor';
+
 import katex from 'katex';
 
 const md = new MarkdownIt({ html: true });
+md.use(anchor, {
+  level: [1, 2, 3, 4, 5, 6],
+  permalink: anchor.permalink.ariaHidden({
+    class: 'header-anchor',
+    symbol: '#',
+    space: true,
+    placement: 'before',
+  }),
+});
 
-export default function compile(str: string, katex: boolean): string {
+export default function compile(str: string, plugins: boolean): string {
   let render = md.render(str, {
     html: true,
   });
-  if (katex) {
+  if (plugins) {
+    // KATEX (math)
     const results = matchText(render);
     render = replaceText(render, results);
   }
