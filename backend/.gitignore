@@ -3,11 +3,12 @@ node_modules
 package-lock.json
 
 #Public dir
-public/uploads/projects/archives/*
-public/uploads/projects/images/*
+public/uploads/images/*
+public/uploads/other*
 
-!public/uploads/projects/archives/default
-!public/uploads/projects/images/default
+!public/uploads/images/default
+!public/uploads/images/webp/default
+!public/uploads/other/default
 
 #ENV
 .env

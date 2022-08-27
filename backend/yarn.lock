@@ -75,12 +75,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*":
-  "integrity" "sha512-caqFX7GwvZ4KLnhpI9CfiMkgHKp6kvFAIgpkha0cjO7bAQvB6dWe+q3fTHmm7fQvv59pd4tPj77nriq2M6U2dw=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-18.7.12.tgz"
-  "version" "18.7.12"
-
-"@types/node@^14.14.34":
+"@types/node@*", "@types/node@^14.14.34":
   "integrity" "sha512-0b+utRBSYj8L7XAp0d+DX7lI4cSmowNaaTkk6/1SKzbKkG+doLuPusB9EOvzLJ8ahJSk03bTLIL6cWaEd4dBKA=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-14.18.26.tgz"
   "version" "14.18.26"
@@ -101,6 +96,13 @@
   "version" "1.15.0"
   dependencies:
     "@types/mime" "*"
+    "@types/node" "*"
+
+"@types/sharp@^0.30.5":
+  "integrity" "sha512-EhO29617AIBqxoVtpd1qdBanWpspk/kD2B6qTFRJ31Q23Rdf+DNU1xlHSwtqvwq1vgOqBwq1i38SX+HGCymIQg=="
+  "resolved" "https://registry.npmjs.org/@types/sharp/-/sharp-0.30.5.tgz"
+  "version" "0.30.5"
+  dependencies:
     "@types/node" "*"
 
 "@types/ws@^7.4.4":
@@ -1408,7 +1410,7 @@
   "resolved" "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz"
   "version" "1.2.0"
 
-"sharp@^0.28.1":
+"sharp@^0.28.3":
   "integrity" "sha512-21GEP45Rmr7q2qcmdnjDkNP04Ooh5v0laGS5FDpojOO84D1DJwUijLiSq8XNNM6e8aGXYtoYRh3sVNdm8NodMA=="
   "resolved" "https://registry.npmjs.org/sharp/-/sharp-0.28.3.tgz"
   "version" "0.28.3"
