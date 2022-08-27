@@ -7,10 +7,10 @@
 
       <ul>
         <li class="destination">
-          <a href="#" class="nav-links">Home</a>
+          <a href="/" class="nav-links a-classic">Home</a>
         </li>
         <li v-for="(category, index) of categories" :key="index">
-          <router-link :to="'/doc/' + category.path">{{ category.name }}</router-link>
+          <router-link class="a-classic" :to="'/doc/' + category.path">{{ category.name }}</router-link>
         </li>
         <li class="icon">
           <i @click="toggleTheme" class='bx bx-moon' ref="themeIcon"></i>

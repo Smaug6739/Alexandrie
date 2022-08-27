@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<Sidebar />
+		<BackToTop />
 		<main class="view view-medium">
 			<div v-if="article.name">
 				<div v-html="article.content_html"></div>
@@ -17,6 +18,7 @@
 import { defineComponent } from "vue";
 import { Article, useArticlesStore } from "../store";
 import Loader from "../components/common/Loader.vue"
+import BackToTop from "../components/common/back-to-top/index"
 import Sidebar from "../components/layout/sidebar/Sidebar.vue";
 const articlesStore = useArticlesStore();
 
@@ -25,6 +27,7 @@ export default defineComponent({
 	components: {
 		Sidebar,
 		Loader,
+		BackToTop,
 	},
 	data() {
 		return {
