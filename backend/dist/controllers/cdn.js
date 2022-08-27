@@ -15,10 +15,7 @@ function uploadImage(req, res) {
         (0, sharp_1.default)(path)
             .toFile((0, path_1.join)(__dirname, `../../public/uploads/images/webp/${file}.webp`))
             .then(() => {
-            res.status(200).json({
-                success: true,
-                message: 'Image uploaded',
-            });
+            res.status(200).json((0, functions_1.success)(`/uploads/images/webp/${file}.webp`));
         })
             .catch(err => {
             (0, functions_1.error)(err);
