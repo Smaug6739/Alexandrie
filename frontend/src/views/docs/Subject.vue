@@ -32,8 +32,8 @@ h2 {
 </style>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Theme, useCategoriesStore } from "../store";
-import Sidebar from "../components/layout/sidebar/Sidebar.vue";
+import { Theme, useCategoriesStore } from "../../store";
+import Sidebar from "../../components/layout/sidebar/Sidebar.vue";
 const categoriesStore = useCategoriesStore();
 
 export default defineComponent({

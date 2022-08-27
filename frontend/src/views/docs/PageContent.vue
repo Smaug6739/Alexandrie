@@ -27,10 +27,10 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Article, useArticlesStore } from "../store";
-import Loader from "../components/common/Loader.vue"
-import BackToTop from "../components/common/back-to-top/index"
-import Sidebar from "../components/layout/sidebar/Sidebar.vue";
+import { Article, useArticlesStore } from "../../store";
+import Loader from "../../components/common/Loader.vue"
+import BackToTop from "../../components/common/back-to-top/index"
+import Sidebar from "../../components/layout/sidebar/Sidebar.vue";
 const articlesStore = useArticlesStore();
 
 export default defineComponent({

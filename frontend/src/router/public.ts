@@ -9,12 +9,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/doc/:subject',
     name: 'Home documentation',
-    component: () => import('../views/Subject.vue'),
+    component: () => import('../views/docs/Subject.vue'),
   },
   {
     path: '/doc/:subject/:category/:doc_name',
     name: 'Category (main)',
-    component: () => import('../views/Data.vue'),
+    component: () => import('../views/docs/PageContent.vue'),
   },
   {
     path: '/login',
