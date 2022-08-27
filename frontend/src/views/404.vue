@@ -14,7 +14,7 @@
 		</div>
 	</div>
 </template>
-<style>
+<style scoped>
 h1,
 h2 {
 	border: none;

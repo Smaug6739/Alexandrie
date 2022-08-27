@@ -23,9 +23,9 @@ export function add(req: IObject, res: IObject): void {
     req.body.description,
     req.body.content_markdown,
     req.body.content_html,
-    req.body.author,
+    req.cookies.user_id,
   )
-    .then(() => res.status(201).json(success('success')))
+    .then(a => res.status(201).json(success(a)))
     .catch(err => res.json(error(err.message)));
 }
 

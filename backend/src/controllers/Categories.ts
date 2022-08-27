@@ -5,7 +5,7 @@ const Categories = new Categorie();
 
 export function getAll(req: IObject, res: IObject): void {
   Categories.getAll()
-    .then((result: any) => res.status(201).json(success(result)))
+    .then((result: any) => res.status(200).json(success(result)))
     .catch((err: Error) => res.json(error(err.message)));
 }
 

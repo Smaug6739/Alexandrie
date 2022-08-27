@@ -21,8 +21,8 @@ function getAllArticles(req, res) {
 }
 exports.getAllArticles = getAllArticles;
 function add(req, res) {
-    Articles.add(req.body.name, req.body.path, req.body.main_category, req.body.sub_category, req.body.description, req.body.content_markdown, req.body.content_html, req.body.author)
-        .then(() => res.status(201).json((0, functions_1.success)('success')))
+    Articles.add(req.body.name, req.body.path, req.body.main_category, req.body.sub_category, req.body.description, req.body.content_markdown, req.body.content_html, req.cookies.user_id)
+        .then(a => res.status(201).json((0, functions_1.success)(a)))
         .catch(err => res.json((0, functions_1.error)(err.message)));
 }
 exports.add = add;

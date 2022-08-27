@@ -27,6 +27,26 @@ export const useArticlesStore = defineStore('articles', {
       if (!this.articles.length) await this.getAllByCategory(subject);
       return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
     },
+    async getNextArticle(article: Article) {
+      if (!this.articles.length) await this.getAllByCategory(article.main_category);
+      const articles_of_category = this.articles.filter(
+        (a: Article) => a.main_category == article.main_category && a.sub_category == article.sub_category,
+      );
+      const index = articles_of_category.findIndex((a: Article) => a.id == article.id);
+      console.log(articles_of_category, index);
+
+      if (index == -1) return undefined;
+      return articles_of_category[index + 1];
+    },
+    async getPreviousArticle(article: Article) {
+      if (!this.articles.length) await this.getAllByCategory(article.main_category);
+      const articles_of_category = this.articles.filter(
+        (a: Article) => a.main_category == article.main_category && a.sub_category == article.sub_category,
+      );
+      const index = articles_of_category.findIndex((a: Article) => a.id == article.id);
+      if (index == -1) return undefined;
+      return articles_of_category[index - 1];
+    },
     async getAll(): Promise<Article[]> {
       if (!this.articles.length) {
         const request = await makeRequest('articles', 'GET', {});
