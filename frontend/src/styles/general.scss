@@ -1,5 +1,5 @@
 a {
-	color: $pink;
+	color: $pink  !important;
 	opacity: 0.9;
 	font-family: $font-family, sans-serif;
 	font-weight: 300;
@@ -11,6 +11,10 @@ a {
 		color: $pink;
 		text-decoration: underline;
 	}
+}
+
+.a-classic {
+	color: var(--font-color) !important;
 }
 
 blockquote {

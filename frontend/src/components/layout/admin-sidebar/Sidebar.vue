@@ -31,7 +31,7 @@
 						<span v-for="(menuItem, index) of menuItems" :key="index">
 							<li class="li-style">
 								<span class="a-style">
-									<router-link :to="menuItem.link" class="a-block-style">
+									<router-link :to="menuItem.link" class="a-block-style a-classic">
 										<i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
 										<span class="links_name">{{ menuItem.name }}</span>
 									</router-link>

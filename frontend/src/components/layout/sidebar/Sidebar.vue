@@ -25,8 +25,8 @@
             <ul class="menu nav-list" style="overflow: visible">
               <li v-for="subject of categories" :key="subject.path" class="li-style">
                 <span class="a-style">
-                  <router-link :to="subject.path" class="a-block-style ">
-                    <i class="bx" :class="'bx-square-rounded'" />
+                  <router-link :to="subject.path" class="a-block-style a-classic">
+                    <i class="bx bx-square-rounded" />
                     <span class="links_name">{{ subject.name }}</span>
                   </router-link>
                 </span>
@@ -55,7 +55,7 @@
                 <ul v-if="isOpened">
                   <span v-for="(children, index) of menuItem.childrens" :key="index">
                     <li class="children" @click="close">
-                      <router-link :to="children.link" class="sub_link">{{
+                      <router-link :to="children.link" class="sub_link a-classic">{{
                           children.name
                       }}</router-link>
                     </li>
