@@ -55,6 +55,7 @@ aside {
 	border: 1px solid #ced4da;
 	border-radius: 0.25rem;
 	height: 600px;
-	overflow: auto;
+	overflow-x: auto;
+	overflow-y: auto;
 }
 </style>

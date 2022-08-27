@@ -127,8 +127,9 @@ function replaceText(text: string, results: Result[]): string {
       throwOnError: false,
       displayMode: true,
       trust: true,
+      leqno: true,
     });
-    text = text.replace(expression, `<span class="katex-container">${render}</span>`);
+    text = text.replace(expression, `<span class="katex-container"><i>${render}</i></span>`);
   }
   return text;
 }

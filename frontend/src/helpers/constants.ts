@@ -3,8 +3,8 @@ const svg_warning = `<svg style="align-self: center;" class="svg-icon" viewBox="
 
 function containerOpen(title: string, logo: string, color: string) {
   return `<div class="markdown-container">
-		<span style="display: inline-flex; align-items: baseline;" class="${color}">
-			${logo}${title}</span>`;
+		<strong style="display: inline-flex; align-items: baseline;" class="${color}">
+			${logo}${title}</strong>`;
 }
 
 export { svg_info, svg_warning, containerOpen };
