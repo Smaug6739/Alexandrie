@@ -13,9 +13,17 @@ a {
 	}
 }
 
+
+
 .a-classic {
 	color: var(--font-color) !important;
 }
+
+/*.router-link-exact-active {
+	color: $pink  !important;
+	opacity: 1;
+	text-decoration: none;
+}*/
 
 blockquote {
 	border-left: 4px solid #dddddd;
