@@ -32,3 +32,9 @@ html [type=button] {
 	background-color: $pink;
 	border-color: $pink;
 }
+
+.btn-red {
+	color: var(--font-color);
+	background-color: $red;
+	border-color: $red;
+}

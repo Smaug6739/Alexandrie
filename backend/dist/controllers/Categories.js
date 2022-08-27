@@ -15,13 +15,13 @@ function getAll(req, res) {
 exports.getAll = getAll;
 function addMainCategory(req, res) {
     Categories.addMainCategory(req.body.name, req.body.path, req.body.description, req.body.icon)
-        .then(() => res.status(201).json((0, functions_1.success)('success')))
+        .then(c => res.status(201).json((0, functions_1.success)(c)))
         .catch(err => res.json((0, functions_1.error)(err.message)));
 }
 exports.addMainCategory = addMainCategory;
 function addSubCategory(req, res) {
     Categories.addSubCategory(req.body.name, req.body.path, req.body.description, req.body.icon, req.body.parent_category)
-        .then(() => res.status(201).json((0, functions_1.success)('success')))
+        .then(c => res.status(201).json((0, functions_1.success)(c)))
         .catch(err => res.json((0, functions_1.error)(err.message)));
 }
 exports.addSubCategory = addSubCategory;

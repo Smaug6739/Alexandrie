@@ -28,9 +28,9 @@ export default class CategoriesClass {
     });
   }
 
-  public addMainCategory(name: string, description: string, path: string, icon: string): Promise<boolean | Error> {
+  public addMainCategory(name: string, description: string, path: string, icon: string) {
     return new Promise((resolve, reject) => {
-      const id = idgen.generate();
+      const id = idgen.generate().toString();
       if (!name) return reject(new Error('[MISSING_ARGUMENT] : name must be provided'));
       if (!description) return reject(new Error('[MISSING_ARGUMENT] : description must be provided'));
       if (!path) return reject(new Error('[MISSING_ARGUMENT] : path must be provided'));
@@ -40,7 +40,14 @@ export default class CategoriesClass {
         [id, name, description, path, icon],
         err => {
           if (err) return reject(new Error(err.message));
-          else resolve(true);
+          else
+            resolve({
+              id,
+              name,
+              description,
+              path,
+              icon,
+            });
         },
       );
     });
@@ -58,7 +65,15 @@ export default class CategoriesClass {
         [id, name, description, path, icon, parent_category],
         err => {
           if (err) return reject(new Error(err.message));
-          else resolve(true);
+          else
+            resolve({
+              id,
+              name,
+              description,
+              path,
+              icon,
+              parent_category,
+            });
         },
       );
     });

@@ -11,13 +11,13 @@ export function getAll(req: IObject, res: IObject): void {
 
 export function addMainCategory(req: IObject, res: IObject): void {
   Categories.addMainCategory(req.body.name, req.body.path, req.body.description, req.body.icon)
-    .then(() => res.status(201).json(success('success')))
+    .then(c => res.status(201).json(success(c)))
     .catch(err => res.json(error(err.message)));
 }
 
 export function addSubCategory(req: IObject, res: IObject): void {
   Categories.addSubCategory(req.body.name, req.body.path, req.body.description, req.body.icon, req.body.parent_category)
-    .then(() => res.status(201).json(success('success')))
+    .then(c => res.status(201).json(success(c)))
     .catch(err => res.json(error(err.message)));
 }
 

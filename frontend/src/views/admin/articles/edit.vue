@@ -17,7 +17,8 @@
 				<div style="width:100%; height:100%;">
 					<MarkdownEditorVue ref="editor" :value="article.content_markdown" />
 				</div>
-				<button type="button" class="btn btn-pink" @click="send">Edit</button>
+				<button type="button" class="btn btn-pink" @click="edit">Edit</button>
+				<button type="button" class="btn btn-red" @click="del">Delete</button>
 			</fieldset>
 		</form>
 
@@ -49,12 +50,15 @@ export default defineComponent({
 		MarkdownEditorVue,
 	},
 	methods: {
-		send() {
+		edit() {
 			const markdown = (this.$refs.editor as any).markdown;
 			const html = (this.$refs.editor as any).html;
 			this.article.content_markdown = markdown;
 			this.article.content_html = html
 			store.updateArticle(this.article).then(_ => this.$router.push("/admin/articles"))
+		},
+		del() {
+			store.deleteArticle(this.article.id).then(_ => this.$router.push("/admin/articles"))
 		}
 	},
 
@@ -65,3 +69,9 @@ export default defineComponent({
 });
 
 </script>
+<style lang="scss" scoped>
+button {
+	margin-right: 5px;
+
+}
+</style>

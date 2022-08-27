@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<span class="btn btn-pink" @click="$router.push('/admin/categories/new')">New</span>
 		<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
 	</div>
 </template>

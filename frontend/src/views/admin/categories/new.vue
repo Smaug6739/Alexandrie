@@ -11,14 +11,14 @@
 				<input type="text" placeholder="Path" name="path" v-model="theme.path" />
 				<label for="icon">Icon:</label>
 				<input type="text" placeholder="Icon" name="icon" v-model="theme.icon" />
-				<button type="button" class="btn btn-pink" @click="send">Edit</button>
-				<button type="button" class="btn btn-red" @click="delMain">Delete</button>
+				<button type="button" class="btn btn-pink" @click="postMain">Post</button>
+				butt
 			</fieldset>
 		</form>
 		<h2>Sub categories</h2>
-		<fieldset style="padding:10px;">
-			<fieldset v-for="(sub, index) of theme.categories" :key="index">
-				<legend>Sub category: {{ sub.name }}</legend>
+		<form>
+			<fieldset>
+				<legend>Name</legend>
 				<label for="name">Name:</label>
 				<input type="text" placeholder="Name" name="name" v-model="sub.name" />
 				<label for="description">Description:</label>
@@ -27,39 +27,33 @@
 				<input type="text" placeholder="Path" name="path" v-model="sub.path" />
 				<label for="icon">Icon:</label>
 				<input type="text" placeholder="Icon" name="icon" v-model="sub.icon" />
-				<button type="button" class="btn btn-pink" @click="editSub(index)">Edit</button>
-				<button type="button" class="btn btn-red" @click="delSub(sub.id)">Delete</button>
-			</fieldset>
-		</fieldset>
-	</div>
+				<label for="icon">Parent category:</label>
+				<input type="text" placeholder="Icon" name="icon" v-model="sub.parent_category" />
+				<button type="button" class="btn btn-pink" @click="postSub">Post</button>
 
+			</fieldset>
+		</form>
+	</div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import type { Theme } from '../../../store';
+import type { Theme, Category } from '../../../store';
 import { useCategoriesStore } from '../../../store';
 const store = useCategoriesStore();
 export default defineComponent({
-	name: 'admin-articles-edit',
+	name: 'admin-categories-edit',
 	data() {
 		return {
 			theme: {} as Theme,
+			sub: {} as Category,
 		};
 	},
 	methods: {
-		send() {
-			store.updateMainCategory(this.theme).then(_ => this.$router.push("/admin/categories"))
+		postMain() {
+			store.postMainCategory(this.theme).then(() => this.$router.push('/admin/categories'));
 		},
-		editSub(index: number) {
-			const category = this.theme.categories[index]
-			if (!category) return;
-			store.updateSubCategory(this.theme.id, category).then(_ => this.$router.push("/admin/categories"))
-		},
-		delSub(index: string) {
-			store.deleteSubCategory(this.theme.id, index).then(_ => this.$router.push("/admin/categories"))
-		},
-		delMain() {
-			store.deleteMainCategory(this.theme.id).then(_ => this.$router.push("/admin/categories"))
+		postSub() {
+			store.postSubCategory(this.sub).then(() => this.$router.push('/admin/categories'));
 		}
 	},
 	async beforeMount() {
@@ -68,8 +62,3 @@ export default defineComponent({
 	},
 });
 </script>
-<style scoped>
-button {
-	margin-right: 5px;
-}
-</style>

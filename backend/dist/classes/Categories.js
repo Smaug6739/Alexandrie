@@ -25,7 +25,7 @@ class CategoriesClass {
     }
     addMainCategory(name, description, path, icon) {
         return new Promise((resolve, reject) => {
-            const id = idgen.generate();
+            const id = idgen.generate().toString();
             if (!name)
                 return reject(new Error('[MISSING_ARGUMENT] : name must be provided'));
             if (!description)
@@ -38,7 +38,13 @@ class CategoriesClass {
                 if (err)
                     return reject(new Error(err.message));
                 else
-                    resolve(true);
+                    resolve({
+                        id,
+                        name,
+                        description,
+                        path,
+                        icon,
+                    });
             });
         });
     }
@@ -59,7 +65,14 @@ class CategoriesClass {
                 if (err)
                     return reject(new Error(err.message));
                 else
-                    resolve(true);
+                    resolve({
+                        id,
+                        name,
+                        description,
+                        path,
+                        icon,
+                        parent_category,
+                    });
             });
         });
     }

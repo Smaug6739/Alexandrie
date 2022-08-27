@@ -9,7 +9,7 @@ export interface Theme {
   icon: string;
   categories: Category[];
 }
-interface Category {
+export interface Category {
   id: string;
   name: string;
   description: string;
@@ -58,6 +58,34 @@ export const useCategoriesStore = defineStore('categories', {
           if (c.id == category.id) return category;
           return c;
         });
+      }
+    },
+    async postMainCategory(category: Theme) {
+      const request = await makeRequest(`categories/main`, 'POST', category);
+      if (request.status == 'success') {
+        this.categories.push(request.data);
+      }
+    },
+    async postSubCategory(category: Category) {
+      const request = await makeRequest(`categories/sub`, 'POST', category);
+      if (request.status == 'success') {
+        const p = await this.getById(category.parent_category);
+        if (!p) return;
+        p.categories.push(request.data);
+      }
+    },
+    async deleteMainCategory(id: string) {
+      const request = await makeRequest(`categories/main/${id}`, 'DELETE', {});
+      if (request.status == 'success') {
+        this.categories = this.categories.filter(c => c.id != id);
+      }
+    },
+    async deleteSubCategory(parent: string, id: string) {
+      const request = await makeRequest(`categories/sub/${id}`, 'DELETE', {});
+      if (request.status == 'success') {
+        const p = await this.getById(parent);
+        if (!p) return;
+        p.categories = p.categories.filter(c => c.id != id);
       }
     },
   },

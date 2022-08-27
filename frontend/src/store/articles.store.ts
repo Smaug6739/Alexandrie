@@ -70,16 +70,22 @@ export const useArticlesStore = defineStore('articles', {
     getCache(subject: string, category: string, article: string): Article | undefined {
       return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
     },
+    async postArticle(article: Article) {
+      const request = await makeRequest('articles', 'POST', article);
+      if (request.status == 'success') {
+        this.articles.push(request.data);
+      }
+    },
     async updateArticle(article: Article) {
       const request = await makeRequest(`articles/${article.id}`, 'PATCH', article);
       if (request.status == 'success') {
         this.articles = this.articles.map(a => (a.id == article.id ? article : a));
       }
     },
-    async postArticle(article: Article) {
-      const request = await makeRequest('articles', 'POST', article);
+    async deleteArticle(id: string) {
+      const request = await makeRequest(`articles/${id}`, 'DELETE', {});
       if (request.status == 'success') {
-        this.articles.push(request.data);
+        this.articles = this.articles.filter(a => a.id != id);
       }
     },
   },

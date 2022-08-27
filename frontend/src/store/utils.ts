@@ -6,7 +6,7 @@ const baseUrl = 'http://192.168.0.25:8082/api/v1/';
 export async function makeRequest(route: string, method: string, body: Object): Promise<Result> {
   const responce = await fetch(baseUrl + route, {
     method: method,
-    body: method == 'GET' ? null : JSON.stringify(body),
+    body: method == 'GET' || method == 'DELETE' ? null : JSON.stringify(body),
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
     },
