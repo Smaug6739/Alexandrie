@@ -25,7 +25,7 @@
             <ul class="menu nav-list" style="overflow: visible">
               <li v-for="subject of categories" :key="subject.path" class="li-style">
                 <span class="a-style">
-                  <router-link :to="subject.path" class="a-block-style a-classic">
+                  <router-link :to="'/doc/' + subject.path" class="a-block-style a-classic">
                     <i class="bx bx-square-rounded" />
                     <span class="links_name">{{ subject.name }}</span>
                   </router-link>

@@ -67,6 +67,9 @@ export default defineComponent({
     this.isOpened = window.innerWidth > 768;
     window.document.body.style.paddingLeft = '78px';
   },
+  beforeUnmount() {
+    window.document.body.style.paddingLeft = '';
+  },
   computed: {
     menuItems(): MenuItem[] {
       const items: MenuItem[] = [];

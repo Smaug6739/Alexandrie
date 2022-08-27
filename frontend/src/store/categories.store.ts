@@ -27,6 +27,10 @@ export const useCategoriesStore = defineStore('categories', {
       if (!this.categories.length) await this.getAll();
       return this.categories.find((a: Theme) => a.id == id);
     },
+    async getByPath(path: string): Promise<Theme | undefined> {
+      if (!this.categories.length) await this.getAll();
+      return this.categories.find((a: Theme) => a.path == path);
+    },
     async getAll(): Promise<Theme[]> {
       if (!this.categories.length) {
         const request = await makeRequest('categories', 'GET', {});
