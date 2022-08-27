@@ -29,9 +29,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.infos = void 0;
 const express_1 = require("express");
 const CDNCtrl = __importStar(require("../../controllers/cdn"));
+const auth_1 = __importDefault(require("../../middlewares/auth"));
 const multer_cdn_1 = __importDefault(require("../../middlewares/multer.cdn"));
 const CDNRouter = (0, express_1.Router)();
-CDNRouter.post('/image/', multer_cdn_1.default, CDNCtrl.uploadImage);
+CDNRouter.post('/image/', auth_1.default, multer_cdn_1.default, CDNCtrl.uploadImage);
 exports.infos = {
     route: 'cdn',
     version: 1,
