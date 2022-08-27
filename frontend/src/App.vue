@@ -3,7 +3,7 @@
     <div id="app-loader"></div>
     <Navbar />
     <router-view />
-    <p style="text-align:center;margin-top:3%;">MIT Licensed | Copyright © 2021-2022</p>
+    <p style="text-align:center;margin-top:3%;margin-top: auto;">MIT Licensed | Copyright © 2021-2022</p>
   </div>
 </template>
 

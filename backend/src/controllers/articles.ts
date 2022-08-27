@@ -33,9 +33,10 @@ export function updateArticle(req: IObject, res: IObject) {
   Articles.put(
     req.params.id,
     req.body.name,
+    req.body.description,
+    req.body.path,
     req.body.main_category,
     req.body.sub_category,
-    req.body.description,
     req.body.content_markdown,
     req.body.content_html,
   )

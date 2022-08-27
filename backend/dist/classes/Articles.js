@@ -20,7 +20,7 @@ marked.setOptions({
 class Articles {
     getAll() {
         return new Promise((resolve, reject) => {
-            db_1.default.query('SELECT * FROM articles', (err, result) => {
+            db_1.default.query('SELECT * FROM articles ORDER BY `name`', (err, result) => {
                 if (err)
                     return reject(new Error(err.message));
                 resolve(result);
@@ -31,7 +31,7 @@ class Articles {
         return new Promise((resolve, reject) => {
             if (!category)
                 return reject(new Error('[MISSING_ARGUMENT] : category must be provided'));
-            db_1.default.query('SELECT * FROM articles WHERE main_category = ?', [category], (err, result) => {
+            db_1.default.query('SELECT * FROM articles WHERE main_category = ? ORDER BY `name`', [category], (err, result) => {
                 if (err)
                     return reject(new Error(err.message));
                 resolve(result);
@@ -56,7 +56,7 @@ class Articles {
                 return reject(new Error('[MISSING_ARGUMENT] : author must be provided'));
             const time = Date.now();
             const id = idgen.generate().toString();
-            db_1.default.query('INSERT INTO articles (`id`, `main_category`, `sub_category`, `path`, `name`, `description`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [id, main_category, sub_category, path, name, description, content_html, content_markdown, time, time, author], err => {
+            db_1.default.query('INSERT INTO articles (`id`, `name`, `description`, `path`, `main_category`, `sub_category`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)', [id, name, description, path, main_category, sub_category, content_html, content_markdown, time, time, author], err => {
                 if (err)
                     return reject(new Error(err.message));
                 else
@@ -76,7 +76,7 @@ class Articles {
             });
         });
     }
-    put(id, name, main_category, sub_category, description, content_markdown, content_html) {
+    put(id, name, description, path, main_category, sub_category, content_markdown, content_html) {
         return new Promise((resolve, reject) => {
             if (!id)
                 return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
@@ -88,17 +88,19 @@ class Articles {
                 else {
                     if (!name)
                         name = result[0].name;
+                    if (!description)
+                        description = result[0].description;
+                    if (!path)
+                        path = result[0].path;
                     if (!main_category)
                         main_category = result[0].main_category;
                     if (!sub_category)
                         sub_category = result[0].sub_category;
-                    if (!description)
-                        description = result[0].description;
                     if (!content_markdown)
                         content_markdown = result[0].content_markdown;
                     if (!content_html)
                         content_html = result[0].content_html;
-                    db_1.default.query('UPDATE articles SET `name` = ?, `main_category` = ?, `sub_category` = ?, `description` = ?, `content_html` = ?, `content_markdown` = ?, `updated_timestamp` = ? WHERE `id` = ?', [name, main_category, sub_category, description, content_html, content_markdown, Date.now(), id], err => {
+                    db_1.default.query('UPDATE articles SET `name` = ?, `description` = ?, `path` = ?, `main_category` = ?, `sub_category` = ?, `content_html` = ?, `content_markdown` = ?, `updated_timestamp` = ? WHERE `id` = ?', [name, description, path, main_category, sub_category, content_html, content_markdown, Date.now(), id], err => {
                         if (err)
                             return reject(new Error(err.message));
                         else

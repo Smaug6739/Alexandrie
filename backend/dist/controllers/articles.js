@@ -27,7 +27,7 @@ function add(req, res) {
 }
 exports.add = add;
 function updateArticle(req, res) {
-    Articles.put(req.params.id, req.body.name, req.body.main_category, req.body.sub_category, req.body.description, req.body.content_markdown, req.body.content_html)
+    Articles.put(req.params.id, req.body.name, req.body.description, req.body.path, req.body.main_category, req.body.sub_category, req.body.content_markdown, req.body.content_html)
         .then(() => res.status(201).json((0, functions_1.success)('success')))
         .catch(err => res.json((0, functions_1.error)(err.message)));
 }

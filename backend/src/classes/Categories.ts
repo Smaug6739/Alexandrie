@@ -28,16 +28,16 @@ export default class CategoriesClass {
     });
   }
 
-  public addMainCategory(name: string, path: string, description: string, icon: string): Promise<boolean | Error> {
+  public addMainCategory(name: string, description: string, path: string, icon: string): Promise<boolean | Error> {
     return new Promise((resolve, reject) => {
       const id = idgen.generate();
       if (!name) return reject(new Error('[MISSING_ARGUMENT] : name must be provided'));
-      if (!path) return reject(new Error('[MISSING_ARGUMENT] : path must be provided'));
       if (!description) return reject(new Error('[MISSING_ARGUMENT] : description must be provided'));
+      if (!path) return reject(new Error('[MISSING_ARGUMENT] : path must be provided'));
       if (!icon) return reject(new Error('[MISSING_ARGUMENT] : icon must be provided'));
       db.query(
-        'INSERT INTO main_categories (id, name, path, description, icon) VALUES (?, ?, ?, ?, ?)',
-        [id, name, path, description, icon],
+        'INSERT INTO main_categories (id, name, description, path, icon) VALUES (?, ?, ?, ?, ?)',
+        [id, name, description, path, icon],
         err => {
           if (err) return reject(new Error(err.message));
           else resolve(true);
@@ -45,17 +45,17 @@ export default class CategoriesClass {
       );
     });
   }
-  public addSubCategory(name: string, path: string, description: string, icon: string, parent_category: string) {
+  public addSubCategory(name: string, description: string, path: string, icon: string, parent_category: string) {
     return new Promise((resolve, reject) => {
       if (!name) return reject(new Error('[MISSING_ARGUMENT] : name must be provided'));
-      if (!path) return reject(new Error('[MISSING_ARGUMENT] : path must be provided'));
       if (!description) return reject(new Error('[MISSING_ARGUMENT] : description must be provided'));
+      if (!path) return reject(new Error('[MISSING_ARGUMENT] : path must be provided'));
       if (!icon) return reject(new Error('[MISSING_ARGUMENT] : icon must be provided'));
       if (!parent_category) return reject(new Error('[MISSING_ARGUMENT] : parent_category must be provided'));
       const id = idgen.generate();
       db.query(
-        'INSERT INTO sub_categories (id, name, path, description, icon, parent_category) VALUES (?, ?, ?, ?, ?, ?)',
-        [id, name, path, description, icon, parent_category],
+        'INSERT INTO sub_categories (id, name, description, path, icon, parent_category) VALUES (?, ?, ?, ?, ?, ?)',
+        [id, name, description, path, icon, parent_category],
         err => {
           if (err) return reject(new Error(err.message));
           else resolve(true);
@@ -63,7 +63,7 @@ export default class CategoriesClass {
       );
     });
   }
-  updateMainCategory(id: string, name: string, path: string, description: string, icon: string) {
+  updateMainCategory(id: string, name: string, description: string, path: string, icon: string) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
       db.query('SELECT * FROM main_categories WHERE id = ? LIMIT 1', [id], (err, result) => {
@@ -75,8 +75,8 @@ export default class CategoriesClass {
           if (!description) description = result[0].description;
           if (!icon) icon = result[0].icon;
           db.query(
-            'UPDATE main_categories SET name = ?, path = ?, description = ?, icon = ? WHERE id = ?',
-            [name, path, description, icon, id],
+            'UPDATE main_categories SET name = ?, description = ?, path = ?, icon = ? WHERE id = ?',
+            [name, description, path, icon, id],
             err => {
               if (err) return reject(new Error(err.message));
               else resolve(true);
@@ -86,7 +86,7 @@ export default class CategoriesClass {
       });
     });
   }
-  public updateSubCategory(id: string, name: string, path: string, description: string, icon: string, parent_category: string) {
+  public updateSubCategory(id: string, name: string, description: string, path: string, icon: string, parent_category: string) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
       db.query('SELECT * FROM sub_categories WHERE id = ? LIMIT 1', [id], (err, result) => {
@@ -99,8 +99,8 @@ export default class CategoriesClass {
           if (!icon) icon = result[0].icon;
           if (!parent_category) parent_category = result[0].parent_category;
           db.query(
-            'UPDATE sub_categories SET name = ?, path = ?, description = ?, icon = ?, parent_category = ? WHERE id = ?',
-            [name, path, description, icon, parent_category, id],
+            'UPDATE sub_categories SET name = ?, description = ?, path = ?, icon = ?, parent_category = ? WHERE id = ?',
+            [name, description, path, icon, parent_category, id],
             err => {
               if (err) return reject(new Error(err.message));
               else resolve(true);

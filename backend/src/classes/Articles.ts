@@ -32,7 +32,7 @@ interface Article {
 export default class Articles {
   public getAll() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM articles', (err, result) => {
+      db.query('SELECT * FROM articles ORDER BY `name`', (err, result) => {
         if (err) return reject(new Error(err.message));
         resolve(result);
       });
@@ -42,7 +42,7 @@ export default class Articles {
   public getAllByCategory(category: string) {
     return new Promise((resolve, reject) => {
       if (!category) return reject(new Error('[MISSING_ARGUMENT] : category must be provided'));
-      db.query('SELECT * FROM articles WHERE main_category = ?', [category], (err, result) => {
+      db.query('SELECT * FROM articles WHERE main_category = ? ORDER BY `name`', [category], (err, result) => {
         if (err) return reject(new Error(err.message));
         resolve(result);
       });
@@ -69,8 +69,8 @@ export default class Articles {
       const time = Date.now();
       const id = idgen.generate().toString();
       db.query(
-        'INSERT INTO articles (`id`, `main_category`, `sub_category`, `path`, `name`, `description`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
-        [id, main_category, sub_category, path, name, description, content_html, content_markdown, time, time, author],
+        'INSERT INTO articles (`id`, `name`, `description`, `path`, `main_category`, `sub_category`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+        [id, name, description, path, main_category, sub_category, content_html, content_markdown, time, time, author],
         err => {
           if (err) return reject(new Error(err.message));
           else
@@ -94,9 +94,10 @@ export default class Articles {
   public put(
     id: string,
     name: string,
+    description: string,
+    path: string,
     main_category: string,
     sub_category: string,
-    description: string,
     content_markdown: string,
     content_html: string,
   ) {
@@ -107,14 +108,15 @@ export default class Articles {
         if (!result || !result.length) return reject(new Error('[ERROR] : Invalid id'));
         else {
           if (!name) name = result[0].name;
+          if (!description) description = result[0].description;
+          if (!path) path = result[0].path;
           if (!main_category) main_category = result[0].main_category;
           if (!sub_category) sub_category = result[0].sub_category;
-          if (!description) description = result[0].description;
           if (!content_markdown) content_markdown = result[0].content_markdown;
           if (!content_html) content_html = result[0].content_html;
           db.query(
-            'UPDATE articles SET `name` = ?, `main_category` = ?, `sub_category` = ?, `description` = ?, `content_html` = ?, `content_markdown` = ?, `updated_timestamp` = ? WHERE `id` = ?',
-            [name, main_category, sub_category, description, content_html, content_markdown, Date.now(), id],
+            'UPDATE articles SET `name` = ?, `description` = ?, `path` = ?, `main_category` = ?, `sub_category` = ?, `content_html` = ?, `content_markdown` = ?, `updated_timestamp` = ? WHERE `id` = ?',
+            [name, description, path, main_category, sub_category, content_html, content_markdown, Date.now(), id],
             err => {
               if (err) return reject(new Error(err.message));
               else resolve(true);
