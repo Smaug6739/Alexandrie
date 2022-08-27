@@ -46,7 +46,7 @@ export const useArticlesStore = defineStore('articles', {
     },
     checkAndUpdateCache(articles: Article[]) {
       for (const article of articles) {
-        this.articles.push(article);
+        if (!this.articles.find(a => a.id == article.id)) this.articles.push(article);
       }
     },
     getCache(subject: string, category: string, article: string): Article | undefined {
