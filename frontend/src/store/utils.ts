@@ -13,9 +13,8 @@ export async function makeRequest(route: string, method: string, body: Object): 
     credentials: 'include',
   });
   if (responce.status >= 200 && responce.status < 300) {
+    //TODO: error handling
     const decoded = await responce.json();
-    console.log(decoded);
-
     return {
       status: 'success',
       data: decoded.result,

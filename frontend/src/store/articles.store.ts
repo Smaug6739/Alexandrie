@@ -33,8 +33,6 @@ export const useArticlesStore = defineStore('articles', {
         (a: Article) => a.main_category == article.main_category && a.sub_category == article.sub_category,
       );
       const index = articles_of_category.findIndex((a: Article) => a.id == article.id);
-      console.log(articles_of_category, index);
-
       if (index == -1) return undefined;
       return articles_of_category[index + 1];
     },
