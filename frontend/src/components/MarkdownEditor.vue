@@ -1,7 +1,7 @@
 <template>
 	<aside>
-		<textarea class="child input el" name="Editor" id="" cols="30" rows="20" v-model="markdown">s</textarea>
-		<div class="output child el" v-html="html"></div>
+		<textarea class="input" name="Editor" id="" cols="30" rows="20" v-model="markdown">s</textarea>
+		<div class="output" v-html="html"></div>
 	</aside>
 </template>
 <script lang="ts">
@@ -40,10 +40,6 @@ aside {
 }
 
 
-.el {
-	height: 600px;
-	overflow: auto;
-}
 
 .input,
 .output {
@@ -58,5 +54,7 @@ aside {
 	background-clip: padding-box;
 	border: 1px solid #ced4da;
 	border-radius: 0.25rem;
+	height: 600px;
+	overflow: auto;
 }
 </style>
