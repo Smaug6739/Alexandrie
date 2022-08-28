@@ -1,7 +1,9 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
-import bodyParser from 'body-parser';
+import { config } from 'dotenv';
 import type { Response } from 'express';
+
+config();
 
 //import * as express from 'express';
 const express = require('express');
@@ -45,7 +47,7 @@ export class App {
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
       next();
     });
-    if (this.config.mode !== 'production') {
+    if (process.env.NODE_ENV !== 'production') {
       const morgan = require('morgan')('dev');
       this.app.use(morgan);
     }

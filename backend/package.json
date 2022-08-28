@@ -1,45 +1,39 @@
 {
-  "name": "smaug-website",
+  "name": "docs",
   "version": "1.0.0",
   "description": "",
-  "main": "config.js",
+  "main": "dist/main.js",
   "scripts": {
     "start": "node dist/main.js",
-    "nodemon": "nodemon dist/main.js --trace-sync-io",
     "build": "tsc",
     "build-watch": "tsc --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Smaug6739/smaug-website.git"
+    "url": "git+https://github.com/Smaug6739/docs.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Smaug6739/smaug-website/issues"
+    "url": "https://github.com/Smaug6739/docs/issues"
   },
-  "homepage": "https://github.com/Smaug6739/smaug-website#readme",
+  "homepage": "https://github.com/Smaug6739/docs#readme",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.11",
     "@types/jsonwebtoken": "^8.5.1",
-    "@types/mysql": "^2.15.18",
     "@types/node": "^14.14.34",
-    "@types/ws": "^7.4.4",
+    "@types/sharp": "^0.30.5",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "typescript": "^4.8.2"
   },
   "dependencies": {
-    "@types/sharp": "^0.30.5",
-    "array-paginator": "^1.0.4",
     "bcrypt": "^5.0.1",
-    "body-parser": "^1.20.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^8.6.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "marked": "^2.0.3",
     "multer": "^1.4.2",
-    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "sharp": "^0.28.3"
   }

@@ -3,7 +3,6 @@ import { Router } from 'express';
 //Config
 export interface Iconfig {
   readonly port: number;
-  readonly production?: Boolean;
   readonly database: {
     readonly host: string;
     readonly user: string;
@@ -12,7 +11,6 @@ export interface Iconfig {
   };
   readonly ALLOWED_DOMAINS: Array<string>;
   readonly secret: string;
-  readonly mode: string;
   readonly domain: string;
 }
 //Router

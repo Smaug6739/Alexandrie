@@ -1,0 +1,26 @@
+name: Deploy to production
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and Push
+    steps:
+      - name: git-checkout
+        uses: actions/checkout@v3
+
+      - name: Install all dependencies
+        run: cd backend && npm ci
+
+      - name: Build
+        run: cd backend && npm run build
+
+      - name: Push
+        run: |
+          git config --global user.name 'BOT'
+          git config --global user.email 'bot@users.noreply.github.com'
+          git branch -D deploy
+          git checkout -b deploy
+          git commit -am "Deploy"
+          git push origin deploy
