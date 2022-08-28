@@ -15,7 +15,5 @@ public/uploads/other*
 .env.production
 
 #Config
-config.js
-config.ts
 prod.config.ts
 prod.config.js

@@ -3,8 +3,8 @@ import { config } from '../config';
 
 const pool = createPool({
   host: config.database.host,
-  user: config.database.user,
-  password: config.database.password,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
   database: config.database.database,
 });
 // var getConnection = function (cb: any) {

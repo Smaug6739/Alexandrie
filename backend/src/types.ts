@@ -5,12 +5,9 @@ export interface Iconfig {
   readonly port: number;
   readonly database: {
     readonly host: string;
-    readonly user: string;
-    readonly password: string;
     readonly database: string;
   };
   readonly ALLOWED_DOMAINS: Array<string>;
-  readonly secret: string;
   readonly domain: string;
 }
 //Router

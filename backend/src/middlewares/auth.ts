@@ -16,7 +16,8 @@ export default (req: IObject, res: IObject, next: any) => {
     if (!req.cookies) throw 'Missing cookies';
     if (!req.cookies.user_token) throw 'Missing token cookie.';
     if (!req.cookies.user_id) throw 'Missing token cookie.';
-    const decoded: any = verify(req.cookies.user_token, config.secret);
+    if (!process.env.JWT_SECRET) throw 'Missing JWT_SECRET';
+    const decoded: any = verify(req.cookies.user_token, process.env.JWT_SECRET);
     if (req.cookies.user_id != decoded.userId) throw 'Bad user';
     next();
   } catch (err) {

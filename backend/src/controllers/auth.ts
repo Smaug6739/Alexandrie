@@ -15,7 +15,7 @@ export function auth(req: IObject, res: IObject): void {
           userId: result.id,
           userPermissions: result.permissions,
         },
-        config.secret,
+        process.env.JWT_SECRET || '',
       );
       res.cookie('user_token', `${token}`, {
         maxAge: 3600000,
