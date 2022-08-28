@@ -3,7 +3,7 @@
 		<fieldset>
 			<legend>Connexion</legend>
 			<input id="form-username" type="text" placeholder="Username" />
-			<input id="form-password" type="text" placeholder="Password" />
+			<input id="form-password" type="password" placeholder="Password" />
 			<button type="button" @click="connect" class="btn btn-pink">Connexion</button>
 		</fieldset>
 	</form>
