@@ -9,5 +9,10 @@ module.exports = {
         NODE_ENV: 'production',
       },
     },
+    {
+      name: 'docs-wbs-frontend',
+      cwd: './frontend',
+      script: 'serve -s dist',
+    },
   ],
 };

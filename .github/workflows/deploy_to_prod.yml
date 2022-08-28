@@ -4,23 +4,17 @@ on:
     branches: [main]
 jobs:
   build:
-    runs-on: ubuntu-latest
-    name: Build and Push
+    runs-on: self-hosted
     steps:
-      - name: git-checkout
-        uses: actions/checkout@v3
-
-      - name: Install all dependencies
-        run: cd backend && npm ci
-
-      - name: Build
-        run: cd backend && npm run build
-
-      - uses: actions/checkout@v3
-      - run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git checkout -b deploy
-          git add .
-          git commit -am "Deploy"
-          git push origin deploy
+      - name: Deploy to production
+        run: |
+          cd /home/smaug/sites/docs-website/
+          git pull origin main
+          cd /home/smaug/sites/docs-website/backend
+          npm install -D
+          npm build
+          cd /home/smaug/sites/docs-website/frontend
+          npm install -D
+          npm build
+          cd /home/smaug/sites/docs-website/
+          pm2 reload ecosystem.config.js
