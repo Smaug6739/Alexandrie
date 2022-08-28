@@ -1,5 +1,5 @@
-import { createPool } from "mysql";
-import { config } from "../config";
+import { createPool } from 'mysql';
+import { config } from '../config';
 
 const pool = createPool({
   host: config.database.host,
@@ -17,12 +17,32 @@ const pool = createPool({
 //         cb(null, connection);
 //     });
 // };
-pool.on("acquire", function (connection) {
+/*pool.on("acquire", function (connection) {
   console.log("Connection %d acquired", connection.threadId);
+});*/
+pool.on('connection', function (conn) {
+  conn.on('error', (err: any) => {
+    console.log(err);
+  });
 });
-pool.on("connection", function (conn) {
-  conn.on("error", (err: any) => {});
-});
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+const sql_articles = readFileSync(resolve(__dirname, '../../database/articles.sql')).toString();
+const sql_main_categories = readFileSync(resolve(__dirname, '../../database/main_categories.sql')).toString();
+const sql_members = readFileSync(resolve(__dirname, '../../database/members.sql')).toString();
+const sql_sub_categories = readFileSync(resolve(__dirname, '../../database/sub_categories.sql')).toString();
+
+const all = [sql_articles, sql_main_categories, sql_members, sql_sub_categories];
+
+for (const sql of all) {
+  pool.query(sql, (err: any, results: any) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log('Table created');
+  });
+}
+
 export default pool;
 
 // import { createConnection, MysqlError } from 'mysql';
