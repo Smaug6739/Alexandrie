@@ -1,6 +1,5 @@
 #Nodejs
 node_modules
-package-lock.json
 
 #Public dir
 public/uploads/images/*
