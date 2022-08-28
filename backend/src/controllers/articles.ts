@@ -7,11 +7,11 @@ export function getAllArticles(req: IObject, res: IObject): void {
   if (req.query.category) {
     Articles.getAllByCategory(req.query.category)
       .then((result: any) => res.status(200).json(success(result)))
-      .catch((err: Error) => res.json(error(err.message)));
+      .catch((err: Error) => res.status(500).json(error(err.message)));
   } else {
     Articles.getAll()
       .then((result: any) => res.status(200).json(success(result)))
-      .catch((err: Error) => res.json(error(err.message)));
+      .catch((err: Error) => res.status(500).json(error(err.message)));
   }
 }
 export function add(req: IObject, res: IObject): void {
@@ -26,7 +26,7 @@ export function add(req: IObject, res: IObject): void {
     req.cookies.user_id,
   )
     .then(a => res.status(201).json(success(a)))
-    .catch(err => res.json(error(err.message)));
+    .catch(err => res.status(500).json(error(err.message)));
 }
 
 export function updateArticle(req: IObject, res: IObject) {
@@ -41,11 +41,11 @@ export function updateArticle(req: IObject, res: IObject) {
     req.body.content_html,
   )
     .then(() => res.status(201).json(success('success')))
-    .catch(err => res.json(error(err.message)));
+    .catch(err => res.status(500).json(error(err.message)));
 }
 
 export function deleteArticle(req: IObject, res: IObject) {
   Articles.delete(req.params.id)
     .then(() => res.status(201).json(success('success')))
-    .catch((err: Error) => res.json(error(err.message)));
+    .catch((err: Error) => res.status(500).json(error(err.message)));
 }

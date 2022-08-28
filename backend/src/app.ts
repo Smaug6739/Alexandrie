@@ -54,7 +54,7 @@ export class App {
     this.handleMiddlewares();
     this.handleRoutes();
     this.app.use(async function (err: Error, req: IObject, res: IObject, next: Function) {
-      if (err.message.match('File too large')) return res.json(error('[ERROR_FILE_SIZE] File is too large.'));
+      if (err.message.match('File too large')) return res.status(500).json(error('[ERROR_FILE_SIZE] File is too large.'));
       else console.error(err);
     });
     const staticOptions = {

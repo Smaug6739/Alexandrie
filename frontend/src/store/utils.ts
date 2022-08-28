@@ -20,6 +20,8 @@ export async function makeRequest(route: string, method: string, body: Object): 
       data: decoded.result,
     };
   } else {
+    const decoded = await responce.json();
+    console.log(decoded);
     return { status: 'error' };
   }
 }

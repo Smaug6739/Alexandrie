@@ -5,6 +5,7 @@ export interface Theme {
   id: string;
   name: string;
   description: string;
+  order: number;
   path: string;
   icon: string;
   categories: Category[];
@@ -13,6 +14,7 @@ export interface Category {
   id: string;
   name: string;
   description: string;
+  order: number;
   path: string;
   icon: string;
   parent_category: string;

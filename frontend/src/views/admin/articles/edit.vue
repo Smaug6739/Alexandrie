@@ -8,9 +8,14 @@
 				<label for="description">Description:</label>
 				<input type="text" placeholder="Description" name="description" v-model="article.description" />
 				<label for="main_category">Main category:</label>
-				<input type="text" placeholder="Main category" name="main_category" v-model="article.main_category" />
+				<select name="main_category" v-model="article.main_category">
+					<option v-for="category in themes" :value="category.path" :key="category.id">{{ category.path }}</option>
+				</select>
 				<label for="sub_category">Sub category:</label>
-				<input type="text" placeholder="Sub category" name="sub_category" v-model="article.sub_category" />
+				<select name="sub_category" v-model="article.sub_category">
+					<option v-for="category in theme.categories" :value="category.path" :key="category.id">{{ category.path
+					}}</option>
+				</select>
 				<label for="path">Path:</label>
 				<input type="text" placeholder="Path" name="path" v-model="article.path" />
 				<label for="content">Content</label>
@@ -26,10 +31,11 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useArticlesStore } from '../../../store';
+import { Theme, useArticlesStore, useCategoriesStore } from '../../../store';
 import type { Article } from '../../../store';
 import MarkdownEditorVue from '../../../components/MarkdownEditor.vue';
 const store = useArticlesStore();
+const categoriesStore = useCategoriesStore();
 export default defineComponent({
 	name: 'admin-articles-edit',
 
@@ -44,6 +50,7 @@ export default defineComponent({
 				content_markdown: '',
 				content_html: '',
 			} as Article,
+			themes: [] as Theme[],
 		};
 	},
 	components: {
@@ -61,10 +68,18 @@ export default defineComponent({
 			store.deleteArticle(this.article.id).then(_ => this.$router.push("/admin/articles"))
 		}
 	},
+	computed: {
+		theme() {
+			const theme = this.themes.find((t: Theme) => t.path === this.article.main_category) as Theme;
+			return theme;
+		}
+
+	},
 
 	async beforeMount() {
 		const article = await store.getById(this.$route.params.id as string);
 		if (article) this.article = article;
+		this.themes = await categoriesStore.getAll();
 	},
 });
 

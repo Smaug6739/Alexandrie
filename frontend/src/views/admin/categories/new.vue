@@ -7,6 +7,8 @@
 				<input type="text" placeholder="Name" name="name" v-model="theme.name" />
 				<label for="description">Description:</label>
 				<input type="text" placeholder="Description" name="description" v-model="theme.description" />
+				<label for="description">Order:</label>
+				<input type="number" placeholder="Order" name="order" v-model="theme.order" />
 				<label for="path">Path:</label>
 				<input type="text" placeholder="Path" name="path" v-model="theme.path" />
 				<label for="icon">Icon:</label>
@@ -23,12 +25,16 @@
 				<input type="text" placeholder="Name" name="name" v-model="sub.name" />
 				<label for="description">Description:</label>
 				<input type="text" placeholder="Description" name="description" v-model="sub.description" />
+				<label for="description">Order:</label>
+				<input type="number" placeholder="Order" name="order" v-model="sub.order" />
 				<label for="path">Path:</label>
 				<input type="text" placeholder="Path" name="path" v-model="sub.path" />
 				<label for="icon">Icon:</label>
 				<input type="text" placeholder="Icon" name="icon" v-model="sub.icon" />
 				<label for="icon">Parent category:</label>
-				<input type="text" placeholder="Icon" name="icon" v-model="sub.parent_category" />
+				<select name="parent_id" v-model="sub.parent_category">
+					<option v-for="category in categories" :value="category.path" :key="category.id">{{ category.path }}</option>
+				</select>
 				<button type="button" class="btn btn-pink" @click="postSub">Post</button>
 
 			</fieldset>
@@ -46,6 +52,7 @@ export default defineComponent({
 		return {
 			theme: {} as Theme,
 			sub: {} as Category,
+			categories: [] as Theme[],
 		};
 	},
 	methods: {
@@ -54,11 +61,14 @@ export default defineComponent({
 		},
 		postSub() {
 			store.postSubCategory(this.sub).then(() => this.$router.push('/admin/categories'));
-		}
+		},
+
 	},
 	async beforeMount() {
 		const theme = await store.getById(this.$route.params.id as string);
 		if (theme) this.theme = theme;
+		const categories = await store.getAll();
+		if (categories) this.categories = categories;
 	},
 });
 </script>
