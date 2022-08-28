@@ -17,6 +17,7 @@ jobs:
         run: cd backend && npm run build
 
       - name: Push
+        uses: actions/checkout@v3
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
