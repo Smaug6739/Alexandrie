@@ -1,4 +1,4 @@
-import { createPool } from 'mysql';
+import { createPool } from 'mysql2';
 import { config } from '../config';
 
 const pool = createPool({

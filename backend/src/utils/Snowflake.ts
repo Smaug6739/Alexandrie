@@ -5,7 +5,7 @@ const WorkerId = 0n;
  * A class for generating and deconstructing Twitter snowflakes.
  *
  * A {@link https://developer.twitter.com/en/docs/twitter-ids Twitter snowflake}
- * is a 64-bit unsigned integer with 4 fields that have a fixed epoch value.
+ * is a 64-bit unsigned integer with 4 result that have a fixed epoch value.
  *
  * If we have a snowflake `266241948824764416` we can represent it as binary:
  * ```

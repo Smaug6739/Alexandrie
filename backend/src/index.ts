@@ -1,3 +1,3 @@
 import { hashSync } from 'bcrypt';
 
-console.log(hashSync('Password', 1));
+console.log(hashSync('', 1));

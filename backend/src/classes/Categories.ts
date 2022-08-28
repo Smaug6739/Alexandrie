@@ -1,9 +1,18 @@
 import { Snowflake } from '../utils/Snowflake';
 import db from '../models/db';
+import type { RowDataPacket } from 'mysql2';
 
 const idgen = new Snowflake(1661327668261);
 
-interface Category {
+interface Theme extends RowDataPacket {
+  id: string;
+  name: string;
+  description: string;
+  order: number;
+  path: string;
+  icon: string;
+}
+interface Category extends RowDataPacket {
   id: string;
   name: string;
   description: string;
@@ -16,9 +25,9 @@ interface Category {
 export default class CategoriesClass {
   public getAll() {
     return new Promise((resolve, reject) => {
-      db.query('SELECT * FROM main_categories ORDER BY `order`', [], (err, themes) => {
+      db.query<Theme[]>('SELECT * FROM main_categories ORDER BY `order`', [], (err, themes) => {
         if (err) return reject(new Error(err.message));
-        db.query('SELECT * FROM sub_categories ORDER BY `order`', [], (err, categories) => {
+        db.query<Category[]>('SELECT * FROM sub_categories ORDER BY `order`', [], (err, categories) => {
           if (err) return reject(new Error(err.message));
           for (const theme of themes) {
             theme.categories = categories.filter((c: Category) => c.parent_category === theme.path);
@@ -82,7 +91,7 @@ export default class CategoriesClass {
   updateMainCategory(id: string, name: string, description: string, order: number, path: string, icon: string) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
-      db.query('SELECT * FROM main_categories WHERE id = ? LIMIT 1', [id], (err, result) => {
+      db.query<Theme[]>('SELECT * FROM main_categories WHERE id = ? LIMIT 1', [id], (err, result, fields) => {
         if (err) return reject(new Error(err.message));
         if (!result || !result.length) return reject(new Error('[ERROR] : Invalid id'));
         else {
@@ -114,7 +123,7 @@ export default class CategoriesClass {
   ) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
-      db.query('SELECT * FROM sub_categories WHERE id = ? LIMIT 1', [id], (err, result) => {
+      db.query<Category[]>('SELECT * FROM sub_categories WHERE id = ? LIMIT 1', [id], (err, result, fields) => {
         if (err) return reject(new Error(err.message));
         if (!result || !result.length) return reject(new Error('[ERROR] : Invalid id'));
         else {
