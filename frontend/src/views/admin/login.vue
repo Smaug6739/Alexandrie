@@ -19,8 +19,6 @@ export default defineComponent({
 	},
 	methods: {
 		async connect() {
-			console.log("connect");
-
 			const content = JSON.stringify({
 				username: (document.getElementById("form-username") as HTMLInputElement).value,
 				password: (document.getElementById("form-password") as HTMLInputElement).value,
@@ -34,11 +32,13 @@ export default defineComponent({
 				body: content,
 				credentials: "include",
 			});
+			console.log(responce);
+
 			const result = await responce.json();
+			console.log(result);
+
 			if (result.status == "success" && result.result.auth) {
 				this.$router.push("/admin");
-			} else {
-				console.log(result);
 			}
 		},
 	},
