@@ -17,4 +17,4 @@ jobs:
           npm install -D
           npm run build 
           cd /home/smaug/sites/docs-website/
-          BASE_API="https://api.docs.smaug-6739.dev" FRONT_DOMAIN="https://docs.smaug-6739.dev" JWT_SECRET=${{secrets.JWT_SECRET}} DATABASE_USER=${{secrets.DATABASE_USER}} DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}}  NODE_ENV=production pm2 reload ecosystem.config.js --update-env
+          BASE_API="https://api.docs.smaug-6739.dev" FRONT_DOMAIN="https://docs.smaug-6739.dev" JWT_SECRET=${{secrets.JWT_SECRET}} DATABASE_USER=${{secrets.DATABASE_USER}} DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}} NODE_ENV=production pm2 reload ecosystem.config.js --update-env
