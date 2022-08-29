@@ -106,7 +106,7 @@ export default defineComponent({
   },
   methods: {
     logout() {
-      fetch(`http://192.168.0.25:8082/api/v1/auth/disconnection`, {
+      fetch(`${this.$baseUrl}/api/v1/auth/disconnection`, {
         method: 'GET',
         credentials: 'include',
       }).then(() => {

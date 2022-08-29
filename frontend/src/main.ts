@@ -25,4 +25,13 @@ app.component('Warning', Warning);
 app.use(router);
 app.use(store);
 
+console.log(import.meta.env);
+
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $baseUrl: string;
+  }
+}
+app.config.globalProperties.$baseUrl = import.meta.env.BASE_API;
+
 app.mount('#app');

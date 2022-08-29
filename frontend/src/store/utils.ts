@@ -2,7 +2,7 @@ interface Result {
   status: 'success' | 'error';
   data?: any;
 }
-const baseUrl = 'http://192.168.0.25:8082/api/v1/';
+const baseUrl = import.meta.env.VITE_BASE_API;
 export async function makeRequest(route: string, method: string, body: Object): Promise<Result> {
   const responce = await fetch(baseUrl + route, {
     method: method,

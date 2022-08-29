@@ -23,7 +23,7 @@ export default defineComponent({
 				username: (document.getElementById("form-username") as HTMLInputElement).value,
 				password: (document.getElementById("form-password") as HTMLInputElement).value,
 			});
-			const responce = await fetch(`http://192.168.0.25:8082/api/v1/auth`, {
+			const responce = await fetch(`${this.$baseUrl}/api/v1/auth`, {
 				method: "POST",
 				headers: {
 					Accept: "application/json",
