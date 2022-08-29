@@ -29,14 +29,20 @@ export default defineComponent({
 			articles: [] as Article[],
 		};
 	},
-	async mounted() {
-		this.themes = await categoriesStore.getAll();
-		this.articles = await articlesStore.getAllByCategory(this.$route.params.subject as string);
+	async beforeMount() {
+		const p1 = categoriesStore.getAll();
+		const p2 = articlesStore.getAllByCategory(this.$route.params.subject as string);
+		const [categories, articles] = await Promise.all([p1, p2]);
+		this.themes = categories;
+		this.articles = articles;
 	},
 	watch: {
 		async $route() {
-			this.themes = await categoriesStore.getAll();
-			this.articles = await articlesStore.getAllByCategory(this.$route.params.subject as string);
+			const p1 = categoriesStore.getAll();
+			const p2 = articlesStore.getAllByCategory(this.$route.params.subject as string);
+			const [categories, articles] = await Promise.all([p1, p2]);
+			this.themes = categories;
+			this.articles = articles;
 		}
 	},
 });
