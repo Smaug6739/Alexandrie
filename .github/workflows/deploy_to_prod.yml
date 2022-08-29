@@ -22,4 +22,4 @@ jobs:
           npm install -D
           npm run build 
           cd /home/smaug/sites/docs-website/
-          VITE_BASE_API="https://apidocs.docs.smaug-6739.dev" FRONT_DOMAIN="https://docs.smaug-6739.dev" DATABASE_PASSWORD=$DB_PASSWORD DATABASE_USER=$DB_USER JWT_SECRET=$JWT NODE_ENV=production pm2 reload ecosystem.config.js --update-env
+          VITE_BASE_API="https://apidocs.smaug-6739.dev" FRONT_DOMAIN="https://docs.smaug-6739.dev" DATABASE_PASSWORD=$DB_PASSWORD DATABASE_USER=$DB_USER JWT_SECRET=$JWT NODE_ENV=production pm2 reload ecosystem.config.js --update-env
