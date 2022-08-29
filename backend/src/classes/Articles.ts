@@ -1,20 +1,8 @@
-const marked = require('marked');
 import { Snowflake } from '../utils/Snowflake';
 import db from '../models/db';
 import type { RowDataPacket } from 'mysql2';
 
 const idgen = new Snowflake(1661327668261);
-
-marked.setOptions({
-  renderer: new marked.Renderer(),
-  pedantic: false,
-  gfm: true,
-  breaks: false,
-  sanitize: false,
-  smartLists: true,
-  smartypants: false,
-  xhtml: false,
-});
 
 interface Article extends RowDataPacket {
   id: string;

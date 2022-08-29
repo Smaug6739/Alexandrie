@@ -6,6 +6,4 @@ export const config: Iconfig = {
     host: 'localhost',
     database: '<db_name>',
   },
-  domain: 'localhost',
-  ALLOWED_DOMAINS: ['http://localhost:3000'],
 };

@@ -12,7 +12,7 @@ module.exports = {
     {
       name: 'docs-wbs-frontend',
       cwd: './frontend',
-      script: 'serve -s dist',
+      script: 'serve -s dist -l 3110',
     },
   ],
 };

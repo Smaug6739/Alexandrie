@@ -20,21 +20,21 @@ export function auth(req: IObject, res: IObject): void {
       res.cookie('user_token', `${token}`, {
         maxAge: 3600000,
         httpOnly: true,
-        domain: config.domain,
+        domain: process.env.FRONT_DOMAIN,
         secure: process.env.NODE_ENV == 'production' ? true : false,
         sameSite: 'Lax',
       }); //process.env.NODE_ENV == 'production' ? 'None' : 'Lax'
       res.cookie('user_id', `${result.id}`, {
         maxAge: 3600000,
         httpOnly: true,
-        domain: config.domain,
+        domain: process.env.FRONT_DOMAIN,
         secure: process.env.NODE_ENV == 'production' ? true : false,
         sameSite: 'Lax',
       }); //process.env.NODE_ENV == 'production' ? 'None' : 'Lax'
       res.cookie('user_auth', `true`, {
         maxAge: 3600000,
         httpOnly: false,
-        domain: config.domain,
+        domain: process.env.FRONT_DOMAIN,
         secure: process.env.NODE_ENV == 'production' ? true : false,
         sameSite: 'Lax',
       }); //process.env.NODE_ENV == 'production' ? 'None' : 'Lax'

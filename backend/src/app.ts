@@ -33,10 +33,10 @@ export class App {
   private handleMiddlewares(): void {
     this.app.use(express.urlencoded({ extended: true, limit: '5mb' }));
     this.app.use(express.json({ limit: '5mb' }));
-    const ALLOWED_DOMAINS = this.config.ALLOWED_DOMAINS;
+    const DOMAIN = process.env.FRONT_DOMAIN;
     this.app.use(function (req: IObject, res: IObject, next: Function) {
       const origin = req.headers.origin;
-      if (ALLOWED_DOMAINS.includes(origin)) {
+      if (DOMAIN === origin) {
         res.setHeader('Access-Control-Allow-Origin', origin);
       }
       res.setHeader(

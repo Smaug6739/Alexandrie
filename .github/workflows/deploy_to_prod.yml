@@ -12,9 +12,9 @@ jobs:
           git pull origin main
           cd /home/smaug/sites/docs-website/backend
           npm install -D
-          npm build
+          npm run build
           cd /home/smaug/sites/docs-website/frontend
           npm install -D
-          npm build
+          npm run build 
           cd /home/smaug/sites/docs-website/
-          pm2 reload ecosystem.config.js
+          BASE_API="https://api.docs.smaug-6739.dev" FRONT_DOMAIN="https://docs.smaug-6739.dev" JWT_SECRET=${{secrets.JWT_SECRET}} DATABASE_USER=${{secrets.DATABASE_USER}} DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}}  NODE_ENV=production pm2 reload ecosystem.config.js --update-env

@@ -7,8 +7,6 @@ export interface Iconfig {
     readonly host: string;
     readonly database: string;
   };
-  readonly ALLOWED_DOMAINS: Array<string>;
-  readonly domain: string;
 }
 //Router
 export interface Iroute {
