@@ -3,7 +3,7 @@ module.exports = {
   apps: [
     {
       name: 'docs-wbs-backend',
-      cwd: '/backend/dist',
+      cwd: './backend/dist',
       script: 'node main.js',
       env: {
         NODE_ENV: 'production',
@@ -11,7 +11,7 @@ module.exports = {
     },
     {
       name: 'docs-wbs-frontend',
-      cwd: '/frontend',
+      cwd: './frontend',
       script: 'serve -s dist -l 3110',
     },
   ],
