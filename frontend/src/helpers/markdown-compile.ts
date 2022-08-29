@@ -87,8 +87,6 @@ export default function compile(str: string, plugins: boolean): string {
     // KATEX (math)
     const results = matchText(render);
     render = replaceText(render, results);
-    console.log(render);
-
     render = md.render(render, {
       html: true,
     });
