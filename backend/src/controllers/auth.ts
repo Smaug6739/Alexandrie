@@ -17,27 +17,25 @@ export function auth(req: IObject, res: IObject): void {
         },
         process.env.JWT_SECRET || '',
       );
-      console.log(process.env.FRONT_DOMAIN);
-
       res.cookie('user_token', `${token}`, {
         maxAge: 3600000,
         httpOnly: true,
         domain: process.env.FRONT_DOMAIN,
-        secure: false, //process.env.NODE_ENV == 'production' ? true : false,
+        secure: process.env.NODE_ENV == 'production' ? true : false,
         sameSite: 'Lax',
       }); //process.env.NODE_ENV == 'production' ? 'None' : 'Lax'
       res.cookie('user_id', `${result.id}`, {
         maxAge: 3600000,
         httpOnly: true,
         domain: process.env.FRONT_DOMAIN,
-        secure: false, //process.env.NODE_ENV == 'production' ? true : false,
+        secure: process.env.NODE_ENV == 'production' ? true : false,
         sameSite: 'Lax',
       }); //process.env.NODE_ENV == 'production' ? 'None' : 'Lax'
       res.cookie('user_auth', `true`, {
         maxAge: 3600000,
         httpOnly: false,
         domain: process.env.FRONT_DOMAIN,
-        secure: false, //process.env.NODE_ENV == 'production' ? true : false,
+        secure: process.env.NODE_ENV == 'production' ? true : false,
         sameSite: 'Lax',
       }); //process.env.NODE_ENV == 'production' ? 'None' : 'Lax'
       res.status(200).json(
