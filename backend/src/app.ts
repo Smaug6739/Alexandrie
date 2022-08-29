@@ -8,8 +8,6 @@ config();
 //import * as express from 'express';
 const express = require('express');
 
-console.log(process.env);
-
 import { checkAndChange, error } from './utils/functions';
 import { Iconfig, IObject } from './types';
 export class App {
@@ -38,9 +36,6 @@ export class App {
     const DOMAIN = process.env.CLIENT;
     this.app.use(function (req: IObject, res: IObject, next: Function) {
       const origin = req.headers.origin;
-      console.log(`Origin : ${origin}`);
-      console.log(`Domain : ${DOMAIN}`);
-
       if (DOMAIN === origin) {
         res.setHeader('Access-Control-Allow-Origin', origin);
       }

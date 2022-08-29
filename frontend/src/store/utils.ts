@@ -4,8 +4,6 @@ interface Result {
 }
 const baseUrl = import.meta.env.VITE_BASE_API;
 export async function makeRequest(route: string, method: string, body: Object): Promise<Result> {
-  console.log(`Making request to ${baseUrl}/api/v1/${route}`);
-
   try {
     const responce = await fetch(baseUrl + '/api/v1/' + route, {
       method: method,
@@ -15,8 +13,6 @@ export async function makeRequest(route: string, method: string, body: Object): 
       },
       credentials: 'include',
     });
-    console.log(responce);
-
     if (responce.status >= 200 && responce.status < 300) {
       const decoded = await responce.json();
       return {
@@ -28,7 +24,6 @@ export async function makeRequest(route: string, method: string, body: Object): 
     }
   } catch (e) {
     console.log(e);
-
     return { status: 'error' };
   }
 }
