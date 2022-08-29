@@ -8,6 +8,8 @@ config();
 //import * as express from 'express';
 const express = require('express');
 
+console.log(process.env);
+
 import { checkAndChange, error } from './utils/functions';
 import { Iconfig, IObject } from './types';
 export class App {
