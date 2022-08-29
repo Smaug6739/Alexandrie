@@ -17,4 +17,4 @@ jobs:
           npm install -D
           npm run build 
           cd /home/smaug/sites/docs-website/
-          NODE_ENV=production
+          DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}} NODE_ENV=production
