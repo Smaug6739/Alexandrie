@@ -43,7 +43,7 @@ export default defineComponent({
 		};
 	},
 
-	async mounted() {
+	async beforeMount() {
 		this.next = this.getNext()
 		this.previous = this.getPrevious()
 	},
@@ -54,7 +54,6 @@ export default defineComponent({
 		},
 	},
 	methods: {
-
 		getNext() {
 			const articles_of_category = articlesStore.articles.filter(
 				(a: Article) => a.main_category == this.article?.main_category && a.sub_category == this.article?.sub_category,

@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createSSRApp } from 'vue';
 import router from './router/index';
 
 import './styles/main.scss';
@@ -8,7 +8,7 @@ import { createPinia } from 'pinia';
 
 const store = createPinia();
 
-const app = createApp(App);
+const app = createSSRApp(App);
 /*
 import Alert from './components/common/Alert.vue';
 import Collapse from './components/common/Collapse.vue';

@@ -10,7 +10,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { Article, Theme, useArticlesStore, useCategoriesStore } from "../../store";
-import Loader from "../../components/common/Loader.vue"
 import BackToTop from "../../components/common/back-to-top/index"
 import Sidebar from "../../components/layout/sidebar/Sidebar.vue";
 const articlesStore = useArticlesStore();
@@ -20,7 +19,6 @@ export default defineComponent({
 	name: "Data",
 	components: {
 		Sidebar,
-		Loader,
 		BackToTop,
 	},
 	data() {
