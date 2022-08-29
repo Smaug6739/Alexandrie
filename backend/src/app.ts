@@ -35,7 +35,7 @@ export class App {
   private handleMiddlewares(): void {
     this.app.use(express.urlencoded({ extended: true, limit: '5mb' }));
     this.app.use(express.json({ limit: '5mb' }));
-    const DOMAIN = process.env.CLIENT_ORIGIN;
+    const DOMAIN = process.env.CLIENT;
     this.app.use(function (req: IObject, res: IObject, next: Function) {
       const origin = req.headers.origin;
       console.log(`Origin : ${origin}`);
