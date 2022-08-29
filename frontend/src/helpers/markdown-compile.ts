@@ -82,14 +82,22 @@ md.use(container, 'warning', {
   },
 });
 export default function compile(str: string, plugins: boolean): string {
-  let render = md.render(str, {
-    html: true,
-  });
+  let render = str;
   if (plugins) {
     // KATEX (math)
     const results = matchText(render);
     render = replaceText(render, results);
+    console.log(render);
+
+    render = md.render(render, {
+      html: true,
+    });
+  } else {
+    render = md.render(str, {
+      html: true,
+    });
   }
+
   return render;
 }
 // A function for matching $<sequence>$ without regex.
@@ -127,8 +135,10 @@ function replaceText(text: string, results: Result[]): string {
       throwOnError: false,
       displayMode: true,
       trust: true,
-      leqno: true,
     });
+    console.log(expressionWithoutDollar);
+    console.log(render);
+
     text = text.replace(expression, `<span class="katex-container"><i>${render}</i></span>`);
   }
   return text;
