@@ -15,6 +15,10 @@ export default defineComponent({
   components: {
     Navbar,
   },
+  mounted() {
+    console.log("App mounted");
+
+  }
 });
 </script>
 

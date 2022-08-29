@@ -4,6 +4,8 @@ interface Result {
 }
 const baseUrl = import.meta.env.VITE_BASE_API;
 export async function makeRequest(route: string, method: string, body: Object): Promise<Result> {
+  console.log(`Making request to ${baseUrl}/api/v1/${route}`);
+
   try {
     const responce = await fetch(baseUrl + '/api/v1/' + route, {
       method: method,
