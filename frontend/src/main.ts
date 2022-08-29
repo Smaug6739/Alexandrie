@@ -31,6 +31,8 @@ declare module '@vue/runtime-core' {
     $baseUrl: string;
   }
 }
+console.log(import.meta.env);
+
 app.config.globalProperties.$baseUrl = import.meta.env.VITE_BASE_API;
 
 app.mount('#app');
