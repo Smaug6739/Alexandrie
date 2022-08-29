@@ -17,4 +17,4 @@ jobs:
           npm install -D
           npm run build 
           cd /home/smaug/sites/docs-website/
-          JWT_SECRET=${{secrets.JWT_SECRET}} DATABASE_USER=${{secrets.DATABASE_USER}} DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}} NODE_ENV=production
+          NODE_ENV=production
