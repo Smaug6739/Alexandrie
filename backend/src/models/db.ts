@@ -21,6 +21,7 @@ const pool = createPool({
   console.log("Connection %d acquired", connection.threadId);
 });*/
 pool.on('connection', function (conn) {
+  console.log('Connection %d acquired', conn.threadId);
   conn.on('error', (err: any) => {
     console.log(err);
   });
