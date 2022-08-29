@@ -7,6 +7,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Deploy to production
+        env:
+          DB_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         run: |
 
           cd /home/smaug/sites/docs-website/
@@ -18,4 +20,4 @@ jobs:
           npm install -D
           npm run build 
           cd /home/smaug/sites/docs-website/
-          DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} NODE_ENV=production
+          DATABASE_PASSWORD=$DB_PASSWORD NODE_ENV=production
