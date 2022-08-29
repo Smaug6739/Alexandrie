@@ -1,20 +1,18 @@
 <template>
 	<div>
-		<Sidebar />
-		<BackToTop />
 		<main class="view view-medium">
-			<div v-if="article.name">
+			<div v-if="article.id">
 				<div v-html="article.content_html"></div>
-				<p class="sep">Dernière mise à jour le {{ formatDate(article.updated_timestamp) }}</p>
+				<p class="sep">Dernière mise à jour le {{  formatDate(article.updated_timestamp)  }}</p>
 				<hr>
 				<div class="sep2">
 					<span v-if="next" class="next">
-						<router-link :to="`/doc/${next.main_category}/${next.sub_category}/${next.path}`">{{ next.name }}
+						<router-link :to="`/doc/${next.main_category}/${next.sub_category}/${next.path}`">{{  next.name  }}
 						</router-link> →
 					</span>
 					<span v-if="previous" class="previous">
 						← <router-link :to="`/doc/${previous.main_category}/${previous.sub_category}/${previous.path}`">
-							{{ previous.name }}
+							{{  previous.name  }}
 						</router-link>
 					</span>
 				</div>
@@ -29,16 +27,12 @@
 import { defineComponent } from "vue";
 import { Article, useArticlesStore } from "../../store";
 import Loader from "../../components/common/Loader.vue"
-import BackToTop from "../../components/common/back-to-top/index"
-import Sidebar from "../../components/layout/sidebar/Sidebar.vue";
 const articlesStore = useArticlesStore();
 
 export default defineComponent({
 	name: "Data",
 	components: {
-		Sidebar,
 		Loader,
-		BackToTop,
 	},
 	data() {
 		return {

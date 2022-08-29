@@ -1,7 +1,5 @@
 import { defineComponent } from 'vue';
-import { useCategoriesStore, useArticlesStore, Theme, Article } from '../../../store';
-const CategoriesStore = useCategoriesStore();
-const articlesStore = useArticlesStore();
+import type { Theme, Article } from '../../../store';
 export default defineComponent({
   name: 'SidebarMenu',
   props: {
@@ -35,6 +33,14 @@ export default defineComponent({
       default: '78px',
     },
 
+    articles: {
+      type: Array<Article>,
+      required: true,
+    },
+    themes: {
+      type: Array<Theme>,
+      required: true,
+    },
     //! Search
     isSearch: {
       type: Boolean,
@@ -53,16 +59,9 @@ export default defineComponent({
     return {
       isOpened: false,
       searchInput: '',
-      categories: [] as Theme[],
-      articles: [] as Article[],
     };
   },
-  async beforeMount() {
-    const subject = this.$route.params.subject as string;
-    this.categories = await CategoriesStore.getAll();
-    const category = this.categories.find(c => c.path == subject);
-    if (category) this.articles = await articlesStore.getAllByCategory(category.path);
-  },
+
   mounted() {
     this.isOpened = window.innerWidth > 768;
     window.document.body.style.paddingLeft = '78px';
@@ -74,7 +73,7 @@ export default defineComponent({
     menuItems(): MenuItem[] {
       const items: MenuItem[] = [];
       const subject = this.$route.params.subject as string;
-      const theme = this.categories.find(c => c.path == subject);
+      const theme = this.themes.find(c => c.path == subject);
 
       if (!theme) return items;
 

@@ -7,14 +7,25 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../views/Home.vue'),
   },
   {
-    path: '/doc/:subject',
-    name: 'Home documentation',
-    component: () => import('../views/docs/Subject.vue'),
-  },
-  {
-    path: '/doc/:subject/:category/:doc_name',
-    name: 'Category (main)',
-    component: () => import('../views/docs/PageContent.vue'),
+    path: '/doc',
+    name: 'Documentation',
+    component: () => import('../views/docs/Index.vue'),
+    children: [
+      {
+        path: ':subject',
+        name: 'Home documentation',
+        components: {
+          doc: () => import('../views/docs/Subject.vue'),
+        },
+      },
+      {
+        path: ':subject/:category/:doc_name',
+        name: 'Page content',
+        components: {
+          doc: () => import('../views/docs/PageContent.vue'),
+        },
+      },
+    ],
   },
   {
     path: '/login',

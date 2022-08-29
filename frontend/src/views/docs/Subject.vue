@@ -1,20 +1,19 @@
 <!--404 error page (not found )-->
 <template>
 	<div>
-		<Sidebar />
 		<div class="view-medium">
 			<div>
 				<h1>
 					Scientia</h1>
-				<h2>{{ category?.name }}</h2>
+				<h2>{{  category?.name  }}</h2>
 				<div>
-					Bienvenue dans la catégorie {{ category?.name }} vous retrouvtrez ici plusieurs documents classéss dans les
-					catégories suivantes : {{ category?.categories?.map(c => c.name).join(", ") }}, vous pouvez
+					Bienvenue dans la catégorie {{  category?.name  }} vous retrouvtrez ici plusieurs documents classéss dans les
+					catégories suivantes : {{  category?.categories?.map(c => c.name).join(", ")  }}, vous pouvez
 					naviguer et les retrouver en utilisant la sidebar sur le coté gauche.
 				</div>
 				<h2>Informations</h2>
 				<p>
-					{{ category?.description }}
+					{{  category?.description  }}
 				</p>
 			</div>
 		</div>
@@ -33,14 +32,10 @@ h2 {
 <script lang="ts">
 import { defineComponent } from "vue";
 import { Theme, useCategoriesStore } from "../../store";
-import Sidebar from "../../components/layout/sidebar/Sidebar.vue";
 const categoriesStore = useCategoriesStore();
 
 export default defineComponent({
 	name: "Data",
-	components: {
-		Sidebar,
-	},
 	data() {
 		return {
 			category: {} as Theme | undefined,
