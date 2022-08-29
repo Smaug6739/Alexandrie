@@ -13,6 +13,10 @@ module.exports = {
       name: 'docs-wbs-frontend',
       cwd: './frontend',
       script: 'serve -s dist -l 3100',
+      env: {
+        NODE_ENV: 'production',
+        VITE_BASE_API: 'https://apidocs.smaug-6739.dev',
+      },
     },
   ],
 };
