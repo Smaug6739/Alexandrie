@@ -9,7 +9,7 @@ import { createPinia } from 'pinia';
 const store = createPinia();
 
 const app = createApp(App);
-
+/*
 import Alert from './components/common/Alert.vue';
 import Collapse from './components/common/Collapse.vue';
 import Info from './components/common/Info.vue';
@@ -21,6 +21,7 @@ app.component('Collapse', Collapse);
 app.component('Info', Info);
 app.component('Table', Table);
 app.component('Warning', Warning);
+*/
 
 app.use(router);
 app.use(store);
@@ -30,6 +31,8 @@ declare module '@vue/runtime-core' {
     $baseUrl: string;
   }
 }
+console.log(import.meta.env);
+
 app.config.globalProperties.$baseUrl = import.meta.env.VITE_BASE_API;
 
 app.mount('#app');
