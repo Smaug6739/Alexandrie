@@ -2,27 +2,16 @@ import Article from '../classes/Articles';
 import { IObject } from '../types';
 import { error, success } from '../utils/functions';
 import { Readable } from 'stream';
-import { Response } from 'express';
 const Articles = new Article();
 
-export function getAllArticles(req: IObject, res: Response): void {
+export function getAllArticles(req: IObject, res: IObject): void {
   if (req.query.category) {
     Articles.getAllByCategory(req.query.category)
-      .then((result: any) => {
-        const stream = new Readable();
-        stream.push(JSON.stringify(success(result)));
-        stream.push(null);
-        stream.pipe(res);
-      })
+      .then((result: any) => res.status(200).json(success(result)))
       .catch((err: Error) => res.status(500).json(error(err.message)));
   } else {
     Articles.getAll()
-      .then((result: any) => {
-        const stream = new Readable();
-        stream.push(JSON.stringify(success(result)));
-        stream.push(null);
-        stream.pipe(res);
-      })
+      .then((result: any) => res.status(200).json(success(result)))
       .catch((err: Error) => res.status(500).json(error(err.message)));
   }
 }
