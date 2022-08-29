@@ -8,6 +8,7 @@ jobs:
     steps:
       - name: Deploy to production
         run: |
+
           cd /home/smaug/sites/docs-website/
           git pull origin main
           cd /home/smaug/sites/docs-website/backend
@@ -17,4 +18,4 @@ jobs:
           npm install -D
           npm run build 
           cd /home/smaug/sites/docs-website/
-          DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD}} NODE_ENV=production
+          DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} NODE_ENV=production
