@@ -26,6 +26,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import type { Article } from "../../store";
+import { useArticlesStore } from '../../store';
+const articlesStore = useArticlesStore();
 import Loader from "../../components/common/Loader.vue"
 
 export default defineComponent({
@@ -33,12 +35,7 @@ export default defineComponent({
 	components: {
 		Loader,
 	},
-	props: {
-		articles: {
-			type: Array as () => Article[],
-			required: true,
-		},
-	},
+
 	data() {
 		return {
 			next: {} as Article | undefined,
@@ -52,22 +49,22 @@ export default defineComponent({
 	},
 	computed: {
 		article(): Article | undefined {
-			const art = this.articles.find((article: Article) => this.$route.params.doc_name as string == article.path && article.sub_category == this.$route.params.category as string && article.main_category == this.$route.params.subject as string);
+			const art = articlesStore.articles.find((article: Article) => this.$route.params.doc_name as string == article.path && article.sub_category == this.$route.params.category as string && article.main_category == this.$route.params.subject as string);
 			return art || undefined;
 		},
 	},
 	methods: {
 
 		getNext() {
-			const articles_of_category = this.articles.filter(
-				(a: Article) => a.main_category == this.article?.main_category && a.sub_category == this.article.sub_category,
+			const articles_of_category = articlesStore.articles.filter(
+				(a: Article) => a.main_category == this.article?.main_category && a.sub_category == this.article?.sub_category,
 			);
 			const index = articles_of_category.findIndex((a: Article) => a.id == this.article?.id);
 			if (index == -1) return undefined;
 			return articles_of_category[index + 1];
 		},
 		getPrevious() {
-			const articles_of_category = this.articles.filter(
+			const articles_of_category = articlesStore.articles.filter(
 				(a: Article) => a.main_category == this.article?.main_category && a.sub_category == this.article.sub_category,
 			);
 			const index = articles_of_category.findIndex((a: Article) => a.id == this.article?.id);

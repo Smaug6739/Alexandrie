@@ -4,7 +4,7 @@
 			<Sidebar :articles="articles" :themes="themes" />
 		</span>
 		<BackToTop />
-		<router-view name="doc" :articles="articles" />
+		<router-view name="doc" />
 	</div>
 </template>
 <script lang="ts">
