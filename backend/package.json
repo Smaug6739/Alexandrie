@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Smaug6739/docs#readme",
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/compression": "^1.7.2",
     "@types/express": "^4.17.11",
     "@types/jsonwebtoken": "^8.5.1",
     "@types/node": "^14.14.34",
@@ -30,6 +31,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "compression": "^1.7.4",
     "dotenv": "^8.6.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",

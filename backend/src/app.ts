@@ -1,6 +1,7 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import { config } from 'dotenv';
+import compression from 'compression';
 import type { Response } from 'express';
 
 config();
@@ -33,6 +34,7 @@ export class App {
   private handleMiddlewares(): void {
     this.app.use(express.urlencoded({ extended: true, limit: '5mb' }));
     this.app.use(express.json({ limit: '5mb' }));
+    this.app.use(compression());
     const DOMAIN = process.env.CLIENT;
     this.app.use(function (req: IObject, res: IObject, next: Function) {
       const origin = req.headers.origin;
