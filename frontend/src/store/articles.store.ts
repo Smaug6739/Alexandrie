@@ -24,11 +24,12 @@ export const useArticlesStore = defineStore('articles', {
       return this.articles.find((a: Article) => a.id == id);
     },
     async getByPaths(subject: string, category: string, article: string): Promise<Article | undefined> {
-      if (!this.articles.length) await this.getAllByCategory(subject);
+      if (!this.articles.length || !this.articles.find(a => a.main_category == category)) await this.getAllByCategory(subject);
       return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
     },
     async getNextArticle(article: Article) {
-      if (!this.articles.length) await this.getAllByCategory(article.main_category);
+      if (!this.articles.length || !this.articles.find(a => a.main_category == article.main_category))
+        await this.getAllByCategory(article.main_category);
       const articles_of_category = this.articles.filter(
         (a: Article) => a.main_category == article.main_category && a.sub_category == article.sub_category,
       );
@@ -37,7 +38,8 @@ export const useArticlesStore = defineStore('articles', {
       return articles_of_category[index + 1];
     },
     async getPreviousArticle(article: Article) {
-      if (!this.articles.length) await this.getAllByCategory(article.main_category);
+      if (!this.articles.length || !this.articles.find(a => a.main_category == article.main_category))
+        await this.getAllByCategory(article.main_category);
       const articles_of_category = this.articles.filter(
         (a: Article) => a.main_category == article.main_category && a.sub_category == article.sub_category,
       );
