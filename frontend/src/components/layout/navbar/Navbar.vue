@@ -6,11 +6,11 @@
       </p>
 
       <ul>
-        <li class="destination">
+        <li>
           <a href="/" class="nav-links a-classic">Home</a>
         </li>
-        <li v-for="(category, index) of categories" :key="index">
-          <router-link class="a-classic" :to="'/doc/' + category.path">{{ category.name }}</router-link>
+        <li v-for="(category, index) of categories" :key="index" class="destination">
+          <router-link class="a-classic" :to="'/doc/' + category.path">{{  category.name  }}</router-link>
         </li>
         <li class="icon">
           <i @click="toggleTheme" class='bx bx-moon' ref="themeIcon"></i>
