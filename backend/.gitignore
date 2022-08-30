@@ -3,10 +3,11 @@ node_modules
 
 #Public dir
 public/uploads/images/*
+public/uploads/webp/*
 public/uploads/other*
 
 !public/uploads/images/default
-!public/uploads/images/webp/default
+!public/uploads/webp/default
 !public/uploads/other/default
 
 #ENV

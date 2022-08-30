@@ -10,13 +10,11 @@ export function uploadImage(req: IObject, res: IObject): void {
 
   if (existsSync(path)) {
     sharp(path)
-      .toFile(join(__dirname, `../../public/uploads/images/webp/${file}.webp`))
+      .toFile(join(__dirname, `../../public/uploads/webp/${file}.webp`))
       .then(() => {
-        res.status(200).json(success(`/uploads/images/webp/${file}.webp`));
+        res.status(200).json(success(`/uploads/webp/${file}.webp`));
       })
       .catch(err => {
-        console.log(err);
-
         res.status(500).json({
           success: false,
           message: 'Error uploading image',
