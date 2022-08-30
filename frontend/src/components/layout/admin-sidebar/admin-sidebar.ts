@@ -110,7 +110,7 @@ export default defineComponent({
         method: 'GET',
         credentials: 'include',
       }).then(() => {
-        this.$router.push('/login');
+        this.$router.push('/');
       });
     },
   },
