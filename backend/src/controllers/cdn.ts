@@ -15,7 +15,8 @@ export function uploadImage(req: IObject, res: IObject): void {
         res.status(200).json(success(`/uploads/images/webp/${file}.webp`));
       })
       .catch(err => {
-        error(err);
+        console.log(err);
+
         res.status(500).json({
           success: false,
           message: 'Error uploading image',
