@@ -49,8 +49,8 @@ export function auth(req: IObject, res: IObject): void {
     .catch(error => res.json(checkAndChange(error)));
 }
 export function disconnection(req: IObject, res: IObject): void {
-  res.clearCookie('user_auth');
-  res.clearCookie('user_id');
-  res.clearCookie('user_token');
+  res.clearCookie('user_auth', { domain: process.env.FRONT_DOMAIN });
+  res.clearCookie('user_id', { domain: process.env.FRONT_DOMAIN });
+  res.clearCookie('user_token', { domain: process.env.FRONT_DOMAIN });
   res.status(200).json(checkAndChange('success'));
 }
