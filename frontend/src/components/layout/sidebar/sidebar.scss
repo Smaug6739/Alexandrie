@@ -247,7 +247,7 @@
 
 #my-scroll {
   overflow-y: auto;
-  height: calc(100% - 60px);
+  height: 100%; //calc(100% - 60px);
 }
 
 #my-scroll::-webkit-scrollbar {
