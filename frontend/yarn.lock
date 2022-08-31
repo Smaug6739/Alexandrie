@@ -2692,10 +2692,10 @@
   optionalDependencies:
     "graceful-fs" "^4.1.6"
 
-"katex@^0.16.0":
-  "integrity" "sha512-wPRB4iUPysfH97wTgG5/tRLYxmKVq6Q4jRAWRVOUxXB1dsiv4cvcNjqabHkrOvJHM1Bpk3WrgmllSO1vIvP24w=="
-  "resolved" "https://registry.npmjs.org/katex/-/katex-0.16.0.tgz"
-  "version" "0.16.0"
+"katex@^0.16.2":
+  "integrity" "sha512-70DJdQAyh9EMsthw3AaQlDyFf54X7nWEUIa5W+rq8XOpEk//w5Th7/8SqFqpvi/KZ2t6MHUj4f9wLmztBmAYQA=="
+  "resolved" "https://registry.npmjs.org/katex/-/katex-0.16.2.tgz"
+  "version" "0.16.2"
   dependencies:
     "commander" "^8.0.0"
 
