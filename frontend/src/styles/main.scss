@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-@import url("../assets/boxicons/css/boxicons@2.2.1.min.css");
+@import url("/boxicons/css/boxicons@2.2.1.min.css");
 
 @import "./general.scss";
 @import "./view.scss";
@@ -9,7 +9,7 @@
 @import "./katex.scss";
 
 :root {
-  font-family: $font-family, sans-serif;
+  font-family: $font-family;
   font-size: var(--font-size);
   line-height: var(--line-height);
   font-weight: 400;
@@ -28,7 +28,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: $font-family, sans-serif;
+  font-family: $font-family;
 }
 
 
