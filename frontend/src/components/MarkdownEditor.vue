@@ -54,8 +54,8 @@ aside {
 	background-clip: padding-box;
 	border: 1px solid #ced4da;
 	border-radius: 0.25rem;
-	height: 600px;
-	max-height: 600px;
+	height: 800px;
+	max-height: 800px;
 	overflow-x: auto;
 	overflow-y: auto;
 }
