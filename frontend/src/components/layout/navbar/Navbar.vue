@@ -21,7 +21,7 @@
           </div>
         </li>
         <li>
-          <a class="a-classic" href="https://github.com/Smaug6739/docs">Github</a>
+          <a class="a-classic" href="https://github.com/Smaug6739/docs">Code</a>
         </li>
         <li class="icon">
           <i @click="toggleTheme" class='bx bx-moon' ref="themeIcon"></i>
