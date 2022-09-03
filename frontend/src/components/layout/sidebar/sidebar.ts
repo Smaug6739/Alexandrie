@@ -90,9 +90,7 @@ export default defineComponent({
       }
       return items;
     },
-    themes() {
-      return categoriesStore.categories;
-    },
+
     close(): undefined {
       if (window.screen.width < 768) {
         this.isOpened = !this.isOpened;
