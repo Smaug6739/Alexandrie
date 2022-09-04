@@ -37,6 +37,7 @@ export const useArticlesStore = defineStore('articles', {
     },
     async getAllByCategory(category_path: string): Promise<Article[]> {
       const results = this.articles.filter(article => article.main_category == category_path);
+
       if (results.length > 0) return results;
       const request = await makeRequest(`articles?category=${category_path}`, 'GET', {});
       if (request.status == 'success') {

@@ -2,6 +2,8 @@ import { defineComponent } from 'vue';
 import { useArticlesStore, useCategoriesStore } from '../../../store';
 const articlesStore = useArticlesStore();
 const categoriesStore = useCategoriesStore();
+categoriesStore.getAll();
+articlesStore.getAll();
 export default defineComponent({
   name: 'SidebarMenu',
   props: {
@@ -76,7 +78,7 @@ export default defineComponent({
           name: category.name,
           icon: category.icon,
           childrens: articlesStore.articles
-            .filter(a => a.sub_category == category.path)
+            .filter(a => a.main_category == theme.path && a.sub_category == category.path)
             .map(a => ({ name: a.name, link: '/doc/' + theme.path + '/' + category.path + '/' + a.path })),
         });
       }
