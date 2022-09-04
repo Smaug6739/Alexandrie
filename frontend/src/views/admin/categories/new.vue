@@ -14,7 +14,6 @@
 				<label for="icon">Icon:</label>
 				<input type="text" placeholder="Icon" name="icon" v-model="theme.icon" />
 				<button type="button" class="btn btn-pink" @click="postMain">Post</button>
-				butt
 			</fieldset>
 		</form>
 		<h2>Sub categories</h2>
