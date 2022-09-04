@@ -61,13 +61,12 @@ nav {
 }
 
 .main-ul {
+  height: 40px;
   display: flex;
   align-items: center;
 }
 
 ul {
-  height: 40px;
-
   list-style: none;
 
   li {
