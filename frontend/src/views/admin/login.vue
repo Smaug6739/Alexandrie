@@ -32,11 +32,7 @@ export default defineComponent({
 				body: content,
 				credentials: "include",
 			});
-			console.log(responce);
-
 			const result = await responce.json();
-			console.log(result);
-
 			if (result.status == "success" && result.result.auth) {
 				this.$router.push("/admin");
 			}
