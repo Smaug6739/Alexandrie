@@ -60,10 +60,14 @@ nav {
   }
 }
 
-ul {
-  height: 40px;
+.main-ul {
   display: flex;
   align-items: center;
+}
+
+ul {
+  height: 40px;
+
   list-style: none;
 
   li {
