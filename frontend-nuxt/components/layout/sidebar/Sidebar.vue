@@ -29,17 +29,19 @@
 
             <span v-for="(menuItem, index) of menuItems" :key="index">
               <li class="li-style">
-                <span class="a-style"><a href="#" class="a-block-style">
+                <span class="a-style">
+                  <NuxtLink :to="`/docs/${route.params.theme}/${menuItem.path}`" class="a-block-style">
                     <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
                     <span class="links_name">{{ menuItem.name }}</span>
-                  </a></span>
+                  </NuxtLink>
+                </span>
                 <span class="tooltip">{{ menuItem.name }}</span>
                 <ul v-if="isOpened">
                   <span v-for="(children, index) of menuItem.childrens" :key="index">
                     <li class="children" @click="close">
-                      <router-link :to="children.link" class="sub_link a-classic">{{
-                      children.name
-                      }}</router-link>
+                      <NuxtLink :to="children.link" class="sub_link a-classic">
+                        {{children.name}}
+                      </NuxtLink>
                     </li>
                   </span>
                 </ul>
@@ -135,6 +137,7 @@ const menuItems = computed((): MenuItem[] => {
   for (const category of theme.categories) {
     items.push({
       name: category.name,
+      path: category.path,
       icon: category.icon,
       childrens: articlesStore.articles
         .filter(a => a.main_category == theme.path && a.sub_category == category.path)
@@ -160,6 +163,7 @@ function close() {
 
 interface MenuItem {
   name: string;
+  path: string;
   icon: string;
   childrens: Children[];
 }
