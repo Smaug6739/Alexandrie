@@ -116,12 +116,16 @@ const isOpened = ref(false);
 const searchInput = ref('');
 
 onBeforeMount(() => {
+  console.log("Mount sidebar");
+
   process.client ? window.document.body.style.paddingLeft = '78px' : '';
 });
 onMounted(() => {
   if (process.client) window.innerWidth > 768 ? isOpened.value = true : isOpened.value = false;
 });
 onBeforeUnmount(() => {
+  console.log("Unmount sidebar");
+
   process.client ? window.document.body.style.paddingLeft = '0' : '';
 });
 

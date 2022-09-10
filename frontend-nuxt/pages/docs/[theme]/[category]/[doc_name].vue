@@ -36,7 +36,7 @@ export default defineComponent({
 
 	data() {
 		return {
-			article: {} as Article | null,
+			article: {} as Article | undefined,
 			next: {} as Article | undefined,
 			previous: {} as Article | undefined,
 		};
