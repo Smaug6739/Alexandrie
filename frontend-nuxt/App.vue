@@ -2,7 +2,7 @@
   <div id="app">
     <div id="app-loader"></div>
     <Navbar />
-    <NuxtPage />
+    <NuxtPage :key="$route.fullPath" />
     <p style="text-align:center;margin-top:3%;margin-top: auto;">MIT Licensed | Copyright © 2021-2022</p>
   </div>
 </template>

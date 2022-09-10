@@ -5,19 +5,32 @@
         Scientia
       </p>
 
-      <ul>
+      <ul class="main-ul">
         <li>
-          <a href="/" class="nav-links a-classic">Home</a>
+          <router-link class="a-classic" to="/">Accueil</router-link>
         </li>
-        <li v-for="(category, index) of categories" :key="index" class="destination">
-          <router-link class="a-classic" :to="'/docs/' + category.path">{{ category.name }}</router-link>
+
+        <li class="dropdown">
+          <a style="cursor:pointer;" class="dropbtn a-classic">Thèmes</a>
+          <div class="dropdown-content">
+            <ul>
+              <li v-for="(category, index) of categories" :key="index" class="destination">
+                <router-link class="a-classic" :to="'/docs/' + category.path">{{ category.name }}</router-link>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a class="a-classic" href="https://github.com/Smaug6739/docs">Code</a>
         </li>
         <li class="icon">
           <i @click="toggleTheme" class='bx bx-moon' ref="themeIcon"></i>
         </li>
       </ul>
     </nav>
+    <hr>
   </header>
+
 </template>
 
 <style lang="scss" scoped>
@@ -31,6 +44,7 @@ a {
 }
 
 nav {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -43,45 +57,77 @@ nav {
     font-size: 20px;
     font-weight: 600;
     text-align: center;
-
-    i {
-      font-size: 28px;
-      line-height: 60px;
-    }
   }
+}
 
+.main-ul {
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 
 ul {
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   list-style: none;
 
-}
-
-li {
-  padding-right: 15px;
-  height: auto
+  li {
+    padding-right: 15px;
+    height: auto
+  }
 }
 
 .icon {
   cursor: pointer;
   opacity: 0.5;
   font-size: 1.5rem;
+
+  &:hover {
+    opacity: 1;
+    color: $pink
+  }
 }
 
-.icon:hover {
-  opacity: 1;
-  color: $pink
-}
+/* Dropdown Button */
 
-@media (max-width: 720px) {
-  .destination {
-    display: none;
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropbtn {
+    padding: 16px;
+    border: none;
   }
 
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--bg-color-1);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+
+    a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+  }
+
+  &:hover .dropdown-content {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .title {
+    display: none !important;
+  }
+
+  nav {
+    justify-content: flex-end;
+  }
 }
 </style>
 <script lang="ts">
