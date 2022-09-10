@@ -90,7 +90,7 @@ defineProps({
   },
   menuOpenedPaddingLeftBody: {
     type: String,
-    default: '280px',
+    default: '300px',
   },
   menuClosedPaddingLeftBody: {
     type: String,

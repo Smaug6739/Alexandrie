@@ -50,7 +50,7 @@ aside {
 	font-weight: 400;
 	line-height: 1.5;
 	color: var(--font-color);
-	background-color: var(--bg-color-1);
+	background-color: var(--bg-color);
 	background-clip: padding-box;
 	border: 1px solid #ced4da;
 	border-radius: 0.25rem;

@@ -5,14 +5,14 @@
   right: 2.5rem;
   width: 2rem;
   height: 1.2rem;
-  background-color: $pink;
+  background-color: $primary-400;
   -webkit-mask: url(./back-to-top.svg) no-repeat;
   mask: url('./back-to-top.svg') no-repeat;
   z-index: var(--back-to-top-z-index);
 }
 
 .back-to-top:hover {
-  background-color: $pink-after;
+  background-color: $primary-500;
 }
 
 @media (max-width: 959px) {

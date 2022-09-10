@@ -28,7 +28,6 @@
         </li>
       </ul>
     </nav>
-    <hr>
   </header>
 
 </template>
@@ -36,7 +35,7 @@
 <style lang="scss" scoped>
 header {
   width: 100%;
-  background: var(--bg-color-1);
+  background: var(--bg-color);
 }
 
 a {
@@ -82,7 +81,7 @@ ul {
 
   &:hover {
     opacity: 1;
-    color: $pink
+    color: $primary-400
   }
 }
 
@@ -102,7 +101,7 @@ ul {
   .dropdown-content {
     display: none;
     position: absolute;
-    background-color: var(--bg-color-1);
+    background-color: var(--bg-color);
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;

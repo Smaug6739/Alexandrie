@@ -16,7 +16,7 @@
   font-weight: 400;
 
   color: var(--font-color);
-  background-color: var(--bg-color-2);
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -39,7 +39,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $grey;
+  background: var(--scrollbar-thumb);
   border-radius: 9px;
 }
 

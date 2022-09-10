@@ -17,7 +17,7 @@
 	min-height: min-content;
 	/* overflow-y: auto; */
 	width: 78px;
-	background: var(--bg-color-1);
+	background: var(--bg-color);
 	/* padding: 6px 14px 0 14px; */
 	z-index: 99;
 	transition: all 0.2s ease;
@@ -152,7 +152,7 @@
 
 .sidebar .bx-search:hover {
 	background: var(--font-color);
-	color: var(--bg-color-1);
+	color: var(--bg-color);
 }
 
 .a-style a {
@@ -163,7 +163,7 @@
 	align-items: center;
 	text-decoration: none;
 	transition: all 0.4s ease;
-	background: var(--bg-color-1);
+	background: var(--bg-color);
 }
 
 .a-style a:hover {
@@ -188,7 +188,7 @@
 .a-style a:hover .links_name,
 .a-style a:hover i {
 	transition: all 0.2s ease;
-	color: var(--bg-color-1);
+	color: var(--bg-color);
 }
 
 .children {
@@ -235,7 +235,7 @@
 
 .home-section .text {
 	display: inline-block;
-	color: var(--bg-color-1);
+	color: var(--bg-color);
 	font-size: 25px;
 	font-weight: 500;
 	margin: 18px;
