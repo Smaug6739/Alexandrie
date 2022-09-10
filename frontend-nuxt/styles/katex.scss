@@ -1,0 +1,26 @@
+@import url("/katex/katex.css");
+
+.katex-display,
+.katex-display>.katex,
+.katex-display>.katex>.katex-html {
+	display: inline !important;
+}
+
+.katex-display {
+	text-align: left !important;
+}
+
+.katex-display>.katex {
+	text-align: left !important;
+}
+
+
+.katex-container {
+	line-height: 1.8em;
+	display: inline-flex;
+	vertical-align: baseline;
+	max-width: 100%;
+	overflow-y: hidden;
+	overflow-x: auto;
+	padding-right: 2px;
+}
