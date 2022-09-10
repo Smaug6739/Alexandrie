@@ -1,3 +1,5 @@
+
+
 <template>
 	<aside>
 		<div class="sidebar" :class="isOpened ? 'open' : ''">
@@ -73,7 +75,7 @@ await articlesStore.getAll();
 
 
 
-defineProps({
+const props = defineProps({
 	//! Menu settings
 
 	menuTitle: {
@@ -159,6 +161,11 @@ onBeforeUnmount(() => {
 	process.client ? window.document.body.style.paddingLeft = '0' : '';
 });
 
+watch(() => isOpened.value, () => {
+	window.document.body.style.transition = 'all 0.3s ease';
+	window.document.body.style.paddingLeft =
+		isOpened.value && props.isPaddingLeft ? props.menuOpenedPaddingLeftBody : props.menuClosedPaddingLeftBody;
+})
 
 
 
