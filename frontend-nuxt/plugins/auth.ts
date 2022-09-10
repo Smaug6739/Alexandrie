@@ -5,10 +5,7 @@ export default defineNuxtPlugin(_ => {
   router.beforeEach((to, _, next) => {
     if (to.fullPath.startsWith('/admin')) {
       if (process.server) {
-        return next({
-          path: '/login',
-          query: { redirect: to.fullPath },
-        });
+        return next({ name: 'login', query: { redirect: to.fullPath } });
       }
       const authenticated = getCookie('user_auth');
       if (!authenticated) {

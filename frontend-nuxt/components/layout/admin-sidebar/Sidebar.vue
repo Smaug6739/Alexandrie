@@ -61,7 +61,7 @@
 
 <script setup lang="ts">
 
-import { ref, onBeforeMount, onBeforeUnmount } from 'vue';
+import { ref, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useArticlesStore, useCategoriesStore } from '../../../store';
 
@@ -151,13 +151,12 @@ const props = defineProps({
 const isOpened = ref(false);
 const searchInput = ref('');
 
-onBeforeMount(() => {
-	process.client ? window.document.body.style.paddingLeft = '78px' : '';
-});
 onMounted(() => {
+	process.client ? window.document.body.style.paddingLeft = '78px' : '';
 	if (process.client) window.innerWidth > 768 ? isOpened.value = true : isOpened.value = false;
 });
 onBeforeUnmount(() => {
+	console.log("Unmount admin sidebar");
 	process.client ? window.document.body.style.paddingLeft = '0' : '';
 });
 
