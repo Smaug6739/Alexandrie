@@ -14,7 +14,7 @@
 						<td v-for="(field, index) in item" :key="index">
 							<span v-if="field.action == 'text'" v-html="field.title"></span>
 							<span v-else-if="field.action == 'link'">
-								<router-link :to="field.title" class="btn" type="button">Edit</router-link>
+								<NuxtLink :to="field.title" class="btn" type="button">Edit</NuxtLink>
 							</span>
 						</td>
 					</tr>

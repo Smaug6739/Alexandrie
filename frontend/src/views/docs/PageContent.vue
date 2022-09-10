@@ -3,17 +3,17 @@
 		<main class="view view-medium">
 			<div v-if="article?.id">
 				<div v-html="article.content_html"></div>
-				<p class="sep">Dernière mise à jour le {{  formatDate(article.updated_timestamp)  }}</p>
+				<p class="sep">Dernière mise à jour le {{ formatDate(article.updated_timestamp) }}</p>
 				<hr>
 				<div class="sep2">
 					<span v-if="next" class="next">
-						<router-link :to="`/doc/${next.main_category}/${next.sub_category}/${next.path}`">{{  next.name  }}
-						</router-link> →
+						<NuxtLink :to="`/doc/${next.main_category}/${next.sub_category}/${next.path}`">{{ next.name }}
+						</NuxtLink> →
 					</span>
 					<span v-if="previous" class="previous">
-						← <router-link :to="`/doc/${previous.main_category}/${previous.sub_category}/${previous.path}`">
-							{{  previous.name  }}
-						</router-link>
+						← <NuxtLink :to="`/doc/${previous.main_category}/${previous.sub_category}/${previous.path}`">
+							{{ previous.name }}
+						</NuxtLink>
 					</span>
 				</div>
 			</div>

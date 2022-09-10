@@ -7,7 +7,7 @@
 
       <ul class="main-ul">
         <li>
-          <router-link class="a-classic" to="/">Accueil</router-link>
+          <NuxtLink class="a-classic" to="/">Accueil</NuxtLink>
         </li>
 
         <li class="dropdown">
@@ -15,7 +15,7 @@
           <div class="dropdown-content">
             <ul>
               <li v-for="(category, index) of categories" :key="index" class="destination">
-                <router-link class="a-classic" :to="'/doc/' + category.path">{{ category.name }}</router-link>
+                <NuxtLink class="a-classic" :to="'/doc/' + category.path">{{ category.name }}</NuxtLink>
               </li>
             </ul>
           </div>

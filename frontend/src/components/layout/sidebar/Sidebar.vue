@@ -37,9 +37,9 @@
                 <ul v-if="isOpened">
                   <span v-for="(children, index) of menuItem.childrens" :key="index">
                     <li class="children" @click="close">
-                      <router-link :to="children.link" class="sub_link a-classic">{{
-                          children.name
-                      }}</router-link>
+                      <NuxtLink :to="children.link" class="sub_link a-classic">{{
+                      children.name
+                      }}</NuxtLink>
                     </li>
                   </span>
                 </ul>
