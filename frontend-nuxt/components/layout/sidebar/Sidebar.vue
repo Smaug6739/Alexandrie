@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 
-import { defineProps, ref, onBeforeMount, onBeforeUnmount, computed } from 'vue';
+import { ref, onBeforeMount, onBeforeUnmount, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useArticlesStore, useCategoriesStore } from '../../../store';
 
