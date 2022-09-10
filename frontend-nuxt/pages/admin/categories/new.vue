@@ -53,6 +53,7 @@ export default defineComponent({
 			categories: [] as Theme[],
 		};
 	},
+
 	methods: {
 		postMain() {
 			const store = useCategoriesStore();

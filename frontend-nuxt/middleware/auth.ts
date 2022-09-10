@@ -1,16 +1,21 @@
 export default defineNuxtRouteMiddleware(to => {
-  const authenticated = getCookie('user_auth');
-  if (!authenticated) {
-    return navigateTo({
-      path: '/login',
-      query: { redirect: to.fullPath },
-    });
-  }
-  return navigateTo(to.path);
+  /* if (process.client) {
+    const authenticated = getCookie('user_auth');
+    console.log(`Path: ${to.path} Authenticated: ${authenticated}`);
+
+    if (!authenticated) {
+      console.log('Redirecting to login');
+
+      return navigateTo({
+        path: '/login',
+        query: { redirect: to.fullPath },
+      });
+    }
+  }*/
+  return;
 });
 
 function getCookie(cname: string) {
-  if (!process.client) return;
   var name = cname + '=';
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(';');

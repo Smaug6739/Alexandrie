@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<form>
-			<fieldset>
+			<fieldset v-if="article.id">
 				<legend>Article</legend>
 				<label for="title">Title:</label>
 				<input type="text" placeholder="Title" name="title" v-model="article.name" />
@@ -13,8 +13,9 @@
 				</select>
 				<label for="sub_category">Sub category:</label>
 				<select name="sub_category" v-model="article.sub_category">
-					<option v-for="category in theme.categories" :value="category.path" :key="category.id">{{ category.path
-					}}</option>
+					<option v-for="sub_category of theme.categories" :value="sub_category.path" :key="sub_category.id">
+						{{ sub_category.path}}
+					</option>
 				</select>
 				<label for="path">Path:</label>
 				<input type="text" placeholder="Path" name="path" v-model="article.path" />
@@ -36,7 +37,6 @@ import type { Article } from '../../../store';
 import MarkdownEditorVue from '../../../components/MarkdownEditor.vue';
 export default defineComponent({
 	name: 'admin-articles-edit',
-
 	data() {
 		return {
 			article: {
@@ -51,6 +51,7 @@ export default defineComponent({
 			themes: [] as Theme[],
 		};
 	},
+
 	components: {
 		MarkdownEditorVue,
 	},
@@ -71,7 +72,7 @@ export default defineComponent({
 	computed: {
 		theme() {
 			const theme = this.themes.find((t: Theme) => t.path === this.article.main_category) as Theme;
-			return theme;
+			return theme || [];
 		}
 
 	},
@@ -89,6 +90,5 @@ export default defineComponent({
 <style lang="scss" scoped>
 button {
 	margin-right: 5px;
-
 }
 </style>

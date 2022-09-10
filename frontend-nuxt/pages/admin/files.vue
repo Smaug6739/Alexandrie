@@ -24,6 +24,7 @@ export default defineComponent({
 			result: 'Please upload file',
 		}
 	},
+
 	methods: {
 		async post() {
 			const body = new FormData();

@@ -14,6 +14,7 @@ export default defineComponent({
 	components: {
 		Datatable,
 	},
+
 	data() {
 		return {
 			categories: [] as Theme[],
@@ -60,7 +61,7 @@ export default defineComponent({
 						action: 'text'
 					},
 					{
-						title: '/admin/categories/edit/' + category.id,
+						title: '/admin/categories/edit-' + category.id,
 						action: 'link'
 					}
 				]

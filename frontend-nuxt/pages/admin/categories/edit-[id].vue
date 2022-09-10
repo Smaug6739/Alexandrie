@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<form>
-			<fieldset>
+			<fieldset v-if="theme.id">
 				<legend>Catégorie</legend>
 				<label for="name">Name:</label>
 				<input type="text" placeholder="Name" name="name" v-model="theme.name" />
@@ -19,7 +19,7 @@
 			</fieldset>
 		</form>
 		<h2>Sub categories</h2>
-		<fieldset style="padding:10px;">
+		<fieldset style="padding:10px;" v-if="theme.id">
 			<fieldset v-for="(sub, index) of theme.categories" :key="index">
 				<legend>Sub category: {{ sub.name }}</legend>
 				<label for="name">Name:</label>
@@ -56,6 +56,7 @@ export default defineComponent({
 
 		};
 	},
+
 	methods: {
 		editMain() {
 			const store = useCategoriesStore();

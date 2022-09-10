@@ -52,6 +52,7 @@ export default defineComponent({
 	components: {
 		MarkdownEditorVue,
 	},
+
 	methods: {
 		post() {
 			const store = useArticlesStore();

@@ -14,8 +14,8 @@ import { defineComponent } from "vue";
 export default defineComponent({
 	name: "login",
 	beforeMount() {
-		if (document.cookie && document.cookie.includes("user_auth"))
-			this.$router.push("/admin");
+		//if (document.cookie && document.cookie.includes("user_auth"))
+		//this.$router.push("/admin");
 	},
 	methods: {
 		async connect() {
@@ -34,7 +34,7 @@ export default defineComponent({
 			});
 			const result = await responce.json();
 			if (result.status == "success" && result.result.auth) {
-				this.$router.push("/admin");
+				//this.$router.push("/admin");
 			}
 		},
 	},

@@ -16,6 +16,7 @@ export default defineComponent({
 	components: {
 		Datatable,
 	},
+
 	data() {
 		return {
 			articles: [] as Article[],
@@ -77,7 +78,7 @@ export default defineComponent({
 						action: 'text'
 					},
 					{
-						title: '/admin/articles/edit/' + article.id,
+						title: '/admin/articles/edit-' + article.id,
 						action: 'link'
 					}
 				]
