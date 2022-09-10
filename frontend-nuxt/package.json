@@ -14,6 +14,10 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.1",
+    "katex": "^0.16.2",
+    "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.4",
+    "markdown-it-container": "^3.0.0",
     "pinia": "^2.0.21"
   }
 }
