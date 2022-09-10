@@ -15,6 +15,9 @@
 				Vous pouvez proposer de nouvelles idées ou reporter des problèmes en <a
 					href="https://github.com/Smaug6739/docs/issues" target="_blank">participant au projet</a>.
 			</p>
+			<h2>Connexion</h2>
+			<p>Pour écrire un nouveau post <NuxtLink to="/login">connectez vous</NuxtLink>.
+			</p>
 		</div>
 	</div>
 </template>

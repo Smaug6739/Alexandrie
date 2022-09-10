@@ -11,7 +11,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  plugins: ['~/plugins/route'],
+  plugins: ['~/plugins/route', '~/plugins/auth'],
   css: ['~/styles/main.scss'],
   modules: [
     // ...
