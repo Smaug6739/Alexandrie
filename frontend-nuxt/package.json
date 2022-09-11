@@ -8,6 +8,9 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@types/katex": "^0.14.0",
+    "@types/markdown-it": "^12.2.3",
+    "@types/markdown-it-container": "^2.0.5",
     "@types/node": "^18.7.16",
     "nuxt": "3.0.0-rc.9",
     "sass": "^1.54.8"

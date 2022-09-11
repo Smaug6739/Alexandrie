@@ -152,12 +152,11 @@ const isOpened = ref(false);
 const searchInput = ref('');
 
 onMounted(() => {
-	process.client ? window.document.body.style.paddingLeft = '78px' : '';
+	if (process.client) window.document.body.style.paddingLeft = '78px';
 	if (process.client) window.innerWidth > 768 ? isOpened.value = true : isOpened.value = false;
 });
 onBeforeUnmount(() => {
-	console.log("Unmount admin sidebar");
-	process.client ? window.document.body.style.paddingLeft = '0' : '';
+	if (process.client) window.document.body.style.paddingLeft = '0';
 });
 
 watch(() => isOpened.value, () => {

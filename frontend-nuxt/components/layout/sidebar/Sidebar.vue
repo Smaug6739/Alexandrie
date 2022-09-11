@@ -32,7 +32,7 @@
                 <span class="a-style">
                   <NuxtLink :to="`/docs/${route.params.theme}/${menuItem.path}`">
                     <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
-                    <h5 class="links_name">{{ menuItem.name }}</h5>
+                    <h6 class="links_name">{{ menuItem.name }}</h6>
                   </NuxtLink>
                 </span>
                 <span class="tooltip">{{ menuItem.name }}</span>
@@ -116,11 +116,11 @@ const isOpened = ref(false);
 const searchInput = ref('');
 
 onMounted(() => {
-  process.client ? window.document.body.style.paddingLeft = '78px' : '';
+  if (process.client) window.document.body.style.paddingLeft = '78px';
   if (process.client) window.innerWidth > 768 ? isOpened.value = true : isOpened.value = false;
 });
 onBeforeUnmount(() => {
-  process.client ? window.document.body.style.paddingLeft = '0' : '';
+  if (process.client) window.document.body.style.paddingLeft = '0';
 });
 
 

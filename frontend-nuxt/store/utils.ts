@@ -5,8 +5,6 @@ interface Result {
 const baseUrl = import.meta.env.VITE_BASE_API;
 export async function makeRequest(route: string, method: string, body: Object): Promise<Result> {
   try {
-    console.log('Fetching ' + `${baseUrl}/api/v1/${route}`);
-
     const responce = await fetch(`${baseUrl}/api/v1/${route}`, {
       method: method,
       body: method == 'GET' || method == 'DELETE' ? null : JSON.stringify(body),
