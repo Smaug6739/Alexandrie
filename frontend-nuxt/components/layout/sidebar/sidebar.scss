@@ -162,18 +162,25 @@
   border-radius: 12px;
   align-items: center;
   text-decoration: none;
-  transition: all 0.4s ease;
+  transition: all 0.8s ease;
   background: var(--bg-color);
+
+  h5 {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .a-style a:hover {
-  background: var(--font-color);
+  background: var(--opposite-color);
 }
+
+
 
 .links_name {
   color: var(--font-color);
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 600;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -194,8 +201,10 @@
 .children {
   list-style: none;
   color: white;
-  padding: 10px;
+  padding: 8px;
   text-align: left;
+  font-size: .950rem;
+  line-height: 1.25rem;
 }
 
 .sub_link {

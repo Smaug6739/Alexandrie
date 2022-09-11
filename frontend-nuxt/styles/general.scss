@@ -1,15 +1,14 @@
 a {
-	color: $primary-400  !important;
-	opacity: 0.9;
-	font-family: $font-family, sans-serif;
-	font-weight: 300;
-	color: var(--font-color);
+	color: $primary-400;
+	opacity: 0.8;
+	font-family: $font-links;
+	font-weight: 500;
 	text-decoration: none;
+	transition: opacity .25s;
 
 	&:hover {
 		opacity: 1;
 		color: $primary-400;
-		text-decoration: underline;
 	}
 }
 

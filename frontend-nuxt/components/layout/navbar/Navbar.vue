@@ -7,21 +7,24 @@
 
       <ul class="main-ul">
         <li>
-          <router-link class="a-classic" to="/">Accueil</router-link>
+          <NuxtLink class="a-classic" to="/">Accueil</NuxtLink>
         </li>
 
-        <li class="dropdown">
-          <a style="cursor:pointer;" class="dropbtn a-classic">Thèmes</a>
-          <div class="dropdown-content">
+
+        <li>
+          <Dropdown title="Themes">
             <ul>
               <li v-for="(category, index) of categories" :key="index" class="destination">
-                <router-link class="a-classic" :to="'/docs/' + category.path">{{ category.name }}</router-link>
+                <NuxtLink class="a-classic" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
               </li>
             </ul>
-          </div>
+          </Dropdown>
         </li>
         <li>
           <a class="a-classic" href="https://github.com/Smaug6739/docs">Code</a>
+        </li>
+        <li>
+          <NuxtLink class="a-classic" to="/login">Connexion</NuxtLink>
         </li>
         <li class="icon">
           <i @click="toggleTheme" class='bx bx-moon' ref="themeIcon"></i>
@@ -85,39 +88,7 @@ ul {
   }
 }
 
-/* Dropdown Button */
 
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-
-  .dropbtn {
-    padding: 16px;
-    border: none;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: var(--bg-color);
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-
-    a {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-  }
-
-  &:hover .dropdown-content {
-    display: block;
-  }
-}
 
 @media screen and (max-width: 600px) {
   .title {
@@ -133,6 +104,7 @@ ul {
 import { defineComponent } from "vue";
 import { useCategoriesStore } from "../../../store";
 import type { Theme } from "../../../store";
+import Dropdown from "~/components/common/Dropdown.vue";
 export default defineComponent({
   name: "Navbar",
   data() {
@@ -140,6 +112,7 @@ export default defineComponent({
       categories: [] as Theme[]
     }
   },
+  components: { Dropdown },
   methods: {
     toggleTheme() {
       const themeIcon = this.$refs.themeIcon as HTMLElement;

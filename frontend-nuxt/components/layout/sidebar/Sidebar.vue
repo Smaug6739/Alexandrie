@@ -30,9 +30,9 @@
             <span v-for="(menuItem, index) of menuItems" :key="index">
               <li class="li-style">
                 <span class="a-style">
-                  <NuxtLink :to="`/docs/${route.params.theme}/${menuItem.path}`" class="a-block-style">
+                  <NuxtLink :to="`/docs/${route.params.theme}/${menuItem.path}`">
                     <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
-                    <span class="links_name">{{ menuItem.name }}</span>
+                    <h5 class="links_name">{{ menuItem.name }}</h5>
                   </NuxtLink>
                 </span>
                 <span class="tooltip">{{ menuItem.name }}</span>
