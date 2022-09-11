@@ -1,0 +1,81 @@
+$blue: #007bff;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #ff0e6a;
+$pink-after: #ff0062;
+$red: #dc3545;
+$white: white;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$grey: #869099;
+$black: #000000;
+
+$font-family: "Poppins",
+  Inter,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Roboto,
+  Oxygen,
+  Ubuntu,
+  Cantarell,
+  "Fira Sans",
+  "Droid Sans",
+  "Helvetica Neue",
+  sans-serif;
+;
+
+:root {
+  --bg-color-1: #11101d;
+  --contrast-color: #323a46;
+  --contrast-color-after: #1e2530;
+  --bg-color-2: #242424;
+  --font-color: #fff;
+  --font-color-dimmed: #c8cedf;
+  --opposite-color: #fff;
+
+  --font-size: 16px;
+  --line-height: 24px;
+}
+
+
+/*@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color-1: #f8f9fa;
+    --contrast-color: #e4e9f7;
+    --contrast-color-after: #c8cedf;
+    --bg-color-2: #e9eaec;
+    --font-color: #242424;
+    --font-color-dimmed: #000;
+    --opposite-color: #000;
+  }
+}*/
+
+
+[data-theme="dark"] {
+  --bg-color-1: #11101d;
+  --contrast-color: #323a46;
+  --contrast-color-after: #1e2530;
+  --bg-color-2: #242424;
+  --font-color: #fff;
+  --font-color-dimmed: #c8cedf;
+  --opposite-color: #fff;
+}
+
+[data-theme="light"] {
+  --bg-color-1: #f8f9fa;
+  --contrast-color: #e4e9f7;
+  --contrast-color-after: #c8cedf;
+  --bg-color-2: #e9eaec;
+  --font-color: #242424;
+  --font-color-dimmed: #000;
+  --opposite-color: #000;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    --font-size: 13px;
+    --math-size: 18px;
+  }
+}
