@@ -37,13 +37,13 @@ ul {
 </style>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { type Category, type Article, useCategoriesStore, useArticlesStore } from "../../../../store";
+import { type Theme, type Article, useCategoriesStore, useArticlesStore } from "../../../../store";
 
 export default defineComponent({
 	name: "theme",
 	data() {
 		return {
-			category: {} as Category | undefined,
+			category: {} as Theme | undefined,
 			articles: [] as Article[] | undefined,
 		};
 	},
