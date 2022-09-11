@@ -1,15 +1,14 @@
 <template>
-  <header class="header">
+  <header>
     <nav>
-      <p class="title" style="margin: 6px 14px 0 14px">
+      <h5 class="title" style="margin: 6px 14px 0 14px">
         Scientia
-      </p>
+      </h5>
 
       <ul class="main-ul">
         <li>
           <NuxtLink class="a-classic" to="/">Accueil</NuxtLink>
         </li>
-
 
         <li>
           <Dropdown title="Themes">
@@ -23,8 +22,8 @@
         <li>
           <NuxtLink class="a-classic" to="/login">Connexion</NuxtLink>
         </li>
-        <li class="icon">
-          <i @click="toggleTheme" class='bx bx-moon' ref="themeIcon"></i>
+        <li>
+          <ThemeToggle />
         </li>
       </ul>
     </nav>
@@ -49,13 +48,8 @@ nav {
   justify-content: space-between;
 
   .title {
-    display: flex;
-    align-items: center;
-    height: 60px;
-    min-width: 50px;
     font-size: 20px;
     font-weight: 600;
-    text-align: center;
   }
 }
 
@@ -75,19 +69,6 @@ ul {
   }
 }
 
-.icon {
-  cursor: pointer;
-  opacity: 0.5;
-  font-size: 1.5rem;
-
-  &:hover {
-    opacity: 1;
-    color: $primary-400
-  }
-}
-
-
-
 @media screen and (max-width: 600px) {
   .title {
     display: none !important;
@@ -98,37 +79,16 @@ ul {
   }
 }
 </style>
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { ref, onBeforeMount } from 'vue'
 import { useCategoriesStore } from "../../../store";
-import type { Theme } from "../../../store";
 import Dropdown from "~/components/common/Dropdown.vue";
-export default defineComponent({
-  name: "Navbar",
-  data() {
-    return {
-      categories: [] as Theme[]
-    }
-  },
-  components: { Dropdown },
-  methods: {
-    toggleTheme() {
-      const themeIcon = this.$refs.themeIcon as HTMLElement;
-      if (document.documentElement.getAttribute("data-theme") === "dark") {
-        document.documentElement.setAttribute("data-theme", "light");
-        themeIcon.className = "bx bx-sun";
-      } else if (document.documentElement.getAttribute("data-theme") === "light") {
-        document.documentElement.setAttribute("data-theme", "dark");
-        themeIcon.className = "bx bx-moon";
-      } else {
-        document.documentElement.setAttribute("data-theme", "light");
-        themeIcon.className = "bx bx-sun";
-      }
-    },
-  },
-  async beforeMount() {
-    const store = useCategoriesStore();
-    this.categories = await store.getAll()
-  }
+import ThemeToggle from "./ThemeToggle.vue";
+
+const categoriesStore = useCategoriesStore();
+
+const categories = ref();
+onBeforeMount(async () => {
+  categories.value = await categoriesStore.getAll()
 });
 </script>
