@@ -29,5 +29,6 @@ h2 {
 
 .view-medium {
 	margin-top: 50px;
+	padding: 0 20px;
 }
 </style>
