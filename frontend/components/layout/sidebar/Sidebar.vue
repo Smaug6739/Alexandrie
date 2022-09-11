@@ -32,7 +32,7 @@
                 <span class="a-style">
                   <NuxtLink :to="`/docs/${route.params.theme}/${menuItem.path}`">
                     <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
-                    <h6 class="links_name">{{ menuItem.name }}</h6>
+                    <span class="links_name">{{ menuItem.name }}</span>
                   </NuxtLink>
                 </span>
                 <span class="tooltip">{{ menuItem.name }}</span>
