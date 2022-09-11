@@ -21,9 +21,6 @@
           </Dropdown>
         </li>
         <li>
-          <a class="a-classic" href="https://github.com/Smaug6739/docs">Code</a>
-        </li>
-        <li>
           <NuxtLink class="a-classic" to="/login">Connexion</NuxtLink>
         </li>
         <li class="icon">
@@ -72,7 +69,8 @@ ul {
   list-style: none;
 
   li {
-    padding-right: 15px;
+    padding-right: 11px;
+    padding-left: 11px;
     height: auto
   }
 }
