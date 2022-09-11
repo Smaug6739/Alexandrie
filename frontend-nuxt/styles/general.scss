@@ -143,7 +143,7 @@ h6 {
 
 
 hr {
-	color: var(--contrast-color);
+	color: $border-color;
 	height: 2px;
 	padding: 0;
 }
@@ -247,7 +247,7 @@ th {
 }
 
 tr {
-	background-color: var(--contrast-color);
+	background-color: $border-color;
 }
 
 tr:nth-child(even) {
