@@ -1,0 +1,94 @@
+<template>
+	<div>
+		<span class="btn btn-pink" @click="$router.push('/admin/articles/new')">New</span>
+		<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
+	</div>
+
+</template>
+<script lang="ts">
+import Datatable from '../../../components/common/DataTable.vue';
+import { useArticlesStore } from '../../../store';
+import { defineComponent } from 'vue';
+import { timestampToString } from '../../../helpers/date';
+import type { Article } from '../../../store';
+export default defineComponent({
+	name: 'admin-dashboard',
+	components: {
+		Datatable,
+	},
+
+	data() {
+		return {
+			articles: [] as Article[],
+			tableOptions: {
+				headers: [
+					{
+						title: 'Title',
+						key: 'title',
+						sortable: true,
+						textAlign: 'left',
+					},
+					{
+						title: 'Description (short)',
+						key: 'description',
+						sortable: true,
+						textAlign: 'left',
+					},
+					{
+						title: 'Created At',
+						key: 'created_at',
+						sortable: true,
+						textAlign: 'left',
+					},
+					{
+						title: 'Updated At',
+						key: 'updated_at',
+						sortable: true,
+						textAlign: 'left',
+					},
+					{
+						title: 'Actions',
+						key: 'actions',
+						sortable: false,
+						textAlign: 'left',
+					},
+				],
+				itemsPerPage: 10,
+			},
+		}
+	},
+	computed: {
+		displayArticles(): any {
+			return this.articles.map(article => {
+				return [
+					{
+						title: article.name,
+						action: 'text'
+					},
+					{
+						title: article.description,
+						action: 'text'
+					},
+					{
+						title: timestampToString(article.created_timestamp),
+						action: 'text'
+					},
+					{
+						title: timestampToString(article.updated_timestamp),
+						action: 'text'
+					},
+					{
+						title: '/admin/articles/edit-' + article.id,
+						action: 'link'
+					}
+				]
+			}).reverse();
+		},
+	},
+	async beforeMount() {
+		const store = useArticlesStore();
+		this.articles = await store.getAll();
+	},
+});
+
+</script>

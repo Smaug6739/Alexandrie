@@ -1,4 +1,6 @@
 {
+  // https://v3.nuxtjs.org/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     // Type Checking
     "allowUnreachableCode": false,
@@ -34,9 +36,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": ["ESNext", "DOM", "es2021"],
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types"],
     "target": "ESNext",
     "useDefineForClassFields": true
-  },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  }
 }

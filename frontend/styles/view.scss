@@ -1,0 +1,48 @@
+.view-medium {
+	width: 60%;
+	max-width: 100%;
+	margin: auto;
+	padding: 10px;
+
+	@media screen and (max-width: 768px) {
+		width: 100%;
+		padding: 0;
+		padding-right: 5px;
+	}
+}
+
+.view-large {
+	width: 99%;
+	max-width: 100%;
+	margin: auto;
+	padding: 10px;
+
+	@media screen and (max-width: 768px) {
+		width: 100%;
+	}
+}
+
+.view {
+
+	img {
+		width: 40%;
+		height: auto;
+		margin-bottom: 5px;
+	}
+
+	ul,
+	ol {
+		padding-left: 20px;
+	}
+
+	@media screen and (max-width: 600px) {
+		img {
+			width: 100%;
+		}
+
+		table {
+			border-collapse: collapse;
+			zoom: 0.9;
+		}
+	}
+}
