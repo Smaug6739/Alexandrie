@@ -9,7 +9,7 @@
 				<div>
 					Index de la catégorie {{ category?.name }} vous retrouvtrez ici plusieurs documents classéss dans les
 					catégories suivantes :
-					<ul>
+					<ul v-if="category?.id">
 						<li v-for="(item, index) in category.categories" :key="index">
 							<NuxtLink :to="`/docs/${category.path}/${item.path}`">{{item.name}}</NuxtLink>
 						</li>
