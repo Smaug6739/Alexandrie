@@ -12,7 +12,7 @@ module.exports = {
     {
       name: 'docs-wbs-frontend',
       cwd: './frontend',
-      script: 'PORT=3110 HOST="localhost" node .output/server/index.mjs',
+      script: 'PORT=3100 HOST="localhost" node .output/server/index.mjs',
       env: {
         NODE_ENV: 'production',
       },
