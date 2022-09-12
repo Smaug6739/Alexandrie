@@ -10,15 +10,13 @@ config();
 const express = require('express');
 
 import { checkAndChange, error } from './utils/functions';
-import { Iconfig, IObject } from './types';
+import { IObject } from './types';
 export class App {
   private app;
   public port: string;
-  public config: Iconfig;
-  constructor(config: Iconfig) {
+  constructor() {
     this.app = express();
     this.port = process.env.DOCS_SERVER_PORT!;
-    this.config = config;
     console.log(`Starting in ${process.env.NODE_ENV} mode...`);
   }
   private handleRoutes(): void {

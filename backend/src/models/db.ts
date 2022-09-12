@@ -1,11 +1,10 @@
 import { createPool } from 'mysql2';
-import { config } from '../config';
 
 const pool = createPool({
-  host: config.database.host,
+  host: 'localhost',
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
-  database: config.database.database,
+  database: 'docs',
 });
 // var getConnection = function (cb: any) {
 //     pool.getConnection(function (err, connection) {

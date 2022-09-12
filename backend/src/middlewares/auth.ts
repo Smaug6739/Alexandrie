@@ -1,6 +1,5 @@
 import { IObject } from '../types';
 import { verify } from 'jsonwebtoken';
-import { config } from '../config';
 import { error } from '../utils/functions';
 
 export default (req: IObject, res: IObject, next: any) => {

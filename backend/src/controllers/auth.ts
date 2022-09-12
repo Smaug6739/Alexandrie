@@ -2,7 +2,6 @@ import { MemberClass } from '../classes/Members';
 import { IObject } from '../types';
 import { checkAndChange } from '../utils/functions';
 import { sign } from 'jsonwebtoken';
-import { config } from '../config';
 const Members = new MemberClass();
 
 export function auth(req: IObject, res: IObject): void {
