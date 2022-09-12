@@ -13,11 +13,11 @@ import { checkAndChange, error } from './utils/functions';
 import { Iconfig, IObject } from './types';
 export class App {
   private app;
-  public port: number;
+  public port: string;
   public config: Iconfig;
   constructor(config: Iconfig) {
     this.app = express();
-    this.port = config.port;
+    this.port = process.env.DOCS_SERVER_PORT!;
     this.config = config;
     console.log(`Starting in ${process.env.NODE_ENV} mode...`);
   }
