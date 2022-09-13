@@ -24,16 +24,20 @@ export const useCategoriesStore = defineStore('categories', {
   state: () => ({
     categories: [] as Theme[],
   }),
+  getters: {
+    getAll: function (state) {
+      return computed(() => state.categories);
+    },
+    getById: state => {
+      return computed(() => (id: string) => state.categories.find(a => a.id == id));
+    },
+    getByPath: state => {
+      return (path: string) => computed(() => state.categories.find((a: Theme) => a.path == path));
+    },
+  },
   actions: {
-    async getById(id: string): Promise<Theme | undefined> {
-      if (!this.categories.length) await this.getAll();
-      return this.categories.find((a: Theme) => a.id == id);
-    },
-    async getByPath(path: string): Promise<Theme | undefined> {
-      if (!this.categories.length) await this.getAll();
-      return this.categories.find((a: Theme) => a.path == path);
-    },
-    async getAll(): Promise<Theme[]> {
+    async fetchAll(): Promise<Theme[]> {
+      if (process.server) return [];
       if (!this.categories.length) {
         const request = await makeRequest('categories', 'GET', {});
         if (request.status == 'success') this.categories = request.data;
@@ -54,7 +58,7 @@ export const useCategoriesStore = defineStore('categories', {
     async updateSubCategory(parent: string, category: Category) {
       const request = await makeRequest(`categories/sub/${category.id}`, 'PATCH', category);
       if (request.status == 'success') {
-        const p = await this.getById(parent);
+        const p = this.categories.find(c => c.id == parent);
         if (!p) return;
         p.categories = p.categories.map(c => {
           if (c.id == category.id) return category;
@@ -71,7 +75,7 @@ export const useCategoriesStore = defineStore('categories', {
     async postSubCategory(category: Category) {
       const request = await makeRequest(`categories/sub`, 'POST', category);
       if (request.status == 'success') {
-        const p = await this.getById(category.parent_category);
+        const p = this.categories.find(c => c.id == category.parent_category);
         if (!p) return;
         p.categories.push(request.data);
       }
@@ -85,7 +89,7 @@ export const useCategoriesStore = defineStore('categories', {
     async deleteSubCategory(parent: string, id: string) {
       const request = await makeRequest(`categories/sub/${id}`, 'DELETE', {});
       if (request.status == 'success') {
-        const p = await this.getById(parent);
+        const p = this.categories.find(c => c.id == parent);
         if (!p) return;
         p.categories = p.categories.filter(c => c.id != id);
       }

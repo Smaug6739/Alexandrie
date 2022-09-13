@@ -58,20 +58,22 @@
 
 import { ref, onBeforeUnmount, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { storeToRefs } from 'pinia'
+
 import { useArticlesStore, useCategoriesStore } from '../../../store';
 
 const route = useRoute();
 const articlesStore = useArticlesStore();
 const categoriesStore = useCategoriesStore();
 
-categoriesStore.getAll();
-articlesStore.getAll();
+articlesStore.fetchAll();
+categoriesStore.fetchAll();
 
-
+const { articles } = storeToRefs(articlesStore);
+const { categories } = storeToRefs(categoriesStore);
 
 defineProps({
   //! Menu settings
-
   menuTitle: {
     type: String,
     default: 'Docs',
@@ -125,10 +127,9 @@ onBeforeUnmount(() => {
 
 
 const menuItems = computed((): MenuItem[] => {
-
   const items: MenuItem[] = [];
   const subject = route.params.theme as string;
-  const theme = categoriesStore.categories.find(c => c.path == subject);
+  const theme = categories.value.find(c => c.path == subject);
 
   if (!theme) return items;
 
@@ -137,7 +138,7 @@ const menuItems = computed((): MenuItem[] => {
       name: category.name,
       path: category.path,
       icon: category.icon,
-      childrens: articlesStore.articles
+      childrens: articles.value
         .filter(a => a.main_category == theme.path && a.sub_category == category.path)
         .map(a => ({ name: a.name, link: '/docs/' + theme.path + '/' + category.path + '/' + a.path })),
     });

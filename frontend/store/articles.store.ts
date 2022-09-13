@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
 import { makeRequest } from './utils';
-
 export interface Article {
   id: string;
   main_category: string;
@@ -16,42 +16,35 @@ export interface Article {
 
 export const useArticlesStore = defineStore('articles', {
   state: () => ({
-    articles: [] as Article[],
+    articles: ref<Article[]>([]),
   }),
-  actions: {
-    async getById(id: string): Promise<Article | undefined> {
-      if (!this.articles.length) await this.getAll();
-      return this.articles.find((a: Article) => a.id == id);
+  getters: {
+    getAll: function (state) {
+      return computed(() => state.articles);
     },
-    async getByPaths(subject: string, category: string, article: string): Promise<Article | undefined> {
-      if (!this.articles.length || !this.articles.find(a => a.main_category == category)) await this.getAllByCategory(subject);
-      return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
+    getById: state => {
+      return computed(() => (id: string) => state.articles.find((a: Article) => a.id == id));
     },
+    getAllByCategory: state => {
+      return computed(() => (category: string) => state.articles.filter((a: Article) => a.main_category == category));
+    },
+    getByPaths: state => {
+      return (article: string, category: string, subject: string) =>
+        computed(() => {
+          console.log('getByPaths', article, category, subject, state.articles);
 
-    async getAll(): Promise<Article[]> {
-      if (!this.articles.length) {
-        const request = await makeRequest('articles', 'GET', {});
-        if (request.status == 'success') this.articles = request.data;
-      }
-      return this.articles;
+          return state.articles.find(a => a.path == article && a.sub_category == category && a.main_category == subject);
+        }).value;
     },
-    async getAllByCategory(category_path: string): Promise<Article[]> {
-      const results = this.articles.filter(article => article.main_category == category_path);
-      if (results.length > 0) return results;
-      const request = await makeRequest(`articles?category=${category_path}`, 'GET', {});
-      if (request.status == 'success') {
-        this.checkAndUpdateCache(request.data);
-        return request.data;
-      }
-      return [];
-    },
-    checkAndUpdateCache(articles: Article[]) {
-      for (const article of articles) {
-        if (!this.articles.find(a => a.id == article.id)) this.articles.push(article);
-      }
-    },
-    getCache(subject: string, category: string, article: string): Article | undefined {
-      return this.articles.find((a: Article) => a.path == article && a.sub_category == category && a.main_category == subject);
+  },
+  actions: {
+    async fetchAll() {
+      console.log('fetchAll');
+
+      const request = await makeRequest('articles', 'GET', {});
+      if (request.status == 'success') this.articles = request.data;
+
+      console.log('fetched all articles', this.articles.length);
     },
     async postArticle(article: Article) {
       const request = await makeRequest('articles', 'POST', article);

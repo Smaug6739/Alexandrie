@@ -13,7 +13,7 @@
         <li>
           <Dropdown title="Themes">
             <ul>
-              <li v-for="(category, index) of categoriesStore.categories" :key="index" class="destination">
+              <li v-for="(category, index) of getAllCategories.value" :key="index" class="destination">
                 <NuxtLink class="a-classic" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
               </li>
             </ul>
@@ -80,12 +80,12 @@ ul {
 }
 </style>
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia'
 import { useCategoriesStore } from "../../../store";
 import Dropdown from "~/components/common/Dropdown.vue";
 import ThemeToggle from "./ThemeToggle.vue";
 
 const categoriesStore = useCategoriesStore();
-categoriesStore.getAll();
 
-
+const { getAll: getAllCategories } = storeToRefs(categoriesStore);
 </script>
