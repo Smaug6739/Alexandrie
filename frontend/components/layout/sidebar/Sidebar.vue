@@ -64,8 +64,8 @@ const route = useRoute();
 const articlesStore = useArticlesStore();
 const categoriesStore = useCategoriesStore();
 
-await categoriesStore.getAll();
-await articlesStore.getAll();
+categoriesStore.getAll();
+articlesStore.getAll();
 
 
 

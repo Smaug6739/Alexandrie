@@ -63,17 +63,8 @@
 
 import { ref, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
-import { useArticlesStore, useCategoriesStore } from '../../../store';
-
 
 const router = useRouter();
-const articlesStore = useArticlesStore();
-const categoriesStore = useCategoriesStore();
-
-await categoriesStore.getAll();
-await articlesStore.getAll();
-
-
 
 const props = defineProps({
 	//! Menu settings
