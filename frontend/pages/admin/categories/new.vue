@@ -65,11 +65,11 @@ export default defineComponent({
 		},
 
 	},
-	async beforeMount() {
+	beforeMount() {
 		const store = useCategoriesStore();
-		const theme = await store.getById(this.$route.params.id as string);
+		const theme = store.getById(this.$route.params.id as string);
 		if (theme) this.theme = theme;
-		const categories = await store.getAll();
+		const categories = store.getAll;
 		if (categories) this.categories = categories;
 	},
 });

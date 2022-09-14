@@ -87,7 +87,7 @@ export default defineComponent({
 	},
 	async beforeMount() {
 		const store = useArticlesStore();
-		this.articles = await store.getAll();
+		this.articles = store.getAll;
 	},
 });
 

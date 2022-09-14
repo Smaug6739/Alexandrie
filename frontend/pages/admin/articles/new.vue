@@ -70,9 +70,9 @@ export default defineComponent({
 		}
 
 	},
-	async beforeMount() {
+	beforeMount() {
 		const categoriesStore = useCategoriesStore();
-		this.themes = await categoriesStore.getAll();
+		this.themes = categoriesStore.getAll;
 	},
 });
 

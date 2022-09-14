@@ -45,18 +45,18 @@ export default defineComponent({
 			category: {} as Theme | undefined,
 		};
 	},
-	async mounted() {
-		this.category = await this.getCategory();
+	mounted() {
+		this.category = this.getCategory();
 	},
 	methods: {
-		async getCategory() {
+		getCategory() {
 			const categoriesStore = useCategoriesStore();
-			return await categoriesStore.getByPath(this.$route.params.theme as string);
+			return categoriesStore.getByPath(this.$route.params.theme as string);
 		}
 	},
 	watch: {
-		async $route() {
-			this.category = await this.getCategory();
+		$route() {
+			this.category = this.getCategory();
 		}
 	},
 });

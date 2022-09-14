@@ -70,7 +70,7 @@ export default defineComponent({
 	},
 	async beforeMount() {
 		const store = useCategoriesStore();
-		this.categories = await store.getAll();
+		this.categories = store.getAll;
 	},
 });
 </script>

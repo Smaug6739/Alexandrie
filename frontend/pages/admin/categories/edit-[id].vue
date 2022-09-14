@@ -77,7 +77,7 @@ export default defineComponent({
 			store.deleteMainCategory(this.theme.id).then(_ => this.$router.push("/admin/categories"))
 		}
 	},
-	async beforeMount() {
+	beforeMount() {
 		const store = useCategoriesStore();
 		const theme = store.getById(this.$route.params.id as string);
 		if (theme) this.theme = theme;

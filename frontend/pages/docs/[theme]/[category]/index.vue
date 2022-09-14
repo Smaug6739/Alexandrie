@@ -48,23 +48,23 @@ export default defineComponent({
 		};
 	},
 	async mounted() {
-		this.category = await this.getCategory();
-		this.articles = await this.getArticles();
+		this.category = this.getCategory();
+		this.articles = this.getArticles();
 	},
 	methods: {
-		async getCategory() {
+		getCategory() {
 			const categoriesStore = useCategoriesStore();
-			return await categoriesStore.getByPath(this.$route.params.theme as string);
+			return categoriesStore.getByPath(this.$route.params.theme as string);
 		},
-		async getArticles() {
+		getArticles() {
 			const articlesStore = useArticlesStore();
 			return articlesStore.articles.filter(a => a.main_category === this.$route.params.theme as string && a.sub_category === this.$route.params.category).map(a => { return { name: a.name, path: a.path } as Article; });
 		}
 	},
 	watch: {
 		async $route() {
-			this.category = await this.getCategory();
-			this.articles = await this.getArticles();
+			this.category = this.getCategory();
+			this.articles = this.getArticles();
 		}
 	},
 });

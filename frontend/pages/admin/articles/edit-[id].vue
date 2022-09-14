@@ -80,9 +80,9 @@ export default defineComponent({
 	async beforeMount() {
 		const store = useArticlesStore();
 		const categoriesStore = useCategoriesStore();
-		const article = await store.getById(this.$route.params.id as string);
+		const article = store.getById(this.$route.params.id as string);
 		if (article) this.article = article;
-		this.themes = await categoriesStore.getAll();
+		this.themes = categoriesStore.getAll;
 	},
 });
 
