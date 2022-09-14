@@ -9,6 +9,10 @@
 
 <script setup lang="ts">
 import Navbar from "./components/layout/navbar/Navbar.vue";
+import { useCategoriesStore } from "./store/categories.store";
+const categoriesStore = useCategoriesStore();
+categoriesStore.fetchAll();
+
 </script>
 
 <style scoped>

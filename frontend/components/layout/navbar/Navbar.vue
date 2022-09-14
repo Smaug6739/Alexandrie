@@ -13,7 +13,7 @@
         <li>
           <Dropdown title="Themes">
             <ul>
-              <li v-for="(category, index) of getAllCategories.value" :key="index" class="destination">
+              <li v-for="(category, index) of getAll" :key="index" class="destination">
                 <NuxtLink class="a-classic" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
               </li>
             </ul>
@@ -85,7 +85,8 @@ import { useCategoriesStore } from "../../../store";
 import Dropdown from "~/components/common/Dropdown.vue";
 import ThemeToggle from "./ThemeToggle.vue";
 
+
 const categoriesStore = useCategoriesStore();
 
-const { getAll: getAllCategories } = storeToRefs(categoriesStore);
+const { getAll } = storeToRefs(categoriesStore);
 </script>

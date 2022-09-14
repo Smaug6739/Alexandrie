@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { makeRequest } from './utils';
 export interface Article {
   id: string;
@@ -19,32 +19,35 @@ export const useArticlesStore = defineStore('articles', {
     articles: ref<Article[]>([]),
   }),
   getters: {
-    getAll: function (state) {
-      return computed(() => state.articles);
-    },
-    getById: state => {
-      return computed(() => (id: string) => state.articles.find((a: Article) => a.id == id));
-    },
-    getAllByCategory: state => {
-      return computed(() => (category: string) => state.articles.filter((a: Article) => a.main_category == category));
-    },
-    getByPaths: state => {
-      return (article: string, category: string, subject: string) =>
-        computed(() => {
-          console.log('getByPaths', article, category, subject, state.articles);
+    getAll: state => state.articles,
+    getById: state => (id: string) => state.articles.find((a: Article) => a.id == id),
+    getAllByCategory: state => (category: string) => state.articles.filter((a: Article) => a.main_category == category),
 
-          return state.articles.find(a => a.path == article && a.sub_category == category && a.main_category == subject);
-        }).value;
+    getByPaths: state => (article: string, category: string, subject: string) =>
+      state.articles.find(a => a.path == article && a.sub_category == category && a.main_category == subject),
+
+    getNext: state => (article?: Article) => {
+      const articles_of_category = state.articles.filter(
+        (a: Article) => a.main_category == article?.main_category && a.sub_category == article?.sub_category,
+      );
+      const index = articles_of_category.findIndex((a: Article) => a.id == article?.id);
+      if (index == -1) return;
+      return articles_of_category[index + 1];
+    },
+
+    getPrevious: state => (article?: Article) => {
+      const articles_of_category = state.articles.filter(
+        a => a.main_category == article?.main_category && a.sub_category == article?.sub_category,
+      );
+      const index = articles_of_category.findIndex((a: Article) => a.id == article?.id);
+      if (index == -1) return;
+      return articles_of_category[index - 1];
     },
   },
   actions: {
     async fetchAll() {
-      console.log('fetchAll');
-
       const request = await makeRequest('articles', 'GET', {});
       if (request.status == 'success') this.articles = request.data;
-
-      console.log('fetched all articles', this.articles.length);
     },
     async postArticle(article: Article) {
       const request = await makeRequest('articles', 'POST', article);

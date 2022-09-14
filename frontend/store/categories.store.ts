@@ -26,13 +26,13 @@ export const useCategoriesStore = defineStore('categories', {
   }),
   getters: {
     getAll: function (state) {
-      return computed(() => state.categories);
+      return state.categories;
     },
     getById: state => {
-      return computed(() => (id: string) => state.categories.find(a => a.id == id));
+      return (id: string) => state.categories.find(a => a.id == id);
     },
     getByPath: state => {
-      return (path: string) => computed(() => state.categories.find((a: Theme) => a.path == path));
+      return (path: string) => state.categories.find((a: Theme) => a.path == path);
     },
   },
   actions: {

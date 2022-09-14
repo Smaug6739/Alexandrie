@@ -67,7 +67,6 @@ const articlesStore = useArticlesStore();
 const categoriesStore = useCategoriesStore();
 
 articlesStore.fetchAll();
-categoriesStore.fetchAll();
 
 const { articles } = storeToRefs(articlesStore);
 const { categories } = storeToRefs(categoriesStore);
