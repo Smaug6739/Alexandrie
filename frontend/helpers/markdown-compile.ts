@@ -1,7 +1,7 @@
 import MarkdownIt from 'markdown-it';
 import anchor from 'markdown-it-anchor';
 import container from 'markdown-it-container';
-
+import { containerPlugin } from './markdown/container';
 import katex from 'katex';
 
 import { svg_info, svg_warning, containerOpen } from './constants';
@@ -16,7 +16,7 @@ md.use(anchor, {
     placement: 'before',
   }),
 });
-
+md.use(containerPlugin);
 md.use(container, 'definition', {
   validate: function (params: any) {
     return params.trim().match(/^definition\s+(.*)$/);
