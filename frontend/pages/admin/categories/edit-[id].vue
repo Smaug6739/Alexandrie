@@ -79,9 +79,9 @@ export default defineComponent({
 	},
 	async beforeMount() {
 		const store = useCategoriesStore();
-		const theme = await store.getById(this.$route.params.id as string);
+		const theme = store.getById(this.$route.params.id as string);
 		if (theme) this.theme = theme;
-		this.themes = await store.getAll();
+		this.themes = store.getAll;
 	},
 });
 </script>
