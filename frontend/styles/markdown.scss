@@ -74,13 +74,13 @@ div {
 	padding: 16px 16px 8px;
 	line-height: 24px;
 	font-size: 14px;
-	color: rgba(235, 235, 235, .6);
+	color: rgba(235, 235, 235, 1);
 }
 
 .custom-block.grey {
 	border-color: rgba(84, 84, 84, 0.25);
-	color: rgba(235, 235, 235, .6);
-	background-color: rgb(47, 47, 47, 0.2);
+	color: #858585;
+	background-color: rgba(27, 27, 27, 0.2);
 }
 
 .custom-block.grey code {
