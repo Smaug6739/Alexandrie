@@ -1,13 +1,21 @@
-export default defineNuxtPlugin(_ => {
+export default defineNuxtPlugin(({ ssrContext }) => {
   const router = useRouter();
 
   // Every time the route changes (fired on initialization too)
   router.beforeEach((to, _, next) => {
     if (to.fullPath.startsWith('/admin')) {
       if (process.server) {
-        return next({ name: 'login', query: { redirect: to.fullPath } });
+        const hasCookie = getCookie('user_auth', ssrContext?.event.req.headers.cookie);
+        if (!hasCookie) {
+          return next({
+            path: '/login',
+            query: { redirect: to.fullPath },
+          });
+        } else {
+          return next();
+        }
       }
-      const authenticated = getCookie('user_auth');
+      const authenticated = getCookie('user_auth', document.cookie);
       if (!authenticated) {
         return next({
           path: '/login',
@@ -20,9 +28,10 @@ export default defineNuxtPlugin(_ => {
   });
 });
 
-function getCookie(cname: string) {
+function getCookie(cname: string, cookies?: string) {
+  if (!cookies) return '';
   var name = cname + '=';
-  var decodedCookie = decodeURIComponent(document.cookie);
+  var decodedCookie = decodeURIComponent(cookies);
   var ca = decodedCookie.split(';');
   for (var i = 0; i < ca.length; i++) {
     var c: string = ca[i]!;

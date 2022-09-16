@@ -9,16 +9,13 @@
 	</form>
 </template>
 <script setup lang="ts">
-import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-onMounted(() => {
-	if (document.cookie && document.cookie.includes("user_auth")) {
-		router.push({ name: "admin" });
-	}
-});
+if (document.cookie && document.cookie.includes("user_auth")) {
+	router.push({ name: "admin" });
+}
 async function connect() {
 	const content = JSON.stringify({
 		username: (document.getElementById("form-username") as HTMLInputElement).value,
