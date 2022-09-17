@@ -25,7 +25,7 @@
 .view {
 
 	img {
-		height: 400px;
+		height: 300px;
 		max-width: 100%;
 		width: auto;
 		margin-bottom: 5px;
@@ -38,6 +38,7 @@
 
 	@media screen and (max-width: 600px) {
 		img {
+			height: auto;
 			width: 100%;
 		}
 
