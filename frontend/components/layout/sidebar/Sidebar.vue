@@ -161,6 +161,7 @@ function close() {
 
 interface MenuItem {
   name: string;
+  description?: string;
   path: string;
   icon: string;
   childrens: Children[];
