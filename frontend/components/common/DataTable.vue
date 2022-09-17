@@ -72,11 +72,11 @@ const page = ref(1)
 const searchInput = ref('')
 
 const data = computed(() => {
-	return props.rows.slice((page.value - 1) * itemsPerPage.value, page.value * itemsPerPage.value).filter((row) => {
+	return props.rows.filter((row) => {
 		return row.some((field) => {
 			return field.content.toLowerCase().includes(searchInput.value.toLowerCase())
 		})
-	})
+	}).slice((page.value - 1) * itemsPerPage.value, page.value * itemsPerPage.value)
 })
 
 interface Header {
