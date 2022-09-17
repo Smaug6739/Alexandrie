@@ -5,8 +5,8 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import Datatable from '../../../components/common/DataTable.vue';
-import { useCategoriesStore } from '../../../store';
+import Datatable from '@/components/common/DataTable.vue';
+import { useCategoriesStore } from '@/store';
 import { computed } from 'vue';
 
 const { getAll: getCategories } = useCategoriesStore();

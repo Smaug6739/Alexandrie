@@ -42,8 +42,8 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import type { Theme, Category } from '../../../store';
-import { useCategoriesStore } from '../../../store';
+import type { Theme, Category } from '@/store';
+import { useCategoriesStore } from '@/store';
 export default defineComponent({
 	name: 'admin-categories-edit',
 	data() {

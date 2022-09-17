@@ -45,8 +45,8 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import type { Theme } from '../../../store';
-import { useCategoriesStore } from '../../../store';
+import type { Theme } from '@/store';
+import { useCategoriesStore } from '@/store';
 export default defineComponent({
 	name: 'admin-articles-edit',
 	data() {

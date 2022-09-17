@@ -60,7 +60,7 @@ import { ref, onBeforeUnmount, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia'
 
-import { useArticlesStore, useCategoriesStore } from '../../../store';
+import { useArticlesStore, useCategoriesStore } from '@/store';
 
 const route = useRoute();
 const articlesStore = useArticlesStore();

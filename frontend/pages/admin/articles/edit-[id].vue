@@ -32,9 +32,9 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Theme, useArticlesStore, useCategoriesStore } from '../../../store';
-import type { Article } from '../../../store';
-import MarkdownEditorVue from '../../../components/MarkdownEditor.vue';
+import { Theme, useArticlesStore, useCategoriesStore } from '@/store';
+import type { Article } from '@/store';
+import MarkdownEditorVue from '@/components/MarkdownEditor.vue';
 export default defineComponent({
 	name: 'admin-articles-edit',
 	data() {
