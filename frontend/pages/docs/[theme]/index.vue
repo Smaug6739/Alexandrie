@@ -7,7 +7,7 @@
 					Scientia</h1>
 				<h2>{{ category?.name }}</h2>
 				<div>
-					Index de la catégorie {{ category?.name }} vous retrouvtrez ici plusieurs documents classéss dans les
+					Index de la catégorie {{ category?.name }} vous retrouverez ici plusieurs documents classés dans les
 					catégories suivantes :
 					<ul v-if="category?.id">
 						<li v-for="(item, index) in category.categories" :key="index">
