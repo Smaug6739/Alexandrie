@@ -36,23 +36,23 @@ const displayArticles = computed(() => {
 	return getCategories.map(category => {
 		return [
 			{
-				title: category.id,
+				content: category.id,
 				action: 'text' as const,
 			},
 			{
-				title: category.name,
+				content: category.name,
 				action: 'text' as const,
 			},
 			{
-				title: `/${category.path}`,
+				content: `/${category.path}`,
 				action: 'text' as const,
 			},
 			{
-				title: category.icon,
+				content: category.icon,
 				action: 'text' as const,
 			},
 			{
-				title: '/admin/categories/edit-' + category.id,
+				content: '/admin/categories/edit-' + category.id,
 				action: 'link' as const,
 			}
 		]
