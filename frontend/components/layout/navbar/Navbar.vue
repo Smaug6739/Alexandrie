@@ -20,7 +20,7 @@
           </Dropdown>
         </li>
         <li>
-          <NuxtLink class="a-classic" to="/login" no-prefetch>Connexion</NuxtLink>
+          <NuxtLink class="a-classic" to="/admin" no-prefetch>Connexion</NuxtLink>
         </li>
         <li>
           <ThemeToggle />
