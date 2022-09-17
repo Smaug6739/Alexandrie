@@ -8,5 +8,5 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import adminSidebar from '../components/layout/admin-sidebar/Sidebar.vue';
+import adminSidebar from '@/components/layout/admin-sidebar/Sidebar.vue';
 </script>

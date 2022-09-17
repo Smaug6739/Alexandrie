@@ -1,4 +1,4 @@
-import Loader from '../utils/Loader';
+import Loader from '@/utils/Loader';
 
 const loader = new Loader();
 
