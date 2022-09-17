@@ -6,5 +6,12 @@ function containerOpen(title: string, logo: string, color: string) {
 		<strong style="display: inline-flex; align-items: baseline;" class="${color}">
 			${logo}${title}</strong>`;
 }
+function containerOpenInline(title: string, logo: string, color: string) {
+  return `<div :class="color" style="display: inline-block;">
+		<span style="display: inline-flex; align-items: baseline;" class="${color}">
+			${logo}${title}
+		</span>
+	`;
+}
 
-export { svg_info, svg_warning, containerOpen };
+export { svg_info, svg_warning, containerOpen, containerOpenInline };

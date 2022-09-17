@@ -6,7 +6,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import compile from '@/helpers/markdown-compile';
+import compile from '@/helpers/markdown';
 export default defineComponent({
 	name: "MarkdownEditorVue",
 	data() {

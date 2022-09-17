@@ -1,21 +1,14 @@
 import type MarkdownIt from 'markdown-it';
 import type { RenderRule } from 'markdown-it/lib/renderer';
-import type Token from 'markdown-it/lib/token';
 import container from 'markdown-it-container';
 
 export const containerPlugin = (md: MarkdownIt) => {
   md.use(...createContainer('green', 'TIP', md))
     .use(...createContainer('grey', 'INFO', md))
+    .use(...createContainer('blue', 'INFO', md))
     .use(...createContainer('yellow', 'WARNING', md))
     .use(...createContainer('red', 'DANGER', md))
-    .use(...createContainer('details', 'Details', md))
-    // explicitly escape Vue syntax
-    .use(container, 'v-pre', {
-      render: (tokens: Token[], idx: number) => (tokens[idx]?.nesting === 1 ? `<div v-pre>\n` : `</div>\n`),
-    })
-    .use(container, 'raw', {
-      render: (tokens: Token[], idx: number) => (tokens[idx]?.nesting === 1 ? `<div class="vp-raw">\n` : `</div>\n`),
-    });
+    .use(...createContainer('details', 'Details', md));
 };
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }];
