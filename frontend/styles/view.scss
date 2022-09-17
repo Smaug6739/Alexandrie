@@ -25,8 +25,8 @@
 .view {
 
 	img {
-		height: 300px;
 		max-width: 100%;
+		max-height: 400px;
 		width: auto;
 		margin-bottom: 5px;
 	}
@@ -37,10 +37,6 @@
 	}
 
 	@media screen and (max-width: 600px) {
-		img {
-			height: auto;
-			width: 100%;
-		}
 
 		table {
 			border-collapse: collapse;
