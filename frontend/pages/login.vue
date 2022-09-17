@@ -4,7 +4,7 @@
 			<legend>Connexion</legend>
 			<input id="form-username" type="text" placeholder="Username" />
 			<input id="form-password" type="password" placeholder="Password" />
-			<button type="button" @click="connect" class="btn btn-pink">Connexion</button>
+			<button type="button" @click="connect" class="btn btn-theme">Connexion</button>
 		</fieldset>
 	</form>
 </template>

@@ -134,9 +134,6 @@ function replaceText(text: string, results: Result[]): string {
       displayMode: true,
       trust: true,
     });
-    console.log(expressionWithoutDollar);
-    console.log(render);
-
     text = text.replace(expression, `<span class="katex-container"><i>${render}</i></span>`);
   }
   return text;

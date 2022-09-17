@@ -14,7 +14,7 @@
 				<label for="icon">Icon:</label>
 				<input type="text" placeholder="Icon" name="icon" v-model="theme.icon" />
 
-				<button type="button" class="btn btn-pink" @click="editMain">Edit</button>
+				<button type="button" class="btn btn-theme" @click="editMain">Edit</button>
 				<button type="button" class="btn btn-red" @click="delMain">Delete</button>
 			</fieldset>
 		</form>
@@ -36,7 +36,7 @@
 				<select name="parent_id" v-model="sub.parent_category">
 					<option v-for="category in themes" :value="category.path" :key="category.id">{{ category.path }}</option>
 				</select>
-				<button type="button" class="btn btn-pink" @click="editSub(index)">Edit</button>
+				<button type="button" class="btn btn-theme" @click="editSub(index)">Edit</button>
 				<button type="button" class="btn btn-red" @click="delSub(sub.id)">Delete</button>
 			</fieldset>
 		</fieldset>

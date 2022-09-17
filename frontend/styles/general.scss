@@ -247,7 +247,7 @@ th {
 }
 
 tr {
-	background-color: $border-color;
+	background-color: var(--contrast-color);
 }
 
 tr:nth-child(even) {

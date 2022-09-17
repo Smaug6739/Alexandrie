@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<span class="btn btn-pink" @click="$router.push('/admin/articles/new')">New</span>
+		<span class="btn btn-theme" @click="$router.push('/admin/articles/new')">New</span>
 		<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
 	</div>
 
@@ -54,23 +54,23 @@ const displayArticles = computed(() => {
 	return getAll.value.map(article => {
 		return [
 			{
-				title: article.name,
+				content: article.name,
 				action: 'text' as const,
 			},
 			{
-				title: article.description,
+				content: article.description,
 				action: 'text' as const,
 			},
 			{
-				title: timestampToString(article.created_timestamp),
+				content: timestampToString(article.created_timestamp),
 				action: 'text' as const,
 			},
 			{
-				title: timestampToString(article.updated_timestamp),
+				content: timestampToString(article.updated_timestamp),
 				action: 'text' as const,
 			},
 			{
-				title: '/admin/articles/edit-' + article.id,
+				content: '/admin/articles/edit-' + article.id,
 				action: 'link' as const,
 			}
 		]

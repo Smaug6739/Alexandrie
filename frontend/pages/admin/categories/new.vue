@@ -13,7 +13,7 @@
 				<input type="text" placeholder="Path" name="path" v-model="theme.path" />
 				<label for="icon">Icon:</label>
 				<input type="text" placeholder="Icon" name="icon" v-model="theme.icon" />
-				<button type="button" class="btn btn-pink" @click="postMain">Post</button>
+				<button type="button" class="btn btn-theme" @click="postMain">Post</button>
 			</fieldset>
 		</form>
 		<h2>Sub categories</h2>
@@ -34,7 +34,7 @@
 				<select name="parent_id" v-model="sub.parent_category">
 					<option v-for="category in categories" :value="category.path" :key="category.id">{{ category.path }}</option>
 				</select>
-				<button type="button" class="btn btn-pink" @click="postSub">Post</button>
+				<button type="button" class="btn btn-theme" @click="postSub">Post</button>
 
 			</fieldset>
 		</form>

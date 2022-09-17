@@ -8,7 +8,7 @@
 				404 Not Found</h2>
 			<div class="error-details">
 				Sorry, an error has occured, Requested page not found! <br />
-				<NuxtLink to="/" class="">Take Me Home </NuxtLink>
+				<NuxtLink to="/">Take Me Home </NuxtLink>
 			</div>
 
 		</div>

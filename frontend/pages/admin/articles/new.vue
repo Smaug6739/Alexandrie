@@ -22,7 +22,7 @@
 				<div style="width:100%; height:100%;">
 					<MarkdownEditorVue ref="editor" :value="article.content_markdown" />
 				</div>
-				<button type="button" class="btn btn-pink" @click="post">Post</button>
+				<button type="button" class="btn btn-theme" @click="post">Post</button>
 			</fieldset>
 		</form>
 

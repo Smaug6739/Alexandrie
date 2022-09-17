@@ -5,8 +5,8 @@
 				<legend>Article</legend>
 				<label for="image">Image:</label>
 				<input type="file" placeholder="Image" name="image" id="file" />
-				<button type="button" class="btn btn-pink" @click="post">Post</button>
-				<p>Résultat: <code>{{  result  }}</code> <button type="button" class="btn btn-pink " @click="copy">Copy
+				<button type="button" class="btn btn-theme" @click="post">Post</button>
+				<p>Résultat: <code>{{  result  }}</code> <button type="button" class="btn btn-theme " @click="copy">Copy
 						result</button>
 				</p>
 			</fieldset>
