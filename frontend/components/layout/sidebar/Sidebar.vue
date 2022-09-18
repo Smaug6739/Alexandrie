@@ -66,8 +66,6 @@ const route = useRoute();
 const articlesStore = useArticlesStore();
 const categoriesStore = useCategoriesStore();
 
-articlesStore.fetchAll();
-
 const { articles } = storeToRefs(articlesStore);
 const { categories } = storeToRefs(categoriesStore);
 

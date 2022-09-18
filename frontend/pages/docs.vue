@@ -5,16 +5,10 @@
 		<NuxtPage />
 	</div>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
 import BackToTop from "../components/common/back-to-top/index"
 import Sidebar from "../components/layout/sidebar/Sidebar.vue";
-
-export default defineComponent({
-	name: "Data",
-	components: {
-		Sidebar,
-		BackToTop,
-	},
-});
+import { useArticlesStore } from "../store";
+const articlesStore = useArticlesStore();
+articlesStore.fetchAll();
 </script>
