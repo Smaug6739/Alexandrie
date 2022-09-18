@@ -129,6 +129,10 @@ div {
 	background-color: rgb(0, 72, 112, 0.2);
 }
 
+summary {
+	cursor: pointer;
+}
+
 .custom-block.details code {
 	background-color: #f9f9f9;
 }
