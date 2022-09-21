@@ -61,6 +61,9 @@ function replaceText(text: string, results: Result[]): string {
       throwOnError: false,
       displayMode: true,
       trust: true,
+      macros: {
+        '\\neq': '\\mathrel{\\char`≠}',
+      },
     });
     text = text.replace(expression, `<span class="katex-container"><i>${render}</i></span>`);
   }
