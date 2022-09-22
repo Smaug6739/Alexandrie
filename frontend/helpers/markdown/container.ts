@@ -8,7 +8,8 @@ export const containerPlugin = (md: MarkdownIt) => {
     .use(...createContainer('blue', 'INFO', md))
     .use(...createContainer('yellow', 'WARNING', md))
     .use(...createContainer('red', 'DANGER', md))
-    .use(...createContainer('details', 'Details', md));
+    .use(...createContainer('details', 'Details', md))
+    .use(...createContainer('turquoise', 'INFO', md));
 };
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }];
