@@ -1,7 +1,7 @@
 export default class Loader {
   private position = 0;
   private progress = 0;
-  private interval: number | NodeJS.Timer | null = null;
+  private interval: NodeJS.Timer | null = null;
   start() {
     this.prepar();
     const appLoader = document.getElementById('app-loader');

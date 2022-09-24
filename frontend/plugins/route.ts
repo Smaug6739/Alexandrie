@@ -2,7 +2,7 @@ import Loader from '@/utils/Loader';
 
 const loader = new Loader();
 
-export default defineNuxtPlugin(_ => {
+export default defineNuxtPlugin(() => {
   const router = useRouter();
 
   // Every time the route changes (fired on initialization too)

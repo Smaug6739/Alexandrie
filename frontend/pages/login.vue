@@ -13,7 +13,7 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-if (document.cookie && document.cookie.includes("user_auth")) {
+if (process.client && document.cookie && document.cookie.includes("user_auth")) {
 	router.push({ name: "admin" });
 }
 async function connect() {
