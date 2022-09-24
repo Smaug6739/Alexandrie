@@ -6,7 +6,7 @@
 	</aside>
 </template>
 <script lang="ts" setup >
-import { ref } from 'vue'
+import { ref, computed, defineExpose } from 'vue'
 import compile from '@/helpers/markdown';
 
 const props = defineProps(
@@ -29,9 +29,9 @@ function synchronizeScroll() {
 	output.scrollTo({ top: (scrollTop / scrollHeight) * output.scrollHeight })
 }
 
-onBeforeUnmount(() => {
-	console.log("unmounted");
-
+defineExpose({
+	markdown,
+	html
 })
 
 </script>
