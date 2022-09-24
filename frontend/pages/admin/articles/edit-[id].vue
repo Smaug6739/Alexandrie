@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<form>
-			<fieldset v-if="article.id">
+			<fieldset v-if="article">
 				<legend>Article</legend>
 				<label for="title">Title:</label>
 				<input type="text" placeholder="Title" name="title" v-model="article.name" />
@@ -13,7 +13,7 @@
 				</select>
 				<label for="sub_category">Sub category:</label>
 				<select name="sub_category" v-model="article.sub_category">
-					<option v-for="sub_category of theme.categories" :value="sub_category.path" :key="sub_category.id">
+					<option v-for="sub_category of theme?.categories" :value="sub_category.path" :key="sub_category.id">
 						{{ sub_category.path}}
 					</option>
 				</select>
@@ -30,60 +30,44 @@
 
 	</div>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { Theme, useArticlesStore, useCategoriesStore } from '@/store';
-import type { Article } from '@/store';
 import MarkdownEditorVue from '@/components/MarkdownEditor.vue';
-export default defineComponent({
-	name: 'admin-articles-edit',
-	data() {
-		return {
-			article: {
-				name: '',
-				description: '',
-				main_category: '',
-				sub_category: '',
-				path: '',
-				content_markdown: '',
-				content_html: '',
-			} as Article,
-			themes: [] as Theme[],
-		};
-	},
-	components: {
-		MarkdownEditorVue,
-	},
-	methods: {
-		edit() {
-			const store = useArticlesStore();
-			const markdown = (this.$refs.editor as any).markdown;
-			const html = (this.$refs.editor as any).html;
-			this.article.content_markdown = markdown;
-			this.article.content_html = html
-			store.updateArticle(this.article).then(_ => this.$router.push("/admin/articles"))
-		},
-		del() {
-			const store = useArticlesStore();
-			store.deleteArticle(this.article.id).then(_ => this.$router.push("/admin/articles"))
-		}
-	},
-	computed: {
-		theme() {
-			const theme = this.themes.find((t: Theme) => t.path === this.article.main_category) as Theme;
-			return theme || [];
-		}
 
-	},
+const store = useArticlesStore();
+const categoriesStore = useCategoriesStore();
+const router = useRouter();
+const route = useRoute();
 
-	async beforeMount() {
-		const store = useArticlesStore();
-		const categoriesStore = useCategoriesStore();
-		const article = store.getById(this.$route.params.id as string);
-		if (article) this.article = article;
-		this.themes = categoriesStore.getAll;
-	},
-});
+
+
+const themes = ref<Theme[]>(categoriesStore.getAll);
+const editor = ref();
+
+const article = computed(() => store.getById(route.params.id as string))
+
+function edit() {
+	if (!article.value) return;
+	const markdown = (editor as any).markdown;
+	const html = (editor as any).html;
+	article.value.content_markdown = markdown;
+	article.value.content_html = html
+	store.updateArticle(article.value).then(_ => router.push("/admin/articles"))
+}
+function del() {
+	if (!article.value) return;
+	const store = useArticlesStore();
+	store.deleteArticle(article.value.id).then(_ => router.push("/admin/articles"))
+}
+
+const theme = computed(() => {
+	if (!article.value) return;
+	const theme = themes.value.find((t: Theme) => t.path === article.value!.main_category) as Theme;
+	return theme || [];
+})
+
 
 </script>
 <style lang="scss" scoped>

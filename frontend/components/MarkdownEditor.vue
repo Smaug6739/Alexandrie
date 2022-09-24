@@ -62,4 +62,8 @@ aside {
 	overflow-x: auto;
 	overflow-y: auto;
 }
+
+.input {
+	font-size: 12px;
+}
 </style>
