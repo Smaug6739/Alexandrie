@@ -1,7 +1,7 @@
 <template>
 	<aside>
 		<textarea class="input" name="Editor" id="" cols="30" rows="20" v-model="markdown"
-			@scroll="synchronizeScroll"></textarea>
+			@change="synchronizeScroll"></textarea>
 		<div class="output" v-html="html"></div>
 	</aside>
 </template>
