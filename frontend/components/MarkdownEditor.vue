@@ -1,7 +1,7 @@
 <template>
 	<aside>
 		<textarea class="input" name="Editor" id="" cols="30" rows="20" v-model="markdown"
-			@change="synchronizeScroll"></textarea>
+			@keyup="synchronizeScroll"></textarea>
 		<div class="output" v-html="html"></div>
 	</aside>
 </template>
@@ -21,6 +21,8 @@ const props = defineProps(
 const markdown = ref(props.markdown)
 const html = computed(() => compile(markdown.value, true))
 function synchronizeScroll() {
+	console.log('scroll');
+
 	const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
 	const output = document.querySelector('.output') as HTMLElement;
 	if (!textarea || !output) return;
