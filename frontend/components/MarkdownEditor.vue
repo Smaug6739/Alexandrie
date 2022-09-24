@@ -8,7 +8,6 @@
 <script lang="ts" setup >
 import { ref, computed, defineExpose } from 'vue'
 import compile from '@/helpers/markdown';
-
 const props = defineProps(
 	{
 		markdown: {
@@ -22,11 +21,13 @@ const props = defineProps(
 const markdown = ref(props.markdown)
 const html = computed(() => compile(markdown.value, true))
 function synchronizeScroll() {
-	const textarea = document.querySelector('textarea')
-	const output = document.querySelector('.output')
+	const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
+	const output = document.querySelector('.output') as HTMLElement;
 	if (!textarea || !output) return;
-	const { scrollTop, scrollHeight } = textarea
-	output.scrollTo({ top: (scrollTop / scrollHeight) * output.scrollHeight })
+	// If the textarea is scrolled to the bottom, keep the output scrolled to the bottom
+	if (textarea.scrollTop === textarea.scrollHeight - textarea.clientHeight) {
+		output.scrollTop = output.scrollHeight - output.clientHeight;
+	}
 }
 
 defineExpose({
