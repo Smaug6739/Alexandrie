@@ -53,10 +53,7 @@ $font-links: 'DM Sans', sans-serif;
   --scrollbar-thumb: #255461;
 
   --font-size: 16px;
-  --math-size: 20px;
   --line-height: 24px;
-
-
 
 }
 
@@ -120,9 +117,8 @@ $font-links: 'DM Sans', sans-serif;
   --opposite-color: #000;
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
   :root {
     --font-size: 13px;
-    --math-size: 18px;
   }
 }

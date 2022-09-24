@@ -4,7 +4,7 @@
 	margin: auto;
 	padding: 10px;
 
-	@media screen and (max-width: 768px) {
+	@media (max-width: 768px) {
 		width: 100%;
 		padding: 0;
 		padding-right: 5px;
@@ -17,7 +17,7 @@
 	margin: auto;
 	padding: 10px;
 
-	@media screen and (max-width: 768px) {
+	@media (max-width: 768px) {
 		width: 100%;
 	}
 }
@@ -36,7 +36,7 @@
 		padding-left: 20px;
 	}
 
-	@media screen and (max-width: 600px) {
+	@media (max-width: 600px) {
 
 		table {
 			border-collapse: collapse;
