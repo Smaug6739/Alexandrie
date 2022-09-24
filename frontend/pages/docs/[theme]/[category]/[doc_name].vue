@@ -24,26 +24,19 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { useArticlesStore, type Article } from '@/store';
+import { useArticlesStore } from '@/store';
 import Loader from "@/components/common/Loader.vue"
 
 const route = useRoute();
 const articlesStore = useArticlesStore();
 
-let article = ref<Article | undefined>();
-let previous = ref<Article | undefined>();
-let next = ref<Article | undefined>();
 
-
-article = computed(() => articlesStore.getByPaths(route.params.doc_name as string, route.params.category as string, route.params.theme as string));
-next = computed(() => articlesStore.getNext(article.value));
-previous = computed(() => articlesStore.getPrevious(article.value));
-
+const article = computed(() => articlesStore.getByPaths(route.params.doc_name as string, route.params.category as string, route.params.theme as string));
+const next = computed(() => articlesStore.getNext(article.value));
+const previous = computed(() => articlesStore.getPrevious(article.value));
 
 const formatDate = (d: string) => new Date(parseInt(d)).toLocaleDateString();
-
 
 </script>
 <style lang="scss" scoped>
