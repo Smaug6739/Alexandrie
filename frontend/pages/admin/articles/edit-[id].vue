@@ -21,7 +21,7 @@
 				<input type="text" placeholder="Path" name="path" v-model="article.path" />
 				<label for="content">Content</label>
 				<div style="width:100%; height:100%;">
-					<MarkdownEditorVue ref="editor" :value="article.content_markdown" />
+					<MarkdownEditorVue ref="editor" :markdown="article.content_markdown" />
 				</div>
 				<button type="button" class="btn btn-theme" @click="edit">Edit</button>
 				<button type="button" class="btn btn-red" @click="del">Delete</button>
@@ -51,7 +51,6 @@ export default defineComponent({
 			themes: [] as Theme[],
 		};
 	},
-
 	components: {
 		MarkdownEditorVue,
 	},

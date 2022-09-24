@@ -1,36 +1,39 @@
 <template>
 	<aside>
-		<textarea class="input" name="Editor" id="" cols="30" rows="20" v-model="markdown"></textarea>
+		<textarea class="input" name="Editor" id="" cols="30" rows="20" v-model="markdown"
+			@scroll="synchronizeScroll"></textarea>
 		<div class="output" v-html="html"></div>
 	</aside>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup >
+import { ref } from 'vue'
 import compile from '@/helpers/markdown';
-export default defineComponent({
-	name: "MarkdownEditorVue",
-	data() {
-		return {
-			markdown: this.value,
-		};
-	},
-	props: {
-		value: {
+
+const props = defineProps(
+	{
+		markdown: {
 			type: String,
-			default: "",
-		},
-	},
-	computed: {
-		html() {
-			return compile(this.markdown, true);
-		}
-	},
-	watch: {
-		value: function (newVal) { // watch it
-			this.markdown = newVal;
+			default: '',
+			required: true
 		}
 	}
+)
+
+const markdown = ref(props.markdown)
+const html = computed(() => compile(markdown.value, true))
+function synchronizeScroll() {
+	const textarea = document.querySelector('textarea')
+	const output = document.querySelector('.output')
+	if (!textarea || !output) return;
+	const { scrollTop, scrollHeight } = textarea
+	output.scrollTo({ top: (scrollTop / scrollHeight) * output.scrollHeight })
+}
+
+onBeforeUnmount(() => {
+	console.log("unmounted");
+
 })
+
 </script>
 <style lang="scss" scoped>
 aside {
