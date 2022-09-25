@@ -21,8 +21,6 @@ const props = defineProps(
 const markdown = ref(props.markdown)
 const html = computed(() => compile(markdown.value, true))
 function synchronizeScroll() {
-	console.log('scroll');
-
 	const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
 	const output = document.querySelector('.output') as HTMLElement;
 	if (!textarea || !output) return;

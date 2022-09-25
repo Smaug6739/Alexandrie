@@ -50,8 +50,8 @@ const article = computed(() => store.getById(route.params.id as string))
 
 function edit() {
 	if (!article.value) return;
-	const markdown = (editor as any).markdown;
-	const html = (editor as any).html;
+	const markdown = (editor.value as any).markdown;
+	const html = (editor.value as any).html;
 	article.value.content_markdown = markdown;
 	article.value.content_html = html
 	store.updateArticle(article.value).then(_ => router.push("/admin/articles"))

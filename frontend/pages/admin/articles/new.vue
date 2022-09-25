@@ -56,8 +56,6 @@ export default defineComponent({
 	methods: {
 		post() {
 			const store = useArticlesStore();
-			console.log(this.$refs.editor);
-
 			const markdown = (this.$refs.editor as any).markdown;
 			const html = (this.$refs.editor as any).html;
 			this.article.content_markdown = markdown;

@@ -7,6 +7,3 @@ self.addEventListener(
     console.log('Activate!');
   },
 );
-self.addEventListener('fetch', function (/*event*/) {
-  console.log('Fetch!');
-});
