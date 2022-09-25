@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  plugins: ['~/plugins/route', '~/plugins/auth'],
+  plugins: ['~/plugins/route', '~/plugins/auth', '~/plugins/pwa/pwa'],
   css: ['~/styles/main.scss'],
   modules: [
     // ...
@@ -22,6 +22,13 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en',
       },
+      link: [
+        {
+          rel: 'manifest',
+          crossorigin: 'use-credentials',
+          href: '/manifest.json',
+        },
+      ],
       meta: [
         { name: 'robots', content: 'follow, index' },
         { name: 'theme-color', content: '#001e26' },
