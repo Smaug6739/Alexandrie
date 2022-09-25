@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { makeRequest } from './utils';
+
 export interface Article {
   id: string;
   main_category: string;
@@ -21,7 +22,8 @@ export const useArticlesStore = defineStore('articles', {
   getters: {
     getAll: state => state.articles,
     getById: state => (id: string) => state.articles.find((a: Article) => a.id == id),
-    getAllByCategory: state => (category: string) => state.articles.filter((a: Article) => a.main_category == category),
+    getByCategories: state => (theme: string, category: string) =>
+      state.articles.filter((a: Article) => a.main_category == theme && a.sub_category == category),
 
     getByPaths: state => (article: string, category: string, subject: string) =>
       state.articles.find(a => a.path == article && a.sub_category == category && a.main_category == subject),

@@ -7,11 +7,10 @@
 					Scientia</h1>
 				<h2>{{ category?.name }}</h2>
 				<div>
-					Index de la catégorie {{ category?.name }} vous retrouvtrez ici plusieurs documents classéss dans les
-					catégories suivantes :
+					Index de la catégorie {{ category?.name }}.
 					<ul>
 						<li v-for="(item, index) in articles" :key="index">
-							<NuxtLink :to="`/docs/${$route.params.theme}/${$route.params.category}/${item.path}`">{{item.name}}
+							<NuxtLink :to="`/docs/${route.params.theme}/${route.params.category}/${item.path}`">{{item.name}}
 							</NuxtLink>
 						</li>
 					</ul>
@@ -35,37 +34,16 @@ ul {
 	list-style-position: inside;
 }
 </style>
-<script lang="ts">
-import { defineComponent } from "vue";
-import { type Theme, type Article, useCategoriesStore, useArticlesStore } from "../../../../store";
+<script lang="ts" setup>
+import { computed } from "vue";
+import { useRoute } from "vue-router"
+import { useCategoriesStore, useArticlesStore } from "../../../../store";
 
-export default defineComponent({
-	name: "theme",
-	data() {
-		return {
-			category: {} as Theme | undefined,
-			articles: [] as Article[] | undefined,
-		};
-	},
-	async mounted() {
-		this.category = this.getCategory();
-		this.articles = this.getArticles();
-	},
-	methods: {
-		getCategory() {
-			const categoriesStore = useCategoriesStore();
-			return categoriesStore.getByPath(this.$route.params.theme as string);
-		},
-		getArticles() {
-			const articlesStore = useArticlesStore();
-			return articlesStore.articles.filter(a => a.main_category === this.$route.params.theme as string && a.sub_category === this.$route.params.category).map(a => { return { name: a.name, path: a.path } as Article; });
-		}
-	},
-	watch: {
-		async $route() {
-			this.category = this.getCategory();
-			this.articles = this.getArticles();
-		}
-	},
-});
+const categoriesStore = useCategoriesStore();
+const articlesStore = useArticlesStore();
+
+const route = useRoute();
+
+const category = computed(() => categoriesStore.getByPath(route.params.theme as string));
+const articles = computed(() => articlesStore.getByCategories(route.params.theme as string, route.params.category as string));
 </script>

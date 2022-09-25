@@ -34,30 +34,13 @@ ul {
 	list-style-position: inside;
 }
 </style>
-<script lang="ts">
-import { defineComponent } from "vue";
-import { type Theme, useCategoriesStore } from "../../../store";
+<script lang="ts" setup>
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useCategoriesStore } from "../../../store";
 
-export default defineComponent({
-	name: "theme",
-	data() {
-		return {
-			category: {} as Theme | undefined,
-		};
-	},
-	mounted() {
-		this.category = this.getCategory();
-	},
-	methods: {
-		getCategory() {
-			const categoriesStore = useCategoriesStore();
-			return categoriesStore.getByPath(this.$route.params.theme as string);
-		}
-	},
-	watch: {
-		$route() {
-			this.category = this.getCategory();
-		}
-	},
-});
+const route = useRoute();
+const categoryStore = useCategoriesStore();
+
+const category = computed(() => categoryStore.getByPath(route.params.theme as string));
 </script>
