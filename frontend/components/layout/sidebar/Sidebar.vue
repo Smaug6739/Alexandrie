@@ -1,66 +1,36 @@
 <template>
   <aside>
     <div class="sidebar" :class="isOpened ? 'open' : ''">
-      <div class="logo-details" style="margin: 6px 14px 0 14px">
-        <img v-if="menuLogo" :src="menuLogo" alt="menu-logo" class="menu-logo icon" />
-        <i v-else class="bx icon" :class="menuIcon" />
-        <div class="logo_name">
-          {{ menuTitle }}
-        </div>
+      <div class="header">
+        <i class="bx icon" :class="menuIcon" />
+        <div class="logo_name"> {{ menuTitle }} </div>
         <i class="bx" :class="isOpened ? 'bx-menu-alt-right' : 'bx-menu'" id="btn" @click="isOpened = !isOpened" />
       </div>
 
-      <div style="
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          flex-grow: 1;
-          max-height: calc(100% - 60px);
-        ">
-
-        <div id="my-scroll" style="margin: 6px 14px 0 14px">
-
-          <ul class="nav-list" style="overflow: visible">
-            <li class="li-style" v-if="isSearch" @click="isOpened = true">
-              <i class="bx bx-search" />
-              <input type="text" :placeholder="searchPlaceholder" v-model="searchInput" />
-              <span class="tooltip">{{ searchTooltip }}</span>
-            </li>
-
-            <span v-for="(menuItem, index) of menuItems" :key="index">
-              <li class="li-style">
-                <span class="a-style">
-                  <NuxtLink :to="`/docs/${route.params.theme}/${menuItem.path}`">
-                    <i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
-                    <span class="links_name">{{ menuItem.name }}</span>
-                  </NuxtLink>
-                </span>
-                <span class="tooltip">{{ menuItem.name }}</span>
-                <ul v-if="isOpened">
-                  <span v-for="(children, index) of menuItem.childrens" :key="index">
-                    <li class="children" @click="close">
-                      <NuxtLink :to="children.link" class="sub_link a-classic">
-                        {{children.name}}
-                      </NuxtLink>
-                    </li>
-                  </span>
-                </ul>
-              </li>
-            </span>
-          </ul>
-        </div>
+      <div id="sidebar-scroll">
+        <ul class="nav-list">
+          <SidebarSearch :isOpened="isOpened" :isSearch="isSearch" :searchPlaceholder="searchPlaceholder"
+            @search="(val:string) => searchInput = val" />
+          <span v-for="(menuItem, index) of menuItems" :key="index">
+            <SidebarGroup :menuItem="menuItem" :isOpened="isOpened" @close="isOpened = false" />
+          </span>
+        </ul>
       </div>
     </div>
   </aside>
 </template>
 
 <script setup lang="ts">
-
 import { ref, onBeforeUnmount, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia';
+
+import SidebarGroup from './SidebarGroup.vue';
+import SidebarSearch from './SidebarSearch.vue';
 
 import { useArticlesStore, useCategoriesStore } from '@/store';
+
+import type { MenuItem } from './types'
 
 const route = useRoute();
 const articlesStore = useArticlesStore();
@@ -122,7 +92,6 @@ onBeforeUnmount(() => {
   if (process.client) window.document.body.style.paddingLeft = '0';
 });
 
-
 const menuItems = computed((): MenuItem[] => {
   const items: MenuItem[] = [];
   const subject = route.params.theme as string;
@@ -133,6 +102,7 @@ const menuItems = computed((): MenuItem[] => {
   for (const category of theme.categories) {
     items.push({
       name: category.name,
+      theme: route.params.theme as string,
       path: category.path,
       icon: category.icon,
       childrens: articles.value
@@ -151,24 +121,168 @@ const menuItems = computed((): MenuItem[] => {
   return items;
 })
 
-function close() {
-  if (process.client && window.screen.width < 768) {
-    isOpened.value = !isOpened.value;
-  }
-}
-
-interface MenuItem {
-  name: string;
-  description?: string;
-  path: string;
-  icon: string;
-  childrens: Children[];
-}
-interface Children {
-  name: string;
-  link: string;
-}
 </script>
-<style lang="scss" scoped src="./sidebar.scss">
+<style lang="scss" scoped>
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  min-height: min-content;
+  /* overflow-y: auto; */
+  width: 78px;
+  background: var(--bg-color);
+  /* padding: 6px 14px 0 14px; */
+  z-index: 99;
+  transition: all 0.2s ease;
+}
 
+.sidebar.open {
+  width: 300px;
+}
+
+.header {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 6px 14px 0 14px;
+}
+
+.header .icon {
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.header .logo_name {
+  font-size: 20px;
+  font-weight: 600;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.sidebar.open .header .icon,
+.sidebar.open .header .logo_name {
+  opacity: 1;
+}
+
+.header #btn {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  transition: all 0.4s ease;
+  font-size: 23px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar.open .header #btn {
+  text-align: right;
+}
+
+i {
+  height: 60px;
+  min-width: 50px;
+  font-size: 28px;
+  text-align: center;
+  line-height: 60px;
+}
+
+.nav-list {
+  margin-top: 20px;
+  overflow: visible;
+  /* margin-bottom: 60px; */
+  /* height: 100%; */
+  /* min-height: min-content; */
+}
+
+
+
+
+
+
+
+.sidebar.open .li-style .tooltip {
+  display: none;
+}
+
+
+.sidebar.open input {
+  padding: 0 20px 0 50px;
+  width: 95%;
+}
+
+.bx-search {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-size: 22px;
+  background: var(--contrast-color);
+}
+
+.sidebar.open .bx-search:hover {
+  background: var(--contrast-color);
+}
+
+.bx-search:hover {
+  background: var(--font-color);
+  color: var(--bg-color);
+}
+
+
+
+
+.sidebar.open .li-style .a-style a .links_name {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.a-style a:hover .links_name,
+.a-style a:hover i {
+  transition: all 0.2s ease;
+  color: var(--bg-color);
+}
+
+
+
+
+
+
+
+#sidebar-scroll {
+  overflow-y: auto;
+  height: 100%; //calc(100% - 60px);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  max-height: calc(100% - 60px);
+  margin: 6px 14px 0 14px
+}
+
+#sidebar-scroll::-webkit-scrollbar {
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 7px;
+  border-radius: 5px
+}
+
+#sidebar-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 5px
+}
+
+#sidebar-scroll::-webkit-scrollbar-button:vertical:start:decrement {
+  display: none;
+}
+
+#sidebar-scroll::-webkit-scrollbar-button:vertical:end:increment {
+  display: none;
+}
 </style>
