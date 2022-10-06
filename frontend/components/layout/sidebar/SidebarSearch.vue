@@ -1,7 +1,7 @@
 <template>
 	<li class="li-style" v-if="isSearch" @click="emit('open')">
 		<i class="bx bx-search" />
-		<input type="text" :placeholder="searchPlaceholder"
+		<input type="text" :placeholder="searchPlaceholder" :class="isOpened ? 'open' : ''"
 			@input="(v) => emit('search',( v.target as HTMLInputElement).value)" />
 	</li>
 </template>
@@ -21,13 +21,7 @@ const emit = defineEmits(['open', 'search']);
 	list-style: none;
 }
 
-li:hover .tooltip {
-	opacity: 1;
-	pointer-events: auto;
-	transition: all 0.4s ease;
-	top: 50%;
-	transform: translateY(-50%);
-}
+
 
 input {
 	font-size: 15px;
@@ -35,13 +29,19 @@ input {
 	font-weight: 400;
 	outline: none;
 	height: 50px;
-	padding: 0 20px 0 50px;
-	width: 95%;
+	width: 100%;
+	width: 50px;
 	border: none;
 	border-radius: 12px;
 	transition: all 0.2s ease;
 	background: var(--contrast-color);
+
+	&.open {
+		padding: 0 20px 0 50px;
+		width: 95%;
+	}
 }
+
 
 .li-style {
 	position: relative;
@@ -58,6 +58,7 @@ input {
 	border-radius: 12px;
 }
 
+
 .bx-search {
 	position: absolute;
 	top: 50%;
@@ -67,20 +68,9 @@ input {
 	background: var(--contrast-color);
 }
 
-.li-style .tooltip {
-	position: absolute;
-	top: -20px;
-	left: calc(100% + 15px);
-	z-index: 3;
-	background: var(--font-color-dimmed);
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-	padding: 6px 12px;
-	border-radius: 4px;
-	font-size: 15px;
-	font-weight: 400;
-	opacity: 0;
-	white-space: nowrap;
-	pointer-events: none;
-	transition: 0s;
+
+.bx-search:hover {
+	background: var(--font-color);
+	color: var(--bg-color);
 }
 </style>

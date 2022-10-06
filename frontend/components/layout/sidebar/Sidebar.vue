@@ -196,13 +196,7 @@ i {
 .nav-list {
   margin-top: 20px;
   overflow: visible;
-  /* margin-bottom: 60px; */
-  /* height: 100%; */
-  /* min-height: min-content; */
 }
-
-
-
 
 
 
@@ -212,28 +206,7 @@ i {
 }
 
 
-.sidebar.open input {
-  padding: 0 20px 0 50px;
-  width: 95%;
-}
 
-.bx-search {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  font-size: 22px;
-  background: var(--contrast-color);
-}
-
-.sidebar.open .bx-search:hover {
-  background: var(--contrast-color);
-}
-
-.bx-search:hover {
-  background: var(--font-color);
-  color: var(--bg-color);
-}
 
 
 
