@@ -81,6 +81,7 @@ const emit = defineEmits(['close']);
 	position: relative;
 	margin: 8px 0;
 	list-style: none;
+
 }
 
 .li-style i {

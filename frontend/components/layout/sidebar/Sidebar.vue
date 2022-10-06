@@ -11,9 +11,9 @@
         <ul class="nav-list">
           <SidebarSearch :isOpened="isOpened" :isSearch="isSearch" :searchPlaceholder="searchPlaceholder"
             @search="(val:string) => searchInput = val" />
-          <span v-for="(menuItem, index) of menuItems" :key="index">
+          <ul v-for="(menuItem, index) of menuItems" :key="index">
             <SidebarGroup :menuItem="menuItem" :isOpened="isOpened" @close="isOpened = false" />
-          </span>
+          </ul>
         </ul>
       </div>
     </div>
@@ -131,17 +131,16 @@ const menuItems = computed((): MenuItem[] => {
   top: 0;
   height: 100%;
   min-height: min-content;
-  /* overflow-y: auto; */
   width: 78px;
   background: var(--bg-color);
-  /* padding: 6px 14px 0 14px; */
   z-index: 99;
   transition: all 0.2s ease;
+
+  &.open {
+    width: 300px;
+  }
 }
 
-.sidebar.open {
-  width: 300px;
-}
 
 .header {
   height: 60px;
@@ -149,40 +148,44 @@ const menuItems = computed((): MenuItem[] => {
   align-items: center;
   position: relative;
   margin: 6px 14px 0 14px;
+
+  .icon {
+    opacity: 0;
+    transition: all 0.2s ease;
+  }
+
+  .logo_name {
+    font-size: 20px;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.2s ease;
+  }
+
+  #btn {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    font-size: 22px;
+    transition: all 0.4s ease;
+    font-size: 23px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
 }
 
-.header .icon {
-  opacity: 0;
-  transition: all 0.2s ease;
-}
+.sidebar.open {
+  .header {
+    #btn {
+      text-align: right;
+    }
 
-.header .logo_name {
-  font-size: 20px;
-  font-weight: 600;
-  opacity: 0;
-  transition: all 0.2s ease;
-}
-
-.sidebar.open .header .icon,
-.sidebar.open .header .logo_name {
-  opacity: 1;
-}
-
-.header #btn {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  font-size: 22px;
-  transition: all 0.4s ease;
-  font-size: 23px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.sidebar.open .header #btn {
-  text-align: right;
+    .logo_name,
+    .icon {
+      opacity: 1;
+    }
+  }
 }
 
 i {
@@ -198,36 +201,6 @@ i {
   overflow: visible;
 }
 
-
-
-
-.sidebar.open .li-style .tooltip {
-  display: none;
-}
-
-
-
-
-
-
-
-.sidebar.open .li-style .a-style a .links_name {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.a-style a:hover .links_name,
-.a-style a:hover i {
-  transition: all 0.2s ease;
-  color: var(--bg-color);
-}
-
-
-
-
-
-
-
 #sidebar-scroll {
   overflow-y: auto;
   height: 100%; //calc(100% - 60px);
@@ -237,25 +210,25 @@ i {
   justify-content: space-between;
   flex-grow: 1;
   max-height: calc(100% - 60px);
-  margin: 6px 14px 0 14px
-}
+  margin: 6px 14px 0 14px;
 
-#sidebar-scroll::-webkit-scrollbar {
-  background-color: rgba(255, 255, 255, 0.2);
-  width: 7px;
-  border-radius: 5px
-}
+  &::-webkit-scrollbar {
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 7px;
+    border-radius: 5px
+  }
 
-#sidebar-scroll::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
-  border-radius: 5px
-}
+  &::-webkit-scrollbar-button:vertical:start:decrement {
+    display: none;
+  }
 
-#sidebar-scroll::-webkit-scrollbar-button:vertical:start:decrement {
-  display: none;
-}
+  &::-webkit-scrollbar-button:vertical:end:increment {
+    display: none;
+  }
 
-#sidebar-scroll::-webkit-scrollbar-button:vertical:end:increment {
-  display: none;
+  #sidebar-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 5px
+  }
 }
 </style>
