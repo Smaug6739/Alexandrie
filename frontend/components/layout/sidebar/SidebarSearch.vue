@@ -1,5 +1,5 @@
 <template>
-	<li class="li-style" v-if="isSearch" @click="emit('open')">
+	<li class="li-style" @click="emit('open')">
 		<i class="bx bx-search" />
 		<input type="text" :placeholder="searchPlaceholder" :class="isOpened ? 'open' : ''"
 			@input="(v) => emit('search',( v.target as HTMLInputElement).value)" />
@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { defineProps, defineEmits } from 'vue';
 
-defineProps<{ isOpened: boolean, isSearch: boolean, searchPlaceholder: string }>();
+defineProps<{ isOpened: boolean, searchPlaceholder: string }>();
 const emit = defineEmits(['open', 'search']);
 
 </script>

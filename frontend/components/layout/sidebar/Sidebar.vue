@@ -3,16 +3,17 @@
     <div class="sidebar" :class="isOpened ? 'open' : ''">
       <div class="header">
         <i class="bx icon" :class="menuIcon" />
-        <div class="logo_name"> {{ menuTitle }} </div>
+        <span class="logo_name"> {{ menuTitle }}</span>
         <i class="bx" :class="isOpened ? 'bx-menu-alt-right' : 'bx-menu'" id="btn" @click="isOpened = !isOpened" />
       </div>
 
       <div id="sidebar-scroll">
         <ul class="nav-list">
-          <SidebarSearch :isOpened="isOpened" :isSearch="isSearch" :searchPlaceholder="searchPlaceholder"
+          <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
             @search="(val:string) => searchInput = val" />
           <ul v-for="(menuItem, index) of menuItems" :key="index">
-            <SidebarGroup :menuItem="menuItem" :isOpened="isOpened" @close="isOpened = false" />
+            <SidebarGroup :menuItem="menuItem" :isOpened="isOpened"
+              @closeMobile="isMobile() ? isOpened = false : null" />
           </ul>
         </ul>
       </div>
@@ -39,57 +40,40 @@ const categoriesStore = useCategoriesStore();
 const { articles } = storeToRefs(articlesStore);
 const { categories } = storeToRefs(categoriesStore);
 
-defineProps({
-  //! Menu settings
-  menuTitle: {
-    type: String,
-    default: 'Docs',
-  },
-  menuLogo: {
-    type: String,
-    default: '',
-  },
-  menuIcon: {
-    type: String,
-    default: 'bxs-graduation',
-  },
-  isPaddingLeft: {
-    type: Boolean,
-    default: true,
-  },
-  menuOpenedPaddingLeftBody: {
-    type: String,
-    default: '300px',
-  },
-  menuClosedPaddingLeftBody: {
-    type: String,
-    default: '78px',
-  },
+const menuIcon = 'bxs-graduation'
+const menuTitle = 'Docs'
+const searchPlaceholder = 'Search...'
 
-  //! Search
-  isSearch: {
-    type: Boolean,
-    default: true,
-  },
-  searchPlaceholder: {
-    type: String,
-    default: 'Search...',
-  },
-  searchTooltip: {
-    type: String,
-    default: 'Search',
-  },
-});
 
 const isOpened = ref(false);
 const searchInput = ref('');
 
+const isMobile = () => window.innerWidth <= 768;
+
+// Handle click outside
+const handleClickOutside = (e: MouseEvent) => {
+  if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && isMobile()) isOpened.value = false;
+};
+
 onMounted(() => {
-  if (process.client) window.document.body.style.paddingLeft = '78px';
-  if (process.client) window.innerWidth > 768 ? isOpened.value = true : isOpened.value = false;
+  if (process.client) {
+    window.document.body.style.paddingLeft = '78px';
+    isMobile() ? isOpened.value = false : isOpened.value = true;
+    window.addEventListener('click', handleClickOutside);
+  }
 });
 onBeforeUnmount(() => {
-  if (process.client) window.document.body.style.paddingLeft = '0';
+  if (process.client) {
+    window.document.body.style.paddingLeft = '0';
+    window.removeEventListener('click', handleClickOutside);
+    window.removeEventListener('click', handleClickOutside);
+  }
+});
+
+// Watch isOpened
+watch(isOpened, (val) => {
+  if (process.client && val && isMobile()) document.getElementById('backdrop')?.classList.add('backdrop');
+  if (process.client && !val && isMobile()) document.getElementById('backdrop')?.classList.remove('backdrop');
 });
 
 const menuItems = computed((): MenuItem[] => {
@@ -155,7 +139,7 @@ const menuItems = computed((): MenuItem[] => {
   }
 
   .logo_name {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     opacity: 0;
     transition: all 0.2s ease;

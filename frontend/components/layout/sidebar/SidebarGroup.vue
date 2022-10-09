@@ -7,7 +7,7 @@
 			</NuxtLink>
 		</span>
 		<ul v-if="isOpened">
-			<li v-for="(children, index) of menuItem.childrens" :key="index" class="children" @click="emit('close')">
+			<li v-for="(children, index) of menuItem.childrens" :key="index" class="children" @click="emit('closeMobile')">
 				<NuxtLink :to="children.link" class="sub_link a-classic">{{children.name}}</NuxtLink>
 			</li>
 		</ul>
@@ -19,17 +19,14 @@ import { defineProps, defineEmits } from 'vue';
 import type { MenuItem } from './types';
 
 defineProps<{ menuItem: MenuItem, isOpened: boolean }>();
-const emit = defineEmits(['close']);
+const emit = defineEmits(['closeMobile']);
 </script>
 
 <style lang="scss" scoped>
 .a-style a {
-	display: inline-flex;
-	height: 100%;
-	width: 100%;
+	display: flex;
 	border-radius: 12px;
 	align-items: center;
-	text-decoration: none;
 	transition: all 0.8s ease;
 	background: var(--bg-color);
 
@@ -54,18 +51,17 @@ const emit = defineEmits(['close']);
 }
 
 .children {
-	list-style: none;
-	color: white;
-	padding: 8px;
+	padding: 5px;
 	text-align: left;
-	font-size: 14px;
-	line-height: 1.25rem;
+	font-size: 15px;
+	line-height: 1rem;
 }
 
 .links_name {
 	color: var(--font-color);
 	font-size: 15px;
 	font-weight: 600;
+	font-style: italic;
 	white-space: nowrap;
 	opacity: 0;
 	pointer-events: none;
@@ -73,17 +69,14 @@ const emit = defineEmits(['close']);
 }
 
 .sub_link {
-	margin-left: 40px;
+	margin-left: 45px;
 }
 
 
 .li-style {
 	position: relative;
-	margin: 8px 0;
-	list-style: none;
 
 	i {
-		height: 50px;
 		min-width: 50px;
 		line-height: 50px;
 		font-size: 18px;
