@@ -1,22 +1,19 @@
 <template>
-  <aside>
-    <div class="sidebar" :class="isOpened ? 'open' : ''">
-      <div class="header">
-        <i class="bx icon" :class="menuIcon" />
-        <span class="logo_name"> {{ menuTitle }}</span>
-        <i class="bx" :class="isOpened ? 'bx-menu-alt-right' : 'bx-menu'" id="btn" @click="isOpened = !isOpened" />
-      </div>
+  <aside class="sidebar" :class="isOpened ? 'open' : ''">
+    <div class="header">
+      <i class="bx icon" :class="menuIcon" />
+      <span class="logo_name"> {{ menuTitle }}</span>
+      <i class="bx" :class="isOpened ? 'bx-menu-alt-right' : 'bx-menu'" id="btn" @click="isOpened = !isOpened" />
+    </div>
 
-      <div id="sidebar-scroll">
-        <ul class="nav-list">
-          <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
-            @search="(val:string) => searchInput = val" />
-          <ul v-for="(menuItem, index) of menuItems" :key="index">
-            <SidebarGroup :menuItem="menuItem" :isOpened="isOpened"
-              @closeMobile="isMobile() ? isOpened = false : null" />
-          </ul>
+    <div id="sidebar-items-container">
+      <ul class="nav-list">
+        <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
+          @search="(val:string) => searchInput = val" />
+        <ul v-for="(menuItem, index) of menuItems" :key="index">
+          <SidebarGroup :menuItem="menuItem" :isOpened="isOpened" @closeMobile="isMobile() ? isOpened = false : null" />
         </ul>
-      </div>
+      </ul>
     </div>
   </aside>
 </template>
@@ -48,7 +45,7 @@ const searchPlaceholder = 'Search...'
 const isOpened = ref(false);
 const searchInput = ref('');
 
-const isMobile = () => window.innerWidth <= 768;
+const isMobile = () => process.client ? window.innerWidth <= 768 : false;
 
 // Handle click outside
 const handleClickOutside = (e: MouseEvent) => {
@@ -185,7 +182,7 @@ i {
   overflow: visible;
 }
 
-#sidebar-scroll {
+#sidebar-items-container {
   overflow-y: auto;
   height: 100%; //calc(100% - 60px);
   overflow-x: hidden;
@@ -210,7 +207,7 @@ i {
     display: none;
   }
 
-  #sidebar-scroll::-webkit-scrollbar-thumb {
+  #sidebar-items-container::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb);
     border-radius: 5px
   }

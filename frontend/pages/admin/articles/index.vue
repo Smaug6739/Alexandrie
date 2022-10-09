@@ -6,7 +6,7 @@
 
 </template>
 <script lang="ts" setup>
-import Datatable from '@/components/common/DataTable.vue';
+import Datatable from '@/components/DataTable.vue';
 import { useArticlesStore } from '@/store';
 import { timestampToString } from '@/helpers/date';
 import { storeToRefs } from 'pinia';

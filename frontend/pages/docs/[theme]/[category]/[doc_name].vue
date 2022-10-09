@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
 import { useArticlesStore } from '@/store';
-import Loader from '@/components/common/Loader.vue';
+import Loader from '@/components/Loader.vue';
 
 const route = useRoute();
 const articlesStore = useArticlesStore();

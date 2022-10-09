@@ -81,8 +81,8 @@ ul {
 </style>
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { useCategoriesStore } from "../../../store";
-import Dropdown from "~/components/common/Dropdown.vue";
+import { useCategoriesStore } from "@/store";
+import Dropdown from "@/components/Dropdown.vue";
 import ThemeToggle from "./ThemeToggle.vue";
 
 

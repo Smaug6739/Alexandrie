@@ -5,7 +5,7 @@
 	</div>
 </template>
 <script lang="ts" setup>
-import Datatable from '@/components/common/DataTable.vue';
+import Datatable from '@/components/DataTable.vue';
 import { useCategoriesStore } from '@/store';
 import { computed } from 'vue';
 

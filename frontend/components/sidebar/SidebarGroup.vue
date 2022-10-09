@@ -1,11 +1,9 @@
 <template>
-	<li class="li-style">
-		<span class="a-style">
-			<NuxtLink :to="`/docs/${menuItem.theme}/${menuItem.path}`">
-				<i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
-				<span class="links_name">{{ menuItem.name }}</span>
-			</NuxtLink>
-		</span>
+	<li>
+		<NuxtLink :to="`/docs/${menuItem.theme}/${menuItem.path}`" class="parent" @click="emit('closeMobile')">
+			<i class="icon bx" :class="menuItem.icon || 'bx-square-rounded'" />
+			<span class="parent_name">{{ menuItem.name }}</span>
+		</NuxtLink>
 		<ul v-if="isOpened">
 			<li v-for="(children, index) of menuItem.childrens" :key="index" class="children" @click="emit('closeMobile')">
 				<NuxtLink :to="children.link" class="sub_link a-classic">{{children.name}}</NuxtLink>
@@ -23,17 +21,18 @@ const emit = defineEmits(['closeMobile']);
 </script>
 
 <style lang="scss" scoped>
-.a-style a {
+.parent {
 	display: flex;
 	border-radius: 12px;
 	align-items: center;
 	transition: all 0.8s ease;
-	background: var(--bg-color);
 
-	.links_name {
+	.parent_name {
 		opacity: 1;
 		pointer-events: auto;
 	}
+
+
 
 	&:hover {
 		background: var(--opposite-color);
@@ -43,8 +42,7 @@ const emit = defineEmits(['closeMobile']);
 			color: var(--bg-color);
 		}
 
-		.links_name {
-			transition: all 0.2s ease;
+		.parent_name {
 			color: var(--bg-color);
 		}
 	}
@@ -57,31 +55,23 @@ const emit = defineEmits(['closeMobile']);
 	line-height: 1rem;
 }
 
-.links_name {
+.parent_name {
 	color: var(--font-color);
-	font-size: 15px;
-	font-weight: 600;
-	font-style: italic;
-	white-space: nowrap;
+	font: normal 700 15px arial;
 	opacity: 0;
-	pointer-events: none;
 	transition: 0.4s;
 }
 
 .sub_link {
-	margin-left: 45px;
+	margin-left: 50px;
 }
 
 
-.li-style {
-	position: relative;
-
-	i {
-		min-width: 50px;
-		line-height: 50px;
-		font-size: 18px;
-		text-align: center;
-		border-radius: 12px;
-	}
+.icon {
+	min-width: 50px;
+	line-height: 50px;
+	font-size: 18px;
+	text-align: center;
+	border-radius: 12px;
 }
 </style>
