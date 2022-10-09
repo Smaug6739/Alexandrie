@@ -2,8 +2,8 @@
 	<div>
 		<main class="view view-medium">
 			<div v-if="article?.id">
-				<div v-html="article.content_html"></div>
-				<p class="sep">Dernière mise à jour le {{ formatDate(article.updated_timestamp) }}</p>
+				<article v-html="article.content_html"></article>
+				<p class="sep">Dernière mise à jour le {{ timestampToString(article.updated_timestamp) }}</p>
 				<hr>
 				<div class="sep">
 					<span v-if="next" class="next">
@@ -25,6 +25,7 @@
 </template>
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
+import { timestampToString } from "@/helpers/date";
 import { useArticlesStore } from '@/store';
 import Loader from '@/components/Loader.vue';
 
@@ -36,7 +37,6 @@ const article = computed(() => articlesStore.getByPaths(route.params.doc_name as
 const next = computed(() => articlesStore.getNext(article.value));
 const previous = computed(() => articlesStore.getPrevious(article.value));
 
-const formatDate = (d: string) => new Date(parseInt(d)).toLocaleDateString();
 
 </script>
 <style lang="scss" scoped>
