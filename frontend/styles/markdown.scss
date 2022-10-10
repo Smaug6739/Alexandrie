@@ -3,10 +3,10 @@
 
 	.svg-icon {
 		box-sizing: border-box;
-		color: #58a6ff;
+		color: var(--blue);
 		color-scheme: dark;
 		display: inline-block;
-		fill: #58a6ff;
+		fill: var(--blue);
 		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
 		font-size: 16px;
 		margin-right: 8px;
@@ -18,35 +18,35 @@
 
 	.markdown-container-title {
 		font-weight: 600;
-		color: #58a6ff;
+		color: var(--blue);
 		margin-right: 5px;
 	}
 
 	.red {
 		.svg-icon {
-			fill: #ff4d4d;
-			color: #ff4d4d;
+			fill: var(--red);
+			color: var(--red);
 		}
 
-		color: #ff4d4d;
+		color: var(--red);
 	}
 
 	.turquoise {
 		.svg-icon {
-			fill: #00b5ad;
-			color: #00b5ad;
+			fill: var(--turquoise);
+			color: var(--turquoise);
 		}
 
-		color: #00b5ad;
+		color: var(--turquoise);
 	}
 
 	.blue {
 		.svg-icon {
-			fill: #58a6ff;
-			color: #58a6ff;
+			fill: var(--blue);
+			color: var(--blue);
 		}
 
-		color: #58a6ff;
+		color: var(--blue);
 	}
 
 	.yellow {
@@ -78,70 +78,81 @@ div {
 }
 
 .custom-block.grey {
-	border-color: rgba(84, 84, 84, 0.25);
-	color: #e0e0e0;
-	background-color: rgb(47, 47, 47);
+	border-color: var(--grey-border);
+	color: var(--grey);
+	background-color: var(--grey-bg);
+
+	code {
+		background-color: var(--grey-border);
+	}
 }
 
-.custom-block.grey code {
-	background-color: #e5e5e5;
-}
 
 .custom-block.blue {
-	border-color: rgba(0, 140, 216, 0.25);
-	color: #8dd6ff;
-	background-color: rgb(0, 72, 112, 0.2);
+	border-color: var(--blue-border);
+	color: var(--blue);
+	background-color: var(--blue-bg);
 }
 
 .custom-block.green {
-	border-color: rgba(66, 184, 131, 0.25);
-	color: #42d392;
-	background-color: rgba(66, 184, 131, 0.2);
+	border-color: var(--green-border);
+	color: var(--green);
+	background-color: var(--green-bg);
+
+	code {
+		background-color: var(--green-border);
+	}
 }
 
 .custom-block.turquoise {
-	border-color: rgba(0, 255, 255, 0.25);
-	color: #00d6b4;
-	background-color: rgba(0, 255, 255, 0.2);
-}
-
-.custom-block.green code {
-	background-color: rgba(66, 184, 131, 0.2);
+	border-color: var(--turquoise-border);
+	color: var(--turquoise);
+	background-color: var(--turquoise-bg);
 }
 
 .custom-block.yellow {
-	border-color: rgba(255, 197, 23, .25);
-	color: #fcd253;
-	background-color: rgba(255, 197, 23, 0.2);
+	border-color: var(--yellow-border);
+	color: var(--yellow);
+	background-color: var(--yellow-bg);
+
+	code {
+		background-color: var(--yellow-border);
+	}
 }
 
-.custom-block.yellow code {
-	background-color: rgba(255, 197, 23, 0.2);
-}
 
 .custom-block.red {
-	border-color: rgba(237, 60, 80, .25);
-	color: #f54e82;
-	background-color: rgba(237, 60, 80, 0.2);
+	border-color: var(--red-border);
+	color: var(--red);
+	background-color: var(--red-bg);
+
+	code {
+		background-color: var(--red-border);
+	}
 }
 
-.custom-block.red code {
-	background-color: rgba(237, 60, 80, 0.2);
-}
 
 .custom-block.details {
-	border-color: rgba(0, 140, 216, 0.25);
-	color: #8dd6ff;
-	background-color: rgb(0, 72, 112, 0.2);
+	border-color: var(--blue-border);
+	color: var(--blue);
+	background-color: var(--blue-bg);
+
+	summary {
+		cursor: pointer;
+		margin: 0 0 8px;
+		font-weight: 700;
+
+		&+p {
+			margin: 8px 0;
+		}
+	}
+
+	code {
+		background-color: #f9f9f9;
+	}
 }
 
-summary {
-	cursor: pointer;
-}
 
-.custom-block.details code {
-	background-color: #f9f9f9;
-}
 
 .custom-block-title {
 	font-weight: 700;
@@ -160,14 +171,7 @@ summary {
 	margin-bottom: 5px;
 }
 
-.custom-block.details summary {
-	margin: 0 0 8px;
-	font-weight: 700;
-}
 
-.custom-block.details summary+p {
-	margin: 8px 0;
-}
 
 .custom-block a {
 	color: inherit;

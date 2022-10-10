@@ -11,7 +11,7 @@ $green: #28a745;
 $grey: #869099;
 $black: #000000;
 
-// THEME \\
+// MAIN COLOR \\
 $primary-50: #F2FDF9;
 $primary-100: #E6FCF3;
 $primary-200: #BFF6E0;
@@ -34,29 +34,84 @@ $secondary-700: #002028;
 $secondary-800: #00181E;
 $secondary-900: #001014;
 
-$border-color: rgba(255, 255, 255, 0.5);
+$border-color: rgba(255, 255, 255, 0.5); // TODO: Remove this
 
 $font-family: "Poppins", sans-serif;
 $font-links: "Inter", sans-serif;
+$font-size: 1rem;
+$font-weight: 400;
+$line-height: 24px;
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
 
-
-
-:root {
+// SCSS DEFINE DARK THEME \\
+@mixin dark-theme {
+  // THEME \\
   --bg-color: #001e26;
   --contrast-color: #323a46;
   --contrast-color-after: #1e2530;
   --font-color: #fff;
   --font-color-dimmed: #c8cedf;
   --opposite-color: #fff;
+  // COLORS \\
+  --grey: #e0e0e0;
+  --grey-bg: rgb(47, 47, 47);
+  --grey-border: rgba(84, 84, 84, 0.25);
+  --blue: #8dd6ff;
+  --blue-bg: rgb(0, 72, 112, 0.2);
+  --blue-border: rgba(0, 140, 216, 0.25);
+  --green: #42d392;
+  --green-bg: rgba(66, 184, 131, 0.2);
+  --green-border: rgba(66, 184, 131, 0.25);
+  --red: #f54e82;
+  --red-bg: rgba(237, 60, 80, 0.2);
+  --red-border: rgba(237, 60, 80, .25);
+  --yellow: #fcd253;
+  --yellow-bg: rgba(255, 197, 23, 0.2);
+  --yellow-border: rgba(255, 197, 23, .25);
+  --turquoise: #00d6b4;
+  --turquoise-bg: rgba(0, 255, 255, 0.2);
+  --turquoise-border: rgba(0, 209, 178, .25);
+  --border-color: rgba(255, 255, 255, 0.5); // TODO: Border color on hr, h3,h4,h5,h6 etc. See general.scss.
 
+}
+
+@mixin light-theme {
+  // THEME \\
+  --bg-color: #fff;
+  --contrast-color: #f5f5f5;
+  --contrast-color-after: #fff;
+  --font-color: #323a46;
+  --font-color-dimmed: #869099;
+  --opposite-color: #001e26;
+  // COLORS \\
+  --blue: #007bff;
+  --blue-bg: rgba(0, 123, 255, 0.2);
+  --blue-border: rgba(0, 123, 255, 0.25);
+  --green: #28a745;
+  --green-bg: rgba(40, 167, 69, 0.2);
+  --green-border: rgba(40, 167, 69, 0.25);
+  --red: #dc3545;
+  --red-bg: rgba(220, 53, 69, 0.2);
+  --red-border: rgba(220, 53, 69, 0.25);
+  --yellow: #ffc107;
+  --yellow-bg: rgba(255, 193, 7, 0.2);
+  --yellow-border: rgba(255, 193, 7, 0.25);
+  --turquoise: #00d1b2;
+  --turquoise-bg: rgba(0, 209, 178, 0.2);
+  --turquoise-border: rgba(0, 209, 178, 0.25);
+  --border-color: rgba(0, 0, 0, 0.5);
+}
+
+@mixin default-theme {
+  @include dark-theme;
+}
+
+:root {
+  @include default-theme;
   --scrollbar-thumb: #255461;
-  --font-size: 16px;
-  --line-height: 24px;
-
 }
 
 .blue {
@@ -102,21 +157,11 @@ $font-links: "Inter", sans-serif;
 
 
 [data-theme="dark"] {
-  --bg-color: #001e26;
-  --contrast-color: #323a46;
-  --contrast-color-after: #1e2530;
-  --font-color: #fff;
-  --font-color-dimmed: #c8cedf;
-  --opposite-color: #fff;
+  @include dark-theme();
 }
 
 [data-theme="light"] {
-  --bg-color: #fff;
-  --contrast-color: #e4e9f7;
-  --contrast-color-after: #c8cedf;
-  --font-color: #003543;
-  --font-color-dimmed: #000;
-  --opposite-color: #000;
+  @include light-theme();
 }
 
 @media (max-width: 768px) {
