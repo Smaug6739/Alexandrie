@@ -42,7 +42,7 @@ tt {
 	margin: 0 2px;
 	padding: 0 5px;
 	white-space: nowrap;
-	border: 1px solid #eaeaea;
+	border: 1px solid $border-color;
 	background-color: var(--contrast-color-after);
 	border-radius: 3px;
 }
@@ -65,7 +65,7 @@ h1 {
 h1,
 h2 {
 	margin-top: 15px;
-	border-bottom: 1px solid #4c4b4b;
+	border-bottom: 1px solid $border-color;
 }
 
 
@@ -142,9 +142,13 @@ h6 {
 
 
 hr {
+	border: none;
+	height: 1px;
+	/* Set the hr color */
 	color: $border-color;
-	height: 2px;
-	padding: 0;
+	/* old IE */
+	background-color: $border-color;
+	/* Modern Browsers */
 }
 
 iframe {
