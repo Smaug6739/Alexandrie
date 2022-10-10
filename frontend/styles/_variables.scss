@@ -38,9 +38,9 @@ $border-color: rgba(255, 255, 255, 0.5); // TODO: Remove this
 
 $font-family: "Poppins", sans-serif;
 $font-links: "Inter", sans-serif;
-$font-size: 1rem;
-$font-weight: 400;
-$line-height: 24px;
+$default-font-size: 1em;
+$default-font-weight: 400;
+$default-line-height: 24px;
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,500&display=swap');
@@ -112,6 +112,10 @@ $line-height: 24px;
 :root {
   @include default-theme;
   --scrollbar-thumb: #255461;
+  font-family: $font-family;
+  font-size: $default-font-size;
+  font-weight: $default-font-weight;
+  line-height: $default-line-height;
 }
 
 .blue {
@@ -162,10 +166,4 @@ $line-height: 24px;
 
 [data-theme="light"] {
   @include light-theme();
-}
-
-@media (max-width: 768px) {
-  :root {
-    --font-size: 13px;
-  }
 }
