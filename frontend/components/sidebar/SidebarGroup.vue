@@ -1,7 +1,7 @@
 <template>
 	<li>
 		<NuxtLink :to="`/docs/${menuItem.theme}/${menuItem.path}`" class="parent" @click="emit('closeMobile')">
-			<i class="icon bx" :class="menuItem.icon || 'bx-square-rounded'" />
+			<Icon :name="menuItem.icon" />
 			<span class="parent_name">{{ menuItem.name }}</span>
 		</NuxtLink>
 		<ul v-if="isOpened">
@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import { defineProps, defineEmits } from 'vue';
+import Icon from "@/components/Icon.vue";
 import type { MenuItem } from './types';
 
 defineProps<{ menuItem: MenuItem, isOpened: boolean }>();
@@ -35,15 +36,12 @@ const emit = defineEmits(['closeMobile']);
 
 
 	&:hover {
+		transition: all 0.2s ease;
+		color: var(--contrast-color);
 		background: var(--opposite-color);
 
-		i {
-			transition: all 0.2s ease;
-			color: var(--bg-color);
-		}
-
 		.parent_name {
-			color: var(--bg-color);
+			color: var(--contrast-color);
 		}
 	}
 }
@@ -64,14 +62,5 @@ const emit = defineEmits(['closeMobile']);
 
 .sub_link {
 	margin-left: 50px;
-}
-
-
-.icon {
-	min-width: 50px;
-	line-height: 50px;
-	font-size: 18px;
-	text-align: center;
-	border-radius: 12px;
 }
 </style>
