@@ -36,3 +36,16 @@ async function connect() {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+form {
+	width: 70%;
+	margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+	form {
+		width: 95%;
+	}
+}
+</style>
