@@ -64,7 +64,7 @@ svg {
 	width: max-content;
 	padding: 8px;
 	border-radius: 16px 16px 16px 16px;
-	border: 1px solid $border-color;
+	border: 1px solid var(--border-color);
 	opacity: 1;
 	background: var(--bg-color);
 }
