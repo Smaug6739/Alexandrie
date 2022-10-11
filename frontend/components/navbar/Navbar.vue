@@ -12,8 +12,8 @@
 
         <li>
           <Dropdown title="Themes">
-            <ul>
-              <li v-for="(category, index) of getAll" :key="index" class="destination">
+            <ul class="dropdown-item-parent">
+              <li v-for="(category, index) of getAll" :key="index" class="dropdown-item">
                 <NuxtLink class="a-classic" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
               </li>
             </ul>
@@ -41,6 +41,7 @@ a {
   font-weight: 600;
 }
 
+
 nav {
   width: 100%;
   display: flex;
@@ -53,8 +54,28 @@ nav {
   }
 }
 
+
+.dropdown-item-parent {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  padding: 5px 3px;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 5px;
+  border-radius: 5px;
+  list-style: none;
+
+  margin: 0 !important;
+
+  &:hover {
+    background: var(--contrast-color);
+  }
+}
+
 .main-ul {
-  height: 40px;
   display: flex;
   align-items: center;
 }
