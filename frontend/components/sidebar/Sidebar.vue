@@ -1,7 +1,7 @@
 <template>
   <aside class="sidebar" :class="isOpened ? 'open' : ''">
     <section class="header">
-      <Icon name="bxs-graduation" class="icon" />
+      <Icon name="bxs-graduation" :big="true" class="icon" />
       <span class="logo_name" v-text="menuTitle"></span>
       <Icon :name="menuIcon()" id="btn" @click="isOpened = !isOpened" />
     </section>

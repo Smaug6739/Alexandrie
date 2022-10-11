@@ -11,7 +11,7 @@
         </li>
 
         <li>
-          <Dropdown title="Themes">
+          <Dropdown title="Matières">
             <ul class="dropdown-item-parent">
               <li v-for="(category, index) of getAll" :key="index" class="dropdown-item">
                 <NuxtLink class="a-classic" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
@@ -32,11 +32,6 @@
 </template>
 
 <style lang="scss" scoped>
-header {
-  width: 100%;
-  background: var(--bg-color);
-}
-
 a {
   font-weight: 600;
 }
@@ -44,6 +39,7 @@ a {
 
 nav {
   width: 100%;
+  height: 75px;
   display: flex;
   align-items: center;
   justify-content: space-between;
