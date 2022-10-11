@@ -171,14 +171,6 @@ const menuItems = computed((): MenuItem[] => {
   }
 }
 
-i {
-  height: 60px;
-  min-width: 50px;
-  font-size: 28px;
-  text-align: center;
-  line-height: 60px;
-}
-
 .nav-list {
   margin-top: 20px;
   overflow: visible;
