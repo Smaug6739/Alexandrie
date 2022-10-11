@@ -51,11 +51,11 @@
 
 	.yellow {
 		.svg-icon {
-			fill: #d29922;
-			color: #d29922;
+			fill: var(--yellow);
+			color: var(--yellow);
 		}
 
-		color: #d29922;
+		color: var(--yellow);
 	}
 
 	p {
