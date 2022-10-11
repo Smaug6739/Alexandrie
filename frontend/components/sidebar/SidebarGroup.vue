@@ -33,8 +33,6 @@ const emit = defineEmits(['closeMobile']);
 		pointer-events: auto;
 	}
 
-
-
 	&:hover {
 		transition: all 0.2s ease;
 		background: var(--contrast-color);
