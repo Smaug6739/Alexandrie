@@ -59,16 +59,15 @@ nav {
   display: flex;
   flex-direction: column;
   margin: 5px;
-  padding: 5px 3px;
+  padding: 3px 0;
 }
 
 .dropdown-item {
   display: block;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 6px;
   list-style: none;
-
-  margin: 0 !important;
+  margin: 0;
 
   &:hover {
     background: var(--contrast-color);
