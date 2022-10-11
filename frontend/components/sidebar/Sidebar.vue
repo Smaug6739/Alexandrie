@@ -192,6 +192,7 @@ i {
   flex-grow: 1;
   max-height: calc(100% - 60px);
   margin: 6px 14px 0 14px;
+  padding-right: 5px;
 
   &::-webkit-scrollbar {
     background-color: rgba(255, 255, 255, 0.2);
