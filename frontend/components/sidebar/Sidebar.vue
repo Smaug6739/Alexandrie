@@ -1,20 +1,21 @@
 <template>
   <aside class="sidebar" :class="isOpened ? 'open' : ''">
-    <div class="header">
-      <i class="bx icon" :class="menuIcon" />
-      <span class="logo_name"> {{ menuTitle }}</span>
-      <i class="bx" :class="isOpened ? 'bx-menu-alt-right' : 'bx-menu'" id="btn" @click="isOpened = !isOpened" />
-    </div>
+    <section class="header">
+      <Icon name="bxs-graduation" class="icon" />
+      <span class="logo_name" v-text="menuTitle"></span>
+      <Icon :name="menuIcon()" id="btn" @click="isOpened = !isOpened" />
+    </section>
 
-    <div id="sidebar-items-container">
+    <section id="sidebar-items-container">
       <ul class="nav-list">
         <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
           @search="(val:string) => searchInput = val" />
+
         <ul v-for="(menuItem, index) of menuItems" :key="index">
           <SidebarGroup :menuItem="menuItem" :isOpened="isOpened" @closeMobile="isMobile() ? isOpened = false : null" />
         </ul>
       </ul>
-    </div>
+    </section>
   </aside>
 </template>
 
@@ -25,6 +26,7 @@ import { storeToRefs } from 'pinia';
 
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarSearch from './SidebarSearch.vue';
+import Icon from "@/components/Icon.vue";
 
 import { useArticlesStore, useCategoriesStore } from '@/store';
 
@@ -37,7 +39,6 @@ const categoriesStore = useCategoriesStore();
 const { articles } = storeToRefs(articlesStore);
 const { categories } = storeToRefs(categoriesStore);
 
-const menuIcon = 'bxs-graduation'
 const menuTitle = 'Docs'
 const searchPlaceholder = 'Search...'
 
@@ -46,6 +47,7 @@ const isOpened = ref(false);
 const searchInput = ref('');
 
 const isMobile = () => process.client ? window.innerWidth <= 768 : false;
+const menuIcon = () => isOpened.value ? 'bx-menu-alt-right' : 'bx-menu';
 
 // Handle click outside
 const handleClickOutside = (e: MouseEvent) => {

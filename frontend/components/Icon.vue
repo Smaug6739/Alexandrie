@@ -1,5 +1,5 @@
 <template>
-	<i class="bx" :class=" name"></i>
+	<i class="bx" :class="name"></i>
 </template>
 
 <script lang="ts" setup>
@@ -10,6 +10,7 @@ defineProps({
 		required: true,
 	},
 });
+
 </script>
 
 <style lang="scss" scoped>
@@ -19,6 +20,6 @@ i {
 	font-size: 18px;
 	text-align: center;
 	border-radius: 12px;
-	line-height: 50px !important;
+	line-height: 50px;
 }
 </style>
