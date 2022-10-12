@@ -2,8 +2,8 @@
 	<form>
 		<fieldset>
 			<legend>Connexion</legend>
-			<input id="form-username" type="text" placeholder="Username" />
-			<input id="form-password" type="password" placeholder="Password" />
+			<input id="form-username" type="text" placeholder="Username" autocomplete="username" />
+			<input id="form-password" type="password" placeholder="Password" autocomplete="current-password" />
 			<button type="button" @click="connect" class="btn btn-theme">Connexion</button>
 		</fieldset>
 	</form>

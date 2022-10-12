@@ -19,11 +19,14 @@
             </ul>
           </Dropdown>
         </li>
-        <li>
+        <li class="connect">
           <NuxtLink class="a-classic" to="/admin" no-prefetch>Connexion</NuxtLink>
         </li>
         <li>
           <ThemeToggle />
+        </li>
+        <li>
+          <RefreshState />
         </li>
       </ul>
     </nav>
@@ -87,7 +90,11 @@ ul {
 
 @media screen and (max-width: 600px) {
   .title {
-    display: none !important;
+    display: none;
+  }
+
+  .connect {
+    display: none;
   }
 
   nav {
@@ -100,6 +107,7 @@ import { storeToRefs } from 'pinia'
 import { useCategoriesStore } from "@/store";
 import Dropdown from "@/components/Dropdown.vue";
 import ThemeToggle from "./ThemeToggle.vue";
+import RefreshState from "./RefreshState.vue";
 
 
 const categoriesStore = useCategoriesStore();
