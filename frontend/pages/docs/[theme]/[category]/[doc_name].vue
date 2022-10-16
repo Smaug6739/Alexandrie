@@ -45,7 +45,7 @@ const show = ref(false);
 const article = computed(() => {
 	setTimeout(() => {
 		show.value = true;
-	}, 100);
+	}, 200);
 	return articlesStore.getByPaths(route.params.doc_name as string, route.params.category as string, route.params.theme as string)
 });
 const next = computed(() => articlesStore.getNext(article.value));

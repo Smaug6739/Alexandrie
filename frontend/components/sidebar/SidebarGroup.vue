@@ -51,8 +51,8 @@ const emit = defineEmits(['closeMobile']);
 .children {
 	padding: 5px;
 	text-align: left;
-	font-size: 15px;
-	line-height: 1rem;
+	font-size: 0.9rem;
+	line-height: 0.9rem;
 }
 
 .parent_name {
