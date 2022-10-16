@@ -7,12 +7,10 @@
     </section>
 
     <section class="nav-list body">
-      <ul>
-        <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
-          @search="(val:string) => searchInput = val" />
-        <SidebarGroup v-for="(menuItem, index) of menuItems" :key="index" :menuItem="menuItem" :isOpened="isOpened"
-          @closeMobile="isMobile() ? isOpened = false : null" />
-      </ul>
+      <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
+        @search="(val:string) => searchInput = val" />
+      <SidebarGroup v-for="(menuItem, index) of menuItems" :key="index" :menuItem="menuItem" :isOpened="isOpened"
+        @closeMobile="isMobile() ? isOpened = false : null" />
     </section>
   </aside>
 </template>

@@ -1,9 +1,9 @@
 <template>
-	<li @click="emit('open')">
+	<span @click="emit('open')">
 		<Icon name="bx bx-search" class="icon" />
 		<input type="text" :placeholder="searchPlaceholder" :class="isOpened ? 'open' : ''"
 			@input="(v) => emit('search',( v.target as HTMLInputElement).value)" />
-	</li>
+	</span>
 </template>
 
 <script lang="ts" setup>
@@ -30,7 +30,8 @@ input {
 	}
 }
 
-li {
+span {
+	margin-top: 25px;
 	position: relative;
 }
 
