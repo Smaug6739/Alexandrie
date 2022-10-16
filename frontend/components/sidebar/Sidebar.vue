@@ -107,7 +107,7 @@ const menuItems = computed((): MenuItem[] => {
   top: 0;
   min-height: min-content;
   width: 78px;
-  z-index: 99;
+  z-index: 100;
   transition: all 0.2s ease;
   background: var(--bg-color);
   height: 100%;
