@@ -5,7 +5,7 @@
 				Scientia</h1>
 			<h2>Base de conaissances</h2>
 			<div>
-				Bienvenue sur l'application Scientia, ce projet est un site web qui regroupe des conaissances dans les
+				Scientia est un site web qui regroupe des conaissances dans les
 				domaines scientifiques (maths, physique technologie etc.)<br />
 				L'objectif est d'organiser des cours en un design agréable à lire et à utiliser. <br />
 			</div>
