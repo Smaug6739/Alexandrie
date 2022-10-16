@@ -43,6 +43,7 @@ const show = ref(false);
 
 
 const article = computed(() => {
+	show.value = false;
 	setTimeout(() => {
 		show.value = true;
 	}, 200);
@@ -51,10 +52,6 @@ const article = computed(() => {
 const next = computed(() => articlesStore.getNext(article.value));
 const previous = computed(() => articlesStore.getPrevious(article.value));
 
-watch(route, () => {
-	console.log(false);
-	show.value = false;
-});
 
 
 
@@ -73,13 +70,18 @@ watch(route, () => {
 	float: left;
 }
 
-.fade-enter-active,
+
+.fade-enter-active {
+	transition: all 0.3s ease;
+}
+
 .fade-leave-active {
-	transition: opacity 0.5s ease;
+	transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .fade-enter-from,
 .fade-leave-to {
+	transform: translateY(20px);
 	opacity: 0;
 }
 </style>
