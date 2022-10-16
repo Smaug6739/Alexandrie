@@ -1,15 +1,10 @@
 <template>
   <header>
     <nav>
-      <h5 class="title" style="margin: 6px 14px 0 14px">
-
-      </h5>
-
       <ul class="main-ul">
         <li>
           <NuxtLink class="a-nav" to="/">Accueil</NuxtLink>
         </li>
-
         <li>
           <Dropdown title="Matières">
             <ul class="dropdown-item-parent">
@@ -48,13 +43,8 @@ nav {
   height: 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-
-  .title {
-    font-size: 20px;
-    font-weight: 600;
-  }
-
+  justify-content: flex-end;
+  font-size: 0.95rem;
 }
 
 
@@ -93,10 +83,6 @@ ul {
 }
 
 @media screen and (max-width: 600px) {
-  .title {
-    display: none;
-  }
-
   .connect {
     display: none;
   }

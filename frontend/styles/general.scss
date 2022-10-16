@@ -7,14 +7,18 @@ a {
 
 	&:hover {
 		opacity: 1;
-		color: $primary-400;
 	}
 }
 
 
 
 .a-classic {
-	color: var(--font-color) !important;
+	color: var(--opposite-color);
+	transition: color .25s;
+
+	&:hover {
+		color: $primary-400;
+	}
 }
 
 /*.router-link-exact-active {

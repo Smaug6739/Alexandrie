@@ -142,7 +142,6 @@ const menuItems = computed((): MenuItem[] => {
     top: 50%;
     right: 0;
     transform: translateY(-50%);
-    font-size: 22px;
     transition: all 0.4s ease;
     font-size: 23px;
     text-align: center;
@@ -164,10 +163,7 @@ const menuItems = computed((): MenuItem[] => {
   }
 }
 
-.nav-list {
-  margin-top: 20px;
-  overflow: visible;
-}
+
 
 .body {
   overflow-y: auto;
@@ -175,7 +171,6 @@ const menuItems = computed((): MenuItem[] => {
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   flex-grow: 1;
   max-height: calc(100% - 60px);
   margin: 6px 14px 6px 14px;
