@@ -20,11 +20,13 @@ defineProps({
 <style lang="scss" scoped>
 i {
 	min-width: 50px;
+	min-height: 50px;
+	width: 50px;
+	height: 50px;
 	line-height: 50px;
 	font-size: 18px;
-	text-align: center;
 	border-radius: 12px;
-	line-height: 50px;
+	text-align: center;
 }
 
 .big {

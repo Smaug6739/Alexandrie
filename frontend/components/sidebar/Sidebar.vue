@@ -6,14 +6,12 @@
       <Icon :name="menuIcon()" id="btn" @click="isOpened = !isOpened" />
     </section>
 
-    <section id="sidebar-items-container">
-      <ul class="nav-list">
+    <section class="nav-list body">
+      <ul>
         <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
           @search="(val:string) => searchInput = val" />
-
-        <ul v-for="(menuItem, index) of menuItems" :key="index">
-          <SidebarGroup :menuItem="menuItem" :isOpened="isOpened" @closeMobile="isMobile() ? isOpened = false : null" />
-        </ul>
+        <SidebarGroup v-for="(menuItem, index) of menuItems" :key="index" :menuItem="menuItem" :isOpened="isOpened"
+          @closeMobile="isMobile() ? isOpened = false : null" />
       </ul>
     </section>
   </aside>
@@ -55,18 +53,15 @@ const handleClickOutside = (e: MouseEvent) => {
 };
 
 onMounted(() => {
-  if (process.client) {
-    window.document.body.style.paddingLeft = '78px';
-    isMobile() ? isOpened.value = false : isOpened.value = true;
-    window.addEventListener('click', handleClickOutside);
-  }
+  if (!process.client) return;
+  window.document.body.style.paddingLeft = '78px';
+  isMobile() ? isOpened.value = false : isOpened.value = true;
+  window.addEventListener('click', handleClickOutside);
 });
 onBeforeUnmount(() => {
-  if (process.client) {
-    window.document.body.style.paddingLeft = '0';
-    window.removeEventListener('click', handleClickOutside);
-    window.removeEventListener('click', handleClickOutside);
-  }
+  if (!process.client) return;
+  window.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('click', handleClickOutside);
 });
 
 // Watch isOpened
@@ -90,7 +85,7 @@ const menuItems = computed((): MenuItem[] => {
       icon: category.icon,
       childrens: articles.value
         .filter(a => a.main_category == theme.path && a.sub_category == category.path)
-        .map(a => ({ name: a.name, link: '/docs/' + theme.path + '/' + category.path + '/' + a.path })),
+        .map(a => ({ name: a.name, link: `/docs/${theme.path}/${category.path}/${a.path}` })),
     });
   }
   // Handle search input
@@ -112,18 +107,18 @@ const menuItems = computed((): MenuItem[] => {
   position: fixed;
   left: 0;
   top: 0;
-  height: 100%;
   min-height: min-content;
   width: 78px;
-  background: var(--bg-color);
   z-index: 99;
   transition: all 0.2s ease;
+  background: var(--bg-color);
+  height: 100%;
 
   &.open {
     width: 300px;
   }
-}
 
+}
 
 .header {
   height: 60px;
@@ -158,6 +153,8 @@ const menuItems = computed((): MenuItem[] => {
   }
 }
 
+
+
 .sidebar.open {
   .header {
     #btn {
@@ -176,7 +173,7 @@ const menuItems = computed((): MenuItem[] => {
   overflow: visible;
 }
 
-#sidebar-items-container {
+.body {
   overflow-y: auto;
   height: 100%; //calc(100% - 60px);
   overflow-x: hidden;
@@ -185,11 +182,10 @@ const menuItems = computed((): MenuItem[] => {
   justify-content: space-between;
   flex-grow: 1;
   max-height: calc(100% - 60px);
-  margin: 6px 14px 0 14px;
-  padding-right: 5px;
+  margin: 6px 14px 6px 14px;
 
   &::-webkit-scrollbar {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--contrast-color);
     width: 7px;
     border-radius: 5px
   }
@@ -202,7 +198,7 @@ const menuItems = computed((): MenuItem[] => {
     display: none;
   }
 
-  #sidebar-items-container::-webkit-scrollbar-thumb {
+  .body::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb);
     border-radius: 5px
   }

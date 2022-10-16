@@ -73,8 +73,6 @@ export const containerSvg = (md: MarkdownIt) => {
     },
     render: function (tokens: any, idx: any) {
       var m = tokens[idx].info.trim().split(' ');
-      console.log(m);
-
       if (tokens[idx].nesting === 1) {
         // opening tag
         return containerOpen(m.slice(1).join(' '), svg_info, m[0]?.split('-')[1]);

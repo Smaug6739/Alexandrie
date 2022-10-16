@@ -41,6 +41,9 @@ $font-links: "Inter", sans-serif;
 $default-font-size: 1em;
 $default-font-weight: 400;
 $default-line-height: 24px;
+$mobile-font-size: 0.8em;
+$mobile-line-height: 20px;
+$mobile-font-weight: 400;
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,500&display=swap');
@@ -105,9 +108,12 @@ $default-line-height: 24px;
   --border-color: rgba(0, 0, 0, 0.5);
 }
 
+
 @mixin default-theme {
   @include dark-theme;
 }
+
+
 
 :root {
   @include default-theme;
@@ -116,6 +122,14 @@ $default-line-height: 24px;
   font-size: $default-font-size;
   font-weight: $default-font-weight;
   line-height: $default-line-height;
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: $mobile-font-size;
+    line-height: $mobile-line-height;
+    font-weight: $mobile-font-weight;
+  }
 }
 
 .blue {

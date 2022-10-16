@@ -1,5 +1,5 @@
 <template>
-	<li>
+	<div class="sidebar-group">
 		<NuxtLink :to="`/docs/${menuItem.theme}/${menuItem.path}`" class="parent" @click="emit('closeMobile')">
 			<Icon :name="menuItem.icon" />
 			<span class="parent_name">{{ menuItem.name }}</span>
@@ -9,7 +9,7 @@
 				<NuxtLink :to="children.link" class="sub_link a-classic">{{children.name}}</NuxtLink>
 			</li>
 		</ul>
-	</li>
+	</div>
 </template>
 
 <script lang="ts" setup>
@@ -22,6 +22,11 @@ const emit = defineEmits(['closeMobile']);
 </script>
 
 <style lang="scss" scoped>
+.sidebar-group {
+	margin-top: 5px;
+	width: 98%;
+}
+
 .parent {
 	display: flex;
 	border-radius: 12px;

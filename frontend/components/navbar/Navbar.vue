@@ -2,31 +2,28 @@
   <header>
     <nav>
       <h5 class="title" style="margin: 6px 14px 0 14px">
-        Scientia
+
       </h5>
 
       <ul class="main-ul">
         <li>
-          <NuxtLink class="a-classic" to="/">Accueil</NuxtLink>
+          <NuxtLink class="a-nav" to="/">Accueil</NuxtLink>
         </li>
 
         <li>
           <Dropdown title="Matières">
             <ul class="dropdown-item-parent">
-              <li v-for="(category, index) of getAll" :key="index" class="dropdown-item">
-                <NuxtLink class="a-classic" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
+              <li v-for="(category, index) of getAll" :key="index">
+                <NuxtLink class="a-nav dropdown-item" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
               </li>
             </ul>
           </Dropdown>
         </li>
         <li class="connect">
-          <NuxtLink class="a-classic" to="/admin" no-prefetch>Connexion</NuxtLink>
+          <NuxtLink class="a-nav" to="/admin" no-prefetch>Connexion</NuxtLink>
         </li>
         <li>
           <ThemeToggle />
-        </li>
-        <li>
-          <RefreshState />
         </li>
       </ul>
     </nav>
@@ -35,14 +32,20 @@
 </template>
 
 <style lang="scss" scoped>
-a {
-  font-weight: 600;
+.a-nav {
+  color: var(--opposite-color);
+  transition: color .25s;
+
+  &:hover {
+    color: $primary-400;
+  }
 }
 
 
 nav {
+  margin-top: 5px;
   width: 100%;
-  height: 75px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,6 +54,7 @@ nav {
     font-size: 20px;
     font-weight: 600;
   }
+
 }
 
 
@@ -59,18 +63,20 @@ nav {
   flex-direction: column;
   margin: 5px;
   padding: 3px 0;
+
+  li {
+    padding: 0;
+    margin: 0;
+  }
 }
+
+
 
 .dropdown-item {
   display: block;
-  padding: 5px;
+  padding: 4px;
   border-radius: 6px;
-  list-style: none;
-  margin: 0;
-
-  &:hover {
-    background: var(--contrast-color);
-  }
+  font-size: 0.85rem;
 }
 
 .main-ul {
@@ -82,9 +88,7 @@ ul {
   list-style: none;
 
   li {
-    padding-right: 11px;
-    padding-left: 11px;
-    height: auto
+    margin-left: 20px;
   }
 }
 
@@ -107,7 +111,6 @@ import { storeToRefs } from 'pinia'
 import { useCategoriesStore } from "@/store";
 import Dropdown from "@/components/Dropdown.vue";
 import ThemeToggle from "./ThemeToggle.vue";
-import RefreshState from "./RefreshState.vue";
 
 
 const categoriesStore = useCategoriesStore();

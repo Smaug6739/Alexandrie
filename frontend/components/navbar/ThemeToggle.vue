@@ -1,23 +1,23 @@
 <template>
-	<i @click="toggleTheme" class='bx bx-moon' ref="themeIcon"></i>
-
+	<Icon @click="toggleTheme" :name='themeIcon'></Icon>
 </template>
 
 <script lang="ts" setup>
 
 import { ref } from 'vue'
-const themeIcon = ref();
+import Icon from "@/components/Icon.vue"
+const themeIcon = ref('bx-moon');
 
 function toggleTheme() {
 	if (document.documentElement.getAttribute("data-theme") === "dark") {
 		document.documentElement.setAttribute("data-theme", "light");
-		themeIcon.value.className = "bx bx-sun";
+		themeIcon.value = "bx-sun";
 	} else if (document.documentElement.getAttribute("data-theme") === "light") {
 		document.documentElement.setAttribute("data-theme", "dark");
-		themeIcon.value.className = "bx bx-moon";
+		themeIcon.value = "bx bx-moon";
 	} else {
 		document.documentElement.setAttribute("data-theme", "light");
-		themeIcon.value.className = "bx bx-sun";
+		themeIcon.value = "bx bx-sun";
 	}
 }
 </script>
