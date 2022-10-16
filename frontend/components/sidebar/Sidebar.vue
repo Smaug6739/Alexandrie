@@ -153,8 +153,6 @@ const menuItems = computed((): MenuItem[] => {
   }
 }
 
-
-
 .sidebar.open {
   .header {
     #btn {
