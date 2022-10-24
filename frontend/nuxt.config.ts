@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  plugins: ['~/plugins/route', '~/plugins/auth', '~/plugins/pwa/pwa'],
+  plugins: ['~/plugins/route', '~/plugins/auth', '~/plugins/pwa'],
   css: ['~/styles/main.scss'],
   modules: [
     // ...
