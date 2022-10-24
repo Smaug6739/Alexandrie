@@ -59,7 +59,7 @@ const previous = computed(() => articlesStore.getPrevious(article.value));
 }
 
 .view-container {
-	width: 70%;
+	width: 80%;
 	max-width: 100%;
 	margin: auto;
 	padding: 5px;
@@ -72,7 +72,7 @@ const previous = computed(() => articlesStore.getPrevious(article.value));
 }
 
 #art-main {
-	width: 80%;
+	width: 90%;
 }
 
 .table-content {
