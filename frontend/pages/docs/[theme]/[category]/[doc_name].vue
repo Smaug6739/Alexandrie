@@ -1,45 +1,47 @@
 <template>
-	<main class="view view-medium">
-		<Transition name="fade">
-			<div v-if="article?.id && show">
-				<article v-html="article.content_html"></article>
-				<p class="sep">Dernière mise à jour le {{ timestampToString(article.updated_timestamp) }}</p>
-				<hr>
-				<div class="sep">
-					<span v-if="next" class="next">
-						<NuxtLink :to="`/docs/${next.main_category}/${next.sub_category}/${next.path}`">{{ next.name }}
-						</NuxtLink> →
-					</span>
-					<span v-if="previous" class="previous">
-						← <NuxtLink :to="`/docs/${previous.main_category}/${previous.sub_category}/${previous.path}`">
-							{{ previous.name }}
-						</NuxtLink>
-					</span>
+	<main>
+		<div class="view view-container">
+			<section v-if="article?.id">
+				<div style="display:flex;">
+					<article id="art-main" ref="element" v-html="article.content_html"></article>
+					<div style="position:relative;">
+						<TableOfContent :element="element" class="table-content" />
+					</div>
 				</div>
+				<footer>
+					<hr class="sep">
+					<p>Dernière mise à jour le {{ timestampToString(article.updated_timestamp) }}</p>
+					<NuxtLink v-if="next" class="next" :to="`/docs/${next.main_category}/${next.sub_category}/${next.path}`">{{
+							next.name
+					}}→</NuxtLink>
+					<NuxtLink v-if="previous" class="previous"
+						:to="`/docs/${previous.main_category}/${previous.sub_category}/${previous.path}`">←{{
+		previous.name
+						}}</NuxtLink>
+				</footer>
+			</section>
+			<div v-else>
+				<Loader msg="Loading..." />
 			</div>
-		</Transition>
+		</div>
 	</main>
 </template>
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
 import { timestampToString } from "@/helpers/date";
 import { useArticlesStore } from '@/store';
-
+import Loader from "@/components/Loader.vue";
+import TableOfContent from "@/components/table-of-content/index.vue";
 const route = useRoute();
 const articlesStore = useArticlesStore();
-const show = ref(false);
 
+const element = ref<HTMLElement>() as any;
 
 const article = computed(() => {
-	show.value = false;
-	setTimeout(() => show.value = true, 100);
 	return articlesStore.getByPaths(route.params.doc_name as string, route.params.category as string, route.params.theme as string)
 });
 const next = computed(() => articlesStore.getNext(article.value));
 const previous = computed(() => articlesStore.getPrevious(article.value));
-
-
-
 
 </script>
 <style lang="scss" scoped>
@@ -56,18 +58,26 @@ const previous = computed(() => articlesStore.getPrevious(article.value));
 	float: left;
 }
 
+.view-container {
+	width: 70%;
+	max-width: 100%;
+	margin: auto;
+	padding: 5px;
 
-.fade-enter-active {
-	transition: all 0.3s ease;
+	@media (max-width: 768px) {
+		width: 100%;
+		padding: 0;
+		padding-right: 5px;
+	}
 }
 
-.fade-leave-active {
-	transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+#art-main {
+	width: 80%;
 }
 
-.fade-enter-from,
-.fade-leave-to {
-	transform: translateY(20px);
-	opacity: 0;
+.table-content {
+	position: sticky;
+	margin-top: 35px;
+	top: 15px;
 }
 </style>
