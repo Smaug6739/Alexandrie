@@ -14,6 +14,9 @@ export default defineNuxtConfig({
     // ...
     ['@pinia/nuxt'],
   ],
+  experimental: {
+    writeEarlyHints: false,
+  },
   app: {
     head: {
       title: 'Scientia',
