@@ -1,13 +1,12 @@
 .view-medium {
-	width: 60%;
+	display: block;
 	max-width: 100%;
-	margin: auto;
+	margin: auto 50px auto 250px;
 	padding: 5px;
 
 	@media (max-width: 768px) {
 		width: 100%;
-		padding: 0;
-		padding-right: 5px;
+		margin: auto;
 	}
 }
 
@@ -21,38 +20,4 @@
 	padding: 0;
 	margin: 0;
 	background-color: rgba(0, 0, 0, 0.5);
-}
-
-.view-large {
-	width: 99%;
-	max-width: 100%;
-	margin: auto;
-	padding: 10px;
-
-	@media (max-width: 768px) {
-		width: 100%;
-	}
-}
-
-.view {
-
-	img {
-		max-width: 100%;
-		max-height: 400px;
-		width: auto;
-		margin-bottom: 5px;
-	}
-
-	ul,
-	ol {
-		padding-left: 20px;
-	}
-
-	@media (max-width: 600px) {
-
-		table {
-			border-collapse: collapse;
-			zoom: 0.9;
-		}
-	}
 }

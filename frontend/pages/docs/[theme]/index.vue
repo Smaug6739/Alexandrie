@@ -11,7 +11,7 @@
 					catégories suivantes :
 					<ul v-if="category?.id">
 						<li v-for="(item, index) in category.categories" :key="index">
-							<NuxtLink :to="`/docs/${category.path}/${item.path}`">{{item.name}}</NuxtLink>
+							<NuxtLink :to="`/docs/${category.path}/${item.path}`">{{      item.name      }}</NuxtLink>
 						</li>
 					</ul>
 				</div>
@@ -27,11 +27,6 @@ h2 {
 
 .view-medium {
 	margin-top: 50px;
-}
-
-ul {
-	padding: 0;
-	list-style-position: inside;
 }
 </style>
 <script lang="ts" setup>

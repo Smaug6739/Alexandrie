@@ -6,9 +6,9 @@
       <Icon :name="menuIcon()" id="btn" @click="isOpened = !isOpened" />
     </section>
 
-    <section class="nav-list body">
+    <section class="body">
       <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
-        @search="(val:string) => searchInput = val" />
+        @search="(val: string) => searchInput = val" />
       <SidebarGroup v-for="(menuItem, index) of menuItems" :key="index" :menuItem="menuItem" :isOpened="isOpened"
         @closeMobile="isMobile() ? isOpened = false : null" />
     </section>

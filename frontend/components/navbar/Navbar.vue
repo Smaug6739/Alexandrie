@@ -3,19 +3,19 @@
     <nav>
       <ul class="main-ul">
         <li>
-          <NuxtLink class="a-nav" to="/">Accueil</NuxtLink>
+          <NuxtLink class="a-classic" to="/">Accueil</NuxtLink>
         </li>
         <li>
           <Dropdown title="Matières">
             <ul class="dropdown-item-parent">
               <li v-for="(category, index) of getAll" :key="index">
-                <NuxtLink class="a-nav dropdown-item" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
+                <NuxtLink class="a-classic dropdown-item" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
               </li>
             </ul>
           </Dropdown>
         </li>
         <li class="connect">
-          <NuxtLink class="a-nav" to="/admin" no-prefetch>Connexion</NuxtLink>
+          <NuxtLink class="a-classic" to="/admin" :no-prefetch="true">Connexion</NuxtLink>
         </li>
         <li>
           <ThemeToggle />
@@ -27,16 +27,6 @@
 </template>
 
 <style lang="scss" scoped>
-.a-nav {
-  color: var(--opposite-color);
-  transition: color .25s;
-
-  &:hover {
-    color: $primary-400;
-  }
-}
-
-
 nav {
   margin-top: 5px;
   width: 100%;
@@ -59,8 +49,6 @@ nav {
     margin: 0;
   }
 }
-
-
 
 .dropdown-item {
   display: block;

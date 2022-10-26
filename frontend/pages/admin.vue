@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<main class="view view-large">
+		<main class="view-large">
 			<admin-sidebar />
 			<h1>Dashboard: Admin</h1>
 			<NuxtPage />

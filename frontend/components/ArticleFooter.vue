@@ -22,7 +22,7 @@ defineProps<{
 }>();
 </script>
 
-<style>
+<style scoped>
 .next {
 	float: right;
 }

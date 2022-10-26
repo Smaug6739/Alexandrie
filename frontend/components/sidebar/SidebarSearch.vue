@@ -2,7 +2,7 @@
 	<span @click="emit('open')">
 		<Icon name="bx bx-search" class="icon" />
 		<input type="text" :placeholder="searchPlaceholder" :class="isOpened ? 'open' : ''"
-			@input="(v) => emit('search',( v.target as HTMLInputElement).value)" />
+			@input="(v) => emit('search', (v.target as HTMLInputElement).value)" />
 	</span>
 </template>
 
@@ -12,7 +12,6 @@ import Icon from "@/components/Icon.vue";
 
 defineProps<{ isOpened: boolean, searchPlaceholder: string }>();
 const emit = defineEmits(['open', 'search']);
-
 </script>
 
 <style lang="scss" scoped>

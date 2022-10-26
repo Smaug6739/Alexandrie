@@ -2,8 +2,8 @@
 	<form>
 		<fieldset>
 			<legend>Connexion</legend>
-			<input id="form-username" type="text" placeholder="Username" autocomplete="username" />
-			<input id="form-password" type="password" placeholder="Password" autocomplete="current-password" />
+			<input ref="username" type="text" placeholder="Username" autocomplete="username" />
+			<input ref="password" type="password" placeholder="Password" autocomplete="current-password" />
 			<button type="button" @click="connect" class="btn btn-theme">Connexion</button>
 		</fieldset>
 	</form>
@@ -16,11 +16,14 @@ const router = useRouter();
 if (process.client && document.cookie?.includes("user_auth")) {
 	router.push({ name: "admin" });
 }
-async function connect() {
 
+const username = ref<HTMLInputElement>();
+const password = ref<HTMLInputElement>();
+
+async function connect() {
 	const content = JSON.stringify({
-		username: (document.getElementById("form-username") as HTMLInputElement).value,
-		password: (document.getElementById("form-password") as HTMLInputElement).value,
+		username: username.value?.value,
+		password: password.value?.value,
 	});
 	const responce = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/auth`, {
 		method: "POST",
@@ -39,7 +42,7 @@ async function connect() {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 form {
 	width: 70%;
 	margin: 0 auto;

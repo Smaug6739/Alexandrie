@@ -6,7 +6,7 @@
 		</NuxtLink>
 		<ul v-if="isOpened">
 			<li v-for="(children, index) of menuItem.childrens" :key="index" class="children" @click="emit('closeMobile')">
-				<NuxtLink :to="children.link" class="sub_link a-classic">{{children.name}}</NuxtLink>
+				<NuxtLink :to="children.link" class="sub_link a-classic">{{ children.name }}</NuxtLink>
 			</li>
 		</ul>
 	</div>
@@ -53,6 +53,7 @@ const emit = defineEmits(['closeMobile']);
 	text-align: left;
 	font-size: 0.95rem;
 	line-height: 1rem;
+	list-style: none;
 }
 
 .parent_name {
@@ -64,5 +65,9 @@ const emit = defineEmits(['closeMobile']);
 
 .sub_link {
 	margin-left: 50px;
+}
+
+ul {
+	padding: 0;
 }
 </style>

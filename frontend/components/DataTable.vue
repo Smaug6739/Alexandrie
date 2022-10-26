@@ -48,7 +48,6 @@
 					</tr>
 				</tbody>
 			</table>
-
 		</div>
 	</div>
 </template>
@@ -172,12 +171,11 @@ button {
 	color: var(--bg-color);
 }
 
+
 .li-style {
 	position: relative;
 	list-style: none;
-}
 
-.li-style {
 	i {
 		padding-left: 15px;
 		height: 50px;

@@ -1,5 +1,5 @@
 <template>
-	<div class="menu-item-parent" @mouseenter="isOpen =true" @mouseleave="isOpen = false">
+	<div class="menu-item-parent" @mouseenter="isOpen = true" @mouseleave="isOpen = false">
 
 		<div>
 			<NuxtLink style="font-weight: 600;cursor:pointer;" class="a-classic title">{{ title }}<svg
@@ -11,7 +11,7 @@
 				</svg></NuxtLink>
 
 			<Transition>
-				<div class="sub-menu" v-if="isOpen">
+				<div class="sub-menu" v-if="isOpen" @click="isOpen = false">
 					<slot />
 				</div>
 			</Transition>

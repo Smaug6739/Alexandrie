@@ -18,6 +18,12 @@ import { useCategoriesStore } from "./store/categories.store";
 const categoriesStore = useCategoriesStore();
 categoriesStore.fetchAll();
 
+
+
+
+
+
+
 </script>
 
 <style scoped>

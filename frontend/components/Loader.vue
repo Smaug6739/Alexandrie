@@ -24,14 +24,14 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style scoped>
 .loader {
-	p {
-		font-size: 1.2rem;
-		font-weight: 700;
-	}
-
 	text-align: center;
+}
+
+.loader>p {
+	font-size: 1.2rem;
+	font-weight: 700;
 }
 
 .lds-roller {

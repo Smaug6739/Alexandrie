@@ -1,6 +1,6 @@
 <template>
 	<main>
-		<section class="view view-container" v-if="article?.id" style="display:flex;">
+		<section class="view-medium" v-if="article?.id" style="display:flex;">
 			<div style="width:100%;">
 				<article ref="element" v-html="article.content_html"></article>
 				<hr />
@@ -33,20 +33,7 @@ const next = computed(() => articlesStore.getNext(article.value));
 const previous = computed(() => articlesStore.getPrevious(article.value));
 
 </script>
-<style lang="scss" scoped>
-.view-container {
-	display: block;
-	max-width: 100%;
-	margin: auto 50px auto 250px;
-	padding: 5px;
-
-	@media (max-width: 768px) {
-		width: 100%;
-		margin: auto;
-	}
-}
-
-
+<style scoped>
 .toc {
 	margin-top: 40px;
 }
