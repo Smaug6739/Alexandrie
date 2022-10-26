@@ -9,37 +9,34 @@
 
 <script lang="ts" setup>
 import { defineProps } from "vue";
+
 interface Node {
 	title: string;
 	link: string;
 	childrens?: Node[];
 }
-defineProps<{
-	node: Node;
-}>();
+
+defineProps<{ node: Node; }>();
 </script>
-<style scoped lang="scss">
+
+<style scoped>
 a {
 	color: var(--opposite-color);
-	opacity: 0.7;
-
-	&:hover {
-		opacity: 1;
-	}
+	opacity: 0.75;
 }
 
-
+a:hover {
+	opacity: 1;
+}
 
 li {
 	list-style: none;
 	padding: 0;
-	margin: 0;
-	margin-top: 3px;
+	margin: 3px 0 0 0;
 }
 
 ul {
-	padding: 0;
+	padding: 0 0 0 15px;
 	margin: 0;
-	padding-left: 15px;
 }
 </style>
