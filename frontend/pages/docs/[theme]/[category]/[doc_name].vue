@@ -1,28 +1,24 @@
 <template>
 	<main>
-		<div class="view view-container">
-			<section v-if="article?.id">
-				<div style="display:flex;">
-					<article id="art-main" ref="element" v-html="article.content_html"></article>
-					<div style="position:relative;">
-						<TableOfContent :element="element" class="table-content" />
-					</div>
-				</div>
-				<footer>
-					<hr class="sep">
-					<p>Dernière mise à jour le {{ timestampToString(article.updated_timestamp) }}</p>
-					<NuxtLink v-if="next" class="next" :to="`/docs/${next.main_category}/${next.sub_category}/${next.path}`">{{
-							next.name
-					}}→</NuxtLink>
-					<NuxtLink v-if="previous" class="previous"
-						:to="`/docs/${previous.main_category}/${previous.sub_category}/${previous.path}`">←{{
-		previous.name
-						}}</NuxtLink>
-				</footer>
-			</section>
-			<div v-else>
-				<Loader msg="Loading..." />
+		<section class="view view-container" v-if="article?.id">
+			<div style="display:flex;">
+				<article ref="element" v-html="article.content_html"></article>
+				<TableOfContent :element="element" class="table-content" />
 			</div>
+			<footer>
+				<hr>
+				<p>Dernière mise à jour le {{ timestampToString(article.updated_timestamp) }}</p>
+				<NuxtLink v-if="next" class="next" :to="`/docs/${next.main_category}/${next.sub_category}/${next.path}`">{{
+						next.name
+				}}→</NuxtLink>
+				<NuxtLink v-if="previous" class="previous"
+					:to="`/docs/${previous.main_category}/${previous.sub_category}/${previous.path}`">←{{
+		previous.name
+					}}</NuxtLink>
+			</footer>
+		</section>
+		<div v-else>
+			<Loader msg="Loading..." />
 		</div>
 	</main>
 </template>
@@ -31,7 +27,7 @@ import { useRoute } from "vue-router";
 import { timestampToString } from "@/helpers/date";
 import { useArticlesStore } from '@/store';
 import Loader from "@/components/Loader.vue";
-import TableOfContent from "@/components/table-of-content/index.vue";
+import TableOfContent from "~~/components/table-of-content/TableOfContent.vue";
 const route = useRoute();
 const articlesStore = useArticlesStore();
 
@@ -45,7 +41,7 @@ const previous = computed(() => articlesStore.getPrevious(article.value));
 
 </script>
 <style lang="scss" scoped>
-.sep {
+hr {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
@@ -59,9 +55,9 @@ const previous = computed(() => articlesStore.getPrevious(article.value));
 }
 
 .view-container {
-	width: 80%;
+	width: 75%;
 	max-width: 100%;
-	margin: auto;
+	margin: auto auto auto 250px;
 	padding: 5px;
 
 	@media (max-width: 768px) {
@@ -71,13 +67,8 @@ const previous = computed(() => articlesStore.getPrevious(article.value));
 	}
 }
 
-#art-main {
-	width: 90%;
-}
 
 .table-content {
-	position: sticky;
-	margin-top: 35px;
-	top: 15px;
+	margin-top: 38px;
 }
 </style>

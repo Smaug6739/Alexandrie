@@ -36,6 +36,10 @@
   border-radius: 9px;
 }
 
-.normal {
-  font-size: 14px;
+.router-link-exact-active {
+  color: $primary-400 !important;
+}
+
+.active {
+  color: $primary-400 !important;
 }
