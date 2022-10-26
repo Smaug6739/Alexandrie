@@ -82,7 +82,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-	<aside>
+	<aside v-if="headers.length">
 		<ul ref="list" class="toc">
 			<h4>Table des matières</h4>
 			<!--Recursive lists -->

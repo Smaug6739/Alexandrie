@@ -3,17 +3,8 @@
 .katex-display,
 .katex-display>.katex,
 .katex-display>.katex>.katex-html {
-	display: inline !important;
+	display: inline;
 }
-
-.katex-display {
-	text-align: left !important;
-}
-
-.katex-display>.katex {
-	text-align: left !important;
-}
-
 
 .katex-container {
 	line-height: 1.8em;

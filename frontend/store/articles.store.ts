@@ -38,9 +38,7 @@ export const useArticlesStore = defineStore('articles', {
     },
 
     getPrevious: state => (article?: Article) => {
-      const articles_of_category = state.articles.filter(
-        a => a.main_category == article?.main_category && a.sub_category == article?.sub_category,
-      );
+      const articles_of_category = state.articles.filter(a => a.main_category == article?.main_category && a.sub_category == article?.sub_category);
       const index = articles_of_category.findIndex((a: Article) => a.id == article?.id);
       if (index == -1) return;
       return articles_of_category[index - 1];
