@@ -58,7 +58,7 @@ $mobile-font-weight: 400;
   // THEME \\
   --bg-color: #001e26;
   --contrast-color: #323a46;
-  --contrast-color-after: #1e2530;
+  --contrast-color-after: #2b323d;
   --font-color: #fff;
   --font-color-dimmed: #c8cedf;
   --opposite-color: #fff;
@@ -88,8 +88,8 @@ $mobile-font-weight: 400;
 @mixin light-theme {
   // THEME \\
   --bg-color: #fff;
-  --contrast-color: #f5f5f5;
-  --contrast-color-after: #fff;
+  --contrast-color: #f8f9fa;
+  --contrast-color-after: #f9f9f9;
   --font-color: #323a46;
   --font-color-dimmed: #869099;
   --opposite-color: #001e26;
