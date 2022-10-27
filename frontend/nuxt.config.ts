@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     ['@pinia/nuxt'],
   ],
   experimental: {
+    // TODO: Remove when relace candidate 13 is released
     writeEarlyHints: false,
   },
   app: {
@@ -37,7 +38,7 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#001e26' },
         {
           name: 'description',
-          content: 'Site web qui regroupe mes notes/cours dans les domaines scientifiques.',
+          content: 'Site web qui regroupe des notes/cours dans les domaines scientifiques.',
         },
 
         // Open Graph / Facebook
@@ -45,7 +46,7 @@ export default defineNuxtConfig({
         { property: 'og:title', content: 'Scientia' },
         {
           property: 'og:description',
-          content: 'Site web qui regroupe mes notes/cours dans les domaines scientifiques.',
+          content: 'Site web qui regroupe des notes/cours dans les domaines scientifiques.',
         },
         { property: 'og:url', content: `https://docs.smaug-6739.dev` },
         { property: 'og:keywords', content: 'Cours, notes' },
@@ -57,7 +58,7 @@ export default defineNuxtConfig({
         { name: 'twitter:url', content: `https://docs.smaug-6739.dev` },
         {
           name: 'twitter:description',
-          content: `Site web qui regroupe mes notes/cours dans les domaines scientifiques.`,
+          content: `Site web qui regroupe des notes/cours dans les domaines scientifiques.`,
         },
       ],
     },
