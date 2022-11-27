@@ -1,8 +1,11 @@
 
 <script lang="ts" setup>
+
 import { ref, onBeforeUnmount, watch, computed } from "vue";
 import NodeTree from './NodeTree.vue';
 import type { GroupedHeaders } from "./types"
+
+if (process.server) return;
 
 const props = defineProps<{ element: HTMLElement; }>();
 const headers = computed(() => groupHeadersByLevels(props.element));
