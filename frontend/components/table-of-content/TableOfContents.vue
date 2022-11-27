@@ -5,7 +5,6 @@ import { ref, onBeforeUnmount, watch, computed } from "vue";
 import NodeTree from './NodeTree.vue';
 import type { GroupedHeaders } from "./types"
 
-if (process.server) return;
 
 const props = defineProps<{ element: HTMLElement; }>();
 const headers = computed(() => groupHeadersByLevels(props.element));
@@ -69,19 +68,22 @@ const observerCallback = (e: IntersectionObserverEntry[]) => {
 		}
 	})
 };
-const observer = new IntersectionObserver(observerCallback, options)
+if (process.client) {
+	const observer = new IntersectionObserver(observerCallback, options)
 
-// Watch props.element for changes (= when article is loaded)
-watch(props, () => {
-	observer.disconnect();
-	const headings = getAllHeadersElements(props.element);
-	// Track all headings
-	headings.forEach((section) => observer.observe(section))
-});
+	// Watch props.element for changes (= when article is loaded)
+	watch(props, () => {
+		observer.disconnect();
+		const headings = getAllHeadersElements(props.element);
+		// Track all headings
+		headings.forEach((section) => observer.observe(section))
+	});
 
-onBeforeUnmount(() => {
-	observer.disconnect();
-})
+	onBeforeUnmount(() => {
+		observer.disconnect();
+	})
+}
+
 </script>
 
 <template>
