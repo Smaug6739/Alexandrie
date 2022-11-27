@@ -14,10 +14,10 @@ export default defineNuxtConfig({
     // ...
     ['@pinia/nuxt'],
   ],
-  experimental: {
+  /*experimental: {
     // TODO: Remove when relace candidate 13 is released
     writeEarlyHints: false,
-  },
+  },*/
   app: {
     head: {
       title: 'Scientia',

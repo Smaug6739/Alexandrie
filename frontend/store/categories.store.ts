@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
-import { makeRequest } from './utils';
-
+import { makeRequest, baseUrl, type APIResult } from './utils';
 export interface Theme {
   id: string;
   name: string;
@@ -36,13 +35,11 @@ export const useCategoriesStore = defineStore('categories', {
     },
   },
   actions: {
-    async fetchAll(): Promise<Theme[]> {
-      if (process.server) return [];
-      if (!this.categories.length) {
-        const request = await makeRequest('categories', 'GET', {});
-        if (request.status == 'success') this.categories = request.data;
-      }
-      return this.categories;
+    fetchCategories: async function () {
+      const { data, error } = await useAsyncData<APIResult<Theme[]>>('categories', () => {
+        return $fetch(`${baseUrl}/api/v1/categories`);
+      });
+      if (!error.value && data.value?.result) this.categories = data.value.result;
     },
     async updateMainCategory(category: Theme) {
       const request = await makeRequest(`categories/main/${category.id}`, 'PATCH', category);
@@ -69,7 +66,7 @@ export const useCategoriesStore = defineStore('categories', {
     async postMainCategory(category: Theme) {
       const request = await makeRequest(`categories/main`, 'POST', category);
       if (request.status == 'success') {
-        this.categories.push(request.data);
+        this.categories.push(request.result);
       }
     },
     async postSubCategory(category: Category) {
@@ -77,7 +74,7 @@ export const useCategoriesStore = defineStore('categories', {
       if (request.status == 'success') {
         const p = this.categories.find(c => c.id == category.parent_category);
         if (!p) return;
-        p.categories.push(request.data);
+        p.categories.push(request.result);
       }
     },
     async deleteMainCategory(id: string) {

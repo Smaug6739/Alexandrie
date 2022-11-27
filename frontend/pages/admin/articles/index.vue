@@ -12,7 +12,7 @@ import { timestampToString } from '@/helpers/date';
 import { storeToRefs } from 'pinia';
 
 const articlesStore = useArticlesStore();
-articlesStore.fetchAll();
+articlesStore.fetchArticles();
 const { getAll } = storeToRefs(articlesStore);
 
 const tableOptions = {

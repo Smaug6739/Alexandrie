@@ -16,7 +16,8 @@ import BackToTop from "@/components/back-to-top/index"
 import { useCategoriesStore } from "./store/categories.store";
 
 const categoriesStore = useCategoriesStore();
-categoriesStore.fetchAll();
+categoriesStore.fetchCategories();
+
 </script>
 <style scoped>
 #app {

@@ -12,6 +12,6 @@ import adminSidebar from '@/components/layout/admin-sidebar/Sidebar.vue';
 import { useArticlesStore, useCategoriesStore } from '@/store';
 const store = useArticlesStore();
 const categoriesStore = useCategoriesStore();
-store.fetchAll();
-categoriesStore.fetchAll();
+store.fetchArticles();
+categoriesStore.fetchCategories();
 </script>

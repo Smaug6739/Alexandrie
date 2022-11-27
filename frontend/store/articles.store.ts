@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { makeRequest } from './utils';
+import { makeRequest, baseUrl, type APIResult } from './utils';
 
 export interface Article {
   id: string;
@@ -38,21 +38,25 @@ export const useArticlesStore = defineStore('articles', {
     },
 
     getPrevious: state => (article?: Article) => {
-      const articles_of_category = state.articles.filter(a => a.main_category == article?.main_category && a.sub_category == article?.sub_category);
+      const articles_of_category = state.articles.filter(
+        a => a.main_category == article?.main_category && a.sub_category == article?.sub_category,
+      );
       const index = articles_of_category.findIndex((a: Article) => a.id == article?.id);
       if (index == -1) return;
       return articles_of_category[index - 1];
     },
   },
   actions: {
-    async fetchAll() {
-      const request = await makeRequest('articles', 'GET', {});
-      if (request.status == 'success') this.articles = request.data;
+    fetchArticles: async function () {
+      const { data, error } = await useAsyncData<APIResult<Article[]>>('articles', () => {
+        return $fetch(`${baseUrl}/api/v1/articles`);
+      });
+      if (!error.value && data.value?.result) this.articles = data.value.result;
     },
     async postArticle(article: Article) {
       const request = await makeRequest('articles', 'POST', article);
       if (request.status == 'success') {
-        this.articles.push(request.data);
+        this.articles.push(request.result);
       }
     },
     async updateArticle(article: Article) {

@@ -1,9 +1,9 @@
-interface Result {
+export interface APIResult<Data> {
   status: 'success' | 'error';
-  data?: any;
+  result?: Data;
 }
-const baseUrl = import.meta.env.VITE_BASE_API;
-export async function makeRequest(route: string, method: string, body: Object): Promise<Result> {
+export const baseUrl = import.meta.env.VITE_BASE_API?.toString() || '';
+export async function makeRequest(route: string, method: string, body: Object): Promise<APIResult<any>> {
   try {
     const responce = await fetch(`${baseUrl}/api/v1/${route}`, {
       method: method,
@@ -17,7 +17,7 @@ export async function makeRequest(route: string, method: string, body: Object): 
       const decoded = await responce.json();
       return {
         status: 'success',
-        data: decoded.result,
+        result: decoded.result,
       };
     } else {
       return { status: 'error' };
