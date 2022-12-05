@@ -48,6 +48,7 @@ export const useArticlesStore = defineStore('articles', {
   },
   actions: {
     fetchArticles: async function () {
+      if (process.client) return; // only fetch on server side
       const { data, error } = await useAsyncData<APIResult<Article[]>>('articles', () => {
         return $fetch(`${baseUrl}/api/v1/articles`);
       });
