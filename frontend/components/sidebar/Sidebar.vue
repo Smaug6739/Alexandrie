@@ -1,14 +1,15 @@
 <template>
   <aside class="sidebar" :class="isOpened ? 'open' : ''">
     <section class="header">
-      <Icon name="bxs-graduation" :big="true" class="icon" />
-      <span class="logo_name" v-text="menuTitle"></span>
-      <Icon :name="menuIcon()" id="btn" @click="isOpened = !isOpened" />
+      <b class="logo_name">
+        <Icon name="bxs-graduation" :big="true" class="icon" />Orion docs
+      </b>
+      <Icon name="bx-menu-alt-right" id="btn" @click="isOpened = !isOpened" />
     </section>
 
     <section class="body">
-      <SidebarSearch :isOpened="isOpened" :isSearch="true" :searchPlaceholder="searchPlaceholder"
-        @search="(val: string) => searchInput = val" />
+      <SidebarSearch :isOpened="isOpened" :isSearch="true" searchPlaceholder="Search..."
+        @search="(val: string) => searchInput = val" @open="isOpened = true" />
       <SidebarGroup v-for="(menuItem, index) of menuItems" :key="index" :menuItem="menuItem" :isOpened="isOpened"
         @closeMobile="isMobile() ? isOpened = false : null" />
     </section>
@@ -16,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { ref, onBeforeUnmount, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { storeToRefs } from 'pinia';
@@ -24,6 +26,7 @@ import SidebarGroup from './SidebarGroup.vue';
 import SidebarSearch from './SidebarSearch.vue';
 import Icon from "@/components/Icon.vue";
 
+import { hasSidebar, isOpened } from "./index"
 import { useArticlesStore, useCategoriesStore } from '@/store';
 
 import type { MenuItem } from './types'
@@ -35,32 +38,27 @@ const categoriesStore = useCategoriesStore();
 const { articles } = storeToRefs(articlesStore);
 const { categories } = storeToRefs(categoriesStore);
 
-const menuTitle = 'Docs'
-const searchPlaceholder = 'Search...'
-
-
-const isOpened = ref(false);
 const searchInput = ref('');
 
 const isMobile = () => process.client ? window.innerWidth <= 768 : false;
-const menuIcon = () => isOpened.value ? 'bx-menu-alt-right' : 'bx-menu';
 
 // Handle click outside
 const handleClickOutside = (e: MouseEvent) => {
-  if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && isMobile()) isOpened.value = false;
+  if (isOpened.value && e.target && (!(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) && isMobile()) isOpened.value = false;
 };
 
 onMounted(() => {
+  hasSidebar.value = true;
   if (!process.client) return;
-  window.document.body.style.paddingLeft = '78px';
   isMobile() ? isOpened.value = false : isOpened.value = true;
   window.addEventListener('click', handleClickOutside);
 });
 onBeforeUnmount(() => {
+  hasSidebar.value = false;
   if (!process.client) return;
   window.removeEventListener('click', handleClickOutside);
-  window.removeEventListener('click', handleClickOutside);
 });
+
 
 // Watch isOpened
 watch(isOpened, (val) => {
@@ -74,7 +72,6 @@ const menuItems = computed((): MenuItem[] => {
   const theme = categories.value.find(c => c.path == subject);
 
   if (!theme) return items;
-
   for (const category of theme.categories) {
     items.push({
       name: category.name,
@@ -106,14 +103,16 @@ const menuItems = computed((): MenuItem[] => {
   left: 0;
   top: 0;
   min-height: min-content;
-  width: 78px;
   z-index: 100;
   transition: all 0.2s ease;
   background: var(--bg-color);
   height: 100%;
+  width: 300px;
+  // No visible with transition
+  transform: translateX(-300px);
 
   &.open {
-    width: 300px;
+    transform: translateX(0);
   }
 
 }
@@ -121,49 +120,23 @@ const menuItems = computed((): MenuItem[] => {
 .header {
   height: 60px;
   display: flex;
-  align-items: center;
-  position: relative;
+  justify-content: space-between;
   margin: 6px 14px 0 14px;
 
-  .icon {
-    opacity: 0;
+  #btn {
+    display: block;
+    text-align: right;
+    font-size: 27px;
+    cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .logo_name {
     font-size: 18px;
     font-weight: 600;
-    opacity: 0;
-    transition: all 0.2s ease;
-  }
-
-  #btn {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    transition: all 0.4s ease;
-    font-size: 23px;
-    text-align: center;
-    cursor: pointer;
     transition: all 0.2s ease;
   }
 }
-
-.sidebar.open {
-  .header {
-    #btn {
-      text-align: right;
-    }
-
-    .logo_name,
-    .icon {
-      opacity: 1;
-    }
-  }
-}
-
-
 
 .body {
   overflow-y: auto;
