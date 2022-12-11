@@ -1,9 +1,10 @@
 <template>
   <aside class="sidebar" :class="isOpened ? 'open' : ''">
     <section class="header">
-      <b class="logo_name">
-        <Icon name="bxs-graduation" :big="true" class="icon" />Orion docs
-      </b>
+      <span class="name">
+        <Icon name="bxs-graduation" :big="true" class="icon" />
+        <b class="logo_name">Alexandrie</b>
+      </span>
       <Icon name="bx-menu-alt-right" id="btn" @click="isOpened = !isOpened" />
     </section>
 
@@ -120,6 +121,7 @@ const menuItems = computed((): MenuItem[] => {
 .header {
   height: 60px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   margin: 6px 14px 0 14px;
 
@@ -131,11 +133,15 @@ const menuItems = computed((): MenuItem[] => {
     transition: all 0.2s ease;
   }
 
+  .name {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
   .logo_name {
-    font-size: 18px;
+    font-size: 19px;
     font-weight: 600;
-    align-items: bottom;
-    transition: all 0.2s ease;
   }
 }
 
