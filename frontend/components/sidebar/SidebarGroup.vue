@@ -4,7 +4,7 @@
 			<Icon :name="menuItem.icon" />
 			<span class="parent_name">{{ menuItem.name }}</span>
 		</NuxtLink>
-		<ul v-if="isOpened">
+		<ul>
 			<li v-for="(children, index) of menuItem.childrens" :key="index" class="children" @click="emit('closeMobile')">
 				<NuxtLink :to="children.link" class="sub_link a-classic">{{ children.name }}</NuxtLink>
 			</li>
@@ -13,11 +13,10 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue';
 import Icon from "@/components/Icon.vue";
 import type { MenuItem } from './types';
 
-defineProps<{ menuItem: MenuItem, isOpened: boolean }>();
+defineProps<{ menuItem: MenuItem }>();
 const emit = defineEmits(['closeMobile']);
 </script>
 

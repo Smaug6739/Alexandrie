@@ -7,7 +7,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue';
 import Icon from "@/components/Icon.vue";
 
 defineProps<{ isOpened: boolean, searchPlaceholder: string }>();
