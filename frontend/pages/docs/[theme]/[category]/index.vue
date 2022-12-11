@@ -4,13 +4,13 @@
 		<div class="view-medium">
 			<div>
 				<h1>
-					Scientia</h1>
+					Alexandrie</h1>
 				<h2>{{ category?.name }}</h2>
 				<div>
 					Index de la catégorie {{ category?.name }}.
 					<ul>
 						<li v-for="(item, index) in articles" :key="index">
-							<NuxtLink :to="`/docs/${route.params.theme}/${route.params.category}/${item.path}`">{{item.name}}
+							<NuxtLink :to="`/docs/${route.params.theme}/${route.params.category}/${item.path}`">{{ item.name }}
 							</NuxtLink>
 						</li>
 					</ul>

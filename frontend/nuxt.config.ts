@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   },*/
   app: {
     head: {
-      title: 'Scientia',
+      title: 'Alexandrie',
       viewport: 'width=device-width, initial-scale=1',
       charset: 'utf-8',
       htmlAttrs: {
@@ -43,7 +43,7 @@ export default defineNuxtConfig({
 
         // Open Graph / Facebook
         { property: 'og:type', content: 'website' },
-        { property: 'og:title', content: 'Scientia' },
+        { property: 'og:title', content: 'Alexandrie' },
         {
           property: 'og:description',
           content: 'Site web qui regroupe des notes/cours dans les domaines scientifiques.',
@@ -52,7 +52,7 @@ export default defineNuxtConfig({
         { property: 'og:keywords', content: 'Cours, notes' },
 
         // Twitter
-        { name: 'twitter:title', content: `Scientia` },
+        { name: 'twitter:title', content: `Alexandrie` },
         { name: 'twitter:creator', content: `@Smaug6739` },
         { name: 'twitter:site', content: `@Smaug6739` },
         { name: 'twitter:url', content: `https://docs.smaug-6739.dev` },

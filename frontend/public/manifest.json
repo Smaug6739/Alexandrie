@@ -1,7 +1,7 @@
 {
-  "name": "Scientia",
-  "short_name": "Scientia",
-  "description": "Scientia application. ",
+  "name": "Alexandrie",
+  "short_name": "Alexandrie",
+  "description": "Alexandrie application. ",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#fff",
