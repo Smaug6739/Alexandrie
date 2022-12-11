@@ -8,15 +8,11 @@
 			</div>
 			<TableOfContent :element="element" class="toc" />
 		</section>
-		<div v-else>
-			<Loader msg="Loading..." />
-		</div>
 	</main>
 </template>
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
 import { useArticlesStore } from '@/store';
-import Loader from "@/components/Loader.vue";
 import TableOfContent from "@/components/table-of-content/TableOfContents.vue";
 import ArticleFooter from "@/components/ArticleFooter.vue";
 const route = useRoute();

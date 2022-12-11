@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  plugins: ['~/plugins/route', '~/plugins/pwa'],
+  plugins: ['~/plugins/route', '~/plugins/auth', '~/plugins/pwa'],
   css: ['~/styles/main.scss'],
   modules: [
     // ...
@@ -54,7 +54,7 @@ export default defineNuxtConfig({
         // Twitter
         { name: 'twitter:title', content: `Alexandrie` },
         { name: 'twitter:creator', content: `@Smaug6739` },
-        { name: 'twitter:site', content: `Alexandrie` },
+        { name: 'twitter:site', content: `@Smaug6739` },
         { name: 'twitter:url', content: `https://docs.smaug-6739.dev` },
         {
           name: 'twitter:description',
