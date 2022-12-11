@@ -1,6 +1,7 @@
 <template>
   <header>
     <nav>
+      <Icon v-if="hasSidebar" name="bx-menu" class="open-sidebar" @click="isOpened = !isOpened" :big="true" />
       <ul class="main-ul">
         <li>
           <NuxtLink class="a-classic" to="/">Accueil</NuxtLink>
@@ -32,8 +33,7 @@ nav {
   width: 100%;
   height: 60px;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   font-size: 0.95rem;
 }
 
@@ -75,9 +75,7 @@ ul {
     display: none;
   }
 
-  nav {
-    justify-content: flex-end;
-  }
+
 }
 </style>
 <script lang="ts" setup>
@@ -85,9 +83,10 @@ import { storeToRefs } from 'pinia'
 import { useCategoriesStore } from "@/store";
 import Dropdown from "@/components/Dropdown.vue";
 import ThemeToggle from "./ThemeToggle.vue";
+import Icon from "../Icon.vue";
 
+import { hasSidebar, isOpened } from "@/components/sidebar";
 
 const categoriesStore = useCategoriesStore();
-
 const { getAll } = storeToRefs(categoriesStore);
 </script>
