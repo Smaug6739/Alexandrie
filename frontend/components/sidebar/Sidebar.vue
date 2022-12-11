@@ -134,6 +134,7 @@ const menuItems = computed((): MenuItem[] => {
   .logo_name {
     font-size: 18px;
     font-weight: 600;
+    align-items: bottom;
     transition: all 0.2s ease;
   }
 }
