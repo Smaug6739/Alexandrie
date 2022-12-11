@@ -15,16 +15,12 @@ $black: #000000;
 
 // primary: green; secondary: grey;  info: blue; warning: orange; danger: red; light: white; dark: black;
 
-$primary-50: #F2FDF9;
-$primary-100: #E6FCF3;
-$primary-200: #BFF6E0;
-$primary-300: #99F1CD;
-$primary-400: #4DE7A8;
-$primary-500: #00DC82;
-$primary-600: #00C675;
-$primary-700: #00844E;
-$primary-800: #00633B;
-$primary-900: #004227;
+
+$primary-300: #c92370;
+$primary-400: #ff0077;
+$primary-500: #ff0e6a;
+$primary-600: #ff1e5a;
+
 
 $secondary-50: #F2F5F6;
 $secondary-100: #E6EBEC;
@@ -56,8 +52,8 @@ $mobile-font-weight: 400;
 // SCSS DEFINE DARK THEME \\
 @mixin dark-theme {
   // THEME \\
-  --bg-color: #001e26;
-  --contrast-color: #323a46;
+  --bg-color: rgb(49, 43, 66);
+  --contrast-color: #414c5c;
   --contrast-color-after: #2b323d;
   --font-color: #fff;
   --font-color-dimmed: #c8cedf;
@@ -66,7 +62,7 @@ $mobile-font-weight: 400;
   --grey: #e0e0e0;
   --grey-bg: rgb(47, 47, 47);
   --grey-border: rgba(84, 84, 84, 0.25);
-  --blue: #8dd6ff;
+  --blue: #6dc9ff;
   --blue-bg: rgb(0, 72, 112, 0.2);
   --blue-border: rgba(0, 140, 216, 0.25);
   --green: #42d392;
@@ -121,7 +117,7 @@ $mobile-font-weight: 400;
 
 :root {
   @include default-theme;
-  --scrollbar-thumb: #255461;
+  --scrollbar-thumb: $primary-400;
   font-family: $font-family;
   font-size: $default-font-size;
   font-weight: $default-font-weight;
