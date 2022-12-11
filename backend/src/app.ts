@@ -33,10 +33,9 @@ export class App {
     this.app.use(express.urlencoded({ extended: true, limit: '5mb' }));
     this.app.use(express.json({ limit: '5mb' }));
     this.app.use(compression());
-    const DOMAIN = process.env.CLIENT;
     this.app.use(function (req: IObject, res: IObject, next: Function) {
       const origin = req.headers.origin;
-      if (DOMAIN === origin) {
+      if (process.env.CLIENT?.includes(origin)) {
         res.setHeader('Access-Control-Allow-Origin', origin);
       }
       res.setHeader(

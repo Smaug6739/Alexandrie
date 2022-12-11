@@ -1,0 +1,184 @@
+.markdown-container {
+	margin-top: 10px;
+
+	.svg-icon {
+		box-sizing: border-box;
+		color: var(--blue);
+		color-scheme: dark;
+		display: inline-block;
+		fill: var(--blue);
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+		font-size: 16px;
+		margin-right: 8px;
+		overflow-wrap: break-word;
+		overflow-x: visible;
+		overflow-y: visible;
+		vertical-align: text-bottom
+	}
+
+	.markdown-container-title {
+		font-weight: 600;
+		color: var(--blue);
+		margin-right: 5px;
+	}
+
+	.red {
+		.svg-icon {
+			fill: var(--red);
+			color: var(--red);
+		}
+
+		color: var(--red);
+	}
+
+	.turquoise {
+		.svg-icon {
+			fill: var(--turquoise);
+			color: var(--turquoise);
+		}
+
+		color: var(--turquoise);
+	}
+
+	.blue {
+		.svg-icon {
+			fill: var(--blue);
+			color: var(--blue);
+		}
+
+		color: var(--blue);
+	}
+
+	.yellow {
+		.svg-icon {
+			fill: var(--yellow);
+			color: var(--yellow);
+		}
+
+		color: var(--yellow);
+	}
+
+	p {
+		margin: 0;
+	}
+}
+
+.custom-block {
+	border: 1px solid transparent;
+	border-radius: 8px;
+	padding: 10px 10px 8px;
+	line-height: 24px;
+	font-size: 14px;
+	color: rgba(235, 235, 235, 1);
+}
+
+.custom-block.grey {
+	border-color: var(--grey-border);
+	color: var(--grey);
+	background-color: var(--grey-bg);
+
+	code {
+		background-color: var(--grey-border);
+	}
+}
+
+//TODO: Fix containers code block missing (blue etc.)
+.custom-block.blue {
+	border-color: var(--blue-border);
+	color: var(--blue);
+	background-color: var(--blue-bg);
+}
+
+.custom-block.green {
+	border-color: var(--green-border);
+	color: var(--green);
+	background-color: var(--green-bg);
+
+	code {
+		background-color: var(--green-border);
+	}
+}
+
+.custom-block.turquoise {
+	border-color: var(--turquoise-border);
+	color: var(--turquoise);
+	background-color: var(--turquoise-bg);
+}
+
+.custom-block.yellow {
+	border-color: var(--yellow-border);
+	color: var(--yellow);
+	background-color: var(--yellow-bg);
+
+	code {
+		background-color: var(--yellow-border);
+	}
+}
+
+
+.custom-block.red {
+	border-color: var(--red-border);
+	color: var(--red);
+	background-color: var(--red-bg);
+
+	code {
+		background-color: var(--red-border);
+	}
+}
+
+
+.custom-block.details {
+	border-color: var(--blue-border);
+	color: var(--blue);
+	background-color: var(--blue-bg);
+
+	summary {
+		cursor: pointer;
+		margin: 0 0 8px;
+		font-weight: 700;
+
+		&+p {
+			margin: 8px 0;
+		}
+	}
+
+	code {
+		background-color: #f9f9f9;
+	}
+}
+
+
+
+.custom-block-title {
+	font-weight: 700;
+}
+
+.custom-block {
+	p {
+		margin: 0px;
+		padding: 0px;
+	}
+
+	p+p {
+		margin: 8px 0;
+	}
+
+	margin-bottom: 5px;
+}
+
+
+
+.custom-block a {
+	color: inherit;
+	font-weight: 600;
+	text-decoration: underline;
+	transition: opacity 0.25s;
+}
+
+.custom-block a:hover {
+	opacity: 0.6;
+}
+
+.custom-block code {
+	font-size: 13px;
+}
