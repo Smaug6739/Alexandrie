@@ -4,14 +4,14 @@
 		<div class="view-medium">
 			<div>
 				<h1>
-					Scientia</h1>
+					Alexandrie</h1>
 				<h2>{{ category?.name }}</h2>
 				<div>
 					Index de la catégorie {{ category?.name }} vous retrouverez ici plusieurs documents classés dans les
 					catégories suivantes :
 					<ul v-if="category?.id">
 						<li v-for="(item, index) in category.categories" :key="index">
-							<NuxtLink :to="`/docs/${category.path}/${item.path}`">{{      item.name      }}</NuxtLink>
+							<NuxtLink :to="`/docs/${category.path}/${item.path}`">{{ item.name }}</NuxtLink>
 						</li>
 					</ul>
 				</div>

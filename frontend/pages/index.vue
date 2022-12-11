@@ -2,10 +2,10 @@
 	<div class="view-medium">
 		<div>
 			<h1>
-				Scientia</h1>
+				Alexandrie</h1>
 			<h2>Base de conaissances</h2>
 			<div>
-				Scientia est un site web qui regroupe des conaissances dans les
+				Alexandrie est un site web qui regroupe des conaissances dans les
 				domaines scientifiques (maths, physique technologie etc.)<br />
 				L'objectif est d'organiser des cours en un design agréable à lire et à utiliser. <br />
 			</div>
