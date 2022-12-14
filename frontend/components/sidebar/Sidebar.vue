@@ -174,4 +174,10 @@ const menuItems = computed((): MenuItem[] => {
     border-radius: 5px
   }
 }
+
+@media screen and (min-width: 768px) {
+  #btn {
+    display: none !important;
+  }
+}
 </style>
