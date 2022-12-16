@@ -21,6 +21,8 @@ input {
 	border-radius: 12px;
 	transition: all 0.2s ease;
 	background: var(--contrast-color);
+	font-size: 15px;
+	color: var(--font-color);
 
 	&.open {
 		padding: 0 20px 0 50px;
