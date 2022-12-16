@@ -46,7 +46,7 @@ tt {
 	margin: 0 2px;
 	padding: 0 5px;
 	white-space: nowrap;
-	border: 1px solid $border-color;
+	border: 1px solid var(--border-color);
 	background-color: var(--contrast-color-after);
 	border-radius: 3px;
 }
@@ -69,7 +69,7 @@ h1 {
 h1,
 h2 {
 	margin-top: 15px;
-	border-bottom: 1px solid $border-color;
+	border-bottom: 1px solid var(--border-color);
 }
 
 
@@ -149,9 +149,9 @@ hr {
 	border: none;
 	height: 1px;
 	/* Set the hr color */
-	color: $border-color;
+	color: var(--border-color);
 	/* old IE */
-	background-color: $border-color;
+	background-color: var(--border-color);
 	/* Modern Browsers */
 	margin: 1rem 0 1.5rem 0;
 }

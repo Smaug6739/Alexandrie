@@ -34,8 +34,6 @@ $secondary-800: #00181E;
 $secondary-900: #001014;
 
 
-$border-color: rgba(255, 255, 255, 0.5); // TODO: Remove this
-
 $font-family: "Poppins", sans-serif;
 $font-links: "Inter", sans-serif;
 $default-font-size: 1em;
@@ -53,8 +51,8 @@ $mobile-font-weight: 400;
 @mixin dark-theme {
   // THEME \\
   --bg-color: rgb(49, 43, 66);
-  --contrast-color: #414c5c;
-  --contrast-color-after: #2b323d;
+  --contrast-color: #46415c;
+  --contrast-color-after: rgb(63, 55, 87);
   --font-color: #fff;
   --font-color-dimmed: #c8cedf;
   --opposite-color: #fff;
@@ -83,9 +81,9 @@ $mobile-font-weight: 400;
 
 @mixin light-theme {
   // THEME \\
-  --bg-color: #fff;
-  --contrast-color: #f8f9fa;
-  --contrast-color-after: #f9f9f9;
+  --bg-color: #E4E4E4;
+  --contrast-color: #D4D4D4;
+  --contrast-color-after: #F9F9F9;
   --font-color: #323a46;
   --font-color-dimmed: #869099;
   --opposite-color: #001e26;
