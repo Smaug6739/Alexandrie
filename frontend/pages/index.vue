@@ -47,6 +47,7 @@ h2 {
 
 .gradient {
 	background: linear-gradient(45deg, #f7b500, #b620e0, #32c5ff);
+	background-clip: text;
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
