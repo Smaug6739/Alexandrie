@@ -17,8 +17,8 @@
             </ul>
           </Dropdown>
         </li>
-        <li class="connect">
-          <NuxtLink class="a-classic" to="/admin" :no-prefetch="true">Connexion</NuxtLink>
+        <li class="external">
+          <NuxtLink class="a-classic" to="https://github.com/Smaug6739" target="_blank">Github</NuxtLink>
         </li>
         <li>
           <ThemeToggle />
@@ -37,6 +37,7 @@ nav {
   display: flex;
   justify-content: space-between;
   font-size: 0.95rem;
+  font-weight: 600;
 }
 
 
@@ -73,7 +74,7 @@ ul {
 }
 
 @media screen and (max-width: 600px) {
-  .connect {
+  .external {
     display: none;
   }
 
