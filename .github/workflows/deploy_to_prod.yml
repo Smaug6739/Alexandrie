@@ -15,7 +15,6 @@ jobs:
           DOCS_SERVER_PORT: 3110
           CLIENT: https://alexandrie-hub.fr
           FRONT_DOMAIN: alexandrie-hub.fr
-
         run: |
           cd /home/smaug/sites/alexandrie/
           git reset --hard HEAD
