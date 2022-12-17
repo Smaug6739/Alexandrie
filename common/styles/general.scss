@@ -10,8 +10,6 @@ a {
 	}
 }
 
-
-
 .a-classic {
 	color: var(--opposite-color);
 	transition: color .25s;
@@ -21,16 +19,10 @@ a {
 	}
 }
 
-/*.router-link-exact-active {
-	color: $primary-400  !important;
-	opacity: 1;
-	text-decoration: none;
-}*/
-
 blockquote {
-	border-left: 4px solid #dddddd;
+	border-left: 4px solid $primary-300;
 	padding: 0 15px;
-	color: #777777;
+	color: var(--font-color-dimmed);
 }
 
 blockquote> :first-child {
@@ -43,6 +35,7 @@ blockquote> :last-child {
 
 code,
 tt {
+	font-family: $font-family;
 	margin: 0 2px;
 	padding: 0 5px;
 	white-space: nowrap;
@@ -57,34 +50,10 @@ fieldset {
 	margin-top: 3% !important;
 }
 
-h1 {
-	font-size: 28px;
-	color: var(--font-color);
-}
 
-h1 {
-	font-size: 2em;
-}
-
-h1,
-h2 {
-	margin-top: 15px;
-	border-bottom: 1px solid var(--border-color);
-}
-
-
-h1,
-h2 {
-	margin-bottom: 25px;
-}
-
-h3,
-h4,
-h5,
-h6 {
-	margin-bottom: 10px;
-}
-
+/***********************************************************************/
+/******************************* HEADERS *******************************/
+/***********************************************************************/
 h1,
 h2,
 h3,
@@ -92,31 +61,33 @@ h4,
 h5,
 h6 {
 	font-weight: 600;
-	padding-bottom: 10px;
 	line-height: 1.25;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
 	padding: 0;
-	font-weight: bold;
 	-webkit-font-smoothing: antialiased;
 	cursor: text;
 	position: relative;
 }
 
-h1:hover a.anchor,
-h2:hover a.anchor,
-h3:hover a.anchor,
-h4:hover a.anchor,
-h5:hover a.anchor,
-h6:hover a.anchor {
-	text-decoration: none;
+h1,
+h2 {
+	font-weight: 700;
+	margin-top: 15px;
+	margin-bottom: 30px;
+	border-bottom: 1px solid var(--border-color);
 }
+
+h3,
+h4,
+h5,
+h6 {
+	margin-bottom: 10px;
+	text-decoration: underline;
+}
+
+h1 {
+	font-size: 2em;
+}
+
 
 h2 {
 	font-size: 1.5em;
@@ -125,12 +96,6 @@ h2 {
 h3 {
 	font-size: 1.17em;
 }
-
-h3,
-h4 {
-	text-decoration: underline;
-}
-
 
 h4 {
 	font-size: 1em;
@@ -156,10 +121,6 @@ hr {
 	margin: 1rem 0 1.5rem 0;
 }
 
-iframe {
-	border: none !important;
-}
-
 img {
 	height: auto;
 	max-width: 100%;
@@ -168,33 +129,6 @@ img {
 	margin-bottom: 5px;
 }
 
-
-input,
-textarea,
-select {
-	display: block;
-	margin: auto;
-	padding: 3px;
-	width: 100%;
-	font-size: 1rem;
-	font-weight: 400;
-	line-height: 1.5;
-	color: var(--font-color);
-	background-color: var(--bg-color);
-	background-clip: padding-box;
-	border: 1px solid #ced4da;
-	border-radius: 0.25rem;
-}
-
-legend {
-	float: left;
-	text-align: left;
-	width: 100%;
-	padding: 0;
-	margin-bottom: 0.5rem;
-	font-size: calc(1.275rem + 0.3vw);
-	line-height: inherit;
-}
 
 p,
 blockquote,
@@ -215,7 +149,6 @@ pre code {
 	margin: 0;
 	padding: 0;
 	white-space: pre;
-	border: none;
 	background: transparent;
 }
 
