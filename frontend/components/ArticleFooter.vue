@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue";
 import { timestampToString } from "@/helpers/date";
 import type { Article } from "@/store";
 

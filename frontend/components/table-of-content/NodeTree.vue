@@ -8,8 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue";
-
 interface Node {
 	title: string;
 	link: string;

@@ -6,7 +6,7 @@
 	</aside>
 </template>
 <script lang="ts" setup >
-import { ref, computed, defineExpose } from 'vue'
+import { ref, computed } from 'vue'
 import compile from '@/helpers/markdown';
 const props = defineProps(
 	{
