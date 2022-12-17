@@ -5,7 +5,7 @@ export interface APIResult<Data> {
 export const baseUrl = import.meta.env.VITE_BASE_API?.toString() || '';
 export async function makeRequest(route: string, method: string, body: Object): Promise<APIResult<any>> {
   try {
-    const responce = await fetch(`${baseUrl}/api/v1/${route}`, {
+    const Response = await fetch(`${baseUrl}/api/v1/${route}`, {
       method: method,
       body: method == 'GET' || method == 'DELETE' ? null : JSON.stringify(body),
       headers: {
@@ -13,8 +13,8 @@ export async function makeRequest(route: string, method: string, body: Object): 
       },
       credentials: 'include',
     });
-    if (responce.status >= 200 && responce.status < 300) {
-      const decoded = await responce.json();
+    if (Response.status >= 200 && Response.status < 300) {
+      const decoded = await Response.json();
       return {
         status: 'success',
         result: decoded.result,

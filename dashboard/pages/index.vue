@@ -25,7 +25,7 @@ async function connect() {
 		username: username.value?.value,
 		password: password.value?.value,
 	});
-	const responce = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/auth`, {
+	const Response = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/auth`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -35,7 +35,7 @@ async function connect() {
 		credentials: "include",
 	});
 
-	const result = await responce.json();
+	const result = await Response.json();
 	if (result.status == "success" && result.result.auth) {
 		router.push("/admin");
 	}
