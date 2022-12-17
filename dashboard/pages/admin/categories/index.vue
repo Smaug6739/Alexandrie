@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<span class="btn btn-theme" @click="$router.push('/admin/categories/new')">New</span>
-		<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
+		<Datatable :rows="displayCategories" :headers="tableOptions.headers" />
 	</div>
 </template>
 <script lang="ts" setup>
@@ -9,7 +9,7 @@ import Datatable from '@/components/DataTable.vue';
 import { useCategoriesStore } from '@/store';
 import { computed } from 'vue';
 
-const { getAll: getCategories } = useCategoriesStore();
+const categories = useCategoriesStore().getAll;
 
 const tableOptions = {
 	headers: [
@@ -32,31 +32,35 @@ const tableOptions = {
 	itemsPerPage: 10,
 }
 
-const displayArticles = computed(() => {
-	return getCategories.map(category => {
-		return [
-			{
-				content: category.id,
-				action: 'text' as const,
-			},
-			{
-				content: category.name,
-				action: 'text' as const,
-			},
-			{
-				content: `/${category.path}`,
-				action: 'text' as const,
-			},
-			{
-				content: category.icon,
-				action: 'text' as const,
-			},
-			{
-				content: '/admin/categories/edit-' + category.id,
-				action: 'link' as const,
-			}
-		]
-	}).reverse();
+const displayCategories = computed(() => {
+	const results = [];
+	for (const category of categories) {
+		results.push({
+			fields: [
+				{
+					content: category.id,
+					action: 'text' as const,
+				},
+				{
+					content: category.name,
+					action: 'text' as const,
+				},
+				{
+					content: `/${category.path}`,
+					action: 'text' as const,
+				},
+				{
+					content: category.icon,
+					action: 'text' as const,
+				},
+				{
+					content: '/admin/categories/edit-' + category.id,
+					action: 'link' as const,
+				}
+			]
+		});
+	}
+	return results;
 });
 
 
