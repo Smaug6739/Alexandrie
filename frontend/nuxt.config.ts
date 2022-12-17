@@ -48,14 +48,14 @@ export default defineNuxtConfig({
           property: 'og:description',
           content: 'Site web qui regroupe des notes/cours dans les domaines scientifiques.',
         },
-        { property: 'og:url', content: `https://docs.smaug-6739.dev` },
+        { property: 'og:url', content: `https://alexandrie-hub.fr` },
         { property: 'og:keywords', content: 'Cours, notes' },
 
         // Twitter
         { name: 'twitter:title', content: `Alexandrie` },
         { name: 'twitter:creator', content: `@Smaug6739` },
         { name: 'twitter:site', content: `Alexandrie` },
-        { name: 'twitter:url', content: `https://docs.smaug-6739.dev` },
+        { name: 'twitter:url', content: `https://alexandrie-hub.fr` },
         {
           name: 'twitter:description',
           content: `Site web qui regroupe des notes/cours dans les domaines scientifiques.`,

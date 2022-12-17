@@ -17,5 +17,13 @@ module.exports = {
         NODE_ENV: 'production',
       },
     },
+    {
+      name: 'docs-wbs-dashboard',
+      cwd: './dashboard',
+      script: 'PORT=3101 node .output/server/index.mjs',
+      env: {
+        NODE_ENV: 'production',
+      },
+    },
   ],
 };
