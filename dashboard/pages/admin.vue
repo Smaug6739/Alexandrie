@@ -3,6 +3,9 @@
 		<main class="view-large">
 			<admin-sidebar />
 			<h1>Dashboard: Admin</h1>
+			<p>
+
+			</p>
 			<NuxtPage />
 		</main>
 	</div>
