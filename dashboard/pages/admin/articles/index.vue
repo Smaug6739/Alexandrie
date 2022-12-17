@@ -9,11 +9,8 @@
 import Datatable from '@/components/DataTable.vue';
 import { useArticlesStore } from '@/store';
 import { timestampToString } from '@/helpers/date';
-import { storeToRefs } from 'pinia';
 
-const articlesStore = useArticlesStore();
-articlesStore.fetchArticles();
-const { getAll } = storeToRefs(articlesStore);
+const articles = useArticlesStore().getAll;
 
 const tableOptions = {
 	headers: [
@@ -51,30 +48,34 @@ const tableOptions = {
 	itemsPerPage: 10,
 }
 const displayArticles = computed(() => {
-	return getAll.value.map(article => {
-		return [
-			{
-				content: article.name,
-				action: 'text' as const,
-			},
-			{
-				content: article.description,
-				action: 'text' as const,
-			},
-			{
-				content: timestampToString(article.created_timestamp),
-				action: 'text' as const,
-			},
-			{
-				content: timestampToString(article.updated_timestamp),
-				action: 'text' as const,
-			},
-			{
-				content: '/admin/articles/edit-' + article.id,
-				action: 'link' as const,
-			}
-		]
-	}).reverse();
+	const results = [];
+	for (const article of articles) {
+		results.push({
+			fields: [
+				{
+					content: article.name,
+					action: 'text' as const,
+				},
+				{
+					content: article.description,
+					action: 'text' as const,
+				},
+				{
+					content: timestampToString(article.created_timestamp),
+					action: 'text' as const,
+				},
+				{
+					content: timestampToString(article.updated_timestamp),
+					action: 'text' as const,
+				},
+				{
+					content: '/admin/articles/edit-' + article.id,
+					action: 'link' as const,
+				}
+			]
+		});
+	}
+	return results;
 })
 
 

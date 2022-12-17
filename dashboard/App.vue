@@ -12,9 +12,10 @@
 import BackToTop from "@/components/back-to-top/index"
 
 import { useCategoriesStore } from "./store/categories.store";
+import { useArticlesStore } from "./store/articles.store";
 
-const categoriesStore = useCategoriesStore();
-categoriesStore.fetchCategories();
+useCategoriesStore().fetchCategories();
+useArticlesStore().fetchArticles();
 
 </script>
 <style scoped>

@@ -15,8 +15,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(item, index) in data" :key="index">
-						<td v-for="(field, index) in item" :key="index">
+					<tr v-for="(row, index) in data" :key="index">
+						<td v-for="(field, index) in row.fields" :key="index">
 							<span v-if="field.action == 'text'" v-html="field.content"></span>
 							<span v-else-if="field.action == 'link'">
 								<NuxtLink :to="field.content" class="small-btn btn-theme" type="button">Edit</NuxtLink>
@@ -61,7 +61,7 @@ const props = defineProps({
 		default: (): Header[] => [],
 	},
 	rows: {
-		type: Array as () => Array<Field[]>,
+		type: Array as () => Row[],
 		default: () => [],
 	}
 })
@@ -72,7 +72,7 @@ const searchInput = ref('')
 
 const data = computed(() => {
 	return props.rows.filter((row) => {
-		return row.some((field) => {
+		return row.fields.some((field) => {
 			return field.content.toLowerCase().includes(searchInput.value.toLowerCase())
 		})
 	}).slice((page.value - 1) * itemsPerPage.value, page.value * itemsPerPage.value)
@@ -81,9 +81,12 @@ const data = computed(() => {
 interface Header {
 	title: string;
 }
+interface Row {
+	fields: Field[];
+}
 interface Field {
 	content: string;
-	action: "text" | "link";
+	action: string;
 }
 </script>
 <style lang="scss" scoped>
