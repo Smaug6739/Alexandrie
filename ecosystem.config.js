@@ -12,7 +12,7 @@ module.exports = {
     {
       name: 'docs-wbs-frontend',
       cwd: './frontend',
-      script: 'PORT=3100 node .output/server/index.mjs',
+      script: 'PORT=8100 node .output/server/index.mjs',
       env: {
         NODE_ENV: 'production',
       },
@@ -20,7 +20,7 @@ module.exports = {
     {
       name: 'docs-wbs-dashboard',
       cwd: './dashboard',
-      script: 'PORT=3101 node .output/server/index.mjs',
+      script: 'PORT=8102 node .output/server/index.mjs',
       env: {
         NODE_ENV: 'production',
       },

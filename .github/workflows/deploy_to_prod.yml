@@ -12,8 +12,8 @@ jobs:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_USER: ${{ secrets.DATABASE_USER }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          DOCS_SERVER_PORT: 3110
-          CLIENT: https://alexandrie-hub.fr
+          DOCS_SERVER_PORT: 8101
+          CLIENT: [https://alexandrie-hub.fr, https://dashboard.alexandrie-hub.fr]
           FRONT_DOMAIN: alexandrie-hub.fr
         run: |
           cd /home/smaug/sites/alexandrie/
