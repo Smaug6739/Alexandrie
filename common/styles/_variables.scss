@@ -1,4 +1,4 @@
-// GENERAL 2\\
+// GENERAL \\
 $blue: #007bff;
 $indigo: #6610f2;
 $purple: #6f42c1;
@@ -44,7 +44,6 @@ $mobile-line-height: 20px;
 $mobile-font-weight: 400;
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-//@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
 // SCSS DEFINE DARK THEME \\
@@ -59,14 +58,14 @@ $mobile-font-weight: 400;
   // COLORS \\
   --grey: #e0e0e0;
   --grey-bg: rgb(47, 47, 47);
-  --grey-border: rgba(84, 84, 84, 0.25);
-  --blue: #6dc9ff;
-  --blue-bg: rgb(0, 72, 112, 0.2);
+  --grey-border: rgba(47, 47, 47, 0.25);
+  --blue: #47a6ff;
+  --blue-bg: rgb(0, 140, 216, 0.2);
   --blue-border: rgba(0, 140, 216, 0.25);
-  --green: #42d392;
+  --green: rgb(66, 211, 146);
   --green-bg: rgba(66, 184, 131, 0.2);
   --green-border: rgba(66, 184, 131, 0.25);
-  --red: #f54e82;
+  --red: #ff4882;
   --red-bg: rgba(237, 60, 80, 0.2);
   --red-border: rgba(237, 60, 80, .25);
   --yellow: #fcd253;
@@ -75,7 +74,7 @@ $mobile-font-weight: 400;
   --turquoise: #00d6b4;
   --turquoise-bg: rgba(0, 255, 255, 0.2);
   --turquoise-border: rgba(0, 209, 178, .25);
-  --border-color: rgba(255, 255, 255, 0.5); // TODO: Border color on hr, h3,h4,h5,h6 etc. See general.scss.
+  --border-color: rgba(255, 255, 255, 0.5);
 
 }
 
@@ -109,73 +108,4 @@ $mobile-font-weight: 400;
 
 @mixin default-theme {
   @include dark-theme;
-}
-
-
-
-:root {
-  @include default-theme;
-  --scrollbar-thumb: $primary-400;
-  font-family: $font-family;
-  font-size: $default-font-size;
-  font-weight: $default-font-weight;
-  line-height: $default-line-height;
-}
-
-@media (max-width: 768px) {
-  :root {
-    font-size: $mobile-font-size;
-    line-height: $mobile-line-height;
-    font-weight: $mobile-font-weight;
-  }
-}
-
-.blue {
-  color: $blue;
-}
-
-.red {
-  color: $red;
-}
-
-.green {
-  color: $green;
-}
-
-.yellow {
-  color: $yellow;
-}
-
-.orange {
-  color: $orange;
-}
-
-.pink {
-  color: $pink;
-}
-
-.purple {
-  color: $purple;
-}
-
-
-/*@media (prefers-color-scheme: light) {
-  :root {
-    --bg-color: #f8f9fa;
-    --contrast-color: #e4e9f7;
-    --contrast-color-after: #c8cedf;
-    --bg-color: #e9eaec;
-    --font-color: #242424;
-    --font-color-dimmed: #000;
-    --opposite-color: #000;
-  }
-}*/
-
-
-[data-theme="dark"] {
-  @include dark-theme();
-}
-
-[data-theme="light"] {
-  @include light-theme();
 }
