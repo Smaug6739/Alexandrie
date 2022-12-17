@@ -7,7 +7,14 @@
 @import "./nprogress.scss";
 @import "./katex.scss";
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
+  @include default-theme;
   color: var(--font-color);
   background-color: var(--bg-color);
   font-synthesis: none;
@@ -15,13 +22,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --scrollbar-thumb: $primary-400;
+  font-family: $font-family;
+  font-size: $default-font-size;
+  font-weight: $default-font-weight;
+  line-height: $default-line-height;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -39,4 +47,63 @@
 
 .active {
   color: $primary-400 !important;
+}
+
+
+@media (max-width: 768px) {
+  :root {
+    font-size: $mobile-font-size;
+    line-height: $mobile-line-height;
+    font-weight: $mobile-font-weight;
+  }
+}
+
+.blue {
+  color: $blue;
+}
+
+.red {
+  color: $red;
+}
+
+.green {
+  color: $green;
+}
+
+.yellow {
+  color: $yellow;
+}
+
+.orange {
+  color: $orange;
+}
+
+.pink {
+  color: $pink;
+}
+
+.purple {
+  color: $purple;
+}
+
+
+/*@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #f8f9fa;
+    --contrast-color: #e4e9f7;
+    --contrast-color-after: #c8cedf;
+    --bg-color: #e9eaec;
+    --font-color: #242424;
+    --font-color-dimmed: #000;
+    --opposite-color: #000;
+  }
+}*/
+
+
+[data-theme="dark"] {
+  @include dark-theme();
+}
+
+[data-theme="light"] {
+  @include light-theme();
 }
