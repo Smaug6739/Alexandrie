@@ -1,13 +1,5 @@
 import { Router } from 'express';
 
-//Config
-export interface Iconfig {
-  readonly port: number;
-  readonly database: {
-    readonly host: string;
-    readonly database: string;
-  };
-}
 //Router
 export interface Iroute {
   route: string;
@@ -15,8 +7,8 @@ export interface Iroute {
   router: Router;
 }
 
-//Responce
-export interface IResponce {
+//Response
+export interface IResponse {
   status: string;
   timestamp: number;
   result?: any;

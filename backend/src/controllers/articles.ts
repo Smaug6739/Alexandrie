@@ -1,12 +1,11 @@
 import Article from '../classes/Articles';
-import { IObject } from '../types';
 import { error, success } from '../utils/functions';
-import { Readable } from 'stream';
+import type { Response, Request } from 'express';
 const Articles = new Article();
 
-export function getAllArticles(req: IObject, res: IObject): void {
+export function getAllArticles(req: Request, res: Response): void {
   if (req.query.category) {
-    Articles.getAllByCategory(req.query.category)
+    Articles.getAllByCategory(req.query.category.toString())
       .then((result: any) => res.status(200).json(success(result)))
       .catch((err: Error) => res.status(500).json(error(err.message)));
   } else {
@@ -15,7 +14,7 @@ export function getAllArticles(req: IObject, res: IObject): void {
       .catch((err: Error) => res.status(500).json(error(err.message)));
   }
 }
-export function add(req: IObject, res: IObject): void {
+export function add(req: Request, res: Response): void {
   Articles.add(
     req.body.name,
     req.body.path,
@@ -30,7 +29,7 @@ export function add(req: IObject, res: IObject): void {
     .catch(err => res.status(500).json(error(err.message)));
 }
 
-export function updateArticle(req: IObject, res: IObject) {
+export function updateArticle(req: Request, res: Response) {
   Articles.put(
     req.params.id,
     req.body.name,
@@ -45,7 +44,7 @@ export function updateArticle(req: IObject, res: IObject) {
     .catch(err => res.status(500).json(error(err.message)));
 }
 
-export function deleteArticle(req: IObject, res: IObject) {
+export function deleteArticle(req: Request, res: Response) {
   Articles.delete(req.params.id)
     .then(() => res.status(201).json(success('success')))
     .catch((err: Error) => res.status(500).json(error(err.message)));

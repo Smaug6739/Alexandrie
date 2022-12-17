@@ -1,10 +1,10 @@
-import { join } from 'path';
+import { resolve } from 'path';
 
 import { App } from './app';
-import * as dotenv from 'dotenv';
+import { config } from 'dotenv';
 
-dotenv.config({
-  path: join(__dirname, '../.env'),
+config({
+  path: resolve(__dirname, '../.env'),
 });
 
 const server: App = new App();
