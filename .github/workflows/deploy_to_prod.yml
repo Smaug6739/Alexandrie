@@ -13,14 +13,17 @@ jobs:
           JWT: ${{ secrets.JWT_SECRET }}
         run: |
 
-          cd /home/smaug/sites/docs-website/
+          cd /home/smaug/sites/alexandrie/
           git reset --hard HEAD
           git pull origin main
-          cd /home/smaug/sites/docs-website/backend
+          cd /home/smaug/sites/alexandrie/backend
           npm install -D --no-save
           npm run build
-          cd /home/smaug/sites/docs-website/frontend
+          cd /home/smaug/sites/alexandrie/frontend
           npm install -D --no-save
           npm run build 
-          cd /home/smaug/sites/docs-website/
-          NODE_ENV=production DOCS_SERVER_PORT=3110 CLIENT="https://docs.smaug-6739.dev" FRONT_DOMAIN="smaug-6739.dev" DATABASE_PASSWORD=$DB_PASSWORD DATABASE_USER=$DB_USER JWT_SECRET=$JWT pm2 reload ecosystem.config.js --update-env
+          cd /home/smaug/sites/alexandrie/dashboard
+          npm install -D --no-save
+          npm run build 
+          cd /home/smaug/sites/alexandrie/
+          NODE_ENV=production DOCS_SERVER_PORT=3110 CLIENT="https://alexandrie-hub.fr" FRONT_DOMAIN="smaug-6739.dev" DATABASE_PASSWORD=$DB_PASSWORD DATABASE_USER=$DB_USER JWT_SECRET=$JWT pm2 reload ecosystem.config.js --update-env
