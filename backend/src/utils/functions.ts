@@ -1,21 +1,21 @@
-import { IResponce, IObject } from '../types';
+import { IResponse, IObject } from '../types';
 
-export function success(result: any): IResponce {
-  const responce: IResponce = {
+export function success(result: any): IResponse {
+  const Response: IResponse = {
     status: 'success',
     timestamp: Date.now(),
     result: result,
   };
-  return responce;
+  return Response;
 }
 
-export function error(message: string): IResponce {
-  const responce: IResponce = {
+export function error(message: string): IResponse {
+  const Response: IResponse = {
     status: 'error',
     timestamp: Date.now(),
     message: message,
   };
-  return responce;
+  return Response;
 }
 
 export function isErr(param: any): Boolean {

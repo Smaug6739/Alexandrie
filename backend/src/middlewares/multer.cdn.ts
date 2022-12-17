@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { IObject } from '../types';
-const multer = require('multer');
+import multer from 'multer';
 
 let name;
 let extension;
@@ -16,11 +16,11 @@ const MIME_TYPES_IMAGE: IObject = {
 };
 
 const storage = multer.diskStorage({
-  destination: (req: IObject, file: IObject, callback: Function) => {
+  destination: (_, file: IObject, callback: Function) => {
     if (MIME_TYPES_IMAGE[file.mimetype]) callback(null, `${join(__dirname, `../../public/uploads/images`)}`);
     else callback(null, `${join(__dirname, `../../public/uploads/other`)}`);
   },
-  filename: (req: IObject, file: IObject, callback: Function) => {
+  filename: (_, file: IObject, callback: Function) => {
     name = file.originalname.split(' ').join('_').replace('.', '_');
     extension = MIME_TYPES_IMAGE[file.mimetype];
     fullName = name + Date.now() + '.' + extension;
@@ -34,7 +34,7 @@ export default multer({
   limits: {
     fileSize: tailleMax,
   },
-  fileFilter: (req: IObject, file: IObject, cb: Function) => {
+  fileFilter: (_, file: IObject, cb: Function) => {
     if (MIME_TYPES_IMAGE[file.mimetype]) {
       cb(null, true);
     } else {

@@ -1,12 +1,12 @@
-import { IObject } from '../types';
 import { verify } from 'jsonwebtoken';
 import { error } from '../utils/functions';
+import type { Request, Response } from 'express';
 
-export default (req: IObject, res: IObject, next: any) => {
+export default (req: Request, res: Response, next: any) => {
   try {
     var cookies = req.headers.cookie;
     if (cookies) {
-      req.cookies = cookies.split(';').reduce((obj: Array<string>, c: string) => {
+      req.cookies = cookies.split(';').reduce((obj: any, c: string) => {
         var n: any = c.trim().split('=');
         obj[n[0]] = n[1].trim();
         return obj;
