@@ -8,7 +8,7 @@ export default defineNuxtPlugin(({ ssrContext }) => {
         const hasCookie = getCookie('user_auth', ssrContext?.event.req.headers.cookie);
         if (!hasCookie) {
           return next({
-            path: '/login',
+            path: '/',
             query: { redirect: to.fullPath },
           });
         } else {
@@ -18,7 +18,7 @@ export default defineNuxtPlugin(({ ssrContext }) => {
       const authenticated = getCookie('user_auth', document.cookie);
       if (!authenticated) {
         return next({
-          path: '/login',
+          path: '/',
           query: { redirect: to.fullPath },
         });
       }
