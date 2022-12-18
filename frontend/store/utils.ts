@@ -2,7 +2,7 @@ export interface APIResult<Data> {
   status: 'success' | 'error';
   result?: Data;
 }
-export const baseUrl = import.meta.env.VITE_BASE_API?.toString() || '';
+export const baseUrl = process.server ? 'http://localhost:8101/' : import.meta.env.VITE_BASE_API?.toString() || '';
 export async function makeRequest(route: string, method: string, body: Object): Promise<APIResult<any>> {
   try {
     const Response = await fetch(`${baseUrl}/api/v1/${route}`, {
