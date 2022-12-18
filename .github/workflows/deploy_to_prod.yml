@@ -21,8 +21,7 @@ jobs:
           npm run build 
           cd /home/smaug/sites/alexandrie/dashboard
           npm install --no-save
-          npm run build 
-          cd /home/smaug/sites/alexandrie/
+          npm run build
   deploy:
     runs-on: self-hosted
     needs: build
