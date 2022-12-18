@@ -2,7 +2,7 @@
 module.exports = {
   apps: [
     {
-      name: 'docs-wbs-backend',
+      name: 'alexandrie-backend',
       cwd: './backend/dist',
       script: 'node main.js',
       env: {
@@ -10,7 +10,7 @@ module.exports = {
       },
     },
     {
-      name: 'docs-wbs-frontend',
+      name: 'alexandrie-frontend',
       cwd: './frontend',
       script: 'PORT=8100 node .output/server/index.mjs',
       env: {
@@ -18,7 +18,7 @@ module.exports = {
       },
     },
     {
-      name: 'docs-wbs-dashboard',
+      name: 'alexandrie-dashboard',
       cwd: './dashboard',
       script: 'PORT=8102 node .output/server/index.mjs',
       env: {
