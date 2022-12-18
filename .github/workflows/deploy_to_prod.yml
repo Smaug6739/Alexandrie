@@ -6,16 +6,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: Deploy to production
+      - name: Build for production
         env:
-          NODE_ENV: production
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          DATABASE_USER: ${{ secrets.DATABASE_USER }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          DOCS_SERVER_PORT: 8101
-          DOMAIN_CLIENT: https://alexandrie-hub.fr
-          DOMAIN_DASHBOARD: https://dashboard.alexandrie-hub.fr
-          FRONT_DOMAIN: alexandrie-hub.fr
+          NODE_ENV: development
         run: |
           cd /home/smaug/sites/alexandrie/
           git reset --hard HEAD
@@ -30,4 +23,20 @@ jobs:
           npm install --no-save
           npm run build 
           cd /home/smaug/sites/alexandrie/
-          pm2 reload ecosystem.config.js --update-envZ
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: Deploy to production
+        env:
+          NODE_ENV: production
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          DOCS_SERVER_PORT: 8101
+          DOMAIN_CLIENT: https://alexandrie-hub.fr
+          DOMAIN_DASHBOARD: https://dashboard.alexandrie-hub.fr
+          FRONT_DOMAIN: alexandrie-hub.fr
+        run: |
+          cd /home/smaug/sites/alexandrie/
+          pm2 reload ecosystem.config.js --update-env
