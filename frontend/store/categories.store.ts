@@ -36,7 +36,6 @@ export const useCategoriesStore = defineStore('categories', {
   },
   actions: {
     fetchCategories: async function () {
-      if (process.client) return; // only fetch on server side
       const { data, error } = await useLazyAsyncData<APIResult<Theme[]>>('categories', () => {
         return $fetch(`${baseUrl}/api/v1/categories`);
       });
