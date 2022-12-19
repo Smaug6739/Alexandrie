@@ -23,7 +23,7 @@ i {
 	width: 50px;
 	height: 50px;
 	line-height: 50px;
-	font-size: 18px;
+	font-size: 19px;
 	border-radius: 12px;
 	text-align: center;
 }
