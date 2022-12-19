@@ -4,8 +4,8 @@
   "description": "Alexandrie application.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fff",
-  "theme_color": "#001e26",
+  "background_color": "#312b42",
+  "theme_color": "#ff0077",
   "icons": [
     {
       "src": "icon-192x192.png",
