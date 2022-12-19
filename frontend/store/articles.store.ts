@@ -48,7 +48,7 @@ export const useArticlesStore = defineStore('articles', {
   },
   actions: {
     fetchArticles: async function () {
-      const { data, error } = await useAsyncData<APIResult<Article[]>>('articles', () => {
+      const { data, error } = await useLazyAsyncData<APIResult<Article[]>>('articles', () => {
         return $fetch(`${baseUrl}/api/v1/articles`);
       });
       if (!error.value && data.value?.result) this.articles = data.value.result;
