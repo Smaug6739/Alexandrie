@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { makeRequest, baseUrl, type APIResult } from './utils';
+import { baseUrl, type APIResult } from './utils';
 export interface Theme {
   id: string;
   name: string;
@@ -41,56 +41,6 @@ export const useCategoriesStore = defineStore('categories', {
         return $fetch(`${baseUrl}/api/v1/categories`);
       });
       if (!error.value && data.value?.result) this.categories = data.value.result;
-    },
-    async updateMainCategory(category: Theme) {
-      const request = await makeRequest(`categories/main/${category.id}`, 'PATCH', category);
-      if (request.status == 'success') {
-        this.categories = this.categories.map(c => {
-          if (c.id == category.id) {
-            return category;
-          }
-          return c;
-        });
-      }
-    },
-    async updateSubCategory(parent: string, category: Category) {
-      const request = await makeRequest(`categories/sub/${category.id}`, 'PATCH', category);
-      if (request.status == 'success') {
-        const p = this.categories.find(c => c.id == parent);
-        if (!p) return;
-        p.categories = p.categories.map(c => {
-          if (c.id == category.id) return category;
-          return c;
-        });
-      }
-    },
-    async postMainCategory(category: Theme) {
-      const request = await makeRequest(`categories/main`, 'POST', category);
-      if (request.status == 'success') {
-        this.categories.push(request.result);
-      }
-    },
-    async postSubCategory(category: Category) {
-      const request = await makeRequest(`categories/sub`, 'POST', category);
-      if (request.status == 'success') {
-        const p = this.categories.find(c => c.id == category.parent_category);
-        if (!p) return;
-        p.categories.push(request.result);
-      }
-    },
-    async deleteMainCategory(id: string) {
-      const request = await makeRequest(`categories/main/${id}`, 'DELETE', {});
-      if (request.status == 'success') {
-        this.categories = this.categories.filter(c => c.id != id);
-      }
-    },
-    async deleteSubCategory(parent: string, id: string) {
-      const request = await makeRequest(`categories/sub/${id}`, 'DELETE', {});
-      if (request.status == 'success') {
-        const p = this.categories.find(c => c.id == parent);
-        if (!p) return;
-        p.categories = p.categories.filter(c => c.id != id);
-      }
     },
   },
 });

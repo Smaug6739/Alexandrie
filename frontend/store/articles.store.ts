@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { makeRequest, baseUrl, type APIResult } from './utils';
+import { baseUrl, type APIResult } from './utils';
 
 export interface Article {
   id: string;
@@ -48,29 +48,10 @@ export const useArticlesStore = defineStore('articles', {
   },
   actions: {
     fetchArticles: async function () {
-
-        const { data, error } = await useAsyncData<APIResult<Article[]>>('articles', () => {
+      const { data, error } = await useAsyncData<APIResult<Article[]>>('articles', () => {
         return $fetch(`${baseUrl}/api/v1/articles`);
       });
       if (!error.value && data.value?.result) this.articles = data.value.result;
-    },
-    async postArticle(article: Article) {
-      const request = await makeRequest('articles', 'POST', article);
-      if (request.status == 'success') {
-        this.articles.push(request.result);
-      }
-    },
-    async updateArticle(article: Article) {
-      const request = await makeRequest(`articles/${article.id}`, 'PATCH', article);
-      if (request.status == 'success') {
-        this.articles = this.articles.map(a => (a.id == article.id ? article : a));
-      }
-    },
-    async deleteArticle(id: string) {
-      const request = await makeRequest(`articles/${id}`, 'DELETE', {});
-      if (request.status == 'success') {
-        this.articles = this.articles.filter(a => a.id != id);
-      }
     },
   },
 });
