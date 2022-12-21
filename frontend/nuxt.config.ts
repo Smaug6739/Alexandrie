@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     // Enable Incremental Static Generation (ISG)
-    '/**': { swr: 300 },
+    '/docs/**': { swr: 300 },
   },
   plugins: ['~/plugins/route', '~/plugins/pwa'],
   css: ['~/styles/main.scss'],
