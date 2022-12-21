@@ -10,11 +10,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     // Enable Incremental Static Generation (ISG)
-  },
-  nitro: {
-    routeRules: {
-      '/**': { cache: { swr: true, maxAge: 120, staleMaxAge: 60, headersOnly: true } },
-    },
+    '/docs/**': { swr: true },
   },
   plugins: ['~/plugins/route', '~/plugins/pwa'],
   css: ['~/styles/main.scss'],
