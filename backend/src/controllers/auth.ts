@@ -2,10 +2,11 @@ import { MemberClass } from '../classes/Members';
 import { checkAndChange } from '../utils/functions';
 import { sign } from 'jsonwebtoken';
 import type { Request, Response } from 'express';
+import type { App } from '../app';
 
 const Members = new MemberClass();
 
-export function auth(req: Request, res: Response): void {
+export function auth(client: App, req: Request, res: Response): void {
   Members.auth(req.body.username, req.body.password)
     .then(result => {
       const token = sign(
@@ -48,7 +49,7 @@ export function auth(req: Request, res: Response): void {
     })
     .catch(error => res.json(checkAndChange(error)));
 }
-export function disconnection(req: Request, res: Response): void {
+export function disconnection(client: App, req: Request, res: Response): void {
   res.clearCookie('user_auth', { domain: process.env.FRONT_DOMAIN });
   res.clearCookie('user_id', { domain: process.env.FRONT_DOMAIN });
   res.clearCookie('user_token', { domain: process.env.FRONT_DOMAIN });

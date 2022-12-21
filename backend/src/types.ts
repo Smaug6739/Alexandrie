@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import type { Router } from 'express';
 
 //Router
 export interface Iroute {
   route: string;
   version: number;
-  router: Router;
+  router: () => Router;
 }
 
 //Response

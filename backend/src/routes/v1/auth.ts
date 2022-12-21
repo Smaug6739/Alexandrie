@@ -1,13 +1,17 @@
 import { Router } from 'express';
 import * as AuthCtrl from '../../controllers/auth';
 import { Iroute } from '../../types';
+import type { App } from '../../app';
 const AuthRouter: Router = Router();
 
-AuthRouter.post('/', AuthCtrl.auth)
-AuthRouter.get('/disconnection', AuthCtrl.disconnection)
-
-export const infos: Iroute = {
-    route: "auth",
+export default (client: App): Iroute => {
+  return {
+    route: 'auth',
     version: 1,
-    router: AuthRouter
+    router() {
+      AuthRouter.post('/', (req, res) => AuthCtrl.auth(client, req, res));
+      AuthRouter.get('/disconnection', (req, res) => AuthCtrl.disconnection(client, req, res));
+      return AuthRouter;
+    },
+  };
 };

@@ -3,8 +3,9 @@ import { existsSync } from 'fs';
 import sharp from 'sharp';
 import { error, success } from '../utils/functions';
 import type { Response } from 'express';
+import type { App } from '../app';
 
-export function uploadImage(req: any, res: Response) {
+export function uploadImage(_: App, req: any, res: Response) {
   const file = req.files?.file[0]?.filename;
   if (!file) return res.status(400).json(error('No file provided.'));
   const path = join(__dirname, `../../public/uploads/images/${file}`);

@@ -2,16 +2,19 @@ import { Router } from 'express';
 import * as ArticlesCtrl from '../../controllers/articles';
 import { Iroute } from '../../types';
 import authMid from '../../middlewares/auth';
+import type { App } from '../../app';
 const ArticlesRouter: Router = Router();
 
-ArticlesRouter.get('/', ArticlesCtrl.getAllArticles);
-
-ArticlesRouter.post('/', authMid, ArticlesCtrl.add);
-ArticlesRouter.patch('/:id', authMid, ArticlesCtrl.updateArticle);
-ArticlesRouter.delete('/:id', authMid, ArticlesCtrl.deleteArticle);
-
-export const infos: Iroute = {
-  route: 'articles',
-  version: 1,
-  router: ArticlesRouter,
+export default (client: App): Iroute => {
+  return {
+    route: 'articles',
+    version: 1,
+    router() {
+      ArticlesRouter.get('/', (req, res) => ArticlesCtrl.getAllArticles(client, req, res));
+      ArticlesRouter.post('/', authMid, (req, res) => ArticlesCtrl.add(client, req, res));
+      ArticlesRouter.patch('/:id', authMid, (req, res) => ArticlesCtrl.updateArticle(client, req, res));
+      ArticlesRouter.delete('/:id', authMid, (req, res) => ArticlesCtrl.deleteArticle(client, req, res));
+      return ArticlesRouter;
+    },
+  };
 };
