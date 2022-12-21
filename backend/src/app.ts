@@ -1,7 +1,7 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import express from 'express';
-import { createClient } from 'redis';
+import { createClient, type RedisClientType } from 'redis';
 import type { Request, Response } from 'express';
 import type { Iroute } from './types';
 
@@ -9,8 +9,9 @@ import { checkAndChange, error } from './utils/functions';
 export class App {
   private app;
   public port: string;
-  public redisClient = createClient();
+  public redisClient: RedisClientType;
   constructor() {
+    this.redisClient = createClient();
     this.redisClient.on('error', err => console.log('Redis Client Error', err));
     this.redisClient.connect().then(() => console.log('Redis Client Connected'));
     this.app = express();

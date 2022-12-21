@@ -1,6 +1,7 @@
 import { Snowflake } from '../utils/Snowflake';
 import db from '../models/db';
 import type { RowDataPacket } from 'mysql2';
+import { RedisClientType } from 'redis';
 
 const idgen = new Snowflake(1661327668261);
 
@@ -19,10 +20,22 @@ interface Article extends RowDataPacket {
 }
 
 export default class Articles {
+  public redis: RedisClientType;
+  constructor(redis: RedisClientType) {
+    this.redis = redis;
+  }
+
+  private refreshCache() {
+    this.redis.del('articles');
+  }
+
   public getAll() {
-    return new Promise((resolve, reject) => {
-      db.query<Article[]>('SELECT * FROM articles ORDER BY `name`', (err, result, fields) => {
+    return new Promise(async (resolve, reject) => {
+      const redisArticles = await this.redis.get('articles');
+      if (redisArticles) return resolve(JSON.parse(redisArticles));
+      db.query<Article[]>('SELECT * FROM articles ORDER BY `name`', (err, result) => {
         if (err) return reject(new Error(err.message));
+        this.redis.set('articles', JSON.stringify(result));
         resolve(result);
       });
     });
@@ -31,7 +44,7 @@ export default class Articles {
   public getAllByCategory(category: string) {
     return new Promise((resolve, reject) => {
       if (!category) return reject(new Error('[MISSING_ARGUMENT] : category must be provided'));
-      db.query<Article[]>('SELECT * FROM articles WHERE main_category = ? ORDER BY `name`', [category], (err, result, fields) => {
+      db.query<Article[]>('SELECT * FROM articles WHERE main_category = ? ORDER BY `name`', [category], (err, result) => {
         if (err) return reject(new Error(err.message));
         resolve(result);
       });
@@ -62,20 +75,20 @@ export default class Articles {
         [id, name, description, path, main_category, sub_category, content_html, content_markdown, time, time, author],
         err => {
           if (err) return reject(new Error(err.message));
-          else
-            resolve({
-              id,
-              path,
-              name,
-              main_category,
-              sub_category,
-              description,
-              content_html,
-              content_markdown,
-              created_timestamp: time.toString(),
-              updated_timestamp: time.toString(),
-              author_id: author,
-            });
+          this.refreshCache();
+          resolve({
+            id,
+            path,
+            name,
+            main_category,
+            sub_category,
+            description,
+            content_html,
+            content_markdown,
+            created_timestamp: time.toString(),
+            updated_timestamp: time.toString(),
+            author_id: author,
+          });
         },
       );
     });
@@ -108,7 +121,8 @@ export default class Articles {
             [name, description, path, main_category, sub_category, content_html, content_markdown, Date.now(), id],
             err => {
               if (err) return reject(new Error(err.message));
-              else resolve(true);
+              this.refreshCache();
+              resolve(true);
             },
           );
         }
@@ -120,7 +134,8 @@ export default class Articles {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
       db.query<Article[]>('DELETE FROM articles WHERE id = ?', [id], (err, r) => {
         if (err) return reject(new Error(err.message));
-        else resolve(true);
+        this.refreshCache();
+        resolve(true);
       });
     });
   }
