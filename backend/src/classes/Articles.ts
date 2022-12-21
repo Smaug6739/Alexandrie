@@ -31,12 +31,12 @@ export default class Articles {
 
   public getAll() {
     return new Promise(async (resolve, reject) => {
-      const redisArticles = await this.redis.get('articles');
-      if (redisArticles) return resolve(JSON.parse(redisArticles));
+      //const redisArticles = await this.redis.get('articles');
+      //if (redisArticles) return resolve(JSON.parse(redisArticles));
       db.query<Article[]>('SELECT * FROM articles ORDER BY `name`', (err, result) => {
         if (err) return reject(new Error(err.message));
-        this.redis.set('articles', JSON.stringify(result));
         resolve(result);
+        //this.redis.set('articles', JSON.stringify(result));
       });
     });
   }
