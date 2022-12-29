@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     '/**': { swr: 300 },
   },
 
-  plugins: ['~/plugins/route', '~/plugins/pwa'],
   css: ['~/styles/main.scss'],
   modules: [
     // ...
