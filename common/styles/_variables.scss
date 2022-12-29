@@ -55,6 +55,7 @@ $mobile-font-weight: 400;
   --font-color: #fff;
   --font-color-dimmed: #c8cedf;
   --opposite-color: #fff;
+  --opposite-color-dimmed: rgba(255, 255, 255, 0.75);
   // COLORS \\
   --grey: #e0e0e0;
   --grey-bg: rgb(47, 47, 47);
@@ -86,6 +87,7 @@ $mobile-font-weight: 400;
   --font-color: #323a46;
   --font-color-dimmed: #869099;
   --opposite-color: #001e26;
+  --opposite-color-dimmed: rgba(0, 30, 38, 0.75);
   // COLORS \\
   --blue: #007bff;
   --blue-bg: rgba(0, 123, 255, 0.2);
