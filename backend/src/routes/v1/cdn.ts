@@ -11,7 +11,7 @@ CDNRouter.post('/image/', auth, multerCdn, CDNCtrl.uploadImage);
 
 export default (client: App): Iroute => {
   return {
-    route: 'auth',
+    route: 'cdn',
     version: 1,
     router() {
       CDNRouter.post('/', (req, res) => CDNCtrl.uploadImage(client, req, res));
