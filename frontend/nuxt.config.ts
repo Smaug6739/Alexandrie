@@ -35,7 +35,7 @@ export default defineNuxtConfig({
       ],
       meta: [
         { name: 'robots', content: 'follow, index' },
-        { name: 'theme-color', content: '#001e26' },
+        { name: 'theme-color', content: '#312b41' },
         {
           name: 'description',
           content: 'Site web qui regroupe des notes/cours dans les domaines scientifiques.',

@@ -24,6 +24,24 @@ const article = computed(() => {
 	return articlesStore.getByPaths(route.params.doc_name as string, route.params.category as string, route.params.theme as string)
 });
 
+useHead({
+	title: article.value?.name || 'Documentation',
+	meta: [
+		{
+			name: 'description',
+			content: article.value?.description || 'Documentation'
+		},
+		{
+			property: 'og:title',
+			content: article.value?.name || 'Documentation'
+		},
+		{
+			property: 'og:description',
+			content: article.value?.description || 'Documentation'
+		}
+	]
+});
+
 // Footer
 const next = computed(() => articlesStore.getNext(article.value));
 const previous = computed(() => articlesStore.getPrevious(article.value));
