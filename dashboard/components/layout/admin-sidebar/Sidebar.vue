@@ -135,6 +135,12 @@ const props = defineProps({
 				tooltip: 'Files',
 				icon: 'bx-folder',
 			},
+			{
+				link: '/admin/sitemap',
+				name: 'Sitemap',
+				tooltip: 'Files',
+				icon: 'bx-sitemap',
+			},
 		],
 	},
 });
