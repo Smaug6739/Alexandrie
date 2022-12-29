@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { baseUrl, type APIResult } from './utils';
+import { baseUrl, type Result } from './utils';
 export interface Theme {
   id: string;
   name: string;
@@ -36,10 +36,17 @@ export const useCategoriesStore = defineStore('categories', {
   },
   actions: {
     fetchCategories: async function () {
-      const { data, error } = await useLazyAsyncData<APIResult<Theme[]>>('categories', () => {
-        return $fetch(`${baseUrl}/api/v1/categories`);
+      if (!process.server) return;
+      const { $getCache, $setCache } = useNuxtApp();
+      const { data, error } = await useAsyncData<Result<Theme[]>>('categories', async () => {
+        const cache = await $getCache<Theme[]>('categories');
+        if (cache) return cache;
+        else return $fetch(`${baseUrl}/api/v1/categories`);
       });
-      if (!error.value && data.value?.result) this.categories = data.value.result;
+      if (!error.value && data.value?.result) {
+        this.categories = data.value.result;
+        if (data.value.type != 'cache') $setCache('categories', data.value.result);
+      }
     },
   },
 });

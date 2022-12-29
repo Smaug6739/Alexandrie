@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { baseUrl, type APIResult } from './utils';
+import { baseUrl, type Result } from './utils';
 
 export interface Article {
   id: string;
@@ -48,10 +48,17 @@ export const useArticlesStore = defineStore('articles', {
   },
   actions: {
     fetchArticles: async function () {
-      const { data, error } = await useLazyAsyncData<APIResult<Article[]>>('articles', () => {
-        return $fetch(`${baseUrl}/api/v1/articles`);
+      if (!process.server) return;
+      const { $getCache, $setCache } = useNuxtApp();
+      const { data, error } = await useAsyncData<Result<Article[]>>('articles', async () => {
+        const cache = await $getCache<Article[]>('articles');
+        if (cache) return cache;
+        else return $fetch(`${baseUrl}/api/v1/articles`);
       });
-      if (!error.value && data.value?.result) this.articles = data.value.result;
+      if (!error.value && data.value?.result) {
+        this.articles = data.value.result;
+        if (data.value.type != 'cache') $setCache('articles', data.value.result);
+      }
     },
   },
 });

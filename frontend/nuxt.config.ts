@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     // Enable Incremental Static Generation (ISG)
     '/**': { swr: 300 },
   },
+
   plugins: ['~/plugins/route', '~/plugins/pwa'],
   css: ['~/styles/main.scss'],
   modules: [
