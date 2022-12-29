@@ -24,7 +24,7 @@ const generate = () => {
 		urls.value.push(`${document.location}/docs/${category.path}`);
 	}
 	for (const article of articlesStore.getAll) {
-		urls.value.push(`${document.location}/docs/${article.main_category}/${article.sub_category}/${article.path}`);
+		urls.value.push(`https://alexandrie-hub.fr/docs/${article.main_category}/${article.sub_category}/${article.path}`);
 	}
 }
 function copy() {
