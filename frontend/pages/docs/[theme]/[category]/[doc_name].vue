@@ -38,7 +38,23 @@ useHead({
 		{
 			property: 'og:description',
 			content: article.value?.description || 'Documentation'
-		}
+		},
+		{
+			property: 'og:image',
+			content: 'https://alexandrie-hub.fr/icon-72x72.png'
+		},
+		{
+			name: 'twitter:title',
+			content: article.value?.name || 'Documentation'
+		},
+		{
+			name: 'twitter:description',
+			content: article.value?.description || 'Documentation'
+		},
+		{
+			name: 'twitter:image',
+			content: 'https://alexandrie-hub.fr/icon-72x72.png'
+		},
 	]
 });
 
