@@ -12,7 +12,7 @@ export default (client: App): Iroute => {
     route: 'cdn',
     version: 1,
     router() {
-      CDNRouter.post('/image', auth, multerCdn, CDNCtrl.uploadImage);
+      CDNRouter.post('/image', auth, multerCdn, (req, res) => CDNCtrl.uploadImage(client, req, res));
       CDNRouter.post('/', (req, res) => CDNCtrl.uploadImage(client, req, res));
       return CDNRouter;
     },
