@@ -2,14 +2,23 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 import sharp from 'sharp';
 import { error, success } from '../utils/functions';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import type { App } from '../app';
 
-export function uploadImage(_: App, req: any, res: Response) {
-  const file = req.files?.file[0]?.filename;
-  if (!file) return res.status(400).json(error('No file provided.'));
+export function uploadImage(_: App, req: Request, res: Response): void {
+  if (!req.files || !('file' in req.files) || !req.files.file?.length || !req.files.file[0]) {
+    res.status(400).json(error('No file provided.'));
+    return;
+  }
+
+  const file = req.files.file[0].filename;
+  if (!file) {
+    res.status(400).json(error('No file provided.'));
+    return;
+  }
   const path = join(__dirname, `../../public/uploads/images/${file}`);
 
+  // TODO: Remove synchronous code
   if (existsSync(path)) {
     sharp(path)
       .toFile(join(__dirname, `../../public/uploads/webp/${file}.webp`))

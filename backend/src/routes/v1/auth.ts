@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as AuthCtrl from '../../controllers/auth';
-import { Iroute } from '../../types';
+import type { Iroute } from '../../types';
 import type { App } from '../../app';
 const AuthRouter: Router = Router();
 

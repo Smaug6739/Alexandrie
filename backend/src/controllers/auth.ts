@@ -49,7 +49,7 @@ export function auth(_: App, req: Request, res: Response): void {
     })
     .catch(error => res.json(checkAndChange(error)));
 }
-export function disconnection(client: App, req: Request, res: Response): void {
+export function disconnection(_: App, __: Request, res: Response): void {
   res.clearCookie('user_auth', { domain: process.env.FRONT_DOMAIN });
   res.clearCookie('user_id', { domain: process.env.FRONT_DOMAIN });
   res.clearCookie('user_token', { domain: process.env.FRONT_DOMAIN });

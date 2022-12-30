@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import ArticlesCtrl from '../../controllers/articles';
-import { Iroute } from '../../types';
 import authMid from '../../middlewares/auth';
 import type { App } from '../../app';
+import type { Iroute } from '../../types';
 const ArticlesRouter: Router = Router();
 
 export default (client: App): Iroute => {

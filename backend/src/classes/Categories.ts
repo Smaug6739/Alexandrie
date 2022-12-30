@@ -1,34 +1,16 @@
 import { Snowflake } from '../utils/Snowflake';
 import db from '../models/db';
-import type { RowDataPacket } from 'mysql2';
+import type { Theme, Category } from '../types';
 
 const idgen = new Snowflake(1661327668261);
-
-interface Theme extends RowDataPacket {
-  id: string;
-  name: string;
-  description: string;
-  order: number;
-  path: string;
-  icon: string;
-}
-interface Category extends RowDataPacket {
-  id: string;
-  name: string;
-  description: string;
-  order: number;
-  path: string;
-  icon: string;
-  parent_category: string;
-}
 
 export default class CategoriesClass {
   public getAll() {
     return new Promise((resolve, reject) => {
       db.query<Theme[]>('SELECT * FROM main_categories ORDER BY `order`', [], (err, themes) => {
-        if (err) return reject(new Error(err.message));
+        if (err) return reject('Internal database error.');
         db.query<Category[]>('SELECT * FROM sub_categories ORDER BY `order`', [], (err, categories) => {
-          if (err) return reject(new Error(err.message));
+          if (err) return reject('Internal database error.');
           for (const theme of themes) {
             theme.categories = categories.filter((c: Category) => c.parent_category === theme.path);
           }
@@ -48,7 +30,7 @@ export default class CategoriesClass {
         'INSERT INTO main_categories (id, name, description, `order`, path, icon) VALUES (?, ?, ?, ?, ?, ?)',
         [id, name, description, order, path, icon],
         err => {
-          if (err) return reject(new Error(err.message));
+          if (err) return reject('Internal database error.');
           else
             resolve({
               id,
@@ -73,7 +55,7 @@ export default class CategoriesClass {
         'INSERT INTO sub_categories (id, name, description, `order`, path, icon, parent_category) VALUES (?, ?, ?, ?, ?, ?, ?)',
         [id, name, description, order, path, icon, parent_category],
         err => {
-          if (err) return reject(new Error(err.message));
+          if (err) return reject('Internal database error.');
           else
             resolve({
               id,
@@ -91,9 +73,9 @@ export default class CategoriesClass {
   updateMainCategory(id: string, name: string, description: string, order: number, path: string, icon: string) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
-      db.query<Theme[]>('SELECT * FROM main_categories WHERE id = ? LIMIT 1', [id], (err, result, fields) => {
-        if (err) return reject(new Error(err.message));
-        if (!result || !result.length) return reject(new Error('[ERROR] : Invalid id'));
+      db.query<Theme[]>('SELECT * FROM main_categories WHERE id = ? LIMIT 1', [id], (err, result) => {
+        if (err) return reject('Internal database error.');
+        if (!result || !result[0]) return reject(new Error('[ERROR] : Invalid id'));
         else {
           if (!name) name = result[0].name;
           if (!description) description = result[0].description;
@@ -104,7 +86,7 @@ export default class CategoriesClass {
             'UPDATE main_categories SET name = ?, description = ?, `order` = ?, path = ?, icon = ? WHERE id = ?',
             [name, description, order, path, icon, id],
             err => {
-              if (err) return reject(new Error(err.message));
+              if (err) return reject('Internal database error.');
               else resolve(true);
             },
           );
@@ -123,9 +105,9 @@ export default class CategoriesClass {
   ) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
-      db.query<Category[]>('SELECT * FROM sub_categories WHERE id = ? LIMIT 1', [id], (err, result, fields) => {
-        if (err) return reject(new Error(err.message));
-        if (!result || !result.length) return reject(new Error('[ERROR] : Invalid id'));
+      db.query<Category[]>('SELECT * FROM sub_categories WHERE id = ? LIMIT 1', [id], (err, result) => {
+        if (err) return reject('Internal database error.');
+        if (!result || !result[0]) return reject(new Error('[ERROR] : Invalid id'));
         else {
           if (!name) name = result[0].name;
           if (!description) description = result[0].description;
@@ -137,7 +119,7 @@ export default class CategoriesClass {
             'UPDATE sub_categories SET name = ?, description = ?, `order` = ?, path = ?, icon = ?, parent_category = ? WHERE id = ?',
             [name, description, order, path, icon, parent_category, id],
             err => {
-              if (err) return reject(new Error(err.message));
+              if (err) return reject('Internal database error.');
               else resolve(true);
             },
           );
@@ -149,7 +131,7 @@ export default class CategoriesClass {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
       db.query('DELETE FROM main_categories WHERE id = ?', [id], err => {
-        if (err) return reject(new Error(err.message));
+        if (err) return reject('Internal database error.');
         else resolve(true);
       });
     });
@@ -158,7 +140,7 @@ export default class CategoriesClass {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
       db.query('DELETE FROM sub_categories WHERE id = ?', [id], err => {
-        if (err) return reject(new Error(err.message));
+        if (err) return reject('Internal database error.');
         else resolve(true);
       });
     });

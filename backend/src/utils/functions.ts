@@ -1,4 +1,4 @@
-import { IResponse } from '../types';
+import type { IResponse } from '../types';
 
 export function success(result: any): IResponse {
   const Response: IResponse = {

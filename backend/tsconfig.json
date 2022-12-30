@@ -1,21 +1,42 @@
 {
-  "version": "2.4.2",
+  // Mapped from https://www.typescriptlang.org/tsconfig
   "compilerOptions": {
-    "lib": ["ES2022"],
-    "target": "ES2022",
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "noEmitOnError": true,
+    // Type Checking
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strict": true,
+    "useUnknownInCatchVariables": true,
+    "noUncheckedIndexedAccess": true,
+    // Modules
+    "module": "CommonJS",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
+    // Emit
+    "importHelpers": true,
+    "importsNotUsedAsValues": "error",
+    "inlineSources": true,
+    "newLine": "lf",
+    "noEmitHelpers": true,
+    "outDir": "build",
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    // Language and Environment
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": false,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "removeComments": false,
-    "noImplicitAny": true
+    "lib": ["ESNext"],
+    "target": "ES2021",
+    "useDefineForClassFields": true
   },
-  "exclude": ["node_modules"]
+  "include": ["**/*"],
+  "exclude": ["node_modules", "test", "typings"]
 }

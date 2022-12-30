@@ -18,3 +18,5 @@ export interface IResponse {
 export interface IObject {
   [index: string]: any;
 }
+
+export type * from './Structures';

@@ -37,7 +37,7 @@ export default class ArticlesController {
   }
   updateArticle(req: Request, res: Response) {
     this.Articles.put(
-      req.params.id,
+      req.params.id as string,
       req.body.name,
       req.body.description,
       req.body.path,
@@ -50,7 +50,7 @@ export default class ArticlesController {
       .catch(err => res.status(500).json(error(err.message)));
   }
   deleteArticle(req: Request, res: Response) {
-    this.Articles.delete(req.params.id)
+    this.Articles.delete(req.params.id as string)
       .then(() => res.status(201).json(success('success')))
       .catch((err: Error) => res.status(500).json(error(err.message)));
   }

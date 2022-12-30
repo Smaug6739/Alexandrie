@@ -50,7 +50,7 @@ export class App {
     this.handleMiddlewares();
     await this.handleRoutes();
     this.app.use(async function (err: Error, _: Request, res: Response, __: Function) {
-      if (err.message.match('File too large')) return res.status(500).json(error('[ERROR_FILE_SIZE] File is too large.'));
+      if (err.message.match('File too large')) res.status(500).json(error('[ERROR_FILE_SIZE] File is too large.'));
       else console.error(err);
     });
 
