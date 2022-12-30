@@ -8,7 +8,7 @@ export default class ArticlesController {
   Articles: Article;
   constructor(app: App) {
     this.app = app;
-    this.Articles = new Article(app.redisClient);
+    this.Articles = new Article();
   }
   getAllArticles(req: Request, res: Response) {
     if (req.query.category) {

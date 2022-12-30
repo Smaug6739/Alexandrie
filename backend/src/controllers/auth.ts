@@ -6,7 +6,7 @@ import type { App } from '../app';
 
 const Members = new MemberClass();
 
-export function auth(client: App, req: Request, res: Response): void {
+export function auth(_: App, req: Request, res: Response): void {
   Members.auth(req.body.username, req.body.password)
     .then(result => {
       const token = sign(
