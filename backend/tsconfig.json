@@ -19,11 +19,10 @@
     "resolveJsonModule": true,
     // Emit
     "importHelpers": true,
-    "importsNotUsedAsValues": "error",
     "inlineSources": true,
     "newLine": "lf",
     "noEmitHelpers": true,
-    "outDir": "build",
+    "outDir": "dist",
     "preserveConstEnums": true,
     "removeComments": false,
     "sourceMap": true,
