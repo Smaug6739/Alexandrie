@@ -41,7 +41,7 @@ footer {
 
 .item {
 	width: 100%;
-	max-width: 300px;
+	max-width: 400px;
 	border-radius: 7px;
 	border: 1px solid var(--border-color);
 	padding: 5px 10px 5px 10px;
