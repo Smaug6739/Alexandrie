@@ -4,8 +4,8 @@ export function timestampToString(timestamp: number | string): string {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    hour: undefined,
-    minute: undefined,
-    second: undefined,
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
   });
 }

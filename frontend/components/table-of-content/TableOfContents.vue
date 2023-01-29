@@ -56,7 +56,7 @@ function groupHeadersByLevels(element: HTMLElement): GroupedHeaders[] {
 
 const options = {
 	root: null,
-	threshold: 1
+	threshold: 1,
 }
 const observerCallback = (e: IntersectionObserverEntry[]) => {
 	e.forEach((entry) => {
@@ -87,33 +87,32 @@ if (process.client) {
 </script>
 
 <template>
-	<aside v-if="headers.length">
+	<aside>
 		<ul ref="list" class="toc">
 			<h4>Table des matières</h4>
 			<!--Recursive lists -->
-			<NodeTree v-for="header of headers" :node="header" />
+			<NodeTree v-if="headers.length" v-for="header of headers" :node="header" />
+			<p v-else>Aucun élément à afficher</p>
 		</ul>
 	</aside>
 </template>
 
 <style lang="scss" scoped>
-.toc {
-	display: none;
-}
-
 @media (min-width: 1280px) {
 	.toc {
-		display: block;
 		position: sticky;
 		top: 20px;
-		padding-left: 40px;
+		padding-left: 15px;
+		margin-left: 10px;
 		font-size: 0.75rem;
+		max-width: 100%;
+		font-weight: 500;
 	}
 
 	ul {
+		border-left: 1px solid $divider;
 		padding: 0;
 		margin: 0;
-		width: 300px;
 	}
 }
 </style>

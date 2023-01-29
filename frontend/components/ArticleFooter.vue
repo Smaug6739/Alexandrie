@@ -1,13 +1,18 @@
 <template>
 	<footer>
-		<p>Dernière mise à jour le {{ timestampToString(article.updated_timestamp) }}</p>
-		<span v-if="next" class="next">
-			<NuxtLink :to="`/docs/${next.main_category}/${next.sub_category}/${next.path}`">{{ next.name }}</NuxtLink>→
-		</span>
-		<span class="previous" v-if="previous">
-			←<NuxtLink :to="`/docs/${previous.main_category}/${previous.sub_category}/${previous.path}`">{{ previous.name }}
+		<p class="update">Dernière mise à jour le {{ timestampToString(article.updated_timestamp) }}</p>
+		<hr />
+		<div class="items">
+			<NuxtLink class="item left" v-if="previous"
+				:to="`/docs/${previous.main_category}/${previous.sub_category}/${previous.path}`">
+				<span class="min">Page précédente</span>
+				{{ previous.name }}
 			</NuxtLink>
-		</span>
+			<NuxtLink class="item right" v-if="next" :to="`/docs/${next.main_category}/${next.sub_category}/${next.path}`">
+				<span class="min">Page suivante</span>
+				{{ next.name }}
+			</NuxtLink>
+		</div>
 	</footer>
 </template>
 
@@ -22,12 +27,54 @@ defineProps<{
 }>();
 </script>
 
-<style scoped>
-.next {
-	float: right;
+<style scoped lang="scss">
+footer {
+	margin-top: 50px;
 }
 
-.previous {
-	float: left;
+.items {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.item {
+	width: 100%;
+	max-width: 300px;
+	border-radius: 7px;
+	border: 1px solid var(--border-color);
+	padding: 5px 10px 5px 10px;
+	font-weight: 600;
+	font-size: 15px;
+	transition: border .25s;
+
+	span {
+		display: block;
+	}
+
+	&:hover {
+		border: 1px solid $primary-400;
+	}
+}
+
+.left {
+	text-align: left;
+	margin-right: auto;
+}
+
+.right {
+	text-align: right;
+	margin-left: auto;
+}
+
+.min {
+	color: $grey;
+	font-size: small;
+}
+
+.update {
+	color: $grey;
+
 }
 </style>

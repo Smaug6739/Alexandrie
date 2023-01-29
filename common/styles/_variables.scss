@@ -33,6 +33,8 @@ $secondary-700: #002028;
 $secondary-800: #00181E;
 $secondary-900: #001014;
 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 $font-family: "Poppins", sans-serif;
 $font-links: "Inter", sans-serif;
@@ -43,8 +45,7 @@ $mobile-font-size: 0.8em;
 $mobile-line-height: 20px;
 $mobile-font-weight: 400;
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+$divider: rgba(82, 82, 89, .42);
 
 // SCSS DEFINE DARK THEME \\
 @mixin dark-theme {
@@ -75,7 +76,7 @@ $mobile-font-weight: 400;
   --turquoise: #00d6b4;
   --turquoise-bg: rgba(0, 255, 255, 0.2);
   --turquoise-border: rgba(0, 209, 178, .25);
-  --border-color: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(82, 82, 89, 0.9);
 
 }
 

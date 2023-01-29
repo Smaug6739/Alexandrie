@@ -1,17 +1,12 @@
 a {
 	color: $primary-400;
-	opacity: 0.8;
 	font-family: $font-links;
 	text-decoration: none;
-	transition: opacity .25s;
-
-	&:hover {
-		opacity: 1;
-	}
+	transition: color .25s;
 }
 
 .a-classic {
-	color: var(--opposite-color);
+	color: var(--font-color-dimmed);
 	transition: color .25s;
 
 	&:hover {

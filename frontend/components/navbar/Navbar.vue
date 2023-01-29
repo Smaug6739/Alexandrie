@@ -31,15 +31,12 @@
 
 <style lang="scss" scoped>
 nav {
-  margin-top: 5px;
   width: 100%;
   height: 60px;
   display: flex;
   justify-content: space-between;
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 14px;
 }
-
 
 .dropdown-item-parent {
   display: flex;

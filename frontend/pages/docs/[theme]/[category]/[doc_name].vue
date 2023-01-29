@@ -3,10 +3,11 @@
 		<section class="view-medium" v-if="article?.id" style="display:flex;">
 			<div style="width:100%;">
 				<article ref="element" v-html="article.content_html"></article>
-				<hr />
 				<ArticleFooter :article="article" :next="next" :previous="previous" />
 			</div>
-			<TableOfContent :element="element" class="toc" />
+			<span class="spacer">
+				<TableOfContent :element="element" class="toc" />
+			</span>
 		</section>
 	</main>
 </template>
@@ -66,5 +67,16 @@ const previous = computed(() => articlesStore.getPrevious(article.value));
 <style scoped>
 .toc {
 	margin-top: 40px;
+}
+
+.spacer {
+	display: none;
+}
+
+@media (min-width: 1280px) {
+	.spacer {
+		display: block;
+		width: 350px;
+	}
 }
 </style>

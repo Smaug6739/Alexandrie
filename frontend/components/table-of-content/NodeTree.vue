@@ -19,12 +19,8 @@ defineProps<{ node: Node; }>();
 
 <style scoped>
 a {
-	color: var(--opposite-color);
-	opacity: 0.75;
-}
-
-a:hover {
-	opacity: 1;
+	color: var(--font-color-dimmed);
+	opacity: 0.85;
 }
 
 li {

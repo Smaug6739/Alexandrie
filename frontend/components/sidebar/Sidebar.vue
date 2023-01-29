@@ -3,7 +3,7 @@
     <section class="header">
       <span class="name">
         <Icon name="bxs-graduation" :big="true" class="icon" />
-        <b class="logo_name">Alexandrie</b>
+        <NuxtLink to="/" class="logo_name">Alexandrie</NuxtLink>
       </span>
       <Icon name="bx-menu-alt-right" id="btn" @click="isOpened = !isOpened" />
     </section>
@@ -140,6 +140,7 @@ const menuItems = computed((): MenuItem[] => {
   }
 
   .logo_name {
+    color: var(--font-color);
     font-size: 19px;
     font-weight: 600;
   }
