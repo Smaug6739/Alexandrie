@@ -7,7 +7,7 @@
 		<h2>Domaines</h2>
 		<ul>
 			<li v-for="category of categories">
-				<NuxtLink :to="`/docs/${category.name}`" no-prefetch>{{ category.name }}</NuxtLink>
+				<NuxtLink :to="`/docs/${category.path}`" no-prefetch>{{ category.name }}</NuxtLink>
 			</li>
 		</ul>
 		<h2>Roadmap</h2>
