@@ -4,7 +4,7 @@
     <div id="backdrop"></div>
     <BackToTop />
     <NuxtPage />
-    <p style="text-align:center;margin-top:3%;margin-top: auto;">MIT Licensed | Copyright © 2021-2022</p>
+    <p style="text-align:center;margin-top:3%;margin-top: auto;">MIT Licensed | Copyright © 2021-2023</p>
   </div>
 </template>
 
