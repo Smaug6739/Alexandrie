@@ -8,7 +8,7 @@ $white: white;
 $orange: #fd7e14;
 $yellow: #ffc107;
 $green: #28a745;
-$grey: #869099;
+$grey: rgba(255, 255, 255, 0.85);
 $black: #000000;
 
 // MAIN COLOR \\
@@ -45,8 +45,6 @@ $mobile-font-size: 0.8em;
 $mobile-line-height: 20px;
 $mobile-font-weight: 400;
 
-$divider: rgba(82, 82, 89, .42);
-
 // SCSS DEFINE DARK THEME \\
 @mixin dark-theme {
   // THEME \\
@@ -60,7 +58,6 @@ $divider: rgba(82, 82, 89, .42);
   // COLORS \\
   --grey: #e0e0e0;
   --grey-bg: rgb(47, 47, 47);
-  --grey-border: rgba(47, 47, 47, 0.25);
   --blue: #47a6ff;
   --blue-bg: rgb(0, 140, 216, 0.2);
   --blue-border: rgba(0, 140, 216, 0.25);
@@ -76,7 +73,7 @@ $divider: rgba(82, 82, 89, .42);
   --turquoise: #00d6b4;
   --turquoise-bg: rgba(0, 255, 255, 0.2);
   --turquoise-border: rgba(0, 209, 178, .25);
-  --border-color: rgba(82, 82, 89, 0.9);
+  --border-color: rgba(255, 255, 255, 0.4);
 
 }
 

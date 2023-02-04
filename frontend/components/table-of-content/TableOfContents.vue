@@ -110,7 +110,7 @@ if (process.client) {
 	}
 
 	ul {
-		border-left: 1px solid $divider;
+		border-left: 1px solid var(--border-color);
 		padding: 0;
 		margin: 0;
 	}
