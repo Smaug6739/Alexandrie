@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   css: ['~/styles/main.scss'],
   modules: [
     // ...
-    ['@pinia/nuxt'],
+    '@pinia/nuxt',
   ],
   app: {
     head: {

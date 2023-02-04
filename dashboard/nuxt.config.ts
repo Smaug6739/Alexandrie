@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   css: ['~/styles/main.scss'],
   modules: [
     // ...
-    ['@pinia/nuxt'],
+    '@pinia/nuxt',
   ],
   /*experimental: {
     // TODO: Remove when relace candidate 13 is released

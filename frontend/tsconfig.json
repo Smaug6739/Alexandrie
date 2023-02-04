@@ -20,7 +20,7 @@
     "resolveJsonModule": true,
     // Emit
     "importHelpers": false,
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "inlineSources": true,
     "newLine": "lf",
     "noEmitHelpers": true,
