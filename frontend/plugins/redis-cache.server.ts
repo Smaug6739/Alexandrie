@@ -19,8 +19,11 @@ export default defineNuxtPlugin(() => {
         if (data) return { type: 'cache', status: 'success', result: JSON.parse(data) };
         return null;
       },
-      setCache(route: string, data: any) {
+      setCache(route: string, data: any[]) {
         console.log('\x1b[36mℹ\x1b[0m', 'Setting cache for', route);
+        for (const item of data) {
+          delete item.content_markdown;
+        }
         redisClient.set(route, JSON.stringify(data), {
           EX: 10 * 60, // 10 minutes
         });

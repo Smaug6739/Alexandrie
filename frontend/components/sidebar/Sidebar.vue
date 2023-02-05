@@ -21,7 +21,6 @@
 
 import { ref, onBeforeUnmount, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { storeToRefs } from 'pinia';
 
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarSearch from './SidebarSearch.vue';
@@ -35,9 +34,6 @@ import type { MenuItem } from './types'
 const route = useRoute();
 const articlesStore = useArticlesStore();
 const categoriesStore = useCategoriesStore();
-
-const { articles } = storeToRefs(articlesStore);
-const { categories } = storeToRefs(categoriesStore);
 
 const searchInput = ref('');
 
@@ -70,7 +66,7 @@ watch(isOpened, (val) => {
 const menuItems = computed((): MenuItem[] => {
   const items: MenuItem[] = [];
   const subject = route.params.theme as string;
-  const theme = categories.value.find(c => c.path == subject);
+  const theme = categoriesStore.getAll.find(c => c.path == subject);
 
   if (!theme) return items;
   for (const category of theme.categories) {
@@ -79,7 +75,7 @@ const menuItems = computed((): MenuItem[] => {
       theme: route.params.theme as string,
       path: category.path,
       icon: category.icon,
-      childrens: articles.value
+      childrens: articlesStore.getAll
         .filter(a => a.main_category == theme.path && a.sub_category == category.path)
         .map(a => ({ name: a.name, link: `/docs/${theme.path}/${category.path}/${a.path}` })),
     });

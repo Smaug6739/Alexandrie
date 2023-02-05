@@ -11,7 +11,7 @@
         <li>
           <Dropdown title="Matières">
             <ul class="dropdown-item-parent">
-              <li v-for="(category, index) of getAll" :key="index">
+              <li v-for="(category, index) of categoriesStore.getAll" :key="index">
                 <NuxtLink class="a-classic dropdown-item" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
               </li>
             </ul>
@@ -79,7 +79,6 @@ ul {
 }
 </style>
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
 import { useCategoriesStore } from "@/store";
 import Dropdown from "@/components/Dropdown.vue";
 import ThemeToggle from "./ThemeToggle.vue";
@@ -88,5 +87,4 @@ import Icon from "../Icon.vue";
 import { hasSidebar, isOpened } from "@/components/sidebar";
 
 const categoriesStore = useCategoriesStore();
-const { getAll } = storeToRefs(categoriesStore);
 </script>

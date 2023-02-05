@@ -21,7 +21,6 @@ export const useArticlesStore = defineStore('articles', {
   }),
   getters: {
     getAll: state => state.articles,
-    getById: state => (id: string) => state.articles.find((a: Article) => a.id == id),
     getByCategories: state => (theme: string, category: string) =>
       state.articles.filter((a: Article) => a.main_category == theme && a.sub_category == category),
 
