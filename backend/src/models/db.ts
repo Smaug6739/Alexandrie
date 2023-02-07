@@ -14,5 +14,4 @@ pool.on('connection', function (conn) {
   });
 });
 
-
 export default pool;

@@ -1,14 +1,14 @@
 import Article from '../classes/Articles';
 import { error, success } from '../utils/functions';
 import type { Response, Request } from 'express';
-import type { App } from '../app';
+import type { App } from '@app';
 
 export default class ArticlesController {
   app: App;
   Articles: Article;
   constructor(app: App) {
     this.app = app;
-    this.Articles = new Article();
+    this.Articles = new Article(app);
   }
   getAllArticles(req: Request, res: Response) {
     if (req.query.category) {

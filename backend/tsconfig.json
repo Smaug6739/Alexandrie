@@ -34,7 +34,13 @@
     "experimentalDecorators": true,
     "lib": ["ESNext"],
     "target": "ES2021",
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    // Paths
+    "baseUrl": "./src",
+    "paths": {
+      "@app": ["app"],
+      "@types": ["types"]
+    }
   },
   "include": ["**/*"],
   "exclude": ["node_modules", "test", "typings"]

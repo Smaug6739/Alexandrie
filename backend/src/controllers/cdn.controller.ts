@@ -3,7 +3,7 @@ import { existsSync } from 'fs';
 import sharp from 'sharp';
 import { error, success } from '../utils/functions';
 import type { Request, Response } from 'express';
-import type { App } from '../app';
+import type { App } from '@app';
 
 export function uploadImage(_: App, req: Request, res: Response): void {
   if (!req.files || !('file' in req.files) || !req.files.file?.length || !req.files.file[0]) {

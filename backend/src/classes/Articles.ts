@@ -1,13 +1,15 @@
-import { Snowflake } from '../utils/Snowflake';
-import db from '../models/db';
-import type { Article } from '../types';
+import Base from './Base';
+import type { App } from '@app';
+import type { Article } from '@types';
 
-const idgen = new Snowflake(1661327668261);
+export default class Articles extends Base {
+  constructor(app: App) {
+    super(app);
+  }
 
-export default class Articles {
   public getAll() {
     return new Promise(async (resolve, reject) => {
-      db.query<Article[]>('SELECT * FROM articles ORDER BY `name`', (err, result) => {
+      this.app.db.query<Article[]>('SELECT * FROM articles ORDER BY `name`', (err, result) => {
         if (err) return reject('Internal database error.');
         resolve(result);
       });
@@ -17,10 +19,14 @@ export default class Articles {
   public getAllByCategory(category: string) {
     return new Promise((resolve, reject) => {
       if (!category) return reject(new Error('[MISSING_ARGUMENT] : category must be provided'));
-      db.query<Article[]>('SELECT * FROM articles WHERE main_category = ? ORDER BY `name`', [category], (err, result) => {
-        if (err) return reject('Internal database error.');
-        resolve(result);
-      });
+      this.app.db.query<Article[]>(
+        'SELECT * FROM articles WHERE main_category = ? ORDER BY `name`',
+        [category],
+        (err, result) => {
+          if (err) return reject('Internal database error.');
+          resolve(result);
+        },
+      );
     });
   }
   public add(
@@ -42,8 +48,8 @@ export default class Articles {
       if (!content_html) return reject(new Error('[MISSING_ARGUMENT] : content_html must be provided'));
       if (!author) return reject(new Error('[MISSING_ARGUMENT] : author must be provided'));
       const time = Date.now();
-      const id = idgen.generate().toString();
-      db.query<Article[]>(
+      const id = this.app.snowflake.generate().toString();
+      this.app.db.query<Article[]>(
         'INSERT INTO articles (`id`, `name`, `description`, `path`, `main_category`, `sub_category`, `content_html`, `content_markdown`, `created_timestamp`, `updated_timestamp`, `author_id`) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
         [id, name, description, path, main_category, sub_category, content_html, content_markdown, time, time, author],
         err => {
@@ -77,7 +83,7 @@ export default class Articles {
   ) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
-      db.query<Article[]>('SELECT * FROM articles WHERE id = ? LIMIT 1', [id], (err, result) => {
+      this.app.db.query<Article[]>('SELECT * FROM articles WHERE id = ? LIMIT 1', [id], (err, result) => {
         if (err) return reject('Internal database error.');
         if (!result || !result[0]) return reject(new Error('[ERROR] : Invalid id'));
         else {
@@ -88,7 +94,7 @@ export default class Articles {
           if (!sub_category) sub_category = result[0].sub_category;
           if (!content_markdown) content_markdown = result[0].content_markdown;
           if (!content_html) content_html = result[0].content_html;
-          db.query<Article[]>(
+          this.app.db.query<Article[]>(
             'UPDATE articles SET `name` = ?, `description` = ?, `path` = ?, `main_category` = ?, `sub_category` = ?, `content_html` = ?, `content_markdown` = ?, `updated_timestamp` = ? WHERE `id` = ?',
             [name, description, path, main_category, sub_category, content_html, content_markdown, Date.now(), id],
             err => {
@@ -103,7 +109,7 @@ export default class Articles {
   public delete(id: string) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
-      db.query<Article[]>('DELETE FROM articles WHERE id = ?', [id], err => {
+      this.app.db.query<Article[]>('DELETE FROM articles WHERE id = ?', [id], err => {
         if (err) return reject('Internal database error.');
         resolve(true);
       });

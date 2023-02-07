@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as CDNCtrl from '../../controllers/cdn';
+import * as CDNCtrl from '../../controllers/cdn.controller';
 import auth from '../../middlewares/auth';
 import multerCdn from '../../middlewares/multer.cdn';
 import type { Iroute } from '../../types';

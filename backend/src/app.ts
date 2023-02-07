@@ -1,17 +1,26 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
 import express from 'express';
+import { Pool } from 'mysql2';
 import type { Request, Response } from 'express';
-import type { Iroute } from './types';
 
+import type { Iroute } from '@types';
+
+import db from './models/db';
 import { checkAndChange, error } from './utils/functions';
+import { Snowflake } from 'utils/Snowflake';
+
 export class App {
   private app;
   public port: string;
+  public snowflake: Snowflake;
+  public db: Pool;
   constructor() {
-    this.app = express();
-    this.port = process.env.DOCS_SERVER_PORT!;
     console.log(`Starting in ${process.env.NODE_ENV} mode...`);
+    this.app = express();
+    this.port = process.env.DOCS_SERVER_PORT || '3000';
+    this.snowflake = new Snowflake(1661327668261);
+    this.db = db;
   }
   private async handleRoutes() {
     const directories = readdirSync(join(__dirname, 'routes'));

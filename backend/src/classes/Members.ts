@@ -1,6 +1,6 @@
 import db from '../models/db';
 import { compare } from 'bcrypt';
-import type { IObject, User } from '../types';
+import type { IObject, User } from '@types';
 
 export class MemberClass {
   public auth(username: string, password: string): Promise<IObject> {

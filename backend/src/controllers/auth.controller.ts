@@ -2,7 +2,7 @@ import { MemberClass } from '../classes/Members';
 import { checkAndChange } from '../utils/functions';
 import { sign } from 'jsonwebtoken';
 import type { Request, Response } from 'express';
-import type { App } from '../app';
+import type { App } from '@app';
 
 const Members = new MemberClass();
 

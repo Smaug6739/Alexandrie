@@ -4,7 +4,7 @@ import type { Request, Response } from 'express';
 
 export default (req: Request, res: Response, next: Function) => {
   try {
-    var cookies = req.headers.cookie;
+    const cookies = req.headers.cookie;
     if (cookies) {
       req.cookies = cookies.split(';').reduce((obj: any, c: string) => {
         var n: any = c.trim().split('=');

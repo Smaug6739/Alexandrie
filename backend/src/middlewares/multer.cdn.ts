@@ -1,6 +1,6 @@
 import { join } from 'path';
 import multer from 'multer';
-import type { IObject } from '../types';
+import type { IObject } from '@types';
 
 const tailleMax = 20 * 1024 * 1024; // 20MB
 
