@@ -65,7 +65,6 @@ export const useArticlesStore = defineStore('articles', {
       const cache = this.articles.find(a => a.id == id);
       if (cache && !cache.partial) return cache;
       // fetch article from server
-      console.log('[store] fetch article');
       const { data: article } = await useAsyncData<Result<Article>>(async () => {
         return $fetch(`${baseUrl}/api/v1/articles/${id}`);
       });
