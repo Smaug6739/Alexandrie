@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "tsc",
-    "build-watch": "tsc --watch"
+    "build:watch": "tsc --watch"
   },
   "repository": {
     "type": "git",

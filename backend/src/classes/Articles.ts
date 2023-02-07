@@ -8,7 +8,7 @@ export default class Articles extends Base {
   }
 
   public getAll() {
-    return new Promise(async (resolve, reject) => {
+    return new Promise<Article[]>(async (resolve, reject) => {
       this.app.db.query<Article[]>('SELECT * FROM articles ORDER BY `name`', (err, result) => {
         if (err) return reject('Internal database error.');
         resolve(result);
@@ -17,7 +17,7 @@ export default class Articles extends Base {
   }
 
   public getAllByCategory(category: string) {
-    return new Promise((resolve, reject) => {
+    return new Promise<Article[]>((resolve, reject) => {
       if (!category) return reject(new Error('[MISSING_ARGUMENT] : category must be provided'));
       this.app.db.query<Article[]>(
         'SELECT * FROM articles WHERE main_category = ? ORDER BY `name`',
