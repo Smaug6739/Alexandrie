@@ -50,7 +50,7 @@ export class App {
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
       next();
     });
-    if (process.env.NODE_ENV !== 'producRFtion') {
+    if (process.env.NODE_ENV !== 'production') {
       const morgan = require('morgan')('dev');
       this.app.use(morgan);
     }
