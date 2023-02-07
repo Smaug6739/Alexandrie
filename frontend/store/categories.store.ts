@@ -37,15 +37,11 @@ export const useCategoriesStore = defineStore('categories', {
   actions: {
     fetchCategories: async function () {
       if (!process.server) return;
-      const { $getCache, $setCache } = useNuxtApp();
       const { data, error } = await useAsyncData<Result<Theme[]>>('categories', async () => {
-        const cache = await $getCache<Theme[]>('categories');
-        if (cache) return cache;
-        else return $fetch(`${baseUrl}/api/v1/categories`);
+        return $fetch(`${baseUrl}/api/v1/categories`);
       });
       if (!error.value && data.value?.result) {
         this.categories = data.value.result;
-        if (data.value.type != 'cache') $setCache('categories', data.value.result);
       }
     },
   },

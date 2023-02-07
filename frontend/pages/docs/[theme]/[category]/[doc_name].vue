@@ -21,24 +21,28 @@ const articlesStore = useArticlesStore();
 
 const element = ref<HTMLElement>() as any;
 
-const article = computed(() => {
-	return articlesStore.getByPaths(route.params.doc_name as string, route.params.category as string, route.params.theme as string)
-});
+const meta = computed(() => articlesStore.getByPaths(
+	route.params.doc_name as string,
+	route.params.category as string,
+	route.params.theme as string));
+
+
+const article = await articlesStore.fetchArticle(meta.value?.id!);
 
 useHead({
-	title: article.value?.name || 'Documentation',
+	title: article?.name || 'Documentation',
 	meta: [
 		{
 			name: 'description',
-			content: article.value?.description || 'Documentation'
+			content: article?.description || 'Documentation'
 		},
 		{
 			property: 'og:title',
-			content: article.value?.name || 'Documentation'
+			content: article?.name || 'Documentation'
 		},
 		{
 			property: 'og:description',
-			content: article.value?.description || 'Documentation'
+			content: article?.description || 'Documentation'
 		},
 		{
 			property: 'og:image',
@@ -46,11 +50,11 @@ useHead({
 		},
 		{
 			name: 'twitter:title',
-			content: article.value?.name || 'Documentation'
+			content: article?.name || 'Documentation'
 		},
 		{
 			name: 'twitter:description',
-			content: article.value?.description || 'Documentation'
+			content: article?.description || 'Documentation'
 		},
 		{
 			name: 'twitter:image',
@@ -60,8 +64,8 @@ useHead({
 });
 
 // Footer
-const next = computed(() => articlesStore.getNext(article.value));
-const previous = computed(() => articlesStore.getPrevious(article.value));
+const next = computed(() => articlesStore.getNext(article));
+const previous = computed(() => articlesStore.getPrevious(article));
 
 </script>
 <style scoped>

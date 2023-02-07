@@ -65,14 +65,14 @@ watch(isOpened, (val) => {
 
 const menuItems = computed((): MenuItem[] => {
   const items: MenuItem[] = [];
-  const subject = route.params.theme as string;
-  const theme = categoriesStore.getAll.find(c => c.path == subject);
+  const theme_name = route.params.theme as string;
+  const theme = categoriesStore.getAll.find(c => c.path == theme_name);
 
   if (!theme) return items;
   for (const category of theme.categories) {
     items.push({
       name: category.name,
-      theme: route.params.theme as string,
+      theme: theme_name,
       path: category.path,
       icon: category.icon,
       childrens: articlesStore.getAll

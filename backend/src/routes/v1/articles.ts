@@ -13,6 +13,7 @@ export default (client: App): Iroute => {
     version: 1,
     router() {
       ArticlesRouter.get('/', (req, res) => controller.getAllArticles(req, res));
+      ArticlesRouter.get('/:id', (req, res) => controller.getArticle(req, res));
       ArticlesRouter.post('/', authMid, (req, res) => controller.add(req, res));
       ArticlesRouter.patch('/:id', authMid, (req, res) => controller.updateArticle(req, res));
       ArticlesRouter.delete('/:id', authMid, (req, res) => controller.deleteArticle(req, res));

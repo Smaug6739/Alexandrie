@@ -29,6 +29,16 @@ export default class Articles extends Base {
       );
     });
   }
+  get(id: string) {
+    return new Promise<Article>((resolve, reject) => {
+      if (!id) return reject(new Error('[MISSING_ARGUMENT] : id must be provided'));
+      this.app.db.query<Article[]>('SELECT * FROM articles WHERE id = ?', [id], (err, result) => {
+        if (err) return reject('Internal database error.');
+        if (!result[0]) return reject('Article not found.');
+        resolve(result[0]);
+      });
+    });
+  }
   public add(
     name: string,
     path: string,

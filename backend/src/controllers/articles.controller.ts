@@ -11,6 +11,7 @@ export default class ArticlesController {
     this.app = app;
     this.Articles = new Article(app);
   }
+
   getAllArticles(req: Request, res: Response) {
     if (req.query.category) {
       this.Articles.getAllByCategory(req.query.category.toString())
@@ -29,11 +30,16 @@ export default class ArticlesController {
                 return filtered;
               });
             }
-            res.status(200).json(success(result));
           }
+          res.status(200).json(success(result));
         })
         .catch((err: Error) => res.status(500).json(error(err.message)));
     }
+  }
+  getArticle(req: Request, res: Response) {
+    this.Articles.get(req.params.id as string)
+      .then((value: any) => res.status(200).json(success(value)))
+      .catch((err: Error) => res.status(500).json(error(err.message)));
   }
   add(req: Request, res: Response): void {
     this.Articles.add(
