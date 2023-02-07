@@ -7,8 +7,9 @@ import type { Request, Response } from 'express';
 import type { Iroute } from '@types';
 
 import db from './models/db';
+import Logger from './utils/Logger';
 import { checkAndChange, error } from './utils/functions';
-import { Snowflake } from 'utils/Snowflake';
+import { Snowflake } from './utils/Snowflake';
 
 export class App {
   private app;
@@ -16,7 +17,7 @@ export class App {
   public snowflake: Snowflake;
   public db: Pool;
   constructor() {
-    console.log(`Starting in ${process.env.NODE_ENV} mode...`);
+    Logger.debug(`Starting in ${process.env.NODE_ENV} mode...`);
     this.app = express();
     this.port = process.env.DOCS_SERVER_PORT || '3000';
     this.snowflake = new Snowflake(1661327668261);
@@ -30,7 +31,7 @@ export class App {
         const getFile = (await import(join(__dirname, `routes/${dir}/${file}`))).default;
         const fileInfos = getFile(this) as Iroute;
         this.app.use(`/api/v${fileInfos.version}/${fileInfos.route}`, fileInfos.router());
-        console.log(`Loaded route : /api/v${fileInfos.version}/${fileInfos.route}`);
+        Logger.info(`Loaded route:`, `/api/v${fileInfos.version}/${fileInfos.route}`);
       }
     }
   }
@@ -51,6 +52,7 @@ export class App {
       next();
     });
     if (process.env.NODE_ENV !== 'production') {
+      Logger.warn('Morgan is enabled in development mode.');
       const morgan = require('morgan')('dev');
       this.app.use(morgan);
     }
@@ -76,11 +78,9 @@ export class App {
     this.app.use('/static', express.static(join(__dirname, '../public'), staticOptions));
 
     this.app.listen(this.port, () => {
-      console.log(`Started on port ${this.port}`);
+      Logger.success(`Started on port ${this.port}`);
     });
-    this.app.all('*', (req: Request, res: Response) => {
-      console.log(req.path);
-
+    this.app.all('*', (_: Request, res: Response) => {
       res.status(404).json(checkAndChange(new Error('404 not found')));
     });
   }
