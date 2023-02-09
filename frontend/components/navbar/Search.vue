@@ -17,7 +17,7 @@ input {
 	-webkit-appearance: none;
 	appearance: none;
 	cursor: text;
-	width: 180px;
+	width: 200px;
 	height: 2rem;
 	color: var(--font-color);
 	display: inline-block;
@@ -34,7 +34,7 @@ input {
 input:focus {
 	box-shadow: 0 0 0 1px var(--border-color);
 	outline: none;
-	width: 250px;
+	width: 260px;
 }
 
 ul {
