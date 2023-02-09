@@ -13,8 +13,7 @@
 import Navbar from "@/components/navbar/Navbar.vue";
 import BackToTop from "@/components/back-to-top/index"
 
-import { useCategoriesStore } from "./store/categories.store";
-import { useArticlesStore } from "./store/articles.store";
+import { useCategoriesStore, useArticlesStore } from "./store";
 
 useCategoriesStore().fetchCategories();
 useArticlesStore().fetchArticles()

@@ -50,7 +50,7 @@ export const useArticlesStore = defineStore('articles', {
   actions: {
     fetchArticles: async function () {
       const { data: articles } = await useAsyncData<Result<Article[]>>(async () => {
-        return $fetch(`${baseUrl}/api/v1/articles?fields=id,name,description,path,main_category,sub_category`);
+        return $fetch(`${baseUrl}/api/v1/articles?fields=id,name,path,main_category,sub_category`);
       });
       if (!articles.value?.result) return;
       const data = [];
@@ -74,6 +74,9 @@ export const useArticlesStore = defineStore('articles', {
       if (index == -1) this.articles.push({ ...article.value.result, partial: false });
       else this.articles[index] = article.value.result;
       return article.value.result;
+    },
+    search: function (query: string) {
+      return this.articles.filter((a: Article) => a.name.toLowerCase().includes(query.toLowerCase()));
     },
   },
 });

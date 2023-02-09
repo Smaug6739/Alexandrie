@@ -44,5 +44,8 @@ export const useCategoriesStore = defineStore('categories', {
         this.categories = data.value.result;
       }
     },
+    search: function (query: string) {
+      return this.categories.filter((a: Theme) => a.name.toLowerCase().includes(query.toLowerCase()));
+    },
   },
 });

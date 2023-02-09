@@ -6,10 +6,10 @@
       </span>
       <ul class="main-ul">
         <li>
-          <NuxtLink class="a-classic" to="/">Accueil</NuxtLink>
+          <NuxtLink class="a-classic no-mobile" to="/">Accueil</NuxtLink>
         </li>
         <li>
-          <Dropdown title="Matières">
+          <Dropdown title="Menu">
             <ul class="dropdown-item-parent">
               <li v-for="(category, index) of categoriesStore.getAll" :key="index">
                 <NuxtLink class="a-classic dropdown-item" :to="`/docs/${category.path}`">{{ category.name }}</NuxtLink>
@@ -17,10 +17,13 @@
             </ul>
           </Dropdown>
         </li>
-        <li class="external">
+        <li class="no-mobile">
           <NuxtLink class="a-classic" to="https://github.com/Smaug6739" target="_blank">Github</NuxtLink>
         </li>
-        <li>
+        <li style="margin-right: 0px;">
+          <Search />
+        </li>
+        <li style="margin-left: 0px; margin-right: 0px;">
           <ThemeToggle />
         </li>
       </ul>
@@ -35,7 +38,6 @@ nav {
   height: 60px;
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
 }
 
 .dropdown-item-parent {
@@ -53,8 +55,7 @@ nav {
 .dropdown-item {
   display: block;
   padding: 4px;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: calc(100% - 1px);
 }
 
 .main-ul {
@@ -64,24 +65,32 @@ nav {
 
 ul {
   list-style: none;
+  padding: 0;
+}
 
-  li {
-    margin-left: 20px;
+li {
+  margin-right: 10px;
+}
+
+// Mobile styles
+@media screen and (max-width: 719px) {
+  .no-mobile {
+    display: none;
   }
 }
 
-@media screen and (max-width: 600px) {
-  .external {
-    display: none;
+// Desktop styles
+@media screen and (min-width: 720px) {
+  li {
+    margin-right: 20px;
   }
-
-
 }
 </style>
 <script lang="ts" setup>
 import { useCategoriesStore } from "@/store";
 import Dropdown from "@/components/Dropdown.vue";
 import ThemeToggle from "./ThemeToggle.vue";
+import Search from "./Search.vue";
 import Icon from "../Icon.vue";
 
 import { hasSidebar, isOpened } from "@/components/sidebar";
