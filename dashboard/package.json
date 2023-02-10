@@ -11,17 +11,17 @@
     "@pinia/nuxt": "^0.4.6",
     "katex": "^0.16.4",
     "markdown-it": "^13.0.1",
-    "markdown-it-anchor": "^8.6.5",
+    "markdown-it-anchor": "^8.6.6",
     "markdown-it-container": "^3.0.0",
-    "pinia": "^2.0.21"
+    "pinia": "^2.0.30"
   },
   "devDependencies": {
-    "@types/katex": "^0.14.0",
+    "@types/katex": "^0.16.0",
     "@types/markdown-it": "^12.2.3",
     "@types/markdown-it-container": "^2.0.5",
-    "@types/node": "^18.7.16",
-    "nuxt": "^3.0.0",
-    "punycode": "^2.1.1",
-    "sass": "^1.54.8"
+    "@types/node": "^18.13.0",
+    "nuxt": "^3.2.0",
+    "punycode": "^2.3.0",
+    "sass": "^1.58.0"
   }
 }
