@@ -22,7 +22,7 @@ jobs:
           NODE_ENV: development
         run: |
           cd /home/smaug/sites/alexandrie/backend
-          npm install --no-save
+          npm ci
           npm run build --if-present
   build-frontend:
     runs-on: self-hosted
@@ -33,7 +33,7 @@ jobs:
           NODE_ENV: development
         run: |
           cd /home/smaug/sites/alexandrie/frontend
-          npm install --no-save
+          npm ci
           npm run build --if-present
   build-dashboard:
     runs-on: self-hosted
@@ -44,7 +44,7 @@ jobs:
           NODE_ENV: development
         run: |
           cd /home/smaug/sites/alexandrie/dashboard
-          npm install --no-save
+          npm ci
           npm run build --if-present
   deploy:
     runs-on: self-hosted

@@ -30,28 +30,24 @@
 							<span class="tooltip">{{ searchTooltip }}</span>
 						</li>
 
-						<span v-for="(menuItem, index) of menuItems" :key="index">
-							<li class="li-style">
-								<span class="a-style">
-									<router-link :to="menuItem.link" class="a-block-style a-classic">
-										<i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
-										<span class="links_name">{{ menuItem.name }}</span>
-									</router-link>
-								</span>
-								<span class="tooltip">{{ menuItem.name }}</span>
-							</li>
-						</span>
-						<span>
-							<li class="li-style">
-								<span class="a-style">
-									<a href="#" class="a-block-style" @click="logout">
-										<i class="bx bx-power-off" />
-										<span cass="links_name">Log out</span>
-									</a>
-								</span>
-								<span class="tooltip">Log out</span>
-							</li>
-						</span>
+						<li class="li-style" v-for="(menuItem, index) of menuItems" :key="index">
+							<span class="a-style">
+								<router-link :to="menuItem.link" class="a-block-style a-classic">
+									<i class="bx" :class="menuItem.icon || 'bx-square-rounded'" />
+									<span class="links_name">{{ menuItem.name }}</span>
+								</router-link>
+							</span>
+							<span class="tooltip">{{ menuItem.name }}</span>
+						</li>
+						<li class="li-style">
+							<span class="a-style">
+								<a href="#" class="a-block-style" @click="logout">
+									<i class="bx bx-power-off" />
+									<span cass="links_name">Log out</span>
+								</a>
+							</span>
+							<span class="tooltip">Log out</span>
+						</li>
 					</ul>
 				</div>
 			</div>

@@ -49,6 +49,14 @@
   color: $primary-400 !important;
 }
 
+.a-classic {
+  color: var(--font-color-dimmed);
+  transition: color .25s
+}
+
+.a-classic:hover {
+  color: $primary-400
+}
 
 @media (max-width: 768px) {
   :root {

@@ -1,83 +1,65 @@
 <template>
 	<div>
 		<span class="btn btn-theme" @click="$router.push('/admin/articles/new')">New</span>
-		<Datatable :rows="displayArticles" :headers="tableOptions.headers" />
+		<Datatable :rows="displayArticles" :headers="headers">
+			<template #actions="params">
+				<span class="btn mini btn-theme" @click="$router.push(`/admin/articles/edit-${params?.row.id}`)">Edit</span>
+			</template>
+		</Datatable>
 	</div>
 
 </template>
 <script lang="ts" setup>
-import Datatable from '@/components/DataTable.vue';
+import Datatable from '@/components/datatable/DataTable.vue';
 import { useArticlesStore } from '@/store';
 import { timestampToString } from '@/helpers/date';
-
+import type { Header } from '@/components/datatable/dtypes';
 const articles = useArticlesStore().getAll;
 
-const tableOptions = {
-	headers: [
-		{
-			title: 'Title',
-			key: 'title',
-			sortable: true,
-			textAlign: 'left',
-		},
-		{
-			title: 'Description (short)',
-			key: 'description',
-			sortable: true,
-			textAlign: 'left',
-		},
-		{
-			title: 'Created At',
-			key: 'created_at',
-			sortable: true,
-			textAlign: 'left',
-		},
-		{
-			title: 'Updated At',
-			key: 'updated_at',
-			sortable: true,
-			textAlign: 'left',
-		},
-		{
-			title: 'Actions',
-			key: 'actions',
-			sortable: false,
-			textAlign: 'left',
-		},
-	],
-	itemsPerPage: 10,
-}
+const headers: Header[] = [
+	{
+		label: 'Title',
+		field: 'title',
+	},
+	{
+		label: 'Description',
+		field: 'description',
+	},
+	{
+		label: 'Created At',
+		field: 'created_at',
+		representedAs: (row: any) => timestampToString(row.created_at),
+	},
+	{
+		label: 'Updated At',
+		field: 'updated_at',
+		representedAs: (row: any) => timestampToString(row.updated_at),
+	},
+	{
+		label: 'Actions',
+		field: 'actions',
+	},
+];
 const displayArticles = computed(() => {
 	const results = [];
 	for (const article of articles) {
 		results.push({
-			fields: [
-				{
-					content: article.name,
-					action: 'text' as const,
-				},
-				{
-					content: article.description,
-					action: 'text' as const,
-				},
-				{
-					content: timestampToString(article.created_timestamp),
-					action: 'text' as const,
-				},
-				{
-					content: timestampToString(article.updated_timestamp),
-					action: 'text' as const,
-				},
-				{
-					content: '/admin/articles/edit-' + article.id,
-					action: 'link' as const,
-				}
-			]
+			id: article.id,
+			title: article.name,
+			description: article.description.length > 40 ? article.description.substring(0, 40) + '...' : article.description,
+			created_at: article.created_timestamp,
+			updated_at: article.updated_timestamp,
 		});
 	}
 	return results;
 })
 
-
-
 </script>
+
+<style scoped>
+.mini {
+	font-size: 0.9rem;
+	padding: 0.1rem 0.1rem !important;
+	margin: 0;
+}
+</style>

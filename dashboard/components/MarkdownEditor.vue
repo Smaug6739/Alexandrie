@@ -1,8 +1,8 @@
 <template>
 	<aside>
-		<textarea class="input" name="Editor" id="" cols="30" rows="20" v-model="markdown"
-			@keyup="synchronizeScroll"></textarea>
-		<div class="output" v-html="html"></div>
+		<textarea class="input" name="Editor" id="" cols="30" rows="20" v-model="markdown" ref="input"
+			@scroll="scrollInput"></textarea>
+		<div class="output" v-html="html" ref="output"></div>
 	</aside>
 </template>
 <script lang="ts" setup >
@@ -20,20 +20,20 @@ const props = defineProps(
 
 const markdown = ref(props.markdown)
 const html = computed(() => compile(markdown.value, true))
-function synchronizeScroll() {
-	const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
-	const output = document.querySelector('.output') as HTMLElement;
-	if (!textarea || !output) return;
-	// If the textarea is scrolled to the bottom, keep the output scrolled to the bottom
-	if (textarea.scrollTop === textarea.scrollHeight - textarea.clientHeight) {
-		output.scrollTop = output.scrollHeight - output.clientHeight;
-	}
-}
+
+const input = ref<HTMLTextAreaElement>()
+const output = ref<HTMLDivElement>()
 
 defineExpose({
 	markdown,
 	html
 })
+
+function scrollInput() {
+	const inputRatio = input.value!.scrollTop / (input.value!.scrollHeight - input.value!.clientHeight);
+	output.value!.scrollTop = (output.value!.scrollHeight - output.value!.clientHeight) * inputRatio;
+}
+
 
 </script>
 <style lang="scss" scoped>
