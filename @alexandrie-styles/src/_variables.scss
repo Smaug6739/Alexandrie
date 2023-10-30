@@ -1,0 +1,78 @@
+$blue: #007bff;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #ff0e6a;
+$red: #dc3545;
+$white: white;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$grey: #ffffffd9;
+$black: #000000;
+
+$primary-400: #00ADB5;
+$primary-300: lighten($primary-400, 10%);
+$primary-500: darken($primary-400, 10%);
+
+$selection-color: $primary-400;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
+
+$internal-font: 'Roboto', sans-serif;
+$external-font: 'Poppins', sans-serif;
+
+:root {
+
+
+	--bg-color: #2f3641;
+	--bg-contrast: #434852;
+	--bg-contrast-2: #535861;
+	--font-color: #EEEEEE;
+	--border-color: rgba(255, 255, 255, 0.7);
+	// COLORS \\
+	--grey: #e0e0e0;
+	--grey-bg: rgb(47, 47, 47);
+	--blue: #47a6ff;
+	--blue-bg: rgb(0, 140, 216, 0.2);
+	--blue-border: rgba(0, 140, 216, 0.25);
+	--green: rgb(66, 211, 146);
+	--green-bg: rgba(66, 184, 131, 0.2);
+	--green-border: rgba(66, 184, 131, 0.25);
+	--red: #ff4882;
+	--red-bg: rgba(237, 60, 80, 0.2);
+	--red-border: rgba(237, 60, 80, .25);
+	--yellow: #fcd253;
+	--yellow-bg: rgba(255, 197, 23, 0.2);
+	--yellow-border: rgba(255, 197, 23, .25);
+	--turquoise: #00d6b4;
+	--turquoise-bg: rgba(0, 255, 255, 0.2);
+	--turquoise-border: rgba(0, 209, 178, .25);
+}
+
+@mixin print-theme {
+	// THEME \\
+	--bg-color: #fff;
+	--contrast-color: #fff;
+	--contrast-color-after: #fff;
+	--font-color: #000;
+	--font-color-dimmed: #000;
+	--opposite-color: #000;
+	--opposite-color-dimmed: #000;
+	// COLORS \\
+	--blue: #007bff;
+	--blue-bg: rgba(0, 123, 255, 0.2);
+	--blue-border: rgba(0, 123, 255, 0.25);
+	--green: #28a745;
+	--green-bg: rgba(40, 167, 69, 0.2);
+	--green-border: rgba(40, 167, 69, 0.25);
+	--red: #dc3545;
+	--red-bg: rgba(220, 53, 69, 0.2);
+	--red-border: rgba(220, 53, 69, 0.25);
+	--yellow: #ffc107;
+	--yellow-bg: rgba(255, 193, 7, 0.2);
+	--yellow-border: rgba(255, 193, 7, 0.25);
+	--turquoise: rgb(1, 177, 150);
+	--turquoise-bg: rgba(1, 177, 150, 0.2);
+	--turquoise-border: rgba(1, 177, 150, 0.25);
+	--border-color: rgba(0, 0, 0, 0.5);
+}

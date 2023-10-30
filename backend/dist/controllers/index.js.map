@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../controllers/index.ts"],"names":[],"mappings":";;;AAAA,iEAAuC;AACvC,4DAAkC;AAClC,kEAAwC;AACxC,2DAAiC","sourcesContent":["export * from './documents.controller';\nexport * from './auth.controller';\nexport * from './categories.controller';\nexport * from './cdn.controller';\n"]}

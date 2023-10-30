@@ -1,0 +1,17 @@
+@import url("/katex/katex.css");
+
+.katex {
+	font-display: swap;
+}
+
+.katex-display,
+.katex-display>.katex,
+.katex-display>.katex>.katex-html {
+	display: inline;
+}
+
+.katex-container {
+	max-width: 100%;
+	overflow: scroll hidden;
+	padding-right: 2px;
+}

@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --host",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@pinia/nuxt": "^0.5.1",
+    "@types/node": "^20.8.9",
+    "nuxt": "^3.8.0",
+    "pinia": "^2.1.7",
+    "sass": "^1.69.5"
+  }
+}

@@ -1,0 +1,11 @@
+.view-medium {
+	display: block;
+	max-width: 95%;
+	margin: auto 50px auto 315px;
+
+
+	@media (max-width: 768px) {
+		width: 100%;
+		margin: auto;
+	}
+}

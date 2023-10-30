@@ -1,0 +1,113 @@
+<template>
+	<aside>
+		<div class="header">
+			<Search class="search" @update:query="querySearch = $event" />
+			<NuxtLink class="add" to="/dashboard/new">
+				<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+					<path
+						d="M520-400h80v-120h120v-80H600v-120h-80v120H400v80h120v120ZM320-240q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320Zm0-80h480v-480H320v480ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Zm160-720v480-480Z" />
+				</svg>
+			</NuxtLink>
+		</div>
+		<div v-for="(doc) in docs" :class="{ 'item-container': true, active: isActive(doc.id) }">
+			<NuxtLink class="item" :to="linkTo(doc.id)">
+				<div class="header">
+					<span class="title">{{ doc.name }}</span>
+					<span class="date">{{ formatDate(doc.created_timestamp) }}</span>
+				</div>
+				<p class="description">{{ doc.description }}</p>
+			</NuxtLink>
+		</div>
+	</aside>
+</template>
+
+<script setup lang="ts">
+import { useDocumentsStore } from '~/store';
+import { useRoute } from "vue-router";
+import Search from './Search.vue';
+const route = useRoute();
+const formatDate = (timestamp: string) => new Date(parseInt(timestamp)).toLocaleDateString();
+const isActive = (id: string) => route.query.doc === id;
+const querySearch = ref('');
+const docs = computed(() => {
+	const normal = (() => {
+		if (!route.query.category) return useDocumentsStore().getAll;
+		return useDocumentsStore().getAll.filter((doc) => doc.category === route.query.category);
+	})();
+	return normal.filter((doc) => doc.name.toLowerCase().includes(querySearch.value.toLowerCase()));
+});
+
+
+const linkTo = (id: string) => {
+	if (process.client && window.innerWidth <= 768) return `/dashboard/edit?doc=${id}`;
+	return `/dashboard/?doc=${id}`;
+};
+
+</script>
+
+<style lang="scss" scoped>
+aside {
+	height: 100%;
+	width: 100%;
+	background: var(--bg-color);
+	padding: .7rem;
+	overflow-y: scroll;
+	font-family: $external-font;
+	font-size: 1rem;
+	font-weight: normal;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+
+	.add {
+		cursor: pointer;
+		fill: $primary-400;
+	}
+}
+
+.item-container {
+	margin: 0.5rem 0;
+	padding: 0.5rem;
+	border-radius: 10px;
+	transition: all 0.2s ease;
+
+	&:hover,
+	&.active {
+		background-color: var(--bg-contrast-2);
+	}
+}
+
+.item {
+	display: block;
+	transition: all 0.3s ease-in-out;
+	border-bottom: 1px solid lighten($grey, 20%);
+	color: var(--font-color);
+
+	.header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		margin-bottom: 0;
+	}
+
+	.title {
+		font-size: 1.1rem;
+		font-weight: 500;
+	}
+
+	.date {
+		font-size: 0.8rem;
+		color: darken($grey, 20%);
+	}
+
+	.description {
+		font-size: 15px;
+		font-weight: 400;
+		margin: 0.3rem 0;
+	}
+}
+</style>
