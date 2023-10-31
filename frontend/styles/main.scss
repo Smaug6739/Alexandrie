@@ -9,3 +9,28 @@
 		margin: auto;
 	}
 }
+
+.fade-enter-active,
+.fade-leave-active {
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.fade-enter-to,
+.fade-leave-to {
+	opacity: 1;
+}
+
+.a-classic {
+	color: var(--font-color);
+	text-decoration: none;
+
+	&:hover {
+		color: $primary-400;
+		text-decoration: none;
+	}
+}
+
+:root {
+	--padding: calc((100vw - 1700px) / 2);
+}

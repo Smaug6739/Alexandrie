@@ -1,52 +1,133 @@
 <template>
-	<div class="view-medium">
-		<h1><span class="gradient">Alexandrie</span></h1>
-		<h2>Base de données</h2>
-		Alexandrie est une base de donnée qui regroupe des connnaissances dans les domainees scientifiques
-		(mathématiques, physique, ingénierie, informatique, etc...).
-		<h2>Domaines</h2>
+	<div class="homepage">
+		<header class="hero">
+			<h1 class="site-title">Bienvenue sur Alexandrie</h1>
+			<p class="site-description">Espace de gestion de notes et de documents.</p>
+			<div class="dashboard-link">
+				<NuxtLink to="https://dashboard.alexandrie-hub.fr">Accéder au dashboard</NuxtLink>
+			</div>
+		</header>
 
-		<h2>Roadmap</h2>
-		<ul>
-			<li>Remplacement de Scientia par Alexandrie</li>
-			<li>Ouverture d'un sous domaine pour le développement/informatique</li>
-			<li>Migration des anciennes ressources</li>
-		</ul>
-		<h2>Informations</h2>
-		<p>
-			Si vous souhaitez suivre l'avancement de ce projet, vous pouvez consulter <a target="_blank"
-				href="https://github.com/Smaug6739/docs">le repo github</a>. <br />
-			Vous pouvez proposer de nouvelles idées ou reporter des problèmes en <a
-				href="https://github.com/Smaug6739/docs/issues" target="_blank">participant au projet</a>. <br />
-			L'API est accessible sous réserve d'accord. <br />
-			Le code source est disponible sous licence MIT. <br />
-			<!--Sponsors-->
-			<a href="https://www.buymeacoffee.com/smaug6739" target="_blank"><img
-					src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
-					style="height: 51px;width: 217px; margin-top:12px;" /></a>
-		</p>
+		<main class="content">
+			<section class="category-list">
+				<h2>Explorez les catégories</h2>
+				<div class="category-cards">
+					<div v-for="category in categories" :key="category.id" class="category-card">
+						<NuxtLink :to="`/docs/${category.id}`">
+							<div class="category-card-content">
+								<i class="fas fa-folder"></i>
+								<span>{{ category.name }}</span>
+							</div>
+						</NuxtLink>
+					</div>
+				</div>
+			</section>
+
+			<section class="document-list">
+				<h2>Derniers documents</h2>
+				<div class="document-cards">
+					<div v-for="document in recentDocuments" :key="document.id" class="document-card">
+						<a :href="`/docs/${document.category}/${document.id}`">
+							<h3>{{ document.name }}</h3>
+							<p>{{ document.description }}</p>
+						</a>
+					</div>
+				</div>
+			</section>
+		</main>
 	</div>
 </template>
-<style scoped lang="scss">
-h1 {
-	font-size: 3rem;
-}
 
-h2 {
-	font-size: 2rem;
-}
+<style lang="scss" scoped>
+.homepage {
+	text-align: center;
+	padding: 20px;
+	color: var(--font-color);
 
-h1,
-h2 {
-	border: none;
-}
+	.hero {
+		padding: 20px 80px;
+		text-align: center;
 
-.gradient {
-	background: linear-gradient(45deg, #f7b500, #b620e0, #32c5ff);
-	background-clip: text;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
+		.site-title {
+			font-size: 2.5rem;
+			margin-bottom: 20px;
+		}
+
+		.site-description {
+			font-size: 1.2rem;
+		}
+
+		.dashboard-link {
+			font-size: 1.1rem;
+			margin-top: 15px;
+		}
+	}
+
+	.content {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.category-list,
+	.document-list {
+		h2 {
+			font-size: 2rem;
+		}
+
+		.category-cards,
+		.document-cards {
+			display: grid;
+			gap: 20px;
+
+			.category-card,
+			.document-card {
+				background: var(--bg-contrast);
+				border-radius: 10px;
+				box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+				padding: 20px;
+				text-align: center;
+
+				a {
+					text-decoration: none;
+					color: var(--font-color);
+					transition: color 0.3s;
+
+					&:hover {
+						color: $primary-400;
+					}
+				}
+
+			}
+
+			&.document-cards {
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				margin-top: 20px;
+			}
+
+			&.category-cards {
+				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+				justify-content: center;
+				margin-top: 20px;
+				transition: all 0.3s;
+				padding: 20px;
+
+				.category-card {
+					transition: transform 0.3s;
+
+					&:hover {
+						transform: scale(1.05);
+					}
+				}
+			}
+		}
+	}
 }
 </style>
+
 <script setup lang="ts">
+import { useDocumentsStore, useCategoriesStore } from '~/store';
+import { computed } from 'vue';
+
+const recentDocuments = computed(() => useDocumentsStore().getRecents(6));
+const categories = computed(() => useCategoriesStore().getParents);
 </script>

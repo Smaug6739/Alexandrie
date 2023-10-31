@@ -11,7 +11,8 @@ export const useDocumentsStore = defineStore('documents', {
     getAll: state => state.documents,
     getById: state => (id: string) => state.documents.find((d: Document) => d.id == id),
     getByCategories: state => (category: string) => state.documents.filter(d => d.category == category),
-
+    search: state => (query: string) => state.documents.filter(d => d.name.toLowerCase().includes(query.toLowerCase())),
+    getRecents: state => (limit: number) => state.documents.slice(0, limit).reverse(),
     getNext: state => (doc?: Document) => {
       const cdocs = state.documents.filter(d => d.category == doc?.category);
       const index = cdocs.findIndex(d => d.id == doc?.id);

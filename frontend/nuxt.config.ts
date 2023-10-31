@@ -19,6 +19,9 @@ export default defineNuxtConfig({
     // ...
     '@pinia/nuxt',
   ],
+  experimental: {
+    viewTransition: true,
+  },
   app: {
     head: {
       title: 'Alexandrie',

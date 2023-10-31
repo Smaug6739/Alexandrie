@@ -1,9 +1,9 @@
 <template>
 	<div class="sidebar-group">
-		<span class="parent" @click="emit('closeMobile')">
+		<NuxtLink class="parent" @click="emit('closeMobile')" :to="`/docs/${menuItem.id}`">
 			<Icon :svg="menuItem.icon" />
 			<span class="parent_name">{{ menuItem.name }}</span>
-		</span>
+		</NuxtLink>
 		<ul>
 			<li v-for="(children, index) of menuItem.childrens" :key="index" class="children" @click="emit('closeMobile')">
 				<NuxtLink :to="children.link" class="sub_link a-classic">{{ children.name }}</NuxtLink>

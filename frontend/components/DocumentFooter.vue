@@ -1,16 +1,16 @@
 <template>
 	<footer>
-		<p class="update">Dernière mise à jour le {{ timestampToString(article.updated_timestamp || 0) }}</p>
-		<hr />
+		<p class="update">Dernière mise à jour le {{ new Date(parseInt(document.updated_timestamp)).toLocaleDateString() }}
+		</p>
 		<div class="items">
 			<div v-if="previous" class="item left">
-				<NuxtLink :to="`/docs/${previous.main_category}/${previous.sub_category}/${previous.path}`">
+				<NuxtLink :to="`/docs/${previous.category}/${previous.id}`">
 					<b class="min">Page précédente</b>
 					{{ previous.name }}
 				</NuxtLink>
 			</div>
 			<div v-if="next" class="item right">
-				<NuxtLink :to="`/docs/${next.main_category}/${next.sub_category}/${next.path}`">
+				<NuxtLink :to="`/docs/${next.category}/${next.id}`">
 					<b class="min">Page suivante</b>
 					{{ next.name }}
 				</NuxtLink>
@@ -20,13 +20,12 @@
 </template>
 
 <script lang="ts" setup>
-import { timestampToString } from "@/helpers/date";
-import type { Article } from "@/store";
+import type { Document } from "@/store";
 
 defineProps<{
-	article: Article;
-	next?: Article;
-	previous?: Article;
+	document: Document;
+	next?: Document;
+	previous?: Document;
 }>();
 </script>
 
@@ -77,11 +76,12 @@ footer {
 }
 
 .min {
-	color: var(--font-color-dimmed);
+	color: var(--font-color);
 	font-size: small;
 }
 
 .update {
-	color: var(--font-color-dimmed);
+	color: var(--font-color);
+	border-bottom: 1px solid lighten($grey, 20%);
 }
 </style>

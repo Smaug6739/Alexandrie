@@ -1,7 +1,11 @@
 <template>
   <aside class="sidebar" :class="isOpened ? 'open' : ''">
     <section class="header">
-      <NuxtLink to="/" class="name">Alexandrie</NuxtLink>
+      <NuxtLink to="/" class="name" @click="isOpened = false">
+        <Icon
+          svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M600-40q-33 0-56.5-23.5T520-120q0-23 11-41t29-29v-221q-18-11-29-28.5T520-480q0-33 23.5-56.5T600-560q33 0 56.5 23.5T680-480q0 23-11 40.5T640-411v115l160-53v-62q-18-11-29-28.5T760-480q0-33 23.5-56.5T840-560q33 0 56.5 23.5T920-480q0 23-11 40.5T880-411v119l-240 80v22q18 11 29 29t11 41q0 33-23.5 56.5T600-40ZM160-160v-560 560Zm0 0q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480h280v80H160Z"/></svg>' />
+        Alexandrie
+      </NuxtLink>
       <Icon
         svg='<svg class="btn" @click="isOpened = !isOpened" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd"d="M4 5C3.44772 5 3 5.44772 3 6C3 6.55228 3.44772 7 4 7H20C20.5523 7 21 6.55228 21 6C21 5.44772 20.5523 5 20 5H4ZM7 12C7 11.4477 7.44772 11 8 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H8C7.44772 13 7 12.5523 7 12ZM13 18C13 17.4477 13.4477 17 14 17H20C20.5523 17 21 17.4477 21 18C21 18.5523 20.5523 19 20 19H14C13.4477 19 13 18.5523 13 18Z" /></svg>'
         id="btn" @click="isOpened = !isOpened" />
@@ -25,7 +29,7 @@ import SidebarGroup from './SidebarGroup.vue';
 import SidebarSearch from './SidebarSearch.vue';
 import Icon from "@/components/Icon.vue";
 
-import { hasSidebar, isOpened } from "./index"
+import { hasSidebar, isOpened } from "./helpers"
 import { useDocumentsStore, useCategoriesStore } from '@/store';
 
 import type { MenuItem } from './types'
@@ -65,7 +69,9 @@ watch(isOpened, (val: boolean) => {
 
 const menuItems = computed((): MenuItem[] => {
   const items: MenuItem[] = [];
-  const subCategories = categoriesStore.getChilds(route.params.category as string)
+  const category = categoriesStore.getById(route.params.category as string);
+  if (!category) return items;
+  const subCategories = categoriesStore.getChilds(category?.parent_id || category?.id)
   if (!subCategories) return items;
   for (const category of subCategories) {
     items.push({
@@ -75,7 +81,7 @@ const menuItems = computed((): MenuItem[] => {
       childrens: documentsStore.getByCategories(category.id).map(doc => ({
         id: doc.id,
         name: doc.name,
-        link: `/${category.parent_id}/${doc.id}`,
+        link: `/docs/${category.parent_id}/${doc.id}`,
       }))
     });
   }
@@ -132,6 +138,8 @@ const menuItems = computed((): MenuItem[] => {
     color: var(--font-color);
     font-size: 19px;
     font-weight: 600;
+    display: flex;
+    align-items: center;
   }
 }
 
@@ -143,7 +151,7 @@ const menuItems = computed((): MenuItem[] => {
   flex-direction: column;
   flex-grow: 1;
   height: calc(100% - 60px);
-  margin: 6px 14px;
+  margin: 0 14px;
 
   &::-webkit-scrollbar {
     background-color: var(--bg-contrast);

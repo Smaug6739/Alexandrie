@@ -19,8 +19,6 @@ exports.default = (app) => {
     };
 };
 function multerErrors(err, _, res, next) {
-    console.log(err);
-    console.log(err.message === '[BAD_MIMETYPE]');
     if (err instanceof multer_1.default.MulterError) {
         if (err.code === 'LIMIT_FILE_SIZE')
             return res.status(400).json((0, functions_1.error)('File size is too large.'));
