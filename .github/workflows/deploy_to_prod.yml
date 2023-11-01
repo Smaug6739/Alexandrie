@@ -24,4 +24,4 @@ jobs:
           scp -i deploy_key -r dashboard/* ${{ secrets.SSH_HOST }}:/home/smaug/sites/alexandrie/dashboard
           scp -i deploy_key -r backend/* ${{ secrets.SSH_HOST }}:/home/smaug/sites/alexandrie/backend
         env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEYs }}
