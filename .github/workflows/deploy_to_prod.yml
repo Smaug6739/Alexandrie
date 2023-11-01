@@ -16,6 +16,7 @@ jobs:
         run: |
           echo "$DEPLOY_SSH_KEY" > deploy_key
           chmod 644 deploy_key
+          ls -l deploy_key
           mkdir -p ~/.ssh
           ssh-keyscan -t ed25519 161.97.81.3 >> ~/.ssh/known_hosts
           scp -i deploy_key -r frontend/* 161.97.81.3:/home/smaug/sites/alexandrie/frontend
