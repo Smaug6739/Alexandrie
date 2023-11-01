@@ -14,6 +14,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Add VPS host key to known_hosts
         run: |
+          mkdir ~/.ssh
           touch ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.ssh_host }} >> ~/.ssh/known_hosts
       - name: Deploy to VPS
