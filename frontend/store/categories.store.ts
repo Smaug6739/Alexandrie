@@ -12,6 +12,7 @@ export const useCategoriesStore = defineStore('categories', {
     getById: state => (id: string) => state.categories.find((c: Category) => c.id == id),
     getParents: state => state.categories.filter(c => !c.parent_id),
     getChilds: state => (id: string) => state.categories.filter(c => c.parent_id == id),
+    search: state => (query: string) => state.categories.filter(c => c.name.toLowerCase().includes(query.toLowerCase())),
   },
   actions: {
     fetch: async function (opts?: FetchOptions<Array<keyof Category>>) {

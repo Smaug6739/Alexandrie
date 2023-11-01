@@ -46,6 +46,9 @@ function login() {
 		connect(username.value, password.value);
 	}
 }
+
+
+
 async function connect(username: string, password: string) {
 	const content = JSON.stringify({
 		username: username,
