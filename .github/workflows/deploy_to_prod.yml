@@ -20,8 +20,8 @@ jobs:
           mv deploy_key ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -t rsa ${{secrets.ssh_host}} >> ~/.ssh/known_hosts
-          scp -i ~/.ssh/deploy_key -r frontend/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/frontend
-          scp -i ~/.ssh/deploy_key -r dashboard/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/dashboard
-          scp -i ~/.ssh/deploy_key -r backend/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/backend
+          scp -i ~/.ssh/id_rsa -r frontend/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/frontend
+          scp -i ~/.ssh/id_rsa -r dashboard/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/dashboard
+          scp -i ~/.ssh/id_rsa -r backend/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/backend
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
