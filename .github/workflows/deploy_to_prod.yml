@@ -37,8 +37,6 @@ jobs:
             echo "Deploy key file is not readable."
             exit 1
           fi
-          file deploy_key | grep "PEM RSA private key"
-
       - name: Add deploy key to authorized_keys
         run: echo "$DEPLOY_KEY" >> ~/.ssh/authorized_keys
       - name: Deploy to VPS
