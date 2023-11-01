@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy to VPS
         run: |
-          printf "%s" ${{ secrets.DEPLOY_SSH_KEY }} > deploy_key
+          printf "${{ secrets.DEPLOY_SSH_KEY }}"" > deploy_key
           chmod 600 deploy_key
           mkdir -p ~/.ssh
           ssh-keyscan -t ed25519 161.97.81.3 >> ~/.ssh/known_hosts
