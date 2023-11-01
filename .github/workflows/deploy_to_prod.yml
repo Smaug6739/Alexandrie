@@ -14,8 +14,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Set environment variables
         run: |
-          export DEPLOY_SSH_KEY=${{ secrets.DEPLOY_SSH_KEY }}
-          export SSH_HOST=$SSH_HOST
+          export DEPLOY_SSH_KEY="${{ secrets.DEPLOY_SSH_KEY }}"
+          export SSH_HOST="$SSH_HOST"
       - name: Deploy to VPS
         run: |
           echo "$DEPLOY_SSH_KEY" > deploy_key
