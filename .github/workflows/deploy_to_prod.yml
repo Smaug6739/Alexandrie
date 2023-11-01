@@ -13,29 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm install
-          cd ../dashboard
-          npm install
-          cd ../backend
-          npm install
-
-      - name: Build frontend
-        run: |
-          cd frontend
-          npm run build
-
-      - name: Build dashboard
-        run: |
-          cd dashboard
-          npm run build
-
-      - name: Build backend
-        run: |
-          cd backend
-          npm run build
       - name: Deploy to VPS
         run: |
           ${{ secrets.DEPLOY_SSH_KEY }} > deploy_key
