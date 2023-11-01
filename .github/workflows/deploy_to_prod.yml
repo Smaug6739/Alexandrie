@@ -16,7 +16,6 @@ jobs:
       - name: Deploy to VPS
         run: |
           echo "$DEPLOY_KEY" > deploy_key
-          ssh-keyscan -t rsa ${{secrets.ssh_host}} >> ~/.ssh/known_hosts
           rsync -e "ssh -i deploy_key" -avz frontend/ ${{secrets.ssh_host}}:~/sites/alexandrie/frontend
 
         env:
