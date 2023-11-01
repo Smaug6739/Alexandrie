@@ -12,8 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-     - name: Set environment variables
-       run: |
+      - name: Set environment variables
+        run: |
           export DEPLOY_SSH_KEY=${{ secrets.DEPLOY_SSH_KEY }}
           export SSH_HOST=$SSH_HOST
       - name: Deploy to VPS
