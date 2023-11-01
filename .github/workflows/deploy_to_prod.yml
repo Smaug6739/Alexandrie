@@ -17,12 +17,13 @@ jobs:
           mkdir ~/.ssh
           touch ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.ssh_host }} >> ~/.ssh/known_hosts
+      - name: Create deploy key file
+        run: echo "$DEPLOY_KEY" > deploy_key
+      - name: Set permissions on deploy key
+        run: chmod 400 deploy_key
+      - name: Add deploy key to authorized_keys
+        run: echo "$DEPLOY_KEY" >> ~/.ssh/authorized_keys
       - name: Deploy to VPS
-        run: |
-          echo "$DEPLOY_KEY" > deploy_key
-          chmod 600 deploy_key
-          scp -i deploy_key -r  frontend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/frontend
-          scp -i deploy_key -r  dashboard/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/dashboard
-          scp -i deploy_key -r  backend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/backend
+        run: scp -i deploy_key -r frontend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/frontend
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
