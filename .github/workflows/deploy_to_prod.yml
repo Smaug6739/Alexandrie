@@ -20,11 +20,11 @@ jobs:
       - name: Create deploy key file
         run: |
           echo "$DEPLOY_KEY" > deploy_key
-          ssh-keygen -p -f deploy_key -m pem
       - name: Set permissions on deploy key
         run: chmod 400 deploy_key.pem
       - name: Check for deploy key file
         run: |
+          ssh-keygen -p -f deploy_key -m pem
           if [[ ! -f deploy_key.pem ]]; then
             echo "Deploy key file does not exist."
             exit 1
