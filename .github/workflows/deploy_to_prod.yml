@@ -20,7 +20,7 @@ jobs:
           chmod 600 deploy_key
           mkdir -p ~/.ssh
           echo cat deploy_key
-          ssh-keyscan -t rsa 161.97.81.3 >> ~/.ssh/known_hosts
-          scp -i deploy_key -r frontend/* 161.97.81.3:/home/smaug/sites/alexandrie/frontend
-          scp -i deploy_key -r dashboard/* 161.97.81.3:/home/smaug/sites/alexandrie/dashboard
-          scp -i deploy_key -r backend/* 161.97.81.3:/home/smaug/sites/alexandrie/backend
+          ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          scp -i deploy_key -r frontend/* ${{ secrets.SSH_HOST }}:/home/smaug/sites/alexandrie/frontend
+          scp -i deploy_key -r dashboard/* ${{ secrets.SSH_HOST }}:/home/smaug/sites/alexandrie/dashboard
+          scp -i deploy_key -r backend/* ${{ secrets.SSH_HOST }}:/home/smaug/sites/alexandrie/backend
