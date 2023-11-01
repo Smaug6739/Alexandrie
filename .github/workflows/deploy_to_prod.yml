@@ -17,14 +17,20 @@ jobs:
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
           touch ~/.ssh/deploy_key
-          echo -e "${{ secrets.DEPLOY_SSH_KEY }}" > "~/.ssh/deploy_key"
+          if [[ -n $DEPLOY_SSH_KEY ]]; then
+            echo -e "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          else
+            echo "DEPLOY_SSH_KEY is not set. Make sure you've added it as a secret in your repository."
+            exit 1
+          fi
+          echo -e ${{ secrets.DEPLOY_SSH_KEY }} > ~/.ssh/deploy_key
           ssh-keyscan -t ed25519 161.97.81.3 >> ~/.ssh/known_hosts
-          chmod 700 "~/.ssh"
-          chmod 600 "~/.ssh/known_hosts"
-          chmod 600 "~/.ssh/deploy_key"
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/deploy_key
 
-          scp -i "~/.ssh/deploy_key" -r frontend/* 161.97.81.3:/home/smaug/sites/alexandrie/frontend
-          scp -i "~/.ssh/deploy_key" -r dashboard/* 161.97.81.3:/home/smaug/sites/alexandrie/dashboard
-          scp -i "~/.ssh/deploy_key" -r backend/* 161.97.81.3:/home/smaug/sites/alexandrie/backend
+          scp -i ~/.ssh/deploy_key -r frontend/* 161.97.81.3:/home/smaug/sites/alexandrie/frontend
+          scp -i ~/.ssh/deploy_key -r dashboard/* 161.97.81.3:/home/smaug/sites/alexandrie/dashboard
+          scp -i ~/.ssh/deploy_key -r backend/* 161.97.81.3:/home/smaug/sites/alexandrie/backend
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
