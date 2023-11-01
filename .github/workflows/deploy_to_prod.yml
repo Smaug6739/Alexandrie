@@ -39,8 +39,8 @@ jobs:
       - name: Deploy to VPS
         run: |
           echo "$DEPLOY_KEY" > deploy_key
-          scp -i deploy_key -r --exclude=src frontend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/frontend
-          scp -i deploy_key -r --exclude=src dashboard/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/dashboard
-          scp -i deploy_key -r --exclude=src backend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/backend
+          scp -i deploy_key -r frontend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/frontend
+          scp -i deploy_key -r dashboard/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/dashboard
+          scp -i deploy_key -r backend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/backend
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
