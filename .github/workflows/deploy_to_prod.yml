@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "$DEPLOY_KEY" > deploy_key
       - name: Set permissions on deploy key
-        run: chmod 400 deploy_key.pem
+        run: chmod 400 deploy_key
       - name: Check for deploy key file
         run: |
           ssh-keygen -p -f deploy_key -m pem
