@@ -16,12 +16,8 @@ jobs:
       - name: Deploy to VPS
         run: |
           echo "$DEPLOY_KEY" > deploy_key
-          mkdir -p ~/.ssh
-          mv deploy_key ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -t rsa ${{secrets.ssh_host}} >> ~/.ssh/known_hosts
-          scp -i ~/.ssh/id_rsa -r frontend/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/frontend
-          scp -i ~/.ssh/id_rsa -r dashboard/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/dashboard
-          scp -i ~/.ssh/id_rsa -r backend/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/backend
+          rsync -e "ssh -i deploy_key" -avz frontend/ ${{secrets.ssh_host}}:~/sites/alexandrie/frontend
+
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
