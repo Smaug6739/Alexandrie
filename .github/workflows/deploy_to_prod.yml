@@ -15,8 +15,8 @@ jobs:
       - name: Deploy to VPS
         run: |
           mkdir -p ~/.ssh
-          touch "~/.ssh/known_hosts"
-          touch "~/.ssh/deploy_key"
+          touch ~/.ssh/known_hosts
+          touch ~/.ssh/deploy_key
           echo -e "${{ secrets.DEPLOY_SSH_KEY }}" > "~/.ssh/deploy_key"
           ssh-keyscan -t ed25519 161.97.81.3 >> ~/.ssh/known_hosts
           chmod 700 "~/.ssh"
