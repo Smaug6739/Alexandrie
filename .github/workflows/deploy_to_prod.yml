@@ -12,7 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name: Set environment variables
       - name: Deploy to VPS
         run: |
           echo "$DEPLOY_SSH_KEY" > deploy_key
