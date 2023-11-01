@@ -18,28 +18,35 @@ jobs:
           touch ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.ssh_host }} >> ~/.ssh/known_hosts
       - name: Create deploy key file
-        run: echo "$DEPLOY_KEY" > deploy_key
+        run: |
+          echo "$DEPLOY_KEY" > deploy_key
+          ssh-keygen -p -f deploy_key -m pem
       - name: Set permissions on deploy key
-        run: chmod 400 deploy_key
+        run: chmod 400 deploy_key.pem
       - name: Check for deploy key file
         run: |
-          if [[ ! -f deploy_key ]]; then
+          if [[ ! -f deploy_key.pem ]]; then
             echo "Deploy key file does not exist."
             exit 1
           fi
       - name: Check deploy key file
         run: |
-          if ! [[ -f deploy_key ]]; then
+          if ! [[ -f deploy_key.pem ]]; then
             echo "Deploy key file does not exist."
             exit 1
           fi
-          if [[ ! -r deploy_key ]]; then
+          if [[ ! -r deploy_key.pem ]]; then
             echo "Deploy key file is not readable."
             exit 1
           fi
+          file deploy_key.pem | grep "PEM RSA private key"
+          if [[ $? -ne 0 ]]; then
+            echo "Deploy key file is not in the correct format."
+            exit 1
+          fi
       - name: Add deploy key to authorized_keys
-        run: echo "$DEPLOY_KEY" >> ~/.ssh/authorized_keys
+        run: echo  deploy_key.pem >> ~/.ssh/authorized_keys
       - name: Deploy to VPS
-        run: scp -i deploy_key -r frontend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/frontend
+        run: scp -i deploy_key.pem -r frontend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/frontend
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
