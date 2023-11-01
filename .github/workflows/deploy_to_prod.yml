@@ -21,6 +21,21 @@ jobs:
         run: echo "$DEPLOY_KEY" > deploy_key
       - name: Set permissions on deploy key
         run: chmod 400 deploy_key
+      - name: Check deploy key file
+        run: |
+          if ! [[ -f deploy_key ]]; then
+            echo "Deploy key file does not exist."
+            exit 1
+          fi
+          if [[ ! -r deploy_key ]]; then
+            echo "Deploy key file is not readable."
+            exit 1
+          fi
+          file deploy_key | grep "PEM RSA private key"
+          if [[ $? -ne 0 ]]; then
+            echo "Deploy key file is not in the correct format."
+            exit 1
+          fi
       - name: Add deploy key to authorized_keys
         run: echo "$DEPLOY_KEY" >> ~/.ssh/authorized_keys
       - name: Deploy to VPS
