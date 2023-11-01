@@ -21,6 +21,7 @@ jobs:
           if [[ -n $DEPLOY_SSH_KEY ]]; then
             echo "Adding deploy key..."
             printf "%s" "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+            cat ~/.ssh/deploy_key
           else
             echo "DEPLOY_SSH_KEY is not set. Make sure you've added it as a secret in your repository."
             exit 1
