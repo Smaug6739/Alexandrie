@@ -13,7 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Add VPS host key to known_hosts
-        run: ssh-keyscan -H ${{ secrets.ssh_host }} >> ~/.ssh/known_hosts
+        run: |
+          touch ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.ssh_host }} >> ~/.ssh/known_hosts
       - name: Deploy to VPS
         run: |
           echo "$DEPLOY_KEY" > deploy_key
