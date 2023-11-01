@@ -154,9 +154,7 @@ const menuItems = computed((): MenuItem[] => {
   margin: 0 14px;
 
   &::-webkit-scrollbar {
-    background-color: var(--bg-contrast);
     width: 7px;
-    border-radius: 5px
   }
 }
 

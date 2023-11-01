@@ -1,0 +1,32 @@
+{
+  "name": "named-placeholders",
+  "version": "1.1.3",
+  "description": "sql named placeholders to unnamed compiler",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sidorares/named-placeholders"
+  },
+  "keywords": [
+    "sql",
+    "pdo",
+    "named",
+    "placeholders"
+  ],
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "author": "Andrey Sidorov <sidorares@yandex.com>",
+  "files": [],
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "should": "^13.2.3"
+  },
+  "dependencies": {
+    "lru-cache": "^7.14.1"
+  }
+}

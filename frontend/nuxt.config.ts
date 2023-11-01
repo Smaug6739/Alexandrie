@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "../@alexandrie-styles/src/_variables.scss" as *;',
+          additionalData: '@use "../@alexandrie/styles/src/_variables.scss" as *;',
         },
       },
     },
@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     //'/**': { swr: 300 },
   },
 
-  css: [resolve(__dirname, '../@alexandrie-styles/src/main.scss'), '~/styles/main.scss'],
+  css: [resolve(__dirname, '../@alexandrie/styles/src/main.scss'), '~/styles/main.scss'],
   modules: [
     // ...
     '@pinia/nuxt',

@@ -40,7 +40,7 @@ export class App {
     this.app.use(express.json({ limit: '5mb' }));
     this.app.use(function (req: Request, res: Response, next: Function) {
       const origin = req.headers.origin;
-      if (!origin || process.env.DOMAIN_CLIENT !== origin) return next();
+      if (!origin || ![process.env.DOMAIN_CLIENT, process.env.DOMAIN_DASHBOARD].includes(origin)) return next();
       res.setHeader('Access-Control-Allow-Origin', origin);
       res.setHeader(
         'Access-Control-Allow-Headers',

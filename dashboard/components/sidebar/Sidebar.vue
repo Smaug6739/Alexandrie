@@ -14,13 +14,13 @@
     <section class="body">
       <Collapse v-for="(item) in items">
         <template v-slot:header>
-          <NuxtLink class="item">
+          <NuxtLink class="item" @click="isMobile() ? isOpened = false : null">
             <i v-if="item.icon" v-html="item.icon" class="icon"></i> <span>{{ item.title }}</span>
           </NuxtLink>
         </template>
         <template v-slot:body>
           <NuxtLink v-for="(child) in item.childrens" :class="{ item: true, children: true, active: isActive(child.id) }"
-            :to="child.route">
+            @click="isMobile() ? isOpened = false : null" :to="child.route">
             <i v-html="child.icon" class="icon"></i> <span>{{ child.title }}</span>
           </NuxtLink>
         </template>

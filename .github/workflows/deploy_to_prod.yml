@@ -1,0 +1,65 @@
+name: Deploy to production
+on:
+  push:
+    branches: [main]
+jobs:
+  prepar:
+    runs-on: self-hosted
+    steps:
+      - name: Prepar for build
+        env:
+          NODE_ENV: development
+        run: |
+          cd /home/smaug/sites/alexandrie/
+          git reset --hard HEAD
+          git pull origin main
+  build-backend:
+    runs-on: self-hosted
+    needs: prepar
+    steps:
+      - name: Build backend
+        env:
+          NODE_ENV: development
+        run: |
+          cd /home/smaug/sites/alexandrie/backend
+          npm ci
+          npm run build --if-present
+  build-frontend:
+    runs-on: self-hosted
+    needs: prepar
+    steps:
+      - name: Build frontend
+        env:
+          NODE_ENV: development
+        run: |
+          cd /home/smaug/sites/alexandrie/frontend
+          npm ci
+          npm run build --if-present
+  build-dashboard:
+    runs-on: self-hosted
+    needs: prepar
+    steps:
+      - name: Build dashboard
+        env:
+          NODE_ENV: development
+        run: |
+          cd /home/smaug/sites/alexandrie/dashboard
+          npm ci
+          npm run build --if-present
+  deploy:
+    runs-on: self-hosted
+    needs: [build-backend, build-frontend, build-dashboard]
+    steps:
+      - name: Deploy to production
+        env:
+          NODE_ENV: production
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          PORT: 8101
+          DOMAIN_CLIENT: https://alexandrie-hub.fr
+          DOMAIN_DASHBOARD: https://dashboard.alexandrie-hub.fr
+          FRONT_DOMAIN: alexandrie-hub.fr
+        run: |
+          cd /home/smaug/sites/alexandrie/
+          pm2 reload ecosystem.config.js --update-env

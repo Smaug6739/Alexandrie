@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import { resolve } from 'path';
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -6,12 +5,12 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "../@alexandrie-styles/src/_variables.scss" as *;',
+          additionalData: '@use "../@alexandrie/styles/src/_variables.scss" as *;',
         },
       },
     },
   },
-  css: [resolve(__dirname, '../@alexandrie-styles/src/main.scss'), '~/styles/main.scss'],
+  css: [resolve(__dirname, '../@alexandrie/styles/src/main.scss'), '~/styles/main.scss'],
   modules: ['@pinia/nuxt'],
   app: {
     head: {
@@ -21,6 +20,13 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en',
       },
+      link: [
+        {
+          rel: 'manifest',
+          crossorigin: 'use-credentials',
+          href: '/manifest.json',
+        },
+      ],
     },
   },
   experimental: {
