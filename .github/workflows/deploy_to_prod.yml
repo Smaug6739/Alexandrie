@@ -12,7 +12,7 @@ jobs:
         run: |
           cd /home/smaug/sites/alexandrie/
           git reset --hard HEAD
-          git pull origin main
+          git pull origin main --force
   build-backend:
     runs-on: self-hosted
     needs: prepar
