@@ -15,7 +15,7 @@ jobs:
 
       - name: Deploy to VPS
         run: |
-          ${{ secrets.DEPLOY_SSH_KEY }} > deploy_key
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
           chmod 600 deploy_key
           mkdir -p ~/.ssh
           ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
