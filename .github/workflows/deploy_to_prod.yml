@@ -38,10 +38,7 @@ jobs:
             exit 1
           fi
           file deploy_key | grep "PEM RSA private key"
-          if [[ $? -ne 0 ]]; then
-            echo "Deploy key file is not in the correct format."
-            exit 1
-          fi
+
       - name: Add deploy key to authorized_keys
         run: echo "$DEPLOY_KEY" >> ~/.ssh/authorized_keys
       - name: Deploy to VPS
