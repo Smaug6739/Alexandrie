@@ -13,12 +13,34 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+          cd ../dashboard
+          npm install
+          cd ../backend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Build dashboard
+        run: |
+          cd dashboard
+          npm run build
+
+      - name: Build backend
+        run: |
+          cd backend
+          npm run build
       - name: Deploy to VPS
         run: |
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
-          mkdir -p ~/.ssh
-          ssh-keyscan -t rsa ${{secrets.ssh_host}} >> ~/.ssh/known_hosts
-          chmod 600 deploy_key
-          scp -i deploy_key -r frontend/dist/* smaug@${{secrets.ssh_host}}:~/sites/alexandrie/frontend
-          scp -i deploy_key -r dashboard/dist/* smaug@${{secrets.ssh_host}}:~/sites/alexandrie/dashboard
-          scp -i deploy_key -r backend/dist/* smaug@${{secrets.ssh_host}}:~/sites/alexandrie/backend
+          echo "$DEPLOY_KEY" > deploy_key
+          scp -i deploy_key -r --exclude=src frontend/dist/* user@your_server_ip:/var/www/mywebsite/frontend
+          scp -i deploy_key -r --exclude=src dashboard/dist/* user@your_server_ip:/var/www/mywebsite/frontend
+          scp -i deploy_key -r --exclude=src backend/dist/* user@your_server_ip:/var/www/mywebsite/frontend
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
