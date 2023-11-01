@@ -16,8 +16,8 @@ jobs:
       - name: Deploy to VPS
         run: |
           echo "$DEPLOY_KEY" > deploy_key
-          scp -i deploy_key -r frontend/dist/* user@your_server_ip:/var/www/mywebsite/frontend
-          scp -i deploy_key -r dashboard/dist/* user@your_server_ip:/var/www/mywebsite/frontend
-          scp -i deploy_key -r backend/dist/* user@your_server_ip:/var/www/mywebsite/frontend
+          scp -i deploy_key -r frontend/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/frontend
+          scp -i deploy_key -r dashboard/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/dashboard
+          scp -i deploy_key -r backend/dist/* ${{secrets.ssh_host}}:~/sites/alexandrie/backend
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
