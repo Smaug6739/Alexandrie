@@ -14,12 +14,14 @@ jobs:
         uses: actions/checkout@v2
       - name: Deploy to VPS
         run: |
-          echo -e "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
-          chmod 600 deploy_key
           mkdir -p ~/.ssh
+          chmod 700 "~/.ssh"
+          chmod 600 "~/.ssh/known_hosts"
+          chmod 600 "~/.ssh/deploy_key"
+          echo -e "${{ secrets.DEPLOY_SSH_KEY }}" > "~/.ssh/deploy_key"
           ssh-keyscan -t ed25519 161.97.81.3 >> ~/.ssh/known_hosts
-          scp -i deploy_key -r frontend/* 161.97.81.3:/home/smaug/sites/alexandrie/frontend
-          scp -i deploy_key -r dashboard/* 161.97.81.3:/home/smaug/sites/alexandrie/dashboard
-          scp -i deploy_key -r backend/* 161.97.81.3:/home/smaug/sites/alexandrie/backend
+          scp -i "~/.ssh/deploy_key" -r frontend/* 161.97.81.3:/home/smaug/sites/alexandrie/frontend
+          scp -i "~/.ssh/deploy_key" -r dashboard/* 161.97.81.3:/home/smaug/sites/alexandrie/dashboard
+          scp -i "~/.ssh/deploy_key" -r backend/* 161.97.81.3:/home/smaug/sites/alexandrie/backend
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
