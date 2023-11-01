@@ -38,7 +38,6 @@ jobs:
           npm run build
       - name: Deploy to VPS
         run: |
-          echo "$DEPLOY_KEY" > deploy_key
           scp -i ${{ secrets.DEPLOY_SSH_KEY }} -r frontend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/frontend
           scp -i ${{ secrets.DEPLOY_SSH_KEY }} -r dashboard/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/dashboard
           scp -i ${{ secrets.DEPLOY_SSH_KEY }} -r backend/* ${{ secrets.ssh_host }}:/home/smaug/sites/alexandrie/backend
