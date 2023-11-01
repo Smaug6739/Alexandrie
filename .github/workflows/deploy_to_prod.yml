@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Echo secrets
+        run: |
+          echo "DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}"
+          echo "SSH_HOST: ${{ secrets.SSH_HOST }}"
       - name: Deploy to VPS
         run: |
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > deploy_key
