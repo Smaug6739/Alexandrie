@@ -1,6 +1,6 @@
 // Variables
 $sidebar-icon-size: 22px;
-$sidebar-width: 320px;
+$sidebar-width: 290px;
 $bg: #1e2430;
 
 // Sidebar
@@ -33,7 +33,7 @@ $bg: #1e2430;
 		width: 0;
 
 		&.open {
-			width: $sidebar-width+30px;
+			width: $sidebar-width;
 		}
 	}
 }

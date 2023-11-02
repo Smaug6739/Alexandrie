@@ -59,6 +59,7 @@ const deleteDoc = (id: string) => documentsStore.delete(id);
 .container {
 	max-height: 100%;
 	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .card {

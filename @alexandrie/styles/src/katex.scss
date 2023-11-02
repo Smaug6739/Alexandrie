@@ -11,7 +11,11 @@
 }
 
 .katex-container {
+	line-height: 1.8em;
+	display: inline-flex;
+	vertical-align: baseline;
 	max-width: 100%;
-	overflow: scroll hidden;
+	overflow-y: hidden;
+	overflow-x: auto;
 	padding-right: 2px;
 }

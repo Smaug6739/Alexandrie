@@ -100,7 +100,7 @@ const clearForm = () => selectedFile.value = null;
 	gap: 1.5rem;
 	padding: 2rem;
 	border-radius: 8px;
-	width: 320px;
+	width: 100%;
 	margin: 0 auto;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }

@@ -35,7 +35,7 @@ main {
 	}
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 860px) {
 	.list {
 		width: 100%;
 	}
