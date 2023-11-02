@@ -72,13 +72,6 @@ jobs:
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && tar -xzf dashboard.tar.gz && tar -xzf backend.tar.gz && rm frontend.tar.gz dashboard.tar.gz backend.tar.gz"
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
-
-  start-app:
-    runs-on: ubuntu-latest
-    needs: build_and_deploy
-    env:
-      SSH_USER: ${{ secrets.SSH_USER }}
-    steps:
       - name: Insttall dependencies for backend
         run: |
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE}/backend && npm install --production"
