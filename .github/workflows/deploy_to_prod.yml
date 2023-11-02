@@ -64,10 +64,12 @@ jobs:
 
       - name: Create Archives
         run: |
-          cd ~/
-          tar -czf frontend.tar.gz frontend/.output .env.production
-          tar -czf dashboard.tar.gz dashboard/.output .env.production
-          tar -czf backend.tar.gz backend/dist package.json package-lock.json
+          cd frontend
+          ls -al
+          cd ../
+          tar -czf frontend.tar.gz frontend/.output frontend/.env.production
+          tar -czf dashboard.tar.gz dashboard/.output dashboard/.env.production
+          tar -czf backend.tar.gz backend/dist backend/package.json backend/package-lock.json
 
       - name: Transfer Archives
         run: |
