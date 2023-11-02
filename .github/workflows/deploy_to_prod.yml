@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create and Deploy Archives
+      - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
@@ -24,22 +24,27 @@ jobs:
 
           echo -e "${DEPLOY_SSH_KEY}" > deploy_key
           chmod 600 deploy_key
-
-          # Create archives of the frontend, dashboard and backend
-          tar -czf frontend.tar.gz frontend
-          tar -czf dashboard.tar.gz dashboard
-          tar -czf backend.tar.gz backend
-
-          # Transfert archives to the server
-          scp -i deploy_key frontend.tar.gz smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
-          scp -i deploy_key dashboard.tar.gz smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
-          scp -i deploy_key backend.tar.gz smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
-
-          # Extract archives on the server
-          ssh -i deploy_key smaug@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && tar -xzf dashboard.tar.gz && tar -xzf backend.tar.gz && rm frontend.tar.gz dashboard.tar.gz backend.tar.gz"
-
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           INPUT_HOST: ${{ secrets.SSH_HOST }}
+
+      - name: Create Archives
+        run: |
+          tar -czf frontend.tar.gz frontend
+          tar -czf dashboard.tar.gz dashboard
+          tar -czf backend.tar.gz backend
+        continue-on-error: true
+
+      - name: Transfer Archives
+        run: |
+          scp -i deploy_key frontend.tar.gz smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          scp -i deploy_key dashboard.tar.gz smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          scp -i deploy_key backend.tar.gz smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
+        env:
           INPUT_REMOTE: /home/smaug/sites/alexandrie
-          INPUT_PORT: ${{ secrets.SSH_PORT }}
+
+      - name: Extract Archives on Remote
+        run: |
+          ssh -i deploy_key smaug@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && tar -xzf dashboard.tar.gz && tar -xzf backend.tar.gz && rm frontend.tar.gz dashboard.tar.gz backend.tar.gz"
+        env:
+          INPUT_REMOTE: /home/smaug/sites/alexandrie
