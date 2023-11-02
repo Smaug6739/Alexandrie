@@ -12,25 +12,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Deploy to VPS
-        run: |
-          mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
-          touch ~/.ssh/deploy_key
-
-          chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/deploy_key
-
-          if [[ -n $DEPLOY_SSH_KEY ]]; then
-            echo "Adding deploy key..."
-            printf "%s" "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
-          else
-            echo "DEPLOY_SSH_KEY is not set. Make sure you've added it as a secret in your repository."
-            exit 1
-          fi
-          ssh-keyscan -t ed25519 161.97.81.3 >> ~/.ssh/known_hosts
-
-          scp -i ~/.ssh/deploy_key -r deploy_key 161.97.81.3:/home/smaug/sites/alexandrie/frontend
-        env:
-          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+      - name: Publish
+        uses: nogsantos/scp-deploy@master
+        with:
+          src: frontend/*
+          host: ${{ secrets.SSH_HOST }}
+          remote: /home/smaug/sites/alexandrie
+          port: 22
+          user: smaug
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
