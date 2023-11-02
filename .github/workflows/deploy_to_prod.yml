@@ -12,12 +12,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Publish
-        uses: nogsantos/scp-deploy@master
-        with:
-          src: frontend/*
-          host: ${{ secrets.SSH_HOST }}
-          remote: /home/smaug/sites/alexandrie
-          port: 22
-          user: smaug
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+      - name: Deploy to VPS
+        run: |
+          echo -e "${DEPLOY_SSH_KEY}" >__TEMP_INPUT_KEY_FILE
+          chmod 600 __TEMP_INPUT_KEY_FILE
+          scp -o StrictHostKeyChecking=no -v -i __TEMP_INPUT_KEY_FILE -P "${INPUT_PORT}" -r frontend/src/* smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          INPUT_HOST: ${{ secrets.SSH_HOST }}
+          INPUT_REMOTE: /home/smaug/sites/alexandrie
+          INPUT_PORT: 22
