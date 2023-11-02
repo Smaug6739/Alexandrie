@@ -16,10 +16,10 @@ function convertImagetoWebp(_, req, res) {
         res.status(400).json((0, functions_1.error)('No file provided.'));
         return;
     }
-    const path = (0, path_1.join)(__dirname, `../../uploads/images/${filename}`);
+    const path = (0, path_1.join)(__dirname, `../../../uploads/images/${filename}`);
     if ((0, fs_1.existsSync)(path)) {
         (0, sharp_1.default)(path)
-            .toFile((0, path_1.join)(__dirname, `../../uploads/webp/${filename.split('.')[0]}.webp`))
+            .toFile((0, path_1.join)(__dirname, `../../../uploads/webp/${filename.split('.')[0]}.webp`))
             .then(() => res.status(200).json((0, functions_1.success)(`/webp/${filename.split('.')[0]}.webp`)))
             .catch(_ => res.status(500).json((0, functions_1.error)('Error while converting image to webp.')));
     }

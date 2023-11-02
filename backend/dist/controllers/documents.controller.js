@@ -29,7 +29,7 @@ class DocumentsController {
         }
         else {
             this.db_a
-                .getAll()
+                .getAll(req.query.all?.toString())
                 .then((result) => {
                 // Select fields
                 if (req.query.fields) {

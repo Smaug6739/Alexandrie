@@ -15,31 +15,66 @@ New categories:
 153009590005403654,Mécanique
 153009590005403655,Acides & Bases
 153009590005403656,Oxydoréduction
+153009590005403657,Général (Ingénierie)
+153009590005403658,Informations
+153009590005403659,Réseaux
+153009590005403660,Modélisation de systèmes
 
 
-Old categories:
-10247724590960640,Chimie (Acides & Oxydoréduction)
-135688451642101760,Optique
-1563846779080705,Général
-1564500943704066,Nombres
-1564753356918787,Algèbre
-1564854359953412,Analyse
-1564994986577925,Géométrie
-1565265611460614,Probabilités et statistiques
-1565634844430343,Algorithmie
-38224311751806976,Information
-3993900674977792,Général
-4030806225850368,Matière
-4031642125471745,Énergie
-44031625821949952,Ondes
-51632421858185216,Réseaux
-59881276756201472,Raisonnement
-61787697525559296,Environnement
-8124080637087744,Général
-8124501086703617,Modélisation de systèmes
-9154132401197056,Mécanique
+Old categories: (name, id)
+Général,general
+Nombres,nombres
+Algèbres,algebres
+Analyse,analyse
+Géométrie,geometrie
+Probabilités et statistiques,probalitites-et-statistiques
+Algorithmie,algorithmie
+Information,information
+Général,general
+Matière,matiere
+Énergie,energie
+Ondes,ondes
+Réseaux,reseaux
+Général,general
+Modélisation de systèmes,modelisation
+Mécanique,mecanique
+
 
 */
+function getNewCategoryID(old_id) {
+    switch (old_id) {
+        case 'general':
+            return '153009357737431040'; // Général (Maths)
+        case 'nombres':
+            return '153009357787762689'; // You can specify a default value for unknown old IDs
+        case 'algebres':
+            return '153009357787762689'; // Algèbre
+        case 'analyse':
+            return '153009357787762690'; // Analyse
+        case 'geometrie':
+            return '153009357787762691'; // Géométrie
+        case 'probalitites-et-statistiques':
+            return '153009357787762692'; // Probabilités et statistiques
+        case 'algorithmie':
+            return '153009590005403648'; // Algorithmie
+        case 'information':
+            return '153009590005403658'; // Informations
+        case 'matiere':
+            return '153009590005403652'; // Matière
+        case 'energie':
+            return '153009590005403650'; // Énergie
+        case 'ondes':
+            return '153009590005403653'; // Ondes
+        case 'reseaux':
+            return '153009590005403659'; // Réseaux
+        case 'modelisation':
+            return '153009590005403660'; // Modélisation de systèmes
+        case 'mecanique':
+            return '153009590005403654'; // Mécanique
+        default:
+            return '153009590005403662'; // You can specify a default value for unknown old IDs
+    }
+}
 import { createPool } from 'mysql2';
 function getConnection(host, user, password, db_name) {
     return createPool({
@@ -66,7 +101,7 @@ function formatArticleToDocument(article) {
         name: article.name,
         description: article.description,
         tags: '',
-        category: getNewCategoryID(article.main_category),
+        category: getNewCategoryID(article.sub_category),
         accessibility: 1,
         content_markdown: article.content_markdown,
         content_html: article.content_html,
@@ -74,53 +109,6 @@ function formatArticleToDocument(article) {
         created_timestamp: article.created_timestamp,
         updated_timestamp: article.updated_timestamp,
     };
-}
-// With the old category id return the new category id
-function getNewCategoryID(old_id) {
-    switch (old_id) {
-        case '10247724590960640':
-            return '153009590005403656';
-        case '135688451642101760':
-            return '153009590005403651';
-        case '1563846779080705':
-            return '153009357737431040';
-        case '1564500943704066':
-            return '153009357787762689';
-        case '1564753356918787':
-            return '153009357787762690';
-        case '1564854359953412':
-            return '153009357787762691';
-        case '1564994986577925':
-            return '153009357787762692';
-        case '1565265611460614':
-            return '153009357787762692';
-        case '1565634844430343':
-            return '153009590005403648';
-        case '38224311751806976':
-            return '153009590005403649';
-        case '3993900674977792':
-            return '153009590005403650';
-        case '4030806225850368':
-            return '153009590005403651';
-        case '4031642125471745':
-            return '153009590005403652';
-        case '44031625821949952':
-            return '153009590005403653';
-        case '51632421858185216':
-            return '153009590005403654';
-        case '59881276756201472':
-            return '153009590005403655';
-        case '61787697525559296':
-            return '153009590005403656';
-        case '8124080637087744':
-            return '153009590005403648';
-        case '8124501086703617':
-            return '153009590005403648';
-        case '9154132401197056':
-            return '153009590005403652';
-        default:
-            return '153009357737431040';
-    }
 }
 console.log('Starting migration...');
 const articles = await getAllOldArticles();

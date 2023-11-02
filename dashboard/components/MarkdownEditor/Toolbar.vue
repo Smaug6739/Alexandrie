@@ -10,6 +10,7 @@
 				<option value="1">Visible</option>
 				<option value="2">Draf</option>
 				<option value="3">Archive</option>
+				<option value="4">Trash</option>
 			</select>
 			<select v-model="copy.category">
 				<optgroup v-for="cat in categoriesStore.getParents" :label="cat.name" :key="cat.id">

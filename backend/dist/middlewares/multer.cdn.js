@@ -15,7 +15,7 @@ var MIME_TYPES_IMAGE;
 })(MIME_TYPES_IMAGE || (MIME_TYPES_IMAGE = {}));
 const storage = multer_1.default.diskStorage({
     destination: (_, __, callback) => {
-        callback(null, `${(0, path_1.join)(__dirname, `../../uploads/images`)}`);
+        callback(null, `${(0, path_1.join)(__dirname, `../../../uploads/images`)}`);
     },
     filename: (_, file, callback) => {
         const mimetype = file.mimetype;

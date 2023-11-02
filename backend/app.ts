@@ -69,7 +69,7 @@ export class App {
         res.set('x-timestamp', Date.now().toString());
       },
     };
-    this.app.use('/static', express.static(join(__dirname, '../uploads'), staticOptions));
+    this.app.use('/static', express.static(join(__dirname, '../../uploads'), staticOptions));
 
     this.app.listen(this.port, () => {
       Logger.success(`Started on port ${this.port}`);

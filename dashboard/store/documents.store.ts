@@ -27,14 +27,12 @@ export const useDocumentsStore = defineStore('documents', {
     },
   },
   actions: {
-    fetch: async function <T extends FetchOptions<Array<keyof Document>>>(
-      opts?: T,
-    ): Promise<'id' extends keyof T ? Document : Document[]> {
+    fetch: async function <T extends FetchOptions<Array<keyof Document>>>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
 
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(
-          `documents/${opts?.id || ''}${opts?.fields?.length ? '?fields=' + opts?.fields?.join(',') : ''}`,
+          `documents/${opts?.id || ''}${opts?.fields?.length ? '?all=true&fields=' + opts?.fields?.join(',') : ''}`,
           'GET',
           {},
         );

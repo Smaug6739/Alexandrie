@@ -1,0 +1,5 @@
+#Public dir
+uploads/images/*
+uploads/webp/*
+!uploads/images/default
+!uploads/webp/default

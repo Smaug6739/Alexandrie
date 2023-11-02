@@ -85,7 +85,7 @@ class App {
                 res.set('x-timestamp', Date.now().toString());
             },
         };
-        this.app.use('/static', express_1.default.static((0, path_1.join)(__dirname, '../uploads'), staticOptions));
+        this.app.use('/static', express_1.default.static((0, path_1.join)(__dirname, '../../uploads'), staticOptions));
         this.app.listen(this.port, () => {
             Logger_1.default.success(`Started on port ${this.port}`);
         });

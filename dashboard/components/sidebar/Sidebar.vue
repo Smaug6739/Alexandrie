@@ -15,7 +15,7 @@
       <Collapse v-for="(item) in items">
         <template v-slot:header>
           <NuxtLink class="item" @click="isMobile() ? isOpened = false : null">
-            <i v-if="item.icon" v-html="item.icon" class="icon"></i> <span>{{ item.title }}</span>
+            <i v-if="item.icon" v-html="item.icon" class="icon"></i> <strong>{{ item.title }}</strong>
           </NuxtLink>
         </template>
         <template v-slot:body>

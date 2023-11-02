@@ -20,7 +20,7 @@ export default class DocumentsController {
         .catch((err: Error) => res.status(500).json(error(err.message)));
     } else {
       this.db_a
-        .getAll()
+        .getAll(req.query.all?.toString())
         .then((result: Partial<Document>[]) => {
           // Select fields
           if (req.query.fields) {

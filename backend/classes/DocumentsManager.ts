@@ -7,12 +7,16 @@ export default class DocumentsManager extends Base {
     super(app);
   }
 
-  public getAll() {
-    return new Promise<Document[]>(async (resolve, reject) => {
-      this.app.db.query<DocumentDB[]>('SELECT * FROM documents WHERE `accessibility` = 1 ORDER BY `name`', (err, result) => {
-        if (err) return reject('Internal database error.');
-        resolve(result);
-      });
+  public getAll(all?: string) {
+    // If all is true, return all documents, else return only public documents (accessibility = 1)
+    return new Promise<Document[]>((resolve, reject) => {
+      this.app.db.query<DocumentDB[]>(
+        `SELECT * FROM documents ${all == 'true' ? '' : 'WHERE `accessibility` = 1'} ORDER BY \`name\``,
+        (err, result) => {
+          if (err) return reject('Internal database error.');
+          resolve(result);
+        },
+      );
     });
   }
 

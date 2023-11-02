@@ -13,14 +13,10 @@ input {
 	border-radius: 8px;
 	font-size: 0.9rem;
 	line-height: 2rem;
-	padding: 0.5rem;
+	padding: 0.5rem 0.5rem 0.5rem 2rem;
 	transition: all ease 0.3s;
 	background: var(--bg-color) url('search.svg') 0.6rem 0.5rem no-repeat;
 	background-size: 1rem;
-
-	&::placeholder {
-		padding-left: 20px;
-	}
 }
 
 input:focus {

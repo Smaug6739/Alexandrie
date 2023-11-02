@@ -31,8 +31,15 @@ const isActive = (id: string) => route.query.doc === id;
 const querySearch = ref('');
 const docs = computed(() => {
 	const normal = (() => {
-		if (!route.query.category) return useDocumentsStore().getAll;
-		return useDocumentsStore().getAll.filter((doc) => doc.category === route.query.category);
+		return useDocumentsStore().getAll
+			.filter((doc) => {
+				if (!route.query.category) return true;
+				if (route.query.category === 'uncategorized') return doc.category === '';
+				if (route.query.category === 'draft') return doc.accessibility === 2
+				if (route.query.category === 'archive') return doc.accessibility === 3
+				if (route.query.category === 'trash') return doc.accessibility === 4
+				return doc.category === route.query.category;
+			});
 	})();
 	return normal.filter((doc) => doc.name.toLowerCase().includes(querySearch.value.toLowerCase()));
 });

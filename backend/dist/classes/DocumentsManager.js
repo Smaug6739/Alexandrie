@@ -6,9 +6,10 @@ class DocumentsManager extends Base_1.default {
     constructor(app) {
         super(app);
     }
-    getAll() {
-        return new Promise(async (resolve, reject) => {
-            this.app.db.query('SELECT * FROM documents WHERE `accessibility` = 1 ORDER BY `name`', (err, result) => {
+    getAll(all) {
+        // If all is true, return all documents, else return only public documents (accessibility = 1)
+        return new Promise((resolve, reject) => {
+            this.app.db.query(`SELECT * FROM documents ${all == 'true' ? '' : 'WHERE `accessibility` = 1'} ORDER BY \`name\``, (err, result) => {
                 if (err)
                     return reject('Internal database error.');
                 resolve(result);

@@ -18,11 +18,11 @@ export function convertImagetoWebp(_: App, req: Request, res: Response) {
     return;
   }
 
-  const path = join(__dirname, `../../uploads/images/${filename}`);
+  const path = join(__dirname, `../../../uploads/images/${filename}`);
 
   if (existsSync(path)) {
     sharp(path)
-      .toFile(join(__dirname, `../../uploads/webp/${filename.split('.')[0]}.webp`))
+      .toFile(join(__dirname, `../../../uploads/webp/${filename.split('.')[0]}.webp`))
       .then(() => res.status(200).json(success(`/webp/${filename.split('.')[0]}.webp`)))
       .catch(_ => res.status(500).json(error('Error while converting image to webp.')));
   } else res.status(404).json(error('File not found.'));

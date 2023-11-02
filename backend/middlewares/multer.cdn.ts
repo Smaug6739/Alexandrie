@@ -15,7 +15,7 @@ enum MIME_TYPES_IMAGE {
 
 const storage = multer.diskStorage({
   destination: (_, __: Express.Multer.File, callback: Function) => {
-    callback(null, `${join(__dirname, `../../uploads/images`)}`);
+    callback(null, `${join(__dirname, `../../../uploads/images`)}`);
   },
   filename: (_, file: IObject, callback: Function) => {
     const mimetype = file.mimetype as unknown as keyof typeof MIME_TYPES_IMAGE;

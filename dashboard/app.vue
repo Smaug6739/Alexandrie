@@ -10,7 +10,7 @@ import Navbar from './components/navbar/Navbar.vue';
 import Notification from "../components/Notification/Notification.vue";
 
 // @ts-ignore
-useDocumentsStore().fetch({ fields: ['id', 'name', 'description', 'category', 'created_timestamp'] });
+useDocumentsStore().fetch({ fields: ['id', 'name', 'description', 'accessibility', 'category', 'created_timestamp'] });
 useCategoriesStore().fetch();
 
 </script>
