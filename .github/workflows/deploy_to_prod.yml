@@ -21,9 +21,9 @@ jobs:
           chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -t ed25519 "${INPUT_HOST}" >> ~/.ssh/known_hosts
 
-          echo -e "${DEPLOY_SSH_KEY}" >__TEMP_INPUT_KEY_FILE
-          chmod 600 __TEMP_INPUT_KEY_FILE
-          scp -i __TEMP_INPUT_KEY_FILE -r frontend/* smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          echo -e "${DEPLOY_SSH_KEY}" > deploy_key
+          chmod 600 deploy_key
+          scp -i deploy_key -r frontend/* smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           INPUT_HOST: ${{ secrets.SSH_HOST }}
