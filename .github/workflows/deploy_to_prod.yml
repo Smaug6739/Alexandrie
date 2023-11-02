@@ -23,7 +23,7 @@ jobs:
 
           echo -e "${DEPLOY_SSH_KEY}" > deploy_key
           chmod 600 deploy_key
-          scp -i deploy_key -r frontend/* smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          scp -i deploy_key -r frontend/* "${INPUT_HOST}":"${INPUT_REMOTE}"
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           INPUT_HOST: ${{ secrets.SSH_HOST }}
