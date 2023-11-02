@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     env:
       INPUT_HOST: ${{ secrets.SSH_HOST }}
