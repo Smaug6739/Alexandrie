@@ -74,10 +74,10 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
       - name: Insttall dependencies for backend
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE}/backend && npm install --production"
+          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE}"
       - name: Start application
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "pm2 start ecosystem.config.js --update-env"
+          ssh -v -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && pm2 start ecosystem.config.js --update-env"
         env:
           NODE_ENV: production
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
