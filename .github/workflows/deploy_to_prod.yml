@@ -70,8 +70,7 @@ jobs:
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && tar -xzf dashboard.tar.gz && tar -xzf backend.tar.gz && rm frontend.tar.gz dashboard.tar.gz backend.tar.gz"
       - name: Insttall dependencies for backend
         run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE}/backend && npm install --production"
       - name: Start application
         run: |
