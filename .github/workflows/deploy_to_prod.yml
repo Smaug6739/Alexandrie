@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build & deploy:
+  build and deploy:
     runs-on: ubuntu-latest
     env:
       INPUT_HOST: ${{ secrets.SSH_HOST }}
@@ -55,9 +55,6 @@ jobs:
 
       - name: Create Archives
         run: |
-          cd frontend
-          ls -al
-          cd ../
           tar -czf frontend.tar.gz frontend/.output frontend/.env.production
           tar -czf dashboard.tar.gz dashboard/.output dashboard/.env.production
           tar -czf backend.tar.gz backend/dist backend/package.json backend/package-lock.json
