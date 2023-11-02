@@ -74,7 +74,6 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
       - name: Insttall dependencies for backend
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && ls -la"
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE}/backend && npm install --production"
       - name: Start application
         run: |
