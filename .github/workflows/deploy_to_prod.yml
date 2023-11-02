@@ -14,9 +14,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Deploy to VPS
         run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/known_hosts
+          ssh-keyscan -t ed25519 "${INPUT_HOST}" >> ~/.ssh/known_hosts
+
           echo -e "${DEPLOY_SSH_KEY}" >__TEMP_INPUT_KEY_FILE
           chmod 600 __TEMP_INPUT_KEY_FILE
-          scp -o StrictHostKeyChecking=no -v -i __TEMP_INPUT_KEY_FILE -P "${INPUT_PORT}" -r frontend/* smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          scp -v -i __TEMP_INPUT_KEY_FILE -P "${INPUT_PORT}" -r frontend/* smaug@"${INPUT_HOST}":"${INPUT_REMOTE}"
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           INPUT_HOST: ${{ secrets.SSH_HOST }}
