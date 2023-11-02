@@ -37,9 +37,9 @@ jobs:
 
       - name: Transfer Archives
         run: |
-          scp -i deploy_key frontend.tar.gz "${SSH_USER}"@"${INPUT_HOST}":"${INPUT_REMOTE}"
-          scp -i deploy_key dashboard.tar.gz "${SSH_USER}"@"${INPUT_HOST}":"${INPUT_REMOTE}"
-          scp -i deploy_key backend.tar.gz "${SSH_USER}"@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          scp -i deploy_key frontend.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          scp -i deploy_key dashboard.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          scp -i deploy_key backend.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
 
       - name: Extract Archives on Remote
         run: |
