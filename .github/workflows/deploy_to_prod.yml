@@ -64,9 +64,9 @@ jobs:
 
       - name: Create Archives
         run: |
-          tar -czf frontend.tar.gz frontend/dist
-          tar -czf dashboard.tar.gz dashboard/dist
-          tar -czf backend.tar.gz backend/dist
+          tar -czf frontend.tar.gz frontend/.output .env.production
+          tar -czf dashboard.tar.gz dashboard/.output .env.production
+          tar -czf backend.tar.gz backend/dist package.json package-lock.json
 
       - name: Transfer Archives
         run: |
@@ -93,4 +93,13 @@ jobs:
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE}/backend && npm install --production"
       - name: Start application
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "pm2 start ecosystem.config.js"
+          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "pm2 start ecosystem.config.js --update-env"
+        env:
+          NODE_ENV: production
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE_USER: ${{ secrets.DATABASE_USER }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          DOCS_SERVER_PORT: 8101
+          DOMAIN_CLIENT: https://alexandrie-hub.fr
+          DOMAIN_DASHBOARD: https://dashboard.alexandrie-hub.fr
+          FRONT_DOMAIN: alexandrie-hub.fr
