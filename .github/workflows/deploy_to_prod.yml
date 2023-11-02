@@ -75,7 +75,7 @@ jobs:
 
   start-app:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: build_and_deploy
     env:
       SSH_USER: ${{ secrets.SSH_USER }}
     steps:
