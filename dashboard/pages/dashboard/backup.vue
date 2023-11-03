@@ -27,11 +27,7 @@ async function submitFile() {
 		credentials: 'include',
 	});
 	const result = await response.json();
-
-	setTimeout(() => {
-		isLoading.value = false;
-	}, 1000);
-
+	isLoading.value = false;
 	if (result.status != 'success') {
 		useNotifications().add({ type: "error", title: "Error", message: result.message, timeout: 5000 })
 		return;
