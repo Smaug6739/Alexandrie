@@ -16,12 +16,14 @@ export class App {
   public port: string;
   public snowflake: Snowflake;
   public db: Pool;
+  public uploads_dir: string;
   constructor() {
     Logger.debug(`Starting in ${process.env.NODE_ENV} mode...`);
     this.app = express();
     this.port = process.env.PORT || '3000';
     this.snowflake = new Snowflake(1661327668261);
     this.db = db('localhost', process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, 'alexandrie');
+    this.uploads_dir = join(__dirname, '../../uploads');
   }
   private async handleRoutes() {
     const directories = readdirSync(join(__dirname, 'routes'));

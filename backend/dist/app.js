@@ -35,11 +35,18 @@ class App {
             writable: true,
             value: void 0
         });
+        Object.defineProperty(this, "uploads_dir", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
         Logger_1.default.debug(`Starting in ${process.env.NODE_ENV} mode...`);
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '3000';
         this.snowflake = new Snowflake_1.Snowflake(1661327668261);
         this.db = (0, db_1.default)('localhost', process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, 'alexandrie');
+        this.uploads_dir = (0, path_1.join)(__dirname, '../../uploads');
     }
     async handleRoutes() {
         const directories = (0, fs_1.readdirSync)((0, path_1.join)(__dirname, 'routes'));

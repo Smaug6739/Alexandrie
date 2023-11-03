@@ -74,25 +74,6 @@ const clearForm = () => selectedFile.value = null;
 </script>
 
 <style scoped lang="scss">
-.dropzone.drag-over {
-	background-color: #E3F2FD;
-	border-color: #2196F3;
-	transition: background-color 0.3s, border-color 0.3s;
-}
-
-.file-info {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	color: #2196F3;
-}
-
-.file-size {
-	font-size: 0.8rem;
-	color: #757575;
-	margin-top: 5px;
-}
-
 .cdn-component {
 	display: flex;
 	flex-direction: column;
@@ -103,69 +84,86 @@ const clearForm = () => selectedFile.value = null;
 	width: 100%;
 	margin: 0 auto;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
+	.dropzone {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 150px;
+		border: 2px dashed #9e9e9e;
+		border-radius: 4px;
+		font-size: 14px;
+		color: #9e9e9e;
+		position: relative;
+		transition: background-color 0.2s;
+		background-color: var(--dropzone-bg, transparent);
+
+		&:hover {
+			background-color: var(--bg-contrast);
+		}
+
+		input[type="file"] {
+			display: none;
+		}
+	}
+
+	.file-info {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		color: #2196F3;
+		color: #2196F3;
+
+		.file-size {
+			font-size: 0.8rem;
+			color: #757575;
+			margin-top: 5px;
+		}
+	}
+
+	.link-section {
+		margin-top: 15px;
+		display: flex;
+		gap: 10px;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.loading-spinner {
+		border: 5px solid #f3f3f3;
+		border-top: 5px solid $primary-400;
+		border-radius: 50%;
+		width: 50px;
+		height: 50px;
+		animation: spin 1s linear infinite;
+	}
+
+	.clickable {
+		color: #2196F3;
+		cursor: pointer;
+		text-decoration: underline;
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+
+		100% {
+			transform: rotate(360deg);
+		}
+	}
 }
 
-.dropzone {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 150px;
-	border: 2px dashed #9e9e9e;
-	border-radius: 4px;
-	font-size: 14px;
-	color: #9e9e9e;
-	position: relative;
-	transition: background-color 0.2s;
-	background-color: var(--dropzone-bg, transparent);
-
+.dropzone.drag-over {
+	background-color: #E3F2FD;
+	border-color: #2196F3;
+	transition: background-color 0.3s, border-color 0.3s;
 }
-
-.dropzone:hover {
-	background-color: var(--bg-contrast);
-}
-
-.dropzone input[type="file"] {
-	display: none;
-}
-
-.clickable {
-	color: #2196F3;
-	cursor: pointer;
-	text-decoration: underline;
-}
-
-
 
 .file-info {
 	color: #2196F3;
-}
-
-.link-section {
-	margin-top: 15px;
-	display: flex;
-	gap: 10px;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-}
-
-.loading-spinner {
-	border: 5px solid #f3f3f3;
-	border-top: 5px solid $primary-400;
-	border-radius: 50%;
-	width: 50px;
-	height: 50px;
-	animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
 }
 </style>

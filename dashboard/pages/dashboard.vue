@@ -3,6 +3,6 @@
 		<div>
 			<Sidebar />
 		</div>
-		<NuxtPage />
+		<NuxtPage style="max-height:100%;overflow: auto;" />
 	</div>
 </template>
