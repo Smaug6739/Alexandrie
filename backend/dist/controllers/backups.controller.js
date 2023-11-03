@@ -20,7 +20,7 @@ class CategoriesController {
             if (file.endsWith('.sql'))
                 (0, fs_1.unlinkSync)(`${this.app.uploads_dir}/backups/${file}`);
         }
-        const name = new Date().toISOString().split('T')[0] + '-' + Date.now();
+        const name = `backup-${new Date().toISOString().split('T')[0]}-${Date.now()}`;
         const mysqldump = (0, child_process_1.spawn)('mysqldump', [
             '-u',
             `${process.env.DATABASE_USER}`,

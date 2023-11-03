@@ -17,7 +17,7 @@ export default class CategoriesController {
     for (const file of files) {
       if (file.endsWith('.sql')) unlinkSync(`${this.app.uploads_dir}/backups/${file}`);
     }
-    const name = new Date().toISOString().split('T')[0] + '-' + Date.now();
+    const name = `backup-${new Date().toISOString().split('T')[0]}-${Date.now()}`;
     const mysqldump = spawn('mysqldump', [
       '-u',
       `${process.env.DATABASE_USER}`,
