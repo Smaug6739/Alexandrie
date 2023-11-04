@@ -33,8 +33,6 @@ const docs = computed(() => {
 	const normal = (() => {
 		return useDocumentsStore().getAll
 			.filter((doc) => {
-				console.log(doc.category);
-
 				if (!route.query.category) return true;
 				if (route.query.category === 'uncategorized') return !doc.category;
 				if (route.query.category === 'draft') return doc.accessibility === 2

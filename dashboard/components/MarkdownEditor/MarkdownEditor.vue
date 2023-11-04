@@ -8,7 +8,7 @@
 				<textarea ref="textarea" class="content input" placeholder="Écrivez votre contenu ici..."
 					v-model="document.content_markdown"></textarea>
 			</div>
-			<div v-if="showPreview" class="markdown-preview document-theme" v-html="compiledMarkdown"></div>
+			<div v-if="showPreview" class="markdown-preview document-theme" v-html="document.content_html"></div>
 		</div>
 	</div>
 </template>
@@ -23,10 +23,14 @@ import compile from "~/helpers/markdown";
 const props = defineProps<{ doc?: Document }>();
 const document = ref<Document | Partial<Document>>({ ...props.doc });
 const textarea = ref<HTMLTextAreaElement>();
-const compiledMarkdown = computed(() => compile(document.value.content_markdown, true));
 const showPreview = ref(false);
 
 const emit = defineEmits(['save']);
+
+watchEffect(() => {
+	if (!document.value.content_markdown) return;
+	document.value.content_html = compile(document.value.content_markdown, true);
+});
 
 function exec(action: string) {
 	if (!textarea.value) return;
