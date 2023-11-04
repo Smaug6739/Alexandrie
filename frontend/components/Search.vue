@@ -5,7 +5,7 @@
 		<ul v-if="isActive && inputText.length > 0" class="suggestions">
 			<li v-if="results.length" v-for="result in results" :key="result.id" class="suggestion"
 				@mousedown="(e) => e.preventDefault()">
-				<NuxtLink :to="result.path" class="a-classic" @click="leave()"> {{ result.name }} </NuxtLink>
+				<NuxtLink :to="result.path" @click="leave()"> {{ result.name }} </NuxtLink>
 			</li>
 			<li v-else>Aucun résultat...</li>
 		</ul>
@@ -14,21 +14,13 @@
 
 <style scoped lang="scss">
 input {
-	-webkit-appearance: none;
-	appearance: none;
-	cursor: text;
 	width: 200px;
 	height: 2.1rem;
-	color: var(--font-color);
-	display: inline-block;
-	border: 1px solid var(--border-color);
-	border-radius: .7rem;
-	font-size: 0.9rem;
-	line-height: 2rem;
+	border-radius: .5rem;
 	padding: 0 0.5rem 0 2rem;
-	transition: all ease 0.3s;
+	transition: all ease $transition-duration;
 	background: var(--bg-contrast) url('/svg/search.svg') 0.6rem 0.55rem no-repeat;
-	background-size: .8rem;
+	outline: none;
 }
 
 input:focus {

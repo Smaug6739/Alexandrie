@@ -31,7 +31,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { type Category, useCategoriesStore, useNotifications } from '~/store';
 
 const categoriesStore = useCategoriesStore();

@@ -13,22 +13,12 @@
 .fade-enter-active,
 .fade-leave-active {
 	opacity: 0;
-	transition: opacity 0.3s;
+	transition: opacity $transition-duration;
 }
 
 .fade-enter-to,
 .fade-leave-to {
 	opacity: 1;
-}
-
-.a-classic {
-	color: var(--font-color);
-	text-decoration: none;
-
-	&:hover {
-		color: $primary-400;
-		text-decoration: none;
-	}
 }
 
 :root {

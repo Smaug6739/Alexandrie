@@ -6,7 +6,7 @@
 </template>
 <script setup lang="ts">
 import { useDocumentsStore, useCategoriesStore } from './store';
-import Navbar from './components/navbar/Navbar.vue';
+import Navbar from './components/Navbar.vue';
 import Notification from "../components/Notification/Notification.vue";
 
 // @ts-ignore

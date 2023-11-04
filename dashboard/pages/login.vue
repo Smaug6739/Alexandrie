@@ -110,7 +110,6 @@ async function connect(username: string, password: string) {
 	margin-top: -0.5rem;
 	margin-bottom: 1rem;
 	text-align: right;
-	color: var(--font-color);
 	text-decoration: none;
 
 	&:hover {
@@ -134,7 +133,6 @@ async function connect(username: string, password: string) {
 	border: none;
 	cursor: pointer;
 	outline: none;
-	color: var(--font-color);
 
 	&:hover {
 		text-decoration: underline;

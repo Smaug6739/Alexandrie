@@ -1,5 +1,5 @@
 <template>
-	<div v-if="document" class="container">
+	<div v-if="document" class="edit-component">
 		<MarkdownEditorVue ref="editor" :doc="document" @save="(data) => save(data)" />
 	</div>
 </template>
@@ -33,7 +33,7 @@ function save(doc: Document) {
 
 </script>
 <style lang="scss" scoped>
-.container {
+.edit-component {
 	width: 100%;
 	padding: 12px;
 }

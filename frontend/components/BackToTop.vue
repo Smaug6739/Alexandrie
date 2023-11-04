@@ -49,7 +49,7 @@ onMounted(() => {
 
 .back-to-top-enter-active,
 .back-to-top-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity $transition-duration;
 }
 
 .back-to-top-enter-from,

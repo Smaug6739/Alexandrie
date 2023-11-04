@@ -126,7 +126,6 @@ const toolbar = [
 	input {
 		border: none;
 		outline: none;
-		color: var(--font-color);
 		background-color: var(--bg-contrast-2);
 	}
 

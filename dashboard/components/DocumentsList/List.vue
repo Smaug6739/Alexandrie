@@ -33,8 +33,10 @@ const docs = computed(() => {
 	const normal = (() => {
 		return useDocumentsStore().getAll
 			.filter((doc) => {
+				console.log(doc.category);
+
 				if (!route.query.category) return true;
-				if (route.query.category === 'uncategorized') return doc.category === '';
+				if (route.query.category === 'uncategorized') return !doc.category;
 				if (route.query.category === 'draft') return doc.accessibility === 2
 				if (route.query.category === 'archive') return doc.accessibility === 3
 				if (route.query.category === 'trash') return doc.accessibility === 4
@@ -54,14 +56,9 @@ const linkTo = (id: string) => {
 
 <style lang="scss" scoped>
 aside {
-	height: 100%;
-	width: 100%;
 	background: var(--bg-color);
 	padding: .7rem;
 	overflow-y: scroll;
-	font-family: $external-font;
-	font-size: 1rem;
-	font-weight: normal;
 }
 
 .header {
@@ -79,20 +76,19 @@ aside {
 .item-container {
 	margin: 0.5rem 0;
 	padding: 0.5rem;
-	border-radius: 10px;
-	transition: all 0.2s ease;
+	border-radius: 5px;
+	transition: all $transition-duration ease;
 
 	&:hover,
 	&.active {
-		background-color: var(--bg-contrast-2);
+		background-color: var(--bg-contrast);
 	}
 }
 
 .item {
 	display: block;
-	transition: all 0.3s ease-in-out;
-	border-bottom: 1px solid lighten($grey, 20%);
-	color: var(--font-color);
+	transition: all $transition-duration ease-in-out;
+	border-bottom: 1px solid var(--border-color);
 
 	.header {
 		display: flex;
@@ -102,7 +98,7 @@ aside {
 	}
 
 	.title {
-		font-size: 1.1rem;
+		font-size: 1rem;
 		font-weight: 500;
 	}
 
@@ -112,7 +108,7 @@ aside {
 	}
 
 	.description {
-		font-size: 15px;
+		font-size: 14px;
 		font-weight: 400;
 		margin: 0.3rem 0;
 	}

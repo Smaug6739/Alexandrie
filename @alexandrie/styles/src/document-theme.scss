@@ -1,0 +1,9 @@
+.document-theme {
+	a {
+		color: $primary-400;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

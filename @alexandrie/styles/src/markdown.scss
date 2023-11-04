@@ -75,13 +75,8 @@
 	border-color: var(--grey-border);
 	color: var(--grey);
 	background-color: var(--grey-bg);
-
-	code {
-		background-color: var(--grey-border);
-	}
 }
 
-//TODO: Fix containers code block missing (blue etc.)
 .custom-block.blue {
 	border-color: var(--blue-border);
 	color: var(--blue);
@@ -108,10 +103,6 @@
 	border-color: var(--yellow-border);
 	color: var(--yellow);
 	background-color: var(--yellow-bg);
-
-	code {
-		background-color: var(--yellow-border);
-	}
 }
 
 
@@ -119,10 +110,6 @@
 	border-color: var(--red-border);
 	color: var(--red);
 	background-color: var(--red-bg);
-
-	code {
-		background-color: var(--red-border);
-	}
 }
 
 
@@ -139,10 +126,6 @@
 		&+p {
 			margin: 8px 0;
 		}
-	}
-
-	code {
-		background-color: #f9f9f9;
 	}
 }
 
@@ -176,8 +159,4 @@
 
 .custom-block a:hover {
 	opacity: 0.6;
-}
-
-.custom-block code {
-	font-size: 13px;
 }

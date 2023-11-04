@@ -21,7 +21,7 @@ input {
 	height: 50px;
 	border: none;
 	border-radius: 12px;
-	transition: all 0.2s ease;
+	transition: all $transition-duration ease;
 	background: var(--bg-contrast);
 	font-size: 15px;
 	color: var(--font-color);

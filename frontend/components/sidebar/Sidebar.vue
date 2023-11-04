@@ -21,10 +21,6 @@
 </template>
 
 <script setup lang="ts">
-
-import { ref, onBeforeUnmount, computed } from 'vue';
-import { useRoute } from 'vue-router';
-
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarSearch from './SidebarSearch.vue';
 import Icon from "@/components/Icon.vue";
@@ -33,7 +29,6 @@ import { hasSidebar, isOpened } from "./helpers"
 import { useDocumentsStore, useCategoriesStore } from '@/store';
 
 import type { MenuItem } from './types'
-import { onMounted, watch } from 'vue';
 
 const route = useRoute();
 const documentsStore = useDocumentsStore();
@@ -106,7 +101,7 @@ const menuItems = computed((): MenuItem[] => {
   top: 0;
   min-height: min-content;
   z-index: 100;
-  transition: all 0.2s ease;
+  transition: all $transition-duration ease;
   background: var(--bg-color);
   height: 100%;
   width: 300px;
@@ -131,11 +126,10 @@ const menuItems = computed((): MenuItem[] => {
     text-align: right;
     font-size: 27px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all $transition-duration ease;
   }
 
   .name {
-    color: var(--font-color);
     font-size: 19px;
     font-weight: 600;
     display: flex;

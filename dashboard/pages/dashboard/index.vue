@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import DocumentList from "../components/documents-list/List.vue";
+import DocumentList from "../components/DocumentsList/List.vue";
 import Preview from "../components/Preview.vue";
 </script>
 

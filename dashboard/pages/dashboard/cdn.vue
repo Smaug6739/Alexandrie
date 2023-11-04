@@ -22,7 +22,6 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useNotifications } from '~/store';
 
 const selectedFile: Ref<File | null> = ref(null);
@@ -96,7 +95,7 @@ const clearForm = () => selectedFile.value = null;
 		font-size: 14px;
 		color: #9e9e9e;
 		position: relative;
-		transition: background-color 0.2s;
+		transition: background-color $transition-duration;
 		background-color: var(--dropzone-bg, transparent);
 
 		&:hover {
@@ -160,7 +159,7 @@ const clearForm = () => selectedFile.value = null;
 .dropzone.drag-over {
 	background-color: #E3F2FD;
 	border-color: #2196F3;
-	transition: background-color 0.3s, border-color 0.3s;
+	transition: background-color $transition-duration, border-color $transition-duration;
 }
 
 .file-info {

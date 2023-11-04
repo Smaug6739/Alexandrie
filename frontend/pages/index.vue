@@ -90,7 +90,7 @@
 				a {
 					text-decoration: none;
 					color: var(--font-color);
-					transition: color 0.3s;
+					transition: color $transition-duration;
 
 					&:hover {
 						color: $primary-400;
@@ -108,11 +108,11 @@
 				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 				justify-content: center;
 				margin-top: 20px;
-				transition: all 0.3s;
+				transition: all $transition-duration;
 				padding: 20px;
 
 				.category-card {
-					transition: transform 0.3s;
+					transition: transform $transition-duration;
 
 					&:hover {
 						transform: scale(1.05);
@@ -126,7 +126,6 @@
 
 <script setup lang="ts">
 import { useDocumentsStore, useCategoriesStore } from '~/store';
-import { computed } from 'vue';
 
 const recentDocuments = computed(() => useDocumentsStore().getRecents(6));
 const categories = computed(() => useCategoriesStore().getParents);

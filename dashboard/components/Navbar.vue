@@ -27,7 +27,6 @@ nav {
 
 	p {
 		padding: 0 10px;
-		color: var(--font-color);
 		font-weight: 500;
 		font-size: large;
 		margin: auto;

@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts" scoped>
-import { onBeforeUnmount, watch } from 'vue';
-import { useRoute } from 'vue-router';
 import { useCategoriesStore, type Category, useNotifications } from '~/store';
 import { isOpened, type Item, defaultItems, hasSidebar } from "./helpers";
 import Collapse from './Collapse.vue';

@@ -55,13 +55,14 @@
 	padding: 15px;
 	border-radius: 8px;
 	position: relative;
-	transition: box-shadow 0.3s;
+	transition: box-shadow $transition-duration;
 	margin-bottom: 10px;
+
+	&:hover {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	}
 }
 
-.category-card:hover {
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
 
 .main-category {
 	font-weight: bold;

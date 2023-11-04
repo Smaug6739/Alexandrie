@@ -40,7 +40,6 @@
 
 <script lang="ts" setup>
 import { useCategoriesStore, useNotifications } from '~/store';
-import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const categoriesStore = useCategoriesStore();
@@ -79,9 +78,6 @@ const deleteCategory = async () => {
 
 h2 {
 	font-size: 26px;
-	margin-bottom: 30px;
-	color: var(--font-color);
-
 	text-align: center;
 }
 
@@ -96,7 +92,6 @@ h2 {
 	display: block;
 	font-weight: 600;
 	border: 2px solid var(--bg-contrast);
-	color: var(--font-color);
 
 	&.update {
 		background-color: $primary-400;

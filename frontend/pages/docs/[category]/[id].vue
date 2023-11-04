@@ -2,7 +2,8 @@
 	<Transition name="fade" mode="out-in">
 		<div class="view-medium" v-if="article?.id" style="display:flex;">
 			<div style="width:100%;">
-				<article style="max-width: 100%;overflow: auto;" ref="element" v-html="article.content_html"></article>
+				<article class="document-theme" style="max-width: 100%;overflow: auto;" ref="element"
+					v-html="article.content_html"></article>
 				<DocumentFooter :document="article" :next="next" :previous="previous" class="footer" />
 			</div>
 			<TableOfContent :element="element" class="toc" />

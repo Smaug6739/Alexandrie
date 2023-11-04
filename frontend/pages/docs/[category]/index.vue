@@ -12,7 +12,6 @@
 
 <script setup lang="ts">
 import { useCategoriesStore, useDocumentsStore } from '~/store';
-import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const categoriesStore = useCategoriesStore();
@@ -44,7 +43,7 @@ const allDocuments = computed(() => {
 	padding: 15px;
 	border-radius: 8px;
 	position: relative;
-	transition: box-shadow 0.3s;
+	transition: box-shadow $transition-duration;
 	margin-bottom: 10px;
 }
 

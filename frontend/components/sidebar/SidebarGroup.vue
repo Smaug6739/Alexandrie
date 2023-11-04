@@ -6,7 +6,7 @@
 		</NuxtLink>
 		<ul>
 			<li v-for="(children, index) of menuItem.childrens" :key="index" class="children" @click="emit('closeMobile')">
-				<NuxtLink :to="children.link" class="sub_link a-classic">{{ children.name }}</NuxtLink>
+				<NuxtLink :to="children.link" class="sub_link">{{ children.name }}</NuxtLink>
 			</li>
 		</ul>
 	</div>
@@ -38,7 +38,7 @@ const emit = defineEmits(['closeMobile']);
 	}
 
 	&:hover {
-		transition: all 0.2s ease;
+		transition: all $transition-duration ease;
 		background: var(--bg-contrast);
 
 		.parent_name {
@@ -56,10 +56,9 @@ const emit = defineEmits(['closeMobile']);
 }
 
 .parent_name {
-	color: var(--font-color);
 	font: normal 700 15px arial;
 	opacity: 0;
-	transition: 0.4s;
+	transition: $transition-duration;
 }
 
 .sub_link {
@@ -69,14 +68,5 @@ const emit = defineEmits(['closeMobile']);
 ul {
 	padding: 0;
 	margin: 0;
-}
-
-.a-classic {
-	text-decoration: none;
-	color: var(--font-color);
-
-	&:hover {
-		color: $primary-400;
-	}
 }
 </style>

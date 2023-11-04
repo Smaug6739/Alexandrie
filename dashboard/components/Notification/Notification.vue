@@ -54,7 +54,7 @@ p {
 .close-icon {
 	cursor: pointer;
 	margin-left: 12px;
-	transition: transform 0.3s ease;
+	transition: transform $transition-duration ease;
 }
 
 .close-icon:hover {
@@ -62,7 +62,7 @@ p {
 }
 
 .info {
-	background-color: #3498db;
+	background-color: $blue;
 }
 
 .error {
@@ -70,17 +70,17 @@ p {
 }
 
 .success {
-	background-color: #2ecc71;
+	background-color: $green;
 }
 
 .warning {
-	background-color: #f1c40f;
+	background-color: $yellow;
 }
 
 /* Transitions */
 .notification-slide-enter-active,
 .notification-slide-leave-active {
-	transition: transform 0.5s, opacity 0.5s;
+	transition: transform $transition-duration, opacity $transition-duration;
 }
 
 .notification-enter-from {

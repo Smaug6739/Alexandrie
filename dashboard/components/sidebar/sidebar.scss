@@ -6,35 +6,34 @@ $bg: #1e2430;
 // Sidebar
 .sidebar {
 	background: $bg;
-	color: var(--font-color);
+	border-bottom-right-radius: 10px;
+	border-top-right-radius: 10px;
 	display: flex;
 	flex-direction: column;
 	font: 1rem $internal-font;
 	height: 100%;
-	position: fixed;
-	top: 0;
 	left: 0;
-	width: $sidebar-width;
 	overflow-x: hidden;
 	overflow-y: auto;
-	z-index: 100;
+	position: fixed;
+	top: 0;
 	transform: translateX(-100%);
-	transition: all 0.2s ease;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
+	transition: all $transition-duration ease;
+	width: $sidebar-width;
+	z-index: 100;
 
 	&.open {
 		transform: translateX(0);
 	}
 
 	@media screen and (min-width: 768px) {
-		position: relative;
-		transform: translateX(0);
-		width: 0;
-
 		&.open {
 			width: $sidebar-width;
 		}
+
+		position: relative;
+		transform: translateX(0);
+		width: 0;
 	}
 }
 
@@ -79,7 +78,7 @@ $bg: #1e2430;
 		border-radius: 5px;
 		color: var(--font-color);
 		cursor: pointer;
-		transition: all 0.2s ease;
+		transition: all $transition-duration ease;
 		opacity: 0.7;
 
 		&:hover,

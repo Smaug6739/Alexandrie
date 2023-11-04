@@ -19,7 +19,6 @@ defineProps<{ node: Node; }>();
 
 <style scoped>
 a {
-	color: var(--font-color-dimmed);
 	opacity: 0.85;
 }
 

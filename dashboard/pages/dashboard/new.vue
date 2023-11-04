@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="new-component">
 		<MarkdownEditorVue ref="editor" :doc="document" @save="(data) => save(data)" />
 	</div>
 </template>
@@ -22,7 +22,7 @@ function save(doc: Document) {
 
 </script>
 <style lang="scss" scoped>
-.container {
+.new-component {
 	width: 100%;
 	padding: 12px;
 }

@@ -14,7 +14,7 @@ input {
 	font-size: 0.9rem;
 	line-height: 2rem;
 	padding: 0.5rem 0.5rem 0.5rem 2rem;
-	transition: all ease 0.3s;
+	transition: all ease $transition-duration;
 	background: var(--bg-color) url('search.svg') 0.6rem 0.5rem no-repeat;
 	background-size: 1rem;
 }

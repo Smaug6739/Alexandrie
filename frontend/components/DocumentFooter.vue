@@ -76,12 +76,10 @@ footer {
 }
 
 .min {
-	color: var(--font-color);
 	font-size: small;
 }
 
 .update {
-	color: var(--font-color);
 	border-bottom: 1px solid lighten($grey, 20%);
 }
 </style>
