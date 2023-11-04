@@ -16,3 +16,6 @@ public/uploads/webp/*
 #Config
 prod.config.ts
 prod.config.js
+
+#Build
+dist
