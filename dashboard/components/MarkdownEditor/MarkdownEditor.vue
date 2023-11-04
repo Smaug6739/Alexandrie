@@ -8,7 +8,7 @@
 				<textarea ref="textarea" class="content input" placeholder="Écrivez votre contenu ici..."
 					v-model="document.content_markdown"></textarea>
 			</div>
-			<div v-if="showPreview" class="markdown-preview" v-html="compiledMarkdown"></div>
+			<div v-if="showPreview" class="markdown-preview document-theme" v-html="compiledMarkdown"></div>
 		</div>
 	</div>
 </template>
