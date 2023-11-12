@@ -1,11 +1,10 @@
 // Variables
 $sidebar-icon-size: 22px;
 $sidebar-width: 290px;
-$bg: #1e2430;
 
 // Sidebar
 .sidebar {
-	background: $bg;
+	background: $black;
 	border-bottom-right-radius: 10px;
 	border-top-right-radius: 10px;
 	display: flex;

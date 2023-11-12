@@ -246,3 +246,24 @@ ul,
 ol {
 	padding-left: 22px;
 }
+
+
+code {
+	background-color: $black;
+	border: 1px solid var(--border-color);
+	border-radius: 4px;
+	font-family: $external-font;
+	font-size: 14px;
+	padding: 2px 4px;
+	color: var(--font-color);
+}
+
+/* Style pour les balises pre contenant du code */
+pre {
+	position: relative;
+	z-index: 1;
+	margin: 0;
+	padding: 16px 0;
+	background: transparent;
+	overflow-x: auto;
+}
