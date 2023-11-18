@@ -19,7 +19,7 @@ main {
 
 .list {
 	width: 30%;
-	min-width: 400px;
+	min-width: 470px;
 }
 
 .preview {
