@@ -101,7 +101,6 @@ const toolbar = [
 .toolbar {
 	margin-bottom: 10px;
 	user-select: none;
-	background-color: var(--bg-contrast-2);
 	border-radius: 5px;
 	padding: 5px;
 
@@ -125,8 +124,8 @@ const toolbar = [
 
 	input {
 		border: none;
+		background-color: var(--bg-color);
 		outline: none;
-		background-color: var(--bg-contrast-2);
 	}
 
 	input,

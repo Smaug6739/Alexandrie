@@ -1,12 +1,12 @@
 <template>
 	<main>
-		<DocumentList class="list" />
+		<List class="list" />
 		<Preview class="preview" />
 	</main>
 </template>
 
 <script lang="ts" setup>
-import DocumentList from "../components/DocumentsList/List.vue";
+import List from "../components/List/List.vue";
 import Preview from "../components/Preview.vue";
 </script>
 
@@ -19,6 +19,7 @@ main {
 
 .list {
 	width: 30%;
+	min-width: 400px;
 }
 
 .preview {
@@ -35,7 +36,7 @@ main {
 	}
 }
 
-@media screen and (max-width: 860px) {
+@media screen and (max-width: 1000px) {
 	.list {
 		width: 100%;
 	}

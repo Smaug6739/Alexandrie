@@ -64,8 +64,12 @@ body,
 }
 
 @media print {
-	body * {
-		visibility: hidden;
+	body {
+		@include print-theme;
+
+		* {
+			visibility: hidden;
+		}
 	}
 
 	#doc,
@@ -79,9 +83,6 @@ body,
 		top: 0;
 	}
 
-	:root {
-		@include print-theme;
-	}
 
 	.markdown-container,
 	.custom-block {

@@ -43,16 +43,6 @@ button {
 	}
 }
 
-code,
-tt {
-	background-color: var(--contrast-color-after);
-	border: 1px solid var(--border-color);
-	border-radius: 3px;
-	margin: 0 2px;
-	padding: 0 5px;
-	white-space: nowrap;
-}
-
 fieldset {
 	margin: auto;
 	margin-top: 3% !important;
@@ -130,7 +120,7 @@ textarea {
 	border: 1px solid var(--border-color);
 	color: var(--font-color);
 	border-radius: 6px;
-	background-color: var(--bg-contrast-2);
+	background-color: var(--bg-contrast);
 	font-size: 15px;
 	transition: border-color $transition-duration, box-shadow $transition-duration;
 
@@ -175,17 +165,10 @@ pre {
 }
 
 pre {
-	background-color: var(--contrast-color-after);
-	border: 1px solid #000;
-	border-radius: 3px;
+	background: var(--bg-contrast) !important;
+	border-radius: 15px;
 	overflow: auto;
-	padding: 3px 5px;
-
-	code,
-	tt {
-		background-color: transparent;
-		border: none;
-	}
+	padding: 1px;
 }
 
 select {
@@ -249,9 +232,6 @@ ol {
 
 
 code {
-	background-color: $black;
-	border: 1px solid var(--border-color);
-	border-radius: 4px;
 	font-family: $external-font;
 	font-size: 14px;
 	padding: 2px 4px;

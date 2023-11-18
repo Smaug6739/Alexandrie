@@ -83,6 +83,7 @@ $sidebar-width: 290px;
 		&:hover,
 		&.active {
 			opacity: 1;
+			background: var(--bg-contrast);
 		}
 
 		.icon {

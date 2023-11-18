@@ -8,7 +8,7 @@ $orange: #fd7e14;
 $yellow: #ffc107;
 $green: #28a745;
 $grey: #ffffffd9;
-$black: #1a1a1a;
+$black: #1B262C;
 
 $primary-400: #00ADB5;
 $primary-300: lighten($primary-400, 10%);
@@ -29,8 +29,8 @@ $transition-duration: 0.3s;
 :root {
 
 
-	--bg-color: #242424;
-	--bg-contrast: #2f2f2f;
+	--bg-color: #222831;
+	--bg-contrast: #393E46;
 	--bg-contrast-2: #535861;
 	--font-color: #EEEEEE;
 	--border-color: rgba(255, 255, 255, 0.7);
@@ -60,9 +60,6 @@ $transition-duration: 0.3s;
 	--contrast-color: #fff;
 	--contrast-color-after: #fff;
 	--font-color: #000;
-	--font-color-dimmed: #000;
-	--opposite-color: #000;
-	--opposite-color-dimmed: #000;
 	// COLORS \\
 	--blue: #007bff;
 	--blue-bg: rgba(0, 123, 255, 0.2);

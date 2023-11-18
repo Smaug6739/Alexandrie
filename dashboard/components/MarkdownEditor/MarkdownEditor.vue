@@ -82,7 +82,6 @@ function exec(action: string) {
 	font-family: $external-font;
 	width: 100%;
 	height: 100%;
-	background-color: var(--bg-contrast);
 	border-radius: 10px;
 	padding: 5px;
 	display: flex;
@@ -104,7 +103,7 @@ function exec(action: string) {
 .markdown-preview {
 	padding: 8px;
 	max-height: 100%;
-	overflow: scroll;
+	overflow: auto;
 }
 
 .editor-input {
@@ -114,14 +113,14 @@ function exec(action: string) {
 }
 
 .markdown-preview {
-	border-left: 1px solid var(--border-color) !important;
+	border-left: 1px solid var(--border-color);
 	flex: 1;
 }
 
 .input {
 	border: none;
 	outline: none;
-	background-color: var(--bg-contrast);
+	background-color: var(--bg-color);
 	padding-left: 0;
 
 	&::placeholder {
@@ -135,7 +134,8 @@ function exec(action: string) {
 	}
 
 	&.description {
-		font-size: 20px;
+		font-size: 18px;
+		font-weight: bold;
 		margin-bottom: 10px;
 	}
 
@@ -143,11 +143,7 @@ function exec(action: string) {
 		width: 100%;
 		flex: 1;
 		padding: 0;
-		resize: vertical;
-	}
-
-	&.tags {
-		font-size: 16px;
+		resize: none;
 	}
 }
 </style>
