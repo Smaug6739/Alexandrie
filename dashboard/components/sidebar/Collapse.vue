@@ -17,7 +17,6 @@ const toggleShow = () => show.value = !show.value;
 
 <style lang="scss" scoped>
 .collapse-header {
-	cursor: pointer;
 	display: flex;
 	align-items: center;
 

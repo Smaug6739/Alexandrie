@@ -56,8 +56,8 @@ $sidebar-width: 290px;
 	}
 
 	.name {
-		font: bold 18px/1 $internal-font;
-		margin: auto;
+		font-size: 1.2rem;
+		font-weight: 500;
 	}
 }
 
@@ -65,7 +65,7 @@ $sidebar-width: 290px;
 .body {
 	display: flex;
 	flex-direction: column;
-	margin: 30px 5px;
+	margin: 5px;
 
 	.item {
 		display: flex;
@@ -79,6 +79,7 @@ $sidebar-width: 290px;
 		cursor: pointer;
 		transition: all $transition-duration ease;
 		opacity: 0.7;
+		width: 90%;
 
 		&:hover,
 		&.active {
