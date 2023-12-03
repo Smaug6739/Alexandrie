@@ -9,7 +9,7 @@ module.exports = {
         DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
         DATABASE_USER: process.env.DATABASE_USERNAME,
         JWT_SECRET: process.env.JWT_SECRET,
-        PORT: 8101,
+        PORT: 8201,
         DOMAIN_CLIENT: 'https://alexandrie-hub.fr',
         DOMAIN_DASHBOARD: 'https://dashboard.alexandrie-hub.fr',
         FRONT_DOMAIN: 'alexandrie-hub.fr',
@@ -18,7 +18,7 @@ module.exports = {
     {
       name: 'alexandrie-frontend',
       cwd: './frontend',
-      script: 'PORT=8100 node .output/server/index.mjs',
+      script: 'PORT=8200 node .output/server/index.mjs',
       env: {
         NODE_ENV: 'production',
       },
@@ -26,7 +26,7 @@ module.exports = {
     {
       name: 'alexandrie-dashboard',
       cwd: './dashboard',
-      script: 'PORT=8102 node .output/server/index.mjs',
+      script: 'PORT=8202 node .output/server/index.mjs',
       env: {
         NODE_ENV: 'production',
       },
