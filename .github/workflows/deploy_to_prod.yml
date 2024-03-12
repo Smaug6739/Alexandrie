@@ -74,9 +74,8 @@ jobs:
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "source ~/.bashrc && cd ${INPUT_REMOTE} && cd backend && npm install --production"
       - name: Start application
         run: |
-          ssh -v -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && pm2 start ecosystem.config.js --update-env --env NODE_ENV=${NODE_ENV} --env DATABASE_PASSWORD='${DATABASE_PASSWORD}' --env DATABASE_USER='${DATABASE_USER}' --env JWT_SECRET='${JWT_SECRET}'"
+          ssh -v -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && NODE_ENV=production DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} DATABASE_USER=${{ secrets.DATABASE_USER }} JWT_SECRET=${{ secrets.JWT_SECRET }} pm2 start ecosystem.config.js --update-env'"
         env:
-          NODE_ENV: production
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_USER: ${{ secrets.DATABASE_USER }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
