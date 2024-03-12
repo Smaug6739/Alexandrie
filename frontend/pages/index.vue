@@ -1,7 +1,7 @@
 <template>
 	<div class="homepage">
 		<header class="hero">
-			<h1 class="site-title">Bienvenue sur Alexandrie</h1>
+			<h1 class="site-title">Alexandrie</h1>
 			<p class="site-description">Espace de gestion de notes et de documents.</p>
 			<div class="dashboard-link">
 				<NuxtLink to="https://dashboard.alexandrie-hub.fr">Accéder au dashboard</NuxtLink>
