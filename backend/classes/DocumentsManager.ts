@@ -13,7 +13,10 @@ export default class DocumentsManager extends Base {
       this.app.db.query<DocumentDB[]>(
         `SELECT * FROM documents ${all == 'true' ? '' : 'WHERE `accessibility` = 1'} ORDER BY \`name\``,
         (err, result) => {
-          if (err) return reject('Internal database error.');
+          if (err) {
+            console.log(err);
+            return reject('Internal database error.');
+          }
           resolve(result);
         },
       );
