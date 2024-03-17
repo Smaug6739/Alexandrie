@@ -7,7 +7,5 @@ config({
   path: resolve(__dirname, '../.env'),
 });
 
-console.log(process.env)
-
 const server: App = new App();
 server.start();
