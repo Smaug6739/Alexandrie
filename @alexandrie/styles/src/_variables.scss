@@ -27,13 +27,12 @@ $mono-font: ui-monospace 'Roboto Mono', monospace;
 $transition-duration: 0.3s;
 
 :root {
-
-
-	--bg-color: #222831;
-	--bg-contrast: #393E46;
-	--bg-contrast-2: #535861;
-	--font-color: #EEEEEE;
-	--border-color: rgba(255, 255, 255, 0.7);
+	--bg-color: #fff;
+	--bg-color-secondary: #f5f4f6;
+	--bg-hover: rgba(195, 195, 195, 0.1);
+	--font-color: #000;
+	--font-color-dimmed: #2d2d2d;
+	--border-color: #ddd;
 	// COLORS \\
 	--grey: #e0e0e0;
 	--grey-bg: rgb(47, 47, 47);
@@ -52,6 +51,13 @@ $transition-duration: 0.3s;
 	--turquoise: #00d6b4;
 	--turquoise-bg: rgba(0, 255, 255, 0.2);
 	--turquoise-border: rgba(0, 209, 178, .25);
+}
+
+[data-theme="dark"] {
+	--bg-color: #000;
+	--bg-color-secondary: #1a1a1a;
+	--font-color: #fff;
+	--font-color-dimmed: #e0e0e0;
 }
 
 @mixin print-theme {

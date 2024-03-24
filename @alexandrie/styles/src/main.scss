@@ -1,7 +1,7 @@
-@import "./theme.scss";
 @import "./katex.scss";
 @import "./markdown.scss";
 @import "./document-theme.scss";
+@import "./theme.scss";
 
 * {
 	-webkit-font-smoothing: antialiased;
@@ -9,6 +9,20 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+body {
+	background: var(--bg-color);
+	color: var(--font-color);
+	font-family: $external-font;
+	text-rendering: optimizeLegibility;
+	-webkit-text-size-adjust: 100%;
+}
+
+html,
+body,
+#__nuxt {
+	height: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -33,21 +47,6 @@
 
 ::selection {
 	background-color: $selection-color;
-}
-
-
-body {
-	background: var(--bg-color);
-	color: var(--font-color);
-	font-family: $external-font;
-	text-rendering: optimizeLegibility;
-	-webkit-text-size-adjust: 100%;
-}
-
-html,
-body,
-#__nuxt {
-	height: 100%;
 }
 
 

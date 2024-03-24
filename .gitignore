@@ -5,3 +5,5 @@ uploads/backups/*
 !uploads/images/default
 !uploads/webp/default
 !uploads/backups/default
+frontendold
+dashboardold

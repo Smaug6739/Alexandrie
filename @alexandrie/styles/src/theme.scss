@@ -21,27 +21,7 @@ blockquote {
 	}
 }
 
-button {
-	padding: 8px 16px;
-	background-color: $primary-400;
-	border: none;
-	border-radius: 6px;
-	color: var(--font-color);
-	font-size: 15px;
-	cursor: pointer;
-	transition: transform $transition-duration;
-	width: fit-content;
 
-	&:hover {
-		transform: translateY(-2px);
-		background-color: $primary-500;
-	}
-
-	&:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
-}
 
 fieldset {
 	margin: auto;

@@ -1,0 +1,47 @@
+@import "./theme-variables.scss";
+
+html,
+body,
+:root,
+#app {
+  height: 100vh;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  transition: background-color 0.3s ease;
+}
+
+.view-medium {
+  display: block;
+  max-width: 95%;
+  margin: auto 50px auto 315px;
+
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: auto;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  opacity: 0;
+  transition: opacity $transition-duration;
+}
+
+.fade-enter-to,
+.fade-leave-to {
+  opacity: 1;
+}
+
+:root {
+  --padding: calc((100vw - 1700px) / 2);
+}

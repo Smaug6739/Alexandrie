@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+// SCSS DEFINE DARK THEME \\
+
+
+@mixin light-theme {
+	// THEME \\
+	--bg-color: #fff;
+	--bg-color-secondary: #f5f4f6;
+	--bg-hover: rgba(195, 195, 195, 0.1);
+	--font-color: #000;
+	--font-color-dimmed: #2d2d2d;
+	--border-color: #ddd;
+}
+
+@mixin dark-theme {
+	// THEME \\
+	--bg-color: #000;
+	--bg-color-secondary: #1a1a1a;
+	--font-color: #fff;
+	--font-color-dimmed: #e0e0e0;
+}
+
+:root {
+	@include light-theme();
+}
+
+
+[data-theme="dark"] {
+	@include dark-theme();
+}
+
+[data-theme="light"] {
+	@include light-theme();
+}
