@@ -24,7 +24,6 @@
     "@types/jsonwebtoken": "^9.0.3",
     "@types/multer": "^1.4.7",
     "@types/node": "^20.8.3",
-    "@types/sharp": "^0.32.0",
     "morgan": "^1.10.0",
     "nodemon": "^3.0.1",
     "typescript": "^5.2.2"
