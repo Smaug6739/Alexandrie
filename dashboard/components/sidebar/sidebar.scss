@@ -4,7 +4,7 @@ $sidebar-width: 300px;
 
 // Sidebar
 .sidebar {
-	background: $black;
+	background: var(--bg-contrast);
 	border-bottom-right-radius: 10px;
 	border-top-right-radius: 10px;
 	display: flex;

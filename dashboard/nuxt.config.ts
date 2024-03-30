@@ -10,15 +10,34 @@ export default defineNuxtConfig({
       },
     },
   },
-  css: [resolve(__dirname, '../@alexandrie/styles/src/main.scss'), '~/styles/main.scss'],
-  modules: ['@pinia/nuxt'],
+  ssr: false,
+  css: [
+    resolve(__dirname, '../@alexandrie/styles/src/main.scss'),
+    '~/styles/main.scss',
+    resolve(__dirname, '../@alexandrie/styles/src/katex/katex.min.css'),
+  ],
+  modules: ['@pinia/nuxt', '@nuxtjs/color-mode'],
+  colorMode: {
+    preference: 'light', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
+    hid: 'nuxt-color-mode-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '-mode',
+    storageKey: 'nuxt-color-mode',
+  },
+  experimental: {
+    viewTransition: true,
+  },
+
   app: {
     head: {
       title: 'Alexandrie',
       viewport: 'width=device-width, initial-scale=1',
       charset: 'utf-8',
       htmlAttrs: {
-        lang: 'en',
+        lang: 'fr',
       },
       link: [
         {
@@ -28,8 +47,5 @@ export default defineNuxtConfig({
         },
       ],
     },
-  },
-  experimental: {
-    viewTransition: true,
   },
 });

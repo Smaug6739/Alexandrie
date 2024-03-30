@@ -1,35 +1,66 @@
 <template>
-	<nav>
-		<svg v-if="hasSidebar" @click="isOpened = !isOpened" class="open-sidebar" xmlns="http://www.w3.org/2000/svg"
-			height="24" viewBox="0 -960 960 960" width="24">
-			<path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
-		</svg>
-		<p>Alexandrie</p>
-	</nav>
+	<header>
+		<span>
+			<svg v-if="hasSidebar" @click="isOpened = !isOpened" class="open-sidebar" xmlns="http://www.w3.org/2000/svg"
+				height="24" viewBox="0 -960 960 960" width="24">
+				<path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+			</svg>
+		</span>
+		<ul>
+			<li>
+				<NuxtLink class="no-mobile" to="/">Home</NuxtLink>
+			</li>
+			<li class="no-mobile">
+				<NuxtLink to="https://dashboard.alexandrie-hub.fr" target="_blank">Dashboard</NuxtLink>
+			</li>
+			<li style="padding-right:10px;">
+				<ThemeToggle />
+			</li>
+		</ul>
+	</header>
 </template>
 
 <style lang="scss" scoped>
-svg {
-	width: 30px;
-	height: 30px;
-	cursor: pointer;
-	fill: #fff;
-	margin: 10px;
-	position: absolute;
+header {
+	width: 100%;
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
 }
 
-nav {
+.open-sidebar {
+	width: 30px;
+	height: 30px;
+	fill: var(--font-color);
+	margin: 15px;
+	cursor: pointer;
+}
+
+
+.dropdown-item {
+	display: block;
+	padding: 4px;
+	font-size: calc(100% - 1px);
+}
+
+ul {
+	list-style: none;
+	padding: 0;
 	display: flex;
 	align-items: center;
-	height: 50px;
-	width: 100%;
-	z-index: 2;
+}
 
-	p {
-		padding: 0 10px;
-		font-weight: 500;
-		font-size: large;
-		margin: auto;
+// Mobile styles
+@media screen and (max-width: 719px) {
+	.no-mobile {
+		display: none;
+	}
+}
+
+// Desktop styles
+@media screen and (min-width: 720px) {
+	li {
+		margin-right: 20px;
 	}
 }
 
@@ -38,21 +69,8 @@ nav {
 		display: none;
 	}
 }
-
-@media screen and (min-width: 768px) {
-	nav {
-		position: absolute;
-		width: min-content;
-
-		p {
-			display: none;
-		}
-
-		background-color: transparent;
-
-	}
-}
 </style>
 <script lang="ts" setup>
 import { hasSidebar, isOpened } from "@/components/sidebar/helpers";
+
 </script>

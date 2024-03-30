@@ -10,7 +10,7 @@ $green: #28a745;
 $grey: #ffffffd9;
 $black: #27323A;
 
-$primary-400: #00ADB5;
+$primary-400: #009df7;
 $primary-300: lighten($primary-400, 10%);
 $primary-500: darken($primary-400, 10%);
 
@@ -28,11 +28,38 @@ $transition-duration: 0.3s;
 
 :root {
 
+	--bg-color: #FFFFFF;
+	--bg-contrast: #F5F9FB;
+	--bg-contrast-2: #ECF2FF;
+	--font-color: #333333;
+	--border-color: rgba(0, 0, 0, 0.1);
+	// COLORS \\
+	--grey: #666666;
+	--grey-bg: rgb(240, 240, 240);
+	--blue: #007BFF;
+	--blue-bg: #cce0ff;
+	--blue-border: rgba(0, 123, 255, 0.3);
+	--green: #28A745;
+	--green-bg: rgba(40, 167, 69, 0.15);
+	--green-border: rgba(40, 167, 69, 0.3);
+	--red: #DC3545;
+	--red-bg: rgba(220, 53, 69, 0.15);
+	--red-border: rgba(220, 53, 69, 0.3);
+	--yellow: #FFC107;
+	--yellow-bg: rgba(255, 193, 7, 0.15);
+	--yellow-border: rgba(255, 193, 7, 0.3);
+	--turquoise: #17A2B8;
+	--turquoise-bg: rgba(23, 162, 184, 0.2);
+	--turquoise-border: rgba(23, 162, 184, 0.25);
+}
 
-	--bg-color: #222831;
-	--bg-contrast: #393E46;
-	--bg-contrast-2: #535861;
-	--font-color: #EEEEEE;
+
+
+.dark-mode {
+	--bg-color: #1F1F23;
+	--bg-contrast: #33333A;
+	--bg-contrast-2: #484852;
+	--font-color: #DDDDDD;
 	--border-color: rgba(255, 255, 255, 0.7);
 	// COLORS \\
 	--grey: #e0e0e0;
@@ -56,10 +83,11 @@ $transition-duration: 0.3s;
 
 @mixin print-theme {
 	// THEME \\
-	--bg-color: #fff;
-	--contrast-color: #fff;
-	--contrast-color-after: #fff;
-	--font-color: #000;
+	--bg-color: #FFFFFF;
+	--bg-contrast: #F5F5F5;
+	--bg-contrast-2: #ECECEC;
+	--font-color: #333333;
+	--border-color: rgba(0, 0, 0, 0.1);
 	// COLORS \\
 	--blue: #007bff;
 	--blue-bg: rgba(0, 123, 255, 0.2);

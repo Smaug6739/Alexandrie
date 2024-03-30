@@ -6,4 +6,15 @@
 			text-decoration: underline;
 		}
 	}
+
+	p,
+	blockquote,
+	ul,
+	li,
+	ol,
+	dl,
+	table,
+	pre {
+		margin: 0;
+	}
 }

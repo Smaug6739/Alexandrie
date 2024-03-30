@@ -1,5 +1,6 @@
 <template>
-	<div v-if="doc" class="container">
+	<div v-if="doc">
+
 		<div class="header">
 			<NuxtLink :to="'/dashboard/edit?doc=' + doc.id">
 				<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
@@ -20,24 +21,39 @@
 						d="M640-640v-120H320v120h-80v-200h480v200h-80Zm-480 80h640-640Zm560 100q17 0 28.5-11.5T760-500q0-17-11.5-28.5T720-540q-17 0-28.5 11.5T680-500q0 17 11.5 28.5T720-460Zm-80 260v-160H320v160h320Zm80 80H240v-160H80v-240q0-51 35-85.5t85-34.5h560q51 0 85.5 34.5T880-520v240H720v160Zm80-240v-160q0-17-11.5-28.5T760-560H200q-17 0-28.5 11.5T160-520v160h80v-80h480v80h80Z" />
 				</svg>
 			</NuxtLink>
-			<NuxtLink @click="deleteDoc(doc.id)">
+			<NuxtLink @click="showDeleteModal = true">
+
 				<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
 					<path
 						d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
 				</svg>
 			</NuxtLink>
+			<Modal :show="showDeleteModal" @close="showDeleteModal = false" @confirm="deleteDoc">
+				<template #header>
+					<h3>Delete document</h3>
+				</template>
+				<template #body>
+					<p>Are you sure you want to delete this document?</p>
+				</template>
+				<template #footer>
+					<p style="opacity: 0.7; ">This action is irreversible</p>
+				</template>
+			</Modal>
 		</div>
-		<div class="document-theme card" id="doc" v-html="doc.content_html"></div>
+		<div class="document-theme card" v-html="doc.content_html"></div>
 	</div>
 </template>
 <script setup lang="ts">
 import { useDocumentsStore, type Document } from '~/store';
 import { useRoute } from "vue-router";
+import Modal from './Modal.vue';
 
 const route = useRoute();
 const doc_id = computed(() => route.query.doc as string);
 const doc = ref<Document>();
 const documentsStore = useDocumentsStore();
+
+const showDeleteModal = ref(false);
 
 watchEffect(async () => {
 	const docFromStore = documentsStore.getById(doc_id.value);
@@ -51,17 +67,10 @@ watchEffect(async () => {
 });
 
 const print = () => window.print();
-const deleteDoc = (id: string) => documentsStore.delete(id);
-
+const deleteDoc = () => doc.value?.id ? documentsStore.delete(doc.value.id) : null;
 </script>
 
 <style lang="scss" scoped>
-.container {
-	max-height: 100%;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
-
 .card {
 	padding: 0 2rem;
 }

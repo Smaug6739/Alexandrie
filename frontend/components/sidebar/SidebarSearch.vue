@@ -22,7 +22,7 @@ input {
 	border: none;
 	border-radius: 12px;
 	transition: all $transition-duration ease;
-	background: var(--bg-contrast);
+	background: var(--bg-contrast-2);
 	font-size: 15px;
 	color: var(--font-color);
 	padding: 0 20px 0 50px;

@@ -107,11 +107,11 @@ const menuItems = computed((): MenuItem[] => {
   width: 300px;
   // No visible with transition
   transform: translateX(-300px);
+  background-color: var(--bg-contrast);
 
   &.open {
     transform: translateX(0);
   }
-
 }
 
 .header {
@@ -145,10 +145,10 @@ const menuItems = computed((): MenuItem[] => {
   flex-direction: column;
   flex-grow: 1;
   height: calc(100% - 60px);
-  margin: 0 14px;
+  margin: 0 7px;
 
   &::-webkit-scrollbar {
-    width: 7px;
+    width: 5px;
   }
 }
 

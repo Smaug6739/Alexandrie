@@ -39,7 +39,7 @@ const emit = defineEmits(['closeMobile']);
 
 	&:hover {
 		transition: all $transition-duration ease;
-		background: var(--bg-contrast);
+		background: var(--bg-contrast-2);
 
 		.parent_name {
 			color: $primary-400;

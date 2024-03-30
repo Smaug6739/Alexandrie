@@ -39,15 +39,18 @@
 body {
 	background: var(--bg-color);
 	color: var(--font-color);
+	transition: color $transition-duration;
 	font-family: $external-font;
 	text-rendering: optimizeLegibility;
 	-webkit-text-size-adjust: 100%;
+	transition: 0.3s;
 }
 
 html,
 body,
 #__nuxt {
 	height: 100%;
+	width: 100%;
 }
 
 
@@ -67,9 +70,6 @@ body,
 	body {
 		@include print-theme;
 
-		* {
-			visibility: hidden;
-		}
 	}
 
 	#doc,
@@ -81,6 +81,11 @@ body,
 		position: absolute;
 		left: 0;
 		top: 0;
+	}
+
+	header,
+	footer {
+		display: none !important;
 	}
 
 

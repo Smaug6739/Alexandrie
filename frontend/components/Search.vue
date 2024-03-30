@@ -17,6 +17,7 @@ input {
 	width: 200px;
 	height: 2.1rem;
 	border-radius: .5rem;
+	border: none;
 	padding: 0 0.5rem 0 2rem;
 	transition: all ease $transition-duration;
 	background: var(--bg-contrast) url('/svg/search.svg') 0.6rem 0.55rem no-repeat;
@@ -24,7 +25,6 @@ input {
 }
 
 input:focus {
-	box-shadow: 0 0 0 1px var(--border-color);
 	width: 260px;
 }
 

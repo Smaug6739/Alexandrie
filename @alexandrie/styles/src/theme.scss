@@ -9,7 +9,7 @@ a {
 }
 
 blockquote {
-	border-left: 4px solid $primary-400;
+	border-left: 4px solid var(--primary-color);
 	padding: 0 15px;
 
 	> :first-child {
@@ -23,7 +23,7 @@ blockquote {
 
 button {
 	padding: 8px 16px;
-	background-color: $primary-400;
+	background-color: var(--primary-color);
 	border: none;
 	border-radius: 6px;
 	color: var(--font-color);
@@ -34,7 +34,7 @@ button {
 
 	&:hover {
 		transform: translateY(-2px);
-		background-color: $primary-500;
+		background-color: var(--primary-color-light);
 	}
 
 	&:disabled {
@@ -92,8 +92,6 @@ h6 {
 	font-size: 0.67em;
 }
 
-
-
 hr {
 	background-color: var(--border-color);
 	border: none;
@@ -125,7 +123,7 @@ textarea {
 	transition: border-color $transition-duration, box-shadow $transition-duration;
 
 	&:focus {
-		box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+		box-shadow: 0 0 5px rgba(var(--primary-color-rgb), 0.2);
 	}
 
 	&:disabled {
@@ -149,7 +147,7 @@ option {
 	padding: 8px 12px;
 
 	&:hover {
-		background-color: $primary-400;
+		background-color: var(--primary-color);
 	}
 }
 
@@ -165,7 +163,7 @@ pre {
 }
 
 pre {
-	background: var(--bg-contrast) !important;
+	background: var(--bg-contrast);
 	border-radius: 15px;
 	overflow: auto;
 	padding: 1px;
@@ -205,7 +203,7 @@ table {
 	td,
 	th {
 		border: 1px solid var(--border-color);
-		padding: 6px;
+		padding: 3px;
 	}
 
 	@media (max-width: 600px) {
@@ -223,13 +221,10 @@ textarea {
 	}
 }
 
-
-
 ul,
 ol {
 	padding-left: 22px;
 }
-
 
 code {
 	font-family: $external-font;

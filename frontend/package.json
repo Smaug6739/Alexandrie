@@ -8,6 +8,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/color-mode": "^3.3.3",
     "@pinia/nuxt": "^0.5.1",
     "@types/node": "^20.8.9",
     "nuxt": "^3.8.0",

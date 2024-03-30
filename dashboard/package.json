@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxtjs/color-mode": "^3.3.3",
     "@pinia/nuxt": "^0.5.0",
     "@types/katex": "^0.16.5",
     "@types/markdown-it": "^13.0.4",

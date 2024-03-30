@@ -14,7 +14,7 @@
 					<input :type="showPassword ? 'text' : 'password'" id="password" v-model="password"
 						:class="{ 'is-invalid': errors.password }">
 					<button type="button" class="password-toggle" @click="showPassword = !showPassword">{{ showPassword ? 'Hide' :
-						'Show' }}</button>
+			'Show' }}</button>
 				</div>
 				<p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
 			</div>
@@ -25,6 +25,8 @@
 	</div>
 </template>
 <script setup lang="ts">
+const theme = useColorMode()
+console.log(theme)
 const router = useRouter()
 const username = ref('')
 const errors = ref({
