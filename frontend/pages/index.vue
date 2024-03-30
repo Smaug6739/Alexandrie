@@ -94,7 +94,6 @@ const colorMode = useColorMode();
 	border-radius: 8px;
 	padding: 1rem;
 	text-decoration: none;
-	color: #333;
 	transition: background-color 0.3s ease, transform 0.3s ease;
 
 	&:hover {
