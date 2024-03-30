@@ -79,11 +79,6 @@ function exec(action: string) {
 
 <style scoped lang="scss">
 .editor-container {
-	font-family: $external-font;
-	width: 100%;
-	height: 100%;
-	border-radius: 10px;
-	padding: 5px;
 	display: flex;
 	flex-direction: column;
 }
@@ -96,14 +91,12 @@ function exec(action: string) {
 
 .body {
 	height: 100%;
-	overflow: auto;
 }
 
 .editor-input,
 .markdown-preview {
 	padding: 8px;
-	max-height: 100%;
-	overflow: auto;
+	min-height: 80vh;
 }
 
 .editor-input {
@@ -123,9 +116,6 @@ function exec(action: string) {
 	background-color: var(--bg-color);
 	padding-left: 0;
 
-	&::placeholder {
-		color: $grey;
-	}
 
 	&.title {
 		font-size: 24px;

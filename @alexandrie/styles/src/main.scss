@@ -39,11 +39,9 @@
 body {
 	background: var(--bg-color);
 	color: var(--font-color);
-	transition: color $transition-duration;
 	font-family: $external-font;
 	text-rendering: optimizeLegibility;
 	-webkit-text-size-adjust: 100%;
-	transition: 0.3s;
 }
 
 html,

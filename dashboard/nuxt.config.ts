@@ -33,7 +33,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Alexandrie',
+      title: 'Alexandrie dashboard',
       viewport: 'width=device-width, initial-scale=1',
       charset: 'utf-8',
       htmlAttrs: {

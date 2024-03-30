@@ -7,8 +7,10 @@
 			</svg>
 		</span>
 		<ul>
-			<li>
-				<NuxtLink class="no-mobile" to="/">Home</NuxtLink>
+			<li class="no-mobile">
+				<NuxtLink to="https://alexandrie-hub.fr" target="_blank">
+					View version
+				</NuxtLink>
 			</li>
 			<li class="no-mobile">
 				<NuxtLink to="https://dashboard.alexandrie-hub.fr" target="_blank">Dashboard</NuxtLink>

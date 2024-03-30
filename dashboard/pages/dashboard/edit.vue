@@ -35,6 +35,7 @@ function save(doc: Document) {
 <style lang="scss" scoped>
 .edit-component {
 	width: 100%;
+	height: 100%;
 	padding: 12px;
 }
 </style>

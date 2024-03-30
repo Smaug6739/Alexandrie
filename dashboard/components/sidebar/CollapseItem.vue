@@ -10,7 +10,7 @@
 			<template v-for="(child, index) in item.childrens">
 				<div style="margin-left:15px;">
 					<CollapseItem v-if="child.childrens?.length" :item="child" :key="index" />
-					<NuxtLink v-else class="item children" :to="child.route">
+					<NuxtLink v-else class="item" :to="child.route" :class="{ active: isActive(child.id) }">
 						<i v-html="child.icon" class="icon"></i>
 						<span>{{ child.title }}</span>
 					</NuxtLink>
@@ -24,6 +24,9 @@ import { type Item } from './helpers';
 import Collapse from './Collapse.vue';
 
 defineProps<{ item: Item }>();
+const route = useRoute();
+const doc_id = computed(() => route.query.doc as string);
+const isActive = (id: string) => doc_id.value === id;
 </script>
 
 <style lang="scss" scoped>
@@ -37,7 +40,6 @@ defineProps<{ item: Item }>();
 	border-radius: 5px;
 	color: var(--font-color);
 	cursor: pointer;
-	transition: all $transition-duration ease;
 	width: 90%;
 
 	&:hover,

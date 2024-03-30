@@ -5,8 +5,8 @@
 				@click="emitAction(item.action)"></span>
 		</div>
 		<div>
-			<input placeholder="#tags" class="tags input" v-model="copy.tags" />
-			<select v-model="copy.accessibility">
+			<input placeholder="#tags" class="tags input" v-model="copy.tags" style="margin-right:5px;" />
+			<select v-model="copy.accessibility" style="margin-right:5px;">
 				<option value="1">Visible</option>
 				<option value="2">Draf</option>
 				<option value="3">Archive</option>

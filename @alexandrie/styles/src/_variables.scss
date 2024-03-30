@@ -31,12 +31,15 @@ $transition-duration: 0.3s;
 	--bg-color: #FFFFFF;
 	--bg-contrast: #F5F9FB;
 	--bg-contrast-2: #ECF2FF;
+	//--bg-color: #ECF2FF;
+	//	--bg-contrast: #e7ecf7;
+	//	--bg-contrast-2: #cdd5dd;
 	--font-color: #333333;
 	--border-color: rgba(0, 0, 0, 0.1);
 	// COLORS \\
 	--grey: #666666;
 	--grey-bg: rgb(240, 240, 240);
-	--blue: #007BFF;
+	--blue: #009df7;
 	--blue-bg: #cce0ff;
 	--blue-border: rgba(0, 123, 255, 0.3);
 	--green: #28A745;
@@ -56,8 +59,8 @@ $transition-duration: 0.3s;
 
 
 .dark-mode {
-	--bg-color: #1F1F23;
-	--bg-contrast: #33333A;
+	--bg-color: #202025;
+	--bg-contrast: #333335;
 	--bg-contrast-2: #484852;
 	--font-color: #DDDDDD;
 	--border-color: rgba(255, 255, 255, 0.7);
