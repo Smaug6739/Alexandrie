@@ -27,6 +27,7 @@ if (!isMobile()) {
 
 <style scoped>
 .medium-view {
+	padding: 0 2rem;
 	width: 100%;
 	height: 100%;
 }

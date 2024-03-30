@@ -1,5 +1,5 @@
 <template>
-	<div v-if="doc">
+	<div v-if="doc" style="position: relative;">
 
 		<div class="header">
 			<NuxtLink :to="'/dashboard/edit?doc=' + doc.id">
@@ -40,7 +40,7 @@
 				</template>
 			</Modal>
 		</div>
-		<div class="document-theme card" v-html="doc.content_html"></div>
+		<div class="document-theme" v-html="doc.content_html"></div>
 	</div>
 </template>
 <script setup lang="ts">
@@ -71,15 +71,12 @@ const deleteDoc = () => doc.value?.id ? documentsStore.delete(doc.value.id) : nu
 </script>
 
 <style lang="scss" scoped>
-.card {
-	padding: 0 2rem;
-}
-
 .header {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	margin: 1rem 2rem;
+	position: absolute;
+	top: -67px;
 
 	svg {
 		cursor: pointer;
