@@ -55,7 +55,6 @@ export default defineNuxtConfig({
       ],
       meta: [
         { name: "robots", content: "follow, index" },
-        { name: "theme-color", content: "#312b41" },
         {
           name: "description",
           content:
