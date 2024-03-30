@@ -3,7 +3,7 @@
 		<h1>Documents de la catégorie {{ category?.name }}</h1>
 		<div class="article-list">
 			<div v-for="document in allDocuments" :key="document.id" class="article">
-				<h2>{{ document.name }}</h2>
+				<NuxtLink :to="`/docs/${document.category}/${document.id}`">{{ document.name }}</NuxtLink>
 				<p class="excerpt">{{ document.description }}</p>
 			</div>
 		</div>
@@ -52,8 +52,9 @@ h1 {
 	margin-bottom: 20px;
 }
 
-h2 {
+a {
 	font-size: 24px;
+	font-weight: 600;
 	margin: 0;
 }
 
