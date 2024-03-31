@@ -77,7 +77,6 @@ async function connect(username: string, password: string) {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	font-family: $internal-font;
 }
 
 .header {

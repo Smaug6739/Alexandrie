@@ -1,5 +1,4 @@
 <template>
-
 	<nav :class="{ open: isOpened }">
 		<div :class="['sidebar', isResizing ? 'no-select' : '']">
 			<div :style="{ width: panewidthCSS }">

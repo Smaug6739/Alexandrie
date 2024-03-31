@@ -1,5 +1,4 @@
 <template>
-
 	<Resizable class="no-print">
 		<div class="sidebar-content">
 			<section class="header">
@@ -12,7 +11,6 @@
 			</section>
 		</div>
 	</Resizable>
-
 </template>
 
 <script setup lang="ts">

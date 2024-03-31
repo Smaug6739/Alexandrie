@@ -4,7 +4,7 @@
 			<div style="width:100%;">
 				<article class="document-theme" style="max-width: 100%;overflow: auto;" ref="element"
 					v-html="article.content_html"></article>
-				<DocumentFooter :document="article" :next="next" :previous="previous" class="footer" />
+				<DocumentFooter :document="article" :next="next" :previous="previous" />
 			</div>
 			<TableOfContent :element="element" class="toc" />
 		</div>
@@ -49,17 +49,5 @@ const previous = computed(() => doc_store.getPrevious(article.value));
 		margin-top: 40px;
 		width: 400px;
 	}
-}
-
-@media print {
-	.toc {
-		display: none;
-	}
-
-	.footer {
-		display: none;
-	}
-
-
 }
 </style>

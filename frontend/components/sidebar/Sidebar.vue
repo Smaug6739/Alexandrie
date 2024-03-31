@@ -157,10 +157,4 @@ const menuItems = computed((): MenuItem[] => {
     display: none !important;
   }
 }
-
-@media print {
-  .sidebar {
-    display: none !important;
-  }
-}
 </style>
