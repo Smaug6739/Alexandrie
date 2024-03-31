@@ -2,12 +2,18 @@ import MarkdownIt from 'markdown-it';
 import { containerPlugin } from './container';
 import { anchorPlugin } from './anchor';
 import { containerSvg } from './containers-svg';
+// @ts-ignore
+import underline from 'markdown-it-underline';
+// @ts-ignore
+import mark from 'markdown-it-mark';
 import katex from 'katex';
 
 const md = new MarkdownIt({ html: true });
 md.use(containerPlugin);
 md.use(anchorPlugin);
 md.use(containerSvg);
+md.use(underline);
+md.use(mark);
 
 export default function compile(str: string = '', plugins: boolean = true): string {
   let render = str;

@@ -18,6 +18,8 @@
     "@types/markdown-it": "^13.0.4",
     "@types/markdown-it-container": "^2.0.8",
     "@types/node": "^20.8.5",
+    "markdown-it-mark": "^4.0.0",
+    "markdown-it-underline": "^1.0.1",
     "nuxt": "^3.8.0",
     "pinia": "^2.1.6",
     "punycode": "^2.3.0",
