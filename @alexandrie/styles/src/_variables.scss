@@ -28,7 +28,7 @@ $transition-duration: 0.3s;
 
 :root {
 
-	--bg-color: #FFFFFF;
+	--bg-color: #FFF;
 	--bg-contrast: #F5F9FB;
 	--bg-contrast-2: #ECF2FF;
 	//--bg-color: #ECF2FF;
@@ -37,7 +37,7 @@ $transition-duration: 0.3s;
 	--font-color: #333;
 	--border-color: rgba(0, 0, 0, 0.1);
 	// COLORS \\
-	--grey: #666666;
+	--grey: #666;
 	--grey-bg: rgb(240, 240, 240);
 	--blue: #009df7;
 	--blue-bg: #cce0ff;
@@ -62,7 +62,7 @@ $transition-duration: 0.3s;
 	--bg-color: #202025;
 	--bg-contrast: #333335;
 	--bg-contrast-2: #484852;
-	--font-color: #DDDDDD;
+	--font-color: #ddd;
 	--border-color: rgba(255, 255, 255, 0.7);
 	// COLORS \\
 	--grey: #e0e0e0;
@@ -86,7 +86,7 @@ $transition-duration: 0.3s;
 
 @mixin print-theme {
 	// THEME \\
-	--bg-color: #FFFFFF;
+	--bg-color: #fff;
 	--bg-contrast: #F5F5F5;
 	--bg-contrast-2: #ECECEC;
 	--font-color: #333333;
