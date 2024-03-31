@@ -3,8 +3,7 @@ module.exports = {
     {
       name: "alexandrie-backend",
       cwd: "./backend/dist",
-      script: "main.js",
-      interpreter: "~/.bun/bin/bun",
+      script: "--interpreter ~/.bun/bin/bun main.js",
       env: {
         NODE_ENV: "production",
         PORT: 8201,
@@ -16,8 +15,7 @@ module.exports = {
     {
       name: "alexandrie-frontend",
       cwd: "./frontend",
-      interpreter: "~/.bun/bin/bun",
-      script: ".output/server/index.mjs",
+      script: "--interpreter ~/.bun/bin/bun .output/server/index.mjs",
       env: {
         NODE_ENV: "production",
         PORT: 8200,
@@ -26,8 +24,7 @@ module.exports = {
     {
       name: "alexandrie-dashboard",
       cwd: "./dashboard",
-      interpreter: "~/.bun/bin/bun",
-      script: ".output/server/index.mjs",
+      script: "--interpreter ~/.bun/bin/bun .output/server/index.mjs",
       env: {
         NODE_ENV: "production",
       },
