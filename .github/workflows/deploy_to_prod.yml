@@ -1,5 +1,4 @@
 name: Build & deploy to VPS
-
 on:
   push:
     branches:
