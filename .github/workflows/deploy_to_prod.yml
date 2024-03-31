@@ -14,7 +14,9 @@ jobs:
       SSH_USER: ${{ secrets.SSH_USER }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: |
+          actions/checkout@v4
+          oven-sh/setup-bun@v1
 
       - name: Install dependencies
         run: |
