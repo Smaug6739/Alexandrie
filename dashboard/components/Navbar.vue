@@ -15,7 +15,7 @@
 			<li class="no-mobile">
 				<NuxtLink to="https://dashboard.alexandrie-hub.fr" target="_blank">Dashboard</NuxtLink>
 			</li>
-			<li style="padding-right:10px;">
+			<li>
 				<ThemeToggle />
 			</li>
 		</ul>
@@ -50,24 +50,15 @@ ul {
 	padding: 0;
 	display: flex;
 	align-items: center;
+
+	li {
+		margin-right: 15px;
+	}
 }
 
 // Mobile styles
 @media screen and (max-width: 719px) {
 	.no-mobile {
-		display: none;
-	}
-}
-
-// Desktop styles
-@media screen and (min-width: 720px) {
-	li {
-		margin-right: 20px;
-	}
-}
-
-@media print {
-	nav {
 		display: none;
 	}
 }
