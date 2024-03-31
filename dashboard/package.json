@@ -18,6 +18,10 @@
     "@types/markdown-it": "^13.0.4",
     "@types/markdown-it-container": "^2.0.8",
     "@types/node": "^20.8.5",
+    "katex": "^0.16.10",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^8.6.7",
+    "markdown-it-container": "^4.0.0",
     "markdown-it-mark": "^4.0.0",
     "markdown-it-underline": "^1.0.1",
     "nuxt": "^3.8.0",
@@ -26,11 +30,5 @@
     "sass": "^1.69.3",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
-  },
-  "dependencies": {
-    "katex": "^0.16.9",
-    "markdown-it": "^13.0.2",
-    "markdown-it-anchor": "^8.6.7",
-    "markdown-it-container": "^3.0.0"
   }
 }
