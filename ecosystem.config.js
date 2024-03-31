@@ -27,6 +27,7 @@ module.exports = {
       script: "bun .output/server/index.mjs",
       env: {
         NODE_ENV: "production",
+        PORT: 8202,
       },
     },
   ],
