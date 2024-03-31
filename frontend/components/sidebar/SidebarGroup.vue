@@ -68,5 +68,9 @@ const emit = defineEmits(['closeMobile']);
 ul {
 	padding: 0;
 	margin: 0;
+
+	li {
+		margin: 10px 0;
+	}
 }
 </style>

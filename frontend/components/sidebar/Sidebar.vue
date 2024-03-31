@@ -137,10 +137,6 @@ const menuItems = computed((): MenuItem[] => {
   }
 }
 
-ul {
-  margin: 10px 0;
-}
-
 .body {
   overflow-y: auto;
   height: 100%;
