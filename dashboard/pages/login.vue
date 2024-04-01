@@ -25,8 +25,6 @@
 	</div>
 </template>
 <script setup lang="ts">
-const theme = useColorMode()
-console.log(theme)
 const router = useRouter()
 const username = ref('')
 const errors = ref({

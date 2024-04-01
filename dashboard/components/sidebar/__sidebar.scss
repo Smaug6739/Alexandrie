@@ -1,6 +1,6 @@
 // Sidebar
 .sidebar-content {
-	margin: 0 5px 0 10px;
+	margin: 0 0 0 10px;
 	background: var(--bg-contrast);
 	display: flex;
 	flex-direction: column;
@@ -27,8 +27,4 @@
 		font-size: 1.2rem;
 		font-weight: 500;
 	}
-}
-
-.body {
-	margin: 5px;
 }

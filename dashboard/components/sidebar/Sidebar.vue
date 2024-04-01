@@ -1,13 +1,15 @@
 <template>
-	<Resizable class="no-print">
+	<Resizable>
+
 		<div class="sidebar-content">
 			<section class="header">
 				<IconApp />
 				<p style="font-size: 19px;font-weight: 600;">Dashboard</p>
 				<IconClose class="btn" />
 			</section>
+			<SidebarDropdown :categories="categoriesStore.getParents" v-model="category_dropdown_filter" />
 			<section>
-				<CollapseItem v-for="(item, index) in items" :key="index" :item="item" />
+				<CollapseItem v-for="( item, index ) in  items " :key="index" :item="item" />
 			</section>
 		</div>
 	</Resizable>
@@ -25,18 +27,25 @@ const isMobile = () => process.client ? window.innerWidth <= 768 : false;
 const handleClickOutside = (e: MouseEvent) => {
 	if (isOpened.value && e.target && (!(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) && isMobile()) isOpened.value = false;
 };
+
+
+
+const category_dropdown_filter = ref('');
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const items = computed((): Item[] => [
 	...defaultItems,
-	...formatTree()
+	...formatTree().filter((item) => {
+		if (category_dropdown_filter.value === '') return true;
+		return item.id === category_dropdown_filter.value;
+	})
 ]);
 
 type DocumentTree = Document & { childrens: DocumentTree[] };
 
 function formatTree(): Item[] {
-	console.log('formatTree');
-	const parents = categoriesStore.getParents;
+
+	const parents = categoriesStore.getParents
 	const items: Item[] = [];
 	parents.forEach((parent) => {
 		const childrens: Item[] = [];

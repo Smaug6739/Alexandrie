@@ -25,7 +25,7 @@ const isActive = (id: string) => doc_id.value === id;
 	border-radius: 5px;
 	color: var(--font-color);
 	cursor: pointer;
-	width: 90%;
+	width: 98%;
 
 	&:hover,
 	&.active {

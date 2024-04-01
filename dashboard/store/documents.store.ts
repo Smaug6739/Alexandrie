@@ -38,8 +38,6 @@ export const useDocumentsStore = defineStore('documents', {
         );
         if (request.status == 'success') {
           if (opts?.id) {
-            console.log(request.result);
-
             const index = this.documents.findIndex(d => d.id == opts?.id);
             const updatedDocument: Document = { ...request.result, partial: false };
             if (index == -1) this.documents.push(updatedDocument);
