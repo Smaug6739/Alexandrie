@@ -11,7 +11,7 @@
 import { useDocumentsStore, useCategoriesStore } from './store';
 
 // @ts-ignore
-useDocumentsStore().fetch({ fields: ['id', 'name', 'description', 'accessibility', 'category', 'created_timestamp'] });
+useDocumentsStore().fetch({ fields: ['id', 'name', 'description', 'accessibility', 'category', 'parent_id', 'created_timestamp'] });
 useCategoriesStore().fetch();
 
 </script>

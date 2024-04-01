@@ -6,6 +6,7 @@ export interface Document {
   description?: string;
   tags?: string;
   category?: string;
+  parent_id?: string;
   accessibility: number; // 0: No; 1: Yes;
   content_markdown?: string;
   content_html?: string;

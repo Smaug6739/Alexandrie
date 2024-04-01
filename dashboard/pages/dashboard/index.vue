@@ -70,7 +70,10 @@ watchEffect(async () => {
 });
 
 const print = () => window.print();
-const deleteDoc = () => doc.value?.id ? documentsStore.delete(doc.value.id) : null;
+const deleteDoc = () => {
+	showDeleteModal.value = false;
+	doc.value?.id ? documentsStore.delete(doc.value.id) : null
+};
 </script>
 
 <style lang="scss" scoped>

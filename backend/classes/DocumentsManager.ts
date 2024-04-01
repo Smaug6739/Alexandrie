@@ -56,13 +56,14 @@ export default class DocumentsManager extends Base {
       if (!data.author_id) return reject(new Error('[MISSING_KEY] : author_id must be provided'));
 
       this.app.db.query<DocumentDB[]>(
-        'INSERT INTO documents (`id`, `name`, `description`, `tags`, `category`, `accessibility`, `content_markdown`, `content_html`, `author_id`, `created_timestamp`, `updated_timestamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'INSERT INTO documents (`id`, `name`, `description`, `tags`, `category`, `parent_id`, `accessibility`, `content_markdown`, `content_html`, `author_id`, `created_timestamp`, `updated_timestamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
           id,
           data.name,
           data.description,
           data.tags,
           data.category,
+          data.parent_id,
           data.accessibility,
           data.content_markdown,
           data.content_html,
@@ -86,12 +87,13 @@ export default class DocumentsManager extends Base {
       if (!data.author_id) return reject(new Error('[MISSING_KEY] : author_id must be provided'));
       const time = Date.now().toString();
       this.app.db.query<DocumentDB[]>(
-        'UPDATE documents SET name = ?, description = ?, tags = ?, category = ?, accessibility = ?, content_markdown = ?, content_html = ?, updated_timestamp = ? WHERE id = ?',
+        'UPDATE documents SET name = ?, description = ?, tags = ?, category = ?, parent_id = ?, accessibility = ?, content_markdown = ?, content_html = ?, updated_timestamp = ? WHERE id = ?',
         [
           data.name,
           data.description,
           data.tags,
           data.category,
+          data.parent_id,
           data.accessibility,
           data.content_markdown,
           data.content_html,

@@ -10,7 +10,6 @@
 				<option value="1">Visible</option>
 				<option value="2">Draf</option>
 				<option value="3">Archive</option>
-				<option value="4">Trash</option>
 			</select>
 			<select v-model="copy.category">
 				<optgroup v-for="cat in categoriesStore.getParents" :label="cat.name" :key="cat.id">
@@ -19,14 +18,21 @@
 					</option>
 				</optgroup>
 			</select>
+			<select v-model="copy.parent_id">
+				<option selected :value="null"> No parent </option>
+				<option v-for="doc in documentsStore.getByCategories(copy.category || '')" :value="doc.id" :key="doc.id"
+					v-text="doc.name">
+				</option>
+			</select>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { useCategoriesStore, type Document, type Category } from "~/store";
+import { useCategoriesStore, useDocumentsStore, type Document, type Category } from "~/store";
 
 const categoriesStore = useCategoriesStore();
+const documentsStore = useDocumentsStore();
 
 const props = defineProps<{ document: Partial<Document> }>();
 const copy = ref(props.document);
