@@ -11,7 +11,7 @@
 				<option value="2">Draf</option>
 				<option value="3">Archive</option>
 			</select>
-			<select v-model="copy.category">
+			<select v-model="copy.category" style="margin-right:5px;">
 				<optgroup v-for="cat in categoriesStore.getParents" :label="cat.name" :key="cat.id">
 					<option v-for="subCat in categoriesStore.getChilds(cat.id)" :value="subCat.id" :key="subCat.id"
 						v-text="subCat.name">
