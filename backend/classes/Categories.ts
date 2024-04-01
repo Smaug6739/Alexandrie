@@ -19,7 +19,7 @@ export default class CategoriesDB extends Base {
   public add(data: Omit<Category, 'id'>): Promise<Category> {
     return new Promise((resolve, reject) => {
       const id = this.app.snowflake.generate().toString();
-      if (!data.name) return reject(new Error('[MISSING_KEY] : name must be provided'));
+      if (!data.name) return reject(new Error('name must be provided'));
       this.app.db.query(
         'INSERT INTO categories (`id`, `name`,`icon`, `order`, `parent_id`) VALUES (?, ?, ?, ?, ?)',
         [id, data.name, data.icon, data.order, data.parent_id],
@@ -33,8 +33,8 @@ export default class CategoriesDB extends Base {
 
   update(data: Category): Promise<Category> {
     return new Promise((resolve, reject) => {
-      if (!data.id) return reject(new Error('[MISSING_KEY] : id must be provided'));
-      if (!data.name) return reject(new Error('[MISSING_KEY] : name must be provided'));
+      if (!data.id) return reject(new Error('id must be provided'));
+      if (!data.name) return reject(new Error('name must be provided'));
 
       this.app.db.query(
         'UPDATE categories SET name = ?, icon = ?, `order` = ?, parent_id = ? WHERE id = ?',
@@ -49,7 +49,7 @@ export default class CategoriesDB extends Base {
 
   public delete(id: Category['id']): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      if (!id) return reject(new Error('[MISSING_KEY] : id must be provided'));
+      if (!id) return reject(new Error('id must be provided'));
       this.app.db.query('DELETE FROM categories WHERE id = ?', [id], err => {
         if (err) return reject('Internal database error.');
         else resolve(true);

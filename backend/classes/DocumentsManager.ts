@@ -25,7 +25,7 @@ export default class DocumentsManager extends Base {
 
   public getAllByCategory(category: string) {
     return new Promise<Document[]>((resolve, reject) => {
-      if (!category) return reject(new Error('[MISSING_KEY] : category must be provided'));
+      if (!category) return reject(new Error('category must be provided'));
       this.app.db.query<DocumentDB[]>(
         'SELECT * FROM documents WHERE category = ? AND `accessibility` = 1 ORDER BY `name`',
         [category],
@@ -38,7 +38,7 @@ export default class DocumentsManager extends Base {
   }
   get(id: string) {
     return new Promise<Document>((resolve, reject) => {
-      if (!id) return reject(new Error('[MISSING_KEY] : id must be provided'));
+      if (!id) return reject(new Error('id must be provided'));
       this.app.db.query<DocumentDB[]>('SELECT * FROM documents WHERE id = ?', [id], (err, result) => {
         if (err) return reject('Internal database error.');
         if (!result[0]) return reject('Document not found.');
@@ -50,10 +50,9 @@ export default class DocumentsManager extends Base {
     return new Promise((resolve, reject) => {
       const time = Date.now().toString();
       const id = this.app.snowflake.generate().toString();
-      if (!data.name) return reject(new Error('[MISSING_KEY] : name must be provided'));
-      if (!data.accessibility && data.accessibility != 0)
-        return reject(new Error('[MISSING_KEY] : accessibility must be provided'));
-      if (!data.author_id) return reject(new Error('[MISSING_KEY] : author_id must be provided'));
+      if (!data.name) return reject(new Error('name must be provided'));
+      if (!data.accessibility && data.accessibility != 0) return reject(new Error('accessibility must be provided'));
+      if (!data.author_id) return reject(new Error('author_id must be provided'));
 
       this.app.db.query<DocumentDB[]>(
         'INSERT INTO documents (`id`, `name`, `description`, `tags`, `category`, `parent_id`, `accessibility`, `content_markdown`, `content_html`, `author_id`, `created_timestamp`, `updated_timestamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
@@ -80,11 +79,10 @@ export default class DocumentsManager extends Base {
   }
   public put(id: string, data: Omit<Document, 'id' | 'created_timestamp' | 'updated_timestamp'>) {
     return new Promise((resolve, reject) => {
-      if (!id) return reject(new Error('[MISSING_KEY] : id must be provided'));
-      if (!data.name) return reject(new Error('[MISSING_KEY] : name must be provided'));
-      if (!data.accessibility && data.accessibility != 0)
-        return reject(new Error('[MISSING_KEY] : accessibility must be provided'));
-      if (!data.author_id) return reject(new Error('[MISSING_KEY] : author_id must be provided'));
+      if (!id) return reject(new Error('id must be provided'));
+      if (!data.name) return reject(new Error('name must be provided'));
+      if (!data.accessibility && data.accessibility != 0) return reject(new Error('accessibility must be provided'));
+      if (!data.author_id) return reject(new Error('author_id must be provided'));
       const time = Date.now().toString();
       this.app.db.query<DocumentDB[]>(
         'UPDATE documents SET name = ?, description = ?, tags = ?, category = ?, parent_id = ?, accessibility = ?, content_markdown = ?, content_html = ?, updated_timestamp = ? WHERE id = ?',
@@ -110,7 +108,7 @@ export default class DocumentsManager extends Base {
 
   public delete(id: string) {
     return new Promise((resolve, reject) => {
-      if (!id) return reject(new Error('[MISSING_KEY] : id must be provided'));
+      if (!id) return reject(new Error('id must be provided'));
       this.app.db.query<DocumentDB[]>('DELETE FROM documents WHERE id = ?', [id], err => {
         if (err) return reject('Internal database error.');
         resolve(true);
