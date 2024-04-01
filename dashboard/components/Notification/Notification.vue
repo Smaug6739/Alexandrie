@@ -55,6 +55,7 @@ p {
 	cursor: pointer;
 	margin-left: 12px;
 	transition: transform $transition-duration ease;
+	fill: var(--font-color);
 }
 
 .close-icon:hover {
@@ -62,19 +63,27 @@ p {
 }
 
 .info {
-	background-color: $blue;
+	border-color: var(--blue-border);
+	color: var(--blue);
+	background-color: var(--blue-bg);
 }
 
 .error {
-	background-color: $red;
+	border-color: var(--red-border);
+	color: var(--red);
+	background-color: var(--red-bg);
 }
 
 .success {
-	background-color: $green;
+	border-color: var(--green-border);
+	color: var(--green);
+	background-color: var(--green-bg);
 }
 
 .warning {
-	background-color: $yellow;
+	border-color: var(--yellow-border);
+	color: var(--yellow);
+	background-color: var(--yellow-bg);
 }
 
 /* Transitions */
