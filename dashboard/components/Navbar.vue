@@ -1,8 +1,8 @@
 <template>
 	<header>
 		<span>
-			<svg v-if="hasSidebar" @click="isOpened = !isOpened" class="open-sidebar" xmlns="http://www.w3.org/2000/svg"
-				height="24" viewBox="0 -960 960 960" width="24">
+			<svg v-if="hasSidebar" @click="toggleSidebar" class="open-sidebar" xmlns="http://www.w3.org/2000/svg" height="24"
+				viewBox="0 -960 960 960" width="24">
 				<path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
 			</svg>
 		</span>
@@ -64,6 +64,5 @@ ul {
 }
 </style>
 <script lang="ts" setup>
-import { hasSidebar, isOpened } from "@/components/sidebar/helpers";
-
+const { toggleSidebar, hasSidebar } = useSidebar();
 </script>

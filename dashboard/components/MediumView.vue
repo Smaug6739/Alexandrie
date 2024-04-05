@@ -5,8 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { isOpened, paneWidth } from './sidebar/helpers';
-
+const { isOpened, paneWidth } = useSidebar();
 const mediumContainer = ref<HTMLElement | null>(null);
 const isMobile = () => process.client ? window.innerWidth <= 768 : false;
 if (!isMobile()) {

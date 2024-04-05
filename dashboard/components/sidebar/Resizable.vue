@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { isOpened, paneWidth } from "./helpers";
+const { isOpened, paneWidth } = useSidebar();
 
 const isResizing = ref(false)
 const startX = ref(0)

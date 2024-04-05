@@ -9,7 +9,7 @@
 			</section>
 			<SidebarDropdown :categories="categoriesStore.getParents" v-model="category_dropdown_filter" />
 			<section>
-				<CollapseItem v-for="( item, index ) in  items " :key="index" :item="item" />
+				<CollapseItem v-for="( item, index ) in items " :key="index" :item="item" />
 			</section>
 		</div>
 	</Resizable>
@@ -21,7 +21,9 @@ import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import IconApp from './IconApp.vue';
 import { useCategoriesStore, useDocumentsStore, type Document } from '~/store';
-import { isOpened, type Item, defaultItems, hasSidebar } from "./helpers";
+import { type Item, defaultItems } from "./helpers";
+
+const { isOpened, hasSidebar } = useSidebar();
 
 const isMobile = () => process.client ? window.innerWidth <= 768 : false;
 const handleClickOutside = (e: MouseEvent) => {
