@@ -5,17 +5,18 @@
 .katex-container {
 	display: inline-flex;
 	max-width: 100%;
-	overflow: hidden;
+	//overflow: hidden;
+	overflow: auto hidden;
 	padding: 2.5px 1px;
 }
 
 .katex-display {
 	margin: 0 !important;
-	text-align: left;
+	//text-align: left;
 }
 .katex { 
-	white-space: normal !important;
-	text-align: left !important;
+	//white-space: normal !important;
+	//text-align: left !important;
 }
 /* Add space between broken lines: */
 .katex > .katex-html > .base { 
