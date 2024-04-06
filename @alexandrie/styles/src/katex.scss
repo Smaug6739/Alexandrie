@@ -5,7 +5,7 @@
 .katex-container {
 	display: inline-flex;
 	max-width: 100%;
-	overflow: auto hidden;
+	overflow: hidden;
 	padding: 2.5px 1px;
 }
 
@@ -19,5 +19,5 @@
 }
 /* Add space between broken lines: */
 .katex-display > .katex-matml > .base { 
-	margin: 0.25em 0 !important
+	margin: 0.35em 0 !important
 }
