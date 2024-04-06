@@ -9,7 +9,11 @@
 	overflow: auto hidden;
 	padding: 2.5px 1px;
 }
-
+.katex-display,
+.katex-display>.katex,
+.katex-display>.katex>.katex-html {
+	display: inline;
+}
 .katex-display {
 	margin: 0 !important;
 	//text-align: left;
