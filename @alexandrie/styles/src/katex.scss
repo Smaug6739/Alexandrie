@@ -10,7 +10,7 @@
 }
 
 .katex-display {
-	margin: 0.5em 0 !important;
+	margin: 0 !important;
 	text-align: left;
 }
 .katex { 
@@ -18,4 +18,6 @@
 	text-align: left !important;
 }
 /* Add space between broken lines: */
-.katex-display > .base { margin: 0.25em 0 }
+.katex-display > .base { 
+	margin: 0.25em 0 !important
+}
