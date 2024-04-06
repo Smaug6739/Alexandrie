@@ -1,23 +1,4 @@
 .katex-container {
 	display: inline-flex;
-	line-height: 1.8em;
-	max-width: 100%;
-	overflow-x: auto;
-	overflow-y: hidden;
-	padding-right: 2px;
-	vertical-align: baseline;
-}
-
-.katex {
-	font-display: swap;
-}
-
-.katex-display,
-.katex-display>.katex,
-.katex-display>.katex>.katex-html {
-	display: inline;
-}
-
-.katex-display {
-	margin: 10px 0 !important;
+	padding: 2.5px 1px;
 }
