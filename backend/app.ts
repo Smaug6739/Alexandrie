@@ -28,7 +28,7 @@ export class App {
   private async handleRoutes() {
     const directories = readdirSync(join(__dirname, 'routes'));
     for (const dir of directories) {
-      const routes = readdirSync(join(__dirname, `routes/${dir}`)).filter(file => file.endsWith('.js'));
+      const routes = readdirSync(join(__dirname, `routes/${dir}`)).filter(file => file.endsWith('.js') || file.endsWith('.ts'));
       for (const file of routes) {
         const getFile = (await import(join(__dirname, `routes/${dir}/${file}`))).default;
         const fileInfos = getFile(this) as Iroute;
