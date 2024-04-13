@@ -6,7 +6,7 @@ $red: #dc3545;
 $white: white;
 $orange: #fd7e14;
 $yellow: #ffc107;
-$green: #28a745;
+$green: #009879;
 $grey: #ffffffd9;
 $black: #27323A;
 
@@ -40,41 +40,43 @@ $transition-duration: 0.3s;
 	--blue: #009df7;
 	--blue-bg: #cce0ff;
 	--blue-border: rgba(0, 123, 255, 0.3);
-	--green: #28A745;
+	--green: #009879;
 	--green-bg: rgba(40, 167, 69, 0.15);
 	--green-border: rgba(40, 167, 69, 0.3);
 	--red: #DC3545;
 	--red-bg: rgba(220, 53, 69, 0.15);
 	--red-border: rgba(220, 53, 69, 0.3);
-	--yellow: #f7b32d;
+	--yellow: #FF9800;
 	--yellow-bg: rgba(255, 193, 7, 0.15);
 	--yellow-border: rgba(255, 193, 7, 0.3);
 	--turquoise: #17A2B8;
 	--turquoise-bg: rgba(23, 162, 184, 0.2);
 	--turquoise-border: rgba(23, 162, 184, 0.25);
+
+	--pink: #FF2E63;
 }
 
 
 
 .dark-mode {
-	--bg-color: #202025;
+	--bg-color: #0f0f11;
 	--bg-contrast: #27262b;
 	--bg-contrast-2: #484852;
 	--font-color: #ddd;
-	--border-color: rgba(255, 255, 255, 0.7);
+	--border-color: rgba(35, 33, 37, 0.7);
 	// COLORS \\
 	--grey: #e0e0e0;
 	--grey-bg: rgb(47, 47, 47);
 	--blue: #47a6ff;
 	--blue-bg: rgb(0, 140, 216, 0.2);
 	--blue-border: rgba(0, 140, 216, 0.25);
-	--green: #42b983;
+	--green: #009879;
 	--green-bg: rgba(66, 184, 131, 0.2);
 	--green-border: rgba(66, 184, 131, 0.25);
 	--red: #ff4882;
 	--red-bg: rgba(237, 60, 80, 0.2);
 	--red-border: rgba(237, 60, 80, .25);
-	--yellow: #f7b32d;
+	--yellow: #FF9800;
 	--yellow-bg: rgba(255, 197, 23, 0.2);
 	--yellow-border: rgba(255, 197, 23, .25);
 	--turquoise: #00d6b4;
@@ -93,7 +95,7 @@ $transition-duration: 0.3s;
 	--blue: #007bff;
 	--blue-bg: rgba(0, 123, 255, 0.2);
 	--blue-border: rgba(0, 123, 255, 0.25);
-	--green: #28a745;
+	--green: #009879;
 	--green-bg: rgba(40, 167, 69, 0.2);
 	--green-border: rgba(40, 167, 69, 0.25);
 	--red: #dc3545;

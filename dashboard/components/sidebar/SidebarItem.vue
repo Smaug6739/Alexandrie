@@ -20,7 +20,7 @@ const isActive = (id: string) => doc_id.value === id;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	min-height: 28px;
+	min-height: 29px;
 	padding: 0 2.5px;
 	margin: 2.5px 0;
 	border-radius: 5px;
@@ -41,7 +41,7 @@ const isActive = (id: string) => doc_id.value === id;
 			fill: var(--blue);
 			width: 22px;
 			height: 20px;
-			margin-right: 7px;
+			margin-right: 5px;
 
 			path {
 				fill: var(--blue);

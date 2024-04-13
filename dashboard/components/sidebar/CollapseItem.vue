@@ -50,6 +50,7 @@ h2 {
 
 	svg {
 		height: 20px;
+		fill: var(--font-color);
 
 		:hover {
 			cursor: pointer;

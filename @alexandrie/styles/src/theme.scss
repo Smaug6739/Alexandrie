@@ -165,38 +165,28 @@ select {
 }
 
 table {
-	border-collapse: separate;
-	border-spacing: 0;
-	background-color: var(--contrast-color);
+	border-collapse: collapse;
+	margin: 25px 0;
+	font-size: 0.9em;
+	min-width: 400px;
+	overflow-x: auto;
 
-	tr:first-child {
-		th:first-child {
-			border-top-left-radius: 10px;
-		}
-
-		th:last-child {
-			border-top-right-radius: 10px;
-		}
+	th,
+	td {
+		padding: 12px 15px;
 	}
 
-	tr:last-child {
-		td:first-child {
-			border-bottom-left-radius: 10px;
-		}
-
-		td:last-child {
-			border-bottom-right-radius: 10px;
-		}
+	tbody tr {
+		border-bottom: 1px solid var(--border-color);
 	}
 
-	td,
-	th {
-		border: 1px solid var(--border-color);
-		padding: 3px;
+	tbody tr:nth-of-type(even) {
+		background-color: var(--bg-contrast);
 	}
 
 	@media (max-width: 600px) {
 		zoom: 0.9;
+		min-width: 300px;
 	}
 }
 

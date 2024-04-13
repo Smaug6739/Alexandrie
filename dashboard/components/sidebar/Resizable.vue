@@ -57,7 +57,7 @@ nav {
 }
 
 .sidebar {
-	background-color: var(--bg-contrast);
+	background-color: var(--bg-color);
 	overflow-x: hidden;
 	height: 100%;
 	display: flex;
@@ -76,7 +76,7 @@ nav {
 .sidebar {
 	&:hover {
 		.separator {
-			background-color: var(--bg-contrast-2);
+			background-color: var(--bg-contrast);
 		}
 	}
 }
