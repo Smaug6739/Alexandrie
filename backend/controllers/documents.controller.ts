@@ -21,23 +21,7 @@ export default class DocumentsController {
     } else {
       this.db_a
         .getAll(req.query.all?.toString())
-        .then((result: Partial<Document>[]) => {
-          // Select fields
-          if (req.query.fields) {
-            const Qfields: string[] = req.query.fields.toString().split(',');
-
-            if (Qfields.length) {
-              result = result.map((item: Partial<Document>) => {
-                const filtered = {} as any;
-                Qfields.forEach(field => {
-                  if (item[field as keyof Document]) filtered[field as keyof Document] = item[field as keyof Document];
-                });
-                return filtered;
-              });
-            }
-          }
-          res.status(200).json(success(result));
-        })
+        .then((result: Partial<Document>[]) => res.status(200).json(success(result)))
         .catch(e => res.status(500).json(error(e)));
     }
   }
