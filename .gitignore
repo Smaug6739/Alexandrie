@@ -2,6 +2,6 @@
 uploads/images/*
 uploads/webp/*
 uploads/backups/*
-!uploads/images/default
-!uploads/webp/default
-!uploads/backups/default
+!uploads/images/.gitkeep
+!uploads/webp/.gitkeep
+!uploads/backups/.gitkeep

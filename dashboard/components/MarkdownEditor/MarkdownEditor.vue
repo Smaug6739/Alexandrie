@@ -1,14 +1,16 @@
 <template>
 	<div class="editor-container">
-		<Toolbar :document="document" @execute-action="(a: string) => exec(a)" />
-		<div class="flex-container body">
-			<div class="editor-input">
-				<input placeholder="Titre" class="title input" v-model="document.name" />
-				<input placeholder="Description" class="description input" v-model="document.description" />
-				<textarea ref="textarea" class="content input" placeholder="Écrivez votre contenu ici..."
-					v-model="document.content_markdown"></textarea>
+		<Toolbar style="height: fit-content;" :document="document" @execute-action="(a: string) => exec(a)" />
+		<div class="editor-input">
+			<input placeholder="Titre" class="title input" v-model="document.name" />
+			<input placeholder="Description" class="description input" v-model="document.description" />
+			<div class="markdown">
+				<textarea ref="textarea" class="content markdown-input input" placeholder="Écrivez votre contenu ici..."
+					v-model="document.content_markdown" @scroll="syncScroll"></textarea>
+				<div v-if="showPreview" class="markdown-preview document-theme" ref="markdownPreview">
+					<div v-html="html_content"></div>
+				</div>
 			</div>
-			<div v-if="showPreview" class="markdown-preview document-theme" v-html="document.content_html"></div>
 		</div>
 	</div>
 </template>
@@ -27,10 +29,11 @@ const showPreview = ref(false);
 
 const emit = defineEmits(['save']);
 
-watchEffect(() => {
-	if (!document.value.content_markdown) return;
+const html_content = computed(() => {
 	document.value.content_html = compile(document.value.content_markdown, true);
+	return document.value.content_html;
 });
+
 
 function exec(action: string) {
 	if (!textarea.value) return;
@@ -75,39 +78,43 @@ function exec(action: string) {
 			break;
 	}
 }
+
+const markdownPreview = ref<HTMLDivElement>();
+
+function syncScroll() {
+	if (!textarea.value || !markdownPreview.value) return;
+	const scrollPercentage = textarea.value.scrollTop / (textarea.value.scrollHeight - textarea.value.clientHeight);
+	markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
+}
 </script>
 
 <style scoped lang="scss">
 .editor-container {
-	display: flex;
-	flex-direction: column;
-}
-
-.flex-container {
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
-}
-
-.body {
 	height: 100%;
-}
-
-.editor-input,
-.markdown-preview {
-	padding: 8px;
-	min-height: 80vh;
+	width: 100%;
 }
 
 .editor-input {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
+	height: 100%;
+	width: 100%;
 }
 
+.markdown {
+	display: flex;
+	height: 100%;
+	width: 100%;
+}
+
+.markdown-input,
 .markdown-preview {
-	border-left: 1px solid var(--border-color);
 	flex: 1;
+	overflow: auto;
+	min-height: 60vh;
+}
+
+.markdown-input {
+	resize: none;
+	font-family: 'Monaspace Neon';
 }
 
 .input {
@@ -115,7 +122,6 @@ function exec(action: string) {
 	outline: none;
 	background-color: var(--bg-color);
 	padding-left: 0;
-
 
 	&.title {
 		font-size: 24px;
@@ -129,11 +135,5 @@ function exec(action: string) {
 		margin-bottom: 10px;
 	}
 
-	&.content {
-		width: 100%;
-		flex: 1;
-		padding: 0;
-		resize: none;
-	}
 }
 </style>

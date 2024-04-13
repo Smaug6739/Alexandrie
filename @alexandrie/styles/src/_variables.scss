@@ -17,7 +17,7 @@ $primary-500: darken($primary-400, 10%);
 $selection-color: $blue;
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
-
+@import url('https://cdn.jsdelivr.net/npm/monaspace-font@0.0.2/neon.css');
 $external-font: 'Poppins', sans-serif;
 $mono-font: ui-monospace 'Roboto Mono', monospace;
 
@@ -59,7 +59,7 @@ $transition-duration: 0.3s;
 
 
 .dark-mode {
-	--bg-color: #0f0f11;
+	--bg-color: #27262b;
 	--bg-contrast: #27262b;
 	--bg-contrast-2: #484852;
 	--font-color: #ddd;

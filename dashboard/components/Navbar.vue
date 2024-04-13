@@ -25,7 +25,7 @@
 <style lang="scss" scoped>
 header {
 	width: 100%;
-	height: 60px;
+	height: 100%;
 	display: flex;
 	justify-content: space-between;
 }
@@ -36,13 +36,6 @@ header {
 	fill: var(--font-color);
 	margin: 15px;
 	cursor: pointer;
-}
-
-
-.dropdown-item {
-	display: block;
-	padding: 4px;
-	font-size: calc(100% - 1px);
 }
 
 ul {

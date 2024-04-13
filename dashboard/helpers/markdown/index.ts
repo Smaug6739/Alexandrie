@@ -61,21 +61,9 @@ function markdownItKatexPlugin(md: any) {
 }
 
 export default function compile(str: string = '', plugins: boolean = true): string {
-  let render = str;
-  if (plugins) {
-    // KATEX (math)
-    //const results = matchText(render);
-    // render = replaceText(render, results);
-    render = md.render(render, {
-      html: true,
-    });
-  } else {
-    render = md.render(str, {
-      html: true,
-    });
-  }
-
-  return render;
+  return md.render(str, {
+    html: true,
+  });
 }
 function mdTokatex(text: string): string {
   const expressionWithoutDollar = text;

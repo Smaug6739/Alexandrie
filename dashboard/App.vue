@@ -1,8 +1,8 @@
 <template>
   <div id="app">
+    <Navbar style="height: 60px" />
+    <NuxtPage class="page" />
     <div id="backdrop"></div>
-    <Navbar />
-    <NuxtPage />
     <Notification />
   </div>
 </template>
@@ -15,11 +15,12 @@ useDocumentsStore().fetch();
 useCategoriesStore().fetch();
 
 </script>
-<style scoped>
+<style scoped lang="scss">
 #app {
-  display: flex;
-  flex-direction: column;
   height: 100vh;
-  width: 100%;
+}
+
+.page {
+  height: calc(100vh - 60px);
 }
 </style>

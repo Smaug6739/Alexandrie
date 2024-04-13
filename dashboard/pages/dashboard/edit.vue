@@ -36,6 +36,5 @@ function save(doc: Document) {
 .edit-component {
 	width: 100%;
 	height: 100%;
-	padding: 12px;
 }
 </style>

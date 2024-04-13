@@ -1,30 +1,26 @@
 <template>
 	<div class="toolbar flex-container">
-		<div style="display:flex; align-items: flex-start;">
-			<span v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn"
-				@click="emitAction(item.action)"></span>
-		</div>
-		<div>
-			<input placeholder="#tags" class="tags input" v-model="copy.tags" style="margin-right:5px;" />
-			<select v-model="copy.accessibility" style="margin-right:5px;">
-				<option value="1">Visible</option>
-				<option value="2">Draf</option>
-				<option value="3">Archive</option>
-			</select>
-			<select v-model="copy.category" style="margin-right:5px;">
-				<optgroup v-for="cat in categoriesStore.getParents" :label="cat.name" :key="cat.id">
-					<option v-for="subCat in categoriesStore.getChilds(cat.id)" :value="subCat.id" :key="subCat.id"
-						v-text="subCat.name">
-					</option>
-				</optgroup>
-			</select>
-			<select v-model="copy.parent_id">
-				<option selected :value="null"> No parent </option>
-				<option v-for="doc in documentsStore.getByCategories(copy.category || '')" :value="doc.id" :key="doc.id"
-					v-text="doc.name">
+		<span v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn"
+			@click="emitAction(item.action)"></span>
+		<input placeholder="#tags" class="tags input" v-model="copy.tags" style="margin-right:5px;" />
+		<select v-model="copy.accessibility" style="margin-right:5px;">
+			<option value="1">Visible</option>
+			<option value="2">Draf</option>
+			<option value="3">Archive</option>
+		</select>
+		<select v-model="copy.category" style="margin-right:5px;">
+			<optgroup v-for="cat in categoriesStore.getParents" :label="cat.name" :key="cat.id">
+				<option v-for="subCat in categoriesStore.getChilds(cat.id)" :value="subCat.id" :key="subCat.id"
+					v-text="subCat.name">
 				</option>
-			</select>
-		</div>
+			</optgroup>
+		</select>
+		<select v-model="copy.parent_id">
+			<option selected :value="null"> No parent </option>
+			<option v-for="doc in documentsStore.getByCategories(copy.category || '')" :value="doc.id" :key="doc.id"
+				v-text="doc.name">
+			</option>
+		</select>
 	</div>
 </template>
 
@@ -107,8 +103,7 @@ const toolbar = [
 .toolbar {
 	margin-bottom: 10px;
 	user-select: none;
-	border-radius: 5px;
-	padding: 5px;
+	display: flex;
 
 	.btn {
 		margin-right: 5px;
@@ -129,9 +124,7 @@ const toolbar = [
 	}
 
 	input {
-		border: none;
-		background-color: var(--bg-color);
-		outline: none;
+		display: none;
 	}
 
 	input,

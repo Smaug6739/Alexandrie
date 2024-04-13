@@ -54,7 +54,6 @@ h2 {
 	border-bottom: 1px solid var(--border-color);
 	font-weight: 700;
 	line-height: 1.2;
-	margin: 25px 0 15px 0;
 	padding-bottom: 10px;
 }
 
@@ -69,10 +68,12 @@ h6 {
 
 h1 {
 	font-size: 2em;
+	margin: 0 0 25px 0;
 }
 
 h2 {
 	font-size: 1.5em;
+	margin: 25px 0 15px 0;
 }
 
 h3 {
@@ -99,6 +100,7 @@ hr {
 	height: 1px;
 	width: 95%;
 	margin: auto;
+	margin-top: 250px;
 }
 
 img {
