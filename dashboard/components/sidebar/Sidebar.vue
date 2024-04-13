@@ -1,6 +1,5 @@
 <template>
 	<Resizable>
-
 		<div class="sidebar-content">
 			<section class="header">
 				<IconApp />
@@ -8,9 +7,7 @@
 				<IconClose class="btn" />
 			</section>
 			<SidebarDropdown :categories="categoriesStore.getParents" v-model="category_dropdown_filter" />
-			<section>
-				<CollapseItem v-for="( item, index ) in items " :key="index" :item="item" />
-			</section>
+			<CollapseItem v-for="(item, index ) in items " :key="index" :item="item" :root="true" />
 		</div>
 	</Resizable>
 </template>
@@ -23,18 +20,16 @@ import IconApp from './IconApp.vue';
 import { useCategoriesStore, useDocumentsStore, type Document } from '~/store';
 import { type Item, defaultItems } from "./helpers";
 
+type DocumentTree = Document & { childrens: DocumentTree[] };
+
 const { isOpened, hasSidebar } = useSidebar();
-
-const isMobile = () => process.client ? window.innerWidth <= 768 : false;
-const handleClickOutside = (e: MouseEvent) => {
-	if (isOpened.value && e.target && (!(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) && isMobile()) isOpened.value = false;
-};
-
-
-
 const category_dropdown_filter = ref('');
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
+
+const isMobile = () => process.client ? window.innerWidth <= 768 : false;
+
+
 const items = computed((): Item[] => [
 	...defaultItems,
 	...formatTree().filter((item) => {
@@ -43,13 +38,10 @@ const items = computed((): Item[] => [
 	})
 ]);
 
-type DocumentTree = Document & { childrens: DocumentTree[] };
 
 function formatTree(): Item[] {
-
-	const parents = categoriesStore.getParents
 	const items: Item[] = [];
-	parents.forEach((parent) => {
+	categoriesStore.getParents.forEach((parent) => {
 		const childrens: Item[] = [];
 		categoriesStore.getChilds(parent.id).forEach((child) => {
 			childrens.push({
@@ -113,6 +105,10 @@ function defaultIcon(hasChild: boolean): string {
 }
 
 
+const handleClickOutside = (e: MouseEvent) => {
+	if (isOpened.value && e.target && (!(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) && isMobile()) isOpened.value = false;
+};
+
 onMounted(() => {
 	hasSidebar.value = true;
 	if (!process.client) return;
@@ -134,5 +130,31 @@ watch(isOpened, (val) => {
 </script>
 
 <style scoped lang="scss">
-@import "./__sidebar.scss";
+.sidebar-content {
+	margin: 0 0 0 10px;
+	background: var(--bg-contrast);
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow-y: scroll;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 50px;
+	margin: 10px 0 15px 0;
+
+	.btn {
+		fill: var(--font-color);
+		width: 30px;
+		cursor: pointer;
+	}
+
+	.name {
+		font-size: 1.2rem;
+		font-weight: 500;
+	}
+}
 </style>

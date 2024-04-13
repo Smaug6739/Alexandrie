@@ -1,6 +1,6 @@
 <template>
 	<nav :class="{ open: isOpened }">
-		<div :class="['sidebar', isResizing ? 'no-select' : '']">
+		<div class="sidebar no-select">
 			<div :style="{ width: panewidthCSS }">
 				<slot></slot>
 
@@ -41,8 +41,6 @@ function stopResize() {
 	document.removeEventListener('mousemove', resize);
 	document.removeEventListener('mouseup', stopResize);
 }
-
-
 
 
 </script>

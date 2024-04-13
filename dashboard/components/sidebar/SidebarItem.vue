@@ -2,6 +2,7 @@
 	<NuxtLink class="item" :to="item.route" :class="{ active: isActive(item.id) }">
 		<i v-html="item.icon" class="icon"></i>
 		<span>{{ item.title }}</span>
+		<slot></slot>
 	</NuxtLink>
 </template>
 
@@ -19,7 +20,7 @@ const isActive = (id: string) => doc_id.value === id;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	min-height: 30px;
+	min-height: 28px;
 	padding: 0 2.5px;
 	margin: 2.5px 0;
 	border-radius: 5px;
