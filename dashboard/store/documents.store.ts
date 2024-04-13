@@ -29,22 +29,17 @@ export const useDocumentsStore = defineStore('documents', {
   actions: {
     fetch: async function <T extends FetchOptions<Array<keyof Document>>>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
-
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(
-          `documents/${opts?.id || ''}${opts?.fields?.length ? '?all=true&fields=' + opts?.fields?.join(',') : ''}`,
-          'GET',
-          {},
-        );
+        const request = await makeRequest(`documents/${opts?.id || ''}?all=true`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             const index = this.documents.findIndex(d => d.id == opts?.id);
-            const updatedDocument: Document = { ...request.result, partial: false };
+            const updatedDocument: Document = { ...request.result, partial: false, type: 'document' };
             if (index == -1) this.documents.push(updatedDocument);
             else this.documents[index] = updatedDocument;
             resolve(updatedDocument as 'id' extends keyof T ? Document : Document[]);
           } else {
-            this.documents = request.result.map((d: Document) => ({ ...d, partial: true }));
+            this.documents = request.result.map((d: Document) => ({ ...d, partial: true, type: 'document' }));
             resolve(this.documents as 'id' extends keyof T ? Document : Document[]);
           }
         } else reject(request.message);

@@ -13,17 +13,10 @@ export default class DocumentsController {
   }
 
   getAllDocuments(req: Request, res: Response) {
-    if (req.query.category) {
-      this.db_a
-        .getAllByCategory(req.query.category.toString())
-        .then((value: any) => res.status(200).json(success(value)))
-        .catch((err: Error) => res.status(500).json(error(err.message)));
-    } else {
-      this.db_a
-        .getAll(req.query.all?.toString())
-        .then((result: Partial<Document>[]) => res.status(200).json(success(result)))
-        .catch(e => res.status(500).json(error(e)));
-    }
+    this.db_a
+      .getAll(req.query.all?.toString())
+      .then((result: Partial<Document>[]) => res.status(200).json(success(result)))
+      .catch(e => res.status(500).json(error(e)));
   }
   getDocument(req: Request, res: Response) {
     this.db_a

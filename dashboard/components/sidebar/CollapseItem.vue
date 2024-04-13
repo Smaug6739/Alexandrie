@@ -1,5 +1,5 @@
 <template>
-	<div v-if="item.childrens.length">
+	<div v-if="item.childrens?.length">
 		<div v-if="root" class="collapse-header">
 			<SidebarItem :item="item" @click="toggleShow">
 				<svg style="margin-left:auto;" :class="{ 'rotated': !show }" xmlns="http://www.w3.org/2000/svg" height="24"
@@ -23,7 +23,7 @@
 	<SidebarItem v-else :item="item" />
 </template>
 <script setup lang="ts">
-import { type Item } from './helpers';
+import { type Item } from './tree_builder';
 import div from './Collapse.vue';
 import SidebarItem from './SidebarItem.vue';
 

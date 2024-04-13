@@ -14,6 +14,7 @@ export interface Document {
 
   // not in the database
   partial?: boolean;
+  type: 'document';
 }
 
 export interface Category {
@@ -22,6 +23,9 @@ export interface Category {
   icon?: string;
   order?: number;
   parent_id?: string;
+
+  // not in the database
+  type: 'category';
 }
 
 export interface User {

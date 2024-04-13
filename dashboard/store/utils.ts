@@ -6,7 +6,6 @@ export interface APIResult<Data> {
 
 export interface FetchOptions<K> {
   id: string; // id of the ressource
-  fields?: K; // fields to include in the responce
 }
 
 export const baseUrl = import.meta.env.VITE_BASE_API?.toString() || '';

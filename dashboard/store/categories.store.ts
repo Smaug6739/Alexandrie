@@ -16,14 +16,14 @@ export const useCategoriesStore = defineStore('categories', {
   actions: {
     fetch: async function (opts?: FetchOptions<Array<keyof Category>>) {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/${opts?.id || ''}?fields=${opts?.fields?.join(',')}`, 'GET', {});
+        const request = await makeRequest(`categories/${opts?.id || ''}`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             // replace the document with the new one
             const index = this.categories.findIndex(d => d.id == opts?.id);
             if (index == -1) this.categories.push(request.result);
-            else this.categories[index] = request.result;
-          } else this.categories = request.result;
+            else this.categories[index] = { ...request.result, type: 'category' };
+          } else this.categories = request.result.map((d: Category) => ({ ...d, type: 'category' }));
           resolve(this.categories);
         } else reject(request.message);
       });

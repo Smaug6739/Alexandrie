@@ -1,18 +1,28 @@
 <template>
 	<NuxtLink class="item" :to="item.route" :class="{ active: isActive(item.id) }">
-		<i v-html="item.icon" class="icon"></i>
+		<i v-html="getIcon(item)" class="icon"></i>
 		<span>{{ item.title }}</span>
 		<slot></slot>
 	</NuxtLink>
 </template>
 
 <script setup lang="ts">
-import { type Item } from './helpers';
+import type { Item } from './tree_builder';
+import { icons } from './helpers';
 const route = useRoute();
 
 defineProps<{ item: Item }>();
 const doc_id = computed(() => route.query.doc as string);
 const isActive = (id: string) => doc_id.value === id;
+
+function getIcon(item: Item) {
+	if ('icon' in item.data && item.data.icon) return item.data.icon;
+	if (item.data.type === 'category') return icons.folder;
+	if (item.data.type === 'document' && item.childrens?.length) return icons.file_parent;
+	if (item.data.type === 'document' && item.data.accessibility != 1) return icons.draft;
+	return icons.file;
+}
+
 </script>
 
 <style lang="scss" scoped>
