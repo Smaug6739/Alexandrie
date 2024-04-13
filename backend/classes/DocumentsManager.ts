@@ -11,7 +11,9 @@ export default class DocumentsManager extends Base {
     // If all is true, return all documents, else return only public documents (accessibility = 1)
     return new Promise<Document[]>((resolve, reject) => {
       this.app.db.query<DocumentDB[]>(
-        `SELECT * FROM documents ${all == 'true' ? '' : 'WHERE `accessibility` = 1'} ORDER BY \`name\``,
+        `SELECT id, name, description, tags, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents ${
+          all == 'true' ? '' : 'WHERE `accessibility` = 1'
+        } ORDER BY \`name\``,
         (err, result) => {
           if (err) {
             console.log(err);
