@@ -12,14 +12,12 @@
 }
 
 ::-webkit-scrollbar {
-	width: 5px;
-	border-radius: 9px;
+	width: 2px;
 	background: var(--bg-contrast);
 }
 
 ::-webkit-scrollbar-thumb {
-	background: $primary-400;
-	border-radius: 9px;
+	background: var(--border-color);
 }
 
 /* set button(top and bottom of the scrollbar) */
