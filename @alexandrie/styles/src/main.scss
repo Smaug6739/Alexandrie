@@ -3,12 +3,18 @@
 @import "./markdown.scss";
 @import "./document-theme.scss";
 
+/* only needed once */
 * {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+
+html {
+	overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -38,17 +44,7 @@ body {
 	background: var(--bg-color);
 	color: var(--font-color);
 	font-family: $external-font;
-	text-rendering: optimizeLegibility;
-	-webkit-text-size-adjust: 100%;
 }
-
-html,
-body,
-#__nuxt {
-	height: 100%;
-	width: 100%;
-}
-
 
 .backdrop {
 	position: fixed;

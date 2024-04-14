@@ -51,8 +51,7 @@ fieldset {
 
 h1,
 h2 {
-	border-bottom: 1px solid var(--border-color);
-	font-weight: 700;
+	font-weight: 600;
 	line-height: 1.2;
 	padding-bottom: 10px;
 }
@@ -67,13 +66,14 @@ h6 {
 }
 
 h1 {
-	font-size: 2em;
-	margin: 0 0 25px 0;
+	font-size: 1.7rem;
+	margin: 0;
 }
 
 h2 {
 	font-size: 1.5em;
 	margin: 25px 0 15px 0;
+	border-bottom: 1px solid var(--border-color);
 }
 
 h3 {
@@ -100,7 +100,7 @@ hr {
 	height: 1px;
 	width: 95%;
 	margin: auto;
-	margin-top: 250px;
+	margin: 20px 0;
 }
 
 img {
@@ -140,10 +140,6 @@ label {
 	font-weight: 600;
 }
 
-li p.first {
-	display: inline-block;
-}
-
 option {
 	font-size: 16px;
 	padding: 8px 12px;
@@ -151,6 +147,10 @@ option {
 	&:hover {
 		background-color: var(--primary-color);
 	}
+}
+
+p {
+	margin: 12px 0;
 }
 
 pre {
@@ -193,13 +193,8 @@ table {
 }
 
 textarea {
-	font-family: $external-font, sans-serif;
+	font-family: $monospace-font;
 	font-size: 16px;
-
-	&:focus,
-	input:focus {
-		border-color: transparent !important;
-	}
 }
 
 ul,

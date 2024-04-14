@@ -17,7 +17,7 @@
 
 
 <script setup lang="ts">
-import { type Document } from "~/store";
+import type { Document } from "~/store";
 import Toolbar from "./Toolbar.vue";
 import { wrapWithTags } from "./utils";
 import compile from "~/helpers/markdown";
@@ -69,11 +69,15 @@ function exec(action: string) {
 		case 'orderedList':
 			wrapWithTags(selectedText, '1. ', '', textarea.value);
 			break;
+		case 'exit':
+			useRouter().push(document.value.id ? `/dashboard/doc/${document.value.id}` : '/dashboard')
+			break;
 		case 'preview':
 			showPreview.value = !showPreview.value;
 			break;
 		case 'save':
 			if (!document) return;
+			document.value.content_html = compile(document.value.content_markdown, true);
 			emit('save', document.value);
 			break;
 	}
@@ -90,19 +94,18 @@ function syncScroll() {
 
 <style scoped lang="scss">
 .editor-container {
-	height: 100%;
+	height: 80%;
 	width: 100%;
 }
 
-.editor-input {
+.editor-input,
+.markdown {
 	height: 100%;
 	width: 100%;
 }
 
 .markdown {
 	display: flex;
-	height: 100%;
-	width: 100%;
 }
 
 .markdown-input,
@@ -110,11 +113,6 @@ function syncScroll() {
 	flex: 1;
 	overflow: auto;
 	min-height: 60vh;
-}
-
-.markdown-input {
-	resize: none;
-	font-family: 'Monaspace Neon';
 }
 
 .input {

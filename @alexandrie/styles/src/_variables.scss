@@ -17,9 +17,9 @@ $primary-500: darken($primary-400, 10%);
 $selection-color: $blue;
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
-@import url('https://cdn.jsdelivr.net/npm/monaspace-font@0.0.2/neon.css');
+
 $external-font: 'Poppins', sans-serif;
-$mono-font: ui-monospace 'Roboto Mono', monospace;
+$monospace-font: monospace;
 
 // Transitions
 $transition-duration: 0.3s;
@@ -59,11 +59,11 @@ $transition-duration: 0.3s;
 
 
 .dark-mode {
-	--bg-color: #27262b;
+	--bg-color: #202025;
 	--bg-contrast: #27262b;
 	--bg-contrast-2: #484852;
 	--font-color: #ddd;
-	--border-color: rgba(35, 33, 37, 0.7);
+	--border-color: rgba(255, 255, 255, 0.1);
 	// COLORS \\
 	--grey: #e0e0e0;
 	--grey-bg: rgb(47, 47, 47);

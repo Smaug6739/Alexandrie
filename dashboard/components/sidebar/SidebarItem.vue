@@ -1,5 +1,5 @@
 <template>
-	<NuxtLink class="item" :to="item.route" :class="{ active: isActive(item.id) }">
+	<NuxtLink class="item" :to="item.route" @click="() => item.route && toggle()">
 		<i v-html="getIcon(item)" class="icon"></i>
 		<span>{{ item.title }}</span>
 		<slot></slot>
@@ -9,11 +9,9 @@
 <script setup lang="ts">
 import type { Item } from './tree_builder';
 import { icons } from './helpers';
-const route = useRoute();
-
+const { isOpened } = useSidebar();
 defineProps<{ item: Item }>();
-const doc_id = computed(() => route.query.doc as string);
-const isActive = (id: string) => doc_id.value === id;
+const isMobile = () => process.client ? window.innerWidth <= 768 : false;
 
 function getIcon(item: Item) {
 	if ('icon' in item.data && item.data.icon) return item.data.icon;
@@ -22,7 +20,7 @@ function getIcon(item: Item) {
 	if (item.data.type === 'document' && item.data.accessibility != 1) return icons.draft;
 	return icons.file;
 }
-
+const toggle = () => isMobile() && (isOpened.value = false);
 </script>
 
 <style lang="scss" scoped>
@@ -39,7 +37,7 @@ function getIcon(item: Item) {
 	width: 98%;
 
 	&:hover,
-	&.active {
+	&.router-link-active {
 		background: var(--bg-contrast-2);
 	}
 

@@ -43,7 +43,7 @@ import { useCategoriesStore, useNotifications } from '~/store';
 
 const route = useRoute();
 const categoriesStore = useCategoriesStore();
-const category = computed(() => categoriesStore.getById(categoryId as string) || { id: '', name: '', icon: '', parent_id: '', order: 0 });
+const category = computed(() => categoriesStore.getById(categoryId as string) || { id: '', name: '', icon: '', parent_id: '', order: 0, type: 'category' as const });
 const categoryId = route.query.category;
 
 

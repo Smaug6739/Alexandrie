@@ -1,9 +1,12 @@
 <template>
   <div id="app">
     <Navbar style="height: 60px" />
-    <NuxtPage class="page" />
+    <NuxtPage style="overflow:auto;padding-top: 20px;" id="app-scroll" />
     <div id="backdrop"></div>
     <Notification />
+    <ClientOnly>
+      <BackToTop />
+    </ClientOnly>
   </div>
 </template>
 
@@ -18,9 +21,8 @@ useCategoriesStore().fetch();
 <style scoped lang="scss">
 #app {
   height: 100vh;
-}
-
-.page {
-  height: calc(100vh - 60px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 </style>

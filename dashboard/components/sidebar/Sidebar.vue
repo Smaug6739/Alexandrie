@@ -28,15 +28,13 @@ const documentsStore = useDocumentsStore();
 
 const isMobile = () => process.client ? window.innerWidth <= 768 : false;
 
-
-
 const items = computed((): Item[] => {
 	const navigation: Item[] = navigationItems.map((item) => ({ id: item.id, parent_id: '', title: item.title, route: item.route, icon: item.icon, type: 'navigation', data: item }))
 	const categories: Item[] = categoriesStore.categories.map((category: Category) => ({
 		id: category.id,
 		parent_id: category.parent_id || '',
 		title: category.name,
-		route: '',
+		route: category.parent_id ? `/dashboard/category/${category.id}` : '',
 		icon: category.icon,
 		data: category,
 	}));
@@ -44,7 +42,7 @@ const items = computed((): Item[] => {
 		id: document.id,
 		parent_id: document.parent_id || document.category || '',
 		title: document.name,
-		route: `/dashboard?doc=${document.id}`,
+		route: `/dashboard/doc/${document.id}`,
 		data: document
 	}))
 
