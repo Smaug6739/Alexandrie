@@ -17,6 +17,12 @@ html {
 	overflow: hidden;
 }
 
+mark {
+	background-color: var(--yellow);
+	padding: 0 2px;
+	border-radius: 5px;
+}
+
 ::-webkit-scrollbar {
 	width: 2px;
 	background: var(--bg-contrast);
