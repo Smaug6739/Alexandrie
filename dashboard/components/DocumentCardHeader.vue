@@ -119,6 +119,10 @@ const category = computed(() => categories_store.getById(props.doc?.category || 
 	display: flex;
 }
 
+p {
+	margin: 0;
+}
+
 .icon {
 	display: none;
 }
