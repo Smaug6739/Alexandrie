@@ -72,10 +72,22 @@ main {
 }
 
 .get-started {
-	display: flex;
-	justify-content: center;
-	gap: 1rem;
-	flex-wrap: wrap;
+	margin: 2rem 0;
+
+	a {
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		background-color: var(--font-color);
+		color: var(--bg-color);
+		font-weight: 500;
+		font-size: 1.2rem;
+
+
+	}
+
+	&:hover {
+		transform: scale(1.03)
+	}
 }
 
 .none {

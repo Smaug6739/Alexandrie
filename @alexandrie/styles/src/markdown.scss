@@ -1,6 +1,34 @@
 .markdown-container {
 	margin-top: 10px;
 
+	&:has(.blue) {
+		background-color: var(--bg-contrast);
+		border-left: 4px solid var(--blue);
+		border-radius: 4px;
+		padding: 10px;
+	}
+
+	&:has(.red) {
+		background-color: var(--bg-contrast);
+		border-left: 4px solid var(--red);
+		border-radius: 4px;
+		padding: 10px;
+	}
+
+	&:has(.yellow) {
+		background-color: var(--bg-contrast);
+		border-left: 4px solid var(--yellow);
+		border-radius: 4px;
+		padding: 10px;
+	}
+
+	&:has(.turquoise) {
+		background-color: var(--bg-contrast);
+		border-left: 4px solid var(--turquoise);
+		border-radius: 4px;
+		padding: 10px;
+	}
+
 	.svg-icon {
 		box-sizing: border-box;
 		color: var(--blue);
@@ -39,7 +67,11 @@
 		color: var(--turquoise);
 	}
 
+
+
 	.blue {
+
+
 		.svg-icon {
 			fill: var(--blue);
 			color: var(--blue);

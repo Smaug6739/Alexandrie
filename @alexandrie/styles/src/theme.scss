@@ -140,6 +140,12 @@ label {
 	font-weight: 600;
 }
 
+mark {
+	background-color: var(--yellow);
+	padding: 0 2px;
+	border-radius: 5px;
+}
+
 option {
 	font-size: 16px;
 	padding: 8px 12px;

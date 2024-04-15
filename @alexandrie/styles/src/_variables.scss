@@ -14,7 +14,7 @@ $primary-400: #009df7;
 $primary-300: lighten($primary-400, 10%);
 $primary-500: darken($primary-400, 10%);
 
-$selection-color: $blue;
+$selection-color: var(--bg-contrast-2);
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
 
@@ -54,6 +54,8 @@ $transition-duration: 0.3s;
 	--turquoise-border: rgba(23, 162, 184, 0.25);
 
 	--pink: #FF2E63;
+	--info-bg: #f2f5fd;
+	--info-border: #2573cf;
 }
 
 
