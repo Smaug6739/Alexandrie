@@ -31,7 +31,7 @@ const fileInput: Ref<HTMLInputElement | null> = ref(null);
 const isLoading = ref(false);
 
 const triggerFileSelect = () => fileInput.value!.click();
-const handleFileSelect = (event: any) => selectedFile.value = event.target?.files[0];
+const handleFileSelect = (event: Event) => selectedFile.value = (event.target as HTMLInputElement | null)?.files?.[0] || null;
 
 const handleFileDrop = (event: DragEvent) => {
 	if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {

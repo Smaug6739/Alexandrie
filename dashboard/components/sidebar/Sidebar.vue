@@ -46,7 +46,7 @@ const items = computed((): Item[] => {
 		data: document
 	}))
 
-	const itemsManager = new ItemsManager([...navigation, ...categories, ...documents]);
+	const itemsManager = new ItemsManager([...navigation, ...documents, ...categories]);
 	const tree = itemsManager.generateTree()
 	return tree;
 });

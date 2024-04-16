@@ -18,7 +18,7 @@ import TableOfContent from "@/components/table-of-content/TableOfContents.vue";
 
 const route = useRoute();
 const documentsStore = useDocumentsStore();
-const element = ref<HTMLElement>() as any;
+const element = ref<HTMLElement>();
 const document_id = route.params.id as string;
 
 const article = ref<Document>();

@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<select name="category-filter" @change="(v: any) => selected = v.target?.value">
+		<select name="category-filter" @change="v => selected = (v.target as HTMLSelectElement)?.value">
 			<option value="">All</option>
 			<option v-for="category in categories" :key="category.id" :value="category.id">
 				{{ category.name }}

@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+// favicon: 'https://alexandrie.fr/logo.svg',
 export default defineNuxtConfig({
   devtools: { enabled: true },
   vite: {
@@ -44,6 +45,11 @@ export default defineNuxtConfig({
           rel: 'manifest',
           crossorigin: 'use-credentials',
           href: '/manifest.json',
+        },
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: '/favicon.svg',
         },
       ],
     },

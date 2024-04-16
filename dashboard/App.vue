@@ -25,4 +25,10 @@ useCategoriesStore().fetch();
   display: flex;
   flex-direction: column;
 }
+
+@media print {
+  #app {
+    height: auto;
+  }
+}
 </style>

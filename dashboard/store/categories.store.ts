@@ -21,9 +21,9 @@ export const useCategoriesStore = defineStore('categories', {
           if (opts?.id) {
             // replace the document with the new one
             const index = this.categories.findIndex(d => d.id == opts?.id);
-            if (index == -1) this.categories.push(request.result);
-            else this.categories[index] = { ...request.result, type: 'category' };
-          } else this.categories = request.result.map((d: Category) => ({ ...d, type: 'category' }));
+            if (index == -1) this.categories.push(request.result as Category);
+            else this.categories[index] = { ...(request.result as Category), type: 'category' };
+          } else this.categories = (request.result as Category[]).map((d: Category) => ({ ...d, type: 'category' }));
           resolve(this.categories);
         } else reject(request.message);
       });
@@ -31,7 +31,7 @@ export const useCategoriesStore = defineStore('categories', {
     post(category: Category) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`categories`, 'POST', category);
-        if (request.status == 'success') resolve(this.categories.push(request.result));
+        if (request.status == 'success') resolve(this.categories.push(request.result as Category));
         else reject(request.message);
       });
     },

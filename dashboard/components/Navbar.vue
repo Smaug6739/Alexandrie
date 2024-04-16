@@ -6,19 +6,7 @@
 				<path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
 			</svg>
 		</span>
-		<ul>
-			<li class="no-mobile">
-				<NuxtLink to="https://alexandrie-hub.fr" target="_blank">
-					View version
-				</NuxtLink>
-			</li>
-			<li class="no-mobile">
-				<NuxtLink to="https://dashboard.alexandrie-hub.fr" target="_blank">Dashboard</NuxtLink>
-			</li>
-			<li>
-				<ThemeToggle />
-			</li>
-		</ul>
+		<ThemeToggle />
 	</header>
 </template>
 
@@ -28,6 +16,7 @@ header {
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
+	padding: 0 15px;
 }
 
 .open-sidebar {

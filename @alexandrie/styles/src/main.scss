@@ -13,15 +13,7 @@
 }
 
 
-html {
-	overflow: hidden;
-}
 
-mark {
-	background-color: var(--yellow);
-	padding: 0 2px;
-	border-radius: 5px;
-}
 
 ::-webkit-scrollbar {
 	width: 2px;
@@ -43,6 +35,10 @@ mark {
 
 ::selection {
 	background-color: $selection-color;
+}
+
+html {
+	overflow: hidden;
 }
 
 
@@ -101,6 +97,6 @@ body {
 	}
 
 	.no-print {
-		display: none;
+		display: none !important;
 	}
 }
