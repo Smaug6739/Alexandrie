@@ -11,9 +11,8 @@
 </template>
 
 <script setup lang="ts">
-const { isOpened, paneWidth } = useSidebar();
+const { isOpened, paneWidth, isResizing } = useSidebar();
 
-const isResizing = ref(false)
 const startX = ref(0)
 const startWidth = ref(0)
 const panewidthCSS = computed(() => `${paneWidth.value}px`)

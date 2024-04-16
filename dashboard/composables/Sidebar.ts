@@ -1,8 +1,9 @@
 import { ref } from 'vue';
 
-export const isOpened = ref(false);
-export const hasSidebar = ref(false);
-export const paneWidth = ref(360); // initial width of pane 1
+const isOpened = ref(false);
+const hasSidebar = ref(false);
+const paneWidth = ref(360); // initial width of pane 1
+const isResizing = ref(false);
 
 export function useSidebar() {
   const toggleSidebar = () => {
@@ -14,5 +15,6 @@ export function useSidebar() {
     isOpened,
     hasSidebar,
     paneWidth,
+    isResizing,
   };
 }
