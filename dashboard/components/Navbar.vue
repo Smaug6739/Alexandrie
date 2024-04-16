@@ -16,26 +16,14 @@ header {
 	height: 100%;
 	display: flex;
 	justify-content: space-between;
-	padding: 0 15px;
+	padding: 15px;
 }
 
 .open-sidebar {
 	width: 30px;
 	height: 30px;
 	fill: var(--font-color);
-	margin: 15px;
 	cursor: pointer;
-}
-
-ul {
-	list-style: none;
-	padding: 0;
-	display: flex;
-	align-items: center;
-
-	li {
-		margin-right: 15px;
-	}
 }
 
 // Mobile styles
