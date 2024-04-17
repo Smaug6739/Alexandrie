@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import type { Document } from "~/store";
-import Toolbar from "./Toolbar.vue";
+import Toolbar from "./LazyToolbar.vue";
 import { wrapWithTags } from "./utils";
 import compile from "~/helpers/markdown";
 

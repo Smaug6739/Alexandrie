@@ -1,11 +1,11 @@
 <template>
 	<div class="new-component">
-		<MarkdownEditorVue ref="editor" :doc="document" @save="(data) => save(data)" />
+		<MarkdownEditor ref="editor" :doc="document" @save="(data) => save(data)" />
 	</div>
 </template>
 <script lang="ts" setup>
 import { useNotifications, useDocumentsStore, type Document } from '@/store';
-import MarkdownEditorVue from '@/components/MarkdownEditor/MarkdownEditor.vue';
+import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 
 const store = useDocumentsStore();
 
