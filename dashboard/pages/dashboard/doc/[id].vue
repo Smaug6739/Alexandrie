@@ -7,7 +7,7 @@
 				</article>
 				<DocumentCardFooter :document="article" :next="next" :previous="previous" />
 			</div>
-			<TableOfContent :element="element" :doc_id="document_id" class="toc" style="width: 20%;" />
+			<TableOfContent :element="element" :doc_id="document_id" class="toc" />
 		</div>
 	</div>
 </template>
@@ -39,6 +39,7 @@ const previous = computed(() => documentsStore.getPrevious(article.value));
 
 <style scoped>
 .toc {
+	width: 400px;
 	display: none;
 }
 
