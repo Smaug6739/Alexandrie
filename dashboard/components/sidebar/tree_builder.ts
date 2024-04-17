@@ -11,10 +11,22 @@ export interface Item {
 }
 
 export class ItemsManager {
-  constructor(public readonly items: Item[]) {}
+  private itemMap: Record<string, Item>; // Utilisation d'un objet pour stocker les éléments par ID
+
+  constructor(public readonly items: Item[]) {
+    this.itemMap = this.createItemMap(items);
+  }
+
+  private createItemMap(items: Item[]): Record<string, Item> {
+    const itemMap: Record<string, Item> = {};
+    items.forEach(item => {
+      itemMap[item.id] = item;
+    });
+    return itemMap;
+  }
 
   public getItem(id: string): Item | undefined {
-    return this.items.find(item => item.id === id);
+    return this.itemMap[id];
   }
 
   public generateTree(): Item[] {
@@ -28,9 +40,13 @@ export class ItemsManager {
   }
 
   private getChildrens(parent: Item): Item[] {
-    const childrens = this.items.filter(item => item.parent_id === parent.id);
-    childrens.forEach(child => {
-      child.childrens = this.getChildrens(child);
+    const childrens: Item[] = [];
+    this.items.forEach(item => {
+      if (item.parent_id === parent.id) {
+        const child = { ...item };
+        child.childrens = this.getChildrens(item); // Utilisation de la récursivité
+        childrens.push(child);
+      }
     });
     return childrens;
   }

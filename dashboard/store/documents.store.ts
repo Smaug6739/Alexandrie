@@ -25,6 +25,20 @@ export const useDocumentsStore = defineStore('documents', {
       if (index == -1) return;
       return cdocs[index - 1];
     },
+    getAllChildrensIds: state => (id: string) => {
+      const childrens: string[] = [id];
+      const getChildrens = (parent: Document) => {
+        state.documents.forEach(doc => {
+          if (doc.parent_id == parent.id) {
+            childrens.push(doc.id);
+            getChildrens(doc);
+          }
+        });
+      };
+      const parent = state.documents.find(d => d.id == id);
+      if (parent) getChildrens(parent);
+      return childrens;
+    },
   },
   actions: {
     fetch: async function <T extends FetchOptions<Array<keyof Document>>>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {

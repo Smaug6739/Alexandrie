@@ -3,10 +3,9 @@
 		<div class="sidebar-content">
 			<section class="header">
 				<IconApp />
-				<p style="font-size: 19px;font-weight: 600;">Dashboard</p>
+				<NuxtLink style="font-size: 19px;font-weight: 600;" to="/">Dashboard</NuxtLink>
 				<IconClose class="btn" />
 			</section>
-			<SidebarDropdown :categories="categoriesStore.getParents" v-model="category_dropdown_filter" />
 			<CollapseItem v-for="(item, index) in items " :key="index" :item="item" :root="true" />
 		</div>
 	</Resizable>
@@ -22,7 +21,6 @@ import { ItemsManager, type Item } from './tree_builder';
 import { navigationItems } from "./helpers";
 
 const { isOpened, hasSidebar } = useSidebar();
-const category_dropdown_filter = ref('');
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 
@@ -46,33 +44,32 @@ const items = computed((): Item[] => {
 		data: document
 	}))
 
-	const itemsManager = new ItemsManager([...navigation, ...documents, ...categories]);
-	const tree = itemsManager.generateTree()
-	return tree;
+	return new ItemsManager([...navigation, ...documents, ...categories]).generateTree()
 });
 
 
 const handleClickOutside = (e: MouseEvent) => {
-	if (isOpened.value && e.target && (!(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) && isMobile()) isOpened.value = false;
+	if (isOpened.value && e.target && (!(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar'))) isOpened.value = false;
 };
 
 onMounted(() => {
 	hasSidebar.value = true;
-	if (!process.client) return;
-	isMobile() ? isOpened.value = false : isOpened.value = true;
-	window.addEventListener('click', handleClickOutside);
+	if (isMobile()) return window.addEventListener('click', handleClickOutside);
+	isOpened.value = true;
 });
 onBeforeUnmount(() => {
 	hasSidebar.value = false;
-	if (!process.client) return;
 	window.removeEventListener('click', handleClickOutside);
 });
 
 // Watch isOpened
-watch(isOpened, (val) => {
-	if (process.client && val && isMobile()) document.getElementById('backdrop')?.classList.add('backdrop');
-	if (process.client && !val && isMobile()) document.getElementById('backdrop')?.classList.remove('backdrop');
-});
+if (isMobile()) {
+	watch(isOpened, (val) => {
+		if (val) document.getElementById('backdrop')?.classList.add('backdrop');
+		else document.getElementById('backdrop')?.classList.remove('backdrop');
+	});
+}
+
 </script>
 
 <style scoped lang="scss">
