@@ -10,13 +10,13 @@ $green: #009879;
 $grey: #ffffffd9;
 $black: #27323A;
 
-$primary-400: #009df7;
+$primary-400: #007bff;
 $primary-300: lighten($primary-400, 10%);
 $primary-500: darken($primary-400, 10%);
 
 $selection-color: var(--bg-contrast-2);
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap");
+@import "./font.scss";
 
 $external-font: 'Poppins', sans-serif;
 $monospace-font: monospace;
@@ -37,7 +37,7 @@ $transition-duration: 0.3s;
 	// COLORS \\
 	--grey: #666;
 	--grey-bg: rgb(240, 240, 240);
-	--blue: #009df7;
+	--blue: #007bff;
 	--blue-bg: #cce0ff;
 	--blue-border: rgba(0, 123, 255, 0.3);
 	--green: #009879;
