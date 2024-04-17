@@ -10,7 +10,8 @@ export const containerPlugin = (md: MarkdownIt) => {
     .use(...createContainer('red', 'DANGER', md))
     .use(...createContainer('details', 'Details', md))
     .use(...createContainer('turquoise', 'INFO', md))
-    .use(...createInvisibleContainer('no-print'));
+    .use(...createInvisibleContainer('no-print'))
+    .use(...createInvisibleContainer('center'));
 };
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }];
