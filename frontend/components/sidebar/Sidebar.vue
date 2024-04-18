@@ -2,7 +2,7 @@
 	<Resizable>
 		<div class="sidebar-content">
 			<section class="header">
-				<ThemeToggle />
+				<IconApp />
 				<NuxtLink style="font-size: 19px;font-weight: 600;" to="/">Dashboard</NuxtLink>
 				<IconClose class="btn" />
 			</section>
@@ -15,6 +15,7 @@
 import CollapseItem from './CollapseItem.vue';
 import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
+import IconApp from './IconApp.vue';
 import { useCategoriesStore, useDocumentsStore, type Category } from '~/store';
 import { ItemsManager, type Item } from './tree_builder';
 import { navigationItems } from "./helpers";
