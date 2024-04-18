@@ -1,59 +1,59 @@
+<template>
+	<aside>
+		<ul ref="list" class="toc">
+			<h4>Table des matières</h4>
+			<NodeTree v-if="headers.length" v-for="header of headers_tree" :node="header" :key="header.link" />
+			<p v-else>Aucun élément à afficher</p>
+		</ul>
+	</aside>
+</template>
 
 <script lang="ts" setup>
-
-import { ref, onBeforeUnmount, watch, computed } from "vue";
 import NodeTree from './NodeTree.vue';
-import type { GroupedHeaders } from "./types"
 
-
-const props = defineProps<{ element: HTMLElement; }>();
-const headers = computed(() => groupHeadersByLevels(props.element));
+const props = defineProps<{ element?: HTMLElement }>();
 const list = ref<HTMLElement>();
 
-function getAllHeadersElements(element: HTMLElement): HTMLElement[] {
-	if (!element) return [];
-	const updatedHeaders: HTMLElement[] = [];
-	element
-		.querySelectorAll<HTMLHeadingElement>('h2, h3')
-		.forEach((el) => {
-			if (el.textContent && el.id) {
-				updatedHeaders.push(el);
-			}
-		})
-	return updatedHeaders;
+interface GroupedHeaders {
+	title: string;
+	link: string;
+	childrens: GroupedHeaders[];
 }
 
+const getHeaders = (): HTMLElement[] => {
+	if (!props.element) return [];
+	const headers = props.element.querySelectorAll('h1, h2, h3, h4, h5, h6') as NodeListOf<HTMLElement>;
+	return Array.from(headers);
+};
 
-function groupHeadersByLevels(element: HTMLElement): GroupedHeaders[] {
-	const elements = getAllHeadersElements(element);
-	const groupedHeaders: GroupedHeaders[] = [];
-	elements.forEach((el) => {
-		if (el.tagName === 'H2') {
-			groupedHeaders.push({
-				title: el.innerText.split(' ').slice(1).join(' '),
-				link: `#${el.id}`,
-			})
+function buildTree(headers: HTMLElement[]): GroupedHeaders[] {
+	const tree: GroupedHeaders[] = [];
+	let currentLevel = -1;
+	let currentElement = tree;
+	for (const header of headers) {
+		const level = parseInt(header.tagName[1]);
+		const title = header.textContent?.replace(/#/g, '') || '';
+		const link = `#${header.id}`;
+		const node: GroupedHeaders = { title, link, childrens: [] };
+		if (currentLevel === -1) currentLevel = level;
+		if (level === currentLevel) {
+			currentElement.push(node);
+		} else if (level > currentLevel) {
+			currentElement[currentElement.length - 1].childrens = [node];
+			currentElement = currentElement[currentElement.length - 1].childrens;
+			currentLevel = level;
 		} else {
-			const parent = groupedHeaders[groupedHeaders.length - 1];
-			if (parent) {
-				if (!parent.childrens) {
-					parent.childrens = [];
-				}
-				parent.childrens.push({
-					title: el.innerText.split(' ').slice(1).join(' '),
-					link: `#${el.id}`,
-				})
-			}
+			currentElement = tree;
+			currentElement.push(node);
+			currentLevel = level;
 		}
-	})
-	return groupedHeaders
+	}
+	return tree;
 }
 
+const headers = computed(() => getHeaders());
+const headers_tree = computed(() => buildTree(headers.value));
 
-const options = {
-	root: null,
-	threshold: 1,
-}
 const observerCallback = (e: IntersectionObserverEntry[]) => {
 	e.forEach((entry) => {
 		const activeLink = list.value?.querySelector<HTMLAnchorElement>(`[href="#${entry.target.id}"]`)
@@ -64,40 +64,16 @@ const observerCallback = (e: IntersectionObserverEntry[]) => {
 		}
 	})
 };
-if (process.client) {
-	const observer = new IntersectionObserver(observerCallback, options)
 
-	// Watch props.element for changes (= when article is loaded)
-	watch(props, () => {
-		observer.disconnect();
-		const headings = getAllHeadersElements(props.element);
-		// Track all headings
-		headings.forEach((section) => observer.observe(section))
-	});
 
-	onBeforeUnmount(() => {
-		observer.disconnect();
-	})
-}
-
+const observer: IntersectionObserver = new IntersectionObserver(observerCallback, { root: null, threshold: 1 });
+watchEffect(() => {
+	headers.value.forEach((header) => observer.observe(header));
+});
+onBeforeUnmount(() => observer.disconnect())
 </script>
 
-<template>
-	<aside>
-		<ul ref="list" class="toc">
-			<h4>Table des matières</h4>
-			<!--Recursive lists -->
-			<NodeTree v-if="headers.length" v-for="header of headers" :node="header" />
-			<p v-else>Aucun élément à afficher</p>
-		</ul>
-	</aside>
-</template>
-
 <style lang="scss" scoped>
-aside {
-	width: 100%;
-}
-
 @media (min-width: 1280px) {
 	.toc {
 		position: sticky;
@@ -120,7 +96,5 @@ aside {
 			}
 		}
 	}
-
-
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<button @click="toggleColorMode" class="theme-toggle-button">
+	<button @click="toggleColorMode">
 		<svg v-if="colorMode.value === 'light'" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
 			<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -25,13 +25,7 @@
 
 <script setup lang="ts">
 const colorMode = useColorMode();
-function toggleColorMode() {
-	if (colorMode.value === 'light') {
-		colorMode.preference = 'dark';
-	} else {
-		colorMode.preference = 'light';
-	}
-}
+const toggleColorMode = () => colorMode.value === 'light' ? colorMode.preference = 'dark' : colorMode.preference = 'light';
 </script>
 
 <style scoped lang="scss">
@@ -46,6 +40,5 @@ button {
 	cursor: pointer;
 	padding: 0;
 	margin: 0;
-	height: 50px;
 }
 </style>

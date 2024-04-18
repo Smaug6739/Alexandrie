@@ -4,6 +4,7 @@ export interface Document {
   description?: string;
   tags?: string;
   category?: string;
+  parent_id?: string | null;
   accessibility: number; // 0: No; 1: Yes;
   content_markdown?: string;
   content_html?: string;
@@ -13,6 +14,7 @@ export interface Document {
 
   // not in the database
   partial?: boolean;
+  type: 'document';
 }
 
 export interface Category {
@@ -21,6 +23,9 @@ export interface Category {
   icon?: string;
   order?: number;
   parent_id?: string;
+
+  // not in the database
+  type: 'category';
 }
 
 export interface User {

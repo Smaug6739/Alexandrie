@@ -1,24 +1,34 @@
 <template>
   <div id="app">
+    <Navbar style="height: 60px" />
+    <NuxtPage style="overflow:auto;padding-top: 20px;" id="app-scroll" />
     <div id="backdrop"></div>
-    <Navbar />
-    <BackToTop />
-    <NuxtPage />
+    <Notification />
+    <ClientOnly>
+      <BackToTop />
+    </ClientOnly>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useDocumentsStore, useCategoriesStore } from './store';
+
 // @ts-ignore
-useDocumentsStore().fetch({ fields: ['id', 'name', 'description', 'category', 'created_timestamp'] });
+useDocumentsStore().fetch();
 useCategoriesStore().fetch();
+
 </script>
-<style scoped>
+<style scoped lang="scss">
 #app {
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  width: 100%;
-  max-width: 100% !important;
+}
+
+@media print {
+  #app {
+    height: auto;
+  }
 }
 </style>

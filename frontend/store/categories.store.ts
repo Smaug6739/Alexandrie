@@ -12,19 +12,18 @@ export const useCategoriesStore = defineStore('categories', {
     getById: state => (id: string) => state.categories.find((c: Category) => c.id == id),
     getParents: state => state.categories.filter(c => !c.parent_id),
     getChilds: state => (id: string) => state.categories.filter(c => c.parent_id == id),
-    search: state => (query: string) => state.categories.filter(c => c.name.toLowerCase().includes(query.toLowerCase())),
   },
   actions: {
     fetch: async function (opts?: FetchOptions<Array<keyof Category>>) {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/${opts?.id || ''}?fields=${opts?.fields?.join(',')}`, 'GET', {});
+        const request = await makeRequest(`categories/${opts?.id || ''}`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             // replace the document with the new one
             const index = this.categories.findIndex(d => d.id == opts?.id);
-            if (index == -1) this.categories.push(request.result);
-            else this.categories[index] = request.result;
-          } else this.categories = request.result;
+            if (index == -1) this.categories.push(request.result as Category);
+            else this.categories[index] = { ...(request.result as Category), type: 'category' };
+          } else this.categories = (request.result as Category[]).map((d: Category) => ({ ...d, type: 'category' }));
           resolve(this.categories);
         } else reject(request.message);
       });
@@ -32,7 +31,7 @@ export const useCategoriesStore = defineStore('categories', {
     post(category: Category) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`categories`, 'POST', category);
-        if (request.status == 'success') resolve(this.categories.push(request.result));
+        if (request.status == 'success') resolve(this.categories.push(request.result as Category));
         else reject(request.message);
       });
     },

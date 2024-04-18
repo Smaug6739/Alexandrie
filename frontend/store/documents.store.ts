@@ -11,8 +11,7 @@ export const useDocumentsStore = defineStore('documents', {
     getAll: state => state.documents,
     getById: state => (id: string) => state.documents.find((d: Document) => d.id == id),
     getByCategories: state => (category: string) => state.documents.filter(d => d.category == category),
-    search: state => (query: string) => state.documents.filter(d => d.name.toLowerCase().includes(query.toLowerCase())),
-    getRecents: state => (limit: number) => state.documents.slice(0, limit).reverse(),
+
     getNext: state => (doc?: Document) => {
       const cdocs = state.documents.filter(d => d.category == doc?.category);
       const index = cdocs.findIndex(d => d.id == doc?.id);
@@ -26,28 +25,35 @@ export const useDocumentsStore = defineStore('documents', {
       if (index == -1) return;
       return cdocs[index - 1];
     },
+    getAllChildrensIds: state => (id: string) => {
+      const childrens: string[] = [id];
+      const getChildrens = (parent: Document) => {
+        state.documents.forEach(doc => {
+          if (doc.parent_id == parent.id) {
+            childrens.push(doc.id);
+            getChildrens(doc);
+          }
+        });
+      };
+      const parent = state.documents.find(d => d.id == id);
+      if (parent) getChildrens(parent);
+      return childrens;
+    },
   },
   actions: {
-    fetch: async function <T extends FetchOptions<Array<keyof Document>>>(
-      opts?: T,
-    ): Promise<'id' extends keyof T ? Document : Document[]> {
+    fetch: async function <T extends FetchOptions<Array<keyof Document>>>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
-
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(
-          `documents/${opts?.id || ''}${opts?.fields?.length ? '?fields=' + opts?.fields?.join(',') : ''}`,
-          'GET',
-          {},
-        );
+        const request = await makeRequest(`documents/${opts?.id || ''}?all=true`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             const index = this.documents.findIndex(d => d.id == opts?.id);
-            const updatedDocument: Document = { ...request.result, partial: false };
+            const updatedDocument: Document = { ...(request.result as Document), partial: false, type: 'document' };
             if (index == -1) this.documents.push(updatedDocument);
             else this.documents[index] = updatedDocument;
             resolve(updatedDocument as 'id' extends keyof T ? Document : Document[]);
           } else {
-            this.documents = request.result.map((d: Document) => ({ ...d, partial: true }));
+            this.documents = (request.result as Document[]).map((d: Document) => ({ ...d, partial: true, type: 'document' }));
             resolve(this.documents as 'id' extends keyof T ? Document : Document[]);
           }
         } else reject(request.message);
@@ -56,7 +62,7 @@ export const useDocumentsStore = defineStore('documents', {
     post(doc: Document) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest('documents', 'POST', doc);
-        if (request.status == 'success') resolve(this.documents.push(request.result));
+        if (request.status == 'success') resolve(this.documents.push(request.result as Document));
         else reject(request.message);
       });
     },

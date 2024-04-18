@@ -4,23 +4,20 @@
 </template>
 
 <script setup lang="ts">
-
 const scrollTop = ref(0);
-
-const getScrollTop = () => document.documentElement.scrollTop || document.body.scrollTop || 0;
-const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
+const scroll_element = document.getElementById('app-scroll')!;
+const getScrollTop = () => scroll_element.scrollTop || 0;
+const scrollToTop = () => scroll_element.scrollTo({ top: 0, behavior: 'smooth' });
 const show = computed(() => scrollTop.value > 300);
-
-const onScroll = () => {
-  scrollTop.value = getScrollTop();
-};
+const onScroll = () => scrollTop.value = getScrollTop()
 
 onMounted(() => {
   scrollTop.value = getScrollTop();
-  window.addEventListener('scroll', onScroll);
+  scroll_element.addEventListener('scroll', onScroll);
 });
-
+onUnmounted(() => {
+  scroll_element.removeEventListener('scroll', onScroll);
+});
 </script>
 
 <style scoped lang="scss">

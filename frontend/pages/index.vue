@@ -1,15 +1,14 @@
 <template>
 	<div class="container">
-		<main class="main-content">
+		<main>
 			<div class="content-wrapper">
 				<div class="intro">
 					<div class="intro-text">
 						<h1>Your Ideas, Documents & Plans. Unified. Welcome to <span>Alexandrie</span></h1>
 						<h3>Alexandrie is the connected workspace where <br /> better, faster work happens</h3>
 					</div>
-					<div class="category-links">
-						<NuxtLink v-for="category in categories" :key="category.id" :to="`/docs/${category.id}`"
-							class="category-link">{{ category.name }}</NuxtLink>
+					<div class="get-started">
+						<NuxtLink to="/dashboard">Get started</NuxtLink>
 					</div>
 				</div>
 				<div class="images">
@@ -26,18 +25,12 @@
 		<footer>
 			<Logo />
 			<div class="footer-links none">
-				<AppButton type="ghost">Privacy Policy</AppButton>
-				<AppButton type="ghost">Terms of Service</AppButton>
 			</div>
 		</footer>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { useCategoriesStore } from '~/store';
-import { computed } from 'vue';
-
-const categories = computed(() => useCategoriesStore().getParents);
 const colorMode = useColorMode();
 </script>
 
@@ -48,7 +41,7 @@ const colorMode = useColorMode();
 	flex-direction: column;
 }
 
-.main-content {
+main {
 	flex-grow: 1;
 	padding-top: 1.5rem;
 }
@@ -78,42 +71,27 @@ const colorMode = useColorMode();
 	text-decoration: none;
 }
 
-.category-links {
-	display: flex;
-	justify-content: center;
-	gap: 1rem;
-	flex-wrap: wrap;
+.get-started {
+	margin: 2rem 0;
+
+	a {
+		padding: 0.5rem 1rem;
+		border-radius: 0.5rem;
+		background-color: var(--font-color);
+		color: var(--bg-color);
+		font-weight: 500;
+		font-size: 1.2rem;
+
+
+	}
+
+	&:hover {
+		transform: scale(1.03)
+	}
 }
 
 .none {
 	display: none;
-}
-
-.category-link {
-	background-color: var(--bg-contrast);
-	border-radius: 8px;
-	padding: 1rem;
-	text-decoration: none;
-	transition: background-color 0.3s ease, transform 0.3s ease;
-
-	&:hover {
-		background-color: var(--bg-contrast-2);
-		transform: translateY(-3px);
-	}
-
-	@media (min-width: 768px) {
-		width: calc(33.33% - 1rem);
-	}
-
-	@media (min-width: 1024px) {
-		width: calc(25% - 1rem);
-	}
-}
-
-.button-text {
-	display: flex;
-	align-items: center;
-	margin: 0;
 }
 
 .images {
