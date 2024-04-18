@@ -13,7 +13,6 @@
 <script setup lang="ts">
 import { useDocumentsStore, useCategoriesStore } from './store';
 
-// @ts-ignore
 useDocumentsStore().fetch();
 useCategoriesStore().fetch();
 

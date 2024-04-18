@@ -1,3 +1,106 @@
+@import "./theme.scss";
+@import "./katex.scss";
+@import "./markdown.scss";
+@import "./document-theme.scss";
+
+/* only needed once */
+* {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+
+
+
+::-webkit-scrollbar {
+	width: 2px;
+	background: var(--bg-contrast);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--border-color);
+}
+
+/* set button(top and bottom of the scrollbar) */
+::-webkit-scrollbar-button {
+	display: none;
+}
+
+::-moz-selection {
+	background-color: $selection-color;
+}
+
+::selection {
+	background-color: $selection-color;
+}
+
+html {
+	overflow: hidden;
+}
+
+
+body {
+	background: var(--bg-color);
+	color: var(--font-color);
+	font-family: $external-font;
+}
+
 :root {
 	--padding: calc((100vw - 1700px) / 2);
+}
+
+.backdrop {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 50;
+	padding: 0;
+	margin: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media print {
+	body {
+		@include print-theme;
+
+	}
+
+	#doc,
+	#doc * {
+		visibility: visible;
+	}
+
+	#doc {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+
+	header,
+	footer,
+	nav,
+	aside {
+		display: none !important;
+	}
+
+
+	.markdown-container,
+	.custom-block {
+		break-inside: avoid;
+		background-color: none !important;
+		border-width: 2px;
+
+		*:not(.custom-block-title) {
+			color: black !important;
+		}
+	}
+
+	.no-print {
+		display: none !important;
+	}
 }
