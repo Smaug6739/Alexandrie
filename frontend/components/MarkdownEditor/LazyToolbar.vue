@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCategoriesStore, useDocumentsStore, type Document, type Category } from "~/store";
+import { useCategoriesStore, useDocumentsStore, type Document } from "~/store";
 
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <NuxtPage style="overflow:auto;padding-top: 50px;" id="app-scroll" />
+    <Navbar style="height: 60px" />
+    <NuxtPage style="overflow:auto;padding-top: 20px;" id="app-scroll" />
     <div id="backdrop"></div>
     <Notification />
     <ClientOnly>

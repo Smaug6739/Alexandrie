@@ -115,4 +115,8 @@ main {
 		height: 350px;
 	}
 }
+
+footer {
+	padding: 1rem;
+}
 </style>
