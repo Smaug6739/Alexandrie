@@ -26,6 +26,11 @@ jobs:
           cd ../backend
           bun install
 
+      - name: Build backend
+        run: |
+          cd backend
+          bun run build
+
       - name: Build frontend
         run: |
           cd frontend
