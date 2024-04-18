@@ -8,7 +8,7 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 8201,
         DOMAIN_CLIENT: "https://alexandrie-hub.fr",
-        DOMAIN_DASHBOARD: "https://dashboard.alexandrie-hub.fr",
+        //DOMAIN_DASHBOARD: "https://dashboard.alexandrie-hub.fr",
         FRONT_DOMAIN: "alexandrie-hub.fr",
       },
     },
@@ -21,7 +21,7 @@ module.exports = {
         PORT: 8200,
       },
     },
-    {
+    /*{
       name: "alexandrie-dashboard",
       cwd: "./dashboard",
       script: "bun .output/server/index.mjs",
@@ -29,6 +29,6 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 8202,
       },
-    },
+    },*/
   ],
 };

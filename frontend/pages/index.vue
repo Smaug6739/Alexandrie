@@ -20,12 +20,9 @@
 					</div>
 				</div>
 			</div>
-
 		</main>
 		<footer>
 			<Logo />
-			<div class="footer-links none">
-			</div>
 		</footer>
 	</div>
 </template>
@@ -117,20 +114,5 @@ main {
 		width: 350px;
 		height: 350px;
 	}
-}
-
-footer {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	padding: 1rem;
-	justify-content: space-between;
-}
-
-.footer-links {
-	margin-left: auto;
-	justify-content: space-between;
-	align-items: center;
-	gap: 0.5rem;
 }
 </style>

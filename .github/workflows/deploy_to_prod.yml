@@ -23,24 +23,12 @@ jobs:
         run: |
           cd frontend
           bun install
-          cd ../dashboard
-          bun install
           cd ../backend
           bun install
 
       - name: Build frontend
         run: |
           cd frontend
-          bun run build
-
-      - name: Build dashboard
-        run: |
-          cd dashboard
-          bun run build
-
-      - name: Build backend
-        run: |
-          cd backend
           bun run build
 
       - name: Set up SSH
@@ -60,18 +48,16 @@ jobs:
       - name: Create Archives
         run: |
           tar -czf frontend.tar.gz frontend/.output frontend/.env.production
-          tar -czf dashboard.tar.gz dashboard/.output dashboard/.env.production
           tar -czf backend.tar.gz backend/dist backend/package.json backend/bun.lockb
 
       - name: Transfer Archives
         run: |
           scp -i deploy_key ecosystem.config.js ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
           scp -i deploy_key frontend.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
-          scp -i deploy_key dashboard.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
           scp -i deploy_key backend.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
       - name: Extract Archives on Remote
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && tar -xzf dashboard.tar.gz && tar -xzf backend.tar.gz && rm frontend.tar.gz dashboard.tar.gz backend.tar.gz"
+          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz&& tar -xzf backend.tar.gz && rm frontend.tar.gz"
       - name: Install dependencies for backend
         run: |
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "source ~/.bashrc && cd ${INPUT_REMOTE} && cd backend && bun install --production"
