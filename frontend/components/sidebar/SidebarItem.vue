@@ -89,6 +89,11 @@ const drop = async (event: DragEvent) => {
 			{ ...draggedItem, parent_id: undefined }
 		);
 	}
+	if (draggedItem.type === "document" && props.item.data.type === "default") { // Move document to root
+		documentStore.update(
+			{ ...draggedItem, parent_id: undefined, category: undefined }
+		);
+	}
 
 };
 </script>
