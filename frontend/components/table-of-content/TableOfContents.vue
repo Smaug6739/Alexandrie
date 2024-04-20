@@ -17,42 +17,54 @@ const list = ref<HTMLElement>();
 interface GroupedHeaders {
 	title: string;
 	link: string;
-	childrens: GroupedHeaders[];
+	level: number;
+}
+interface TreeItem {
+	title: string;
+	link: string;
+	level: number;
+	childrens?: TreeItem[];
 }
 
-const getHeaders = (): HTMLElement[] => {
+const getHTMLHeaders = (): HTMLElement[] => {
 	if (!props.element) return [];
 	const headers = props.element.querySelectorAll('h1, h2, h3, h4, h5, h6') as NodeListOf<HTMLElement>;
 	return Array.from(headers);
 };
 
-function buildTree(headers: HTMLElement[]): GroupedHeaders[] {
+function getHeaders(headers: HTMLElement[]): GroupedHeaders[] {
 	const tree: GroupedHeaders[] = [];
-	let currentLevel = -1;
-	let currentElement = tree;
 	for (const header of headers) {
 		const level = parseInt(header.tagName[1]);
 		const title = header.textContent?.replace(/#/g, '') || '';
 		const link = `#${header.id}`;
-		const node: GroupedHeaders = { title, link, childrens: [] };
-		if (currentLevel === -1) currentLevel = level;
-		if (level === currentLevel) {
-			currentElement.push(node);
-		} else if (level > currentLevel) {
-			currentElement[currentElement.length - 1].childrens = [node];
-			currentElement = currentElement[currentElement.length - 1].childrens;
-			currentLevel = level;
-		} else {
-			currentElement = tree[currentElement.length - 1].childrens;
-			currentElement.push(node);
-			currentLevel = level;
-		}
+		const node: GroupedHeaders = { title, link, level };
+		tree.push(node);
 	}
 	return tree;
 }
+function buildTree(tree: GroupedHeaders[]): TreeItem[] {
+	const result: TreeItem[] = [];
+	const stack: TreeItem[] = [];
+	for (const node of tree) {
+		const item: TreeItem = { title: node.title, link: node.link, level: node.level };
+		while (stack.length > 0 && stack[stack.length - 1].level >= node.level) {
+			stack.pop();
+		}
+		if (stack.length > 0) {
+			if (!stack[stack.length - 1].childrens) stack[stack.length - 1].childrens = [];
+			// @ts-ignore
+			stack[stack.length - 1].childrens.push(item);
+		} else {
+			result.push(item);
+		}
+		stack.push(item);
+	}
+	return result;
+}
 
-const headers = computed(() => getHeaders());
-const headers_tree = computed(() => buildTree(headers.value));
+const headers = computed(() => getHTMLHeaders());
+const headers_tree = computed(() => buildTree(getHeaders(headers.value)));
 
 const observerCallback = (e: IntersectionObserverEntry[]) => {
 	e.forEach((entry) => {
