@@ -43,7 +43,7 @@ function buildTree(headers: HTMLElement[]): GroupedHeaders[] {
 			currentElement = currentElement[currentElement.length - 1].childrens;
 			currentLevel = level;
 		} else {
-			currentElement = tree;
+			currentElement = tree[currentElement.length - 1].childrens;
 			currentElement.push(node);
 			currentLevel = level;
 		}
@@ -67,9 +67,7 @@ const observerCallback = (e: IntersectionObserverEntry[]) => {
 
 
 const observer: IntersectionObserver = new IntersectionObserver(observerCallback, { root: null, threshold: 1 });
-watchEffect(() => {
-	headers.value.forEach((header) => observer.observe(header));
-});
+watchEffect(() => headers.value.forEach((header) => observer.observe(header)));
 onBeforeUnmount(() => observer.disconnect())
 </script>
 
