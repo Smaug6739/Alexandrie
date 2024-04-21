@@ -39,7 +39,7 @@ const emit = defineEmits(['close', 'confirm'])
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   transition: opacity 0.3s ease;
-  font-size: normal;
+  font-size: initial;
 }
 
 .modal-container {
