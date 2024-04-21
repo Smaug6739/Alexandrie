@@ -4,7 +4,6 @@
 </template>
 
 <script setup lang="ts">
-
 import { useDocumentsStore, useCategoriesStore } from '~/store';
 
 const documents = computed(() => useDocumentsStore().getAll)
@@ -17,7 +16,7 @@ const headers = [
 	{ title: 'Actions' },
 ];
 const rows = computed(() => documents.value.map((doc) => {
-	const val = {
+	return {
 		fields: [
 			{ content: doc.name, action: `/dashboard/doc/${doc.id}` },
 			{ content: categoriesStore.getById(doc.category || '')?.name || '', action: `/dashboard/category/${doc.category}` },
@@ -26,7 +25,6 @@ const rows = computed(() => documents.value.map((doc) => {
 			{ content: 'View document', action: `/dashboard/doc/${doc.id}` },
 		],
 	};
-	return val
 }));
 
 </script>
