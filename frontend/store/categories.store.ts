@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { makeRequest, type FetchOptions } from './utils';
 
-import type { Category } from './db_strustures';
+import type { Category, DB_Category } from './db_strustures';
 
 export const useCategoriesStore = defineStore('categories', {
   state: () => ({
@@ -14,16 +14,16 @@ export const useCategoriesStore = defineStore('categories', {
     getChilds: state => (id: string) => state.categories.filter(c => c.parent_id == id),
   },
   actions: {
-    fetch: async function (opts?: FetchOptions<Array<keyof Category>>) {
+    fetch: async function (opts?: FetchOptions) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`categories/${opts?.id || ''}`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             // replace the document with the new one
             const index = this.categories.findIndex(d => d.id == opts?.id);
-            if (index == -1) this.categories.push(request.result as Category);
-            else this.categories[index] = { ...(request.result as Category), type: 'category' };
-          } else this.categories = (request.result as Category[]).map((d: Category) => ({ ...d, type: 'category' }));
+            if (index == -1) this.categories.push({ ...(request.result as DB_Category), type: 'category' });
+            else this.categories[index] = { ...(request.result as DB_Category), type: 'category' };
+          } else this.categories = (request.result as DB_Category[]).map((d: DB_Category) => ({ ...d, type: 'category' }));
           resolve(this.categories);
         } else reject(request.message);
       });
@@ -31,7 +31,7 @@ export const useCategoriesStore = defineStore('categories', {
     post(category: Category) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`categories`, 'POST', category);
-        if (request.status == 'success') resolve(this.categories.push(request.result as Category));
+        if (request.status == 'success') resolve(this.categories.push({ ...(request.result as DB_Category), type: 'category' }));
         else reject(request.message);
       });
     },

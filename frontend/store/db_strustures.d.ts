@@ -1,4 +1,4 @@
-export interface Document {
+export interface DB_Document {
   id: string;
   name: string;
   description?: string;
@@ -11,20 +11,19 @@ export interface Document {
   author_id: string;
   created_timestamp: string;
   updated_timestamp: string;
-
-  // not in the database
+}
+export interface Document extends DB_Document {
   partial?: boolean;
   type: 'document';
 }
-
-export interface Category {
+export interface DB_Category {
   id: string;
   name: string;
   icon?: string;
   order?: number;
   parent_id?: string;
-
-  // not in the database
+}
+export interface Category extends DB_Category {
   type: 'category';
 }
 

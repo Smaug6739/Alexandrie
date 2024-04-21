@@ -31,7 +31,7 @@ const emit = defineEmits(['close', 'confirm'])
 <style lang="scss" scoped>
 .modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -39,6 +39,7 @@ const emit = defineEmits(['close', 'confirm'])
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   transition: opacity 0.3s ease;
+  font-size: normal;
 }
 
 .modal-container {

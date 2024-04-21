@@ -1,5 +1,3 @@
-<!-- Beautiful header with title, description and image -->
-
 <template>
 	<div class="header">
 		<div class="text">
@@ -99,8 +97,6 @@
 					stroke-miterlimit="10"></path>
 			</svg>
 		</div>
-
-
 	</div>
 </template>
 

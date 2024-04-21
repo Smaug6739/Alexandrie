@@ -1,4 +1,4 @@
-import type { Document, Category } from './db_strustures';
+import type { DB_Category, DB_Document } from './db_strustures';
 
 export interface APIResult<Data> {
   status: 'success' | 'error';
@@ -6,12 +6,16 @@ export interface APIResult<Data> {
   result?: Data;
 }
 
-export interface FetchOptions<K> {
+export interface FetchOptions {
   id: string; // id of the ressource
 }
 
 export const baseUrl = import.meta.env.VITE_BASE_API?.toString() || '';
-export async function makeRequest(route: string, method: string, body: Object): Promise<APIResult<Document | Category | Document[] | Category[]>> {
+export async function makeRequest(
+  route: string,
+  method: string,
+  body: Object,
+): Promise<APIResult<DB_Document | DB_Category | DB_Document[] | DB_Category[]>> {
   try {
     const responce = await fetch(`${baseUrl}/api/v1/${route}`, {
       method: method,

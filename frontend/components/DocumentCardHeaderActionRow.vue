@@ -36,17 +36,16 @@
 <script setup lang="ts">
 import { useDocumentsStore } from '~/store';
 
-
+const router = useRouter();
 const documentsStore = useDocumentsStore();
 const showDeleteModal = ref(false);
-
 const props = defineProps<{ doc_id: string }>();
 
 
 const print = () => window.print();
 const deleteDoc = () => {
 	showDeleteModal.value = false;
-	documentsStore.delete(props.doc_id)
+	documentsStore.delete(props.doc_id).then(() => router.push('/dashboard'));
 };
 </script>
 

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { makeRequest, type FetchOptions } from './utils';
-import type { Document } from './db_strustures';
+import type { DB_Document, Document } from './db_strustures';
 
 export const useDocumentsStore = defineStore('documents', {
   state: () => ({
@@ -41,19 +41,19 @@ export const useDocumentsStore = defineStore('documents', {
     },
   },
   actions: {
-    fetch: async function <T extends FetchOptions<Array<keyof Document>>>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
+    fetch: async function <T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`documents/${opts?.id || ''}?all=true`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             const index = this.documents.findIndex(d => d.id == opts?.id);
-            const updatedDocument: Document = { ...(request.result as Document), partial: false, type: 'document' };
+            const updatedDocument: Document = { ...(request.result as DB_Document), partial: false, type: 'document' };
             if (index == -1) this.documents.push(updatedDocument);
             else this.documents[index] = updatedDocument;
             resolve(updatedDocument as 'id' extends keyof T ? Document : Document[]);
           } else {
-            this.documents = (request.result as Document[]).map((d: Document) => ({ ...d, partial: true, type: 'document' }));
+            this.documents = (request.result as DB_Document[]).map((d: DB_Document) => ({ ...d, partial: true, type: 'document' }));
             resolve(this.documents as 'id' extends keyof T ? Document : Document[]);
           }
         } else reject(request.message);
@@ -62,7 +62,7 @@ export const useDocumentsStore = defineStore('documents', {
     post(doc: Document) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest('documents', 'POST', doc);
-        if (request.status == 'success') resolve(this.documents.push(request.result as Document));
+        if (request.status == 'success') resolve(this.documents.push({ ...(request.result as DB_Document), type: 'document' }));
         else reject(request.message);
       });
     },

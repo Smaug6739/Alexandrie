@@ -54,6 +54,8 @@ const drop = async (event: DragEvent) => {
 	const draggedItemId = event.dataTransfer!.getData('text/plain');
 
 	let draggedItem = documentStore.getById(draggedItemId) || categoriesStore.getById(draggedItemId) || navigationItems.find((item) => item.id === draggedItemId);
+	console.log(draggedItem);
+
 	if (!draggedItem) return;
 
 	if (draggedItem.type === "document" && draggedItem.partial) {
