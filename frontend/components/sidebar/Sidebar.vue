@@ -47,7 +47,7 @@ const items = computed((): Item[] => {
 	})).filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
 
 	if (filter.value) return new ItemsManager([...navigation, ...documents]).generateTree();
-	return new ItemsManager([...navigation, ...categories, ...documents]).generateTree();
+	return new ItemsManager([...navigation, ...documents, ...categories]).generateTree();
 });
 
 
