@@ -31,7 +31,7 @@ export class ItemsManager {
 
   public generateTree(): Item[] {
     const tree: Item[] = [];
-    const rootItems = this.items.filter(item => item.parent_id === ''); // Get root items
+    const rootItems = this.items.filter(item => item.parent_id === '' || !this.itemMap[item.parent_id]); // Get root items
     rootItems.forEach(rootItem => {
       const childrens = this.getChildrens(rootItem);
       tree.push({ ...rootItem, childrens });

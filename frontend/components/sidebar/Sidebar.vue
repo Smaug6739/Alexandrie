@@ -3,9 +3,10 @@
 		<div class="sidebar-content">
 			<section class="header">
 				<IconApp />
-				<NuxtLink style="font-size: 19px;font-weight: 600;" to="/">Dashboard</NuxtLink>
+				<NuxtLink style="font-size: 19px;font-weight: 600;" to="/">Alexandrie</NuxtLink>
 				<IconClose class="btn" />
 			</section>
+			<input type="text" placeholder="Search" class="search" v-model="filter" />
 			<CollapseItem v-for="(item, index) in items " :key="index" :item="item" :root="true" />
 		</div>
 	</Resizable>
@@ -23,6 +24,7 @@ import { navigationItems } from "./helpers";
 const { isOpened, hasSidebar } = useSidebar();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
+const filter = ref<string>('');
 
 const isMobile = () => process.client ? window.innerWidth <= 768 : false;
 
@@ -35,16 +37,17 @@ const items = computed((): Item[] => {
 		route: category.parent_id ? `/dashboard/category/${category.id}` : '',
 		icon: category.icon,
 		data: category,
-	}));
+	}))
 	const documents: Item[] = documentsStore.documents.map((document) => ({
 		id: document.id,
 		parent_id: document.parent_id || document.category || '',
 		title: document.name,
 		route: `/dashboard/doc/${document.id}`,
 		data: document
-	}))
+	})).filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
 
-	return new ItemsManager([...navigation, ...documents, ...categories]).generateTree()
+	if (filter.value) return new ItemsManager([...navigation, ...documents]).generateTree();
+	return new ItemsManager([...navigation, ...categories, ...documents]).generateTree();
 });
 
 
@@ -76,10 +79,6 @@ if (isMobile()) {
 .sidebar-content {
 	margin: 0 0 0 10px;
 	background: var(--bg-color);
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	overflow-y: scroll;
 }
 
 .header {
@@ -87,7 +86,7 @@ if (isMobile()) {
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
-	margin: 10px 0 15px 0;
+	margin: 0 0 15px 0;
 
 	.btn {
 		fill: var(--font-color);
@@ -99,5 +98,19 @@ if (isMobile()) {
 		font-size: 1.2rem;
 		font-weight: 500;
 	}
+}
+
+.search {
+	height: 30px;
+	margin: 2.5px 0;
+	border-radius: 8px;
+	width: 98%;
+	outline: none;
+	border: none;
+	background-color: var(--bg-contrast);
+	background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%232573cf" height="24" viewBox="0 -960 960 960" width="22"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>');
+	background-repeat: no-repeat;
+	background-position: 5px;
+	padding-left: 30px;
 }
 </style>
