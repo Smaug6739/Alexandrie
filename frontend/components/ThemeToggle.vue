@@ -19,7 +19,6 @@
 					stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
 			</g>
 		</svg>
-
 	</button>
 </template>
 
@@ -32,13 +31,5 @@ const toggleColorMode = () => colorMode.value === 'light' ? colorMode.preference
 svg {
 	width: 25px;
 	height: 25px;
-}
-
-button {
-	background: none;
-	border: none;
-	cursor: pointer;
-	padding: 0;
-	margin: 0;
 }
 </style>
