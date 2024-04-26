@@ -15,9 +15,7 @@ onMounted(() => {
   scrollTop.value = getScrollTop();
   scroll_element.addEventListener('scroll', onScroll);
 });
-onUnmounted(() => {
-  scroll_element.removeEventListener('scroll', onScroll);
-});
+onUnmounted(() => scroll_element.removeEventListener('scroll', onScroll));
 </script>
 
 <style scoped lang="scss">
@@ -42,16 +40,6 @@ onUnmounted(() => {
   .back-to-top {
     display: none;
   }
-}
-
-.back-to-top-enter-active,
-.back-to-top-leave-active {
-  transition: opacity $transition-duration;
-}
-
-.back-to-top-enter-from,
-.back-to-top-leave-to {
-  opacity: 0;
 }
 
 @media print {

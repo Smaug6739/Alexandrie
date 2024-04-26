@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <NuxtPage style="overflow:auto;" id="app-scroll" />
+  <div>
+    <NuxtPage id="app-scroll" />
     <div id="backdrop"></div>
     <Notification />
     <ClientOnly>
@@ -14,19 +14,4 @@ import { useDocumentsStore, useCategoriesStore } from './store';
 
 useDocumentsStore().fetch();
 useCategoriesStore().fetch();
-
 </script>
-<style scoped lang="scss">
-#app {
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-@media print {
-  #app {
-    height: auto;
-  }
-}
-</style>

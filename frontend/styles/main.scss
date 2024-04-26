@@ -12,9 +12,6 @@
 	box-sizing: border-box;
 }
 
-
-
-
 ::-webkit-scrollbar {
 	width: 2px;
 	background: var(--bg-contrast);
@@ -35,10 +32,6 @@
 
 ::selection {
 	background-color: $selection-color;
-}
-
-html {
-	overflow: hidden;
 }
 
 
@@ -67,18 +60,6 @@ body {
 @media print {
 	body {
 		@include print-theme;
-
-	}
-
-	#doc,
-	#doc * {
-		visibility: visible;
-	}
-
-	#doc {
-		position: absolute;
-		left: 0;
-		top: 0;
 	}
 
 	header,
