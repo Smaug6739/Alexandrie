@@ -56,7 +56,7 @@ button {
 </style>
 <script lang="ts" setup>
 const { toggleSidebar, isOpened } = useSidebar();
-const router = useRouter();
+//const router = useRouter();
 //const next = () => router.go(1);
 //const previous = () => router.go(-1);
 </script>

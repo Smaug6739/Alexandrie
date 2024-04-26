@@ -43,6 +43,21 @@ button {
 	}
 }
 
+code {
+	background-color: var(--bg-contrast-2);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	padding: 4px 8px;
+}
+
+/* Style pour les éléments <pre> contenant du code */
+pre code {
+	display: block;
+	padding: 10px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+}
+
 fieldset {
 	margin: auto;
 	margin-top: 3% !important;

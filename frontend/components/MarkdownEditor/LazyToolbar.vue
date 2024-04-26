@@ -1,5 +1,15 @@
 <template>
-	<div class="toolbar flex-container">
+	<div class="toolbar">
+		<button @click="previous" class="no-mobile">
+			<svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="24">
+				<path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+			</svg>
+		</button>
+		<button @click="next" class="no-mobile">
+			<svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="24">
+				<path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
+			</svg>
+		</button>
 		<span v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn"
 			@click="emitAction(item.action)"></span>
 		<input placeholder="#tags" class="tags input" v-model="copy.tags" style="margin-right:5px;" />
@@ -29,11 +39,13 @@ import { useCategoriesStore, useDocumentsStore, type Document } from "~/store";
 
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
-
+const router = useRouter();
+const next = () => router.go(1);
+const previous = () => router.go(-1);
 const props = defineProps<{ document: Partial<Document> }>();
 const copy = ref(props.document);
-const e = defineEmits(['execute-action']);
-const emitAction = (action: string) => e('execute-action', action, copy);
+const emit = defineEmits(['execute-action']);
+const emitAction = (action: string) => emit('execute-action', action, copy);
 
 const toolbar = [
 	{
@@ -105,38 +117,37 @@ const toolbar = [
 </script>
 
 <style scoped lang="scss">
+button {
+	padding: 5px 0;
+	margin: 0;
+}
+
 .toolbar {
 	margin-bottom: 10px;
 	user-select: none;
 	display: flex;
+	align-items: center;
+}
 
-	.btn {
-		margin-right: 5px;
-		opacity: 0.8;
-		cursor: pointer;
+.btn {
+	margin-right: 5px;
+	cursor: pointer;
+}
 
-		&:deep(svg) {
-			fill: var(--font-color);
-		}
+svg,
+.toolbar:deep(svg) {
+	fill: var(--font-color);
+}
 
-		&:hover {
-			opacity: 1;
+svg:hover,
+.toolbar:deep(svg):hover {
+	fill: $primary-400;
+}
 
-			&:deep(svg) {
-				fill: $primary-400;
-			}
-		}
-	}
-
-	input {
-		display: none;
-	}
-
-	input,
-	select {
-		display: inline-block;
-		width: min-content;
-		padding: 0;
-	}
+input,
+select {
+	display: inline-block;
+	width: min-content;
+	padding: 0;
 }
 </style>

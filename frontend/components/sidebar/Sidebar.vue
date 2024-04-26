@@ -86,7 +86,6 @@ if (isMobile()) {
 	justify-content: space-between;
 	align-items: center;
 	height: 50px;
-	margin: 0 0 15px 0;
 
 	.btn {
 		fill: var(--font-color);
