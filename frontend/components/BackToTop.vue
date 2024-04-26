@@ -5,17 +5,16 @@
 
 <script setup lang="ts">
 const scrollTop = ref(0);
-const scroll_element = document.getElementById('app-scroll')!;
-const getScrollTop = () => scroll_element.scrollTop || 0;
-const scrollToTop = () => scroll_element.scrollTo({ top: 0, behavior: 'smooth' });
+const getScrollTop = () => window.scrollY || 0;
+const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 const show = computed(() => scrollTop.value > 300);
 const onScroll = () => scrollTop.value = getScrollTop()
 
 onMounted(() => {
   scrollTop.value = getScrollTop();
-  scroll_element.addEventListener('scroll', onScroll);
+  window.addEventListener('scroll', onScroll);
 });
-onUnmounted(() => scroll_element.removeEventListener('scroll', onScroll));
+onUnmounted(() => window.removeEventListener('scroll', onScroll));
 </script>
 
 <style scoped lang="scss">

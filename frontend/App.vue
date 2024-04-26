@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtPage id="app-scroll" />
+    <NuxtPage />
     <div id="backdrop"></div>
     <Notification />
     <ClientOnly>
