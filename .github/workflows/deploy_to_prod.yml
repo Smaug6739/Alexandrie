@@ -68,7 +68,7 @@ jobs:
           ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "source ~/.bashrc && cd ${INPUT_REMOTE} && cd backend && bun install --production"
       - name: Start application
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && NODE_ENV='production' DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" DATABASE_USER="${{ secrets.DATABASE_USER }}" JWT_SECRET="${{ secrets.JWT_SECRET }}" pm2 start ecosystem.config.js --update-env"
+          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && NODE_ENV='production' DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' DATABASE_USER='${{ secrets.DATABASE_USER }}' JWT_SECRET='${{ secrets.JWT_SECRET }}' pm2 start ecosystem.config.js --update-env"
         env:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_USER: ${{ secrets.DATABASE_USER }}
