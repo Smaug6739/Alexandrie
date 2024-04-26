@@ -16,7 +16,8 @@ export default class DocumentsManager extends Base {
         } ORDER BY \`name\``,
         (err, result) => {
           if (err) {
-            console.log(err);
+            console.error(err);
+            console.error(err.stack);
             return reject('Internal database error.');
           }
           resolve(result);

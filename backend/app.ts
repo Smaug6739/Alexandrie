@@ -19,7 +19,6 @@ export class App {
   public uploads_dir: string;
   constructor() {
     Logger.debug(`Starting in ${process.env.NODE_ENV} mode...`);
-    Logger.debug(`${process.env.DATABASE_PASSWORD}`);
     this.app = express();
     this.port = process.env.PORT || '3000';
     this.snowflake = new Snowflake(1661327668261);
