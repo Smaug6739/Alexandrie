@@ -22,7 +22,7 @@ export class App {
     this.app = express();
     this.port = process.env.PORT || '3000';
     this.snowflake = new Snowflake(1661327668261);
-    this.db = db('localhost', process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, 'alexandrie');
+    this.db = db('127.0.0.1', process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, 'alexandrie');
     this.uploads_dir = join(__dirname, '../../uploads');
   }
   private async handleRoutes() {
