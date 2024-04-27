@@ -1,7 +1,7 @@
 {
-  "name": "Alexandrie dashboard",
-  "short_name": "Alexandrie dashboard",
-  "description": "Alexandrie dashboard application.",
+  "name": "Alexandrie",
+  "short_name": "Alexandrie",
+  "description": "Alexandrie application.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#2f3641",
