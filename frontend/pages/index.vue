@@ -36,7 +36,8 @@ const colorMode = useColorMode();
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	margin-top: 60px;
+	justify-content: space-between;
+	padding-top: 60px;
 }
 
 main {
