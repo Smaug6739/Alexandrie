@@ -54,7 +54,6 @@ const drop = async (event: DragEvent) => {
 	const draggedItemId = event.dataTransfer!.getData('text/plain');
 
 	let draggedItem = documentStore.getById(draggedItemId) || categoriesStore.getById(draggedItemId) || navigationItems.find((item) => item.id === draggedItemId);
-	console.log(draggedItem);
 
 	if (!draggedItem) return;
 
@@ -77,7 +76,7 @@ const drop = async (event: DragEvent) => {
 		if (documentStore.getAllChildrensIds(draggedItem.id).includes(props.item.parent_id)) return; // Prevent moving parent to child
 		if (draggedItem.id === props.item.id) return; // Prevent moving to the same document
 		documentStore.update(
-			{ ...draggedItem, parent_id: props.item.id }
+			{ ...draggedItem, parent_id: props.item.id, category: props.item.data.category }
 		);
 	}
 	if (draggedItem.type === "category" && props.item.data.type === "category") { // Move category to category
