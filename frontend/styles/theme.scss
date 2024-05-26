@@ -194,6 +194,10 @@ table {
 	min-width: 400px;
 	overflow-x: auto;
 
+	thead {
+		border-bottom: 1px solid var(--border-color);
+	}
+
 	th,
 	td {
 		padding: 12px 15px;

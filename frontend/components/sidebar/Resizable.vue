@@ -1,9 +1,8 @@
 <template>
 	<nav :class="{ open: isOpened }">
 		<div class="sidebar no-select">
-			<div :style="{ width: panewidthCSS }">
+			<div :style="{ width: panewidthCSS, maxHeight: '100%', overflowY: 'auto' }">
 				<slot></slot>
-
 			</div>
 			<div class="separator" @mousedown="startResize"></div>
 		</div>
@@ -60,7 +59,6 @@ nav {
 	overflow-x: hidden;
 	height: 100%;
 	display: flex;
-
 }
 
 .open {

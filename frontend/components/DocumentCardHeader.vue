@@ -137,16 +137,11 @@ p {
 	}
 }
 
-@media screen and (min-width: 1024px) {
+@media print,
+screen and (min-width: 1024px) {
 	.icon {
 		display: block;
 	}
 
-}
-
-@media print {
-	.header {
-		padding: 0;
-	}
 }
 </style>

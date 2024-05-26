@@ -32,9 +32,12 @@ watchEffect(async () => {
 			console.error("Error fetching document:", error);
 		}
 	} else article.value = docFromStore;
+	useHead({ title: `Alexandrie ${article.value?.name || ''}` });
 });
 const next = computed(() => documentsStore.getNext(article.value));
 const previous = computed(() => documentsStore.getPrevious(article.value));
+
+
 </script>
 
 <style scoped>

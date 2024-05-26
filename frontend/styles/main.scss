@@ -32,6 +32,7 @@
 
 ::selection {
 	background-color: $selection-color;
+	color: white;
 }
 
 
@@ -58,9 +59,6 @@ body {
 }
 
 @media print {
-	body {
-		@include print-theme;
-	}
 
 	header,
 	footer,
