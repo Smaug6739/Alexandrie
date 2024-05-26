@@ -1,15 +1,5 @@
 <template>
 	<div class="toolbar">
-		<button @click="previous" class="no-mobile">
-			<svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="24">
-				<path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
-			</svg>
-		</button>
-		<button @click="next" class="no-mobile">
-			<svg xmlns="http://www.w3.org/2000/svg" height="18" viewBox="0 -960 960 960" width="24">
-				<path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
-			</svg>
-		</button>
 		<span v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn"
 			@click="emitAction(item.action)"></span>
 		<input placeholder="#tags" class="tags input" v-model="copy.tags" style="margin-right:5px;" />
@@ -39,9 +29,6 @@ import { useCategoriesStore, useDocumentsStore, type Document } from "~/store";
 
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
-const router = useRouter();
-const next = () => router.go(1);
-const previous = () => router.go(-1);
 const props = defineProps<{ document: Partial<Document> }>();
 const copy = ref(props.document);
 const emit = defineEmits(['execute-action']);
