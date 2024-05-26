@@ -2,7 +2,7 @@
 	<div class="toolbar">
 		<span v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn"
 			@click="emitAction(item.action)"></span>
-		<input placeholder="#tags" class="tags input" v-model="copy.tags" style="margin-right:5px;" />
+		<!--<input placeholder="#tags" class="tags input" v-model="copy.tags" style="margin-right:5px;" />-->
 		<select v-model="copy.accessibility" style="margin-right:5px;">
 			<option value="1">Visible</option>
 			<option value="2">Draf</option>

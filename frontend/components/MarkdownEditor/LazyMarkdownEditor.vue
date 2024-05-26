@@ -94,7 +94,7 @@ function syncScroll() {
 
 <style scoped lang="scss">
 .editor-container {
-	height: 80%;
+	height: 90%;
 	width: 100%;
 }
 
@@ -112,7 +112,7 @@ function syncScroll() {
 .markdown-preview {
 	flex: 1;
 	overflow: auto;
-	min-height: 60vh;
+	min-height: 75vh;
 }
 
 .input {
