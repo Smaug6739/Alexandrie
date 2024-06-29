@@ -5,7 +5,7 @@ import { error, success } from '../utils/functions';
 import type { Request, Response } from 'express';
 import type { App } from '../app';
 
-export function convertImagetoWebp(_: App, req: Request, res: Response) {
+export function convertImageToWebp(_: App, req: Request, res: Response) {
   if (typeof req.files != 'object' || !('file' in req.files) || !req.files.file[0]) {
     res.status(400).json(error('No file provided.'));
     return;

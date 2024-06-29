@@ -17,7 +17,7 @@ export default (app: App): Iroute => {
         '/image',
         auth,
         multerCdn,
-        (req: Request, res: Response) => CDNCtrl.convertImagetoWebp(app, req, res),
+        (req: Request, res: Response) => CDNCtrl.convertImageToWebp(app, req, res),
         multerErrors,
       );
       return CDNRouter;
