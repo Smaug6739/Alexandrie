@@ -34,9 +34,41 @@ export interface User {
   created_timestamp: string;
 }
 
+export interface Ressource {
+  id: string;
+  filename: string;
+  file_size: number;
+  file_type: string;
+  original_path: string;
+  transformed_path: string;
+  author_id: string;
+  created_timestamp: string;
+}
+
+export interface ConnectionLog {
+  id: string;
+  user_id: string;
+  ip_adress: string;
+  user_agent: string;
+  location: string;
+  type: string;
+  timestamp: string;
+}
+
+export interface Connection {
+  user_id: string;
+  refresh_token: string;
+  expire_token: number;
+  last_login: number;
+  last_logout: number;
+}
+
 export type DocumentDB = RowDataPacket & Document;
 export type CategoryDB = RowDataPacket & Category;
 export type UserDB = RowDataPacket & User;
+export type RessourceDB = RowDataPacket & Ressource;
+export type ConnectionLogDB = RowDataPacket & ConnectionLog;
+export type ConnectionDB = RowDataPacket & Connection;
 
 // SQL create the documents table (relation between author_id and users.id; relation between category and categories.id)
 /* CREATE TABLE documents (

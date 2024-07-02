@@ -1,7 +1,5 @@
 import { Router } from 'express';
 import AuthCtrl from '../../controllers/auth.controller';
-import type { Iroute } from '../../types';
-import type { App } from '../../app';
 const AuthRouter: Router = Router();
 
 export default (client: App): Iroute => {
@@ -11,6 +9,7 @@ export default (client: App): Iroute => {
     router() {
       const controller = new AuthCtrl(client);
       AuthRouter.post('/', (req, res) => controller.authentification(client, req, res));
+      AuthRouter.get('/refreshToken/:user_id', (req, res) => controller.refresh_access_token(req, res));
       AuthRouter.get('/disconnection', (req, res) => controller.disconnection(client, req, res));
       return AuthRouter;
     },

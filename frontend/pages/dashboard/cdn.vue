@@ -13,23 +13,40 @@
 					sélectionner</span>.
 			</div>
 		</div>
-		<button @click="submitFile" :disabled="!selectedFile">Uploader on server</button>
+		<button @click="submitFile" :disabled="!selectedFile">Uploader sur le serveur</button>
 		<div v-if="isLoading" class="loading-spinner"></div>
 		<div v-if="fileLink" class="link-section">
 			<input type="text" v-model="fileLink" readonly />
 			<button @click="copyLink">Copy link</button>
 		</div>
+		<h2>Ressources existantes</h2>
+		<div v-if="ressources.length" class="ressources-list">
+			<div v-for="ressource in ressources" :key="ressource.id" class="ressource-item">
+				<div class="ressource-info">
+					<span class="ressource-name">{{ ressource.filename }}</span>
+					<span class="ressource-size">{{ readableFileSize(ressource.file_size) }}</span>
+					<span class="ressource-type">{{ ressource.file_type }}</span>
+					<span class="ressource-date">{{ formatDate(ressource.created_timestamp) }}</span>
+				</div>
+				<a :href="`/static${ressource.transformed_path || ressource.original_path}`" target="_blank">View</a>
+			</div>
+		</div>
+		<div v-else>
+			Aucune ressource disponible.
+		</div>
 	</div>
 </template>
 <script setup lang="ts">
-import { useNotifications } from '~/store';
+import { useNotifications, useRessourcesStore } from '~/store';
+const ressourcesStore = useRessourcesStore();
+await ressourcesStore.fetch();
 
 const selectedFile: Ref<File | null> = ref(null);
 const isDragOver = ref(false);
 const fileLink = ref('');
 const fileInput: Ref<HTMLInputElement | null> = ref(null);
 const isLoading = ref(false);
-
+const ressources = ressourcesStore.ressources;
 const triggerFileSelect = () => fileInput.value!.click();
 const handleFileSelect = (event: Event) => selectedFile.value = (event.target as HTMLInputElement | null)?.files?.[0] || null;
 
@@ -50,8 +67,9 @@ const submitFile = async () => {
 
 	const body = new FormData();
 	body.append("file", selectedFile.value);
+	clearForm();
 
-	const response = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/cdn/image`, {
+	const response = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/ressources`, {
 		method: "POST",
 		credentials: "include",
 		body: body,
@@ -59,14 +77,18 @@ const submitFile = async () => {
 
 	const result = await response.json();
 	isLoading.value = false;
-	clearForm();
-	if (result.status === "success") fileLink.value = `${import.meta.env.VITE_BASE_API}/static${result.result}`;
+	if (result.status === "success") fileLink.value = `${import.meta.env.VITE_BASE_API}/static${result.result.transformed_path || result.result.original_path}`;
 	else useNotifications().add({ type: "error", title: "Error", message: result.message, timeout: 5000 })
 }
 
 const readableFileSize = (size: number): string => {
-	let i = Math.floor(Math.log(size) / Math.log(1024));
+	const i = Math.floor(Math.log(size) / Math.log(1024));
 	return `${(size / Math.pow(1024, i)).toFixed(2)} ${["B", "kB", "MB", "GB", "TB"][i]}`
+}
+
+const formatDate = (timestamp: string): string => {
+	const date = new Date(parseInt(timestamp));
+	return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
 }
 
 const clearForm = () => selectedFile.value = null;
@@ -80,8 +102,6 @@ const clearForm = () => selectedFile.value = null;
 	gap: 1.5rem;
 	padding: 2rem;
 	border-radius: 8px;
-	width: 100%;
-	margin: 0 auto;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 
 	.dropzone {
@@ -152,6 +172,67 @@ const clearForm = () => selectedFile.value = null;
 
 		100% {
 			transform: rotate(360deg);
+		}
+	}
+
+	.ressources-list {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		.ressource-item {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 1rem;
+			border: 1px solid #ddd;
+			/* Lighter border for a subtler effect */
+			border-radius: 8px;
+			background-color: #fafafa;
+			/* Light gray background for list items */
+			transition: background-color 0.2s ease, box-shadow 0.2s ease;
+
+			&:hover {
+				background-color: #e3e3e3;
+				/* Slightly darker on hover */
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+				/* Subtle shadow on hover */
+			}
+
+			.ressource-info {
+				display: flex;
+				justify-content: space-around;
+				width: 100%;
+
+				.ressource-name {
+					font-weight: bold;
+					color: #333;
+					/* Darker text for better contrast */
+				}
+
+				.ressource-size,
+				.ressource-type,
+				.ressource-date {
+					font-size: 0.9rem;
+					color: #757575;
+				}
+			}
+
+			a {
+				color: #2196f3;
+				text-decoration: none;
+				font-weight: bold;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
 		}
 	}
 }

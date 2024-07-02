@@ -26,5 +26,4 @@ const rows = computed(() => documents.value.map((doc) => {
 		],
 	};
 }));
-
 </script>

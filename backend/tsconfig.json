@@ -38,6 +38,6 @@
     // Paths
     "baseUrl": "./src"
   },
-  "include": ["**/*"],
+  "include": ["**/*", "custom.d.ts", "global.d.ts"],
   "exclude": ["node_modules", "test", "typings"]
 }

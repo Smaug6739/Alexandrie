@@ -1,29 +1,70 @@
-import { join } from 'path';
-import { existsSync } from 'fs';
+import { access, constants } from 'fs';
 import sharp from 'sharp';
-import { error, success } from '../utils/functions';
+import { MIME_TYPES_IMAGE, UPLOADS_PATH } from '../utils/constants';
 import type { Request, Response } from 'express';
-import type { App } from '../app';
+import { Ressource } from '../types';
+import { error, success } from '../utils/functions';
+import RessourcesManager from '../classes/RessourcesManager';
 
-export function convertImageToWebp(_: App, req: Request, res: Response) {
-  if (typeof req.files != 'object' || !('file' in req.files) || !req.files.file[0]) {
-    res.status(400).json(error('No file provided.'));
-    return;
+export type PartialRessource = Omit<Ressource, 'id' | 'created_timestamp'>;
+
+export function convertImageToWebp(filename: string): Promise<string[]> {
+  return new Promise((resolve, reject) => {
+    const path = `${UPLOADS_PATH}/images/${filename}`;
+    access(path, constants.F_OK, err => {
+      if (err) return reject(new Error('File not found.'));
+      return sharp(path)
+        .toFile(`${UPLOADS_PATH}/webp/${filename.split('.')[0]}.webp`)
+        .then(() => resolve([`/images/${filename}`, `/webp/${filename.split('.')[0]}.webp`]))
+        .catch(() => reject(new Error('Error converting image.')));
+    });
+  });
+}
+export default class RessourcesController {
+  app: App;
+  manager: RessourcesManager;
+  constructor(app: App) {
+    this.app = app;
+    this.manager = new RessourcesManager(app);
   }
 
-  const filename = req.files['file'][0].filename;
-
-  if (!filename) {
-    res.status(400).json(error('No file provided.'));
-    return;
+  async get(req: Request, res: Response) {
+    this.manager
+      .getRessources(req.params.user_id as string)
+      .then((result: Ressource[]) => res.status(200).json(success(result)))
+      .catch(e => res.status(500).json(error(e)));
   }
 
-  const path = join(__dirname, `../../../uploads/images/${filename}`);
+  async add(req: Request, res: Response) {
+    try {
+      if (typeof req.files != 'object' || !('file' in req.files) || !req.files.file[0]) {
+        throw new Error('No file provided.');
+      }
+      const file = req.files['file'][0];
+      const filename = file.filename;
 
-  if (existsSync(path)) {
-    sharp(path)
-      .toFile(join(__dirname, `../../../uploads/webp/${filename.split('.')[0]}.webp`))
-      .then(() => res.status(200).json(success(`/webp/${filename.split('.')[0]}.webp`)))
-      .catch(_ => res.status(500).json(error('Error while converting image to webp.')));
-  } else res.status(404).json(error('File not found.'));
+      if (!filename) throw new Error('No file provided.');
+      const ressource: PartialRessource = {
+        filename: file.originalname,
+        file_size: file.size,
+        file_type: file.mimetype,
+        original_path: '',
+        transformed_path: '',
+        author_id: req.user_id!,
+      };
+      if (Object.keys(MIME_TYPES_IMAGE).includes(file.mimetype)) {
+        const converted = await convertImageToWebp(filename);
+        ressource.original_path = String(converted[0]);
+        ressource.transformed_path = String(converted[1]);
+      } else ressource.original_path = `/other/${filename}`;
+
+      this.manager
+        .createRessource(ressource)
+        .then(r => res.status(201).json(success(r)))
+        .catch(err => res.status(500).json(error(err.message)));
+    } catch (err) {
+      if (err instanceof Error) res.status(500).json(error(err.message));
+      res.status(500).json(error('Internal server error.'));
+    }
+  }
 }

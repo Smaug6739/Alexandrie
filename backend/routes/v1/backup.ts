@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import BackupsCtrl from '../../controllers/backups.controller';
 import authMid from '../../middlewares/auth';
-import type { App } from '../../app';
-import type { Iroute } from '../../types';
 
 const BackupsRouter: Router = Router();
 

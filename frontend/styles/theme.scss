@@ -43,20 +43,6 @@ button {
 	}
 }
 
-code {
-	background-color: var(--bg-contrast-2);
-	border: 1px solid var(--border-color);
-	border-radius: 12px;
-	padding: 4px 8px;
-}
-
-/* Style pour les éléments <pre> contenant du code */
-pre code {
-	display: block;
-	padding: 10px;
-	overflow-x: auto;
-	white-space: pre-wrap;
-}
 
 fieldset {
 	margin: auto;
@@ -174,13 +160,6 @@ p {
 	margin: 12px 0;
 }
 
-pre {
-	background: var(--bg-contrast);
-	border-radius: 15px;
-	overflow: auto;
-	padding: 1px;
-}
-
 select {
 	font-family: $external-font;
 	border: 1px solid var(--border-color);
@@ -226,21 +205,4 @@ textarea {
 ul,
 ol {
 	padding-left: 22px;
-}
-
-code {
-	font-family: $external-font;
-	font-size: 14px;
-	padding: 2px 4px;
-	color: var(--font-color);
-}
-
-/* Style pour les balises pre contenant du code */
-pre {
-	position: relative;
-	z-index: 1;
-	margin: 0;
-	padding: 16px 0;
-	background: transparent;
-	overflow-x: auto;
 }

@@ -2,6 +2,8 @@
 uploads/images/*
 uploads/webp/*
 uploads/backups/*
+uploads/other/*
 !uploads/images/.gitkeep
 !uploads/webp/.gitkeep
 !uploads/backups/.gitkeep
+!uploads/other/.gitkeep

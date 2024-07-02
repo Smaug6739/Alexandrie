@@ -16,7 +16,7 @@ const transition = computed(() => isResizing.value ? 'none' : 'margin-left 0.3s'
 .medium-view {
 	padding: 0 2rem;
 	width: 100%;
-	height: 60px;
+	height: 100%;
 }
 
 @media print {

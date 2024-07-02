@@ -4,6 +4,7 @@ import { anchorPlugin } from './anchor';
 import { containerSvg } from './containers-svg';
 // @ts-ignore
 import underline from 'markdown-it-underline';
+import highlight from 'markdown-it-highlightjs';
 // @ts-ignore
 import mark from 'markdown-it-mark';
 import katex from 'katex';
@@ -15,6 +16,7 @@ md.use(containerSvg);
 md.use(underline);
 md.use(mark);
 md.use(markdownItKatexPlugin);
+md.use(highlight);
 
 function markdownItKatexPlugin(md: any) {
   // Nous ajoutons une règle en ligne (inline) après la règle 'escape' (qui échappe les caractères spéciaux)

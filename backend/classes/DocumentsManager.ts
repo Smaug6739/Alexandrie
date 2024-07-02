@@ -1,5 +1,4 @@
 import Base from './Base';
-import type { App } from '../app';
 import type { Document, DocumentDB } from '../types';
 
 export default class DocumentsManager extends Base {

@@ -1,8 +1,6 @@
 import { Router } from 'express';
 import CategoriesCtrl from '../../controllers/categories.controller';
 import authMid from '../../middlewares/auth';
-import type { App } from '../../app';
-import type { Iroute } from '../../types';
 
 const CategoriesRouter: Router = Router();
 

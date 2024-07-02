@@ -1,5 +1,4 @@
 import Base from './Base';
-import type { App } from '../app';
 import type { Category, CategoryDB } from '../types';
 
 export default class CategoriesDB extends Base {

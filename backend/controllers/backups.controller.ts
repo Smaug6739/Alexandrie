@@ -1,8 +1,6 @@
 import { createWriteStream, unlinkSync, readdirSync } from 'fs';
 import { spawn } from 'child_process';
-
 import type { Request, Response } from 'express';
-import type { App } from '../app';
 import { error, success } from '../utils/functions';
 
 export default class CategoriesController {

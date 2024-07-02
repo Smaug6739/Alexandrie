@@ -1,7 +1,5 @@
 <template>
-	<div v-if="document" class="edit-component">
-		<MarkdownEditor ref="editor" :doc="document" @save="(data) => save(data)" />
-	</div>
+	<MarkdownEditor v-if="document" ref="editor" :doc="document" @save="(data) => save(data)" />
 </template>
 <script lang="ts" setup>
 import { useNotifications, useDocumentsStore, type Document } from '@/store';
@@ -32,9 +30,3 @@ function save(doc: Document) {
 }
 
 </script>
-<style lang="scss" scoped>
-.edit-component {
-	width: 100%;
-	height: 100%;
-}
-</style>

@@ -18,7 +18,7 @@
 					<td v-for=" (field, index) in row.fields" :key="index" :class="{ noMobile: index > 1 }">
 						<span v-if="!field.action" v-text="field.content"></span>
 						<span v-else>
-							<NuxtLink :to="field.action" class="small-btn" type="button" v-text="field.content">
+							<NuxtLink :to="field.action" type="button" v-text="field.content">
 							</NuxtLink>
 						</span>
 					</td>
@@ -27,8 +27,8 @@
 					<td colspan="100%">
 						<div class="actions-bar">
 							<div class="left">
-								<button type="button" class="small-btn" @click="page--">&lt;Previous</button>
-								<button type="button" class="small-btn" @click="page++">Next&gt;</button>
+								<button type="button" @click="page--">&lt;Previous</button>
+								<button type="button" @click="page++">Next&gt;</button>
 							</div>
 							<div class="right">
 								<span>Items per page</span>
@@ -84,11 +84,12 @@ table {
 	width: 100%;
 }
 
-button {
-	margin-right: 20px;
+th {
+	text-align: left;
 }
 
-.small-btn {
+button {
+	margin-right: 20px;
 	padding: 0.1rem 0.25rem;
 	font-size: 1rem;
 }

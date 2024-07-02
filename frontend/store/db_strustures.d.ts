@@ -37,3 +37,13 @@ export interface User {
   password: string;
   created_timestamp: string;
 }
+export interface DB_Ressource {
+  id: string;
+  filename: string;
+  file_size: number;
+  file_type: string;
+  original_path: string;
+  transformed_path: string;
+  author_id: string;
+  created_timestamp: string;
+}

@@ -1,8 +1,7 @@
 <template>
 	<div class="toolbar">
-		<span v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn"
-			@click="emitAction(item.action)"></span>
-		<!--<input placeholder="#tags" class="tags input" v-model="copy.tags" style="margin-right:5px;" />-->
+		<button v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn"
+			@click="emitAction(item.action)"></button>
 		<select v-model="copy.accessibility" style="margin-right:5px;">
 			<option value="1">Visible</option>
 			<option value="2">Draf</option>
@@ -15,20 +14,14 @@
 				</option>
 			</optgroup>
 		</select>
-		<select v-model="copy.parent_id">
-			<option selected :value="null"> No parent </option>
-			<option v-for="doc in documentsStore.getByCategories(copy.category || '')" :value="doc.id" :key="doc.id"
-				v-text="doc.name">
-			</option>
-		</select>
+
 	</div>
 </template>
 
 <script setup lang="ts">
-import { useCategoriesStore, useDocumentsStore, type Document } from "~/store";
+import { useCategoriesStore, type Document } from "~/store";
 
 const categoriesStore = useCategoriesStore();
-const documentsStore = useDocumentsStore();
 const props = defineProps<{ document: Partial<Document> }>();
 const copy = ref(props.document);
 const emit = defineEmits(['execute-action']);
@@ -105,20 +98,15 @@ const toolbar = [
 
 <style scoped lang="scss">
 button {
-	padding: 5px 0;
+	padding: 3px 5px 3px 0;
 	margin: 0;
+	transform: none;
 }
 
 .toolbar {
-	margin-bottom: 10px;
 	user-select: none;
 	display: flex;
 	align-items: center;
-}
-
-.btn {
-	margin-right: 5px;
-	cursor: pointer;
 }
 
 svg,

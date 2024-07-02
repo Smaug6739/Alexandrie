@@ -9,3 +9,5 @@ config({
 
 const server: App = new App();
 server.start();
+
+export default server;

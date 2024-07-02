@@ -1,15 +1,12 @@
 <template>
 	<div class="editor-container">
 		<Toolbar style="height: fit-content;" :document="document" @execute-action="(a: string) => exec(a)" />
-		<div class="editor-input">
-			<input placeholder="Titre" class="title input" v-model="document.name" />
-			<input placeholder="Description" class="description input" v-model="document.description" />
-			<div class="markdown">
-				<textarea ref="textarea" class="content markdown-input input" placeholder="Écrivez votre contenu ici..."
-					v-model="document.content_markdown" @scroll="syncScroll"></textarea>
-				<div v-if="showPreview" class="markdown-preview document-theme" ref="markdownPreview">
-					<div v-html="html_content"></div>
-				</div>
+		<input placeholder="Titre" class="title" v-model="document.name" />
+		<input placeholder="Description" class="description" v-model="document.description" />
+		<div class="markdown">
+			<textarea ref="textarea" class="content markdown-input" placeholder="Écrivez votre contenu ici..."
+				v-model="document.content_markdown" @scroll="syncScroll"></textarea>
+			<div v-if="showPreview" class="markdown-preview document-theme" ref="markdownPreview" v-html="html_content">
 			</div>
 		</div>
 	</div>
@@ -81,6 +78,7 @@ function exec(action: string) {
 			emit('save', document.value);
 			break;
 	}
+	document.value.content_html = compile(document.value.content_markdown, true);
 }
 
 const markdownPreview = ref<HTMLDivElement>();
@@ -98,13 +96,8 @@ function syncScroll() {
 	width: 100%;
 }
 
-.editor-input,
 .markdown {
-	height: 100%;
-	width: 100%;
-}
-
-.markdown {
+	height: 80%;
 	display: flex;
 }
 
@@ -112,26 +105,29 @@ function syncScroll() {
 .markdown-preview {
 	flex: 1;
 	overflow: auto;
-	min-height: 75vh;
 }
 
-.input {
+.markdown-preview {
+	position: relative;
+}
+
+input,
+textarea {
 	border: none;
 	outline: none;
 	background-color: var(--bg-color);
 	padding-left: 0;
+}
 
-	&.title {
-		font-size: 24px;
-		font-weight: bold;
-		margin-bottom: 10px;
-	}
+.title {
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
 
-	&.description {
-		font-size: 18px;
-		font-weight: bold;
-		margin-bottom: 10px;
-	}
-
+.description {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 10px;
 }
 </style>

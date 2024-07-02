@@ -4,11 +4,10 @@ import express from 'express';
 import { Pool } from 'mysql2';
 import type { Request, Response } from 'express';
 
-import type { Iroute } from './types';
-
 import db from './models/db';
 import Logger from './utils/Logger';
 import { checkAndChange } from './utils/functions';
+import { UPLOADS_PATH } from './utils/constants';
 import { Snowflake } from './utils/Snowflake';
 
 export class App {
@@ -71,7 +70,7 @@ export class App {
         res.set('x-timestamp', Date.now().toString());
       },
     };
-    this.app.use('/static', express.static(join(__dirname, '../../uploads'), staticOptions));
+    this.app.use('/static', express.static(UPLOADS_PATH, staticOptions));
 
     this.app.listen(this.port, () => {
       Logger.success(`Started on port ${this.port}`);
