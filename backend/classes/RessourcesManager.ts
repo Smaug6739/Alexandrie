@@ -1,8 +1,7 @@
 import Base from './Base';
 import type { IObject, Ressource, RessourceDB } from '../types';
-import type { PartialRessource } from '../controllers/cdn.controller';
 
-export default class RessourcesManager extends Base {
+export class RessourcesManager extends Base<Ressource> {
   constructor(app: App) {
     super(app);
   }
@@ -14,27 +13,36 @@ export default class RessourcesManager extends Base {
       });
     });
   }
-  public createRessource(ressource: PartialRessource): Promise<IObject> {
+  public createRessource(ressource: Ressource): Promise<IObject> {
     return new Promise((resolve, reject) => {
-      const time = Date.now().toString();
-      const id = this.app.snowflake.generate().toString();
       this.app.db.query<RessourceDB[]>(
         'INSERT INTO ressources (id, filename, file_size, file_type, original_path, transformed_path,author_id, created_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
         [
-          id,
+          ressource.id,
           ressource.filename,
           ressource.file_size,
           ressource.file_type,
           ressource.original_path,
           ressource.transformed_path,
           ressource.author_id,
-          time,
+          ressource.created_timestamp,
         ],
         async err => {
           if (err) return reject('Internal database error.');
-          resolve({ id, ...ressource, created_timestamp: time });
+          resolve(ressource);
         },
       );
     });
+  }
+  public validate(data: Ressource): string | false {
+    if (!data.id || data.id.length > 50) return 'ressource id invalid';
+    if (!data.filename || data.filename.length > 50) return 'ressource filename invalid';
+    if (!data.file_size) return 'ressource file size invalid';
+    if (!data.file_type || data.file_type.length > 100) return 'ressource file type invalid';
+    if (!data.original_path || data.original_path.length > 100) return 'ressource original path invalid';
+    if (data.transformed_path && data.transformed_path.length > 100) return 'ressource transformed path invalid';
+    if (!data.author_id || data.author_id.length > 50) return 'ressource author id invalid';
+    if (!data.created_timestamp || data.created_timestamp.length > 50) return 'ressource created timestamp invalid';
+    return false;
   }
 }

@@ -18,7 +18,7 @@ export function error(message: any): IResponse {
   return Response;
 }
 
-export function isErr(param: any): Boolean {
+export function isErr(param: any): boolean {
   return param instanceof Error;
 }
 

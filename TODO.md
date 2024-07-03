@@ -3,3 +3,5 @@
 - Unification of error handling
 - Unification of types
 - Unification of classes / params
+
+- Badges frontend (interfaces and markdown)

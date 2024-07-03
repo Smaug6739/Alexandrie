@@ -1,15 +1,11 @@
-import { resolve } from 'path';
+import type { CookieOptions } from 'express';
 
-const maxSize = 20 * 1024 * 1024; // 20MB
-
-const access_token_expiration = '18s';
-const refresh_token_expiration = 3600000 * 24 * 1; // 1 day
-
-const COOKIE_CONFIG = {
-  domain: process.env.FRONT_DOMAIN,
+const COOKIE_CONFIG: CookieOptions = {
+  maxAge: 3600000 * 3,
   httpOnly: true,
-  secure: true,
-  sameSite: 'none',
+  domain: process.env.FRONT_DOMAIN,
+  secure: process.env.NODE_ENV == 'production' ? true : false,
+  sameSite: 'lax',
 };
 
 const MIME_TYPES_IMAGE = {
@@ -41,15 +37,4 @@ const ACCEPTED_MIME_TYPES = {
   ...OTHER_MIME_TYPES,
 };
 
-const UPLOADS_PATH = resolve(__dirname, '../../uploads');
-
-export {
-  maxSize,
-  MIME_TYPES_IMAGE,
-  OTHER_MIME_TYPES,
-  ACCEPTED_MIME_TYPES,
-  UPLOADS_PATH,
-  COOKIE_CONFIG,
-  access_token_expiration,
-  refresh_token_expiration,
-};
+export { MIME_TYPES_IMAGE, OTHER_MIME_TYPES, ACCEPTED_MIME_TYPES, COOKIE_CONFIG };

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { makeRequest, type FetchOptions } from './utils';
 import type { DB_Document, Document } from './db_strustures';
 
 export const useDocumentsStore = defineStore('documents', {

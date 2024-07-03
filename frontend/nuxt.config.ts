@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -9,16 +10,20 @@ export default defineNuxtConfig({
       },
     },
   },
+
   ssr: false,
   css: ['~/styles/main.scss', '~/styles/main.scss', '~/styles/katex/katex.min.css'],
   modules: ['@pinia/nuxt', '@nuxtjs/color-mode'],
+
   colorMode: {
     preference: 'light', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
   },
+
   experimental: {
     viewTransition: true,
   },
+
   app: {
     head: {
       title: 'Alexandrie',
@@ -45,4 +50,6 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  compatibilityDate: '2024-07-03',
 });

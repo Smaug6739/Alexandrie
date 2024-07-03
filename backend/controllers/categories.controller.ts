@@ -1,26 +1,30 @@
-import CategoriesManager from '../classes/Categories';
-import { error, success } from '../utils/functions';
+import BaseController from './BaseController';
+import { CategoriesManager } from '../classes';
 import type { Request, Response } from 'express';
+import { Category } from '../types';
 
-export default class CategoriesController {
-  app: App;
-  manager: CategoriesManager;
+export default class CategoriesController extends BaseController<CategoriesManager, Category> {
   constructor(app: App) {
-    this.app = app;
-    this.manager = new CategoriesManager(app);
+    super(new CategoriesManager(app));
   }
   getAll(_: Request, res: Response) {
     this.manager
       .getAll()
-      .then((result: any) => res.status(200).json(success(result)))
-      .catch((err: Error) => res.status(500).json(error(err.message)));
+      .then((result: any) => res.status(200).json(this.utils.success(result)))
+      .catch((err: Error) => res.status(500).json(this.utils.error(err.message)));
   }
 
   add(req: Request, res: Response) {
     this.manager
-      .add({ name: req.body.name, icon: req.body.icon, order: req.body.order, parent_id: req.body.parent_id })
-      .then(r => res.status(201).json(success(r)))
-      .catch(err => res.status(500).json(error(err.message)));
+      .add({
+        id: this.app.snowflake.generate().toString(),
+        name: req.body.name,
+        icon: req.body.icon,
+        order: req.body.order,
+        parent_id: req.body.parent_id,
+      })
+      .then(r => res.status(201).json(this.utils.success(r)))
+      .catch(err => res.status(500).json(this.utils.error(err.message)));
   }
 
   update(req: Request, res: Response) {
@@ -32,14 +36,14 @@ export default class CategoriesController {
         order: req.body.order,
         parent_id: req.body.parent_id,
       })
-      .then(r => res.status(200).json(success(r)))
-      .catch(err => res.status(500).json(error(err.message)));
+      .then(r => res.status(200).json(this.utils.success(r)))
+      .catch(err => res.status(500).json(this.utils.error(err.message)));
   }
 
   delete(req: Request, res: Response) {
     this.manager
       .delete(req.params.id!)
-      .then(r => res.status(200).json(success(r)))
-      .catch(err => res.status(500).json(error(err.message)));
+      .then(r => res.status(200).json(this.utils.success(r)))
+      .catch(err => res.status(500).json(this.utils.error(err.message)));
   }
 }

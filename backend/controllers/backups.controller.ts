@@ -1,7 +1,7 @@
 import { createWriteStream, unlinkSync, readdirSync } from 'fs';
 import { spawn } from 'child_process';
-import type { Request, Response } from 'express';
 import { error, success } from '../utils/functions';
+import type { Request, Response } from 'express';
 
 export default class CategoriesController {
   app: App;
@@ -11,9 +11,9 @@ export default class CategoriesController {
 
   async add(_: Request, res: Response) {
     // Clean the uploads directory
-    const files = readdirSync(this.app.uploads_dir + '/backups');
+    const files = readdirSync(this.app.config.upload_path + '/backups');
     for (const file of files) {
-      if (file.endsWith('.sql')) unlinkSync(`${this.app.uploads_dir}/backups/${file}`);
+      if (file.endsWith('.sql')) unlinkSync(`${this.app.config.upload_path}/backups/${file}`);
     }
     const name = `backup-${new Date().toISOString().split('T')[0]}-${Date.now()}`;
     const mysqldump = spawn('mysqldump', [
@@ -23,7 +23,7 @@ export default class CategoriesController {
       'alexandrie',
     ]);
 
-    const wstream = createWriteStream(`${this.app.uploads_dir}/backups/${name}.sql`);
+    const wstream = createWriteStream(`${this.app.config.upload_path}/backups/${name}.sql`);
     const backupPromise = new Promise<void | string>((resolve, reject) => {
       mysqldump.stdout
         .pipe(wstream)

@@ -7,22 +7,23 @@ import type { Request, Response } from 'express';
 import db from './models/db';
 import Logger from './utils/Logger';
 import { checkAndChange } from './utils/functions';
-import { UPLOADS_PATH } from './utils/constants';
 import { Snowflake } from './utils/Snowflake';
+import type { config } from './config';
 
 export class App {
   private app;
   public port: string;
   public snowflake: Snowflake;
   public db: Pool;
-  public uploads_dir: string;
-  constructor() {
+  public config: typeof config;
+
+  constructor(c: typeof config) {
     Logger.debug(`Starting in ${process.env.NODE_ENV} mode...`);
+    this.config = c;
     this.app = express();
     this.port = process.env.PORT || '3000';
     this.snowflake = new Snowflake(1661327668261);
     this.db = db('127.0.0.1', process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, 'alexandrie');
-    this.uploads_dir = join(__dirname, '../../uploads');
   }
   private async handleRoutes() {
     const directories = readdirSync(join(__dirname, 'routes'));
@@ -70,7 +71,7 @@ export class App {
         res.set('x-timestamp', Date.now().toString());
       },
     };
-    this.app.use('/static', express.static(UPLOADS_PATH, staticOptions));
+    this.app.use('/static', express.static(this.config.upload_path, staticOptions));
 
     this.app.listen(this.port, () => {
       Logger.success(`Started on port ${this.port}`);

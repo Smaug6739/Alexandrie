@@ -52,15 +52,15 @@ export interface ConnectionLog {
   user_agent: string;
   location: string;
   type: string;
-  timestamp: string;
+  timestamp: string; // BIGINT converted to string
 }
 
 export interface Connection {
   user_id: string;
   refresh_token: string;
-  expire_token: number;
-  last_login: number;
-  last_logout: number;
+  expire_token: string;
+  last_login: string;
+  last_logout: string;
 }
 
 export type DocumentDB = RowDataPacket & Document;

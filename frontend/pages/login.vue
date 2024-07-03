@@ -14,7 +14,7 @@
 					<input :type="showPassword ? 'text' : 'password'" id="password" v-model="password"
 						:class="{ 'is-invalid': errors.password }">
 					<button type="button" class="password-toggle" @click="showPassword = !showPassword">{{ showPassword ? 'Hide' :
-			'Show' }}</button>
+						'Show' }}</button>
 				</div>
 				<p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
 			</div>
@@ -34,6 +34,10 @@ const errors = ref({
 })
 const showPassword = ref(false)
 const password = ref('')
+
+definePageMeta({
+	viewTransition: false
+})
 
 function login() {
 	if (!username.value) errors.value.username = 'Username is required'

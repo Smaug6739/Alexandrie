@@ -1,11 +1,12 @@
 import multer from 'multer';
-import { MIME_TYPES_IMAGE, ACCEPTED_MIME_TYPES, maxSize, UPLOADS_PATH } from '../utils/constants';
+import { MIME_TYPES_IMAGE, ACCEPTED_MIME_TYPES } from '../utils/constants';
+import { config } from '../config';
 import type { IObject } from '../types';
 
 const storage = multer.diskStorage({
   destination: (_, file: Express.Multer.File, callback: Function) => {
-    if (Object.keys(MIME_TYPES_IMAGE).includes(file.mimetype)) return callback(null, `${UPLOADS_PATH}/images`);
-    callback(null, `${UPLOADS_PATH}/other`);
+    if (Object.keys(MIME_TYPES_IMAGE).includes(file.mimetype)) return callback(null, `${config.upload_path}/images`);
+    callback(null, `${config.upload_path}/other`);
   },
   filename: (_, file: IObject, callback: Function) => {
     const mimetype = file.mimetype as keyof typeof ACCEPTED_MIME_TYPES;
@@ -18,7 +19,7 @@ const storage = multer.diskStorage({
 export default multer({
   storage: storage,
   limits: {
-    fileSize: maxSize,
+    fileSize: config.max_file_size,
   },
   fileFilter: (_, file: IObject, cb: Function) => {
     const mimetype = file.mimetype as unknown as keyof typeof ACCEPTED_MIME_TYPES;

@@ -1,38 +1,32 @@
 import { access, constants } from 'fs';
 import sharp from 'sharp';
-import { MIME_TYPES_IMAGE, UPLOADS_PATH } from '../utils/constants';
+import BaseController from './BaseController';
+import { RessourcesManager } from '../classes';
+import type { Ressource } from '../types';
 import type { Request, Response } from 'express';
-import { Ressource } from '../types';
-import { error, success } from '../utils/functions';
-import RessourcesManager from '../classes/RessourcesManager';
 
-export type PartialRessource = Omit<Ressource, 'id' | 'created_timestamp'>;
-
-export function convertImageToWebp(filename: string): Promise<string[]> {
+export function convertImageToWebp(upload_path: string, filename: string): Promise<string[]> {
   return new Promise((resolve, reject) => {
-    const path = `${UPLOADS_PATH}/images/${filename}`;
+    const path = `${upload_path}/images/${filename}`;
     access(path, constants.F_OK, err => {
       if (err) return reject(new Error('File not found.'));
       return sharp(path)
-        .toFile(`${UPLOADS_PATH}/webp/${filename.split('.')[0]}.webp`)
+        .toFile(`${upload_path}/webp/${filename.split('.')[0]}.webp`)
         .then(() => resolve([`/images/${filename}`, `/webp/${filename.split('.')[0]}.webp`]))
         .catch(() => reject(new Error('Error converting image.')));
     });
   });
 }
-export default class RessourcesController {
-  app: App;
-  manager: RessourcesManager;
+export default class RessourcesController extends BaseController<RessourcesManager, Ressource> {
   constructor(app: App) {
-    this.app = app;
-    this.manager = new RessourcesManager(app);
+    super(new RessourcesManager(app));
   }
 
   async get(req: Request, res: Response) {
     this.manager
       .getRessources(req.params.user_id as string)
-      .then((result: Ressource[]) => res.status(200).json(success(result)))
-      .catch(e => res.status(500).json(error(e)));
+      .then((result: Ressource[]) => res.status(200).json(this.utils.success(result)))
+      .catch(e => res.status(500).json(this.utils.error(e)));
   }
 
   async add(req: Request, res: Response) {
@@ -44,27 +38,28 @@ export default class RessourcesController {
       const filename = file.filename;
 
       if (!filename) throw new Error('No file provided.');
-      const ressource: PartialRessource = {
+      const ressource: Ressource = {
+        id: this.app.snowflake.generate().toString(),
         filename: file.originalname,
         file_size: file.size,
         file_type: file.mimetype,
         original_path: '',
         transformed_path: '',
         author_id: req.user_id!,
+        created_timestamp: Date.now().toString(),
       };
-      if (Object.keys(MIME_TYPES_IMAGE).includes(file.mimetype)) {
-        const converted = await convertImageToWebp(filename);
+      if (Object.keys(this.utils.MIME_TYPES_IMAGE).includes(file.mimetype)) {
+        const converted = await convertImageToWebp(this.app.config.upload_path, filename);
         ressource.original_path = String(converted[0]);
         ressource.transformed_path = String(converted[1]);
       } else ressource.original_path = `/other/${filename}`;
 
       this.manager
         .createRessource(ressource)
-        .then(r => res.status(201).json(success(r)))
-        .catch(err => res.status(500).json(error(err.message)));
+        .then(r => res.status(201).json(this.utils.success(r)))
+        .catch(err => res.status(500).json(this.utils.error(err.message)));
     } catch (err) {
-      if (err instanceof Error) res.status(500).json(error(err.message));
-      res.status(500).json(error('Internal server error.'));
+      res.status(500).json(this.utils.error(err));
     }
   }
 }

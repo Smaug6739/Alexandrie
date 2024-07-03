@@ -1,7 +1,7 @@
 import Base from './Base';
 import type { Document, DocumentDB } from '../types';
 
-export default class DocumentsManager extends Base {
+export class DocumentsManager extends Base<Document> {
   constructor(app: App) {
     super(app);
   }
@@ -48,18 +48,15 @@ export default class DocumentsManager extends Base {
       });
     });
   }
-  public add(data: Omit<Document, 'id' | 'created_timestamp' | 'updated_timestamp'>) {
+  public add(data: Document) {
     return new Promise((resolve, reject) => {
-      const time = Date.now().toString();
-      const id = this.app.snowflake.generate().toString();
       if (!data.name) return reject(new Error('name must be provided'));
       if (!data.accessibility && data.accessibility != 0) return reject(new Error('accessibility must be provided'));
       if (!data.author_id) return reject(new Error('author_id must be provided'));
-
       this.app.db.query<DocumentDB[]>(
         'INSERT INTO documents (`id`, `name`, `description`, `tags`, `category`, `parent_id`, `accessibility`, `content_markdown`, `content_html`, `author_id`, `created_timestamp`, `updated_timestamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
-          id,
+          data.id,
           data.name,
           data.description,
           data.tags,
@@ -69,23 +66,22 @@ export default class DocumentsManager extends Base {
           data.content_markdown,
           data.content_html,
           data.author_id,
-          time,
-          time,
+          data.created_timestamp,
+          data.updated_timestamp,
         ],
         err => {
           if (err) return reject('Internal database error.');
-          resolve({ id, ...data, created_timestamp: time, updated_timestamp: time });
+          resolve(data);
         },
       );
     });
   }
-  public put(id: string, data: Omit<Document, 'id' | 'created_timestamp' | 'updated_timestamp'>) {
+  public put(id: string, data: Omit<Document, 'id' | 'created_timestamp'>) {
     return new Promise((resolve, reject) => {
       if (!id) return reject(new Error('id must be provided'));
       if (!data.name) return reject(new Error('name must be provided'));
       if (!data.accessibility && data.accessibility != 0) return reject(new Error('accessibility must be provided'));
       if (!data.author_id) return reject(new Error('author_id must be provided'));
-      const time = Date.now().toString();
       this.app.db.query<DocumentDB[]>(
         'UPDATE documents SET name = ?, description = ?, tags = ?, category = ?, parent_id = ?, accessibility = ?, content_markdown = ?, content_html = ?, updated_timestamp = ? WHERE id = ?',
         [
@@ -97,12 +93,12 @@ export default class DocumentsManager extends Base {
           data.accessibility,
           data.content_markdown,
           data.content_html,
-          time,
+          data.updated_timestamp,
           id,
         ],
         err => {
           if (err) return reject('Internal database error.');
-          resolve({ id, ...data, updated_timestamp: time });
+          resolve({ id, ...data });
         },
       );
     });
@@ -116,5 +112,21 @@ export default class DocumentsManager extends Base {
         resolve(true);
       });
     });
+  }
+
+  public validate(data: Document): string | false {
+    if (!data.id || data.id.length > 50) return 'document id invalid';
+    if (!data.name || data.name.length > 50) return 'document name invalid';
+    if (data.description && data.description.length > 255) return 'document description invalid';
+    if (data.tags && data.tags.length > 200) return 'document tags invalid';
+    if (data.category && data.category.length > 50) return 'document category invalid';
+    if (data.parent_id && data.parent_id.length > 50) return 'document parent id invalid';
+    if (!data.accessibility && data.accessibility > 10) return 'document accessibility invalid';
+    if (!data.content_markdown || data.content_markdown.length > 4_294_967_295) return 'document content markdown invalid';
+    if (data.content_html && data.content_html.length > 4_294_967_295) return 'document content html invalid';
+    if (!data.author_id || data.author_id.length > 50) return 'document author id invalid';
+    if (!data.created_timestamp || data.created_timestamp.length > 50) return 'document created timestamp invalid';
+    if (!data.updated_timestamp || data.updated_timestamp.length > 50) return 'document updated timestamp invalid';
+    return false;
   }
 }

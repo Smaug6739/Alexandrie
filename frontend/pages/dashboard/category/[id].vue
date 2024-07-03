@@ -16,11 +16,9 @@
 
 <script setup lang="ts">
 import { useCategoriesStore, useDocumentsStore } from '~/store';
-
 const route = useRoute();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
-
 const category = computed(() => categoriesStore.getById(route.params.id as string));
 
 const allDocuments = computed(() => {
