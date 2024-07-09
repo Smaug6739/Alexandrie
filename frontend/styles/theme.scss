@@ -33,8 +33,7 @@ button {
 	width: fit-content;
 
 	&:hover {
-		transform: translateY(-2px);
-		background-color: var(--primary-color-light);
+		transform: scale(1.1);
 	}
 
 	&:disabled {

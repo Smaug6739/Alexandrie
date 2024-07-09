@@ -2,10 +2,14 @@
 	<Resizable>
 		<div class="sidebar-content">
 			<section class="header">
-				<span class="name"><IconApp /><NuxtLink style="font-size: 19px;font-weight: 600;" to="/">Alexandrie</NuxtLink></span>
+				<span class="name">
+					<IconApp />
+					<NuxtLink style="font-size: 19px;font-weight: 600;" to="/">Alexandrie</NuxtLink>
+				</span>
 				<IconClose class="btn" />
 			</section>
 			<input type="text" placeholder="Search" class="search" v-model="filter" />
+			<Search />
 			<CollapseItem v-for="(item, index) in items " :key="index" :item="item" :root="true" />
 		</div>
 	</Resizable>
@@ -16,16 +20,22 @@ import CollapseItem from './CollapseItem.vue';
 import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import IconApp from './IconApp.vue';
+import Search from './Search.vue';
 import { useCategoriesStore, useDocumentsStore, type Category } from '~/store';
 import { ItemsManager, type Item } from './tree_builder';
 import { navigationItems } from "./helpers";
+
 
 const { isOpened, hasSidebar } = useSidebar();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const filter = ref<string>('');
+const showSearchModal = ref<boolean>(false);
 
 const isMobile = () => import.meta.client ? window.innerWidth <= 768 : false;
+const handleSearchShortCut = (e: KeyboardEvent) => {
+	if (e.ctrlKey && e.key === 'q') showSearchModal.value = !showSearchModal.value;
+};
 
 const items = computed((): Item[] => {
 	const navigation: Item[] = navigationItems.map((item) => ({ id: item.id, parent_id: '', title: item.title, route: item.route, icon: item.icon, type: 'navigation', data: item }))
@@ -57,11 +67,14 @@ const handleClickOutside = (e: MouseEvent) => {
 onMounted(() => {
 	hasSidebar.value = true;
 	if (isMobile()) return window.addEventListener('click', handleClickOutside);
+	// ELSE: Desktop
 	isOpened.value = true;
+	document.addEventListener('keypress', handleSearchShortCut)
 });
 onBeforeUnmount(() => {
 	hasSidebar.value = false;
 	window.removeEventListener('click', handleClickOutside);
+	document.removeEventListener('keypress', handleSearchShortCut)
 });
 
 // Watch isOpened
@@ -71,6 +84,7 @@ if (isMobile()) {
 		else document.getElementById('backdrop')?.classList.remove('backdrop');
 	});
 }
+
 
 </script>
 
@@ -92,11 +106,11 @@ if (isMobile()) {
 	}
 
 	.name {
-    display: flex;
-    align-items: center;
+		display: flex;
+		align-items: center;
 		font-size: 1rem;
 		font-weight: 400;
-    font-family: Inter;
+		font-family: Inter;
 	}
 }
 
