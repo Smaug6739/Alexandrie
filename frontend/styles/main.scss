@@ -28,11 +28,11 @@
 }
 
 ::-moz-selection {
-	background-color: $selection-color;
+	background-color: var(--selection-color);
 }
 
 ::selection {
-	background-color: $selection-color;
+	background-color: var(--selection-color);
 }
 
 

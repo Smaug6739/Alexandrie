@@ -48,19 +48,22 @@ export interface Ressource {
 export interface ConnectionLog {
   id: string;
   user_id: string;
-  ip_adress: string;
-  user_agent: string;
-  location: string;
+  ip_adress?: string;
+  user_agent?: string;
+  location?: string;
   type: string;
   timestamp: string; // BIGINT converted to string
 }
 
-export interface Connection {
+export interface Session {
+  id: string;
   user_id: string;
   refresh_token: string;
   expire_token: string;
-  last_login: string;
-  last_logout: string;
+  last_refresh_timestamp: string;
+  active: number; // 0: No; 1: Yes;
+  login_timestamp: string;
+  logout_timestamp: string;
 }
 
 export type DocumentDB = RowDataPacket & Document;
@@ -68,7 +71,7 @@ export type CategoryDB = RowDataPacket & Category;
 export type UserDB = RowDataPacket & User;
 export type RessourceDB = RowDataPacket & Ressource;
 export type ConnectionLogDB = RowDataPacket & ConnectionLog;
-export type ConnectionDB = RowDataPacket & Connection;
+export type SessionDB = RowDataPacket & Session;
 
 // SQL create the documents table (relation between author_id and users.id; relation between category and categories.id)
 /* CREATE TABLE documents (

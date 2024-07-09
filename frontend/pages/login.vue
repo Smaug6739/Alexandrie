@@ -69,7 +69,10 @@ async function connect(username: string, password: string) {
 	});
 
 	const result = await responce.json();
-	if (result.status == "success" && result.result.auth) router.push("/dashboard");
+	if (result.status == "success" && result.result.auth) {
+		logIn();
+		router.push("/dashboard");
+	}
 	else errors.value.general = result.message;
 
 }

@@ -1,7 +1,7 @@
 import BaseController from './BaseController';
 import { CategoriesManager } from '../classes';
 import type { Request, Response } from 'express';
-import { Category } from '../types';
+import type { Category } from '../types';
 
 export default class CategoriesController extends BaseController<CategoriesManager, Category> {
   constructor(app: App) {

@@ -8,9 +8,9 @@ export default (client: App): Iroute => {
     version: 1,
     router() {
       const controller = new AuthCtrl(client);
-      AuthRouter.post('/', (req, res) => controller.authentification(client, req, res));
-      AuthRouter.get('/refreshToken/:user_id', (req, res) => controller.refresh_access_token(req, res));
-      AuthRouter.get('/disconnection', (req, res) => controller.disconnection(client, req, res));
+      AuthRouter.post('/', (req, res) => controller.login(req, res));
+      AuthRouter.get('/refreshToken/:user_id', (req, res) => controller.refresh_session(req, res));
+      AuthRouter.get('/disconnection', (req, res) => controller.logout(req, res));
       return AuthRouter;
     },
   };

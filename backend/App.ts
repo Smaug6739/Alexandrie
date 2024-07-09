@@ -16,9 +16,11 @@ export class App {
   public snowflake: Snowflake;
   public db: Pool;
   public config: typeof config;
+  public logger: typeof Logger;
 
   constructor(c: typeof config) {
     Logger.debug(`Starting in ${process.env.NODE_ENV} mode...`);
+    this.logger = Logger;
     this.config = c;
     this.app = express();
     this.port = process.env.PORT || '3000';
@@ -38,8 +40,9 @@ export class App {
     }
   }
   private handleMiddlewares(): void {
-    this.app.use(express.urlencoded({ extended: true, limit: '5mb' }));
-    this.app.use(express.json({ limit: '5mb' }));
+    this.app.use(express.urlencoded({ extended: true, limit: `20mb` }));
+    this.app.use(express.json({ limit: `20mb` }));
+    this.app.set('trust proxy', true);
     this.app.use(function (req: Request, res: Response, next: Function) {
       const origin = req.headers.origin;
       if (!origin || ![process.env.DOMAIN_CLIENT, process.env.DOMAIN_DASHBOARD].includes(origin)) return next();

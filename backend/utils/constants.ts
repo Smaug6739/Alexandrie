@@ -1,7 +1,6 @@
 import type { CookieOptions } from 'express';
 
 const COOKIE_CONFIG: CookieOptions = {
-  maxAge: 3600000 * 3,
   httpOnly: true,
   domain: process.env.FRONT_DOMAIN,
   secure: process.env.NODE_ENV == 'production' ? true : false,

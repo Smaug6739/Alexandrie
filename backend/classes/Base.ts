@@ -1,4 +1,4 @@
-import { App } from '../app';
+import { App } from '../App';
 
 export default abstract class Base<T> {
   // Define the app main class

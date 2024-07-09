@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 import { config as constants } from './config';
-import { App } from './app';
+import { App } from './App';
 import { config } from 'dotenv';
 
 config({

@@ -1,6 +1,9 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  const user_auth = useCookie('user_auth');
-  if (to.fullPath.startsWith('/dashboard') && !user_auth?.value) {
+  if (!import.meta.client) return;
+  const user_auth = localStorage.getItem('isLoggedIn');
+  console.log(user_auth);
+
+  if (to.fullPath.startsWith('/dashboard') && !user_auth) {
     return navigateTo({
       path: '/login',
       query: { redirect: to.fullPath },

@@ -3,7 +3,7 @@ import { spawn } from 'child_process';
 import { error, success } from '../utils/functions';
 import type { Request, Response } from 'express';
 
-export default class CategoriesController {
+export default class BackupController {
   app: App;
   constructor(app: App) {
     this.app = app;

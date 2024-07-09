@@ -14,7 +14,6 @@ $primary-400: #007bff;
 $primary-300: lighten($primary-400, 10%);
 $primary-500: darken($primary-400, 10%);
 
-$selection-color: #e1f2ff;
 
 @import "./font.scss";
 
@@ -29,9 +28,7 @@ $transition-duration: 0.3s;
 	--bg-color: #fff;
 	--bg-contrast: #F1F6FD;
 	--bg-contrast-2: #ECF2FF;
-	//--bg-color: #ECF2FF;
-	//	--bg-contrast: #e7ecf7;
-	//	--bg-contrast-2: #cdd5dd;
+	--selection-color: #e1f2ff;
 	--font-color: #111;
 	--border-color: rgba(0, 0, 0, 0.1);
 	// COLORS \\
@@ -62,7 +59,8 @@ $transition-duration: 0.3s;
 .dark-mode {
 	--bg-color: #202025;
 	--bg-contrast: #2e3034;
-	--bg-contrast-2: #2e3034;
+	--bg-contrast-2: #2b2d31;
+	--selection-color: #4a90e2;
 	--font-color: #ddd;
 	--border-color: rgba(255, 255, 255, 0.1);
 	// COLORS \\

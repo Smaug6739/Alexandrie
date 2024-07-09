@@ -45,6 +45,7 @@ export async function makeRequest(
       return await makeRequest(route, method, body, true);
     } else {
       console.log('\x1b[41m[AUTH]\x1b[0m Refresh token invalid. Please login again.');
+      logOut();
       navigateTo('/login');
       return { status: 'error', message: 'Please login again.' };
     }
@@ -53,4 +54,13 @@ export async function makeRequest(
   const decoded = await response.json();
   console.log('[SUCCESS] Response data:', decoded);
   return decoded;
+}
+
+export function logIn() {
+  if (!import.meta.client) return;
+  localStorage.setItem('isLoggedIn', 'true');
+}
+export function logOut() {
+  if (!import.meta.client) return;
+  localStorage.removeItem('isLoggedIn');
 }
