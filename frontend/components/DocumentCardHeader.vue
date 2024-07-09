@@ -126,7 +126,12 @@ p {
 .text {
 	flex: 2;
 	padding-right: 10px;
-
+  .category, .title {
+    font-family: Inter;
+  }
+  .title {
+    font-weight: 700;
+  }
 	.category {
 		display: flex;
 		align-items: baseline;

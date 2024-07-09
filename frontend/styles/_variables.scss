@@ -14,7 +14,7 @@ $primary-400: #007bff;
 $primary-300: lighten($primary-400, 10%);
 $primary-500: darken($primary-400, 10%);
 
-$selection-color: rgba($primary-300, 0.9);
+$selection-color: #e1f2ff;
 
 @import "./font.scss";
 
@@ -32,7 +32,7 @@ $transition-duration: 0.3s;
 	//--bg-color: #ECF2FF;
 	//	--bg-contrast: #e7ecf7;
 	//	--bg-contrast-2: #cdd5dd;
-	--font-color: #333;
+	--font-color: #111;
 	--border-color: rgba(0, 0, 0, 0.1);
 	// COLORS \\
 	--grey: #666;
@@ -46,14 +46,14 @@ $transition-duration: 0.3s;
 	--red: #DC3545;
 	--red-bg: rgba(220, 53, 69, 0.15);
 	--red-border: rgba(220, 53, 69, 0.3);
-	--yellow: #FF9800;
+	--yellow: #F97300;
 	--yellow-bg: rgba(255, 193, 7, 0.15);
 	--yellow-border: rgba(255, 193, 7, 0.3);
 	--turquoise: #00ADB5;
 	--turquoise-bg: rgba(23, 162, 184, 0.2);
 	--turquoise-border: rgba(23, 162, 184, 0.25);
 
-	--pink: #FF2E63;
+	--pink: #FF204E;
 	--info-border: #2573cf;
 }
 
@@ -71,13 +71,13 @@ $transition-duration: 0.3s;
 	--blue: #47a6ff;
 	--blue-bg: rgb(0, 140, 216, 0.2);
 	--blue-border: rgba(0, 140, 216, 0.25);
-	--green: #009879;
+	--green: #03C988;
 	--green-bg: rgba(66, 184, 131, 0.2);
 	--green-border: rgba(66, 184, 131, 0.25);
 	--red: #ff4882;
 	--red-bg: rgba(237, 60, 80, 0.2);
 	--red-border: rgba(237, 60, 80, .25);
-	--yellow: #FF9800;
+	--yellow: #F97300;
 	--yellow-bg: rgba(255, 197, 23, 0.2);
 	--yellow-border: rgba(255, 197, 23, .25);
 	--turquoise: #00d6b4;

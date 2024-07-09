@@ -2,8 +2,7 @@
 	<Resizable>
 		<div class="sidebar-content">
 			<section class="header">
-				<IconApp />
-				<NuxtLink style="font-size: 19px;font-weight: 600;" to="/">Alexandrie</NuxtLink>
+				<span class="name"><IconApp /><NuxtLink style="font-size: 19px;font-weight: 600;" to="/">Alexandrie</NuxtLink></span>
 				<IconClose class="btn" />
 			</section>
 			<input type="text" placeholder="Search" class="search" v-model="filter" />
@@ -26,7 +25,7 @@ const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const filter = ref<string>('');
 
-const isMobile = () => process.client ? window.innerWidth <= 768 : false;
+const isMobile = () => import.meta.client ? window.innerWidth <= 768 : false;
 
 const items = computed((): Item[] => {
 	const navigation: Item[] = navigationItems.map((item) => ({ id: item.id, parent_id: '', title: item.title, route: item.route, icon: item.icon, type: 'navigation', data: item }))
@@ -78,7 +77,6 @@ if (isMobile()) {
 <style scoped lang="scss">
 .sidebar-content {
 	margin: 0 0 0 10px;
-	background: var(--bg-color);
 }
 
 .header {
@@ -94,8 +92,11 @@ if (isMobile()) {
 	}
 
 	.name {
-		font-size: 1.2rem;
-		font-weight: 500;
+    display: flex;
+    align-items: center;
+		font-size: 1rem;
+		font-weight: 400;
+    font-family: Inter;
 	}
 }
 

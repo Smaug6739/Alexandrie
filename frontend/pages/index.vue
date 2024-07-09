@@ -1,22 +1,29 @@
 <template>
 	<div class="container">
+    <nav>
+      <div class="container"></div>
+      <div class="actions">
+        <NuxtLink to="/login" class="login">Login</NuxtLink>
+        <NuxtLink to="/" class="sign-up">Sign up</NuxtLink>
+      </div>
+
+    </nav>
 		<main>
 			<div class="content-wrapper">
 				<div class="intro">
 					<div class="intro-text">
-						<h1>Your Ideas, Documents & Plans. Unified. Welcome to <span>Alexandrie</span></h1>
+						<h1>Your Ideas, Documents & Plans. Unified. <br /> Alexandrie</h1>
 						<h3>Alexandrie is the connected workspace where <br /> better, faster work happens</h3>
 					</div>
-					<div class="get-started">
-						<NuxtLink to="/dashboard">Get started</NuxtLink>
+					<div class="btns-block">
+            <NuxtLink to="/dashboard" class="get-started">Get started</NuxtLink>
+            <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" class="github">Github</NuxtLink>
 					</div>
 				</div>
 				<div class="images">
-					<div class="img-container none">
-						<img :src="`/documents-${colorMode.value}.png`" alt="Documents Image" />
-					</div>
+
 					<div class="img-container">
-						<img :src="`/reading-${colorMode.value}.png`" alt="Reading Image" />
+            <img :src="`/main-${colorMode.value}.webp`" alt="Documents Image" />
 					</div>
 				</div>
 			</div>
@@ -33,11 +40,40 @@ const colorMode = useColorMode();
 
 <style scoped lang="scss">
 .container {
-	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	padding-top: 60px;
+}
+nav {
+  height: 65px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+}
+.actions {
+  a {
+    padding: 4px 15px;
+    margin: 0 8px;
+    border-radius: 25px;
+  }
+}
+.sign-up {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  &:hover {
+    outline: 2px solid var(--border-color);
+    outline-offset: 2px;
+  }
+}
+.login {
+  background: var(--font-color);
+  color: var(--bg-color);
+  &:hover {
+    outline: 2px solid var(--font-color);
+    outline-offset: 2px;
+  }
 }
 
 main {
@@ -60,33 +96,41 @@ main {
 }
 
 .intro h1 {
-	font-size: 2.7rem;
+	font-size: 3.2rem;
 	font-weight: 700;
 }
 
 .intro h3 {
-	font-size: 1.7rem;
+	font-size: 1.3rem;
 	font-weight: 500;
 	text-decoration: none;
 }
 
-.get-started {
-	margin: 2rem 0;
-
+.btns-block {
+  display: flex;
+  justify-content: center;
+	margin: 2rem;
 	a {
-		padding: 0.5rem 1rem;
-		border-radius: 0.5rem;
-		background-color: var(--font-color);
-		color: var(--bg-color);
+    margin: 0 0.5rem;
+		padding: 0.5rem 1.4rem;
+		border-radius: 0.45rem;
+
 		font-weight: 500;
 		font-size: 1.2rem;
-
-
+    &:hover {
+      transform: scale(1.03)
+    }
 	}
-
-	&:hover {
-		transform: scale(1.03)
-	}
+  .get-started {
+    background-color: var(--font-color);
+    color: var(--bg-color);
+    border: 1px solid var(--bg-color);
+  }
+  .github {
+    background-color: var(--bg-color);
+    color: var(--font-color);
+    border: 1px solid var(--font-color);
+  }
 }
 
 .none {
@@ -97,12 +141,10 @@ main {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	max-width: 80rem;
 }
 
 .img-container {
-	width: 300px;
-	height: 300px;
+	width: 1000px;
 }
 
 @media (min-width: 768px) {
@@ -113,8 +155,6 @@ main {
 
 @media (min-width: 1024px) {
 	.img-container {
-		width: 350px;
-		height: 350px;
 	}
 }
 
