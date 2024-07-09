@@ -1,4 +1,4 @@
-const colors = ['var(--yellow)', 'var(--green)', 'var(--blue)', 'var(--turquoise)', 'var(--pink)', 'var(--red)', 'var(--font-color)'];
+const colors = ['var(--blue)', 'var(--turquoise)', 'var(--yellow)', 'var(--pink)', 'var(--red)'];
 
 export function useColorHash(str: string): string {
   // Calculer un hash unique pour la chaîne

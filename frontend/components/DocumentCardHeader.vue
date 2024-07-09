@@ -6,6 +6,9 @@
 			</p>
 			<h1 class="title">{{ doc?.name }}</h1>
 			<p class="description">{{ doc?.description }}</p>
+			<div class="document-tags" v-if="doc.tags">
+				<span v-for="tag in doc.tags.split(',')" :key="tag" class="tag">{{ tag.trim() }}</span>
+			</div>
 		</div>
 		<div class="icon">
 			<svg height="150" viewBox="0 0 297 205" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -126,12 +129,16 @@ p {
 .text {
 	flex: 2;
 	padding-right: 10px;
-  .category, .title {
-    font-family: Inter;
-  }
-  .title {
-    font-weight: 700;
-  }
+
+	.category,
+	.title {
+		font-family: Inter;
+	}
+
+	.title {
+		font-weight: 700;
+	}
+
 	.category {
 		display: flex;
 		align-items: baseline;
@@ -140,6 +147,24 @@ p {
 		font-weight: 500;
 		color: var(--font-color);
 	}
+}
+
+.document-tags {
+	padding-top: 5px;
+	margin-bottom: 10px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tag {
+	border-color: var(--blue-border);
+	color: var(--blue);
+	background-color: var(--blue-bg);
+	padding: 2px 5px;
+	border-radius: 8px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-size: 12px;
 }
 
 @media print,

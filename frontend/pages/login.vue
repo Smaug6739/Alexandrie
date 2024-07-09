@@ -1,11 +1,9 @@
 <template>
 	<div class="container">
-		<h3 class="header">Log in</h3>
-		<form @submit.prevent="login" class="body">
-			<p class="signup-link">Need an account? <a href="mailto:rveauville@gmail.com">Sign up</a></p>
+		<form @submit.prevent="login" class="form-body">
 			<div class="form-group">
 				<label for="username">Username</label>
-				<input type="username" id="username" v-model="username" :class="{ 'is-invalid': errors.username }">
+				<input type="text" id="username" v-model="username" :class="{ 'is-invalid': errors.username }">
 				<p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
 			</div>
 			<div class="form-group">
@@ -18,70 +16,75 @@
 				</div>
 				<p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
 			</div>
+			<p class="signup-link">Need an account? <a>Sign up</a></p>
 			<button type="submit" class="btn">Login</button>
 			<p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-			<p class="forgot-password-link">Forgot your password? <a href="mailto:rveauville@gmail.com">Click here</a></p>
 		</form>
 	</div>
 </template>
+
 <script setup lang="ts">
-const router = useRouter()
-const username = ref('')
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const username = ref('');
+const password = ref('');
 const errors = ref({
 	username: '',
 	password: '',
 	general: ''
-})
-const showPassword = ref(false)
-const password = ref('')
+});
+const showPassword = ref(false);
 
-definePageMeta({
-	viewTransition: false
-})
+const router = useRouter();
 
 function login() {
-	if (!username.value) errors.value.username = 'Username is required'
-	else errors.value.username = '';
-
-	if (!password.value) errors.value.password = 'Password is required'
-	else errors.value.password = '';
+	errors.value.username = !username.value.trim() ? 'Username is required' : '';
+	errors.value.password = !password.value.trim() ? 'Password is required' : '';
 
 	if (username.value && password.value) {
 		connect(username.value, password.value);
 	}
 }
 
-
-
 async function connect(username: string, password: string) {
-	const content = JSON.stringify({
-		username: username,
-		password: password
-	});
-	const responce = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/auth`, {
-		method: "POST",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-		},
-		body: content,
-		credentials: "include",
-	});
+	try {
+		const response = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/auth`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify({ username, password }),
+			credentials: 'include'
+		});
 
-	const result = await responce.json();
-	if (result.status == "success" && result.result.auth) {
-		logIn();
-		router.push("/dashboard");
+		const result = await response.json();
+
+		if (result.status === 'success' && result.result.auth) {
+			logIn();
+			router.push('/dashboard');
+		} else {
+			errors.value.general = result.message || 'Login failed';
+		}
+	} catch (error) {
+		errors.value.general = 'Failed to connect';
 	}
-	else errors.value.general = result.message;
+}
 
+function logIn() {
+	// Handle successful login action if needed
 }
 </script>
-<style scoped lang="scss">
+
+<style scoped>
 .container {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
+	min-height: 100vh;
+	background-color: #f0f0f0;
 }
 
 .header {
@@ -89,40 +92,39 @@ async function connect(username: string, password: string) {
 	margin-bottom: 1rem;
 	text-align: center;
 	text-transform: uppercase;
-	letter-spacing: 0.1em;
 	font-weight: bold;
+	letter-spacing: 0.1em;
 }
 
-.body {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.form-body {
 	width: 100%;
-	max-width: 550px;
+	max-width: 400px;
 	padding: 2rem;
-	background-color: var(--bg-contrast);
-	border-radius: 5px;
+	background-color: #ffffff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
 	margin-bottom: 1rem;
 }
 
 .signup-link {
 	font-size: 0.8rem;
-	margin-top: -0.5rem;
-	margin-bottom: 1rem;
 	text-align: right;
-	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-	}
+	margin-bottom: 1rem;
+	color: #666666;
+	text-align: center;
 }
 
+.signup-link a {
+	color: #007bff;
+	text-decoration: none;
+}
+
+.signup-link a:hover {
+	text-decoration: underline;
+}
 
 .password-input {
 	position: relative;
@@ -138,41 +140,31 @@ async function connect(username: string, password: string) {
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
-	outline: none;
-
-	&:hover {
-		text-decoration: underline;
-	}
-
 }
 
 .btn {
-	font-size: 1.2rem;
-	border-radius: 50px;
+	font-size: 1rem;
 	width: 100%;
+	padding: 0.75rem 0;
+	color: #ffffff;
+	background-color: #007bff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
 
+.btn:hover {
+	background-color: #0056b3;
 }
 
 .is-invalid {
-	border-color: $red !important;
+	border-color: #dc3545 !important;
 }
 
 .invalid-feedback {
 	font-size: 0.8rem;
-	color: $red;
-}
-
-.forgot-password-link {
-	margin-top: 20px;
-	text-align: center;
-	font-size: 14px;
-
-	a {
-		text-decoration: underline;
-	}
-
-	a:hover {
-		text-decoration: none;
-	}
+	color: #dc3545;
+	margin-top: 0.25rem;
 }
 </style>

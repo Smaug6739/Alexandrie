@@ -138,7 +138,6 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 	color: var(--font-color);
 	cursor: pointer;
 
-	&:hover,
 	&.router-link-active {
 		background: var(--bg-contrast-2);
 	}

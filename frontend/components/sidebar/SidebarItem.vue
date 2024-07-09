@@ -110,6 +110,7 @@ const drop = async (event: DragEvent) => {
 	color: var(--font-color);
 	cursor: pointer;
 	width: 98%;
+
 	&:hover,
 	&.router-link-active {
 		background: var(--bg-contrast-2);
@@ -120,9 +121,14 @@ const drop = async (event: DragEvent) => {
 		align-items: center;
 
 		&:deep(svg) {
+			fill: var(--blue);
 			width: 20px;
 			max-height: 25px;
 			margin-right: 5px;
+
+			path {
+				fill: var(--blue);
+			}
 		}
 	}
 }

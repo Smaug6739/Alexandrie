@@ -127,22 +127,22 @@ export class Editor extends EventTarget {
   }
 
   public updateContextMenu() {
-    console.log('selectionchange');
-
-    if (!this.inlineToolbar?.value?.element) return;
-    const toolbarElement = this.inlineToolbar.value.element;
-    toolbarElement.style.display = 'none';
-    if (!this.area?.value) return;
-    const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0 || selection.toString().length == 0) return;
-    const range = selection.getRangeAt(0);
-    if (!this.area.value.contains(range.startContainer) || !this.area.value.contains(range.endContainer)) return;
-    const containerRect = this.area.value?.getBoundingClientRect(); //const selectionRect = range.getBoundingClientRect();
-    const rects = range.getClientRects();
-    if (!containerRect) return;
-    const last_rect = rects[rects.length - 1];
-    toolbarElement.style.top = `${last_rect.top - containerRect.top + 25}px`;
-    toolbarElement.style.left = `${last_rect.left - containerRect.left}px`;
-    toolbarElement.style.display = 'flex';
+    setTimeout(() => {
+      if (!this.inlineToolbar?.value?.element) return;
+      const toolbarElement = this.inlineToolbar.value.element;
+      toolbarElement.style.display = 'none';
+      if (!this.area?.value) return;
+      const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0 || selection.toString().length == 0) return;
+      const range = selection.getRangeAt(0);
+      if (!this.area.value.contains(range.startContainer) || !this.area.value.contains(range.endContainer)) return;
+      const containerRect = this.area.value?.getBoundingClientRect(); //const selectionRect = range.getBoundingClientRect();
+      const rects = range.getClientRects();
+      if (!containerRect) return;
+      const last_rect = rects[rects.length - 1];
+      toolbarElement.style.top = `${last_rect.top - containerRect.top + 25}px`;
+      toolbarElement.style.left = `${last_rect.left - containerRect.left}px`;
+      toolbarElement.style.display = 'flex';
+    }, 10);
   }
 }

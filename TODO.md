@@ -5,3 +5,6 @@
 - Unification of classes / params
 
 - Badges frontend (interfaces and markdown)
+- Login page
+- Documents cards
+- User account (+security) page

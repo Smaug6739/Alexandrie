@@ -14,7 +14,7 @@
 				</option>
 			</optgroup>
 		</select>
-
+		<input type="text" v-model="copy.tags" placeholder="Tags" style="margin-right:5px;" />
 	</div>
 </template>
 
@@ -98,7 +98,7 @@ const toolbar = [
 
 <style scoped lang="scss">
 button {
-	padding: 3px 5px 3px 0;
+	padding: 0 3px;
 	margin: 0;
 	transform: none;
 }
@@ -106,7 +106,7 @@ button {
 .toolbar {
 	user-select: none;
 	display: flex;
-	align-items: center;
+	align-items: stretch;
 }
 
 svg,

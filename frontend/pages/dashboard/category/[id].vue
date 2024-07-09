@@ -1,14 +1,32 @@
 <template>
-	<div class="view-medium">
+	<div>
 		<h1>Documents de la catégorie {{ category?.name }}</h1>
-		<div class="article-list">
-			<div v-for="document in allDocuments" :key="document.id" class="article"
-				:style="`border-bottom: 4px solid ${useColorHash(document.id)};`">
+		<div class="document-list">
+			<div v-for="document in documents" :key="document.id" class="document-card">
 				<div>
-					<NuxtLink :to="`/dashboard/doc/${document.id}`">{{ document.name }}</NuxtLink>
-					<p class="description">{{ document.description }}</p>
+					<header class="document-header">
+						<i v-html="category?.icon" class="category-icon"></i>
+						<NuxtLink :to="`/dashboard/doc/${document.id}`" class="document-title"
+							:style="`border-bottom: 2px solid ${useColorHash(document.id)};`">{{ document.name }}</NuxtLink>
+					</header>
+					<p class="document-description">{{ document.description }}</p>
 				</div>
-				<p>{{ formatDate(parseInt(document.created_timestamp)) }}</p>
+				<div class="document-tags" v-if="document.tags">
+					<span v-for="tag in document.tags.split(',')" :key="tag" class="tag">{{ tag.trim() }}</span>
+				</div>
+				<footer class="document-footer">
+					<div class="footer-item">
+						<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+							fill="var(--font-color)">
+							<path
+								d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
+						</svg>
+						<span>{{ formatDate(parseInt(document.created_timestamp)) }}</span>
+					</div>
+					<div class="footer-item">
+						<span>Mis à jour: {{ formatDate(parseInt(document.updated_timestamp)) }}</span>
+					</div>
+				</footer>
 			</div>
 		</div>
 	</div>
@@ -21,7 +39,7 @@ const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const category = computed(() => categoriesStore.getById(route.params.id as string));
 
-const allDocuments = computed(() => {
+const documents = computed(() => {
 	const documents = documentsStore.getByCategories(category.value?.id || '');
 	const childCategories = categoriesStore.getChilds(category.value?.id || '');
 	for (const childCategory of childCategories) {
@@ -36,42 +54,111 @@ function formatDate(timestamp: number): string {
 	const date = new Date(timestamp);
 	return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
 }
-
 </script>
 
-
 <style scoped lang="scss">
-.article-list {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-	gap: 20px;
-}
-
-.article {
-	background-color: var(--bg-contrast);
-	padding: 15px;
-	border-radius: 8px;
-	position: relative;
-	transition: box-shadow $transition-duration;
-	margin-bottom: 10px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-
 h1 {
-	font-size: 28px;
+	font-size: 32px;
 	margin-bottom: 20px;
 }
 
-a {
-	font-size: 24px;
-	font-weight: 600;
-	margin: 0;
+.document-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	max-width: 420px * 3 + 100px;
+	margin: 0 auto;
 }
 
-.description {
+.document-card {
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	width: 420px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	transition: transform 0.2s;
+	flex: 0 1 auto;
+}
+
+.document-card:hover {
+	transform: scale(1.02);
+}
+
+.document-header {
+	background-color: var(--bg-contrast-2);
+	padding: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.category-icon {
+	font-size: 30px;
+	margin-right: 10px;
+}
+
+.document-title {
+	font-size: 18px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.document-description {
+	padding: 5px;
 	font-size: 16px;
-	margin: 10px 0;
+}
+
+.document-tags {
+	padding: 0 5px;
+	margin-bottom: 10px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tag {
+	border-color: var(--blue-border);
+	color: var(--blue);
+	background-color: var(--blue-bg);
+	padding: 2px 5px;
+	border-radius: 8px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-size: 12px;
+}
+
+.document-footer {
+	padding: 15px;
+	background-color: var(--bg-contrast);
+	display: flex;
+	flex-direction: column;
+	font-size: 14px;
+	color: #777;
+	border-top: 1px solid #eaeaea;
+}
+
+.footer-item {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+}
+
+.footer-item svg {
+	margin-right: 5px;
+}
+
+.category-icon {
+	display: flex;
+	align-items: center;
+
+	&:deep(svg) {
+		fill: var(--font-color);
+		width: 35px;
+		height: 35px;
+
+		path {
+			fill: var(--font-color);
+		}
+	}
 }
 </style>
