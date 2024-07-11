@@ -41,7 +41,6 @@ const router = useRouter();
 function login() {
 	errors.value.username = !username.value.trim() ? 'Username is required' : '';
 	errors.value.password = !password.value.trim() ? 'Password is required' : '';
-
 	if (username.value && password.value) {
 		connect(username.value, password.value);
 	}
@@ -49,6 +48,8 @@ function login() {
 
 async function connect(username: string, password: string) {
 	try {
+		console.log("Fetching...");
+		console.log(`${import.meta.env.VITE_BASE_API}/api/v1/auth`)
 		const response = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/auth`, {
 			method: 'POST',
 			headers: {
@@ -72,9 +73,7 @@ async function connect(username: string, password: string) {
 	}
 }
 
-function logIn() {
-	// Handle successful login action if needed
-}
+
 </script>
 
 <style scoped>

@@ -30,5 +30,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "markdown-it-highlightjs": "^4.1.0"
+  }
 }

@@ -29,7 +29,8 @@ const editor = new Editor(textarea, toolbar);
 
 const emit = defineEmits(['save']);
 const update = () => {
-	document.value.content_html = compile(textarea.value?.innerHTML || '');
+	// Replace fix use of & in katex expressions
+	document.value.content_html = compile(textarea.value?.innerHTML.replaceAll('&amp;', '&') || '');
 };
 const handleClick = () => editor.updateContextMenu();
 
