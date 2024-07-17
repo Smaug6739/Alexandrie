@@ -39,6 +39,13 @@ watchEffect(async () => {
 	useHead({ title: `Alexandrie ${article.value?.name || ''}` });
 });
 
+definePageMeta({
+	breadcrumb: () => {
+		const doc = useDocumentsStore().getById(useRoute().params.id as string);
+		return doc?.name || '';
+	}
+});
+
 const next = computed(() => documentsStore.getNext(article.value));
 const previous = computed(() => documentsStore.getPrevious(article.value));
 

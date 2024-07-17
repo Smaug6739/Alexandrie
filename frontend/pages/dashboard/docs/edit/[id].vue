@@ -23,6 +23,9 @@ watchEffect(async () => {
 		}
 	} else document.value = docFromStore;
 });
+
+definePageMeta({ breadcrumb: 'Edit' });
+
 function save(doc: Document) {
 	store.update(doc)
 		.then(() => notifications.add({ title: "Success:", message: "Document updated", type: "success", timeout: 5000 }))

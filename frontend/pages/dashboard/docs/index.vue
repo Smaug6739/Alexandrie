@@ -18,11 +18,11 @@ const headers = [
 const rows = computed(() => documents.value.map((doc) => {
 	return {
 		fields: [
-			{ content: doc.name, action: `/dashboard/doc/${doc.id}` },
-			{ content: categoriesStore.getById(doc.category || '')?.name || '', action: `/dashboard/category/${doc.category}` },
+			{ content: doc.name, action: `/dashboard/docs/${doc.id}` },
+			{ content: categoriesStore.getById(doc.category || '')?.name || '', action: `/dashboard/categories/${doc.category}` },
 			{ content: new Date(parseInt(doc.created_timestamp)).toDateString() },
 			{ content: new Date(parseInt(doc.updated_timestamp)).toDateString() },
-			{ content: 'View document', action: `/dashboard/doc/${doc.id}` },
+			{ content: 'View document', action: `/dashboard/docs/${doc.id}` },
 		],
 	};
 }));

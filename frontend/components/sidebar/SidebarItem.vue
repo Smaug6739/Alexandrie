@@ -112,7 +112,7 @@ const drop = async (event: DragEvent) => {
 	width: 98%;
 
 	&:hover,
-	&.router-link-active {
+	&.router-link-exact-active {
 		background: var(--bg-contrast-2);
 	}
 

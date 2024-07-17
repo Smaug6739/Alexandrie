@@ -19,6 +19,7 @@ import { useNotifications } from '~/store';
 const downloadLink = ref<string | null>(null);
 const copyLink = () => navigator.clipboard.writeText(downloadLink.value!);
 const isLoading = ref(false);
+definePageMeta({ breadcrumb: 'Backup' });
 
 async function submitFile() {
 	isLoading.value = true;

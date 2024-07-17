@@ -1,33 +1,30 @@
 <template>
-	<div>
-		<h1>Documents de la catégorie {{ category?.name }}</h1>
-		<div class="document-list">
-			<div v-for="document in documents" :key="document.id" class="document-card">
-				<div>
-					<header class="document-header">
-						<i v-html="category?.icon" class="category-icon"></i>
-						<NuxtLink :to="`/dashboard/doc/${document.id}`" class="document-title"
-							:style="`border-bottom: 2px solid ${useColorHash(document.id)};`">{{ document.name }}</NuxtLink>
-					</header>
-					<p class="document-description">{{ document.description }}</p>
-				</div>
-				<div class="document-tags" v-if="document.tags">
-					<span v-for="tag in document.tags.split(',')" :key="tag" class="tag">{{ tag.trim() }}</span>
-				</div>
-				<footer class="document-footer">
-					<div class="footer-item">
-						<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
-							fill="var(--font-color)">
-							<path
-								d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
-						</svg>
-						<span>{{ formatDate(parseInt(document.created_timestamp)) }}</span>
-					</div>
-					<div class="footer-item">
-						<span>Mis à jour: {{ formatDate(parseInt(document.updated_timestamp)) }}</span>
-					</div>
-				</footer>
+	<div class="document-list">
+		<div v-for="document in documents" :key="document.id" class="document-card">
+			<div>
+				<header class="document-header">
+					<i v-html="category?.icon" class="category-icon"></i>
+					<NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title"
+						:style="`border-bottom: 2px solid ${useColorHash(document.id)};`">{{ document.name }}</NuxtLink>
+				</header>
+				<p class="document-description">{{ document.description }}</p>
 			</div>
+			<div class="document-tags" v-if="document.tags">
+				<span v-for="tag in document.tags.split(',')" :key="tag" class="tag">{{ tag.trim() }}</span>
+			</div>
+			<footer class="document-footer">
+				<div class="footer-item">
+					<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+						fill="var(--font-color)">
+						<path
+							d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
+					</svg>
+					<span>{{ formatDate(parseInt(document.created_timestamp)) }}</span>
+				</div>
+				<div class="footer-item">
+					<span>Mis à jour: {{ formatDate(parseInt(document.updated_timestamp)) }}</span>
+				</div>
+			</footer>
 		</div>
 	</div>
 </template>
@@ -39,6 +36,12 @@ const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const category = computed(() => categoriesStore.getById(route.params.id as string));
 
+definePageMeta({
+	breadcrumb: () => {
+		const category = useCategoriesStore().getById(useRoute().params.id as string);
+		return category?.name || '';
+	}
+});
 const documents = computed(() => {
 	const documents = documentsStore.getByCategories(category.value?.id || '');
 	const childCategories = categoriesStore.getChilds(category.value?.id || '');
@@ -47,8 +50,8 @@ const documents = computed(() => {
 		documents.push(...childDocuments);
 	}
 	return documents;
-});
 
+});
 // Output ex: 10 Jan 2021
 function formatDate(timestamp: number): string {
 	const date = new Date(timestamp);

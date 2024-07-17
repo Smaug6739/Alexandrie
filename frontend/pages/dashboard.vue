@@ -9,4 +9,7 @@
 </template>
 <script setup lang="ts">
 import Sidebar from '~/components/sidebar/Sidebar.vue';
+definePageMeta({
+	breadcrumb: () => 'Dashboard'
+});
 </script>

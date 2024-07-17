@@ -34,7 +34,8 @@
 import { type Category, useCategoriesStore, useNotifications } from '~/store';
 
 const categoriesStore = useCategoriesStore();
-const category = ref<Category>({ id: '', name: '', icon: '', parent_id: '', order: 0 });
+const category = ref<Category>({ id: '', name: '', icon: '', parent_id: '', order: 0, type: 'category' });
+definePageMeta({ breadcrumb: 'New' });
 
 const createCategory = async () => {
   categoriesStore.post(category.value)

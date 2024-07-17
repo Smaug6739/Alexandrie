@@ -46,6 +46,7 @@ const categoriesStore = useCategoriesStore();
 const category = computed(() => categoriesStore.getById(categoryId as string) || { id: '', name: '', icon: '', parent_id: '', order: 0, type: 'category' as const });
 const categoryId = route.query.category;
 
+definePageMeta({ breadcrumb: 'Edit' });
 
 const updateCategory = async () => {
 	if (category.value) categoriesStore.update(category.value)

@@ -45,7 +45,7 @@ export const navigationItems: DefaultItem[] = [
     type: 'default',
     title: 'New page',
     icon: '<svg style="fill:var(--blue)" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z"/></svg>',
-    route: '/dashboard/new',
+    route: '/dashboard/docs/new',
     childrens: [],
   },
 ];
@@ -59,10 +59,10 @@ export const icons = {
     '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" ><path style="fill:var(--green);" d="M320-320h200v-200H320v200Zm0-280h480v-200H320v200Zm280 280h200v-200H600v200Zm-280 80q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Z"/></svg>',
   archive:
     '<svg style="width:22px;height: 22px;" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 16 16" fill="none">\n' +
-      '<rect x="2.5" y="2.5" width="11" height="11" rx="1.5" fill="var(--grey-bg)" stroke="var(--grey)"/>\n' +
-      '<rect x="6" y="4" width="2" height="2" rx="0.5" fill="var(--grey)"/>\n' +
-      '<rect x="6" y="8" width="2" height="2" rx="0.5" fill="var(--grey)"/>\n' +
-      '<rect x="8" y="10" width="2" height="2" rx="0.5" fill="var(--grey)"/>\n' +
-      '<rect x="8" y="6" width="2" height="2" rx="0.5" fill="var(--grey)"/>\n' +
-      '</svg>',
+    '<rect x="2.5" y="2.5" width="11" height="11" rx="1.5" fill="var(--grey-bg)" stroke="var(--grey)"/>\n' +
+    '<rect x="6" y="4" width="2" height="2" rx="0.5" fill="var(--grey)"/>\n' +
+    '<rect x="6" y="8" width="2" height="2" rx="0.5" fill="var(--grey)"/>\n' +
+    '<rect x="8" y="10" width="2" height="2" rx="0.5" fill="var(--grey)"/>\n' +
+    '<rect x="8" y="6" width="2" height="2" rx="0.5" fill="var(--grey)"/>\n' +
+    '</svg>',
 };

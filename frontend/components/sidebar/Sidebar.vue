@@ -43,7 +43,7 @@ const items = computed((): Item[] => {
 		id: category.id,
 		parent_id: category.parent_id || '',
 		title: category.name,
-		route: category.parent_id ? `/dashboard/category/${category.id}` : '',
+		route: category.parent_id ? `/dashboard/categories/${category.id}` : '',
 		icon: category.icon,
 		data: category,
 	}))
@@ -51,7 +51,7 @@ const items = computed((): Item[] => {
 		id: document.id,
 		parent_id: document.parent_id || document.category || '',
 		title: document.name,
-		route: `/dashboard/doc/${document.id}`,
+		route: `/dashboard/docs/${document.id}`,
 		data: document
 	})).filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
 

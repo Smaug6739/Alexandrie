@@ -18,7 +18,7 @@
 				</button>
 			</span>
 			<span class="title">Documents</span>
-			<NuxtLink v-if="docs.length" v-for="doc of docs" class="item" :to="`/dashboard/doc/${doc.id}`" @click="close">
+			<NuxtLink v-if="docs.length" v-for="doc of docs" class="item" :to="`/dashboard/docs/${doc.id}`" @click="close">
 				<i class="icon">
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
 						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4">

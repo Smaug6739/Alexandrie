@@ -45,7 +45,7 @@ function exec(action: string) {
 	editor.format(action);
 	switch (action) {
 		case 'exit':
-			useRouter().push(document.value.id ? `/dashboard/doc/${document.value.id}` : '/dashboard');
+			useRouter().push(document.value.id ? `/dashboard/docs/${document.value.id}` : '/dashboard');
 			break;
 		case 'preview':
 			editor.showPreview.value = !editor.showPreview.value;

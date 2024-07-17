@@ -64,3 +64,28 @@ export function logOut() {
   if (!import.meta.client) return;
   localStorage.removeItem('isLoggedIn');
 }
+
+export const useBreadcrumbs = () => {
+  const route = useRoute();
+
+  const breadcrumbs: Ref<Array<{ name: string; path: string }>> = ref([]);
+
+  watch(
+    () => ({
+      path: route.path,
+      name: route.meta.title,
+      meta: route.meta,
+      matched: route.matched,
+    }),
+    r => {
+      console.log(r.name);
+    },
+    {
+      immediate: true,
+    },
+  );
+
+  return {
+    breadcrumbs,
+  };
+};

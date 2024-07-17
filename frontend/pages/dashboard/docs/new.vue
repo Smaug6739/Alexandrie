@@ -11,6 +11,7 @@ const editor = ref();
 const document = ref<Document | undefined>(undefined);
 const notifications = useNotifications();
 
+definePageMeta({ breadcrumb: 'New' });
 
 function save(doc: Document) {
 	store.post(doc)
