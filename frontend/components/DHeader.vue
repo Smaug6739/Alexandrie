@@ -22,7 +22,6 @@ declare module 'vue-router' {
 
 watchEffect(() => {
 	breadcrumbs.value = [];
-	console.log(route.matched);
 	route.matched.forEach((match) => {
 		let name = '';
 		if (typeof match.meta.breadcrumb == 'function') name = match.meta.breadcrumb();

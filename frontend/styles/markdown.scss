@@ -50,43 +50,41 @@
 	}
 
 	.red {
+		color: var(--red);
+
 		.svg-icon {
 			fill: var(--red);
 			color: var(--red);
 		}
-
-		color: var(--red);
 	}
 
 	.turquoise {
+		color: var(--turquoise);
+
 		.svg-icon {
 			fill: var(--turquoise);
 			color: var(--turquoise);
 		}
-
-		color: var(--turquoise);
 	}
 
 
 
 	.blue {
-
+		color: var(--blue);
 
 		.svg-icon {
 			fill: var(--blue);
 			color: var(--blue);
 		}
-
-		color: var(--blue);
 	}
 
 	.yellow {
+		color: var(--yellow);
+
 		.svg-icon {
 			fill: var(--yellow);
 			color: var(--yellow);
 		}
-
-		color: var(--yellow);
 	}
 
 	p {
@@ -172,6 +170,8 @@
 }
 
 .custom-block {
+	margin-bottom: 5px;
+
 	p {
 		margin: 0px;
 		padding: 0px;
@@ -180,8 +180,6 @@
 	p+p {
 		margin: 8px 0;
 	}
-
-	margin-bottom: 5px;
 }
 
 
@@ -199,15 +197,19 @@
 red {
 	color: var(--red);
 }
+
 blue {
 	color: var(--blue);
 }
+
 green {
 	color: var(--green);
 }
+
 yellow {
 	color: var(--yellow);
 }
+
 pink {
 	color: var(--pink);
 }
