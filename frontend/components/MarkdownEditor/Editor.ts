@@ -67,9 +67,6 @@ export class Editor extends EventTarget {
       case 'clear':
         this.util.clear();
         break;
-      case 'block':
-        this.util.inlineFormat('<div class="green custom-block"><p class="custom-block-title">Block name</p>', '</div>');
-        break;
     }
   }
   public handleKeydown(event: KeyboardEvent) {

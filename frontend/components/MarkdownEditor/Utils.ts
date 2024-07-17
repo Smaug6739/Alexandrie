@@ -1,5 +1,3 @@
-let lastSelection: any = null;
-
 class MarkdownUtil {
   private editor: Ref<HTMLDivElement | undefined>;
 

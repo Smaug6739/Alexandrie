@@ -63,6 +63,8 @@ function markdownItKatexPlugin(md: any) {
 }
 
 export default function compile(str: string = '', plugins: boolean = true): string {
+  // Replace fix use of & in katex expressions
+  str = str.replaceAll('&amp;', '&');
   return md.render(str, {
     html: true,
   });

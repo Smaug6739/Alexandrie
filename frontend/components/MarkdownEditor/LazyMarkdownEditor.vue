@@ -28,12 +28,8 @@ const textarea = ref<HTMLDivElement>();
 const editor = new Editor(textarea, toolbar);
 
 const emit = defineEmits(['save']);
-const update = () => {
-	// Replace fix use of & in katex expressions
-	document.value.content_html = compile(textarea.value?.innerHTML.replaceAll('&amp;', '&') || '');
-};
+const update = () => document.value.content_html = compile(textarea.value?.innerHTML || '');
 const handleClick = () => editor.updateContextMenu();
-
 
 const markdownPreview = ref<HTMLDivElement>();
 editor.addEventListener('save', saveDocument);
