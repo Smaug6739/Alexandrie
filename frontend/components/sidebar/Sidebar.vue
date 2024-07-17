@@ -32,7 +32,6 @@ const documentsStore = useDocumentsStore();
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);
 
-const isMobile = () => import.meta.client ? window.innerWidth <= 768 : false;
 const handleSearchShortCut = (e: KeyboardEvent) => {
 	if (e.ctrlKey && e.key === 'q') showSearchModal.value = !showSearchModal.value;
 };

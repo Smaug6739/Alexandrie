@@ -20,6 +20,7 @@ export interface APIResult<Data> {
 export interface FetchOptions {
   id: string; // id of the ressource
 }
+export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : false);
 
 export const baseUrl = import.meta.env.VITE_BASE_API?.toString() || '';
 import type { DB_Document, DB_Category, DB_Ressource } from '../store/db_strustures';

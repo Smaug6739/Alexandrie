@@ -53,6 +53,7 @@ const searchContainer = ref<HTMLElement | null>(null);
 const searchInput = ref<HTMLInputElement | null>(null);
 
 const handleTab = (event: KeyboardEvent) => {
+	event.preventDefault();
 	if (!searchContainer.value) return;
 	const focusableItems = Array.from(searchContainer.value.querySelectorAll('a'));
 	const currentIndex = focusableItems.findIndex(item => item === document.activeElement);
@@ -63,7 +64,6 @@ const handleTab = (event: KeyboardEvent) => {
 		nextIndex = (currentIndex + 1) % focusableItems.length;
 	}
 	focusableItems[nextIndex].focus();
-	event.preventDefault();
 }
 
 onMounted(() => document.addEventListener('keydown', handleSearchShortCut));
@@ -140,6 +140,10 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 
 	&.router-link-active {
 		background: var(--bg-contrast-2);
+	}
+
+	&:focus {
+		outline: 2px solid var(--font-color);
 	}
 
 	.icon {
