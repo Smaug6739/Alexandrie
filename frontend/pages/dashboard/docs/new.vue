@@ -8,7 +8,7 @@ import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 const store = useDocumentsStore();
 
 const editor = ref();
-const document = ref<Document | undefined>(undefined);
+const document = ref<Document | undefined>();
 const notifications = useNotifications();
 
 definePageMeta({ breadcrumb: 'New' });

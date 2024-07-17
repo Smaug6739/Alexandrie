@@ -1,12 +1,14 @@
 <template>
-	<div class="editor-container">
+	<div class="editor-container" @keydown="editor.handleKeydown">
 		<Toolbar style="height: fit-content;" :document="document" @execute-action="(a: string) => exec(a)" />
-		<input placeholder="Titre" class="title" v-model="document.name" />
+		<input placeholder="Title" class="title" v-model="document.name" />
 		<input placeholder="Description" class="description" v-model="document.description" />
 		<div class="markdown">
 			<InlineToolbar ref="toolbar" @execute-action="(a: string) => exec(a)" />
 			<div contenteditable="true" ref="textarea" class="textarea content markdown-input" @scroll="syncScroll"
-				@input="update" @blur="update" @keydown="editor.handleKeydown" v-html="document.content_markdown"></div>
+				@input="update" @blur="update" v-html="document.content_markdown || ''"
+				placeholder="Write something or use the toolbar to create your document...">
+			</div>
 			<div v-if="editor.showPreview.value" class="markdown-preview document-theme" ref="markdownPreview"
 				v-html="document.content_html"></div>
 		</div>
@@ -95,6 +97,18 @@ input,
 	outline: none;
 	background-color: var(--bg-color);
 	padding-left: 0;
+}
+
+[placeholder]:empty::before {
+	content: attr(placeholder);
+	color: #757575;
+	font-weight: 500;
+	font-size: 18px;
+	opacity: 1
+}
+
+[placeholder]:empty {
+	content: "";
 }
 
 .textarea {
