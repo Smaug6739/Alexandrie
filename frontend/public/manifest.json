@@ -7,7 +7,7 @@
   "background_color": "#2f3641",
   "theme_color": "#009df7",
   "icons": [
-    { "src": "/logo-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/logo-512x512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }
