@@ -27,10 +27,13 @@ export function checkAndChange(obj: any) {
   else return success(obj);
 }
 
-export function parseCookies(cookies: string = ''): any {
-  return cookies.split(';').reduce((obj: any, c: string) => {
-    const n: any = c.trim().split('=');
-    obj[n[0]] = n[1].trim();
+type Cookies = {
+  [key: string]: any;
+};
+export function parseCookies(cookies: string = '') {
+  return cookies.split(';').reduce((obj: Cookies, c: string) => {
+    const n = c.trim().split('=');
+    if (n[0]) obj[n[0]] = n[1]?.trim();
     return obj;
   }, {});
 }

@@ -63,7 +63,7 @@ const handleTab = (event: KeyboardEvent) => {
 	} else {
 		nextIndex = (currentIndex + 1) % focusableItems.length;
 	}
-	focusableItems[nextIndex].focus();
+	focusableItems[nextIndex]?.focus();
 }
 
 onMounted(() => document.addEventListener('keydown', handleSearchShortCut));
@@ -110,10 +110,12 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 	display: flex;
 	align-items: center;
 
+
 	input {
 		background-color: var(--bg-color);
 		border: none;
 		outline: none;
+		width: 100%;
 	}
 
 	svg {
