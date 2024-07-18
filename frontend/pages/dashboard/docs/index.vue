@@ -16,7 +16,7 @@ const headers = [
 	{ label: 'Status', key: 'status' },
 	{ label: 'Actions', key: 'actions' },
 ];
-const rows = computed(() => documents.value.map((doc) => {
+const rows: any = computed(() => documents.value.map((doc) => {
 	let badges = '';
 	switch (doc.accessibility) {
 		case 1:
@@ -36,7 +36,7 @@ const rows = computed(() => documents.value.map((doc) => {
 		name: { content: doc.name, type: 'link', to: `/dashboard/docs/${doc.id}` },
 		category: { content: categoriesStore.getById(doc.category || '')?.name || '' },
 		tags: { content: doc.tags?.trim().length ? doc.tags?.trim().split(',').map(t => `<span class="tag blue">${t.trim()}</span>`).join('') : '', type: 'html' },
-		last_update: { content: new Date(parseInt(doc.updated_timestamp)).toDateString() },
+		last_update: { content: new Date(parseInt(doc.updated_timestamp)).toLocaleDateString() },
 		status: { content: badges, type: 'html' },
 		actions: { content: seeIcon + editIcon, type: 'link', to: `/dashboard/docs/${doc.id}` },
 	};

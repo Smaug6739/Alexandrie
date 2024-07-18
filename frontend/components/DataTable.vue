@@ -25,21 +25,28 @@
         <tr v-for="row in data">
           <td v-for="header in headers">
             <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content"></span>
-            <NuxtLink v-else-if="row[header.key]?.type === 'link'" v-html="row[header.key]?.content" :to="row[header.key]?.to"></NuxtLink>
+            <NuxtLink v-else-if="row[header.key]?.type === 'link'" v-html="row[header.key]?.content"
+              :to="row[header.key]?.to"></NuxtLink>
             <span v-else v-text="row[header.key]?.content"></span>
           </td>
         </tr>
         <tr>
           <td colspan="100%">
             <div class="footer">
-              <p>Showing {{ paginator.startIndex.value }} to {{ paginator.endIndex.value }} of {{ paginator.totalItems.value }} entries</p>
+              <p>Showing {{ paginator.startIndex.value }} to {{ paginator.endIndex.value }} of {{
+                paginator.totalItems.value }} entries</p>
               <div class="pagination">
                 <button type="button" @click="paginator.previous()" :disabled="!paginator.hasPrevious()">&lt;</button>
-                <button v-if="shouldShowPage(1)" @click="paginator.setPage(1)" :class="{ active: paginator.currentPage.value === 1 }">1</button>
+                <button v-if="shouldShowPage(1)" @click="paginator.setPage(1)"
+                  :class="{ active: paginator.currentPage.value === 1 }">1</button>
                 <span v-if="shouldShowEllipsisBefore" class="ellipsis">...</span>
-                <button v-for="page in visiblePages" :key="page" @click="paginator.setPage(page)" :class="{ active: paginator.currentPage.value === page }">{{ page }}</button>
+                <button v-for="page in visiblePages" :key="page" @click="paginator.setPage(page)"
+                  :class="{ active: paginator.currentPage.value === page }">{{ page }}</button>
                 <span v-if="shouldShowEllipsisAfter" class="ellipsis">...</span>
-                <button v-if="shouldShowPage(paginator.totalPages.value)" @click="paginator.setPage(paginator.totalPages.value)" :class="{ active: paginator.currentPage.value === paginator.totalPages.value }">{{ paginator.totalPages.value }}</button>
+                <button v-if="shouldShowPage(paginator.totalPages.value)"
+                  @click="paginator.setPage(paginator.totalPages.value)"
+                  :class="{ active: paginator.currentPage.value === paginator.totalPages.value }">{{
+                    paginator.totalPages.value }}</button>
                 <button type="button" @click="paginator.next()" :disabled="!paginator.hasNext()">&gt;</button>
               </div>
             </div>
@@ -49,6 +56,7 @@
     </table>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { Paginator } from '../helpers/paginator';
 const props = defineProps<{ headers: Header[]; rows: Field[] }>();
