@@ -32,6 +32,7 @@
   },
   "type": "module",
   "dependencies": {
+    "array-paginator": "^2.0.0",
     "markdown-it-highlightjs": "^4.1.0"
   }
 }

@@ -54,6 +54,7 @@ h2 {
 	font-weight: 600;
 	line-height: 1.2;
 	padding-bottom: 10px;
+	color: var(--font-color-dark)
 }
 
 h3,
@@ -114,23 +115,17 @@ img {
 input,
 select,
 textarea {
-	width: 100%;
-	padding: 12px 14px;
+	padding: 8px 10px;
 	margin: 0;
+	background: var(--bg-color);
 	border: 1px solid var(--border-color);
 	color: var(--font-color);
 	border-radius: 6px;
-	background-color: var(--bg-contrast);
 	font-size: 15px;
 	transition: border-color $transition-duration, box-shadow $transition-duration;
 
 	&:focus {
 		box-shadow: 0 0 5px rgba(var(--primary-color-rgb), 0.2);
-	}
-
-	&:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
 	}
 }
 
@@ -151,7 +146,7 @@ option {
 	padding: 8px 12px;
 
 	&:hover {
-		background-color: var(--primary-color);
+		box-shadow: 0 0 10px 100px #000 inset;
 	}
 }
 
@@ -167,7 +162,6 @@ select {
 
 table {
 	border-collapse: collapse;
-	margin: 25px 0;
 	font-size: 0.9em;
 	min-width: 400px;
 	overflow-x: auto;

@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div v-else>
-			Aucune ressource disponible.
+			No ressource found.
 		</div>
 	</div>
 </template>

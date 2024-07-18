@@ -3,7 +3,5 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-	breadcrumb: () => "Documents"
-});
+definePageMeta({ breadcrumb: "Documents" });
 </script>

@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 const colorMode = useColorMode();
-const toggleColorMode = () => colorMode.value === 'light' ? colorMode.preference = 'dark' : colorMode.preference = 'light';
+const toggleColorMode = () => (colorMode.value === 'light' ? (colorMode.preference = 'dark') : (colorMode.preference = 'light'));
 </script>
 
 <style scoped lang="scss">

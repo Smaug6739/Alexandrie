@@ -99,6 +99,11 @@ input,
 	padding-left: 0;
 }
 
+input {
+	display: block;
+	width: 100%;
+}
+
 [placeholder]:empty::before {
 	content: attr(placeholder);
 	color: #757575;

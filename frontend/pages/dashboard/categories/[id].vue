@@ -10,7 +10,7 @@
 				<p class="document-description">{{ document.description }}</p>
 			</div>
 			<div class="document-tags" v-if="document.tags">
-				<span v-for="tag in document.tags.split(',')" :key="tag" class="tag">{{ tag.trim() }}</span>
+				<span v-for="tag in document.tags.split(',')" :key="tag" class="tag blue">{{ tag.trim() }}</span>
 			</div>
 			<footer class="document-footer">
 				<div class="footer-item">
@@ -22,7 +22,7 @@
 					<span>{{ formatDate(parseInt(document.created_timestamp)) }}</span>
 				</div>
 				<div class="footer-item">
-					<span>Mis à jour: {{ formatDate(parseInt(document.updated_timestamp)) }}</span>
+					<span>Updated : {{ formatDate(parseInt(document.updated_timestamp)) }}</span>
 				</div>
 			</footer>
 		</div>
@@ -85,10 +85,6 @@ h1 {
 	flex: 0 1 auto;
 }
 
-.document-card:hover {
-	transform: scale(1.02);
-}
-
 .document-header {
 	background-color: var(--bg-contrast-2);
 	padding: 15px;
@@ -119,17 +115,6 @@ h1 {
 	flex-wrap: wrap;
 }
 
-.tag {
-	border-color: var(--blue-border);
-	color: var(--blue);
-	background-color: var(--blue-bg);
-	padding: 2px 5px;
-	border-radius: 8px;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	font-size: 12px;
-}
-
 .document-footer {
 	padding: 15px;
 	background-color: var(--bg-contrast);
@@ -137,7 +122,7 @@ h1 {
 	flex-direction: column;
 	font-size: 14px;
 	color: #777;
-	border-top: 1px solid #eaeaea;
+	border-top: 1px solid var(--border-color);
 }
 
 .footer-item {

@@ -3,15 +3,8 @@ const svg_warning = `<svg style="align-self: center;" class="svg-icon" viewBox="
 
 function containerOpen(title: string, logo: string, color: string) {
   return `<div class="markdown-container">
-		<strong style="display: inline-flex; align-items: baseline;" class="${color}">
+		<strong style="display: inline-flex; align-items: baseline;" class="${color} title">
 			${logo}${title}</strong>`;
 }
-function containerOpenInline(title: string, logo: string, color: string) {
-  return `<div :class="color" style="display: inline-block;">
-		<span style="display: inline-flex; align-items: baseline;" class="${color}">
-			${logo}${title}
-		</span>
-	`;
-}
 
-export { svg_info, svg_warning, containerOpen, containerOpenInline };
+export { svg_info, svg_warning, containerOpen };

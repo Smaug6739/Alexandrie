@@ -7,7 +7,7 @@
 			<h1 class="title">{{ doc?.name }}</h1>
 			<p class="description">{{ doc?.description }}</p>
 			<div class="document-tags" v-if="doc.tags">
-				<span v-for="tag in doc.tags.split(',')" :key="tag" class="tag">{{ tag.trim() }}</span>
+				<span v-for="tag in doc.tags.split(',')" :key="tag" class="tag blue">{{ tag.trim() }}</span>
 			</div>
 		</div>
 		<div class="icon">
@@ -156,16 +156,6 @@ p {
 	flex-wrap: wrap;
 }
 
-.tag {
-	border-color: var(--blue-border);
-	color: var(--blue);
-	background-color: var(--blue-bg);
-	padding: 2px 5px;
-	border-radius: 8px;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	font-size: 12px;
-}
 
 @media print,
 screen and (min-width: 1024px) {

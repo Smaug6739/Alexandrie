@@ -1,32 +1,45 @@
+red {
+	color: var(--red);
+}
+
+blue {
+	color: var(--blue);
+}
+
+green {
+	color: var(--green);
+}
+
+yellow {
+	color: var(--yellow);
+}
+
+pink {
+	color: var(--red);
+}
+
 .markdown-container {
 	margin-top: 10px;
+	background-color: var(--bg-contrast);
+	border-radius: 4px;
+	padding: 10px;
 
 	&:has(.blue) {
-		background-color: var(--bg-contrast);
 		border-left: 4px solid var(--blue);
-		border-radius: 4px;
 		padding: 10px;
 	}
 
 	&:has(.red) {
-		background-color: var(--bg-contrast);
 		border-left: 4px solid var(--red);
-		border-radius: 4px;
-		padding: 10px;
 	}
 
 	&:has(.yellow) {
-		background-color: var(--bg-contrast);
 		border-left: 4px solid var(--yellow);
-		border-radius: 4px;
-		padding: 10px;
 	}
 
 	&:has(.turquoise) {
 		background-color: var(--bg-contrast);
 		border-left: 4px solid var(--turquoise);
-		border-radius: 4px;
-		padding: 10px;
 	}
 
 	.svg-icon {
@@ -43,10 +56,8 @@
 		vertical-align: text-bottom
 	}
 
-	.markdown-container-title {
-		font-weight: 600;
-		color: var(--blue);
-		margin-right: 5px;
+	.title {
+		background-color: transparent;
 	}
 
 	.red {
@@ -102,42 +113,38 @@
 	color: rgba(235, 235, 235, 1);
 }
 
-.custom-block.grey {
+.grey {
 	border-color: var(--grey-border);
 	color: var(--grey);
 	background-color: var(--grey-bg);
 }
 
-.custom-block.blue {
+.blue {
 	border-color: var(--blue-border);
 	color: var(--blue);
 	background-color: var(--blue-bg);
 }
 
-.custom-block.green {
+.green {
 	border-color: var(--green-border);
 	color: var(--green);
 	background-color: var(--green-bg);
-
-	code {
-		background-color: var(--green-border);
-	}
 }
 
-.custom-block.turquoise {
+.turquoise {
 	border-color: var(--turquoise-border);
 	color: var(--turquoise);
 	background-color: var(--turquoise-bg);
 }
 
-.custom-block.yellow {
+.yellow {
 	border-color: var(--yellow-border);
 	color: var(--yellow);
 	background-color: var(--yellow-bg);
 }
 
 
-.custom-block.red {
+.red {
 	border-color: var(--red-border);
 	color: var(--red);
 	background-color: var(--red-bg);
@@ -164,7 +171,6 @@
 	text-align: center;
 }
 
-
 .custom-block-title {
 	font-weight: 700;
 }
@@ -182,8 +188,6 @@
 	}
 }
 
-
-
 .custom-block a {
 	color: inherit;
 	font-weight: 600;
@@ -194,22 +198,10 @@
 	opacity: 0.6;
 }
 
-red {
-	color: var(--red);
-}
-
-blue {
-	color: var(--blue);
-}
-
-green {
-	color: var(--green);
-}
-
-yellow {
-	color: var(--yellow);
-}
-
-pink {
-	color: var(--pink);
+.tag {
+	padding: 2px 5px;
+	border-radius: 8px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	font-size: 12px;
 }

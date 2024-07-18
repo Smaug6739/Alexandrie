@@ -5,7 +5,8 @@
 					viewBox="0 -960 960 960" width="24">
 					<path
 						d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h405l-60 60H180v600h600v-348l60-60v408q0 24-18 42t-42 18H180Zm300-360ZM360-360v-170l382-382q9-9 20-13t22-4q11 0 22.317 4.5T827-911l83 84q8.609 8.958 13.304 19.782Q928-796.394 928-785.197q0 11.197-4.5 22.697T910-742L530-360H360Zm508-425-84-84 84 84ZM420-420h85l253-253-43-42-43-42-252 251v86Zm295-295-43-42 43 42 43 42-43-42Z" />
-				</svg> Edit this page</NuxtLink>
+				</svg>
+				Edit this page</NuxtLink>
 			<p>Last update: {{ new Date(parseInt(document.updated_timestamp)).toLocaleDateString() }}</p>
 		</div>
 		<div class="items">
@@ -22,8 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { Document } from "@/store";
-defineProps<{ document: Document; next?: Document; previous?: Document; }>();
+import type { Document } from '@/store';
+defineProps<{ document: Document; next?: Document; previous?: Document }>();
 </script>
 
 <style scoped lang="scss">
@@ -36,7 +37,6 @@ footer {
 		display: flex;
 		justify-content: space-between;
 	}
-
 }
 
 .item {
@@ -49,7 +49,7 @@ footer {
 	margin: 5px 0;
 	font-weight: 500;
 	font-size: 15px;
-	transition: color .25s;
+	transition: color 0.25s;
 
 	b {
 		display: block;
@@ -59,7 +59,6 @@ footer {
 		border: 1px solid $primary-400;
 	}
 }
-
 
 .right {
 	margin-left: auto;
@@ -89,5 +88,9 @@ footer {
 			margin-right: 5px;
 		}
 	}
+}
+
+svg {
+	fill: var(--font-color);
 }
 </style>

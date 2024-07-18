@@ -1,161 +1,226 @@
 <template>
-	<div class="container">
-		<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-			<path
-				d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
-		</svg>
-		<input type="text" placeholder="Search" v-model="searchInput" />
-		<table>
-			<thead>
-				<tr>
-					<th v-for="(header, index) in headers" :key="index" :class="{ noMobile: index > 1 }">
-						{{ header.title }}
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(row, index) in data" :key="index">
-					<td v-for=" (field, index) in row.fields" :key="index" :class="{ noMobile: index > 1 }">
-						<span v-if="!field.action" v-text="field.content"></span>
-						<span v-else>
-							<NuxtLink :to="field.action" type="button" v-text="field.content">
-							</NuxtLink>
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="100%">
-						<div class="actions-bar">
-							<div class="left">
-								<button type="button" @click="page--">&lt;Previous</button>
-								<button type="button" @click="page++">Next&gt;</button>
-							</div>
-							<div class="right">
-								<span>Items per page</span>
-								<select v-model="itemsPerPage">
-									<option value="15">15</option>
-									<option value="30">30</option>
-									<option value="50">50</option>
-									<option value="100">100</option>
-									<option value="250">250</option>
-								</select>
-							</div>
-						</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+  <div class="container">
+    <div class="header">
+      <input type="text" v-model="searchInput" placeholder="Search..." />
+      <div>
+        <span>Rows per page</span>
+        <select @change="(e: Event) => paginator.setMaxPerPage(parseInt((<HTMLSelectElement>e.target)?.value) || 10)">
+          <option value="10">10</option>
+          <option value="30">30</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="250">250</option>
+        </select>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th v-for="header in headers" :key="header.key">
+            {{ header.label }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in data">
+          <td v-for="header in headers">
+            <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content"></span>
+            <NuxtLink v-else-if="row[header.key]?.type === 'link'" v-html="row[header.key]?.content" :to="row[header.key]?.to"></NuxtLink>
+            <span v-else v-text="row[header.key]?.content"></span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="100%">
+            <div class="footer">
+              <p>Showing {{ paginator.startIndex.value }} to {{ paginator.endIndex.value }} of {{ paginator.totalItems.value }} entries</p>
+              <div class="pagination">
+                <button type="button" @click="paginator.previous()" :disabled="!paginator.hasPrevious()">&lt;</button>
+                <button v-if="shouldShowPage(1)" @click="paginator.setPage(1)" :class="{ active: paginator.currentPage.value === 1 }">1</button>
+                <span v-if="shouldShowEllipsisBefore" class="ellipsis">...</span>
+                <button v-for="page in visiblePages" :key="page" @click="paginator.setPage(page)" :class="{ active: paginator.currentPage.value === page }">{{ page }}</button>
+                <span v-if="shouldShowEllipsisAfter" class="ellipsis">...</span>
+                <button v-if="shouldShowPage(paginator.totalPages.value)" @click="paginator.setPage(paginator.totalPages.value)" :class="{ active: paginator.currentPage.value === paginator.totalPages.value }">{{ paginator.totalPages.value }}</button>
+                <button type="button" @click="paginator.next()" :disabled="!paginator.hasNext()">&gt;</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
-
 <script lang="ts" setup>
+import { Paginator } from '../helpers/paginator';
+const props = defineProps<{ headers: Header[]; rows: Field[] }>();
+const itemsPerPage = ref(10);
+const searchInput = ref('');
 
-const props = defineProps<{ headers: Header[], rows: Row[] }>()
-const itemsPerPage = ref(15)
-const page = ref(1)
-const searchInput = ref('')
+const paginator = new Paginator<Field>(
+  computed(() => props.rows),
+  itemsPerPage.value,
+);
+paginator.filter(row => {
+  return Object.values(row).some(value => value.content.toLowerCase().includes(searchInput.value.toLowerCase()));
+});
+const data = paginator.currentPageItems;
 
-const data = computed(() => {
-	return props.rows.filter((row) => {
-		return row.fields.some((field) => {
-			return field.content.toLowerCase().includes(searchInput.value.toLowerCase())
-		})
-	}).slice((page.value - 1) * itemsPerPage.value, page.value * itemsPerPage.value)
-})
+const maxVisiblePages = 3; // Number of pages to show around the current page
+
+const visiblePages = computed(() => {
+  const totalPages = paginator.totalPages.value;
+  const currentPage = paginator.currentPage.value;
+  const startPage = Math.max(2, currentPage - Math.floor(maxVisiblePages / 2));
+  const endPage = Math.min(totalPages - 1, currentPage + Math.floor(maxVisiblePages / 2));
+  const pages = Int16Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
+  return pages;
+});
+
+const shouldShowPage = (page: number) => page === 1 || page === paginator.totalPages.value;
+
+const shouldShowEllipsisAfter = computed(() => {
+  const lastVisiblePage = visiblePages.value[visiblePages.value.length - 1];
+  return lastVisiblePage !== undefined && lastVisiblePage < paginator.totalPages.value - 1;
+});
+const shouldShowEllipsisBefore = computed(() => {
+  const firstVisiblePage = visiblePages.value[0];
+  return firstVisiblePage !== undefined && firstVisiblePage > 2;
+});
 
 interface Header {
-	title: string;
-}
-interface Row {
-	fields: Field[];
+  key: string;
+  label: string;
 }
 interface Field {
-	content: string;
-	action?: string;
+  [key: string]: {
+    content: string;
+    type?: 'html' | 'text' | 'link';
+    to?: string;
+  };
 }
 </script>
+
 <style lang="scss" scoped>
 .container {
-	position: relative;
-	zoom: 0.7;
+  border-radius: 15px;
+  border: 1.5px solid var(--border-color);
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
 }
 
 table {
-	width: 100%;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  border-color: inherit;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 th {
-	text-align: left;
+  color: var(--font-color-dark);
+  border-top: 1px solid var(--border-color);
+}
+
+td {
+  color: var(--font-color-light);
+}
+
+tr {
+  border-bottom: 1px solid var(--border-color);
 }
 
 button {
-	margin-right: 20px;
-	padding: 0.1rem 0.25rem;
-	font-size: 1rem;
+  margin-right: 20px;
+  padding: 0.1rem 0.25rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:disabled {
+    background-color: var(--disabled-color);
+    cursor: not-allowed;
+  }
+
+  &:hover,
+  &.active {
+    transform: none;
+    font-weight: bold;
+  }
 }
 
-.noMobile {
-	display: none;
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-button {
-	background-color: $primary-400;
-	color: #fff;
+.pagination button {
+  margin: 0 5px;
 }
 
-.actions-bar {
-	display: flex;
-	width: 100%;
-	justify-content: space-between;
-
-	select {
-		max-width: 100px;
-		margin: 0;
-		margin-left: 10px;
-	}
-
-	.left,
-	.right {
-		display: flex;
-		align-items: center;
-		width: 100%;
-	}
-
-	.left {
-		justify-content: flex-start;
-	}
-
-	.right {
-		justify-content: flex-end;
-	}
+.pagination .active {
+  background-color: var(--active-color);
 }
 
+.footer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+select {
+  max-width: 100px;
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+}
 
 svg {
-	position: absolute;
-	top: 13px;
-	left: 13px;
-	fill: var(--grey);
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  fill: var(--grey);
 }
 
 input {
-	height: 50px;
-	padding: 0 0 0 45px;
-	outline: none;
-	border-radius: 10px;
+  max-width: 300px;
+  margin: 8px 5px;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+.ellipsis {
+  margin: 0 5px;
+  color: var(--font-color-dark);
 }
 
 @media screen and (min-width: 1000px) {
-	.container {
-		zoom: 1;
-	}
+  .container {
+    zoom: 1;
+  }
 
-	.noMobile {
-		display: table-cell;
-	}
+  .noMobile {
+    display: table-cell;
+  }
 
-	table {
-		zoom: 1;
-	}
+  table {
+    zoom: 1;
+  }
 }
 </style>

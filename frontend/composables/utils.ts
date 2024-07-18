@@ -1,4 +1,4 @@
-const colors = ['var(--blue)', 'var(--turquoise)', 'var(--yellow)', 'var(--pink)', 'var(--red)'];
+const colors = ['var(--blue)', 'var(--turquoise)', 'var(--yellow)', 'var(--red)', 'var(--red)'];
 
 export function useColorHash(str: string): string {
   // Calculer un hash unique pour la chaîne
@@ -53,7 +53,6 @@ export async function makeRequest(
   }
 
   const decoded = await response.json();
-  console.log('[SUCCESS] Response data:', decoded);
   return decoded;
 }
 

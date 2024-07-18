@@ -107,6 +107,7 @@ button {
 	user-select: none;
 	display: flex;
 	align-items: stretch;
+	flex-wrap: wrap;
 }
 
 svg,
