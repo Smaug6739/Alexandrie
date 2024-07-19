@@ -8,7 +8,7 @@ export const useRessourcesStore = defineStore('ressources', {
     getAll: state => state.ressources,
   },
   actions: {
-    fetch: async function () {
+    fetch: function () {
       if (this.ressources.length > 0) return this.ressources;
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`ressources`, 'GET', {});

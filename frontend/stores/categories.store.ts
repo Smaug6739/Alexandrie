@@ -13,7 +13,7 @@ export const useCategoriesStore = defineStore('categories', {
     getChilds: state => (id: string) => state.categories.filter(c => c.parent_id == id),
   },
   actions: {
-    fetch: async function (opts?: FetchOptions) {
+    fetch: function (opts?: FetchOptions) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`categories/${opts?.id || ''}`, 'GET', {});
         if (request.status == 'success') {

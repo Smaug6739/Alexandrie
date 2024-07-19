@@ -104,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Document, useCategoriesStore } from '~/store';
+import { type Document, useCategoriesStore } from '~/stores';
 const categories_store = useCategoriesStore();
 const props = defineProps<{ doc: Document }>();
 const category = computed(() => categories_store.getById(props.doc?.category || ''));

@@ -34,7 +34,6 @@ export interface User {
   lastname?: string;
   avatar?: string;
   email: string;
-  password: string;
   created_timestamp: string;
 }
 export interface DB_Ressource {

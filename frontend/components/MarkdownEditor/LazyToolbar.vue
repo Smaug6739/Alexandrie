@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCategoriesStore, type Document } from "~/store";
+import { useCategoriesStore, type Document } from "~/stores";
 
 const categoriesStore = useCategoriesStore();
 const props = defineProps<{ document: Partial<Document> }>();

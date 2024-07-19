@@ -1,4 +1,5 @@
 <template>
+	<div :class="{ 'modal-mask': isMobile() && isOpened }"></div>
 	<Resizable>
 		<div class="sidebar-content">
 			<section class="header">
@@ -21,7 +22,7 @@ import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import IconApp from './IconApp.vue';
 import Search from './Search.vue';
-import { useCategoriesStore, useDocumentsStore, type Category } from '~/store';
+import { useCategoriesStore, useDocumentsStore, type Category } from '~/stores';
 import { ItemsManager, type Item } from './tree_builder';
 import { navigationItems } from "./helpers";
 
@@ -75,16 +76,6 @@ onBeforeUnmount(() => {
 	window.removeEventListener('click', handleClickOutside);
 	document.removeEventListener('keypress', handleSearchShortCut)
 });
-
-// Watch isOpened
-if (isMobile()) {
-	watch(isOpened, (val) => {
-		if (val) document.getElementById('backdrop')?.classList.add('backdrop');
-		else document.getElementById('backdrop')?.classList.remove('backdrop');
-	});
-}
-
-
 </script>
 
 <style scoped lang="scss">

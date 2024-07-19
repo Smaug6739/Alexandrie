@@ -1,4 +1,4 @@
-import type { Document, Category } from '~/store';
+import type { Document, Category } from '~/stores';
 import type { DefaultItem } from './helpers';
 
 export interface Item {

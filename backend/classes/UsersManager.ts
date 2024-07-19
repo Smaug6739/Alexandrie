@@ -14,6 +14,19 @@ export class UsersManager extends Base<User> {
       });
     });
   }
+  public getPublic(id: string): Promise<UserDB> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<UserDB[]>(
+        'SELECT id, username, firstname, lastname, avatar, email, created_timestamp FROM users WHERE id = ? LIMIT 1',
+        [id],
+        async (err, results) => {
+          if (err) return reject('Internal database error.');
+          if (!results[0]) return reject('Bad id.');
+          resolve(results[0]);
+        },
+      );
+    });
+  }
   public getById(id: string): Promise<UserDB> {
     return new Promise((resolve, reject) => {
       this.app.db.query<UserDB[]>('SELECT * FROM users WHERE id = ? LIMIT 1', [id], async (err, results) => {

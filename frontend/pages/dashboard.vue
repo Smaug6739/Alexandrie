@@ -9,5 +9,11 @@
 </template>
 <script setup lang="ts">
 import Sidebar from '~/components/sidebar/Sidebar.vue';
+import { useDocumentsStore, useCategoriesStore } from '@/stores';
+
 definePageMeta({ breadcrumb: 'Home' });
+useDocumentsStore().fetch();
+useCategoriesStore().fetch();
+
+useUserStore().fetch().then(r => console.log(r))
 </script>

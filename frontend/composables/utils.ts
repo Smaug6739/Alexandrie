@@ -23,12 +23,10 @@ export interface FetchOptions {
 export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : false);
 
 export const baseUrl = import.meta.env.VITE_BASE_API?.toString() || '';
-import type { DB_Document, DB_Category, DB_Ressource } from '../store/db_strustures';
+import type { DB_Document, DB_Category, DB_Ressource, User } from '../stores/db_strustures';
 
-export async function makeRequest(route: string, method: string, body: Object, retry = false): Promise<APIResult<DB_Document | DB_Category | DB_Ressource | DB_Document[] | DB_Category[] | DB_Ressource[]>> {
+export async function makeRequest(route: string, method: string, body: Object, retry = false): Promise<APIResult<DB_Document | DB_Category | DB_Ressource | DB_Document[] | DB_Category[] | DB_Ressource[] | User>> {
   console.log(`[API] Requesting ${method} ${route}`);
-  console.log(body);
-
   const response = await fetch(`${baseUrl}/api/v1/${route}`, {
     method: method,
     body: method === 'GET' || method === 'DELETE' ? null : body instanceof FormData ? body : JSON.stringify(body),

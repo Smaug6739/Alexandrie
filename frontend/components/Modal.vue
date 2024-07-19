@@ -29,19 +29,6 @@ const emit = defineEmits(['close', 'confirm'])
 </template>
 
 <style lang="scss" scoped>
-.modal-mask {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  transition: opacity 0.3s ease;
-  font-size: initial;
-}
-
 .modal-container {
   width: 500px;
   margin: auto;
@@ -50,8 +37,8 @@ const emit = defineEmits(['close', 'confirm'])
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
+  font-size: initial;
 }
-
 
 .modal-body {
   margin: 20px 0;
@@ -66,10 +53,7 @@ const emit = defineEmits(['close', 'confirm'])
 }
 
 
-.modal-enter-from {
-  opacity: 0;
-}
-
+.modal-enter-from,
 .modal-leave-to {
   opacity: 0;
 }

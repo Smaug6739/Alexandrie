@@ -27,7 +27,7 @@
 	</div>
 </template>
 <script setup lang="ts">
-import { useNotifications, useRessourcesStore, type DB_Ressource } from '~/store';
+import { useNotifications, useRessourcesStore, type DB_Ressource } from '~/stores';
 const ressourcesStore = useRessourcesStore();
 await ressourcesStore.fetch();
 

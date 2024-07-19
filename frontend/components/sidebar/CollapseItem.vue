@@ -24,7 +24,6 @@
 </template>
 <script setup lang="ts">
 import { type Item } from './tree_builder';
-import div from './Collapse.vue';
 import SidebarItem from './SidebarItem.vue';
 
 defineProps<{ item: Item, root?: boolean }>();

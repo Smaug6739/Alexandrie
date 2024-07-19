@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 
-import { useDocumentsStore, useCategoriesStore } from '~/store';
+import { useDocumentsStore, useCategoriesStore } from '~/stores';
 
 const documentStore = useDocumentsStore();
 const categoriesStore = useCategoriesStore();
@@ -19,7 +19,6 @@ import type { Item } from './tree_builder';
 import { icons, navigationItems } from './helpers';
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
-const isMobile = () => process.client ? window.innerWidth <= 768 : false;
 
 function getIcon(item: Item) {
 	if ('icon' in item.data && item.data.icon) return item.data.icon;

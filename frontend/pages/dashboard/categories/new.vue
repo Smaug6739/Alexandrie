@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type Category, useCategoriesStore, useNotifications } from '~/store';
+import { type Category, useCategoriesStore, useNotifications } from '~/stores';
 
 const categoriesStore = useCategoriesStore();
 const category = ref<Category>({ id: '', name: '', icon: '', parent_id: '', order: 0, type: 'category' });

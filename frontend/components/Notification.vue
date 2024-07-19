@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNotifications } from '~/store';
+import { useNotifications } from '~/stores';
 
 const notifications = computed(() => useNotifications().getAll.reverse());
 const close = (id: number) => useNotifications().remove(id);

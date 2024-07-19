@@ -87,6 +87,6 @@
 }
 </style>
 <script lang="ts" setup>
-import { useCategoriesStore } from '~/store'; // Adjust the path accordingly
+import { useCategoriesStore } from '~/stores'; // Adjust the path accordingly
 const categoriesStore = useCategoriesStore();
 </script>

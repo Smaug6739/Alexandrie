@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDocumentsStore } from '~/store';
+import { useDocumentsStore } from '~/stores';
 
 const documents = computed(() => useDocumentsStore().getAll.filter(c => c.name.toLowerCase().includes(filter.value.toLowerCase())));
 const filter = ref<string>('');
@@ -83,19 +83,6 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 </script>
 
 <style lang="scss" scoped>
-.modal-mask {
-	position: fixed;
-	z-index: 100;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.5);
-	display: flex;
-	transition: opacity 0.3s ease;
-	font-size: initial;
-}
-
 .modal-container {
 	width: 600px;
 	margin: auto;

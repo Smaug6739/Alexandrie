@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDocumentsStore } from '~/store';
+import { useDocumentsStore } from '~/stores';
 
 const router = useRouter();
 const documentsStore = useDocumentsStore();

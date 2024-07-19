@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { useCategoriesStore, useDocumentsStore } from '~/store';
+import { useCategoriesStore, useDocumentsStore } from '~/stores';
 const route = useRoute();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();

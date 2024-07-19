@@ -40,7 +40,7 @@ export const useDocumentsStore = defineStore('documents', {
     },
   },
   actions: {
-    fetch: async function <T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
+    fetch: function <T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`documents/${opts?.id || ''}?all=true`, 'GET', {});

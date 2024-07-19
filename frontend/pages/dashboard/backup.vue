@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { useNotifications } from '~/store';
+import { useNotifications } from '~/stores';
 
 const downloadLink = ref<string | null>(null);
 const copyLink = () => navigator.clipboard.writeText(downloadLink.value!);

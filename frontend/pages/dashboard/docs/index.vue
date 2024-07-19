@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDocumentsStore, useCategoriesStore } from '~/store';
+import { useDocumentsStore, useCategoriesStore } from '~/stores';
 
 const documents = computed(() => useDocumentsStore().getAll)
 const categoriesStore = useCategoriesStore();

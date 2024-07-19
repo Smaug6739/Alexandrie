@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useCategoriesStore, useNotifications } from '~/store';
+import { useCategoriesStore, useNotifications } from '~/stores';
 
 const route = useRoute();
 const categoriesStore = useCategoriesStore();

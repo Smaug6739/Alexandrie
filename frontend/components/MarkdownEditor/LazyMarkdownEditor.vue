@@ -20,7 +20,7 @@ import { Editor } from './Editor';
 import Toolbar from './LazyToolbar.vue';
 import compile from '~/helpers/markdown';
 import InlineToolbar from '~/components/MarkdownEditor/InlineToolbar.vue';
-import type { Document } from '~/store';
+import type { Document } from '~/stores';
 
 const props = defineProps<{ doc?: Document }>();
 const document = ref<Document | Partial<Document>>({ ...props.doc });
