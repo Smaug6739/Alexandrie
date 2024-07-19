@@ -37,14 +37,12 @@
                 paginator.totalItems.value }} entries</p>
               <div class="pagination">
                 <button type="button" @click="paginator.previous()" :disabled="!paginator.hasPrevious()">&lt;</button>
-                <button v-if="shouldShowPage(1)" @click="paginator.setPage(1)"
-                  :class="{ active: paginator.currentPage.value === 1 }">1</button>
+                <button @click="paginator.setPage(1)" :class="{ active: paginator.currentPage.value === 1 }">1</button>
                 <span v-if="shouldShowEllipsisBefore" class="ellipsis">...</span>
                 <button v-for="page in visiblePages" :key="page" @click="paginator.setPage(page)"
                   :class="{ active: paginator.currentPage.value === page }">{{ page }}</button>
                 <span v-if="shouldShowEllipsisAfter" class="ellipsis">...</span>
-                <button v-if="shouldShowPage(paginator.totalPages.value)"
-                  @click="paginator.setPage(paginator.totalPages.value)"
+                <button v-if="paginator.totalPages.value > 1" @click="paginator.setPage(paginator.totalPages.value)"
                   :class="{ active: paginator.currentPage.value === paginator.totalPages.value }">{{
                     paginator.totalPages.value }}</button>
                 <button type="button" @click="paginator.next()" :disabled="!paginator.hasNext()">&gt;</button>
@@ -82,8 +80,6 @@ const visiblePages = computed(() => {
   const pages = Int16Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index);
   return pages;
 });
-
-const shouldShowPage = (page: number) => page === 1 || page === paginator.totalPages.value;
 
 const shouldShowEllipsisAfter = computed(() => {
   const lastVisiblePage = visiblePages.value[visiblePages.value.length - 1];
@@ -140,15 +136,15 @@ td {
 
 th {
   color: var(--font-color-dark);
-  border-top: 1px solid var(--border-color);
 }
 
 td {
   color: var(--font-color-light);
-}
 
-tr {
-  border-bottom: 1px solid var(--border-color);
+  &:has(.footer) {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
 }
 
 button {
@@ -189,6 +185,7 @@ button {
   display: flex;
   width: 100%;
   justify-content: space-between;
+
 }
 
 select {

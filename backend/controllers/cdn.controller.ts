@@ -23,8 +23,9 @@ export default class RessourcesController extends BaseController<RessourcesManag
   }
 
   async get(req: Request, res: Response) {
-    this.manager
-      .getRessources(req.params.user_id as string)
+    if (!req.user_id) return res.status(401).json(this.utils.error('Unauthorized'));
+    return this.manager
+      .getRessources(req.user_id)
       .then((result: Ressource[]) => res.status(200).json(this.utils.success(result)))
       .catch(e => res.status(500).json(this.utils.error(e)));
   }

@@ -37,7 +37,9 @@ export default class Authentification extends BaseController<UsersManager, User>
       const accessToken = this.sign_access_token(user);
       console.log(`[AUTH] User ${user.id} connected. Signing new token...`);
       this.set_cookies(res, accessToken, session.refresh_token);
-      res.status(200).json(this.utils.success({ auth: true }));
+      const { password, ...userWithoutPassword } = user;
+      res.status(200).json(this.utils.success({ auth: true, user: userWithoutPassword }));
+
       this.app.logger.success(`[AUTH] User ${user.username} connected.`);
       this.logs.add(req, 'login', user.id);
     } catch (e) {

@@ -1,8 +1,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
   future: {
     compatibilityVersion: 4,
   },
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -52,4 +54,6 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  compatibilityDate: '2024-07-19',
 });

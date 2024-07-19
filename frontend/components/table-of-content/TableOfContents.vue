@@ -1,7 +1,7 @@
 <template>
 	<aside>
 		<ul ref="list" class="toc">
-			<h4>Table des matières</h4>
+			<h4>Table of content</h4>
 			<NodeTree v-if="headers.length" v-for="header of headers_tree" :node="header" :key="header.link" />
 			<p v-else>Aucun élément à afficher</p>
 		</ul>
@@ -35,7 +35,7 @@ const getHTMLHeaders = (): HTMLElement[] => {
 function getHeaders(headers: HTMLElement[]): GroupedHeaders[] {
 	const tree: GroupedHeaders[] = [];
 	for (const header of headers) {
-		const level = parseInt(header.tagName[1]);
+		const level = parseInt(header.tagName[1] || '1');
 		const title = header.textContent?.replace(/#/g, '') || '';
 		const link = `#${header.id}`;
 		const node: GroupedHeaders = { title, link, level };

@@ -14,7 +14,6 @@ $primary-400: #007bff;
 $primary-300: lighten($primary-400, 10%);
 $primary-500: darken($primary-400, 10%);
 
-
 @import "./font.scss";
 
 $external-font: 'Poppins', sans-serif;

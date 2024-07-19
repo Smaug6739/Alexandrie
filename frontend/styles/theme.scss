@@ -27,7 +27,6 @@ button {
 	border: none;
 	border-radius: 6px;
 	color: var(--font-color);
-	font-size: 15px;
 	cursor: pointer;
 	transition: transform $transition-duration;
 	width: fit-content;
@@ -121,7 +120,6 @@ textarea {
 	border: 1px solid var(--border-color);
 	color: var(--font-color);
 	border-radius: 6px;
-	font-size: 15px;
 	transition: border-color $transition-duration, box-shadow $transition-duration;
 
 	&:focus {
@@ -142,7 +140,6 @@ mark {
 }
 
 option {
-	font-size: 16px;
 	padding: 8px 12px;
 
 	&:hover {
@@ -176,7 +173,7 @@ table {
 	}
 
 	tbody tr {
-		border-bottom: 1px solid var(--border-color);
+		border-top: 1px solid var(--border-color);
 	}
 
 	tbody tr:nth-of-type(even) {
@@ -191,7 +188,6 @@ table {
 
 textarea {
 	font-family: $monospace-font;
-	font-size: 16px;
 	resize: none;
 }
 

@@ -123,7 +123,7 @@ const drop = async (event: DragEvent) => {
 		&:deep(svg) {
 			fill: var(--blue);
 			width: 20px;
-			max-height: 25px;
+			max-height: 22px;
 			margin-right: 5px;
 
 			path {

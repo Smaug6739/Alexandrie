@@ -13,7 +13,7 @@ export default (client: App): Iroute => {
     route: 'ressources',
     version: 1,
     router() {
-      CDNRouter.get('/:user_id', auth, (req: Request, res: Response) => controller.get(req, res));
+      CDNRouter.get('/', auth, (req: Request, res: Response) => controller.get(req, res));
       CDNRouter.post('/', auth, multerCdn, (req: Request, res: Response) => controller.add(req, res), multerErrors);
       return CDNRouter;
     },
