@@ -8,3 +8,6 @@
 - Login page
 - Documents cards
 - User account (+security) page
+
+- Context menu for documents
+- - Add document button (hover category)
