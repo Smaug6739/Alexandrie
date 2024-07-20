@@ -9,11 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocation } from 'vue-router';
 
-const route: RouteLocation = useRoute();
+const route = useRoute();
 const router = useRouter();
 const breadcrumbs: Ref<Array<{ name: string; path: string }>> = ref([]);
+
 declare module 'vue-router' {
   interface RouteMeta {
     breadcrumb: () => string;
@@ -40,19 +40,17 @@ watchEffect(() => {
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
-  padding: 0;
   list-style: none;
-  border-radius: 0.25rem;
-  font-family: Inter;
+  padding: 3px;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
   content: '/';
   padding: 0 0.5rem;
 }
 
 .breadcrumb-item a {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 17px;
+  font-weight: 500;
 }
 </style>

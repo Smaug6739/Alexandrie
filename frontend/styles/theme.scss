@@ -32,7 +32,7 @@ button {
 	width: fit-content;
 
 	&:hover {
-		transform: scale(1.1);
+		background-color: var(--bg-contrast-2);
 	}
 
 	&:disabled {
@@ -141,6 +141,7 @@ mark {
 
 option {
 	padding: 8px 12px;
+	font-family: $external-font;
 
 	&:hover {
 		box-shadow: 0 0 10px 100px #000 inset;

@@ -122,7 +122,7 @@ export class DocumentsManager extends Base<Document> {
     if (data.category && data.category.length > 50) return 'document category invalid';
     if (data.parent_id && data.parent_id.length > 50) return 'document parent id invalid';
     if (!data.accessibility && data.accessibility > 10) return 'document accessibility invalid';
-    if (!data.content_markdown || data.content_markdown.length > 4_294_967_295) return 'document content markdown invalid';
+    if (data.content_markdown && data.content_markdown.length > 4_294_967_295) return 'document content markdown invalid';
     if (data.content_html && data.content_html.length > 4_294_967_295) return 'document content html invalid';
     if (!data.author_id || data.author_id.length > 50) return 'document author id invalid';
     if (!data.created_timestamp || data.created_timestamp.length > 50) return 'document created timestamp invalid';

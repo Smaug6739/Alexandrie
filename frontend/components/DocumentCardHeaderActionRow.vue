@@ -19,16 +19,12 @@
 					d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
 			</svg>
 		</NuxtLink>
-		<Modal :show="showDeleteModal" @close="showDeleteModal = false" @confirm="deleteDoc">
-			<template #header>
-				<h3>Delete document</h3>
-			</template>
-			<template #body>
-				<p>Are you sure you want to delete this document?</p>
-			</template>
-			<template #footer>
-				<p style="opacity: 0.7; ">This action is irreversible</p>
-			</template>
+		<Modal :show="showDeleteModal">
+			<h3>Delete document</h3>
+			<p>Are you sure you want to delete this document?</p>
+			<p style="opacity: 0.7; ">This action is irreversible</p>
+			<button @click="showDeleteModal = false" style="float: left;">Cancel</button>
+			<button @click="deleteDoc" style="float: right;" class="confirm">Confirm</button>
 		</Modal>
 	</span>
 </template>
@@ -60,5 +56,15 @@ a {
 
 .header svg path {
 	fill: var(--font-color);
+}
+
+button {
+	font-weight: 600;
+	font-size: medium;
+}
+
+.confirm {
+	background-color: var(--font-color);
+	color: var(--bg-color);
 }
 </style>
