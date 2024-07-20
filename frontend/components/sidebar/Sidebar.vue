@@ -9,7 +9,7 @@
 				</span>
 				<IconClose class="btn" />
 			</section>
-			<input type="text" placeholder="Search" class="search" v-model="filter" />
+			<input type="text" placeholder="Search or Ctrl + q" class="search" v-model="filter" />
 			<Search />
 			<CollapseItem v-for="(item, index) in items " :key="index" :item="item" :root="true" />
 		</div>

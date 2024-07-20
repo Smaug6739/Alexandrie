@@ -97,147 +97,95 @@ const rows: any = computed(() => ressources.map((res) => {
 	flex-direction: column;
 	align-items: center;
 	gap: 1.5rem;
-	padding: 3rem;
+	padding: 2rem;
 	border-radius: 8px;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
 
-	.dropzone {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		height: 150px;
-		border: 2px dashed #9e9e9e;
-		border-radius: 4px;
-		font-size: 14px;
-		color: #9e9e9e;
-		position: relative;
-		transition: background-color $transition-duration;
-		background-color: var(--dropzone-bg, transparent);
+button {
+	background-color: var(--font-color);
+	color: var(--bg-color);
+}
 
-		&:hover {
-			background-color: var(--bg-contrast);
-		}
+h2 {
+	margin: 0;
+}
 
-		input[type="file"] {
-			display: none;
-		}
+.dropzone {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 150px;
+	border: 2px dashed #9e9e9e;
+	border-radius: 4px;
+	font-size: 14px;
+	color: #9e9e9e;
+	position: relative;
+	transition: background-color $transition-duration;
+	background-color: var(--dropzone-bg, transparent);
+
+	&:hover {
+		background-color: var(--bg-contrast);
 	}
 
-	.file-info {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		color: #2196F3;
-		color: #2196F3;
-
-		.file-size {
-			font-size: 0.8rem;
-			color: #757575;
-			margin-top: 5px;
-		}
-	}
-
-	.link-section {
-		margin-top: 15px;
-		display: flex;
-		gap: 10px;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-	}
-
-	.loading-spinner {
-		border: 5px solid #f3f3f3;
-		border-top: 5px solid $primary-400;
-		border-radius: 50%;
-		width: 50px;
-		height: 50px;
-		animation: spin 1s linear infinite;
-	}
-
-	.clickable {
-		color: #2196F3;
-		cursor: pointer;
-		text-decoration: underline;
-	}
-
-	@keyframes spin {
-		0% {
-			transform: rotate(0deg);
-		}
-
-		100% {
-			transform: rotate(360deg);
-		}
-	}
-
-	.ressources-list {
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-
-		.ressource-item {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 1rem;
-			border: 1px solid #ddd;
-			/* Lighter border for a subtler effect */
-			border-radius: 8px;
-			background-color: #fafafa;
-			/* Light gray background for list items */
-			transition: background-color 0.2s ease, box-shadow 0.2s ease;
-
-			&:hover {
-				background-color: #e3e3e3;
-				/* Slightly darker on hover */
-				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-				/* Subtle shadow on hover */
-			}
-
-			.ressource-info {
-				display: flex;
-				justify-content: space-around;
-				width: 100%;
-
-				.ressource-name {
-					font-weight: bold;
-					color: #333;
-					/* Darker text for better contrast */
-				}
-
-				.ressource-size,
-				.ressource-type,
-				.ressource-date {
-					font-size: 0.9rem;
-					color: #757575;
-				}
-			}
-
-			a {
-				color: #2196f3;
-				text-decoration: none;
-				font-weight: bold;
-
-				&:hover {
-					text-decoration: underline;
-				}
-			}
-		}
+	input[type="file"] {
+		display: none;
 	}
 }
 
-.dropzone.drag-over {
+.drag-over {
 	background-color: #E3F2FD;
 	border-color: #2196F3;
 	transition: background-color $transition-duration, border-color $transition-duration;
+}
+
+.file-info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	color: #2196F3;
+	color: #2196F3;
+
+	.file-size {
+		font-size: 0.8rem;
+		color: #757575;
+		margin-top: 5px;
+	}
+}
+
+.link-section {
+	margin-top: 15px;
+	display: flex;
+	gap: 10px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.loading-spinner {
+	border: 5px solid #f3f3f3;
+	border-top: 5px solid $primary-400;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	animation: spin 1s linear infinite;
+}
+
+.clickable {
+	color: #2196F3;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 .file-info {

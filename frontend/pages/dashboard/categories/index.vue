@@ -36,8 +36,7 @@
 
 .add-category-btn {
 	background: none;
-	border: none;
-	color: #007aff;
+	color: var(--blue);
 	cursor: pointer;
 	font-size: 1.1em;
 	margin-top: 20px;
@@ -45,7 +44,7 @@
 
 .category-group {
 	width: 100%;
-	border-bottom: 2px solid #eee;
+	border-bottom: 2px solid var(--border-color);
 	padding-bottom: 20px;
 	margin-bottom: 20px;
 }
