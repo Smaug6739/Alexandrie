@@ -1,8 +1,14 @@
 import type { CookieOptions } from 'express';
 
-const COOKIE_CONFIG: CookieOptions = {
+/*const COOKIE_CONFIG: CookieOptions = {
   httpOnly: true,
   domain: process.env.FRONT_DOMAIN,
+  secure: process.env.NODE_ENV == 'production' ? true : false,
+  sameSite: 'lax',
+};*/
+const COOKIE_CONFIG: CookieOptions = {
+  httpOnly: true,
+  domain: process.env.NODE_ENV == 'production' ? process.env.FRONT_DOMAIN : undefined,
   secure: process.env.NODE_ENV == 'production' ? true : false,
   sameSite: 'lax',
 };

@@ -1,11 +1,24 @@
 import Base from './Base';
+import { Validator } from './Validator';
 import type { Session, SessionDB } from '../types';
 
-export class SessionsManager extends Base<Session> {
+export class SessionsManager extends Base {
   constructor(app: App) {
     super(app);
     setInterval(() => this.deleteOldSessions(), 1000 * 60 * 60); // 1 hour
   }
+
+  public validator = new Validator({
+    id: { minLength: 1, maxLength: 50, type: 'string', error: 'session id invalid' },
+    user_id: { minLength: 1, maxLength: 50, type: 'string', error: 'session user id invalid' },
+    refresh_token: { maxLength: 200, type: 'string', error: 'session refresh token invalid', optional: true },
+    expire_token: { minLength: 1, maxLength: 50, type: 'string', error: 'session expire token invalid' },
+    last_refresh_timestamp: { minLength: 1, maxLength: 50, type: 'string', error: 'session last refresh invalid' },
+    active: { type: 'number', error: 'session active invalid' },
+    login_timestamp: { minLength: 1, maxLength: 50, type: 'string', error: 'session last login invalid' },
+    logout_timestamp: { minLength: 1, maxLength: 50, type: 'string', error: 'session last logout invalid' },
+  });
+
   public getSession(token: string): Promise<Session | undefined> {
     return new Promise((resolve, reject) => {
       this.app.db.query<SessionDB[]>('SELECT * FROM sessions WHERE refresh_token = ?', [token], async (err, results) => {
@@ -75,16 +88,5 @@ export class SessionsManager extends Base<Session> {
         },
       );
     });
-  }
-  public validate(data: Session): string | false {
-    if (!data.id || data.id.length > 50) return 'session user id invalid';
-    if (!data.user_id || data.user_id.length > 50) return 'session user id invalid';
-    if (data.refresh_token && data.refresh_token.length > 200) return 'session refresh token invalid';
-    if (!data.expire_token) return 'session expire token invalid';
-    if (!data.last_refresh_timestamp) return 'session last refresh invalid';
-    if (data.active != 0 && data.active != 1) return 'session active invalid';
-    if (!data.login_timestamp) return 'session last login invalid';
-    if (!data.logout_timestamp) return 'session last logout invalid';
-    return false;
   }
 }

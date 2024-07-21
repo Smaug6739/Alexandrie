@@ -1,10 +1,22 @@
 import Base from './Base';
+import { Validator } from './Validator';
 import type { ConnectionLog, ConnectionLogDB } from '../types';
 
-export class ConnectionsLogsManager extends Base<ConnectionLog> {
+export class ConnectionsLogsManager extends Base {
   constructor(app: App) {
     super(app);
   }
+
+  public validator = new Validator({
+    id: { minLength: 1, maxLength: 50, type: 'string', error: 'connection log id invalid' },
+    user_id: { minLength: 1, maxLength: 50, type: 'string', error: 'connection log user id invalid' },
+    ip_adress: { maxLength: 50, type: 'string', error: 'connection log ip adress invalid', optional: true },
+    user_agent: { maxLength: 200, type: 'string', error: 'connection log user agent invalid', optional: true },
+    location: { maxLength: 200, type: 'string', error: 'connection log location invalid', optional: true },
+    type: { minLength: 1, maxLength: 10, type: 'string', error: 'connection log type invalid' },
+    timestamp: { minLength: 1, maxLength: 50, type: 'string', error: 'connection log timestamp invalid' },
+  });
+
   public getConnections(user_id: string): Promise<ConnectionLogDB[]> {
     return new Promise((resolve, reject) => {
       this.app.db.query<ConnectionLogDB[]>(
@@ -13,6 +25,18 @@ export class ConnectionsLogsManager extends Base<ConnectionLog> {
         async (err, results) => {
           if (err) return reject('Internal database error.');
           resolve(results);
+        },
+      );
+    });
+  }
+  public getLastConnection(user_id: string): Promise<ConnectionLogDB | undefined> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<ConnectionLogDB[]>(
+        'SELECT * FROM connections_logs WHERE user_id = ? ORDER BY timestamp DESC LIMIT 1',
+        [user_id],
+        async (err, results) => {
+          if (err) return reject('Internal database error.');
+          resolve(results?.[0]);
         },
       );
     });
@@ -97,9 +121,6 @@ export class ConnectionsLogsManager extends Base<ConnectionLog> {
       .reduce(function (int, value) {
         return BigInt(int) * BigInt(65536) + BigInt(value);
       });
-
-    console.log(ip_int);
-
     return new Promise((resolve, reject) => {
       this.app.db.query<ConnectionLogDB[]>(
         'SELECT * FROM City_IPv6_complete WHERE ? BETWEEN network_start_integer AND network_last_integer',

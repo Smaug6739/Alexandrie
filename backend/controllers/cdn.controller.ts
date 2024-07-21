@@ -17,7 +17,7 @@ export function convertImageToWebp(upload_path: string, filename: string): Promi
     });
   });
 }
-export default class RessourcesController extends BaseController<RessourcesManager, Ressource> {
+export default class RessourcesController extends BaseController<RessourcesManager> {
   constructor(app: App) {
     super(new RessourcesManager(app));
   }
@@ -58,7 +58,26 @@ export default class RessourcesController extends BaseController<RessourcesManag
       this.manager
         .createRessource(ressource)
         .then(r => res.status(201).json(this.utils.success(r)))
-        .catch(err => res.status(500).json(this.utils.error(err.message)));
+        .catch(err => res.status(500).json(this.utils.error(err)));
+    } catch (err) {
+      res.status(500).json(this.utils.error(err));
+    }
+  }
+
+  async addAvatar(req: Request, res: Response) {
+    try {
+      if (typeof req.files != 'object' || !('file' in req.files) || !req.files.file[0]) {
+        throw new Error('No file provided.');
+      }
+      const file = req.files['file'][0];
+      const filename = file.filename;
+
+      if (!filename) throw new Error('No file provided.');
+
+      if (Object.keys(this.utils.MIME_TYPES_IMAGE).includes(file.mimetype)) {
+        const converted = await convertImageToWebp(this.app.config.upload_path, filename);
+        res.status(201).json(this.utils.success({ original_path: converted[0], transformed_path: converted[1] }));
+      }
     } catch (err) {
       res.status(500).json(this.utils.error(err));
     }

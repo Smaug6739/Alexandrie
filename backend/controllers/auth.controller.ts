@@ -8,7 +8,7 @@ import { UsersManager, SessionsManager, ConnectionsLogsManager } from '../classe
 import type { Session, User, ConnectionLog } from '../types';
 import type { Request, Response } from 'express';
 
-export default class Authentification extends BaseController<UsersManager, User> {
+export default class Authentification extends BaseController<UsersManager> {
   sessions: SessionsManager;
   logs: ConnectionsLogsController;
   constructor(app: App) {
@@ -18,7 +18,6 @@ export default class Authentification extends BaseController<UsersManager, User>
   }
   public async login(req: Request, res: Response) {
     try {
-      this.app.logger.info(`[AUTH] User ${req.body.username} is trying to connect...`);
       const user = await this.manager.get(req.body.username);
       if (!user) throw new Error('Bad username/password.');
       if (!(await this.check_password(user, req.body.password))) throw new Error('Bad username/password.');
@@ -35,12 +34,9 @@ export default class Authentification extends BaseController<UsersManager, User>
 
       await this.sessions.createConnection(session);
       const accessToken = this.sign_access_token(user);
-      console.log(`[AUTH] User ${user.id} connected. Signing new token...`);
       this.set_cookies(res, accessToken, session.refresh_token);
       const { password, ...userWithoutPassword } = user;
       res.status(200).json(this.utils.success({ auth: true, user: userWithoutPassword }));
-
-      this.app.logger.success(`[AUTH] User ${user.username} connected.`);
       this.logs.add(req, 'login', user.id);
     } catch (e) {
       res.status(500).json(this.utils.error(e));
@@ -59,7 +55,6 @@ export default class Authentification extends BaseController<UsersManager, User>
     const refreshToken = req.cookies.user_refresh_token;
     try {
       if (!refreshToken) throw 'No refresh token provided';
-
       // Check if refresh token is valid
       const session = await this.sessions.getSession(refreshToken);
       if (!session) throw 'Session not found';
@@ -81,11 +76,12 @@ export default class Authentification extends BaseController<UsersManager, User>
       this.app.logger.success(`[AUTH] User ${user.username} refreshed token.`);
     } catch (e) {
       this.app.logger.error(`[AUTH] Error while refreshing token: ${e}`);
-      this.sessions.deleteSession(refreshToken);
+      //this.sessions.deleteSession(refreshToken);
       res.status(401).json(this.utils.error(e));
     }
   }
   private async check_password(user: User, password: string): Promise<boolean> {
+    if (!password || !user.password) return false;
     const valid = await compare(password, user.password);
     return valid;
   }
@@ -109,7 +105,7 @@ export default class Authentification extends BaseController<UsersManager, User>
   }
 }
 
-class ConnectionsLogsController extends BaseController<ConnectionsLogsManager, ConnectionLog> {
+class ConnectionsLogsController extends BaseController<ConnectionsLogsManager> {
   constructor(app: App) {
     super(new ConnectionsLogsManager(app));
   }

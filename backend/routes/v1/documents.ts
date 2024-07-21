@@ -10,7 +10,7 @@ export default (client: App): Iroute => {
     route: 'documents',
     version: 1,
     router() {
-      DocumentsRouter.get('/', (req, res) => controller.getAllDocuments(req, res));
+      DocumentsRouter.get('/', authMid, (req, res) => controller.getAllDocuments(req, res));
       DocumentsRouter.get('/:id', authMid, (req, res) => controller.getDocument(req, res));
       DocumentsRouter.post('/', authMid, (req, res) => controller.add(req, res));
       DocumentsRouter.patch('/:id', authMid, (req, res) => controller.updateDocument(req, res));

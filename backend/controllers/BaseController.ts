@@ -1,7 +1,7 @@
 import * as utils from '../utils';
 import type Base from '../classes/Base';
 
-export default abstract class BaseController<T extends Base<V>, V> {
+export default abstract class BaseController<T extends Base> {
   public app: App;
 
   protected manager: T;

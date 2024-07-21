@@ -21,6 +21,7 @@ export interface Category {
   icon?: string;
   order?: number;
   parent_id?: string;
+  author_id: string;
 }
 
 export interface User {
@@ -32,6 +33,7 @@ export interface User {
   email: string;
   password: string;
   created_timestamp: string;
+  updated_timestamp: string;
 }
 
 export interface Ressource {

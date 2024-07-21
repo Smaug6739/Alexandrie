@@ -1,15 +1,29 @@
 import Base from './Base';
+import { Validator } from './Validator';
 import type { User, UserDB } from '../types';
 
-export class UsersManager extends Base<User> {
+export class UsersManager extends Base {
   constructor(app: App) {
     super(app);
   }
+
+  public validator = new Validator({
+    id: { minLength: 1, maxLength: 50, type: 'string', error: 'user id invalid' },
+    username: { minLength: 1, maxLength: 25, type: 'string', error: 'user username invalid' },
+    firstname: { maxLength: 25, type: 'string', error: 'user firstname invalid', optional: true },
+    lastname: { maxLength: 25, type: 'string', error: 'user lastname invalid', optional: true },
+    avatar: { maxLength: 75, type: 'string', error: 'user avatar invalid', optional: true },
+    email: { maxLength: 50, type: 'string', error: 'user email invalid' },
+    password: { maxLength: 255, type: 'string', error: 'user password invalid' },
+    created_timestamp: { maxLength: 50, type: 'string', error: 'user created timestamp invalid' },
+    updated_timestamp: { maxLength: 50, type: 'string', error: 'user updated timestamp invalid' },
+  });
+
   public get(username: string): Promise<UserDB> {
     return new Promise((resolve, reject) => {
       this.app.db.query<UserDB[]>('SELECT * FROM users WHERE username = ? LIMIT 1', [username], async (err, results) => {
         if (err) return reject('Internal database error.');
-        if (!results[0]) return reject('Bad username.');
+        if (!results[0]) return reject('Bad username or password.');
         resolve(results[0]);
       });
     });
@@ -17,7 +31,7 @@ export class UsersManager extends Base<User> {
   public getPublic(id: string): Promise<UserDB> {
     return new Promise((resolve, reject) => {
       this.app.db.query<UserDB[]>(
-        'SELECT id, username, firstname, lastname, avatar, email, created_timestamp FROM users WHERE id = ? LIMIT 1',
+        'SELECT id, username, firstname, lastname, avatar, email, created_timestamp, updated_timestamp FROM users WHERE id = ?',
         [id],
         async (err, results) => {
           if (err) return reject('Internal database error.');
@@ -29,23 +43,35 @@ export class UsersManager extends Base<User> {
   }
   public getById(id: string): Promise<UserDB> {
     return new Promise((resolve, reject) => {
-      this.app.db.query<UserDB[]>('SELECT * FROM users WHERE id = ? LIMIT 1', [id], async (err, results) => {
+      this.app.db.query<UserDB[]>('SELECT * FROM users WHERE id = ?', [id], async (err, results) => {
         if (err) return reject('Internal database error.');
         if (!results[0]) return reject('Bad user id.');
         resolve(results[0]);
       });
     });
   }
-
-  public validate(data: User): string | false {
-    if (!data.id || data.id.length > 50) return 'user id invalid';
-    if (!data.username || data.username.length > 25) return 'user username invalid';
-    if (!data.firstname || data.firstname.length > 25) return 'user firstname invalid';
-    if (!data.lastname || data.lastname.length > 25) return 'user lastname invalid';
-    if (!data.avatar || data.avatar.length > 75) return 'user avatar invalid';
-    if (!data.email || data.email.length > 50) return 'user email invalid';
-    if (!data.password || data.password.length > 255) return 'user password invalid';
-    if (!data.created_timestamp || data.created_timestamp.length > 50) return 'user created timestamp invalid';
-    return false;
+  public put(id: string, data: Omit<User, 'id' | 'password' | 'created_timestamp'>) {
+    return new Promise((resolve, reject) => {
+      const error = this.validator.validate(data);
+      if (error) return reject(error);
+      this.app.db.query<UserDB[]>(
+        'UPDATE users SET firstname = ?, lastname = ?, avatar = ?, email = ?, updated_timestamp = ? WHERE id = ?',
+        [data.firstname, data.lastname, data.avatar, data.email, data.updated_timestamp, id],
+        err => {
+          if (err) return reject('Internal database error.');
+          resolve({ id, ...data });
+        },
+      );
+    });
+  }
+  public updatePassword(data: Pick<User, 'password' | 'id'>) {
+    return new Promise((resolve, reject) => {
+      const error = this.validator.validate(data);
+      if (error) return reject(error);
+      this.app.db.query<UserDB[]>('UPDATE users SET password = ? WHERE id = ?', [data.password, data.id], err => {
+        if (err) return reject('Internal database error.');
+        resolve(true);
+      });
+    });
   }
 }

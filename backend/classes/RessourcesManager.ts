@@ -1,10 +1,23 @@
 import Base from './Base';
+import { Validator } from './Validator';
 import type { IObject, Ressource, RessourceDB } from '../types';
 
-export class RessourcesManager extends Base<Ressource> {
+export class RessourcesManager extends Base {
   constructor(app: App) {
     super(app);
   }
+
+  public validator = new Validator({
+    id: { minLength: 1, maxLength: 50, type: 'string', error: 'ressource id invalid' },
+    filename: { minLength: 1, maxLength: 50, type: 'string', error: 'ressource filename invalid' },
+    file_size: { type: 'number', error: 'ressource file size invalid' },
+    file_type: { minLength: 1, maxLength: 100, type: 'string', error: 'ressource file type invalid' },
+    original_path: { minLength: 1, maxLength: 100, type: 'string', error: 'ressource original path invalid' },
+    transformed_path: { maxLength: 100, type: 'string', error: 'ressource transformed path invalid', optional: true },
+    author_id: { minLength: 1, maxLength: 50, type: 'string', error: 'ressource author id invalid' },
+    created_timestamp: { minLength: 1, maxLength: 50, type: 'string', error: 'ressource created timestamp invalid' },
+  });
+
   public getRessources(user_id: string): Promise<Ressource[]> {
     return new Promise((resolve, reject) => {
       this.app.db.query<RessourceDB[]>('SELECT * FROM ressources WHERE author_id = ?', [user_id], async (err, results) => {

@@ -1,6 +1,7 @@
 import { App } from '../App';
+import Validator from './Validator';
 
-export default abstract class Base<T> {
+export default abstract class Base {
   // Define the app main class
   readonly app: App;
 
@@ -9,5 +10,5 @@ export default abstract class Base<T> {
     this.app = app;
   }
 
-  public abstract validate(data: T): string | false;
+  public abstract validator: Validator;
 }

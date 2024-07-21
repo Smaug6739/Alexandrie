@@ -1,24 +1,34 @@
 import Base from './Base';
+import { Validator } from './Validator';
 import type { Document, DocumentDB } from '../types';
 
-export class DocumentsManager extends Base<Document> {
+export class DocumentsManager extends Base {
   constructor(app: App) {
     super(app);
   }
 
-  public getAll(all?: string) {
-    // If all is true, return all documents, else return only public documents (accessibility = 1)
+  public validator = new Validator({
+    id: { minLength: 1, maxLength: 50, type: 'string', error: 'document id invalid' },
+    name: { minLength: 1, maxLength: 50, type: 'string', error: 'document name invalid' },
+    description: { maxLength: 255, type: 'string', error: 'document description invalid', optional: true },
+    tags: { maxLength: 200, type: 'string', error: 'document tags invalid', optional: true },
+    category: { maxLength: 50, type: 'string', error: 'document category invalid', optional: true },
+    parent_id: { maxLength: 50, type: 'string', error: 'document parent id invalid', optional: true },
+    accessibility: { error: 'document accessibility invalid' },
+    content_markdown: { maxLength: 4_294_967_295, type: 'string', error: 'document content markdown invalid', optional: true },
+    content_html: { maxLength: 4_294_967_295, type: 'string', error: 'document content html invalid', optional: true },
+    author_id: { minLength: 1, maxLength: 50, type: 'string', error: 'document author id invalid' },
+    created_timestamp: { maxLength: 50, type: 'string', error: 'document created timestamp invalid' },
+    updated_timestamp: { maxLength: 50, type: 'string', error: 'document updated timestamp invalid' },
+  });
+
+  public getAll(user_id: string) {
     return new Promise<Document[]>((resolve, reject) => {
       this.app.db.query<DocumentDB[]>(
-        `SELECT id, name, description, tags, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents ${
-          all == 'true' ? '' : 'WHERE `accessibility` = 1'
-        } ORDER BY \`name\``,
+        `SELECT id, name, description, tags, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ? ORDER BY name`,
+        [user_id],
         (err, result) => {
-          if (err) {
-            console.error(err);
-            console.error(err.stack);
-            return reject('Internal database error.');
-          }
+          if (err) return reject('Internal database error.');
           resolve(result);
         },
       );
@@ -38,21 +48,22 @@ export class DocumentsManager extends Base<Document> {
       );
     });
   }
-  get(id: string) {
-    return new Promise<Document>((resolve, reject) => {
-      if (!id) return reject(new Error('id must be provided'));
-      this.app.db.query<DocumentDB[]>('SELECT * FROM documents WHERE id = ?', [id], (err, result) => {
-        if (err) return reject('Internal database error.');
-        if (!result[0]) return reject('Document not found.');
-        resolve(result[0]);
-      });
+  get(id: string, author_id: string) {
+    return new Promise<Document | undefined>((resolve, reject) => {
+      this.app.db.query<DocumentDB[]>(
+        'SELECT * FROM documents WHERE id = ? AND author_id = ?',
+        [id, author_id],
+        (err, result) => {
+          if (err) return reject('Internal database error.');
+          resolve(result[0]);
+        },
+      );
     });
   }
   public add(data: Document) {
     return new Promise((resolve, reject) => {
-      if (!data.name) return reject(new Error('name must be provided'));
-      if (!data.accessibility && data.accessibility != 0) return reject(new Error('accessibility must be provided'));
-      if (!data.author_id) return reject(new Error('author_id must be provided'));
+      const error = this.validator.validate(data);
+      if (error) return reject(error);
       this.app.db.query<DocumentDB[]>(
         'INSERT INTO documents (`id`, `name`, `description`, `tags`, `category`, `parent_id`, `accessibility`, `content_markdown`, `content_html`, `author_id`, `created_timestamp`, `updated_timestamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
@@ -78,10 +89,8 @@ export class DocumentsManager extends Base<Document> {
   }
   public put(id: string, data: Omit<Document, 'id' | 'created_timestamp'>) {
     return new Promise((resolve, reject) => {
-      if (!id) return reject(new Error('id must be provided'));
-      if (!data.name) return reject(new Error('name must be provided'));
-      if (!data.accessibility && data.accessibility != 0) return reject(new Error('accessibility must be provided'));
-      if (!data.author_id) return reject(new Error('author_id must be provided'));
+      const error = this.validator.validate(data);
+      if (error) return reject(error);
       this.app.db.query<DocumentDB[]>(
         'UPDATE documents SET name = ?, description = ?, tags = ?, category = ?, parent_id = ?, accessibility = ?, content_markdown = ?, content_html = ?, updated_timestamp = ? WHERE id = ?',
         [
@@ -112,21 +121,5 @@ export class DocumentsManager extends Base<Document> {
         resolve(true);
       });
     });
-  }
-
-  public validate(data: Document): string | false {
-    if (!data.id || data.id.length > 50) return 'document id invalid';
-    if (!data.name || data.name.length > 50) return 'document name invalid';
-    if (data.description && data.description.length > 255) return 'document description invalid';
-    if (data.tags && data.tags.length > 200) return 'document tags invalid';
-    if (data.category && data.category.length > 50) return 'document category invalid';
-    if (data.parent_id && data.parent_id.length > 50) return 'document parent id invalid';
-    if (!data.accessibility && data.accessibility > 10) return 'document accessibility invalid';
-    if (data.content_markdown && data.content_markdown.length > 4_294_967_295) return 'document content markdown invalid';
-    if (data.content_html && data.content_html.length > 4_294_967_295) return 'document content html invalid';
-    if (!data.author_id || data.author_id.length > 50) return 'document author id invalid';
-    if (!data.created_timestamp || data.created_timestamp.length > 50) return 'document created timestamp invalid';
-    if (!data.updated_timestamp || data.updated_timestamp.length > 50) return 'document updated timestamp invalid';
-    return false;
   }
 }
