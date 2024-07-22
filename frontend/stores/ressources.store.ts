@@ -27,6 +27,14 @@ export const useRessourcesStore = defineStore('ressources', {
         } else reject(request.message);
       });
     },
+    postAvatar(ressource: FormData): Promise<{ original_path: string; transformed_path: string }> {
+      return new Promise(async (resolve, reject) => {
+        const request = await makeRequest(`ressources/avatar`, 'POST', ressource);
+        if (request.status == 'success') {
+          resolve(request.result as { original_path: string; transformed_path: string });
+        } else reject(request.message);
+      });
+    },
     delete(id: string) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`ressources/${id}`, 'DELETE', {});

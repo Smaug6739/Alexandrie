@@ -10,7 +10,7 @@ $green: #009879;
 $grey: #ffffffd9;
 $black: #27323A;
 
-$primary-400: #007aff;
+$primary-400: #334155;
 $primary-300: lighten($primary-400, 10%);
 $primary-500: darken($primary-400, 10%);
 
@@ -23,6 +23,8 @@ $monospace-font: monospace;
 $transition-duration: 0.3s;
 
 :root {
+
+	--primary-400: #334155;
 
 	--bg-color: #fff;
 	--bg-contrast: #F1F6FD;

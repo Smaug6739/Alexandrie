@@ -1,41 +1,45 @@
-import { createWriteStream, unlinkSync, readdirSync } from 'fs';
-import { spawn } from 'child_process';
-import { error, success } from '../utils/functions';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 import type { Request, Response } from 'express';
+import BaseController from './BaseController';
+import { BackupManager } from '../classes';
 
-export default class BackupController {
-  app: App;
-  constructor(app: App) {
+export default class BackupController extends BaseController<any> {
+  constructor(app: any) {
+    super(new BackupManager(app));
     this.app = app;
   }
 
-  async add(_: Request, res: Response) {
-    // Clean the uploads directory
-    const files = readdirSync(this.app.config.upload_path + '/backups');
-    for (const file of files) {
-      if (file.endsWith('.sql')) unlinkSync(`${this.app.config.upload_path}/backups/${file}`);
-    }
-    const name = `backup-${new Date().toISOString().split('T')[0]}-${Date.now()}`;
-    const mysqldump = spawn('mysqldump', [
-      '-u',
-      `${process.env.DATABASE_USER}`,
-      `-p${process.env.DATABASE_PASSWORD}`,
-      'alexandrie',
-    ]);
+  async add(req: Request, res: Response) {
+    const userId = req.user_id;
+    if (!userId) return res.status(401).send({ message: 'Unauthorized' });
+    const date = new Date().toISOString().split('T')[0];
+    const timestamp = Date.now();
+    const name = `backup-${date}-${timestamp}.json`;
 
-    const wstream = createWriteStream(`${this.app.config.upload_path}/backups/${name}.sql`);
-    const backupPromise = new Promise<void | string>((resolve, reject) => {
-      mysqldump.stdout
-        .pipe(wstream)
-        .on('finish', function () {
-          resolve();
-        })
-        .on('error', function (err) {
-          reject(err.message);
-        });
-    });
-    backupPromise
-      .then(() => res.json(success({ url: `/backups/${name}.sql` })))
-      .catch((err: Error) => res.json(error(err.message)));
+    const backupDir = path.join(this.app.config.upload_path, 'backups', userId);
+    const backupFile = path.join(backupDir, name);
+
+    try {
+      // Check if the directory exists
+      try {
+        await fs.access(backupDir);
+        // If directory exists, clean it
+        const files = await fs.readdir(backupDir);
+        await Promise.all(files.map(file => fs.unlink(path.join(backupDir, file))));
+      } catch (error: any) {
+        if (error.code === 'ENOENT') {
+          // If directory does not exist, create it
+          await fs.mkdir(backupDir, { recursive: true });
+        } else {
+          throw error;
+        }
+      }
+
+      await this.manager.saveBackup(userId, backupFile);
+      res.status(201).json(this.utils.success({ url: `/backups/${req.user_id}/${name}` }));
+    } catch (err) {
+      res.status(500).json(this.utils.error(err));
+    }
   }
 }

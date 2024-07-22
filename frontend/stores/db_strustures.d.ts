@@ -36,6 +36,16 @@ export interface User {
   email: string;
   created_timestamp: string;
 }
+
+export interface ConnectionLog {
+  id: string;
+  user_id: string;
+  ip_adress?: string;
+  user_agent?: string;
+  location?: string;
+  type: string;
+  timestamp: string; // BIGINT converted to string
+}
 export interface DB_Ressource {
   id: string;
   filename: string;

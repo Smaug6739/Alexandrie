@@ -121,16 +121,22 @@ textarea {
 	color: var(--font-color);
 	border-radius: 6px;
 	transition: border-color $transition-duration, box-shadow $transition-duration;
+	font-size: 1rem;
 
 	&:focus {
 		box-shadow: 0 0 5px rgba(var(--primary-color-rgb), 0.2);
+	}
+
+	&:disabled {
+		opacity: 0.8;
+		cursor: not-allowed;
 	}
 }
 
 label {
 	display: block;
 	margin-bottom: 0.5rem;
-	font-weight: 600;
+	font-weight: 500;
 }
 
 mark {
@@ -154,6 +160,7 @@ p {
 
 select {
 	font-family: $external-font;
+	font-size: 15px;
 	border: 1px solid var(--border-color);
 	border-radius: 5px;
 }

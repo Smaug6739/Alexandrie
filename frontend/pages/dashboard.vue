@@ -12,8 +12,7 @@ import Sidebar from '~/components/Sidebar/Sidebar.vue';
 import { useDocumentsStore, useCategoriesStore } from '@/stores';
 
 definePageMeta({ breadcrumb: 'Home' });
-useDocumentsStore().fetch();
-useCategoriesStore().fetch();
-
-useUserStore().fetch().then(r => console.log(r))
+await useDocumentsStore().fetch();
+await useCategoriesStore().fetch();
+await useUserStore().fetch()
 </script>

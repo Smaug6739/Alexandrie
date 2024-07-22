@@ -30,8 +30,8 @@
 					<input type="number" v-model.number="category.order" id="order" />
 				</div>
 				<div style="display: flex;">
-					<button type="submit" class="btn update">Update</button>
-					<button class="btn delete" @click="deleteCategory()">Delete</button>
+					<button class="btn danger" @click="deleteCategory()">Delete</button>
+					<button type="submit" class="btn primary">Update</button>
 				</div>
 			</form>
 		</div>
@@ -84,30 +84,10 @@ h2 {
 
 .input-group {
 	margin-bottom: 20px;
-	position: relative;
 }
 
-
-
-.btn {
-	display: block;
-	font-weight: 600;
-	border: 2px solid var(--bg-contrast);
-
-	&.update {
-		background-color: $primary-400;
-
-		&:hover {
-			background-color: $primary-500;
-		}
-	}
-
-	&.delete {
-		background-color: $red;
-
-		&:hover {
-			background-color: darken($red, 10%);
-		}
-	}
+input,
+textarea {
+	width: 100%;
 }
 </style>

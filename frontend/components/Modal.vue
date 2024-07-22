@@ -1,12 +1,12 @@
 <script setup lang="ts">
-defineProps<{ show: boolean, size?: 'large' }>()
+defineProps<{ show: boolean }>()
 const emit = defineEmits(['close', 'confirm'])
 </script>
 
 <template>
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
-      <div class="modal-container" :class="size">
+      <div class="modal-container">
         <slot></slot>
       </div>
     </div>
@@ -41,13 +41,6 @@ const emit = defineEmits(['close', 'confirm'])
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
-}
-
-.large {
-  width: 1150px;
-  height: calc(-100px + 100vh);
-  max-width: calc(-100px + 100vw);
-  max-height: 715px;
 }
 
 .modal-enter-from .modal-container,

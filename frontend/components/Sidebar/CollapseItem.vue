@@ -23,7 +23,7 @@
 	<SidebarItem v-else :item="item" />
 </template>
 <script setup lang="ts">
-import { type Item } from './tree_builder';
+import type { Item } from './tree_builder';
 import SidebarItem from './SidebarItem.vue';
 
 defineProps<{ item: Item, root?: boolean }>();

@@ -46,6 +46,29 @@
 	display: flex;
 }
 
+.btn {
+	display: block;
+	font-weight: 600;
+	margin-right: 5px;
+	color: #fff;
+
+	&.primary {
+		background: var(--primary-400);
+
+		&:hover {
+			background: $primary-500;
+		}
+	}
+
+	&.danger {
+		background: $red;
+
+		&:hover {
+			background: darken($red, 10%);
+		}
+	}
+}
+
 body {
 	background: var(--bg-color);
 	color: var(--font-color);

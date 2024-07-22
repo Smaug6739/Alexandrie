@@ -24,7 +24,7 @@
           <label for="order">Ordre</label>
           <input type="number" v-model.number="category.order" id="order" />
         </div>
-        <button type="submit" class="submit">Créer</button>
+        <button type="submit" class="btn primary">Create</button>
       </form>
     </div>
   </div>
@@ -69,17 +69,5 @@ h2 {
 .input-group {
   margin-bottom: 20px;
   position: relative;
-}
-
-.submit {
-  display: block;
-  font-weight: 600;
-  border: 2px solid var(--bg-contrast);
-  background-color: $primary-400;
-  color: var(--font-color);
-
-  &:hover {
-    background-color: $primary-500;
-  }
 }
 </style>

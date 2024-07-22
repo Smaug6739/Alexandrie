@@ -1,37 +1,37 @@
 <template>
-	<NuxtLink class="item" :to="item.route" @click="() => item.route && toggle()" :draggable="draggable"
-		@dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave"
-		:class="{ 'drag-over': isDragOver }">
-		<i v-html="getIcon(item)" class="icon"></i>
+	<NuxtLink class="item" :to="item.route" @click="onClick" :draggable="draggable" @dragstart="dragStart"
+		@dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }">
+		<Icon :name="getIcon(item)" />
 		<span>{{ item.title }}</span>
 		<slot></slot>
 	</NuxtLink>
 </template>
 
 <script setup lang="ts">
-
 import { useDocumentsStore, useCategoriesStore } from '~/stores';
 
 const documentStore = useDocumentsStore();
 const categoriesStore = useCategoriesStore();
 
 import type { Item } from './tree_builder';
-import { icons, navigationItems } from './helpers';
+import { navigationItems } from './helpers';
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
 
 function getIcon(item: Item) {
 	if ('icon' in item.data && item.data.icon) return item.data.icon;
-	if (item.data.type === 'category') return icons.folder;
-	if (item.data.type === 'document' && item.childrens?.length) return icons.file_parent;
-	if (item.data.type === 'document' && item.data.accessibility == 2) return icons.draft;
-	if (item.data.type === 'document' && item.data.accessibility == 3) return icons.archive;
-	return icons.file;
+	if (item.data.type === 'category') return 'folder';
+	if (item.data.type === 'document' && item.childrens?.length) return 'file_parent';
+	if (item.data.type === 'document' && item.data.accessibility == 2) return 'draft';
+	if (item.data.type === 'document' && item.data.accessibility == 3) return 'archive';
+	return 'file';
 }
-const toggle = () => isMobile() && (isOpened.value = false);
-
 const draggable = ref<boolean>(true);
 const isDragOver = ref<boolean>(false);
+
+const onClick = () => {
+	if (isMobile()) isOpened.value = false;
+};
 
 const dragStart = (event: DragEvent) => {
 	// Stocke l'ID de l'élément en cours de glissement
