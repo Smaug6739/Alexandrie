@@ -162,17 +162,12 @@ const isLoading = ref(false);
 
 async function submitFile() {
   isLoading.value = true;
-  const response = await fetch(`${import.meta.env.VITE_BASE_API}/api/v1/backups`, {
-    method: 'POST',
-    credentials: 'include',
-  });
-  const result = await response.json();
+  const result = await makeRequest<{ url: string }>('backups', 'POST', {});
   isLoading.value = false;
   if (result.status != 'success') {
-    useNotifications().add({ type: 'error', title: 'Error', message: result.message, timeout: 5000 });
-    return;
+    return useNotifications().add({ type: 'error', title: 'Error', message: result.message, timeout: 5000 });
   }
-  downloadLink.value = `${import.meta.env.VITE_BASE_API}/static${result.result.url}`;
+  downloadLink.value = `${CDN}/${result.result?.url || ''}`;
 }
 </script>
 

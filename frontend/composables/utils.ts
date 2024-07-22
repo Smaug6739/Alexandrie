@@ -1,4 +1,7 @@
-const CDN = `${import.meta.env.VITE_BASE_API}/static`;
+import type { User } from '../stores/db_strustures';
+
+export const CDN = import.meta.env.VITE_BASE_CDN;
+const API = `${import.meta.env.VITE_BASE_API}/api/v1`;
 
 const colors = ['var(--blue)', 'var(--turquoise)', 'var(--yellow)', 'var(--red)', 'var(--red)'];
 
@@ -15,7 +18,7 @@ export function useColorHash(str: string): string {
 
 export interface APIResult<Data> {
   status: 'success' | 'error';
-  message?: string;
+  message: string;
   result?: Data;
 }
 
@@ -24,12 +27,10 @@ export interface FetchOptions {
 }
 export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : false);
 
-export const baseUrl = import.meta.env.VITE_BASE_API?.toString() || '';
-import type { User } from '../stores/db_strustures';
 export async function makeRequest<T>(route: string, method: string, body: Object, retry = false): Promise<APIResult<T>> {
   const userStore = useUserStore();
   console.log(`[API] Requesting ${method} ${route}`);
-  const response = await fetch(`${baseUrl}/api/v1/${route}`, {
+  const response = await fetch(`${API}/${route}`, {
     method: method,
     body: method === 'GET' || method === 'DELETE' ? null : body instanceof FormData ? body : JSON.stringify(body),
     headers: body instanceof FormData ? {} : { 'Content-Type': 'application/json; charset=UTF-8' },
@@ -106,8 +107,5 @@ export function parseUserAgent(uaString?: string) {
     }
   }
 
-  return {
-    os: os,
-    browser: browser,
-  };
+  return { os, browser };
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 
 	"github.com/gorilla/handlers"
@@ -11,8 +12,10 @@ import (
 )
 
 func main() {
-	port := ":3002"
-
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3002"
+	}
 	r := mux.NewRouter()
 
 	fileHandler := http.FileServer(http.Dir("../uploads"))
