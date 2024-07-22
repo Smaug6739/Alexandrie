@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'modal-mask': isMobile() && isOpened }"></div>
   <Resizable>
-    <div class="sidebar-content">
+    <div class="sidebar">
       <section class="header">
         <span class="name">
           <IconApp />
@@ -9,12 +9,12 @@
         </span>
         <IconClose class="btn" />
       </section>
-      <input type="text" placeholder="Search or Ctrl + q" class="search" v-model="filter" />
+      <input type="text" placeholder="Search or ctrl + q" class="search" v-model="filter" />
 
       <div class="user" v-if="usrStr.user">
         <img :src="useAvatar(usrStr.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
         <div>
-          <div class="username">{{ usrStr.user.username }}</div>
+          <div>{{ usrStr.user.username }}</div>
           <div class="email">{{ usrStr.user.email }}</div>
         </div>
       </div>
@@ -47,14 +47,16 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 
 const items = computed((): Item[] => {
   const navigation: Item[] = navigationItems.map(item => ({ id: item.id, parent_id: '', title: item.title, route: item.route, icon: item.icon, type: 'navigation', data: item }));
-  const categories: Item[] = categoriesStore.categories.map((category: Category) => ({
-    id: category.id,
-    parent_id: category.parent_id || '',
-    title: category.name,
-    route: category.parent_id ? `/dashboard/categories/${category.id}` : '',
-    icon: category.icon,
-    data: category,
-  }));
+  const categories: Item[] = categoriesStore.categories
+    .map((category: Category) => ({
+      id: category.id,
+      parent_id: category.parent_id || '',
+      title: category.name,
+      route: category.parent_id ? `/dashboard/categories/${category.id}` : '',
+      icon: category.icon,
+      data: category,
+    }))
+    .filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
   const documents: Item[] = documentsStore.documents
     .map(document => ({
       id: document.id,
@@ -88,7 +90,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-.sidebar-content {
+.sidebar {
   margin: 0 0 0 10px;
 }
 
@@ -129,9 +131,9 @@ onBeforeUnmount(() => {
 .user {
   display: flex;
   align-items: center;
-  margin-top: 4px;
+  margin: 4px 0 0 5px;
   div {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     margin-left: 5px;
     .email {
       font-size: 0.7rem;
