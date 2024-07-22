@@ -27,7 +27,7 @@ func main() {
 	r.Use(securityHeadersMiddleware)
 
 	fmt.Println("Server is running on port", port)
-	log.Fatal(http.ListenAndServe(port, r))
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }
 
 func securityHeadersMiddleware(next http.Handler) http.Handler {
@@ -35,7 +35,6 @@ func securityHeadersMiddleware(next http.Handler) http.Handler {
 		//w.Header().Set("Content-Security-Policy", "default-src 'self'")
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("X-Frame-Options", "DENY")
-		w.Header().Set("Strict-Transport-Security", "max-age=63072000; includeSubDomains")
 		// If url starts with /other or /backups, add 'Content-Disposition', `attachment; filename` header
 		if strings.HasPrefix(r.URL.Path, "/other") || strings.HasPrefix(r.URL.Path, "/backups") {
 			w.Header().Set("Content-Disposition", "attachment; filename")
