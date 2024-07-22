@@ -37,9 +37,9 @@ export default class BackupController extends BaseController<any> {
       }
 
       await this.manager.saveBackup(userId, backupFile);
-      res.status(201).json(this.utils.success({ url: `/backups/${req.user_id}/${name}` }));
+      return res.status(201).json(this.utils.success({ url: `/backups/${req.user_id}/${name}` }));
     } catch (err) {
-      res.status(500).json(this.utils.error(err));
+      return res.status(500).json(this.utils.error(err));
     }
   }
 }
