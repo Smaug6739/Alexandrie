@@ -64,19 +64,6 @@ export class App {
   public async start() {
     this.handleMiddlewares();
     await this.handleRoutes();
-    const staticOptions = {
-      dotfiles: 'ignore',
-      etag: false,
-      index: false,
-      maxAge: '7d',
-      redirect: false,
-      setHeaders: function (res: Response) {
-        res.set('x-timestamp', Date.now().toString());
-        if (res.req.url.startsWith('/backups')) res.setHeader('Content-Disposition', `attachment; filename`);
-      },
-    };
-    this.app.use('/static', express.static(this.config.upload_path, staticOptions));
-
     this.app.listen(this.port, () => {
       Logger.success(`Started on port ${this.port}`);
     });
