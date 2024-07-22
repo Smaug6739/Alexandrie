@@ -25,7 +25,10 @@ export interface APIResult<Data> {
 export interface FetchOptions {
   id: string; // id of the ressource
 }
+// Little screen size
 export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : false);
+// Intermediate screen size
+export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
 export async function makeRequest<T>(route: string, method: string, body: Object, retry = false): Promise<APIResult<T>> {
   const userStore = useUserStore();

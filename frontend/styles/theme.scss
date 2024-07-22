@@ -4,12 +4,12 @@ a {
 	transition: color $transition-duration;
 
 	&:hover {
-		color: $primary-400;
+		color: $primary-500;
 	}
 }
 
 blockquote {
-	border-left: 4px solid var(--primary-color);
+	border-left: 4px solid $primary-400;
 	padding: 0 15px;
 
 	> :first-child {
@@ -23,13 +23,13 @@ blockquote {
 
 button {
 	padding: 8px 16px;
-	background-color: var(--primary-color);
 	border: none;
 	border-radius: 6px;
 	color: var(--font-color);
 	cursor: pointer;
 	transition: transform $transition-duration;
 	width: fit-content;
+	background: transparent;
 
 	&:hover {
 		background-color: var(--bg-contrast-2);
@@ -131,6 +131,11 @@ textarea {
 		opacity: 0.8;
 		cursor: not-allowed;
 	}
+}
+
+input {
+	display: block;
+	width: 100%;
 }
 
 label {

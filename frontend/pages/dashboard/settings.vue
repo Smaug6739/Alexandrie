@@ -87,15 +87,17 @@
           </form>
         </div>
         <div v-show="currentPage == 'backup'" class="page backup_page">
-          <h2>Create a Database Backup</h2>
+          <h1>Create a Database Backup</h1>
           <p>Click the button below to create a backup of your database.</p>
-          <button @click="submitFile">Create Backup</button>
+          <button @click="submitFile" class="btn primary">Create Backup</button>
           <div v-if="isLoading" class="loading-spinner"></div>
           <div class="link-section" v-if="downloadLink">
             <p>Your backup is ready. You can copy the link to share it or download it.</p>
             <input type="text" v-model="downloadLink" readonly placeholder="Backup Link" />
-            <button @click="copyLink">Copy Link</button>
-            <a :href="downloadLink" download="true" class="download">Download Backup</a>
+            <div style="display: flex">
+              <button @click="copyLink" class="btn secondary">Copy Link</button>
+              <a :href="downloadLink" download><button class="btn primary">Download Backup</button></a>
+            </div>
           </div>
         </div>
       </div>
@@ -167,7 +169,7 @@ async function submitFile() {
   if (result.status != 'success') {
     return useNotifications().add({ type: 'error', title: 'Error', message: result.message, timeout: 5000 });
   }
-  downloadLink.value = `${CDN}/${result.result?.url || ''}`;
+  downloadLink.value = `${CDN}${result.result?.url || ''}`;
 }
 </script>
 
@@ -281,26 +283,10 @@ form {
   }
 }
 .backup_page {
-  .backup-component {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    margin: 0 auto;
-    height: min-content;
-
-    h2 {
-      margin-bottom: 1rem;
-    }
-
-    input {
-      margin-bottom: 1rem;
-    }
-
-    .download {
-      margin-left: 15px;
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
 
   .loading-spinner {
     border: 5px solid #f3f3f3;
