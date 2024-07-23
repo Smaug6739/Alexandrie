@@ -31,10 +31,6 @@ button {
 	width: fit-content;
 	background: transparent;
 
-	&:hover {
-		background-color: var(--bg-contrast-2);
-	}
-
 	&:disabled {
 		opacity: 0.8;
 		cursor: not-allowed;
