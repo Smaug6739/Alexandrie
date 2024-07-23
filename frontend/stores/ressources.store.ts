@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
+import { makeRequest } from './_utils';
 import type { DB_Ressource } from './db_strustures';
+
 export const useRessourcesStore = defineStore('ressources', {
   state: () => ({
     ressources: ref<DB_Ressource[]>([]),

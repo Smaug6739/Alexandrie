@@ -106,10 +106,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue';
-import { useRoute } from 'vue-router';
-import { useUserStore, useRessourcesStore, useNotifications } from '@/stores';
-
 const route = useRoute();
 const currentPage = ref(route.query.p || 'profile');
 const store = useUserStore();

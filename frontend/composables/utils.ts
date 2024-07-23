@@ -1,7 +1,7 @@
 import type { User } from '../stores/db_strustures';
 
 export const CDN = import.meta.env.VITE_BASE_CDN;
-const API = `${import.meta.env.VITE_BASE_API}/api/v1`;
+export const API = `${import.meta.env.VITE_BASE_API}/api/v1`;
 
 const colors = ['var(--blue)', 'var(--turquoise)', 'var(--yellow)', 'var(--red)', 'var(--red)'];
 
@@ -16,56 +16,11 @@ export function useColorHash(str: string): string {
   return colors[index] as string;
 }
 
-export interface APIResult<Data> {
-  status: 'success' | 'error';
-  message: string;
-  result?: Data;
-}
-
-export interface FetchOptions {
-  id: string; // id of the ressource
-}
 // Little screen size
 export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : false);
 // Intermediate screen size
 export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
-export async function makeRequest<T>(route: string, method: string, body: Object, retry = false): Promise<APIResult<T>> {
-  const userStore = useUserStore();
-  console.log(`[API] Requesting ${method} ${route}`);
-  const response = await fetch(`${API}/${route}`, {
-    method: method,
-    body: method === 'GET' || method === 'DELETE' ? null : body instanceof FormData ? body : JSON.stringify(body),
-    headers: body instanceof FormData ? {} : { 'Content-Type': 'application/json; charset=UTF-8' },
-    credentials: 'include',
-  });
-
-  if (response.status === 401 && !retry) {
-    console.log('\x1b[41m[AUTH]\x1b[0m Access token invalid. Getting new access token...');
-    const login = await makeRequest(`auth/refreshToken/${userStore.user?.id}`, 'GET', {}, true);
-    if (login.status === 'success') {
-      console.log('\x1b[42m[AUTH]\x1b[0m New access token received.');
-      return await makeRequest(route, method, body, true);
-    } else {
-      console.log('\x1b[41m[AUTH]\x1b[0m Refresh token invalid. Please login again.');
-      logOut();
-      navigateTo('/login');
-      return { status: 'error', message: 'Please login again.' };
-    }
-  }
-
-  const decoded = await response.json();
-  return decoded;
-}
-
-export function logIn() {
-  if (!import.meta.client) return;
-  localStorage.setItem('isLoggedIn', 'true');
-}
-export function logOut() {
-  if (!import.meta.client) return;
-  localStorage.removeItem('isLoggedIn');
-}
 export function useAvatar(user: User): string {
   return user.avatar ? CDN + user.avatar : CDN + '/webp/default.svg';
 }

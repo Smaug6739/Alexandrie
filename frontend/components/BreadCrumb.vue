@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-
 const route = useRoute();
 const router = useRouter();
 const breadcrumbs: Ref<Array<{ name: string; path: string }>> = ref([]);
@@ -44,7 +43,7 @@ watchEffect(() => {
   padding: 3px;
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
   content: '/';
   padding: 0 0.5rem;
 }

@@ -1,8 +1,8 @@
 <template>
-	<MarkdownEditor v-if="document" ref="editor" :doc="document" @save="(data) => save(data)" />
+  <MarkdownEditor v-if="document" ref="editor" :doc="document" @save="data => save(data)" />
 </template>
 <script lang="ts" setup>
-import { useNotifications, useDocumentsStore, type Document } from '@/stores';
+import type { Document } from '@/stores';
 import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 
 const store = useDocumentsStore();
@@ -14,22 +14,22 @@ const document = ref<Document | undefined>(undefined);
 const notifications = useNotifications();
 
 watchEffect(async () => {
-	const docFromStore = store.getById(doc_id);
-	if (docFromStore?.partial) {
-		try {
-			document.value = await store.fetch({ id: doc_id });
-		} catch (error) {
-			console.error("Error fetching document:", error);
-		}
-	} else document.value = docFromStore;
+  const docFromStore = store.getById(doc_id);
+  if (docFromStore?.partial) {
+    try {
+      document.value = await store.fetch({ id: doc_id });
+    } catch (error) {
+      console.error('Error fetching document:', error);
+    }
+  } else document.value = docFromStore;
 });
 
 definePageMeta({ breadcrumb: 'Edit' });
 
 function save(doc: Document) {
-	store.update(doc)
-		.then(() => notifications.add({ title: "Success:", message: "Document updated", type: "success", timeout: 5000 }))
-		.catch((e) => notifications.add({ title: "Error:", message: e, type: "error", timeout: 5000 }))
+  store
+    .update(doc)
+    .then(() => notifications.add({ title: 'Success:', message: 'Document updated', type: 'success', timeout: 5000 }))
+    .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 5000 }));
 }
-
 </script>

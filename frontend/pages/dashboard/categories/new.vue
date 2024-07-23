@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%;">
+  <div style="width: 100%">
     <div class="category-form-container">
       <h2>Ajouter une nouvelle catégorie</h2>
       <form @submit.prevent="createCategory">
@@ -31,20 +31,21 @@
 </template>
 
 <script lang="ts" setup>
-import { type Category, useCategoriesStore, useNotifications } from '~/stores';
+import type { Category } from '~/stores';
 
 const categoriesStore = useCategoriesStore();
 const category = ref<Category>({ id: '', name: '', icon: '', parent_id: '', order: 0, type: 'category' });
 definePageMeta({ breadcrumb: 'New' });
 
-const createCategory = async () => {
-  categoriesStore.post(category.value)
+function createCategory() {
+  categoriesStore
+    .post(category.value)
     .then(() => {
-      useNotifications().add({ title: "Success:", message: "Category posted", type: "success", timeout: 5000 });
-      useRouter().push("/dashboard/categories");
+      useNotifications().add({ title: 'Success:', message: 'Category posted', type: 'success', timeout: 5000 });
+      useRouter().push('/dashboard/categories');
     })
-    .catch((e) => useNotifications().add({ title: "Error:", message: e, type: "error", timeout: 5000 }));
-};
+    .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 5000 }));
+}
 </script>
 
 <style scoped lang="scss">

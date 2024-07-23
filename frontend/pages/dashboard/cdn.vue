@@ -15,23 +15,23 @@
       <input type="text" v-model="fileLink" readonly />
       <button @click="copyLink">Copy link</button>
     </div>
-    <div v-if="ressources.length" class="ressources-list">
+    <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows" />
     </div>
     <div v-else>No ressource found.</div>
   </div>
 </template>
 <script setup lang="ts">
-import { useNotifications, useRessourcesStore, type DB_Ressource } from '~/stores';
+import type { DB_Ressource } from '~/stores';
+
 const ressourcesStore = useRessourcesStore();
-await ressourcesStore.fetch();
+ressourcesStore.fetch();
 
 const selectedFile: Ref<File | null | undefined> = ref(null);
 const isDragOver = ref(false);
 const fileLink = ref('');
 const fileInput: Ref<HTMLInputElement | null> = ref(null);
 const isLoading = ref(false);
-const ressources = ressourcesStore.ressources;
 const triggerFileSelect = () => fileInput.value!.click();
 const handleFileSelect = (event: Event) => (selectedFile.value = (event.target as HTMLInputElement | null)?.files?.[0] || null);
 definePageMeta({ breadcrumb: 'CDN' });
@@ -76,7 +76,7 @@ const headers = [
 ];
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
 const rows: any = computed(() =>
-  ressources.map(res => {
+  ressourcesStore.ressources.map(res => {
     return {
       name: { content: res.filename },
       size: { content: readableFileSize(res.file_size) },

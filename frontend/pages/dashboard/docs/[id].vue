@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDocumentsStore, type Document } from '@/stores';
+import type { Document } from '@/stores';
 import TableOfContent from '@/components/table-of-content/TableOfContents.vue';
 
 const route = useRoute();

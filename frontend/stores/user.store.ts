@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import type { User, ConnectionLog } from './db_strustures'; // Assurez-vous d'avoir les bonnes définitions de types
+import { makeRequest } from './_utils';
+import type { User, ConnectionLog } from './db_strustures';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
