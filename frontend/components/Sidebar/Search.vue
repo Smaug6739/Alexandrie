@@ -16,8 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { useDocumentsStore } from '~/stores';
-
 const documents = computed(() => useDocumentsStore().getAll.filter(c => c.name.toLowerCase().includes(filter.value.toLowerCase())));
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);

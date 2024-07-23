@@ -9,7 +9,5 @@
 </template>
 <script setup lang="ts">
 definePageMeta({ breadcrumb: 'Home' });
-useDocumentsStore().fetch();
-useCategoriesStore().fetch();
-useUserStore().fetch();
+await Promise.all([useDocumentsStore().fetch(), useCategoriesStore().fetch(), useUserStore().fetch()]);
 </script>

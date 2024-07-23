@@ -1,5 +1,5 @@
 <template>
-  <i v-html="icon" class="icon" :style="{ fill: props.fill || 'var(--red)' }" :class="{ fill: props.fill, big: props.big }"></i>
+  <i v-html="icon" class="icon" :style="{ fill: props.fill }" :class="{ fill: props.fill, big: props.big }"></i>
 </template>
 
 <script setup lang="ts">

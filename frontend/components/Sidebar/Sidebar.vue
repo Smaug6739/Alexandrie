@@ -11,11 +11,11 @@
       </section>
       <input type="text" placeholder="Search or ctrl + q" class="search" v-model="filter" />
 
-      <div class="user" v-if="usrStr.user">
-        <img :src="useAvatar(usrStr.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+      <div class="user" v-if="userStore.user">
+        <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
         <div>
-          <div>{{ usrStr.user.username }}</div>
-          <div class="email">{{ usrStr.user.email }}</div>
+          <div>{{ userStore.user.username }}</div>
+          <div class="email">{{ userStore.user.email }}</div>
         </div>
       </div>
       <Search />
@@ -30,14 +30,14 @@ import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import IconApp from './IconApp.vue';
 import Search from './Search.vue';
-import { useCategoriesStore, useDocumentsStore, useUserStore, type Category } from '~/stores';
 import { ItemsManager, type Item } from './tree_builder';
 import { navigationItems } from './helpers';
+import type { Category } from '~/stores';
 
 const { isOpened, hasSidebar } = useSidebar();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
-const usrStr = useUserStore();
+const userStore = useUserStore();
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);
 
