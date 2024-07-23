@@ -1,4 +1,4 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware((to, _) => {
   if (!import.meta.client) return;
   const user_auth = localStorage.getItem('isLoggedIn');
   if (to.fullPath.startsWith('/dashboard') && !user_auth) {
