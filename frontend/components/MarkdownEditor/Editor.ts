@@ -70,6 +70,7 @@ export class Editor extends EventTarget {
     }
   }
   public handleKeydown(event: KeyboardEvent) {
+    if (!event.ctrlKey && !event.altKey && !event.metaKey) this.inlineToolbar.value!.element.style.display = 'none';
     if (event.key === 'Enter') {
       event.preventDefault();
       const selection = window.getSelection();
@@ -77,8 +78,7 @@ export class Editor extends EventTarget {
       const range = selection.getRangeAt(0);
 
       // IF the cursor is at the end of the line, insert two new lines instead of one else insert one new line
-      const textNode =
-        range.startContainer.textContent?.length == range.startOffset ? document.createTextNode('\n\n') : document.createTextNode('\n');
+      const textNode = range.startContainer.textContent?.length == range.startOffset ? document.createTextNode('\n\n') : document.createTextNode('\n');
 
       range.insertNode(textNode);
 
@@ -121,12 +121,55 @@ export class Editor extends EventTarget {
       event.preventDefault();
       this.showPreview.value = !this.showPreview.value;
     }
+    // Détection du snippet !def
+    if (event.key === ' ') {
+      const selection = window.getSelection();
+      if (!selection) return;
+      const range = selection.getRangeAt(0);
+      const text = range.startContainer.textContent;
+      if (!text) return;
+      const match = text.substring(0, range.startOffset).match(/!def$/);
+      if (match) {
+        event.preventDefault();
+        this.insertSnippet(range);
+      }
+    }
+  }
+  private insertSnippet(range: Range) {
+    const snippet = ':::definition Définition: $\n$\n:::';
+    const snippetParts = snippet.split('$');
+
+    // Supprime la commande !def
+    const commandLength = 4;
+    range.setStart(range.startContainer, range.startOffset - commandLength);
+    range.deleteContents();
+
+    const fragment = document.createDocumentFragment();
+    snippetParts.forEach((part, index) => {
+      fragment.appendChild(document.createTextNode(part));
+      if (index != 0) return;
+      const marker = document.createElement('span');
+      marker.className = 'cursor-marker';
+      fragment.appendChild(marker);
+    });
+
+    range.insertNode(fragment);
+    const selection = window.getSelection();
+    if (!selection) return;
+    selection.removeAllRanges();
+
+    const markers = document.getElementsByClassName('cursor-marker');
+    if (markers.length > 0) {
+      const newRange = document.createRange();
+      newRange.setStartBefore(markers[0]!);
+      newRange.setEndBefore(markers[0]!);
+      selection.addRange(newRange);
+    }
   }
 
   public updateContextMenu() {
     setTimeout(() => {
-      if (!this.inlineToolbar?.value?.element) return;
-      const toolbarElement = this.inlineToolbar.value.element;
+      const toolbarElement = this.inlineToolbar.value!.element;
       toolbarElement.style.display = 'none';
       if (!this.area?.value) return;
       const selection = window.getSelection();
