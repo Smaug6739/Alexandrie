@@ -1,7 +1,7 @@
 class MarkdownUtil {
-  private editor: Ref<HTMLDivElement | undefined>;
+  private editor: Ref<HTMLTextAreaElement | undefined>;
 
-  constructor(editor: Ref<HTMLDivElement | undefined>) {
+  constructor(editor: Ref<HTMLTextAreaElement | undefined>) {
     this.editor = editor;
   }
   private getEditorRange() {
@@ -20,37 +20,20 @@ class MarkdownUtil {
     return tempDiv;
   }
   public inlineFormat(tag1: string, tag2: string) {
-    const range = this.getEditorRange();
-    if (!range) return;
-    const tempDiv = this.createTempDiv(range.cloneContents());
-    const fragment = document.createDocumentFragment();
-    tempDiv.innerHTML = tag1 + tempDiv.innerHTML.trim().replaceAll('\n', '') + tag2;
-    while (tempDiv.firstChild) {
-      fragment.appendChild(tempDiv.firstChild);
-    }
-    range.deleteContents();
-    range.insertNode(fragment);
+    const selectedText = window.getSelection()?.toString() || '';
+    const startTag = `${tag1}`;
+    const endTag = `${tag2}`;
+    const startIndex = this.editor.value!.selectionStart;
+    const endIndex = this.editor.value!.selectionEnd;
+    const beforeSelected = this.editor.value!.value.substring(0, startIndex);
+    const afterSelected = this.editor.value!.value.substring(endIndex, this.editor.value!.value.length);
+    this.editor.value!.value = beforeSelected + startTag + selectedText + endTag + afterSelected;
+    const newStartIndex = startIndex + startTag.length;
+    const newEndIndex = newStartIndex + selectedText.length;
+    this.editor.value!.setSelectionRange(newStartIndex, newEndIndex);
+    this.editor.value!.focus();
   }
 
-  public clear() {
-    const range = this.getEditorRange();
-    if (!range) return;
-    const tempDiv = this.createTempDiv(range.cloneContents());
-    const parentElement: Element | null =
-      range.commonAncestorContainer.nodeType === 3
-        ? (range.commonAncestorContainer.parentElement as Element)
-        : (range.commonAncestorContainer as Element);
-    if (parentElement != this.editor.value) {
-      const text = parentElement.textContent || '';
-      const textNode = document.createTextNode(text);
-      parentElement.replaceWith(textNode);
-    } else if (tempDiv.innerHTML != '') {
-      const text = tempDiv.textContent || '';
-      const textNode = document.createTextNode(text);
-      range.deleteContents();
-      range.insertNode(textNode);
-    }
-  }
   public addContent(content: string) {
     const selection = window.getSelection();
     if (!selection) return;

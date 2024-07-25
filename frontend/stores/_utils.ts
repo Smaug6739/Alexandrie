@@ -34,14 +34,11 @@ export async function makeRequest<T>(route: string, method: string, body: Object
       } else treatQueue(false);
 
       return promise;
-    } else if (!response.ok) {
-      return { status: 'error', message: 'Failed to fetch' };
     }
-
     const decoded = await response.json();
     return decoded;
-  } catch {
-    return { status: 'error', message: 'Failed to fetch.' };
+  } catch (e) {
+    return { status: 'error', message: String(e) };
   }
 }
 

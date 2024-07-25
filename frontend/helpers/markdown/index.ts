@@ -62,9 +62,9 @@ function markdownItKatexPlugin(md: any) {
   };
 }
 
-export default function compile(str: string = '', plugins: boolean = true): string {
-  // Replace fix use of & in katex expressions
-  str = str.replaceAll('&amp;', '&');
+export default function compile(str: string = ''): string {
+  // Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)
+  str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
   return md.render(str, {
     html: true,
   });
