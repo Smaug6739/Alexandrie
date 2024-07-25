@@ -16,10 +16,13 @@
 <script setup lang="ts">
 import type { Item } from './tree_builder';
 
-defineProps<{ item: Item; root?: boolean }>();
-
-const show = ref(true);
-const toggleShow = () => (show.value = !show.value);
+const props = defineProps<{ item: Item; root?: boolean }>();
+const status = localStorage.getItem(`collapse-${props.item.id}`);
+const show = ref(status ? status === 'true' : true);
+const toggleShow = () => {
+  show.value = !show.value;
+  localStorage.setItem(`collapse-${props.item.id}`, show.value.toString());
+};
 </script>
 
 <style lang="scss" scoped>
