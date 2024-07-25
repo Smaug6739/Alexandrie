@@ -1,6 +1,6 @@
 <template>
   <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }">
-    <Icon :name="getIcon(item)" />
+    <Icon :name="getIcon()" />
     <NuxtLink :to="item.route" style="width: 100%">{{ item.title }} </NuxtLink>
     <NuxtLink to="/dashboard/docs/new" class="new"> <Icon name="plus" v-if="item.data.type === 'category' && item.parent_id" fill="var(--font-color)" /> </NuxtLink>
     <slot></slot>
@@ -8,20 +8,21 @@
 </template>
 
 <script setup lang="ts">
+import { navigationItems } from './helpers';
+import type { Item } from './tree_builder';
+
 const documentStore = useDocumentsStore();
 const categoriesStore = useCategoriesStore();
 
-import type { Item } from './tree_builder';
-import { navigationItems } from './helpers';
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
 
-function getIcon(item: Item) {
-  if ('icon' in item.data && item.data.icon) return item.data.icon;
-  if (item.data.type === 'category') return 'folder';
-  if (item.data.type === 'document' && item.childrens?.length) return 'file_parent';
-  if (item.data.type === 'document' && item.data.accessibility == 2) return 'draft';
-  if (item.data.type === 'document' && item.data.accessibility == 3) return 'archive';
+function getIcon() {
+  if ('icon' in props.item.data && props.item.data.icon) return props.item.data.icon;
+  if (props.item.data.type === 'category') return 'folder';
+  if (props.item.data.type === 'document' && props.item.childrens?.length) return 'file_parent';
+  if (props.item.data.type === 'document' && props.item.data.accessibility == 2) return 'draft';
+  if (props.item.data.type === 'document' && props.item.data.accessibility == 3) return 'archive';
   return 'file';
 }
 const draggable = ref<boolean>(true);
@@ -100,9 +101,9 @@ const drop = async (event: DragEvent) => {
   color: var(--font-color);
   cursor: pointer;
   width: 98%;
-
+  font-size: 15.5px;
   &:hover,
-  &.router-link-exact-active {
+  &:has(.router-link-exact-active) {
     background: var(--bg-contrast-2);
   }
 
