@@ -2,7 +2,7 @@
   <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }">
     <Icon :name="getIcon()" />
     <NuxtLink :to="item.route" style="width: 100%">{{ item.title }} </NuxtLink>
-    <NuxtLink to="/dashboard/docs/new" class="new"> <Icon name="plus" v-if="item.data.type === 'category' && item.parent_id" fill="var(--font-color)" /> </NuxtLink>
+    <NuxtLink to="/dashboard/docs/new" class="new" v-if="item.data.type === 'category' && item.parent_id"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
     <slot></slot>
   </span>
 </template>
@@ -103,7 +103,7 @@ const drop = async (event: DragEvent) => {
   width: 98%;
   font-size: 15.5px;
   &:hover,
-  &:has(.router-link-exact-active) {
+  &:has(.router-link-exact-active:not(.new)) {
     background: var(--bg-contrast-2);
   }
 
