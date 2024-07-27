@@ -2,8 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'alexandrie-backend',
-      cwd: './backend/dist',
-      script: 'bun main.js',
+      cwd: './backend',
+      script: 'bun dist/main.js',
       env: {
         NODE_ENV: 'production',
         PORT: 8201,
@@ -28,6 +28,7 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 8202,
+        DOMAIN_CLIENT: 'https://alexandrie-hub.fr',
       },
     },
     /*{
