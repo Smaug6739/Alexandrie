@@ -65,17 +65,25 @@ export default class RessourcesController extends BaseController<RessourcesManag
   }
 
   async addAvatar(req: Request, res: Response) {
+    console.log(0);
+
     try {
       if (typeof req.files != 'object' || !('file' in req.files) || !req.files.file[0]) {
         throw new Error('No file provided.');
       }
+      console.log(1);
+
       const file = req.files['file'][0];
+
       const filename = file.filename;
+      console.log(filename);
 
       if (!filename) throw new Error('No file provided.');
 
       if (Object.keys(this.utils.MIME_TYPES_IMAGE).includes(file.mimetype)) {
         const converted = await convertImageToWebp(this.app.config.upload_path, filename);
+        console.log(converted);
+
         res.status(201).json(this.utils.success({ original_path: converted[0], transformed_path: converted[1] }));
       }
     } catch (err) {
