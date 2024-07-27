@@ -37,9 +37,9 @@ jobs:
           bun run build
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.20 # Change to your desired Go version
+          go-version: '1.20' # Change to your desired Go version
 
       - name: Build Go application
         run: | # Build the Go application and name it cdn_app
