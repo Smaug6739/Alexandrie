@@ -64,7 +64,7 @@ jobs:
       - name: Create Archives
         run: |
           tar -czf frontend.tar.gz frontend/.output frontend/.env.production
-          tar -czf backend.tar.gz backend/dist backend/package.json backend/bun.lockb
+          tar -czf backend.tar.gz -C backend package.json bun.lockb -C dist .
           tar -czf cdn.tar.gz cdn/cdn_app  # Archive the Go application binary
 
       - name: Transfer Archives
