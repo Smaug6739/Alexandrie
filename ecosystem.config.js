@@ -27,7 +27,7 @@ module.exports = {
       script: './cdn_app',
       env: {
         NODE_ENV: 'production',
-        PORT: 8203,
+        PORT: 8202,
       },
     },
     /*{
