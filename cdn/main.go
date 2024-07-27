@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/gorilla/handlers"
@@ -47,15 +48,7 @@ func securityHeadersMiddleware(next http.Handler) http.Handler {
 
 func secureFileServer(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Validation du chemin pour prévenir la traversée de répertoires
-		cleanPath := cleanPath(r.URL.Path)
-		r.URL.Path = cleanPath
+		r.URL.Path = path.Clean(r.URL.Path)
 		next.ServeHTTP(w, r)
 	})
-}
-
-func cleanPath(path string) string {
-	// Nettoyage basique du chemin pour éviter la traversée de répertoires
-	cleanPath := strings.Replace(path, "..", "", -1)
-	return cleanPath
 }
