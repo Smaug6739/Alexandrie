@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'alexandrie-backend',
       cwd: './backend',
-      script: 'echo "----------------- Backend -----------------" && ls',
+      script: 'bun dist/main.js',
       env: {
         NODE_ENV: 'production',
         PORT: 8201,
