@@ -19,11 +19,11 @@ func main() {
 	r := mux.NewRouter()
 
 	fileHandler := http.FileServer(http.Dir("../uploads"))
-	r.PathPrefix("/").Handler(http.StripPrefix("/", neuter(fileHandler)))
+	r.PathPrefix("/").Handler(http.StripPrefix("/", secureFileServer(fileHandler)))
 
 	// Middlewares pour la sécurité
 	r.Use(handlers.CompressHandler)
-	r.Use(handlers.CORS())
+	r.Use(handlers.CORS(handlers.AllowedOrigins([]string{os.Getenv("DOMAIN_CLIENT")}))) // Restriction de CORS
 	r.Use(securityHeadersMiddleware)
 
 	fmt.Println("Server is running on port", port)
@@ -32,23 +32,30 @@ func main() {
 
 func securityHeadersMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		//w.Header().Set("Content-Security-Policy", "default-src 'self'")
+		w.Header().Set("Content-Security-Policy", "default-src 'self'; script-src 'none'; style-src 'none'")
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("X-Frame-Options", "DENY")
-		// If url starts with /other or /backups, add 'Content-Disposition', `attachment; filename` header
+		w.Header().Set("X-XSS-Protection", "1; mode=block")
+		w.Header().Set("Strict-Transport-Security", "max-age=63072000; includeSubDomains")
+
 		if strings.HasPrefix(r.URL.Path, "/other") || strings.HasPrefix(r.URL.Path, "/backups") {
 			w.Header().Set("Content-Disposition", "attachment; filename")
 		}
 		next.ServeHTTP(w, r)
 	})
 }
-func neuter(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasSuffix(r.URL.Path, "/") {
-			http.NotFound(w, r)
-			return
-		}
 
+func secureFileServer(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Validation du chemin pour prévenir la traversée de répertoires
+		cleanPath := cleanPath(r.URL.Path)
+		r.URL.Path = cleanPath
 		next.ServeHTTP(w, r)
 	})
+}
+
+func cleanPath(path string) string {
+	// Nettoyage basique du chemin pour éviter la traversée de répertoires
+	cleanPath := strings.Replace(path, "..", "", -1)
+	return cleanPath
 }
