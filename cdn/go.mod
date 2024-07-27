@@ -1,6 +1,6 @@
 module github.com/Smaug6739/Alexandrie
 
-go 1.22.4
+go 1.22
 
 require (
 	github.com/felixge/httpsnoop v1.0.3 // indirect
