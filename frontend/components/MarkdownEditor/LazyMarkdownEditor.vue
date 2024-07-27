@@ -57,7 +57,7 @@ function syncScroll() {
   markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
 }
 function saveDocument() {
-  document.value.content_markdown = textarea.value?.innerHTML;
+  document.value.content_markdown = textarea.value?.value || '';
   document.value.content_html = compile(document.value.content_markdown);
   emit('save', document.value);
 }
