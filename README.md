@@ -1,4 +1,6 @@
-# Alexandrie V5
+# Alexandrie V6
 
-
-![Screenshot from 2024-05-26 13-55-15](https://github.com/Smaug6739/Alexandrie/assets/59796136/08cec5f8-f174-49f3-9828-3731ffce8e52)
+![image](https://github.com/user-attachments/assets/5df4a612-de76-49b3-9c0a-aef7514eb2db)
+![image](https://github.com/user-attachments/assets/d4dde490-b300-4774-822a-aa0284a8ffb0)
+![image](https://github.com/user-attachments/assets/a4fb0079-5ba3-4f28-be2a-04c5ea39cb38)
+![image](https://github.com/user-attachments/assets/8b57f163-0c94-499d-96af-d0f4645b5b75)
