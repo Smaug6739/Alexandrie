@@ -76,7 +76,7 @@ jobs:
 
       - name: Extract Archives on Remote
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && tar -xzf backend.tar.gz && tar -xzf cdn.tar.gz && rm frontend.tar.gz backend.tar.gz cdn.tar.gz"
+          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && mkdir -p backend && tar -xzf backend.tar.gz -C backend && tar -xzf cdn.tar.gz && rm frontend.tar.gz backend.tar.gz cdn.tar.gz"
 
       - name: Install dependencies for backend
         run: |
