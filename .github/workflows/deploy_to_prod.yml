@@ -44,6 +44,7 @@ jobs:
       - name: Build Go application
         run: | # Build the Go application and name it cdn_app
           cd cdn  # Change to your Go application directory
+          go mod download
           GOOS=linux GOARCH=amd64 go build -o cdn_app
 
       - name: Set up SSH
