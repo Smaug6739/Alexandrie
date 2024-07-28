@@ -33,4 +33,12 @@ export const navigationItems: DefaultItem[] = [
     route: '/dashboard/settings',
     childrens: [],
   },
+  {
+    id: 'new-page',
+    type: 'default',
+    title: 'New page',
+    icon: 'new_page',
+    route: '/dashboard/docs/new',
+    childrens: [],
+  },
 ];
