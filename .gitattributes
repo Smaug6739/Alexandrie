@@ -1,1 +1,2 @@
-frontend/styles/katex/* linguist-vendored
+frontend/styles/katex/*.js linguist-vendored
+frontend/styles/katex/*.css linguist-vendored
