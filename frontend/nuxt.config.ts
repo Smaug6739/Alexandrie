@@ -38,10 +38,6 @@ export default defineNuxtConfig({
       },
       link: [
         {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com',
-        },
-        {
           rel: 'manifest',
           crossorigin: 'use-credentials',
           href: '/manifest.json',
