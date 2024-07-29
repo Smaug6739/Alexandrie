@@ -29,7 +29,7 @@ const draggable = ref<boolean>(true);
 const isDragOver = ref<boolean>(false);
 
 const onClick = () => {
-  if (isMobile()) isOpened.value = false;
+  if (isMobile() && props.item.route) isOpened.value = false;
 };
 
 const dragStart = (event: DragEvent) => {
