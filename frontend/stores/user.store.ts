@@ -8,6 +8,20 @@ export const useUserStore = defineStore('user', {
     last_connection: null as ConnectionLog | null,
   }),
   actions: {
+    async login(username: string, password: string) {
+      try {
+        const response = await makeRequest<{ auth: boolean }>('auth', 'POST', { username, password });
+        if (response.status == 'success' && response.result?.auth) {
+          if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
+          return true;
+        }
+      } catch (e) {
+        return e;
+      }
+    },
+    logout() {
+      if (import.meta.client) localStorage.removeItem('isLoggedIn');
+    },
     fetch() {
       return new Promise(async (resolve, reject) => {
         const responce = await makeRequest<{ user: User; last_connection: ConnectionLog }>(`users/@me`, 'GET', {});

@@ -42,14 +42,6 @@ export async function makeRequest<T>(route: string, method: string, body: Object
   }
 }
 
-export function logIn() {
-  if (!import.meta.client) return;
-  localStorage.setItem('isLoggedIn', 'true');
-}
-export function logOut() {
-  if (!import.meta.client) return;
-  localStorage.removeItem('isLoggedIn');
-}
 function treatQueue(access_token: boolean = true) {
   console.log(`[API] Treating queue with access_token: ${access_token}`);
 
@@ -57,7 +49,7 @@ function treatQueue(access_token: boolean = true) {
     for (const request of requestQueue) {
       request.resolve({ status: 'error', message: 'Failed to fetch.' });
     }
-    logOut();
+    useUserStore().logout();
     navigateTo('/login');
   } else {
     for (const request of requestQueue) {
