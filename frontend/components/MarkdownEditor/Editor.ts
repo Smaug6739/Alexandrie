@@ -92,6 +92,10 @@ export class Editor extends EventTarget {
       event.preventDefault();
       this.format('link');
     }
+    if (event.ctrlKey && event.key === 'm') {
+      event.preventDefault();
+      this.format('image');
+    }
     // Ctrl + S for saving
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
