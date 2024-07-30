@@ -35,13 +35,15 @@ class MarkdownUtil {
   }
 
   public addContent(content: string) {
-    const selection = window.getSelection();
-    if (!selection) return;
-    const range = selection.getRangeAt(0);
-    const textNode = document.createTextNode(content);
-    range.insertNode(textNode);
-    // Move the cursor to the end of the inserted text
-    range.setStartAfter(textNode);
+    // Add the content at the current cursor position
+    const startIndex = this.editor.value!.selectionStart;
+    const endIndex = this.editor.value!.selectionEnd;
+    const beforeSelected = this.editor.value!.value.substring(0, startIndex);
+    const afterSelected = this.editor.value!.value.substring(endIndex, this.editor.value!.value.length);
+    this.editor.value!.value = beforeSelected + content + afterSelected;
+    const newStartIndex = startIndex + content.length;
+    this.editor.value!.setSelectionRange(newStartIndex, newStartIndex);
+    this.editor.value!.focus();
   }
 }
 
