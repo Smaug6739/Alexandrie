@@ -18,6 +18,32 @@ const snippets = [
     cmd: '!m',
     value: '${$}$',
   },
+  {
+    cmd: '!center',
+    value: ':::center\n{$}\n:::',
+  },
+
+  // Red, green, blue, yellow, details
+  {
+    cmd: '!red',
+    value: ':::red\n{$}\n:::',
+  },
+  {
+    cmd: '!green',
+    value: ':::green\n{$}\n:::',
+  },
+  {
+    cmd: '!blue',
+    value: ':::blue\n{$}\n:::',
+  },
+  {
+    cmd: '!yellow',
+    value: ':::yellow\n{$}\n:::',
+  },
+  {
+    cmd: '!details',
+    value: ':::details\n{$}\n:::',
+  },
 ];
 
 export { type Snippet, snippets };
