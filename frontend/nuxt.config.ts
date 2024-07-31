@@ -37,7 +37,7 @@ export default defineNuxtConfig({
         lang: 'fr',
       },
       meta: [
-        { name: 'author', content: 'Alexandrie' },
+        { name: 'author', content: 'Smaug6739' },
         { name: 'description', content: 'Alexandrie' },
         { name: 'apple-mobile-web-app-capable', content: 'yes' },
         { name: 'apple-mobile-web-app-title', content: 'Alexandrie' },
