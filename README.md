@@ -3,8 +3,7 @@
 <img src="./frontend/public/Logo/Alexandrie-logo-dark.png" width="120" align="left">
 
 A website for taking beautiful notes in extended Markdown format.  
-Currently, the project is in development and it's not possible to create an account with the [hosted version](https://alexandrie-hub.fr).  
-If you want to test or use it, don't hesitate to open an issue and I will activate the account creation feature.
+Currently, the project is in development and it's not possible to create an account with the [hosted version](https://alexandrie-hub.fr).
 
 ## Features 🚀
 
