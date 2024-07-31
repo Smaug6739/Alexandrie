@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <form @submit.prevent="login" class="body">
-      <p class="signup-link">Need an account? <a href="mailto:rveauville@gmail.com">Sign up</a></p>
+      <p class="signup-link">Need an account? <NuxtLink to="/signup">Sign up</NuxtLink></p>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="username" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
@@ -22,6 +22,8 @@
   </div>
 </template>
 <script setup lang="ts">
+import { NuxtLink } from '#build/components';
+
 const router = useRouter();
 const username = ref('');
 const errors = ref({
