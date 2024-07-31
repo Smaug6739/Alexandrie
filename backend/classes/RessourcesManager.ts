@@ -26,6 +26,20 @@ export class RessourcesManager extends Base {
       });
     });
   }
+
+  public getUserRessourcesSize(user_id: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<RessourceDB[]>(
+        'SELECT SUM(file_size) as size FROM ressources WHERE author_id = ?',
+        [user_id],
+        async (err, results) => {
+          if (err) return reject('Internal database error.');
+          resolve(results[0]?.size);
+        },
+      );
+    });
+  }
+
   public createRessource(ressource: Ressource): Promise<IObject> {
     return new Promise((resolve, reject) => {
       this.app.db.query<RessourceDB[]>(

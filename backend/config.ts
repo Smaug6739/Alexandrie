@@ -6,4 +6,6 @@ export const config = {
   access_token_expiration: '1800s',
   access_token_expiration_ms: 1800 * 1000,
   refresh_token_expiration: 7 * 24 * 60 * 60 * 1000,
+  // in octets
+  max_user_size: 1000 * 1024 * 1024, // 1GB
 };
