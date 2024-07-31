@@ -5,7 +5,6 @@ import { MIME_TYPES_IMAGE, ACCEPTED_MIME_TYPES } from '../utils/constants';
 import { config } from '../config';
 import type { IObject } from '../types';
 import type { Request } from 'express';
-import type { Multer } from 'multer';
 
 const manager = new RessourcesManager(server);
 
