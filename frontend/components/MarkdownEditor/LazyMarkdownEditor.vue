@@ -6,7 +6,7 @@
     <div class="markdown" ref="container">
       <InlineToolbar ref="toolbar" @execute-action="(a: string) => exec(a)" />
       <textarea ref="textarea" class="textarea content markdown-input" @scroll="syncScroll" @input="update" v-html="document.content_markdown || ''" placeholder="Write something or use the toolbar to create your document..."></textarea>
-      <div v-if="editor.showPreview.value" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html"></div>
+      <div v-if="editor.showPreview.value" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html || ''"></div>
     </div>
   </div>
 </template>
