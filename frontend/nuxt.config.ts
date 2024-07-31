@@ -36,6 +36,26 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'fr',
       },
+      meta: [
+        { name: 'author', content: 'Alexandrie' },
+        { name: 'description', content: 'Alexandrie' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'apple-mobile-web-app-title', content: 'Alexandrie' },
+        { name: 'application-name', content: 'Alexandrie' },
+        { name: 'theme-color', content: '#007aff' },
+        { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:title', content: 'Alexandrie' },
+        { name: 'twitter:description', content: 'Alexandrie' },
+        { name: 'twitter:image', content: '/android-chrome-192x192.png' },
+        { name: 'twitter:image:alt', content: 'Alexandrie' },
+        { name: 'og:type', content: 'website' },
+        { name: 'og:site_name', content: 'Alexandrie' },
+        { name: 'og:title', content: 'Alexandrie' },
+        { name: 'og:description', content: 'A website for taking beautiful notes in extended Markdown format.' },
+        { name: 'og:image', content: '/android-chrome-192x192.png' },
+        { name: 'og:image:alt', content: 'Alexandrie' },
+        { name: 'og:url', content: 'https://alexandrie-hub.fr' },
+      ],
       link: [
         {
           rel: 'manifest',
