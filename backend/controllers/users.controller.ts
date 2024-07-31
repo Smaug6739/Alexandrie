@@ -19,6 +19,32 @@ export default class Authentification extends BaseController<UsersManager> {
       res.status(500).json(this.utils.error(e));
     }
   }
+  public async post(req: Request, res: Response) {
+    try {
+      const passwordStr = req.body.password as string;
+      if (!passwordStr) return res.status(400).json(this.utils.error('Password must be provided.'));
+      const hashed = await hash(passwordStr, 10);
+      const user = await this.manager.exists(req.body.username || '');
+      if (user) return res.status(400).json(this.utils.error('Username already taken.'));
+      const data = {
+        id: this.app.snowflake.generate().toString(),
+        username: req.body.username as string,
+        firstname: req.body.firstname as string,
+        lastname: req.body.lastname as string,
+        avatar: req.body.avatar as string,
+        email: req.body.email as string,
+        password: hashed,
+        created_timestamp: Date.now().toString(),
+        updated_timestamp: Date.now().toString(),
+      };
+      const error = this.manager.validator.validate(data);
+      if (error) return res.status(400).json(this.utils.error(error));
+      const r = await this.manager.post(data);
+      return res.status(201).json(this.utils.success(r));
+    } catch (e) {
+      return res.status(500).json(this.utils.error(e));
+    }
+  }
   public async update(req: Request, res: Response) {
     const user_db = await this.manager.getById(req.params.id!);
     if (!user_db) return res.status(404).json(this.utils.error('User not found.'));

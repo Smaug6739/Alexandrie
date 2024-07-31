@@ -33,6 +33,7 @@ export interface User {
   firstname?: string;
   lastname?: string;
   avatar?: string;
+  password?: string;
   email: string;
   created_timestamp: string;
 }

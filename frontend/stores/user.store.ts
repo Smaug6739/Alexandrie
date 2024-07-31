@@ -22,6 +22,12 @@ export const useUserStore = defineStore('user', {
     logout() {
       if (import.meta.client) localStorage.removeItem('isLoggedIn');
     },
+    register(user: Omit<User, 'id' | 'created_timestamp'>) {
+      return new Promise(async (resolve, reject) => {
+        const request = await makeRequest('users', 'POST', user);
+        request.status === 'success' ? resolve(true) : reject(request.message);
+      });
+    },
     fetch() {
       return new Promise(async (resolve, reject) => {
         const responce = await makeRequest<{ user: User; last_connection: ConnectionLog }>(`users/@me`, 'GET', {});

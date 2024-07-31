@@ -12,6 +12,7 @@ export default (client: App): Iroute => {
     router() {
       UsersRouter.get('/@me', authMid, (req, res) => controller.getMe(req, res));
       UsersRouter.patch('/:id/password', authMid, (req, res) => controller.updatePassword(req, res));
+      UsersRouter.post('/', (req, res) => controller.post(req, res));
       UsersRouter.patch('/:id', authMid, (req, res) => controller.update(req, res));
 
       //UsersRouter.get('/:id', authMid, (req, res) => controller.getDocument(req, res));

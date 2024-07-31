@@ -8,8 +8,8 @@ export class UsersManager extends Base {
   }
 
   public validator = new Validator({
-    id: { minLength: 1, maxLength: 50, type: 'string', error: 'user id invalid' },
-    username: { minLength: 1, maxLength: 25, type: 'string', error: 'user username invalid' },
+    id: { maxLength: 50, type: 'string', error: 'user id invalid' },
+    username: { minLength: 5, maxLength: 25, type: 'string', error: 'user username invalid' },
     firstname: { maxLength: 25, type: 'string', error: 'user firstname invalid', optional: true },
     lastname: { maxLength: 25, type: 'string', error: 'user lastname invalid', optional: true },
     avatar: { maxLength: 75, type: 'string', error: 'user avatar invalid', optional: true },
@@ -25,6 +25,14 @@ export class UsersManager extends Base {
         if (err) return reject('Internal database error.');
         if (!results[0]) return reject('Bad username or password.');
         resolve(results[0]);
+      });
+    });
+  }
+  public exists(username: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<UserDB[]>('SELECT id FROM users WHERE username = ? LIMIT 1', [username], async (err, results) => {
+        if (err) return reject('Internal database error.');
+        resolve(!!results[0]);
       });
     });
   }
@@ -48,6 +56,30 @@ export class UsersManager extends Base {
         if (!results[0]) return reject('Bad user id.');
         resolve(results[0]);
       });
+    });
+  }
+  public post(data: User) {
+    return new Promise((resolve, reject) => {
+      const error = this.validator.validate(data);
+      if (error) return reject(error);
+      this.app.db.query<UserDB[]>(
+        'INSERT INTO users (id, username, firstname, lastname, avatar, email, password, created_timestamp, updated_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [
+          data.id,
+          data.username,
+          data.firstname,
+          data.lastname,
+          data.avatar,
+          data.email,
+          data.password,
+          data.created_timestamp,
+          data.updated_timestamp,
+        ],
+        err => {
+          if (err) return reject('Internal database error.');
+          resolve(data);
+        },
+      );
     });
   }
   public put(id: string, data: Omit<User, 'id' | 'password' | 'created_timestamp'>) {

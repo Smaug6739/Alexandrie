@@ -4,7 +4,7 @@
       <div class="container"></div>
       <div class="actions">
         <NuxtLink to="/login" class="login">Login</NuxtLink>
-        <NuxtLink to="/" class="sign-up">Sign up</NuxtLink>
+        <NuxtLink to="/signup" class="sign-up">Sign up</NuxtLink>
       </div>
     </nav>
     <main>
