@@ -22,8 +22,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { NuxtLink } from '#build/components';
-
 const router = useRouter();
 const username = ref('');
 const errors = ref({
