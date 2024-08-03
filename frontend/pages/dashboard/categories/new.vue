@@ -1,10 +1,10 @@
 <template>
   <div style="width: 100%">
     <div class="category-form-container">
-      <h2>Ajouter une nouvelle catégorie</h2>
+      <h2>Add new category</h2>
       <form @submit.prevent="createCategory">
         <div class="input-group">
-          <label for="name">Nom</label>
+          <label for="name">Name</label>
           <input type="text" v-model="category.name" id="name" required />
         </div>
         <div class="input-group">
@@ -14,14 +14,14 @@
         <div class="input-group">
           <label for="parent">Parent</label>
           <select v-model="category.parent_id" id="parent">
-            <option value="">Aucun</option>
+            <option value="">None</option>
             <option v-for="mainCategory in categoriesStore.getParents" :key="mainCategory.id" :value="mainCategory.id">
               {{ mainCategory.name }}
             </option>
           </select>
         </div>
         <div class="input-group">
-          <label for="order">Ordre</label>
+          <label for="order">Order</label>
           <input type="number" v-model.number="category.order" id="order" />
         </div>
         <button type="submit" class="btn primary">Create</button>
@@ -63,7 +63,6 @@ h2 {
   font-size: 26px;
   margin-bottom: 30px;
   color: var(--font-color);
-
   text-align: center;
 }
 

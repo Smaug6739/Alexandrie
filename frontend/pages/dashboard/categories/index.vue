@@ -1,6 +1,6 @@
 <template>
   <div class="categories-container">
-    <NuxtLink to="/dashboard/categories/new" class="add-category-btn">+ Ajouter une catégorie</NuxtLink>
+    <NuxtLink to="/dashboard/categories/new" class="add-category-btn">+ Add new category</NuxtLink>
 
     <!-- Main Categories -->
     <div v-for="mainCategory in categoriesStore.getParents" :key="mainCategory.id" class="category-group">
