@@ -8,18 +8,18 @@ export class DocumentsManager extends Base {
   }
 
   public validator = new Validator({
-    id: { minLength: 1, maxLength: 50, type: 'string', error: 'document id invalid' },
-    name: { minLength: 1, maxLength: 50, type: 'string', error: 'document name invalid' },
-    description: { maxLength: 255, type: 'string', error: 'document description invalid', optional: true },
-    tags: { maxLength: 200, type: 'string', error: 'document tags invalid', optional: true },
-    category: { maxLength: 50, type: 'string', error: 'document category invalid', optional: true },
-    parent_id: { maxLength: 50, type: 'string', error: 'document parent id invalid', optional: true },
-    accessibility: { error: 'document accessibility invalid' },
-    content_markdown: { maxLength: 4_294_967_295, type: 'string', error: 'document content markdown invalid', optional: true },
-    content_html: { maxLength: 4_294_967_295, type: 'string', error: 'document content html invalid', optional: true },
-    author_id: { minLength: 1, maxLength: 50, type: 'string', error: 'document author id invalid' },
-    created_timestamp: { maxLength: 50, type: 'string', error: 'document created timestamp invalid' },
-    updated_timestamp: { maxLength: 50, type: 'string', error: 'document updated timestamp invalid' },
+    id: { minLength: 1, maxLength: 50, type: 'string', error: 'Document id invalid' },
+    name: { minLength: 1, maxLength: 50, type: 'string', error: 'Document name invalid' },
+    description: { maxLength: 255, type: 'string', error: 'Document description invalid', optional: true },
+    tags: { maxLength: 200, type: 'string', error: 'Document tags invalid', optional: true },
+    category: { maxLength: 50, type: 'string', error: 'Document category invalid', optional: true },
+    parent_id: { maxLength: 50, type: 'string', error: 'Document parent id invalid', optional: true },
+    accessibility: { minLength: 1, maxLength: 3, type: 'number', error: 'Document accessibility invalid' },
+    content_markdown: { maxLength: 4_294_967_295, type: 'string', error: 'Document content markdown invalid', optional: true },
+    content_html: { maxLength: 4_294_967_295, type: 'string', error: 'Document content html invalid', optional: true },
+    author_id: { minLength: 1, maxLength: 50, type: 'string', error: 'Document author id invalid' },
+    created_timestamp: { maxLength: 50, type: 'string', error: 'Document created timestamp invalid' },
+    updated_timestamp: { maxLength: 50, type: 'string', error: 'Document updated timestamp invalid' },
   });
 
   public getAll(user_id: string) {
