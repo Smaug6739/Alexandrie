@@ -12,7 +12,7 @@
           <input type="text" v-model="category.name" id="name" required />
         </div>
         <div class="input-group">
-          <label for="icon">Icône</label>
+          <label for="icon">Icon (svg supported)</label>
           <textarea type="text" v-model="category.icon" id="icon" rows="5"></textarea>
         </div>
         <div class="input-group">
