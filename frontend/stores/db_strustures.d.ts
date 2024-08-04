@@ -32,10 +32,12 @@ export interface User {
   username: string;
   firstname?: string;
   lastname?: string;
+  role: number; // 0: User; 1: Admin;
   avatar?: string;
   password?: string;
   email: string;
   created_timestamp: string;
+  updated_timestamp?: string;
 }
 
 export interface ConnectionLog {

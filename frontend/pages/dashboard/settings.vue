@@ -181,7 +181,7 @@ async function submitFile() {
   max-width: calc(-100px + 100vw);
   max-height: 715px;
   margin: auto;
-
+  overflow-y: auto;
   nav {
     gap: 1rem;
     background-color: var(--bg-contrast);

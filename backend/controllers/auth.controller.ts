@@ -86,7 +86,7 @@ export default class Authentification extends BaseController<UsersManager> {
     return valid;
   }
   private sign_access_token(user: User): string {
-    return sign({ userId: user.id }, process.env.JWT_SECRET || '', {
+    return sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET || '', {
       expiresIn: this.app.config.access_token_expiration,
     });
   }

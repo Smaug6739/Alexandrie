@@ -12,6 +12,7 @@ export class UsersManager extends Base {
     username: { minLength: 5, maxLength: 25, type: 'string', error: 'user username invalid' },
     firstname: { maxLength: 25, type: 'string', error: 'user firstname invalid', optional: true },
     lastname: { maxLength: 25, type: 'string', error: 'user lastname invalid', optional: true },
+    role: { minLength: 1, maxLength: 3, type: 'number', error: 'user role invalid' },
     avatar: { maxLength: 75, type: 'string', error: 'user avatar invalid', optional: true },
     email: { maxLength: 50, type: 'string', error: 'user email invalid' },
     password: { maxLength: 255, type: 'string', error: 'user password invalid' },
@@ -28,6 +29,17 @@ export class UsersManager extends Base {
       });
     });
   }
+  public getAll(): Promise<UserDB[]> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<UserDB[]>(
+        'SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users',
+        async (err, results) => {
+          if (err) return reject('Internal database error.');
+          resolve(results);
+        },
+      );
+    });
+  }
   public exists(username: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.app.db.query<UserDB[]>('SELECT id FROM users WHERE username = ? LIMIT 1', [username], async (err, results) => {
@@ -39,7 +51,7 @@ export class UsersManager extends Base {
   public getPublic(id: string): Promise<UserDB> {
     return new Promise((resolve, reject) => {
       this.app.db.query<UserDB[]>(
-        'SELECT id, username, firstname, lastname, avatar, email, created_timestamp, updated_timestamp FROM users WHERE id = ?',
+        'SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users WHERE id = ?',
         [id],
         async (err, results) => {
           if (err) return reject('Internal database error.');
@@ -60,15 +72,14 @@ export class UsersManager extends Base {
   }
   public post(data: User) {
     return new Promise((resolve, reject) => {
-      const error = this.validator.validate(data);
-      if (error) return reject(error);
       this.app.db.query<UserDB[]>(
-        'INSERT INTO users (id, username, firstname, lastname, avatar, email, password, created_timestamp, updated_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'INSERT INTO users (id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [
           data.id,
           data.username,
           data.firstname,
           data.lastname,
+          data.role,
           data.avatar,
           data.email,
           data.password,

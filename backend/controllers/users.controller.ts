@@ -19,6 +19,23 @@ export default class Authentification extends BaseController<UsersManager> {
       res.status(500).json(this.utils.error(e));
     }
   }
+  public async getById(req: Request, res: Response) {
+    try {
+      const user = await this.manager.getPublic(req.params.id as string);
+      const last_connection = await this.connections.getLastConnection(req.params.id as string);
+      res.status(200).json(this.utils.success({ user, last_connection }));
+    } catch (e) {
+      res.status(500).json(this.utils.error(e));
+    }
+  }
+  public async getAll(_: Request, res: Response) {
+    try {
+      const users = await this.manager.getAll();
+      res.status(200).json(this.utils.success({ users }));
+    } catch (e) {
+      res.status(500).json(this.utils.error(e));
+    }
+  }
   public async post(req: Request, res: Response) {
     try {
       const passwordStr = req.body.password as string;
@@ -31,6 +48,7 @@ export default class Authentification extends BaseController<UsersManager> {
         username: req.body.username as string,
         firstname: req.body.firstname as string,
         lastname: req.body.lastname as string,
+        role: 1,
         avatar: req.body.avatar as string,
         email: req.body.email as string,
         password: hashed,
@@ -48,12 +66,13 @@ export default class Authentification extends BaseController<UsersManager> {
   public async update(req: Request, res: Response) {
     const user_db = await this.manager.getById(req.params.id!);
     if (!user_db) return res.status(404).json(this.utils.error('User not found.'));
-    if (req.params.id != req.user_id) return res.status(401).json(this.utils.error('Unauthorized'));
+    if (req.params.id != req.user_id && req.user_role !== 2) return res.status(401).json(this.utils.error('Unauthorized'));
     return this.manager
       .put(req.params.id!, {
         username: user_db.username,
         firstname: req.body.firstname ?? user_db.firstname,
         lastname: req.body.lastname ?? user_db.lastname,
+        role: user_db.role,
         avatar: req.body.avatar ?? user_db.avatar,
         email: req.body.email ?? user_db.email,
         updated_timestamp: Date.now().toString(),

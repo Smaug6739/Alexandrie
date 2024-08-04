@@ -29,6 +29,7 @@ export interface User {
   username: string;
   firstname?: string;
   lastname?: string;
+  role: number; // 0: User; 1: Admin;
   avatar?: string;
   email: string;
   password: string;

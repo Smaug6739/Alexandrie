@@ -5,6 +5,7 @@ import type { User, ConnectionLog } from './db_strustures';
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: ref<User>(),
+    users: ref<User[]>([]),
     last_connection: null as ConnectionLog | null,
   }),
   actions: {
@@ -28,13 +29,31 @@ export const useUserStore = defineStore('user', {
         request.status === 'success' ? resolve(true) : reject(request.message);
       });
     },
-    fetch() {
+    fetch(): Promise<User | undefined> {
       return new Promise(async (resolve, reject) => {
+        if (this.user) return resolve(this.user);
         const responce = await makeRequest<{ user: User; last_connection: ConnectionLog }>(`users/@me`, 'GET', {});
         if (responce.status === 'success') {
           if (responce.result?.user) this.user = responce.result.user as User;
           if (responce.result?.last_connection) this.last_connection = responce.result.last_connection as ConnectionLog;
           return resolve(this.user);
+        } else reject(responce.message);
+      });
+    },
+    fetchById(id: string): Promise<User | undefined> {
+      return new Promise(async (resolve, reject) => {
+        const responce = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});
+        if (responce.status === 'success') return resolve(responce.result?.user as User);
+        else reject(responce.message);
+      });
+    },
+    fetchAll() {
+      return new Promise(async (resolve, reject) => {
+        if (this.users.length) return resolve(this.users);
+        const responce = await makeRequest<{ users: User[] }>(`users`, 'GET', {});
+        if (responce.status === 'success') {
+          if (responce.result?.users) this.users = responce.result.users as User[];
+          return resolve(this.users);
         } else reject(responce.message);
       });
     },

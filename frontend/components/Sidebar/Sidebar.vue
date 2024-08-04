@@ -44,6 +44,17 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
   if (e.ctrlKey && e.key === 'q') showSearchModal.value = !showSearchModal.value;
 };
 
+if (import.meta.client && useUserStore().user?.role === 2) {
+  navigationItems.push({
+    id: 'manage-users',
+    type: 'default',
+    title: 'Manage users',
+    icon: 'users',
+    route: '/dashboard/admin/users',
+    childrens: [],
+  });
+}
+
 const items = computed((): Item[] => {
   const navigation: Item[] = navigationItems.map(item => ({ id: item.id, parent_id: '', title: item.title, route: item.route, icon: item.icon, type: 'navigation', data: item }));
   const categories: Item[] = categoriesStore.categories
