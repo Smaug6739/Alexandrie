@@ -27,7 +27,7 @@ const seeIcon = ` <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox=
 const rows: any = computed(() =>
   userStore.users.map(res => {
     return {
-      username: { content: `<img style="border-radius:50%;width:30px;" src="${useAvatar(res)}"/>&nbsp;&nbsp;&nbsp;${res.username}`, type: 'html' },
+      username: { content: `<img style="border-radius:50%;width:30px;height:30px;" src="${useAvatar(res)}"/>&nbsp;&nbsp;&nbsp;${res.username}`, type: 'html' },
       firstname: { content: res.firstname },
       lastname: { content: res.lastname },
       email: { content: res.email },
