@@ -219,6 +219,7 @@ CREATE TABLE `users` (
   `username` varchar(25) NOT NULL,
   `firstname` varchar(25) DEFAULT NULL,
   `lastname` varchar(25) DEFAULT NULL,
+  `role` int default 1 NOT NULL,
   `avatar` varchar(75) DEFAULT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
