@@ -25,13 +25,7 @@ export class App {
     this.app = express();
     this.port = process.env.PORT || '3000';
     this.snowflake = new Snowflake(1661327668261);
-    this.db = db(
-      '127.0.0.1',
-      process.env.DB_USER,
-      process.env.DB_PASSWORD,
-      process.env.DB_NAME || 'alexandrie',
-      parseInt(process.env.DB_PORT || '3306'),
-    );
+    this.db = db('127.0.0.1', process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, 'alexandrie', 3306);
   }
   private async handleRoutes() {
     const directories = readdirSync(join(__dirname, 'routes'));
