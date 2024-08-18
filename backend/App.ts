@@ -26,7 +26,7 @@ export class App {
     this.port = process.env.PORT || '3000';
     this.snowflake = new Snowflake(1661327668261);
     this.db = db(
-      process.env.DB_HOST,
+      '127.0.0.1',
       process.env.DB_USER,
       process.env.DB_PASSWORD,
       process.env.DB_NAME || 'alexandrie',
