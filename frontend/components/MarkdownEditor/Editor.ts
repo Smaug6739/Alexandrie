@@ -130,7 +130,8 @@ export class Editor extends EventTarget {
     // Prevent the default space character from being inserted
     return true;
   }
-  public handleInlineToolbar() {
+  public async handleInlineToolbar() {
+    await new Promise(resolve => setTimeout(resolve, 10));
     if (!this.inlineToolbar?.value?.element) return;
     const toolbarElement = this.inlineToolbar.value.element;
     toolbarElement.style.display = 'none';
