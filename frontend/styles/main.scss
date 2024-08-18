@@ -46,36 +46,6 @@
 	display: flex;
 }
 
-.btn {
-	display: block;
-	font-weight: 600;
-	margin-right: 5px;
-	color: #fff;
-	gap: 5px;
-	margin-top: 5px;
-
-	&.primary {
-		background: $primary-400;
-
-		&:hover {
-			background: $primary-500;
-		}
-	}
-
-	&.secondary {
-		border: 1px solid $primary-400;
-		color: var(--font-color)
-	}
-
-	&.danger {
-		background: $red;
-
-		&:hover {
-			background: darken($red, 10%);
-		}
-	}
-}
-
 body {
 	background: var(--bg-color);
 	color: var(--font-color);

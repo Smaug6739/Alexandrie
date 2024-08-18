@@ -27,14 +27,7 @@ button {
 	border-radius: 6px;
 	color: var(--font-color);
 	cursor: pointer;
-	transition: transform $transition-duration;
-	width: fit-content;
 	background: transparent;
-
-	&:disabled {
-		opacity: 0.8;
-		cursor: not-allowed;
-	}
 }
 
 
