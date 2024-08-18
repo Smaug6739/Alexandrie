@@ -1,8 +1,3 @@
-<script setup lang="ts">
-defineProps<{ show: boolean }>()
-const emit = defineEmits(['close', 'confirm'])
-</script>
-
 <template>
   <Transition name="modal">
     <div v-if="show" class="modal-mask">
@@ -13,30 +8,22 @@ const emit = defineEmits(['close', 'confirm'])
   </Transition>
 </template>
 
+<script setup lang="ts">
+defineProps<{ show: boolean }>();
+const emit = defineEmits(['close', 'confirm']);
+</script>
+
 <style lang="scss" scoped>
 .modal-container {
   width: 500px;
   margin: auto;
-  padding: 20px 30px;
+  padding: 20px;
   background-color: var(--bg-contrast);
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   font-size: initial;
 }
-
-.modal-body {
-  margin: 20px 0;
-}
-
-.modal-close-button {
-  float: left;
-}
-
-.modal-confirm-button {
-  float: right;
-}
-
 
 .modal-enter-from,
 .modal-leave-to {
