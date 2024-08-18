@@ -9,11 +9,11 @@
       </div>
       <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computed</span>.</div>
     </div>
-    <button @click="submitFile" :disabled="!selectedFile">Upload on server</button>
+    <AButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AButton>
     <div v-if="isLoading" class="loading-spinner"></div>
     <div v-if="fileLink" class="link-section">
       <input type="text" v-model="fileLink" readonly />
-      <button @click="copyLink">Copy link</button>
+      <AButton @click="copyLink" type="primary">Copy link</AButton>
     </div>
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows" />
@@ -97,11 +97,6 @@ const rows: any = computed(() =>
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-button {
-  background-color: var(--font-color);
-  color: var(--bg-color);
 }
 
 h2 {

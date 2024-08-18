@@ -24,7 +24,7 @@
           <label for="order">Order</label>
           <input type="number" v-model.number="category.order" id="order" />
         </div>
-        <button type="submit" class="btn primary">Create</button>
+        <AButton type="primary">Create</AButton>
       </form>
     </div>
   </div>

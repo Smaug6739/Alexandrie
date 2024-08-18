@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%">
     <div class="category-form-container">
-      <h2>Modifier la catégorie</h2>
+      <h2>Update category</h2>
       <form @submit.prevent="updateCategory">
         <div class="input-group">
           <label for="id">ID</label>
@@ -28,9 +28,9 @@
           <label for="order">Ordre</label>
           <input type="number" v-model.number="category.order" id="order" />
         </div>
-        <div style="display: flex">
-          <button class="btn danger" @click="deleteCategory()">Delete</button>
-          <button type="submit" class="btn primary">Update</button>
+        <div style="display: flex; justify-content: flex-end">
+          <AButton type="danger" @click="deleteCategory()">Delete</AButton>
+          <AButton type="primary" class="btn primary">Update</AButton>
         </div>
       </form>
     </div>
