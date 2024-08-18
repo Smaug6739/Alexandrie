@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.37, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.39, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: alexandrie
 -- ------------------------------------------------------
--- Server version	8.0.37-0ubuntu0.24.04.1
+-- Server version	8.0.39-0ubuntu0.24.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -219,11 +219,11 @@ CREATE TABLE `users` (
   `username` varchar(25) NOT NULL,
   `firstname` varchar(25) DEFAULT NULL,
   `lastname` varchar(25) DEFAULT NULL,
-  `role` int default 1 NOT NULL,
+  `role` int NOT NULL DEFAULT '1' COMMENT '1 = user; 2 = admin',
   `avatar` varchar(75) DEFAULT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
   `created_timestamp` bigint NOT NULL,
+  `password` varchar(255) NOT NULL,
   `updated_timestamp` bigint NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -238,4 +238,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-29 13:28:38
+-- Dump completed on 2024-08-11 10:57:24
