@@ -44,12 +44,12 @@ watchEffect(() => {
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
-  content: '/';
+  content: '>';
   padding: 0 0.5rem;
 }
 
 .breadcrumb-item a {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 500;
 }
 </style>
