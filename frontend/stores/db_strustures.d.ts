@@ -5,7 +5,7 @@ export interface DB_Document {
   tags?: string;
   category?: string;
   parent_id?: string | null;
-  accessibility: number; // 0: No; 1: Yes;
+  accessibility: number; // 1 Visible; 2 Draft; 3 Archived;
   content_markdown?: string;
   content_html?: string;
   author_id: string;

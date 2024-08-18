@@ -18,7 +18,7 @@ import compile from '~/helpers/markdown';
 import InlineToolbar from '~/components/MarkdownEditor/InlineToolbar.vue';
 import type { Document } from '~/stores';
 
-const props = defineProps<{ doc?: Document }>();
+const props = defineProps<{ doc?: Partial<Document> }>();
 const document = ref<Document | Partial<Document>>({ ...props.doc });
 const toolbar = ref<{ element: HTMLDivElement }>();
 const container = ref<HTMLDivElement>();
