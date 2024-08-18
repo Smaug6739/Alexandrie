@@ -44,7 +44,7 @@
               <img :src="avatarPreview || useAvatar(store.user)" class="avatar" @click="selectAvatar" />
               <input ref="avatarInput" type="file" accept="image/*" @change="previewAvatar" style="display: none" />
             </div>
-            <button type="submit" class="btn primary">Update</button>
+            <AButton type="primary">Update profile</AButton>
           </form>
         </div>
         <div v-show="currentPage === 'preferences'" class="page preferences">
@@ -80,23 +80,23 @@
               <input id="password" type="password" required v-model="passwordValue" />
             </div>
             <div class="form-group">
-              <label for="password_confirm">Confirm password</label>
+              <span style="display: flex"><label for="password_confirm">Confirm password</label> <span v-if="errorMessages.passwordNotMatch" class="err"> Password do not match !</span></span>
               <input id="password_confirm" type="password" required v-model="passwordConfirmValue" />
             </div>
-            <button type="submit" class="btn primary">Update</button>
+            <AButton type="danger">Change password</AButton>
           </form>
         </div>
         <div v-show="currentPage == 'backup'" class="page backup_page">
           <h1>Create a Database Backup</h1>
           <p>Click the button below to create a backup of your database.</p>
-          <button @click="submitFile" class="btn primary">Create Backup</button>
+          <AButton @click="submitFile" type="primary">Create Backup</AButton>
           <div v-if="isLoading" class="loading-spinner"></div>
           <div class="link-section" v-if="downloadLink">
             <p>Your backup is ready. You can copy the link to share it or download it.</p>
             <input type="text" v-model="downloadLink" readonly placeholder="Backup Link" />
             <div style="display: flex">
-              <button @click="copyLink" class="btn secondary">Copy Link</button>
-              <a :href="downloadLink" download><button class="btn primary">Download Backup</button></a>
+              <AButton @click="copyLink" type="secondary">Copy Link</AButton>
+              <a :href="downloadLink" download><AButton type="primary">Download Backup</AButton></a>
             </div>
           </div>
         </div>
@@ -113,6 +113,10 @@ const ressourcesStore = useRessourcesStore();
 const avatarInput = ref<HTMLInputElement | null>(null);
 const passwordValue = ref('');
 const passwordConfirmValue = ref('');
+
+const errorMessages = ref({
+  passwordNotMatch: false,
+});
 
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 
@@ -150,7 +154,11 @@ const updateUser = async () => {
 };
 const changePassword = async () => {
   if (!store.user) return;
-  if (passwordValue.value !== passwordConfirmValue.value) return;
+  console.log(passwordValue.value, passwordConfirmValue.value);
+
+  if (passwordValue.value !== passwordConfirmValue.value) {
+    return (errorMessages.value.passwordNotMatch = true);
+  }
   store.updatePassword(passwordValue.value);
 };
 
@@ -246,6 +254,11 @@ form {
     flex-direction: column;
   }
 }
+.err {
+  color: $red;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+}
 .profil_page {
   .avatar-group {
     display: flex;
@@ -274,7 +287,7 @@ form {
   }
 
   .warning {
-    color: var(--red);
+    color: $red;
     font-size: 0.9rem;
   }
 }
