@@ -46,4 +46,4 @@ const snippets = [
   },
 ];
 
-export { type Snippet, snippets };
+export { snippets };

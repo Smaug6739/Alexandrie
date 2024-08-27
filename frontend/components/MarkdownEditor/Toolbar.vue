@@ -1,12 +1,12 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn" @click="emitAction(item.action)" :title="item.name"></button>
-    <select v-model="copy.accessibility" style="margin-right: 5px">
+    <select v-if="!minimal" v-model="copy.accessibility" style="margin-right: 5px">
       <option :value="1">Visible</option>
       <option :value="2">Draf</option>
       <option :value="3">Archive</option>
     </select>
-    <select v-model="copy.category" style="margin-right: 5px">
+    <select v-if="!minimal" v-model="copy.category" style="margin-right: 5px">
       <optgroup v-for="cat in categoriesStore.getParents" :label="cat.name" :key="cat.id">
         <option v-for="subCat in categoriesStore.getChilds(cat.id)" :value="subCat.id" :key="subCat.id" v-text="subCat.name"></option>
       </optgroup>
@@ -19,7 +19,7 @@
 import { useCategoriesStore, type Document } from '~/stores';
 
 const categoriesStore = useCategoriesStore();
-const props = defineProps<{ document: Partial<Document> }>();
+const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
 const copy = ref(props.document);
 const emit = defineEmits(['execute-action']);
 const emitAction = (action: string) => emit('execute-action', action, copy);

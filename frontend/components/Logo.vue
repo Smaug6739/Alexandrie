@@ -3,8 +3,18 @@ const colorMode = useColorMode();
 </script>
 
 <template>
-	<div style="display: flex; align-items: center; column-gap: 0.5rem">
-		<img style="width: 50px" :src="`/Alexandrie-${colorMode.value}.svg`" alt="Alexandrie" />
-		<p style="font-weight: 600; font-family: Poppins">Alexandrie</p>
-	</div>
+  <div style="display: flex; align-items: center; column-gap: 0.5rem">
+    <img style="width: 50px" :src="`/Alexandrie-${colorMode.value}.svg`" alt="Alexandrie" />
+    <p style="font-weight: 600; font-family: Poppins">Alexandrie</p>
+  </div>
 </template>
+<style scoped>
+@media screen and (max-width: 768px) {
+  p {
+    display: none;
+  }
+  img {
+    margin: 0 10px;
+  }
+}
+</style>

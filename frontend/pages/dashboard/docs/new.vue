@@ -2,7 +2,7 @@
   <MarkdownEditor ref="editor" :doc="document" @save="data => save(data)" />
 </template>
 <script lang="ts" setup>
-import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
+import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
 import type { Document } from '@/stores';
 
 const store = useDocumentsStore();
