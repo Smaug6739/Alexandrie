@@ -116,7 +116,7 @@ async function connect(username: string, password: string) {
   border-radius: 50px;
   width: 100%;
   background-color: $primary-300;
-
+  color: white;
   &:hover {
     background: $primary-500;
     transform: none;

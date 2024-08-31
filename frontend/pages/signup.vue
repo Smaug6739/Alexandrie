@@ -92,7 +92,7 @@ function register() {
 
 async function createAccount(username: string, email: string, password: string) {
   userStore
-    .register({ username, email, password })
+    .register({ username, email, password, role: 1 })
     .then(() => {
       router.push('/login');
     })
@@ -169,6 +169,7 @@ async function createAccount(username: string, email: string, password: string) 
   border-radius: 50px;
   width: 100%;
   background-color: $primary-300;
+  color: white;
 
   &:hover {
     background: $primary-500;
