@@ -36,6 +36,13 @@ button {
     outline: 1px solid $primary-500;
   }
 }
+.success {
+  background: $green;
+  color: white;
+  &:hover {
+    background: darken($green, 10%);
+  }
+}
 .link {
   background: none;
   color: $primary-400;

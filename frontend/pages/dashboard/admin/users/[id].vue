@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <button @click="saveChanges">Save Changes</button>
+      <AButton @click="saveChanges" type="success">Save Changes</AButton>
     </div>
     <div v-else>No user found.</div>
   </div>
@@ -46,6 +46,7 @@
 
 <script setup lang="ts">
 import type { User } from '@/stores';
+import AButton from '~/components/AButton.vue';
 
 const route = useRoute();
 const user = ref<User | undefined>(undefined);
@@ -55,16 +56,15 @@ watchEffect(async () => {
 });
 
 const saveChanges = async () => {
-  if (user.value) {
-    useUserStore()
-      .update(user.value)
-      .then(() => {
-        useNotifications().add({ type: 'success', title: 'Success', message: 'User updated successfully', timeout: 5000 });
-      })
-      .catch(e => {
-        useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 5000 });
-      });
-  }
+  if (!user.value) return;
+  useUserStore()
+    .update(user.value)
+    .then(() => {
+      useNotifications().add({ type: 'success', title: 'Success', message: 'User updated successfully', timeout: 5000 });
+    })
+    .catch(e => {
+      useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 5000 });
+    });
 };
 
 definePageMeta({ breadcrumb: 'User Details' });
@@ -98,27 +98,7 @@ definePageMeta({ breadcrumb: 'User Details' });
 label {
   font-weight: bold;
 }
-
-input,
-select {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
 button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
   margin-top: 1rem;
-}
-
-button:hover {
-  background-color: #0056b3;
 }
 </style>
