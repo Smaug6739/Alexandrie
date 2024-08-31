@@ -65,15 +65,13 @@ p {
 }
 
 .error {
-  border-color: var(--red-border);
-  color: var(--red);
-  background-color: var(--red-bg);
+  color: white;
+  background-color: red;
 }
 
 .success {
-  border-color: var(--green-border);
-  color: var(--green);
-  background-color: var(--green-bg);
+  color: white;
+  background-color: $green;
 }
 
 .warning {
