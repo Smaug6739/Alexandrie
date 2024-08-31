@@ -48,7 +48,7 @@ function treatQueue(access_token: boolean = true) {
     for (const request of requestQueue) {
       request.resolve({ status: 'error', message: 'Failed to fetch.' });
     }
-    useUserStore().logout();
+    useUserStore().post_logout();
     navigateTo('/login');
   } else {
     for (const request of requestQueue) {
