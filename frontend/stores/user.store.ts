@@ -20,9 +20,7 @@ export const useUserStore = defineStore('user', {
         return e;
       }
     },
-    logout() {
-      if (import.meta.client) localStorage.removeItem('isLoggedIn');
-    },
+
     register(user: Omit<User, 'id' | 'created_timestamp'>) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest('users', 'POST', user);
@@ -76,6 +74,28 @@ export const useUserStore = defineStore('user', {
           return resolve(this.user);
         } else reject(request.message);
       });
+    },
+    logout() {
+      return new Promise(async (resolve, reject) => {
+        if (!this.user) return;
+        const request = await makeRequest(`auth/logout`, 'POST', {});
+        if (request.status === 'success') {
+          return resolve(true);
+        } else reject(request.message);
+      });
+    },
+    logout_all() {
+      return new Promise(async (resolve, reject) => {
+        if (!this.user) return;
+        const request = await makeRequest(`auth/logout/all`, 'POST', {});
+        if (request.status === 'success') {
+          return resolve(true);
+        } else reject(request.message);
+      });
+    },
+    post_logout() {
+      this.user = undefined;
+      if (import.meta.client) localStorage.removeItem('isLoggedIn');
     },
   },
 });

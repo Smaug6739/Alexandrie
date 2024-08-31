@@ -5,6 +5,7 @@ import type { Session, SessionDB } from '../types';
 export class SessionsManager extends Base {
   constructor(app: App) {
     super(app);
+    this.deleteOldSessions();
     setInterval(() => this.deleteOldSessions(), 1000 * 60 * 60); // 1 hour
   }
 
@@ -76,6 +77,23 @@ export class SessionsManager extends Base {
       });
     });
   }
+  markSessionInactive(refresh_token: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<SessionDB[]>('UPDATE sessions SET active = 0 WHERE refresh_token = ?', [refresh_token], async err => {
+        if (err) return reject('Internal database error.');
+        resolve(true);
+      });
+    });
+  }
+  markAllSessionsInactive(user_id: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<SessionDB[]>('UPDATE sessions SET active = 0 WHERE user_id = ?', [user_id], async err => {
+        if (err) return reject('Internal database error.');
+        resolve(true);
+      });
+    });
+  }
+
   deleteOldSessions(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.app.logger.info('[SESSIONS] Deleting old sessions...');

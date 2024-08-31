@@ -42,11 +42,35 @@ export default class Authentification extends BaseController<UsersManager> {
       res.status(500).json(this.utils.error(e));
     }
   }
-  public logout(_: Request, res: Response): void {
-    res.clearCookie('user_auth', { domain: process.env.FRONT_DOMAIN });
-    res.clearCookie('user_id', { domain: process.env.FRONT_DOMAIN });
-    res.clearCookie('user_token', { domain: process.env.FRONT_DOMAIN });
-    res.status(200).json(this.utils.success({ auth: false }));
+  public async logout(req: Request, res: Response) {
+    try {
+      res.clearCookie('user_auth', { domain: process.env.FRONT_DOMAIN });
+      res.clearCookie('user_id', { domain: process.env.FRONT_DOMAIN });
+      res.clearCookie('user_token', { domain: process.env.FRONT_DOMAIN });
+      res.clearCookie('user_refresh_token', { domain: process.env.FRONT_DOMAIN });
+
+      // Mark session as inactive
+      const refreshToken = req.cookies.user_refresh_token;
+      if (refreshToken) await this.sessions.markSessionInactive(refreshToken);
+
+      res.status(200).json(this.utils.success({ auth: false }));
+    } catch (e) {
+      res.status(500).json(this.utils.error(e));
+    }
+  }
+  public async logout_all(req: Request, res: Response) {
+    try {
+      const refreshToken = req.cookies.user_refresh_token;
+      if (!req.user_id) throw 'No user id provided';
+      if (refreshToken) await this.sessions.markAllSessionsInactive(req.user_id);
+      res.clearCookie('user_auth', { domain: process.env.FRONT_DOMAIN });
+      res.clearCookie('user_id', { domain: process.env.FRONT_DOMAIN });
+      res.clearCookie('user_token', { domain: process.env.FRONT_DOMAIN });
+      res.clearCookie('user_refresh_token', { domain: process.env.FRONT_DOMAIN });
+      res.status(200).json(this.utils.success({ auth: false }));
+    } catch (e) {
+      res.status(500).json(this.utils.error(e));
+    }
   }
 
   public async refresh_session(req: Request, res: Response) {

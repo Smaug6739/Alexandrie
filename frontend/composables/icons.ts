@@ -15,6 +15,7 @@ const icons = {
   file: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path style="fill:var(--red);" d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"/></svg>`,
   file_parent: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path style="fill:var(--green);" d="M320-320h200v-200H320v200Zm0-280h480v-200H320v200Zm280 280h200v-200H600v200Zm-280 80q-33 0-56.5-23.5T240-320v-480q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H320ZM160-80q-33 0-56.5-23.5T80-160v-560h80v560h560v80H160Z"/></svg>`,
   archive: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="2.5" width="11" height="11" rx="1.5" fill="var(--grey-bg)" stroke="var(--grey)"/><rect x="6" y="4" width="2" height="2" rx="0.5" fill="var(--grey)"/><rect x="6" y="8" width="2" height="2" rx="0.5" fill="var(--grey)"/><rect x="8" y="10" width="2" height="2" rx="0.5" fill="var(--grey)"/><rect x="8" y="6" width="2" height="2" rx="0.5" fill="var(--grey)"/></svg>`,
+  logout: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>`,
 };
 export type IconName = keyof typeof icons;
 
