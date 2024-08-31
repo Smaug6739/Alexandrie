@@ -81,6 +81,8 @@ export class DocumentsManager extends Base {
           data.updated_timestamp,
         ],
         err => {
+          console.log(err);
+
           if (err) return reject('Internal database error.');
           resolve(data);
         },
