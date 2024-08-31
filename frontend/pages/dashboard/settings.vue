@@ -17,6 +17,8 @@
         <span>Workspaces</span>
         <NuxtLink to="/dashboard/categories"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
         <NuxtLink to="/dashboard/docs"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
+        <span>Other</span>
+        <NuxtLink @click="logout"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
       </nav>
       <div class="content">
         <button @click="close" class="close-btn"><Icon name="close" :big="true" /></button>
@@ -85,6 +87,9 @@
             </div>
             <AButton type="danger">Change password</AButton>
           </form>
+          <h2>Danger</h2>
+          <AButton type="danger" @click="logout">Log out</AButton>
+          <AButton type="danger" @click="logout_all">Log out from all devices</AButton>
         </div>
         <div v-show="currentPage == 'backup'" class="page backup_page">
           <h1>Create a Database Backup</h1>
@@ -113,14 +118,14 @@ const ressourcesStore = useRessourcesStore();
 const avatarInput = ref<HTMLInputElement | null>(null);
 const passwordValue = ref('');
 const passwordConfirmValue = ref('');
-
+const router = useRouter();
 const errorMessages = ref({
   passwordNotMatch: false,
 });
 
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 
-const close = () => useRouter().push('/dashboard');
+const close = () => router.push('/dashboard');
 const avatarPreview = ref('');
 const selectAvatar = () => avatarInput.value?.click();
 
@@ -175,6 +180,35 @@ async function submitFile() {
   }
   downloadLink.value = `${CDN}${result.result?.url || ''}`;
 }
+
+function logout() {
+  store
+    .logout()
+    .then(() => {
+      useNotifications().add({ title: 'Success:', message: 'Logged out', type: 'success', timeout: 3000 });
+      setTimeout(() => {
+        store.post_logout();
+        router.push('/login');
+      }, 3000);
+    })
+    .catch(e => {
+      useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 });
+    });
+}
+function logout_all() {
+  store
+    .logout_all()
+    .then(() => {
+      useNotifications().add({ title: 'Success:', message: 'Logged out from all devices', type: 'success', timeout: 3000 });
+      setTimeout(() => {
+        store.post_logout();
+        router.push('/login');
+      }, 3000);
+    })
+    .catch(e => {
+      useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 });
+    });
+}
 </script>
 
 <style scoped lang="scss">
@@ -189,7 +223,6 @@ async function submitFile() {
   max-width: calc(-100px + 100vw);
   max-height: 715px;
   margin: auto;
-  overflow-y: auto;
   nav {
     gap: 1rem;
     background-color: var(--bg-contrast);
@@ -237,6 +270,7 @@ async function submitFile() {
   position: relative;
   flex: 1;
   padding: 2rem;
+  overflow-y: auto;
 }
 .close-btn {
   position: absolute;
