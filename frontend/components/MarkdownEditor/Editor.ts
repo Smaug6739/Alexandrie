@@ -140,7 +140,8 @@ export class Editor extends EventTarget {
     const toolbarElement = this.inlineToolbar.value.element;
     toolbarElement.style.display = 'none';
     const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0 || selection.toString().length == 0) return;
+    if (!selection || selection.rangeCount === 0 || selection.toString().trim().length == 0) return;
+    if (selection.getRangeAt(0).startContainer != this.area.value?.parentElement) return;
     const { top, left } = this.getCaretPosition();
     if (top - this.area.value!.scrollTop + 25 < 0) return;
     toolbarElement.style.top = `${top - this.area.value!.scrollTop + 25}px`;
