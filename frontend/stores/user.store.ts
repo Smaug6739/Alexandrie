@@ -62,7 +62,7 @@ export const useUserStore = defineStore('user', {
         if (!this.user) return;
         const request = await makeRequest(`users/${user.id}`, 'PATCH', user);
         if (request.status === 'success') {
-          this.user = request.result as User;
+          if (this.user.id == user.id) this.user = request.result as User;
           return resolve(this.user);
         } else reject(request.message);
       });
