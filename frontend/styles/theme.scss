@@ -2,10 +2,6 @@ a {
 	text-decoration: none;
 	color: var(--font-color);
 	transition: color $transition-duration;
-
-	&:hover {
-		color: $primary-500;
-	}
 }
 
 blockquote {
