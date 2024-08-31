@@ -65,7 +65,7 @@ function emitSave() {
 
 <style scoped lang="scss">
 .editor-container {
-  height: 95%;
+  height: 90%;
   width: 100%;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border-radius: 15px;
