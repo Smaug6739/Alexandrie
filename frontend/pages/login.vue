@@ -22,7 +22,6 @@
   </div>
 </template>
 <script setup lang="ts">
-const router = useRouter();
 const username = ref('');
 const errors = ref({
   username: '',
@@ -47,7 +46,7 @@ function login() {
 
 async function connect(username: string, password: string) {
   const result = await userStore.login(username, password);
-  if (result == true) router.push('/dashboard');
+  if (result == true) useRouter().push('/dashboard');
   else errors.value.general = String(result);
 }
 </script>
