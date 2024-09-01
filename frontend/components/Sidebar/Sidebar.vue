@@ -13,9 +13,12 @@
 
       <div class="user" v-if="userStore.user">
         <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
-        <div>
-          <div>{{ userStore.user.username }}</div>
-          <div class="email">{{ userStore.user.email }}</div>
+        <div class="details">
+          <div>
+            <div>{{ userStore.user.username }}</div>
+            <div class="email">{{ userStore.user.email }}</div>
+          </div>
+          <Icon name="logout" @click="logoutUser" class="logout" />
         </div>
       </div>
       <Search />
@@ -45,14 +48,15 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 };
 
 if (import.meta.client && useUserStore().user?.role === 2) {
-  navigationItems.push({
-    id: 'manage-users',
-    type: 'default',
-    title: 'Manage users',
-    icon: 'users',
-    route: '/dashboard/admin/users',
-    childrens: [],
-  });
+  if (navigationItems[navigationItems.length - 1]?.id !== 'manage-users')
+    navigationItems.push({
+      id: 'manage-users',
+      type: 'default',
+      title: 'Manage users',
+      icon: 'users',
+      route: '/dashboard/admin/users',
+      childrens: [],
+    });
 }
 
 const items = computed((): Item[] => {
@@ -142,12 +146,25 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   margin: 4px 0 0 5px;
-  div {
+  .details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     font-size: 0.85rem;
     margin-left: 5px;
     .email {
       font-size: 0.7rem;
       color: var(--font-color-light);
+    }
+    .logout {
+      display: none;
+      cursor: pointer;
+    }
+  }
+  &:hover {
+    .logout {
+      display: block;
+      opacity: 0.8;
     }
   }
 }
