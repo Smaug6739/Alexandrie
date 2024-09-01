@@ -19,8 +19,8 @@ export default class Authentification extends BaseController<UsersManager> {
   public async login(req: Request, res: Response) {
     try {
       const user = await this.manager.get(req.body.username);
-      if (!user) throw new Error('Bad username/password.');
-      if (!(await this.check_password(user, req.body.password))) throw new Error('Bad username/password.');
+      if (!user) throw 'Bad username or password.';
+      if (!(await this.check_password(user, req.body.password))) throw 'Bad username or password.';
       const session: Session = {
         id: this.app.snowflake.generate().toString(),
         user_id: user.id,

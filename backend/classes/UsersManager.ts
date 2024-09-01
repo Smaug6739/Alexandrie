@@ -20,11 +20,10 @@ export class UsersManager extends Base {
     updated_timestamp: { maxLength: 50, type: 'string', error: 'user updated timestamp invalid' },
   });
 
-  public get(username: string): Promise<UserDB> {
+  public get(username: string): Promise<UserDB | undefined> {
     return new Promise((resolve, reject) => {
       this.app.db.query<UserDB[]>('SELECT * FROM users WHERE username = ? LIMIT 1', [username], async (err, results) => {
         if (err) return reject('Internal database error.');
-        if (!results[0]) return reject('Bad username or password.');
         resolve(results[0]);
       });
     });

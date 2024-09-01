@@ -99,8 +99,6 @@ async function createAccount(username: string, email: string, password: string) 
       router.push('/login');
     })
     .catch(error => {
-      console.log('---------------', error);
-
       errors.value.general = error;
     });
 }

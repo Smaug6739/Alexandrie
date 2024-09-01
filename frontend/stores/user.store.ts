@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', {
         if (response.status == 'success' && response.result?.auth) {
           if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
           return true;
-        }
+        } else throw response.message;
       } catch (e) {
         return e;
       }
