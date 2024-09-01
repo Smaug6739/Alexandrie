@@ -17,9 +17,10 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
     });
   }
 
-  if (to.fullPath.startsWith('/login') || (to.fullPath.startsWith('/signup') && user_auth)) {
-    return navigateTo({
-      path: '/dashboard',
-    });
+  if (to.fullPath.startsWith('/login') || to.fullPath.startsWith('/signup')) {
+    if (user_auth)
+      return navigateTo({
+        path: '/dashboard',
+      });
   }
 });
