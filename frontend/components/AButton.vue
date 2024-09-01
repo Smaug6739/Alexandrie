@@ -12,10 +12,10 @@ const onClick = () => emit('click');
 
 <style scoped lang="scss">
 button {
-  padding: 8px 14px;
-  border-radius: 4px;
+  padding: 10px 14px;
+  border-radius: 5px;
   width: fit-content;
-  font-weight: 600;
+  font-size: 0.9rem;
   margin: 3px 3px 0 0;
   &:disabled {
     opacity: 0.8;
