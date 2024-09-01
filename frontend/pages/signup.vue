@@ -1,7 +1,8 @@
 <template>
   <div class="container">
+    <AppHeader />
     <form @submit.prevent="register" class="body">
-      <p class="login-link">Already have an account? <a href="/login">Log in</a></p>
+      <a href="/login" class="login-link">Already have an account? Log in</a>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
@@ -31,6 +32,7 @@
       <button type="submit" class="btn">Sign Up</button>
       <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
     </form>
+    <AppFooter />
   </div>
 </template>
 
@@ -106,11 +108,14 @@ async function createAccount(username: string, email: string, password: string) 
 
 <style scoped lang="scss">
 .container {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  height: 100%;
-  justify-content: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  padding-top: 1.5rem;
+  width: 95%;
+  margin: 0 auto;
 }
 
 .body {
@@ -122,6 +127,7 @@ async function createAccount(username: string, email: string, password: string) 
   padding: 3rem;
   background-color: var(--bg-contrast);
   border-radius: 15px;
+  margin: 0 auto;
 }
 
 .form-group {

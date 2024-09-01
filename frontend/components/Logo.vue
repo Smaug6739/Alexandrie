@@ -5,7 +5,7 @@ const colorMode = useColorMode();
 <template>
   <div style="display: flex; align-items: center; column-gap: 0.5rem">
     <img style="width: 50px" :src="`/Alexandrie-${colorMode.value}.svg`" alt="Alexandrie" />
-    <p style="font-weight: 600; font-family: Poppins">Alexandrie</p>
+    <NuxtLink to="/" style="font-weight: 600; font-family: Poppins">Alexandrie</NuxtLink>
   </div>
 </template>
 <style scoped>
