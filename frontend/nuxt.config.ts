@@ -67,6 +67,10 @@ export default defineNuxtConfig({
           type: 'image/x-icon',
           href: '/favicon.ico',
         },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com',
+        },
       ],
     },
   },
