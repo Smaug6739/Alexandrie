@@ -1,13 +1,14 @@
+<template>
+  <div style="display: flex; align-items: center; column-gap: 0.5rem">
+    <img style="width: 50px" :src="`/Alexandrie-${colorMode.value}.svg`" alt="Alexandrie" />
+    <NuxtLink to="/" style="font-weight: 600">Alexandrie</NuxtLink>
+  </div>
+</template>
+
 <script setup lang="ts">
 const colorMode = useColorMode();
 </script>
 
-<template>
-  <div style="display: flex; align-items: center; column-gap: 0.5rem">
-    <img style="width: 50px" :src="`/Alexandrie-${colorMode.value}.svg`" alt="Alexandrie" />
-    <NuxtLink to="/" style="font-weight: 600; font-family: Poppins">Alexandrie</NuxtLink>
-  </div>
-</template>
 <style scoped>
 @media screen and (max-width: 768px) {
   p {
