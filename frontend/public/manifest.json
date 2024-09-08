@@ -2,7 +2,7 @@
   "name": "Alexandrie",
   "short_name": "Alexandrie",
   "description": "Alexandrie application.",
-  "start_url": "/",
+  "start_url": "/dashboard",
   "display": "standalone",
   "background_color": "#2f3641",
   "theme_color": "#009df7",
