@@ -61,7 +61,7 @@ const paginator = new Paginator<Field>(
   itemsPerPage.value,
 );
 paginator.filter(row => {
-  return Object.values(row).some(value => value.content.toLowerCase().includes(searchInput.value.toLowerCase()));
+  return Object.values(row).some(value => value.content?.toLowerCase().includes(searchInput.value.toLowerCase()));
 });
 const data = paginator.currentPageItems;
 
