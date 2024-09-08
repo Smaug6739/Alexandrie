@@ -9,11 +9,11 @@
       </div>
       <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computed</span>.</div>
     </div>
-    <AButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AButton>
+    <AppButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AppButton>
     <div v-if="isLoading" class="loading-spinner"></div>
     <div v-if="fileLink" class="link-section">
       <input type="text" v-model="fileLink" readonly />
-      <AButton @click="copyLink" type="primary">Copy link</AButton>
+      <AppButton @click="copyLink" type="primary">Copy link</AppButton>
     </div>
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows" />

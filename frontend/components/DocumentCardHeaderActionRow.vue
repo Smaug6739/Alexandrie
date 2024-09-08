@@ -21,8 +21,8 @@
       <h3>Delete document</h3>
       <p>Are you sure you want to delete this document?</p>
       <p style="opacity: 0.7">This action is irreversible</p>
-      <AButton @click="deleteDoc" style="float: right" type="danger">Confirm</AButton>
-      <AButton @click="showDeleteModal = false" style="float: right" type="link">Cancel</AButton>
+      <AppButton @click="deleteDoc" style="float: right" type="danger">Confirm</AppButton>
+      <AppButton @click="showDeleteModal = false" style="float: right" type="link">Cancel</AppButton>
     </Modal>
   </span>
 </template>

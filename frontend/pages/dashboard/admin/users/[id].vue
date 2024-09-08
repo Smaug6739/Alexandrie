@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <AButton @click="saveChanges" type="success">Save Changes</AButton>
+      <AppButton @click="saveChanges" type="success">Save Changes</AppButton>
     </div>
     <div v-else>No user found.</div>
   </div>
@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import type { User } from '@/stores';
-import AButton from '~/components/AButton.vue';
+import AppButton from '~/components/AppButton.vue';
 
 const route = useRoute();
 const user = ref<User | undefined>(undefined);

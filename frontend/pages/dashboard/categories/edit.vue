@@ -29,8 +29,8 @@
           <input type="number" v-model.number="category.order" id="order" />
         </div>
         <div style="display: flex; justify-content: flex-end">
-          <AButton type="danger" @click="deleteCategory()">Delete</AButton>
-          <AButton type="primary" class="btn primary">Update</AButton>
+          <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
+          <AppButton type="primary" class="btn primary">Update</AppButton>
         </div>
       </form>
     </div>

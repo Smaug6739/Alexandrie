@@ -46,7 +46,7 @@
               <img :src="avatarPreview || useAvatar(store.user)" class="avatar" @click="selectAvatar" />
               <input ref="avatarInput" type="file" accept="image/*" @change="previewAvatar" style="display: none" />
             </div>
-            <AButton type="primary">Update profile</AButton>
+            <AppButton type="primary">Update profile</AppButton>
           </form>
         </div>
         <div v-show="currentPage === 'preferences'" class="page preferences">
@@ -85,23 +85,23 @@
               <span style="display: flex"><label for="password_confirm">Confirm password</label> <span v-if="errorMessages.passwordNotMatch" class="err"> Password do not match !</span></span>
               <input id="password_confirm" type="password" required v-model="passwordConfirmValue" />
             </div>
-            <AButton type="danger">Change password</AButton>
+            <AppButton type="danger">Change password</AppButton>
           </form>
           <h2>Danger</h2>
-          <AButton type="danger" @click="logoutUser">Log out</AButton>
-          <AButton type="danger" @click="logoutUserAll">Log out from all devices</AButton>
+          <AppButton type="danger" @click="logoutUser">Log out</AppButton>
+          <AppButton type="danger" @click="logoutUserAll">Log out from all devices</AppButton>
         </div>
         <div v-show="currentPage == 'backup'" class="page backup_page">
           <h1>Create a Database Backup</h1>
           <p>Click the button below to create a backup of your database.</p>
-          <AButton @click="submitFile" type="primary">Create Backup</AButton>
+          <AppButton @click="submitFile" type="primary">Create Backup</AppButton>
           <div v-if="isLoading" class="loading-spinner"></div>
           <div class="link-section" v-if="downloadLink">
             <p>Your backup is ready. You can copy the link to share it or download it.</p>
             <input type="text" v-model="downloadLink" readonly placeholder="Backup Link" />
             <div style="display: flex">
-              <AButton @click="copyLink" type="secondary">Copy Link</AButton>
-              <a :href="downloadLink" download><AButton type="primary">Download Backup</AButton></a>
+              <AppButton @click="copyLink" type="secondary">Copy Link</AppButton>
+              <a :href="downloadLink" download><AppButton type="primary">Download Backup</AppButton></a>
             </div>
           </div>
         </div>
