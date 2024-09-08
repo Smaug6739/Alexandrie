@@ -8,11 +8,15 @@ interface Snippet {
 const snippets = [
   {
     cmd: '!def',
-    value: ':::definition Définition: {$}\n:::',
+    value: ':::definition Definition: {$}\n:::',
   },
   {
     cmd: '!thm',
-    value: ':::theorem Théorème:{$}\n:::',
+    value: ':::theorem Theorem:{$}\n:::',
+  },
+  {
+    cmd: '!warn',
+    value: ':::warning Warning:{$}\n:::',
   },
   {
     cmd: '!m',
