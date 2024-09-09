@@ -60,7 +60,7 @@ if (import.meta.client && useUserStore().user?.role === 2) {
 }
 
 const items = computed((): Item[] => {
-  const navigation: Item[] = navigationItems.map(item => ({ id: item.id, parent_id: '', title: item.title, route: item.route, icon: item.icon, type: 'navigation', data: item }));
+  const navigation: Item[] = navigationItems.map(item => ({ id: item.id, parent_id: '', title: item.title, route: item.route, icon: item.icon, type: 'navigation', data: item, show: ref(true) }));
   const categories: Item[] = categoriesStore.categories
     .map((category: Category) => ({
       id: category.id,
@@ -69,6 +69,7 @@ const items = computed((): Item[] => {
       route: category.parent_id ? `/dashboard/categories/${category.id}` : '',
       icon: category.icon,
       data: category,
+      show: !category.parent_id && localStorage.getItem(`collapse-${category.id}`) === 'false' ? ref(false) : ref(true),
     }))
     .filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
   const documents: Item[] = documentsStore.documents
@@ -78,6 +79,7 @@ const items = computed((): Item[] => {
       title: document.name,
       route: `/dashboard/docs/${document.id}`,
       data: document,
+      show: ref(true),
     }))
     .filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
 

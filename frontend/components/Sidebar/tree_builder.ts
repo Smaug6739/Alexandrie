@@ -8,6 +8,7 @@ export interface Item {
   parent_id: string;
   data: Document | Category | DefaultItem;
   childrens?: Item[];
+  show: Ref<boolean>;
 }
 
 export class ItemsManager {
