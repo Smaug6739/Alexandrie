@@ -8,7 +8,7 @@
           <input type="text" v-model="category.id" id="id" disabled />
         </div>
         <div class="input-group">
-          <label for="name">Nom</label>
+          <label for="name">Name</label>
           <input type="text" v-model="category.name" id="name" required />
         </div>
         <div class="input-group">
@@ -25,7 +25,7 @@
           </select>
         </div>
         <div class="input-group">
-          <label for="order">Ordre</label>
+          <label for="order">Order</label>
           <input type="number" v-model.number="category.order" id="order" />
         </div>
         <div style="display: flex; justify-content: flex-end">
