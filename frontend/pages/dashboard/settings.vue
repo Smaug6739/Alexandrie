@@ -159,11 +159,7 @@ const updateUser = async () => {
 };
 const changePassword = async () => {
   if (!store.user) return;
-  console.log(passwordValue.value, passwordConfirmValue.value);
-
-  if (passwordValue.value !== passwordConfirmValue.value) {
-    return (errorMessages.value.passwordNotMatch = true);
-  }
+  if (passwordValue.value !== passwordConfirmValue.value) return (errorMessages.value.passwordNotMatch = true);
   store.updatePassword(passwordValue.value);
 };
 
