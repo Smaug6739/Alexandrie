@@ -3,7 +3,7 @@
     <ul ref="list" class="toc">
       <h4>Table of content</h4>
       <NodeTree v-if="headers.length" v-for="header of headers_tree" :node="header" :key="header.link" />
-      <p v-else>Aucun élément à afficher</p>
+      <p v-else>Nothing to display</p>
     </ul>
   </aside>
 </template>
