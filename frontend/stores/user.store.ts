@@ -1,4 +1,3 @@
-import { defineStore } from 'pinia';
 import { makeRequest } from './_utils';
 import type { User, ConnectionLog } from './db_strustures';
 
