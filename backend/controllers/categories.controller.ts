@@ -20,7 +20,9 @@ export default class CategoriesController extends BaseController<CategoriesManag
         name: req.body.name,
         icon: req.body.icon,
         order: req.body.order || 0,
+        role: req.body.role || 1,
         parent_id: req.body.parent_id || null,
+        workspace_id: req.body.workspace_id || null,
         author_id: req.user_id!,
       })
       .then(r => res.status(201).json(this.utils.success(r)))
@@ -36,7 +38,9 @@ export default class CategoriesController extends BaseController<CategoriesManag
         name: req.body.name,
         icon: req.body.icon,
         order: req.body.order,
+        role: req.body.role,
         parent_id: req.body.parent_id,
+        workspace_id: req.body.workspace_id,
         author_id: req.user_id!,
       });
       return res.status(200).json(this.utils.success(r));

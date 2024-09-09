@@ -1,47 +1,42 @@
 <template>
-  <div style="width: 100%">
-    <div class="category-form-container">
-      <h2>Update category</h2>
-      <form @submit.prevent="updateCategory">
-        <div class="input-group">
-          <label for="id">ID</label>
-          <input type="text" v-model="category.id" id="id" disabled />
-        </div>
-        <div class="input-group">
-          <label for="name">Name</label>
-          <input type="text" v-model="category.name" id="name" required />
-        </div>
-        <div class="input-group">
-          <label for="icon">Icon (svg supported)</label>
-          <textarea type="text" v-model="category.icon" id="icon" rows="5"></textarea>
-        </div>
-        <div class="input-group">
-          <label for="parent">Parent</label>
-          <select v-model="category.parent_id" id="parent">
-            <option value="">Aucun</option>
-            <option v-for="mainCategory in categoriesStore.getParents" :key="mainCategory.id" :value="mainCategory.id">
-              {{ mainCategory.name }}
-            </option>
-          </select>
-        </div>
-        <div class="input-group">
-          <label for="order">Order</label>
-          <input type="number" v-model.number="category.order" id="order" />
-        </div>
-        <div style="display: flex; justify-content: flex-end">
-          <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
-          <AppButton type="primary" class="btn primary">Update</AppButton>
-        </div>
-      </form>
-    </div>
+  <div class="category-form-container">
+    <h2>Update category & workspace</h2>
+    <form @submit.prevent="updateCategory">
+      <label>ID</label>
+      <input type="text" v-model="category.id" id="id" disabled />
+      <label>Role</label>
+      <select v-model="category.role">
+        <option :value="1">Category</option>
+        <option :value="2">Workspace</option>
+      </select>
+      <label>Name</label>
+      <input type="text" v-model="category.name" id="name" required />
+      <label>Icon (svg supported)</label>
+      <textarea type="text" v-model="category.icon" rows="5"></textarea>
+      <label>Workspace (for top categories)</label>
+      <select v-model="category.workspace_id">
+        <option :value="null">None</option>
+        <option v-for="wp in categoriesStore.getAll.filter(a => a.id != categoryId && a.role == 2)" :value="wp.id">{{ wp.name }}</option>
+      </select>
+      <label>Parent</label>
+      <select v-model="category.parent_id">
+        <option :value="null">None</option>
+        <option v-for="cp in categoriesStore.getParents.filter(a => a.id != categoryId && a.role == 1)" :value="cp.id">{{ cp.name }}</option>
+      </select>
+      <label for="order">Order</label>
+      <input type="number" v-model.number="category.order" id="order" />
+      <div style="display: flex; justify-content: flex-end">
+        <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
+        <AppButton type="primary" class="btn primary">Update</AppButton>
+      </div>
+    </form>
   </div>
 </template>
 
 <script lang="ts" setup>
-const route = useRoute();
 const categoriesStore = useCategoriesStore();
-const category = computed(() => categoriesStore.getById(categoryId as string) || { id: '', name: '', icon: '', parent_id: '', order: 0, type: 'category' as const });
-const categoryId = route.query.category;
+const categoryId = useRoute().query.category;
+const category = computed(() => categoriesStore.getById(categoryId as string) || { id: '', role: 1, name: '', icon: '', workspace_id: '', parent_id: '', order: 0, type: 'category' as const });
 
 definePageMeta({ breadcrumb: 'Edit' });
 
@@ -71,24 +66,25 @@ const deleteCategory = async () => {
 .category-form-container {
   padding: 25px;
   margin: 40px auto;
-  background-color: var(--bg-contrast);
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--bg-color);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  min-width: 30%;
-  max-width: 600px;
+  min-width: 40%;
+  max-width: 800px;
 }
 
 h2 {
   font-size: 26px;
   text-align: center;
 }
-
-.input-group {
-  margin-bottom: 20px;
+label {
+  margin-top: 10px;
 }
 
 input,
-textarea {
+textarea,
+select {
   width: 100%;
+  background-color: var(--bg-contrast);
 }
 </style>

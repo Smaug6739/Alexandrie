@@ -12,6 +12,8 @@ export class CategoriesManager extends Base {
     name: { minLength: 1, maxLength: 50, type: 'string', error: 'category name invalid' },
     icon: { maxLength: 10_000, type: 'string', error: 'category icon invalid', optional: true },
     order: { type: 'number', error: 'category order invalid', optional: true },
+    role: { type: 'number', minLength: 1, maxLength: 2, error: 'category role invalid' },
+    workspace_id: { maxLength: 50, type: 'string', error: 'category workspace id invalid', optional: true },
     parent_id: { maxLength: 50, type: 'string', error: 'category parent id invalid', optional: true },
     author_id: { minLength: 1, maxLength: 50, type: 'string', error: 'category author id invalid' },
   });
@@ -46,8 +48,8 @@ export class CategoriesManager extends Base {
       const error = this.validator.validate(data);
       if (error) return reject(error);
       this.app.db.query(
-        'INSERT INTO categories (`id`, `name`,`icon`, `order`, `parent_id`, `author_id`) VALUES (?, ?, ?, ?, ?, ?)',
-        [data.id, data.name, data.icon, data.order, data.parent_id, data.author_id],
+        'INSERT INTO categories (`id`, `name`,`icon`, `order`, `role`, `workspace_id`, `parent_id`, `author_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+        [data.id, data.name, data.icon, data.order, data.role, data.workspace_id, data.parent_id, data.author_id],
         err => {
           if (err) return reject('Internal database error.');
           else resolve(data);
@@ -61,8 +63,8 @@ export class CategoriesManager extends Base {
       const error = this.validator.validate(data);
       if (error) return reject(error);
       this.app.db.query(
-        'UPDATE categories SET name = ?, icon = ?, `order` = ?, parent_id = ? WHERE id = ?',
-        [data.name, data.icon, data.order, data.parent_id, data.id],
+        'UPDATE categories SET name = ?, icon = ?, `order` = ?, role = ?, workspace_id = ?, parent_id = ? WHERE id = ?',
+        [data.name, data.icon, data.order, data.role, data.workspace_id, data.parent_id, data.id],
         err => {
           if (err) return reject('Internal database error.');
           else resolve(data);

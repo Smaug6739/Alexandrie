@@ -21,6 +21,7 @@
           <Icon name="logout" @click="logoutUser" class="logout" />
         </div>
       </div>
+      <AppSelect :value="filterWorkspace" placeholder="Select workspace" :options="workspaces" @input="v => (filterWorkspace = v)" />
       <Search />
       <CollapseItem v-for="(item, index) in items" :key="index" :item="item" :root="true" />
     </div>
@@ -41,7 +42,12 @@ const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const userStore = useUserStore();
 const filter = ref<string>('');
+const filterWorkspace = ref<string>(localStorage.getItem('filterWorkspace') || 'all');
 const showSearchModal = ref<boolean>(false);
+const workspaces = computed(() => [{ text: 'All workspaces', value: 'all' }, ...categoriesStore.categories.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id }))]);
+watch(filterWorkspace, () => {
+  localStorage.setItem('filterWorkspace', filterWorkspace.value);
+});
 
 const handleSearchShortCut = (e: KeyboardEvent) => {
   if (e.ctrlKey && e.key === 'q') showSearchModal.value = !showSearchModal.value;
@@ -71,7 +77,7 @@ const items = computed((): Item[] => {
       data: category,
       show: !category.parent_id && localStorage.getItem(`collapse-${category.id}`) === 'false' ? ref(false) : ref(true),
     }))
-    .filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
+    .filter(c => c.data.role === 1 && c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
   const documents: Item[] = documentsStore.documents
     .map(document => ({
       id: document.id,
@@ -84,7 +90,10 @@ const items = computed((): Item[] => {
     .filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
 
   if (filter.value) return new ItemsManager([...navigation, ...documents]).generateTree();
-  return new ItemsManager([...navigation, ...documents, ...categories]).generateTree();
+  return new ItemsManager([...navigation, ...documents, ...categories]).generateTree().filter(c => {
+    if (c.data.type === 'category' && filterWorkspace.value != 'all') return c.data.workspace_id == filterWorkspace.value;
+    return true;
+  });
 });
 
 const handleClickOutside = (e: MouseEvent) => {

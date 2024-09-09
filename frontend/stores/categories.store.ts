@@ -1,4 +1,3 @@
-import { defineStore } from 'pinia';
 import { makeRequest, type FetchOptions } from './_utils';
 import type { Category, DB_Category } from './db_strustures';
 

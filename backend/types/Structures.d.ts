@@ -20,6 +20,8 @@ export interface Category {
   name: string;
   icon?: string;
   order?: number;
+  role: number; // 1 Category; 2 Workspace;
+  workspace_id?: string;
   parent_id?: string;
   author_id: string;
 }
