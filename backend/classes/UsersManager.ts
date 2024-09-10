@@ -31,7 +31,7 @@ export class UsersManager extends Base {
   public getAll(): Promise<UserDB[]> {
     return new Promise((resolve, reject) => {
       this.app.db.query<UserDB[]>(
-        'SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users',
+        'SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users ORDER BY created_timestamp',
         async (err, results) => {
           if (err) return reject('Internal database error.');
           resolve(results);
