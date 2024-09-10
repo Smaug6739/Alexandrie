@@ -1,28 +1,30 @@
 <template>
   <div :class="{ 'modal-mask': isMobile() && isOpened }"></div>
-  <Resizable class="sidebar">
-    <section class="header">
-      <span class="name">
-        <IconApp />
-        <NuxtLink style="font-size: 19px; font-weight: 600" to="/">Alexandrie</NuxtLink>
-      </span>
-      <IconClose class="btn" />
-    </section>
-    <input type="text" placeholder="Search or ctrl + q" class="search" v-model="filter" />
+  <Resizable>
+    <div class="sidebar">
+      <section class="header">
+        <span class="name">
+          <IconApp />
+          <NuxtLink style="font-size: 19px; font-weight: 600" to="/">Alexandrie</NuxtLink>
+        </span>
+        <IconClose class="btn" />
+      </section>
+      <input type="text" placeholder="Search or ctrl + q" class="search" v-model="filter" />
 
-    <div class="user" v-if="userStore.user">
-      <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
-      <div class="details">
-        <div>
-          <div>{{ userStore.user.username }}</div>
-          <div class="email">{{ userStore.user.email }}</div>
+      <div class="user" v-if="userStore.user">
+        <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+        <div class="details">
+          <div>
+            <div>{{ userStore.user.username }}</div>
+            <div class="email">{{ userStore.user.email }}</div>
+          </div>
+          <Icon name="logout" @click="logoutUser" class="logout" />
         </div>
-        <Icon name="logout" @click="logoutUser" class="logout" />
       </div>
+      <SidebarWorkspaces :options="workspaces" />
+      <Search />
+      <CollapseItem v-for="item in items" :key="item.id" :item="item" :root="true" />
     </div>
-    <SidebarWorkspaces :options="workspaces" />
-    <Search />
-    <CollapseItem v-for="item in items" :key="item.id" :item="item" :root="true" />
   </Resizable>
 </template>
 
