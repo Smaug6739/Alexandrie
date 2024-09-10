@@ -1,5 +1,5 @@
 <template>
-  <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }">
+  <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }" :key="item.id">
     <Icon :name="getIcon()" />
     <NuxtLink :to="item.route" style="width: 100%">{{ item.title }} </NuxtLink>
     <NuxtLink to="/dashboard/docs/new" class="new" v-if="item.data.type === 'category' && item.parent_id"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
@@ -66,7 +66,7 @@ const drop = async (event: DragEvent) => {
   if (draggedItem.type === 'category' && props.item.data.type === 'category') {
     // Move category to category
     if (draggedItem.id === props.item.id) return; // Prevent moving to the same category
-    categoriesStore.update({ ...draggedItem, parent_id: props.item.id });
+    categoriesStore.update({ ...draggedItem, parent_id: props.item.id, workspace_id: undefined });
   }
   if (draggedItem.type === 'document' && props.item.data.type === 'document') {
     // Move document to document
@@ -74,18 +74,13 @@ const drop = async (event: DragEvent) => {
     if (draggedItem.id === props.item.id) return; // Prevent moving to the same document
     documentStore.update({ ...draggedItem, parent_id: props.item.id, category: props.item.data.category });
   }
-  if (draggedItem.type === 'category' && props.item.data.type === 'category') {
-    // Move category to category
-    if (draggedItem.id === props.item.id) return; // Prevent moving to the same category
-    categoriesStore.update({ ...draggedItem, parent_id: props.item.id });
-  }
   if (draggedItem.type === 'category' && props.item.data.type === 'default') {
     // Move category to root
-    categoriesStore.update({ ...draggedItem, parent_id: undefined });
+    categoriesStore.update({ ...draggedItem, parent_id: undefined, workspace_id: useSidebar().workspaceId.value || undefined });
   }
   if (draggedItem.type === 'document' && props.item.data.type === 'default') {
     // Move document to root
-    documentStore.update({ ...draggedItem, parent_id: undefined, category: undefined });
+    documentStore.update({ ...draggedItem, parent_id: undefined, category: useSidebar().workspaceId.value || undefined });
   }
 };
 </script>
