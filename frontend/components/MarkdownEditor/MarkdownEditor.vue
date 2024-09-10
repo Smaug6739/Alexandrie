@@ -33,7 +33,9 @@ const emit = defineEmits(['save']);
 const update = () => (document.value.content_html = compile(textarea.value?.value || ''));
 const handleClick = () => editor.handleInlineToolbar();
 const markdownPreview = ref<HTMLDivElement>();
-editor.addEventListener('save', emitSave);
+
+editor.addEventListener('save', () => exec('save'));
+editor.addEventListener('exit', () => exec('exit'));
 
 onMounted(() => window.addEventListener('mouseup', handleClick));
 onBeforeUnmount(() => window.removeEventListener('mouseup', handleClick));

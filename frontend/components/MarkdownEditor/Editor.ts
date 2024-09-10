@@ -105,6 +105,13 @@ export class Editor extends EventTarget {
       event.preventDefault();
       this.dispatchEvent(new Event('save'));
     }
+    if (event.ctrlKey && event.key === 'x') {
+      // If no text is selected, exit editor
+      if (this.area.value!.selectionStart === this.area.value!.selectionEnd) {
+        event.preventDefault();
+        this.dispatchEvent(new Event('exit'));
+      }
+    }
     // Ctrl + P for preview
     if (event.ctrlKey && event.key === 'p') {
       event.preventDefault();
