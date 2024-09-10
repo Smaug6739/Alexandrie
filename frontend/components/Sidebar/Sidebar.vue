@@ -1,35 +1,34 @@
 <template>
   <div :class="{ 'modal-mask': isMobile() && isOpened }"></div>
-  <Resizable>
-    <div class="sidebar">
-      <section class="header">
-        <span class="name">
-          <IconApp />
-          <NuxtLink style="font-size: 19px; font-weight: 600" to="/">Alexandrie</NuxtLink>
-        </span>
-        <IconClose class="btn" />
-      </section>
-      <input type="text" placeholder="Search or ctrl + q" class="search" v-model="filter" />
+  <Resizable class="sidebar">
+    <section class="header">
+      <span class="name">
+        <IconApp />
+        <NuxtLink style="font-size: 19px; font-weight: 600" to="/">Alexandrie</NuxtLink>
+      </span>
+      <IconClose class="btn" />
+    </section>
+    <input type="text" placeholder="Search or ctrl + q" class="search" v-model="filter" />
 
-      <div class="user" v-if="userStore.user">
-        <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
-        <div class="details">
-          <div>
-            <div>{{ userStore.user.username }}</div>
-            <div class="email">{{ userStore.user.email }}</div>
-          </div>
-          <Icon name="logout" @click="logoutUser" class="logout" />
+    <div class="user" v-if="userStore.user">
+      <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+      <div class="details">
+        <div>
+          <div>{{ userStore.user.username }}</div>
+          <div class="email">{{ userStore.user.email }}</div>
         </div>
+        <Icon name="logout" @click="logoutUser" class="logout" />
       </div>
-      <AppSelect :value="filterWorkspace" placeholder="Select workspace" :options="workspaces" @input="v => (filterWorkspace = v)" />
-      <Search />
-      <CollapseItem v-for="(item, index) in items" :key="index" :item="item" :root="true" />
     </div>
+    <SidebarWorkspaces :options="workspaces" />
+    <Search />
+    <CollapseItem v-for="item in items" :key="item.id" :item="item" :root="true" />
   </Resizable>
 </template>
 
 <script setup lang="ts">
 import CollapseItem from './CollapseItem.vue';
+import SidebarWorkspaces from './SidebarWorkspaces.vue';
 import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import Search from './Search.vue';
@@ -37,17 +36,13 @@ import { ItemsManager, type Item } from './tree_builder';
 import { navigationItems } from './helpers';
 import type { Category } from '~/stores';
 
-const { isOpened, hasSidebar } = useSidebar();
+const { isOpened, hasSidebar, workspaceId } = useSidebar();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const userStore = useUserStore();
 const filter = ref<string>('');
-const filterWorkspace = ref<string>(localStorage.getItem('filterWorkspace') || 'all');
 const showSearchModal = ref<boolean>(false);
-const workspaces = computed(() => [{ text: 'All workspaces', value: 'all' }, ...categoriesStore.categories.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id }))]);
-watch(filterWorkspace, () => {
-  localStorage.setItem('filterWorkspace', filterWorkspace.value);
-});
+const workspaces = computed(() => [{ text: 'All workspaces', value: null }, ...categoriesStore.categories.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id }))]);
 
 const handleSearchShortCut = (e: KeyboardEvent) => {
   if (e.ctrlKey && e.key === 'q') showSearchModal.value = !showSearchModal.value;
@@ -89,9 +84,9 @@ const items = computed((): Item[] => {
     }))
     .filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
 
-  if (filter.value) return new ItemsManager([...navigation, ...documents]).generateTree();
   return new ItemsManager([...navigation, ...documents, ...categories]).generateTree().filter(c => {
-    if (c.data.type === 'category' && filterWorkspace.value != 'all') return c.data.workspace_id == filterWorkspace.value;
+    if (c.data.type === 'category' && workspaceId.value) return c.data.workspace_id == workspaceId.value;
+    if (c.data.type === 'document' && workspaceId.value) return c.data.category === workspaceId.value;
     return true;
   });
 });
@@ -102,21 +97,21 @@ const handleClickOutside = (e: MouseEvent) => {
 
 onMounted(() => {
   hasSidebar.value = true;
-  if (isMobile()) return window.addEventListener('click', handleClickOutside);
+  if (isMobile()) return document.addEventListener('click', handleClickOutside);
   // ELSE: Desktop
   isOpened.value = true;
   document.addEventListener('keypress', handleSearchShortCut);
 });
 onBeforeUnmount(() => {
   hasSidebar.value = false;
-  window.removeEventListener('click', handleClickOutside);
+  document.removeEventListener('click', handleClickOutside);
   document.removeEventListener('keypress', handleSearchShortCut);
 });
 </script>
 
 <style scoped lang="scss">
 .sidebar {
-  margin: 0 0 0 10px;
+  padding: 0 0 0 10px;
 }
 
 .header {
@@ -136,7 +131,6 @@ onBeforeUnmount(() => {
     align-items: center;
     font-size: 1rem;
     font-weight: 400;
-    font-family: Inter;
   }
 }
 

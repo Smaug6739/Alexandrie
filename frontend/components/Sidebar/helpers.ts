@@ -6,6 +6,10 @@ export interface DefaultItem {
   route: string;
   childrens: DefaultItem[];
 }
+export interface Workspace {
+  text: string;
+  value: string | null;
+}
 
 export const navigationItems: DefaultItem[] = [
   {

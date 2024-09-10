@@ -50,14 +50,14 @@ export default class DocumentsController extends BaseController<DocumentsManager
       const db_doc = await this.manager.get(req.params.id as string, req.user_id!);
       if (!db_doc) return res.status(404).json(this.utils.error('Document not found or unauthorized.'));
       const result = await this.manager.put(req.params.id as string, {
-        name: req.body.name ?? db_doc.name,
-        description: req.body.description ?? db_doc.description,
-        tags: req.body.tags ?? db_doc.tags,
-        category: req.body.category ?? db_doc.category,
-        parent_id: req.body.parent_id ?? db_doc.parent_id,
-        accessibility: req.body.accessibility ?? db_doc.accessibility,
-        content_markdown: req.body.content_markdown ?? db_doc.content_markdown,
-        content_html: req.body.content_html ?? db_doc.content_html,
+        name: req.body.name,
+        description: req.body.description,
+        tags: req.body.tags,
+        category: req.body.category,
+        parent_id: req.body.parent_id,
+        accessibility: req.body.accessibility,
+        content_markdown: req.body.content_markdown,
+        content_html: req.body.content_html,
         author_id: db_doc.author_id,
         updated_timestamp: Date.now().toString(),
       });

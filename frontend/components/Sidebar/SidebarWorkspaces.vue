@@ -2,41 +2,34 @@
   <div class="dropdown-container" @click="toggleDropdown">
     <div class="dropdown-selected" :class="{ open: isOpen }">
       <span v-if="selectedOption"><AppSelectOption :option="selectedOption" /></span>
-      <span v-else class="placeholder">{{ placeholder }}</span>
       <span class="dropdown-arrow"></span>
     </div>
-    <ul v-if="isOpen" class="dropdown-options">
-      <li v-for="option in options" :class="{ selected: option.value === selected }" @click="selectOption(option)">
+    <ul v-show="isOpen" class="dropdown-options">
+      <li v-for="option in options" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
         <AppSelectOption :option="option" />
       </li>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
-interface Option {
-  text: string;
-  value: string;
-}
-const props = defineProps<{
-  value?: string;
-  options: Option[];
-  placeholder?: string;
-}>();
+import AppSelectOption from './SidebarWorkspace.vue';
+import type { Workspace } from './helpers';
+const { workspaceId } = useSidebar();
+workspaceId.value = localStorage.getItem('filterWorkspace');
+
+const props = defineProps<{ options: Workspace[] }>();
 const isOpen = ref(false);
-const selected = ref(props.value);
-const emit = defineEmits(['input']);
-const selectedOption = computed(() => props.options.find(option => option.value === selected.value));
+const selectedOption = computed(() => props.options.find(option => option.value == workspaceId.value) || props.options.find(option => !option.value));
 const toggleDropdown = () => (isOpen.value = !isOpen.value);
-const selectOption = (option: Option) => {
-  selected.value = option.value;
-  emit('input', selected.value);
-  isOpen.value = false;
-};
 const closeDropdown = () => (isOpen.value = false);
+
+const selectOption = (option: Workspace) => {
+  workspaceId.value = option.value;
+  if (option.value) localStorage.setItem('filterWorkspace', option.value);
+  else localStorage.removeItem('filterWorkspace');
+};
 const handleClickOutside = (event: MouseEvent) => {
-  if (!(event.target as HTMLElement)!.closest('.dropdown-container')) {
-    closeDropdown();
-  }
+  if (!(event.target as HTMLElement)!.closest('.dropdown-container')) closeDropdown();
 };
 onMounted(() => document.addEventListener('click', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));

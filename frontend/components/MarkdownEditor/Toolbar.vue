@@ -7,7 +7,9 @@
       <option :value="3">Archive</option>
     </select>
     <select v-if="!minimal" v-model="copy.category" style="margin-right: 5px">
-      <optgroup v-for="cat in categoriesStore.getParents" :label="cat.name" :key="cat.id">
+      <option :value="null">All notes</option>
+      <option v-for="wp in categoriesStore.getParents.filter(c => c.role == 2)" :value="wp.id" v-text="wp.name"></option>
+      <optgroup v-for="cat in categoriesStore.getParents.filter(c => c.role == 1)" :label="cat.name" :key="cat.id">
         <option v-for="subCat in categoriesStore.getChilds(cat.id)" :value="subCat.id" :key="subCat.id" v-text="subCat.name"></option>
       </optgroup>
     </select>

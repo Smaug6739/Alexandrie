@@ -17,13 +17,10 @@
 </template>
 
 <script setup lang="ts">
+import type { Workspace } from './helpers';
 defineProps<{
-  option: Option;
+  option: Workspace;
 }>();
-interface Option {
-  text: string;
-  value: string;
-}
 </script>
 
 <style scoped lang="scss">

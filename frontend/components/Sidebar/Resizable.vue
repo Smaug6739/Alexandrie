@@ -61,6 +61,11 @@ nav {
   overflow-x: hidden;
   height: 100%;
   display: flex;
+  &:hover {
+    .separator {
+      background-color: var(--bg-contrast);
+    }
+  }
 }
 
 .open {
@@ -70,14 +75,6 @@ nav {
 .separator {
   width: 5px;
   cursor: col-resize;
-}
-
-.sidebar {
-  &:hover {
-    .separator {
-      background-color: var(--bg-contrast);
-    }
-  }
 }
 
 /* Disable text selection while resizing */

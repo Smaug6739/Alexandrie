@@ -14,7 +14,7 @@
       <label for="parent">Parent</label>
       <select v-model="category.parent_id" id="parent">
         <option :value="null">None</option>
-        <option v-for="pc in categoriesStore.getParents" :key="pc.id" :value="pc.id">{{ pc.name }}</option>
+        <option v-for="pc in categoriesStore.getParents.filter(c => c.role == 1)" :key="pc.id" :value="pc.id">{{ pc.name }}</option>
       </select>
       <label>Workspace (for top categories)</label>
       <select v-model="category.workspace_id">
