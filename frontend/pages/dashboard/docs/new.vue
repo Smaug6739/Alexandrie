@@ -8,6 +8,7 @@ import type { Document } from '@/stores';
 const store = useDocumentsStore();
 const editor = ref();
 const document = ref<Partial<Document>>({
+  category: useSidebar().workspaceId.value || undefined,
   accessibility: 1,
 });
 const notifications = useNotifications();
