@@ -44,6 +44,7 @@ function exec(action: string) {
   editor.actions(action);
   switch (action) {
     case 'exit':
+      if (props.options?.toolbar == 'minimal') return;
       useRouter().push(document.value.id ? `/dashboard/docs/${document.value.id}` : '/dashboard');
       break;
     case 'save':
