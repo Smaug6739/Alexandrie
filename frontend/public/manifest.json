@@ -4,10 +4,7 @@
   "description": "Alexandrie application.",
   "start_url": "/dashboard",
   "display": "standalone",
-  "background_color": "#2f3641",
-  "theme_color": "#009df7",
-  "icons": [
-    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
-  ]
+  "background_color": "#fdfcff",
+  "theme_color": "#007aff",
+  "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" }]
 }
