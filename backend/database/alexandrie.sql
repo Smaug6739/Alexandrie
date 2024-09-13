@@ -103,6 +103,8 @@ CREATE TABLE `categories` (
   `name` varchar(50) NOT NULL,
   `icon` text,
   `order` int DEFAULT NULL,
+  `role` int default 1 NOT NULL, /* '1 = category; 2 = workspace' */
+  `workspace_id` varchar(50) DEFAULT NULL,
   `parent_id` varchar(50) DEFAULT NULL,
   `author_id` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
