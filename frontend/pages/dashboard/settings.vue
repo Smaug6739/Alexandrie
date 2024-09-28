@@ -154,8 +154,8 @@ const updateUser = async () => {
   if (newAvatar) store.user.avatar = newAvatar;
   store
     .update(store.user)
-    .then(() => useNotifications().add({ title: 'Success:', message: 'User updated', type: 'success', timeout: 5000 }))
-    .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 5000 }));
+    .then(() => useNotifications().add({ title: 'Success:', message: 'User updated', type: 'success', timeout: 3000 }))
+    .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
 };
 const changePassword = async () => {
   if (!store.user) return;
@@ -172,7 +172,7 @@ async function submitFile() {
   const result = await makeRequest<{ url: string }>('backups', 'POST', {});
   isLoading.value = false;
   if (result.status != 'success') {
-    return useNotifications().add({ type: 'error', title: 'Error', message: result.message, timeout: 5000 });
+    return useNotifications().add({ type: 'error', title: 'Error', message: result.message, timeout: 3000 });
   }
   downloadLink.value = `${CDN}${result.result?.url || ''}`;
 }

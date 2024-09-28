@@ -1,7 +1,7 @@
 <template>
   <div class="category-form-container">
     <h2>Update category & workspace</h2>
-    <form @submit.prevent="updateCategory">
+    <form @submit.prevent>
       <label>ID</label>
       <input type="text" v-model="category.id" id="id" disabled />
       <label>Role</label>
@@ -27,7 +27,7 @@
       <input type="number" v-model.number="category.order" id="order" />
       <div style="display: flex; justify-content: flex-end">
         <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
-        <AppButton type="primary" class="btn primary">Update</AppButton>
+        <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
       </div>
     </form>
   </div>
@@ -45,20 +45,20 @@ const updateCategory = async () => {
     categoriesStore
       .update(category.value)
       .then(() => {
-        useNotifications().add({ title: 'Success:', message: 'Category updated', type: 'success', timeout: 5000 });
+        useNotifications().add({ title: 'Success:', message: 'Category updated', type: 'success', timeout: 3000 });
         useRouter().push('/dashboard/categories');
       })
-      .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 5000 }));
+      .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
 };
 const deleteCategory = async () => {
   if (category.value)
     categoriesStore
       .delete(category.value.id)
       .then(() => {
-        useNotifications().add({ title: 'Success:', message: 'Category deleted', type: 'success', timeout: 5000 });
+        useNotifications().add({ title: 'Success:', message: 'Category deleted', type: 'success', timeout: 3000 });
         useRouter().push('/dashboard/categories');
       })
-      .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 5000 }));
+      .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
 };
 </script>
 

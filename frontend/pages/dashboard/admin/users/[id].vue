@@ -1,7 +1,7 @@
 <template>
-  <div class="component">
+  <div class="card-component">
     <h2>User Details</h2>
-    <div v-if="user">
+    <div v-if="user" style="width: 100%">
       <div class="user-details">
         <div class="user-detail">
           <label for="username">Username</label>
@@ -60,10 +60,10 @@ const saveChanges = async () => {
   useUserStore()
     .update(user.value)
     .then(() => {
-      useNotifications().add({ type: 'success', title: 'Success', message: 'User updated successfully', timeout: 5000 });
+      useNotifications().add({ type: 'success', title: 'Success', message: 'User updated successfully', timeout: 3000 });
     })
     .catch(e => {
-      useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 5000 });
+      useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 3000 });
     });
 };
 
@@ -71,14 +71,6 @@ definePageMeta({ breadcrumb: 'User Details' });
 </script>
 
 <style scoped lang="scss">
-.component {
-  gap: 1.5rem;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  width: 100%;
-}
-
 .user-details {
   display: flex;
   flex-direction: column;

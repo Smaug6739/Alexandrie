@@ -39,10 +39,10 @@ function createCategory() {
   categoriesStore
     .post(category.value)
     .then(() => {
-      useNotifications().add({ title: 'Success:', message: 'Category posted', type: 'success', timeout: 5000 });
+      useNotifications().add({ title: 'Success:', message: 'Category posted', type: 'success', timeout: 3000 });
       useRouter().push('/dashboard/categories');
     })
-    .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 5000 }));
+    .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
 }
 </script>
 

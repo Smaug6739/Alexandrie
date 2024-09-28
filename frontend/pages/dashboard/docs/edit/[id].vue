@@ -29,7 +29,7 @@ definePageMeta({ breadcrumb: 'Edit' });
 function save(doc: Document) {
   store
     .update(doc)
-    .then(() => notifications.add({ title: 'Success:', message: 'Document updated', type: 'success', timeout: 5000 }))
-    .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 5000 }));
+    .then(() => notifications.add({ title: 'Success:', message: 'Document updated', type: 'success', timeout: 3000 }))
+    .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
 }
 </script>

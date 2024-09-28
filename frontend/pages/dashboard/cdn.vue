@@ -1,6 +1,6 @@
 <template>
-  <div class="cdn-component">
-    <h2>CDN: File manager</h2>
+  <div class="card-component">
+    <h2 style="margin: 0">CDN: File manager</h2>
     <div class="dropzone" :class="{ 'drag-over': isDragOver }" @dragover.prevent @drop.prevent="handleFileDrop" @dragenter.prevent="dragEnter" @dragleave.prevent="dragLeave">
       <input type="file" ref="fileInput" @change="handleFileSelect" />
       <div v-if="selectedFile" class="file-info">
@@ -16,7 +16,12 @@
       <AppButton @click="copyLink" type="primary">Copy link</AppButton>
     </div>
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
-      <DataTable :headers="headers" :rows="rows" />
+      <DataTable :headers="headers" :rows="rows">
+        <template #action="{ cell }">
+          <a :href="`${CDN}${cell?.data.transformed_path || cell?.data.original_path}`" target="_blank"><Icon name="view" /> </a>
+          <Icon name="delete" @click="() => deleteRessource(cell?.data.id)" />
+        </template>
+      </DataTable>
     </div>
     <div v-else>No ressource found.</div>
   </div>
@@ -58,7 +63,7 @@ const submitFile = async () => {
   await ressourcesStore
     .post(body)
     .then(r => (fileLink.value = `${CDN}/${(r as DB_Ressource).transformed_path || (r as DB_Ressource).original_path}`))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 5000 }))
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 3000 }))
     .finally(() => (isLoading.value = false));
 };
 
@@ -82,27 +87,21 @@ const rows: any = computed(() =>
       size: { content: readableFileSize(res.file_size) },
       type: { content: `<span class="tag ${color(res.file_type)}">${res.file_type}</span>`, type: 'html' },
       date: { content: new Date(res.created_timestamp).toLocaleDateString() },
-      action: { content: `<a href="${CDN}/${res.transformed_path || res.original_path}" target="_blank">View</a>`, type: 'html' },
+      action: { type: 'slot', data: res },
     };
   }),
 );
+
+const deleteRessource = async (id: string) => {
+  if (!id) return;
+  await ressourcesStore
+    .delete(id)
+    .then(() => useNotifications().add({ type: 'success', title: 'Success', message: 'Ressource deleted successfully', timeout: 3000 }))
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 3000 }));
+};
 </script>
 
 <style scoped lang="scss">
-.cdn-component {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-h2 {
-  margin: 0;
-}
-
 .dropzone {
   display: flex;
   align-items: center;
@@ -168,6 +167,10 @@ h2 {
   color: #2196f3;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.ressources-list {
+  width: 100%;
 }
 
 @keyframes spin {
