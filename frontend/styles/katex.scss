@@ -11,7 +11,10 @@
 	margin: 0 !important;
 	//text-align: left;
 }
-.katex-display > .katex {
-  text-align: left !important;
-  white-space: wrap !important;
+@media screen and (min-width:1000px) {
+	.katex-display > .katex {
+	  text-align: left !important;
+	  white-space: wrap !important;
+	}
 }
+
