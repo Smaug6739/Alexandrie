@@ -25,7 +25,9 @@
         <tr v-for="row in data">
           <td v-for="header in headers">
             <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content"></span>
-            <NuxtLink v-else-if="row[header.key]?.type === 'link'" v-html="row[header.key]?.content" :to="row[header.key]?.to"></NuxtLink>
+            <span v-else-if="row[header.key]?.type === 'slot'">
+              <slot :name="header.key" :cell="row[header.key]"></slot>
+            </span>
             <span v-else v-text="row[header.key]?.content"></span>
           </td>
         </tr>
@@ -91,9 +93,9 @@ interface Header {
 }
 interface Field {
   [key: string]: {
-    content: string;
-    type?: 'html' | 'text' | 'link';
-    to?: string;
+    content?: string;
+    type: 'html' | 'text' | 'slot' | undefined;
+    data?: any;
   };
 }
 </script>
@@ -115,7 +117,7 @@ interface Field {
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto;
   border-color: inherit;
 }
 
@@ -126,7 +128,6 @@ td {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 100%;
 }
 td > span {
   display: flex;
@@ -224,6 +225,15 @@ input {
 
   table {
     zoom: 1;
+  }
+}
+@media screen and (max-width: 768px) {
+  table {
+    table-layout: fixed;
+  }
+  th,
+  td {
+    width: 100%;
   }
 }
 </style>
