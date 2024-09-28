@@ -11,3 +11,8 @@
 	margin: 0 !important;
 	//text-align: left;
 }
+.katex-display > .katex {
+  display: block;
+  text-align: left;
+  white-space: wrap;
+}
