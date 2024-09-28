@@ -16,6 +16,7 @@ export default (client: App): Iroute => {
       CDNRouter.get('/', auth, (req: Request, res: Response) => controller.get(req, res));
       CDNRouter.post('/avatar', auth, multerCdn, (req: Request, res: Response) => controller.addAvatar(req, res), multerErrors);
       CDNRouter.post('/', auth, multerCdn, (req: Request, res: Response) => controller.add(req, res), multerErrors);
+      CDNRouter.delete('/:id', auth, (req: Request, res: Response) => controller.delete(req, res));
       return CDNRouter;
     },
   };

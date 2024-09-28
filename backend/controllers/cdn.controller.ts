@@ -1,4 +1,4 @@
-import { access, constants } from 'fs';
+import { access, constants, unlink } from 'fs';
 import sharp from 'sharp';
 import BaseController from './BaseController';
 import { RessourcesManager } from '../classes';
@@ -80,4 +80,33 @@ export default class RessourcesController extends BaseController<RessourcesManag
       res.status(500).json(this.utils.error(err));
     }
   }
+
+  async delete(req: Request, res: Response) {
+    if (!req.user_id) return res.status(401).json(this.utils.error('Unauthorized'));
+    if (!req.params.id) return res.status(400).json(this.utils.error('No id provided.'));
+    const ressource = await this.manager.getRessource(req.params.id);
+    if (!ressource) return res.status(404).json(this.utils.error('Ressource not found.'));
+    if (ressource.author_id !== req.user_id) return res.status(403).json(this.utils.error('Unauthorized'));
+    try {
+      await this.manager.deleteRessource(req.params.id);
+      if (ressource.original_path) await deleteFile(`${this.app.config.upload_path}/${ressource.original_path}`);
+      if (ressource.transformed_path) await deleteFile(`${this.app.config.upload_path}/${ressource.transformed_path}`);
+      return res.status(200).json(this.utils.success('Ressource deleted.'));
+    } catch (err) {
+      return res.status(500).json(this.utils.error(err));
+    }
+  }
+}
+
+function deleteFile(path: string): Promise<void> {
+  // Check if file exists and permissions are correct before deleting
+  return new Promise((resolve, reject) => {
+    access(path, constants.F_OK, err => {
+      if (err) return reject(new Error('File not found.'));
+      unlink(path, err => {
+        if (err) return reject(new Error('Error deleting file.'));
+        resolve();
+      });
+    });
+  });
 }

@@ -26,6 +26,14 @@ export class RessourcesManager extends Base {
       });
     });
   }
+  public getRessource(ressource_id: string): Promise<Ressource | undefined> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<RessourceDB[]>('SELECT * FROM ressources WHERE id = ?', [ressource_id], async (err, results) => {
+        if (err) return reject('Internal database error.');
+        resolve(results[0]);
+      });
+    });
+  }
 
   public getUserRessourcesSize(user_id: string): Promise<number> {
     return new Promise((resolve, reject) => {
@@ -61,6 +69,16 @@ export class RessourcesManager extends Base {
       );
     });
   }
+
+  public deleteRessource(ressource_id: string): Promise<IObject> {
+    return new Promise((resolve, reject) => {
+      this.app.db.query<RessourceDB[]>('DELETE FROM ressources WHERE id = ?', [ressource_id], async err => {
+        if (err) return reject('Internal database error.');
+        resolve({ id: ressource_id });
+      });
+    });
+  }
+
   public validate(data: Ressource): string | false {
     if (!data.id || data.id.length > 50) return 'ressource id invalid';
     if (!data.filename || data.filename.length > 50) return 'ressource filename invalid';
