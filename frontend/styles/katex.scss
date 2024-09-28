@@ -4,7 +4,9 @@
 	//overflow: hidden;
 	overflow: auto hidden;
 	padding: 2.5px;
-
+	i {
+		max-width:100%;
+	}
 }
 
 .katex-display {
@@ -17,4 +19,3 @@
 	  white-space: wrap !important;
 	}
 }
-
