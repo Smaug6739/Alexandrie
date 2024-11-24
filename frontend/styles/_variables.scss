@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $blue: #007aff;
 $indigo: #6610f2;
 $purple: #6f42c1;
@@ -11,12 +13,12 @@ $grey: #ffffffd9;
 $black: #27323A;
 
 $primary-400: #334155;
-$primary-300: lighten($primary-400, 10%);
-$primary-500: darken($primary-400, 10%);
+$primary-300: color.adjust($primary-400, $lightness: -10%);
+$primary-500: color.adjust($primary-400, $lightness: 10%);
 
 $secondary-400: #8e8d8a;
-$secondary-300: lighten($secondary-400, 10%);
-$secondary-500: darken($secondary-400, 10%);
+$secondary-300: color.adjust($secondary-400, $lightness: -10%);
+$secondary-500: color.adjust($secondary-400, $lightness: 10%);
 
 @import "./font.scss";
 

@@ -18,7 +18,10 @@ definePageMeta({ breadcrumb: 'New' });
 function save(doc: Document) {
   store
     .post(doc)
-    .then(() => notifications.add({ title: 'Success:', message: 'Document posted', type: 'success', timeout: 3000 }))
+    .then(d => {
+      notifications.add({ title: 'Success:', message: 'Document posted', type: 'success', timeout: 3000 });
+      useRouter().push(`/dashboard/docs/edit/${d.id}`);
+    })
     .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
 }
 </script>
