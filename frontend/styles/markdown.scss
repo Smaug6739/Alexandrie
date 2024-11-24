@@ -169,6 +169,10 @@ pink {
 
 .center {
 	text-align: center;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 }
 
 .custom-block-title {
