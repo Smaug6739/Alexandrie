@@ -11,6 +11,7 @@ const onClick = () => emit('click');
 </script>
 
 <style scoped lang="scss">
+@use 'sass:color';
 button {
   padding: 10px 14px;
   border-radius: 5px;
@@ -40,7 +41,7 @@ button {
   background: $green;
   color: white;
   &:hover {
-    background: darken($green, 10%);
+    background: color.adjust($green, $lightness: -10%);
   }
 }
 .link {
@@ -54,7 +55,7 @@ button {
   background: $red;
   color: white;
   &:hover {
-    background: darken($red, 10%);
+    background: color.adjust($red, $lightness: 10%);
   }
 }
 </style>

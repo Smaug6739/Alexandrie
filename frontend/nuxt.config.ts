@@ -9,14 +9,15 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '@use "~/styles/_variables.scss" as *;',
+          additionalData: "@use '~/styles/_variables.scss' as *;",
+          api: 'modern',
         },
       },
     },
   },
 
   ssr: false,
-  css: ['~/styles/main.scss', '~/styles/main.scss', '~/styles/katex/katex.min.css'],
+  css: ['~/styles/main.scss', '~/styles/katex/katex.min.css'],
   modules: ['@pinia/nuxt', '@nuxtjs/color-mode'],
 
   colorMode: {

@@ -1,8 +1,8 @@
-@import "./theme.scss";
-@import "./katex.scss";
-@import "./markdown.scss";
-@import "./document-theme.scss";
-@import "./code.scss";
+@forward "./theme.scss";
+@forward "./katex.scss";
+@forward "./markdown.scss";
+@forward "./document-theme.scss";
+@forward "./code.scss";
 
 /* only needed once */
 * {

@@ -20,7 +20,7 @@ $secondary-400: #8e8d8a;
 $secondary-300: color.adjust($secondary-400, $lightness: -10%);
 $secondary-500: color.adjust($secondary-400, $lightness: 10%);
 
-@import "./font.scss";
+@forward "./font.scss";
 
 $external-font: 'Poppins', sans-serif;
 $monospace-font: monospace;

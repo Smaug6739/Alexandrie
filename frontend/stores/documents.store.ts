@@ -57,12 +57,12 @@ export const useDocumentsStore = defineStore('documents', {
         } else reject(request.message);
       });
     },
-    post(doc: Document): Promise<Document> {
+    post(doc: Document): Promise<DB_Document> {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest('documents', 'POST', doc);
         if (request.status == 'success') {
           this.documents.push({ ...(request.result as DB_Document), type: 'document' });
-          resolve({ ...(request.result as DB_Document), type: 'document' });
+          resolve(request.result as DB_Document);
         } else reject(request.message);
       });
     },
