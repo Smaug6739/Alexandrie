@@ -73,6 +73,7 @@ export class Editor extends EventTarget {
     if (!event.ctrlKey && !event.altKey && !event.metaKey) this.inlineToolbar.value!.element.style.display = 'none';
 
     if (event.key === 'Tab') {
+      if (event.target !== this.area.value) return;
       event.preventDefault();
       this.util.addContent('    ');
     }
