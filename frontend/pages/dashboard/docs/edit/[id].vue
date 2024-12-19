@@ -1,5 +1,5 @@
 <template>
-  <MarkdownEditor v-if="document" ref="editor" :doc="document" @save="data => save(data)" />
+  <MarkdownEditor v-if="document" ref="editor" :doc="document" @save="data => save(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import type { Document } from '@/stores';
@@ -31,5 +31,8 @@ function save(doc: Document) {
     .update(doc)
     .then(() => notifications.add({ title: 'Success:', message: 'Document updated', type: 'success', timeout: 3000 }))
     .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+}
+function exit() {
+  useRouter().push(`/dashboard/docs/${doc_id}`);
 }
 </script>

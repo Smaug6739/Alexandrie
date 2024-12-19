@@ -67,6 +67,12 @@ export class Editor extends EventTarget {
       case 'preview':
         this.showPreview.value = !this.showPreview.value;
         break;
+      case 'exit':
+        this.dispatchEvent(new Event('exit'));
+        break;
+      case 'save':
+        this.dispatchEvent(new Event('save'));
+        break;
     }
   }
   public handleKeydown(event: KeyboardEvent) {
@@ -104,13 +110,13 @@ export class Editor extends EventTarget {
     // Ctrl + S for saving
     if (event.ctrlKey && event.key === 's') {
       event.preventDefault();
-      this.dispatchEvent(new Event('save'));
+      this.actions('save');
     }
     if (event.ctrlKey && event.key === 'x') {
       // If no text is selected, exit editor
       if (this.area.value!.selectionStart === this.area.value!.selectionEnd) {
         event.preventDefault();
-        this.dispatchEvent(new Event('exit'));
+        this.actions('exit');
       }
     }
     // Ctrl + P for preview

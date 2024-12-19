@@ -1,10 +1,10 @@
 <template>
   <div class="editor-container" @keydown="editor.handleKeydown">
-    <Toolbar style="height: fit-content" :document="document" @execute-action="(a: string) => exec(a)" :minimal="options?.toolbar == 'minimal'" />
+    <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" @execute-action="(a:string) => editor.actions(a)" />
     <input placeholder="Title" class="title" v-model="document.name" />
     <input placeholder="Description" class="description" v-model="document.description" />
     <div class="markdown" ref="container">
-      <InlineToolbar ref="toolbar" @execute-action="(a: string) => exec(a)" />
+      <InlineToolbar ref="toolbar" @execute-action="(a:string) => editor.actions(a)" />
       <textarea ref="textarea" class="content markdown-input" @scroll="syncScroll" @input="update" v-html="document.content_markdown || ''" placeholder="Write something or use the toolbar to create your document..."></textarea>
       <div v-if="editor.showPreview.value" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html || ''"></div>
     </div>
@@ -29,29 +29,16 @@ const textarea = ref<HTMLTextAreaElement>();
 
 const editor = new Editor(textarea, toolbar, container, props.options);
 
-const emit = defineEmits(['save']);
+const emit = defineEmits(['save', 'exit']);
 const update = () => (document.value.content_html = compile(textarea.value?.value || ''));
 const handleClick = () => editor.handleInlineToolbar();
 const markdownPreview = ref<HTMLDivElement>();
 
-editor.addEventListener('save', () => exec('save'));
-editor.addEventListener('exit', () => exec('exit'));
+editor.addEventListener('save', save);
+editor.addEventListener('exit', () => emit('exit'));
 
 onMounted(() => window.addEventListener('mouseup', handleClick));
 onBeforeUnmount(() => window.removeEventListener('mouseup', handleClick));
-
-function exec(action: string) {
-  editor.actions(action);
-  switch (action) {
-    case 'exit':
-      if (props.options?.toolbar == 'minimal') return;
-      useRouter().push(document.value.id ? `/dashboard/docs/${document.value.id}` : '/dashboard');
-      break;
-    case 'save':
-      emitSave();
-  }
-  update();
-}
 
 function syncScroll() {
   editor.handleInlineToolbar();
@@ -59,7 +46,7 @@ function syncScroll() {
   const scrollPercentage = textarea.value.scrollTop / (textarea.value.scrollHeight - textarea.value.clientHeight);
   markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
 }
-function emitSave() {
+function save() {
   document.value.content_markdown = textarea.value?.value || '';
   document.value.content_html = compile(document.value.content_markdown);
   emit('save', document.value);

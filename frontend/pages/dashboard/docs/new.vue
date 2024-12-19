@@ -1,12 +1,11 @@
 <template>
-  <MarkdownEditor ref="editor" :doc="document" @save="data => save(data)" />
+  <MarkdownEditor :doc="document" @save="data => save(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
 import type { Document } from '@/stores';
 
 const store = useDocumentsStore();
-const editor = ref();
 const document = ref<Partial<Document>>({
   category: useSidebar().workspaceId.value || undefined,
   accessibility: 1,
@@ -23,5 +22,8 @@ function save(doc: Document) {
       useRouter().push(`/dashboard/docs/edit/${d.id}`);
     })
     .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+}
+function exit() {
+  useRouter().push('/dashboard');
 }
 </script>
