@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { useNotifications } from '~/stores';
 
-const notifications = computed(() => useNotifications().getAll.reverse());
+const notifications = computed(() => [...useNotifications().getAll].reverse()); // Create a copy before reversing
 const close = (id: number) => useNotifications().remove(id);
 </script>
 <style scoped lang="scss">
