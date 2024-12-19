@@ -82,7 +82,7 @@ const items = computed((): Item[] => {
       title: document.name,
       route: `/dashboard/docs/${document.id}`,
       data: document,
-      show: ref(true),
+      show: localStorage.getItem(`collapse-${document.id}`) === 'false' ? ref(false) : ref(true),
     }))
     .filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
 
