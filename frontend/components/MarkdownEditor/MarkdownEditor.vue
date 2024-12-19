@@ -30,7 +30,9 @@ const textarea = ref<HTMLTextAreaElement>();
 const editor = new Editor(textarea, toolbar, container, props.options);
 
 const emit = defineEmits(['save', 'exit']);
-const update = () => (document.value.content_html = compile(textarea.value?.value || ''));
+const update = debounce(() => {
+  document.value.content_html = compile(textarea.value?.value || '');
+}, 50);
 const handleClick = () => editor.handleInlineToolbar();
 const markdownPreview = ref<HTMLDivElement>();
 
@@ -50,6 +52,20 @@ function save() {
   document.value.content_markdown = textarea.value?.value || '';
   document.value.content_html = compile(document.value.content_markdown);
   emit('save', document.value);
+}
+
+function debounce(fn: Function, wait: number) {
+  let timer: NodeJS.Timeout;
+  return function (...args: any[]) {
+    if (timer) {
+      clearTimeout(timer); // clear any pre-existing timer
+    }
+    // @ts-ignore
+    const context = this; // get the current context
+    timer = setTimeout(() => {
+      fn.apply(context, args); // call the function if time expires
+    }, wait);
+  };
 }
 </script>
 
