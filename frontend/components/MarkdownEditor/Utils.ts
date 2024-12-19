@@ -4,21 +4,7 @@ class MarkdownUtil {
   constructor(editor: Ref<HTMLTextAreaElement | undefined>) {
     this.editor = editor;
   }
-  private getEditorRange() {
-    const selection = window.getSelection();
-    if (!selection || selection.isCollapsed) return;
-    const range = selection.getRangeAt(0);
-    if (!this.editor.value) return;
-    // Check if the selection is within the textarea or its descendants
-    if (!this.editor.value.contains(range.startContainer) || !this.editor.value.contains(range.endContainer)) return;
-    return range;
-  }
-  // Function to create a temporary container for the selected content
-  private createTempDiv(content: DocumentFragment) {
-    const tempDiv = document.createElement('div');
-    tempDiv.appendChild(content);
-    return tempDiv;
-  }
+
   public inlineFormat(tag1: string, tag2: string) {
     const selectedText = window.getSelection()?.toString() || '';
     const startTag = `${tag1}`;
