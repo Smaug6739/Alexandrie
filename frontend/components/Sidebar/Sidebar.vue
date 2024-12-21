@@ -72,7 +72,7 @@ const items = computed((): Item[] => {
       route: category.parent_id ? `/dashboard/categories/${category.id}` : '',
       icon: category.icon,
       data: category,
-      show: !category.parent_id && localStorage.getItem(`collapse-${category.id}`) === 'false' ? ref(false) : ref(true),
+      show: localStorage.getItem(`collapse-${category.id}`) === 'false' ? ref(false) : ref(true),
     }))
     .filter(c => c.data.role === 1 && c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
   const documents: Item[] = documentsStore.documents
