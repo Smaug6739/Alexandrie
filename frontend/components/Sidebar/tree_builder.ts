@@ -10,45 +10,31 @@ export interface Item {
   childrens?: Item[];
   show: Ref<boolean>;
 }
-
 export class ItemsManager {
-  private itemMap: Record<string, Item>; // Utilisation d'un objet pour stocker les éléments par ID
+  private itemMap: Map<string, Item>; // Utilisation de Map pour les recherches rapides
 
   constructor(public readonly items: Item[]) {
-    this.itemMap = this.createItemMap(items);
+    this.itemMap = new Map(items.map(item => [item.id, item]));
   }
 
-  private createItemMap(items: Item[]): Record<string, Item> {
-    const itemMap: Record<string, Item> = {};
-    items.forEach(item => {
-      itemMap[item.id] = item;
-    });
-    return itemMap;
-  }
-
+  // Récupère un élément par son ID
   public getItem(id: string): Item | undefined {
-    return this.itemMap[id];
+    return this.itemMap.get(id);
   }
 
+  // Génère l'arbre dynamiquement, sans indexation préalable
   public generateTree(): Item[] {
-    const tree: Item[] = [];
-    const rootItems = this.items.filter(item => item.parent_id === '' || !this.itemMap[item.parent_id]); // Get root items
-    rootItems.forEach(rootItem => {
-      const childrens = this.getChildrens(rootItem);
-      tree.push({ ...rootItem, childrens });
-    });
-    return tree;
+    return this.items
+      .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id)) // Racines
+      .map(rootItem => this.buildTree(rootItem));
   }
 
-  private getChildrens(parent: Item): Item[] {
-    const childrens: Item[] = [];
-    this.items.forEach(item => {
-      if (item.parent_id === parent.id) {
-        const child = { ...item };
-        child.childrens = this.getChildrens(item); // Utilisation de la récursivité
-        childrens.push(child);
-      }
-    });
-    return childrens;
+  // Construit un sous-arbre dynamiquement
+  private buildTree(item: Item): Item {
+    const children = this.items.filter(child => child.parent_id === item.id);
+    return {
+      ...item,
+      childrens: children.map(child => this.buildTree(child)),
+    };
   }
 }
