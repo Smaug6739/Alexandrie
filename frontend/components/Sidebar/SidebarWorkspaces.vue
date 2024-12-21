@@ -39,6 +39,7 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 .dropdown-container {
   position: relative;
   width: calc(100% - 4px);
+  padding: 0 1px;
 }
 
 .dropdown-selected {

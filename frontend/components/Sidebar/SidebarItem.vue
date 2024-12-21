@@ -92,11 +92,12 @@ const drop = async (event: DragEvent) => {
   align-items: center;
   padding: 0 2.5px;
   margin: 2.5px 0;
-  border-radius: 5px;
+  border-radius: 7px;
   color: var(--font-color);
   cursor: pointer;
   width: 98%;
   font-size: 15.5px;
+  font-weight: 400;
   &:hover,
   &:has(.router-link-exact-active:not(.new)) {
     background: var(--bg-contrast-2);
@@ -108,8 +109,8 @@ const drop = async (event: DragEvent) => {
 
     &:deep(svg) {
       fill: var(--blue);
-      width: 20px;
-      max-height: 22px;
+      width: 19px;
+      max-height: 21px;
       margin-right: 5px;
 
       path {

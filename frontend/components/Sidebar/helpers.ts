@@ -40,7 +40,7 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'new-page',
     type: 'default',
-    title: 'New page',
+    title: 'New document',
     icon: 'new_page',
     route: '/dashboard/docs/new',
     childrens: [],

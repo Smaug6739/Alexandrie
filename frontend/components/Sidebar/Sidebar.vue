@@ -113,7 +113,7 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .sidebar {
-  padding: 0 0 0 10px;
+  padding: 0.5rem 0.7rem;
 }
 
 .header {
