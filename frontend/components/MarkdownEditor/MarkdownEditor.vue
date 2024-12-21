@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { Editor, type EditorOptions } from './Editor';
+import { Editor, type EditorOptions } from './EditorHelper';
 import Toolbar from './Toolbar.vue';
 import compile from '~/helpers/markdown';
 import InlineToolbar from '~/components/MarkdownEditor/InlineToolbar.vue';
