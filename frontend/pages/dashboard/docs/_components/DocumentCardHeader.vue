@@ -18,6 +18,8 @@
 </template>
 
 <script setup lang="ts">
+import DocumentCardHeaderActionRow from './DocumentCardHeaderActionRow.vue';
+import DocumentHeaderIllustration from './DocumentHeaderIllustration.vue';
 import type { Document } from '~/stores';
 const categories_store = useCategoriesStore();
 const props = defineProps<{ doc: Document }>();

@@ -13,8 +13,9 @@
 
 <script setup lang="ts">
 import type { Document } from '@/stores';
-import TableOfContent from '@/components/table-of-content/TableOfContents.vue';
-
+import TableOfContent from './_components/table-of-content/TableOfContents.vue';
+import DocumentCardHeader from './_components/DocumentCardHeader.vue';
+import DocumentCardFooter from './_components/DocumentCardFooter.vue';
 const route = useRoute();
 const documentsStore = useDocumentsStore();
 const element = ref<HTMLElement>();
