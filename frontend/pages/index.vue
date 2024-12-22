@@ -86,18 +86,19 @@ h3 {
   color: var(--font-color);
 }
 
-h1 {
-  font-size: 2.8rem;
-  margin-bottom: 0.8rem;
+h3 {
+  font-size: 1.4rem;
+  color: var(--font-color-light);
+  font-weight: 500;
 }
 
 #typewriter {
   font-size: 2.5rem;
   font-weight: 700;
-  white-space: pre-wrap; /* Gère les sauts de ligne */
+  white-space: pre-wrap;
   display: inline-block;
-  border-right: 4px solid #333; /* Curseur plus large */
-  height: 1.2em; /* Ajuste la hauteur */
+  border-right: 4px solid #333;
+  height: 1.2em;
   animation: blink 0.6s step-end infinite;
 }
 
@@ -111,12 +112,11 @@ h1 {
   }
 }
 
-h3 {
-  font-size: 1.4rem;
-  color: #6e6e73;
-  font-weight: 500;
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--font-color);
 }
-
 .header {
   display: flex;
   justify-content: space-between;
@@ -143,15 +143,13 @@ h3 {
 .intro {
   max-width: 48rem;
   padding: 1rem;
-}
-
-.intro h1 {
-  font-size: 2.6rem;
-}
-
-.intro h3 {
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
+  h1 {
+    font-size: 2.6rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+  }
 }
 
 .btns-block {
@@ -172,36 +170,32 @@ h3 {
   transition: all 0.3s ease;
   display: inline-block;
   box-shadow: 0px 4px 12px var(--border-color);
+  border: none;
+  &:hover {
+    box-shadow: 0px 6px 15px var(--border-color);
+    transform: translateY(-4px);
+  }
 }
 
 .get-started {
   background: var(--primary-color);
   color: #fff;
-  border: none;
 }
 
 .github {
   background: var(--bg-contrast);
   color: var(--font-color);
-  border: none;
-}
-
-.get-started:hover,
-.github:hover {
-  transform: translateY(-4px);
-  box-shadow: 0px 6px 15px var(--border-color);
 }
 
 .images {
   width: 100%;
   max-width: 800px;
   margin-top: 2rem;
-}
-
-.images img {
-  width: 100%;
-  border-radius: 1rem;
-  box-shadow: 0 20px 40px var(--border-color);
+  img {
+    width: 100%;
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px var(--border-color);
+  }
 }
 
 .editor-section,
@@ -222,12 +216,6 @@ h3 {
   overflow: hidden;
   box-shadow: 0 10px 30px var(--border-color);
   border: 1px solid var(--border-color);
-}
-
-.section-title {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: var(--font-color);
 }
 
 .demo img {
