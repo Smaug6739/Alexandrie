@@ -34,7 +34,7 @@
 
 .add-category-btn {
   background: none;
-  color: var(--primary-color);
+  color: $primary-color;
   cursor: pointer;
   font-size: 1.1em;
   margin-top: 20px;

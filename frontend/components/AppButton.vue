@@ -24,29 +24,29 @@ button {
   }
 }
 .primary {
-  background: var(--primary-color);
+  background: $primary-color;
   color: white;
   &:hover {
-    background: var(--primary-color-500);
+    background: $primary-dark;
   }
 }
 .secondary {
-  outline: 1px solid var(--primary-color);
+  outline: 1px solid $primary-color;
   color: var(--font-color);
   &:hover {
-    outline: 1px solid var(--primary-color-500);
+    outline: 1px solid $primary-dark;
   }
 }
 .success {
   background: $green;
   color: white;
   &:hover {
-    background: color.adjust($green, $lightness: -10%);
+    background: $green-dark;
   }
 }
 .link {
   background: none;
-  color: var(--primary-color);
+  color: $primary-color;
   &:hover {
     text-decoration: underline;
   }
@@ -55,7 +55,7 @@ button {
   background: $red;
   color: white;
   &:hover {
-    background: color.adjust($red, $lightness: 10%);
+    background: $red-dark;
   }
 }
 </style>

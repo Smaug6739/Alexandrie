@@ -24,14 +24,14 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
   right: 2.5rem;
   width: 2rem;
   height: 1.2rem;
-  background-color: var(--primary-color);
+  background-color: $primary-color;
   -webkit-mask: url('/svg/back-to-top.svg') no-repeat;
   mask: url('/svg/back-to-top.svg') no-repeat;
   z-index: 100;
 }
 
 .back-to-top:hover {
-  background-color: var(--primary-color-500);
+  background-color: $primary-dark;
 }
 
 @media (max-width: 959px) {

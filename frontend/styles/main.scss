@@ -85,6 +85,9 @@ form {
 }
 
 @media print {
+	:root {
+		@include print-theme;
+	}
 
 	header,
 	footer,

@@ -156,7 +156,7 @@ const deleteRessource = async (id: string) => {
 
 .loading-spinner {
   border: 5px solid #f3f3f3;
-  border-top: 5px solid var(--primary-color);
+  border-top: 5px solid $primary-color;
   border-radius: 50%;
   width: 50px;
   height: 50px;

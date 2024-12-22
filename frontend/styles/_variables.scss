@@ -1,14 +1,17 @@
 @use "sass:color";
 
 $blue: #007aff;
+$dark-blue: color.adjust($blue, $lightness: -10%);
 $indigo: #6610f2;
 $purple: #6f42c1;
 $pink: #ff0e6a;
 $red: #dc3545;
+$red-dark: color.adjust($red, $lightness: -10%);
 $white: white;
 $orange: #fd7e14;
 $yellow: #ffc107;
 $green: #009879;
+$green-dark: color.adjust($green, $lightness: -10%);
 $grey: #ffffffd9;
 $black: #27323A;
 
@@ -24,11 +27,12 @@ $monospace-font: monospace;
 // Transitions
 $transition-duration: 0.3s;
 
-:root {
 
-	--primary-color: #007aff;
-	--primary-color-300: color.adjust(#007aff, $lightness: -10%);
-	--primary-color-500: color.adjust(#007aff, $lightness: 10%);
+$primary-color: #007aff;
+$primary-light: color.adjust(#007aff, $lightness: 10%);
+$primary-dark: color.adjust(#007aff, $lightness: -10%);
+
+:root {
 
 	--bg-color: #fff;
 	--bg-contrast: #F1F6FD;
@@ -37,7 +41,8 @@ $transition-duration: 0.3s;
 	--font-color: #334155;
 	--font-color-dark: #333;
 	--font-color-light: rgb(100, 116, 139);
-	--border-color: var(--border-color);
+	--border-color: rgba(0, 0, 0, 0.1);
+
 	// COLORS \\
 	--grey: #666;
 	--grey-bg: rgb(240, 240, 240);
@@ -61,8 +66,8 @@ $transition-duration: 0.3s;
 }
 
 .dark-mode {
-	--bg-color: #252A34;
-	--bg-contrast: #333a44;
+	--bg-color: #333a44;
+	--bg-contrast: #3d4550;
 	--bg-contrast-2: #4e545e;
 	--selection-color: #4a90e2;
 	--font-color: #e5e5e5;
@@ -98,20 +103,21 @@ $transition-duration: 0.3s;
 	--bg-contrast-2: #ECECEC;
 	--font-color: #111;
 	// COLORS \\
+	--grey: #666;
+	--grey-bg: rgb(240, 240, 240);
 	--blue: #007aff;
-	--blue-bg: rgba(0, 123, 255, 0.2);
-	--blue-border: rgba(0, 123, 255, 0.25);
+	--blue-bg: #cce0ff;
+	--blue-border: rgba(0, 123, 255, 0.3);
 	--green: #009879;
-	--green-bg: rgba(40, 167, 69, 0.2);
-	--green-border: rgba(40, 167, 69, 0.25);
-	--red: #dc3545;
-	--red-bg: rgba(220, 53, 69, 0.2);
-	--red-border: rgba(220, 53, 69, 0.25);
-	--yellow: #ffc107;
-	--yellow-bg: rgba(255, 193, 7, 0.2);
-	--yellow-border: rgba(255, 193, 7, 0.25);
-	--turquoise: rgb(1, 177, 150);
-	--turquoise-bg: rgba(1, 177, 150, 0.2);
-	--turquoise-border: rgba(1, 177, 150, 0.25);
-	--border-color: rgba(0, 0, 0, 0.5);
+	--green-bg: rgba(40, 167, 69, 0.15);
+	--green-border: rgba(40, 167, 69, 0.3);
+	--red: #FF204E;
+	--red-bg: rgba(220, 53, 69, 0.15);
+	--red-border: rgba(220, 53, 69, 0.3);
+	--yellow: #F97300;
+	--yellow-bg: rgba(255, 193, 7, 0.15);
+	--yellow-border: rgba(255, 193, 7, 0.3);
+	--turquoise: #00ADB5;
+	--turquoise-bg: rgba(23, 162, 184, 0.2);
+	--turquoise-border: rgba(23, 162, 184, 0.25);
 }
