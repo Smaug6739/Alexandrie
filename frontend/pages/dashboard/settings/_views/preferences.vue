@@ -64,7 +64,7 @@ const toggleOption = (index: number) => {
     transition: background-color 0.3s ease;
 
     &.active {
-      background-color: var(--blue);
+      background-color: var(--primary-color);
     }
 
     .toggle-slider {

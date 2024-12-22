@@ -12,10 +12,6 @@ $green: #009879;
 $grey: #ffffffd9;
 $black: #27323A;
 
-$primary-400: #007aff;
-$primary-300: color.adjust($primary-400, $lightness: -10%);
-$primary-500: color.adjust($primary-400, $lightness: 10%);
-
 $secondary-400: #8e8d8a;
 $secondary-300: color.adjust($secondary-400, $lightness: -10%);
 $secondary-500: color.adjust($secondary-400, $lightness: 10%);
@@ -29,6 +25,10 @@ $monospace-font: monospace;
 $transition-duration: 0.3s;
 
 :root {
+
+	--primary-color: #007aff;
+	--primary-color-300: color.adjust(#007aff, $lightness: -10%);
+	--primary-color-500: color.adjust(#007aff, $lightness: 10%);
 
 	--bg-color: #fff;
 	--bg-contrast: #F1F6FD;

@@ -175,7 +175,7 @@ h3 {
 }
 
 .get-started {
-  background: var(--blue);
+  background: var(--primary-color);
   color: #fff;
   border: none;
 }

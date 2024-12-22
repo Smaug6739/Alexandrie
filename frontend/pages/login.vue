@@ -123,7 +123,7 @@ async function connect(username: string, password: string) {
   background-color: $primary-300;
   color: white;
   &:hover {
-    background: $primary-500;
+    background: var(--primary-color-500);
     transform: none;
   }
 }

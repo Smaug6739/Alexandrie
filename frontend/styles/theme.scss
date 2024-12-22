@@ -11,7 +11,7 @@ a {
 }
 
 blockquote {
-	border-left: 4px solid $primary-400;
+	border-left: 4px solid var(--primary-color);
 	padding: 0 15px;
 
 	> :first-child {

@@ -24,17 +24,17 @@ button {
   }
 }
 .primary {
-  background: $primary-400;
+  background: var(--primary-color);
   color: white;
   &:hover {
-    background: $primary-500;
+    background: var(--primary-color-500);
   }
 }
 .secondary {
-  outline: 1px solid $primary-400;
+  outline: 1px solid var(--primary-color);
   color: var(--font-color);
   &:hover {
-    outline: 1px solid $primary-500;
+    outline: 1px solid var(--primary-color-500);
   }
 }
 .success {
@@ -46,7 +46,7 @@ button {
 }
 .link {
   background: none;
-  color: $primary-400;
+  color: var(--primary-color);
   &:hover {
     text-decoration: underline;
   }

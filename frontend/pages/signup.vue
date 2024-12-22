@@ -176,7 +176,7 @@ async function createAccount(username: string, email: string, password: string) 
   color: white;
 
   &:hover {
-    background: $primary-500;
+    background: var(--primary-color-500);
     transform: none;
   }
 }

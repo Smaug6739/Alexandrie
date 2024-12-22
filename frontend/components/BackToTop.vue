@@ -1,6 +1,5 @@
 <template>
-  <div class="back-to-top" @click="scrollToTop" v-if="show">
-  </div>
+  <div class="back-to-top" @click="scrollToTop" v-if="show"></div>
 </template>
 
 <script setup lang="ts">
@@ -8,7 +7,7 @@ const scrollTop = ref(0);
 const getScrollTop = () => window.scrollY || 0;
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 const show = computed(() => scrollTop.value > 300);
-const onScroll = () => scrollTop.value = getScrollTop()
+const onScroll = () => (scrollTop.value = getScrollTop());
 
 onMounted(() => {
   scrollTop.value = getScrollTop();
@@ -25,14 +24,14 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
   right: 2.5rem;
   width: 2rem;
   height: 1.2rem;
-  background-color: $primary-400;
+  background-color: var(--primary-color);
   -webkit-mask: url('/svg/back-to-top.svg') no-repeat;
   mask: url('/svg/back-to-top.svg') no-repeat;
   z-index: 100;
 }
 
 .back-to-top:hover {
-  background-color: $primary-500;
+  background-color: var(--primary-color-500);
 }
 
 @media (max-width: 959px) {
