@@ -67,7 +67,7 @@ const deleteCategory = async () => {
   padding: 25px;
   margin: 40px auto;
   background-color: var(--bg-color);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 0 var(--border-color);
   border-radius: 12px;
   min-width: 40%;
   max-width: 800px;

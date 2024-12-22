@@ -37,7 +37,7 @@ $transition-duration: 0.3s;
 	--font-color: #334155;
 	--font-color-dark: #333;
 	--font-color-light: rgb(100, 116, 139);
-	--border-color: rgba(0, 0, 0, 0.1);
+	--border-color: var(--border-color);
 	// COLORS \\
 	--grey: #666;
 	--grey-bg: rgb(240, 240, 240);

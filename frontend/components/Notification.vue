@@ -31,7 +31,7 @@ const close = (id: number) => useNotifications().remove(id);
   border-radius: 8px;
   color: white;
   margin-bottom: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--border-color);
   width: 350px;
 }
 

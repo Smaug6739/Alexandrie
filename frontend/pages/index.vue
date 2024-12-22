@@ -171,7 +171,7 @@ h3 {
   font-size: 1rem;
   transition: all 0.3s ease;
   display: inline-block;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 12px var(--border-color);
 }
 
 .get-started {
@@ -189,7 +189,7 @@ h3 {
 .get-started:hover,
 .github:hover {
   transform: translateY(-4px);
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 6px 15px var(--border-color);
 }
 
 .images {
@@ -201,7 +201,7 @@ h3 {
 .images img {
   width: 100%;
   border-radius: 1rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px var(--border-color);
 }
 
 .editor-section,
@@ -220,7 +220,7 @@ h3 {
   margin: 0 auto;
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px var(--border-color);
   border: 1px solid var(--border-color);
 }
 
@@ -231,7 +231,7 @@ h3 {
 }
 
 .demo img {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px var(--border-color);
   display: block;
   margin: 25px auto;
   max-height: unset;
