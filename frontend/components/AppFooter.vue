@@ -11,9 +11,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--bg-contrast);
   border-top: 1px solid var(--border-color);
-  box-shadow: 0 -1px 10px var(--border-color);
 }
 
 footer .p2 {

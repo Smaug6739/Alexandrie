@@ -2,7 +2,7 @@
   <main>
     <section class="header">
       <div class="logo">
-        <img src="/Logo/Alexandrie-logo-dark.png" alt="Logo Alexandrie" class="logo-img" />
+        <IconApp />
       </div>
     </section>
 
@@ -181,7 +181,7 @@ h3 {
 }
 
 .github {
-  background: #e4e4e6;
+  background: var(--bg-contrast);
   color: var(--font-color);
   border: none;
 }
