@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" :class="{ 'print-style': preferences.get('printMode') }">
     <div class="text">
       <p class="category">
         {{ category?.name }}
@@ -22,6 +22,7 @@ import DocumentCardHeaderActionRow from './DocumentCardHeaderActionRow.vue';
 import DocumentHeaderIllustration from './DocumentHeaderIllustration.vue';
 import type { Document } from '~/stores';
 const categories_store = useCategoriesStore();
+const preferences = usePreferencesStore();
 const props = defineProps<{ doc: Document }>();
 const category = computed(() => categories_store.getById(props.doc?.category || ''));
 </script>
@@ -75,6 +76,29 @@ p {
 @media print, screen and (min-width: 1024px) {
   .icon {
     display: block;
+  }
+}
+@media print {
+  .print-style {
+    align-items: center;
+    padding: 0.7rem 0.2rem;
+    .icon {
+      display: none;
+    }
+    .description {
+      display: none;
+    }
+    .category {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .document-tags {
+      display: none;
+    }
   }
 }
 </style>

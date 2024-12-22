@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     '.nuxt/analyze',
     '.nuxt',
     '**/-*.*', //
-    'pages/**/_*',
+    // 'pages/**/_*',
   ],
   ssr: false,
   css: ['~/styles/main.scss', '~/styles/katex/katex.min.css'],

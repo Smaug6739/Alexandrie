@@ -1,6 +1,6 @@
 import multer from 'multer';
 import { RessourcesManager } from '../classes';
-import server from '../main';
+import { server } from '../main';
 import { MIME_TYPES_IMAGE, ACCEPTED_MIME_TYPES } from '../utils/constants';
 import { config } from '../config';
 import type { IObject } from '../types';
