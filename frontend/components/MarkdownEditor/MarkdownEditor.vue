@@ -1,12 +1,14 @@
 <template>
   <div class="editor-container" @keydown="editor.handleKeydown">
     <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" @execute-action="(a:string) => editor.actions(a)" />
-    <input placeholder="Title" class="title" v-model="document.name" />
-    <input placeholder="Description" class="description" v-model="document.description" />
-    <div class="markdown" ref="container">
-      <InlineToolbar ref="toolbar" @execute-action="(a:string) => editor.actions(a)" />
-      <textarea ref="textarea" class="content markdown-input" @scroll="syncScroll" @input="update" v-html="document.content_markdown || ''" placeholder="Write something or use the toolbar to create your document..."></textarea>
-      <div v-if="editor.showPreview.value" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html || ''"></div>
+    <div style="padding: 10px; height: 100%; width: 100%">
+      <input placeholder="Title" class="title" v-model="document.name" />
+      <input placeholder="Description" class="description" v-model="document.description" />
+      <div class="markdown" ref="container">
+        <InlineToolbar ref="toolbar" @execute-action="(a:string) => editor.actions(a)" />
+        <textarea ref="textarea" class="content markdown-input" @scroll="syncScroll" @input="update" v-html="document.content_markdown || ''" placeholder="Write something or use the toolbar to create your document..."></textarea>
+        <div v-if="editor.showPreview.value" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html || ''"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -75,7 +77,6 @@ function debounce(fn: Function, wait: number) {
   width: 100%;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   border-radius: 15px;
-  padding: 1rem;
 }
 
 .markdown {

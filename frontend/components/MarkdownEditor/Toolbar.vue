@@ -1,19 +1,20 @@
 <template>
   <div class="toolbar">
-    <button v-for="item in toolbar" :key="item.name" v-html="item.icon" class="btn" @click="emitAction(item.action)" :title="item.name"></button>
+    <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
     <select v-if="!minimal" v-model="copy.accessibility" style="margin-right: 5px">
       <option :value="1">Visible</option>
       <option :value="2">Draf</option>
       <option :value="3">Archive</option>
     </select>
     <select v-if="!minimal" v-model="copy.category" style="margin-right: 5px">
-      <option :value="null">All notes</option>
+      <option :value="null" selected>All notes</option>
       <option v-for="wp in categoriesStore.getParents.filter(c => c.role == 2)" :value="wp.id" v-text="wp.name"></option>
       <optgroup v-for="cat in categoriesStore.getParents.filter(c => c.role == 1)" :label="cat.name" :key="cat.id">
         <option v-for="subCat in categoriesStore.getChilds(cat.id)" :value="subCat.id" :key="subCat.id" v-text="subCat.name"></option>
       </optgroup>
     </select>
     <input type="text" v-model="copy.tags" placeholder="Tags" style="margin-right: 5px" />
+    <button @click="() => emitAction('exit')" style="margin-left: auto"><Icon name="close" :big="true" /></button>
   </div>
 </template>
 
@@ -25,7 +26,6 @@ const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
 const copy = ref(props.document);
 const emit = defineEmits(['execute-action']);
 const emitAction = (action: string) => emit('execute-action', action, copy);
-
 const toolbar = [
   {
     name: 'Bold',
@@ -107,16 +107,16 @@ button {
   display: flex;
   align-items: stretch;
   flex-wrap: wrap;
+  background-color: var(--bg-contrast);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 0.5rem;
+  color: var(--font-color-light);
 }
 
 svg,
 .toolbar:deep(svg) {
-  fill: var(--font-color);
-}
-
-svg:hover,
-.toolbar:deep(svg):hover {
-  fill: $primary-400;
+  fill: var(--font-color-light);
 }
 
 input,
@@ -124,5 +124,6 @@ select {
   display: inline-block;
   width: min-content;
   padding: 0;
+  background-color: var(--bg-contrast-2);
 }
 </style>
