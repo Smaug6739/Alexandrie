@@ -13,7 +13,6 @@ const requestQueue: { route: string; method: string; body: Object; resolve: (val
 
 export async function makeRequest<T>(route: string, method: string, body: Object, isTreatingQueue: boolean = false): Promise<APIResult<T>> {
   console.log(`[API] Requesting [${method}] to /${route}`);
-
   const promise = new Promise<APIResult<T>>((resolve, reject) => {
     if (!isTreatingQueue) requestQueue.push({ route, method, body, resolve, reject });
   });
@@ -21,6 +20,10 @@ export async function makeRequest<T>(route: string, method: string, body: Object
   try {
     const response = await customFetch(method, route, body);
     const decoded = await response.json();
+
+    if (response.ok && decoded.status === 'success') {
+      requestQueue.pop();
+    }
 
     if ((response.status === 401 && decoded.message === 'Bad access token.') || decoded.message === 'Missing token cookies.') {
       if (is_getting_new_token) return promise;
@@ -43,16 +46,17 @@ export async function makeRequest<T>(route: string, method: string, body: Object
 
 function treatQueue(access_token: boolean = true) {
   console.log(`[API] Treating queue with access_token: ${access_token}`);
-
-  if (!access_token) {
-    for (const request of requestQueue) {
-      request.resolve({ status: 'error', message: 'Failed to fetch.' });
-    }
-    useUserStore().post_logout();
-    navigateTo('/login');
-  } else {
-    for (const request of requestQueue) {
-      makeRequest(request.route, request.method, request.body, true).then(request.resolve).catch(request.reject);
+  while (requestQueue.length > 0) {
+    const request = requestQueue.shift();
+    if (!access_token) {
+      if (request) {
+        request.resolve({ status: 'error', message: 'Failed to fetch.' });
+        requestQueue.length = 0;
+        useUserStore().post_logout();
+        navigateTo('/login');
+      }
+    } else if (request) {
+      makeRequest(request.route, request.method, request.body, true).then(request.resolve).catch(console.info);
     }
   }
 }

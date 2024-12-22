@@ -82,7 +82,7 @@ p {
   .print-style {
     align-items: center;
     padding: 0.4rem 0.2rem;
-
+    background: none;
     .icon,
     .description,
     .document-tags,

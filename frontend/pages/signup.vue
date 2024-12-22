@@ -172,7 +172,7 @@ async function createAccount(username: string, email: string, password: string) 
   font-size: 1.2rem;
   border-radius: 50px;
   width: 100%;
-  background-color: $primary-300;
+  background-color: $primary-light;
   color: white;
 
   &:hover {
