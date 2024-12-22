@@ -12,9 +12,7 @@
           <h1 class="title">
             <span id="typewriter"></span>
           </h1>
-          <h3 class="subtitle">
-          Centralize Your Notes. Enhance Your Productivity.
-          </h3>
+          <h3 class="subtitle">Centralize Your Notes. Enhance Your Productivity.</h3>
         </div>
         <div class="btns-block">
           <NuxtLink to="/dashboard" class="get-started">Get started</NuxtLink>
@@ -43,60 +41,35 @@
   <AppFooter />
 </template>
 
-
-
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
 
-const typewriterText = ref("Your Ideas, Documents & Plans.\nAlexandrie");
+const typewriterText = ref('Your Ideas, Documents & Plans.\nAlexandrie');
 
 onMounted(() => {
-  const element = document.getElementById("typewriter");
+  const element = document.getElementById('typewriter');
+  if (!element || (element && !element)) return;
+  const text = typewriterText.value.split(''); // Divise le texte en lettres
+  let index = 0;
+  const type = () => {
+    if (index < text.length) {
+      element.textContent += text[index] || '';
+      index++;
+      setTimeout(type, 50); // Ajustez la vitesse d'écriture
+    } else element.style.borderRight = 'none';
+  };
 
-  if (element) {
-    const text = typewriterText.value.split(""); // Divise le texte en lettres
-    let index = 0;
-
-    const type = () => {
-      if (index < text.length) {
-        element.textContent += text[index] === "\n" ? "\n" : text[index];
-        index++;
-        setTimeout(type, 50); // Ajustez la vitesse d'écriture
-      } else {
-        // Supprime le curseur à la fin
-        element.style.borderRight = "none";
-      }
-    };
-
-    type();
-  }
+  type();
 });
 
 const colorMode = useColorMode();
-import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
 
 const doc = ref({
   content_markdown: `# Welcome to Alexandrie ! 🚀\n## Formatting options\n\nLorem **ipsum dolor** *sit amet*, consectetur _adipiscing elit_. ==But not sad.==   \n\n### Different content blocks\n\n:::blue Blue\nA blue block\n:::\n:::red Red\nA red block\n:::\n:::green Green\nA green block\n:::\n:::grey Grey\nA grey block\n:::\n:::yellow Yellow\nA yellow block\n:::\n:::turquoise Turquoise\nA turquoise block\n:::\n:::details Details\nA details block\n:::\n\n\n:::no-print\nThis content will not be printed\n:::\n\n:::center\nThis content is centered\n:::\n\n:::definition Red Info\nBlock of content (ex: definition)\n:::\n\n:::property Blue Info\nBlock of content (ex: property)\n:::\n\n:::theorem Turquoise Info\nBlock of content (ex: theorem)\n:::\n\n:::info-u Info without background\nBlock of content (ex: info, tip, note)\n:::\n\n:::warning Warning Info\nBlock of content (ex: warning)\n:::\n\n### Bullet and Numbered Lists:\n\n- Bullet 1\n- Bullet 2\n  - Sub-bullet 2-1\n\n1. Item 1\n1. Item 2\n\n### Markdown Tables\n\n| Column 1  | Column 2  | Column 3 |\n|:----------|:----------|:---------|\n|Item 1     | Item 2    | Item 3   |\n\n### Other formats\n\n$\\text{This is a math block: } f(x) = ax^2+bx+c$\n\n\`\`\`javascript\nconst hello = "Hello world";\n\`\`\`\n\n> Note: This content is a quote\n>> Nested quote\n\n## Shortcuts\n\n- **Ctrl + S**: Save\n- **Ctrl + P**: Toggle preview\n- **Ctrl + Q**: Switch to document\n- **Ctrl + B**: Bold formatting\n- **Ctrl + I**: Italic formatting\n- **Ctrl + U**: Underline formatting\n- **Ctrl + K**: Insert link\n- **Ctrl + M**: Insert image\n\n## Snippets\n\n- **!m**: Insert a math block (LaTeX)\n- **!def**: Insert a definition block\n- **!thm**: Insert a theorem block\n- **!center**: Center the content\n- **!red**: Insert a red block\n- **!green**: Insert a green block\n- **!blue**: Insert a blue block\n- **!yellow**: Insert a yellow block\n- **!details**: Insert a details block\n`,
 });
-
 </script>
 
 <style scoped lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: #f5f5f7;
-  color: #333;
-  line-height: 1.6;
-}
-
 main {
   display: flex;
   flex-direction: column;
@@ -106,9 +79,11 @@ main {
   margin: 0 auto;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-weight: 600;
-  color: #1c1c1e;
+  color: var(--font-color);
 }
 
 h1 {
@@ -127,14 +102,14 @@ h1 {
 }
 
 @keyframes blink {
-  from, to {
+  from,
+  to {
     border-color: transparent;
   }
   50% {
     border-color: #333;
   }
 }
-
 
 h3 {
   font-size: 1.4rem;
@@ -150,8 +125,6 @@ h3 {
   padding: 1rem 2rem;
   position: absolute;
   top: 0;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.8);
 }
 
 .logo-img {
@@ -188,7 +161,8 @@ h3 {
   margin: 2.5rem 0;
 }
 
-.get-started, .github {
+.get-started,
+.github {
   padding: 0.9rem 2rem;
   border-radius: 10rem;
   text-transform: uppercase;
@@ -201,20 +175,21 @@ h3 {
 }
 
 .get-started {
-  background: linear-gradient(135deg, #6d9fff, #007aff);
+  background: var(--blue);
   color: #fff;
   border: none;
 }
 
 .github {
-  background: linear-gradient(135deg, #e4e4e6, #f2f2f7);
-  color: #1c1c1e;
+  background: #e4e4e6;
+  color: var(--font-color);
   border: none;
 }
 
-.get-started:hover, .github:hover {
+.get-started:hover,
+.github:hover {
   transform: translateY(-4px);
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
 }
 
 .images {
@@ -229,9 +204,14 @@ h3 {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-.editor-section, .demo-section {
+.editor-section,
+.demo-section {
   text-align: center;
   margin-top: 4rem;
+  width: 100%;
+  .editor {
+    text-align: left;
+  }
 }
 
 .editor {
@@ -241,18 +221,22 @@ h3 {
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e5e5ea;
+  border: 1px solid var(--border-color);
 }
 
 .section-title {
   font-size: 2rem;
   margin-bottom: 1.5rem;
-  color: #1c1c1e;
+  color: var(--font-color);
 }
 
 .demo img {
-  max-width: 100%;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 25px auto;
+  max-height: unset;
+  max-width: 1000px;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -260,7 +244,8 @@ h3 {
     font-size: 2.2rem;
   }
 
-  .get-started, .github {
+  .get-started,
+  .github {
     padding: 0.8rem 1.6rem;
     font-size: 0.9rem;
   }
@@ -270,4 +255,3 @@ h3 {
   }
 }
 </style>
-

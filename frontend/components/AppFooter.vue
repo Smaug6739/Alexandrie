@@ -11,11 +11,9 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f9f9f7;
-  border-top: 1px solid #e0e0e0;
-  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.05);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #333;
+  background-color: var(--bg-contrast);
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
 }
 
 footer .p2 {
@@ -25,7 +23,7 @@ footer .p2 {
 }
 
 footer .logo {
-  max-width: 100px; 
+  max-width: 100px;
 }
 
 @media (max-width: 768px) {
