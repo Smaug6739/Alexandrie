@@ -17,6 +17,7 @@ md.use(underline);
 md.use(mark);
 md.use(markdownItKatexPlugin);
 md.use(highlight);
+md.use(markdownItCheckbox);
 
 function markdownItKatexPlugin(md: any) {
   // Nous ajoutons une règle en ligne (inline) après la règle 'escape' (qui échappe les caractères spéciaux)
@@ -61,6 +62,43 @@ function markdownItKatexPlugin(md: any) {
     return mdTokatex(tokens[idx].content); // Nous utilisons notre fonction mdTokatex pour rendre le contenu mathématique
   };
 }
+// [ ] and [x] checkbox
+// Fonction markdownItCheckbox
+// Ajout d'une règle pour les listes
+function markdownItCheckbox(md: any) {
+  let checkboxIdCounter = 0;
+  // Ajout d'une règle pour transformer les cases à cocher
+  md.core.ruler.after('inline', 'checkbox', (state: any) => {
+    // Parcourt tous les tokens de l'état
+    for (let i = 0; i < state.tokens.length; i++) {
+      const token = state.tokens[i];
+
+      // Vérifier si le token est une liste et s'il contient des cases à cocher
+      if (token.type === 'inline' && token.content.match(/^\[([ xX])\]/)) {
+        const match = token.content.match(/^\[([ xX])\]\s*(.*)/);
+
+        if (match) {
+          const isChecked = match[1].toLowerCase() === 'x';
+          const label = match[2];
+          const checkboxId = `check-${checkboxIdCounter++}`;
+
+          // Injecte des tokens HTML pour le rendu des cases à cocher
+          const checkboxToken = new state.Token('html_inline', '', 0);
+          checkboxToken.content = `
+            <label class="checkbox-container">
+              <input type="checkbox" ${isChecked ? 'checked' : ''} id="check-${checkboxId}">
+              <span>${label}</span>
+            </label>
+          `;
+
+          token.children = [checkboxToken]; // Remplace les enfants par le nouveau contenu HTML
+          token.content = ''; // Vide le contenu textuel pour éviter un rendu dupliqué
+        }
+      }
+    }
+  });
+}
+// Définir une règle de rendu pour injecter les cases à cocher
 
 export default function compile(str: string = ''): string {
   // Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)

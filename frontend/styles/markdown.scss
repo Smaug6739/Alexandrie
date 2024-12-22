@@ -113,6 +113,22 @@ pink {
 	color: rgba(235, 235, 235, 1);
 }
 
+.checkbox-container {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 8px;
+}
+
+.checkbox-container input[type="checkbox"] {
+	margin-right: 8px;
+	width: unset;
+}
+
+.checkbox-container span {
+	vertical-align: middle;
+}
+
 .grey {
 	border-color: var(--grey-border);
 	color: var(--grey);
