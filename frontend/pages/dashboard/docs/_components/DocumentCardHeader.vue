@@ -81,23 +81,19 @@ p {
 @media print {
   .print-style {
     align-items: center;
-    padding: 0.7rem 0.2rem;
-    .icon {
-      display: none;
-    }
-    .description {
-      display: none;
-    }
+    padding: 0.4rem 0.2rem;
+
+    .icon,
+    .description,
+    .document-tags,
     .category {
-      font-size: 18px;
-      font-weight: 600;
+      display: none;
     }
     .title {
-      font-size: 24px;
+      font-size: 27px;
       font-weight: 700;
-    }
-    .document-tags {
-      display: none;
+      border-bottom: 1px solid var(--font-color);
+      text-align: center;
     }
   }
 }
