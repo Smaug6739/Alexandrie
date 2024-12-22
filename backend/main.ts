@@ -10,4 +10,4 @@ config({
 const server: App = new App(constants);
 server.start();
 
-export default server;
+export { server };

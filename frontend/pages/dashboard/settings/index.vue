@@ -44,19 +44,6 @@ const router = useRouter();
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 
 const close = () => router.push('/dashboard');
-const downloadLink = ref<string | null>(null);
-const copyLink = () => navigator.clipboard.writeText(downloadLink.value!);
-const isLoading = ref(false);
-
-async function submitFile() {
-  isLoading.value = true;
-  const result = await makeRequest<{ url: string }>('backups', 'POST', {});
-  isLoading.value = false;
-  if (result.status != 'success') {
-    return useNotifications().add({ type: 'error', title: 'Error', message: result.message, timeout: 3000 });
-  }
-  downloadLink.value = `${CDN}${result.result?.url || ''}`;
-}
 
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 </script>

@@ -10,19 +10,20 @@
 
 <script setup lang="ts">
 const colorMode = useColorMode();
+const preferencesStore = usePreferencesStore();
 // Define options dynamically
 const options = ref([
   {
     id: 'print-mode-toggle',
     label: 'Enable Print Mode',
-    value: localStorage.getItem('printMode') === 'true',
-    storageKey: 'printMode',
+    value: Boolean(preferencesStore.get('printMode')),
+    storageKey: 'printMode' as const,
   },
   {
     id: 'dark-mode-toggle',
     label: 'Enable Dark Mode',
     value: colorMode.value === 'dark',
-    storageKey: 'darkMode',
+    storageKey: 'darkMode' as const,
     onToggle: () => (colorMode.value === 'light' ? (colorMode.preference = 'dark') : (colorMode.preference = 'light')),
   },
 ]);
@@ -32,7 +33,7 @@ const toggleOption = (index: number) => {
   const option = options.value[index];
   if (!option) return;
   option.value = !option.value;
-  localStorage.setItem(option.storageKey, option.value.toString());
+  preferencesStore.set({ key: option.storageKey, value: option.value });
   if (option.onToggle) option.onToggle();
 };
 </script>
