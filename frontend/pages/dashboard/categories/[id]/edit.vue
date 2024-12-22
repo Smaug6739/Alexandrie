@@ -1,7 +1,7 @@
 <template>
   <div class="category-form-container">
     <h2>Update category & workspace</h2>
-    <form @submit.prevent>
+    <form @submit.prevent v-if="category">
       <label>ID</label>
       <input type="text" v-model="category.id" id="id" disabled />
       <label>Role</label>
@@ -16,12 +16,12 @@
       <label>Workspace (for top categories)</label>
       <select v-model="category.workspace_id">
         <option :value="null">None</option>
-        <option v-for="wp in categoriesStore.getAll.filter(a => a.id != categoryId && a.role == 2)" :value="wp.id">{{ wp.name }}</option>
+        <option v-for="wp in categoriesStore.getAll.filter(a => a.id != route.params.id && a.role == 2)" :value="wp.id">{{ wp.name }}</option>
       </select>
       <label>Parent</label>
       <select v-model="category.parent_id">
         <option :value="null">None</option>
-        <option v-for="cp in categoriesStore.getParents.filter(a => a.id != categoryId && a.role == 1)" :value="cp.id">{{ cp.name }}</option>
+        <option v-for="cp in categoriesStore.getParents.filter(a => a.id != route.params.id && a.role == 1)" :value="cp.id">{{ cp.name }}</option>
       </select>
       <label for="order">Order</label>
       <input type="number" v-model.number="category.order" id="order" />
@@ -35,8 +35,8 @@
 
 <script lang="ts" setup>
 const categoriesStore = useCategoriesStore();
-const categoryId = useRoute().query.category;
-const category = computed(() => categoriesStore.getById(categoryId as string) || { id: '', role: 1, name: '', icon: '', workspace_id: '', parent_id: '', order: 0, type: 'category' as const });
+const route = useRoute();
+const category = computed(() => categoriesStore.getById(route.params.id as string));
 
 definePageMeta({ breadcrumb: 'Edit' });
 
