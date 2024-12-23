@@ -2,8 +2,16 @@
   <div class="category-form-container">
     <h2>Update category & workspace</h2>
     <form @submit.prevent v-if="category">
-      <label>ID</label>
-      <input type="text" v-model="category.id" id="id" disabled />
+      <div class="form-row">
+        <div class="form-column">
+          <label>ID</label>
+          <input type="text" v-model="category.id" id="id" disabled />
+        </div>
+        <div class="form-column">
+          <label for="order">Order</label>
+          <input type="number" v-model.number="category.order" id="order" />
+        </div>
+      </div>
       <label>Role</label>
       <select v-model="category.role">
         <option :value="1">Category</option>
@@ -13,18 +21,22 @@
       <input type="text" v-model="category.name" id="name" required />
       <label>Icon (svg supported)</label>
       <textarea type="text" v-model="category.icon" rows="5"></textarea>
-      <label>Workspace (for top categories)</label>
-      <select v-model="category.workspace_id">
-        <option :value="null">None</option>
-        <option v-for="wp in categoriesStore.getAll.filter(a => a.id != route.params.id && a.role == 2)" :value="wp.id">{{ wp.name }}</option>
-      </select>
-      <label>Parent</label>
-      <select v-model="category.parent_id">
-        <option :value="null">None</option>
-        <option v-for="cp in categoriesStore.getParents.filter(a => a.id != route.params.id && a.role == 1)" :value="cp.id">{{ cp.name }}</option>
-      </select>
-      <label for="order">Order</label>
-      <input type="number" v-model.number="category.order" id="order" />
+      <div class="form-row">
+        <div class="form-column">
+          <label>Workspace - for top categories -</label>
+          <select v-model="category.workspace_id">
+            <option :value="null">None</option>
+            <option v-for="wp in categoriesStore.getAll.filter(a => a.id != route.params.id && a.role == 2)" :value="wp.id">{{ wp.name }}</option>
+          </select>
+        </div>
+        <div class="form-column">
+          <label>Parent</label>
+          <select v-model="category.parent_id">
+            <option :value="null">None</option>
+            <option v-for="cp in categoriesStore.getParents.filter(a => a.id != route.params.id && a.role == 1)" :value="cp.id">{{ cp.name }}</option>
+          </select>
+        </div>
+      </div>
       <div style="display: flex; justify-content: flex-end">
         <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
@@ -70,7 +82,7 @@ const deleteCategory = async () => {
   box-shadow: 0 0 10px 0 var(--border-color);
   border-radius: 12px;
   min-width: 40%;
-  max-width: 800px;
+  max-width: 700px;
 }
 
 h2 {
@@ -85,6 +97,16 @@ input,
 textarea,
 select {
   width: 100%;
-  background-color: var(--bg-contrast);
+  background-color: var(--bg-contrast-2);
+}
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-column {
+  flex: 1;
+  min-width: 200px;
 }
 </style>
