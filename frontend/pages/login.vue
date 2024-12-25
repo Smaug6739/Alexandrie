@@ -265,13 +265,6 @@ input {
   border: none;
   border-radius: 50px;
   width: 100%;
-<<<<<<< Updated upstream
-  background-color: $primary-light;
-  color: white;
-  &:hover {
-    background: $primary-dark;
-    transform: none;
-=======
   transition: background-color 0.3s ease, transform 0.3s ease;
 
   &:hover {
@@ -281,7 +274,6 @@ input {
 
   &:active {
     transform: translateY(0);
->>>>>>> Stashed changes
   }
 }
 

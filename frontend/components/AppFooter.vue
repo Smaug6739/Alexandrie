@@ -11,22 +11,19 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-<<<<<<< Updated upstream
-  border-top: 1px solid var(--border-color);
-=======
   background-color: #f9f9f7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: #333;
->>>>>>> Stashed changes
 }
 
 footer .p2 {
   font-size: 14px;
   font-weight: 400;
+  color: #7a7a7a;
 }
 
 footer .logo {
-  max-width: 100px;
+  max-width: 100px; 
 }
 
 @media (max-width: 768px) {
