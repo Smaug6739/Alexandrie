@@ -1,10 +1,17 @@
 <template>
-  <main>
-    <section class="header">
+  <main :class="`${colorMode.value}`">
+    <section :class="`header-${colorMode.value}`">
       <div class="logo">
+<<<<<<< Updated upstream
         <IconApp />
+=======
+        <img :src="`/Logo/Alexandrie-logo-${colorMode.value}.png`" alt="Logo Alexandrie" class="logo-img" />
+>>>>>>> Stashed changes
       </div>
-    </section>
+      <div class="theme-toggle-wrapper">
+        <ThemeToggle class="theme-toggle" />
+      </div>
+</section>
 
     <section class="content-wrapper">
       <div class="intro">
@@ -38,7 +45,7 @@
       </div>
     </section>
   </main>
-  <AppFooter />
+  <AppFooter :class="`footer-${colorMode.value}`"/>
 </template>
 
 <script setup lang="ts">
@@ -79,17 +86,42 @@ main {
   margin: 0 auto;
 }
 
+<<<<<<< Updated upstream
 h1,
 h2,
 h3 {
+=======
+.light h1 {
+>>>>>>> Stashed changes
   font-weight: 600;
   color: var(--font-color);
 }
 
+<<<<<<< Updated upstream
 h3 {
   font-size: 1.4rem;
   color: var(--font-color-light);
   font-weight: 500;
+=======
+.light h2, .light h3 {
+  font-weight: 400;
+  color: #1c1c1e;
+}
+
+.dark h1 {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.dark h2, .dark h3 {
+  font-weight: 400;
+  color: #f0f0f0;
+}
+
+h1 {
+  font-size: 2.8rem;
+  margin-bottom: 0.8rem;
+>>>>>>> Stashed changes
 }
 
 #typewriter {
@@ -117,9 +149,13 @@ h3 {
   margin-bottom: 1.5rem;
   color: var(--font-color);
 }
+<<<<<<< Updated upstream
 .header {
+=======
+
+.header-light {
+>>>>>>> Stashed changes
   display: flex;
-  justify-content: space-between;
   align-items: center;
   width: 100%;
   padding: 1rem 2rem;
@@ -127,9 +163,38 @@ h3 {
   top: 0;
 }
 
+.header-dark {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 2rem;
+  position: absolute;
+  top: 0;
+  backdrop-filter: blur(10px);
+  background: rgba(37, 42, 52, 1);
+}
+
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  margin-right: auto; /* Place le logo à gauche */
+}
+
 .logo-img {
   width: 120px;
   height: auto;
+}
+
+.theme-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Place le toggle à droite */
+}
+
+.theme-toggle {
+  margin-left: 0; /* Pas de marge supplémentaire */
 }
 
 .content-wrapper {
@@ -225,6 +290,14 @@ h3 {
   max-height: unset;
   max-width: 1000px;
   width: 100%;
+}
+
+.footer-dark {
+  background: rgba(37, 42, 52, 1);
+}
+
+.footer-light {
+  background: rgba(255, 255, 255, 1);
 }
 
 @media (max-width: 768px) {

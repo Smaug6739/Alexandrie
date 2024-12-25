@@ -11,7 +11,13 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+<<<<<<< Updated upstream
   border-top: 1px solid var(--border-color);
+=======
+  background-color: #f9f9f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: #333;
+>>>>>>> Stashed changes
 }
 
 footer .p2 {
