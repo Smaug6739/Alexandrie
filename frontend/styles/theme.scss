@@ -167,6 +167,7 @@ table {
 	overflow-x: auto;
 	display: block; // Add this line to make the table scrollable
 	width: 100%;
+	min-width: 400px;
 	position: relative;
 
 	thead {
@@ -176,7 +177,6 @@ table {
 	th,
 	td {
 		padding: 10px 15px;
-		width: fit-content;
 	}
 
 	tbody tr {

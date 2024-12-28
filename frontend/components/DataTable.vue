@@ -119,6 +119,7 @@ table {
   border-collapse: collapse;
   table-layout: auto;
   border-color: inherit;
+  display: table;
 }
 
 th,
