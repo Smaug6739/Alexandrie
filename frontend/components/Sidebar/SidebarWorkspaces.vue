@@ -14,10 +14,13 @@
 <script setup lang="ts">
 import AppSelectOption from './SidebarWorkspace.vue';
 import type { Workspace } from './helpers';
-const { workspaceId } = useSidebar();
-workspaceId.value = localStorage.getItem('filterWorkspace');
 
+const { workspaceId } = useSidebar();
+const storage_item = localStorage.getItem('filterWorkspace');
 const props = defineProps<{ options: Workspace[] }>();
+
+if (storage_item && props.options.find(option => option.value == storage_item)) workspaceId.value = storage_item;
+
 const isOpen = ref(false);
 const selectedOption = computed(() => props.options.find(option => option.value == workspaceId.value) || props.options.find(option => !option.value));
 const toggleDropdown = () => (isOpen.value = !isOpen.value);
