@@ -167,7 +167,7 @@ table {
 	overflow-x: auto;
 	display: block; // Add this line to make the table scrollable
 	width: 100%;
-	box-sizing: border-box;
+	position: relative;
 
 	thead {
 		border-bottom: 1px solid var(--border-color);
@@ -176,6 +176,7 @@ table {
 	th,
 	td {
 		padding: 10px 15px;
+		width: fit-content;
 	}
 
 	tbody tr {
