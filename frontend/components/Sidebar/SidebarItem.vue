@@ -1,9 +1,9 @@
 <template>
   <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }" :key="item.id">
     <Icon :name="getIcon()" />
-    <NuxtLink :to="item.route" style="width: 100%">{{ item.title }} </NuxtLink>
-    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav"> <Icon name="c_settings" fill="var(--font-color)" /> </NuxtLink>
-    <NuxtLink v-if="item.data.type === 'category' && item.parent_id" to="/dashboard/docs/new" class="nav"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
+    <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.title }} </NuxtLink>
+    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="c_settings" fill="var(--font-color)" /> </NuxtLink>
+    <NuxtLink v-if="item.data.type === 'category' && item.parent_id" to="/dashboard/docs/new" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
     <slot></slot>
   </span>
 </template>
@@ -29,7 +29,9 @@ function getIcon() {
 const draggable = ref<boolean>(true);
 const isDragOver = ref<boolean>(false);
 
-const onClick = () => {
+const onClick = (m: MouseEvent) => {
+  // if element does not have the "close" class, don't close the sidebar
+  if (!(m.target as HTMLElement).closest('.close')) return;
   if (isMobile() && props.item.route) isOpened.value = false;
 };
 
