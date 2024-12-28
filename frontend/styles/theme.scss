@@ -164,8 +164,10 @@ select {
 table {
 	border-collapse: collapse;
 	font-size: 0.9em;
-	min-width: 400px;
 	overflow-x: auto;
+	display: block; // Add this line to make the table scrollable
+	width: 100%;
+	box-sizing: border-box;
 
 	thead {
 		border-bottom: 1px solid var(--border-color);
@@ -173,7 +175,7 @@ table {
 
 	th,
 	td {
-		padding: 12px 15px;
+		padding: 10px 15px;
 	}
 
 	tbody tr {
