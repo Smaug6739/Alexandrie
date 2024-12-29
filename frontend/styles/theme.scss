@@ -111,10 +111,6 @@ textarea {
 	transition: border-color $transition-duration, box-shadow $transition-duration;
 	font-size: 1rem;
 
-	&:focus {
-		box-shadow: 0 0 5px rgba(var(--primary-color-rgb), 0.2);
-	}
-
 	&:disabled {
 		opacity: 0.8;
 		cursor: not-allowed;

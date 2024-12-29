@@ -24,7 +24,7 @@ const props = defineProps({
 });
 </script>
 
-<style>
+<style lang="scss">
 .error-container {
   display: flex;
   flex-direction: column;
@@ -62,7 +62,7 @@ const props = defineProps({
 .error-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: var(--primary-color);
+  background-color: $primary-color;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -70,7 +70,7 @@ const props = defineProps({
 }
 
 .error-button:hover {
-  background-color: var(--primary-dark);
+  background-color: $primary-dark;
 }
 
 .error-illustration {
