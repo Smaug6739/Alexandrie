@@ -51,6 +51,7 @@ watchEffect(() => (currentPage.value = route.query.p || 'profile'));
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
+  margin: 20px auto;
 }
 
 @keyframes spin {
