@@ -162,7 +162,7 @@ table {
 	font-size: 0.9em;
 	overflow-x: auto;
 	display: block; // Add this line to make the table scrollable
-	width: 100%;
+	max-width: 100%;
 	min-width: 400px;
 	position: relative;
 
