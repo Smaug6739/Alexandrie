@@ -3,7 +3,6 @@
 a {
 	text-decoration: none;
 	color: var(--font-color);
-	transition: color $transition-duration;
 
 	&:hover {
 		cursor: pointer;
