@@ -2,7 +2,7 @@
   <div class="container">
     <AppHeader />
     <form @submit.prevent="register" class="body">
-      <a href="/login" class="login-link">Already have an account? Log in</a>
+      <h2>Account Creation</h2>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="text" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
@@ -29,6 +29,7 @@
         </div>
         <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
       </div>
+      <NuxtLink to="/login" class="login-link">Already have an account? Log in</NuxtLink>
       <button type="submit" class="btn">Sign Up</button>
       <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
     </form>
@@ -87,9 +88,7 @@ function register() {
     errors.value.confirmPassword = '';
   }
 
-  if (valid) {
-    createAccount(username.value, email.value, password.value);
-  }
+  if (valid) createAccount(username.value, email.value, password.value);
 }
 
 async function createAccount(username: string, email: string, password: string) {
@@ -105,6 +104,10 @@ async function createAccount(username: string, email: string, password: string) 
 </script>
 
 <style scoped lang="scss">
+h2 {
+  margin-top: 0;
+  padding-top: 0;
+}
 .container {
   height: 100%;
   display: flex;
@@ -141,7 +144,7 @@ async function createAccount(username: string, email: string, password: string) 
   margin-bottom: 1rem;
   text-align: right;
   text-decoration: none;
-
+  color: $primary-color;
   &:hover {
     text-decoration: underline;
   }

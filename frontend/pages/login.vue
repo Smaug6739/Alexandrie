@@ -2,7 +2,7 @@
   <div class="container">
     <AppHeader />
     <form @submit.prevent="login" class="body">
-      <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
+      <h2>Connection</h2>
       <div class="form-group">
         <label for="username">Username</label>
         <input type="username" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
@@ -16,6 +16,7 @@
         </div>
         <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
       </div>
+      <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
       <button type="submit" class="btn">Login</button>
       <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
       <p class="forgot-password-link">Forgot your password? <a href="mailto:rveauville@gmail.com">Click here</a></p>
@@ -53,6 +54,10 @@ async function connect(username: string, password: string) {
 }
 </script>
 <style scoped lang="scss">
+h2 {
+  margin-top: 0;
+  padding-top: 0;
+}
 .container {
   height: 100%;
   display: flex;
@@ -89,7 +94,7 @@ async function connect(username: string, password: string) {
   margin-bottom: 1rem;
   text-align: right;
   text-decoration: none;
-
+  color: $primary-color;
   &:hover {
     text-decoration: underline;
   }
