@@ -116,29 +116,6 @@ watchEffect(() => (currentPage.value = route.query.p || 'profile'));
   background: none;
 }
 
-.err {
-  color: $red;
-  padding: 0.1rem 0.5rem;
-  font-size: 0.8rem;
-}
-.security_page {
-  .last_connection {
-    align-items: center;
-    padding: 0.3rem 0.5rem;
-    border-radius: 15px;
-    background-color: var(--bg-contrast-2);
-  }
-  p {
-    margin: 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .warning {
-    color: $red;
-    font-size: 0.9rem;
-  }
-}
-
 @media screen and (max-width: 920px) {
   .component {
     width: 100%;

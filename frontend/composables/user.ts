@@ -4,10 +4,8 @@ function logoutUser() {
     .logout()
     .then(() => {
       useNotifications().add({ title: 'Success:', message: 'Logged out', type: 'success', timeout: 3000 });
-      setTimeout(() => {
-        store.post_logout();
-        useRouter().push('/login');
-      }, 3000);
+      store.post_logout();
+      useRouter().push('/login');
     })
     .catch(e => {
       useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 });
