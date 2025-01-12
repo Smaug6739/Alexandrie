@@ -5,7 +5,7 @@
 A website for taking beautiful notes in extended Markdown format.  
 Currently, the project is in development but it's possible to create an account with the [hosted version](https://alexandrie-hub.fr).
 
-<img src=".github/demo.gif"  align="left" />
+<img src="https://github.com/user-attachments/assets/4a011007-d2f5-4ab5-8191-297b93d60144"  align="left" />
 
 ## Features 🚀
 
