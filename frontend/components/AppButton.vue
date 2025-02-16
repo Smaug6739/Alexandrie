@@ -50,6 +50,9 @@ button {
   &:hover {
     text-decoration: underline;
   }
+  cursor: pointer;
+  font-size: 1.1em;
+  margin-top: 20px;
 }
 .danger {
   background: $red;

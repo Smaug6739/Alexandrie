@@ -1,6 +1,6 @@
 <template>
   <div class="document-list">
-    <div v-for="document in documents" :key="document.id" class="document-card">
+    <div v-if="documents.length" v-for="document in documents" :key="document.id" class="document-card">
       <div>
         <header class="document-header">
           <i v-html="category?.icon" class="category-icon"></i>
@@ -25,6 +25,14 @@
         </div>
       </footer>
     </div>
+    <div v-else style="width: 100%; height: 100%">
+      <div style="text-align: center; margin: 10vh auto">
+        <h1>No documents found</h1>
+        <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" />
+        <p>There are no documents in this category</p>
+        <NuxtLink to="/dashboard/docs/new"><AppButton type="link">+ Create new document </AppButton></NuxtLink>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,6 +41,7 @@ const route = useRoute();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const category = computed(() => categoriesStore.getById(route.params.id as string));
+const colorMode = useColorMode();
 
 definePageMeta({
   breadcrumb: () => {
