@@ -107,16 +107,16 @@ button {
   display: flex;
   align-items: stretch;
   flex-wrap: wrap;
-  background-color: var(--bg-contrast);
+  background-color: var(--bg-contrast-2);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   padding: 0.5rem;
-  color: var(--font-color-light);
+  color: var(--font-color-dark);
 }
 
 svg,
 .toolbar:deep(svg) {
-  fill: var(--font-color-light);
+  fill: var(--font-color-dark);
 }
 
 input,
