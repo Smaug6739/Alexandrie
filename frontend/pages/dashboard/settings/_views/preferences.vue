@@ -26,6 +26,12 @@ const options = ref([
     storageKey: 'darkMode' as const,
     onToggle: () => (colorMode.value === 'light' ? (colorMode.preference = 'dark') : (colorMode.preference = 'light')),
   },
+  {
+    id: 'hide-toc',
+    label: 'Hide Table of Content',
+    value: Boolean(preferencesStore.get('hideTOC')),
+    storageKey: 'hideTOC' as const,
+  },
 ]);
 
 // Toggle function for options
