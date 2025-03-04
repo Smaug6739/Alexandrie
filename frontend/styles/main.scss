@@ -103,9 +103,9 @@ form {
 		background-color: none !important;
 		border-width: 2px;
 
-		*:not(.custom-block-title) {
+		/**:not(.custom-block-title) {
 			color: black !important;
-		}
+		}*/
 	}
 
 	.no-print {
