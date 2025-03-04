@@ -99,9 +99,13 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 @mixin print-theme {
 	// THEME \\
 	--bg-color: #fff;
-	--bg-contrast: #F5F5F5;
-	--bg-contrast-2: #ECECEC;
-	--font-color: #111;
+	--bg-contrast: #F1F6FD;
+	--bg-contrast-2: #ECF2FF;
+	--selection-color: #e1f2ff;
+	--font-color: #1f2937;
+	--font-color-dark: #374151;
+	--font-color-light: #6b7280;
+	--border-color: rgba(0, 0, 0, 0.1);
 	// COLORS \\
 	--grey: #666;
 	--grey-bg: rgb(240, 240, 240);
