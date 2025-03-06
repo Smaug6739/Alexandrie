@@ -32,6 +32,12 @@ const options = ref([
     value: Boolean(preferencesStore.get('hideTOC')),
     storageKey: 'hideTOC' as const,
   },
+  {
+    id: 'compact-mode',
+    label: 'Enable Compact Mode',
+    value: Boolean(preferencesStore.get('compactMode')),
+    storageKey: 'compactMode' as const,
+  },
 ]);
 
 // Toggle function for options

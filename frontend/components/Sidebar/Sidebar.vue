@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'modal-mask': isMobile() && isOpened }"></div>
   <Resizable>
-    <div class="sidebar">
+    <div class="sidebar" :class="{ compact: preferences.get('compactMode') }">
       <section class="header">
         <span class="name">
           <IconApp />
@@ -41,6 +41,7 @@ import type { Category } from '~/stores';
 const { isOpened, hasSidebar, workspaceId } = useSidebar();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
+const preferences = usePreferencesStore();
 const userStore = useUserStore();
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);
@@ -174,5 +175,10 @@ onBeforeUnmount(() => {
       opacity: 0.8;
     }
   }
+}
+.compact:deep(.item) {
+  font-size: 15px;
+  padding: 0 2.5px;
+  margin: 0;
 }
 </style>
