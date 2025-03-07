@@ -6,7 +6,7 @@
       <input placeholder="Description" class="description" v-model="document.description" />
       <div class="markdown" ref="container">
         <InlineToolbar ref="toolbar" @execute-action="(a:string) => editor.actions(a)" />
-        <textarea ref="textarea" class="content markdown-input" @scroll="syncScroll" @input="update" v-html="document.content_markdown || ''" placeholder="Write something or use the toolbar to create your document..."></textarea>
+        <textarea ref="textarea" class="content markdown-input" @scroll="syncScroll" @input="update" v-html="document.content_markdown || ''" placeholder="Write something or use the toolbar to create your document..." @keyup="syncScroll"></textarea>
         <div v-if="editor.showPreview.value" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html || ''"></div>
       </div>
     </div>
