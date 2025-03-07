@@ -9,7 +9,7 @@
         </button>
       </span>
       <span class="title">Documents</span>
-      <NuxtLink v-if="docs.length" v-for="doc of docs" class="item" :to="`/dashboard/docs/${doc.id}`" @click="close"> <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }} </NuxtLink>
+      <NuxtLink v-if="docs.length" v-for="doc of docs" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close"> <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }} </NuxtLink>
       <p v-else class="no-result">No result found.</p>
     </div>
   </div>
@@ -94,7 +94,7 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
   padding: 10px 0;
 }
 
-.item {
+.item-search {
   display: flex;
   justify-content: flex-start;
   align-items: center;
