@@ -54,6 +54,7 @@ p {
 
   .title {
     font-weight: 700;
+    font-size: 26px;
   }
 
   .category {

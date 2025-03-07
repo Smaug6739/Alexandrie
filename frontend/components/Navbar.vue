@@ -5,7 +5,7 @@
         <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
       </svg>
     </button>
-    <IconApp v-if="!isOpened" style="width: 40" />
+    <IconApp v-if="!isOpened" style="width: 40px" />
     <BreadCrumb v-if="!isMobile()" />
     <ThemeToggle style="margin-left: auto" aria-label="toggle theme" />
   </header>
