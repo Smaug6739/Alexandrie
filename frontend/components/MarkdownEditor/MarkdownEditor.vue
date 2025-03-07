@@ -125,8 +125,8 @@ input {
 textarea {
   font-family: monospace;
   line-height: 1.2;
-  font-size: 16px;
-  letter-spacing: -0.6px;
+  font-size: 15px;
+  letter-spacing: -0.8px;
 }
 
 .title {
