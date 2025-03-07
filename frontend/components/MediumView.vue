@@ -13,7 +13,7 @@ const transition = computed(() => (isResizing.value ? 'none' : 'margin-left 0.3s
 
 <style scoped>
 .medium-view {
-  padding: 0 2rem;
+  padding: 0 1rem;
   width: 100%;
   height: 100%;
 }
