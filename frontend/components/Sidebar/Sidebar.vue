@@ -5,7 +5,7 @@
       <section class="header">
         <span class="name">
           <IconApp />
-          <NuxtLink style="font-size: 19px; font-weight: 600" to="/">Alexandrie</NuxtLink>
+          <NuxtLink style="font-size: 19px; font-weight: 600" to="/dashboard">Alexandrie</NuxtLink>
         </span>
         <IconClose class="btn" />
       </section>
