@@ -33,7 +33,7 @@ export const navigationItems: DefaultItem[] = [
     id: 'settings',
     type: 'default',
     title: 'Settings',
-    icon: 'settings',
+    icon: 'user_settings',
     route: '/dashboard/settings',
     childrens: [],
   },
