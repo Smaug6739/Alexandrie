@@ -18,7 +18,11 @@
             <div>{{ userStore.user.username }}</div>
             <div class="email">{{ userStore.user.email }}</div>
           </div>
-          <Icon name="logout" @click="logoutUser" class="logout" />
+          <div class="icons">
+            <NuxtLink to="/dashboard/docs/new"><Icon name="add_file" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
+            <NuxtLink to="/dashboard/categories/new"><Icon name="add_folder" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
+            <NuxtLink @click="collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
+          </div>
         </div>
       </div>
       <SidebarWorkspaces :options="workspaces" />
@@ -98,6 +102,15 @@ const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
 };
 
+const collapseAll = () => {
+  items.value.forEach(item => {
+    if (item.show.value) {
+      localStorage.setItem(`collapse-${item.id}`, 'false');
+      item.show.value = false;
+    }
+  });
+};
+
 onMounted(() => {
   hasSidebar.value = true;
   if (isMobile()) return document.addEventListener('click', handleClickOutside);
@@ -136,7 +149,24 @@ onBeforeUnmount(() => {
     font-weight: 400;
   }
 }
-
+.icons {
+  display: flex;
+  height: fit-content;
+  a {
+    padding: 2px;
+    border-radius: 25%;
+    align-self: center;
+    &:hover {
+      background: var(--selection-color);
+    }
+    svg {
+      fill: var(--font-color);
+      width: 20px;
+      height: 20px;
+      margin: 0;
+    }
+  }
+}
 .search {
   height: 30px;
   margin: 2.5px 0;
@@ -163,16 +193,6 @@ onBeforeUnmount(() => {
     .email {
       font-size: 0.7rem;
       color: var(--font-color-light);
-    }
-    .logout {
-      display: none;
-      cursor: pointer;
-    }
-  }
-  &:hover {
-    .logout {
-      display: block;
-      opacity: 0.8;
     }
   }
 }
