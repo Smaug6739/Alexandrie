@@ -2,8 +2,8 @@
   <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }" :key="item.id">
     <Icon :name="getIcon()" />
     <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.title }} </NuxtLink>
-    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="c_settings" fill="var(--font-color)" /> </NuxtLink>
-    <NuxtLink v-if="item.data.type === 'category' && item.parent_id" to="/dashboard/docs/new" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
+    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="settings" fill="var(--font-color)" /> </NuxtLink>
+    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
     <slot></slot>
   </span>
 </template>
@@ -107,14 +107,9 @@ const drop = async (event: DragEvent) => {
   }
 
   .icon {
-    display: flex;
-    align-items: center;
-
     &:deep(svg) {
       fill: $primary-color;
-      width: 19px;
-      max-height: 21px;
-      margin-right: 5px;
+      margin-right: 4px;
 
       path {
         fill: $primary-color;

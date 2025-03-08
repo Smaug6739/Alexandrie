@@ -7,7 +7,7 @@ import type { Document } from '@/stores';
 
 const store = useDocumentsStore();
 const document = ref<Partial<Document>>({
-  category: useSidebar().workspaceId.value || undefined,
+  category: (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined,
   accessibility: 1,
 });
 const notifications = useNotifications();
