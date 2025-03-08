@@ -19,8 +19,8 @@
             <div class="email">{{ userStore.user.email }}</div>
           </div>
           <div class="icons">
-            <NuxtLink to="/dashboard/docs/new"><Icon name="add_file" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
-            <NuxtLink to="/dashboard/categories/new"><Icon name="add_folder" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
+            <NuxtLink @click="onClick" to="/dashboard/docs/new"><Icon name="add_file" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
+            <NuxtLink @click="onClick" to="/dashboard/categories/new"><Icon name="add_folder" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
             <NuxtLink @click="collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
           </div>
         </div>
@@ -109,6 +109,9 @@ const collapseAll = () => {
       item.show.value = false;
     }
   });
+};
+const onClick = (m: MouseEvent) => {
+  if (isMobile()) isOpened.value = false;
 };
 
 onMounted(() => {
