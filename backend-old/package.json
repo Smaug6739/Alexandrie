@@ -1,0 +1,43 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "bun dist/main.js",
+    "clean": "rm -rf dist && echo 'Done.'",
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Smaug6739/docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Smaug6739/docs/issues"
+  },
+  "homepage": "https://github.com/Smaug6739/docs#readme",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/bun": "^1.2.4",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/multer": "^1.4.12",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.9",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "json-stream-stringify": "^3.1.6",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.13.0",
+    "sharp": "^0.33.5",
+    "tslib": "^2.8.1"
+  }
+}
