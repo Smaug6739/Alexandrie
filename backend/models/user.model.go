@@ -1,5 +1,10 @@
 package models
 
+import (
+	"database/sql"
+	"errors"
+)
+
 type User struct {
 	Id               int64   `json:"id"`
 	Username         string  `json:"username"`
@@ -40,32 +45,53 @@ func (m *Model) GetAllUsers() ([]User, error) {
 	return users, nil
 }
 
-func (m *Model) GetUser(id int64) (User, error) {
+func (m *Model) GetUser(id int64) (*User, error) {
 	var user User
-	m.DB.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp FROM users WHERE id = ?", id).Scan(
+	err := m.DB.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp FROM users WHERE id = ?", id).Scan(
 		&user.Id, &user.Username, &user.Firstname, &user.Lastname,
 		&user.Role, &user.Avatar, &user.Email, &user.Password, &user.CreatedTimestamp, &user.UpdatedTimestamp,
 	)
 
-	return user, nil
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
-func (m *Model) GetUserByUsername(username string) User {
+func (m *Model) GetUserByUsername(username string) (*User, error) {
 	var user User
-	m.DB.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp FROM users WHERE username = ?", username).Scan(
+	err := m.DB.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp FROM users WHERE username = ?", username).Scan(
 		&user.Id, &user.Username, &user.Firstname, &user.Lastname,
 		&user.Role, &user.Avatar, &user.Email, &user.Password, &user.CreatedTimestamp, &user.UpdatedTimestamp,
 	)
 
-	return user
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
-func (m *Model) GetUserById(id int64) User {
+func (m *Model) GetUserById(id int64) (*User, error) {
 	var user User
-	m.DB.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users WHERE id = ?", id).Scan(
+	err := m.DB.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users WHERE id = ?", id).Scan(
 		&user.Id, &user.Username, &user.Firstname, &user.Lastname,
 		&user.Role, &user.Avatar, &user.Email, &user.CreatedTimestamp, &user.UpdatedTimestamp,
 	)
 
-	return user
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }

@@ -16,6 +16,5 @@ func InitApp() *App {
 	var app App
 	app.DB = DBConection()
 	app.Snowflake = utils.NewSnowflake(1609459200000)
-
 	return &app
 }

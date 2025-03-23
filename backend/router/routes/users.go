@@ -12,7 +12,7 @@ func Users(app *app.App, router *gin.RouterGroup) {
 	documents := router.Group("/users")
 	documents.Use(middlewares.Auth())
 
-	documentsCtrl := controllers.NewUserController(app)
+	documentsCtrl := controllers.NewController(app)
 	documents.GET("/", documentsCtrl.GetUsers)
 
 }
