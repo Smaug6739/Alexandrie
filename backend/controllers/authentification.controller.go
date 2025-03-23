@@ -5,6 +5,7 @@ import (
 	"Smaug6739/Alexandrie/utils"
 	"crypto/rand"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -12,7 +13,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var refresh_token_expiration = 7 * 24 * 60 * 60 * 1000 // 7 days
+var refresh_token_expiration = 1000 * 60 * 1 // 2 minutes
 
 func (dc *Controller) Login(c *gin.Context) {
 	username := c.PostForm("username")
@@ -44,7 +45,7 @@ func (dc *Controller) Login(c *gin.Context) {
 		Id:                   dc.app.Snowflake.Generate(),
 		UserId:               user.Id,
 		RefreshToken:         signRefreshToken(),
-		ExpireToken:          time.Now().Add(time.Duration(refresh_token_expiration * 1000)).UnixMilli(),
+		ExpireToken:          time.Now().Add(time.Duration(refresh_token_expiration * 1000000)).UnixMilli(),
 		LastRefreshTimestamp: time.Now().UnixMilli(),
 		Active:               1,
 		LoginTimestamp:       time.Now().UnixMilli(),
@@ -101,19 +102,19 @@ func (dc *Controller) RefreshSession(c *gin.Context) {
 
 	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true) // TODO: Replace with config
 	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(refresh_token_expiration).Seconds()), "/", "localhost", false, true)
-	c.JSON(200, utils.Error("Token refreshed."))
+	c.JSON(200, utils.Success("Token refreshed."))
 
 }
 
 func (dc *Controller) signAccessToken(user models.User) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.Username,                    // Subject (user identifier)
-		"iss": "alexandrie",                     // Issuer
-		"aud": user.Role,                        // Audience (user role)
-		"exp": time.Now().Add(time.Hour).Unix(), // Expiration time // TODO: Replace with config
-		"iat": time.Now().Unix(),                // Issued at
+		"sub": user.Username,                           // Subject (user identifier)
+		"iss": "alexandrie",                            // Issuer
+		"aud": user.Role,                               // Audience (user role)
+		"exp": time.Now().Add(time.Second * 15).Unix(), // Expiration time // TODO: Replace with config
+		"iat": time.Now().Unix(),                       // Issued at
 	})
-	tokenString, err := claims.SignedString([]byte("secretKey")) // TODO: Replace with config
+	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET"))) // TODO: Replace with config
 	if err != nil {
 		return "", err
 	}

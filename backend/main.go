@@ -6,9 +6,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	godotenv.Load()
+
 	app := app.InitApp()
 	defer app.DB.Close()
 
@@ -16,6 +19,5 @@ func main() {
 	// Recovery middleware recovers from any panics and writes a 500 if there was one.
 	app_router.Use(gin.Recovery())
 
-	app_router.Run(":8080")
-
+	app_router.Run("localhost:8080")
 }
