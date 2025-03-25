@@ -57,7 +57,7 @@ func (dc *Controller) Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true) // TODO: Replace with config
+	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(refresh_token_expiration).Seconds()), "/", "localhost", false, true)
 
 	c.JSON(200, utils.Success(user))
@@ -100,21 +100,22 @@ func (dc *Controller) RefreshSession(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true) // TODO: Replace with config
-	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(refresh_token_expiration).Seconds()), "/", "localhost", false, true)
+	c.SetCookie("Authorization", tokenString, dc.app.Config.Auth.AccessTokenExpiry, "/", "localhost", false, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, dc.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
 	c.JSON(200, utils.Success("Token refreshed."))
 
 }
 
 func (dc *Controller) signAccessToken(user models.User) (string, error) {
+	fmt.Println("Signing token for user", user.Username, "with role", user.Role)
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.Username,                           // Subject (user identifier)
-		"iss": "alexandrie",                            // Issuer
-		"aud": user.Role,                               // Audience (user role)
-		"exp": time.Now().Add(time.Second * 15).Unix(), // Expiration time // TODO: Replace with config
-		"iat": time.Now().Unix(),                       // Issued at
+		"sub":  user.Id,                                                                                                  // Subject (user identifier)
+		"iss":  "alexandrie",                                                                                             // Issuer
+		"exp":  time.Now().Add(time.Duration(time.Second * time.Duration(dc.app.Config.Auth.RefreshTokenExpiry))).Unix(), // Expiration time
+		"iat":  time.Now().Unix(),                                                                                        // Issued at
+		"role": user.Role,
 	})
-	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET"))) // TODO: Replace with config
+	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		return "", err
 	}

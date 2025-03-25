@@ -13,6 +13,6 @@ func Users(app *app.App, router *gin.RouterGroup) {
 	usr.Use(middlewares.Auth())
 
 	usrCtrl := controllers.NewController(app)
-	usr.GET("/", usrCtrl.GetUsers)
+	usr.GET("/", middlewares.Admin(), usrCtrl.GetUsers)
 
 }

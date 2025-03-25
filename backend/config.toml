@@ -1,0 +1,16 @@
+Port = 3001
+
+[Database]
+Driver = "mysql"
+Host = "localhost"
+Name = "alexandrie"
+Port = 3306
+
+[Cdn]
+MaxSize = 2e+7 				# 20MB
+MaxUploadsSize = 1e+9 # 1GB
+
+[Auth]
+AccessTokenExpiry = 1800 		# 30 minutes
+RefreshTokenExpiry = 604800 # 7 days
+ 

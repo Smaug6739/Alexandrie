@@ -2,16 +2,18 @@ package app
 
 import (
 	"database/sql"
+	"fmt"
+	"os"
 	"time"
 )
 
-func DBConection() (conecction *sql.DB) {
-	Driver := "mysql"
-	User := "root"
-	Password := "root"
-	Host := "localhost"
-	Port := "3306"
-	Database := "alexandrie"
+func DBConection(config Config) (conecction *sql.DB) {
+	Driver := config.Database.Driver
+	User := os.Getenv("DATABASE_USER")
+	Password := os.Getenv("DATABASE_PASSWORD")
+	Host := config.Database.Host
+	Port := fmt.Sprint(config.Database.Port)
+	Database := config.Database.Name
 
 	conection, err := sql.Open(Driver, User+":"+Password+"@tcp("+Host+":"+Port+")/"+Database)
 

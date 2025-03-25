@@ -10,7 +10,7 @@ type User struct {
 	Username         string  `json:"username"`
 	Firstname        *string `json:"firstname"`
 	Lastname         *string `json:"lastname"`
-	Role             int     `json:"role"`
+	Role             int     `json:"role"` // 1: user, 2: admin
 	Avatar           *string `json:"avatar"`
 	Email            *string `json:"email"`
 	Password         string  `json:"password,omitempty"`

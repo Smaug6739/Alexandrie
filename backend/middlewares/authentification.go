@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"Smaug6739/Alexandrie/utils"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -35,6 +36,7 @@ func Auth() gin.HandlerFunc {
 		// Set the token claims to the context
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 			c.Set("claims", claims)
+			fmt.Println(claims)
 		} else {
 			c.JSON(http.StatusUnauthorized, utils.Error("Unauthorized"))
 			c.Abort()
