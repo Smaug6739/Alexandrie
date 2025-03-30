@@ -6,14 +6,13 @@ import (
 	"crypto/rand"
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
-
-var refresh_token_expiration = 1000 * 60 * 1 // 2 minutes
 
 func (dc *Controller) Login(c *gin.Context) {
 	username := c.PostForm("username")
@@ -45,7 +44,7 @@ func (dc *Controller) Login(c *gin.Context) {
 		Id:                   dc.app.Snowflake.Generate(),
 		UserId:               user.Id,
 		RefreshToken:         signRefreshToken(),
-		ExpireToken:          time.Now().Add(time.Duration(refresh_token_expiration * 1000000)).UnixMilli(),
+		ExpireToken:          time.Now().Add(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli(),
 		LastRefreshTimestamp: time.Now().UnixMilli(),
 		Active:               1,
 		LoginTimestamp:       time.Now().UnixMilli(),
@@ -58,7 +57,7 @@ func (dc *Controller) Login(c *gin.Context) {
 	}
 
 	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true)
-	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(refresh_token_expiration).Seconds()), "/", "localhost", false, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
 
 	c.JSON(200, utils.Success(user))
 
@@ -93,7 +92,7 @@ func (dc *Controller) RefreshSession(c *gin.Context) {
 	}
 	// Update the session
 	session.RefreshToken = signRefreshToken()
-	session.ExpireToken = time.Now().Add(time.Duration(refresh_token_expiration)).UnixMilli()
+	session.ExpireToken = time.Now().Add(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli()
 	session.LastRefreshTimestamp = time.Now().UnixMilli()
 	if _, err = dc.model.UpdateSession(&session); err != nil {
 		c.JSON(500, utils.Error("Failed to update session."))
@@ -107,13 +106,12 @@ func (dc *Controller) RefreshSession(c *gin.Context) {
 }
 
 func (dc *Controller) signAccessToken(user models.User) (string, error) {
-	fmt.Println("Signing token for user", user.Username, "with role", user.Role)
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":  user.Id,                                                                                                  // Subject (user identifier)
+		"sub":  strconv.FormatInt(user.Id, 10),                                                                           // Subject (user identifier)
 		"iss":  "alexandrie",                                                                                             // Issuer
 		"exp":  time.Now().Add(time.Duration(time.Second * time.Duration(dc.app.Config.Auth.RefreshTokenExpiry))).Unix(), // Expiration time
 		"iat":  time.Now().Unix(),                                                                                        // Issued at
-		"role": user.Role,
+		"role": strconv.Itoa(user.Role),
 	})
 	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {

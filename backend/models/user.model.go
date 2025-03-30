@@ -95,3 +95,32 @@ func (m *Model) GetUserById(id int64) (*User, error) {
 
 	return &user, nil
 }
+func (m *Model) CreateUser(user User) (*User, error) {
+	_, err := m.DB.Exec("INSERT INTO users (id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		user.Id, user.Username, user.Firstname, user.Lastname, user.Role, user.Avatar, user.Email, user.Password, user.CreatedTimestamp, user.UpdatedTimestamp)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (m *Model) UpdateUser(id int64, user User) (*User, error) {
+	_, err := m.DB.Exec("UPDATE users SET username=?, firstname=?, lastname=?, role=?, avatar=?, email=?, updated_timestamp=? WHERE id=?",
+		user.Username, user.Firstname, user.Lastname, user.Role, user.Avatar, user.Email, user.UpdatedTimestamp, id)
+	if err != nil {
+		return nil, err
+	}
+	user.Id = id
+	return &user, nil
+}
+
+func (m *Model) UpdatePassword(id int64, password string) error {
+	_, err := m.DB.Exec("UPDATE users SET password=? WHERE id=?", password, id)
+	return err
+}
+
+func (m *Model) DeleteUser(id int64) error {
+	_, err := m.DB.Exec("DELETE FROM users WHERE id=?", id)
+	return err
+}

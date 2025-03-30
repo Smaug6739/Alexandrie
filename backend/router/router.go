@@ -12,5 +12,6 @@ func InitRouter(app *app.App) *gin.Engine {
 	mainGroup := router.Group("/api")
 	routes.Users(app, mainGroup)
 	routes.Auth(app, mainGroup)
+	routes.Uploads(app, mainGroup)
 	return router
 }

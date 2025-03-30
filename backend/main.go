@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/BurntSushi/toml"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -27,5 +28,15 @@ func main() {
 	app_router := router.InitRouter(app)
 	// Recovery middleware recovers from any panics and writes a 500 if there was one.
 	app_router.Use(gin.Recovery())
+
+	app_router.SetTrustedProxies([]string{"127.0.0.1", "localhost"})
+
+	app_router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{os.Getenv("DOMAIN_CLIENT")},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
+
 	app_router.Run("localhost:8080")
 }

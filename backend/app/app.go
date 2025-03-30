@@ -5,6 +5,7 @@ import (
 	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/minio/minio-go/v7"
 )
 
 type Config struct {
@@ -16,8 +17,10 @@ type Config struct {
 		Driver string
 	}
 	Cdn struct {
-		MaxSize        float64
-		MaxUploadsSize float64
+		MaxSize              float64
+		MaxUploadsSize       float64
+		SupportedTypesImages []string
+		SupportedTypes       []string
 	}
 	Auth struct {
 		AccessTokenExpiry  int
@@ -26,15 +29,18 @@ type Config struct {
 }
 
 type App struct {
-	DB        *sql.DB
-	Snowflake *utils.Snowflake
-	Config    Config
+	DB          *sql.DB
+	Snowflake   *utils.Snowflake
+	Config      Config
+	MinioClient *minio.Client
 }
 
 func InitApp(config Config) *App {
 	var app App
 	app.DB = DBConection(config)
+	app.MinioClient, _ = MinioConnection()
 	app.Snowflake = utils.NewSnowflake(1609459200000)
 	app.Config = config
+
 	return &app
 }
