@@ -5,6 +5,7 @@ import (
 	"Smaug6739/Alexandrie/utils"
 	"crypto/rand"
 	"fmt"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -14,21 +15,28 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (dc *Controller) Login(c *gin.Context) {
-	username := c.PostForm("username")
-	password := c.PostForm("password")
+type AuthClaims struct {
+	Username string `form:"username"`
+	Password string `form:"password"`
+}
 
-	if username == "" || password == "" {
+func (dc *Controller) Login(c *gin.Context) {
+	var authClaims AuthClaims
+	if err := c.ShouldBind(&authClaims); err != nil {
+		c.JSON(http.StatusBadRequest, utils.Error(err.Error()))
+		return
+	}
+	if authClaims.Username == "" || authClaims.Password == "" {
 		c.JSON(400, utils.Error("Invalid credentials."))
 		return
 	}
-	user, err := dc.model.GetUserByUsername(username)
+	user, err := dc.model.GetUserByUsername(authClaims.Username)
 	if user == nil || err != nil {
 		c.JSON(401, utils.Error("Invalid credentials."))
 		return
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(authClaims.Password)); err != nil {
 		c.JSON(401, utils.Error("Invalid credentials."))
 		return
 	}

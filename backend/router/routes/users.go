@@ -10,14 +10,14 @@ import (
 
 func Users(app *app.App, router *gin.RouterGroup) {
 	usr := router.Group("/users")
-	usrCtrl := controllers.NewController(app)
+	usrCtrl := controllers.NewUserController(app)
 
-	usr.Use(middlewares.Auth())
+	usr.Use()
 
-	usr.GET("/", middlewares.Admin(), usrCtrl.GetUsers)
-	usr.GET("/@me", usrCtrl.GetMe)
-	usr.GET("/:id", middlewares.Admin(), usrCtrl.GetUserById)
+	usr.GET("/", middlewares.Auth(), middlewares.Admin(), usrCtrl.GetUsers)
+	usr.GET("/@me", middlewares.Auth(), usrCtrl.GetMe)
+	usr.GET("/:id", middlewares.Auth(), middlewares.Admin(), usrCtrl.GetUserById)
 	usr.POST("/", usrCtrl.CreateUser)
-	usr.PATCH("/:id", usrCtrl.UpdateUser)
-	usr.PATCH("/:id/password", usrCtrl.UpdatePassword)
+	usr.PATCH("/:id", middlewares.Auth(), usrCtrl.UpdateUser)
+	usr.PATCH("/:id/password", middlewares.Auth(), usrCtrl.UpdatePassword)
 }

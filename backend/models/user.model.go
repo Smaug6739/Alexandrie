@@ -18,6 +18,22 @@ type User struct {
 	UpdatedTimestamp int64   `form:"updated_timestamp" binding:"omitempty"`
 }
 
+type UserService interface {
+	GetAllUsers() ([]User, error)
+	GetUser(id int64) (*User, error)
+	CheckUsernameExists(username string) bool
+	GetUserByUsername(username string) (*User, error)
+	GetUserById(id int64) (*User, error)
+	CreateUser(user User) (*User, error)
+	UpdateUser(id int64, user User) (*User, error)
+	UpdatePassword(id int64, password string) error
+	DeleteUser(id int64) error
+}
+
+func NewUserService(db *sql.DB) UserService {
+	return &Model{DB: db}
+}
+
 func (m *Model) GetAllUsers() ([]User, error) {
 	var users []User
 	rows, err := m.DB.Query("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users ORDER BY created_timestamp DESC")

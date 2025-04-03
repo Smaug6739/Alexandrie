@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/models"
 	"Smaug6739/Alexandrie/utils"
 	"net/http"
@@ -11,8 +12,31 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (ctr *Controller) GetUsers(c *gin.Context) {
+type UserController interface {
+	GetUsers(c *gin.Context)
+	GetMe(c *gin.Context)
+	GetUserById(c *gin.Context)
+	CreateUser(c *gin.Context)
+	UpdateUser(c *gin.Context)
+	UpdatePassword(c *gin.Context)
+}
 
+func NewUserController(app *app.App) UserController {
+	return &Controller{
+		app:   app,
+		model: models.NewModel(app.DB),
+	}
+}
+
+// Get Users
+// @Summary Get all users
+// @Method GET
+// @Router /users [get]
+// @Security Authenfification: Auth, Admin
+// @Success 200 {object} Success([]models.User)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
+func (ctr *Controller) GetUsers(c *gin.Context) {
 	users, err := ctr.model.GetAllUsers()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
@@ -21,6 +45,14 @@ func (ctr *Controller) GetUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, users)
 }
 
+// GetMe
+// @Summary Get current user information
+// @Method GET
+// @Router /users/@me [get]
+// @Security Authenfification: Auth
+// @Success 200 {object} Success(models.User)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
 func (ctr *Controller) GetMe(c *gin.Context) {
 	userId, exists := c.Get("user_id")
 	if !exists {
@@ -35,6 +67,15 @@ func (ctr *Controller) GetMe(c *gin.Context) {
 	c.JSON(http.StatusOK, utils.Success(user))
 }
 
+// Get User by ID
+// @Summary Get user by ID
+// @Method GET
+// @Router /users/{id} [get]
+// @Security Authenfification: Auth, Admin
+// @Param id path int true "User ID"
+// @Success 200 {object} Success(models.User)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
 func (ctr *Controller) GetUserById(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -53,13 +94,37 @@ func (ctr *Controller) GetUserById(c *gin.Context) {
 	c.JSON(http.StatusOK, utils.Success(user))
 }
 
+// Create User
+// @Summary Create a new user
+// @Method POST
+// @Router /users [post]
+// @Security None
+// @Body Username*, Firstname, Lastname, Avatar, Role, Email*, Password*
+// @Success 201 {object} Success(models.User)
+// @Failure 400 {object} Error
 func (ctr *Controller) CreateUser(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBind(&user); err != nil {
 		c.JSON(http.StatusBadRequest, utils.Error(err.Error()))
 		return
 	}
-
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, utils.Error("Failed to hash password"))
+		return
+	}
+	user = models.User{
+		Id:               ctr.app.Snowflake.Generate(),
+		Username:         user.Username,
+		Firstname:        user.Firstname,
+		Lastname:         user.Lastname,
+		Avatar:           user.Avatar,
+		Role:             1,
+		Email:            user.Email,
+		Password:         string(hash),
+		CreatedTimestamp: time.Now().UnixMilli(),
+		UpdatedTimestamp: time.Now().UnixMilli(),
+	}
 	// Specific validation for username and password
 	if len(user.Password) == 0 {
 		c.JSON(http.StatusBadRequest, utils.Error("Password must be provided."))
@@ -71,17 +136,6 @@ func (ctr *Controller) CreateUser(c *gin.Context) {
 		return
 	}
 
-	user.Id = ctr.app.Snowflake.Generate()
-	user.CreatedTimestamp = time.Now().UnixMilli()
-	user.UpdatedTimestamp = time.Now().UnixMilli()
-	user.Role = 1 // Default role
-	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, utils.Error("Failed to hash password"))
-		return
-	}
-	user.Password = string(hash)
-
 	createdUser, err := ctr.model.CreateUser(user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
@@ -91,6 +145,16 @@ func (ctr *Controller) CreateUser(c *gin.Context) {
 	c.JSON(http.StatusCreated, createdUser)
 }
 
+// Update User
+// @Summary Update user information
+// @Method PATCH
+// @Router /users/{id} [patch]
+// @Security Authenfification: Auth
+// @Param id path int true "User ID"
+// @Body Username, Firstname, Lastname, Avatar, Role, Email
+// @Success 200 {object} Success(models.User)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
 func (ctr *Controller) UpdateUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
@@ -102,7 +166,6 @@ func (ctr *Controller) UpdateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, utils.Error("Invalid request payload"))
 		return
 	}
-
 	updatedUser, err := ctr.model.UpdateUser(id, user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
@@ -120,17 +183,14 @@ func (ctr *Controller) UpdatePassword(c *gin.Context) {
 	var payload struct {
 		Password string `json:"password"`
 	}
-
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, utils.Error("Invalid request payload"))
 		return
 	}
-
 	if payload.Password == "" {
 		c.JSON(http.StatusBadRequest, utils.Error("Password must be provided"))
 		return
 	}
-
 	err = ctr.model.UpdatePassword(id, payload.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))

@@ -9,11 +9,7 @@ import (
 )
 
 func (ctr *Controller) GetAllDocuments(c *gin.Context) {
-	userId, exists := c.Get("user_id")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-		return
-	}
+	userId, _ := c.Get("user_id")
 
 	documents, err := ctr.model.GetAllDocuments(userId.(int64))
 	if err != nil {
@@ -24,11 +20,7 @@ func (ctr *Controller) GetAllDocuments(c *gin.Context) {
 }
 
 func (ctr *Controller) GetDocument(c *gin.Context) {
-	userId, exists := c.Get("user_id")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-		return
-	}
+	userId, _ := c.Get("user_id")
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid document ID"})
@@ -47,11 +39,8 @@ func (ctr *Controller) GetDocument(c *gin.Context) {
 }
 
 func (ctr *Controller) AddDocument(c *gin.Context) {
-	userId, exists := c.Get("user_id")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-		return
-	}
+	userId, _ := c.Get("user_id")
+
 	var document models.Document
 	if err := c.ShouldBindJSON(&document); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
@@ -68,13 +57,7 @@ func (ctr *Controller) AddDocument(c *gin.Context) {
 }
 
 func (ctr *Controller) UpdateDocument(c *gin.Context) {
-	claims, exists := c.Get("claims")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-		return
-	}
-
-	userId, _ := claims.(map[string]interface{})["user_id"].(float64)
+	userId, _ := c.Get("user_id")
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid document ID"})
@@ -85,7 +68,7 @@ func (ctr *Controller) UpdateDocument(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
-	dbDoc, err := ctr.model.GetDocument(id, int64(userId))
+	dbDoc, err := ctr.model.GetDocument(id, userId.(int64))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -104,15 +87,13 @@ func (ctr *Controller) UpdateDocument(c *gin.Context) {
 }
 
 func (ctr *Controller) DeleteDocument(c *gin.Context) {
-	claims, exists := c.Get("claims")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+	userId, _ := c.Get("user_id")
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid document ID"})
 		return
 	}
-
-	userId, _ := claims.(map[string]interface{})["user_id"].(float64)
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
-	dbDoc, err := ctr.model.GetDocument(id, int64(userId))
+	dbDoc, err := ctr.model.GetDocument(id, userId.(int64))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
