@@ -6,16 +6,16 @@ import (
 )
 
 type User struct {
-	Id               int64   `json:"id"`
-	Username         string  `json:"username"`
-	Firstname        *string `json:"firstname"`
-	Lastname         *string `json:"lastname"`
-	Role             int     `json:"role"` // 1: user, 2: admin
-	Avatar           *string `json:"avatar"`
-	Email            *string `json:"email"`
-	Password         string  `json:"password,omitempty"`
-	CreatedTimestamp *int64  `json:"created_timestamp"`
-	UpdatedTimestamp *int64  `json:"updated_timestamp"`
+	Id               int64   `form:"id" binding:"omitempty"`
+	Username         string  `form:"username" binding:"required,min=5,max=30"`
+	Firstname        *string `form:"firstname" binding:"omitempty"`
+	Lastname         *string `form:"lastname" binding:"omitempty"`
+	Role             int     `form:"role" binding:"omitempty"` // 1: user, 2: admin
+	Avatar           *string `form:"avatar" binding:"omitempty"`
+	Email            string  `form:"email" binding:"required,email"`
+	Password         string  `form:"password" json:"password,omitempty" binding:"omitempty,min=4,max=50"`
+	CreatedTimestamp int64   `form:"created_timestamp" binding:"omitempty"`
+	UpdatedTimestamp int64   `form:"updated_timestamp" binding:"omitempty"`
 }
 
 func (m *Model) GetAllUsers() ([]User, error) {
@@ -60,6 +60,15 @@ func (m *Model) GetUser(id int64) (*User, error) {
 	}
 
 	return &user, nil
+}
+
+func (m *Model) CheckUsernameExists(username string) bool {
+	var count int
+	err := m.DB.QueryRow("SELECT COUNT(*) FROM users WHERE username = ?", username).Scan(&count)
+	if err != nil {
+		return false
+	}
+	return count > 0
 }
 
 func (m *Model) GetUserByUsername(username string) (*User, error) {

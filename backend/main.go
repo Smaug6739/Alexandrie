@@ -13,30 +13,41 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func main() {
+func SetupServer() (*gin.Engine, *app.App) {
 	godotenv.Load()
-	config := app.Config{}
 
+	// Charger la configuration depuis config.toml
+	config := app.Config{}
 	_, err := toml.DecodeFile("config.toml", &config)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	app := app.InitApp(config)
-	defer app.DB.Close()
 
-	app_router := router.InitRouter(app)
-	// Recovery middleware recovers from any panics and writes a 500 if there was one.
-	app_router.Use(gin.Recovery())
+	// Initialiser l'application
+	application := app.InitApp(config)
 
-	app_router.SetTrustedProxies([]string{"127.0.0.1", "localhost"})
+	// Créer le routeur
+	appRouter := router.InitRouter(application)
+	appRouter.Use(gin.Recovery())
 
-	app_router.Use(cors.New(cors.Config{
+	// Configurer les proxys et CORS
+	appRouter.SetTrustedProxies([]string{"127.0.0.1", "localhost"})
+	appRouter.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{os.Getenv("DOMAIN_CLIENT")},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
 
-	app_router.Run("localhost:8080")
+	return appRouter, application
+}
+
+// main démarre le serveur en mode production
+func main() {
+	server, application := SetupServer()
+	defer application.DB.Close()
+
+	// Démarrer le serveur sur le port 8080
+	server.Run("localhost:8080")
 }
