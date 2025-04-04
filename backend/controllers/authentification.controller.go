@@ -84,7 +84,7 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) {
 
 	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
-
+	user.Password = ""
 	c.JSON(200, utils.Success(user))
 
 }

@@ -3,7 +3,7 @@ package controllers
 import (
 	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/models"
-	service "Smaug6739/Alexandrie/services"
+	"Smaug6739/Alexandrie/services"
 	"Smaug6739/Alexandrie/utils"
 	"net/http"
 	"strconv"
@@ -23,12 +23,12 @@ type UserController interface {
 }
 type UserControllerImpl struct {
 	Controller
-	user_service service.UserService
+	user_service services.UserService
 }
 
 func NewUserController(app *app.App) UserController {
 	return &UserControllerImpl{
-		user_service: service.NewUserService(app.DB),
+		user_service: services.NewUserService(app.DB),
 		Controller: Controller{
 			app: app,
 		},
@@ -115,6 +115,10 @@ func (ctr *UserControllerImpl) CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, utils.Error(err.Error()))
 		return
 	}
+	if len(user.Password) == 0 {
+		c.JSON(http.StatusBadRequest, utils.Error("Password must be provided."))
+		return
+	}
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error("Failed to hash password"))
@@ -133,10 +137,7 @@ func (ctr *UserControllerImpl) CreateUser(c *gin.Context) {
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
 	// Specific validation for username and password
-	if len(user.Password) == 0 {
-		c.JSON(http.StatusBadRequest, utils.Error("Password must be provided."))
-		return
-	}
+
 	exists := ctr.user_service.CheckUsernameExists(user.Username)
 	if exists {
 		c.JSON(http.StatusBadRequest, utils.Error("Username already exists."))
@@ -183,11 +184,11 @@ func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) {
 	user = models.User{
 		Id:               id,
 		Username:         dbUser.Username,
-		Firstname:        utils.IfNotNilOrDefault(user.Firstname, dbUser.Firstname),
-		Lastname:         utils.IfNotNilOrDefault(user.Lastname, dbUser.Lastname),
-		Avatar:           utils.IfNotNilOrDefault(user.Avatar, dbUser.Avatar),
+		Firstname:        utils.IfNotNilPointer(user.Firstname, dbUser.Firstname),
+		Lastname:         utils.IfNotNilPointer(user.Lastname, dbUser.Lastname),
+		Avatar:           utils.IfNotNilPointer(user.Avatar, dbUser.Avatar),
 		Role:             dbUser.Role,
-		Email:            utils.IfNotNilOrDefault(user.Email, dbUser.Email),
+		Email:            utils.IfNotNilValue(&user.Email, dbUser.Email),
 		CreatedTimestamp: dbUser.CreatedTimestamp,
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
