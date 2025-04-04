@@ -36,7 +36,7 @@ func MinioConnection() (*minio.Client, error) {
 			log.Fatalln(err)
 		}
 	} else {
-		log.Printf("✅ Successfully created %s\n", bucketName)
+		fmt.Println("✅ Successfully created %s\n", bucketName)
 	}
 	// Définir la politique de lecture publique
 	policy := fmt.Sprintf(`{
