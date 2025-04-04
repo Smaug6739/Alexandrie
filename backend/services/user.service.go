@@ -8,8 +8,10 @@ import (
 type UserService interface {
 	GetAllUsers() ([]*models.User, error)
 	GetUserById(id int64) (*models.User, error)
+	GetUserByUsername(username string) (*models.User, error)
+	CheckUsernameExists(username string) bool
 	CreateUser(user *models.User) (*models.User, error)
-	UpdateUser(user *models.User) (*models.User, error)
+	UpdateUser(id int64, user *models.User) (*models.User, error)
 	UpdatePassword(id int64, password string) error
 	DeleteUser(id int64) error
 }
@@ -36,6 +38,16 @@ func (s *Service) GetAllUsers() ([]*models.User, error) {
 	}
 	return users, nil
 }
+
+func (m *Service) CheckUsernameExists(username string) bool {
+	var count int
+	err := m.db.QueryRow("SELECT COUNT(*) FROM users WHERE username = ?", username).Scan(&count)
+	if err != nil {
+		return false
+	}
+	return count > 0
+}
+
 func (s *Service) CreateUser(user *models.User) (*models.User, error) {
 	_, err := s.db.Exec("INSERT INTO users (id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		user.Id, user.Username, user.Firstname, user.Lastname, user.Role, user.Avatar, user.Email, user.Password, user.CreatedTimestamp, user.UpdatedTimestamp)
@@ -44,6 +56,20 @@ func (s *Service) CreateUser(user *models.User) (*models.User, error) {
 	}
 
 	return user, nil
+}
+
+func (s *Service) GetUserByUsername(username string) (*models.User, error) {
+	var user models.User
+	err := s.db.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users WHERE username = ?", username).Scan(
+		&user.Id, &user.Username, &user.Firstname, &user.Lastname,
+		&user.Role, &user.Avatar, &user.Email, &user.CreatedTimestamp, &user.UpdatedTimestamp,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
 func (s *Service) GetUserById(id int64) (*models.User, error) {
@@ -60,9 +86,9 @@ func (s *Service) GetUserById(id int64) (*models.User, error) {
 	return &user, nil
 }
 
-func (s *Service) UpdateUser(user *models.User) (*models.User, error) {
+func (s *Service) UpdateUser(id int64, user *models.User) (*models.User, error) {
 	_, err := s.db.Exec("UPDATE users SET username=?, firstname=?, lastname=?, role=?, avatar=?, email=?, updated_timestamp=? WHERE id=?",
-		user.Username, user.Firstname, user.Lastname, user.Role, user.Avatar, user.Email, user.UpdatedTimestamp, user.Id)
+		user.Username, user.Firstname, user.Lastname, user.Role, user.Avatar, user.Email, user.UpdatedTimestamp, id)
 	if err != nil {
 		return nil, err
 	}

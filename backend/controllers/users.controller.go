@@ -3,6 +3,7 @@ package controllers
 import (
 	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/models"
+	service "Smaug6739/Alexandrie/services"
 	"Smaug6739/Alexandrie/utils"
 	"net/http"
 	"strconv"
@@ -20,11 +21,14 @@ type UserController interface {
 	UpdateUser(c *gin.Context)
 	UpdatePassword(c *gin.Context)
 }
+type UserControllerImpl struct {
+	Controller
+	user_service service.UserService
+}
 
 func NewUserController(app *app.App) UserController {
-	return &Controller{
-		app:   app,
-		model: models.NewModel(app.DB),
+	return &UserControllerImpl{
+		user_service: service.NewUserService(app.DB),
 	}
 }
 
@@ -36,8 +40,8 @@ func NewUserController(app *app.App) UserController {
 // @Success 200 {object} Success([]models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *Controller) GetUsers(c *gin.Context) {
-	users, err := ctr.model.GetAllUsers()
+func (ctr *UserControllerImpl) GetUsers(c *gin.Context) {
+	users, err := ctr.user_service.GetAllUsers()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
 		return
@@ -53,13 +57,13 @@ func (ctr *Controller) GetUsers(c *gin.Context) {
 // @Success 200 {object} Success(models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *Controller) GetMe(c *gin.Context) {
+func (ctr *UserControllerImpl) GetMe(c *gin.Context) {
 	userId, exists := c.Get("user_id")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, utils.Error("User ID not found in context"))
 		return
 	}
-	user, err := ctr.model.GetUserById(userId.(int64))
+	user, err := ctr.user_service.GetUserById(userId.(int64))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
 		return
@@ -76,13 +80,13 @@ func (ctr *Controller) GetMe(c *gin.Context) {
 // @Success 200 {object} Success(models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *Controller) GetUserById(c *gin.Context) {
+func (ctr *UserControllerImpl) GetUserById(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, utils.Error("Invalid user ID"))
 		return
 	}
-	user, err := ctr.model.GetUserById(id)
+	user, err := ctr.user_service.GetUserById(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
 		return
@@ -102,7 +106,7 @@ func (ctr *Controller) GetUserById(c *gin.Context) {
 // @Body Username*, Firstname, Lastname, Avatar, Role, Email*, Password*
 // @Success 201 {object} Success(models.User)
 // @Failure 400 {object} Error
-func (ctr *Controller) CreateUser(c *gin.Context) {
+func (ctr *UserControllerImpl) CreateUser(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBind(&user); err != nil {
 		c.JSON(http.StatusBadRequest, utils.Error(err.Error()))
@@ -130,13 +134,13 @@ func (ctr *Controller) CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, utils.Error("Password must be provided."))
 		return
 	}
-	exists := ctr.model.CheckUsernameExists(user.Username)
+	exists := ctr.user_service.CheckUsernameExists(user.Username)
 	if exists {
 		c.JSON(http.StatusBadRequest, utils.Error("Username already exists."))
 		return
 	}
 
-	createdUser, err := ctr.model.CreateUser(user)
+	createdUser, err := ctr.user_service.CreateUser(&user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
 		return
@@ -155,18 +159,37 @@ func (ctr *Controller) CreateUser(c *gin.Context) {
 // @Success 200 {object} Success(models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *Controller) UpdateUser(c *gin.Context) {
+func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, utils.Error("Invalid user ID"))
 		return
 	}
 	var user models.User
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, utils.Error("Invalid request payload"))
+	if err := c.ShouldBind(&user); err != nil {
+		c.JSON(http.StatusBadRequest, utils.Error(err.Error()))
 		return
 	}
-	updatedUser, err := ctr.model.UpdateUser(id, user)
+
+	dbUser, err := ctr.user_service.GetUserById(id)
+	if err != nil || dbUser == nil {
+		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
+		return
+	}
+	// Only update provided fields
+	user = models.User{
+		Id:               id,
+		Username:         dbUser.Username,
+		Firstname:        utils.IfNotNilOrDefault(user.Firstname, dbUser.Firstname),
+		Lastname:         utils.IfNotNilOrDefault(user.Lastname, dbUser.Lastname),
+		Avatar:           utils.IfNotNilOrDefault(user.Avatar, dbUser.Avatar),
+		Role:             dbUser.Role,
+		Email:            utils.IfNotNilOrDefault(user.Email, dbUser.Email),
+		CreatedTimestamp: dbUser.CreatedTimestamp,
+		UpdatedTimestamp: time.Now().UnixMilli(),
+	}
+
+	updatedUser, err := ctr.user_service.UpdateUser(id, &user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
 		return
@@ -174,7 +197,7 @@ func (ctr *Controller) UpdateUser(c *gin.Context) {
 	c.JSON(http.StatusOK, updatedUser)
 }
 
-func (ctr *Controller) UpdatePassword(c *gin.Context) {
+func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, utils.Error("Invalid user ID"))
@@ -191,7 +214,7 @@ func (ctr *Controller) UpdatePassword(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, utils.Error("Password must be provided"))
 		return
 	}
-	err = ctr.model.UpdatePassword(id, payload.Password)
+	err = ctr.user_service.UpdatePassword(id, payload.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, utils.Error(err.Error()))
 		return

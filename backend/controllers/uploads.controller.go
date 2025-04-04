@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/utils"
 	"fmt"
 	"net/http"
@@ -10,6 +11,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/minio/minio-go/v7"
 )
+
+type UploadController interface {
+	UploadAvatar(c *gin.Context)
+	UploadFile(c *gin.Context)
+}
+
+func NewUploadController(app *app.App) UploadController {
+	return &Controller{
+		app: app,
+	}
+}
 
 func (ctr *Controller) UploadAvatar(c *gin.Context) {
 	file, header, err := c.Request.FormFile("avatar")

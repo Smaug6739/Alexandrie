@@ -10,9 +10,9 @@ import (
 
 func Uploads(app *app.App, router *gin.RouterGroup) {
 	uploads := router.Group("/uploads")
-	uploadsCtrl := controllers.NewController(app)
+	uploadsCtrl := controllers.NewUploadController(app)
 
 	uploads.Use(middlewares.Auth())
 
-	uploads.POST("/", uploadsCtrl.UploadAvatar)
+	uploads.POST("/avatar", uploadsCtrl.UploadAvatar)
 }

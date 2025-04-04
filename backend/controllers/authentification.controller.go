@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/models"
+	service "Smaug6739/Alexandrie/services"
 	"Smaug6739/Alexandrie/utils"
 	"crypto/rand"
 	"fmt"
@@ -15,12 +17,29 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type AuthController interface {
+	Login(c *gin.Context)
+	RefreshSession(c *gin.Context)
+}
+type AuthControllerImpl struct {
+	Controller
+	auth_service service.AuthService
+	user_service service.UserService
+}
+
+func NewAuthController(app *app.App) AuthController {
+	return &AuthControllerImpl{
+		auth_service: service.NewAuthService(app.DB),
+		user_service: service.NewUserService(app.DB),
+	}
+}
+
 type AuthClaims struct {
 	Username string `form:"username"`
 	Password string `form:"password"`
 }
 
-func (dc *Controller) Login(c *gin.Context) {
+func (dc *AuthControllerImpl) Login(c *gin.Context) {
 	var authClaims AuthClaims
 	if err := c.ShouldBind(&authClaims); err != nil {
 		c.JSON(http.StatusBadRequest, utils.Error(err.Error()))
@@ -30,7 +49,7 @@ func (dc *Controller) Login(c *gin.Context) {
 		c.JSON(400, utils.Error("Invalid credentials."))
 		return
 	}
-	user, err := dc.model.GetUserByUsername(authClaims.Username)
+	user, err := dc.user_service.GetUserByUsername(authClaims.Username)
 	if user == nil || err != nil {
 		c.JSON(401, utils.Error("Invalid credentials."))
 		return
@@ -59,7 +78,7 @@ func (dc *Controller) Login(c *gin.Context) {
 		LogoutTimestamp:      0,
 	}
 
-	if _, err := dc.model.CreateSession(&session); err != nil {
+	if _, err := dc.auth_service.CreateSession(&session); err != nil {
 		c.JSON(500, utils.Error("Failed to create session."))
 		return
 	}
@@ -71,14 +90,14 @@ func (dc *Controller) Login(c *gin.Context) {
 
 }
 
-func (dc *Controller) RefreshSession(c *gin.Context) {
+func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) {
 	// Get the refresh token from the cookie
 	refreshToken, err := c.Cookie("RefreshToken")
 	if err != nil {
 		c.JSON(401, utils.Error("No refresh token provided."))
 		return
 	}
-	session, err := dc.model.GetSession(refreshToken)
+	session, err := dc.auth_service.GetSession(refreshToken)
 	if err != nil {
 		c.JSON(401, utils.Error("Invalid refresh token."))
 		return
@@ -88,7 +107,7 @@ func (dc *Controller) RefreshSession(c *gin.Context) {
 		return
 	}
 	// Generate a new access token
-	user, err := dc.model.GetUserById(session.UserId)
+	user, err := dc.user_service.GetUserById(session.UserId)
 	if user == nil || err != nil {
 		c.JSON(500, utils.Error("Failed to get user."))
 		return
@@ -102,7 +121,7 @@ func (dc *Controller) RefreshSession(c *gin.Context) {
 	session.RefreshToken = signRefreshToken()
 	session.ExpireToken = time.Now().Add(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli()
 	session.LastRefreshTimestamp = time.Now().UnixMilli()
-	if _, err = dc.model.UpdateSession(&session); err != nil {
+	if _, err = dc.auth_service.UpdateSession(&session); err != nil {
 		c.JSON(500, utils.Error("Failed to update session."))
 		return
 	}
@@ -113,7 +132,7 @@ func (dc *Controller) RefreshSession(c *gin.Context) {
 
 }
 
-func (dc *Controller) signAccessToken(user models.User) (string, error) {
+func (dc *AuthControllerImpl) signAccessToken(user models.User) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":  strconv.FormatInt(user.Id, 10),                                                                           // Subject (user identifier)
 		"iss":  "alexandrie",                                                                                             // Issuer
