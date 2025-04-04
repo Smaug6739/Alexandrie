@@ -3,7 +3,7 @@ package controllers
 import (
 	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/models"
-	service "Smaug6739/Alexandrie/services"
+	"Smaug6739/Alexandrie/services"
 	"Smaug6739/Alexandrie/utils"
 	"crypto/rand"
 	"fmt"
@@ -23,30 +23,29 @@ type AuthController interface {
 }
 type AuthControllerImpl struct {
 	Controller
-	auth_service service.AuthService
-	user_service service.UserService
+	auth_service services.AuthService
+	user_service services.UserService
 }
 
 func NewAuthController(app *app.App) AuthController {
 	return &AuthControllerImpl{
-		auth_service: service.NewAuthService(app.DB),
-		user_service: service.NewUserService(app.DB),
+		auth_service: services.NewAuthService(app.DB),
+		user_service: services.NewUserService(app.DB),
+		Controller: Controller{
+			app: app,
+		},
 	}
 }
 
 type AuthClaims struct {
-	Username string `form:"username"`
-	Password string `form:"password"`
+	Username string `form:"username" binding:"required"`
+	Password string `form:"password" binding:"required"`
 }
 
 func (dc *AuthControllerImpl) Login(c *gin.Context) {
 	var authClaims AuthClaims
 	if err := c.ShouldBind(&authClaims); err != nil {
 		c.JSON(http.StatusBadRequest, utils.Error(err.Error()))
-		return
-	}
-	if authClaims.Username == "" || authClaims.Password == "" {
-		c.JSON(400, utils.Error("Invalid credentials."))
 		return
 	}
 	user, err := dc.user_service.GetUserByUsername(authClaims.Username)
@@ -59,7 +58,7 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) {
 		c.JSON(401, utils.Error("Invalid credentials."))
 		return
 	}
-	tokenString, err := dc.signAccessToken(*user)
+	tokenString, err := dc.signAccessToken(user)
 	if err != nil {
 		fmt.Println(err.Error())
 		c.JSON(500, utils.Error("Failed to sign token."))
@@ -112,7 +111,7 @@ func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) {
 		c.JSON(500, utils.Error("Failed to get user."))
 		return
 	}
-	tokenString, err := dc.signAccessToken(*user)
+	tokenString, err := dc.signAccessToken(user)
 	if err != nil {
 		c.JSON(500, utils.Error("Failed to sign token."))
 		return
@@ -132,7 +131,7 @@ func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) {
 
 }
 
-func (dc *AuthControllerImpl) signAccessToken(user models.User) (string, error) {
+func (dc *AuthControllerImpl) signAccessToken(user *models.User) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":  strconv.FormatInt(user.Id, 10),                                                                           // Subject (user identifier)
 		"iss":  "alexandrie",                                                                                             // Issuer

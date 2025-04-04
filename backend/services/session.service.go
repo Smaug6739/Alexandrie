@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	"Smaug6739/Alexandrie/models"

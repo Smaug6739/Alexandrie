@@ -29,6 +29,9 @@ type UserControllerImpl struct {
 func NewUserController(app *app.App) UserController {
 	return &UserControllerImpl{
 		user_service: service.NewUserService(app.DB),
+		Controller: Controller{
+			app: app,
+		},
 	}
 }
 

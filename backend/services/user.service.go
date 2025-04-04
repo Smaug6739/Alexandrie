@@ -1,4 +1,4 @@
-package service
+package services
 
 import (
 	"Smaug6739/Alexandrie/models"
@@ -60,9 +60,9 @@ func (s *Service) CreateUser(user *models.User) (*models.User, error) {
 
 func (s *Service) GetUserByUsername(username string) (*models.User, error) {
 	var user models.User
-	err := s.db.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users WHERE username = ?", username).Scan(
+	err := s.db.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp FROM users WHERE username = ?", username).Scan(
 		&user.Id, &user.Username, &user.Firstname, &user.Lastname,
-		&user.Role, &user.Avatar, &user.Email, &user.CreatedTimestamp, &user.UpdatedTimestamp,
+		&user.Role, &user.Avatar, &user.Email, &user.Password, &user.CreatedTimestamp, &user.UpdatedTimestamp,
 	)
 
 	if err != nil {
