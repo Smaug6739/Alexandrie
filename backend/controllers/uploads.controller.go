@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"Smaug6739/Alexandrie/app"
-	"Smaug6739/Alexandrie/utils"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -13,21 +13,25 @@ import (
 )
 
 type UploadController interface {
-	UploadAvatar(c *gin.Context)
-	UploadFile(c *gin.Context)
+	UploadAvatar(c *gin.Context) (int, any)
+	UploadFile(c *gin.Context) (int, any)
+}
+type UploadControllerImpl struct {
+	Controller
 }
 
 func NewUploadController(app *app.App) UploadController {
-	return &Controller{
-		app: app,
+	return &UploadControllerImpl{
+		Controller: Controller{
+			app: app,
+		},
 	}
 }
 
-func (ctr *Controller) UploadAvatar(c *gin.Context) {
+func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 	file, header, err := c.Request.FormFile("avatar")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.Error("Failed to get file"))
-		return
+		return http.StatusBadRequest, errors.New("failed to get file")
 	}
 	defer file.Close()
 
@@ -35,8 +39,7 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) {
 
 	// Check if the file size exceeds the limit
 	if header.Size > int64(ctr.app.Config.Cdn.MaxSize) {
-		c.JSON(http.StatusBadRequest, utils.Error("File size exceeds the limit"))
-		return
+		return http.StatusBadRequest, errors.New("file size exceeds the limit")
 	}
 
 	// Check if the MIME type is supported
@@ -49,8 +52,7 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) {
 		}
 	}
 	if !isSupportedMime {
-		c.JSON(http.StatusBadRequest, utils.Error("File type not supported"))
-		return
+		return http.StatusBadRequest, errors.New("file type not supported")
 	}
 
 	userID, _ := c.Get("user_id")
@@ -73,18 +75,16 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) {
 
 	_, err = ctr.app.MinioClient.PutObject(c, os.Getenv("MINIO_BUCKET"), objectName, file, header.Size, minio.PutObjectOptions{ContentType: header.Header.Get("Content-Type")})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, utils.Error("Failed to upload file"))
-		return
+		return http.StatusInternalServerError, errors.New("failed to upload file")
 	}
 
-	c.JSON(http.StatusOK, utils.Success("Avatar uploaded successfully"))
+	return http.StatusOK, "Avatar uploaded successfully"
 }
 
-func (ctr *Controller) UploadFile(c *gin.Context) {
+func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, utils.Error("Failed to get file"))
-		return
+		return http.StatusBadRequest, errors.New("failed to get file")
 	}
 	defer file.Close()
 
@@ -92,8 +92,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) {
 
 	// Check if the file size exceeds the limit
 	if header.Size > int64(ctr.app.Config.Cdn.MaxUploadsSize) {
-		c.JSON(http.StatusBadRequest, utils.Error("File size exceeds the limit"))
-		return
+		return http.StatusBadRequest, errors.New("file size exceeds the limit")
 	}
 
 	// Check if the MIME type is supported
@@ -106,8 +105,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) {
 		}
 	}
 	if !isSupportedMime {
-		c.JSON(http.StatusBadRequest, utils.Error("File type not supported"))
-		return
+		return http.StatusBadRequest, errors.New("file type not supported")
 	}
 
 	userID, _ := c.Get("user_id")
@@ -116,9 +114,8 @@ func (ctr *Controller) UploadFile(c *gin.Context) {
 
 	_, err = ctr.app.MinioClient.PutObject(c, os.Getenv("MINIO_BUCKET"), objectName, file, header.Size, minio.PutObjectOptions{ContentType: header.Header.Get("Content-Type")})
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, utils.Error("Failed to upload file"))
-		return
+		return http.StatusInternalServerError, errors.New("failed to upload file")
 	}
 
-	c.JSON(http.StatusOK, utils.Success("File uploaded successfully"))
+	return http.StatusOK, "File uploaded successfully"
 }
