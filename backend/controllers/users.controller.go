@@ -203,15 +203,20 @@ func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, errors.New("invalid user ID")
 	}
 	var payload struct {
-		Password string `json:"password"`
+		Password string `form:"password" json:"password"`
 	}
-	if err := c.ShouldBindJSON(&payload); err != nil {
+	if err := c.ShouldBind(&payload); err != nil {
 		return http.StatusBadRequest, errors.New("invalid request payload")
 	}
 	if payload.Password == "" {
 		return http.StatusBadRequest, errors.New("password must be provided")
 	}
-	err = ctr.user_service.UpdatePassword(id, payload.Password)
+	// Hash the new password
+	hash, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return http.StatusInternalServerError, errors.New("failed to hash password")
+	}
+	err = ctr.user_service.UpdatePassword(id, string(hash))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
