@@ -153,9 +153,9 @@ func (ctr *UserControllerImpl) CreateUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
-	id, err := utils.GetUserIdParam(c.Param("id"), c)
+	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
-		return http.StatusBadRequest, errors.New("invalid user ID")
+		return http.StatusBadRequest, err
 	}
 	var user models.User
 	if err := c.ShouldBind(&user); err != nil {
@@ -197,19 +197,10 @@ func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
-	id, err := utils.GetUserIdParam(c.Param("id"), c)
+	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	userId, err := utils.GetUserIdCtx(c)
-	if err != nil {
-		return http.StatusBadRequest, err
-	}
-	role, _ := c.Get("user_role")
-	if role != utils.ADMINISTRATOR && userId != id {
-		return http.StatusForbidden, errors.New("not authorized to update this user")
-	}
-
 	var payload struct {
 		Password string `form:"password" json:"password"`
 	}
