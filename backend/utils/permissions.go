@@ -27,7 +27,7 @@ func GetUserIdParam(param string, ctx *gin.Context) (int64, error) {
 	if param != "@me" {
 		id_param, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 		if err != nil {
-			return 0, err
+			return 0, errors.New("invalid user ID parameter")
 		}
 		return id_param, nil
 	}

@@ -199,7 +199,10 @@ func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
 // @Failure 401 {object} Error
 func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
 
-	id, _ := utils.GetUserIdParam(c.Param("id"), c)
+	id, err := utils.GetUserIdParam(c.Param("id"), c)
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
 
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
