@@ -46,7 +46,7 @@ func validationErrorToText(e validator.FieldError) string {
 	case "required":
 		return e.Field() + " is required."
 	case "email":
-		return e.Field() + " must be a valid"
+		return e.Field() + " must be valid"
 	case "min":
 		return e.Field() + " must be at least " + e.Param() + " characters long."
 	case "max":
