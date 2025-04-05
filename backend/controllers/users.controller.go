@@ -7,7 +7,6 @@ import (
 	"Smaug6739/Alexandrie/utils"
 	"errors"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -82,7 +81,7 @@ func (ctr *UserControllerImpl) GetMe(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *UserControllerImpl) GetUserById(c *gin.Context) (int, any) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := utils.GetUserIdParam(c.Param("id"), c)
 	if err != nil {
 		return http.StatusBadRequest, errors.New("invalid user ID")
 	}
@@ -154,7 +153,7 @@ func (ctr *UserControllerImpl) CreateUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := utils.GetUserIdParam(c.Param("id"), c)
 	if err != nil {
 		return http.StatusBadRequest, errors.New("invalid user ID")
 	}
@@ -191,19 +190,17 @@ func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
 // @Summary Update user password
 // @Method PATCH
 // @Router /users/{id}/password [patch]
-// @Security Authenfification: Auth
+// @Security Authenfification: Auth, {self, admin}
 // @Param id path int true "User ID"
 // @Body Password
 // @Success 200 {object} Success(string)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
-
 	id, err := utils.GetUserIdParam(c.Param("id"), c)
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
 		return http.StatusBadRequest, err
