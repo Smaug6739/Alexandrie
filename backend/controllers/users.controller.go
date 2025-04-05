@@ -20,6 +20,7 @@ type UserController interface {
 	CreateUser(c *gin.Context) (int, any)
 	UpdateUser(c *gin.Context) (int, any)
 	UpdatePassword(c *gin.Context) (int, any)
+	DeleteUser(c *gin.Context) (int, any)
 }
 type UserControllerImpl struct {
 	Controller
@@ -155,7 +156,7 @@ func (ctr *UserControllerImpl) CreateUser(c *gin.Context) (int, any) {
 func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
 	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
-		return http.StatusBadRequest, err
+		return http.StatusUnauthorized, err
 	}
 	var user models.User
 	if err := c.ShouldBind(&user); err != nil {
@@ -199,7 +200,7 @@ func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
 func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
 	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
-		return http.StatusBadRequest, err
+		return http.StatusUnauthorized, err
 	}
 	var payload struct {
 		Password string `form:"password" json:"password"`
@@ -220,4 +221,26 @@ func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, err
 	}
 	return http.StatusOK, "Password updated successfully"
+}
+
+// Delete User
+// @Summary Delete user
+// @Method DELETE
+// @Router /users/{id} [delete]
+// @Security Authenfification: Auth, {self, admin}
+// @Param id path int true "User ID"
+// @Success 200 {object} Success(string)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
+func (ctr *UserControllerImpl) DeleteUser(c *gin.Context) (int, any) {
+	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
+	if err != nil {
+		return http.StatusUnauthorized, err
+	}
+
+	err = ctr.user_service.DeleteUser(id)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return http.StatusOK, "User deleted successfully"
 }
