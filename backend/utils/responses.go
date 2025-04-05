@@ -32,7 +32,7 @@ func WP(f func(c *gin.Context) (int, any)) gin.HandlerFunc {
 			for _, e := range err {
 				errors = append(errors, validationErrorToText(e))
 			}
-			c.JSON(code, Error(strings.Join(errors, ", ")))
+			c.JSON(code, Error(strings.Join(errors, " ")))
 		} else if err, ok := body.(error); ok {
 			c.JSON(code, Error(err.Error()))
 		} else {
