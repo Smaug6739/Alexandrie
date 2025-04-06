@@ -17,6 +17,10 @@ func Success(data any) gin.H {
 }
 
 func Error(message string) gin.H {
+	// Capitalize the first letter of the error message
+	if len(message) > 0 {
+		message = strings.ToUpper(message[:1]) + message[1:]
+	}
 	return gin.H{
 		"status":    "error",
 		"timestamp": time.Now().UnixMilli(),

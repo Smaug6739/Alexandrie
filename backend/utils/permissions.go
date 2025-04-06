@@ -69,5 +69,5 @@ func SelfOrPermission(ctx *gin.Context, allowed int) (int64, error) {
 	if id_param != userId && CheckPermission(role.(int), allowed) {
 		return id_param, nil
 	}
-	return 0, errors.New("unauthorized access")
+	return 0, errors.New("unauthorized")
 }
