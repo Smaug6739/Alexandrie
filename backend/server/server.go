@@ -19,7 +19,6 @@ func SetupServer() (*gin.Engine, *app.App) {
 	// Charger la configuration depuis config.toml
 	config := app.Config{}
 	_, err := toml.DecodeFile("config.toml", &config)
-	fmt.Println(config)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
