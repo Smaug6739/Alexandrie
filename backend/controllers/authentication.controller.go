@@ -4,8 +4,8 @@ import (
 	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/models"
 	"Smaug6739/Alexandrie/services"
-	"Smaug6739/Alexandrie/utils"
 	"crypto/rand"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -18,8 +18,8 @@ import (
 )
 
 type AuthController interface {
-	Login(c *gin.Context)
-	RefreshSession(c *gin.Context)
+	Login(c *gin.Context) (int, any)
+	RefreshSession(c *gin.Context) (int, any)
 }
 type AuthControllerImpl struct {
 	Controller
@@ -42,27 +42,22 @@ type AuthClaims struct {
 	Password string `form:"password" binding:"required"`
 }
 
-func (dc *AuthControllerImpl) Login(c *gin.Context) {
+func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
 	var authClaims AuthClaims
 	if err := c.ShouldBind(&authClaims); err != nil {
-		c.JSON(http.StatusBadRequest, utils.Error(err.Error()))
-		return
+		return http.StatusBadRequest, err
 	}
 	user, err := dc.user_service.GetUserByUsername(authClaims.Username)
 	if user == nil || err != nil {
-		c.JSON(401, utils.Error("Invalid credentials."))
-		return
+		return 401, errors.New("invalid credentials")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(authClaims.Password)); err != nil {
-		c.JSON(401, utils.Error("Invalid credentials."))
-		return
+		return 401, errors.New("invalid credentials")
 	}
 	tokenString, err := dc.signAccessToken(user)
 	if err != nil {
-		fmt.Println(err.Error())
-		c.JSON(500, utils.Error("Failed to sign token."))
-		return
+		return 500, errors.New("failed to sign token")
 	}
 
 	// Create a new session
@@ -78,56 +73,50 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) {
 	}
 
 	if _, err := dc.auth_service.CreateSession(&session); err != nil {
-		c.JSON(500, utils.Error("Failed to create session."))
-		return
+		return 500, errors.New("failed to create session")
 	}
 
 	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
 	user.Password = ""
-	c.JSON(200, utils.Success(user))
+	return 200, user
 
 }
 
-func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) {
+func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) (int, any) {
 	// Get the refresh token from the cookie
 	refreshToken, err := c.Cookie("RefreshToken")
 	if err != nil {
-		c.JSON(401, utils.Error("No refresh token provided."))
-		return
+		return 401, errors.New("no refresh token provided")
 	}
 	session, err := dc.auth_service.GetSession(refreshToken)
 	if err != nil {
-		c.JSON(401, utils.Error("Invalid refresh token."))
-		return
+		return 401, errors.New("invalid refresh token")
 	}
 	if session.ExpireToken < time.Now().UnixMilli() {
-		c.JSON(401, utils.Error("Refresh token expired."))
-		return
+		return 401, errors.New("refresh token expired")
 	}
 	// Generate a new access token
 	user, err := dc.user_service.GetUserById(session.UserId)
 	if user == nil || err != nil {
-		c.JSON(500, utils.Error("Failed to get user."))
-		return
+		return 500, errors.New("failed to get user")
 	}
 	tokenString, err := dc.signAccessToken(user)
 	if err != nil {
-		c.JSON(500, utils.Error("Failed to sign token."))
-		return
+		return 500, errors.New("failed to sign token")
 	}
 	// Update the session
 	session.RefreshToken = signRefreshToken()
 	session.ExpireToken = time.Now().Add(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli()
 	session.LastRefreshTimestamp = time.Now().UnixMilli()
 	if _, err = dc.auth_service.UpdateSession(&session); err != nil {
-		c.JSON(500, utils.Error("Failed to update session."))
-		return
+		return 500, errors.New("failed to update session")
 	}
 
 	c.SetCookie("Authorization", tokenString, dc.app.Config.Auth.AccessTokenExpiry, "/", "localhost", false, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, dc.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
-	c.JSON(200, utils.Success("Token refreshed."))
+
+	return 200, "Session refreshed successfully."
 
 }
 
