@@ -15,7 +15,6 @@ import (
 
 type UserController interface {
 	GetUsers(c *gin.Context) (int, any)
-	GetMe(c *gin.Context) (int, any)
 	GetUserById(c *gin.Context) (int, any)
 	CreateUser(c *gin.Context) (int, any)
 	UpdateUser(c *gin.Context) (int, any)
@@ -52,26 +51,6 @@ func (ctr *UserControllerImpl) GetUsers(c *gin.Context) (int, any) {
 	return http.StatusOK, users
 }
 
-// GetMe
-// @Summary Get current user information
-// @Method GET
-// @Router /users/@me [get]
-// @Security Authenfification: Auth
-// @Success 200 {object} Success(models.User)
-// @Failure 400 {object} Error
-// @Failure 401 {object} Error
-func (ctr *UserControllerImpl) GetMe(c *gin.Context) (int, any) {
-	userId, exists := c.Get("user_id")
-	if !exists {
-		return http.StatusUnauthorized, errors.New("user ID not found in context")
-	}
-	user, err := ctr.user_service.GetUserById(userId.(int64))
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	return http.StatusOK, user
-}
-
 // Get User by ID
 // @Summary Get user by ID
 // @Method GET
@@ -82,9 +61,9 @@ func (ctr *UserControllerImpl) GetMe(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *UserControllerImpl) GetUserById(c *gin.Context) (int, any) {
-	id, err := utils.GetUserIdParam(c.Param("id"), c)
+	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
-		return http.StatusBadRequest, errors.New("invalid user ID")
+		return http.StatusBadRequest, err
 	}
 	user, err := ctr.user_service.GetUserById(id)
 	if err != nil {
