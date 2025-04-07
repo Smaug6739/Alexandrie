@@ -25,12 +25,14 @@ type AuthControllerImpl struct {
 	Controller
 	auth_service services.AuthService
 	user_service services.UserService
+	log_service  services.LogService
 }
 
 func NewAuthController(app *app.App) AuthController {
 	return &AuthControllerImpl{
 		auth_service: services.NewAuthService(app.DB),
 		user_service: services.NewUserService(app.DB),
+		log_service:  services.NewLogService(app.DB),
 		Controller: Controller{
 			app: app,
 		},

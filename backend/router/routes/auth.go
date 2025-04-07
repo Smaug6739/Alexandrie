@@ -14,5 +14,4 @@ func Auth(app *app.App, router *gin.RouterGroup) {
 	authCtrl := controllers.NewAuthController(app)
 	auth.POST("/", utils.WP(authCtrl.Login))
 	auth.POST("/refresh", utils.WP(authCtrl.RefreshSession))
-
 }
