@@ -13,6 +13,7 @@ type LogService interface {
 	GetConnections(userId int64) ([]*models.Log, error)
 	GetLastConnection(userId int64) (*models.Log, error)
 	GetLocationFromIp(ip string) string
+	CreateConnectionLog(log *models.Log) (*models.Log, error)
 
 	getLocationIdFromIp(ip string) (int64, error)
 }
