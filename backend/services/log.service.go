@@ -4,9 +4,11 @@ import (
 	"Smaug6739/Alexandrie/models"
 	"database/sql"
 	"errors"
+	"fmt"
 	"math/big"
 	"net"
 	"strings"
+	"time"
 )
 
 type LogService interface {
@@ -52,25 +54,12 @@ func (s *Service) GetLastConnection(userId int64) (*models.Log, error) {
 }
 
 func (s *Service) CreateConnectionLog(log *models.Log) (*models.Log, error) {
-	_, err := s.db.Exec("INSERT INTO connections_logs (ip_addr, location, timestamp, type, user_agent, user_id) VALUES (?, ?, ?, ?, ?, ?)",
-		log.IpAddr, log.Location, log.Timestamp, log.Type, log.UserAgent, log.UserId)
+	_, err := s.db.Exec("INSERT INTO connections_logs (id, user_id, ip_adress, user_agent, location, type, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)",
+		log.Id, log.UserId, log.IpAddr, log.UserAgent, log.Location, log.Type, log.Timestamp)
 	if err != nil {
 		return nil, err
 	}
 	return log, nil
-}
-
-func (s *Service) getLocationIdFromIp(ip string) (int64, error) {
-	ipInt, err := ipToDecimal(ip)
-	if err != nil {
-		return 0, err
-	}
-	var locationId int64
-	err = s.db.QueryRow("SELECT geoname_id FROM City_IPv4_complete WHERE ? BETWEEN network_start_integer AND network_last_integer LIMIT 1", ipInt).Scan(&locationId)
-	if err != nil {
-		return 0, err
-	}
-	return locationId, nil
 }
 
 func (s *Service) GetLocationFromIp(ip string) string {
@@ -90,6 +79,23 @@ func (s *Service) GetLocationFromIp(ip string) string {
 		}
 	}
 	return strings.Join(parts, ", ")
+}
+
+func (s *Service) getLocationIdFromIp(ip string) (int64, error) {
+	ipInt, err := ipToDecimal(ip)
+	if err != nil {
+		return 0, err
+	}
+	var locationId int64
+	// Performance test:
+	t := time.Now()
+	err = s.db.QueryRow("SELECT geoname_id FROM City_IPv4_complete WHERE ? BETWEEN network_start_integer AND network_last_integer LIMIT 1", ipInt).Scan(&locationId)
+	t2 := time.Now()
+	fmt.Println("Time taken to get location ID:", t2.Sub(t))
+	if err != nil {
+		return 0, err
+	}
+	return locationId, nil
 }
 
 func ipToDecimal(ipStr string) (string, error) {
