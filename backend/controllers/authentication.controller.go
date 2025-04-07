@@ -39,6 +39,14 @@ func NewAuthController(app *app.App) AuthController {
 	}
 }
 
+// Login
+// @Summary Login
+// @Method GET
+// @Router /auth [get]
+// @Security Credentials
+// @Success 200 {object} Success([]models.User)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
 type AuthClaims struct {
 	Username string `form:"username" binding:"required"`
 	Password string `form:"password" binding:"required"`
@@ -51,15 +59,15 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
 	}
 	user, err := dc.user_service.GetUserByUsername(authClaims.Username)
 	if user == nil || err != nil {
-		return 401, errors.New("invalid credentials")
+		return http.StatusUnauthorized, errors.New("invalid credentials")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(authClaims.Password)); err != nil {
-		return 401, errors.New("invalid credentials")
+		return http.StatusUnauthorized, errors.New("invalid credentials")
 	}
 	tokenString, err := dc.signAccessToken(user)
 	if err != nil {
-		return 500, errors.New("failed to sign token")
+		return http.StatusInternalServerError, errors.New("failed to sign token")
 	}
 
 	// Create a new session
@@ -75,50 +83,58 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
 	}
 
 	if _, err := dc.auth_service.CreateSession(&session); err != nil {
-		return 500, errors.New("failed to create session")
+		return http.StatusInternalServerError, errors.New("failed to create session")
 	}
 
 	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
 	user.Password = ""
-	return 200, user
+	return http.StatusOK, user
 
 }
 
+// RefreshSession
+// @Summary Refresh session
+// @Method GET
+// @Router /auth/refresh [get]
+// @Security Session validation
+// @Success 200 {object} Success([]models.User)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
 func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) (int, any) {
 	// Get the refresh token from the cookie
 	refreshToken, err := c.Cookie("RefreshToken")
 	if err != nil {
-		return 401, errors.New("no refresh token provided")
+		return http.StatusUnauthorized, errors.New("no refresh token provided")
 	}
 	session, err := dc.auth_service.GetSession(refreshToken)
 	if err != nil {
-		return 401, errors.New("invalid refresh token")
+		return http.StatusUnauthorized, errors.New("invalid refresh token")
 	}
 	if session.ExpireToken < time.Now().UnixMilli() {
-		return 401, errors.New("refresh token expired")
+		return http.StatusUnauthorized, errors.New("refresh token expired")
 	}
 	// Generate a new access token
 	user, err := dc.user_service.GetUserById(session.UserId)
 	if user == nil || err != nil {
-		return 500, errors.New("failed to get user")
+		return http.StatusInternalServerError, errors.New("failed to get user")
 	}
 	tokenString, err := dc.signAccessToken(user)
 	if err != nil {
-		return 500, errors.New("failed to sign token")
+		return http.StatusInternalServerError, errors.New("failed to sign token")
 	}
 	// Update the session
 	session.RefreshToken = signRefreshToken()
 	session.ExpireToken = time.Now().Add(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli()
 	session.LastRefreshTimestamp = time.Now().UnixMilli()
 	if _, err = dc.auth_service.UpdateSession(&session); err != nil {
-		return 500, errors.New("failed to update session")
+		return http.StatusInternalServerError, errors.New("failed to update session")
 	}
 
 	c.SetCookie("Authorization", tokenString, dc.app.Config.Auth.AccessTokenExpiry, "/", "localhost", false, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, dc.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
 
-	return 200, "Session refreshed successfully."
+	return http.StatusOK, "Session refreshed successfully."
 
 }
 
