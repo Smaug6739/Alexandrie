@@ -135,7 +135,6 @@ func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) (int, any) {
 	c.SetCookie("RefreshToken", session.RefreshToken, dc.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
 
 	return http.StatusOK, "Session refreshed successfully."
-
 }
 
 func (dc *AuthControllerImpl) signAccessToken(user *models.User) (string, error) {
