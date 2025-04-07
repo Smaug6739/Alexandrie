@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS `city_locations_fr`;

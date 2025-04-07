@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS `documents` (
+  `id` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `tags` varchar(200) DEFAULT NULL,
+  `category` varchar(50) DEFAULT NULL,
+  `parent_id` varchar(50) DEFAULT NULL,
+  `accessibility` tinyint(1) NOT NULL,
+  `content_markdown` longtext,
+  `content_html` longtext,
+  `author_id` varchar(50) NOT NULL,
+  `created_timestamp` bigint NOT NULL,
+  `updated_timestamp` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `author_id` (`author_id`),
+  KEY `category` (`category`),
+  KEY `documents_ibfk_3` (`parent_id`),
+  CONSTRAINT `documents_ibfk_2` FOREIGN KEY (`category`) REFERENCES `categories` (`id`),
+  CONSTRAINT `documents_ibfk_3` FOREIGN KEY (`parent_id`) REFERENCES `documents` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `documents_users_id_fk` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`)
+)
