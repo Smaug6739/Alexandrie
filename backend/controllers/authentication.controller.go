@@ -90,6 +90,15 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
 	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
 	user.Password = ""
 
+	dc.log_service.CreateConnectionLog(&models.Log{
+		Id:        dc.app.Snowflake.Generate(),
+		UserId:    user.Id,
+		IpAddr:    c.ClientIP(),
+		Timestamp: time.Now().UnixMilli(),
+		Type:      "login",
+		Location:  dc.log_service.GetLocationFromIp(c.ClientIP()),
+	})
+
 	return http.StatusOK, user
 }
 
