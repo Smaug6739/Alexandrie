@@ -1,8 +1,8 @@
 package router
 
 import (
-	"Smaug6739/Alexandrie/app"
-	"Smaug6739/Alexandrie/router/routes"
+	"alexandrie/app"
+	"alexandrie/router/routes"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,8 +1,8 @@
 package app
 
 import (
-	"Smaug6739/Alexandrie/services"
-	"Smaug6739/Alexandrie/utils"
+	"alexandrie/services"
+	"alexandrie/utils"
 	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"

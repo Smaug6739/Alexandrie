@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"Smaug6739/Alexandrie/app"
-	"Smaug6739/Alexandrie/models"
-	"Smaug6739/Alexandrie/utils"
+	"alexandrie/app"
+	"alexandrie/models"
+	"alexandrie/utils"
 	"errors"
 	"net/http"
 	"time"

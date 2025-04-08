@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"Smaug6739/Alexandrie/app"
-	"Smaug6739/Alexandrie/controllers"
-	"Smaug6739/Alexandrie/utils"
+	"alexandrie/app"
+	"alexandrie/controllers"
+	"alexandrie/utils"
 
 	"github.com/gin-gonic/gin"
 )

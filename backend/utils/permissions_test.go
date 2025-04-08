@@ -1,7 +1,7 @@
 package utils_test
 
 import (
-	"Smaug6739/Alexandrie/utils"
+	"alexandrie/utils"
 	"testing"
 )
 

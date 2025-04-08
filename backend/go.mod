@@ -1,4 +1,4 @@
-module Smaug6739/Alexandrie
+module alexandrie
 
 go 1.23.1
 

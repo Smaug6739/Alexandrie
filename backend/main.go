@@ -1,6 +1,6 @@
 package main
 
-import "Smaug6739/Alexandrie/server"
+import "alexandrie/server"
 
 func main() {
 	server, application := server.SetupServer()

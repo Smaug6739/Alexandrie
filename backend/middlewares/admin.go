@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"Smaug6739/Alexandrie/utils"
+	"alexandrie/utils"
 
 	"github.com/gin-gonic/gin"
 )

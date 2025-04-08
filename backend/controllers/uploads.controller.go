@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"Smaug6739/Alexandrie/app"
+	"alexandrie/app"
 	"errors"
 	"fmt"
 	"net/http"

@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"Smaug6739/Alexandrie/app"
-	"Smaug6739/Alexandrie/models"
+	"alexandrie/app"
+	"alexandrie/models"
 	"crypto/rand"
 	"errors"
 	"fmt"

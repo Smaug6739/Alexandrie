@@ -1,4 +1,4 @@
-module github.com/Smaug6739/Alexandrie
+module github.com/alexandrie
 
 go 1.22
 

@@ -1,8 +1,8 @@
 package server
 
 import (
-	"Smaug6739/Alexandrie/app"
-	"Smaug6739/Alexandrie/router"
+	"alexandrie/app"
+	"alexandrie/router"
 	"fmt"
 	"os"
 

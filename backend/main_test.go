@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Smaug6739/Alexandrie/server"
+	"alexandrie/server"
 	"bytes"
 	"encoding/json"
 	"fmt"
