@@ -8,7 +8,6 @@ import (
 	"math/big"
 	"net"
 	"strings"
-	"time"
 )
 
 type LogService interface {
@@ -87,11 +86,7 @@ func (s *Service) getLocationIdFromIp(ip string) (int64, error) {
 		return 0, err
 	}
 	var locationId int64
-	// Performance test:
-	t := time.Now()
 	err = s.db.QueryRow(fmt.Sprintf("SELECT geoname_id FROM %s WHERE ? BETWEEN network_start_integer AND network_last_integer LIMIT 1", db), ipInt).Scan(&locationId)
-	t2 := time.Now()
-	fmt.Println("Time taken to get location ID:", t2.Sub(t))
 	if err != nil {
 		return 0, err
 	}
