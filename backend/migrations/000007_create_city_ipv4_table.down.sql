@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS `city_ipv4_complete`;
