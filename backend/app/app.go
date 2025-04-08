@@ -30,9 +30,9 @@ type Config struct {
 }
 
 type Services struct {
-	UserService    services.UserService
-	SessionService services.AuthService
-	LogService     services.LogService
+	User    services.UserService
+	Session services.AuthService
+	Log     services.LogService
 }
 
 type App struct {
@@ -50,9 +50,9 @@ func InitApp(config Config) *App {
 	app.Snowflake = utils.NewSnowflake(1609459200000)
 	app.Config = config
 	app.Services = Services{
-		UserService:    services.NewUserService(app.DB),
-		SessionService: services.NewAuthService(app.DB),
-		LogService:     services.NewLogService(app.DB),
+		User:    services.NewUserService(app.DB),
+		Session: services.NewAuthService(app.DB),
+		Log:     services.NewLogService(app.DB),
 	}
 
 	Migrate(&config)

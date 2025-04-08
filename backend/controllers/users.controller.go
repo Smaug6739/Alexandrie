@@ -36,7 +36,7 @@ func NewUserController(app *app.App) UserController {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetUsers(c *gin.Context) (int, any) {
-	users, err := ctr.app.Services.UserService.GetAllUsers()
+	users, err := ctr.app.Services.User.GetAllUsers()
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -57,7 +57,7 @@ func (ctr *Controller) GetUserById(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	user, err := ctr.app.Services.UserService.GetUserById(id)
+	user, err := ctr.app.Services.User.GetUserById(id)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -101,12 +101,12 @@ func (ctr *Controller) CreateUser(c *gin.Context) (int, any) {
 	}
 	// Specific validation for username and password
 
-	exists := ctr.app.Services.UserService.CheckUsernameExists(user.Username)
+	exists := ctr.app.Services.User.CheckUsernameExists(user.Username)
 	if exists {
 		return http.StatusBadRequest, errors.New("username already exists")
 	}
 
-	createdUser, err := ctr.app.Services.UserService.CreateUser(&user)
+	createdUser, err := ctr.app.Services.User.CreateUser(&user)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -134,7 +134,7 @@ func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	dbUser, err := ctr.app.Services.UserService.GetUserById(id)
+	dbUser, err := ctr.app.Services.User.GetUserById(id)
 	if err != nil || dbUser == nil {
 		return http.StatusInternalServerError, err
 	}
@@ -151,7 +151,7 @@ func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
 
-	updatedUser, err := ctr.app.Services.UserService.UpdateUser(id, &user)
+	updatedUser, err := ctr.app.Services.User.UpdateUser(id, &user)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -187,7 +187,7 @@ func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, errors.New("failed to hash password")
 	}
-	err = ctr.app.Services.UserService.UpdatePassword(id, string(hash))
+	err = ctr.app.Services.User.UpdatePassword(id, string(hash))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -209,7 +209,7 @@ func (ctr *Controller) DeleteUser(c *gin.Context) (int, any) {
 		return http.StatusUnauthorized, err
 	}
 
-	err = ctr.app.Services.UserService.DeleteUser(id)
+	err = ctr.app.Services.User.DeleteUser(id)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}

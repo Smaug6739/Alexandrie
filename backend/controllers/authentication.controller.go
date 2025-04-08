@@ -44,12 +44,12 @@ type AuthClaims struct {
 	Password string `form:"password" binding:"required"`
 }
 
-func (dc *Controller) Login(c *gin.Context) (int, any) {
+func (ctr *Controller) Login(c *gin.Context) (int, any) {
 	var authClaims AuthClaims
 	if err := c.ShouldBind(&authClaims); err != nil {
 		return http.StatusBadRequest, err
 	}
-	user, err := dc.app.Services.UserService.GetUserByUsername(authClaims.Username)
+	user, err := ctr.app.Services.User.GetUserByUsername(authClaims.Username)
 	if user == nil || err != nil {
 		return http.StatusUnauthorized, errors.New("invalid credentials")
 	}
@@ -57,39 +57,39 @@ func (dc *Controller) Login(c *gin.Context) (int, any) {
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(authClaims.Password)); err != nil {
 		return http.StatusUnauthorized, errors.New("invalid credentials")
 	}
-	tokenString, err := dc.signAccessToken(user)
+	tokenString, err := ctr.signAccessToken(user)
 	if err != nil {
 		return http.StatusInternalServerError, errors.New("failed to sign token")
 	}
 
 	// Create a new session
 	session := models.Session{
-		Id:                   dc.app.Snowflake.Generate(),
+		Id:                   ctr.app.Snowflake.Generate(),
 		UserId:               user.Id,
 		RefreshToken:         signRefreshToken(),
-		ExpireToken:          time.Now().Add(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli(),
+		ExpireToken:          time.Now().Add(time.Duration(ctr.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli(),
 		LastRefreshTimestamp: time.Now().UnixMilli(),
 		Active:               1,
 		LoginTimestamp:       time.Now().UnixMilli(),
 		LogoutTimestamp:      0,
 	}
 
-	if _, err := dc.app.Services.SessionService.CreateSession(&session); err != nil {
+	if _, err := ctr.app.Services.Session.CreateSession(&session); err != nil {
 		return http.StatusInternalServerError, errors.New("failed to create session")
 	}
 
 	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true)
-	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(ctr.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
 	user.Password = ""
 
 	go func() {
-		dc.app.Services.LogService.CreateConnectionLog(&models.Log{
-			Id:        dc.app.Snowflake.Generate(),
+		ctr.app.Services.Log.CreateConnectionLog(&models.Log{
+			Id:        ctr.app.Snowflake.Generate(),
 			UserId:    user.Id,
 			IpAddr:    c.ClientIP(),
 			Timestamp: time.Now().UnixMilli(),
 			Type:      "login",
-			Location:  dc.app.Services.LogService.GetLocationFromIp(c.ClientIP()),
+			Location:  ctr.app.Services.Log.GetLocationFromIp(c.ClientIP()),
 			UserAgent: c.Request.UserAgent(),
 		})
 	}()
@@ -104,13 +104,13 @@ func (dc *Controller) Login(c *gin.Context) (int, any) {
 // @Success 200 {object} Success([]models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (dc *Controller) RefreshSession(c *gin.Context) (int, any) {
+func (ctr *Controller) RefreshSession(c *gin.Context) (int, any) {
 	// Get the refresh token from the cookie
 	refreshToken, err := c.Cookie("RefreshToken")
 	if err != nil {
 		return http.StatusUnauthorized, errors.New("no refresh token provided")
 	}
-	session, err := dc.app.Services.SessionService.GetSession(refreshToken)
+	session, err := ctr.app.Services.Session.GetSession(refreshToken)
 	if err != nil {
 		return http.StatusUnauthorized, errors.New("invalid refresh token")
 	}
@@ -118,34 +118,34 @@ func (dc *Controller) RefreshSession(c *gin.Context) (int, any) {
 		return http.StatusUnauthorized, errors.New("refresh token expired")
 	}
 	// Generate a new access token
-	user, err := dc.app.Services.UserService.GetUserById(session.UserId)
+	user, err := ctr.app.Services.User.GetUserById(session.UserId)
 	if user == nil || err != nil {
 		return http.StatusInternalServerError, errors.New("failed to get user")
 	}
-	tokenString, err := dc.signAccessToken(user)
+	tokenString, err := ctr.signAccessToken(user)
 	if err != nil {
 		return http.StatusInternalServerError, errors.New("failed to sign token")
 	}
 	// Update the session
 	session.RefreshToken = signRefreshToken()
-	session.ExpireToken = time.Now().Add(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli()
+	session.ExpireToken = time.Now().Add(time.Duration(ctr.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli()
 	session.LastRefreshTimestamp = time.Now().UnixMilli()
-	if _, err = dc.app.Services.SessionService.UpdateSession(&session); err != nil {
+	if _, err = ctr.app.Services.Session.UpdateSession(&session); err != nil {
 		return http.StatusInternalServerError, errors.New("failed to update session")
 	}
 
-	c.SetCookie("Authorization", tokenString, dc.app.Config.Auth.AccessTokenExpiry, "/", "localhost", false, true)
-	c.SetCookie("RefreshToken", session.RefreshToken, dc.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
+	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", "localhost", false, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
 
 	return http.StatusOK, "Session refreshed successfully."
 }
 
-func (dc *Controller) signAccessToken(user *models.User) (string, error) {
+func (ctr *Controller) signAccessToken(user *models.User) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":  strconv.FormatInt(user.Id, 10),                                                                           // Subject (user identifier)
-		"iss":  "alexandrie",                                                                                             // Issuer
-		"exp":  time.Now().Add(time.Duration(time.Second * time.Duration(dc.app.Config.Auth.RefreshTokenExpiry))).Unix(), // Expiration time
-		"iat":  time.Now().Unix(),                                                                                        // Issued at
+		"sub":  strconv.FormatInt(user.Id, 10),                                                                            // Subject (user identifier)
+		"iss":  "alexandrie",                                                                                              // Issuer
+		"exp":  time.Now().Add(time.Duration(time.Second * time.Duration(ctr.app.Config.Auth.RefreshTokenExpiry))).Unix(), // Expiration time
+		"iat":  time.Now().Unix(),                                                                                         // Issued at
 		"role": strconv.Itoa(user.Role),
 	})
 	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
@@ -163,13 +163,13 @@ func signRefreshToken() string {
 }
 
 func deleteOldSessionsAndLogs(app *app.App) {
-	err := app.Services.LogService.DeleteOldLogs()
+	err := app.Services.Log.DeleteOldLogs()
 	if err != nil {
 		fmt.Println("❌ Error deleting old logs:", err)
 	} else {
 		fmt.Println("✅ Old logs deleted successfully.")
 	}
-	err = app.Services.SessionService.DeleteOldSessions()
+	err = app.Services.Session.DeleteOldSessions()
 	if err != nil {
 		fmt.Println("❌ Error deleting old sessions:", err)
 	} else {
