@@ -1,0 +1,3 @@
+drop index city_ipv4_complete_start_last_idx on city_ipv4_complete;
+
+drop index city_ipv4_complete_start_last_idx_v6 on city_ipv6_complete;
