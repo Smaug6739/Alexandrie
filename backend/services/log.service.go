@@ -82,14 +82,14 @@ func (s *Service) GetLocationFromIp(ip string) string {
 }
 
 func (s *Service) getLocationIdFromIp(ip string) (int64, error) {
-	ipInt, err := ipToDecimal(ip)
+	ipInt, db, err := ipToDecimal(ip)
 	if err != nil {
 		return 0, err
 	}
 	var locationId int64
 	// Performance test:
 	t := time.Now()
-	err = s.db.QueryRow("SELECT geoname_id FROM City_IPv4_complete WHERE ? BETWEEN network_start_integer AND network_last_integer LIMIT 1", ipInt).Scan(&locationId)
+	err = s.db.QueryRow(fmt.Sprintf("SELECT geoname_id FROM %s WHERE ? BETWEEN network_start_integer AND network_last_integer LIMIT 1", db), ipInt).Scan(&locationId)
 	t2 := time.Now()
 	fmt.Println("Time taken to get location ID:", t2.Sub(t))
 	if err != nil {
@@ -98,17 +98,17 @@ func (s *Service) getLocationIdFromIp(ip string) (int64, error) {
 	return locationId, nil
 }
 
-func ipToDecimal(ipStr string) (string, error) {
+func ipToDecimal(ipStr string) (string, string, error) {
 	ip := net.ParseIP(ipStr)
 	if ip == nil {
-		return "", errors.New("invalid IP adress")
+		return "", "", errors.New("invalid IP adress")
 	}
 	if ip4 := ip.To4(); ip4 != nil {
-		return big.NewInt(0).SetBytes(ip4).String(), nil
+		return big.NewInt(0).SetBytes(ip4).String(), "city_ipv4_complete", nil
 	}
 	ip = ip.To16()
 	if ip == nil {
-		return "", errors.New("invalid or unsupported IP address")
+		return "", "", errors.New("invalid or unsupported IP address")
 	}
-	return big.NewInt(0).SetBytes(ip).String(), nil
+	return big.NewInt(0).SetBytes(ip).String(), "city_ipv6_complete", nil
 }
