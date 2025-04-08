@@ -8,6 +8,7 @@ import (
 	"math/big"
 	"net"
 	"strings"
+	"time"
 )
 
 type LogService interface {
@@ -15,6 +16,7 @@ type LogService interface {
 	GetLastConnection(userId int64) (*models.Log, error)
 	GetLocationFromIp(ip string) string
 	CreateConnectionLog(log *models.Log) (*models.Log, error)
+	DeleteOldLogs() error
 
 	getLocationIdFromIp(ip string) (int64, error)
 }
@@ -59,6 +61,15 @@ func (s *Service) CreateConnectionLog(log *models.Log) (*models.Log, error) {
 		return nil, err
 	}
 	return log, nil
+}
+
+func (s *Service) DeleteOldLogs() error {
+	// Delete logs older than 50 days
+	_, err := s.db.Exec("DELETE FROM connections_logs WHERE timestamp < ?", time.Now().Add(-50*24*time.Hour).UnixMilli())
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *Service) GetLocationFromIp(ip string) string {

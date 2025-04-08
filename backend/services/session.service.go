@@ -3,12 +3,14 @@ package services
 import (
 	"Smaug6739/Alexandrie/models"
 	"database/sql"
+	"time"
 )
 
 type AuthService interface {
 	CreateSession(session *models.Session) (*models.Session, error)
 	GetSession(refreshToken string) (models.Session, error)
 	UpdateSession(session *models.Session) (*models.Session, error)
+	DeleteOldSessions() error
 }
 
 func NewAuthService(db *sql.DB) AuthService {
@@ -39,4 +41,12 @@ func (s *Service) UpdateSession(session *models.Session) (*models.Session, error
 		return nil, err
 	}
 	return session, nil
+}
+
+func (s *Service) DeleteOldSessions() error {
+	_, err := s.db.Exec("DELETE FROM sessions WHERE expire_token < ? OR active = 0", time.Now().UnixMilli())
+	if err != nil {
+		return err
+	}
+	return nil
 }

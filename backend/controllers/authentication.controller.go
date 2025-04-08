@@ -3,7 +3,6 @@ package controllers
 import (
 	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/models"
-	"Smaug6739/Alexandrie/services"
 	"crypto/rand"
 	"errors"
 	"fmt"
@@ -21,22 +20,19 @@ type AuthController interface {
 	Login(c *gin.Context) (int, any)
 	RefreshSession(c *gin.Context) (int, any)
 }
+
 type AuthControllerImpl struct {
-	Controller
-	auth_service services.AuthService
-	user_service services.UserService
-	log_service  services.LogService
+	app *app.App
 }
 
 func NewAuthController(app *app.App) AuthController {
-	return &AuthControllerImpl{
-		auth_service: services.NewAuthService(app.DB),
-		user_service: services.NewUserService(app.DB),
-		log_service:  services.NewLogService(app.DB),
-		Controller: Controller{
-			app: app,
-		},
-	}
+	go func() {
+		for {
+			deleteOldSessionsAndLogs(app)
+			time.Sleep(1 * time.Hour) // Sleep for 1 hour
+		}
+	}()
+	return &AuthControllerImpl{app: app}
 }
 
 // Login
@@ -57,7 +53,7 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
 	if err := c.ShouldBind(&authClaims); err != nil {
 		return http.StatusBadRequest, err
 	}
-	user, err := dc.user_service.GetUserByUsername(authClaims.Username)
+	user, err := dc.app.Services.UserService.GetUserByUsername(authClaims.Username)
 	if user == nil || err != nil {
 		return http.StatusUnauthorized, errors.New("invalid credentials")
 	}
@@ -82,7 +78,7 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
 		LogoutTimestamp:      0,
 	}
 
-	if _, err := dc.auth_service.CreateSession(&session); err != nil {
+	if _, err := dc.app.Services.SessionService.CreateSession(&session); err != nil {
 		return http.StatusInternalServerError, errors.New("failed to create session")
 	}
 
@@ -91,13 +87,13 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
 	user.Password = ""
 
 	go func() {
-		dc.log_service.CreateConnectionLog(&models.Log{
+		dc.app.Services.LogService.CreateConnectionLog(&models.Log{
 			Id:        dc.app.Snowflake.Generate(),
 			UserId:    user.Id,
 			IpAddr:    c.ClientIP(),
 			Timestamp: time.Now().UnixMilli(),
 			Type:      "login",
-			Location:  dc.log_service.GetLocationFromIp(c.ClientIP()),
+			Location:  dc.app.Services.LogService.GetLocationFromIp(c.ClientIP()),
 			UserAgent: c.Request.UserAgent(),
 		})
 	}()
@@ -118,7 +114,7 @@ func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusUnauthorized, errors.New("no refresh token provided")
 	}
-	session, err := dc.auth_service.GetSession(refreshToken)
+	session, err := dc.app.Services.SessionService.GetSession(refreshToken)
 	if err != nil {
 		return http.StatusUnauthorized, errors.New("invalid refresh token")
 	}
@@ -126,7 +122,7 @@ func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) (int, any) {
 		return http.StatusUnauthorized, errors.New("refresh token expired")
 	}
 	// Generate a new access token
-	user, err := dc.user_service.GetUserById(session.UserId)
+	user, err := dc.app.Services.UserService.GetUserById(session.UserId)
 	if user == nil || err != nil {
 		return http.StatusInternalServerError, errors.New("failed to get user")
 	}
@@ -138,7 +134,7 @@ func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) (int, any) {
 	session.RefreshToken = signRefreshToken()
 	session.ExpireToken = time.Now().Add(time.Duration(dc.app.Config.Auth.RefreshTokenExpiry * int(time.Second))).UnixMilli()
 	session.LastRefreshTimestamp = time.Now().UnixMilli()
-	if _, err = dc.auth_service.UpdateSession(&session); err != nil {
+	if _, err = dc.app.Services.SessionService.UpdateSession(&session); err != nil {
 		return http.StatusInternalServerError, errors.New("failed to update session")
 	}
 
@@ -168,4 +164,19 @@ func signRefreshToken() string {
 	randBytes := make([]byte, 45)
 	rand.Read(randBytes)
 	return fmt.Sprintf("%x", randBytes)
+}
+
+func deleteOldSessionsAndLogs(app *app.App) {
+	err := app.Services.LogService.DeleteOldLogs()
+	if err != nil {
+		fmt.Println("❌ Error deleting old logs:", err)
+	} else {
+		fmt.Println("✅ Old logs deleted successfully.")
+	}
+	err = app.Services.SessionService.DeleteOldSessions()
+	if err != nil {
+		fmt.Println("❌ Error deleting old sessions:", err)
+	} else {
+		fmt.Println("✅ Old sessions deleted successfully.")
+	}
 }
