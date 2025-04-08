@@ -37,11 +37,11 @@ type App struct {
 
 func InitApp(config Config) *App {
 	var app App
-	app.DB = DBConection(config)
+	app.DB = DBConection(config, false)
 	app.MinioClient, _ = MinioConnection()
 	app.Snowflake = utils.NewSnowflake(1609459200000)
 	app.Config = config
 
-	Migrate(app.DB)
+	Migrate(&config)
 	return &app
 }
