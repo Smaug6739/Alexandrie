@@ -3,7 +3,6 @@ package controllers
 import (
 	"Smaug6739/Alexandrie/app"
 	"Smaug6739/Alexandrie/models"
-	"Smaug6739/Alexandrie/services"
 	"Smaug6739/Alexandrie/utils"
 	"errors"
 	"net/http"
@@ -21,17 +20,10 @@ type UserController interface {
 	UpdatePassword(c *gin.Context) (int, any)
 	DeleteUser(c *gin.Context) (int, any)
 }
-type UserControllerImpl struct {
-	Controller
-	user_service services.UserService
-}
 
 func NewUserController(app *app.App) UserController {
-	return &UserControllerImpl{
-		user_service: services.NewUserService(app.DB),
-		Controller: Controller{
-			app: app,
-		},
+	return &Controller{
+		app: app,
 	}
 }
 
@@ -43,8 +35,8 @@ func NewUserController(app *app.App) UserController {
 // @Success 200 {object} Success([]models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *UserControllerImpl) GetUsers(c *gin.Context) (int, any) {
-	users, err := ctr.user_service.GetAllUsers()
+func (ctr *Controller) GetUsers(c *gin.Context) (int, any) {
+	users, err := ctr.app.Services.UserService.GetAllUsers()
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -60,12 +52,12 @@ func (ctr *UserControllerImpl) GetUsers(c *gin.Context) (int, any) {
 // @Success 200 {object} Success(models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *UserControllerImpl) GetUserById(c *gin.Context) (int, any) {
+func (ctr *Controller) GetUserById(c *gin.Context) (int, any) {
 	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	user, err := ctr.user_service.GetUserById(id)
+	user, err := ctr.app.Services.UserService.GetUserById(id)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -83,7 +75,7 @@ func (ctr *UserControllerImpl) GetUserById(c *gin.Context) (int, any) {
 // @Body Username*, Firstname, Lastname, Avatar, Role, Email*, Password*
 // @Success 201 {object} Success(models.User)
 // @Failure 400 {object} Error
-func (ctr *UserControllerImpl) CreateUser(c *gin.Context) (int, any) {
+func (ctr *Controller) CreateUser(c *gin.Context) (int, any) {
 	var user models.User
 	if err := c.ShouldBind(&user); err != nil {
 		return http.StatusBadRequest, err
@@ -109,12 +101,12 @@ func (ctr *UserControllerImpl) CreateUser(c *gin.Context) (int, any) {
 	}
 	// Specific validation for username and password
 
-	exists := ctr.user_service.CheckUsernameExists(user.Username)
+	exists := ctr.app.Services.UserService.CheckUsernameExists(user.Username)
 	if exists {
 		return http.StatusBadRequest, errors.New("username already exists")
 	}
 
-	createdUser, err := ctr.user_service.CreateUser(&user)
+	createdUser, err := ctr.app.Services.UserService.CreateUser(&user)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -132,7 +124,7 @@ func (ctr *UserControllerImpl) CreateUser(c *gin.Context) (int, any) {
 // @Success 200 {object} Success(models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
+func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
 		return http.StatusUnauthorized, err
@@ -142,7 +134,7 @@ func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	dbUser, err := ctr.user_service.GetUserById(id)
+	dbUser, err := ctr.app.Services.UserService.GetUserById(id)
 	if err != nil || dbUser == nil {
 		return http.StatusInternalServerError, err
 	}
@@ -159,7 +151,7 @@ func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
 
-	updatedUser, err := ctr.user_service.UpdateUser(id, &user)
+	updatedUser, err := ctr.app.Services.UserService.UpdateUser(id, &user)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -176,7 +168,7 @@ func (ctr *UserControllerImpl) UpdateUser(c *gin.Context) (int, any) {
 // @Success 200 {object} Success(string)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
+func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
 	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
 		return http.StatusUnauthorized, err
@@ -195,7 +187,7 @@ func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, errors.New("failed to hash password")
 	}
-	err = ctr.user_service.UpdatePassword(id, string(hash))
+	err = ctr.app.Services.UserService.UpdatePassword(id, string(hash))
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -211,13 +203,13 @@ func (ctr *UserControllerImpl) UpdatePassword(c *gin.Context) (int, any) {
 // @Success 200 {object} Success(string)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (ctr *UserControllerImpl) DeleteUser(c *gin.Context) (int, any) {
+func (ctr *Controller) DeleteUser(c *gin.Context) (int, any) {
 	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
 
-	err = ctr.user_service.DeleteUser(id)
+	err = ctr.app.Services.UserService.DeleteUser(id)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}

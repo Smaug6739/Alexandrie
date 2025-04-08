@@ -21,10 +21,6 @@ type AuthController interface {
 	RefreshSession(c *gin.Context) (int, any)
 }
 
-type AuthControllerImpl struct {
-	app *app.App
-}
-
 func NewAuthController(app *app.App) AuthController {
 	go func() {
 		for {
@@ -32,7 +28,7 @@ func NewAuthController(app *app.App) AuthController {
 			time.Sleep(1 * time.Hour) // Sleep for 1 hour
 		}
 	}()
-	return &AuthControllerImpl{app: app}
+	return &Controller{app: app}
 }
 
 // Login
@@ -48,7 +44,7 @@ type AuthClaims struct {
 	Password string `form:"password" binding:"required"`
 }
 
-func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
+func (dc *Controller) Login(c *gin.Context) (int, any) {
 	var authClaims AuthClaims
 	if err := c.ShouldBind(&authClaims); err != nil {
 		return http.StatusBadRequest, err
@@ -108,7 +104,7 @@ func (dc *AuthControllerImpl) Login(c *gin.Context) (int, any) {
 // @Success 200 {object} Success([]models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
-func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) (int, any) {
+func (dc *Controller) RefreshSession(c *gin.Context) (int, any) {
 	// Get the refresh token from the cookie
 	refreshToken, err := c.Cookie("RefreshToken")
 	if err != nil {
@@ -144,7 +140,7 @@ func (dc *AuthControllerImpl) RefreshSession(c *gin.Context) (int, any) {
 	return http.StatusOK, "Session refreshed successfully."
 }
 
-func (dc *AuthControllerImpl) signAccessToken(user *models.User) (string, error) {
+func (dc *Controller) signAccessToken(user *models.User) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":  strconv.FormatInt(user.Id, 10),                                                                           // Subject (user identifier)
 		"iss":  "alexandrie",                                                                                             // Issuer

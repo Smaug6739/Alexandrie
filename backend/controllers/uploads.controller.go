@@ -16,15 +16,10 @@ type UploadController interface {
 	UploadAvatar(c *gin.Context) (int, any)
 	UploadFile(c *gin.Context) (int, any)
 }
-type UploadControllerImpl struct {
-	Controller
-}
 
 func NewUploadController(app *app.App) UploadController {
-	return &UploadControllerImpl{
-		Controller: Controller{
-			app: app,
-		},
+	return &Controller{
+		app: app,
 	}
 }
 
