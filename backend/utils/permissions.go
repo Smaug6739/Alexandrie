@@ -46,12 +46,16 @@ func GetUserIdCtx(ctx *gin.Context) (int64, error) {
 	return id, nil
 }
 
-func SelfOrPermission(ctx *gin.Context, allowed int) (int64, error) {
+func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (int64, error) {
 	// Check if the c.Param("id") is "@me" or c.Param("id") is the same as the user ID in the context
 	// If not, check if the user has the required permission
 	// If one of the above is true, return the user ID from the context
 	// Otherwise, return an error
-	id_param, err := GetUserIdParam(ctx.Param("id"), ctx)
+	search_key := "id"
+	if len(key) > 0 {
+		search_key = key[0]
+	}
+	id_param, err := GetUserIdParam(ctx.Param(search_key), ctx)
 	if err != nil {
 		return 0, err
 	}
