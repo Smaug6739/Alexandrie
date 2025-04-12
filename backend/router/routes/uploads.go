@@ -14,7 +14,8 @@ func Uploads(app *app.App, router *gin.RouterGroup) {
 	uploadsCtrl := controllers.NewUploadController(app)
 
 	uploads.Use(middlewares.Auth())
+
 	uploads.GET(("/:userId"), utils.WP(uploadsCtrl.GetAllUploads))
-	uploads.POST("/avatar", utils.WP(uploadsCtrl.UploadAvatar))
 	uploads.POST("/", utils.WP(uploadsCtrl.UploadFile))
+	uploads.DELETE("/:id", utils.WP(uploadsCtrl.DeleteUpload))
 }

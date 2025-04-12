@@ -20,6 +20,18 @@ func CheckPermission(userRole, requiredRole int) bool {
 	return userRole&requiredRole == requiredRole
 }
 
+func CheckUserRequestPermission(ctx *gin.Context, requiredRole int) bool {
+	// Check if the user has the required permission
+	role, exists := ctx.Get("user_role")
+	if !exists {
+		return false
+	}
+	if CheckPermission(role.(int), requiredRole) {
+		return true
+	}
+	return false
+}
+
 func GetUserIdParam(param string, ctx *gin.Context) (int64, error) {
 	if param == "" {
 		return 0, errors.New("user ID parameter is empty")
