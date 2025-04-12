@@ -15,7 +15,7 @@ func NewCategoryService(db *sql.DB) CategoryService {
 
 func (s *Service) GetAllCategories(userId int64) ([]*models.Category, error) {
 	var categories []*models.Category
-	rows, err := s.db.Query("SELECT * FROM categories WHERE author_id = ? ORDER BY order", userId)
+	rows, err := s.db.Query("SELECT * FROM categories WHERE author_id = ? ORDER BY `order`", userId)
 	if err != nil {
 		return nil, err
 	}
