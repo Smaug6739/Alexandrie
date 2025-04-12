@@ -34,6 +34,7 @@ type Services struct {
 	Session   services.AuthService
 	Log       services.LogService
 	Document  services.DocumentService
+	Category  services.CategoryService
 	Ressource services.RessourceService
 }
 
@@ -56,6 +57,7 @@ func InitApp(config Config) *App {
 		Session:   services.NewAuthService(app.DB),
 		Log:       services.NewLogService(app.DB),
 		Document:  services.NewDocumentService(app.DB),
+		Category:  services.NewCategoryService(app.DB),
 		Ressource: services.NewRessourceService(app.DB),
 	}
 
