@@ -18,12 +18,12 @@ func NewCategoriesController(app *app.App) CategoriesController {
 	}
 }
 
-// Get documents
-// @Summary Get all documents
+// Get categories
+// @Summary Get all categories
 // @Method GET
-// @Router /documents [get]
+// @Router /categories [get]
 // @Security Authenfification: Auth
-// @Success 200 {object} Success([]models.Document)
+// @Success 200 {object} Success([]models.Category)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetCategories(c *gin.Context) (int, any) {
@@ -31,9 +31,9 @@ func (ctr *Controller) GetCategories(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	documents, err := ctr.app.Services.Document.GetAllDocuments(id)
+	categories, err := ctr.app.Services.Category.GetAllCategories(id)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	return http.StatusOK, documents
+	return http.StatusOK, categories
 }
