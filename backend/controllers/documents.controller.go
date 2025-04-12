@@ -18,12 +18,12 @@ func NewDocumentController(app *app.App) DocumentController {
 	}
 }
 
-// Get Users
-// @Summary Get all users
+// Get documents
+// @Summary Get all documents
 // @Method GET
-// @Router /users [get]
-// @Security Authenfification: Auth, Admin
-// @Success 200 {object} Success([]models.User)
+// @Router /documents [get]
+// @Security Authenfification: Auth
+// @Success 200 {object} Success([]models.Document)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetDocuments(c *gin.Context) (int, any) {
