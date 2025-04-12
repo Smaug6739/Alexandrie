@@ -19,6 +19,7 @@ import (
 type AuthController interface {
 	Login(c *gin.Context) (int, any)
 	RefreshSession(c *gin.Context) (int, any)
+	Logout(c *gin.Context) (int, any)
 }
 
 func NewAuthController(app *app.App) AuthController {
@@ -78,7 +79,7 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, errors.New("failed to create session")
 	}
 
-	c.SetCookie("Authorization", tokenString, 1800, "/", "localhost", false, true)
+	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(ctr.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
 	user.Password = ""
 
@@ -138,6 +139,34 @@ func (ctr *Controller) RefreshSession(c *gin.Context) (int, any) {
 	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
 
 	return http.StatusOK, "Session refreshed successfully."
+}
+
+// Logout
+// @Summary Logout
+// @Method POST
+// @Router /auth/logout [post]
+// @Security Session validation
+// @Success 200 {object} Success(string)
+// @Failure 400 {object} Error
+func (ctr *Controller) Logout(c *gin.Context) (int, any) {
+	// Get the refresh token from the cookie
+	refreshToken, err := c.Cookie("RefreshToken")
+	if err != nil {
+		return http.StatusUnauthorized, errors.New("no refresh token provided")
+	}
+	session, err := ctr.app.Services.Session.GetSession(refreshToken)
+	if err != nil {
+		return http.StatusUnauthorized, errors.New("invalid refresh token")
+	}
+	if session.ExpireToken < time.Now().UnixMilli() {
+		return http.StatusUnauthorized, errors.New("refresh token expired")
+	}
+	if err = ctr.app.Services.Session.DeleteSession(session.Id); err != nil {
+		return http.StatusInternalServerError, errors.New("failed to delete session")
+	}
+	c.SetCookie("Authorization", "", -1, "/", "localhost", false, true)
+	c.SetCookie("RefreshToken", "", -1, "/", "localhost", false, true)
+	return http.StatusOK, "Logged out successfully."
 }
 
 func (ctr *Controller) signAccessToken(user *models.User) (string, error) {

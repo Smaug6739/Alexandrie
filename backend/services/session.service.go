@@ -10,6 +10,7 @@ type AuthService interface {
 	CreateSession(session *models.Session) (*models.Session, error)
 	GetSession(refreshToken string) (models.Session, error)
 	UpdateSession(session *models.Session) (*models.Session, error)
+	DeleteSession(id int64) error
 	DeleteOldSessions() error
 }
 
@@ -41,6 +42,14 @@ func (s *Service) UpdateSession(session *models.Session) (*models.Session, error
 		return nil, err
 	}
 	return session, nil
+}
+
+func (s *Service) DeleteSession(id int64) error {
+	_, err := s.db.Exec("DELETE FROM sessions WHERE id = ?", id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *Service) DeleteOldSessions() error {
