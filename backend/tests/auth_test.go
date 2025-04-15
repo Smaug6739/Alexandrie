@@ -3,6 +3,7 @@ package tests
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,6 +24,7 @@ func TestLogin(t *testing.T) {
 		if !ok {
 			t.Fatalf("The 'result' field is not of type JSON (map[string]any)")
 		}
+		// Check user data
 		assert.Contains(t, data, "id")
 		assert.IsType(t, float64(0), data["id"]) // JSON numbers → float64
 		assert.Contains(t, data, "username")
@@ -40,6 +42,16 @@ func TestLogin(t *testing.T) {
 		assert.IsType(t, float64(0), data["created_timestamp"])
 		assert.Contains(t, data, "updated_timestamp")
 		assert.IsType(t, float64(0), data["updated_timestamp"])
+		// Check if token is present in cookies
+		url, err := url.Parse(BaseURL)
+		if err != nil {
+			t.Fatalf("Failed to parse base URL: %v", err)
+		}
+		cookies := client.Jar.Cookies(url)
+		assert.Len(t, cookies, 2)
+		assert.Equal(t, "Authorization", cookies[0].Name)
+		assert.Equal(t, "RefreshToken", cookies[1].Name)
+
 	})
 	t.Run("Incorrect credentials", func(t *testing.T) {
 		client := InitClient(t)
