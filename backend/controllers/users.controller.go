@@ -81,7 +81,7 @@ func (ctr *Controller) CreateUser(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 	if len(user.Password) == 0 {
-		return http.StatusBadRequest, errors.New("password must be provided")
+		return http.StatusBadRequest, errors.New("password is required")
 	}
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -180,7 +180,7 @@ func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, errors.New("invalid request payload")
 	}
 	if payload.Password == "" {
-		return http.StatusBadRequest, errors.New("password must be provided")
+		return http.StatusBadRequest, errors.New("password is required")
 	}
 	// Hash the new password
 	hash, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
