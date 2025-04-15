@@ -10,6 +10,10 @@ import (
 )
 
 const BaseURL = "http://localhost:8080/api"
+const ADMIN_USERNAME = "Smaug"
+const ADMIN_PASSWORD = "10082005"
+const USER_USERNAME = "Baltazar"
+const USER_PASSWORD = "10082005"
 
 type APIResponse struct {
 	Status     string `json:"status"`
@@ -52,12 +56,29 @@ func DoPost(t *testing.T, client *http.Client, path string, body any) APIRespons
 	return val
 }
 
-func DoGet(t *testing.T, client *http.Client, path string) *http.Response {
+func DoGet(t *testing.T, client *http.Client, path string) APIResponse {
 	resp, err := client.Get(BaseURL + path)
 	if err != nil {
 		t.Fatalf("GET %s failed: %v", path, err)
 	}
-	return resp
+	val := ParseJSONResponse[APIResponse](t, resp)
+	val.StatusCode = resp.StatusCode
+	return val
+}
+
+func DoDelete(t *testing.T, client *http.Client, path string) APIResponse {
+	// Create request
+	req, err := http.NewRequest(http.MethodDelete, BaseURL+path, nil)
+	if err != nil {
+		t.Fatalf("Error creating request: %v", err)
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		t.Fatalf("DELETE %s failed: %v", path, err)
+	}
+	val := ParseJSONResponse[APIResponse](t, resp)
+	val.StatusCode = resp.StatusCode
+	return val
 }
 
 func ParseJSONResponse[T any](t *testing.T, resp *http.Response) T {
@@ -66,8 +87,14 @@ func ParseJSONResponse[T any](t *testing.T, resp *http.Response) T {
 	if err != nil {
 		t.Fatalf("Error during response reading: %v", err)
 	}
+
 	var data T
-	if err := json.Unmarshal(body, &data); err != nil {
+
+	// Ce bloc permet d’utiliser json.Number dans les maps dynamiques
+	decoder := json.NewDecoder(bytes.NewReader(body))
+	decoder.UseNumber()
+
+	if err := decoder.Decode(&data); err != nil {
 		t.Fatalf("Error unmarshal JSON: %v\nBody:\n%s", err, body)
 	}
 	return data
