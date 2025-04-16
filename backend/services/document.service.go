@@ -6,14 +6,14 @@ import (
 )
 
 type DocumentService interface {
-	GetAllDocuments(userId int64) ([]*models.Document, error)
+	GetAllDocuments(userId uint64) ([]*models.Document, error)
 }
 
 func NewDocumentService(db *sql.DB) DocumentService {
 	return &Service{db: db}
 }
 
-func (s *Service) GetAllDocuments(userId int64) ([]*models.Document, error) {
+func (s *Service) GetAllDocuments(userId uint64) ([]*models.Document, error) {
 	var documents []*models.Document
 	rows, err := s.db.Query("SELECT id, name, description, tags, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ? ORDER BY name", userId)
 	if err != nil {

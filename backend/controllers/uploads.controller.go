@@ -124,7 +124,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
-	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
 	if err != nil {
 		return http.StatusBadRequest, errors.New("invalid id format")
 	}

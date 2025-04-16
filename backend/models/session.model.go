@@ -1,8 +1,8 @@
 package models
 
 type Session struct {
-	Id                   int64  `json:"id"`
-	UserId               int64  `json:"user_id"`
+	Id                   uint64 `json:"id"`
+	UserId               uint64 `json:"user_id"`
 	RefreshToken         string `json:"refresh_token"`
 	ExpireToken          int64  `json:"expire_token"`
 	LastRefreshTimestamp int64  `json:"last_refresh_timestamp"`

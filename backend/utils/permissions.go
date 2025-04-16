@@ -32,12 +32,12 @@ func CheckUserRequestPermission(ctx *gin.Context, requiredRole int) bool {
 	return false
 }
 
-func GetUserIdParam(param string, ctx *gin.Context) (int64, error) {
+func GetUserIdParam(param string, ctx *gin.Context) (uint64, error) {
 	if param == "" {
 		return 0, errors.New("user ID parameter is empty")
 	}
 	if param != "@me" {
-		id_param, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
+		id_param, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
 		if err != nil {
 			return 0, errors.New("invalid user ID parameter")
 		}
@@ -46,19 +46,19 @@ func GetUserIdParam(param string, ctx *gin.Context) (int64, error) {
 	return GetUserIdCtx(ctx)
 }
 
-func GetUserIdCtx(ctx *gin.Context) (int64, error) {
+func GetUserIdCtx(ctx *gin.Context) (uint64, error) {
 	userId, exists := ctx.Get("user_id")
 	if !exists {
 		return 0, errors.New("user ID not found in context")
 	}
-	id, ok := userId.(int64)
+	id, ok := userId.(uint64)
 	if !ok {
 		return 0, errors.ErrUnsupported
 	}
 	return id, nil
 }
 
-func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (int64, error) {
+func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (uint64, error) {
 	// Check if the c.Param("id") is "@me" or c.Param("id") is the same as the user ID in the context
 	// If not, check if the user has the required permission
 	// If one of the above is true, return the user ID from the context

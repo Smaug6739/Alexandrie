@@ -37,7 +37,7 @@ func Auth() gin.HandlerFunc {
 		}
 
 		// Set the token claims to the context
-		user_id, err := strconv.ParseInt(claims.Subject, 10, 64)
+		user_id, err := strconv.ParseUint(claims.Subject, 10, 64)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, utils.Error("Invalid user ID"))
 			c.Abort() // Stop further processing if unauthorized

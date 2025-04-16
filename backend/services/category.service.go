@@ -6,14 +6,14 @@ import (
 )
 
 type CategoryService interface {
-	GetAllCategories(userId int64) ([]*models.Category, error)
+	GetAllCategories(userId uint64) ([]*models.Category, error)
 }
 
 func NewCategoryService(db *sql.DB) CategoryService {
 	return &Service{db: db}
 }
 
-func (s *Service) GetAllCategories(userId int64) ([]*models.Category, error) {
+func (s *Service) GetAllCategories(userId uint64) ([]*models.Category, error) {
 	var categories []*models.Category
 	rows, err := s.db.Query("SELECT * FROM categories WHERE author_id = ? ORDER BY `order`", userId)
 	if err != nil {

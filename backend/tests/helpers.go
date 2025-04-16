@@ -18,7 +18,7 @@ const USER_ID = "564704938298982405"
 
 type APIResponse struct {
 	Status     string `json:"status"`
-	Timestamp  int64  `json:"timestamp"`
+	Timestamp  uint64 `json:"timestamp"`
 	Message    string `json:"message,omitempty"`
 	Result     any    `json:"result,omitempty"`
 	StatusCode int

@@ -171,7 +171,7 @@ func (ctr *Controller) Logout(c *gin.Context) (int, any) {
 
 func (ctr *Controller) signAccessToken(user *models.User) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":  strconv.FormatInt(user.Id, 10),                                                                            // Subject (user identifier)
+		"sub":  strconv.FormatUint(user.Id, 10),                                                                           // Subject (user identifier)
 		"iss":  "alexandrie",                                                                                              // Issuer
 		"exp":  time.Now().Add(time.Duration(time.Second * time.Duration(ctr.app.Config.Auth.RefreshTokenExpiry))).Unix(), // Expiration time
 		"iat":  time.Now().Unix(),                                                                                         // Issued at

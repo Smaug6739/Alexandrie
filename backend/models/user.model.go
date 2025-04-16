@@ -1,7 +1,7 @@
 package models
 
 type User struct {
-	Id               int64   `json:"id" form:"id" binding:"omitempty"`
+	Id               uint64  `json:"id" form:"id" binding:"omitempty"`
 	Username         string  `json:"username" form:"username" binding:"required,min=5,max=30"`
 	Firstname        *string `json:"firstname" form:"firstname" binding:"omitempty"`
 	Lastname         *string `json:"lastname" form:"lastname" binding:"omitempty"`
