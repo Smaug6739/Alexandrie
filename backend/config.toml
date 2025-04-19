@@ -25,6 +25,7 @@ SupportedTypes = [
 	"image/gif",
 	"image/bmp",
 	"image/webp",
+	"image/avif",       # .avif
 	"image/svg+xml",
 	"image/vnd.microsoft.icon",
 	# video formats

@@ -94,11 +94,11 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		Filesize:         header.Size,
 		Filetype:         mimeType,
 		OriginalPath:     header.Filename,
-		TransformedPath:  "uploads/" + header.Filename,
+		TransformedPath:  header.Filename,
 		AuthorId:         userId,
 		CreatedTimestamp: time.Now().UnixMilli(),
 	}
-	objectName := fmt.Sprintf("uploads/%d/%d%s", ressource.AuthorId, ressource.Id, ext)
+	objectName := fmt.Sprintf("%d/%d%s", ressource.AuthorId, ressource.Id, ext)
 
 	_, err = ctr.app.Services.Ressource.CreateRessource(ressource)
 	if err != nil {
@@ -147,7 +147,7 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	objectName := fmt.Sprintf("uploads/%d/%s", userId, "avatar")
+	objectName := fmt.Sprintf("%d/%s", userId, "avatar")
 
 	_, err = ctr.app.MinioClient.PutObject(c, os.Getenv("MINIO_BUCKET"), objectName, file, header.Size, minio.PutObjectOptions{ContentType: header.Header.Get("Content-Type")})
 	if err != nil {
@@ -186,7 +186,7 @@ func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
 		return http.StatusUnauthorized, errors.New("you are not authorized to delete this ressource")
 	}
 
-	prefix := fmt.Sprintf("uploads/%d/%d", ressource.AuthorId, ressource.Id)
+	prefix := fmt.Sprintf("%d/%d", ressource.AuthorId, ressource.Id)
 	// List all objects in the bucket with the given prefix
 	ctx := context.Background()
 	objectCh := ctr.app.MinioClient.ListObjects(ctx, os.Getenv("MINIO_BUCKET"), minio.ListObjectsOptions{
