@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', {
     async login(username: string, password: string) {
       try {
         const response = await makeRequest<{ auth: boolean }>('auth', 'POST', { username, password });
-        if (response.status == 'success' && response.result?.auth) {
+        if (response.status == 'success') {
           if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
           return true;
         } else throw response.message;
