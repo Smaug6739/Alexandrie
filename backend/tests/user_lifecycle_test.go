@@ -108,7 +108,7 @@ func TestUserLifeCycle(t *testing.T) {
 		r := DoGet(t, client, "/users/invalid_id")
 		assert.Equal(t, "error", r.Status)
 		assert.Equal(t, 400, r.StatusCode)
-		assert.Equal(t, "Invalid user ID parameter", r.Message)
+		assert.Equal(t, "Invalid parameter", r.Message)
 	})
 	t.Run("Get user by ID with non-existing ID", func(t *testing.T) {
 		r := DoGet(t, client, "/users/999999999999999999")
