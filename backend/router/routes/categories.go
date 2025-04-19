@@ -14,7 +14,7 @@ func Categories(app *app.App, router *gin.RouterGroup) {
 	docCtrl := controllers.NewCategoriesController(app)
 
 	doc.GET("/:userId", middlewares.Auth(), utils.WP(docCtrl.GetCategories))
-	doc.POST("/", middlewares.Auth(), utils.WP(docCtrl.CreateCategory))
+	doc.POST("", middlewares.Auth(), utils.WP(docCtrl.CreateCategory))
 	doc.PUT("/:id", middlewares.Auth(), utils.WP(docCtrl.UpdateCategory))
 	doc.DELETE("/:id", middlewares.Auth(), utils.WP(docCtrl.DeleteCategory))
 }
