@@ -18,14 +18,14 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
-type UploadController interface {
+type RessourceController interface {
 	GetAllUploads(c *gin.Context) (int, any)
 	UploadFile(c *gin.Context) (int, any)
 	UploadAvatar(c *gin.Context) (int, any)
 	DeleteUpload(c *gin.Context) (int, any)
 }
 
-func NewUploadController(app *app.App) UploadController {
+func NewRessourceController(app *app.App) RessourceController {
 	return &Controller{
 		app: app,
 	}
