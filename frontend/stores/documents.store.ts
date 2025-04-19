@@ -68,7 +68,7 @@ export const useDocumentsStore = defineStore('documents', {
     },
     update(doc: Document) {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`documents/${doc.id}`, 'PATCH', doc);
+        const request = await makeRequest(`documents/${doc.id}`, 'PUT', doc);
         if (request.status == 'success') resolve((this.documents = this.documents.map(d => (d.id == doc.id ? doc : d))));
         else reject(request.message);
       });

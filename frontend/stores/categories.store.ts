@@ -35,7 +35,7 @@ export const useCategoriesStore = defineStore('categories', {
     },
     update(category: Category) {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/${category.id}`, 'PATCH', category);
+        const request = await makeRequest(`categories/${category.id}`, 'PUT', category);
         if (request.status == 'success') {
           this.categories = this.categories.map(c => {
             if (c.id == category.id) return category;
