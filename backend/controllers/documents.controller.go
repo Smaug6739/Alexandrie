@@ -4,7 +4,6 @@ import (
 	"alexandrie/app"
 	"alexandrie/models"
 	"alexandrie/utils"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -102,8 +101,6 @@ func (ctr *Controller) CreateDocument(c *gin.Context) (int, any) {
 		CreatedTimestamp: time.Now().UnixMilli(),
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
-	fmt.Println("Document", document)
-
 	err = ctr.app.Services.Document.CreateDocument(document)
 	if err != nil {
 		return http.StatusInternalServerError, err
