@@ -21,6 +21,7 @@ import (
 type UploadController interface {
 	GetAllUploads(c *gin.Context) (int, any)
 	UploadFile(c *gin.Context) (int, any)
+	UploadAvatar(c *gin.Context) (int, any)
 	DeleteUpload(c *gin.Context) (int, any)
 }
 
@@ -111,6 +112,49 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	}
 
 	return http.StatusOK, ressource
+}
+
+// Upload avatar
+// @Summary Upload an avatar (not saved in DB and name is "avatar")
+// @Method POST
+// @Router /uploads/avatar [post]
+// @Security Authenfification: Auth
+// @Param file formData file true "File to upload"
+// @Success 200 {object} Success(string)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
+func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
+	file, header, err := c.Request.FormFile("file")
+	if err != nil {
+		return http.StatusBadRequest, errors.New("failed to get file")
+	}
+	defer file.Close()
+
+	// Check if the file size exceeds the limit
+	if header.Size > int64(ctr.app.Config.Cdn.MaxSize) {
+		return http.StatusBadRequest, errors.New("file size exceeds the limit")
+	}
+
+	// Check if the MIME type is supported
+	mimeType := header.Header.Get("Content-Type")
+	isSupportedMime := slices.Contains(ctr.app.Config.Cdn.SupportedTypes, mimeType)
+	if !isSupportedMime {
+		return http.StatusBadRequest, errors.New("file type not supported")
+	}
+
+	userId, err := utils.GetUserIdCtx(c)
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	objectName := fmt.Sprintf("uploads/%d/%s", userId, "avatar")
+
+	_, err = ctr.app.MinioClient.PutObject(c, os.Getenv("MINIO_BUCKET"), objectName, file, header.Size, minio.PutObjectOptions{ContentType: header.Header.Get("Content-Type")})
+	if err != nil {
+		return http.StatusInternalServerError, errors.New("failed to upload file")
+	}
+
+	return http.StatusOK, "File uploaded successfully"
 }
 
 // DeleteUpload
