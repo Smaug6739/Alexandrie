@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"strconv"
 	"time"
 
 	"slices"
@@ -124,7 +123,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
-	id, err := strconv.ParseUint(c.Param("id"), 10, 64)
+	id, err := utils.GetIdParam(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, errors.New("invalid id format")
 	}

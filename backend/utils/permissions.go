@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"alexandrie/types"
 	"errors"
 	"strconv"
 
@@ -32,7 +33,7 @@ func CheckUserRequestPermission(ctx *gin.Context, requiredRole int) bool {
 	return false
 }
 
-func GetIdParam(ctx *gin.Context, param string) (uint64, error) {
+func GetIdParam(ctx *gin.Context, param string) (types.Snowflake, error) {
 	if param == "" {
 		return 0, errors.New("parameter is empty")
 	}
@@ -41,12 +42,12 @@ func GetIdParam(ctx *gin.Context, param string) (uint64, error) {
 		if err != nil {
 			return 0, errors.New("invalid parameter")
 		}
-		return id_param, nil
+		return types.Snowflake(id_param), nil
 	}
 	return GetUserIdCtx(ctx)
 }
 
-func GetUserIdCtx(ctx *gin.Context) (uint64, error) {
+func GetUserIdCtx(ctx *gin.Context) (types.Snowflake, error) {
 	userId, exists := ctx.Get("user_id")
 	if !exists {
 		return 0, errors.New("user ID not found in context")
@@ -55,10 +56,10 @@ func GetUserIdCtx(ctx *gin.Context) (uint64, error) {
 	if !ok {
 		return 0, errors.ErrUnsupported
 	}
-	return id, nil
+	return types.Snowflake(id), nil
 }
 
-func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (uint64, error) {
+func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (types.Snowflake, error) {
 	// Check if the c.Param("id") is "@me" or c.Param("id") is the same as the user ID in the context
 	// If not, check if the user has the required permission
 	// If one of the above is true, return the user ID from the context
@@ -88,7 +89,7 @@ func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (uint64, err
 	return 0, errors.New("unauthorized")
 }
 
-func RessourceAccess(ctx *gin.Context, targetId uint64) error {
+func RessourceAccess(ctx *gin.Context, targetId types.Snowflake) error {
 	// Check if the connected user has access to the resource (userId == targetId) or if the user has the required permission (ADMINISTRATOR)
 	userId, err := GetUserIdCtx(ctx)
 	if err != nil {

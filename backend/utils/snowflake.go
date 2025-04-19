@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"alexandrie/types"
 	"os"
 	"sync"
 	"time"
@@ -41,7 +42,7 @@ func NewSnowflake(epoch int64) *Snowflake {
 }
 
 // Generate creates a new unique snowflake ID
-func (s *Snowflake) Generate() uint64 {
+func (s *Snowflake) Generate() types.Snowflake {
 	timestamp := time.Now().UnixMilli()
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
@@ -58,7 +59,7 @@ func (s *Snowflake) Generate() uint64 {
 		}
 	}
 
-	return uint64(((timestamp - s.epoch) << timestampShift) |
+	return types.Snowflake(((timestamp - s.epoch) << timestampShift) |
 		(s.workerID << workerIDShift) |
 		(s.processID << processIDShift) |
 		s.increment)

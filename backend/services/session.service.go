@@ -2,6 +2,7 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/types"
 	"database/sql"
 	"time"
 )
@@ -10,7 +11,7 @@ type AuthService interface {
 	CreateSession(session *models.Session) (*models.Session, error)
 	GetSession(refreshToken string) (models.Session, error)
 	UpdateSession(session *models.Session) (*models.Session, error)
-	DeleteSession(id uint64) error
+	DeleteSession(id types.Snowflake) error
 	DeleteOldSessions() error
 }
 
@@ -44,7 +45,7 @@ func (s *Service) UpdateSession(session *models.Session) (*models.Session, error
 	return session, nil
 }
 
-func (s *Service) DeleteSession(id uint64) error {
+func (s *Service) DeleteSession(id types.Snowflake) error {
 	_, err := s.db.Exec("DELETE FROM sessions WHERE id = ?", id)
 	if err != nil {
 		return err

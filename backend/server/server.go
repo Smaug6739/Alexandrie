@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/BurntSushi/toml"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -29,16 +28,6 @@ func SetupServer() (*gin.Engine, *app.App) {
 
 	// Créer le routeur
 	appRouter := router.InitRouter(application)
-	appRouter.Use(gin.Recovery())
-
-	// Configurer les proxys et CORS
-	appRouter.SetTrustedProxies([]string{"127.0.0.1", "localhost"})
-	appRouter.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{os.Getenv("DOMAIN_CLIENT")},
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-	}))
 
 	return appRouter, application
 }

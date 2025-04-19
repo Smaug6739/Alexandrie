@@ -2,22 +2,23 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/types"
 	"database/sql"
 )
 
 type CategoryService interface {
-	GetAllCategories(userId uint64) ([]*models.Category, error)
-	GetCategory(categoryId uint64) (*models.Category, error)
+	GetAllCategories(userId types.Snowflake) ([]*models.Category, error)
+	GetCategory(categoryId types.Snowflake) (*models.Category, error)
 	CreateCategory(category *models.Category) error
 	UpdateCategory(category *models.Category) error
-	DeleteCategory(categoryId uint64) error
+	DeleteCategory(categoryId types.Snowflake) error
 }
 
 func NewCategoryService(db *sql.DB) CategoryService {
 	return &Service{db: db}
 }
 
-func (s *Service) GetAllCategories(userId uint64) ([]*models.Category, error) {
+func (s *Service) GetAllCategories(userId types.Snowflake) ([]*models.Category, error) {
 	var categories []*models.Category
 	rows, err := s.db.Query("SELECT * FROM categories WHERE author_id = ? ORDER BY `order`", userId)
 	if err != nil {
@@ -35,7 +36,7 @@ func (s *Service) GetAllCategories(userId uint64) ([]*models.Category, error) {
 	return categories, nil
 }
 
-func (s *Service) GetCategory(categoryId uint64) (*models.Category, error) {
+func (s *Service) GetCategory(categoryId types.Snowflake) (*models.Category, error) {
 	var category models.Category
 	err := s.db.QueryRow("SELECT * FROM categories WHERE id = ?", categoryId).Scan(
 		&category.Id,
@@ -77,7 +78,7 @@ func (s *Service) UpdateCategory(category *models.Category) error {
 	return err
 }
 
-func (s *Service) DeleteCategory(categoryId uint64) error {
+func (s *Service) DeleteCategory(categoryId types.Snowflake) error {
 	_, err := s.db.Exec("DELETE FROM categories WHERE id = ?", categoryId)
 	return err
 }

@@ -64,7 +64,15 @@ func (ctr *Controller) GetUserById(c *gin.Context) (int, any) {
 	if user == nil {
 		return http.StatusNotFound, errors.New("user not found")
 	}
-	return http.StatusOK, user
+	last_connection, err := ctr.app.Services.Log.GetLastConnection(id)
+	if err != nil {
+		last_connection = nil
+	}
+
+	return http.StatusOK, gin.H{
+		"user":            user,
+		"last_connection": last_connection,
+	}
 }
 
 // Create User

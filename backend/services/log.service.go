@@ -2,6 +2,7 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/types"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -12,8 +13,8 @@ import (
 )
 
 type LogService interface {
-	GetConnections(userId uint64) ([]*models.Log, error)
-	GetLastConnection(userId uint64) (*models.Log, error)
+	GetConnections(userId types.Snowflake) ([]*models.Log, error)
+	GetLastConnection(userId types.Snowflake) (*models.Log, error)
 	GetLocationFromIp(ip string) string
 	CreateConnectionLog(log *models.Log) (*models.Log, error)
 	DeleteOldLogs() error
@@ -25,7 +26,7 @@ func NewLogService(db *sql.DB) LogService {
 	return &Service{db: db}
 }
 
-func (s *Service) GetConnections(userId uint64) ([]*models.Log, error) {
+func (s *Service) GetConnections(userId types.Snowflake) ([]*models.Log, error) {
 	var logs []*models.Log
 	rows, err := s.db.Query("SELECT * FROM connections_logs WHERE user_id = ?", userId)
 	if err != nil {
@@ -42,7 +43,7 @@ func (s *Service) GetConnections(userId uint64) ([]*models.Log, error) {
 	return logs, nil
 }
 
-func (s *Service) GetLastConnection(userId uint64) (*models.Log, error) {
+func (s *Service) GetLastConnection(userId types.Snowflake) (*models.Log, error) {
 	var log models.Log
 	err := s.db.QueryRow("SELECT * FROM connections_logs WHERE user_id = ? ORDER BY timestamp DESC LIMIT 1", userId).Scan(&log.Id, &log.IpAddr, &log.Location, &log.Timestamp, &log.Type, &log.UserAgent, &log.UserId)
 	if err != nil {

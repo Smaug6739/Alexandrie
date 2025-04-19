@@ -2,22 +2,23 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/types"
 	"database/sql"
 )
 
 type RessourceService interface {
-	GetAllUploadsByUserId(userId uint64) ([]*models.Ressource, error)
-	GetRessourceById(id uint64) (*models.Ressource, error)
-	GetUserUploadsSize(userId uint64) (int64, error)
+	GetAllUploadsByUserId(userId types.Snowflake) ([]*models.Ressource, error)
+	GetRessourceById(id types.Snowflake) (*models.Ressource, error)
+	GetUserUploadsSize(userId types.Snowflake) (int64, error)
 	CreateRessource(ressource *models.Ressource) (*models.Ressource, error)
-	DeleteRessource(id uint64) error
+	DeleteRessource(id types.Snowflake) error
 }
 
 func NewRessourceService(db *sql.DB) RessourceService {
 	return &Service{db: db}
 }
 
-func (s *Service) GetAllUploadsByUserId(userId uint64) ([]*models.Ressource, error) {
+func (s *Service) GetAllUploadsByUserId(userId types.Snowflake) ([]*models.Ressource, error) {
 	var ressources []*models.Ressource
 	rows, err := s.db.Query("SELECT * from ressources WHERE author_id = ?", userId)
 	if err != nil {
@@ -35,7 +36,7 @@ func (s *Service) GetAllUploadsByUserId(userId uint64) ([]*models.Ressource, err
 	return ressources, nil
 }
 
-func (s *Service) GetRessourceById(id uint64) (*models.Ressource, error) {
+func (s *Service) GetRessourceById(id types.Snowflake) (*models.Ressource, error) {
 	var ressource models.Ressource
 	err := s.db.QueryRow("SELECT * FROM ressources WHERE id = ?", id).Scan(&ressource.Id, &ressource.Filename, &ressource.Filesize, &ressource.Filetype, &ressource.OriginalPath, &ressource.TransformedPath, &ressource.AuthorId, &ressource.CreatedTimestamp)
 	if err != nil {
@@ -44,7 +45,7 @@ func (s *Service) GetRessourceById(id uint64) (*models.Ressource, error) {
 	return &ressource, nil
 }
 
-func (s *Service) GetUserUploadsSize(userId uint64) (int64, error) {
+func (s *Service) GetUserUploadsSize(userId types.Snowflake) (int64, error) {
 	var totalSize *int64
 	err := s.db.QueryRow("SELECT SUM(file_size) FROM ressources WHERE author_id = ?", userId).Scan(&totalSize)
 	if err != nil {
@@ -64,7 +65,7 @@ func (s *Service) CreateRessource(ressource *models.Ressource) (*models.Ressourc
 	return ressource, nil
 }
 
-func (s *Service) DeleteRessource(id uint64) error {
+func (s *Service) DeleteRessource(id types.Snowflake) error {
 	_, err := s.db.Exec("DELETE FROM ressources WHERE id = ?", id)
 	return err
 }

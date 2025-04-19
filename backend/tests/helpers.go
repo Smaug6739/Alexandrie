@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"alexandrie/types"
 	"bytes"
 	"encoding/json"
 	"io"
@@ -17,10 +18,10 @@ const USER_PASSWORD = "10082005"
 const USER_ID = "543"
 
 type APIResponse struct {
-	Status     string `json:"status"`
-	Timestamp  uint64 `json:"timestamp"`
-	Message    string `json:"message,omitempty"`
-	Result     any    `json:"result,omitempty"`
+	Status     string          `json:"status"`
+	Timestamp  types.Snowflake `json:"timestamp"`
+	Message    string          `json:"message,omitempty"`
+	Result     any             `json:"result,omitempty"`
 	StatusCode int
 }
 
