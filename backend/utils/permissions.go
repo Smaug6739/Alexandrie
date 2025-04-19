@@ -32,14 +32,14 @@ func CheckUserRequestPermission(ctx *gin.Context, requiredRole int) bool {
 	return false
 }
 
-func GetUserIdParam(param string, ctx *gin.Context) (uint64, error) {
+func GetIdParam(ctx *gin.Context, param string) (uint64, error) {
 	if param == "" {
-		return 0, errors.New("user ID parameter is empty")
+		return 0, errors.New("parameter is empty")
 	}
 	if param != "@me" {
-		id_param, err := strconv.ParseUint(ctx.Param("id"), 10, 64)
+		id_param, err := strconv.ParseUint(param, 10, 64)
 		if err != nil {
-			return 0, errors.New("invalid user ID parameter")
+			return 0, errors.New("invalid parameter")
 		}
 		return id_param, nil
 	}
@@ -67,7 +67,7 @@ func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (uint64, err
 	if len(key) > 0 {
 		search_key = key[0]
 	}
-	id_param, err := GetUserIdParam(ctx.Param(search_key), ctx)
+	id_param, err := GetIdParam(ctx, ctx.Param(search_key))
 	if err != nil {
 		return 0, err
 	}
@@ -86,4 +86,23 @@ func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (uint64, err
 		return id_param, nil
 	}
 	return 0, errors.New("unauthorized")
+}
+
+func RessourceAccess(ctx *gin.Context, targetId uint64) error {
+	// Check if the connected user has access to the resource (userId == targetId) or if the user has the required permission (ADMINISTRATOR)
+	userId, err := GetUserIdCtx(ctx)
+	if err != nil {
+		return err
+	}
+	if userId == targetId {
+		return nil
+	}
+	role, exists := ctx.Get("user_role")
+	if !exists {
+		return errors.New("user role not found in context")
+	}
+	if CheckPermission(role.(int), ADMINISTRATOR) {
+		return nil
+	}
+	return errors.New("unauthorized")
 }
