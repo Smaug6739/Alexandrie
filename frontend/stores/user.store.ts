@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', {
         if (this.user) return resolve(this.user);
         const responce = await makeRequest<{ user: User; last_connection: ConnectionLog }>(`users/@me`, 'GET', {});
         if (responce.status === 'success') {
-          if (responce.result?.user) this.user = responce.result.user as User;
+          if (responce.result) this.user = responce.result.user as User;
           if (responce.result?.last_connection) this.last_connection = responce.result.last_connection as ConnectionLog;
           return resolve(this.user);
         } else reject(responce.message);

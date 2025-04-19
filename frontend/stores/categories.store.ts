@@ -14,7 +14,7 @@ export const useCategoriesStore = defineStore('categories', {
   actions: {
     fetch: function (opts?: FetchOptions) {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/${opts?.id || ''}`, 'GET', {});
+        const request = await makeRequest(`categories/@me/${opts?.id || ''}`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             // replace the document with the new one

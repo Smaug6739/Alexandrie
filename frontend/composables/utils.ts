@@ -1,7 +1,7 @@
 import type { User } from '../stores/db_strustures';
 
 export const CDN = import.meta.env.VITE_BASE_CDN;
-export const API = `${import.meta.env.VITE_BASE_API}/api/v1`;
+export const API = `${import.meta.env.VITE_BASE_API}/api`;
 
 const colors = ['var(--blue)', 'var(--turquoise)', 'var(--yellow)', 'var(--red)', 'var(--red)'];
 

@@ -13,6 +13,7 @@ const requestQueue: { route: string; method: string; body: Object; resolve: (val
 
 export async function makeRequest<T>(route: string, method: string, body: Object, isTreatingQueue: boolean = false): Promise<APIResult<T>> {
   console.log(`[API] Requesting [${method}] to /${route}`);
+  if (route[route.length - 1] === '/') route = route.slice(0, -1);
   const promise = new Promise<APIResult<T>>((resolve, reject) => {
     if (!isTreatingQueue) requestQueue.push({ route, method, body, resolve, reject });
   });

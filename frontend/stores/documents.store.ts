@@ -42,7 +42,7 @@ export const useDocumentsStore = defineStore('documents', {
     fetch: function <T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`documents/${opts?.id || ''}`, 'GET', {});
+        const request = await makeRequest(`documents/@me/${opts?.id || ''}`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             const index = this.documents.findIndex(d => d.id == opts?.id);
