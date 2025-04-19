@@ -12,9 +12,9 @@ import (
 const BaseURL = "http://localhost:8080/api"
 const ADMIN_USERNAME = "Smaug"
 const ADMIN_PASSWORD = "10082005"
-const USER_USERNAME = "Balthazar"
+const USER_USERNAME = "Hacker"
 const USER_PASSWORD = "10082005"
-const USER_ID = "564704938298982405"
+const USER_ID = "543"
 
 type APIResponse struct {
 	Status     string `json:"status"`
