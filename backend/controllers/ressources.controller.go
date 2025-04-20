@@ -88,13 +88,14 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	}
 
 	// Create a new ressource
+	id := ctr.app.Snowflake.Generate()
 	ressource := &models.Ressource{
-		Id:               ctr.app.Snowflake.Generate(),
+		Id:               id,
 		Filename:         fmt.Sprintf("%.*s", 40, header.Filename),
 		Filesize:         header.Size,
 		Filetype:         mimeType,
 		OriginalPath:     header.Filename,
-		TransformedPath:  header.Filename,
+		TransformedPath:  fmt.Sprintf("%d%s", id, ext),
 		AuthorId:         userId,
 		CreatedTimestamp: time.Now().UnixMilli(),
 	}
@@ -102,7 +103,6 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 
 	_, err = ctr.app.Services.Ressource.CreateRessource(ressource)
 	if err != nil {
-		fmt.Println(err)
 		return http.StatusInternalServerError, errors.New("failed to create ressource")
 	}
 

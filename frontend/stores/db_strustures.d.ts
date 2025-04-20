@@ -54,8 +54,8 @@ export interface ConnectionLog {
 export interface DB_Ressource {
   id: string;
   filename: string;
-  file_size: number;
-  file_type: string;
+  filesize: number;
+  filetype: string;
   original_path: string;
   transformed_path: string;
   author_id: string;

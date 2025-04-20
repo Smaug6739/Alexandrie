@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">
+    <div class="header" style="border-bottom: 1px solid var(--border-color)">
       <input type="text" v-model="searchInput" placeholder="Search..." />
       <div>
         <span>Rows per page</span>

@@ -18,7 +18,7 @@
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows">
         <template #action="{ cell }">
-          <a :href="`${CDN}${cell?.data.transformed_path || cell?.data.original_path}`" target="_blank"><Icon name="view" /> </a>
+          <a :href="`${CDN}${cell?.data.author_id}/${cell?.data.transformed_path || cell?.data.original_path}`" target="_blank"><Icon name="view" /> </a>
           <Icon name="delete" @click="() => deleteRessource(cell?.data.id)" />
         </template>
       </DataTable>
@@ -62,7 +62,7 @@ const submitFile = async () => {
 
   await ressourcesStore
     .post(body)
-    .then(r => (fileLink.value = `${CDN}/${(r as DB_Ressource).transformed_path || (r as DB_Ressource).original_path}`))
+    .then(r => (fileLink.value = `${CDN}${(r as DB_Ressource).author_id}/${(r as DB_Ressource).transformed_path}`))
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 3000 }))
     .finally(() => (isLoading.value = false));
 };
@@ -84,8 +84,8 @@ const rows: any = computed(() =>
   ressourcesStore.ressources.map(res => {
     return {
       name: { content: res.filename },
-      size: { content: readableFileSize(res.file_size) },
-      type: { content: `<span class="tag ${color(res.file_type)}">${res.file_type}</span>`, type: 'html' },
+      size: { content: readableFileSize(res.filesize) },
+      type: { content: `<span class="tag ${color(res.filetype)}">${res.filetype}</span>`, type: 'html' },
       date: { content: new Date(res.created_timestamp).toLocaleDateString() },
       action: { type: 'slot', data: res },
     };

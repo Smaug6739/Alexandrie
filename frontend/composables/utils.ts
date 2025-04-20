@@ -22,7 +22,7 @@ export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : f
 export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
 export function useAvatar(user: User): string {
-  return user.avatar ? CDN + user.avatar : CDN + '/webp/default.svg';
+  return user.avatar ? CDN + user.id + '/avatar' : CDN + '/default_avatar.png';
 }
 export function parseUserAgent(uaString?: string) {
   if (!uaString) return { os: 'Unknown OS', browser: 'Unknown Browser' };

@@ -12,7 +12,7 @@ export const useRessourcesStore = defineStore('ressources', {
     fetch: function () {
       if (this.ressources.length > 0) return this.ressources;
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`ressources`, 'GET', {});
+        const request = await makeRequest(`ressources/@me`, 'GET', {});
         if (request.status == 'success') {
           this.ressources = request.result as DB_Ressource[];
           resolve(this.ressources);
