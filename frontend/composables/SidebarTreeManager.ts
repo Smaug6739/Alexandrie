@@ -5,6 +5,7 @@ export interface Item<T = Document | Category | DefaultItem> {
   id: string;
   title: string;
   parent_id: string;
+  route: string;
   data: T;
   childrens?: Item<T>[];
   show: Ref<boolean>;
@@ -23,6 +24,8 @@ export class SidebarTreeManager {
 
   // Generate the tree structure without indexing
   public generateTree(): Item[] {
+    console.log('buildTree');
+
     return this.items
       .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id) || (item.data.type === 'category' && item.data.role === 2)) // Racines
       .map(rootItem => this.buildTree(rootItem));

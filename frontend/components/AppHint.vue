@@ -8,12 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const props = defineProps<{
-  text: string;
-}>();
-
+defineProps<{ text: string }>();
 const show = ref(false);
 </script>
 
@@ -35,8 +30,6 @@ const show = ref(false);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: default;
-  user-select: none;
 }
 
 .hint-tooltip {

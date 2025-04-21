@@ -1,5 +1,3 @@
-<!-- Category creation modal -->
-<!-- Should be like folder creation on linux or mac -->
 <template>
   <div class="modal">
     <h2>Create a new {{ role == 1 ? 'category' : 'workspace' }}</h2>
@@ -46,7 +44,7 @@ const createCategory = () => {
 <style scoped lang="scss">
 .modal {
   background-color: var(--bg-contrast);
-  padding: 1rem;
+  padding: 0 1rem;
   border-radius: 8px;
   min-width: 700px;
 }

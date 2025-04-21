@@ -1,11 +1,8 @@
 <template>
   <main>
     <section class="header">
-      <div class="logo">
-        <IconApp />
-      </div>
+      <IconApp />
     </section>
-
     <section class="content-wrapper">
       <div class="intro">
         <div class="intro-text">
@@ -23,14 +20,12 @@
         <img :src="`/main-${colorMode.value}.webp`" alt="Documents Image" />
       </div>
     </section>
-
     <section class="editor-section">
       <h2 class="section-title">Try editor online</h2>
       <div class="editor">
         <MarkdownEditor :doc="doc" :options="{ showPreview: !isMobile(), toolbar: 'minimal' }" />
       </div>
     </section>
-
     <section class="demo-section">
       <h2 class="section-title">Organize your documents</h2>
       <div class="demo">
@@ -43,7 +38,7 @@
 
 <script setup lang="ts">
 import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
-
+import AppFooter from './_components/AppFooter.vue';
 const typewriterText = ref('Your Ideas, Documents & Plans.\nAlexandrie');
 
 onMounted(() => {
@@ -58,12 +53,10 @@ onMounted(() => {
       setTimeout(type, 50); // Ajustez la vitesse d'écriture
     } else element.style.borderRight = 'none';
   };
-
   type();
 });
 
 const colorMode = useColorMode();
-
 const doc = ref({
   content_markdown: `# Welcome to Alexandrie ! 🚀\n## Formatting options\n\nLorem **ipsum dolor** *sit amet*, consectetur _adipiscing elit_. ==But not sad.==   \n\n### Different content blocks\n\n:::blue Blue\nA blue block\n:::\n:::red Red\nA red block\n:::\n:::green Green\nA green block\n:::\n:::grey Grey\nA grey block\n:::\n:::yellow Yellow\nA yellow block\n:::\n:::turquoise Turquoise\nA turquoise block\n:::\n:::details Details\nA details block\n:::\n\n\n:::no-print\nThis content will not be printed\n:::\n\n:::center\nThis content is centered\n:::\n\n:::definition Red Info\nBlock of content (ex: definition)\n:::\n\n:::property Blue Info\nBlock of content (ex: property)\n:::\n\n:::theorem Turquoise Info\nBlock of content (ex: theorem)\n:::\n\n:::info-u Info without background\nBlock of content (ex: info, tip, note)\n:::\n\n:::warning Warning Info\nBlock of content (ex: warning)\n:::\n\n### Bullet and Numbered Lists:\n\n- Bullet 1\n- Bullet 2\n  - Sub-bullet 2-1\n\n1. Item 1\n1. Item 2\n\n### Markdown Tables\n\n| Column 1  | Column 2  | Column 3 |\n|:----------|:----------|:---------|\n|Item 1     | Item 2    | Item 3   |\n\n### Other formats\n\n$\\text{This is a math block: } f(x) = ax^2+bx+c$\n\n\`\`\`javascript\nconst hello = "Hello world";\n\`\`\`\n\n> Note: This content is a quote\n>> Nested quote\n\n## Shortcuts\n\n- **Ctrl + S**: Save\n- **Ctrl + P**: Toggle preview\n- **Ctrl + Q**: Switch to document\n- **Ctrl + B**: Bold formatting\n- **Ctrl + I**: Italic formatting\n- **Ctrl + U**: Underline formatting\n- **Ctrl + K**: Insert link\n- **Ctrl + M**: Insert image\n\n## Snippets\n\n- **!m**: Insert a math block (LaTeX)\n- **!def**: Insert a definition block\n- **!thm**: Insert a theorem block\n- **!center**: Center the content\n- **!red**: Insert a red block\n- **!green**: Insert a green block\n- **!blue**: Insert a blue block\n- **!yellow**: Insert a yellow block\n- **!details**: Insert a details block\n`,
 });
@@ -92,26 +85,6 @@ h3 {
   font-weight: 500;
 }
 
-#typewriter {
-  font-size: 2.5rem;
-  font-weight: 700;
-  white-space: pre-wrap;
-  display: inline-block;
-  border-right: 4px solid #333;
-  height: 1.2em;
-  animation: blink 0.6s step-end infinite;
-}
-
-@keyframes blink {
-  from,
-  to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: #333;
-  }
-}
-
 .section-title {
   font-size: 2rem;
   margin-bottom: 1.5rem;
@@ -125,11 +98,6 @@ h3 {
   padding: 1rem 2rem;
   position: absolute;
   top: 0;
-}
-
-.logo-img {
-  width: 120px;
-  height: auto;
 }
 
 .content-wrapper {

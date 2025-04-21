@@ -1,5 +1,5 @@
 <template>
-  <div class="tree-node">
+  <div class="tree-node" v-if="node.data.type === 'category'">
     <div class="tree-content">
       <div class="tree-label">
         <Icon name="folder" style="display: inline" />

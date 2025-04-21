@@ -16,28 +16,17 @@
       <WorkspaceTree v-for="node in workspace.childrens" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
 
-    <div v-else style="color: #6c757d; font-style: italic">No workspaces</div>
+    <div v-else style="color: #6c757d; font-style: italic">No workspaces found</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import CreateCategoryModal from './_modals/CreateCategoryModal.vue';
 import type { Category } from '~/stores';
-const categories = useCategoriesStore().getAll;
-const tree = new SidebarTreeManager(
-  categories.map((c: Category) => {
-    return {
-      id: c.id,
-      title: c.name,
-      type: 'category',
-      parent_id: c.parent_id || '',
-      data: c,
-      show: ref(true),
-    } as Item<Category>;
-  }),
-).generateTree() as Item<Category>[];
+import CreateCategoryModal from './_modals/CreateCategoryModal.vue';
+import WorkspaceTree from './_components/WorkspaceTree.vue';
+const tree = useSidebarTree().tree;
 
-const custom_tree = tree.filter((i: Item<Category>) => i.data.role === 2);
+const custom_tree = tree.value.filter(i => i.data.type === 'category' && i.data.role == 2) as Item<Category>[];
 
 function createWorkspace() {
   useModal().modals.value?.push(new Modal(shallowRef(CreateCategoryModal), '', { role: 2 }));

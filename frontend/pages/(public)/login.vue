@@ -24,7 +24,11 @@
     <AppFooter />
   </div>
 </template>
+
 <script setup lang="ts">
+import AppHeader from './_components/AppHeader.vue';
+import AppFooter from './_components/AppFooter.vue';
+
 const username = ref('');
 const errors = ref({
   username: '',

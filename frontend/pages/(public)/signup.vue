@@ -38,6 +38,9 @@
 </template>
 
 <script setup lang="ts">
+import AppHeader from './_components/AppHeader.vue';
+import AppFooter from './_components/AppFooter.vue';
+
 const router = useRouter();
 const username = ref('');
 const email = ref('');
