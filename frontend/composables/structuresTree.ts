@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue';
-import { useCategoriesStore, useDocumentsStore } from '~/stores';
+import { useCategoriesStore, useDocumentsStore, type Category } from '~/stores';
 
 function getCollapseState(id: string): boolean {
   const stored = localStorage.getItem(`collapse-${id}`);
@@ -36,13 +36,13 @@ export function useSidebarTree() {
     })),
   );
 
-  const allItems = computed(() => [...documents.value, ...categories.value]);
+  const allItems = computed(() => [...documents.value, ...categories.value.filter(cat => (cat as Item<Category>).data.role == 1)]);
 
   const tree = computed(() => {
-    return new SidebarTreeManager(allItems.value).generateTree();
+    return new TreeStructure(allItems.value).generateTree();
   });
   const filtered = computed(() => {
-    return new SidebarTreeManager(allItems.value).generateTree().filter(item => {
+    return tree.value.filter(item => {
       if (item.data.type === 'category' && workspaceId.value) {
         return item.data.workspace_id === workspaceId.value && item.data.role == 1;
       }
@@ -63,6 +63,7 @@ export function useSidebarTree() {
   };
 
   return {
+    categories,
     tree,
     filtered,
     collapseAll,

@@ -1,31 +1,23 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
-    <select v-if="!minimal" v-model="copy.accessibility" style="margin-right: 5px">
+    <select v-if="!minimal" v-model="document.accessibility" style="margin-right: 5px">
       <option :value="1">Visible</option>
       <option :value="2">Draf</option>
       <option :value="3">Archive</option>
     </select>
-    <select v-if="!minimal" v-model="copy.category" style="margin-right: 5px">
-      <option :value="null" selected>All notes</option>
-      <option v-for="wp in categoriesStore.getParents.filter(c => c.role == 2)" :value="wp.id" v-text="wp.name"></option>
-      <optgroup v-for="cat in categoriesStore.getParents.filter(c => c.role == 1)" :label="cat.name" :key="cat.id">
-        <option v-for="subCat in categoriesStore.getChilds(cat.id)" :value="subCat.id" :key="subCat.id" v-text="subCat.name"></option>
-      </optgroup>
-    </select>
-    <input type="text" v-model="copy.tags" placeholder="Tags" style="margin-right: 5px" />
+    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" />
+    <input type="text" v-model="document.tags" placeholder="Tags" style="margin-right: 5px" />
     <button @click="() => emitAction('exit')" style="margin-left: auto"><Icon name="close" :big="true" /></button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useCategoriesStore, type Document } from '~/stores';
-
-const categoriesStore = useCategoriesStore();
+import type { Document } from '~/stores';
+const categories = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
-const copy = ref(props.document);
 const emit = defineEmits(['execute-action']);
-const emitAction = (action: string) => emit('execute-action', action, copy);
+const emitAction = (action: string) => emit('execute-action', action, props.document);
 const toolbar = [
   {
     name: 'Bold',
@@ -105,7 +97,7 @@ button {
 .toolbar {
   user-select: none;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   flex-wrap: wrap;
   background-color: var(--bg-contrast-2);
   border-top-left-radius: 15px;

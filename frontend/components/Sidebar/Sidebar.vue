@@ -65,7 +65,6 @@ const navigationItemsComputed = computed<Item[]>(() =>
 );
 const sidebarTree = useSidebarTree();
 const tree = computed(() => [...navigationItemsComputed.value, ...sidebarTree.filtered.value].filter(i => i.title.toLowerCase().includes(filter.value.toLowerCase())));
-
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
 };

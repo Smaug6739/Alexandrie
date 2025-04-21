@@ -13,22 +13,42 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   items: Item[];
   placeholder?: string;
+  modelValue?: string;
 }>();
+const selectedId = ref<string>(props.modelValue || '');
 
 const emit = defineEmits(['update:modelValue']);
 
 const open = ref(false);
-const selected = ref<Item | null>(null);
+const selected = computed(() => {
+  // Find the selected item based on the selectedId
+  // Recursively search through the items (and their children) to find the selected item
+  const findSelected = (items: Item[]): Item | null => {
+    for (const item of items) {
+      if (item.id === selectedId.value) {
+        return item;
+      }
+      if (item.childrens) {
+        const found = findSelected(item.childrens);
+        if (found) {
+          return found;
+        }
+      }
+    }
+    return null;
+  };
+  return findSelected(props.items);
+});
 
 function toggleDropdown() {
   open.value = !open.value;
 }
 
-function handleSelect(node: any) {
-  selected.value = node;
+function handleSelect(node: Item) {
+  selectedId.value = node.id;
   emit('update:modelValue', node);
   open.value = false;
 }
