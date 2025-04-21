@@ -19,7 +19,7 @@
   <SidebarItem v-else :item="item" />
 </template>
 <script setup lang="ts">
-import type { Item } from '../../composables/tree_builder';
+import type { Item } from '../../composables/SidebarTreeManager';
 
 const props = defineProps<{ item: Item; root?: boolean }>();
 

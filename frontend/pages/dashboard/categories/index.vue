@@ -1,8 +1,7 @@
 <template>
-  <div style="padding: 24px; gap: 16px">
+  <div style="padding: 24px; gap: 16px" class="card-component">
     <header>
-      <h1 style="font-size: 20px; font-weight: bold">Workspaces & Categories</h1>
-
+      <h1 style="font-size: 20px">Workspaces & Categories</h1>
       <div style="display: flex; gap: 8px">
         <AppButton type="primary" @click="createWorkspace">+ Workspace</AppButton>
         <AppButton type="primary" @click="createCategory">+ Category</AppButton>
@@ -10,9 +9,9 @@
       </div>
     </header>
     <div style="padding: 10px 0; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center">
-      <input v-model="search" placeholder="Search category..." style="width: 50%; padding: 8px; border: 1px solid #ccc; border-radius: 4px" />
+      <input placeholder="Search category..." style="width: 50%; padding: 8px; border: 1px solid #ccc; border-radius: 4px" />
     </div>
-    <div v-if="workspaces.length" class="workspace" v-for="workspace in workspaces" :key="workspace.id">
+    <div v-if="custom_tree.length" class="workspace" v-for="workspace in custom_tree" :key="workspace.id">
       <h3 class="wp-name">{{ workspace.title }}</h3>
       <WorkspaceTree v-for="node in workspace.childrens" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
@@ -24,37 +23,27 @@
 <script setup lang="ts">
 import CreateCategoryModal from './_modals/CreateCategoryModal.vue';
 import type { Category } from '~/stores';
-
 const categories = useCategoriesStore().getAll;
-const tree = new ItemsManager(
+const tree = new SidebarTreeManager(
   categories.map((c: Category) => {
     return {
       id: c.id,
       title: c.name,
       type: 'category',
-      route: `/categories/${c.id}`,
       parent_id: c.parent_id || '',
       data: c,
       show: ref(true),
     } as Item<Category>;
   }),
 ).generateTree() as Item<Category>[];
-console.log(tree);
-const workspaces = tree.filter((i: Item<Category>) => i.data.role === 2);
-console.log(workspaces);
-const search = ref('');
+
+const custom_tree = tree.filter((i: Item<Category>) => i.data.role === 2);
 
 function createWorkspace() {
-  // logique de création de workspace
-  useModal().modals.value?.push({
-    component: shallowRef(CreateCategoryModal),
-    name: '',
-    props: undefined,
-  });
+  useModal().modals.value?.push(new Modal(shallowRef(CreateCategoryModal), '', { role: 2 }));
 }
-
 function createCategory() {
-  // logique de création de catégorie
+  useModal().modals.value?.push(new Modal(shallowRef(CreateCategoryModal), '', { role: 1 }));
 }
 
 function editNode(node: Item) {

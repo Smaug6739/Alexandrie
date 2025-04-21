@@ -39,8 +39,6 @@ export const useRessourcesStore = defineStore('ressources', {
     delete(id: string) {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`ressources/${id}`, 'DELETE', {});
-        console.log(request);
-
         if (request.status == 'success') resolve((this.ressources = this.ressources.filter(c => c.id != id)));
         else reject(request.message);
       });

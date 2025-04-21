@@ -2,12 +2,12 @@
 <!-- This component is used to manage modals in the application. -->
 <template>
   <Transition name="modal">
-    <div v-if="modals.length" class="modal-mask">
-      <div v-for="(modal, index) in modals" :key="modal.name" class="modal-pos" :style="{ zIndex: 120 + index }">
-        <!-- Overlay sur les modals du dessous -->
+    <!-- Mettre le v-if directement sur le div à animer -->
+    <div v-if="modals.length">
+      <div v-for="(modal, index) in modals" :key="modal.name" class="modal-mask modal-pos" :style="{ zIndex: 120 + index }">
         <div v-if="index !== modals.length - 1" class="modal-overlay"></div>
-
         <div class="modal-container">
+          <button @click="close(modal)" class="close-btn"><Icon name="close" :big="true" /></button>
           <component :is="modal.component" v-bind="modal.props" />
         </div>
       </div>
@@ -16,12 +16,18 @@
 </template>
 <script setup lang="ts">
 const modals = useModal().modals;
+
+const close = (modal: Modal) => {
+  modal.onClose?.();
+  const index = modals.value.findIndex(m => m.name === modal.name);
+  if (index !== -1) {
+    modals.value.splice(index, 1);
+  }
+};
 </script>
 
 <style scoped lang="scss">
 .modal-container {
-  width: 75%;
-  max-width: 800px;
   margin: auto;
   padding: 20px;
   background-color: var(--bg-contrast);
@@ -29,15 +35,17 @@ const modals = useModal().modals;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   font-size: initial;
+  position: relative;
 }
 .modal-overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.2); // ou plus sombre selon l’effet souhaité
+  background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  z-index: 1; // juste en-dessous du contenu du modal
-  pointer-events: none; // le masque ne bloque pas les interactions
+  z-index: 1;
+  pointer-events: none;
 }
+
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
@@ -47,5 +55,24 @@ const modals = useModal().modals;
 .modal-leave-to .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.close-btn {
+  position: absolute;
+  right: 0px;
+  top: 1rem;
+  background: none;
+  z-index: 1000;
+}
+
+.modal-mask {
+  position: fixed;
+  z-index: 120;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
 }
 </style>

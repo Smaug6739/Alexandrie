@@ -1,75 +1,53 @@
 <!-- Category creation modal -->
 <!-- Should be like folder creation on linux or mac -->
 <template>
-  <div class="modal fade" id="createCategoryModal" tabindex="-1" role="dialog" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createCategoryModalLabel">Create Category</h5>
-          <button type="button" class="close" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div>
-            <div class="form-group">
-              <label for="categoryName">Category Name</label>
-              <input type="text" class="form-control" id="categoryName" v-model="category.name" required />
-            </div>
-            <AppButton type="primary" @click="createCategory">Create</AppButton>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="modal">
+    <h2>Create a new {{ role == 1 ? 'category' : 'workspace' }}</h2>
+    <form @submit.prevent="createCategory">
+      <label for="name">Name</label>
+      <input type="text" v-model="category.name" id="name" required />
+      <label for="icon">Icon <AppHint text="SVG supported" /></label>
+      <input type="text" v-model="category.icon" id="icon" />
+      <label for="parent">Parent</label>
+      <select v-model="category.parent_id" id="parent">
+        <option :value="null">None</option>
+        <option v-for="pc in categoriesStore.getParents.filter(c => c.role == 1)" :key="pc.id" :value="pc.id">{{ pc.name }}</option>
+      </select>
+      <label>Workspace <AppHint text="Only for root categories" /></label>
+      <select v-model="category.workspace_id">
+        <option :value="null">None</option>
+        <option v-for="wp in categoriesStore.getAll.filter(a => a.role == 2)" :key="wp.id" :value="wp.id">{{ wp.name }}</option>
+      </select>
+      <label for="order">Order</label>
+      <input type="number" v-model.number="category.order" id="order" />
+      <AppButton type="primary">Create</AppButton>
+    </form>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Category } from '~/stores';
-import test_wp2 from './test_wp2.vue';
 
 const categoriesStore = useCategoriesStore();
+const props = defineProps<{ role: number }>();
 
 const category = ref<Category>({
   name: '',
   type: 'category',
   id: '',
-  role: 0,
+  role: props.role,
 });
+
 const createCategory = () => {
-  useModal().modals.value.push({
-    component: shallowRef(test_wp2),
-    name: 'CreateCategoryModal',
-    props: undefined,
-  });
   // categoriesStore.post(category.value)
 };
 </script>
 
 <style scoped lang="scss">
-.modal-header {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.modal-title {
-  font-size: 1.25rem;
-  font-weight: 500;
-}
-
-.modal-body {
-  padding: 1.5rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-control {
-  width: 100%;
-}
-
-.close {
-  cursor: pointer;
+.modal {
+  background-color: var(--bg-contrast);
+  padding: 1rem;
+  border-radius: 8px;
+  min-width: 700px;
 }
 </style>

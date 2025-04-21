@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'modal-mask': isMobile() && isOpened }"></div>
+  <div :class="{ 'sidebar-mask': isMobile() && isOpened }"></div>
   <Resizable>
     <div class="sidebar" :class="{ compact: preferences.get('compactMode') }">
       <section class="header">
@@ -89,8 +89,7 @@ const items = computed((): Item[] => {
       show: localStorage.getItem(`collapse-${document.id}`) === 'false' ? ref(false) : ref(true),
     }))
     .filter(c => c.data.name.toLowerCase().includes(filter.value.toLowerCase()));
-
-  return new ItemsManager([...navigation, ...documents, ...categories]).generateTree().filter(c => {
+  return new SidebarTreeManager([...navigation, ...documents, ...categories]).generateTree().filter(c => {
     if (c.data.type === 'category' && workspaceId.value) return c.data.workspace_id == workspaceId.value;
     if (c.data.type === 'document' && workspaceId.value) return c.data.category === workspaceId.value;
     return true;
@@ -202,5 +201,16 @@ onBeforeUnmount(() => {
   font-size: 15px;
   padding: 0 2.5px;
   margin: 0;
+}
+
+.sidebar-mask {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
 }
 </style>
