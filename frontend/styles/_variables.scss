@@ -21,14 +21,14 @@ $secondary-500: color.adjust($secondary-400, $lightness: 10%);
 
 @forward "./font.scss";
 
-$external-font: 'Poppins', sans-serif;
+$external-font: 'Inter', sans-serif;
 $monospace-font: monospace;
 
 // Transitions
 $transition-duration: 0.3s;
 
 
-$primary-color: #007aff;
+$primary-color: #0070e7;
 $primary-light: color.adjust(#007aff, $lightness: 10%);
 $primary-dark: color.adjust(#007aff, $lightness: -10%);
 

@@ -38,7 +38,6 @@ import SidebarWorkspaces from './SidebarWorkspaces.vue';
 import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import Search from './Search.vue';
-import { ItemsManager, type Item } from './tree_builder';
 import { navigationItems } from './helpers';
 import type { Category } from '~/stores';
 

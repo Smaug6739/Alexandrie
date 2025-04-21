@@ -67,3 +67,17 @@ export function parseUserAgent(uaString?: string) {
 
   return { os, browser };
 }
+
+export interface ANode {
+  id: string;
+  name: string;
+  title: string;
+  icon: string;
+  openedIcon: string;
+  closedIcon: string;
+  isOpen: boolean;
+  isParent: boolean;
+  showLoading: boolean;
+  buttons: Array<{ icon: string; title: string; click: (node: ANode) => void }>;
+  children: ANode[];
+}

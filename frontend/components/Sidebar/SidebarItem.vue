@@ -10,7 +10,6 @@
 
 <script setup lang="ts">
 import { navigationItems } from './helpers';
-import type { Item } from './tree_builder';
 
 const documentStore = useDocumentsStore();
 const categoriesStore = useCategoriesStore();

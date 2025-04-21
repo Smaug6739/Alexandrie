@@ -1,87 +1,96 @@
 <template>
-  <div class="categories-container">
-    <NuxtLink to="/dashboard/categories/new" class="add-category-btn">+ Add new category</NuxtLink>
+  <div style="padding: 24px; gap: 16px">
+    <header>
+      <h1 style="font-size: 20px; font-weight: bold">Workspaces & Categories</h1>
 
-    <!-- Main Categories -->
-    <div v-for="mainCategory in categoriesStore.getParents" :key="mainCategory.id" class="category-group">
-      <div class="category-card main-category">
-        {{ mainCategory.name }}
-        <div class="action-menu">
-          <NuxtLink :to="`/dashboard/categories/${mainCategory.id}/edit`">✎</NuxtLink>
-        </div>
+      <div style="display: flex; gap: 8px">
+        <AppButton type="primary" @click="createWorkspace">+ Workspace</AppButton>
+        <AppButton type="primary" @click="createCategory">+ Category</AppButton>
+        <AppButton type="secondary" variant="outline">Importer</AppButton>
       </div>
-
-      <!-- Sub Categories -->
-      <div class="sub-categories">
-        <div v-for="subCategory in categoriesStore.getChilds(mainCategory.id)" :key="subCategory.id" class="category-card sub-category">
-          {{ subCategory.name }}
-          <div class="action-menu">
-            <NuxtLink :to="`/dashboard/categories/${subCategory.id}/edit`">✎</NuxtLink>
-          </div>
-        </div>
-      </div>
+    </header>
+    <div style="padding: 10px 0; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center">
+      <input v-model="search" placeholder="Search category..." style="width: 50%; padding: 8px; border: 1px solid #ccc; border-radius: 4px" />
     </div>
+    <div v-if="workspaces.length" class="workspace" v-for="workspace in workspaces" :key="workspace.id">
+      <h3 class="wp-name">{{ workspace.title }}</h3>
+      <WorkspaceTree v-for="node in workspace.childrens" :node="node" @edit="editNode" @delete="deleteNode" />
+    </div>
+
+    <div v-else style="color: #6c757d; font-style: italic">No workspaces</div>
   </div>
 </template>
 
-<style scoped lang="scss">
-.categories-container {
+<script setup lang="ts">
+import CreateCategoryModal from './_modals/CreateCategoryModal.vue';
+import type { Category } from '~/stores';
+
+const categories = useCategoriesStore().getAll;
+const tree = new ItemsManager(
+  categories.map((c: Category) => {
+    return {
+      id: c.id,
+      title: c.name,
+      type: 'category',
+      route: `/categories/${c.id}`,
+      parent_id: c.parent_id || '',
+      data: c,
+      show: ref(true),
+    } as Item<Category>;
+  }),
+).generateTree() as Item<Category>[];
+console.log(tree);
+const workspaces = tree.filter((i: Item<Category>) => i.data.role === 2);
+console.log(workspaces);
+const search = ref('');
+
+function createWorkspace() {
+  // logique de création de workspace
+  useModal().modals.value?.push({
+    component: shallowRef(CreateCategoryModal),
+    name: '',
+    props: undefined,
+  });
+}
+
+function createCategory() {
+  // logique de création de catégorie
+}
+
+function editNode(node: Item) {
+  // ouvrir modal ou formulaire d'édition
+}
+
+function deleteNode(node: Item) {
+  // confirmation + suppression
+}
+</script>
+
+<style scoped>
+header {
   display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  padding: 20px;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 16px;
 }
-
-.add-category-btn {
-  background: none;
-  color: $primary-color;
-  cursor: pointer;
-  font-size: 1.1em;
-  margin-top: 20px;
-}
-
-.category-group {
+.workspace {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 5px 15px;
+  border-radius: 10px;
+  border: var(--border-color) 1px solid;
   width: 100%;
-  border-bottom: 2px solid var(--border-color);
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+  display: block;
+  margin-bottom: 16px;
 }
 
-.category-card {
-  background-color: var(--bg-contrast);
-  padding: 15px;
-  border-radius: 8px;
-  position: relative;
-  transition: box-shadow $transition-duration;
-  margin-bottom: 10px;
-
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-}
-
-.main-category {
+.wp-name {
+  font-size: 15px;
   font-weight: bold;
-  font-size: 1.2em;
 }
-
-.sub-categories {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-
-  @media screen and (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.action-menu {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 1.5em;
+.card-component {
+  display: block;
+  margin: 2px 0;
 }
 </style>
-<script lang="ts" setup>
-const categoriesStore = useCategoriesStore();
-</script>

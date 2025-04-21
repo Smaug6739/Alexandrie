@@ -1,13 +1,13 @@
 import type { Document, Category } from '~/stores';
-import type { DefaultItem } from './helpers';
+import type { DefaultItem } from '../components/Sidebar/helpers';
 
-export interface Item {
+export interface Item<T = Document | Category | DefaultItem> {
   id: string;
   title: string;
   route: string;
   parent_id: string;
-  data: Document | Category | DefaultItem;
-  childrens?: Item[];
+  data: T;
+  childrens?: Item<T>[];
   show: Ref<boolean>;
 }
 export class ItemsManager {
@@ -25,13 +25,13 @@ export class ItemsManager {
   // Génère l'arbre dynamiquement, sans indexation préalable
   public generateTree(): Item[] {
     return this.items
-      .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id)) // Racines
+      .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id) || (item.data.type === 'category' && item.data.role === 2)) // Racines
       .map(rootItem => this.buildTree(rootItem));
   }
 
   // Construit un sous-arbre dynamiquement
   private buildTree(item: Item): Item {
-    const children = this.items.filter(child => child.parent_id === item.id);
+    const children = this.items.filter(child => child.parent_id === item.id || (child.data.type === 'category' && child.data.workspace_id === item.id));
     return {
       ...item,
       childrens: children.map(child => this.buildTree(child)),
