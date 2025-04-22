@@ -1,14 +1,10 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
-    <select v-if="!minimal" v-model="document.accessibility" style="margin-right: 5px">
-      <option :value="1">Visible</option>
-      <option :value="2">Draf</option>
-      <option :value="3">Archive</option>
-    </select>
-    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" />
+    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Select accessibility" size="100" />
+    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220" />
     <input type="text" v-model="document.tags" placeholder="Tags" style="margin-right: 5px" />
-    <button @click="() => emitAction('exit')" style="margin-left: auto"><Icon name="close" :big="true" /></button>
+    <AppHint text="Markdown supported" />
   </div>
 </template>
 
@@ -18,6 +14,23 @@ const categories = new TreeStructure(useSidebarTree().categories.value).generate
 const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
 const emit = defineEmits(['execute-action']);
 const emitAction = (action: string) => emit('execute-action', action, props.document);
+const accessibilities: ANode[] = [
+  {
+    id: 1,
+    title: 'Visible',
+    parent_id: '',
+  },
+  {
+    id: 2,
+    title: 'Draft',
+    parent_id: '',
+  },
+  {
+    id: 3,
+    title: 'Archive',
+    parent_id: '',
+  },
+];
 const toolbar = [
   {
     name: 'Bold',
@@ -89,7 +102,7 @@ const toolbar = [
 
 <style scoped lang="scss">
 button {
-  padding: 0 3px;
+  padding: 0;
   margin: 0;
   transform: none;
 }
@@ -97,13 +110,16 @@ button {
 .toolbar {
   user-select: none;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   flex-wrap: wrap;
   background-color: var(--bg-contrast-2);
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 0.25rem;
   color: var(--font-color-dark);
+  * {
+    margin-right: 5px;
+  }
 }
 
 svg,
@@ -114,8 +130,7 @@ svg,
 input,
 select {
   display: inline-block;
-  width: min-content;
-  padding: 0;
-  background-color: var(--bg-contrast-2);
+  padding: 0.25rem;
+  max-width: 350px;
 }
 </style>

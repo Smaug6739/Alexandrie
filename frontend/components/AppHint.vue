@@ -15,8 +15,10 @@ const show = ref(false);
 <style scoped lang="scss">
 .hint-wrapper {
   position: relative;
-  display: inline-block;
   margin-left: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hint-icon {

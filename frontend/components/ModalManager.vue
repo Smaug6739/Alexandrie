@@ -1,8 +1,5 @@
-<!-- Modal BUS -->
-<!-- This component is used to manage modals in the application. -->
 <template>
   <Transition name="modal">
-    <!-- Mettre le v-if directement sur le div à animer -->
     <div v-if="modals.length">
       <div v-for="(modal, index) in modals" :key="modal.name" class="modal-mask modal-pos" :style="{ zIndex: 120 + index }">
         <div v-if="index !== modals.length - 1" class="modal-overlay"></div>
@@ -29,7 +26,7 @@ const close = (modal: Modal) => {
 <style scoped lang="scss">
 .modal-container {
   margin: auto;
-  padding: 20px;
+  padding: 15px 20px;
   background-color: var(--bg-contrast);
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);

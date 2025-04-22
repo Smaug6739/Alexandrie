@@ -1,6 +1,6 @@
 <template>
   <div class="editor-container" @keydown="editor.handleKeydown">
-    <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" @execute-action="(a:string) => editor.actions(a)" />
+    <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" />
     <div style="padding: 15px; height: 100%; width: 100%">
       <input placeholder="Title" class="title" v-model="document.name" />
       <input placeholder="Description" class="description" v-model="document.description" />
@@ -77,6 +77,7 @@ function debounce(fn: Function, wait: number) {
   width: 100%;
   box-shadow: 0 0 10px 0 var(--border-color);
   border-radius: 15px;
+  padding: 10px;
 }
 
 .markdown {

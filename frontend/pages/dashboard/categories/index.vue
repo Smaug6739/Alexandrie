@@ -5,7 +5,7 @@
       <div style="display: flex; gap: 8px">
         <AppButton type="primary" @click="createWorkspace">+ Workspace</AppButton>
         <AppButton type="primary" @click="createCategory">+ Category</AppButton>
-        <AppButton type="secondary" variant="outline">Importer</AppButton>
+        <AppButton type="secondary" variant="outline">Import</AppButton>
       </div>
     </header>
     <div style="padding: 10px 0; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center">
@@ -21,12 +21,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Category } from '~/stores';
 import CreateCategoryModal from './_modals/CreateCategoryModal.vue';
 import WorkspaceTree from './_components/WorkspaceTree.vue';
-const tree = useSidebarTree().tree;
+import type { Category } from '~/stores';
 
-const custom_tree = tree.value.filter(i => i.data.type === 'category' && i.data.role == 2) as Item<Category>[];
+const custom_tree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2) as Item<Category>[];
 
 function createWorkspace() {
   useModal().modals.value?.push(new Modal(shallowRef(CreateCategoryModal), '', { role: 2 }));

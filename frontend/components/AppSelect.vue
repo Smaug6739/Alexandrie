@@ -1,10 +1,10 @@
 <template>
-  <div class="category-select">
+  <div class="category-select" :style="{ width: size + 'px' }">
     <button class="select-button" @click="toggleDropdown">
       {{ selected?.title || placeholder }}
     </button>
 
-    <div v-if="open" class="dropdown">
+    <div v-show="open" class="dropdown">
       <ul class="tree-list">
         <AppSelectNode v-for="item in items" :key="item.id" :node="item" :level="0" @select="handleSelect" />
       </ul>
@@ -14,11 +14,12 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  items: Item[];
+  items: ANode[];
   placeholder?: string;
-  modelValue?: string;
+  modelValue?: string | number;
+  size?: string;
 }>();
-const selectedId = ref<string>(props.modelValue || '');
+const selectedId = ref<string | number>(props.modelValue || '');
 
 const emit = defineEmits(['update:modelValue']);
 
@@ -26,7 +27,7 @@ const open = ref(false);
 const selected = computed(() => {
   // Find the selected item based on the selectedId
   // Recursively search through the items (and their children) to find the selected item
-  const findSelected = (items: Item[]): Item | null => {
+  const findSelected = (items: ANode[]): ANode | null => {
     for (const item of items) {
       if (item.id === selectedId.value) {
         return item;
@@ -49,7 +50,7 @@ function toggleDropdown() {
 
 function handleSelect(node: Item) {
   selectedId.value = node.id;
-  emit('update:modelValue', node);
+  emit('update:modelValue', node.id);
   open.value = false;
 }
 </script>
@@ -57,13 +58,12 @@ function handleSelect(node: Item) {
 <style scoped>
 .category-select {
   position: relative;
-  width: 100%;
-  max-width: 400px;
+  width: 200px;
 }
 
 .select-button {
   width: 100%;
-  padding: 8px 12px;
+  padding: 6px 12px;
   border: 1px solid #ccc;
   background: white;
   text-align: left;

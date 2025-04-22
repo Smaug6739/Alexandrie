@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  node: Item;
+  node: ANode;
   level: number;
 }>();
 

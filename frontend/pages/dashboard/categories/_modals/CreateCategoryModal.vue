@@ -11,11 +11,13 @@
         <option :value="null">None</option>
         <option v-for="pc in categoriesStore.getParents.filter(c => c.role == 1)" :key="pc.id" :value="pc.id">{{ pc.name }}</option>
       </select>
-      <label>Workspace <AppHint text="Only for root categories" /></label>
-      <select v-model="category.workspace_id">
-        <option :value="null">None</option>
-        <option v-for="wp in categoriesStore.getAll.filter(a => a.role == 2)" :key="wp.id" :value="wp.id">{{ wp.name }}</option>
-      </select>
+      <div v-if="role == 1">
+        <label>Workspace <AppHint text="Only for root categories" /></label>
+        <select v-model="category.workspace_id" style="width: 100%">
+          <option :value="null">None</option>
+          <option v-for="wp in categoriesStore.getAll.filter(a => a.role == 2)" :key="wp.id" :value="wp.id">{{ wp.name }}</option>
+        </select>
+      </div>
       <label for="order">Order</label>
       <input type="number" v-model.number="category.order" id="order" />
       <AppButton type="primary">Create</AppButton>

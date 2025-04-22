@@ -12,33 +12,25 @@
         />
       </svg>
     </NuxtLink>
-    <NuxtLink @click="showDeleteModal = true">
+    <NuxtLink @click="openDeleteModal">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
         <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
       </svg>
     </NuxtLink>
-    <Modal :show="showDeleteModal">
-      <h3>Delete document</h3>
-      <p>Are you sure you want to delete this document?</p>
-      <p style="opacity: 0.7">This action is irreversible</p>
-      <AppButton @click="deleteDoc" style="float: right" type="danger">Confirm</AppButton>
-      <AppButton @click="showDeleteModal = false" style="float: right" type="link">Cancel</AppButton>
-    </Modal>
   </span>
 </template>
 
 <script setup lang="ts">
+import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
 import { useDocumentsStore } from '~/stores';
 
 const router = useRouter();
 const documentsStore = useDocumentsStore();
-const showDeleteModal = ref(false);
 const props = defineProps<{ doc_id: string }>();
 
 const print = () => window.print();
-const deleteDoc = () => {
-  showDeleteModal.value = false;
-  documentsStore.delete(props.doc_id).then(() => router.push('/dashboard'));
+const openDeleteModal = () => {
+  const modal = useModal().modals.value.push(new Modal(DeleteDocumentModal, 'Delete modal', {}));
 };
 </script>
 

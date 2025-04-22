@@ -1,14 +1,19 @@
 import type { Document, Category } from '~/stores';
 import type { DefaultItem } from '../components/Sidebar/helpers';
 
-export interface Item<T = Document | Category | DefaultItem> {
-  id: string;
+export interface ANode {
+  id: string | number;
   title: string;
   parent_id: string;
+  childrens?: ANode[];
+}
+
+export interface Item<T = Document | Category | DefaultItem> extends ANode {
+  id: string;
   route: string;
   data: T;
-  childrens?: Item<T>[];
   show: Ref<boolean>;
+  childrens?: Item<T>[];
 }
 export class TreeStructure {
   private itemMap: Map<string, Item>; // Utilisation de Map pour les recherches rapides
