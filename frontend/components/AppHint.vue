@@ -16,9 +16,7 @@ const show = ref(false);
 .hint-wrapper {
   position: relative;
   margin-left: 0.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
 }
 
 .hint-icon {

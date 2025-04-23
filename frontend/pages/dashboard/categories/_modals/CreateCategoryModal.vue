@@ -1,27 +1,22 @@
 <template>
   <div class="modal">
     <h2>Create a new {{ role == 1 ? 'category' : 'workspace' }}</h2>
-    <form @submit.prevent="createCategory">
+    <form>
       <label for="name">Name</label>
-      <input type="text" v-model="category.name" id="name" required />
+      <input type="text" v-model="category.name" required />
       <label for="icon">Icon <AppHint text="SVG supported" /></label>
       <input type="text" v-model="category.icon" id="icon" />
       <label for="parent">Parent</label>
-      <select v-model="category.parent_id" id="parent">
-        <option :value="null">None</option>
-        <option v-for="pc in categoriesStore.getParents.filter(c => c.role == 1)" :key="pc.id" :value="pc.id">{{ pc.name }}</option>
-      </select>
-      <div v-if="role == 1">
-        <label>Workspace <AppHint text="Only for root categories" /></label>
-        <select v-model="category.workspace_id" style="width: 100%">
-          <option :value="null">None</option>
-          <option v-for="wp in categoriesStore.getAll.filter(a => a.role == 2)" :key="wp.id" :value="wp.id">{{ wp.name }}</option>
-        </select>
+      <div>
+        <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
       </div>
-      <label for="order">Order</label>
+      <label for="order">Order <AppHint text="Order of the category in the sidebar" /></label>
       <input type="number" v-model.number="category.order" id="order" />
-      <AppButton type="primary">Create</AppButton>
     </form>
+    <div class="footer">
+      <AppButton @click="emit('close')" type="secondary">Cancel</AppButton>
+      <AppButton type="primary" @click="createCategory">Create</AppButton>
+    </div>
   </div>
 </template>
 
@@ -29,25 +24,32 @@
 import type { Category } from '~/stores';
 
 const categoriesStore = useCategoriesStore();
+const categoriesItem = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 const props = defineProps<{ role: number }>();
 
-const category = ref<Category>({
+const category = ref<Partial<Category>>({
   name: '',
   type: 'category',
-  id: '',
   role: props.role,
+  id: '0',
 });
+const emit = defineEmits(['close']);
 
 const createCategory = () => {
-  // categoriesStore.post(category.value)
+  categoriesStore
+    .post(category.value)
+    .then(() => {
+      useNotifications().add({ title: 'Success:', message: 'Category created', type: 'success', timeout: 3000 });
+      emit('close');
+    })
+    .catch(e => {
+      useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 });
+    });
 };
 </script>
 
 <style scoped lang="scss">
 .modal {
-  background-color: var(--bg-contrast);
-  padding: 0 1rem;
-  border-radius: 8px;
   min-width: 700px;
 }
 </style>

@@ -110,7 +110,7 @@ button {
 .toolbar {
   user-select: none;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   flex-wrap: wrap;
   background-color: var(--bg-contrast-2);
   border-radius: 8px;

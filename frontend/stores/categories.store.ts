@@ -26,11 +26,11 @@ export const useCategoriesStore = defineStore('categories', {
         } else reject(request.message);
       });
     },
-    post(category: Category) {
+    post(category: Partial<Category>): Promise<string | number> {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories`, 'POST', category);
-        if (request.status == 'success') resolve(this.categories.push({ ...(request.result as DB_Category), type: 'category' }));
-        else reject(request.message);
+        const response = await makeRequest(`categories`, 'POST', category);
+        if (response.status == 'success') resolve(this.categories.push({ ...(response.result as DB_Category), type: 'category' }));
+        else reject(response.message);
       });
     },
     update(category: Category) {

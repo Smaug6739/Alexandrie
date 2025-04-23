@@ -5,7 +5,7 @@
         <div v-if="index !== modals.length - 1" class="modal-overlay"></div>
         <div class="modal-container">
           <button @click="close(modal)" class="close-btn"><Icon name="close" :big="true" /></button>
-          <component :is="modal.component" v-bind="modal.props" />
+          <component :is="modal.component" v-bind="modal.props" class="modal" @close="close(modal)" />
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@ const close = (modal: Modal) => {
 <style scoped lang="scss">
 .modal-container {
   margin: auto;
-  padding: 15px 20px;
+  padding: 12px 18px;
   background-color: var(--bg-contrast);
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -60,6 +60,10 @@ const close = (modal: Modal) => {
   top: 1rem;
   background: none;
   z-index: 1000;
+}
+.modal {
+  background-color: var(--bg-contrast);
+  border-radius: 8px;
 }
 
 .modal-mask {

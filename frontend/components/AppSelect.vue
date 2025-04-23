@@ -1,11 +1,8 @@
 <template>
-  <div class="category-select" :style="{ width: size + 'px' }">
-    <button class="select-button" @click="toggleDropdown">
-      {{ selected?.title || placeholder }}
-    </button>
-
-    <div v-show="open" class="dropdown">
-      <ul class="tree-list">
+  <div class="category-select" :style="{ width: size ? size + 'px' : '100%' }">
+    <button @click="toggleDropdown">{{ selected?.title || placeholder }}</button>
+    <div v-if="open" class="dropdown">
+      <ul>
         <AppSelectNode v-for="item in items" :key="item.id" :node="item" :level="0" @select="handleSelect" />
       </ul>
     </div>
@@ -20,23 +17,16 @@ const props = defineProps<{
   size?: string;
 }>();
 const selectedId = ref<string | number>(props.modelValue || '');
-
+const open = ref(false);
 const emit = defineEmits(['update:modelValue']);
 
-const open = ref(false);
 const selected = computed(() => {
-  // Find the selected item based on the selectedId
-  // Recursively search through the items (and their children) to find the selected item
   const findSelected = (items: ANode[]): ANode | null => {
     for (const item of items) {
-      if (item.id === selectedId.value) {
-        return item;
-      }
+      if (item.id === selectedId.value) return item;
       if (item.childrens) {
         const found = findSelected(item.childrens);
-        if (found) {
-          return found;
-        }
+        if (found) return found;
       }
     }
     return null;
@@ -55,20 +45,28 @@ function handleSelect(node: Item) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .category-select {
   position: relative;
   width: 200px;
 }
 
-.select-button {
+button {
   width: 100%;
   padding: 6px 12px;
   border: 1px solid #ccc;
   background: white;
   text-align: left;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  padding: 8px 10px;
+  // ouline like input with focus or opened
+  &:focus {
+    outline: 2px solid #000;
+  }
+}
+.category-select:has(.dropdown) button {
+  outline: 2px solid #000;
 }
 
 .dropdown {
@@ -85,7 +83,7 @@ function handleSelect(node: Item) {
   z-index: 1000;
 }
 
-.tree-list {
+ul {
   list-style: none;
   padding: 0;
   margin: 0;
