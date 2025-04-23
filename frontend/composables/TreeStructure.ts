@@ -19,18 +19,16 @@ export class TreeStructure {
   public readonly items: Item[];
   private itemMap: Map<string, Item>; // Utilisation de Map pour les recherches rapides
   private childrenMap: Map<string, Item[]>; // Utilisation de Map pour les recherches rapides
-
   constructor(items: Item[]) {
     this.items = items;
     this.itemMap = new Map(items.map(item => [item.id, item]));
     this.childrenMap = new Map();
 
     for (const item of items) {
-      const parentId = item.parent_id;
-      if (!this.childrenMap.has(parentId)) {
-        this.childrenMap.set(parentId, []);
+      if (!this.childrenMap.has(item.parent_id)) {
+        this.childrenMap.set(item.parent_id, []);
       }
-      this.childrenMap.get(parentId)!.push(item);
+      this.childrenMap.get(item.parent_id)!.push(item);
     }
   }
 
@@ -44,6 +42,23 @@ export class TreeStructure {
     return this.items
       .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id) || (item.data.type === 'category' && item.data.role === 2)) // Racines
       .map(rootItem => this.buildTree(rootItem));
+  }
+  public getSubTreeById(id: string): Item | undefined {
+    const root = this.getItem(id);
+    if (!root) return undefined;
+    return this.buildTree(root);
+  }
+  public treeToArray(tree: Item[]): Item[] {
+    const result: Item[] = [];
+    const stack: Item[] = [...tree];
+    while (stack.length) {
+      const node = stack.pop()!;
+      result.push(node);
+      if (node.childrens) {
+        stack.push(...node.childrens);
+      }
+    }
+    return result;
   }
 
   // Generate sub tree

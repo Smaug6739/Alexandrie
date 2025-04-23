@@ -1,4 +1,3 @@
-import { computed, ref } from 'vue';
 import { useCategoriesStore, useDocumentsStore, type Category } from '~/stores';
 
 function getCollapseState(id: string): boolean {
@@ -37,18 +36,14 @@ export function useSidebarTree() {
   );
 
   const allItems = computed(() => [...documents.value, ...categories.value.filter(cat => (cat as Item<Category>).data.role == 1)]);
+  const structure = new TreeStructure(allItems.value);
 
-  const tree = computed(() => {
-    return new TreeStructure(allItems.value).generateTree();
-  });
+  const tree = computed(() => structure.generateTree());
+
   const filtered = computed(() => {
     return tree.value.filter(item => {
-      if (item.data.type === 'category' && workspaceId.value) {
-        return item.data.workspace_id === workspaceId.value && item.data.role == 1;
-      }
-      if (item.data.type === 'document' && workspaceId.value) {
-        return item.data.category === workspaceId.value;
-      }
+      if (item.data.type === 'category' && workspaceId.value) return item.data.workspace_id === workspaceId.value && item.data.role == 1;
+      if (item.data.type === 'document' && workspaceId.value) return item.data.category === workspaceId.value;
       return true;
     });
   });
@@ -61,8 +56,12 @@ export function useSidebarTree() {
       }
     });
   };
+  const getSubTreeById = (id: string) => {
+    return structure.treeToArray(structure.getSubTreeById(id)?.childrens || []);
+  };
 
   return {
+    getSubTreeById,
     categories,
     tree,
     filtered,
