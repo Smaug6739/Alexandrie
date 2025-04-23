@@ -1,8 +1,8 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
-    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Select accessibility" size="100" />
-    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220" />
+    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Select accessibility" size="100px" />
+    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" />
     <input type="text" v-model="document.tags" placeholder="Tags" style="margin-right: 5px" />
     <AppHint text="Markdown supported" />
   </div>

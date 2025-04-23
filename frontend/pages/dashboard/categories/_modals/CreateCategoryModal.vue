@@ -39,11 +39,11 @@ const createCategory = () => {
   categoriesStore
     .post(category.value)
     .then(() => {
-      useNotifications().add({ title: 'Success:', message: 'Category created', type: 'success', timeout: 3000 });
+      useNotifications().add({ title: 'Category successfully created', message: '', type: 'success', timeout: 3000 });
       emit('close');
     })
     .catch(e => {
-      useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 });
+      useNotifications().add({ title: 'Error: ' + e, message: '', type: 'error', timeout: 3000 });
     });
 };
 </script>

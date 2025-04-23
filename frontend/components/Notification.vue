@@ -2,9 +2,11 @@
   <TransitionGroup name="notification-slide" tag="div" class="notification-container">
     <div v-for="notification in notifications" :key="notification.id" class="notification" :class="notification.type">
       <div class="content">
-        <p class="title">{{ notification.title }}</p>
+        <div class="header">
+          <p class="title">{{ notification.title }}</p>
+          <span class="btn" @click="close(notification.id)" aria-label="Close">&times;</span>
+        </div>
         <p v-if="notification.message" class="message">{{ notification.message }}</p>
-        <button @click="close(notification.id)" aria-label="Close">&times;</button>
       </div>
     </div>
   </TransitionGroup>
@@ -41,7 +43,12 @@ const close = (id: number) => useNotifications().remove(id);
   animation: fadeIn 0.3s ease;
   position: relative;
 }
-
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
 p {
   font-size: 14px;
   margin: 0;
@@ -54,14 +61,14 @@ p {
   opacity: 0.8;
   margin-top: 4px;
 }
-button {
-  font-size: 30px;
+.btn {
+  font-size: 25px;
   color: white;
   border: none;
   cursor: pointer;
   opacity: 0.6;
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: 15px;
 }
 /* Notification types */

@@ -18,10 +18,10 @@ function save(doc: Document) {
   store
     .post(doc)
     .then(d => {
-      notifications.add({ title: 'Success:', message: 'Document posted', type: 'success', timeout: 3000 });
+      notifications.add({ title: 'Document successfully posted', message: '', type: 'success', timeout: 3000 });
       useRouter().push(`/dashboard/docs/edit/${d.id}`);
     })
-    .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+    .catch(e => notifications.add({ title: 'Error: ' + e, message: '', type: 'error', timeout: 3000 }));
 }
 function exit() {
   useRouter().push('/dashboard');

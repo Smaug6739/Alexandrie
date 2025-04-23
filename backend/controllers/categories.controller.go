@@ -4,7 +4,6 @@ import (
 	"alexandrie/app"
 	"alexandrie/models"
 	"alexandrie/utils"
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -55,7 +54,7 @@ func (ctr *Controller) GetCategories(c *gin.Context) (int, any) {
 func (ctr *Controller) CreateCategory(c *gin.Context) (int, any) {
 	var category models.Category
 	if err := c.ShouldBind(&category); err != nil {
-		return http.StatusBadRequest, errors.New("invalid request payload")
+		return http.StatusBadRequest, err
 	}
 
 	userId, err := utils.GetUserIdCtx(c)

@@ -20,7 +20,7 @@
           </div>
           <div class="icons">
             <NuxtLink @click="onClick" to="/dashboard/docs/new"><Icon name="add_file" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
-            <NuxtLink @click="onClick" to="/dashboard/categories/new"><Icon name="add_folder" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
+            <NuxtLink @click="newCategory"><Icon name="add_folder" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
             <NuxtLink @click="sidebarTree.collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
           </div>
         </div>
@@ -39,8 +39,9 @@ import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import Search from './Search.vue';
 import { navigationItems } from './helpers';
+import NewCategoryModal from '../../pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 
-const { isOpened, hasSidebar, workspaceId } = useSidebar();
+const { isOpened, hasSidebar } = useSidebar();
 const categoriesStore = useCategoriesStore();
 const preferences = usePreferencesStore();
 const userStore = useUserStore();
@@ -70,8 +71,11 @@ const tree = computed(() => [...navigationItemsComputed.value, ...sidebarTree.fi
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
 };
-
-const onClick = (_: MouseEvent) => {
+const newCategory = (m: MouseEvent) => {
+  onClick();
+  useModal().add(new Modal(shallowRef(NewCategoryModal), { role: 1 }));
+};
+const onClick = () => {
   if (isMobile()) isOpened.value = false;
 };
 

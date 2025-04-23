@@ -46,6 +46,8 @@
 </template>
 
 <script lang="ts" setup>
+import DeleteModal from '../_modals/DeleteCategoryModal.vue';
+
 const categoriesStore = useCategoriesStore();
 const route = useRoute();
 const category = computed(() => categoriesStore.getById(route.params.id as string));
@@ -63,14 +65,7 @@ const updateCategory = async () => {
       .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
 };
 const deleteCategory = async () => {
-  if (category.value)
-    categoriesStore
-      .delete(category.value.id)
-      .then(() => {
-        useNotifications().add({ title: 'Success:', message: 'Category deleted', type: 'success', timeout: 3000 });
-        useRouter().push('/dashboard/categories');
-      })
-      .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+  useModal().add(new Modal(shallowRef(DeleteModal), { categoryId: category.value?.id || '' }));
 };
 </script>
 

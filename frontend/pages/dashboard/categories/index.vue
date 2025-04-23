@@ -27,8 +27,8 @@ import type { Category } from '~/stores';
 
 const tree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2) as Item<Category>[];
 
-const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), '', { role: 2 }));
-const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), '', { role: 1 }));
+const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 2 }));
+const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }));
 
 function editNode(node: Item) {
   // ouvrir modal ou formulaire d'édition

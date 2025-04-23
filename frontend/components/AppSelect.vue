@@ -1,5 +1,5 @@
 <template>
-  <div class="category-select" :style="{ width: size ? size + 'px' : '100%' }">
+  <div class="category-select" :style="{ width: size || '100%' }">
     <button @click="toggleDropdown">{{ selected?.title || placeholder }}</button>
     <div v-if="open" class="dropdown">
       <ul>

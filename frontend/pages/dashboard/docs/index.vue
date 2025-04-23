@@ -2,8 +2,8 @@
   <h2 style="text-align: center">Search documents</h2>
   <DataTable :headers="headers" :rows="rows">
     <template #actions="{ cell }">
-      <NuxtLink :to="`/dashboard/docs/${cell?.data.id}`" class="btn btn-primary"><Icon name="view" /></NuxtLink>
-      <NuxtLink :to="`/dashboard/docs/edit/${cell?.data.id}`" class="btn btn-primary"><Icon name="edit" /></NuxtLink>
+      <NuxtLink :to="`/dashboard/docs/${cell?.data.id}`"><Icon name="view" /></NuxtLink>
+      <NuxtLink :to="`/dashboard/docs/edit/${cell?.data.id}`"><Icon name="edit" /></NuxtLink>
     </template>
   </DataTable>
 </template>
