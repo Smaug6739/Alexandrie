@@ -25,9 +25,7 @@ import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
 
 const props = defineProps<{ doc_id: string }>();
 const print = () => window.print();
-const openDeleteModal = () => {
-  useModal().modals.value.push(new Modal(shallowRef(DeleteDocumentModal), 'Delete modal', { documentId: props.doc_id }));
-};
+const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), 'Delete modal', { documentId: props.doc_id }));
 </script>
 
 <style lang="scss" scoped>

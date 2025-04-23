@@ -1,6 +1,6 @@
 <template>
   <div class="editor-container" @keydown="editor.handleKeydown">
-    <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" />
+    <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" @execute-action="(a:string) => editor.actions(a)" />
     <div style="padding: 15px; height: 100%; width: 100%">
       <input placeholder="Title" class="title" v-model="document.name" />
       <input placeholder="Description" class="description" v-model="document.description" />

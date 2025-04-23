@@ -36,9 +36,9 @@ export function useSidebarTree() {
   );
 
   const allItems = computed(() => [...documents.value, ...categories.value.filter(cat => (cat as Item<Category>).data.role == 1)]);
-  const structure = new TreeStructure(allItems.value);
+  const structure = computed(() => new TreeStructure(allItems.value));
 
-  const tree = computed(() => structure.generateTree());
+  const tree = computed(() => structure.value.generateTree());
 
   const filtered = computed(() => {
     return tree.value.filter(item => {
@@ -57,7 +57,7 @@ export function useSidebarTree() {
     });
   };
   const getSubTreeById = (id: string) => {
-    return structure.treeToArray(structure.getSubTreeById(id)?.childrens || []);
+    return structure.value.treeToArray(structure.value.getSubTreeById(id)?.childrens || []);
   };
 
   return {

@@ -13,7 +13,18 @@
 
 <script setup lang="ts">
 const props = defineProps<{ documentId: string }>();
-const deleteDoc = () => useCategoriesStore().delete(props.documentId);
+const deleteDoc = () => {
+  useDocumentsStore()
+    .delete(props.documentId)
+    .then(() => {
+      useNotifications().add({ title: 'Success:', message: 'Document deleted', type: 'success', timeout: 3000 });
+      emit('close');
+      useRouter().push('/dashboard');
+    })
+    .catch(e => {
+      useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 });
+    });
+};
 const emit = defineEmits(['close']);
 const allChildren = useSidebarTree().getSubTreeById(props.documentId);
 </script>

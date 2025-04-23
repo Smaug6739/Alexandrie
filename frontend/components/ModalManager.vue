@@ -4,23 +4,16 @@
       <div v-for="(modal, index) in modals" :key="modal.name" class="modal-mask modal-pos" :style="{ zIndex: 120 + index }">
         <div v-if="index !== modals.length - 1" class="modal-overlay"></div>
         <div class="modal-container">
-          <button @click="close(modal)" class="close-btn"><Icon name="close" :big="true" /></button>
-          <component :is="modal.component" v-bind="modal.props" class="modal" @close="close(modal)" />
+          <button @click="modalManager.close(modal)" class="close-btn"><Icon name="close" :big="true" /></button>
+          <component :is="modal.component" v-bind="modal.props" class="modal" @close="modalManager.close(modal)" />
         </div>
       </div>
     </div>
   </Transition>
 </template>
 <script setup lang="ts">
-const modals = useModal().modals;
-
-const close = (modal: Modal) => {
-  modal.onClose?.();
-  const index = modals.value.findIndex(m => m.name === modal.name);
-  if (index !== -1) {
-    modals.value.splice(index, 1);
-  }
-};
+const modalManager = useModal();
+const modals = modalManager.modals;
 </script>
 
 <style scoped lang="scss">

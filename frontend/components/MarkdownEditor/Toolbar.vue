@@ -105,6 +105,9 @@ button {
   padding: 0;
   margin: 0;
   transform: none;
+  &:hover {
+    background-color: var(--selection-color);
+  }
 }
 
 .toolbar {
@@ -118,7 +121,7 @@ button {
   padding: 0.25rem;
   color: var(--font-color-dark);
   * {
-    margin-right: 5px;
+    margin: 0 2.5px;
   }
 }
 

@@ -1,13 +1,11 @@
 <template>
-  <TransitionGroup name="notification-slide" tag="div" class="notification-container" enter-from-class="notification-enter-from" enter-to-class="notification-enter-to" leave-from-class="notification-leave-from" leave-to-class="notification-leave-to">
+  <TransitionGroup name="notification-slide" tag="div" class="notification-container">
     <div v-for="notification in notifications" :key="notification.id" class="notification" :class="notification.type">
-      <div class="header">
-        <p>{{ notification.title }}</p>
-        <svg @click="close(notification.id)" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" class="close-icon">
-          <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-        </svg>
+      <div class="content">
+        <p class="title">{{ notification.title }}</p>
+        <p v-if="notification.message" class="message">{{ notification.message }}</p>
+        <button @click="close(notification.id)" aria-label="Close">&times;</button>
       </div>
-      <p>{{ notification.message }}</p>
     </div>
   </TransitionGroup>
 </template>
@@ -21,88 +19,98 @@ const close = (id: number) => useNotifications().remove(id);
 <style scoped lang="scss">
 .notification-container {
   position: fixed;
-  bottom: 10px;
-  right: 10px;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   z-index: 1000;
 }
 
 .notification {
-  padding: 18px 15px;
-  border-radius: 8px;
-  color: white;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 12px var(--border-color);
-  width: 350px;
-}
-
-.header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  font-weight: 500;
+  gap: 12px;
+  width: 360px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+  background: rgba(30, 30, 30, 0.6);
+  color: white;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+  position: relative;
 }
 
 p {
+  font-size: 14px;
   margin: 0;
-  padding: 0 5px;
+  line-height: 1.4;
 }
-
-.close-icon {
+.title {
+  font-weight: 500;
+}
+.message {
+  opacity: 0.8;
+  margin-top: 4px;
+}
+button {
+  font-size: 30px;
+  color: white;
+  border: none;
   cursor: pointer;
-  margin-left: 12px;
-  transition: transform $transition-duration ease;
-  fill: var(--font-color);
+  opacity: 0.6;
+  position: absolute;
+  top: 10px;
+  right: 15px;
 }
-
-.close-icon:hover {
-  transform: scale(1.1);
-}
-
-.info {
-  border-color: var(--blue-border);
-  color: var(--blue);
-  background-color: var(--blue-bg);
+/* Notification types */
+.success {
+  background: $green;
 }
 
 .error {
-  color: white;
-  background-color: red;
-}
-
-.success {
-  color: white;
-  background-color: $green;
+  background: $red;
 }
 
 .warning {
-  border-color: var(--yellow-border);
-  color: var(--yellow);
-  background-color: var(--yellow-bg);
+  background: $yellow;
+}
+
+.info {
+  background: $blue;
 }
 
 /* Transitions */
 .notification-slide-enter-active,
 .notification-slide-leave-active {
-  transition: transform $transition-duration, opacity $transition-duration;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
-
 .notification-enter-from {
   opacity: 0;
   transform: translateX(100%);
 }
-
 .notification-enter-to {
   opacity: 1;
-  transform: translateX(0%);
+  transform: translateX(0);
 }
-
 .notification-leave-from {
   opacity: 1;
-  transform: translateX(0%);
+  transform: translateX(0);
 }
-
 .notification-leave-to {
   opacity: 0;
   transform: translateX(100%);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
