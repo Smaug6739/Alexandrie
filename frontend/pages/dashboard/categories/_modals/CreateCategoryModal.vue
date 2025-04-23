@@ -1,18 +1,16 @@
 <template>
   <div class="modal">
     <h2>Create a new {{ role == 1 ? 'category' : 'workspace' }}</h2>
-    <form>
-      <label for="name">Name</label>
-      <input type="text" v-model="category.name" required />
-      <label for="icon">Icon <AppHint text="SVG supported" /></label>
-      <input type="text" v-model="category.icon" id="icon" />
-      <label for="parent">Parent</label>
-      <div>
-        <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
-      </div>
-      <label for="order">Order <AppHint text="Order of the category in the sidebar" /></label>
-      <input type="number" v-model.number="category.order" id="order" />
-    </form>
+    <label>Name</label>
+    <input type="text" v-model="category.name" required />
+    <label>Icon <AppHint text="SVG supported" /></label>
+    <input type="text" v-model="category.icon" id="icon" />
+    <label>Parent</label>
+    <div>
+      <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
+    </div>
+    <label>Order <AppHint text="Order of the category in the sidebar" /></label>
+    <input type="number" v-model.number="category.order" id="order" />
     <div class="footer">
       <AppButton @click="emit('close')" type="secondary">Cancel</AppButton>
       <AppButton type="primary" @click="createCategory">Create</AppButton>
@@ -43,7 +41,7 @@ const createCategory = () => {
       emit('close');
     })
     .catch(e => {
-      useNotifications().add({ title: 'Error: ' + e, message: '', type: 'error', timeout: 3000 });
+      useNotifications().add({ title: 'Error during creation ', message: e, type: 'error', timeout: 3000 });
     });
 };
 </script>
@@ -51,5 +49,8 @@ const createCategory = () => {
 <style scoped lang="scss">
 .modal {
   min-width: 700px;
+}
+label {
+  margin: 5px 0;
 }
 </style>

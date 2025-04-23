@@ -17,12 +17,11 @@ const deleteDoc = () => {
   useCategoriesStore()
     .delete(props.categoryId)
     .then(() => {
-      useNotifications().add({ title: 'Success:', message: 'Category deleted', type: 'success', timeout: 3000 });
+      useNotifications().add({ title: 'Category successfully deleted', message: '', type: 'success', timeout: 3000 });
       emit('close');
-      useRouter().push('/dashboard');
     })
     .catch(e => {
-      useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 });
+      useNotifications().add({ title: 'Error during deletion', message: e, type: 'error', timeout: 3000 });
     });
 };
 const emit = defineEmits(['close']);

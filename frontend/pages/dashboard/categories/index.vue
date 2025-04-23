@@ -9,7 +9,7 @@
       </div>
     </header>
     <div style="padding: 10px 0; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center">
-      <input placeholder="Search category..." style="width: 50%; padding: 8px; border: 1px solid #ccc; border-radius: 4px" />
+      <input placeholder="Search for workspace..." v-model="filter" style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px" />
     </div>
     <div v-if="tree.length" class="workspace" v-for="workspace in tree" :key="workspace.id">
       <h3 class="wp-name">{{ workspace.title }}</h3>
@@ -22,20 +22,22 @@
 
 <script setup lang="ts">
 import CreateCategoryModal from './_modals/CreateCategoryModal.vue';
+import DeleteCategoryModal from './_modals/DeleteCategoryModal.vue';
 import WorkspaceTree from './_components/WorkspaceTree.vue';
 import type { Category } from '~/stores';
 
-const tree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2) as Item<Category>[];
+const filter = ref('');
+const tree = computed(() => new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2 && i.data.name.toLowerCase().includes(filter.value.toLowerCase())) as Item<Category>[]);
 
 const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 2 }));
 const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }));
 
 function editNode(node: Item) {
-  // ouvrir modal ou formulaire d'édition
+  useRouter().push('/dashboard/categories/' + node.id + '/edit');
 }
 
 function deleteNode(node: Item) {
-  // confirmation + suppression
+  useModal().add(new Modal(shallowRef(DeleteCategoryModal), { categoryId: node.id }));
 }
 </script>
 

@@ -6,8 +6,8 @@
         <span>{{ node.title }}</span>
       </div>
       <div class="tree-actions">
-        <span style="padding: 2px" @click="$emit('edit', node)" title="Editer"><Icon name="edit" style="display: inline" /></span>
-        <span style="padding: 2px" @click="$emit('delete', node)" title="Supprimer"><Icon name="delete" style="display: inline" /></span>
+        <span style="padding: 2px" @click="$emit('edit', node)" title="Edit"><Icon name="edit" style="display: inline" /></span>
+        <span style="padding: 2px" @click="$emit('delete', node)" title="Delete"><Icon name="delete" style="display: inline" /></span>
       </div>
     </div>
 
@@ -64,9 +64,9 @@ defineEmits(['edit', 'delete']);
   display: flex;
 }
 
-.tree-actions button {
-  border: none;
-  background: none;
+.tree-actions span {
+  border-radius: 4px;
   cursor: pointer;
+  margin: 0 2.5px;
 }
 </style>
