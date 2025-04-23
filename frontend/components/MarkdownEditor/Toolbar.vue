@@ -4,7 +4,7 @@
     <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Select accessibility" size="100px" />
     <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" />
     <input type="text" v-model="document.tags" placeholder="Tags" style="margin-right: 5px" />
-    <AppHint text="Markdown supported" />
+    <AppHint text="Tags separated with a comma" />
   </div>
 </template>
 
