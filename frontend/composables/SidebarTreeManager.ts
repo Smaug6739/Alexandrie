@@ -16,10 +16,22 @@ export interface Item<T = Document | Category | DefaultItem> extends ANode {
   childrens?: Item<T>[];
 }
 export class TreeStructure {
+  public readonly items: Item[];
   private itemMap: Map<string, Item>; // Utilisation de Map pour les recherches rapides
+  private childrenMap: Map<string, Item[]>; // Utilisation de Map pour les recherches rapides
 
-  constructor(public readonly items: Item[]) {
+  constructor(items: Item[]) {
+    this.items = items;
     this.itemMap = new Map(items.map(item => [item.id, item]));
+    this.childrenMap = new Map();
+
+    for (const item of items) {
+      const parentId = item.parent_id;
+      if (!this.childrenMap.has(parentId)) {
+        this.childrenMap.set(parentId, []);
+      }
+      this.childrenMap.get(parentId)!.push(item);
+    }
   }
 
   // Get item by ID
@@ -36,7 +48,7 @@ export class TreeStructure {
 
   // Generate sub tree
   private buildTree(item: Item): Item {
-    const children = this.items.filter(child => child.parent_id === item.id || (child.data.type === 'category' && child.data.workspace_id === item.id));
+    const children = this.childrenMap.get(item.id) || [];
     return {
       ...item,
       childrens: children.map(child => this.buildTree(child)),
