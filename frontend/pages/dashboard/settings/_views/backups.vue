@@ -10,7 +10,7 @@
       <input type="text" v-model="downloadLink" readonly placeholder="Backup Link" />
       <div style="display: flex">
         <AppButton @click="copyLink" type="secondary">Copy Link</AppButton>
-        <a :href="downloadLink" download><AppButton type="primary">Download Backup</AppButton></a>
+        <a :href="downloadLink + '?response-content-disposition=attachment%3B%20filename%3D%22' + fileName()" download><AppButton type="primary">Download Backup</AppButton></a>
       </div>
     </div>
   </div>
@@ -25,15 +25,15 @@ watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 const downloadLink = ref<string | null>(null);
 const copyLink = () => navigator.clipboard.writeText(downloadLink.value!);
 const isLoading = ref(false);
-
+const fileName = () => `backup-${new Date().toISOString().split('T')[0]}.json`;
 async function submitFile() {
   isLoading.value = true;
-  const result = await makeRequest<{ url: string }>('backups', 'POST', {});
+  const result = await makeRequest<{ link: string }>('ressources/backup', 'GET', {});
   isLoading.value = false;
   if (result.status != 'success') {
     return useNotifications().add({ type: 'error', title: 'Error', message: result.message, timeout: 3000 });
   }
-  downloadLink.value = `${CDN}${result.result?.url || ''}`;
+  downloadLink.value = `${CDN}${result.result?.link || ''}`;
 }
 
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
