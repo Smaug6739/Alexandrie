@@ -19,7 +19,7 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ⚠️ Currently rewriting the backend in Go. Follow the changes on #17 [[#17](https://github.com/Smaug6739/Alexandrie/issues/17)]
 
-<img src="./.github/assets/preview.png"/>
+<img src="./.github/assets/Alexandrie interface.png"/>
 
 ---
 
