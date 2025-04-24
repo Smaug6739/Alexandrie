@@ -7,7 +7,7 @@
         <span>{{ selectedFile.name }}</span>
         <div class="file-size">{{ readableFileSize(selectedFile.size) }}</div>
       </div>
-      <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computed</span>.</div>
+      <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computer</span>.</div>
     </div>
     <AppButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AppButton>
     <div v-if="isLoading" class="loading-spinner"></div>

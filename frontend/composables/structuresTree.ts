@@ -61,6 +61,7 @@ export function useSidebarTree() {
   };
 
   return {
+    structure,
     getSubTreeById,
     categories,
     tree,

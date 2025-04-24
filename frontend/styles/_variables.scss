@@ -66,11 +66,11 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 }
 
 .dark-mode {
-	--bg-color: #333a44;
+	--bg-color: #31363F;
 	--bg-contrast: #3d4550;
 	--bg-contrast-2: #4e545e;
 	--selection-color: #4a90e2;
-	--font-color: #e5e5e5;
+	--font-color: #cccccc;
 	--font-color-dark: #ccc;
 	--font-color-light: rgb(179, 179, 179);
 	--border-color: rgba(255, 255, 255, 0.1);
