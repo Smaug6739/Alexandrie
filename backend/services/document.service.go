@@ -8,6 +8,7 @@ import (
 
 type DocumentService interface {
 	GetAllDocuments(userId types.Snowflake) ([]*models.Document, error)
+	GetAllDocumentBackup(author_id types.Snowflake) ([]*models.Document, error)
 	GetDocument(documentId types.Snowflake) (*models.Document, error)
 	CreateDocument(document *models.Document) error
 	UpdateDocument(document *models.Document) error
@@ -36,6 +37,34 @@ func (s *Service) GetAllDocuments(userId types.Snowflake) ([]*models.Document, e
 			&document.Category,
 			&document.ParentId,
 			&document.Accessibility,
+			&document.AuthorId,
+			&document.CreatedTimestamp,
+			&document.UpdatedTimestamp); err != nil {
+			return nil, err
+		}
+		documents = append(documents, &document)
+	}
+	return documents, nil
+}
+
+func (s *Service) GetAllDocumentBackup(author_id types.Snowflake) ([]*models.Document, error) {
+	var documents []*models.Document
+	rows, err := s.db.Query("SELECT id, name, description, tags, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ?", author_id)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		var document models.Document
+		if err := rows.Scan(
+			&document.Id,
+			&document.Name,
+			&document.Description,
+			&document.Tags,
+			&document.Category,
+			&document.ParentId,
+			&document.Accessibility,
+			&document.ContentMarkdown,
+			&document.ContentHtml,
 			&document.AuthorId,
 			&document.CreatedTimestamp,
 			&document.UpdatedTimestamp); err != nil {

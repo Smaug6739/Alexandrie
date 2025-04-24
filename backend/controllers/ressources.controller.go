@@ -4,7 +4,9 @@ import (
 	"alexandrie/app"
 	"alexandrie/models"
 	"alexandrie/utils"
+	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -20,6 +22,7 @@ import (
 
 type RessourceController interface {
 	GetAllUploads(c *gin.Context) (int, any)
+	GetBackup(c *gin.Context) (int, any)
 	UploadFile(c *gin.Context) (int, any)
 	UploadAvatar(c *gin.Context) (int, any)
 	DeleteUpload(c *gin.Context) (int, any)
@@ -41,6 +44,53 @@ func (ctr *Controller) GetAllUploads(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, err
 	}
 	return http.StatusOK, uploads
+}
+
+// Get backup
+// @Summary Get backups files of database (documents, categories, ressources)
+// @Summary Save database as json file and save it in minio (/userid/backups)
+// @Method GET
+// @Router /uploads/backup [get]
+// @Security Authenfification: Auth
+// @Success 200 {object} Success(string)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
+func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
+	userId, err := utils.GetUserIdCtx(c)
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	// Create the backup file from database data
+	documents_list, err := ctr.app.Services.Document.GetAllDocumentBackup(userId)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	categories_list, err := ctr.app.Services.Category.GetAllCategories(userId)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	ressources_list, err := ctr.app.Services.Ressource.GetAllUploadsByUserId(userId)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	backup := map[string]interface{}{
+		"documents":  documents_list,
+		"categories": categories_list,
+		"ressources": ressources_list,
+	}
+	jsonString, err := json.Marshal(backup)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	objectName := fmt.Sprintf("%d/backups/backup.json", userId)
+	_, err = ctr.app.MinioClient.PutObject(c, os.Getenv("MINIO_BUCKET"), objectName, bytes.NewReader(jsonString), int64(len(jsonString)), minio.PutObjectOptions{ContentType: "application/json"})
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return http.StatusCreated, gin.H{
+		"link": objectName,
+	}
 }
 
 // UploadFile
