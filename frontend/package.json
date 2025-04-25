@@ -7,7 +7,7 @@
     "@types/katex": "^0.16.7",
     "@types/markdown-it": "^13.0.9",
     "@types/markdown-it-container": "^2.0.10",
-    "@types/node": "^20.17.30",
+    "@types/node": "^20.17.31",
     "katex": "^0.16.22",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^8.6.7",
@@ -17,9 +17,9 @@
     "nuxt": "^3.16.2",
     "pinia": "^2.3.1",
     "punycode": "^2.3.1",
-    "sass": "^1.86.3",
+    "sass": "^1.87.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.1"
   },
   "private": true,
   "scripts": {
