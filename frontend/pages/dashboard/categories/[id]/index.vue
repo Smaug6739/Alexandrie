@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { useColorHash } from '~/helpers/utils';
+
 const route = useRoute();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();

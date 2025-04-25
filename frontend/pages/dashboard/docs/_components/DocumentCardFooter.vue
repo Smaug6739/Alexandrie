@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { Document } from '@/stores';
+import type { Document } from '~/stores';
 defineProps<{ document: Document; next?: Document; previous?: Document }>();
 </script>
 

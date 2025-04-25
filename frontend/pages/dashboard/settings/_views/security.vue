@@ -27,7 +27,7 @@
       <input id="password" type="password" required v-model="passwordValue" />
     </div>
     <div class="form-group">
-      <span style="display: flex"><label for="password_confirm">Confirm password</label> <span v-if="errorMessages.passwordNotMatch" class="err"> Password do not match !</span></span>
+      <span style="display: flex"><label for="password_confirm">Confirm password</label> <span v-if="err_password_not_match" class="err"> Password do not match !</span></span>
       <input id="password_confirm" type="password" required v-model="passwordConfirmValue" />
     </div>
     <AppButton type="danger">Change password</AppButton>
@@ -38,20 +38,19 @@
 </template>
 
 <script setup lang="ts">
+import { parseUserAgent } from '~/helpers/utils';
 const route = useRoute();
 const currentPage = ref(route.query.p || 'profile');
 const store = useUserStore();
 const passwordValue = ref('');
 const passwordConfirmValue = ref('');
-const errorMessages = ref({
-  passwordNotMatch: false,
-});
+const err_password_not_match = ref(false);
 
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 
 const changePassword = async () => {
   if (!store.user) return;
-  if (passwordValue.value !== passwordConfirmValue.value) return (errorMessages.value.passwordNotMatch = true);
+  if (passwordValue.value !== passwordConfirmValue.value) return (err_password_not_match.value = true);
   store.updatePassword(passwordValue.value);
 };
 

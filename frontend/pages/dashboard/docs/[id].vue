@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '@/stores';
+import type { Document } from '~/stores';
 import TableOfContent from './_components/table-of-content/TableOfContents.vue';
 import DocumentCardHeader from './_components/DocumentCardHeader.vue';
 import DocumentCardFooter from './_components/DocumentCardFooter.vue';

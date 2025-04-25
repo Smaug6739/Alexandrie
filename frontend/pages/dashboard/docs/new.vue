@@ -3,7 +3,7 @@
 </template>
 <script lang="ts" setup>
 import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
-import type { Document } from '@/stores';
+import type { Document } from '~/stores';
 
 const store = useDocumentsStore();
 const document = ref<Partial<Document>>({

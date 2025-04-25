@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { analyseFile, validateFileStructure, compareDocumentsAndLocal, prepareNewDocuments, uploadDocument, uploadDocuments } from '@/helpers/importations';
+import { analyseFile, validateFileStructure, compareDocumentsAndLocal, prepareNewDocuments, uploadDocument, uploadDocuments } from '~/helpers/importations';
 import type { DB_Document } from '~/stores';
 definePageMeta({ breadcrumb: 'Importations' });
 

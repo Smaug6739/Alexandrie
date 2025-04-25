@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IconName } from '~/composables/icons';
+import { useIcon, type IconName } from '~/helpers/icons';
 const props = defineProps<{ name: IconName | string; fill?: string; big?: true; mid?: boolean }>();
 const icon = useIcon(props.name as IconName) || props.name;
 </script>

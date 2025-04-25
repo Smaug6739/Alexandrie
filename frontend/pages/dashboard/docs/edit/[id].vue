@@ -2,7 +2,7 @@
   <MarkdownEditor v-if="document" ref="editor" :doc="document" @save="data => save(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
-import type { Document } from '@/stores';
+import type { Document } from '~/stores';
 import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
 
 const store = useDocumentsStore();
