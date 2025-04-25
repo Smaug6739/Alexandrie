@@ -19,33 +19,22 @@ jobs:
       - name: Setup bun
         uses: oven-sh/setup-bun@v1
 
-      - name: Install dependencies
-        run: |
-          cd frontend
-          bun install
-          cd ../backend
-          bun install
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
 
-      - name: Build backend
+      - name: Build Go backend
         run: |
           cd backend
-          bun run build
+          go mod download
+          GOOS=linux GOARCH=amd64 go build -o backend_app
 
       - name: Build frontend
         run: |
           cd frontend
+          bun install --production
           bun run build
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22' # Change to your desired Go version
-
-      - name: Build Go application
-        run: | # Build the Go application and name it cdn_app
-          cd cdn  # Change to your Go application directory
-          go mod download
-          GOOS=linux GOARCH=amd64 go build -o cdn_app
 
       - name: Set up SSH
         run: |
@@ -64,23 +53,17 @@ jobs:
       - name: Create Archives
         run: |
           tar -czf frontend.tar.gz frontend/.output frontend/.env.production
-          tar -czf backend.tar.gz -C backend package.json bun.lockb -C dist .
-          tar -czf cdn.tar.gz cdn/cdn_app  # Archive the Go application binary
+          tar -czf backend.tar.gz backend/backend_app
 
       - name: Transfer Archives
         run: |
           scp -i deploy_key ecosystem.config.js ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
           scp -i deploy_key frontend.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
           scp -i deploy_key backend.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
-          scp -i deploy_key cdn.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
 
       - name: Extract Archives on Remote
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && mkdir -p backend && tar -xzf backend.tar.gz -C backend && tar -xzf cdn.tar.gz && rm frontend.tar.gz backend.tar.gz cdn.tar.gz"
-
-      - name: Install dependencies for backend
-        run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "source ~/.bashrc && cd ${INPUT_REMOTE} && cd backend && bun install --production"
+          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && tar -xzf backend.tar.gz && rm frontend.tar.gz backend.tar.gz"
 
       - name: Start application
         run: |
