@@ -5,7 +5,7 @@
     "@nuxtjs/color-mode": "^3.5.2",
     "@pinia/nuxt": "^0.5.5",
     "@types/katex": "^0.16.7",
-    "@types/markdown-it": "^13.0.9",
+    "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-container": "^2.0.10",
     "@types/node": "^20.17.31",
     "katex": "^0.16.22",

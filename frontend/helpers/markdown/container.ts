@@ -1,6 +1,6 @@
 import type MarkdownIt from 'markdown-it';
-import type { RenderRule } from 'markdown-it/lib/renderer';
 import container from 'markdown-it-container';
+import type { RenderRule } from 'markdown-it/lib/renderer.mjs';
 
 export const containerPlugin = (md: MarkdownIt) => {
   md.use(...createContainer('green', 'TIP', md))
@@ -11,7 +11,9 @@ export const containerPlugin = (md: MarkdownIt) => {
     .use(...createContainer('details', 'Details', md))
     .use(...createContainer('turquoise', 'INFO', md))
     .use(...createInvisibleContainer('no-print'))
-    .use(...createInvisibleContainer('center'));
+    .use(...createInvisibleContainer('center'))
+    .use(...createInvisibleContainer('columns'))
+    .use(...createInvisibleContainer('column'));
 };
 
 type ContainerArgs = [typeof container, string, { render: RenderRule }];

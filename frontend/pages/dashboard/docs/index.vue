@@ -24,16 +24,16 @@ const rows = computed(() =>
     let badges = '';
     switch (doc.accessibility) {
       case 1:
-        badges = '<span class="tag green">Document</span>';
+        badges = '<tag class="green">Document</tag>';
         break;
       case 2:
-        badges = '<span class="tag turquoise">Draft</span>';
+        badges = '<tag class="turquoise">Draft</tag>';
         break;
       case 3:
-        badges = '<span class="tag red">Archived</span>';
+        badges = '<tag class="red">Archived</tag>';
     }
-    if (doc.parent_id) badges += '<span class="tag yellow">Child</span>';
-    if (documents.value.some(d => d.parent_id === doc.id)) badges += '<span class="tag yellow">Parent</span>';
+    if (doc.parent_id) badges += '<tag class="yellow">Child</tag>';
+    if (documents.value.some(d => d.parent_id === doc.id)) badges += '<tag class="yellow">Parent</tag>';
     return {
       name: { content: doc.name, type: 'text' as const },
       category: { content: categoriesStore.getById(doc.category || '')?.name || '', type: 'text' as const },
@@ -50,7 +50,7 @@ function stringToBadge(str?: string): string {
     return str
       .trim()
       .split(',')
-      .map(t => `<span class="tag blue">${t.trim()}</span>`)
+      .map(t => `<tag class="blue">${t.trim()}</tag>`)
       .join('');
   return '';
 }

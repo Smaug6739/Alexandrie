@@ -129,38 +129,44 @@ pink {
 	vertical-align: middle;
 }
 
-.grey {
+.grey,
+[grey] {
 	border-color: var(--grey-border);
 	color: var(--grey);
 	background-color: var(--grey-bg);
 }
 
-.blue {
+.blue,
+[blue] {
 	border-color: var(--blue-border);
 	color: var(--blue);
 	background-color: var(--blue-bg);
 }
 
-.green {
+.green,
+[green] {
 	border-color: var(--green-border);
 	color: var(--green);
 	background-color: var(--green-bg);
 }
 
-.turquoise {
+.turquoise,
+[turquoise] {
 	border-color: var(--turquoise-border);
 	color: var(--turquoise);
 	background-color: var(--turquoise-bg);
 }
 
-.yellow {
+.yellow,
+[yellow] {
 	border-color: var(--yellow-border);
 	color: var(--yellow);
 	background-color: var(--yellow-bg);
 }
 
 
-.red {
+.red,
+[red] {
 	border-color: var(--red-border);
 	color: var(--red);
 	background-color: var(--red-bg);
@@ -216,12 +222,4 @@ pink {
 
 .custom-block a:hover {
 	opacity: 0.6;
-}
-
-.tag {
-	padding: 2px 5px;
-	border-radius: 6px;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	font-size: 12px;
 }

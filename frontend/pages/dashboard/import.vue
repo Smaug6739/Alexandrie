@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 24px; gap: 16px" class="card-component">
     <header>
-      <h1 style="font-size: 20px">Import documents <span class="tag yellow" style="padding: 6px">Beta</span></h1>
+      <h1 style="font-size: 20px">Import documents <tag class="yellow">Beta</tag></h1>
 
       <p>You can import documents from a previous export. If you don't have export, you can create a new one from the <NuxtLink to="/dashboard/settings?p=backup">settings</NuxtLink> page.</p>
     </header>
@@ -22,7 +22,7 @@
         <p style="display: flex">
           <Icon name="file" />
           &nbsp;{{ file.name }}
-          <span v-if="file.tags" v-for="tag in file.tags?.split(',')" :key="tag" class="tag blue">{{ tag.trim() }}</span>
+          <tag v-if="file.tags" v-for="tag in file.tags?.split(',')" :key="tag" class="blue">{{ tag.trim() }}</tag>
         </p>
         <p>Created at: {{ new Date(file.created_timestamp).toLocaleDateString() }}</p>
         <p>Updated at: {{ new Date(file.updated_timestamp).toLocaleDateString() }}</p>

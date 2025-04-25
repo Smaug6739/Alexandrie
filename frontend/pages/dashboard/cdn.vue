@@ -85,7 +85,7 @@ const rows: any = computed(() =>
     return {
       name: { content: res.filename },
       size: { content: readableFileSize(res.filesize) },
-      type: { content: `<span class="tag ${color(res.filetype)}">${res.filetype}</span>`, type: 'html' },
+      type: { content: `<tag class="${color(res.filetype)}">${res.filetype}</tag>`, type: 'html' },
       date: { content: new Date(res.created_timestamp).toLocaleDateString() },
       action: { type: 'slot', data: res },
     };

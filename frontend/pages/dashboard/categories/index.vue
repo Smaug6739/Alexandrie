@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 24px; gap: 16px" class="card-component">
     <header>
-      <h1 style="font-size: 20px">Workspaces & Categories <span class="tag blue" style="padding: 6px">New</span></h1>
+      <h1 style="font-size: 20px">Workspaces & Categories <tag class="blue">New</tag></h1>
       <div style="display: flex; gap: 8px">
         <AppButton type="primary" @click="createWorkspace">+ Workspace</AppButton>
         <AppButton type="primary" @click="createCategory">+ Category</AppButton>
