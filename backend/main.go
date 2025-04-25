@@ -1,11 +1,13 @@
 package main
 
-import "alexandrie/server"
+import (
+	"alexandrie/server"
+	"fmt"
+)
 
 func main() {
 	server, application := server.SetupServer()
 	defer application.DB.Close()
 
-	// Démarrer le serveur sur le port 8080
-	server.Run("localhost:8080")
+	server.Run("localhost:" + fmt.Sprintf("%d", application.Config.Port))
 }
