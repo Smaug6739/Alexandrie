@@ -12,18 +12,20 @@
           <input type="number" v-model.number="category.order" id="order" />
         </div>
       </div>
+      <label>Name</label>
+      <input type="text" v-model="category.name" id="name" required />
       <label>Role</label>
       <select v-model="category.role">
         <option :value="1">Category</option>
         <option :value="2">Workspace</option>
       </select>
-      <label>Name</label>
-      <input type="text" v-model="category.name" id="name" required />
-      <label>Icon (svg supported)</label>
+      <label style="display: flex; align-items: center">Icon <AppHint text="SVG supported" /></label>
       <textarea type="text" v-model="category.icon" rows="5"></textarea>
+      <label for="color">Color</label>
+      <AppColorPicker v-model:selectedColor="category.color" name="color" />
       <div class="form-row">
         <div class="form-column">
-          <label>Workspace - for top categories -</label>
+          <label style="display: flex; align-items: center">Workspace <AppHint text="For top categories" /></label>
           <select v-model="category.workspace_id">
             <option :value="null">None</option>
             <option v-for="wp in categoriesStore.getAll.filter(a => a.id != route.params.id && a.role == 2)" :value="wp.id">{{ wp.name }}</option>
@@ -33,10 +35,11 @@
           <label>Parent</label>
           <select v-model="category.parent_id">
             <option :value="null">None</option>
-            <option v-for="cp in categoriesStore.getParents.filter(a => a.id != route.params.id && a.role == 1)" :value="cp.id">{{ cp.name }}</option>
+            <option v-for="cp in categoriesStore.getAll" :value="cp.id">{{ cp.name }}</option>
           </select>
         </div>
       </div>
+
       <div style="display: flex; justify-content: flex-end">
         <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
@@ -92,7 +95,6 @@ input,
 textarea,
 select {
   width: 100%;
-  background-color: var(--bg-contrast-2);
 }
 .form-row {
   display: flex;

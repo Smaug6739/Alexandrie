@@ -30,7 +30,7 @@ export async function makeRequest<T>(route: string, method: string, body: Object
       if (is_getting_new_token) return promise;
       console.log('\x1b[41m[AUTH]\x1b[0m Access token invalid. Getting new access token...');
       is_getting_new_token = true;
-      const login = await useAPI('GET', `auth/refreshToken`, {});
+      const login = await useAPI('POST', `auth/refresh`, {});
       is_getting_new_token = false;
       if (login.status === 'success') {
         console.log('\x1b[42m[AUTH]\x1b[0m New access token received.');
@@ -44,7 +44,6 @@ export async function makeRequest<T>(route: string, method: string, body: Object
     return { status: 'error', message: String(e) };
   }
 }
-
 function treatQueue(access_token: boolean = true) {
   console.log(`[API] Treating queue with access_token: ${access_token}`);
   while (requestQueue.length > 0) {

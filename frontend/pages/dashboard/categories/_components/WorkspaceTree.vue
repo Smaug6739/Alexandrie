@@ -2,12 +2,12 @@
   <div class="tree-node" v-if="node.data.type === 'category'">
     <div class="tree-content">
       <div class="tree-label">
-        <Icon name="folder" style="display: inline" />
+        <Icon class="icon" name="folder" style="display: inline; width: 15px" />
         <span>{{ node.title }}</span>
       </div>
       <div class="tree-actions">
-        <span style="padding: 2px" @click="$emit('edit', node)" title="Edit"><Icon name="edit" style="display: inline" /></span>
-        <span style="padding: 2px" @click="$emit('delete', node)" title="Delete"><Icon name="delete" style="display: inline" /></span>
+        <span style="padding: 2px" @click="$emit('edit', node)" title="Edit"><Icon class="icon" name="edit" style="display: inline" /></span>
+        <span style="padding: 2px" @click="$emit('delete', node)" title="Delete"><Icon class="icon" name="delete" style="display: inline" /></span>
       </div>
     </div>
 
@@ -68,5 +68,12 @@ defineEmits(['edit', 'delete']);
   border-radius: 4px;
   cursor: pointer;
   margin: 0 2.5px;
+}
+.icon {
+  margin-right: 2px;
+  &:deep(svg) {
+    width: 20px;
+    height: 20px;
+  }
 }
 </style>

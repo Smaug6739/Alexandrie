@@ -79,7 +79,7 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, errors.New("failed to create session")
 	}
 
-	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.RefreshTokenExpiry, "/", "localhost", false, true)
+	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", "localhost", false, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(ctr.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", "localhost", false, true)
 	user.Password = ""
 

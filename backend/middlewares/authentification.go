@@ -2,7 +2,6 @@ package middlewares
 
 import (
 	"alexandrie/utils"
-	"fmt"
 	"net/http"
 	"os"
 	"strconv"
@@ -15,7 +14,7 @@ func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString, err := c.Cookie("Authorization")
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, utils.Error("Unauthorized"))
+			c.JSON(http.StatusUnauthorized, utils.Error("Bad access token."))
 			c.Abort() // Stop further processing if unauthorized
 			return
 		}
@@ -30,7 +29,6 @@ func Auth() gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			fmt.Println("Error parsing token:", err)
 			c.JSON(http.StatusUnauthorized, utils.Error("Unauthorized"))
 			c.Abort() // Stop further processing if unauthorized
 			return

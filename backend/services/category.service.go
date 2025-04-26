@@ -28,7 +28,7 @@ func (s *Service) GetAllCategories(userId types.Snowflake) ([]*models.Category, 
 
 	for rows.Next() {
 		var category models.Category
-		if err := rows.Scan(&category.Id, &category.Name, &category.Icon, &category.Order, &category.Role, &category.WorkspaceId, &category.ParentId, &category.AuthorId); err != nil {
+		if err := rows.Scan(&category.Id, &category.Name, &category.Icon, &category.Color, &category.Order, &category.Role, &category.WorkspaceId, &category.ParentId, &category.AuthorId); err != nil {
 			return nil, err
 		}
 		categories = append(categories, &category)
@@ -42,6 +42,7 @@ func (s *Service) GetCategory(categoryId types.Snowflake) (*models.Category, err
 		&category.Id,
 		&category.Name,
 		&category.Icon,
+		&category.Color,
 		&category.Order,
 		&category.Role,
 		&category.WorkspaceId,
@@ -54,10 +55,11 @@ func (s *Service) GetCategory(categoryId types.Snowflake) (*models.Category, err
 }
 
 func (s *Service) CreateCategory(category *models.Category) error {
-	_, err := s.db.Exec("INSERT INTO categories (id, name, icon, `order`, role, workspace_id, parent_id, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+	_, err := s.db.Exec("INSERT INTO categories (id, name, icon, color, `order`, role, workspace_id, parent_id, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		category.Id,
 		category.Name,
 		category.Icon,
+		category.Color,
 		category.Order,
 		category.Role,
 		category.WorkspaceId,
@@ -67,9 +69,10 @@ func (s *Service) CreateCategory(category *models.Category) error {
 }
 
 func (s *Service) UpdateCategory(category *models.Category) error {
-	_, err := s.db.Exec("UPDATE categories SET name = ?, icon = ?, `order` = ?, role = ?, workspace_id = ?, parent_id = ? WHERE id = ?",
+	_, err := s.db.Exec("UPDATE categories SET name = ?, icon = ?, color = ?, `order` = ?, role = ?, workspace_id = ?, parent_id = ? WHERE id = ?",
 		category.Name,
 		category.Icon,
+		category.Color,
 		category.Order,
 		category.Role,
 		category.WorkspaceId,

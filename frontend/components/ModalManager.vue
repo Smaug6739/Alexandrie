@@ -1,7 +1,7 @@
 <template>
   <Transition name="modal">
     <div v-if="modals.length">
-      <div v-for="(modal, index) in modals" :key="modal.name" class="modal-mask modal-pos" :style="{ zIndex: 120 + index }">
+      <div v-for="(modal, index) in modals" :key="index" class="modal-mask modal-pos" :style="{ zIndex: 120 + index }">
         <div v-if="index !== modals.length - 1" class="modal-overlay"></div>
         <div class="modal-container">
           <button @click="modalManager.close(modal)" class="close-btn"><Icon name="close" :big="true" /></button>

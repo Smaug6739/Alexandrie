@@ -14,6 +14,15 @@ export default defineNuxtConfig({
         },
       },
     },
+    vue: {
+      template: {
+        compilerOptions: {
+          isCustomElement: tag => {
+            return ['tag'].includes(tag);
+          },
+        },
+      },
+    },
   },
   $production: {
     ignore: [

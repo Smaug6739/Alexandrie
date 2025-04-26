@@ -27,7 +27,7 @@ const rows = computed(() =>
         badges = '<tag class="green">Document</tag>';
         break;
       case 2:
-        badges = '<tag class="turquoise">Draft</tag>';
+        badges = '<tag class="teal">Draft</tag>';
         break;
       case 3:
         badges = '<tag class="red">Archived</tag>';

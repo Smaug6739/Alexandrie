@@ -65,6 +65,7 @@ func (ctr *Controller) CreateCategory(c *gin.Context) (int, any) {
 		Id:          ctr.app.Snowflake.Generate(),
 		Name:        category.Name,
 		Icon:        category.Icon,
+		Color:       category.Color,
 		Order:       category.Order,
 		Role:        category.Role,
 		WorkspaceId: category.WorkspaceId,
@@ -109,6 +110,7 @@ func (ctr *Controller) UpdateCategory(c *gin.Context) (int, any) {
 		Id:          categoryid,
 		Name:        category.Name,
 		Icon:        category.Icon,
+		Color:       category.Color,
 		Order:       category.Order,
 		Role:        category.Role,
 		WorkspaceId: category.WorkspaceId,
@@ -130,16 +132,6 @@ func (ctr *Controller) UpdateCategory(c *gin.Context) (int, any) {
 // @Security Authenfification: Auth
 // @Param id path string true "Category ID"
 // @Success 204 {object} Success
-// @Failure 400 {object} Error
-// @Failure 401 {object} Error
-
-// Delete document
-// @Summary Delete document
-// @Method DELETE
-// @Router /documents/{id} [delete]
-// @Security Authenfification: Auth
-// @Param id path string true "Document ID"
-// @Success 200 {object} Success(models.Document)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteCategory(c *gin.Context) (int, any) {

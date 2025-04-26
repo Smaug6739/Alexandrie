@@ -1,6 +1,6 @@
 <template>
   <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }" :key="item.id">
-    <Icon :name="getIcon()" />
+    <Icon :name="icon" :class="customClass" />&nbsp;
     <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.title }} </NuxtLink>
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="settings" fill="var(--font-color)" /> </NuxtLink>
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
@@ -16,15 +16,16 @@ const categoriesStore = useCategoriesStore();
 
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
-
-function getIcon() {
+const customClass = ref('');
+const icon = computed(() => {
+  if ('color' in props.item.data) customClass.value = props.item.data.color ? `item-icon ${getAppColor(props.item.data.color as number)}` : '';
   if ('icon' in props.item.data && props.item.data.icon) return props.item.data.icon;
   if (props.item.data.type === 'category') return 'folder';
   if (props.item.data.type === 'document' && props.item.childrens?.length) return 'file_parent';
   if (props.item.data.type === 'document' && props.item.data.accessibility == 2) return 'draft';
   if (props.item.data.type === 'document' && props.item.data.accessibility == 3) return 'archive';
   return 'file';
-}
+});
 const draggable = ref<boolean>(true);
 const isDragOver = ref<boolean>(false);
 
@@ -98,22 +99,30 @@ const drop = async (event: DragEvent) => {
   color: var(--font-color);
   cursor: pointer;
   width: 98%;
-  font-size: 15.5px;
+  font-size: 16px;
   font-weight: 400;
+  letter-spacing: -0.5px;
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
     background: var(--bg-contrast-2);
   }
 
   .icon {
+    width: 20px;
+    height: 20px;
     &:deep(svg) {
       fill: $primary-color;
-      margin-right: 4px;
-
       path {
         fill: $primary-color;
       }
     }
+  }
+  .item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border-radius: 4px; // Coins arrondis
   }
 }
 

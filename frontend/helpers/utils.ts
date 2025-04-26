@@ -1,14 +1,14 @@
-const colors = ['var(--blue)', 'var(--turquoise)', 'var(--yellow)', 'var(--red)', 'var(--red)'];
+const colors = ['var(--blue)', 'var(--teal)', 'var(--yellow)', 'var(--red)', 'var(--red)'];
 
-export function useColorHash(str: string): string {
+export function useColorHash(str: string, list = colors): string {
   // Calculer un hash unique pour la chaîne
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
 
-  const index = Math.abs(hash % colors.length);
-  return colors[index] as string;
+  const index = Math.abs(hash % list.length);
+  return list[index] as string;
 }
 
 export function parseUserAgent(uaString?: string) {

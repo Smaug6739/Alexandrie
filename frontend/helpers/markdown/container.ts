@@ -9,7 +9,7 @@ export const containerPlugin = (md: MarkdownIt) => {
     .use(...createContainer('yellow', 'WARNING', md))
     .use(...createContainer('red', 'DANGER', md))
     .use(...createContainer('details', 'Details', md))
-    .use(...createContainer('turquoise', 'INFO', md))
+    .use(...createContainer('teal', 'INFO', md))
     .use(...createInvisibleContainer('no-print'))
     .use(...createInvisibleContainer('center'))
     .use(...createInvisibleContainer('columns'))

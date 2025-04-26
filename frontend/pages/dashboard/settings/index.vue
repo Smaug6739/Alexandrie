@@ -17,6 +17,7 @@
         <span>Workspaces</span>
         <NuxtLink to="/dashboard/categories"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
         <NuxtLink to="/dashboard/docs"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
+        <NuxtLink to="/dashboard/import"><Icon fill="var(--font-color)" name="import" />Manage importations</NuxtLink>
         <span>Other</span>
         <NuxtLink @click="logoutUser"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
       </nav>

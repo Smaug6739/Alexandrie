@@ -58,9 +58,15 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 	--yellow: #F97300;
 	--yellow-bg: rgba(255, 193, 7, 0.15);
 	--yellow-border: rgba(255, 193, 7, 0.3);
-	--turquoise: #00ADB5;
-	--turquoise-bg: rgba(23, 162, 184, 0.2);
-	--turquoise-border: rgba(23, 162, 184, 0.25);
+	--teal: #00ADB5;
+	--teal-bg: rgba(23, 162, 184, 0.2);
+	--teal-border: rgba(23, 162, 184, 0.25);
+	--purple: #6f42c1;
+	--purple-bg: rgba(111, 66, 193, 0.2);
+	--purple-border: rgba(111, 66, 193, 0.25);
+	--pink: #ff0e6a;
+	--pink-bg: rgba(255, 14, 106, 0.2);
+	--pink-border: rgba(255, 14, 106, 0.25);
 
 	--info-border: #2573cf;
 }
@@ -90,9 +96,9 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 	--yellow: #F97300;
 	--yellow-bg: rgba(255, 197, 23, 0.2);
 	--yellow-border: rgba(255, 197, 23, .25);
-	--turquoise: #00d6b4;
-	--turquoise-bg: rgba(0, 255, 255, 0.2);
-	--turquoise-border: rgba(0, 209, 178, .25);
+	--teal: #00d6b4;
+	--teal-bg: rgba(0, 255, 255, 0.2);
+	--teal-border: rgba(0, 209, 178, .25);
 
 }
 
@@ -121,7 +127,7 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 	--yellow: #F97300;
 	--yellow-bg: rgba(255, 193, 7, 0.15);
 	--yellow-border: rgba(255, 193, 7, 0.3);
-	--turquoise: #00ADB5;
-	--turquoise-bg: rgba(23, 162, 184, 0.2);
-	--turquoise-border: rgba(23, 162, 184, 0.25);
+	--teal: #00ADB5;
+	--teal-bg: rgba(23, 162, 184, 0.2);
+	--teal-border: rgba(23, 162, 184, 0.25);
 }

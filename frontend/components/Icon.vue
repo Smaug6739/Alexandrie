@@ -15,16 +15,15 @@ const icon = useIcon(props.name as IconName) || props.name;
 
   &:deep(svg) {
     width: 20px;
-    max-height: 22px;
-
+    max-height: 20px;
     path {
-      fill: inherit; // Utilise la couleur de l'élément parent		}
+      fill: inherit;
     }
   }
 }
 
 .fill:deep(svg) > path {
-  fill: inherit !important; // Utilise la couleur de l'élément parent		}
+  fill: inherit !important;
 }
 .mid {
   &:deep(svg) {
