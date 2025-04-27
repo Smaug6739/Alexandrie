@@ -31,6 +31,9 @@ function select() {
   background: none;
   border: none;
   cursor: pointer;
+  font-size: 15px;
+  width: 99%;
+  margin: 0 auto;
 }
 
 .tree-node:hover {

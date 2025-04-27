@@ -25,6 +25,7 @@ type RessourceController interface {
 	GetBackup(c *gin.Context) (int, any)
 	UploadFile(c *gin.Context) (int, any)
 	UploadAvatar(c *gin.Context) (int, any)
+	UpdateUpload(c *gin.Context) (int, any)
 	DeleteUpload(c *gin.Context) (int, any)
 }
 
@@ -146,6 +147,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		Filetype:         mimeType,
 		OriginalPath:     header.Filename,
 		TransformedPath:  fmt.Sprintf("%d%s", id, ext),
+		ParentId:         nil,
 		AuthorId:         userId,
 		CreatedTimestamp: time.Now().UnixMilli(),
 	}
@@ -205,6 +207,57 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 	}
 
 	return http.StatusOK, "File uploaded successfully"
+}
+
+// UpdateUpload
+// @Summary Update an upload (only metadata)
+// @Method PUT
+// @Router /uploads/{id} [put]
+// @Security Authenfification: Auth
+// @Param id path string true "ID of the upload to update"
+// @Param upload body models.Ressource true "Upload data"
+// @Success 200 {object} Success(models.Ressource)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
+func (ctr *Controller) UpdateUpload(c *gin.Context) (int, any) {
+	id, err := utils.GetIdParam(c, c.Param("id"))
+	if err != nil {
+		return http.StatusBadRequest, errors.New("invalid id format")
+	}
+	db_ressource, err := ctr.app.Services.Ressource.GetRessourceById(id)
+	if err != nil {
+		return http.StatusInternalServerError, "failed to get ressource"
+	}
+	if db_ressource == nil {
+		return http.StatusBadRequest, errors.New("ressource not found")
+	}
+	err = utils.RessourceAccess(c, db_ressource.AuthorId)
+	if err != nil {
+		return http.StatusUnauthorized, err
+	}
+
+	var updatedRessource *models.Ressource
+	if err := c.ShouldBindJSON(&updatedRessource); err != nil {
+		return http.StatusBadRequest, errors.New("failed to bind JSON")
+	}
+	updatedRessource = &models.Ressource{
+		Id:               db_ressource.Id,
+		Filename:         updatedRessource.Filename,
+		Filesize:         db_ressource.Filesize,
+		Filetype:         db_ressource.Filetype,
+		OriginalPath:     db_ressource.OriginalPath,
+		TransformedPath:  db_ressource.TransformedPath,
+		ParentId:         updatedRessource.ParentId,
+		AuthorId:         db_ressource.AuthorId,
+		CreatedTimestamp: db_ressource.CreatedTimestamp,
+	}
+
+	_, err = ctr.app.Services.Ressource.UpdateRessource(updatedRessource)
+	if err != nil {
+		return http.StatusInternalServerError, errors.New("failed to update ressource")
+	}
+
+	return http.StatusOK, updatedRessource
 }
 
 // DeleteUpload

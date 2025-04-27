@@ -59,6 +59,7 @@ export interface DB_Ressource {
   filetype: string;
   original_path: string;
   transformed_path: string;
+  parent_id?: string;
   author_id: string;
   created_timestamp: string;
 }

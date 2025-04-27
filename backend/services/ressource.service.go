@@ -4,6 +4,7 @@ import (
 	"alexandrie/models"
 	"alexandrie/types"
 	"database/sql"
+	"fmt"
 )
 
 type RessourceService interface {
@@ -11,6 +12,7 @@ type RessourceService interface {
 	GetRessourceById(id types.Snowflake) (*models.Ressource, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
 	CreateRessource(ressource *models.Ressource) (*models.Ressource, error)
+	UpdateRessource(ressource *models.Ressource) (*models.Ressource, error)
 	DeleteRessource(id types.Snowflake) error
 }
 
@@ -28,7 +30,7 @@ func (s *Service) GetAllUploadsByUserId(userId types.Snowflake) ([]*models.Resso
 
 	for rows.Next() {
 		var ressource models.Ressource
-		if err := rows.Scan(&ressource.Id, &ressource.Filename, &ressource.Filesize, &ressource.Filetype, &ressource.OriginalPath, &ressource.TransformedPath, &ressource.AuthorId, &ressource.CreatedTimestamp); err != nil {
+		if err := rows.Scan(&ressource.Id, &ressource.Filename, &ressource.Filesize, &ressource.Filetype, &ressource.OriginalPath, &ressource.TransformedPath, &ressource.ParentId, &ressource.AuthorId, &ressource.CreatedTimestamp); err != nil {
 			return nil, err
 		}
 		ressources = append(ressources, &ressource)
@@ -38,7 +40,7 @@ func (s *Service) GetAllUploadsByUserId(userId types.Snowflake) ([]*models.Resso
 
 func (s *Service) GetRessourceById(id types.Snowflake) (*models.Ressource, error) {
 	var ressource models.Ressource
-	err := s.db.QueryRow("SELECT * FROM ressources WHERE id = ?", id).Scan(&ressource.Id, &ressource.Filename, &ressource.Filesize, &ressource.Filetype, &ressource.OriginalPath, &ressource.TransformedPath, &ressource.AuthorId, &ressource.CreatedTimestamp)
+	err := s.db.QueryRow("SELECT * FROM ressources WHERE id = ?", id).Scan(&ressource.Id, &ressource.Filename, &ressource.Filesize, &ressource.Filetype, &ressource.OriginalPath, &ressource.TransformedPath, &ressource.ParentId, &ressource.AuthorId, &ressource.CreatedTimestamp)
 	if err != nil {
 		return nil, err
 	}
@@ -58,8 +60,17 @@ func (s *Service) GetUserUploadsSize(userId types.Snowflake) (int64, error) {
 }
 
 func (s *Service) CreateRessource(ressource *models.Ressource) (*models.Ressource, error) {
-	_, err := s.db.Exec("INSERT INTO ressources (id, filename, file_size, file_type, original_path, transformed_path, author_id, created_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", ressource.Id, ressource.Filename, ressource.Filesize, ressource.Filetype, ressource.OriginalPath, ressource.TransformedPath, ressource.AuthorId, ressource.CreatedTimestamp)
+	_, err := s.db.Exec("INSERT INTO ressources (id, filename, file_size, file_type, original_path, transformed_path, parent_id, author_id, created_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", ressource.Id, ressource.Filename, ressource.Filesize, ressource.Filetype, ressource.OriginalPath, ressource.TransformedPath, ressource.ParentId, ressource.AuthorId, ressource.CreatedTimestamp)
 	if err != nil {
+		return nil, err
+	}
+	return ressource, nil
+}
+
+func (s *Service) UpdateRessource(ressource *models.Ressource) (*models.Ressource, error) {
+	_, err := s.db.Exec("UPDATE ressources SET filename = ?, file_size = ?, file_type = ?, original_path = ?, transformed_path = ?, parent_id = ?, author_id = ?, created_timestamp = ? WHERE id = ?", ressource.Filename, ressource.Filesize, ressource.Filetype, ressource.OriginalPath, ressource.TransformedPath, ressource.ParentId, ressource.AuthorId, ressource.CreatedTimestamp, ressource.Id)
+	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 	return ressource, nil

@@ -1,23 +1,34 @@
 <template>
   <div class="category-select" :style="{ width: size || '100%' }">
-    <button @click="toggleDropdown">{{ selected?.label || placeholder }}</button>
-    <div v-if="open" class="dropdown">
-      <ul>
-        <AppSelectNode v-for="item in items" :key="item.id" :node="item" :level="0" @select="handleSelect" />
-      </ul>
+    <div v-if="!open">
+      <button @click="toggleDropdown">{{ selected?.label || placeholder }}</button>
+    </div>
+    <div v-else>
+      <input type="text" v-model="search" placeholder="Search..." class="search-input" ref="searchInput" @blur="handleBlur" @keydown="handleKeyDown" />
+      <div class="dropdown">
+        <ul>
+          <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" @select="handleSelect" />
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { nextTick } from 'vue';
+
 const props = defineProps<{
   items: ANode[];
   placeholder?: string;
   modelValue?: string | number;
   size?: string;
 }>();
+
 const selectedId = ref<string | number>(props.modelValue || '');
 const open = ref(false);
+const search = ref('');
+const searchInput = ref<HTMLInputElement | null>(null);
+
 const emit = defineEmits(['update:modelValue']);
 
 const selected = computed(() => {
@@ -34,14 +45,58 @@ const selected = computed(() => {
   return findSelected(props.items);
 });
 
+const filteredItems = computed(() => {
+  if (!search.value.trim()) return props.items;
+
+  const filterRecursive = (items: ANode[]): ANode[] => {
+    return items
+      .map(item => {
+        const matches = item.label.toLowerCase().includes(search.value.toLowerCase());
+        const filteredChildren = item.childrens ? filterRecursive(item.childrens) : [];
+        if (matches || filteredChildren.length > 0) {
+          return { ...item, childrens: filteredChildren };
+        }
+        return null;
+      })
+      .filter(Boolean) as ANode[];
+  };
+
+  return filterRecursive(props.items);
+});
+
 function toggleDropdown() {
-  open.value = !open.value;
+  open.value = true;
+  search.value = '';
+  nextTick(() => {
+    searchInput.value?.focus();
+  });
+}
+function handleKeyDown(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    open.value = false;
+  } else if (event.key === 'Enter') {
+    // Optionnel : sélectionner si 1 seul résultat ?
+    const firstItem = filteredItems.value[0];
+    if (firstItem) {
+      handleSelect(firstItem);
+    }
+  }
+  // Ne PAS fermer sur Tab
 }
 
-function handleSelect(node: Item) {
+function handleSelect(node: ANode) {
   selectedId.value = node.id;
   emit('update:modelValue', node.id);
   open.value = false;
+}
+
+function handleBlur(event: FocusEvent) {
+  setTimeout(() => {
+    const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
+    if (!relatedTarget?.closest('.category-select')) {
+      open.value = false;
+    }
+  }, 100);
 }
 </script>
 
@@ -51,21 +106,27 @@ function handleSelect(node: Item) {
   width: 200px;
 }
 
-button {
+button,
+.search-input {
   width: 100%;
-  padding: 6px 12px;
+  padding: 8px 10px;
   border: 1px solid #ccc;
   background: white;
   text-align: left;
   border-radius: 6px;
+  font-size: 15px;
   cursor: pointer;
-  padding: 8px 10px;
-  // ouline like input with focus or opened
   &:focus {
     outline: 2px solid #000;
   }
 }
-.category-select:has(.dropdown) button {
+
+.search-input {
+  cursor: text;
+}
+
+.category-select:has(.dropdown) button,
+.category-select:has(.dropdown) .search-input {
   outline: 2px solid #000;
 }
 

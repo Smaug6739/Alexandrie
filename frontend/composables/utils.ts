@@ -16,3 +16,8 @@ export const AppColors = ['', 'blue', 'red', 'green', 'yellow', 'purple', 'pink'
 export function getAppColor(index: number = 0): string {
   return AppColors[index % AppColors.length] || '';
 }
+
+export const readableFileSize = (size: number): string => {
+  const i = Math.floor(Math.log(size) / Math.log(1024));
+  return `${(size / Math.pow(1024, i)).toFixed(2)} ${['B', 'kB', 'MB', 'GB', 'TB'][i]}`;
+};
