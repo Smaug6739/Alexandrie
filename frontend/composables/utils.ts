@@ -13,6 +13,6 @@ export function useAvatar(user: User): string {
 }
 
 export const AppColors = ['', 'blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
-export function getAppColor(index: number): string {
+export function getAppColor(index: number = 0): string {
   return AppColors[index % AppColors.length] || '';
 }
