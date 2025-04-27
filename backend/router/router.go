@@ -3,6 +3,7 @@ package router
 import (
 	"alexandrie/app"
 	"alexandrie/router/routes"
+	"fmt"
 	"os"
 
 	"github.com/gin-contrib/cors"
@@ -16,6 +17,7 @@ func InitRouter(app *app.App) *gin.Engine {
 
 	// Configurer les proxys et CORS
 	router.SetTrustedProxies([]string{"127.0.0.1", "localhost"})
+	fmt.Println(os.Getenv("DOMAIN_CLIENT"))
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{os.Getenv("DOMAIN_CLIENT")},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
