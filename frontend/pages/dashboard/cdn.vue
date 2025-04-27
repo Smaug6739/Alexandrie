@@ -18,7 +18,7 @@
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows">
         <template #action="{ cell }">
-          <a :href="`${CDN}${cell?.data.author_id}/${cell?.data.transformed_path || cell?.data.original_path}`" target="_blank"><Icon name="view" /> </a>
+          <a :href="`${CDN}/${cell?.data.author_id}/${cell?.data.transformed_path || cell?.data.original_path}`" target="_blank"><Icon name="view" /> </a>
           <Icon name="delete" @click="() => deleteRessource(cell?.data.id)" />
         </template>
       </DataTable>
@@ -62,7 +62,7 @@ const submitFile = async () => {
 
   await ressourcesStore
     .post(body)
-    .then(r => (fileLink.value = `${CDN}${(r as DB_Ressource).author_id}/${(r as DB_Ressource).transformed_path}`))
+    .then(r => (fileLink.value = `${CDN}/${(r as DB_Ressource).author_id}/${(r as DB_Ressource).transformed_path}`))
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }))
     .finally(() => (isLoading.value = false));
 };
