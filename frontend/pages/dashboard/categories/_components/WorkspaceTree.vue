@@ -3,11 +3,11 @@
     <div class="tree-content">
       <div class="tree-label">
         <Icon class="icon" name="folder" style="display: inline; width: 15px" />
-        <span>{{ node.title }}</span>
+        <span>{{ node.label }}</span>
       </div>
       <div class="tree-actions">
-        <span style="padding: 2px" @click="$emit('edit', node)" title="Edit"><Icon class="icon" name="edit" style="display: inline" /></span>
-        <span style="padding: 2px" @click="$emit('delete', node)" title="Delete"><Icon class="icon" name="delete" style="display: inline" /></span>
+        <span style="padding: 2px" @click="$emit('edit', node)"><Icon class="icon" name="edit" style="display: inline" /></span>
+        <span style="padding: 2px" @click="$emit('delete', node)"><Icon class="icon" name="delete" style="display: inline" /></span>
       </div>
     </div>
 

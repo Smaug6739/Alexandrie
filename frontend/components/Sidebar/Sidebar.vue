@@ -56,7 +56,7 @@ const navigationItemsComputed = computed<Item[]>(() =>
   navigationItems.map(item => ({
     id: item.id,
     parent_id: '',
-    title: item.title,
+    label: item.title,
     route: item.route,
     icon: item.icon,
     type: 'navigation',
@@ -66,7 +66,7 @@ const navigationItemsComputed = computed<Item[]>(() =>
 );
 const sidebarTree = useSidebarTree();
 
-const tree = computed(() => [...navigationItemsComputed.value, ...sidebarTree.filtered.value].filter(i => i.title.toLowerCase().includes(filter.value.toLowerCase())));
+const tree = computed(() => [...navigationItemsComputed.value, ...sidebarTree.filtered.value].filter(i => i.label.toLowerCase().includes(filter.value.toLowerCase())));
 
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;

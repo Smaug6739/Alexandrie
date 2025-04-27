@@ -1,7 +1,7 @@
 <template>
   <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }" :key="item.id">
     <Icon :name="icon" :class="customClass" />&nbsp;
-    <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.title }} </NuxtLink>
+    <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.label }} </NuxtLink>
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="settings" fill="var(--font-color)" /> </NuxtLink>
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
     <slot></slot>

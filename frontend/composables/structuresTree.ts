@@ -14,7 +14,7 @@ export function useSidebarTree() {
     categoriesStore.categories.map(cat => ({
       id: cat.id,
       parent_id: cat.parent_id || '',
-      title: cat.name,
+      label: cat.name,
       route: cat.parent_id ? `/dashboard/categories/${cat.id}` : '',
       icon: cat.icon,
       type: 'category',
@@ -27,7 +27,7 @@ export function useSidebarTree() {
     documentsStore.documents.map(doc => ({
       id: doc.id,
       parent_id: doc.parent_id || doc.category || '',
-      title: doc.name,
+      label: doc.name,
       route: `/dashboard/docs/${doc.id}`,
       type: 'document',
       data: doc,

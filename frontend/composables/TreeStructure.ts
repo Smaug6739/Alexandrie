@@ -3,7 +3,7 @@ import type { DefaultItem } from '../components/Sidebar/helpers';
 
 export interface ANode {
   id: string | number;
-  title: string;
+  label: string;
   parent_id: string;
   childrens?: ANode[];
 }
