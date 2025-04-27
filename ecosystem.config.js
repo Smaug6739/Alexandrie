@@ -1,11 +1,6 @@
 module.exports = {
   apps: [
     {
-      name: 'alexandrie-minio',
-      cwd: '',
-      script: 'minio server ./minio --address "localhost:9000"',
-    },
-    {
       name: 'alexandrie-backend',
       script: './al_backend',
       env: {
