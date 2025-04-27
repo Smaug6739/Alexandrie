@@ -53,7 +53,7 @@ jobs:
       - name: Create Archives
         run: |
           tar -czf frontend.tar.gz frontend/.output frontend/.env.production
-          tar -czf backend.tar.gz backend/backend_app
+          tar -czf backend.tar.gz backend_app
 
       - name: Transfer Archives
         run: |
