@@ -5,6 +5,7 @@ import (
 	"alexandrie/router"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
@@ -15,9 +16,15 @@ import (
 func SetupServer() (*gin.Engine, *app.App) {
 	godotenv.Load()
 
-	// Charger la configuration depuis config.toml
+	workingDir, err := os.Getwd()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error getting cwd:", err)
+		os.Exit(1)
+	}
+
+	absPath := filepath.Join(workingDir, "config.toml")
 	config := app.Config{}
-	_, err := toml.DecodeFile("config.toml", &config)
+	_, err = toml.DecodeFile(absPath, &config)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
