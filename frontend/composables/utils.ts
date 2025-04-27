@@ -9,7 +9,7 @@ export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : f
 export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
 export function useAvatar(user: User): string {
-  return user.avatar ? CDN + user.id + '/avatar' : CDN + '/default_avatar.png';
+  return user.avatar ? CDN + '/' + user.id + '/avatar' : CDN + '/default_avatar.png';
 }
 
 export const AppColors = ['', 'blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
