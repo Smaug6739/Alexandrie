@@ -19,7 +19,7 @@ func NewCategoryService(db *sql.DB) CategoryService {
 }
 
 func (s *Service) GetAllCategories(userId types.Snowflake) ([]*models.Category, error) {
-	var categories []*models.Category
+	var categories = make([]*models.Category, 0)
 	rows, err := s.db.Query("SELECT * FROM categories WHERE author_id = ? ORDER BY `order`", userId)
 	if err != nil {
 		return nil, err

@@ -1,9 +1,14 @@
 package services
 
-import "database/sql"
+import (
+	"database/sql"
+
+	"github.com/minio/minio-go/v7"
+)
 
 type Service struct {
-	db *sql.DB
+	db    *sql.DB
+	minio *minio.Client
 }
 
 func New(db *sql.DB) *Service {

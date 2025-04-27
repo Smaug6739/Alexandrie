@@ -216,6 +216,11 @@ func (ctr *Controller) DeleteUser(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
+	// Delete uploaded files
+	err = ctr.app.Services.Minio.DeleteAllFromUser(id)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
 
 	err = ctr.app.Services.User.DeleteUser(id)
 	if err != nil {

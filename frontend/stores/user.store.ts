@@ -80,6 +80,16 @@ export const useUserStore = defineStore('user', {
         } else reject(request.message);
       });
     },
+    deleteAccount() {
+      return new Promise(async (resolve, reject) => {
+        if (!this.user) return;
+        const request = await makeRequest(`users/${this.user.id}`, 'DELETE', {});
+        if (request.status === 'success') {
+          this.user = undefined;
+          return resolve(true);
+        } else reject(request.message);
+      });
+    },
     post_logout() {
       this.user = undefined;
       if (import.meta.client) localStorage.removeItem('isLoggedIn');

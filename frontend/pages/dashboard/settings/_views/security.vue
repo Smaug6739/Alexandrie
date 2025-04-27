@@ -33,11 +33,24 @@
     <AppButton type="danger">Change password</AppButton>
   </form>
   <h2>Danger</h2>
+  <div>
+    You can log out from all devices or log out from this device. <br />
+    Be careful, if you log out from all devices, you will be redirected to the login page. Please save your work before.
+  </div>
   <AppButton type="danger" @click="logoutUser">Log out</AppButton>
   <AppButton type="danger" @click="logoutUserAll">Log out from all devices</AppButton>
+  <h2>Delete account <tag blue>New</tag></h2>
+  <div>
+    You can delete your account. <br />
+    Be careful, if you delete your account, you will lose all your data and you will not be able to recover it.
+    <br />
+    <strong>This action is irreversible.</strong>
+  </div>
+  <AppButton type="danger" @click="openDeleteModal">Delete account</AppButton>
 </template>
 
 <script setup lang="ts">
+import DeleteAccountModal from '../_modals/DeleteAccountModal.vue';
 import { parseUserAgent } from '~/helpers/utils';
 const store = useUserStore();
 const passwordValue = ref('');
@@ -57,6 +70,7 @@ const changePassword = async () => {
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error during password saving', message: e.message }));
 };
+const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountModal)));
 </script>
 
 <style scoped lang="scss">

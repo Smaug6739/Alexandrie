@@ -37,6 +37,7 @@ type Services struct {
 	Document  services.DocumentService
 	Category  services.CategoryService
 	Ressource services.RessourceService
+	Minio     services.MinioService
 }
 
 type App struct {
@@ -60,6 +61,7 @@ func InitApp(config Config) *App {
 		Document:  services.NewDocumentService(app.DB),
 		Category:  services.NewCategoryService(app.DB),
 		Ressource: services.NewRessourceService(app.DB),
+		Minio:     services.NewMinioService(app.MinioClient),
 	}
 
 	Migrate(&config)

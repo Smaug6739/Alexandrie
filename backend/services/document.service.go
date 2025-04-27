@@ -20,7 +20,7 @@ func NewDocumentService(db *sql.DB) DocumentService {
 }
 
 func (s *Service) GetAllDocuments(userId types.Snowflake) ([]*models.Document, error) {
-	var documents []*models.Document
+	var documents = make([]*models.Document, 0)
 	rows, err := s.db.Query("SELECT id, name, description, tags, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ? ORDER BY name", userId)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (s *Service) GetAllDocuments(userId types.Snowflake) ([]*models.Document, e
 }
 
 func (s *Service) GetAllDocumentBackup(author_id types.Snowflake) ([]*models.Document, error) {
-	var documents []*models.Document
+	var documents = make([]*models.Document, 0)
 	rows, err := s.db.Query("SELECT id, name, description, tags, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ?", author_id)
 	if err != nil {
 		return nil, err

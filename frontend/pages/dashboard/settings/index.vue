@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'modal-mask': !isMobile() }">
+  <div :class="{ 'modal-mask': !isMobile() }" style="z-index: 100">
     <div class="component">
       <nav>
         <span>Account settings</span>
