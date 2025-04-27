@@ -35,7 +35,7 @@ func (s *Service) GetConnections(userId types.Snowflake) ([]*models.Log, error) 
 	defer rows.Close()
 	for rows.Next() {
 		var log models.Log
-		if err := rows.Scan(&log.Id, &log.IpAddr, &log.Location, &log.Timestamp, &log.Type, &log.UserAgent, &log.UserId); err != nil {
+		if err := rows.Scan(&log.Id, &log.UserId, &log.IpAddr, &log.UserAgent, &log.Location, &log.Type, &log.Timestamp); err != nil {
 			return nil, err
 		}
 		logs = append(logs, &log)
@@ -45,7 +45,7 @@ func (s *Service) GetConnections(userId types.Snowflake) ([]*models.Log, error) 
 
 func (s *Service) GetLastConnection(userId types.Snowflake) (*models.Log, error) {
 	var log models.Log
-	err := s.db.QueryRow("SELECT * FROM connections_logs WHERE user_id = ? ORDER BY timestamp DESC LIMIT 1", userId).Scan(&log.Id, &log.IpAddr, &log.Location, &log.Timestamp, &log.Type, &log.UserAgent, &log.UserId)
+	err := s.db.QueryRow("SELECT * FROM connections_logs WHERE user_id = ? ORDER BY timestamp DESC LIMIT 1", userId).Scan(&log.Id, &log.UserId, &log.IpAddr, &log.UserAgent, &log.Location, &log.Type, &log.Timestamp)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil // No rows found
