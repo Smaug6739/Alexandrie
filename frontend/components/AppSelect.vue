@@ -1,6 +1,6 @@
 <template>
   <div class="category-select" :style="{ width: size || '100%' }">
-    <button @click="toggleDropdown">{{ selected?.title || placeholder }}</button>
+    <button @click="toggleDropdown">{{ selected?.label || placeholder }}</button>
     <div v-if="open" class="dropdown">
       <ul>
         <AppSelectNode v-for="item in items" :key="item.id" :node="item" :level="0" @select="handleSelect" />

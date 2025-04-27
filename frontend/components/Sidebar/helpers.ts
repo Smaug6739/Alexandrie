@@ -1,7 +1,7 @@
 export interface DefaultItem {
   id: string;
   type: 'default';
-  title: string;
+  label: string;
   icon?: string;
   route: string;
   childrens: DefaultItem[];
@@ -15,7 +15,7 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'manage-categories',
     type: 'default',
-    title: 'Manage categories',
+    label: 'Manage categories',
     icon: 'categories',
     route: '/dashboard/categories',
     childrens: [],
@@ -23,7 +23,7 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'cdn',
     type: 'default',
-    title: 'CDN',
+    label: 'CDN',
     icon: 'cdn',
     route: '/dashboard/cdn',
     childrens: [],
@@ -32,7 +32,7 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'settings',
     type: 'default',
-    title: 'Settings',
+    label: 'Settings',
     icon: 'user_settings',
     route: '/dashboard/settings',
     childrens: [],

@@ -1,7 +1,7 @@
 <template>
   <li>
     <button class="tree-node" :style="{ paddingLeft: `${level * 20 + 12}px`, fontWeight: node.childrens?.length ? 700 : 400 }" @click.stop="select">
-      {{ node.title }}
+      {{ node.label }}
     </button>
     <ul v-if="node.childrens?.length">
       <AppSelectNode v-for="child in node.childrens" :key="child.id" :node="child" :level="level + 1" @select="$emit('select', $event)" />

@@ -17,17 +17,17 @@ const emitAction = (action: string) => emit('execute-action', action, props.docu
 const accessibilities: ANode[] = [
   {
     id: 1,
-    title: 'Visible',
+    label: 'Visible',
     parent_id: '',
   },
   {
     id: 2,
-    title: 'Draft',
+    label: 'Draft',
     parent_id: '',
   },
   {
     id: 3,
-    title: 'Archive',
+    label: 'Archive',
     parent_id: '',
   },
 ];

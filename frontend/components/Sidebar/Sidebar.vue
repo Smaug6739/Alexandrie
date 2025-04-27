@@ -56,7 +56,7 @@ const navigationItemsComputed = computed<Item[]>(() =>
   navigationItems.map(item => ({
     id: item.id,
     parent_id: '',
-    label: item.title,
+    label: item.label,
     route: item.route,
     icon: item.icon,
     type: 'navigation',

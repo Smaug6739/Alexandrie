@@ -48,11 +48,11 @@ function buildTree(tree: GroupedHeaders[]): TreeItem[] {
   const stack: TreeItem[] = [];
   for (const node of tree) {
     const item: TreeItem = { title: node.title, link: node.link, level: node.level };
-    while (stack.length > 0 && stack[stack.length - 1].level >= node.level) {
+    while (stack.length > 0 && stack[stack.length - 1]!.level >= node.level) {
       stack.pop();
     }
     if (stack.length > 0) {
-      if (!stack[stack.length - 1].childrens) stack[stack.length - 1].childrens = [];
+      if (!stack[stack.length - 1]!.childrens) stack[stack.length - 1]!.childrens = [];
       // @ts-ignore
       stack[stack.length - 1].childrens.push(item);
     } else {
