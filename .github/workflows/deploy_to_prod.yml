@@ -33,7 +33,7 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend
-          bun install --production
+          bun install
           bun run build
 
       - name: Set up SSH
