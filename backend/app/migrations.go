@@ -1,6 +1,9 @@
 package app
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -11,7 +14,7 @@ func Migrate(config *Config) {
 	defer db.Close()
 	driver, _ := mysql.WithInstance(db, &mysql.Config{})
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://migrations",
+		fmt.Sprintf("file://%smigrations", os.Getenv("CPWD")), // Use PWD to get the current working directory
 		"mysql",
 		driver,
 	)

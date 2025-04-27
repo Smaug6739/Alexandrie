@@ -9,6 +9,7 @@ module.exports = {
         DOMAIN_CLIENT: 'https://alexandrie-hub.fr',
         MINIO_ENDPOINT: 'localhost:9000',
         MINIO_BUCKET: 'alexandrie',
+        CPWD: './backend/',
       },
     },
     {
