@@ -2,7 +2,7 @@
   <MarkdownEditor v-if="document" ref="editor" :doc="document" @save="data => save(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
-import type { Document } from '@/stores';
+import type { Document } from '~/stores';
 import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
 
 const store = useDocumentsStore();
@@ -29,8 +29,8 @@ definePageMeta({ breadcrumb: 'Edit' });
 function save(doc: Document) {
   store
     .update(doc)
-    .then(() => notifications.add({ title: 'Success:', message: 'Document updated', type: 'success', timeout: 3000 }))
-    .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+    .then(() => notifications.add({ type: 'success', title: 'Document successfully updated' }))
+    .catch(e => notifications.add({ type: 'error', title: 'Error', message: e }));
 }
 function exit() {
   useRouter().push(`/dashboard/docs/${doc_id}`);

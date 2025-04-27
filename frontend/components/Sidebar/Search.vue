@@ -9,7 +9,9 @@
         </button>
       </span>
       <span class="title">Documents</span>
-      <NuxtLink v-if="docs.length" v-for="doc of docs" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close"> <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }} </NuxtLink>
+      <NuxtLink v-if="docs.length" v-for="doc of docs" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close">
+        <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }} <span v-html="categoryName(doc.category)" class="category"></span
+      ></NuxtLink>
       <p v-else class="no-result">No result found.</p>
     </div>
   </div>
@@ -17,6 +19,11 @@
 
 <script setup lang="ts">
 const documents = computed(() => useDocumentsStore().getAll.filter(c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || c.tags?.toLowerCase().includes(filter.value.toLowerCase())));
+const categoryName = (id: string = '') => {
+  const category = useCategoriesStore().getById(id);
+  if (category) return `<tag ${getAppColor(category.color)}>${category.name}</tag>`;
+  return '';
+};
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);
 
@@ -89,7 +96,7 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 
 .title {
   font-weight: 500;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: #737373;
   padding: 10px 0;
 }
@@ -121,6 +128,13 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
       margin-right: 5px;
     }
   }
+}
+.category {
+  font-size: 1.1rem;
+  color: var(--font-color);
+  margin-left: auto;
+  padding: 2px 5px;
+  border-radius: 3px;
 }
 
 .no-result {

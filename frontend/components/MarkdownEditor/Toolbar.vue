@@ -1,31 +1,36 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
-    <select v-if="!minimal" v-model="copy.accessibility" style="margin-right: 5px">
-      <option :value="1">Visible</option>
-      <option :value="2">Draf</option>
-      <option :value="3">Archive</option>
-    </select>
-    <select v-if="!minimal" v-model="copy.category" style="margin-right: 5px">
-      <option :value="null" selected>All notes</option>
-      <option v-for="wp in categoriesStore.getParents.filter(c => c.role == 2)" :value="wp.id" v-text="wp.name"></option>
-      <optgroup v-for="cat in categoriesStore.getParents.filter(c => c.role == 1)" :label="cat.name" :key="cat.id">
-        <option v-for="subCat in categoriesStore.getChilds(cat.id)" :value="subCat.id" :key="subCat.id" v-text="subCat.name"></option>
-      </optgroup>
-    </select>
-    <input type="text" v-model="copy.tags" placeholder="Tags" style="margin-right: 5px" />
-    <button @click="() => emitAction('exit')" style="margin-left: auto"><Icon name="close" :big="true" /></button>
+    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" />
+    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" />
+    <input type="text" v-model="document.tags" placeholder="Tags" style="margin-right: 5px" />
+    <AppHint text="Tags separated with a comma" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useCategoriesStore, type Document } from '~/stores';
-
-const categoriesStore = useCategoriesStore();
+import type { Document } from '~/stores';
+const categories = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
-const copy = ref(props.document);
 const emit = defineEmits(['execute-action']);
-const emitAction = (action: string) => emit('execute-action', action, copy);
+const emitAction = (action: string) => emit('execute-action', action, props.document);
+const accessibilities: ANode[] = [
+  {
+    id: 1,
+    label: 'Visible',
+    parent_id: '',
+  },
+  {
+    id: 2,
+    label: 'Draft',
+    parent_id: '',
+  },
+  {
+    id: 3,
+    label: 'Archive',
+    parent_id: '',
+  },
+];
 const toolbar = [
   {
     name: 'Bold',
@@ -97,21 +102,27 @@ const toolbar = [
 
 <style scoped lang="scss">
 button {
-  padding: 0 3px;
+  padding: 0;
   margin: 0;
   transform: none;
+  &:hover {
+    background-color: var(--selection-color);
+  }
 }
 
 .toolbar {
   user-select: none;
   display: flex;
-  align-items: stretch;
+  align-items: center;
   flex-wrap: wrap;
   background-color: var(--bg-contrast-2);
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 0.25rem;
   color: var(--font-color-dark);
+  * {
+    margin: 0 2.5px;
+  }
 }
 
 svg,
@@ -122,8 +133,7 @@ svg,
 input,
 select {
   display: inline-block;
-  width: min-content;
-  padding: 0;
-  background-color: var(--bg-contrast-2);
+  padding: 0.25rem;
+  max-width: 350px;
 }
 </style>

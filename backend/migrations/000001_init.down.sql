@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS `city_ipv6_complete`;
+DROP TABLE IF EXISTS `city_ipv4_complete`;
+DROP TABLE IF EXISTS `city_locations_fr`;
+DROP TABLE IF EXISTS `sessions`;
+DROP TABLE IF EXISTS `ressources`;
+DROP TABLE IF EXISTS `documents`;
+DROP TABLE IF EXISTS `connections_logs`;
+DROP TABLE IF EXISTS `categories`;
+DROP TABLE IF EXISTS `users`;

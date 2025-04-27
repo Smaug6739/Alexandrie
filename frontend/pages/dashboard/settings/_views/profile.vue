@@ -55,12 +55,11 @@ const previewAvatar = (event: Event) => {
 
 const updateUser = async () => {
   if (!userStore.user) return;
-  const newAvatar = await uploadAvatar();
-  if (newAvatar) userStore.user.avatar = newAvatar;
+  await uploadAvatar();
   userStore
     .update(userStore.user)
-    .then(() => useNotifications().add({ title: 'Success:', message: 'User updated', type: 'success', timeout: 3000 }))
-    .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+    .then(() => useNotifications().add({ type: 'success', title: 'User updated' }))
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 </script>
 

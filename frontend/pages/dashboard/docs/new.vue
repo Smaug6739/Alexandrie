@@ -3,7 +3,7 @@
 </template>
 <script lang="ts" setup>
 import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
-import type { Document } from '@/stores';
+import type { Document } from '~/stores';
 
 const store = useDocumentsStore();
 const document = ref<Partial<Document>>({
@@ -18,10 +18,10 @@ function save(doc: Document) {
   store
     .post(doc)
     .then(d => {
-      notifications.add({ title: 'Success:', message: 'Document posted', type: 'success', timeout: 3000 });
+      notifications.add({ type: 'success', title: 'Document successfully posted' });
       useRouter().push(`/dashboard/docs/edit/${d.id}`);
     })
-    .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+    .catch(e => notifications.add({ type: 'error', title: 'Error', message: e }));
 }
 function exit() {
   useRouter().push('/dashboard');

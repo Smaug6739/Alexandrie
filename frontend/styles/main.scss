@@ -3,6 +3,7 @@
 @forward "./markdown.scss";
 @forward "./document-theme.scss";
 @forward "./code.scss";
+@forward "./components.scss";
 
 /* only needed once */
 * {
@@ -37,7 +38,7 @@
 
 .modal-mask {
 	position: fixed;
-	z-index: 100;
+	z-index: 120;
 	top: 0;
 	left: 0;
 	width: 100vw;
@@ -45,6 +46,17 @@
 	background-color: rgba(0, 0, 0, 0.5);
 	display: flex;
 }
+
+.modal-pos {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+
+}
+
 
 body {
 	background: var(--bg-color);

@@ -1,15 +1,3 @@
 #Public dir
-uploads/images/*
-uploads/webp/*
-uploads/backups/*
-uploads/other/*
-uploads/avatars/images/*
-uploads/avatars/webp/*
-!uploads/images/.gitkeep
-!uploads/webp/.gitkeep
-!uploads/backups/.gitkeep
-!uploads/other/.gitkeep
-!uploads/avatars/images/.gitkeep
-!uploads/avatars/webp/.gitkeep
-!uploads/avatars/webp/default.svg
-!uploads/webp/default.svg
+minio
+uploads

@@ -13,7 +13,7 @@ const onClick = () => emit('click');
 <style scoped lang="scss">
 @use 'sass:color';
 button {
-  padding: 10px 14px;
+  padding: 10px;
   border-radius: 5px;
   width: fit-content;
   font-size: 0.9rem;
@@ -34,7 +34,7 @@ button {
   outline: 1px solid $primary-color;
   color: var(--font-color);
   &:hover {
-    outline: 1px solid $primary-dark;
+    box-shadow: inset 0 0 0 1px $primary-dark;
   }
 }
 .success {

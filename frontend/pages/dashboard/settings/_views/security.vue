@@ -27,42 +27,57 @@
       <input id="password" type="password" required v-model="passwordValue" />
     </div>
     <div class="form-group">
-      <span style="display: flex"><label for="password_confirm">Confirm password</label> <span v-if="errorMessages.passwordNotMatch" class="err"> Password do not match !</span></span>
+      <span style="display: flex"><label for="password_confirm">Confirm password</label> <span v-if="err_password_not_match" class="err"> Password do not match !</span></span>
       <input id="password_confirm" type="password" required v-model="passwordConfirmValue" />
     </div>
     <AppButton type="danger">Change password</AppButton>
   </form>
   <h2>Danger</h2>
+  <div>
+    You can log out from all devices or log out from this device. <br />
+    Be careful, if you log out from all devices, you will be redirected to the login page. Please save your work before.
+  </div>
   <AppButton type="danger" @click="logoutUser">Log out</AppButton>
   <AppButton type="danger" @click="logoutUserAll">Log out from all devices</AppButton>
+  <h2>Delete account <tag blue>New</tag></h2>
+  <div>
+    You can delete your account. <br />
+    Be careful, if you delete your account, you will lose all your data and you will not be able to recover it.
+    <br />
+    <strong>This action is irreversible.</strong>
+  </div>
+  <AppButton type="danger" @click="openDeleteModal">Delete account</AppButton>
 </template>
 
 <script setup lang="ts">
-const route = useRoute();
-const currentPage = ref(route.query.p || 'profile');
+import DeleteAccountModal from '../_modals/DeleteAccountModal.vue';
+import { parseUserAgent } from '~/helpers/utils';
 const store = useUserStore();
 const passwordValue = ref('');
 const passwordConfirmValue = ref('');
-const errorMessages = ref({
-  passwordNotMatch: false,
-});
-
-watchEffect(() => (currentPage.value = route.query.p || 'profile'));
+const err_password_not_match = ref(false);
 
 const changePassword = async () => {
   if (!store.user) return;
-  if (passwordValue.value !== passwordConfirmValue.value) return (errorMessages.value.passwordNotMatch = true);
-  store.updatePassword(passwordValue.value);
+  if (passwordValue.value !== passwordConfirmValue.value) return (err_password_not_match.value = true);
+  store
+    .updatePassword(passwordValue.value)
+    .then(() => {
+      passwordValue.value = '';
+      passwordConfirmValue.value = '';
+      err_password_not_match.value = false;
+      useNotifications().add({ type: 'success', title: 'Password changed successfully' });
+    })
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error during password saving', message: e.message }));
 };
-
-watchEffect(() => (currentPage.value = route.query.p || 'profile'));
+const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountModal)));
 </script>
 
 <style scoped lang="scss">
 .last_connection {
   align-items: center;
   padding: 0.3rem 0.5rem;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: var(--bg-contrast-2);
 }
 p {

@@ -7,7 +7,7 @@
         <span>{{ selectedFile.name }}</span>
         <div class="file-size">{{ readableFileSize(selectedFile.size) }}</div>
       </div>
-      <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computed</span>.</div>
+      <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computer</span>.</div>
     </div>
     <AppButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AppButton>
     <div v-if="isLoading" class="loading-spinner"></div>
@@ -18,7 +18,7 @@
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows">
         <template #action="{ cell }">
-          <a :href="`${CDN}${cell?.data.transformed_path || cell?.data.original_path}`" target="_blank"><Icon name="view" /> </a>
+          <a :href="`${CDN}${cell?.data.author_id}/${cell?.data.transformed_path || cell?.data.original_path}`" target="_blank"><Icon name="view" /> </a>
           <Icon name="delete" @click="() => deleteRessource(cell?.data.id)" />
         </template>
       </DataTable>
@@ -62,8 +62,8 @@ const submitFile = async () => {
 
   await ressourcesStore
     .post(body)
-    .then(r => (fileLink.value = `${CDN}/${(r as DB_Ressource).transformed_path || (r as DB_Ressource).original_path}`))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 3000 }))
+    .then(r => (fileLink.value = `${CDN}${(r as DB_Ressource).author_id}/${(r as DB_Ressource).transformed_path}`))
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }))
     .finally(() => (isLoading.value = false));
 };
 
@@ -84,8 +84,8 @@ const rows: any = computed(() =>
   ressourcesStore.ressources.map(res => {
     return {
       name: { content: res.filename },
-      size: { content: readableFileSize(res.file_size) },
-      type: { content: `<span class="tag ${color(res.file_type)}">${res.file_type}</span>`, type: 'html' },
+      size: { content: readableFileSize(res.filesize) },
+      type: { content: `<tag class="${color(res.filetype)}">${res.filetype}</tag>`, type: 'html' },
       date: { content: new Date(res.created_timestamp).toLocaleDateString() },
       action: { type: 'slot', data: res },
     };
@@ -96,8 +96,8 @@ const deleteRessource = async (id: string) => {
   if (!id) return;
   await ressourcesStore
     .delete(id)
-    .then(() => useNotifications().add({ type: 'success', title: 'Success', message: 'Ressource deleted successfully', timeout: 3000 }))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 3000 }));
+    .then(() => useNotifications().add({ type: 'success', title: 'Ressource deleted successfully' }))
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 </script>
 

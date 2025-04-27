@@ -20,6 +20,7 @@ export interface DB_Category {
   id: string;
   name: string;
   icon?: string;
+  color?: number;
   order?: number;
   role: number; // 1 Category; 2 Workspace
   workspace_id?: string;
@@ -54,8 +55,8 @@ export interface ConnectionLog {
 export interface DB_Ressource {
   id: string;
   filename: string;
-  file_size: number;
-  file_type: string;
+  filesize: number;
+  filetype: string;
   original_path: string;
   transformed_path: string;
   author_id: string;

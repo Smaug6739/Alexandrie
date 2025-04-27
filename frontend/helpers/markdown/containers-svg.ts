@@ -44,7 +44,7 @@ export const containerSvg = (md: MarkdownIt) => {
 
       if (tokens[idx].nesting === 1) {
         // opening tag
-        return containerOpen(m[1], svg_info, 'turquoise');
+        return containerOpen(m[1], svg_info, 'teal');
       } else {
         // closing tag
         return '</div>\n';

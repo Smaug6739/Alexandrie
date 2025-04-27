@@ -1,21 +1,3 @@
-#Nodejs
-node_modules
-
-#Public dir
-public/uploads/images/*
-public/uploads/webp/*
-
-!public/uploads/images/default
-!public/uploads/webp/default
-
-#ENV
+minio.exe
 .env
-.env.development
-.env.production
-
-#Config
-prod.config.ts
-prod.config.js
-
-#Build
-dist
+collections/

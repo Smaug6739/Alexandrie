@@ -77,6 +77,7 @@ function debounce(fn: Function, wait: number) {
   width: 100%;
   box-shadow: 0 0 10px 0 var(--border-color);
   border-radius: 15px;
+  padding: 10px;
 }
 
 .markdown {

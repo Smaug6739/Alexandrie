@@ -9,7 +9,7 @@
         <p class="document-description">{{ document.description }}</p>
       </div>
       <div class="document-tags" v-if="document.tags">
-        <span v-for="tag in document.tags.split(',')" :key="tag" class="tag blue">{{ tag.trim() }}</span>
+        <tag v-for="tag in document.tags.split(',')" :key="tag" class="blue">{{ tag.trim() }}</tag>
       </div>
       <footer class="document-footer">
         <div class="footer-item">
@@ -37,6 +37,8 @@
 </template>
 
 <script setup lang="ts">
+import { useColorHash } from '~/helpers/utils';
+
 const route = useRoute();
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();

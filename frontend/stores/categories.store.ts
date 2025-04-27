@@ -14,7 +14,7 @@ export const useCategoriesStore = defineStore('categories', {
   actions: {
     fetch: function (opts?: FetchOptions) {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/${opts?.id || ''}`, 'GET', {});
+        const request = await makeRequest(`categories/@me/${opts?.id || ''}`, 'GET', {});
         if (request.status == 'success') {
           if (opts?.id) {
             // replace the document with the new one
@@ -26,16 +26,16 @@ export const useCategoriesStore = defineStore('categories', {
         } else reject(request.message);
       });
     },
-    post(category: Category) {
+    post(category: Partial<Category>): Promise<string | number> {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories`, 'POST', category);
-        if (request.status == 'success') resolve(this.categories.push({ ...(request.result as DB_Category), type: 'category' }));
-        else reject(request.message);
+        const response = await makeRequest(`categories`, 'POST', category);
+        if (response.status == 'success') resolve(this.categories.push({ ...(response.result as DB_Category), type: 'category' }));
+        else reject(response.message);
       });
     },
     update(category: Category) {
       return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/${category.id}`, 'PATCH', category);
+        const request = await makeRequest(`categories/${category.id}`, 'PUT', category);
         if (request.status == 'success') {
           this.categories = this.categories.map(c => {
             if (c.id == category.id) return category;

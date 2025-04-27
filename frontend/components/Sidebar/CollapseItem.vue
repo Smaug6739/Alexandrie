@@ -19,8 +19,6 @@
   <SidebarItem v-else :item="item" />
 </template>
 <script setup lang="ts">
-import type { Item } from './tree_builder';
-
 const props = defineProps<{ item: Item; root?: boolean }>();
 
 const toggleShow = () => {

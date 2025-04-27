@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'modal-mask': !isMobile() }">
+  <div :class="{ 'modal-mask': !isMobile() }" style="z-index: 100">
     <div class="component">
       <nav>
         <span>Account settings</span>
@@ -10,6 +10,7 @@
             <div class="email">{{ store.user.email }}</div>
           </div>
         </div>
+        <span>General</span>
         <NuxtLink to="?p=profile"><Icon fill="var(--font-color)" name="profil" />My profile</NuxtLink>
         <NuxtLink to="?p=preferences"><Icon fill="var(--font-color)" name="settings" />Preferences</NuxtLink>
         <NuxtLink to="?p=security"><Icon fill="var(--font-color)" name="security" />Security</NuxtLink>
@@ -17,6 +18,7 @@
         <span>Workspaces</span>
         <NuxtLink to="/dashboard/categories"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
         <NuxtLink to="/dashboard/docs"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
+        <NuxtLink to="/dashboard/import" style="display: flex; align-items: center"><Icon fill="var(--font-color)" name="import" />Manage importations <tag blue>New</tag></NuxtLink>
         <span>Other</span>
         <NuxtLink @click="logoutUser"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
       </nav>
