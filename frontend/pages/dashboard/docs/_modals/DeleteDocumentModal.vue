@@ -17,13 +17,11 @@ const deleteDoc = () => {
   useDocumentsStore()
     .delete(props.documentId)
     .then(() => {
-      useNotifications().add({ title: 'Success:', message: 'Document deleted', type: 'success', timeout: 3000 });
+      useNotifications().add({ type: 'success', title: 'Document deleted' });
       emit('close');
       useRouter().push('/dashboard');
     })
-    .catch(e => {
-      useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 });
-    });
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const emit = defineEmits(['close']);
 const allChildren = useSidebarTree().getSubTreeById(props.documentId);

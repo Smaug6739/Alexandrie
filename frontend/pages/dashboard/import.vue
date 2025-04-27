@@ -67,28 +67,25 @@ async function submit() {
     const file = selectedFile.value;
     const fileContent = await analyseFile(file);
     const valid = validateFileStructure(fileContent);
-    if (!valid) useNotifications().add({ type: 'error', title: 'Invalid file structure', timeout: 3000 });
-    else useNotifications().add({ type: 'success', title: 'File structure is valid', timeout: 3000 });
+    if (!valid) useNotifications().add({ type: 'error', title: 'Invalid file structure' });
+    else useNotifications().add({ type: 'success', title: 'File structure is valid' });
     files_to_import.value = compareDocumentsAndLocal(fileContent);
   } catch (e) {
-    if (e instanceof Error) useNotifications().add({ type: 'error', title: 'Error while analysing file', message: e.message, timeout: 3000 });
-    else useNotifications().add({ type: 'error', title: 'Error while analysing file', message: 'Unknown error', timeout: 3000 });
+    if (e instanceof Error) useNotifications().add({ type: 'error', title: 'Error while analysing file', message: e.message });
+    else useNotifications().add({ type: 'error', title: 'Error while analysing file', message: 'Unknown error' });
     selectedFile.value = null;
   }
 }
 function importDoc(file: DB_Document) {
   const fileContent = files_to_import.value.find(i => i.id === file.id);
-  if (!fileContent) {
-    useNotifications().add({ type: 'error', title: 'File not found', timeout: 3000 });
-    return;
-  }
+  if (!fileContent) return useNotifications().add({ type: 'error', title: 'File not found' });
   prepareNewDocuments([fileContent]);
   uploadDocument(fileContent)
     .then(() => {
-      useNotifications().add({ type: 'success', title: 'Document imported successfully', timeout: 3000 });
+      useNotifications().add({ type: 'success', title: 'Document imported successfully' });
       files_to_import.value = files_to_import.value.filter(i => i.id !== file.id);
     })
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error while importing document', message: e, timeout: 3000 }));
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error while importing document', message: e }));
 }
 function importAllDocs() {
   if (!files_to_import.value.length) return;
@@ -96,10 +93,10 @@ function importAllDocs() {
   prepareNewDocuments(files);
   uploadDocuments(files)
     .then(() => {
-      useNotifications().add({ type: 'success', title: 'Documents imported successfully', timeout: 3000 });
+      useNotifications().add({ type: 'success', title: 'Documents imported successfully' });
       files_to_import.value = [];
     })
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error while importing documents', message: e, timeout: 3000 }));
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error while importing documents', message: e }));
 }
 </script>
 

@@ -39,12 +39,10 @@ const createCategory = () => {
   categoriesStore
     .post(category.value)
     .then(() => {
-      useNotifications().add({ title: 'Category successfully created', message: '', type: 'success', timeout: 3000 });
+      useNotifications().add({ type: 'success', title: 'Category successfully created' });
       emit('close');
     })
-    .catch(e => {
-      useNotifications().add({ title: 'Error during creation ', message: e, type: 'error', timeout: 3000 });
-    });
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error during creation ', message: e }));
 };
 </script>
 

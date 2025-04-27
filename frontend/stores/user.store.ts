@@ -58,8 +58,7 @@ export const useUserStore = defineStore('user', {
         if (!this.user) return;
         const request = await makeRequest(`users/${this.user.id}/password`, 'PATCH', { password: newPassword });
         if (request.status === 'success') {
-          this.user = request.result as User;
-          return resolve(this.user);
+          return resolve(true);
         } else reject(request.message);
       });
     },

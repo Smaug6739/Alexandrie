@@ -29,8 +29,8 @@ definePageMeta({ breadcrumb: 'Edit' });
 function save(doc: Document) {
   store
     .update(doc)
-    .then(() => notifications.add({ title: 'Document successfully updated', message: '', type: 'success', timeout: 3000 }))
-    .catch(e => notifications.add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+    .then(() => notifications.add({ type: 'success', title: 'Document successfully updated' }))
+    .catch(e => notifications.add({ type: 'error', title: 'Error', message: e }));
 }
 function exit() {
   useRouter().push(`/dashboard/docs/${doc_id}`);

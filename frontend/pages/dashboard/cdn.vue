@@ -63,7 +63,7 @@ const submitFile = async () => {
   await ressourcesStore
     .post(body)
     .then(r => (fileLink.value = `${CDN}${(r as DB_Ressource).author_id}/${(r as DB_Ressource).transformed_path}`))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 3000 }))
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }))
     .finally(() => (isLoading.value = false));
 };
 
@@ -96,8 +96,8 @@ const deleteRessource = async (id: string) => {
   if (!id) return;
   await ressourcesStore
     .delete(id)
-    .then(() => useNotifications().add({ type: 'success', title: 'Success', message: 'Ressource deleted successfully', timeout: 3000 }))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e, timeout: 3000 }));
+    .then(() => useNotifications().add({ type: 'success', title: 'Ressource deleted successfully' }))
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 </script>
 

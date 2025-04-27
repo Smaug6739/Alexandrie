@@ -39,29 +39,31 @@
 
 <script setup lang="ts">
 import { parseUserAgent } from '~/helpers/utils';
-const route = useRoute();
-const currentPage = ref(route.query.p || 'profile');
 const store = useUserStore();
 const passwordValue = ref('');
 const passwordConfirmValue = ref('');
 const err_password_not_match = ref(false);
 
-watchEffect(() => (currentPage.value = route.query.p || 'profile'));
-
 const changePassword = async () => {
   if (!store.user) return;
   if (passwordValue.value !== passwordConfirmValue.value) return (err_password_not_match.value = true);
-  store.updatePassword(passwordValue.value);
+  store
+    .updatePassword(passwordValue.value)
+    .then(() => {
+      passwordValue.value = '';
+      passwordConfirmValue.value = '';
+      err_password_not_match.value = false;
+      useNotifications().add({ type: 'success', title: 'Password changed successfully' });
+    })
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error during password saving', message: e.message }));
 };
-
-watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 </script>
 
 <style scoped lang="scss">
 .last_connection {
   align-items: center;
   padding: 0.3rem 0.5rem;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: var(--bg-contrast-2);
 }
 p {

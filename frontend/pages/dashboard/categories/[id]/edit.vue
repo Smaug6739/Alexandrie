@@ -62,10 +62,10 @@ const updateCategory = async () => {
     categoriesStore
       .update(category.value)
       .then(() => {
-        useNotifications().add({ title: 'Success:', message: 'Category updated', type: 'success', timeout: 3000 });
+        useNotifications().add({ type: 'success', title: 'Category updated' });
         useRouter().push('/dashboard/categories');
       })
-      .catch(e => useNotifications().add({ title: 'Error:', message: e, type: 'error', timeout: 3000 }));
+      .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const deleteCategory = async () => {
   useModal().add(new Modal(shallowRef(DeleteModal), { categoryId: category.value?.id || '' }));
