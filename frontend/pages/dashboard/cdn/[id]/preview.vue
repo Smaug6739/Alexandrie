@@ -34,7 +34,7 @@ const copyLink = () => {
   navigator.clipboard.writeText(link);
 };
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 .preview {
   display: flex;
   justify-content: center;

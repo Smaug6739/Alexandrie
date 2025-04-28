@@ -101,4 +101,10 @@ a {
   color: $primary-color;
   text-decoration: underline;
 }
+.preview {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
 </style>
