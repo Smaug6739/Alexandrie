@@ -25,11 +25,16 @@
       <input type="text" :value="ressource.original_path" id="original_path" disabled />
       <label>Path</label>
       <input type="text" :value="ressource.transformed_path" id="path" disabled />
-      <p>
+      <p style="overflow-wrap: break-word">
         Ressource: <a :href="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" target="_blank">{{ `${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}` }}</a>
       </p>
       <div style="display: flex; justify-content: flex-end">
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
+      </div>
+      <h4>Preview</h4>
+      <div class="preview">
+        <img v-if="ressource.filetype.startsWith('image/')" :src="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" alt="Preview" />
+        <p v-else>Preview not available for this file type.</p>
       </div>
     </form>
   </div>

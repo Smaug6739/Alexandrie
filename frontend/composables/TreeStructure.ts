@@ -1,4 +1,4 @@
-import type { Document, Category } from '~/stores';
+import type { Document, Category, DB_Ressource, Ressource } from '~/stores';
 import type { DefaultItem } from '../components/Sidebar/helpers';
 
 export interface ANode {
@@ -8,17 +8,18 @@ export interface ANode {
   childrens?: ANode[];
 }
 
-export interface Item<T = Document | Category | DefaultItem> extends ANode {
+export interface Item<T = Document | Category | DefaultItem | Ressource> extends ANode {
   id: string;
   route: string;
   data: T;
   show: Ref<boolean>;
   childrens?: Item<T>[];
+  icon?: string;
 }
 export class TreeStructure {
   public readonly items: Item[];
-  private itemMap: Map<string, Item>; // Utilisation de Map pour les recherches rapides
-  private childrenMap: Map<string, Item[]>; // Utilisation de Map pour les recherches rapides
+  public itemMap: Map<string, Item>; // Utilisation de Map pour les recherches rapides
+  public childrenMap: Map<string, Item[]>; // Utilisation de Map pour les recherches rapides
   constructor(items: Item[]) {
     this.items = items;
     this.itemMap = new Map(items.map(item => [item.id, item]));

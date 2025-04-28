@@ -1,9 +1,9 @@
 import { makeRequest } from './_utils';
-import type { DB_Ressource } from './db_strustures';
+import type { DB_Ressource, Ressource } from './db_strustures';
 
 export const useRessourcesStore = defineStore('ressources', {
   state: () => ({
-    ressources: ref<DB_Ressource[]>([]),
+    ressources: ref<Ressource[]>([]),
   }),
   getters: {
     getAll: state => state.ressources,
@@ -15,17 +15,17 @@ export const useRessourcesStore = defineStore('ressources', {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`ressources/@me`, 'GET', {});
         if (request.status == 'success') {
-          this.ressources = request.result as DB_Ressource[];
+          this.ressources = (request.result as DB_Ressource[]).map((d: DB_Ressource) => ({ ...d, type: 'ressource' })) as Ressource[];
           resolve(this.ressources);
         } else reject(request.message);
       });
     },
-    post(ressource: FormData): Promise<DB_Ressource | string> {
+    post(ressource: FormData): Promise<Ressource | string> {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`ressources`, 'POST', ressource);
         if (request.status == 'success') {
-          this.ressources.push(request.result as DB_Ressource);
-          resolve(request.result as DB_Ressource);
+          this.ressources.push(request.result as Ressource);
+          resolve(request.result as Ressource);
         } else reject(request.message);
       });
     },
@@ -37,13 +37,13 @@ export const useRessourcesStore = defineStore('ressources', {
         } else reject(request.message);
       });
     },
-    update(ressource: DB_Ressource): Promise<DB_Ressource | string> {
+    update(ressource: Ressource): Promise<Ressource | string> {
       return new Promise(async (resolve, reject) => {
         const request = await makeRequest(`ressources/${ressource.id}`, 'PUT', ressource);
         if (request.status == 'success') {
           const index = this.ressources.findIndex(c => c.id == ressource.id);
-          if (index != -1) this.ressources[index] = ressource as DB_Ressource;
-          resolve(request.result as DB_Ressource);
+          if (index != -1) this.ressources[index] = ressource as Ressource;
+          resolve(request.result as Ressource);
         } else reject(request.message);
       });
     },

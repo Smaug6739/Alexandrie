@@ -1,6 +1,6 @@
 /* Store to save user local preferences */
 /* Only local settings with localStorage but no db or requests */
-type PreferenceKey = 'printMode' | 'darkMode' | 'hideTOC' | 'compactMode';
+export type PreferenceKey = 'printMode' | 'darkMode' | 'hideTOC' | 'compactMode' | 'hideSidebarRessources' | 'normalizeFileIcons';
 export interface Preference {
   key: PreferenceKey;
   value: any;

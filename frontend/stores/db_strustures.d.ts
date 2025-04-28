@@ -63,3 +63,7 @@ export interface DB_Ressource {
   author_id: string;
   created_timestamp: string;
 }
+
+export interface Ressource extends DB_Ressource {
+  type: 'ressource';
+}

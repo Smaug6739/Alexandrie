@@ -67,4 +67,9 @@ header {
   display: block;
   margin: 2px 0;
 }
+@media screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+  }
+}
 </style>

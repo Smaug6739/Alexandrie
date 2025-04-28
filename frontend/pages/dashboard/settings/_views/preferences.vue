@@ -1,8 +1,11 @@
 <template>
   <h1>Preferences</h1>
-  <div v-for="(option, index) in options" :key="option.id" class="form-group">
-    <label :for="option.id">{{ option.label }}</label>
-    <AppToggle :active="option.value" @toggle="toggleOption(index)" />
+  <div v-for="(list, index) in options" :key="index">
+    <h2>{{ list.label }}</h2>
+    <div v-for="(option, index) in list.options" class="form-group">
+      <label>{{ option.label }}</label>
+      <AppToggle :active="option.value" @toggle="toggleOption(option)" />
+    </div>
   </div>
 </template>
 
@@ -12,35 +15,60 @@ const preferencesStore = usePreferencesStore();
 
 const options = ref([
   {
-    id: 'print-mode-toggle',
-    label: 'Enable Print Mode',
-    value: Boolean(preferencesStore.get('printMode')),
-    storageKey: 'printMode' as const,
+    label: 'General',
+    options: [
+      {
+        label: 'Enable Dark Mode',
+        value: colorMode.value === 'dark',
+        storageKey: 'darkMode' as const,
+        onToggle: () => (colorMode.value === 'light' ? (colorMode.preference = 'dark') : (colorMode.preference = 'light')),
+      },
+    ],
   },
   {
-    id: 'dark-mode-toggle',
-    label: 'Enable Dark Mode',
-    value: colorMode.value === 'dark',
-    storageKey: 'darkMode' as const,
-    onToggle: () => (colorMode.value === 'light' ? (colorMode.preference = 'dark') : (colorMode.preference = 'light')),
+    label: 'Documents',
+    options: [
+      {
+        label: 'Enable Print Mode',
+        value: Boolean(preferencesStore.get('printMode')),
+        storageKey: 'printMode' as const,
+      },
+      {
+        label: 'Hide Table of Content',
+        value: Boolean(preferencesStore.get('hideTOC')),
+        storageKey: 'hideTOC' as const,
+      },
+    ],
   },
   {
-    id: 'hide-toc',
-    label: 'Hide Table of Content',
-    value: Boolean(preferencesStore.get('hideTOC')),
-    storageKey: 'hideTOC' as const,
-  },
-  {
-    id: 'compact-mode',
-    label: 'Enable Compact Mode',
-    value: Boolean(preferencesStore.get('compactMode')),
-    storageKey: 'compactMode' as const,
+    label: 'Sidebar',
+    options: [
+      {
+        label: 'Enable Compact Mode',
+        value: Boolean(preferencesStore.get('compactMode')),
+        storageKey: 'compactMode' as const,
+      },
+      {
+        label: 'Normalize file icons',
+        value: Boolean(preferencesStore.get('normalizeFileIcons')),
+        storageKey: 'normalizeFileIcons' as const,
+      },
+      {
+        label: 'Hide ressources',
+        value: Boolean(preferencesStore.get('hideSidebarRessources')),
+        storageKey: 'hideSidebarRessources' as const,
+      },
+    ],
   },
 ]);
+interface Option {
+  label: string;
+  value: boolean;
+  storageKey: PreferenceKey;
+  onToggle?: () => void;
+}
 
-const toggleOption = (index: number) => {
-  const option = options.value[index];
-  if (!option) return;
+const toggleOption = (option: Option) => {
   option.value = !option.value;
   preferencesStore.set({ key: option.storageKey, value: option.value });
   if (option.onToggle) option.onToggle();

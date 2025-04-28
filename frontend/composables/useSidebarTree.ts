@@ -1,4 +1,4 @@
-import { useCategoriesStore, useDocumentsStore, type Category } from '~/stores';
+import { type Category } from '~/stores';
 
 function getCollapseState(id: string): boolean {
   const stored = localStorage.getItem(`collapse-${id}`);
@@ -8,6 +8,8 @@ function getCollapseState(id: string): boolean {
 export function useSidebarTree() {
   const categoriesStore = useCategoriesStore();
   const documentsStore = useDocumentsStore();
+  const ressourcesStore = useRessourcesStore();
+  const preferencesStore = usePreferencesStore();
   const { workspaceId } = useSidebar();
 
   const categories = computed<Item[]>(() =>
@@ -17,7 +19,6 @@ export function useSidebarTree() {
       label: cat.name,
       route: cat.parent_id ? `/dashboard/categories/${cat.id}` : '',
       icon: cat.icon,
-      type: 'category',
       data: cat,
       show: ref(getCollapseState(cat.id)),
     })),
@@ -29,14 +30,38 @@ export function useSidebarTree() {
       parent_id: doc.parent_id || doc.category || '',
       label: doc.name,
       route: `/dashboard/docs/${doc.id}`,
-      type: 'document',
+      icon: doc.accessibility == 1 ? 'file' : doc.accessibility == 2 ? 'draft' : 'archive',
       data: doc,
       show: ref(getCollapseState(doc.id)),
     })),
   );
+  const ressources = computed<Item[]>(() => {
+    if (!preferencesStore.get('hideSidebarRessources'))
+      return ressourcesStore.getAll
+        .filter(res => res.parent_id)
+        .map(cat => ({
+          id: cat.id,
+          parent_id: cat.parent_id || '',
+          label: cat.filename,
+          route: `/dashboard/cdn/${cat.id}`,
+          icon: 'image',
+          data: cat,
+          show: ref(true),
+        }));
+    return [];
+  });
 
-  const allItems = computed(() => [...documents.value, ...categories.value.filter(cat => (cat as Item<Category>).data.role == 1)]);
+  const allItems = computed(() => [...documents.value, ...ressources.value, ...categories.value.filter(cat => (cat as Item<Category>).data.role == 1)]);
   const structure = computed(() => new TreeStructure(allItems.value));
+
+  // Special icons:
+  for (const i of structure.value.childrenMap.keys()) {
+    if (!preferencesStore.get('normalizeFileIcons')) {
+      const ref = structure.value.itemMap.get(i);
+      const subs = structure.value.childrenMap.get(i);
+      if (ref?.data.type === 'document' && subs?.some(c => c.data.type != 'ressource')) structure.value.itemMap.get(i)!.icon = 'file_parent';
+    }
+  }
 
   const tree = computed(() => structure.value.generateTree());
 
