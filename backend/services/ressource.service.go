@@ -4,7 +4,6 @@ import (
 	"alexandrie/models"
 	"alexandrie/types"
 	"database/sql"
-	"fmt"
 )
 
 type RessourceService interface {
@@ -70,7 +69,6 @@ func (s *Service) CreateRessource(ressource *models.Ressource) (*models.Ressourc
 func (s *Service) UpdateRessource(ressource *models.Ressource) (*models.Ressource, error) {
 	_, err := s.db.Exec("UPDATE ressources SET filename = ?, file_size = ?, file_type = ?, original_path = ?, transformed_path = ?, parent_id = ?, author_id = ?, created_timestamp = ? WHERE id = ?", ressource.Filename, ressource.Filesize, ressource.Filetype, ressource.OriginalPath, ressource.TransformedPath, ressource.ParentId, ressource.AuthorId, ressource.CreatedTimestamp, ressource.Id)
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 	return ressource, nil
