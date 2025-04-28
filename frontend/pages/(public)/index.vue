@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import MarkdownEditor from '~/components/MarkdownEditor/MarkdownEditor.vue';
+import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 import AppFooter from './_components/AppFooter.vue';
 const typewriterText = ref('Your Ideas, Documents & Plans.\nAlexandrie');
 
