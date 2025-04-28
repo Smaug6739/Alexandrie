@@ -22,7 +22,7 @@ const modals = modalManager.modals;
   padding: 12px 18px;
   background-color: var(--bg-contrast);
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   font-size: initial;
   position: relative;

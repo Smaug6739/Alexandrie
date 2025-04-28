@@ -137,10 +137,12 @@ h3 {
   font-size: 1rem;
   transition: all 0.3s ease;
   display: inline-block;
-  box-shadow: 0px 4px 12px var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
   border: none;
   &:hover {
-    box-shadow: 0px 6px 15px var(--border-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
     transform: translateY(-4px);
   }
 }
@@ -162,7 +164,7 @@ h3 {
   img {
     width: 100%;
     border-radius: 1rem;
-    box-shadow: 0 20px 40px var(--border-color);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -182,12 +184,14 @@ h3 {
   margin: 0 auto;
   border-radius: 1rem;
   overflow: hidden;
-  box-shadow: 0 10px 30px var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
   border: 1px solid var(--border-color);
 }
 
 .demo img {
-  box-shadow: 0 10px 20px var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
   display: block;
   margin: 25px auto;
   max-height: unset;

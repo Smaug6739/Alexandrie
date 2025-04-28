@@ -75,7 +75,7 @@ function debounce(fn: Function, wait: number) {
 .editor-container {
   height: 90%;
   width: 100%;
-  box-shadow: 0 0 10px 0 var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   padding: 10px;
 }

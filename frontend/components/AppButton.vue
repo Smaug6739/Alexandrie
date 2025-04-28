@@ -34,7 +34,7 @@ button {
   outline: 1px solid $primary-color;
   color: var(--font-color);
   &:hover {
-    box-shadow: inset 0 0 0 1px $primary-dark;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
 }
 .success {

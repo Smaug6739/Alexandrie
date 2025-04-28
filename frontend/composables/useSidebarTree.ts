@@ -43,7 +43,7 @@ export function useSidebarTree() {
           id: cat.id,
           parent_id: cat.parent_id || '',
           label: cat.filename,
-          route: `/dashboard/cdn/${cat.id}`,
+          route: `/dashboard/cdn/${cat.id}/preview`,
           icon: 'image',
           data: cat,
           show: ref(true),

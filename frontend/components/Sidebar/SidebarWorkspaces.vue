@@ -61,7 +61,7 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 .dropdown-selected.open {
   border-color: var(--selection-color);
-  box-shadow: 0 0 5px var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-arrow {
