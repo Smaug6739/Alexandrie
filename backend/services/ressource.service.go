@@ -21,7 +21,7 @@ func NewRessourceService(db *sql.DB) RessourceService {
 
 func (s *Service) GetAllUploadsByUserId(userId types.Snowflake) ([]*models.Ressource, error) {
 	var ressources = make([]*models.Ressource, 0)
-	rows, err := s.db.Query("SELECT * from ressources WHERE author_id = ?", userId)
+	rows, err := s.db.Query("SELECT * from ressources WHERE author_id = ? ORDER BY created_timestamp DESC", userId)
 	if err != nil {
 		return nil, err
 	}
