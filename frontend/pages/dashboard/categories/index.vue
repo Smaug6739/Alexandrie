@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 24px; gap: 16px" class="card-component">
+  <div class="card-component">
     <header>
       <h1 style="font-size: 20px">Workspaces & Categories <tag class="blue">New</tag></h1>
       <div style="display: flex; gap: 8px">

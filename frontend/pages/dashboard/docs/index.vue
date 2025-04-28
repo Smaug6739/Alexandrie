@@ -1,11 +1,13 @@
 <template>
-  <h2 style="text-align: center">Search documents</h2>
-  <DataTable :headers="headers" :rows="rows">
-    <template #actions="{ cell }">
-      <NuxtLink :to="`/dashboard/docs/${cell?.data.id}`"><Icon name="view" /></NuxtLink>
-      <NuxtLink :to="`/dashboard/docs/edit/${cell?.data.id}`"><Icon name="edit" /></NuxtLink>
-    </template>
-  </DataTable>
+  <div class="card-component">
+    <h2 style="text-align: center">Search documents</h2>
+    <DataTable :headers="headers" :rows="rows">
+      <template #actions="{ cell }">
+        <NuxtLink :to="`/dashboard/docs/${cell?.data.id}`"><Icon name="view" /></NuxtLink>
+        <NuxtLink :to="`/dashboard/docs/edit/${cell?.data.id}`"><Icon name="edit" /></NuxtLink>
+      </template>
+    </DataTable>
+  </div>
 </template>
 
 <script setup lang="ts">

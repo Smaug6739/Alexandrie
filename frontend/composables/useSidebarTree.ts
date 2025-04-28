@@ -39,13 +39,13 @@ export function useSidebarTree() {
     if (!preferencesStore.get('hideSidebarRessources'))
       return ressourcesStore.getAll
         .filter(res => res.parent_id)
-        .map(cat => ({
-          id: cat.id,
-          parent_id: cat.parent_id || '',
-          label: cat.filename,
-          route: `/dashboard/cdn/${cat.id}/preview`,
-          icon: 'image',
-          data: cat,
+        .map(res => ({
+          id: res.id,
+          parent_id: res.parent_id || '',
+          label: res.filename,
+          route: `/dashboard/cdn/${res.id}/preview`,
+          icon: res.filetype == 'application/pdf' ? 'pdf' : 'image',
+          data: res,
           show: ref(true),
         }));
     return [];

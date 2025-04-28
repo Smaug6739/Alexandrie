@@ -1,8 +1,7 @@
 <template>
-  <div style="padding: 24px; gap: 16px" class="card-component">
+  <div class="card-component">
     <header>
       <h1 style="font-size: 20px">Import documents <tag class="yellow">Beta</tag></h1>
-
       <p>You can import documents from a previous export. If you don't have export, you can create a new one from the <NuxtLink to="/dashboard/settings?p=backup">settings</NuxtLink> page.</p>
     </header>
     <div class="dropzone" :class="{ 'drag-over': isDragOver }" @dragover.prevent @drop.prevent="handleFileDrop" @dragenter.prevent="dragEnter" @dragleave.prevent="dragLeave">
@@ -106,11 +105,6 @@ header {
   a {
     color: $primary-color;
   }
-}
-.card-component {
-  display: block;
-  margin: 2px 0;
-  width: 100%;
 }
 
 .dropzone {

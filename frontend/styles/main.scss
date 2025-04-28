@@ -69,15 +69,7 @@ body {
 	--padding: calc((100vw - 1700px) / 2);
 }
 
-.card-component {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1.5rem;
-	padding: 1rem;
-	border-radius: 8px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
+
 
 @media screen and (min-width: 768px) {
 	.card-component {

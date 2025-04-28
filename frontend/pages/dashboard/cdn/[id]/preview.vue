@@ -1,7 +1,13 @@
 <template>
-  <div style="padding: 24px; gap: 16px" class="card-component">
+  <div class="card-component">
     <div v-if="ressource">
-      <h2>Preview <tag blue>New</tag></h2>
+      <header style="display: flex; justify-content: space-between; align-items: center">
+        <h2>Preview <tag blue>New</tag></h2>
+        <div style="display: flex">
+          <NuxtLink :to="`/dashboard/cdn/${ressource.id}`"><AppButton type="primary">Edit</AppButton></NuxtLink>
+          <AppButton type="secondary" @click="copyLink">Copy link</AppButton>
+        </div>
+      </header>
       Name: <strong>{{ ressource.filename }}</strong>
       <p>
         Type: <strong>{{ ressource.filetype }}</strong>
@@ -20,14 +26,15 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ breadcrumb: 'Preview' });
 const ressource = useRessourcesStore().getById(useRoute().params.id as string);
+
+const copyLink = () => {
+  const link = `${CDN}/${ressource?.author_id}/${ressource?.transformed_path || ressource?.original_path}`;
+  navigator.clipboard.writeText(link);
+};
 </script>
 <style lang="scss">
-.card-component {
-  display: block;
-  margin: 2px 0;
-  width: 100%;
-}
 .preview {
   display: flex;
   justify-content: center;

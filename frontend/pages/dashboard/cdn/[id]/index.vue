@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 24px; gap: 16px" class="card-component">
+  <div class="card-component">
     <header>
       <h3>Update ressource&nbsp;<tag blue>New</tag></h3>
       Manage ressources and files on the server. You can edit metadata and delete file from the server.
@@ -36,11 +36,18 @@
         <img v-if="ressource.filetype.startsWith('image/')" :src="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" alt="Preview" />
         <p v-else>Preview not available for this file type.</p>
       </div>
+      <h4>Danger</h4>
+      <p style="color: #dc3545">Deleting a ressource will remove it from the server. This action is irreversible.</p>
+      <div style="display: flex; justify-content: flex-end">
+        <AppButton type="danger" @click="showDeleteModal">Delete</AppButton>
+      </div>
     </form>
   </div>
 </template>
 
 <script lang="ts" setup>
+import DeleteRessourceModal from '../_modals/DeleteRessourceModal.vue';
+definePageMeta({ breadcrumb: 'Edit' });
 const ressourcesStore = useRessourcesStore();
 const route = useRoute();
 const ressource = computed(() => ressourcesStore.getById(route.params.id as string));
@@ -52,8 +59,6 @@ const defaultItem: ANode = {
 };
 const tree = computed(() => [defaultItem, ...useSidebarTree().tree.value]);
 
-definePageMeta({ breadcrumb: 'Edit' });
-
 const updateCategory = async () => {
   if (ressource.value)
     ressourcesStore
@@ -64,6 +69,9 @@ const updateCategory = async () => {
       })
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
+const showDeleteModal = () => {
+  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { ressourceId: ressource.value?.id }));
+};
 </script>
 
 <style scoped lang="scss">
@@ -73,11 +81,7 @@ h2 {
 label {
   margin-top: 10px;
 }
-.card-component {
-  display: block;
-  margin: 2px 0;
-  width: 100%;
-}
+
 input,
 textarea,
 select {

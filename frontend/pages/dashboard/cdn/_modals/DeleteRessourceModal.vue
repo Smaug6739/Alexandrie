@@ -19,6 +19,7 @@ const deleteRessource = async () => {
     .then(() => {
       useNotifications().add({ type: 'success', title: 'Ressource deleted successfully' });
       emit('close');
+      useRouter().push('/dashboard/cdn');
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };

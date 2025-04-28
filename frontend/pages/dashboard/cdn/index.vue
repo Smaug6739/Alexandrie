@@ -94,6 +94,11 @@ const deleteRessource = async (id: string) => {
 </script>
 
 <style scoped lang="scss">
+.card-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .dropzone {
   display: flex;
   align-items: center;
