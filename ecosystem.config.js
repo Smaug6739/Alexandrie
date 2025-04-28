@@ -11,6 +11,7 @@ module.exports = {
         MINIO_BUCKET: 'alexandrie',
         CPWD: './backend/',
         COOKIE_DOMAIN: 'alexandrie-hub.fr',
+        GIN_MODE: 'release',
       },
     },
     {
