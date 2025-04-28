@@ -51,6 +51,11 @@ export default defineNuxtConfig({
   experimental: {
     viewTransition: true,
     payloadExtraction: true,
+    defaults: {
+      nuxtLink: {
+        prefetch: false,
+      },
+    },
   },
 
   app: {
