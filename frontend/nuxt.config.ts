@@ -53,7 +53,7 @@ export default defineNuxtConfig({
     payloadExtraction: true,
     defaults: {
       nuxtLink: {
-        prefetch: false,
+        // prefetch: false,
       },
     },
   },
