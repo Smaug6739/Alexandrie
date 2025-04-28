@@ -28,6 +28,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
 import type { DB_Ressource } from '~/stores';
 
 const ressourcesStore = useRessourcesStore();
@@ -88,11 +89,7 @@ const rows: any = computed(() =>
 );
 
 const deleteRessource = async (id: string) => {
-  if (!id) return;
-  await ressourcesStore
-    .delete(id)
-    .then(() => useNotifications().add({ type: 'success', title: 'Ressource deleted successfully' }))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { ressourceId: id }));
 };
 </script>
 

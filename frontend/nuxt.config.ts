@@ -1,6 +1,5 @@
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-
+  devtools: { enabled: process.env.NODE_ENV !== 'production' },
   future: {
     compatibilityVersion: 4,
   },
@@ -23,6 +22,10 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+  nitro: {
+    compressPublicAssets: true,
+    minify: true,
   },
   $production: {
     ignore: [
@@ -47,6 +50,7 @@ export default defineNuxtConfig({
 
   experimental: {
     viewTransition: true,
+    payloadExtraction: true,
   },
 
   app: {
@@ -91,6 +95,14 @@ export default defineNuxtConfig({
         {
           rel: 'preconnect',
           href: 'https://fonts.gstatic.com',
+        },
+        {
+          rel: 'preconnect',
+          href: 'https://api.alexandrie-hub.fr',
+        },
+        {
+          rel: 'preconnect',
+          href: 'https://cdn.alexandrie-hub.fr',
         },
       ],
     },

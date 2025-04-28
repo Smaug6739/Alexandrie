@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 24px; gap: 16px" class="card-component">
     <header>
-      <h2>Update ressource <tag blue>New</tag></h2>
+      <h3>Update ressource&nbsp;<tag blue>New</tag></h3>
       Manage ressources and files on the server. You can edit metadata and delete file from the server.
     </header>
     <form @submit.prevent v-if="ressource">
@@ -55,7 +55,7 @@ const updateCategory = async () => {
       .update(ressource.value)
       .then(() => {
         useNotifications().add({ type: 'success', title: 'Ressource updated' });
-        useRouter().push('/dashboard');
+        useRouter().push('/dashboard/cdn');
       })
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
