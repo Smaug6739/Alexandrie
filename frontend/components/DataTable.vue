@@ -55,7 +55,7 @@
 <script lang="ts" setup>
 import { Paginator } from '../helpers/paginator';
 const props = defineProps<{ headers: Header[]; rows: Field[] }>();
-const itemsPerPage = ref(10);
+const itemsPerPage = ref(parseInt(usePreferencesStore().get('datatableItemsCount')) || 10);
 const searchInput = ref('');
 
 const paginator = new Paginator<Field>(

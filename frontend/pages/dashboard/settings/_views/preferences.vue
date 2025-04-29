@@ -4,7 +4,16 @@
     <h2>{{ list.label }}</h2>
     <div v-for="(option, index) in list.options" class="form-group">
       <label>{{ option.label }}</label>
-      <AppToggle :active="option.value" @toggle="toggleOption(option)" />
+
+      <!-- Toggle -->
+      <AppToggle v-if="option.type === 'toggle'" :active="option.value" @toggle="toggleOption(option)" />
+
+      <!-- Native select -->
+      <select v-else-if="option.type === 'select'" v-model="option.value" @change="() => selectOption(option)">
+        <option v-for="choice in option.choices" :key="choice.value" :value="choice.value">
+          {{ choice.label }}
+        </option>
+      </select>
     </div>
   </div>
 </template>
@@ -13,14 +22,38 @@
 const colorMode = useColorMode();
 const preferencesStore = usePreferencesStore();
 
-const options = ref([
+type OptionType = 'toggle' | 'select';
+
+interface BaseOption {
+  label: string;
+  type: OptionType;
+  storageKey: PreferenceKey;
+}
+
+interface ToggleOption extends BaseOption {
+  type: 'toggle';
+  value: boolean;
+  onToggle?: () => void;
+}
+
+interface SelectOption extends BaseOption {
+  type: 'select';
+  value: number;
+  choices: { label: string; value: number }[];
+  onChange?: (value: number) => void;
+}
+
+type Option = ToggleOption | SelectOption;
+
+const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'General',
     options: [
       {
         label: 'Enable Dark Mode',
+        type: 'toggle',
         value: colorMode.value === 'dark',
-        storageKey: 'darkMode' as const,
+        storageKey: 'darkMode',
         onToggle: () => (colorMode.value === 'light' ? (colorMode.preference = 'dark') : (colorMode.preference = 'light')),
       },
     ],
@@ -30,13 +63,15 @@ const options = ref([
     options: [
       {
         label: 'Enable Print Mode',
+        type: 'toggle',
         value: Boolean(preferencesStore.get('printMode')),
-        storageKey: 'printMode' as const,
+        storageKey: 'printMode',
       },
       {
         label: 'Hide Table of Content',
+        type: 'toggle',
         value: Boolean(preferencesStore.get('hideTOC')),
-        storageKey: 'hideTOC' as const,
+        storageKey: 'hideTOC',
       },
     ],
   },
@@ -45,33 +80,53 @@ const options = ref([
     options: [
       {
         label: 'Enable Compact Mode',
+        type: 'toggle',
         value: Boolean(preferencesStore.get('compactMode')),
-        storageKey: 'compactMode' as const,
+        storageKey: 'compactMode',
       },
       {
         label: 'Normalize file icons',
+        type: 'toggle',
         value: Boolean(preferencesStore.get('normalizeFileIcons')),
-        storageKey: 'normalizeFileIcons' as const,
+        storageKey: 'normalizeFileIcons',
       },
       {
         label: 'Hide ressources',
+        type: 'toggle',
         value: Boolean(preferencesStore.get('hideSidebarRessources')),
-        storageKey: 'hideSidebarRessources' as const,
+        storageKey: 'hideSidebarRessources',
+      },
+    ],
+  },
+  {
+    label: 'Datatable',
+    options: [
+      {
+        label: 'Default datatable items count',
+        type: 'select',
+        value: preferencesStore.get('datatableItemsCount') || 20,
+        storageKey: 'datatableItemsCount',
+        choices: [
+          { label: '10', value: 10 },
+          { label: '30', value: 30 },
+          { label: '50', value: 50 },
+          { label: '100', value: 100 },
+          { label: '250', value: 250 },
+        ],
       },
     ],
   },
 ]);
-interface Option {
-  label: string;
-  value: boolean;
-  storageKey: PreferenceKey;
-  onToggle?: () => void;
-}
 
-const toggleOption = (option: Option) => {
+const toggleOption = (option: ToggleOption) => {
   option.value = !option.value;
   preferencesStore.set({ key: option.storageKey, value: option.value });
-  if (option.onToggle) option.onToggle();
+  option.onToggle?.();
+};
+
+const selectOption = (option: SelectOption) => {
+  preferencesStore.set({ key: option.storageKey, value: option.value });
+  option.onChange?.(option.value);
 };
 </script>
 
@@ -83,7 +138,17 @@ const toggleOption = (option: Option) => {
   gap: 1rem;
   margin-bottom: 1rem;
 }
+
 label {
   font-weight: 500;
+  flex: 1;
+}
+
+select {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: white;
+  font-size: 0.95rem;
 }
 </style>
