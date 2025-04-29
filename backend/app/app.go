@@ -73,23 +73,33 @@ func InitApp(config Config) *App {
 // It will be called when the application is started
 func DB_DATA_MIGRATION(db *sql.DB) {
 	// Select all categories with "workspace_id" not empty
-	rows, err := db.Query("SELECT id, workspace_id FROM categories WHERE workspace_id IS NOT NULL")
+	rows, err := db.Query("SELECT id, parent_id FROM ressources WHERE parent_id IS NOT NULL")
+	// Update "created_timestamp" from ressources: set created_timestamp = created_timestamp of the parent (from documents table)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println("❌ Error while selecting ressources:", err)
+		return
 	}
 	defer rows.Close()
-	// Iterate over the rows
 	for rows.Next() {
-		var id int
-		var workspace_id string
-		if err := rows.Scan(&id, &workspace_id); err != nil {
-			panic(err.Error())
+		var id, parentID int
+		if err := rows.Scan(&id, &parentID); err != nil {
+			fmt.Println("❌ Error while scanning rows:", err)
+			continue
 		}
-		// Update the category with the new workspace_id
-		_, err = db.Exec("UPDATE categories SET parent_id = ? WHERE id = ?", workspace_id, id)
+		// Get the created_timestamp of the parent
+		var createdTimestamp string
+		err = db.QueryRow("SELECT created_timestamp FROM documents WHERE id = ?", parentID).Scan(&createdTimestamp)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println("❌ Error while getting created_timestamp of parent:", err)
+			continue
 		}
+		// Update the created_timestamp of the child
+		_, err = db.Exec("UPDATE ressources SET created_timestamp = ? WHERE id = ?", createdTimestamp, id)
+		if err != nil {
+			fmt.Println("❌ Error while updating created_timestamp of child:", err)
+			continue
+		}
+		fmt.Printf("✅ Updated created_timestamp of child %d with parent %d\n", id, parentID)
 	}
 	fmt.Println("✅ Database migration completed successfully")
 }
