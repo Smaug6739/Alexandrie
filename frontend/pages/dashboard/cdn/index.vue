@@ -72,7 +72,7 @@ const headers = [
   { label: 'Name', key: 'name' },
   { label: 'Size', key: 'size' },
   { label: 'Type', key: 'type' },
-  { label: 'Parent', key: 'parent' },
+  { label: 'Parent doc', key: 'parent' },
   { label: 'Date', key: 'date' },
   { label: 'Action', key: 'action' },
 ];
