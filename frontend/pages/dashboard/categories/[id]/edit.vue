@@ -1,6 +1,6 @@
 <template>
-  <div class="category-form-container">
-    <h2>Update category & workspace</h2>
+  <div class="card-component">
+    <h1 style="font-size: 20px">Update category & workspace</h1>
     <form @submit.prevent v-if="category">
       <div class="form-row">
         <div class="form-column">
@@ -73,20 +73,6 @@ const deleteCategory = async () => {
 </script>
 
 <style scoped lang="scss">
-.category-form-container {
-  padding: 25px;
-  margin: 40px auto;
-  background-color: var(--bg-color);
-  box-shadow: 0 0 10px 0 var(--border-color);
-  border-radius: 12px;
-  min-width: 40%;
-  max-width: 700px;
-}
-
-h2 {
-  font-size: 26px;
-  text-align: center;
-}
 label {
   margin-top: 10px;
 }
