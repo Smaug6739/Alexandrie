@@ -72,16 +72,20 @@ const headers = [
   { label: 'Name', key: 'name' },
   { label: 'Size', key: 'size' },
   { label: 'Type', key: 'type' },
+  { label: 'Parent', key: 'parent' },
   { label: 'Date', key: 'date' },
   { label: 'Action', key: 'action' },
 ];
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
 const rows: any = computed(() =>
   ressourcesStore.ressources.map(res => {
+    const parent = res.parent_id ? useDocumentsStore().getById(res.parent_id) : null;
+    const category = parent ? useCategoriesStore().getById(parent.category || '') : null;
     return {
       name: { content: res.filename },
       size: { content: readableFileSize(res.filesize) },
       type: { content: `<tag class="${color(res.filetype)}">${res.filetype}</tag>`, type: 'html' },
+      parent: { content: category ? `<tag class="${getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
       date: { content: new Date(res.created_timestamp).toLocaleDateString() },
       action: { type: 'slot', data: res },
     };
