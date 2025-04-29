@@ -7,7 +7,7 @@
       <input type="text" v-model="search" placeholder="Search..." class="search-input" ref="searchInput" @blur="handleBlur" @keydown="handleKeyDown" />
       <div class="dropdown">
         <ul>
-          <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" @select="handleSelect" />
+          <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" @select="handleSelect" :disabled="disabled" />
         </ul>
       </div>
     </div>
@@ -22,6 +22,7 @@ const props = defineProps<{
   placeholder?: string;
   modelValue?: string | number;
   size?: string;
+  disabled?: (i: ANode) => boolean;
 }>();
 
 const selectedId = ref<string | number>(props.modelValue || '');

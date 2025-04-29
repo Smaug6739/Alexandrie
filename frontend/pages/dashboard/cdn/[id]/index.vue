@@ -18,7 +18,7 @@
       <label>Name</label>
       <input type="text" v-model="ressource.filename" id="name" required />
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
-      <AppSelect v-model="ressource.parent_id" :items="tree" placeholder="Select a ressource parent" />
+      <AppSelect v-model="ressource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.type !== 'document'" placeholder="Select a ressource parent" />
       <label>Type</label>
       <input type="text" :value="ressource.filetype" id="id" disabled />
       <label>Original path</label>

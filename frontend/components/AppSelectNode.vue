@@ -1,10 +1,10 @@
 <template>
   <li>
-    <button class="tree-node" :style="{ paddingLeft: `${level * 20 + 12}px`, fontWeight: node.childrens?.length ? 700 : 400 }" @click.stop="select">
+    <button class="tree-node" :style="{ paddingLeft: `${level * 20 + 12}px`, fontWeight: node.childrens?.length ? 700 : 400 }" @click.stop="select" :disabled="disabled && disabled(node)">
       {{ node.label }}
     </button>
     <ul v-if="node.childrens?.length">
-      <AppSelectNode v-for="child in node.childrens" :key="child.id" :node="child" :level="level + 1" @select="$emit('select', $event)" />
+      <AppSelectNode v-for="child in node.childrens" :key="child.id" :node="child" :level="level + 1" @select="$emit('select', $event)" :disabled="disabled" />
     </ul>
   </li>
 </template>
@@ -13,11 +13,13 @@
 const props = defineProps<{
   node: ANode;
   level: number;
+  disabled?: (i: ANode) => boolean;
 }>();
 
 const emit = defineEmits(['select']);
 
 function select() {
+  if (props.disabled && props.disabled(props.node)) return;
   emit('select', props.node);
 }
 </script>
@@ -44,5 +46,9 @@ li {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 </style>
