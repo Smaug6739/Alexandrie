@@ -66,7 +66,24 @@ const navigationItemsComputed = computed<Item[]>(() =>
 );
 const sidebarTree = useSidebarTree();
 
-const tree = computed(() => [...navigationItemsComputed.value, ...sidebarTree.filtered.value].filter(i => i.label.toLowerCase().includes(filter.value.toLowerCase())));
+const filterItems = (items: Item[]): Item[] => {
+  if (!filter.value.trim()) return items;
+  const filterRecursive = (items: Item[]): Item[] => {
+    return items
+      .map(item => {
+        const matches = item.label.toLowerCase().includes(filter.value.toLowerCase());
+        const filteredChildren = item.childrens ? filterRecursive(item.childrens) : [];
+        if (matches || filteredChildren.length > 0) {
+          return { ...item, childrens: filteredChildren };
+        }
+        return null;
+      })
+      .filter(Boolean) as Item[];
+  };
+  return filterRecursive(items);
+};
+
+const tree = computed(() => filterItems([...navigationItemsComputed.value, ...sidebarTree.filtered.value]));
 
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
