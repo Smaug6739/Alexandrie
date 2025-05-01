@@ -31,7 +31,7 @@ async function submitFile() {
   const result = await makeRequest<{ link: string }>('ressources/backup', 'GET', {});
   isLoading.value = false;
   if (result.status != 'success') return useNotifications().add({ type: 'error', title: 'Error', message: result.message });
-  downloadLink.value = `${CDN}${result.result?.link || ''}`;
+  downloadLink.value = `${CDN}/${result.result?.link || ''}`;
 }
 
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
