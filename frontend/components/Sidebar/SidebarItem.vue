@@ -20,12 +20,7 @@ const customClass = ref('');
 const icon = computed(() => {
   if ('color' in props.item.data) customClass.value = props.item.data.color ? `item-icon ${getAppColor(props.item.data.color as number)}` : '';
   if ('icon' in props.item.data && props.item.data.icon) return props.item.data.icon;
-  if ('icon' in props.item && props.item.icon) return props.item.icon;
-  if (props.item.data.type === 'category') return 'folder';
-  if (props.item.data.type === 'document' && props.item.childrens?.length) return 'file_parent';
-  if (props.item.data.type === 'document' && props.item.data.accessibility == 2) return 'draft';
-  if (props.item.data.type === 'document' && props.item.data.accessibility == 3) return 'archive';
-  return 'file';
+  return props.item.icon || '';
 });
 const draggable = ref<boolean>(true);
 const isDragOver = ref<boolean>(false);

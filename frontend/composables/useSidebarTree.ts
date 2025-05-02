@@ -18,7 +18,7 @@ export function useSidebarTree() {
       parent_id: cat.parent_id || '',
       label: cat.name,
       route: cat.parent_id ? `/dashboard/categories/${cat.id}` : '',
-      icon: cat.icon,
+      icon: cat.icon || 'folder',
       data: cat,
       show: ref(getCollapseState(cat.id)),
     })),
@@ -54,16 +54,17 @@ export function useSidebarTree() {
   const allItems = computed(() => [...documents.value, ...ressources.value, ...categories.value.filter(cat => (cat as Item<Category>).data.role == 1)]);
   const structure = computed(() => new TreeStructure(allItems.value));
 
-  // Special icons:
-  for (const i of structure.value.childrenMap.keys()) {
+  const tree = computed(() => {
+    // Special icons:
     if (!preferencesStore.get('normalizeFileIcons')) {
-      const ref = structure.value.itemMap.get(i);
-      const subs = structure.value.childrenMap.get(i);
-      if (ref?.data.type === 'document' && subs?.some(c => c.data.type != 'ressource')) structure.value.itemMap.get(i)!.icon = 'file_parent';
+      for (const i of structure.value.childrenMap.keys()) {
+        const ref = structure.value.itemMap.get(i);
+        const subs = structure.value.childrenMap.get(i);
+        if (ref?.data.type === 'document' && subs?.some(c => c.data.type != 'ressource')) structure.value.itemMap.get(i)!.icon = 'file_parent';
+      }
     }
-  }
-
-  const tree = computed(() => structure.value.generateTree());
+    return structure.value.generateTree();
+  });
 
   const filtered = computed(() => {
     return tree.value.filter(item => {
