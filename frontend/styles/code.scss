@@ -6,6 +6,11 @@ pre code.hljs {
 }
 
 pre {
+	display: inline-block;
+	word-break: break-all;
+}
+
+pre {
 	border-radius: 8px;
 	margin: 12px 2px;
 	background: #3b4244;
