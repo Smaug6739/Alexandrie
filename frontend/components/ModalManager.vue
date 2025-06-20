@@ -19,7 +19,7 @@ const modals = modalManager.modals;
 <style scoped lang="scss">
 .modal-container {
   margin: auto;
-  padding: 12px 18px;
+  padding: 16px 22px;
   background-color: var(--bg-contrast);
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
