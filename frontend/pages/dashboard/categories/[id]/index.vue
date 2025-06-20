@@ -76,16 +76,20 @@ h1 {
 .document-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   gap: 20px;
   max-width: 420px * 3 + 100px;
-  margin: 0 auto;
+  // Center the content
+  margin: auto;
+  padding: 20px;
+  width: 100%;
 }
 
 .document-card {
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  width: 400px;
+  width: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
