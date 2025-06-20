@@ -120,7 +120,7 @@ button {
   border: 1px solid var(--border-color);
   padding: 0.25rem;
   color: var(--font-color-dark);
-  * {
+  & > * {
     margin: 0 2.5px;
   }
 }
