@@ -29,8 +29,6 @@ function select() {
   display: block;
   padding: 6px 12px;
   text-align: left;
-  background: none;
-  border: none;
   cursor: pointer;
   font-size: 15px;
   width: 95%;
