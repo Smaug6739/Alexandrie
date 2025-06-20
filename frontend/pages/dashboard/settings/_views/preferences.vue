@@ -148,7 +148,7 @@ select {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   border: 1px solid #ccc;
-  background: white;
+  background: var(--bg-contrast);
   font-size: 0.95rem;
 }
 </style>

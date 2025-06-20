@@ -111,14 +111,14 @@ button,
 .search-input {
   width: 100%;
   padding: 8px 10px;
-  border: 1px solid #ccc;
-  background: white;
+  border: 1px solid var(--border-color);
+  background: var(--bg-contrast);
   text-align: left;
   border-radius: 6px;
   font-size: 15px;
   cursor: pointer;
   &:focus {
-    outline: 2px solid #000;
+    outline: 2px solid var(--border-color);
   }
 }
 
@@ -128,7 +128,7 @@ button,
 
 .category-select:has(.dropdown) button,
 .category-select:has(.dropdown) .search-input {
-  outline: 2px solid #000;
+  outline: 2px solid var(--border-color);
 }
 
 .dropdown {
@@ -138,8 +138,8 @@ button,
   right: 0;
   max-height: 300px;
   overflow-y: auto;
-  border: 1px solid #ccc;
-  background: white;
+  border: 1px solid var(--border-color);
+  background: var(--bg-contrast);
   border-radius: 4px;
   margin-top: 4px;
   z-index: 1000;

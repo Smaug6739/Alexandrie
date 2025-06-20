@@ -39,7 +39,7 @@ function select() {
 }
 
 .tree-node:hover {
-  background-color: #f0f0f0;
+  background-color: var(--bg-contrast-2);
 }
 ul,
 li {
