@@ -27,14 +27,13 @@ function select() {
 <style scoped>
 .tree-node {
   display: block;
-  width: 100%;
   padding: 6px 12px;
   text-align: left;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 15px;
-  width: 99%;
+  width: 95%;
   margin: 0 auto;
 }
 
