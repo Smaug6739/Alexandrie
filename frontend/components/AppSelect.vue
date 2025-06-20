@@ -110,9 +110,9 @@ function handleBlur(event: FocusEvent) {
 button,
 .search-input {
   width: 100%;
-  padding: 8px 10px;
+  padding: 7px 10px;
   border: 1px solid var(--border-color);
-  background: var(--bg-contrast);
+  background: var(--bg-color);
   text-align: left;
   border-radius: 6px;
   font-size: 15px;

@@ -133,7 +133,7 @@ svg,
 input,
 select {
   display: inline-block;
-  padding: 0.25rem;
+  padding: 0.4rem;
   max-width: 350px;
 }
 </style>
