@@ -60,7 +60,6 @@ const documents = computed(() => {
   }
   return documents;
 });
-// Output ex: 10 Jan 2021
 function formatDate(timestamp: number): string {
   const date = new Date(timestamp);
   return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
@@ -79,7 +78,6 @@ h1 {
   justify-content: space-around;
   gap: 20px;
   max-width: 420px * 3 + 100px;
-  // Center the content
   margin: auto;
   padding: 20px;
   width: 100%;
