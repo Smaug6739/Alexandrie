@@ -18,7 +18,7 @@ header {
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   padding: 10px 0;
 }
 

@@ -1,12 +1,12 @@
 <template>
-  <div style="display: flex; width: 100%; height: 100%">
+  <div style="width: 100%; height: 100%">
     <ClientOnly>
       <BackToTop />
     </ClientOnly>
     <Sidebar />
     <MediumView>
       <Navbar />
-      <NuxtPage />
+      <div style="height: calc(100% - 65px); width: 100%"><NuxtPage /></div>
     </MediumView>
   </div>
 </template>

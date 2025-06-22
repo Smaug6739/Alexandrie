@@ -1,5 +1,5 @@
 <template>
-  <main class="medium-view" ref="mediumContainer" :style="{ marginLeft, transition }">
+  <main class="medium-view" ref="mediumContainer" :style="{ paddingLeft: marginLeft, transition }">
     <slot></slot>
   </main>
 </template>
@@ -7,8 +7,8 @@
 <script setup lang="ts">
 const { isOpened, paneWidth, isResizing } = useSidebar();
 const mediumContainer = ref<HTMLElement | null>(null);
-const marginLeft = computed(() => (isMobile() || !isOpened.value ? '0' : `${paneWidth.value}px`));
-const transition = computed(() => (isResizing.value ? 'none' : 'margin-left 0.3s'));
+const marginLeft = computed(() => (isMobile() || !isOpened.value ? '16px' : `${paneWidth.value + 16}px`));
+const transition = computed(() => (isResizing.value ? 'none' : 'padding-left 0.3s'));
 </script>
 
 <style scoped>
