@@ -41,11 +41,73 @@ export default defineNuxtConfig({
   },
   ssr: false,
   css: ['~/styles/main.scss', '~/styles/katex/katex.min.css'],
-  modules: ['@pinia/nuxt', '@nuxtjs/color-mode'],
+  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt'],
 
   colorMode: {
     preference: 'light', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
+  },
+
+  pwa: {
+    registerType: 'autoUpdate',
+    manifest: {
+      name: 'Mon App',
+      short_name: 'App',
+      start_url: '/',
+      display: 'standalone',
+      background_color: '#ffffff',
+      theme_color: '#3f51b5',
+      icons: [
+        {
+          src: '/android-chrome-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+      ],
+    },
+    base: '/',
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      runtimeCaching: [
+        // Pages HTML (navigation)
+        {
+          urlPattern: ({ request }) => request.mode === 'navigate',
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'html-cache',
+            networkTimeoutSeconds: 3,
+            expiration: {
+              maxEntries: 10,
+              maxAgeSeconds: 24 * 60 * 60, // 1 jour
+            },
+          },
+        },
+        // Appels API
+        {
+          urlPattern: /^http:\/\/localhost:8201\/api\/.*/,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'api-cache',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 86400,
+            },
+          },
+        },
+        // Images
+        {
+          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'image-cache',
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 7 * 24 * 60 * 60, // 7 jours
+            },
+          },
+        },
+      ],
+    },
   },
 
   experimental: {
