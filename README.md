@@ -31,7 +31,6 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ## 🖼️ Interface Preview
 
-![Interface 1](./frontend/public/screenshots/mock/1.png)
 ![Interface 2](./frontend/public/screenshots/mock/2.png)
 
 ### 📁 Organize your notes with categories, tags, sidebar, tree, search, and more.
