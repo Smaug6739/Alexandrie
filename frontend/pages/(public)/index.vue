@@ -58,7 +58,137 @@ onMounted(() => {
 
 const colorMode = useColorMode();
 const doc = ref({
-  content_markdown: `# Welcome to Alexandrie ! 🚀\n## Formatting options\n\nLorem **ipsum dolor** *sit amet*, consectetur _adipiscing elit_. ==But not sad.==   \n\n### Different content blocks\n\n:::blue Blue\nA blue block\n:::\n:::red Red\nA red block\n:::\n:::green Green\nA green block\n:::\n:::grey Grey\nA grey block\n:::\n:::yellow Yellow\nA yellow block\n:::\n:::teal teal\nA teal block\n:::\n:::details Details\nA details block\n:::\n\n\n:::no-print\nThis content will not be printed\n:::\n\n:::center\nThis content is centered\n:::\n\n:::definition Red Info\nBlock of content (ex: definition)\n:::\n\n:::property Blue Info\nBlock of content (ex: property)\n:::\n\n:::theorem teal Info\nBlock of content (ex: theorem)\n:::\n\n:::info-u Info without background\nBlock of content (ex: info, tip, note)\n:::\n\n:::warning Warning Info\nBlock of content (ex: warning)\n:::\n\n### Bullet and Numbered Lists:\n\n- Bullet 1\n- Bullet 2\n  - Sub-bullet 2-1\n\n1. Item 1\n1. Item 2\n\n### Markdown Tables\n\n| Column 1  | Column 2  | Column 3 |\n|:----------|:----------|:---------|\n|Item 1     | Item 2    | Item 3   |\n\n### Other formats\n\n$\\text{This is a math block: } f(x) = ax^2+bx+c$\n\n\`\`\`javascript\nconst hello = "Hello world";\n\`\`\`\n\n> Note: This content is a quote\n>> Nested quote\n\n## Shortcuts\n\n- **Ctrl + S**: Save\n- **Ctrl + P**: Toggle preview\n- **Ctrl + Q**: Switch to document\n- **Ctrl + B**: Bold formatting\n- **Ctrl + I**: Italic formatting\n- **Ctrl + U**: Underline formatting\n- **Ctrl + K**: Insert link\n- **Ctrl + M**: Insert image\n\n## Snippets\n\n- **!m**: Insert a math block (LaTeX)\n- **!def**: Insert a definition block\n- **!thm**: Insert a theorem block\n- **!center**: Center the content\n- **!red**: Insert a red block\n- **!green**: Insert a green block\n- **!blue**: Insert a blue block\n- **!yellow**: Insert a yellow block\n- **!details**: Insert a details block\n`,
+  content_markdown: `#  Alexandrie Hub 🚀
+
+---
+
+## ✨ Why Choose **Alexandrie**?
+
+### 🚀 Enhanced syntax
+
+* **Bold**, *Italic*, *Underline*, ==Highlight==
+* Quotes, nested quotes, inline \`code\`, LaTeX math blocks:
+
+:::center 
+$\\int_{-\\infty}^{+\\infty} e^{-x^2} dx = \\sqrt{\\pi}$
+:::
+
+### 💡 Key Features
+
+* **Free Forever** – No hidden costs, no premium traps. Ever.
+* **Unlimited Notes** – Whether it's 10 or 10,000 notes, you're free.
+* **UI** – A clean, distraction-free interface you’ll actually love to use.
+* **Stunning Sidebar Navigation** – Navigate through your workspaces and categories with ease.
+* **Advanced Markdown Support** – Includes custom blocks, math (LaTeX), syntax highlighting, collapsible sections, and more.
+* **Export to PDF** – Need a printable version? Export any note with perfect formatting.
+* **Fully Responsive** – Works seamlessly on desktop and mobile.
+* **Highly Customizable** – Want to tweak colors, styles, structure? Go for it.
+* **Keyboard Shortcuts** – Speed up your workflow with intuitive hotkeys.
+
+---
+
+## 🚀 The Alexandrie Experience
+
+:::definition Students & pro
+**Alexandrie** redefines how students and professionals take notes. Think powerful Markdown, blended with a visual, minimalist, elegant interface.
+:::
+
+### 📂 Organized Like Never Before
+
+* **Workspaces** to structure your subjects or projects
+* **Nested categories** for fine-grained classification
+* **Search and filter** your notes instantly
+
+---
+
+## ✍️ Rich Markdown, Elevated
+
+\`\`\`javascript
+// Yes, you can even write beautiful code blocks like this
+const app = "Alexandrie";
+console.log("Welcome to " + app);
+\`\`\`
+
+
+
+> *"Notes are not just text anymore, they’re an extension of your thoughts."*
+
+:::theorem Support
+All of this is supported natively, with real-time preview.
+:::
+
+---
+
+## 🎯 Keyboard Shortcuts
+
+:::center
+| Action             | Shortcut |
+| ------------------ | -------- |
+| Save               | Ctrl + S |
+| Toggle Preview     | Ctrl + P |
+| Switch to Document | Ctrl + Q |
+| Bold               | Ctrl + B |
+| Italic             | Ctrl + I |
+| Underline          | Ctrl + U |
+| Insert Link        | Ctrl + K |
+| Insert Image       | Ctrl + M |
+
+Table 1: Keyboard Shortcuts
+:::
+
+:::property Blue Info
+Efficiency is just a keypress away.
+:::
+
+---
+
+## 📐 Custom Blocks
+
+Need color-coded content? You got it:
+
+:::blue Blue Block
+Use for cool notes, tips or ideas
+:::
+
+:::red Red Block
+Great for **warnings**, errors, or alerts
+:::
+
+:::green Green Block
+Perfect for successes or checklists
+:::
+
+:::yellow Yellow Block
+Use for yellow flags or info
+:::
+
+:::details Details
+Click to reveal hidden content, explanations, or spoilers.
+:::
+
+---
+
+## 🔍 Discover the Magic of Snippets
+
+You can type \`!m\`, \`!thm\`, \`!def\`, \`!blue\`, \`!center\`, etc. to instantly insert styled blocks. Here's how you might use them:
+
+\:::info-u Info without background
+Snippets speed up your note-writing, keeping focus on **content** not formatting.
+\:::
+
+---
+
+## 📦 Export & Share with Style
+
+* Export your notes to **PDF** in a print-friendly, professionally styled format.
+* Automatically hide blocks like:
+
+Perfect for personal reminders or developer-only sections!
+
+## 💖 Final Thoughts
+
+
+You love project and you want to contribute ? Go on Github: [Smaug6739/Alexandrie](https://github.com/Smaug6739/Alexandrie)`,
 });
 </script>
 
