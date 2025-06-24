@@ -38,6 +38,7 @@ Organize, search, and export your notes with an intuitive interface designed for
 ## Responsive Design
 
 ![Responsive Design](./frontend/public/screenshots/mock/phone-2.png)
+![Responsive Design](./frontend/public/screenshots/mock/phone-3.png)
 
 ## Contributing 🌍
 
