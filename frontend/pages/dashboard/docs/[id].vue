@@ -10,7 +10,7 @@
       <div v-else-if="!isTablet() && preferencesStore.get('hideTOC')" style="margin-right: 200px"></div>
     </div>
   </div>
-  <Error v-else-if="error" />
+  <Error v-else-if="error" :error="error" />
 </template>
 
 <script setup lang="ts">
@@ -24,13 +24,13 @@ const preferencesStore = usePreferencesStore();
 const element = ref<HTMLElement>();
 
 const article = ref<Document | undefined>();
-const error = ref(false);
+const error: Ref<false | string> = ref(false);
 
 watchEffect(async () => {
   const document_id = route.params.id as string;
   const docFromStore = documentsStore.getById(document_id);
   if (!docFromStore) {
-    return (error.value = true);
+    return (error.value = 'Document not found');
   }
   article.value = undefined;
   if (docFromStore.partial) {
@@ -38,7 +38,7 @@ watchEffect(async () => {
       error.value = false;
       article.value = await documentsStore.fetch({ id: document_id });
     } catch (err) {
-      error.value = true;
+      error.value = err instanceof Error ? err.message : (err as string);
     }
   } else article.value = docFromStore;
   useHead({ title: `Alexandrie ${article.value?.name || ''}` });

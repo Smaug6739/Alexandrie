@@ -1,8 +1,8 @@
 <template>
   <div class="card-component">
     <div class="error-content">
-      <h1 class="error-code">{{ props.error?.statusCode }}</h1>
-      <p class="error-message">{{ props.error?.statusMessage || 'Something went wrong' }}</p>
+      <h1 class="error-code">Oops !</h1>
+      <p class="error-message">{{ handleError }}</p>
       <p class="error-description">An unexpected error has occurred. Please check your connection and try refreshing the page or go back to the homepage.</p>
       <nuxt-link to="/dashboard" class="error-button">Return to Homepage</nuxt-link>
     </div>
@@ -17,10 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import type { NuxtError } from '#app';
+const props = defineProps<{ error: string }>();
 
-const props = defineProps({
-  error: Object as () => NuxtError,
+const handleError = computed(() => {
+  if (props.error === 'Failed to fetch') return 'Network error, please check your connection.';
+  if (props.error === 'Request failed with status code 404') return 'The requested resource was not found.';
+  if (props.error === 'Request failed with status code 500') return 'Internal server error, please try again later.';
+  return 'An unexpected error has occurred.';
 });
 </script>
 
@@ -31,7 +34,6 @@ const props = defineProps({
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 100%;
 }
 
 .error-content {

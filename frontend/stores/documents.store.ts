@@ -54,7 +54,7 @@ export const useDocumentsStore = defineStore('documents', {
             this.documents = (request.result as DB_Document[]).map((d: DB_Document) => ({ ...d, partial: true, type: 'document' }));
             resolve(this.documents as 'id' extends keyof T ? Document : Document[]);
           }
-        } else reject(request.message);
+        } else reject(request);
       });
     },
     post(doc: Document): Promise<DB_Document> {

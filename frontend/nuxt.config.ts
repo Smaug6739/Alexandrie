@@ -51,12 +51,13 @@ export default defineNuxtConfig({
   pwa: {
     registerType: 'autoUpdate',
     manifest: {
-      name: 'Mon App',
-      short_name: 'App',
-      start_url: '/',
+      name: 'Alexandrie',
+      short_name: 'Alexandrie',
+      description: 'App for taking beautiful notes in extended Markdown format.',
+      start_url: '/dashboard',
       display: 'standalone',
-      background_color: '#ffffff',
-      theme_color: '#3f51b5',
+      background_color: '#334155',
+      theme_color: '#007aff',
       icons: [
         {
           src: '/android-chrome-192x192.png',
@@ -64,9 +65,40 @@ export default defineNuxtConfig({
           type: 'image/png',
         },
       ],
+      screenshots: [
+        {
+          src: '/screenshots/mock/1.png',
+          sizes: '1920x1080',
+          type: 'image/png',
+          label: 'Note rendering',
+          form_factor: 'wide',
+        },
+        {
+          src: '/screenshots/mock/2.png',
+          sizes: '1920x1080',
+          type: 'image/png',
+          label: 'Note editor',
+          form_factor: 'wide',
+        },
+        {
+          src: '/screenshots/mock/3.png',
+          sizes: '1920x1080',
+          type: 'image/png',
+          label: 'Note list',
+          form_factor: 'wide',
+        },
+        {
+          src: '/screenshots/mock/phone-1.png',
+          sizes: '1920x1920',
+          type: 'image/png',
+          label: 'Demo phone',
+          form_factor: 'narrow',
+        },
+      ],
     },
     base: '/',
     workbox: {
+      navigateFallback: null,
       globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       runtimeCaching: [
         // Pages HTML (navigation)
@@ -74,36 +106,7 @@ export default defineNuxtConfig({
           urlPattern: ({ request }) => request.mode === 'navigate',
           handler: 'NetworkFirst',
           options: {
-            cacheName: 'html-cache',
             networkTimeoutSeconds: 3,
-            expiration: {
-              maxEntries: 10,
-              maxAgeSeconds: 24 * 60 * 60, // 1 jour
-            },
-          },
-        },
-        // Appels API
-        {
-          urlPattern: /^http:\/\/localhost:8201\/api\/.*/,
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-cache',
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 86400,
-            },
-          },
-        },
-        // Images
-        {
-          urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'image-cache',
-            expiration: {
-              maxEntries: 100,
-              maxAgeSeconds: 7 * 24 * 60 * 60, // 7 jours
-            },
           },
         },
       ],
@@ -149,10 +152,14 @@ export default defineNuxtConfig({
         { name: 'og:url', content: 'https://alexandrie-hub.fr' },
       ],
       link: [
-        {
+        /*{
           rel: 'manifest',
           crossorigin: 'use-credentials',
           href: '/manifest.json',
+        },*/
+        {
+          rel: 'manifest',
+          href: '/manifest.webmanifest',
         },
         {
           rel: 'icon',
