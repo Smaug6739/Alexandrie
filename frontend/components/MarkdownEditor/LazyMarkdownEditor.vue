@@ -2,8 +2,8 @@
   <div class="editor-container" @keydown="editor.handleKeydown">
     <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" @execute-action="(a:string) => editor.actions(a)" />
     <div style="padding: 6px 8px; flex: 1; display: flex; flex-direction: column; min-height: 0">
-      <input placeholder="Title" class="title" v-model="document.name" />
-      <input placeholder="Description" class="description" v-model="document.description" />
+      <input placeholder="Title" class="title" v-model="document.name" v-if="options?.toolbar !== 'minimal'" />
+      <input placeholder="Description" class="description" v-model="document.description" v-if="options?.toolbar !== 'minimal'" />
       <div class="markdown" ref="container">
         <InlineToolbar ref="toolbar" @execute-action="(a:string) => editor.actions(a)" />
         <textarea ref="textarea" class="content markdown-input" @scroll="syncScroll" @input="update" v-html="document.content_markdown || ''" placeholder="Write something or use the toolbar to create your document..." @keyup="syncScroll"></textarea>

@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="images">
-        <img :src="`/main-${colorMode.value}.webp`" alt="Documents Image" />
+        <img src="`/screenshots/mock/1.png`" alt="Documents Image" />
       </div>
     </section>
     <section class="editor-section">
@@ -29,7 +29,7 @@
     <section class="demo-section">
       <h2 class="section-title">Organize your documents</h2>
       <div class="demo">
-        <img src="/home.webp" alt="home" />
+        <img src="/screenshots/mock/3.png" alt="home" />
       </div>
     </section>
   </main>
@@ -159,19 +159,16 @@ h3 {
 
 .images {
   width: 100%;
-  max-width: 800px;
   margin-top: 2rem;
-  img {
-    width: 100%;
-    border-radius: 1rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  }
 }
-
+img {
+  max-height: unset;
+  max-height: 500px;
+  border-radius: 0.5rem;
+}
 .editor-section,
 .demo-section {
   text-align: center;
-  margin-top: 4rem;
   width: 100%;
   .editor {
     text-align: left;
@@ -180,13 +177,9 @@ h3 {
 
 .editor {
   max-width: 1200px;
-  height: 600px;
-  margin: 0 auto;
-  border-radius: 1rem;
+  height: 720px;
+  padding: 25px;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-
-  border: 1px solid var(--border-color);
 }
 
 .demo img {
