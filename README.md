@@ -17,10 +17,7 @@ Organize, search, and export your notes with an intuitive interface designed for
   </a>
 </p>
 
-⚠️ Currently rewriting the backend in Go. Follow the changes on #17 [[#17](https://github.com/Smaug6739/Alexandrie/issues/17)]
-
-![alexandrie-hub fr_dashboard_docs_218914302160015361](https://github.com/user-attachments/assets/d7404201-5fd3-4d51-b100-b11d30e0e94f)
----
+## ![alexandrie-hub fr_dashboard_docs_218914302160015361](.github/github.png))
 
 ## ✨ Features
 
@@ -34,10 +31,13 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ## 🖼️ Interface Preview
 
-![Search datatable](https://github.com/user-attachments/assets/21153a36-35f3-40ed-a728-d978834b7031)
-![Search bar](https://github.com/user-attachments/assets/6ba2e3ff-2119-40aa-9fdd-4a2a86dbf91e)
-![Editor](https://github.com/user-attachments/assets/03064f40-9f05-45a8-aed7-5c0c56469f24)
-![CDN](https://github.com/user-attachments/assets/9932c414-78aa-4bd0-a137-d69af68c78c6)
+![Interface 1](./frontend/public/screenshots/mock/1.png)
+![Interface 2](./frontend/public/screenshots/mock/2.png)
+![Interface 3](./frontend/public/screenshots/mock/3.png)
+
+## Responsive Design
+
+![Responsive Design](./frontend/public/screenshots/mock/phone-2.png)
 
 ## Contributing 🌍
 
