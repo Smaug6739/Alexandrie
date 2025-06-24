@@ -1,7 +1,7 @@
 <template>
   <div class="editor-container" @keydown="editor.handleKeydown">
     <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" @execute-action="(a:string) => editor.actions(a)" />
-    <div style="padding: 15px; height: 100%; width: 100%">
+    <div style="padding: 6px 8px; flex: 1; display: flex; flex-direction: column; min-height: 0">
       <input placeholder="Title" class="title" v-model="document.name" />
       <input placeholder="Description" class="description" v-model="document.description" />
       <div class="markdown" ref="container">
@@ -73,23 +73,25 @@ function debounce(fn: Function, wait: number) {
 
 <style scoped lang="scss">
 .editor-container {
-  height: 90%;
+  height: 100%;
   width: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .markdown {
-  position: relative;
-  height: 80%;
   display: flex;
+  flex: 1;
+  flex-direction: row; // ✅ côte à côte
+  min-height: 0;
+  overflow: hidden;
 }
-
 .markdown-input,
 .markdown-preview {
-  padding: 5px;
-  flex: 1;
+  flex: 1; /* Take up all available space in width */
   overflow: auto;
 }
 
