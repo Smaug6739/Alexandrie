@@ -37,17 +37,19 @@ a {
   justify-content: center;
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
   &:hover {
-    &:deep(svg) {
-      fill: var(--blue);
-    }
+    background-color: var(--selection-color);
   }
 }
+/*
 a.router-link-exact-active {
   &:deep(svg) {
-    fill: var(--blue);
+    fill: var(--font-color);
   }
 }
+*/
 </style>
 
 <script setup lang="ts">
