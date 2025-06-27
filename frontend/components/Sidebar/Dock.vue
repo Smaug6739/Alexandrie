@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1.2rem 0.3rem;
+  padding: 0.8rem 0.3rem;
   border-right: 1px solid var(--border-color);
 }
 a {
@@ -52,7 +52,6 @@ a.router-link-exact-active {
 
 <script setup lang="ts">
 function closeDock() {
-  useSidebar().isDockOpened.value = false;
   usePreferencesStore().set({ key: 'hideDock', value: false });
 }
 </script>

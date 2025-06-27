@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'sidebar-mask': isMobile() && isOpened }"></div>
   <Resizable>
-    <Dock v-if="!isMobile() && isDockOpened" />
+    <Dock v-if="!isMobile() && preferences.get('hideDock')" />
     <div class="sidebar" :class="{ compact: preferences.get('compactMode') }">
       <section class="header">
         <span class="name">
@@ -43,7 +43,7 @@ import { navigationItems } from './helpers';
 import NewCategoryModal from '../../pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 import Dock from './Dock.vue';
 
-const { isOpened, hasSidebar, isDockOpened } = useSidebar();
+const { isOpened, hasSidebar } = useSidebar();
 const categoriesStore = useCategoriesStore();
 const preferences = usePreferencesStore();
 const userStore = useUserStore();
@@ -100,8 +100,6 @@ const onClick = () => {
 
 onMounted(() => {
   hasSidebar.value = true;
-  isDockOpened.value = preferences.get('hideDock');
-  console.log(isDockOpened.value);
   if (isMobile()) return document.addEventListener('click', handleClickOutside);
   // ELSE: Desktop
   isOpened.value = true;
