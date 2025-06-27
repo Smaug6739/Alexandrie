@@ -1,7 +1,7 @@
 <template>
   <nav :class="{ open: isOpened }">
     <div class="sidebar no-select">
-      <div :style="{ width: panewidthCSS, maxHeight: '100%', overflowY: 'scroll' }">
+      <div :style="{ width: panewidthCSS, display: 'flex' }">
         <slot></slot>
       </div>
       <div class="separator" @mousedown="startResize"></div>

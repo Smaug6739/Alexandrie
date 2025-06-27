@@ -1,4 +1,4 @@
-import type { Category, DB_Category, DB_Document, DB_Ressource } from '~/stores';
+import type { DB_Category, DB_Document, DB_Ressource } from '~/stores';
 
 interface ImportationStructure {
   documents: DB_Document[];

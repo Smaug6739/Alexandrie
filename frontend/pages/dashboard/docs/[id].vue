@@ -1,5 +1,5 @@
 <template>
-  <div v-if="article?.id" style="width: 100%; padding: 0 1rem">
+  <div v-if="article?.id" style="width: 100%; padding: 0 0.5rem">
     <div style="display: flex; justify-content: space-between">
       <div style="width: 100%; max-width: 980px; margin: auto">
         <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />

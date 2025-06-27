@@ -1,6 +1,7 @@
 const isOpened = ref(false);
+const isDockOpened = ref(true);
 const hasSidebar = ref(false);
-const paneWidth = ref(360); // initial width of pane 1
+const paneWidth = ref(isMobile() || !isDockOpened ? 350 : 380); // initial width of pane 1
 const isResizing = ref(false);
 const workspaceId = ref<string | null>(null);
 
@@ -14,5 +15,6 @@ export function useSidebar() {
     paneWidth,
     isResizing,
     workspaceId,
+    isDockOpened,
   };
 }

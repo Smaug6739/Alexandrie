@@ -85,6 +85,12 @@ const options = ref<{ label: string; options: Option[] }[]>([
         storageKey: 'compactMode',
       },
       {
+        label: 'View dock',
+        type: 'toggle',
+        value: Boolean(preferencesStore.get('hideDock')),
+        storageKey: 'hideDock',
+      },
+      {
         label: 'Normalize file icons',
         type: 'toggle',
         value: Boolean(preferencesStore.get('normalizeFileIcons')),

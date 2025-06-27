@@ -63,10 +63,6 @@ header {
   font-size: 15px;
   font-weight: bold;
 }
-.card-component {
-  display: block;
-  margin: 2px 0;
-}
 @media screen and (max-width: 768px) {
   header {
     flex-direction: column;

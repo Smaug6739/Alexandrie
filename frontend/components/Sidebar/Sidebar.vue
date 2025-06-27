@@ -1,6 +1,7 @@
 <template>
   <div :class="{ 'sidebar-mask': isMobile() && isOpened }"></div>
   <Resizable>
+    <Dock v-if="!isMobile() && isDockOpened" />
     <div class="sidebar" :class="{ compact: preferences.get('compactMode') }">
       <section class="header">
         <span class="name">
@@ -40,8 +41,9 @@ import IconClose from './IconClose.vue';
 import Search from './Search.vue';
 import { navigationItems } from './helpers';
 import NewCategoryModal from '../../pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import Dock from './Dock.vue';
 
-const { isOpened, hasSidebar } = useSidebar();
+const { isOpened, hasSidebar, isDockOpened } = useSidebar();
 const categoriesStore = useCategoriesStore();
 const preferences = usePreferencesStore();
 const userStore = useUserStore();
@@ -98,6 +100,8 @@ const onClick = () => {
 
 onMounted(() => {
   hasSidebar.value = true;
+  isDockOpened.value = preferences.get('hideDock');
+  console.log(isDockOpened.value);
   if (isMobile()) return document.addEventListener('click', handleClickOutside);
   // ELSE: Desktop
   isOpened.value = true;
@@ -113,6 +117,13 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .sidebar {
   padding: 0.5rem 0.7rem;
+  max-height: 100%;
+  overflow-y: scroll;
+  width: 100%;
+  font-family: Inter;
+  * {
+    font-family: Inter;
+  }
 }
 
 .header {
@@ -183,7 +194,7 @@ onBeforeUnmount(() => {
 }
 .compact:deep(.item) {
   font-size: 15px;
-  padding: 0 2.5px;
+  padding: 0 3px;
   margin: 0;
 }
 

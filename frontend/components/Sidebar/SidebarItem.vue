@@ -91,7 +91,7 @@ const drop = async (event: DragEvent) => {
   align-items: center;
   padding: 0 2.5px;
   margin: 2.5px 0;
-  border-radius: 7px;
+  border-radius: 5px;
   color: var(--font-color);
   cursor: pointer;
   width: 98%;

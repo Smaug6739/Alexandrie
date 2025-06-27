@@ -7,7 +7,7 @@
 <script setup lang="ts">
 const { isOpened, paneWidth, isResizing } = useSidebar();
 const mediumContainer = ref<HTMLElement | null>(null);
-const marginLeft = computed(() => (isMobile() || !isOpened.value ? '16px' : `${paneWidth.value + 16}px`));
+const marginLeft = computed(() => (isMobile() || !isOpened.value ? '12px' : `${paneWidth.value + 12}px`));
 const transition = computed(() => (isResizing.value ? 'none' : 'padding-left 0.3s'));
 </script>
 
