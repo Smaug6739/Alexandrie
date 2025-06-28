@@ -19,6 +19,11 @@
         <NuxtLink to="/dashboard/categories"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
         <NuxtLink to="/dashboard/docs"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
         <NuxtLink to="/dashboard/import" style="display: flex; align-items: center"><Icon fill="var(--font-color)" name="import" />Manage importations <tag blue>New</tag></NuxtLink>
+        <span>Utils</span>
+        <NuxtLink to="?p=shortcuts"><Icon fill="var(--font-color)" name="shortcuts" />Shortcuts</NuxtLink>
+        <NuxtLink to="?p=snippets"><Icon fill="var(--font-color)" name="snippets" />Snippets</NuxtLink>
+        <NuxtLink to="?p=markdown"><Icon fill="var(--font-color)" name="markdown" />Markdown</NuxtLink>
+
         <span>Other</span>
         <NuxtLink @click="logoutUser"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
       </nav>
@@ -28,6 +33,9 @@
         <PreferencesView v-if="currentPage === 'preferences'" />
         <SecurityView v-if="currentPage === 'security'" />
         <BackupView v-if="currentPage == 'backup'" />
+        <ShortcutsView v-if="currentPage == 'shortcuts'" />
+        <SnippetsView v-if="currentPage == 'snippets'" />
+        <MarkdownView v-if="currentPage == 'markdown'" />
       </div>
     </div>
   </div>
@@ -38,6 +46,9 @@ import ProfileView from './_views/profile.vue';
 import SecurityView from './_views/security.vue';
 import PreferencesView from './_views/preferences.vue';
 import BackupView from './_views/backups.vue';
+import ShortcutsView from './_views/shortcuts.vue';
+import SnippetsView from './_views/snippets.vue';
+import MarkdownView from './_views/markdown.vue';
 const route = useRoute();
 const currentPage = ref(route.query.p || 'profile');
 const store = useUserStore();
