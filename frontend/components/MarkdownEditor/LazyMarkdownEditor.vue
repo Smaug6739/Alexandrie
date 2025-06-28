@@ -2,8 +2,8 @@
   <div class="editor-container">
     <Toolbar :document="document" @execute-action="exec" />
     <div style="padding: 6px 8px; flex: 1; display: flex; flex-direction: column; min-height: 0">
-      <input placeholder="Title" class="title" v-model="document.name" />
-      <input placeholder="Description" class="description" v-model="document.description" />
+      <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
+      <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
       <div class="markdown" ref="container">
         <div ref="editorContainer" class="codemirror-editor" @scroll="syncScroll" />
         <div v-if="showPreview" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html"></div>
@@ -25,7 +25,7 @@ import Toolbar from './Toolbar.vue';
 import compile from '~/helpers/markdown';
 import type { Document } from '~/stores';
 
-const props = defineProps<{ doc?: Partial<Document> }>();
+const props = defineProps<{ doc?: Partial<Document>; minimal?: boolean }>();
 
 const emit = defineEmits(['save', 'exit']);
 

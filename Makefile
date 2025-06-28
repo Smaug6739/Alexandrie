@@ -5,7 +5,9 @@ backend:
 	cd backend && go run main.go
 
 frontend:
-	cd frontend && npm run dev
+	cd frontend && bun dev
+frontendh:
+	cd frontend && bun dev --host
 
 minio:
 	minio server ./minio --console-address :9001 --address "localhost:9000"

@@ -17,13 +17,13 @@
         </div>
       </div>
       <div class="images">
-        <img src="`/screenshots/mock/1.png`" alt="Documents Image" />
+        <img src="/screenshots/mock/1.png" alt="Documents Image" />
       </div>
     </section>
     <section class="editor-section">
       <h2 class="section-title">Try editor online</h2>
       <div class="editor">
-        <MarkdownEditor :doc="doc" :options="{ showPreview: !isMobile(), toolbar: 'minimal' }" />
+        <MarkdownEditor :doc="doc" :minimal="true" />
       </div>
     </section>
     <section class="demo-section">
@@ -56,7 +56,6 @@ onMounted(() => {
   type();
 });
 
-const colorMode = useColorMode();
 const doc = ref({
   content_markdown: `#  Alexandrie Hub 🚀
 
@@ -108,8 +107,6 @@ $\\int_{-\\infty}^{+\\infty} e^{-x^2} dx = \\sqrt{\\pi}$
 const app = "Alexandrie";
 console.log("Welcome to " + app);
 \`\`\`
-
-
 
 > *"Notes are not just text anymore, they’re an extension of your thoughts."*
 
