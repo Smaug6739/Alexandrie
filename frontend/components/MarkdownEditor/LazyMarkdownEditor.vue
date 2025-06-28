@@ -73,10 +73,10 @@ function exec(action: string) {
       changes = { from, to, insert: `~~${selectedText}~~` };
       break;
     case 'link':
-      changes = { from, to, insert: `[${selectedText}](url)` };
+      changes = { from, to, insert: `[](${selectedText})` };
       break;
     case 'image':
-      changes = { from, to, insert: `![${selectedText}](url)` };
+      changes = { from, to, insert: `![](${selectedText})` };
       break;
     case 'code':
       changes = { from, to, insert: `\`${selectedText}\`` };
@@ -98,6 +98,96 @@ function exec(action: string) {
 
   view.focus();
 }
+const snippets: Record<string, string> = {
+  '!blue': ':::blue\n$0\n:::',
+  '!green': ':::green\n$0\n:::',
+  '!yellow': ':::yellow\n$0\n:::',
+  '!grey': ':::grey\n$0\n:::',
+  '!details': ':::details\n$0\n:::',
+  '!center': ':::center\n$0\n:::',
+  '!m': '\$$0\$',
+  '!property': ':::property $0\n\n:::',
+  '!warning': ':::warning $0\n\n:::',
+};
+const snippetListener = EditorView.updateListener.of(update => {
+  if (!update.docChanged || !editorView.value) return;
+
+  const { state, transactions } = update;
+  const lastTransaction = transactions[0];
+
+  const changes = lastTransaction!.changes;
+
+  // Ne gère que les insertions simples
+  let insertedText = '';
+  let hasInsertion = false;
+  changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
+    if (inserted.length > 0) {
+      insertedText = inserted.sliceString(0);
+      hasInsertion = true;
+    }
+  });
+  if (!hasInsertion) return;
+
+  // Vérifie si on vient d’insérer un mot-clé
+  const cursorPos = state.selection.main.head;
+  const line = state.doc.lineAt(cursorPos);
+  const textBefore = line.text.slice(0, cursorPos - line.from);
+
+  const match = Object.keys(snippets).find(key => textBefore.endsWith(key));
+  if (!match) return;
+
+  const start = cursorPos - match.length;
+  const snippet = snippets[match];
+
+  // remplace $0 par un curseur
+  const [before, after] = snippet!.split('$0');
+  const newText = (before || '') + after;
+
+  const view = editorView.value;
+  view.dispatch({
+    changes: { from: start, to: cursorPos, insert: newText },
+    selection: {
+      anchor: start + (before?.length || 0),
+    },
+  });
+});
+const markdownKeysmap = [
+  {
+    key: 'Mod-b',
+    run: () => {
+      exec('bold');
+      return true;
+    },
+  },
+  {
+    key: 'Mod-i',
+    run: () => {
+      exec('italic');
+      return true;
+    },
+  },
+  {
+    key: 'Mod-u',
+    run: () => {
+      exec('underline');
+      return true;
+    },
+  },
+  {
+    key: 'Mod-k',
+    run: () => {
+      exec('image');
+      return true;
+    },
+  },
+  {
+    key: 'Mod-l',
+    run: () => {
+      exec('link');
+      return true;
+    },
+  },
+];
 
 watch(
   () => document.value.content_markdown,
@@ -133,9 +223,10 @@ onMounted(() => {
       history(),
       drawSelection(),
       autocompletion(),
-      keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap]),
+      keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, ...markdownKeysmap]),
       markdown({ base: markdownLanguage }),
       updateListener,
+      snippetListener,
       themeCompartment.of(useColorMode().value === 'dark' ? materialDark : materialLight),
       highlightSelectionMatches({}),
       EditorView.lineWrapping,
