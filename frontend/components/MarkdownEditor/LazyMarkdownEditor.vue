@@ -1,146 +1,238 @@
 <template>
-  <div class="editor-container" @keydown="editor.handleKeydown">
-    <Toolbar :document="document" :minimal="options?.toolbar == 'minimal'" @execute-action="(a:string) => editor.actions(a)" />
+  <div class="editor-container">
+    <Toolbar :document="document" @execute-action="exec" />
     <div style="padding: 6px 8px; flex: 1; display: flex; flex-direction: column; min-height: 0">
-      <input placeholder="Title" class="title" v-model="document.name" v-if="options?.toolbar !== 'minimal'" />
-      <input placeholder="Description" class="description" v-model="document.description" v-if="options?.toolbar !== 'minimal'" />
+      <input placeholder="Title" class="title" v-model="document.name" />
+      <input placeholder="Description" class="description" v-model="document.description" />
       <div class="markdown" ref="container">
-        <InlineToolbar ref="toolbar" @execute-action="(a:string) => editor.actions(a)" />
-        <textarea ref="textarea" class="content markdown-input" @scroll="syncScroll" @input="update" v-html="document.content_markdown || ''" placeholder="Write something or use the toolbar to create your document..." @keyup="syncScroll"></textarea>
-        <div v-if="editor.showPreview.value" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html || ''"></div>
+        <div ref="editorContainer" class="codemirror-editor" @scroll="syncScroll" />
+        <div v-if="showPreview" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html"></div>
       </div>
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
-import { Editor, type EditorOptions } from './EditorHelper';
+import { EditorView, keymap, highlightSpecialChars, drawSelection, lineNumbers } from '@codemirror/view';
+import { EditorState, Compartment } from '@codemirror/state';
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
+import { autocompletion } from '@codemirror/autocomplete';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { materialLight } from '@fsegurai/codemirror-theme-material-light';
+import { materialDark } from '@fsegurai/codemirror-theme-material-dark';
 import Toolbar from './Toolbar.vue';
+
 import compile from '~/helpers/markdown';
-import InlineToolbar from '~/components/MarkdownEditor/InlineToolbar.vue';
 import type { Document } from '~/stores';
 
-const props = defineProps<{
-  doc?: Partial<Document>;
-  options?: EditorOptions;
-}>();
-const document = ref<Document | Partial<Document>>({ ...props.doc, content_html: compile(props.doc?.content_markdown) });
-const toolbar = ref<{ element: HTMLDivElement }>();
-const container = ref<HTMLDivElement>();
-const textarea = ref<HTMLTextAreaElement>();
-
-const editor = new Editor(textarea, toolbar, container, props.options);
+const props = defineProps<{ doc?: Partial<Document> }>();
 
 const emit = defineEmits(['save', 'exit']);
-const update = debounce(() => {
-  document.value.content_html = compile(textarea.value?.value || '');
-}, 50);
-const handleClick = () => editor.handleInlineToolbar();
+
+const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
+const editorView = ref<EditorView | null>(null);
+const showPreview = ref(false);
 
-editor.addEventListener('save', save);
-editor.addEventListener('exit', () => emit('exit'));
+const document = ref<Partial<Document>>({
+  ...props.doc,
+  content_html: compile(props.doc?.content_markdown || ''),
+});
 
-onMounted(() => window.addEventListener('mouseup', handleClick));
-onBeforeUnmount(() => window.removeEventListener('mouseup', handleClick));
+function exec(action: string) {
+  if (action === 'preview') {
+    showPreview.value = !showPreview.value;
+    return;
+  }
+  if (action === 'save') {
+    save();
+    return;
+  }
+
+  if (!editorView.value) return;
+
+  const view = editorView.value;
+  const state = view.state;
+
+  const { from, to } = state.selection.main;
+  const selectedText = state.sliceDoc(from, to);
+
+  let changes;
+
+  switch (action) {
+    case 'bold':
+      changes = { from, to, insert: `**${selectedText}**` };
+      break;
+    case 'italic':
+      changes = { from, to, insert: `*${selectedText}*` };
+      break;
+    case 'underline':
+      changes = { from, to, insert: `__${selectedText}__` };
+      break;
+    case 'strike':
+      changes = { from, to, insert: `~~${selectedText}~~` };
+      break;
+    case 'link':
+      changes = { from, to, insert: `[${selectedText}](url)` };
+      break;
+    case 'image':
+      changes = { from, to, insert: `![${selectedText}](url)` };
+      break;
+    case 'code':
+      changes = { from, to, insert: `\`${selectedText}\`` };
+      break;
+    case 'quote':
+      changes = { from, to, insert: `> ${selectedText}\n` };
+      break;
+    case 'list':
+      changes = { from, to, insert: `- ${selectedText}\n` };
+      break;
+    case 'orderedList':
+      changes = { from, to, insert: `1. ${selectedText}\n` };
+      break;
+  }
+  view.dispatch({
+    changes,
+    selection: { anchor: from + 2, head: to + 2 }, // ajuste sélection pour `**`
+  });
+
+  view.focus();
+}
+
+watch(
+  () => document.value.content_markdown,
+  val => {
+    document.value.content_html = compile(val || '');
+  },
+);
+
+const themeCompartment = new Compartment();
+
+watch(useColorMode(), mode => {
+  if (!editorView.value) return;
+  editorView.value.dispatch({
+    effects: themeCompartment.reconfigure(mode.value === 'dark' ? materialDark : materialLight),
+  });
+});
+onMounted(() => {
+  if (!editorContainer.value) return;
+
+  const updateListener = EditorView.updateListener.of(v => {
+    if (v.docChanged) {
+      const content = v.state.doc.toString();
+      document.value.content_markdown = content;
+      document.value.content_html = compile(content);
+    }
+  });
+
+  const state = EditorState.create({
+    doc: document.value.content_markdown || '',
+    extensions: [
+      lineNumbers(),
+      highlightSpecialChars(),
+      history(),
+      drawSelection(),
+      autocompletion(),
+      keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap]),
+      markdown({ base: markdownLanguage }),
+      updateListener,
+      themeCompartment.of(useColorMode().value === 'dark' ? materialDark : materialLight),
+      highlightSelectionMatches({}),
+      EditorView.lineWrapping,
+      EditorState.allowMultipleSelections.of(true),
+    ],
+  });
+
+  editorView.value = new EditorView({
+    state,
+    parent: editorContainer.value,
+  });
+  window.addEventListener('keydown', handleGlobalKeys);
+});
+
+onBeforeUnmount(() => {
+  if (editorView.value) editorView.value.destroy();
+  window.removeEventListener('keydown', handleGlobalKeys);
+});
+
+function handleGlobalKeys(e: KeyboardEvent) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+    e.preventDefault();
+    save();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+    e.preventDefault();
+    showPreview.value = !showPreview.value;
+  }
+
+  if (e.key === 'Escape') {
+    emit('exit');
+  }
+}
 
 function syncScroll() {
-  editor.handleInlineToolbar();
-  if (!textarea.value || !markdownPreview.value) return;
-  const scrollPercentage = textarea.value.scrollTop / (textarea.value.scrollHeight - textarea.value.clientHeight);
+  if (!editorContainer.value || !markdownPreview.value) return;
+  const scrollPercentage = editorContainer.value.scrollTop / (editorContainer.value.scrollHeight - editorContainer.value.clientHeight);
   markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
 }
-function save() {
-  document.value.content_markdown = textarea.value?.value || '';
-  document.value.content_html = compile(document.value.content_markdown);
-  emit('save', document.value);
-}
 
-function debounce(fn: Function, wait: number) {
-  let timer: NodeJS.Timeout;
-  return function (...args: any[]) {
-    if (timer) {
-      clearTimeout(timer); // clear any pre-existing timer
-    }
-    // @ts-ignore
-    const context = this; // get the current context
-    timer = setTimeout(() => {
-      fn.apply(context, args); // call the function if time expires
-    }, wait);
-  };
+function save() {
+  const content = editorView.value?.state.doc.toString() || '';
+  document.value.content_markdown = content;
+  document.value.content_html = compile(content);
+  emit('save', document.value);
 }
 </script>
 
-<style scoped lang="scss">
-.editor-container {
-  height: 100%;
-  width: 100%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 15px;
-  padding: 10px;
+<style scoped>
+.markdown {
+  flex: 1;
   display: flex;
-  flex-direction: column;
+  gap: 8px;
+  min-height: 0; /* permet aux enfants flexibles de ne pas déborder */
 }
 
-.markdown {
+.editor-container {
+  width: 100%;
+  height: 100%; /* ou 100% si le parent a déjà une hauteur définie */
   display: flex;
-  flex: 1;
-  flex-direction: row; // ✅ côte à côte
-  min-height: 0;
-  overflow: hidden;
+  flex-direction: column;
+  gap: 8px;
 }
-.markdown-input,
-.markdown-preview {
-  flex: 1; /* Take up all available space in width */
+
+.codemirror-editor {
+  flex: 1;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
   overflow: auto;
 }
 
 .markdown-preview {
-  border-left: 1px solid var(--border-color);
-  position: relative;
+  flex: 1;
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--bg-color);
+  height: 100%;
 }
-
-input,
-textarea {
+input {
   border: none;
   outline: none;
   background-color: var(--bg-color);
   padding-left: 0;
-}
-
-input {
-  display: block;
+  font-size: 1rem;
+  font-weight: 500;
   width: 100%;
 }
 
-[placeholder]:empty::before {
-  content: attr(placeholder);
-  color: #757575;
-  font-weight: 500;
-  font-size: 18px;
-  opacity: 1;
-}
-
-[placeholder]:empty {
-  content: '';
-}
-
-textarea {
-  font-family: monospace;
-  line-height: 1.2;
-  font-size: 15px;
-  letter-spacing: -0.8px;
-}
-
 .title {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 10px;
 }
 
 .description {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 </style>

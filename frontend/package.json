@@ -1,6 +1,12 @@
 {
   "name": "nuxt-app",
   "devDependencies": {
+    "@codemirror/autocomplete": "^6.18.6",
+    "@codemirror/commands": "^6.8.1",
+    "@codemirror/lang-markdown": "^6.3.3",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.38.0",
+    "@fsegurai/codemirror-theme-bundle": "^6.2.0",
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.5.2",
     "@pinia/nuxt": "^0.5.5",
@@ -32,5 +38,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@codemirror/search": "^6.5.11",
+    "@codemirror/theme-one-dark": "^6.1.3"
+  }
 }
