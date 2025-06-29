@@ -1,8 +1,15 @@
 <template>
   <span class="header">
-    <NuxtLink :to="`/dashboard/docs/edit/${doc_id}`">
+    <NuxtLink :to="`/dashboard/docs/edit/${doc.id}`">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
         <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
+      </svg>
+    </NuxtLink>
+    <NuxtLink @click="exportMarkdown">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+        <path
+          d="m640-360 120-120-42-43-48 48v-125h-60v125l-48-48-42 43 120 120ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-480H160v480Zm0 0v-480 480Zm60-120h60v-180h40v120h60v-120h40v180h60v-200q0-17-11.5-28.5T440-600H260q-17 0-28.5 11.5T220-560v200Z"
+        />
       </svg>
     </NuxtLink>
     <NuxtLink @click="print">
@@ -22,10 +29,23 @@
 
 <script setup lang="ts">
 import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
+import type { Document } from '~/stores';
 
-const props = defineProps<{ doc_id: string }>();
+const props = defineProps<{ doc: Document }>();
 const print = () => window.print();
-const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.doc_id }));
+const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.doc.id }));
+
+function exportMarkdown() {
+  const blob = new Blob([props.doc.content_markdown || ''], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${props.doc.name}.md`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 </script>
 
 <style lang="scss" scoped>

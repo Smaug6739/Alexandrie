@@ -1,7 +1,7 @@
 <template>
   <div class="editor-container">
     <Toolbar :document="document" @execute-action="exec" />
-    <div style="padding: 6px 8px; flex: 1; display: flex; flex-direction: column; min-height: 0">
+    <div style="padding: 6px 0; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px">
       <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
       <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
       <div class="markdown" ref="container">
@@ -189,13 +189,6 @@ const markdownKeysmap = [
   },
 ];
 
-watch(
-  () => document.value.content_markdown,
-  val => {
-    document.value.content_html = compile(val || '');
-  },
-);
-
 const themeCompartment = new Compartment();
 
 watch(useColorMode(), mode => {
@@ -204,35 +197,33 @@ watch(useColorMode(), mode => {
     effects: themeCompartment.reconfigure(mode.value === 'dark' ? materialDark : materialLight),
   });
 });
+const updateListener = EditorView.updateListener.of(v => {
+  if (v.docChanged) {
+    const content = v.state.doc.toString();
+    document.value.content_markdown = content;
+    document.value.content_html = compile(content);
+  }
+});
+const state = EditorState.create({
+  doc: document.value.content_markdown || '',
+  extensions: [
+    lineNumbers(),
+    highlightSpecialChars(),
+    history(),
+    drawSelection(),
+    autocompletion(),
+    keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, ...markdownKeysmap]),
+    markdown({ base: markdownLanguage }),
+    updateListener,
+    snippetListener,
+    themeCompartment.of(useColorMode().value === 'dark' ? materialDark : materialLight),
+    highlightSelectionMatches({}),
+    EditorView.lineWrapping,
+    EditorState.allowMultipleSelections.of(true),
+  ],
+});
 onMounted(() => {
   if (!editorContainer.value) return;
-
-  const updateListener = EditorView.updateListener.of(v => {
-    if (v.docChanged) {
-      const content = v.state.doc.toString();
-      document.value.content_markdown = content;
-      document.value.content_html = compile(content);
-    }
-  });
-
-  const state = EditorState.create({
-    doc: document.value.content_markdown || '',
-    extensions: [
-      lineNumbers(),
-      highlightSpecialChars(),
-      history(),
-      drawSelection(),
-      autocompletion(),
-      keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, ...markdownKeysmap]),
-      markdown({ base: markdownLanguage }),
-      updateListener,
-      snippetListener,
-      themeCompartment.of(useColorMode().value === 'dark' ? materialDark : materialLight),
-      highlightSelectionMatches({}),
-      EditorView.lineWrapping,
-      EditorState.allowMultipleSelections.of(true),
-    ],
-  });
 
   editorView.value = new EditorView({
     state,
@@ -315,6 +306,9 @@ input {
   font-size: 1rem;
   font-weight: 500;
   width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px;
 }
 
 .title {

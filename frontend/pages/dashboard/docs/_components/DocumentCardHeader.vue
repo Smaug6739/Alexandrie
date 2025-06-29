@@ -3,7 +3,7 @@
     <div class="text">
       <p class="category">
         {{ category?.name }}
-        <DocumentCardHeaderActionRow :doc_id="doc.id" class="no-print" />
+        <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
       </p>
       <h1 class="title">{{ doc?.name }}</h1>
       <p class="description">{{ doc?.description }}</p>

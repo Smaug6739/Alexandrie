@@ -18,8 +18,8 @@
         <span>Workspaces</span>
         <NuxtLink to="/dashboard/categories"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
         <NuxtLink to="/dashboard/docs"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
-        <NuxtLink to="/dashboard/import" style="display: flex; align-items: center"><Icon fill="var(--font-color)" name="import" />Manage importations <tag blue>New</tag></NuxtLink>
-        <span>Utils</span>
+        <NuxtLink to="/dashboard/import" style="display: flex; align-items: center"><Icon fill="var(--font-color)" name="import" />Manage importations <tag yellow>Beta</tag></NuxtLink>
+        <span>Utils <tag blue>New</tag></span>
         <NuxtLink to="?p=shortcuts"><Icon fill="var(--font-color)" name="shortcuts" />Shortcuts</NuxtLink>
         <NuxtLink to="?p=snippets"><Icon fill="var(--font-color)" name="snippets" />Snippets</NuxtLink>
         <NuxtLink to="?p=markdown"><Icon fill="var(--font-color)" name="markdown" />Markdown</NuxtLink>

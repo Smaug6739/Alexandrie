@@ -42,6 +42,14 @@
       <span>Save the document</span>
     </div>
     <div class="shortcut">
+      <span class="key">Ctrl + p</span>
+      <span>Toggle preview</span>
+    </div>
+    <div class="shortcut">
+      <span class="key">Esc</span>
+      <span>Exit the page</span>
+    </div>
+    <div class="shortcut">
       <span class="key">Ctrl + z</span>
       <span>Undo the last action</span>
     </div>

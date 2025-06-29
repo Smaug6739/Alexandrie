@@ -12,6 +12,32 @@
       <li><mark>Highlight</mark>: <code>`highlight`</code></li>
     </ul>
 
+    <strong>Tags: </strong> <tag blue>Info</tag> <tag green>Success</tag><tag red>Danger</tag><tag yellow>Yellow</tag> <tag grey>Note</tag> <tag teal>Teal</tag>
+
+    <pre><code>&lt;tag blue&gt;Info&lt;/tag&gt; 
+&lt;tag green&gt;Success&lt;/tag&gt;
+&lt;tag red&gt;Danger&lt;/tag&gt;
+&lt;tag yellow&gt;Yellow&lt;/tag&gt;
+&lt;tag grey&gt;Note&lt;/tag&gt;
+&lt;tag teal>Teal&lt;/tag></code></pre>
+
+    <h2>🔢 Headings</h2>
+
+    <ul>
+      <li>H1: <code># Heading 1</code></li>
+      <li>H2: <code>## Heading 2</code></li>
+      <li>H3: <code>### Heading 3</code></li>
+      <li>H4: <code>#### Heading 4</code></li>
+      <li>H5: <code>##### Heading 5</code></li>
+      <li>H6: <code>###### Heading 6</code></li>
+    </ul>
+    <pre><code># Heading 1
+## Heading 2
+### Heading 3</code></pre>
+    <h2>💬 Blockquotes</h2>
+    <p>Use the greater-than symbol to create blockquotes:</p>
+    <pre><code>> This is a blockquote.
+> It can span multiple lines.</code></pre>
     <h2>🔗 Links & Images</h2>
     <ul>
       <li><a href="https://example.com">Example link</a>: <code>[Example link](https://example.com)</code></li>
@@ -104,11 +130,19 @@ function hello() {
         ><div class="red custom-block"><p class="custom-block-title">DANGER</p></div></span
       >
     </div>
-
+    <div style="display: flex">
+      <span style="flex: 1; margin-right: 10px">
+        <pre style="color: white; padding: 5px"><code>:::teal TEAL<br/>:::</code></pre>
+      </span>
+      <span style="flex: 1; margin-left: 10px"
+        ><div class="teal custom-block"><p class="custom-block-title">TEAL</p></div></span
+      >
+    </div>
     <h2>📚 Special Blocks</h2>
     <p>These enhance your note structure visually and semantically:</p>
     <ul>
       <li><code>:::center</code> – center-aligned content</li>
+      <li><code>:::no-print</code> – content hidden in PDF export</li>
       <li><code>:::details</code> – collapsible content</li>
       <li><code>:::definition [Title]</code></li>
       <li><code>:::theorem [Title]</code></li>
@@ -117,6 +151,9 @@ function hello() {
     <p>Examples:</p>
     <pre><code>:::center
 This text is centered!
+:::</code></pre>
+    <pre><code>:::no-print
+This content will not appear in PDF exports.
 :::</code></pre>
 
     <pre><code>:::details
@@ -146,16 +183,6 @@ Snippets help you focus on writing, not formatting.
     </ul>
   </div>
 </template>
-
-<script setup>
-const colorBlocks = [
-  { color: 'blue', label: 'INFO' },
-  { color: 'green', label: 'SUCCESS' },
-  { color: 'yellow', label: 'WARNING' },
-  { color: 'grey', label: 'NOTE' },
-  { color: 'red', label: 'DANGER' },
-];
-</script>
 
 <style scoped>
 .markdown-doc {
