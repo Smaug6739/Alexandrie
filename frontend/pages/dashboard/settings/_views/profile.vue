@@ -56,6 +56,7 @@ const previewAvatar = (event: Event) => {
 const updateUser = async () => {
   if (!userStore.user) return;
   await uploadAvatar();
+  userStore.user.avatar = 'ok';
   userStore
     .update(userStore.user)
     .then(() => useNotifications().add({ type: 'success', title: 'User updated' }))
