@@ -25,17 +25,19 @@
         <NuxtLink to="?p=markdown"><Icon fill="var(--font-color)" name="markdown" />Markdown</NuxtLink>
 
         <span>Other</span>
+        <NuxtLink to="?p=about"><Icon fill="var(--font-color)" name="view" />About</NuxtLink>
         <NuxtLink @click="logoutUser"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
       </nav>
       <div class="content">
         <button @click="close" class="close-btn"><Icon name="close" :big="true" /></button>
         <ProfileView v-if="currentPage === 'profile'"></ProfileView>
-        <PreferencesView v-if="currentPage === 'preferences'" />
-        <SecurityView v-if="currentPage === 'security'" />
-        <BackupView v-if="currentPage == 'backup'" />
-        <ShortcutsView v-if="currentPage == 'shortcuts'" />
-        <SnippetsView v-if="currentPage == 'snippets'" />
-        <MarkdownView v-if="currentPage == 'markdown'" />
+        <PreferencesView v-else-if="currentPage === 'preferences'" />
+        <SecurityView v-else-if="currentPage === 'security'" />
+        <BackupView v-else-if="currentPage == 'backup'" />
+        <ShortcutsView v-else-if="currentPage == 'shortcuts'" />
+        <SnippetsView v-else-if="currentPage == 'snippets'" />
+        <MarkdownView v-else-if="currentPage == 'markdown'" />
+        <AboutView v-else-if="currentPage == 'about'" />
       </div>
     </div>
   </div>
@@ -49,6 +51,7 @@ import BackupView from './_views/backups.vue';
 import ShortcutsView from './_views/shortcuts.vue';
 import SnippetsView from './_views/snippets.vue';
 import MarkdownView from './_views/markdown.vue';
+import AboutView from './_views/about.vue';
 const route = useRoute();
 const currentPage = ref(route.query.p || 'profile');
 const store = useUserStore();

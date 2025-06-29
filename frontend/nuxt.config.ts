@@ -3,7 +3,6 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-
   vite: {
     css: {
       preprocessorOptions: {
@@ -107,6 +106,17 @@ export default defineNuxtConfig({
           handler: 'NetworkFirst',
           options: {
             networkTimeoutSeconds: 3,
+          },
+        },
+        {
+          urlPattern: ({ url }) => url.origin === process.env.VITE_BASE_API,
+          handler: 'NetworkFirst',
+          options: {
+            cacheName: 'api-cache',
+            expiration: {
+              maxEntries: 50,
+              maxAgeSeconds: 86400,
+            },
           },
         },
       ],
