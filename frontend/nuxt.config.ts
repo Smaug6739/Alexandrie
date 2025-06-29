@@ -12,6 +12,7 @@ export default defineNuxtConfig({
         },
       },
     },
+
     vue: {
       template: {
         compilerOptions: {
@@ -109,7 +110,7 @@ export default defineNuxtConfig({
           },
         },
         {
-          urlPattern: ({ url }) => url.origin === process.env.VITE_BASE_API,
+          urlPattern: /^http[s]?:\/\/[^/]+\/api\/.*/,
           handler: 'NetworkFirst',
           options: {
             cacheName: 'api-cache',

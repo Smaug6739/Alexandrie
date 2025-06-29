@@ -1,6 +1,6 @@
 {
   "name": "alexandrie",
-  "version": "7.1.0-alpha.1",
+  "version": "7.1.0-alpha.2",
   "devDependencies": {
     "@codemirror/autocomplete": "^6.18.6",
     "@codemirror/commands": "^6.8.1",
