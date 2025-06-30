@@ -15,6 +15,9 @@
     <NuxtLink to="/dashboard/import">
       <Icon name="import" fill="var(--font-color-dark)" :big="true" />
     </NuxtLink>
+    <NuxtLink to="/dashboard/admin" v-if="useUserStore().user?.role === 2">
+      <Icon name="users" fill="var(--font-color-dark)" :big="true" />
+    </NuxtLink>
     <div style="margin-top: auto">
       <NuxtLink to="#" @click="closeDock">
         <Icon name="arrow_close" fill="var(--font-color-dark)" :big="true" />
