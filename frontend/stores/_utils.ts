@@ -13,7 +13,7 @@ const requestQueue: { route: string; method: string; body: Object; resolve: (val
 
 export async function makeRequest<T>(route: string, method: string, body: Object, isTreatingQueue: boolean = false): Promise<APIResult<T>> {
   console.log(`[API] Requesting [${method}] to /${route}`);
-  if (route[route.length - 1] === '/') route = route.slice(0, -1);
+  if (route[route.length - 1] === '/') route = route.slice(0, -1); // Remove trailing slash if present
   const promise = new Promise<APIResult<T>>((resolve, reject) => {
     if (!isTreatingQueue) requestQueue.push({ route, method, body, resolve, reject });
   });
@@ -48,14 +48,13 @@ function treatQueue(access_token: boolean = true) {
   console.log(`[API] Treating queue with access_token: ${access_token}`);
   while (requestQueue.length > 0) {
     const request = requestQueue.shift();
+    if (!request) continue;
     if (!access_token) {
-      if (request) {
-        request.resolve({ status: 'error', message: 'Failed to fetch.' });
-        requestQueue.length = 0;
-        useUserStore().post_logout();
-        navigateTo('/login');
-      }
-    } else if (request) {
+      request.resolve({ status: 'error', message: 'No acccess token.' });
+      requestQueue.length = 0;
+      useUserStore().post_logout();
+      navigateTo('/login');
+    } else {
       makeRequest(request.route, request.method, request.body, true).then(request.resolve).catch(console.info);
     }
   }
