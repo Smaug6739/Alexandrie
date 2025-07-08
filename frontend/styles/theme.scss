@@ -103,6 +103,7 @@ select,
 textarea {
 	padding: 8px;
 	margin: 0;
+	background: var(--bg-color);
 	border: 1px solid var(--border-color);
 	color: var(--font-color);
 	border-radius: 6px;
