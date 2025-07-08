@@ -118,9 +118,9 @@ onBeforeUnmount(() => {
   max-height: 100%;
   overflow-y: scroll;
   width: 100%;
-  font-family: $external-font;
+  font-family: sans-serif;
   * {
-    font-family: $external-font;
+    font-family: sans-serif;
   }
 }
 

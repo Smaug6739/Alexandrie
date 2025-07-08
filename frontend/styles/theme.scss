@@ -101,18 +101,20 @@ img {
 input,
 select,
 textarea {
-	padding: 8px 10px;
+	padding: 8px;
 	margin: 0;
-	background: var(--bg-color);
 	border: 1px solid var(--border-color);
 	color: var(--font-color);
 	border-radius: 6px;
-	transition: border-color $transition-duration, box-shadow $transition-duration;
 	font-size: 1rem;
 
 	&:disabled {
 		opacity: 0.8;
 		cursor: not-allowed;
+	}
+
+	&:focus {
+		outline: 2px solid var(--border-color);
 	}
 }
 

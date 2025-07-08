@@ -91,7 +91,7 @@ const drop = async (event: DragEvent) => {
   align-items: center;
   padding: 0 2.5px;
   margin: 2.5px 0;
-  border-radius: 5px;
+  border-radius: 6px;
   color: var(--font-color);
   cursor: pointer;
   width: 98%;
@@ -101,7 +101,6 @@ const drop = async (event: DragEvent) => {
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
     background: var(--bg-contrast-2);
-    transition: background-color $transition-duration;
   }
 
   .icon {

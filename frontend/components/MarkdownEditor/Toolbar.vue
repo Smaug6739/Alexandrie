@@ -111,7 +111,7 @@ button {
   align-items: center;
   flex-wrap: wrap;
   background-color: var(--bg-contrast-2);
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid var(--border-color);
   padding: 0.25rem;
   color: var(--font-color-dark);
@@ -128,7 +128,6 @@ svg,
 input,
 select {
   display: inline-block;
-  padding: 0.4rem;
   max-width: 350px;
 }
 </style>

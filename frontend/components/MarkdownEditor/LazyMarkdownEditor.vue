@@ -279,13 +279,12 @@ function save() {
   height: 100%; /* ou 100% si le parent a déjà une hauteur définie */
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .codemirror-editor {
   flex: 1;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: auto;
 }
 
@@ -294,21 +293,12 @@ function save() {
   overflow: auto;
   border: 1px solid var(--border-color);
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 6px;
   background: var(--bg-color);
   height: 100%;
 }
 input {
-  border: none;
   outline: none;
-  background-color: var(--bg-color);
-  padding-left: 0;
-  font-size: 1rem;
-  font-weight: 500;
-  width: 100%;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 8px;
 }
 
 .title {
