@@ -57,7 +57,6 @@ nav {
 }
 
 .sidebar {
-  background-color: var(--bg-color);
   overflow-x: hidden;
   height: 100%;
   display: flex;

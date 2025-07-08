@@ -33,6 +33,7 @@ const category = computed(() => categories_store.getById(props.doc?.category || 
   padding: 0.7rem 1rem;
   border-radius: 0.625rem;
   display: flex;
+  transition: background-color $transition-duration;
 }
 
 p {

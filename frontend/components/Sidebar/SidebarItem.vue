@@ -101,6 +101,7 @@ const drop = async (event: DragEvent) => {
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
     background: var(--bg-contrast-2);
+    transition: background-color $transition-duration;
   }
 
   .icon {

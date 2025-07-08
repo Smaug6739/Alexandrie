@@ -63,6 +63,7 @@ body {
 	color: var(--font-color);
 	font-family: $external-font;
 	line-height: 1.5;
+	transition: background-color $transition-duration;
 }
 
 :root {
