@@ -16,7 +16,7 @@
         "@fsegurai/codemirror-theme-bundle": "^6.2.0",
         "@nuxt/devtools": "latest",
         "@nuxtjs/color-mode": "^3.5.2",
-        "@pinia/nuxt": "^0.5.5",
+        "@pinia/nuxt": "^0.11.1",
         "@types/katex": "^0.16.7",
         "@types/markdown-it": "^14.1.2",
         "@types/markdown-it-container": "^2.0.10",
@@ -507,7 +507,7 @@
 
     "@parcel/watcher-win32-x64": ["@parcel/watcher-win32-x64@2.5.1", "", { "os": "win32", "cpu": "x64" }, "sha512-9lHBdJITeNR++EvSQVUcaZoWupyHfXe1jZvGZ06O/5MflPcuPLtEphScIBL+AiCWBO46tDSHzWyD0uDmmZqsgA=="],
 
-    "@pinia/nuxt": ["@pinia/nuxt@0.5.5", "", { "dependencies": { "@nuxt/kit": "^3.9.0", "pinia": "^2.2.3" } }, "sha512-wjxS7YqIesh4OLK+qE3ZjhdOJ5pYZQ+VlEmZNtTwzQn1Kavei/khovx7mzXVXNA/mvSPXVhb9xBzhyS3XMURtw=="],
+    "@pinia/nuxt": ["@pinia/nuxt@0.11.1", "", { "dependencies": { "@nuxt/kit": "^3.9.0" }, "peerDependencies": { "pinia": "^3.0.3" } }, "sha512-tCD8ioWhhIHKwm8Y9VvyhBAV/kK4W5uGBIYbI5iM4N1t7duOqK6ECBUavrMxMolELayqqMLb9+evegrh3S7s2A=="],
 
     "@pkgjs/parseargs": ["@pkgjs/parseargs@0.11.0", "", {}, "sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg=="],
 
