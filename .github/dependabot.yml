@@ -1,14 +1,18 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 updates:
 # Fetch and update latest `npm` packages
-- package-ecosystem: npm
-  directory: '/'
-  target-branch: "dev"
+- package-ecosystem: bun
+  directory: '/frontend'
+  target-branch: "main"
+  schedule:
+    interval: "daily"
+  reviewers:
+    - Smaug6739
+  assignees:
+    - Smaug6739
+- package-ecosystem: gomod
+  directory: '/backend'
+  target-branch: "main"
   schedule:
     interval: "daily"
   reviewers:
