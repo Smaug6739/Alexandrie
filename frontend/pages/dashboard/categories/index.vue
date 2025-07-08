@@ -11,7 +11,7 @@
     <div style="padding: 10px 0; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center">
       <input placeholder="Search for workspace..." v-model="filter" style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px" />
     </div>
-    <div v-if="tree.length" class="workspace" v-for="workspace in tree" :key="workspace.id">
+    <div v-if="tree.length" class="workspace" v-for="workspace in filteredItems" :key="workspace.id">
       <h3 class="wp-name">{{ workspace.label }}</h3>
       <WorkspaceTree v-for="node in workspace.childrens" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
@@ -27,7 +27,26 @@ import WorkspaceTree from './_components/WorkspaceTree.vue';
 import type { Category } from '~/stores';
 
 const filter = ref('');
-const tree = computed(() => new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2 && i.data.name.toLowerCase().includes(filter.value.toLowerCase())) as Item<Category>[]);
+const tree = computed(() => new TreeStructure(useSidebarTree().categories.value).generateTree() as Item<Category>[]);
+
+const filteredItems = computed(() => {
+  if (!filter.value.trim()) return tree.value;
+
+  const filterRecursive = (items: Item<Category>[]): Item<Category>[] => {
+    return items
+      .map(item => {
+        const matches = item.label.toLowerCase().includes(filter.value.toLowerCase());
+        const filteredChildren = item.childrens ? filterRecursive(item.childrens) : [];
+        if (matches || filteredChildren.length > 0) {
+          return { ...item, childrens: filteredChildren };
+        }
+        return null;
+      })
+      .filter(Boolean) as Item<Category>[];
+  };
+
+  return filterRecursive(tree.value);
+});
 
 const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 2 }));
 const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }));
