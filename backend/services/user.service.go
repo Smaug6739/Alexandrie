@@ -23,7 +23,7 @@ func NewUserService(db *sql.DB) UserService {
 
 func (s *Service) GetAllUsers() ([]*models.User, error) {
 	var users = make([]*models.User, 0)
-	rows, err := s.db.Query("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users")
+	rows, err := s.db.Query("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users ORDER BY created_timestamp DESC")
 	if err != nil {
 		return nil, err
 	}
