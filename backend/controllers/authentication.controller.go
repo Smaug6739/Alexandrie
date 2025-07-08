@@ -80,7 +80,7 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 	}
 
 	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
-	c.SetCookie("RefreshToken", session.RefreshToken, int(time.Duration(ctr.app.Config.Auth.RefreshTokenExpiry).Seconds()), "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
 	user.Password = ""
 
 	go func() {
