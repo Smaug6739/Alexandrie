@@ -36,7 +36,7 @@ const close = (id: number) => useNotifications().remove(id);
   border-radius: 8px;
   backdrop-filter: blur(12px);
   color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px var(--shadow);
   animation: fadeIn 0.3s ease;
   position: relative;
 }

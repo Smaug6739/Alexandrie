@@ -6,7 +6,7 @@
         <article class="document-theme" style="max-width: 100%" ref="element" v-html="article.content_html"></article>
         <DocumentCardFooter :document="article" :next="next" :previous="previous" />
       </div>
-      <TableOfContent :element="element" :doc_id="article.id" class="toc" style="width: 400px" v-if="!isTablet() && !preferencesStore.get('hideTOC')" />
+      <div v-if="!isTablet() && !preferencesStore.get('hideTOC')"><TableOfContent :tags="article.tags" :element="element" :doc_id="article.id" class="toc" style="width: 400px" /></div>
       <div v-else-if="!isTablet() && preferencesStore.get('hideTOC')" style="margin-right: 200px"></div>
     </div>
   </div>

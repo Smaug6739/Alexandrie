@@ -20,7 +20,7 @@ const emit = defineEmits(['close', 'confirm']);
   padding: 20px;
   background-color: var(--bg-contrast);
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  box-shadow: 0 2px 8px var(--shadow);
   transition: all 0.3s ease;
   font-size: initial;
 }

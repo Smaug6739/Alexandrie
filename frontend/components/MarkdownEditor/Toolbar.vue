@@ -97,11 +97,20 @@ const toolbar = [
 
 <style scoped lang="scss">
 button {
-  padding: 0;
+  padding: 4px;
   margin: 0;
   transform: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
   &:hover {
-    background-color: var(--selection-color);
+    background-color: var(--blue-bg);
+    &:deep(svg) {
+      transition: fill 0.2s;
+      fill: var(--blue);
+    }
   }
 }
 
@@ -111,7 +120,7 @@ button {
   align-items: center;
   flex-wrap: wrap;
   background-color: var(--bg-contrast-2);
-  border-radius: 6px;
+  border-radius: 25px;
   border: 1px solid var(--border-color);
   padding: 0.25rem;
   color: var(--font-color-dark);

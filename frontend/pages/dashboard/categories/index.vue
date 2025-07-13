@@ -1,22 +1,22 @@
 <template>
   <div class="card-component">
     <header>
-      <h1 style="font-size: 20px">Workspaces & Categories <tag class="blue">New</tag></h1>
+      <h1>Workspaces & Categories <tag class="blue">New</tag></h1>
       <div style="display: flex; gap: 8px">
         <AppButton type="primary" @click="createWorkspace">+ Workspace</AppButton>
         <AppButton type="primary" @click="createCategory">+ Category</AppButton>
         <NuxtLink to="/dashboard/import"><AppButton type="secondary" variant="outline">Import</AppButton></NuxtLink>
       </div>
     </header>
-    <div style="padding: 10px 0; border-top: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center">
+    <div style="padding-bottom: 10px">
       <input placeholder="Search for workspace..." v-model="filter" style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px" />
     </div>
-    <div v-if="tree.length" class="workspace" v-for="workspace in filteredItems" :key="workspace.id">
+    <div v-if="filteredItems.length" class="workspace" v-for="workspace in filteredItems" :key="workspace.id">
       <h3 class="wp-name">{{ workspace.label }}</h3>
       <WorkspaceTree v-for="node in workspace.childrens" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
 
-    <div v-else style="color: #6c757d; font-style: italic">No workspaces found</div>
+    <div v-else style="color: #6c757d; font-style: italic">No workspaces or category found</div>
   </div>
 </template>
 
@@ -61,12 +61,6 @@ function deleteNode(node: Item) {
 </script>
 
 <style scoped>
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding-bottom: 16px;
-}
 .workspace {
   display: flex;
   flex-direction: column;

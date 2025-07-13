@@ -31,7 +31,7 @@ defineProps<{ document: Document; next?: Document; previous?: Document }>();
 
 <style scoped lang="scss">
 footer {
-  margin: 50px 0 40px;
+  margin: 50px 0 40px 0;
 }
 
 @media screen and (min-width: 768px) {

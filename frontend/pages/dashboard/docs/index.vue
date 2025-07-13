@@ -1,16 +1,23 @@
 <template>
   <div class="card-component">
-    <h2 style="text-align: center">Search documents</h2>
-    <DataTable :headers="headers" :rows="rows">
+    <header>
+      <h1>Documents <tag blue>New</tag></h1>
+      <ViewSelection v-model="view" />
+    </header>
+    <DataTable :headers="headers" :rows="rows" v-if="view === 'table'">
       <template #actions="{ cell }">
         <NuxtLink :to="`/dashboard/docs/${cell?.data.id}`"><Icon name="view" /></NuxtLink>
         <NuxtLink :to="`/dashboard/docs/edit/${cell?.data.id}`"><Icon name="edit" /></NuxtLink>
       </template>
     </DataTable>
+    <div v-else class="document-list">
+      <DocumentsGrid :documents="documents" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const view: Ref<'table' | 'list'> = ref('list');
 const documents = computed(() => useDocumentsStore().getAll);
 const categoriesStore = useCategoriesStore();
 const headers = [
@@ -57,3 +64,5 @@ function stringToBadge(str?: string): string {
   return '';
 }
 </script>
+
+<style scoped lang="scss"></style>

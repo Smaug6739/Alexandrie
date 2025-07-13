@@ -14,7 +14,7 @@ const onClick = () => emit('click');
 @use 'sass:color';
 button {
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 6px;
   width: fit-content;
   font-size: 0.9rem;
   margin: 3px 3px 0 0;
@@ -34,7 +34,7 @@ button {
   outline: 1px solid $primary-color;
   color: var(--font-color);
   &:hover {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px var(--shadow);
   }
 }
 .success {

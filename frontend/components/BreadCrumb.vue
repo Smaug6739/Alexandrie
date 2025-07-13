@@ -62,7 +62,7 @@ watchEffect(() => {
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
-  content: '>';
+  content: '/'; /* Separator */
   padding: 0 0.5rem;
 }
 

@@ -45,6 +45,6 @@ const show = ref(false);
   white-space: nowrap;
   font-size: 0.75rem;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px var(--shadow);
 }
 </style>

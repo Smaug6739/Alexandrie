@@ -69,7 +69,7 @@ watchEffect(() => (currentPage.value = route.query.p || 'profile'));
   display: flex;
   border-radius: 8px;
   height: 90%;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px var(--shadow);
   background-color: var(--bg-color);
   width: 1150px;
   height: calc(-100px + 100vh);

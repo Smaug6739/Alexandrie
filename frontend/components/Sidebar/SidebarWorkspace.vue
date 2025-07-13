@@ -1,16 +1,9 @@
 <template>
   <div>
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px">
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-      <g id="SVGRepo_iconCarrier">
-        <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
-          d="M6 5C5.44772 5 5 5.44772 5 6V18C5 18.5523 5.44772 19 6 19H13V14C13 13.4477 13.4477 13 14 13H19V6C19 5.44772 18.5523 5 18 5H6ZM17.5858 15H15V17.5858L17.5858 15ZM3 6C3 4.34315 4.34315 3 6 3H18C19.6569 3 21 4.34315 21 6V14C21 14.2652 20.8946 14.5196 20.7071 14.7071L14.7071 20.7071C14.5196 20.8946 14.2652 21 14 21H6C4.34315 21 3 19.6569 3 18V6Z"
-          style="fill: var(--font-color)"
-        ></path>
-      </g>
+    <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="var(--font-color)">
+      <path
+        d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-640v560h560v-560h-80v245q0 12-10 17.5t-20-.5l-49-30q-10-6-21-6t-21 6l-49 30q-10 6-20 .5T480-515v-245H200Zm0 560v-560 560Z"
+      />
     </svg>
     &nbsp; {{ option.text }}
   </div>

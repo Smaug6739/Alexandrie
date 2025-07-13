@@ -28,20 +28,24 @@ $monospace-font: monospace;
 $transition-duration: 0.3s;
 
 
-$primary-color: #0070e7;
+$primary-color: #007aff;
 $primary-light: color.adjust(#007aff, $lightness: 10%);
 $primary-dark: color.adjust(#007aff, $lightness: -10%);
 
 :root {
 
 	--bg-color: #fff;
-	--bg-contrast: #f0f6fb;
-	--bg-contrast-2: #ECF2FF;
+	--bg-contrast: #f2f7fc;
+	--bg-contrast-2: #e2ebfd;
 	--selection-color: #dde3e9;
 	--font-color: #3c4450;
 	--font-color-dark: #374151;
 	--font-color-light: #5a6170;
-	--border-color: rgba(0, 0, 0, 0.1);
+	--opposite-color: #111;
+	--border-color: #e0e2ec;
+	--border-color-accent: #c4c6d0;
+	--shadow: rgba(0, 0, 0, 0.2);
+
 
 	// COLORS \\
 	--grey: #666;
@@ -72,7 +76,7 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 }
 
 .dark-mode {
-	--bg-color: #151b23;
+	--bg-color: #1c2127;
 	--bg-contrast: #2a2f35;
 	--bg-contrast-2: #363a42;
 	--selection-color: #444850;
@@ -80,6 +84,8 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 	--font-color-dark: #ccc;
 	--font-color-light: rgb(179, 179, 179);
 	--border-color: rgba(255, 255, 255, 0.1);
+	--opposite-color: #eee;
+	--shadow: rgba(0, 0, 0, 1);
 
 	// COLORS \\
 	--grey: #e0e0e0;

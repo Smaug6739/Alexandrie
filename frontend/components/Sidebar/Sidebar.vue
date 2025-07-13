@@ -20,14 +20,17 @@
             <div class="email">{{ userStore.user.email }}</div>
           </div>
           <div class="icons">
-            <NuxtLink @click="onClick" to="/dashboard/docs/new"><Icon name="add_file" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
-            <NuxtLink @click="newCategory"><Icon name="add_folder" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
-            <NuxtLink @click="sidebarTree.collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color-dark)" /></NuxtLink>
+            <NuxtLink @click="onClick" to="/dashboard/docs/new"><Icon name="add_file" :mid="true" fill="var(--font-color)" /></NuxtLink>
+            <NuxtLink @click="newCategory"><Icon name="add_folder" :mid="true" fill="var(--font-color)" /></NuxtLink>
+            <NuxtLink @click="sidebarTree.collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color)" /></NuxtLink>
+            <NuxtLink @click="toggleDock"><Icon name="dock" :mid="true" fill="var(--font-color)" /></NuxtLink>
           </div>
         </div>
       </div>
       <SidebarWorkspaces :options="workspaces" />
       <Search />
+      <CollapseItem v-for="item in navigationItemsComputed" :key="item.id" :item="item" :root="true" />
+      <hr style="margin: 5px 0; width: 100%" />
       <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
     </div>
   </Resizable>
@@ -67,7 +70,7 @@ const navigationItemsComputed = computed<Item[]>(() =>
   })),
 );
 const sidebarTree = useSidebarTree();
-
+const toggleDock = () => preferences.set({ key: 'hideDock', value: !preferences.get('hideDock') });
 const filterItems = (items: Item[]): Item[] => {
   if (!filter.value.trim()) return items;
   const filterRecursive = (items: Item[]): Item[] => {
@@ -85,7 +88,7 @@ const filterItems = (items: Item[]): Item[] => {
   return filterRecursive(items);
 };
 
-const tree = computed(() => filterItems([...navigationItemsComputed.value, ...sidebarTree.filtered.value]));
+const tree = computed(() => filterItems(sidebarTree.filtered.value));
 
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
@@ -114,13 +117,13 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .sidebar {
-  padding: 0.5rem 0.7rem;
   max-height: 100%;
-  overflow-y: scroll;
   width: 100%;
-  font-family: sans-serif;
+  padding: 0.5rem 0.7rem;
+  overflow-y: scroll;
+  font-family: Inter;
   * {
-    font-family: sans-serif;
+    font-family: Inter;
   }
 }
 
@@ -162,12 +165,12 @@ onBeforeUnmount(() => {
   }
 }
 .search {
-  height: 30px;
+  height: 28px;
   margin: 2.5px 0;
-  border-radius: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
   width: 98%;
   outline: none;
-  border: none;
   background-color: var(--bg-contrast);
   background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%232573cf" height="24" viewBox="0 -960 960 960" width="22"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>');
   background-repeat: no-repeat;
@@ -192,8 +195,8 @@ onBeforeUnmount(() => {
   }
 }
 .compact:deep(.item) {
-  font-size: 15px;
-  padding: 0 3px;
+  font-size: 14px;
+  padding: 0.5px 8px;
   margin: 0;
 }
 

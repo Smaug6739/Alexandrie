@@ -51,8 +51,8 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   align-items: center;
   padding: 2px 8px;
   border: 1px solid var(--border-color);
-  margin: 4px;
-  border-radius: 8px;
+  margin: 4px 0;
+  border-radius: 6px;
   cursor: pointer;
 }
 .placeholder {
@@ -61,7 +61,7 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 .dropdown-selected.open {
   border-color: var(--selection-color);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px var(--shadow);
 }
 
 .dropdown-arrow {

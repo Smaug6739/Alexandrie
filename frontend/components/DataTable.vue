@@ -1,54 +1,55 @@
 <template>
   <div class="container">
-    <div class="header" style="border-bottom: 1px solid var(--border-color)">
-      <input type="text" v-model="searchInput" placeholder="Search..." />
-      <div>
-        <span>Rows per page</span>
-        <select @change="(e: Event) => paginator.setMaxPerPage(parseInt((<HTMLSelectElement>e.target)?.value) || 10)">
-          <option value="10">10</option>
-          <option value="30">30</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-          <option value="250">250</option>
-        </select>
-      </div>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th v-for="header in headers" :key="header.key">
-            {{ header.label }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="row in data">
-          <td v-for="header in headers">
-            <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content"></span>
-            <span v-else-if="row[header.key]?.type === 'slot'">
-              <slot :name="header.key" :cell="row[header.key]"></slot>
-            </span>
-            <span v-else v-text="row[header.key]?.content"></span>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="100%">
-            <div class="footer">
-              <p>Showing {{ paginator.startIndex.value }} to {{ paginator.endIndex.value }} of {{ paginator.totalItems.value }} entries</p>
-              <div class="pagination">
-                <button type="button" @click="paginator.previous()" :disabled="!paginator.hasPrevious()">&lt;</button>
-                <button @click="paginator.setPage(1)" :class="{ active: paginator.currentPage.value === 1 }">1</button>
-                <span v-if="shouldShowEllipsisBefore" class="ellipsis">...</span>
-                <button v-for="page in visiblePages" :key="page" @click="paginator.setPage(page)" :class="{ active: paginator.currentPage.value === page }">{{ page }}</button>
-                <span v-if="shouldShowEllipsisAfter" class="ellipsis">...</span>
-                <button v-if="paginator.totalPages.value > 1" @click="paginator.setPage(paginator.totalPages.value)" :class="{ active: paginator.currentPage.value === paginator.totalPages.value }">{{ paginator.totalPages.value }}</button>
-                <button type="button" @click="paginator.next()" :disabled="!paginator.hasNext()">&gt;</button>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th v-for="header in headers" :key="header.key">
+              {{ header.label }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in data">
+            <td v-for="header in headers">
+              <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content"></span>
+              <span v-else-if="row[header.key]?.type === 'slot'">
+                <slot :name="header.key" :cell="row[header.key]"></slot>
+              </span>
+              <span v-else v-text="row[header.key]?.content"></span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="100%">
+              <div class="footer">
+                <p>
+                  Showing {{ paginator.startIndex.value }} to {{ paginator.endIndex.value }} of {{ paginator.totalItems.value }} entries |
+                  <span>
+                    <span>Rows per page</span>
+                    <select @change="(e: Event) => paginator.setMaxPerPage(parseInt((<HTMLSelectElement>e.target)?.value) || 10)">
+                      <option value="10">10</option>
+                      <option value="30">30</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                      <option value="250">250</option>
+                    </select>
+                  </span>
+                </p>
+                <div class="pagination">
+                  <button type="button" @click="paginator.previous()" :disabled="!paginator.hasPrevious()">&lt;</button>
+                  <button @click="paginator.setPage(1)" :class="{ active: paginator.currentPage.value === 1 }">1</button>
+                  <span v-if="shouldShowEllipsisBefore" class="ellipsis">...</span>
+                  <button v-for="page in visiblePages" :key="page" @click="paginator.setPage(page)" :class="{ active: paginator.currentPage.value === page }">{{ page }}</button>
+                  <span v-if="shouldShowEllipsisAfter" class="ellipsis">...</span>
+                  <button v-if="paginator.totalPages.value > 1" @click="paginator.setPage(paginator.totalPages.value)" :class="{ active: paginator.currentPage.value === paginator.totalPages.value }">{{ paginator.totalPages.value }}</button>
+                  <button type="button" @click="paginator.next()" :disabled="!paginator.hasNext()">&gt;</button>
+                </div>
               </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -102,11 +103,14 @@ interface Field {
 
 <style lang="scss" scoped>
 .container {
-  border-radius: 15px;
+  border-radius: 8px;
   border: 1.5px solid var(--border-color);
   width: 100%;
 }
-
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
 .header {
   display: flex;
   justify-content: space-between;
@@ -143,8 +147,8 @@ td {
   color: var(--font-color-light);
 
   &:has(.footer) {
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 }
 

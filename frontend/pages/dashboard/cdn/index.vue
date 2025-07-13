@@ -1,6 +1,9 @@
 <template>
   <div class="card-component">
-    <h2 style="margin: 0">CDN: File manager</h2>
+    <header>
+      <h1>File manager</h1>
+      <ViewSelection v-model="view" />
+    </header>
     <div class="dropzone" :class="{ 'drag-over': isDragOver }" @dragover.prevent @drop.prevent="handleFileDrop" @dragenter.prevent="dragEnter" @dragleave.prevent="dragLeave">
       <input type="file" ref="fileInput" @change="handleFileSelect" />
       <div v-if="selectedFile" class="file-info">
@@ -9,8 +12,10 @@
       </div>
       <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computer</span>.</div>
     </div>
-    <AppButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AppButton>
-    <div v-if="isLoading" class="loading-spinner"></div>
+    <div style="padding: 12px 0; width: 100%; display: flex; align-items: center; gap: 10px; flex-direction: column">
+      <AppButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AppButton>
+      <div v-if="isLoading" class="loading-spinner"></div>
+    </div>
     <div v-if="fileLink" class="link-section">
       <input type="text" v-model="fileLink" readonly />
       <AppButton @click="copyLink" type="primary">Copy link</AppButton>
@@ -32,7 +37,7 @@ import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
 import type { DB_Ressource } from '~/stores';
 
 const ressourcesStore = useRessourcesStore();
-
+const view = ref<'table' | 'list'>('list');
 const selectedFile: Ref<File | null | undefined> = ref(null);
 const isDragOver = ref(false);
 const fileLink = ref('');
@@ -98,21 +103,16 @@ const deleteRessource = async (id: string) => {
 </script>
 
 <style scoped lang="scss">
-.card-component {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 .dropzone {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 150px;
-  border: 2px dashed #9e9e9e;
+  border: 2px dashed var(--border-color);
   border-radius: 4px;
   font-size: 14px;
-  color: #9e9e9e;
+  color: var(--font-color-light);
   position: relative;
   transition: background-color $transition-duration;
   background-color: var(--dropzone-bg, transparent);
@@ -127,7 +127,7 @@ const deleteRessource = async (id: string) => {
 }
 
 .drag-over {
-  background-color: #e3f2fd;
+  background-color: var(--bg-contrast);
   border-color: #2196f3;
   transition: background-color $transition-duration, border-color $transition-duration;
 }
@@ -141,13 +141,13 @@ const deleteRessource = async (id: string) => {
 
   .file-size {
     font-size: 0.8rem;
-    color: #757575;
+    color: var(--font-color-dark);
     margin-top: 5px;
   }
 }
 
 .link-section {
-  margin-top: 15px;
+  margin: 6px 0;
   display: flex;
   gap: 10px;
   width: 100%;

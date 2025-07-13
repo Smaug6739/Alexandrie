@@ -89,14 +89,14 @@ const drop = async (event: DragEvent) => {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0 2.5px;
+  padding: 1px 8px;
   margin: 2.5px 0;
   border-radius: 6px;
   color: var(--font-color);
   cursor: pointer;
   width: 98%;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 15.2px;
+  font-weight: 500;
   letter-spacing: -0.5px;
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
@@ -124,7 +124,7 @@ const drop = async (event: DragEvent) => {
 
 .drag-over {
   border-bottom: 2px solid $primary-color;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 10px var(--shadow);
 }
 .nav {
   display: none;

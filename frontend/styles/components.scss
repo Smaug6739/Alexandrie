@@ -11,12 +11,24 @@
 
 .card-component {
 	display: block;
-	margin: 8px 0;
-	width: 100%;
+	margin: 12px 30px;
 	gap: 16px;
 	padding: 24px;
 	border-radius: 8px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 2px 10px var(--shadow);
+
+	h1 {
+		font-size: 20px;
+	}
+
+	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-bottom: 4px;
+		margin-bottom: 10px;
+		border-bottom: 1px solid var(--border-color);
+	}
 }
 
 tag {

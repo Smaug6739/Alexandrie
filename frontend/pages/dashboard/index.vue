@@ -1,17 +1,5 @@
-<template>
-  <div style="text-align: center; margin: 10vh auto; gap: 20px">
-    <h1>Alexandrie dashboard</h1>
-    <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
-    <NuxtLink to="/dashboard/docs/new"><AppButton type="link">+ Create new document </AppButton></NuxtLink>
-  </div>
-</template>
+<template></template>
 
 <script setup lang="ts">
-const colorMode = useColorMode();
+await navigateTo('/dashboard/home');
 </script>
-<style scoped>
-h1 {
-  font-size: 32px;
-  margin-bottom: 20px;
-}
-</style>

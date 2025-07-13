@@ -1,35 +1,35 @@
 <template>
-	<li>
-		<a :href="node.link">{{ node.title }}</a>
-		<ul v-if="node.childrens?.length">
-			<NodeTree v-for="child in node.childrens" :node="child"></NodeTree>
-		</ul>
-	</li>
+  <li>
+    <a :href="node.link">{{ node.title }}</a>
+    <ul v-if="node.childrens?.length">
+      <NodeTree v-for="child in node.childrens" :node="child"></NodeTree>
+    </ul>
+  </li>
 </template>
 
 <script lang="ts" setup>
 interface Node {
-	title: string;
-	link: string;
-	childrens?: Node[];
+  title: string;
+  link: string;
+  childrens?: Node[];
 }
 
-defineProps<{ node: Node; }>();
+defineProps<{ node: Node }>();
 </script>
 
 <style scoped>
 a {
-	opacity: 0.85;
+  opacity: 0.85;
 }
 
 li {
-	list-style: none;
-	padding: 0;
-	margin: 3px 0 0 0;
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0 0;
 }
 
 ul {
-	padding: 0 0 0 15px;
-	margin: 0;
+  padding: 0 0 0 15px;
+  margin: 0;
 }
 </style>
