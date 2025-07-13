@@ -11,7 +11,7 @@
       </svg>
     </SidebarItem>
     <SidebarItem v-else :item="item" class="collapse-header" />
-    <div v-if="props.item.show.value" class="collapse-body" v-for="child in item.childrens" style="margin-left: 18px">
+    <div v-if="props.item.show.value" class="collapse-body" v-for="child in item.childrens" :key="child.id" style="margin-left: 18px">
       <CollapseItem v-if="child.childrens?.length" :item="child" :root="child.data.type === 'document'" />
       <SidebarItem v-else :item="child" />
     </div>
