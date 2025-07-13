@@ -1,7 +1,7 @@
 <template>
   <div class="editor-container">
     <Toolbar :document="document" @execute-action="exec" />
-    <div style="padding: 6px 8px; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px">
+    <div style="padding: 6px 12px; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px">
       <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
       <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
       <div class="markdown" ref="container">
