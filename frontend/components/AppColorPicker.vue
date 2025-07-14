@@ -29,9 +29,9 @@ function selectColor(color: number) {
   flex-wrap: wrap;
   gap: 8px;
   padding: 6px;
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid var(--border-color);
-  background: var(--background-soft);
+  background: var(--bg-contrast-2);
 }
 
 .color-option {

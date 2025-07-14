@@ -1,4 +1,4 @@
-import type { Document, Category, DB_Ressource, Ressource } from '~/stores';
+import type { Document, Category, Ressource } from '~/stores';
 import type { DefaultItem } from '../components/Sidebar/helpers';
 
 export interface ANode {

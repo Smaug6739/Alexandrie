@@ -10,7 +10,7 @@ a {
 }
 
 blockquote {
-	border-left: 4px solid $primary-color;
+	border-left: 4px solid var(--primary);
 	padding: 0 15px;
 
 	> :first-child {

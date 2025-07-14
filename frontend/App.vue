@@ -5,3 +5,8 @@
     <Notification />
   </div>
 </template>
+
+<script setup lang="ts">
+const color = usePreferences().get('primaryColor');
+setAppColor(Number(color));
+</script>

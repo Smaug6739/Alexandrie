@@ -14,15 +14,16 @@
           {{ choice.label }}
         </option>
       </select>
+      <AppColorPicker v-else-if="option.type === 'color'" :selectedColor="option.value" @update:selected-color="option.onChange" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const colorMode = useColorMode();
-const preferencesStore = usePreferencesStore();
+const preferencesStore = usePreferences();
 
-type OptionType = 'toggle' | 'select';
+type OptionType = 'toggle' | 'select' | 'color';
 
 interface BaseOption {
   label: string;
@@ -36,6 +37,12 @@ interface ToggleOption extends BaseOption {
   onToggle?: () => void;
 }
 
+interface ColorOption extends BaseOption {
+  type: 'color';
+  value: number;
+  onChange?: (value: number) => void;
+}
+
 interface SelectOption extends BaseOption {
   type: 'select';
   value: number;
@@ -43,7 +50,7 @@ interface SelectOption extends BaseOption {
   onChange?: (value: number) => void;
 }
 
-type Option = ToggleOption | SelectOption;
+type Option = ToggleOption | SelectOption | ColorOption;
 
 const options = ref<{ label: string; options: Option[] }[]>([
   {
@@ -55,6 +62,16 @@ const options = ref<{ label: string; options: Option[] }[]>([
         value: colorMode.value === 'dark',
         storageKey: 'darkMode',
         onToggle: () => (colorMode.value === 'light' ? (colorMode.preference = 'dark') : (colorMode.preference = 'light')),
+      },
+      {
+        label: 'Choose primary color',
+        type: 'color',
+        value: Number(preferencesStore.get('primaryColor')),
+        storageKey: 'primaryColor',
+        onChange: (value: number) => {
+          setAppColor(value);
+          preferencesStore.set('primaryColor', value);
+        },
       },
     ],
   },
@@ -72,6 +89,16 @@ const options = ref<{ label: string; options: Option[] }[]>([
         type: 'toggle',
         value: Boolean(preferencesStore.get('hideTOC')),
         storageKey: 'hideTOC',
+      },
+      {
+        label: 'Document size',
+        type: 'select',
+        value: preferencesStore.get('docSize'),
+        storageKey: 'docSize',
+        choices: [
+          { label: 'Large', value: 0 },
+          { label: 'Minimal', value: 1 },
+        ],
       },
     ],
   },
@@ -110,7 +137,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'Default datatable items count',
         type: 'select',
-        value: preferencesStore.get('datatableItemsCount') || 20,
+        value: preferencesStore.get('datatableItemsCount'),
         storageKey: 'datatableItemsCount',
         choices: [
           { label: '10', value: 10 },
@@ -126,12 +153,12 @@ const options = ref<{ label: string; options: Option[] }[]>([
 
 const toggleOption = (option: ToggleOption) => {
   option.value = !option.value;
-  preferencesStore.set({ key: option.storageKey, value: option.value });
+  preferencesStore.set(option.storageKey, option.value);
   option.onToggle?.();
 };
 
 const selectOption = (option: SelectOption) => {
-  preferencesStore.set({ key: option.storageKey, value: option.value });
+  preferencesStore.set(option.storageKey, option.value);
   option.onChange?.(option.value);
 };
 </script>

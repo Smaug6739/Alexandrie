@@ -275,7 +275,7 @@ h3 {
 }
 
 .get-started {
-  background: $primary-color;
+  background: var(--primary);
   color: #fff;
 }
 

@@ -147,7 +147,7 @@ h2 {
   margin-bottom: 1rem;
   text-align: right;
   text-decoration: none;
-  color: $primary-color;
+  color: var(--primary);
   &:hover {
     text-decoration: underline;
   }

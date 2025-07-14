@@ -25,7 +25,7 @@ a {
 li {
   list-style: none;
   padding: 0;
-  margin: 4px 0 0 0;
+  margin-top: 4px;
 }
 
 ul {

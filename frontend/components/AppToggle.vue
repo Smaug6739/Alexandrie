@@ -42,13 +42,13 @@ const toggle = () => {
   }
 
   &.active {
-    background: rgba($primary-color, 0.9); // léger fond coloré
-    border-color: $primary-color;
+    background: var(--primary-border);
+    border-color: var(--primary);
 
     .circle {
       transform: translateX(20px);
       background: #fff; // cercle toujours blanc
-      border-color: $primary-color;
+      border-color: var(--primary);
     }
   }
 }

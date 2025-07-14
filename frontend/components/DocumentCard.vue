@@ -1,13 +1,13 @@
 <template>
   <div class="document-card">
     <header>
-      <Icon :name="category(document.category)?.icon || 'files'" :class="`category-icon ${getAppColor(category(document.category)?.color as number) || 'red'}`" />
+      <Icon :name="category(document.category)?.icon || 'files'" :class="`category-icon ${getAppColor(category(document.category)?.color as number) || 'primary'}`" />
       <NuxtLink :to="`/dashboard/docs/${document.id}`" :class="`document-title`" :style="`color: var(--${getAppColor(category(document.category)?.color as number)})`">{{ document.name }}</NuxtLink>
     </header>
     <div class="tags" v-if="document.tags">
-      <tag v-for="tag in document.tags.split(',')" :key="tag" class="blue">{{ tag.trim() }}</tag>
+      <tag v-for="tag in document.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
     </div>
-    <p class="description">{{ document.description }}</p>
+    <p class="description" v-text="document.description"></p>
     <footer>
       <div class="footer-item">
         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)">
@@ -38,12 +38,12 @@ function formatDate(timestamp: number): string {
 <style scoped lang="scss">
 .document-card {
   border-radius: 12px;
-  border: 1px solid var(--border-color-accent);
+  border: 1px solid var(--border-color);
   box-shadow: 0 2px 10px var(--shadow);
   overflow: hidden;
   min-width: 340px;
   max-width: 400px;
-  height: 300px;
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -70,9 +70,9 @@ header {
 }
 
 .description {
-  padding: 0 5px;
+  padding: 8px;
   font-size: 16px;
-  height: 120px;
+  height: 100%;
   overflow: hidden;
   margin: 0;
   text-overflow: ellipsis;

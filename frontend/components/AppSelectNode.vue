@@ -36,7 +36,7 @@ function select() {
 }
 
 .tree-node:hover {
-  background-color: var(--bg-contrast-2);
+  background-color: var(--selection-color);
 }
 ul,
 li {

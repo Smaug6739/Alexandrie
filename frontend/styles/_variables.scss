@@ -28,11 +28,17 @@ $monospace-font: monospace;
 $transition-duration: 0.3s;
 
 
-$primary-color: #007aff;
-$primary-light: color.adjust(#007aff, $lightness: 10%);
-$primary-dark: color.adjust(#007aff, $lightness: -10%);
+$primary-color: #6024ec;
+$primary-light: color.adjust(#6024ec, $lightness: 10%);
+$primary-dark: color.adjust(#6024ec, $lightness: -10%);
 
 :root {
+
+
+
+	--primary: #6024ec;
+	--primary-bg: rgba(111, 66, 193, 0.2);
+	--primary-border: rgba(111, 66, 193, 0.25);
 
 	--bg-color: #fff;
 	--bg-contrast: #f2f7fc;
@@ -65,7 +71,7 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 	--teal: #00ADB5;
 	--teal-bg: rgba(23, 162, 184, 0.2);
 	--teal-border: rgba(23, 162, 184, 0.25);
-	--purple: #6f42c1;
+	--purple: #6024ec;
 	--purple-bg: rgba(111, 66, 193, 0.2);
 	--purple-border: rgba(111, 66, 193, 0.25);
 	--pink: #ff0e6a;
@@ -88,23 +94,36 @@ $primary-dark: color.adjust(#007aff, $lightness: -10%);
 	--shadow: rgba(0, 0, 0, 1);
 
 	// COLORS \\
-	--grey: #e0e0e0;
-	--grey-bg: rgb(47, 47, 47);
-	--blue: #47a6ff;
-	--blue-bg: rgb(0, 140, 216, 0.2);
-	--blue-border: rgba(0, 140, 216, 0.25);
-	--green: #009879;
-	--green-bg: rgba(40, 167, 69, 0.15);
-	--green-border: rgba(40, 167, 69, 0.3);
-	--red: #DC3545;
-	--red-bg: rgba(220, 53, 69, 0.15);
-	--red-border: rgba(220, 53, 69, 0.3);
-	--yellow: #F97300;
-	--yellow-bg: rgba(255, 197, 23, 0.2);
-	--yellow-border: rgba(255, 197, 23, .25);
-	--teal: #00d6b4;
-	--teal-bg: rgba(0, 255, 255, 0.2);
-	--teal-border: rgba(0, 209, 178, .25);
+	--grey: #bbbbbb;
+	--grey-bg: #2c2c2c;
+
+	--blue: #339CFF;
+	--blue-bg: rgba(51, 156, 255, 0.12);
+	--blue-border: rgba(51, 156, 255, 0.25);
+
+	--green: #00c19a;
+	--green-bg: rgba(0, 193, 154, 0.12);
+	--green-border: rgba(0, 193, 154, 0.25);
+
+	--red: #ff4c5b;
+	--red-bg: rgba(255, 76, 91, 0.12);
+	--red-border: rgba(255, 76, 91, 0.25);
+
+	--yellow: #ffae00;
+	--yellow-bg: rgba(255, 174, 0, 0.12);
+	--yellow-border: rgba(255, 174, 0, 0.25);
+
+	--purple: #8e5fff;
+	--purple-bg: rgba(142, 95, 255, 0.12);
+	--purple-border: rgba(142, 95, 255, 0.25);
+
+	--teal: #1cd4d4;
+	--teal-bg: rgba(28, 212, 212, 0.12);
+	--teal-border: rgba(28, 212, 212, 0.25);
+
+	--pink: #ff4da6;
+	--pink-bg: rgba(255, 77, 166, 0.12);
+	--pink-border: rgba(255, 77, 166, 0.25);
 
 }
 

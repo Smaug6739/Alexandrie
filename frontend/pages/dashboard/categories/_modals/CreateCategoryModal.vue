@@ -1,18 +1,18 @@
 <template>
   <div class="modal">
-    <h2>Create a new {{ role == 1 ? 'category' : 'workspace' }}</h2>
-    <label>Name</label>
-    <input type="text" v-model="category.name" required />
-    <label>Icon <AppHint text="SVG supported" /></label>
-    <input type="text" v-model="category.icon" id="icon" />
+    <h2>New {{ role == 1 ? 'category' : 'workspace' }}</h2>
+    <label for="name">Name</label>
+    <input class="entry" type="text" v-model="category.name" required id="name" placeholder="Display name" />
+    <label for="icon">Icon <AppHint text="SVG supported" /></label>
+    <input class="entry" type="text" v-model="category.icon" id="icon" />
     <label for="color">Color</label>
-    <AppColorPicker v-model:selectedColor="category.color" name="color" />
+    <AppColorPicker class="entry" v-model:selectedColor="category.color" id="color" />
     <label>Parent</label>
     <div>
-      <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
+      <AppSelect class="entry" v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
     </div>
-    <label>Order <AppHint text="Order of the category in the sidebar" /></label>
-    <input type="number" v-model.number="category.order" id="order" />
+    <label for="order">Order <AppHint text="Order of the category in the sidebar" /></label>
+    <input class="entry" type="number" v-model.number="category.order" id="order" placeholder="0" />
     <div class="footer">
       <AppButton @click="emit('close')" type="secondary">Cancel</AppButton>
       <AppButton type="primary" @click="createCategory">Create</AppButton>
@@ -52,5 +52,8 @@ const createCategory = () => {
 }
 label {
   margin: 5px 0;
+}
+.entry {
+  background: var(--bg-contrast-2);
 }
 </style>

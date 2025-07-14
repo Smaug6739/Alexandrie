@@ -12,9 +12,7 @@
     <NuxtLink to="/dashboard/cdn">
       <Icon name="cdn" fill="var(--font-color)" :big="true" />
     </NuxtLink>
-    <NuxtLink to="/dashboard/settings">
-      <Icon name="settings" fill="var(--font-color)" :big="true" />
-    </NuxtLink>
+
     <NuxtLink to="/dashboard/import">
       <Icon name="import" fill="var(--font-color)" :big="true" />
     </NuxtLink>
@@ -22,6 +20,9 @@
       <Icon name="users" fill="var(--font-color)" :big="true" />
     </NuxtLink>
     <div style="margin-top: auto">
+      <NuxtLink to="/dashboard/settings">
+        <Icon name="settings" fill="var(--font-color)" :big="true" />
+      </NuxtLink>
       <NuxtLink @click="closeDock">
         <Icon name="arrow_close" fill="var(--font-color)" :big="true" />
       </NuxtLink>
@@ -34,8 +35,7 @@
   display: flex;
   flex-direction: column;
   padding: 1rem 0.3rem;
-  border-right: 1px solid var(--border-color);
-  gap: 8px;
+  gap: 10px;
   background-color: var(--bg-contrast);
 }
 a {
@@ -54,7 +54,7 @@ a {
 }
 
 a.router-link-active {
-  border-bottom: 2.5px solid $primary-color;
+  border-bottom: 2.5px solid var(--primary);
   &:deep(svg) {
     fill: var(--opposite-color);
   }
@@ -63,6 +63,6 @@ a.router-link-active {
 
 <script setup lang="ts">
 function closeDock() {
-  usePreferencesStore().set({ key: 'hideDock', value: false });
+  usePreferences().set({ key: 'hideDock', value: false });
 }
 </script>

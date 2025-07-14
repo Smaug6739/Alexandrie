@@ -8,7 +8,7 @@
       <h1 class="title">{{ doc?.name }}</h1>
       <p class="description">{{ doc?.description }}</p>
       <div class="document-tags" v-if="doc.tags">
-        <tag v-for="tag in doc.tags.split(',')" :key="tag" class="blue">{{ tag.trim() }}</tag>
+        <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
       </div>
     </div>
     <div class="icon">
@@ -22,7 +22,7 @@ import DocumentCardHeaderActionRow from './DocumentCardHeaderActionRow.vue';
 import DocumentHeaderIllustration from './DocumentHeaderIllustration.vue';
 import type { Document } from '~/stores';
 const categories_store = useCategoriesStore();
-const preferences = usePreferencesStore();
+const preferences = usePreferences();
 const props = defineProps<{ doc: Document }>();
 const category = computed(() => categories_store.getById(props.doc?.category || ''));
 </script>

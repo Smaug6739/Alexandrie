@@ -1,13 +1,13 @@
 <template>
   <div v-if="article?.id" style="width: 100%; padding: 0 0.5rem">
     <div style="display: flex; justify-content: space-between">
-      <div style="width: 100%; max-width: 980px; margin: auto">
+      <div :style="{ width: '100%', margin: 'auto', maxWidth: usePreferences().get('docSize') == 0 ? '980px' : '780px' }">
         <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />
         <article class="document-theme" style="max-width: 100%" ref="element" v-html="article.content_html"></article>
         <DocumentCardFooter :document="article" :next="next" :previous="previous" />
       </div>
       <div v-if="!isTablet() && !preferencesStore.get('hideTOC')"><TableOfContent :tags="article.tags" :element="element" :doc_id="article.id" class="toc" style="width: 400px" /></div>
-      <div v-else-if="!isTablet() && preferencesStore.get('hideTOC')" style="margin-right: 200px"></div>
+      <div :style="{ marginRight: !isTablet() && preferencesStore.get('hideTOC') && useSidebar().isOpened.value ? '370px' : '0px', transition: 'margin 0.3s' }"></div>
     </div>
   </div>
   <Error v-else-if="error" :error="error" />
@@ -20,7 +20,7 @@ import DocumentCardHeader from './_components/DocumentCardHeader.vue';
 import DocumentCardFooter from './_components/DocumentCardFooter.vue';
 const route = useRoute();
 const documentsStore = useDocumentsStore();
-const preferencesStore = usePreferencesStore();
+const preferencesStore = usePreferences();
 const element = ref<HTMLElement>();
 
 const article = ref<Document | undefined>();

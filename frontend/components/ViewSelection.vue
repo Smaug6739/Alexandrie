@@ -35,7 +35,7 @@ watch(view, newView => localStorage.setItem('viewSelection', newView as 'table' 
   transition: background-color 0.3s;
   &.active:deep(svg) {
     transition: fill 0.1s;
-    fill: $primary-color;
+    fill: var(--primary);
   }
 
   svg {

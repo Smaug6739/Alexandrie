@@ -22,7 +22,7 @@ const show = ref(false);
 .hint-icon {
   width: 1rem;
   height: 1rem;
-  background-color: $primary-color;
+  background-color: var(--primary);
   color: white;
   font-weight: bold;
   border-radius: 50%;

@@ -58,7 +58,7 @@ footer {
   }
 
   &:hover {
-    border: 1px solid $primary-color;
+    border: 1px solid var(--primary);
   }
 }
 

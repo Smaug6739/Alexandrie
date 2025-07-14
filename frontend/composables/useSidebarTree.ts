@@ -9,7 +9,7 @@ export function useSidebarTree() {
   const categoriesStore = useCategoriesStore();
   const documentsStore = useDocumentsStore();
   const ressourcesStore = useRessourcesStore();
-  const preferencesStore = usePreferencesStore();
+  const preferencesStore = usePreferences();
   const { workspaceId } = useSidebar();
 
   const categories = computed<Item[]>(() =>

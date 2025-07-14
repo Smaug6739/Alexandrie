@@ -4,14 +4,7 @@
       <h1>File manager</h1>
       <ViewSelection v-model="view" />
     </header>
-    <div class="dropzone" :class="{ 'drag-over': isDragOver }" @dragover.prevent @drop.prevent="handleFileDrop" @dragenter.prevent="dragEnter" @dragleave.prevent="dragLeave">
-      <input type="file" ref="fileInput" @change="handleFileSelect" />
-      <div v-if="selectedFile" class="file-info">
-        <span>{{ selectedFile.name }}</span>
-        <div class="file-size">{{ readableFileSize(selectedFile.size) }}</div>
-      </div>
-      <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computer</span>.</div>
-    </div>
+    <AppDrop ref="dropComponent" @select="selectFile" />
     <div style="padding: 12px 0; width: 100%; display: flex; align-items: center; gap: 10px; flex-direction: column">
       <AppButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AppButton>
       <div v-if="isLoading" class="loading-spinner"></div>
@@ -35,37 +28,23 @@
 <script setup lang="ts">
 import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
 import type { DB_Ressource } from '~/stores';
-
+definePageMeta({ breadcrumb: 'Upload' });
 const ressourcesStore = useRessourcesStore();
 const view = ref<'table' | 'list'>('list');
-const selectedFile: Ref<File | null | undefined> = ref(null);
-const isDragOver = ref(false);
+const selectedFile: Ref<File | undefined> = ref();
 const fileLink = ref('');
-const fileInput: Ref<HTMLInputElement | null> = ref(null);
 const isLoading = ref(false);
-const triggerFileSelect = () => fileInput.value!.click();
-const handleFileSelect = (event: Event) => (selectedFile.value = (event.target as HTMLInputElement | null)?.files?.[0] || null);
-definePageMeta({ breadcrumb: 'Upload' });
-
-const handleFileDrop = (event: DragEvent) => {
-  if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
-    selectedFile.value = event.dataTransfer.files[0];
-    isDragOver.value = false;
-  }
-};
-
+const selectFile = (file?: File) => (selectedFile.value = file);
 const copyLink = () => navigator.clipboard.writeText(fileLink.value!);
-const dragEnter = () => (isDragOver.value = true);
-const dragLeave = () => (isDragOver.value = false);
-
+const dropComponent = ref();
 const submitFile = async () => {
   if (!selectedFile.value) return;
   isLoading.value = true;
 
   const body = new FormData();
   body.append('file', selectedFile.value);
-  selectedFile.value = null; // Reset selected file
-
+  selectedFile.value = undefined; // Reset selected file
+  dropComponent.value.reset(); // Reset drop component
   await ressourcesStore
     .post(body)
     .then(r => (fileLink.value = `${CDN}/${(r as DB_Ressource).author_id}/${(r as DB_Ressource).transformed_path}`))
@@ -103,49 +82,6 @@ const deleteRessource = async (id: string) => {
 </script>
 
 <style scoped lang="scss">
-.dropzone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 150px;
-  border: 2px dashed var(--border-color);
-  border-radius: 4px;
-  font-size: 14px;
-  color: var(--font-color-light);
-  position: relative;
-  transition: background-color $transition-duration;
-  background-color: var(--dropzone-bg, transparent);
-
-  &:hover {
-    background-color: var(--bg-contrast);
-  }
-
-  input[type='file'] {
-    display: none;
-  }
-}
-
-.drag-over {
-  background-color: var(--bg-contrast);
-  border-color: #2196f3;
-  transition: background-color $transition-duration, border-color $transition-duration;
-}
-
-.file-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #2196f3;
-  color: #2196f3;
-
-  .file-size {
-    font-size: 0.8rem;
-    color: var(--font-color-dark);
-    margin-top: 5px;
-  }
-}
-
 .link-section {
   margin: 6px 0;
   display: flex;
@@ -157,17 +93,11 @@ const deleteRessource = async (id: string) => {
 
 .loading-spinner {
   border: 5px solid #f3f3f3;
-  border-top: 5px solid $primary-color;
+  border-top: 5px solid var(--primary);
   border-radius: 50%;
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
-}
-
-.clickable {
-  color: #2196f3;
-  cursor: pointer;
-  text-decoration: underline;
 }
 
 .ressources-list {
@@ -185,6 +115,6 @@ const deleteRessource = async (id: string) => {
 }
 
 .file-info {
-  color: #2196f3;
+  color: var(--primary);
 }
 </style>

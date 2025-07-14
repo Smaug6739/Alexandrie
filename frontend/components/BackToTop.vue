@@ -24,7 +24,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll));
   right: 2.5rem;
   width: 2rem;
   height: 1.2rem;
-  background-color: $primary-color;
+  background-color: var(--primary);
   -webkit-mask: url('/svg/back-to-top.svg') no-repeat;
   mask: url('/svg/back-to-top.svg') no-repeat;
   z-index: 100;

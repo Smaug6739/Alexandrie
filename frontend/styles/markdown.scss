@@ -58,8 +58,6 @@
 		}
 	}
 
-
-
 	.blue {
 		color: var(--blue);
 
@@ -226,6 +224,20 @@
 
 		path {
 			fill: var(--pink) !important;
+		}
+	}
+}
+
+.primary {
+	border-color: var(--primary-border);
+	color: var(--primary);
+	background-color: var(--primary-bg);
+
+	* {
+		fill: var(--primary) !important;
+
+		path {
+			fill: var(--primary) !important;
 		}
 	}
 }

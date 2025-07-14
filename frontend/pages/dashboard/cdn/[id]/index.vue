@@ -98,7 +98,7 @@ select {
   min-width: 200px;
 }
 a {
-  color: $primary-color;
+  color: var(--primary);
   text-decoration: underline;
 }
 .preview {

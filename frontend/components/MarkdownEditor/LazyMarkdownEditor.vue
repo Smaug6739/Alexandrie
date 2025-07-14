@@ -1,10 +1,7 @@
 <template>
   <div class="card-component" style="height: 100%">
-    <header>
-      <h1>Markdown editor</h1>
-    </header>
     <div class="editor-container">
-      <Toolbar :document="document" @execute-action="exec" />
+      <Toolbar :document="document" @execute-action="exec" :minimal="minimal" />
       <div style="padding: 6px 12px; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px">
         <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
         <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
@@ -281,7 +278,7 @@ function save() {
 
 .editor-container {
   width: 100%;
-  height: 100%; /* ou 100% si le parent a déjà une hauteur définie */
+  height: 100%;
   display: flex;
   flex-direction: column;
 }

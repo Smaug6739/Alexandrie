@@ -107,9 +107,9 @@ const drop = async (event: DragEvent) => {
     width: 20px;
     height: 20px;
     &:deep(svg) {
-      fill: $primary-color;
+      fill: var(--primary);
       path {
-        fill: $primary-color;
+        fill: var(--primary);
       }
     }
   }
@@ -123,7 +123,7 @@ const drop = async (event: DragEvent) => {
 }
 
 .drag-over {
-  border-bottom: 2px solid $primary-color;
+  border-bottom: 2px solid var(--primary);
   box-shadow: 0 2px 10px var(--shadow);
 }
 .nav {

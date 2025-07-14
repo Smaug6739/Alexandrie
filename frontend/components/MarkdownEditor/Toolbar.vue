@@ -1,8 +1,8 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
-    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" />
-    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" />
+    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" v-if="!minimal" />
+    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" v-if="!minimal" />
     <input type="text" v-model="document.tags" placeholder="Tags" style="margin-right: 5px" />
     <AppHint text="Tags separated with a comma" />
   </div>
@@ -96,24 +96,6 @@ const toolbar = [
 </script>
 
 <style scoped lang="scss">
-button {
-  padding: 4px;
-  margin: 0;
-  transform: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-  &:hover {
-    background-color: var(--blue-bg);
-    &:deep(svg) {
-      transition: fill 0.2s;
-      fill: var(--blue);
-    }
-  }
-}
-
 .toolbar {
   user-select: none;
   display: flex;
@@ -124,8 +106,23 @@ button {
   border: 1px solid var(--border-color);
   padding: 0.25rem;
   color: var(--font-color-dark);
-  & > * {
-    margin: 0 2.5px;
+  gap: 0 2.5px;
+}
+button {
+  padding: 4px;
+  margin: 0;
+  transform: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: var(--primary-bg);
+    &:deep(svg) {
+      transition: fill 0.2s;
+      fill: var(--primary);
+    }
   }
 }
 

@@ -64,7 +64,7 @@ const handleError = computed(() => {
 .error-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: $primary-color;
+  background-color: var(--primary);
   color: white;
   text-decoration: none;
   border-radius: 5px;

@@ -112,7 +112,6 @@ button,
   width: 100%;
   padding: 8px;
   border: 1px solid var(--border-color);
-  background: var(--bg-color);
   text-align: left;
   border-radius: 8px;
   font-size: 15px;

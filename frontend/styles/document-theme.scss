@@ -5,7 +5,7 @@
 	max-width: 100%;
 
 	a {
-		color: $blue;
+		color: var(--primary);
 
 		&:hover {
 			text-decoration: underline;

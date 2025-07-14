@@ -17,11 +17,13 @@
 	border-radius: 8px;
 	box-shadow: 0 2px 10px var(--shadow);
 
-	h1 {
-		font-size: 20px;
-	}
+
 
 	header {
+		h1 {
+			font-size: 20px;
+		}
+
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

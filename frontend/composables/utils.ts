@@ -21,3 +21,26 @@ export const readableFileSize = (size: number): string => {
   const i = Math.floor(Math.log(size) / Math.log(1024));
   return `${(size / Math.pow(1024, i)).toFixed(2)} ${['B', 'kB', 'MB', 'GB', 'TB'][i]}`;
 };
+
+export function debounce(fn: Function, wait: number) {
+  let timer: NodeJS.Timeout;
+  return function (...args: any[]) {
+    if (timer) {
+      clearTimeout(timer); // clear any pre-existing timer
+    }
+    // @ts-ignore
+    const context = this; // get the current context
+    timer = setTimeout(() => {
+      fn.apply(context, args); // call the function if time expires
+    }, wait);
+  };
+}
+
+export function setAppColor(color: string | number) {
+  if (typeof color === 'number') {
+    color = getAppColor(color);
+  }
+  document.documentElement.style.setProperty('--primary', `var(--${color})`);
+  document.documentElement.style.setProperty('--primary-bg', `var(--${color}-bg)`);
+  document.documentElement.style.setProperty('--primary-border', `var(--${color}-border)`);
+}

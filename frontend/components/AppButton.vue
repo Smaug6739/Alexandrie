@@ -24,14 +24,14 @@ button {
   }
 }
 .primary {
-  background: $primary-color;
+  background: var(--primary);
   color: white;
   &:hover {
     background: $primary-dark;
   }
 }
 .secondary {
-  outline: 1px solid $primary-color;
+  outline: 1px solid var(--primary);
   color: var(--font-color);
   &:hover {
     box-shadow: 0 2px 10px var(--shadow);
@@ -46,12 +46,11 @@ button {
 }
 .link {
   background: none;
-  color: $primary-color;
+  color: var(--primary);
   &:hover {
     text-decoration: underline;
   }
   cursor: pointer;
-  font-size: 1.1em;
 }
 .danger {
   background: $red;
