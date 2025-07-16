@@ -6,7 +6,7 @@
     "@codemirror/commands": "^6.8.1",
     "@codemirror/lang-markdown": "^6.3.3",
     "@codemirror/state": "^6.5.2",
-    "@codemirror/view": "^6.38.0",
+    "@codemirror/view": "^6.38.1",
     "@fsegurai/codemirror-theme-bundle": "^6.2.0",
     "@nuxt/devtools": "latest",
     "@nuxtjs/color-mode": "^3.5.2",
