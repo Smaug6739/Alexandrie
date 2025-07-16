@@ -56,6 +56,7 @@ p {
   .title {
     font-weight: 700;
     font-size: 26px;
+    color: var(--font-color-dark);
   }
 
   .category {
@@ -64,7 +65,7 @@ p {
     justify-content: space-between;
     font-size: 20px;
     font-weight: 500;
-    color: var(--font-color);
+    color: var(--font-color-light);
   }
 }
 
