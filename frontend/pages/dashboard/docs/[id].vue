@@ -6,7 +6,7 @@
         <article class="document-theme" style="max-width: 100%" ref="element" v-html="article.content_html"></article>
         <DocumentCardFooter :document="article" :next="next" :previous="previous" />
       </div>
-      <div v-if="!isTablet() && !preferencesStore.get('hideTOC')"><TableOfContent :tags="article.tags" :element="element" :doc_id="article.id" class="toc" style="width: 400px" /></div>
+      <div v-if="!isTablet() && !preferencesStore.get('hideTOC')" class="toc"><TableOfContent :doc="article" :element="element" class="toc" style="width: 400px" /></div>
       <div :style="{ marginRight: !isTablet() && preferencesStore.get('hideTOC') && useSidebar().isOpened.value ? '370px' : '0px', transition: 'margin 0.3s' }"></div>
     </div>
   </div>
@@ -37,8 +37,8 @@ watchEffect(async () => {
     try {
       error.value = false;
       article.value = await documentsStore.fetch({ id: document_id });
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : (err as string);
+    } catch (err: any) {
+      error.value = err.message || 'Failed to fetch document';
     }
   } else article.value = docFromStore;
   useHead({ title: `Alexandrie ${article.value?.name || ''}` });
@@ -54,3 +54,11 @@ definePageMeta({
 const next = computed(() => documentsStore.getNext(article.value));
 const previous = computed(() => documentsStore.getPrevious(article.value));
 </script>
+
+<style scoped lang="scss">
+@media screen and (max-width: 1280px) {
+  .toc {
+    display: none;
+  }
+}
+</style>

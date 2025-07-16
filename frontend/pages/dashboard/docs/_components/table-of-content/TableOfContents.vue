@@ -1,22 +1,25 @@
 <template>
   <aside>
-    <h4 v-if="tags">Tags</h4>
+    <h4 v-if="doc?.tags">Tags</h4>
     <div style="display: flex; flex-wrap: wrap; font-size: 14px">
-      <tag v-if="tags" v-for="tag in tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
+      <tag v-if="doc?.tags" v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
     </div>
     <ul ref="list" style="position: relative">
       <div class="marker" ref="marker"></div>
       <h4>Table of contents</h4>
-      <NodeTree v-if="headers.length" v-for="header of headers_tree" :node="header" :key="header.link" />
+      <NodeTree v-if="headers.length" v-for="header of headers_tree" :node="header" :key="header.link" style="padding-left: 10px" />
       <p v-else>Nothing to display</p>
     </ul>
+    <h4 v-if="childs.length">Child documents</h4>
+    <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link"><Icon name="file_shortcut" />{{ child.data.name as string }}</NuxtLink>
   </aside>
 </template>
 
 <script lang="ts" setup>
+import type { Document } from '~/stores';
 import NodeTree from './NodeTree.vue';
 
-const props = defineProps<{ element?: HTMLElement; tags?: string }>();
+const props = defineProps<{ element?: HTMLElement; doc?: Document }>();
 const list = ref<HTMLElement>();
 
 interface GroupedHeaders {
@@ -58,11 +61,9 @@ function buildTree(tree: GroupedHeaders[]): TreeItem[] {
     }
     if (stack.length > 0) {
       if (!stack[stack.length - 1]!.childrens) stack[stack.length - 1]!.childrens = [];
-      // @ts-ignore
-      stack[stack.length - 1].childrens.push(item);
-    } else {
-      result.push(item);
-    }
+      else stack[stack.length - 1]!.childrens!.push(item);
+    } else result.push(item);
+
     stack.push(item);
   }
   return result;
@@ -99,6 +100,13 @@ function handleScroll() {
 }
 onMounted(() => window.addEventListener('scroll', handleScroll));
 onBeforeUnmount(() => window.removeEventListener('scroll', handleScroll));
+
+const childs = computed(
+  () =>
+    useSidebarTree()
+      .structure.value.childrenMap.get(props.doc?.id || '')
+      ?.filter(c => c.data.type === 'document') || [],
+) as Ref<Item<Document>[]>;
 </script>
 
 <style lang="scss" scoped>
@@ -110,8 +118,8 @@ aside {
   max-width: 350px;
   position: sticky;
   top: 20px;
-  left: 10px;
-  font-size: 0.75rem;
+  margin-left: 50px;
+  font-size: 0.8rem;
   border-left: 1px solid var(--border-color);
   padding-left: 10px;
 }
@@ -133,5 +141,20 @@ ul {
 li:deep(a).active {
   color: var(--primary);
   font-weight: 600;
+}
+
+.child-link {
+  display: flex;
+  align-items: flex-start;
+  margin: 5px 0;
+  font-weight: bold;
+  gap: 5px;
+  color: var(--font-color);
+  text-decoration: none;
+  transition: color 0.25s;
+
+  &:hover {
+    color: var(--primary);
+  }
 }
 </style>

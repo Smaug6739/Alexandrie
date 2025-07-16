@@ -2,7 +2,7 @@
   <div class="card-component">
     <div v-if="ressource">
       <header style="display: flex; justify-content: space-between; align-items: center">
-        <h2>Preview <tag blue>New</tag></h2>
+        <h1>Preview <tag blue>New</tag></h1>
         <div style="display: flex">
           <NuxtLink :to="`/dashboard/cdn/${ressource.id}`"><AppButton type="primary">Edit</AppButton></NuxtLink>
           <AppButton type="secondary" @click="copyLink">Copy link</AppButton>

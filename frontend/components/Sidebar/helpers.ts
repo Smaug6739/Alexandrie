@@ -1,6 +1,6 @@
 export interface DefaultItem {
   id: string;
-  type: 'default';
+  type: 'navigation';
   label: string;
   icon?: string;
   route: string;
@@ -11,30 +11,53 @@ export interface Workspace {
   value: string | null;
 }
 
-export const navigationItems: DefaultItem[] = [
+export const navigationItems: Item<DefaultItem>[] = [
   {
     id: 'manage-categories',
-    type: 'default',
+    parent_id: '',
     label: 'Manage categories',
-    icon: 'categories',
     route: '/dashboard/categories',
-    childrens: [],
+    icon: 'categories',
+    data: {
+      id: 'manage-categories',
+      type: 'navigation',
+      label: 'Manage categories',
+      icon: 'categories',
+      route: '/dashboard/categories',
+      childrens: [],
+    },
+    show: ref(true),
   },
   {
     id: 'cdn',
-    type: 'default',
+    parent_id: '',
     label: 'CDN',
-    icon: 'cdn',
     route: '/dashboard/cdn',
-    childrens: [],
+    icon: 'cdn',
+    data: {
+      id: 'cdn',
+      type: 'navigation',
+      label: 'CDN',
+      icon: 'cdn',
+      route: '/dashboard/cdn',
+      childrens: [],
+    },
+    show: ref(true),
   },
-
   {
     id: 'settings',
-    type: 'default',
+    parent_id: '',
     label: 'Settings',
-    icon: 'user_settings',
     route: '/dashboard/settings',
-    childrens: [],
+    icon: 'user_settings',
+    data: {
+      id: 'settings',
+      type: 'navigation',
+      label: 'Settings',
+      icon: 'user_settings',
+      route: '/dashboard/settings',
+      childrens: [],
+    },
+    show: ref(true),
   },
 ];

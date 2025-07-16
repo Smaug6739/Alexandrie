@@ -4,12 +4,9 @@
       <h1>Documents <tag blue>New</tag></h1>
       <ViewSelection v-model="view" />
     </header>
-    <DataTable :headers="headers" :rows="rows" v-if="view === 'table'">
-      <template #actions="{ cell }">
-        <NuxtLink :to="`/dashboard/docs/${cell?.data.id}`"><Icon name="view" /></NuxtLink>
-        <NuxtLink :to="`/dashboard/docs/edit/${cell?.data.id}`"><Icon name="edit" /></NuxtLink>
-      </template>
-    </DataTable>
+    <div v-if="view == 'table'" class="line-container">
+      <DocumentLine v-for="document of documents" :document="document" class="line-item" :key="document.id" />
+    </div>
     <div v-else class="document-list">
       <DocumentsGrid :documents="documents" />
     </div>
@@ -65,4 +62,18 @@ function stringToBadge(str?: string): string {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+// Line container first item radius:
+.line-container {
+  display: flex;
+  flex-direction: column;
+}
+.line-item:first-child {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.line-item:last-child {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+</style>

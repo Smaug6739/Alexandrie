@@ -17,10 +17,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ error: string }>();
+const props = defineProps<{ error?: string }>();
 
 const handleError = computed(() => {
-  if (props.error === 'Failed to fetch') return 'Network error, please check your connection.';
+  if (props.error === 'Failed to fetch' || 'TypeError: Failed to fetch') return 'Network error, please check your connection.';
   if (props.error === 'Request failed with status code 404') return 'The requested resource was not found.';
   if (props.error === 'Request failed with status code 500') return 'Internal server error, please try again later.';
   return 'An unexpected error has occurred.';

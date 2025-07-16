@@ -6,7 +6,7 @@
       <section class="header">
         <span class="name">
           <IconApp />
-          <NuxtLink style="font-size: 19px; font-weight: 600" to="/dashboard">Alexandrie</NuxtLink>
+          <NuxtLink style="font-size: 19px; font-weight: 600; font-family: Arial" to="/dashboard">Alexandrie</NuxtLink>
         </span>
         <IconClose class="btn" />
       </section>
@@ -29,7 +29,7 @@
       </div>
       <SidebarWorkspaces :options="workspaces" />
       <Search />
-      <CollapseItem v-for="item in navigationItemsComputed" :key="item.id" :item="item" :root="true" />
+      <CollapseItem v-for="item in navigationItems" :key="item.id" :item="item" :root="true" />
       <hr style="margin: 5px 0; width: 100%" />
       <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
     </div>
@@ -57,18 +57,6 @@ const workspaces = computed(() => [{ text: 'All workspaces', value: null }, ...c
 const handleSearchShortCut = (e: KeyboardEvent) => {
   if (e.ctrlKey && e.key === 'q') showSearchModal.value = !showSearchModal.value;
 };
-const navigationItemsComputed = computed<Item[]>(() =>
-  navigationItems.map(item => ({
-    id: item.id,
-    parent_id: '',
-    label: item.label,
-    route: item.route,
-    icon: item.icon,
-    type: 'navigation',
-    data: item,
-    show: ref(true),
-  })),
-);
 const sidebarTree = useSidebarTree();
 const toggleDock = () => preferences.set('hideDock', !preferences.get('hideDock'));
 const filterItems = (items: Item[]): Item[] => {
@@ -121,10 +109,8 @@ onBeforeUnmount(() => {
   width: 100%;
   padding: 0.5rem;
   overflow-y: scroll;
-  font-family: Inter;
-  background-color: var(--bg-color);
-  * {
-    font-family: Inter;
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
   }
 }
 
@@ -173,7 +159,7 @@ onBeforeUnmount(() => {
   width: 98%;
   outline: none;
   background-color: var(--bg-contrast);
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%236024ec" height="24" viewBox="0 -960 960 960" width="22"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>');
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%235b5967" height="24" viewBox="0 -960 960 960" width="22"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>');
   background-repeat: no-repeat;
   background-position: 5px;
   transition: background-color $transition-duration;

@@ -1,9 +1,9 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
-    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" v-if="!minimal" />
-    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" v-if="!minimal" />
-    <input type="text" v-model="document.tags" placeholder="Tags" style="margin-right: 5px" />
+    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" v-if="!minimal" />
+    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" class="entry" v-if="!minimal" />
+    <input type="text" v-model="document.tags" placeholder="Tags" class="entry" style="margin-right: 5px" />
     <AppHint text="Tags separated with a comma" />
   </div>
 </template>
@@ -135,5 +135,8 @@ input,
 select {
   display: inline-block;
   max-width: 350px;
+}
+.entry {
+  background-color: var(--bg-color);
 }
 </style>

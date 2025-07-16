@@ -16,7 +16,8 @@
 
 ::-webkit-scrollbar {
 	width: 2px;
-	background: var(--bg-contrast);
+	height: 98%;
+	background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -90,9 +91,6 @@ form {
 }
 
 @media print {
-	:root {
-		@include print-theme;
-	}
 
 	header,
 	footer,

@@ -57,11 +57,10 @@ const currentPage = ref(route.query.p || 'profile');
 const store = useUserStore();
 const router = useRouter();
 
+const routeBeforeEnter = ref();
+onBeforeMount(() => (routeBeforeEnter.value = useRouter().options.history.state.back));
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
-
-const close = () => router.push('/dashboard');
-
-watchEffect(() => (currentPage.value = route.query.p || 'profile'));
+const close = () => router.push(routeBeforeEnter.value || '/dashboard');
 </script>
 
 <style scoped lang="scss">

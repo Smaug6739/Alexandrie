@@ -42,7 +42,7 @@ const toggle = () => {
   }
 
   &.active {
-    background: var(--primary-border);
+    background: var(--primary);
     border-color: var(--primary);
 
     .circle {

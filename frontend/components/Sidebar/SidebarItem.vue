@@ -1,7 +1,8 @@
 <template>
-  <span class="item" @click="onClick" :draggable="draggable" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }" :key="item.id">
+  <span class="item" @click="onClick" :draggable="true" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }" @mouseleave="closeDotMenu">
     <Icon :name="icon" :class="customClass" />&nbsp;
     <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.label }} </NuxtLink>
+    <DocumentDotMenu v-if="item.data.type === 'document'" ref="dotMenu" class="nav close" :document="item.data" :user="user" :mouse-leave="true" @delete="deleteDoc" />
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="settings" fill="var(--font-color)" /> </NuxtLink>
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
     <slot></slot>
@@ -9,20 +10,26 @@
 </template>
 
 <script setup lang="ts">
+import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentModal.vue';
 import { navigationItems } from './helpers';
-
 const documentStore = useDocumentsStore();
 const categoriesStore = useCategoriesStore();
-
+const user = useUserStore().user;
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
-const customClass = ref('');
+const dotMenu = ref();
+const customClass = computed(() => {
+  if ('color' in props.item.data && props.item.data.color) return `item-icon ${getAppColor(props.item.data.color as number)}`;
+});
+const closeDotMenu = () => {
+  if (dotMenu.value) dotMenu.value.close();
+};
 const icon = computed(() => {
-  if ('color' in props.item.data) customClass.value = props.item.data.color ? `item-icon ${getAppColor(props.item.data.color as number)}` : '';
   if ('icon' in props.item.data && props.item.data.icon) return props.item.data.icon;
   return props.item.icon || '';
 });
-const draggable = ref<boolean>(true);
+const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.item.id }));
+
 const isDragOver = ref<boolean>(false);
 
 const onClick = (m: MouseEvent) => {
@@ -50,7 +57,7 @@ const drop = async (event: DragEvent) => {
   isDragOver.value = false;
   const draggedItemId = event.dataTransfer!.getData('text/plain');
 
-  let draggedItem = documentStore.getById(draggedItemId) || categoriesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId);
+  let draggedItem = documentStore.getById(draggedItemId) || categoriesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
 
   if (!draggedItem) return;
 
@@ -73,11 +80,11 @@ const drop = async (event: DragEvent) => {
     if (draggedItem.id === props.item.id) return; // Prevent moving to the same document
     documentStore.update({ ...draggedItem, parent_id: props.item.id, category: props.item.data.category });
   }
-  if (draggedItem.type === 'category' && props.item.data.type === 'default') {
+  if (draggedItem.type === 'category' && props.item.data.type === 'navigation') {
     // Move category to root
     categoriesStore.update({ ...draggedItem, parent_id: undefined, workspace_id: useSidebar().workspaceId.value || undefined });
   }
-  if (draggedItem.type === 'document' && props.item.data.type === 'default') {
+  if (draggedItem.type === 'document' && props.item.data.type === 'navigation') {
     // Move document to root
     documentStore.update({ ...draggedItem, parent_id: undefined, category: useSidebar().workspaceId.value || undefined });
   }
@@ -89,7 +96,7 @@ const drop = async (event: DragEvent) => {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 1px 8px;
+  padding: 1px 4px;
   margin: 2.5px 0;
   border-radius: 6px;
   color: var(--font-color);

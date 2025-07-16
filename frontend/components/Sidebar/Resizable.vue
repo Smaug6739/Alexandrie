@@ -69,10 +69,14 @@ nav {
 
 .open {
   transform: translate(0);
+  border-radius: 0 15px 15px 0; // arrondi sur le bord droit
+  border-right: 1px solid var(--border-color);
 }
 
 .separator {
   width: 5px;
+  height: 96%;
+  margin: auto 0;
   cursor: col-resize;
 }
 

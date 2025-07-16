@@ -8,8 +8,8 @@ export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : f
 // Intermediate screen size
 export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
-export function useAvatar(user: User): string {
-  return user.avatar ? CDN + '/' + user.id + '/avatar' : CDN + '/default_avatar.png';
+export function useAvatar(user?: User): string {
+  return user?.avatar ? CDN + '/' + user.id + '/avatar' : CDN + '/default_avatar.png';
 }
 
 export const AppColors = ['', 'blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
@@ -38,6 +38,7 @@ export function debounce(fn: Function, wait: number) {
 
 export function setAppColor(color: string | number) {
   if (typeof color === 'number') {
+    if (color == 0) return;
     color = getAppColor(color);
   }
   document.documentElement.style.setProperty('--primary', `var(--${color})`);

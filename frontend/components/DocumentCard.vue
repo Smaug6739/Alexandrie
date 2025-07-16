@@ -1,13 +1,20 @@
 <template>
   <div class="document-card">
-    <header>
-      <Icon :name="category(document.category)?.icon || 'files'" :class="`category-icon ${getAppColor(category(document.category)?.color as number) || 'primary'}`" />
-      <NuxtLink :to="`/dashboard/docs/${document.id}`" :class="`document-title`" :style="`color: var(--${getAppColor(category(document.category)?.color as number)})`">{{ document.name }}</NuxtLink>
-    </header>
-    <div class="tags" v-if="document.tags">
-      <tag v-for="tag in document.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
+    <div class="top">
+      <div class="header">
+        <span style="display: flex">
+          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number) || 'primary'}`" /> <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
+        </span>
+        <DocumentDotMenu :document="document" :user="user" />
+      </div>
+      <div class="body">
+        <div class="category">{{ category?.name }}</div>
+        <div class="tags" v-if="document.tags">
+          <tag v-for="tag in document.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
+        </div>
+        <p class="description" v-text="document.description"></p>
+      </div>
     </div>
-    <p class="description" v-text="document.description"></p>
     <footer>
       <div class="footer-item">
         <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)">
@@ -26,12 +33,21 @@
 
 <script setup lang="ts">
 import type { Document } from '@/stores';
-defineProps<{ document: Document }>();
+const props = defineProps<{ document: Document }>();
 const categoriesStore = useCategoriesStore();
-const category = (cat_id?: string) => categoriesStore.getById(cat_id || '');
+const category = computed(() => categoriesStore.getById(props.document.category || ''));
+const user = useUserStore().user;
 function formatDate(timestamp: number): string {
   const date = new Date(timestamp);
   return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+}
+function numDate(timestamp: string): string {
+  const date = new Date(timestamp);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 }
 </script>
 
@@ -39,22 +55,20 @@ function formatDate(timestamp: number): string {
 .document-card {
   border-radius: 12px;
   border: 1px solid var(--border-color);
-  box-shadow: 0 2px 10px var(--shadow);
   overflow: hidden;
   min-width: 340px;
-  max-width: 400px;
-  height: 400px;
+  max-width: 380px;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex: 1;
 }
 
-header {
-  background-color: var(--bg-contrast-2);
+.header {
   padding: 12px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .category-icon {
@@ -66,12 +80,17 @@ header {
 .document-title {
   font-size: 18px;
   font-weight: bold;
-  text-decoration: none;
+  color: var(--font-color-dark);
 }
-
+.body {
+  padding: 4px 12px;
+}
+.category {
+  font-size: 15.5px;
+  color: var(--font-color-light);
+  padding-bottom: 8px;
+}
 .description {
-  padding: 8px;
-  font-size: 16px;
   height: 100%;
   overflow: hidden;
   margin: 0;
@@ -79,18 +98,16 @@ header {
 }
 
 .tags {
-  padding: 6px 5px;
   display: flex;
   flex-wrap: wrap;
 }
 
 footer {
-  padding: 10px;
-  background-color: var(--bg-contrast);
+  padding: 6px 12px;
   display: flex;
   flex-direction: column;
   font-size: 14px;
-  color: #777;
+  color: var(--font-color-light);
   border-top: 1px solid var(--border-color-accent);
 }
 
