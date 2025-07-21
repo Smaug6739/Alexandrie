@@ -1,7 +1,14 @@
 <template>
   <div class="color-picker">
     <div
-      v-for="(_, index) in AppColors"
+      class="color-option"
+      style="background-color: white; border: 1px solid var(--border-color)"
+      :style="{ outline: selectedColor == -1 ? '2px solid var(--font-color-light)' : '' }"
+      :class="{ selected: selectedColor === -1 }"
+      @click="selectColor(-1)"
+    ></div>
+    <div
+      v-for="(_, index) in appColors"
       :key="index"
       class="color-option"
       :style="{ backgroundColor: getAppColor(index) ? `var(--${getAppColor(index)})` : '#fff', border: '1px solid var(--border-color)', outline: selectedColor === index ? `2px solid var(--${getAppColor(index)})` : 'none' }"
@@ -12,10 +19,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ selectedColor?: number | null }>();
+const props = defineProps<{ selectedColor?: number | null; nullable?: boolean }>();
 const emit = defineEmits<{ (e: 'update:selectedColor', color: number): void }>();
 
-const selectedColor = ref<number | null | undefined>(props.selectedColor);
+const selectedColor = ref<number | null | undefined>(props.selectedColor || -1);
 
 function selectColor(color: number) {
   selectedColor.value = color;

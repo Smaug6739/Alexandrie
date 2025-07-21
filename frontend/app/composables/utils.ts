@@ -1,4 +1,4 @@
-import type { User } from '../../stores/db_strustures';
+import type { User } from '@/stores/db_strustures';
 
 export const CDN = import.meta.env.VITE_BASE_CDN;
 export const API = `${import.meta.env.VITE_BASE_API}/api`;
@@ -12,9 +12,10 @@ export function useAvatar(user?: User): string {
   return user?.avatar ? CDN + '/' + user.id + '/avatar' : CDN + '/default_avatar.png';
 }
 
-export const AppColors = ['', 'blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
+export const appColors = ['default', 'blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
 export function getAppColor(index: number = 0): string {
-  return AppColors[index % AppColors.length] || '';
+  if (!index) return 'primary';
+  return appColors[index % appColors.length] || 'primary';
 }
 
 export const readableFileSize = (size: number): string => {
@@ -38,9 +39,9 @@ export function debounce(fn: Function, wait: number) {
 
 export function setAppColor(color: string | number) {
   if (typeof color === 'number') {
-    if (color == 0) return;
     color = getAppColor(color);
   }
+  if (color === 'primary') color = 'default';
   document.documentElement.style.setProperty('--primary', `var(--${color})`);
   document.documentElement.style.setProperty('--primary-bg', `var(--${color}-bg)`);
   document.documentElement.style.setProperty('--primary-border', `var(--${color}-border)`);

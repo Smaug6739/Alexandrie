@@ -54,6 +54,6 @@ label {
   margin: 5px 0;
 }
 .entry {
-  background: var(--bg-contrast-2);
+  background: var(--bg-color);
 }
 </style>

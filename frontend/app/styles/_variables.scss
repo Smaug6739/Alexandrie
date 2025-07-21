@@ -36,9 +36,10 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 
 
 
-	--primary: #3956e7;
-	--primary-bg: #dde1f8;
-	--primary-border: #dde1f8;
+	--default: #3956e7;
+	--default-bg: #dde1f8;
+	--default-border: #dde1f8;
+
 	--bg-soft: #fafafa;
 	--bg-color: #fcfcfc;
 	--bg-contrast: #f3f3f5;

@@ -113,7 +113,7 @@ button,
   padding: 8px;
   border: 1px solid var(--border-color);
   text-align: left;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 15px;
   cursor: pointer;
   &:focus {
