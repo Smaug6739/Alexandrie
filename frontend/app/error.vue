@@ -3,6 +3,7 @@
     <div class="error-content">
       <h1 class="error-code">{{ props.error?.statusCode }}</h1>
       <p class="error-message">{{ props.error?.statusMessage || 'Something went wrong' }}</p>
+      <p>{{ error }}</p>
       <p class="error-description">An unexpected error has occurred. Please try refreshing the page or go back to the homepage.</p>
       <nuxt-link to="/" class="error-button">Return to Homepage</nuxt-link>
     </div>

@@ -1,14 +1,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
-  future: {
-    compatibilityVersion: 4,
-  },
   vite: {
     css: {
       preprocessorOptions: {
         scss: {
           additionalData: "@use '~/styles/_variables.scss' as *;",
-          api: 'modern',
         },
       },
     },

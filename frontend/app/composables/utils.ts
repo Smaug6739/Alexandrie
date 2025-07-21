@@ -1,4 +1,4 @@
-import type { User } from '../stores/db_strustures';
+import type { User } from '../../stores/db_strustures';
 
 export const CDN = import.meta.env.VITE_BASE_CDN;
 export const API = `${import.meta.env.VITE_BASE_API}/api`;

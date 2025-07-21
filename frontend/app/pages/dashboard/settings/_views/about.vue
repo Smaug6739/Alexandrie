@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import pgk from '~/package.json';
+import pgk from '@/../package.json';
 const version = pgk.version || 'unknown';
 const isPWA = !!window.matchMedia('(display-mode: standalone)').matches;
 </script>

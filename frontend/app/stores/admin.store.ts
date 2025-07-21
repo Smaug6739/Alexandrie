@@ -1,5 +1,5 @@
 import { makeRequest } from './_utils';
-import type { User, ConnectionLog, Document, Category, Ressource } from './db_strustures';
+import type { User, Document, Category, Ressource } from './db_strustures';
 
 interface UserData extends User {
   documents?: Document[];
@@ -10,7 +10,6 @@ interface UserData extends User {
 export const useAdminStore = defineStore('admin', {
   state: () => ({
     users: ref<UserData[]>(),
-    last_connection: null as ConnectionLog | null,
   }),
   actions: {
     fetchAll(): Promise<UserData[] | undefined> {
