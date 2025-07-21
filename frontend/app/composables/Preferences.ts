@@ -1,7 +1,7 @@
 // composables/usePreferences.ts
 import { ref, computed, watch } from 'vue';
 
-export type PreferenceKey = 'printMode' | 'darkMode' | 'hideTOC' | 'compactMode' | 'hideSidebarRessources' | 'normalizeFileIcons' | 'datatableItemsCount' | 'hideDock' | 'primaryColor' | 'docSize' | 'sidebarCollapseItems';
+export type PreferenceKey = 'printMode' | 'darkMode' | 'hideTOC' | 'compactMode' | 'hideSidebarRessources' | 'normalizeFileIcons' | 'datatableItemsCount' | 'view_dock' | 'primaryColor' | 'docSize' | 'sidebarCollapseItems';
 
 export interface Preference {
   key: PreferenceKey;
@@ -14,9 +14,9 @@ const DEFAULT_PREFERENCES: Record<PreferenceKey, any> = {
   hideTOC: false,
   compactMode: false,
   hideSidebarRessources: false,
-  normalizeFileIcons: true,
+  normalizeFileIcons: false,
   datatableItemsCount: 10,
-  hideDock: false,
+  view_dock: true,
   primaryColor: 0,
   docSize: 1, // 0 = small, 1 = large
   sidebarCollapseItems: [],

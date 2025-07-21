@@ -46,7 +46,7 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 	--bg-contrast-2: #e2ebfd;
 	--selection-color: #dde3e9;
 	--font-color: #3c4450;
-	--font-color-dark: #211d34;
+	--font-color-dark: #3c3b3d;
 	--font-color-light: #5b5967;
 	--opposite-color: #111;
 	--border-color: #dfe0e5;
@@ -84,9 +84,9 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 
 .dark-mode {
 
-	--primary: #3956e7;
-	--primary-bg: #8e5fff1f;
-	--primary-border: #8e5fff1f;
+	--default: #3956e7e8;
+	--default-bg: #966afc31;
+	--default-border: #8e5fff1f;
 
 	--bg-color: #1c2127;
 	--bg-contrast: #2a2f35;

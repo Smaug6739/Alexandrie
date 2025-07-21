@@ -3,7 +3,7 @@
     <header>
       <h1 style="font-size: 20px">Import documents <tag class="yellow">Beta</tag></h1>
     </header>
-    <p>You can import documents from a previous export. If you don't have export, you can create a new one from the <NuxtLink to="/dashboard/settings?p=backup">settings</NuxtLink> page.</p>
+    <p>You can import documents from a previous export. If you don't have export, you can create a new one from the <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">settings</NuxtLink> page.</p>
     <AppDrop ref="dropComponent" @select="handleFileSelect" />
     <div class="submit">
       <AppButton @click="submit" type="primary" :disabled="!selectedFile">Analyse file</AppButton>

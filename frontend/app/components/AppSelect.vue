@@ -105,20 +105,20 @@ function handleBlur(event: FocusEvent) {
 .category-select {
   position: relative;
   width: 200px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  &:focus {
+    outline: 2px solid var(--border-color);
+  }
 }
 
 button,
 .search-input {
   width: 100%;
   padding: 8px;
-  border: 1px solid var(--border-color);
   text-align: left;
-  border-radius: 6px;
-  font-size: 15px;
+  font-size: 16px;
   cursor: pointer;
-  &:focus {
-    outline: 2px solid var(--border-color);
-  }
 }
 
 .search-input {

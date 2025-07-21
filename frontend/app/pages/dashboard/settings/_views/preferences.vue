@@ -17,6 +17,13 @@
       <AppColorPicker v-else-if="option.type === 'color'" :selectedColor="option.value" @update:selected-color="option.onChange" />
     </div>
   </div>
+  <hr />
+  <div class="reset">
+    <p>
+      <span @click="preferencesStore.reset" style="color: var(--primary); cursor: pointer">Reset all preferences</span>
+      to default. This will reset all your preferences, including the theme and settings
+    </p>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -51,7 +58,7 @@ interface SelectOption extends BaseOption {
 }
 
 type Option = ToggleOption | SelectOption | ColorOption;
-
+console.log(preferencesStore.get('primaryColor'));
 const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'General',
@@ -114,8 +121,8 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'View dock',
         type: 'toggle',
-        value: Boolean(preferencesStore.get('hideDock')),
-        storageKey: 'hideDock',
+        value: Boolean(preferencesStore.get('view_dock')),
+        storageKey: 'view_dock',
       },
       {
         label: 'Normalize file icons',
@@ -183,5 +190,8 @@ select {
   border: 1px solid #ccc;
   background: var(--bg-contrast);
   font-size: 0.95rem;
+}
+.reset {
+  margin-top: 2rem;
 }
 </style>

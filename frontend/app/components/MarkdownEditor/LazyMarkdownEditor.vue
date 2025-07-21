@@ -268,14 +268,13 @@ function save() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .markdown {
   flex: 1;
   display: flex;
   gap: 8px;
   min-height: 0; /* permet aux enfants flexibles de ne pas déborder */
 }
-
 .editor-container {
   width: 100%;
   height: 100%;
@@ -285,15 +284,16 @@ function save() {
 
 .codemirror-editor {
   flex: 1;
-  border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: auto;
+}
+.editor-container:deep(.cm-editor) {
+  height: 100%;
 }
 
 .markdown-preview {
   flex: 1;
   overflow: auto;
-  border: 1px solid var(--border-color);
   padding: 1rem;
   border-radius: 6px;
   background: var(--bg-color);
@@ -301,6 +301,7 @@ function save() {
 }
 input {
   outline: none;
+  border: none;
 }
 
 .title {

@@ -3,7 +3,7 @@
     <button @click="open"><Icon name="file_open" /> Open</button>
     <button @click="edit"><Icon name="edit_page" /> Edit</button>
     <button @click="copyLink"><Icon name="link" /> Copy link</button>
-    <button @click="emitDelete"><Icon name="delete" /> Delete</button>
+    <button @click="emitDelete"><Icon name="delete" fill="red" /> Delete</button>
     <hr style="margin: 2px 0" />
     <div class="foot-menu">
       <p style="display: flex; align-items: center; gap: 8px"><img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin: 0" />{{ user?.username }}</p>

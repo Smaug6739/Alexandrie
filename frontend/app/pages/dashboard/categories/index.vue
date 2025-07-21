@@ -12,7 +12,9 @@
       <input placeholder="Search for workspace..." v-model="filter" style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px" />
     </div>
     <div v-if="filteredItems.length" class="workspace" v-for="workspace in filteredItems" :key="workspace.id">
-      <h3 class="wp-name">{{ workspace.label }}</h3>
+      <h3 class="wp-name">
+        <NuxtLink :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
+      </h3>
       <WorkspaceTree v-for="node in workspace.childrens" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
 

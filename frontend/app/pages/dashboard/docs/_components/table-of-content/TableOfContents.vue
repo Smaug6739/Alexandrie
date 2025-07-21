@@ -5,7 +5,7 @@
       <tag v-if="doc?.tags" v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
     </div>
     <ul ref="list" style="position: relative">
-      <div class="marker" ref="marker"></div>
+      <div class="marker" ref="marker" v-if="headers.length"></div>
       <h4>Table of contents</h4>
       <NodeTree v-if="headers.length" v-for="header of headers_tree" :node="header" :key="header.link" style="padding-left: 10px" />
       <p v-else>Nothing to display</p>
@@ -121,7 +121,7 @@ aside {
   margin-left: 50px;
   font-size: 0.8rem;
   border-left: 1px solid var(--border-color);
-  padding-left: 10px;
+  padding-left: 15px;
 }
 .marker {
   position: absolute;

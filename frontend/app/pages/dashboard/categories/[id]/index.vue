@@ -2,17 +2,13 @@
   <div class="card-component">
     <header>
       <h1 style="font-size: 20px">Documents of category <tag class="blue">New</tag></h1>
+      <ViewSelection v-model="view" />
     </header>
-    <div class="document-list">
-      <DocumentsGrid v-if="documents.length" :documents="documents" />
-      <div v-else style="width: 100%; height: 100%">
-        <div style="text-align: center; margin: 10vh auto">
-          <h1>No documents found</h1>
-          <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" />
-          <p>There are no documents in this category</p>
-          <NuxtLink to="/dashboard/docs/new"><AppButton type="link">+ Create new document </AppButton></NuxtLink>
-        </div>
-      </div>
+    <div v-if="view == 'table'" class="line-container">
+      <DocumentLine v-for="document of documents" :document="document" class="line-item" :key="document.id" />
+    </div>
+    <div v-else class="document-list">
+      <DocumentsGrid :documents="documents" />
     </div>
   </div>
 </template>
@@ -22,7 +18,7 @@ const route = useRoute();
 const mainCategoryId = route.params.id as string;
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
-const colorMode = useColorMode();
+const view: Ref<'table' | 'list'> = ref('list');
 
 definePageMeta({
   breadcrumb: () => {

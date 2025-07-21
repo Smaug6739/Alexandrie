@@ -38,8 +38,7 @@ function formatDate(timestamp: number): string {
   display: flex;
   flex-direction: column;
   padding: 12px;
-  border-bottom: 1px solid var(--border-color);
-  background-color: var(--bg-contrast);
+  border: 1px solid var(--border-color);
 }
 header {
   display: flex;

@@ -6,7 +6,7 @@
     <label for="icon">Icon <AppHint text="SVG supported" /></label>
     <input class="entry" type="text" v-model="category.icon" id="icon" />
     <label for="color">Color</label>
-    <AppColorPicker class="entry" v-model:selectedColor="category.color" id="color" />
+    <AppColorPicker class="entry" v-model:selectedColor="category.color" id="color" :nullable="true" />
     <label>Parent</label>
     <div>
       <AppSelect class="entry" v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />

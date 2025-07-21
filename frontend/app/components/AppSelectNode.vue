@@ -31,7 +31,7 @@ function select() {
   text-align: left;
   cursor: pointer;
   font-size: 15px;
-  width: 95%;
+  width: calc(100% - 6px);
   margin: 0 auto;
 }
 

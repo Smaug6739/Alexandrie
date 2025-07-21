@@ -63,6 +63,6 @@ a.router-link-active {
 
 <script setup lang="ts">
 function closeDock() {
-  usePreferences().set('hideDock', false);
+  usePreferences().set('view_dock', false);
 }
 </script>

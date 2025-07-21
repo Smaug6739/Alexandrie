@@ -97,7 +97,8 @@ const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/
       color: inherit;
       border-radius: 4px;
 
-      &:hover {
+      &:hover,
+      &.active {
         background-color: var(--bg-contrast-2);
       }
     }

@@ -5,7 +5,7 @@
         <span style="display: flex">
           <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number)}`" /> <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
         </span>
-        <DocumentDotMenu :document="document" :user="user" />
+        <DocumentDotMenu :document="document" :user="user" @delete="deleteDoc" />
       </div>
       <div class="body">
         <div class="category">{{ category?.name }}</div>
@@ -33,21 +33,17 @@
 
 <script setup lang="ts">
 import type { Document } from '@/stores';
+import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentModal.vue';
+
 const props = defineProps<{ document: Document }>();
 const categoriesStore = useCategoriesStore();
 const category = computed(() => categoriesStore.getById(props.document.category || ''));
 const user = useUserStore().user;
+const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.document.id }));
+
 function formatDate(timestamp: number): string {
   const date = new Date(timestamp);
   return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
-}
-function numDate(timestamp: string): string {
-  const date = new Date(timestamp);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
 }
 </script>
 

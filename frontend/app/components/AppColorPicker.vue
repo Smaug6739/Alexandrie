@@ -6,6 +6,7 @@
       :style="{ outline: selectedColor == -1 ? '2px solid var(--font-color-light)' : '' }"
       :class="{ selected: selectedColor === -1 }"
       @click="selectColor(-1)"
+      v-if="nullable"
     ></div>
     <div
       v-for="(_, index) in appColors"
@@ -19,10 +20,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ selectedColor?: number | null; nullable?: boolean }>();
+const props = defineProps<{ selectedColor?: number; nullable?: boolean }>();
 const emit = defineEmits<{ (e: 'update:selectedColor', color: number): void }>();
 
-const selectedColor = ref<number | null | undefined>(props.selectedColor || -1);
+const selectedColor = ref<number | undefined>(props.selectedColor ?? -1);
 
 function selectColor(color: number) {
   selectedColor.value = color;
@@ -38,7 +39,6 @@ function selectColor(color: number) {
   padding: 6px;
   border-radius: 6px;
   border: 1px solid var(--border-color);
-  background: var(--bg-contrast-2);
 }
 
 .color-option {

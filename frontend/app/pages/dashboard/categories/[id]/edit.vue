@@ -21,24 +21,12 @@
       </select>
       <label style="display: flex; align-items: center">Icon <AppHint text="SVG supported" /></label>
       <textarea type="text" v-model="category.icon" rows="5"></textarea>
+
+      <label>Parent</label>
+      <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
+
       <label for="color">Color</label>
-      <AppColorPicker v-model:selectedColor="category.color" name="color" />
-      <div class="form-row">
-        <div class="form-column">
-          <label style="display: flex; align-items: center">Workspace <AppHint text="For top categories" /></label>
-          <select v-model="category.workspace_id">
-            <option :value="null">None</option>
-            <option v-for="wp in categoriesStore.getAll.filter(a => a.id != route.params.id && a.role == 2)" :value="wp.id">{{ wp.name }}</option>
-          </select>
-        </div>
-        <div class="form-column">
-          <label>Parent</label>
-          <select v-model="category.parent_id">
-            <option :value="null">None</option>
-            <option v-for="cp in categoriesStore.getAll" :value="cp.id">{{ cp.name }}</option>
-          </select>
-        </div>
-      </div>
+      <AppColorPicker v-model:selectedColor="category.color" name="color" :nullable="true" />
 
       <div style="display: flex; justify-content: flex-end">
         <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
@@ -54,6 +42,7 @@ import DeleteModal from '../_modals/DeleteCategoryModal.vue';
 const categoriesStore = useCategoriesStore();
 const route = useRoute();
 const category = computed(() => categoriesStore.getById(route.params.id as string));
+const categoriesItem = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 
 definePageMeta({ breadcrumb: 'Edit' });
 

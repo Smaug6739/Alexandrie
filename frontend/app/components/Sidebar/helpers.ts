@@ -1,3 +1,5 @@
+import type { Category } from '~/stores';
+
 export interface DefaultItem {
   id: string;
   type: 'navigation';
@@ -9,6 +11,7 @@ export interface DefaultItem {
 export interface Workspace {
   text: string;
   value: string | null;
+  meta?: Category;
 }
 
 export const navigationItems: Item<DefaultItem>[] = [

@@ -132,9 +132,10 @@ svg,
 }
 
 input,
-select {
+.select {
   display: inline-block;
   max-width: 350px;
+  font-size: 0.9rem !important;
 }
 .entry {
   background-color: var(--bg-color);

@@ -11,7 +11,6 @@ const onClick = () => emit('click');
 </script>
 
 <style scoped lang="scss">
-@use 'sass:color';
 button {
   padding: 10px;
   border-radius: 6px;
@@ -31,10 +30,10 @@ button {
   }
 }
 .secondary {
-  outline: 1px solid var(--primary);
+  border: 1px solid var(--primary);
   color: var(--font-color);
   &:hover {
-    box-shadow: 0 2px 10px var(--shadow);
+    background: var(--selection-color);
   }
 }
 .success {

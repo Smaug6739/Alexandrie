@@ -69,7 +69,6 @@ nav {
 
 .open {
   transform: translate(0);
-  border-radius: 0 15px 15px 0; // arrondi sur le bord droit
   border-right: 1px solid var(--border-color);
 }
 

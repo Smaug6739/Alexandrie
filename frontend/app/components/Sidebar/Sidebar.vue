@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'sidebar-mask': isMobile() && isOpened }"></div>
   <Resizable>
-    <Dock v-if="!isMobile() && preferences.get('hideDock')" />
+    <Dock v-if="!isMobile() && preferences.get('view_dock')" />
     <div class="sidebar" :class="{ compact: preferences.get('compactMode') }">
       <section class="header">
         <span class="name">
@@ -43,7 +43,7 @@ import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import Search from './Search.vue';
 import { navigationItems } from './helpers';
-import NewCategoryModal from '../../pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 import Dock from './Dock.vue';
 
 const { isOpened, hasSidebar } = useSidebar();
@@ -52,13 +52,13 @@ const preferences = usePreferences();
 const userStore = useUserStore();
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);
-const workspaces = computed(() => [{ text: 'All workspaces', value: null }, ...categoriesStore.categories.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id }))]);
+const workspaces = computed(() => [{ text: 'All workspaces', value: null }, ...categoriesStore.categories.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id, meta: c }))]);
 
 const handleSearchShortCut = (e: KeyboardEvent) => {
   if (e.ctrlKey && e.key === 'q') showSearchModal.value = !showSearchModal.value;
 };
 const sidebarTree = useSidebarTree();
-const toggleDock = () => preferences.set('hideDock', !preferences.get('hideDock'));
+const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock'));
 const filterItems = (items: Item[]): Item[] => {
   if (!filter.value.trim()) return items;
   const filterRecursive = (items: Item[]): Item[] => {
