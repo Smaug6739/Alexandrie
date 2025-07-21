@@ -60,7 +60,7 @@ const router = useRouter();
 const routeBeforeEnter = ref();
 onBeforeMount(() => (routeBeforeEnter.value = useRouter().options.history.state.back));
 watchEffect(() => (currentPage.value = route.query.p || 'profile'));
-const close = () => router.push(routeBeforeEnter.value || '/dashboard');
+const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/settings') ? routeBeforeEnter.value : '/dashboard');
 </script>
 
 <style scoped lang="scss">
