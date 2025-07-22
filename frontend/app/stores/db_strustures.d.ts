@@ -3,6 +3,7 @@ export interface DB_Document {
   name: string;
   description?: string;
   tags?: string;
+  pinned: number; // 0: Not pinned; 1: Pinned; 2: Favorite;
   category?: string;
   parent_id?: string | null;
   accessibility: number; // 1 Visible; 2 Draft; 3 Archived;

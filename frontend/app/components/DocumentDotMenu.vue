@@ -1,8 +1,10 @@
 <template>
-  <AppDotMenu ref="dotMenu">
+  <AppDotMenu ref="dotMenu" @open="() => emit('open')" @close="() => emit('close')">
     <button @click="open"><Icon name="file_open" /> Open</button>
     <button @click="edit"><Icon name="edit_page" /> Edit</button>
     <button @click="copyLink"><Icon name="link" /> Copy link</button>
+    <button @click="pin"><Icon :name="document.pinned ? 'pin_off' : 'pin'" /> {{ document.pinned ? 'Unpin' : 'Pin' }}</button>
+    <hr style="margin: 2px 0" />
     <button @click="emitDelete"><Icon name="delete" fill="red" /> Delete</button>
     <hr style="margin: 2px 0" />
     <div class="foot-menu">
@@ -19,6 +21,7 @@ const dotMenu = ref();
 const props = defineProps<{ document: Document; user?: User }>();
 const emit = defineEmits<{
   (e: 'open'): void;
+  (e: 'close'): void;
   (e: 'edit'): void;
   (e: 'rename'): void;
   (e: 'delete'): void;
@@ -43,6 +46,11 @@ const copyLink = () => {
 const emitDelete = () => {
   dotMenu.value?.close();
   emit('delete');
+};
+const pin = () => {
+  dotMenu.value?.close();
+  props.document.pinned = props.document.pinned === 1 ? 0 : 1; // Toggle pin state
+  useDocumentsStore().update(props.document);
 };
 </script>
 

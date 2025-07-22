@@ -21,7 +21,7 @@ func NewDocumentService(db *sql.DB) DocumentService {
 
 func (s *Service) GetAllDocuments(userId types.Snowflake) ([]*models.Document, error) {
 	var documents = make([]*models.Document, 0)
-	rows, err := s.db.Query("SELECT id, name, description, tags, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ? ORDER BY name", userId)
+	rows, err := s.db.Query("SELECT id, name, description, tags, pinned, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ? ORDER BY name", userId)
 	if err != nil {
 		return nil, err
 	}
@@ -34,6 +34,7 @@ func (s *Service) GetAllDocuments(userId types.Snowflake) ([]*models.Document, e
 			&document.Name,
 			&document.Description,
 			&document.Tags,
+			&document.Pinned,
 			&document.Category,
 			&document.ParentId,
 			&document.Accessibility,
@@ -49,7 +50,7 @@ func (s *Service) GetAllDocuments(userId types.Snowflake) ([]*models.Document, e
 
 func (s *Service) GetAllDocumentBackup(author_id types.Snowflake) ([]*models.Document, error) {
 	var documents = make([]*models.Document, 0)
-	rows, err := s.db.Query("SELECT id, name, description, tags, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ?", author_id)
+	rows, err := s.db.Query("SELECT id, name, description, tags, pinned, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ?", author_id)
 	if err != nil {
 		return nil, err
 	}
@@ -60,6 +61,7 @@ func (s *Service) GetAllDocumentBackup(author_id types.Snowflake) ([]*models.Doc
 			&document.Name,
 			&document.Description,
 			&document.Tags,
+			&document.Pinned,
 			&document.Category,
 			&document.ParentId,
 			&document.Accessibility,
@@ -77,11 +79,12 @@ func (s *Service) GetAllDocumentBackup(author_id types.Snowflake) ([]*models.Doc
 
 func (s *Service) GetDocument(documentId types.Snowflake) (*models.Document, error) {
 	var document models.Document
-	err := s.db.QueryRow("SELECT id, name, description, tags, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp FROM documents WHERE id = ?", documentId).Scan(
+	err := s.db.QueryRow("SELECT id, name, description, tags, pinned, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp FROM documents WHERE id = ?", documentId).Scan(
 		&document.Id,
 		&document.Name,
 		&document.Description,
 		&document.Tags,
+		&document.Pinned,
 		&document.Category,
 		&document.ParentId,
 		&document.Accessibility,
@@ -97,11 +100,12 @@ func (s *Service) GetDocument(documentId types.Snowflake) (*models.Document, err
 }
 
 func (s *Service) CreateDocument(document *models.Document) error {
-	_, err := s.db.Exec("INSERT INTO documents (id, name, description, tags, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+	_, err := s.db.Exec("INSERT INTO documents (id, name, description, tags, pinned, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		document.Id,
 		document.Name,
 		document.Description,
 		document.Tags,
+		document.Pinned,
 		document.Category,
 		document.ParentId,
 		document.Accessibility,
@@ -114,10 +118,11 @@ func (s *Service) CreateDocument(document *models.Document) error {
 }
 
 func (s *Service) UpdateDocument(document *models.Document) error {
-	_, err := s.db.Exec("UPDATE documents SET name = ?, description = ?, tags = ?, category = ?, parent_id = ?, accessibility = ?, content_markdown = ?, content_html = ? WHERE id = ?",
+	_, err := s.db.Exec("UPDATE documents SET name = ?, description = ?, tags = ?, pinned = ?, category = ?, parent_id = ?, accessibility = ?, content_markdown = ?, content_html = ? WHERE id = ?",
 		document.Name,
 		document.Description,
 		document.Tags,
+		document.Pinned,
 		document.Category,
 		document.ParentId,
 		document.Accessibility,

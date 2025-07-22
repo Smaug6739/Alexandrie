@@ -1,10 +1,12 @@
 <template>
-  <span class="item" @click="onClick" :draggable="true" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }" @mouseleave="closeDotMenu">
+  <span class="item" @click="onClick" :draggable="true" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }">
     <Icon :name="icon" :class="customClass" />&nbsp;
-    <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.label }} </NuxtLink>
-    <DocumentDotMenu v-if="item.data.type === 'document'" ref="dotMenu" class="nav close" :document="item.data" :user="user" :mouse-leave="true" @delete="deleteDoc" />
+
+    <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.label }}</NuxtLink>
+    <DocumentDotMenu v-if="item.data.type === 'document'" ref="dotMenu" class="nav close" :class="{ active: isActive }" :document="item.data" :user="user" @open="() => (isActive = true)" @close="() => (isActive = false)" @delete="deleteDoc" />
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="settings" fill="var(--font-color)" /> </NuxtLink>
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
+    <Icon name="pin" fill="var(--font-color-light)" v-if="item.data.type === 'document' && item.data.pinned" class="ni" />
     <slot></slot>
   </span>
 </template>
@@ -21,9 +23,7 @@ const dotMenu = ref();
 const customClass = computed(() => {
   if ('color' in props.item.data && props.item.data.color) return `item-icon ${getAppColor(props.item.data.color as number)}`;
 });
-const closeDotMenu = () => {
-  if (dotMenu.value) dotMenu.value.close();
-};
+const isActive = ref(false);
 const icon = computed(() => {
   if ('icon' in props.item.data && props.item.data.icon) return props.item.data.icon;
   return props.item.icon || '';
@@ -133,11 +133,13 @@ const drop = async (event: DragEvent) => {
 }
 .nav {
   display: none;
-  &:deep(svg) {
-    fill: inherit !important;
-  }
 }
-.item:hover .nav {
+.nav:deep(svg),
+.ni:deep(svg) {
+  fill: inherit !important;
+}
+.item:hover .nav,
+.active {
   display: block;
 }
 </style>

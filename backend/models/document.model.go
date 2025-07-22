@@ -7,6 +7,7 @@ type Document struct {
 	Name             string           `json:"name" form:"name" binding:"required,max=50"`
 	Description      *string          `json:"description" form:"description" binding:"omitempty,max=250"`
 	Tags             *string          `json:"tags" form:"tags" binding:"omitempty,max=250"`
+	Pinned           int              `json:"pinned" form:"pinned" binding:"omitempty"` // 0: Not pinned; 1: Pinned; 2: Pinned to top
 	Category         *types.Snowflake `json:"category" form:"category" binding:"omitempty"`
 	ParentId         *types.Snowflake `json:"parent_id" form:"parent_id" binding:"omitempty"`
 	Accessibility    int              `json:"accessibility" form:"accessibility" binding:"required"` // 0: Public; 1: Private; 2: Unlisted;

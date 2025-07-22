@@ -15,20 +15,21 @@
 
 <script setup lang="ts">
 const open = ref(false);
+const emit = defineEmits(['open', 'close']);
 const menuRoot: Ref<HTMLDivElement | undefined> = ref();
-const toggleMenu = () => (open.value = !open.value);
+const toggleMenu = () => {
+  open.value = !open.value;
+  emit(open.value ? 'open' : 'close');
+};
 
 function handleClickOutside(e: MouseEvent) {
-  if (menuRoot.value && !menuRoot.value.contains(e.target as Node)) {
-    open.value = false;
-  }
+  open.value = false;
+  emit('close');
 }
 const close = () => (open.value = false);
-defineExpose({ close });
+defineExpose({ close, opened: open });
 
-onMounted(() => {
-  document.addEventListener('mousedown', handleClickOutside);
-});
+onMounted(() => document.addEventListener('mousedown', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside));
 </script>
 
