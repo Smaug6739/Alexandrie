@@ -123,6 +123,7 @@ button,
 
 .search-input {
   cursor: text;
+  border: none;
 }
 
 .category-select:has(.dropdown) button,

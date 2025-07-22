@@ -3,7 +3,7 @@
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
     <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" v-if="!minimal" />
     <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" class="entry" v-if="!minimal" />
-    <input type="text" v-model="document.tags" placeholder="Tags" class="entry" style="margin-right: 5px" />
+    <input type="text" v-model="document.tags" placeholder="Tags" class="entry" />
     <AppHint text="Tags separated with a comma" />
   </div>
 </template>
@@ -102,9 +102,9 @@ const toolbar = [
   align-items: center;
   flex-wrap: wrap;
   background-color: var(--bg-contrast-2);
-  border-radius: 25px;
+  border-radius: 6px;
   border: 1px solid var(--border-color);
-  padding: 0.25rem;
+  padding: 0.15rem;
   color: var(--font-color-dark);
   gap: 0 2.5px;
 }
@@ -135,7 +135,6 @@ input,
 .select {
   display: inline-block;
   max-width: 350px;
-  font-size: 0.9rem !important;
 }
 .entry {
   background-color: var(--bg-color);

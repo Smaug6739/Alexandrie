@@ -6,7 +6,7 @@
         <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
         <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
         <div class="markdown" ref="container">
-          <div ref="editorContainer" class="codemirror-editor" @scroll="syncScroll" />
+          <div ref="editorContainer" class="codemirror-editor" @scroll="syncScroll" style="border-right: 1px solid var(--border-color)" />
           <div v-if="showPreview" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html"></div>
         </div>
       </div>

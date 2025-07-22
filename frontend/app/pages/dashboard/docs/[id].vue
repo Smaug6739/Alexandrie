@@ -1,5 +1,5 @@
 <template>
-  <div v-if="article?.id" style="width: 100%; padding: 0 0.5rem">
+  <div v-if="article?.id" style="width: 100%; padding: 1rem">
     <div style="display: flex; justify-content: space-between">
       <div :style="{ width: '100%', margin: 'auto', maxWidth: usePreferences().get('docSize') == 0 ? '980px' : '780px' }">
         <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />
@@ -7,7 +7,7 @@
         <DocumentCardFooter :document="article" :next="next" :previous="previous" />
       </div>
       <div v-if="!isTablet() && !preferencesStore.get('hideTOC')" class="toc"><TableOfContent :doc="article" :element="element" class="toc" style="width: 400px" /></div>
-      <div :style="{ marginRight: !isTablet() && preferencesStore.get('hideTOC') && useSidebar().isOpened.value ? '370px' : '0px', transition: 'margin 0.3s' }"></div>
+      <div :style="{ marginRight: !isTablet() && preferencesStore.get('hideTOC') && useSidebar().isOpened.value ? '200px' : '0px', transition: 'margin 0.3s' }"></div>
     </div>
   </div>
   <Error v-else-if="error" :error="error" />

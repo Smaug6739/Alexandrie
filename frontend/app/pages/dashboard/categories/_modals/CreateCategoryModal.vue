@@ -36,6 +36,7 @@ const category = ref<Partial<Category>>({
   name: '',
   type: 'category',
   role: props.role,
+  order: 0,
   id: '0',
 });
 const emit = defineEmits(['close']);
