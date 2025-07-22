@@ -1,6 +1,6 @@
 const isOpened = ref(false);
 const hasSidebar = ref(false);
-const paneWidth = ref(370); // initial width of pane 1
+const paneWidth = ref(isMobile() ? 350 : 390); // initial width of pane 1
 const isResizing = ref(false);
 const workspaceId = ref<string | null>(null);
 
