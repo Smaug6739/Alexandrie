@@ -1,11 +1,11 @@
 <template>
-  <i v-html="icon" class="icon" :style="{ fill }" :class="{ fill, big, mid }"></i>
+  <i v-html="icon" class="icon" :style="{ fill }" :class="{ fill, big, mid, small }"></i>
 </template>
 
 <script setup lang="ts">
 import { useIcon, type IconName } from '~/helpers/icons';
-const props = defineProps<{ name: IconName | string; fill?: string; big?: true; mid?: boolean }>();
-const icon = useIcon(props.name as IconName) || props.name;
+const props = defineProps<{ name: IconName | string; fill?: string; big?: true; mid?: boolean; small?: boolean }>();
+const icon = computed(() => useIcon(props.name as IconName) || props.name);
 </script>
 
 <style scoped lang="scss">
@@ -24,6 +24,12 @@ const icon = useIcon(props.name as IconName) || props.name;
 
 .fill:deep(svg) > path {
   fill: inherit !important;
+}
+.small {
+  &:deep(svg) {
+    width: 18px;
+    max-height: 18px;
+  }
 }
 .mid {
   &:deep(svg) {
