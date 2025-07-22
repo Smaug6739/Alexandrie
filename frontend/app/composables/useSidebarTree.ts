@@ -17,7 +17,7 @@ export function useSidebarTree() {
       id: cat.id,
       parent_id: cat.parent_id || '',
       label: cat.name,
-      route: cat.parent_id ? `/dashboard/categories/${cat.id}` : '',
+      route: `/dashboard/categories/${cat.id}`,
       icon: cat.icon || 'folder',
       data: cat,
       show: ref(getCollapseState(cat.id)),
