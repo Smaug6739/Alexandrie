@@ -5,7 +5,7 @@
         <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number) || 'primary'}`" />
       </div>
 
-      <a :href="`/documents/${document.id}`" class="document-title">{{ document.name }}</a>
+      <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
       <span class="tags" v-if="document.tags">
         <tag v-for="tag in document.tags?.split(', ')" :key="tag" class="primary">{{ tag }}</tag>
       </span>
