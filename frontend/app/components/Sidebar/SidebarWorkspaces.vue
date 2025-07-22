@@ -1,28 +1,39 @@
 <template>
   <div class="dropdown-container" @click="toggleDropdown">
     <div class="dropdown-selected" :class="{ open: isOpen }">
-      <span v-if="selectedOption"><AppSelectOption :option="selectedOption" /></span>
-      <span class="dropdown-arrow"></span>
+      <span v-if="selectedOption"><SidebarWorkspace :option="selectedOption" /></span>
+      <Icon name="expand" :small="true" />
     </div>
     <ul v-show="isOpen" class="dropdown-options">
-      <li v-for="option in options" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
-        <AppSelectOption :option="option" />
+      <li :class="{ selected: all_workspaces.value === workspaceId }" @click="selectOption(all_workspaces)">
+        <SidebarWorkspace :option="all_workspaces" />
       </li>
+      <hr style="margin: 2px 0" />
+      <span style="margin: 4px 6px; font-size: small; font-weight: 600; color: var(--font-color-light)">Workspaces</span>
+      <li v-if="options.length" v-for="option in options" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)" :key="option.meta?.id">
+        <SidebarWorkspace :option="option" />
+      </li>
+      <div v-else class="placeholder" style="padding: 6px; font-size: 0.9rem; font-style: italic">No workspaces found</div>
+      <hr />
+      <div @click="create_workspace" class="new-workspace"><Icon name="plus" fill="var(--font-color-light)" /> New Workspace</div>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
-import AppSelectOption from './SidebarWorkspace.vue';
+import SidebarWorkspace from './SidebarWorkspace.vue';
+import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+
 import type { Workspace } from './helpers';
 
 const { workspaceId } = useSidebar();
 const storage_item = localStorage.getItem('filterWorkspace');
 const props = defineProps<{ options: Workspace[] }>();
+const all_workspaces = ref({ text: 'All Workspaces', value: null });
 
 if (storage_item && props.options.find(option => option.value == storage_item)) workspaceId.value = storage_item;
 
 const isOpen = ref(false);
-const selectedOption = computed(() => props.options.find(option => option.value == workspaceId.value) || props.options.find(option => !option.value));
+const selectedOption = computed(() => props.options.find(option => option.value == workspaceId.value) || all_workspaces.value);
 const toggleDropdown = () => (isOpen.value = !isOpen.value);
 const closeDropdown = () => (isOpen.value = false);
 
@@ -36,6 +47,7 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 onMounted(() => document.addEventListener('click', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
+const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(NewCategoryModal), { role: 2 }));
 </script>
 
 <style scoped lang="scss">
@@ -63,25 +75,11 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   box-shadow: 0 2px 10px var(--shadow);
 }
 
-.dropdown-arrow {
-  width: 8px;
-  height: 8px;
-  border: solid var(--font-color);
-  border-width: 0 2px 2px 0;
-  padding: 4px;
-  transform: rotate(-45deg);
-  transition: transform 0.3s ease;
-}
-
-.dropdown-selected.open .dropdown-arrow {
-  transform: rotate(45deg);
-}
-
 .dropdown-options {
   position: absolute;
-  width: 95%;
+  width: 98%;
   margin: 0;
-  padding: 0;
+  padding: 2px 0;
   list-style: none;
   background-color: var(--bg-color);
   border: 1px solid var(--border-color);
@@ -93,12 +91,27 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 li {
   padding: 4px;
+  margin: 1px 4px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
 li.selected,
 li:hover {
   background-color: var(--selection-color);
-  color: var(--font-color);
+}
+.new-workspace {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  margin: 4px;
+  gap: 4px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--selection-color);
+  }
 }
 </style>

@@ -99,12 +99,9 @@ const drop = async (event: DragEvent) => {
   padding: 1px 4px;
   margin: 2.5px 0;
   border-radius: 6px;
-  color: var(--font-color);
-  cursor: pointer;
   width: 98%;
   font-size: 15.2px;
   font-weight: 500;
-  letter-spacing: -0.5px;
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
     background: var(--bg-contrast-2);
