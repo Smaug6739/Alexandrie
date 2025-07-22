@@ -20,7 +20,7 @@ const modals = modalManager.modals;
 .modal-container {
   margin: auto;
   padding: 16px 22px;
-  background-color: var(--bg-contrast);
+  background-color: var(--bg-color);
   border-radius: 10px;
   box-shadow: 0 2px 10px var(--shadow);
   transition: all 0.3s ease;
@@ -55,7 +55,7 @@ const modals = modalManager.modals;
   z-index: 1000;
 }
 .modal {
-  background-color: var(--bg-contrast);
+  background-color: var(--bg-color);
   border-radius: 8px;
 }
 

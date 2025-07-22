@@ -1,11 +1,9 @@
 <template>
-  <Transition name="modals">
-    <div v-if="show" class="modal-mask">
-      <div class="modal-container">
-        <slot></slot>
-      </div>
+  <div v-if="show">
+    <div class="modal-container">
+      <slot></slot>
     </div>
-  </Transition>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -18,21 +16,10 @@ const emit = defineEmits(['close', 'confirm']);
   width: 500px;
   margin: auto;
   padding: 20px;
-  background-color: var(--bg-contrast);
+  background-color: var(--bg-color);
   border-radius: 10px;
   box-shadow: 0 2px 8px var(--shadow);
   transition: all 0.3s ease;
   font-size: initial;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-.modal-enter-from .modal-container,
-.modal-leave-to .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
 }
 </style>
