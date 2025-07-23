@@ -1,6 +1,9 @@
 <template>
   <AppDotMenu ref="dotMenu" @open="() => emit('open')" @close="() => emit('close')">
     <button @click="open"><Icon name="file_open" /> Open</button>
+    <NuxtLink :to="`/dashboard/docs/${props.document.id}`" target="_blank"
+      ><button><Icon name="new_tab" />Open in new tab</button></NuxtLink
+    >
     <button @click="edit"><Icon name="edit_page" /> Edit</button>
     <button @click="copyLink"><Icon name="link" /> Copy link</button>
     <button @click="pin"><Icon :name="document.pinned ? 'pin_off' : 'pin'" /> {{ document.pinned ? 'Unpin' : 'Pin' }}</button>
