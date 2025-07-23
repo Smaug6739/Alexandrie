@@ -16,6 +16,14 @@
 1. Start minio server with `minio server ./minio --console-address :9001 --address "localhost:9000"`
 1. Go to /frontend and run `bun install`, and then start with `bun dev`.
 
+If you are on Linux you can use the following commands to start the application:
+
+```bash
+make frontend
+make minio
+make backend
+```
+
 ### How to contribute
 
 Don't hesitate to contribute to the project. You can open an issue or a pull request :)
