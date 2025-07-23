@@ -68,6 +68,12 @@ export const useDocumentsStore = defineStore('documents', {
     },
     update(doc: Document) {
       return new Promise(async (resolve, reject) => {
+        if (doc.partial) {
+          console.log('[store/documents] Document is partial, cannot update it directly.');
+          const fullDoc = await this.fetch({ id: doc.id });
+          if (!fullDoc) return reject('Document not found');
+          doc = { ...doc, content_markdown: fullDoc.content_markdown, content_html: fullDoc.content_html, partial: false }; // Merge with full document data
+        }
         const request = await makeRequest(`documents/${doc.id}`, 'PUT', doc);
         if (request.status == 'success') resolve((this.documents = this.documents.map(d => (d.id == doc.id ? doc : d))));
         else reject(request.message);

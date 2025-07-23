@@ -25,15 +25,17 @@ export function useSidebarTree() {
   );
 
   const documents = computed<Item[]>(() =>
-    documentsStore.documents.map(doc => ({
-      id: doc.id,
-      parent_id: doc.parent_id || doc.category || '',
-      label: doc.name,
-      route: `/dashboard/docs/${doc.id}`,
-      icon: doc.accessibility == 1 ? 'file' : doc.accessibility == 2 ? 'draft' : 'archive',
-      data: doc,
-      show: ref(getCollapseState(doc.id)),
-    })),
+    documentsStore.documents
+      .sort((a, b) => b.pinned - a.pinned || a.name.localeCompare(b.name))
+      .map(doc => ({
+        id: doc.id,
+        parent_id: doc.parent_id || doc.category || '',
+        label: doc.name,
+        route: `/dashboard/docs/${doc.id}`,
+        icon: doc.accessibility == 1 ? 'file' : doc.accessibility == 2 ? 'draft' : 'archive',
+        data: doc,
+        show: ref(getCollapseState(doc.id)),
+      })),
   );
   const ressources = computed<Item[]>(() => {
     if (!preferencesStore.get('hideSidebarRessources'))
