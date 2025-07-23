@@ -40,11 +40,6 @@ const categoriesStore = useCategoriesStore();
 const category = computed(() => categoriesStore.getById(props.document.category || ''));
 const user = useUserStore().user;
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.document.id }));
-
-function formatDate(timestamp: number): string {
-  const date = new Date(timestamp);
-  return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
-}
 </script>
 
 <style scoped lang="scss">

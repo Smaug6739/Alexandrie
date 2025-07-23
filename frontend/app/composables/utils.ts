@@ -22,7 +22,10 @@ export const readableFileSize = (size: number): string => {
   const i = Math.floor(Math.log(size) / Math.log(1024));
   return `${(size / Math.pow(1024, i)).toFixed(2)} ${['B', 'kB', 'MB', 'GB', 'TB'][i]}`;
 };
-
+export function formatDate(timestamp: number | undefined): string {
+  const date = new Date(timestamp || 0);
+  return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+}
 export function debounce(fn: Function, wait: number) {
   let timer: NodeJS.Timeout;
   return function (...args: any[]) {
