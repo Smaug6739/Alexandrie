@@ -37,6 +37,7 @@
   padding: 1rem 0.3rem;
   gap: 10px;
   background-color: var(--bg-contrast);
+  transition: background-color $transition-duration;
 }
 a {
   display: flex;
