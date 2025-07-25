@@ -9,7 +9,5 @@
 <script setup lang="ts">
 const color = usePreferences().get('primaryColor');
 setAppColor(Number(color));
-
-import { useFavicon } from '~/composables/useFavicon';
 useFavicon();
 </script>

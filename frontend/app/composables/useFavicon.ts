@@ -1,5 +1,3 @@
-import { onMounted } from 'vue';
-
 export function useFavicon() {
   const setFavicon = (isDark: boolean) => {
     let link = document.head.querySelector<HTMLLinkElement>('link[rel="icon"]');
