@@ -28,7 +28,7 @@ const results = computed(() => {
 });
 const recentDocuments = computed(() => {
   return documentsStore.getAll
-    .sort((a, b) => {
+    .toSorted((a, b) => {
       return parseInt(b.updated_timestamp) - parseInt(a.updated_timestamp);
     })
     .slice(0, 3);
