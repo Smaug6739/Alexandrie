@@ -168,10 +168,18 @@ export default defineNuxtConfig({
           rel: 'manifest',
           href: '/manifest.webmanifest',
         },
+        // favicon for dark theme
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/favicon-dark.ico',
+          media: '(prefers-color-scheme: dark)',
+        },
         {
           rel: 'icon',
           type: 'image/x-icon',
           href: '/favicon.ico',
+          media: '(prefers-color-scheme: light), (prefers-color-scheme: no-preference)',
         },
         {
           rel: 'preconnect',
