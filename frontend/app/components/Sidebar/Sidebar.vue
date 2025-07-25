@@ -108,6 +108,8 @@ onBeforeUnmount(() => {
   max-height: 100%;
   width: 100%;
   padding: 0.5rem;
+  background: var(--bg-color);
+  transition: background-color $transition-duration;
   overflow-y: scroll;
   &::-webkit-scrollbar-thumb {
     background: transparent;
