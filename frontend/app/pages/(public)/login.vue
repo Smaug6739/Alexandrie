@@ -19,7 +19,7 @@
       <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
       <button type="submit" class="btn">Login</button>
       <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-      <p class="forgot-password-link">Forgot your password? <a href="mailto:rveauville@gmail.com">Click here</a></p>
+      <p class="forgot-password-link">Forgot your password? <a href="mailto:contact@alexandrie-hub.fr">Click here</a></p>
     </form>
     <AppFooter />
   </div>
