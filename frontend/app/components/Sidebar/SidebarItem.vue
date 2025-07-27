@@ -99,9 +99,9 @@ const drop = async (event: DragEvent) => {
   padding: 1px 4px;
   margin: 2.5px 0;
   border-radius: 6px;
-  width: 98%;
-  font-size: 15.2px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 450;
+  letter-spacing: -0.4px;
   cursor: pointer;
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
