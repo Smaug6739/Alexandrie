@@ -1,12 +1,12 @@
 <template>
   <AppDotMenu ref="dotMenu" @open="() => emit('open')" @close="() => emit('close')">
-    <button @click="open"><Icon name="file_open" /> Open</button>
+    <button @click="open"><Icon fill="var(--font-color)" name="file_open" /> Open</button>
     <NuxtLink :to="`/dashboard/docs/${props.document.id}`" target="_blank"
-      ><button><Icon name="new_tab" />Open in new tab</button></NuxtLink
+      ><button><Icon fill="var(--font-color)" name="new_tab" />Open in new tab</button></NuxtLink
     >
-    <button @click="edit"><Icon name="edit_page" /> Edit</button>
-    <button @click="copyLink"><Icon name="link" /> Copy link</button>
-    <button @click="pin"><Icon :name="document.pinned ? 'pin_off' : 'pin'" /> {{ document.pinned ? 'Unpin' : 'Pin' }}</button>
+    <button @click="edit"><Icon fill="var(--font-color)" name="edit_page" /> Edit</button>
+    <button @click="copyLink"><Icon fill="var(--font-color)" name="link" /> Copy link</button>
+    <button @click="pin"><Icon fill="var(--font-color)" :name="document.pinned ? 'pin_off' : 'pin'" /> {{ document.pinned ? 'Unpin' : 'Pin' }}</button>
     <hr style="margin: 2px 0" />
     <button @click="emitDelete"><Icon name="delete" fill="red" /> Delete</button>
     <hr style="margin: 2px 0" />
@@ -50,10 +50,10 @@ const emitDelete = () => {
   dotMenu.value?.close();
   emit('delete');
 };
-const pin = () => {
-  dotMenu.value?.close();
+const pin = async () => {
   props.document.pinned = props.document.pinned === 1 ? 0 : 1; // Toggle pin state
-  useDocumentsStore().update(props.document);
+  await useDocumentsStore().update(props.document);
+  dotMenu.value?.close();
 };
 </script>
 
