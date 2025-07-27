@@ -19,9 +19,10 @@ func Migrate(config *Config) {
 		driver,
 	)
 	if err != nil {
-		panic(err.Error())
+		panic(fmt.Sprintf("failed to create migrate instance: %v", err))
 	}
+
 	if err := m.Up(); err != nil && err.Error() != "no change" {
-		panic(err.Error())
+		panic(fmt.Sprintf("failed to apply migrations: %v", err))
 	}
 }
