@@ -1,8 +1,8 @@
 <template>
   <div class="three-dots-menu" ref="menuRoot">
     <span class="menu-button" @click="toggleMenu" aria-label="Menu">
-      <svg class="menu-icon" viewBox="0 9 20 2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+      <svg class="menu-icon" viewBox="0 9 20 2" xmlns="http://www.w3.org/2000/svg">
+        <path style="fill: var(--font-color)" d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
       </svg>
     </span>
     <transition name="fade-scale">
@@ -64,7 +64,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   margin-top: 4px;
   padding: 6px;
   min-width: 270px;
-  background: white;
+  background: var(--bg-color);
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
