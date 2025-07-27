@@ -124,6 +124,7 @@ const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
+  margin: 0.5rem;
 }
 .close-btn {
   position: absolute;
