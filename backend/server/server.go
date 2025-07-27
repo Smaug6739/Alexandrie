@@ -25,9 +25,10 @@ func SetupServer() (*gin.Engine, *app.App) {
 	config := app.Config{}
 	_, err = toml.DecodeFile(absPath, &config)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		fmt.Fprintln(os.Stderr, "Error loading config:", err)
 		os.Exit(1)
 	}
+	fmt.Println("Loaded configuration from:", absPath, " successfully")
 
 	// Initialiser l'application
 	application := app.InitApp(config)

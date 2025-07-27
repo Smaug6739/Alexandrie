@@ -23,7 +23,7 @@ func DBConection(config Config, multiStatements bool) (conecction *sql.DB) {
 	conection, err := sql.Open(Driver, User+":"+Password+"@tcp("+Host+":"+Port+")/"+Database+multiStatementsConfig)
 
 	if err != nil {
-		panic(err.Error())
+		panic(fmt.Sprintf("failed to connect to database: %v", err))
 	}
 	conection.SetConnMaxLifetime(time.Minute * 3)
 	conection.SetMaxOpenConns(10)
