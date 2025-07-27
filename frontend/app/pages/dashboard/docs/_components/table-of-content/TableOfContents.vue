@@ -121,7 +121,7 @@ aside {
   margin-left: 50px;
   font-size: 0.8rem;
   border-left: 1px solid var(--border-color);
-  padding-left: 15px;
+  padding: 0 15px;
 }
 .marker {
   position: absolute;
