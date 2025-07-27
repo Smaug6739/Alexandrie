@@ -6,7 +6,7 @@
         <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
         <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
         <div class="markdown" ref="container">
-          <div ref="editorContainer" class="codemirror-editor" @scroll="syncScroll" style="border-right: 1px solid var(--border-color)" />
+          <div ref="editorContainer" class="codemirror-editor" @scroll="syncScroll" />
           <div v-if="showPreview" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html"></div>
         </div>
       </div>
@@ -14,7 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { EditorView, keymap, highlightSpecialChars, drawSelection, lineNumbers } from '@codemirror/view';
+import { EditorView, keymap, highlightSpecialChars, drawSelection, lineNumbers, type KeyBinding } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
@@ -153,7 +153,7 @@ const snippetListener = EditorView.updateListener.of(update => {
     },
   });
 });
-const markdownKeysmap = [
+const markdownKeysmap: readonly KeyBinding[] = [
   {
     key: 'Mod-b',
     run: () => {
@@ -214,6 +214,7 @@ const state = EditorState.create({
     history(),
     drawSelection(),
     autocompletion(),
+    // @ts-ignore
     keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, ...markdownKeysmap]),
     markdown({ base: markdownLanguage }),
     updateListener,
@@ -284,7 +285,6 @@ function save() {
 
 .codemirror-editor {
   flex: 1;
-  border-radius: 6px;
   overflow: auto;
 }
 .editor-container:deep(.cm-editor) {
@@ -295,7 +295,6 @@ function save() {
   flex: 1;
   overflow: auto;
   padding: 1rem;
-  border-radius: 6px;
   background: var(--bg-color);
   height: 100%;
 }
