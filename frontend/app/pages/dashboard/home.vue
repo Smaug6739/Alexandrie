@@ -57,10 +57,11 @@ h1 {
 .search-container {
   position: relative;
   margin: 20px auto;
-  width: 500px;
+  max-width: 500px;
 }
 .search-input {
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid var(--border-color);
