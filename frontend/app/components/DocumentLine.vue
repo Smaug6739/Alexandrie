@@ -1,15 +1,17 @@
 <template>
   <div class="document-line">
-    <header>
-      <div class="category-icon">
-        <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number) || 'primary'}`" />
+    <header style="display: flex; justify-content: space-between">
+      <div style="display: flex; align-items: center; justify-content: flex-start">
+        <div class="category-icon">
+          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number) || 'primary'}`" />
+        </div>
+        <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
       </div>
-
-      <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
-      <span class="tags" v-if="document.tags">
-        <tag v-for="tag in document.tags?.split(', ')" :key="tag" class="primary">{{ tag }}</tag>
-      </span>
+      <DocumentDotMenu :document="document" :user="user" @delete="deleteDoc" />
     </header>
+    <div class="tags" v-if="document.tags">
+      <tag v-for="tag in document.tags?.split(', ')" :key="tag" class="primary">{{ tag }}</tag>
+    </div>
     <p class="description">{{ document.description }}</p>
     <footer>
       <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)">
@@ -27,6 +29,8 @@ import type { Document } from '@/stores';
 const props = defineProps<{ document: Document }>();
 const categoriesStore = useCategoriesStore();
 const category = computed(() => categoriesStore.getById(props.document.category || ''));
+const user = useUserStore().user;
+const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.document.id }));
 </script>
 
 <style scoped lang="scss">
@@ -37,10 +41,6 @@ const category = computed(() => categoriesStore.getById(props.document.category 
   border: 1px solid var(--border-color);
 }
 header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 6px;
-  justify-content: flex-start;
   border: none;
 }
 .category-icon {
