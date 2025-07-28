@@ -46,7 +46,6 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
 .document-card {
   border-radius: 12px;
   border: 1px solid var(--border-color);
-  overflow: hidden;
   min-width: 340px;
   max-width: 380px;
   min-height: 250px;
