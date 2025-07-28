@@ -4,9 +4,9 @@
 
 ### Prerequisites
 
-- [Bun](https://bun.sh/)
-- [Golang](https://go.dev/)
-- [MySQL](https://www.mysql.com/)
+- Install [Bun](https://bun.sh/)
+- Install [Golang](https://go.dev/)
+- Install [MySQL](https://www.mysql.com/) and create a database with name `alexandrie` (you can change it in config.toml)
 
 ### Steps
 
