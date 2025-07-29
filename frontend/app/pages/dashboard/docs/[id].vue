@@ -3,7 +3,7 @@
     <div style="display: flex; justify-content: space-between">
       <div :style="{ width: '100%', margin: 'auto', maxWidth: usePreferences().get('docSize') == 0 ? '980px' : '780px' }">
         <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />
-        <article class="document-theme" style="max-width: 100%" ref="element" v-html="article.content_html"></article>
+        <article :class="`${usePreferences().get('theme')}-theme`" style="max-width: 100%" ref="element" v-html="article.content_html"></article>
         <DocumentCardFooter :document="article" :next="next" :previous="previous" />
       </div>
       <div v-if="!isTablet() && !preferencesStore.get('hideTOC')" class="toc"><TableOfContent :doc="article" :element="element" class="toc" style="width: 400px" /></div>

@@ -7,7 +7,7 @@
         <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
         <div class="markdown" ref="container">
           <div ref="editorContainer" class="codemirror-editor" @scroll="syncScroll" />
-          <div v-if="showPreview" class="markdown-preview document-theme" ref="markdownPreview" v-html="document.content_html"></div>
+          <div v-if="showPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" ref="markdownPreview" v-html="document.content_html"></div>
         </div>
       </div>
     </div>

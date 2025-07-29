@@ -4,7 +4,7 @@ const svg_warning = `<svg style="align-self: center;" class="svg-icon" viewBox="
 function containerOpen(title: string, logo: string, color: string) {
   return `<div class="markdown-container">
 		<strong style="display: inline-flex; align-items: baseline;" class="${color} title">
-			${logo}${title}</strong>`;
+			${logo}${title}</strong><div class="markdown-container-content">`;
 }
 
 export { svg_info, svg_warning, containerOpen };

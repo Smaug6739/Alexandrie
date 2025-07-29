@@ -1,6 +1,6 @@
 @use "./_variables.scss" as *;
 
-.document-theme {
+.alexandrie-theme {
 	font-family: "Poppins", sans-serif;
 	max-width: 100%;
 
@@ -11,4 +11,88 @@
 			text-decoration: underline;
 		}
 	}
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Math&display=swap');
+@import url('https://fonts.cdnfonts.com/css/latin-modern-roman');
+
+.latex-theme {
+	font-family: "Latin Modern Roman", serif;
+	font-size: 18px;
+	max-width: 100%;
+
+	h1 {
+		font-size: 1.5em;
+	}
+
+	h2 {
+		font-size: 1.3em;
+		margin: 1em 0;
+	}
+
+	p {
+		padding: 0.5em 0;
+	}
+
+	.header-anchor {
+		display: none;
+	}
+
+	.markdown-container {
+		display: flex;
+		background-color: transparent;
+		gap: 1rem;
+		border: none;
+		padding: 0;
+		margin: 0.5em 0;
+
+		.title {
+			border-right: 1px solid var(--font-color);
+			color: var(--font-color-dark);
+			padding: 5px 12px;
+			max-width: 150px;
+
+			svg {
+				display: none;
+			}
+		}
+	}
+
+	.custom-block {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+		margin: 2em 0;
+		display: flex;
+		font-size: 16px;
+
+		.custom-block-title {
+			border-right: 1px solid var(--font-color);
+			font-weight: bold;
+			padding: 5px 12px;
+			color: var(--font-color-dark);
+		}
+
+
+
+		.custom-block-content {
+			flex: 1;
+			padding: 0 0.5em;
+			color: var(--font-color);
+
+			p {
+				padding: 0 0.5em;
+			}
+		}
+	}
+
+	.katex {
+		font-size: 18px;
+
+		.text {
+			font-family: 'Libertinus Math', serif;
+			font-size: 14px;
+		}
+	}
+
 }

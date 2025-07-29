@@ -15,7 +15,7 @@ export const containerSvg = (md: MarkdownIt) => {
         return containerOpen(m[1], svg_info, 'red');
       } else {
         // closing tag
-        return '</div>\n';
+        return '</div></div>\n';
       }
     },
   });
@@ -31,7 +31,7 @@ export const containerSvg = (md: MarkdownIt) => {
         return containerOpen(m[1], svg_info, 'blue');
       } else {
         // closing tag
-        return '</div>\n';
+        return '</div></div>\n';
       }
     },
   });
@@ -47,7 +47,7 @@ export const containerSvg = (md: MarkdownIt) => {
         return containerOpen(m[1], svg_info, 'teal');
       } else {
         // closing tag
-        return '</div>\n';
+        return '</div></div>\n';
       }
     },
   });
@@ -63,7 +63,7 @@ export const containerSvg = (md: MarkdownIt) => {
         return containerOpen(m[1], svg_warning, 'yellow');
       } else {
         // closing tag
-        return '</div>\n';
+        return '</div></div>\n';
       }
     },
   });
@@ -78,7 +78,7 @@ export const containerSvg = (md: MarkdownIt) => {
         return containerOpen(m.slice(1).join(' '), svg_info, m[0]?.split('-')[1]);
       } else {
         // closing tag
-        return '</div>\n';
+        return '</div></div>\n';
       }
     },
   });

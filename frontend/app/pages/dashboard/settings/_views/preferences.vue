@@ -52,9 +52,9 @@ interface ColorOption extends BaseOption {
 
 interface SelectOption extends BaseOption {
   type: 'select';
-  value: number;
-  choices: { label: string; value: number }[];
-  onChange?: (value: number) => void;
+  value: number | string;
+  choices: { label: string; value: number | string }[];
+  onChange?: (value: number | string) => void;
 }
 
 type Option = ToggleOption | SelectOption | ColorOption;
@@ -105,6 +105,16 @@ const options = ref<{ label: string; options: Option[] }[]>([
         choices: [
           { label: 'Large', value: 0 },
           { label: 'Minimal', value: 1 },
+        ],
+      },
+      {
+        label: 'Theme',
+        type: 'select',
+        value: preferencesStore.get('theme'),
+        storageKey: 'theme',
+        choices: [
+          { label: 'Alexandrie', value: 'alexandrie' },
+          { label: 'Latex style', value: 'latex' },
         ],
       },
     ],
@@ -184,13 +194,6 @@ label {
   flex: 1;
 }
 
-select {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  background: var(--bg-contrast);
-  font-size: 0.95rem;
-}
 .reset {
   margin-top: 2rem;
 }

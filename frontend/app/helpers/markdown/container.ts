@@ -31,9 +31,9 @@ function createContainer(klass: string, defaultTitle: string, md: MarkdownIt): C
           if (klass === 'details') {
             return `<details class="${klass} custom-block no-print"><summary>${title}</summary>\n`;
           }
-          return `<div class="${klass} custom-block"><p class="custom-block-title">${title}</p>\n`;
+          return `<div class="${klass} custom-block"><p class="custom-block-title">${title}</p><div class="custom-block-content">\n`;
         } else {
-          return klass === 'details' ? `</details>\n` : `</div>\n`;
+          return klass === 'details' ? `</details>\n` : `</div></div>\n`;
         }
       },
     },

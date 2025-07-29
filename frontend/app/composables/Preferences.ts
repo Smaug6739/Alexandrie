@@ -1,14 +1,14 @@
 // composables/usePreferences.ts
 import { ref, computed, watch } from 'vue';
 
-export type PreferenceKey = 'printMode' | 'darkMode' | 'hideTOC' | 'compactMode' | 'hideSidebarRessources' | 'normalizeFileIcons' | 'datatableItemsCount' | 'view_dock' | 'primaryColor' | 'docSize' | 'sidebarCollapseItems';
+export type PreferenceKey = keyof typeof DEFAULT_PREFERENCES;
 
 export interface Preference {
   key: PreferenceKey;
   value: any;
 }
 
-const DEFAULT_PREFERENCES: Record<PreferenceKey, any> = {
+const DEFAULT_PREFERENCES = {
   printMode: false,
   darkMode: false,
   hideTOC: false,
@@ -20,6 +20,7 @@ const DEFAULT_PREFERENCES: Record<PreferenceKey, any> = {
   primaryColor: 0,
   docSize: 1, // 0 = small, 1 = large
   sidebarCollapseItems: [],
+  theme: 'alexandrie',
 };
 
 const preferences = ref<Preference[]>(loadPreferences());
