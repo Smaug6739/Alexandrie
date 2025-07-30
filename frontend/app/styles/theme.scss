@@ -12,6 +12,7 @@ a {
 blockquote {
 	border-left: 4px solid var(--primary);
 	padding: 0 15px;
+	border-radius: 4px;
 
 	> :first-child {
 		margin-top: 0;
