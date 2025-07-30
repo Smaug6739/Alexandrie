@@ -36,8 +36,7 @@
   flex-direction: column;
   padding: 1rem 0.3rem;
   gap: 10px;
-  background-color: var(--bg-contrast);
-  transition: background-color $transition-duration;
+  border-right: 1px solid var(--border-color);
 }
 a {
   display: flex;
