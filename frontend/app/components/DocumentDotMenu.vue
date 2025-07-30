@@ -53,7 +53,6 @@ const emitDelete = () => {
 const pin = async () => {
   props.document.pinned = props.document.pinned === 1 ? 0 : 1; // Toggle pin state
   await useDocumentsStore().update(props.document);
-  dotMenu.value?.close();
 };
 </script>
 

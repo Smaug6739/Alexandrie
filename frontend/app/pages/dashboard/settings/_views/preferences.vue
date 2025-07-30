@@ -9,7 +9,7 @@
       <AppToggle v-if="option.type === 'toggle'" :active="option.value" @toggle="toggleOption(option)" />
 
       <!-- Native select -->
-      <AppSelect v-else-if="option.type === 'select'" @update:model-value="option => selectOption(option)" :items="option.choices" v-model="option.value" size="40%" />
+      <AppSelect v-else-if="option.type === 'select'" @update:model-value="o => selectOption({ ...option, value: o })" :items="option.choices" v-model="option.value" size="40%" />
       <AppColorPicker v-else-if="option.type === 'color'" :selectedColor="option.value" @update:selected-color="option.onChange" />
     </div>
   </div>
@@ -172,6 +172,7 @@ const toggleOption = (option: ToggleOption) => {
 };
 
 const selectOption = (option: SelectOption) => {
+  console.log('Selected option:', option);
   preferencesStore.set(option.storageKey, option.value);
   option.onChange?.(option.value);
 };
@@ -184,8 +185,6 @@ const selectOption = (option: SelectOption) => {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
-}
-.entry {
 }
 h2 {
   font-size: 1.2em;
