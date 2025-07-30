@@ -13,7 +13,6 @@
 	}
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Libertinus+Math&display=swap');
 @import url('https://fonts.cdnfonts.com/css/latin-modern-roman');
 
 .latex-theme {
@@ -51,10 +50,15 @@
 			color: var(--font-color-dark);
 			padding: 5px 12px;
 			max-width: 150px;
+			font-size: 15px;
 
 			svg {
 				display: none;
 			}
+		}
+
+		p {
+			padding: 0 0.5em;
 		}
 	}
 
@@ -71,6 +75,7 @@
 			font-weight: bold;
 			padding: 5px 12px;
 			color: var(--font-color-dark);
+			max-width: 150px;
 		}
 
 
