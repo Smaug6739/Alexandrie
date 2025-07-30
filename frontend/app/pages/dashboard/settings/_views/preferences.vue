@@ -2,18 +2,14 @@
   <h1>Preferences</h1>
   <div v-for="(list, index) in options" :key="index">
     <h2>{{ list.label }}</h2>
-    <div v-for="(option, index) in list.options" class="form-group">
+    <div v-for="(option, _) in list.options" class="form-group">
       <label>{{ option.label }}</label>
 
       <!-- Toggle -->
       <AppToggle v-if="option.type === 'toggle'" :active="option.value" @toggle="toggleOption(option)" />
 
       <!-- Native select -->
-      <select v-else-if="option.type === 'select'" v-model="option.value" @change="() => selectOption(option)">
-        <option v-for="choice in option.choices" :key="choice.value" :value="choice.value">
-          {{ choice.label }}
-        </option>
-      </select>
+      <AppSelect v-else-if="option.type === 'select'" @update:model-value="option => selectOption(option)" :items="option.choices" v-model="option.value" size="40%" />
       <AppColorPicker v-else-if="option.type === 'color'" :selectedColor="option.value" @update:selected-color="option.onChange" />
     </div>
   </div>
@@ -53,7 +49,7 @@ interface ColorOption extends BaseOption {
 interface SelectOption extends BaseOption {
   type: 'select';
   value: number | string;
-  choices: { label: string; value: number | string }[];
+  choices: ANode[];
   onChange?: (value: number | string) => void;
 }
 
@@ -103,19 +99,19 @@ const options = ref<{ label: string; options: Option[] }[]>([
         value: preferencesStore.get('docSize'),
         storageKey: 'docSize',
         choices: [
-          { label: 'Large', value: 0 },
-          { label: 'Minimal', value: 1 },
+          { label: 'Large', id: 0 },
+          { label: 'Minimal', id: 1 },
         ],
       },
       {
         label: 'Theme',
         type: 'select',
-        value: preferencesStore.get('theme'),
+        value: preferencesStore.get('theme') as string,
         storageKey: 'theme',
         choices: [
-          { label: 'Alexandrie', value: 'alexandrie' },
-          { label: 'Latex style', value: 'latex' },
-          { label: 'Latex colored', value: 'latex-colored' },
+          { label: 'Alexandrie', id: 'alexandrie' },
+          { label: 'Latex style', id: 'latex' },
+          { label: 'Latex colored', id: 'latex-colored' },
         ],
       },
     ],
@@ -158,11 +154,11 @@ const options = ref<{ label: string; options: Option[] }[]>([
         value: preferencesStore.get('datatableItemsCount'),
         storageKey: 'datatableItemsCount',
         choices: [
-          { label: '10', value: 10 },
-          { label: '30', value: 30 },
-          { label: '50', value: 50 },
-          { label: '100', value: 100 },
-          { label: '250', value: 250 },
+          { label: '10', id: 10 },
+          { label: '30', id: 30 },
+          { label: '50', id: 50 },
+          { label: '100', id: 100 },
+          { label: '250', id: 250 },
         ],
       },
     ],
@@ -189,9 +185,13 @@ const selectOption = (option: SelectOption) => {
   gap: 1rem;
   margin-bottom: 1rem;
 }
-
+.entry {
+}
+h2 {
+  font-size: 1.2em;
+}
 label {
-  font-weight: 500;
+  font-weight: 700;
   flex: 1;
 }
 

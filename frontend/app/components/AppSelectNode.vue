@@ -1,8 +1,8 @@
 <template>
   <li>
-    <button class="tree-node" :style="{ paddingLeft: `${level * 20 + 12}px`, fontWeight: node.childrens?.length ? 700 : 400 }" @click.stop="select" :disabled="disabled && disabled(node)">
+    <div class="tree-node" :style="{ paddingLeft: `${level * 20 + 12}px`, fontWeight: node.childrens?.length ? 700 : 500 }" @click.stop="select" :disabled="disabled && disabled(node)">
       {{ node.label }}
-    </button>
+    </div>
     <ul v-if="node.childrens?.length">
       <AppSelectNode v-for="child in node.childrens" :key="child.id" :node="child" :level="level + 1" @select="$emit('select', $event)" :disabled="disabled" />
     </ul>
@@ -27,11 +27,11 @@ function select() {
 <style scoped>
 .tree-node {
   display: block;
-  padding: 6px 12px;
+  padding: 8px 12px;
   text-align: left;
   cursor: pointer;
   font-size: 15px;
-  width: calc(100% - 6px);
+  width: 100%;
   margin: 0 auto;
 }
 

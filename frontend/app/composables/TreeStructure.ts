@@ -4,7 +4,7 @@ import type { DefaultItem } from '../components/Sidebar/helpers';
 export interface ANode {
   id: string | number;
   label: string;
-  parent_id: string;
+  parent_id?: string;
   childrens?: ANode[];
 }
 
@@ -26,10 +26,10 @@ export class TreeStructure {
     this.childrenMap = new Map();
 
     for (const item of items) {
-      if (!this.childrenMap.has(item.parent_id)) {
-        this.childrenMap.set(item.parent_id, []);
+      if (!this.childrenMap.has(item.parent_id || '')) {
+        this.childrenMap.set(item.parent_id || '', []);
       }
-      this.childrenMap.get(item.parent_id)!.push(item);
+      this.childrenMap.get(item.parent_id || '')!.push(item);
     }
   }
 
@@ -41,7 +41,7 @@ export class TreeStructure {
   // Generate the tree structure without indexing
   public generateTree(): Item[] {
     return this.items
-      .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id) || (item.data.type === 'category' && item.data.role === 2)) // Racines
+      .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id || '') || (item.data.type === 'category' && item.data.role === 2)) // Racines
       .map(rootItem => this.buildTree(rootItem));
   }
   public getSubTreeById(id: string): Item | undefined {

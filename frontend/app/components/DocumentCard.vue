@@ -3,7 +3,7 @@
     <div class="top">
       <div class="header">
         <span style="display: flex">
-          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number)}`" /> <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
+          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number, true)}`" /> <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
         </span>
         <DocumentDotMenu :document="document" :user="user" @delete="deleteDoc" />
       </div>

@@ -3,7 +3,7 @@
     <header style="display: flex; justify-content: space-between">
       <div style="display: flex; align-items: center; justify-content: flex-start">
         <div class="category-icon">
-          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number) || 'primary'}`" />
+          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number, true)}`" />
         </div>
         <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
       </div>
@@ -46,7 +46,7 @@ header {
 }
 .category-icon {
   margin-right: 5px;
-  padding: 4px 6px;
+  padding: 6px;
   border-radius: 6px;
 }
 .document-title {

@@ -106,7 +106,7 @@ function handleBlur(event: FocusEvent) {
   position: relative;
   width: 200px;
   border: 1px solid var(--border-color);
-  border-radius: 5px;
+  border-radius: 10px;
   &:focus {
     outline: 2px solid var(--border-color);
   }
@@ -115,7 +115,7 @@ function handleBlur(event: FocusEvent) {
 button,
 .search-input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   text-align: left;
   font-size: 16px;
   cursor: pointer;
@@ -140,7 +140,7 @@ button,
   overflow-y: auto;
   border: 1px solid var(--border-color);
   background: var(--bg-contrast);
-  border-radius: 4px;
+  border-radius: 6px;
   margin-top: 4px;
   z-index: 1000;
 }

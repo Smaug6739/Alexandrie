@@ -2,7 +2,7 @@
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
     <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" v-if="!minimal" />
-    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="220px" class="entry" v-if="!minimal" />
+    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="300px" class="entry" v-if="!minimal" />
     <input type="text" v-model="document.tags" placeholder="Tags" class="entry" />
     <AppHint text="Tags separated with a comma" />
   </div>

@@ -17,7 +17,7 @@ const DEFAULT_PREFERENCES = {
   normalizeFileIcons: false,
   datatableItemsCount: 10,
   view_dock: true,
-  primaryColor: 0,
+  primaryColor: -2, // -2 default primary; -1 unset; >= 0 app color index
   docSize: 1, // 0 = small, 1 = large
   sidebarCollapseItems: [],
   theme: 'alexandrie',

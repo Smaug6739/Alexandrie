@@ -12,9 +12,9 @@ export function useAvatar(user?: User): string {
   return user?.avatar ? CDN + '/' + user.id + '/avatar' : '/default_avatar.avif';
 }
 
-export const appColors = ['default', 'blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
-export function getAppColor(index: number = 0): string {
-  if (!index) return 'primary';
+export const appColors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
+export function getAppColor(index: number = 0, defaultPrimary?: boolean): string {
+  if (defaultPrimary && !index) return 'primary';
   return appColors[index % appColors.length] || 'primary';
 }
 
