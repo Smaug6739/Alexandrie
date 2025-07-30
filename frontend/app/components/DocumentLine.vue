@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import type { Document } from '@/stores';
+import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentModal.vue';
 const props = defineProps<{ document: Document }>();
 const categoriesStore = useCategoriesStore();
 const category = computed(() => categoriesStore.getById(props.document.category || ''));
