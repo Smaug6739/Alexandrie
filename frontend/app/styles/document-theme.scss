@@ -44,6 +44,7 @@
 		border: none;
 		padding: 0;
 		margin: 0.5em 0;
+		color: var(--font-color);
 
 		.title {
 			border-right: 1px solid var(--font-color);
@@ -69,6 +70,7 @@
 		margin: 2em 0;
 		display: flex;
 		font-size: 16px;
+		color: var(--font-color);
 
 		.custom-block-title {
 			border-right: 1px solid var(--font-color);
@@ -83,7 +85,6 @@
 		.custom-block-content {
 			flex: 1;
 			padding: 0 0.5em;
-			color: var(--font-color);
 
 			p {
 				padding: 0 0.5em;
