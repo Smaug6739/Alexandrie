@@ -115,6 +115,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
         choices: [
           { label: 'Alexandrie', value: 'alexandrie' },
           { label: 'Latex style', value: 'latex' },
+          { label: 'Latex colored', value: 'latex-colored' },
         ],
       },
     ],

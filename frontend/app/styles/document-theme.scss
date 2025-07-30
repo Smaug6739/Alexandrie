@@ -50,7 +50,8 @@
 			border-right: 1px solid var(--font-color);
 			color: var(--font-color-dark);
 			padding: 5px 12px;
-			max-width: 150px;
+			min-width: 150px;
+			max-width: 170px;
 			font-size: 15px;
 
 			svg {
@@ -77,7 +78,146 @@
 			font-weight: bold;
 			padding: 5px 12px;
 			color: var(--font-color-dark);
-			max-width: 150px;
+			min-width: 150px;
+			max-width: 170px;
+		}
+
+
+
+		.custom-block-content {
+			flex: 1;
+			padding: 0 0.5em;
+
+			p {
+				padding: 0 0.5em;
+			}
+		}
+	}
+
+	.katex {
+		font-size: 18px;
+
+		.text {
+			font-family: 'Libertinus Math', serif;
+			font-size: 14px;
+		}
+	}
+
+}
+
+.latex-colored-theme {
+	font-family: "Latin Modern Roman", serif;
+	font-size: 18px;
+	max-width: 100%;
+
+	h1 {
+		font-size: 1.5em;
+	}
+
+	h2 {
+		font-size: 1.3em;
+		margin: 1em 0;
+	}
+
+	p {
+		padding: 0.5em 0;
+	}
+
+	.header-anchor {
+		display: none;
+	}
+
+	.markdown-container {
+		display: flex;
+		background-color: transparent;
+		gap: 1rem;
+		padding: 0;
+		margin: 0.5em 0;
+		color: var(--font-color);
+		border-radius: 4px;
+
+		.title {
+			border-right: 1px solid var(--font-color);
+			padding: 5px 12px;
+			min-width: 150px;
+			max-width: 170px;
+			font-size: 15px;
+
+			svg {
+				display: none;
+			}
+		}
+
+		p {
+			padding: 0 0.5em;
+		}
+	}
+
+	.custom-block {
+		padding: 4px;
+		margin: 2em 0;
+		display: flex;
+		font-size: 16px;
+		color: var(--font-color);
+		border: none;
+		border-radius: 4px;
+
+		.grey {
+			border-left: 4px solid var(--grey);
+			color: var(--grey);
+			background-color: var(--grey-bg-light);
+		}
+
+		&.blue {
+			border-left: 4px solid var(--blue);
+			color: var(--blue);
+			background-color: var(--blue-bg-light);
+		}
+
+		&.green {
+			border-left: 4px solid var(--green);
+			color: var(--green);
+			background-color: var(--green-bg-light);
+		}
+
+		&.teal {
+			border-left: 4px solid var(--teal);
+			color: var(--teal);
+			background-color: var(--teal-bg-light);
+		}
+
+		&.yellow {
+			border-left: 4px solid var(--yellow);
+			color: var(--yellow);
+			background-color: var(--yellow-bg-light);
+		}
+
+
+		&.red {
+			border-left: 4px solid var(--red);
+			color: var(--red);
+			background-color: var(--red-bg-light);
+		}
+
+		&.purple {
+			border-left: 4px solid var(--purple);
+			color: var(--purple);
+			background-color: var(--purple-bg-light);
+		}
+
+
+		&.custom-block.details {
+			border-left: 4px solid var(--blue);
+			color: var(--blue);
+			background-color: var(--blue-bg-light);
+		}
+
+		.custom-block-title {
+			border-right: 1px solid var(--border-color);
+			font-weight: bold;
+			padding: 5px 12px;
+			min-width: 150px;
+			max-width: 170px;
 		}
 
 
