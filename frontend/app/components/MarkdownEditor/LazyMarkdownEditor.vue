@@ -50,6 +50,10 @@ function exec(action: string) {
     save();
     return;
   }
+  if (action === 'goto') {
+    if (document.value.id) useRouter().push(`/dashboard/docs/${document.value.id}`);
+    return;
+  }
 
   if (!editorView.value) return;
 
