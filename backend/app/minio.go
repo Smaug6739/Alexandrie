@@ -15,6 +15,9 @@ func MinioConnection() (*minio.Client, error) {
 	endpoint := os.Getenv("MINIO_ENDPOINT")
 	accessKeyID := os.Getenv("MINIO_ACCESSKEY")
 	secretAccessKey := os.Getenv("MINIO_SECRETKEY")
+	if endpoint == "" || accessKeyID == "" || secretAccessKey == "" {
+		return nil, fmt.Errorf("MINIO NOT CONFIGURED")
+	}
 	// Initialize minio client object.
 	minioClient, errInit := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),

@@ -22,6 +22,9 @@ func NewMinioService(minio *minio.Client) MinioService {
 // @Security Authenfification: Auth, Self
 // @Param id prefix in the bucket
 func (s *Service) DeleteAllFromUser(userId types.Snowflake) error {
+	if s.minio == nil {
+		return nil // Minio client is not enabled, nothing to delete
+	}
 	prefix := fmt.Sprintf("%d/", userId)
 	ctx := context.Background()
 	objectCh := s.minio.ListObjects(ctx, os.Getenv("MINIO_BUCKET"), minio.ListObjectsOptions{

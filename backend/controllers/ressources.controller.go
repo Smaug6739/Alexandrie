@@ -57,6 +57,9 @@ func (ctr *Controller) GetAllUploads(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
+	if ctr.app.MinioClient == nil {
+		return http.StatusInternalServerError, errors.New("Minio client not initialized")
+	}
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
 		return http.StatusBadRequest, err
@@ -104,6 +107,9 @@ func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
+	if ctr.app.MinioClient == nil {
+		return http.StatusInternalServerError, errors.New("Minio client not initialized")
+	}
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
 		return http.StatusBadRequest, errors.New("failed to get file")
@@ -176,6 +182,9 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
+	if ctr.app.MinioClient == nil {
+		return http.StatusInternalServerError, errors.New("Minio client not initialized")
+	}
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
 		return http.StatusBadRequest, errors.New("failed to get file")
@@ -270,6 +279,9 @@ func (ctr *Controller) UpdateUpload(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
+	if ctr.app.MinioClient == nil {
+		return http.StatusInternalServerError, errors.New("Minio client not initialized")
+	}
 	id, err := utils.GetIdParam(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, errors.New("invalid id format")
