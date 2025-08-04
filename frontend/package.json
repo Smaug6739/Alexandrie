@@ -17,7 +17,7 @@
     "@codemirror/theme-one-dark": "^6.1.3",
     "@codemirror/autocomplete": "^6.18.6",
     "@codemirror/commands": "^6.8.1",
-    "@codemirror/lang-markdown": "^6.3.3",
+    "@codemirror/lang-markdown": "^6.3.4",
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.1",
     "@fsegurai/codemirror-theme-bundle": "^6.2.0",
