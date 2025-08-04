@@ -8,6 +8,24 @@
         <NuxtLink v-for="result in results" :key="result.id" class="result" :to="`/dashboard/docs/${result.id}`">{{ result.name }}</NuxtLink>
       </div>
     </div>
+    <div class="apps">
+      <NuxtLink to="/dashboard/docs" class="app">
+        <Icon name="files" :big="true" fill="var(--primary)" />
+        <span>Documents</span>
+      </NuxtLink>
+      <NuxtLink to="/dashboard/categories" class="app">
+        <Icon name="categories" :big="true" fill="var(--primary)" />
+        <span>Organizer</span>
+      </NuxtLink>
+      <NuxtLink to="/dashboard/cdn" class="app">
+        <Icon name="cdn" :big="true" fill="var(--primary)" />
+        <span>CDN</span>
+      </NuxtLink>
+      <NuxtLink to="/dashboard/import" class="app">
+        <Icon name="import" :big="true" fill="var(--primary)" />
+        <span>Import</span>
+      </NuxtLink>
+    </div>
     <div style="text-align: left; width: 90%; margin: 0 auto">
       <div class="recent">
         <DocumentCard v-for="doc in recentDocuments" :key="doc.id" :document="doc" />
@@ -88,6 +106,37 @@ h1 {
     background-color: var(--bg-contrast);
   }
 }
+
+.apps {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: background-color 0.2s, transform 0.2s;
+  width: 150px;
+  &:hover {
+    background-color: var(--bg-contrast);
+    transform: scale(1.05);
+  }
+  span {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+}
+
 .recent {
   display: flex;
   flex-wrap: wrap;
