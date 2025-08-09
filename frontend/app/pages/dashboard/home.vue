@@ -109,7 +109,7 @@ h1 {
 
 .apps {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 20px;
   margin-top: 20px;
