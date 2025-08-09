@@ -295,6 +295,9 @@ function save() {
 .editor-container:deep(.cm-editor) {
   height: 100%;
 }
+.editor-container:deep(.cm-selectionBackground) {
+  background-color: var(--selection-color) !important;
+}
 
 .markdown-preview {
   flex: 1;
