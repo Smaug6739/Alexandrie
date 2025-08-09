@@ -94,7 +94,6 @@ export default defineNuxtConfig({
     },
     base: '/',
     workbox: {
-      cacheId: 'alexandrie-pwa-v2',
       maximumFileSizeToCacheInBytes: 3000000,
       navigateFallback: null,
       globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
@@ -146,7 +145,7 @@ export default defineNuxtConfig({
         { name: 'mobile-web-app-capable" content', content: 'yes' },
         { name: 'apple-mobile-web-app-title', content: 'Alexandrie' },
         { name: 'application-name', content: 'Alexandrie' },
-        { name: 'theme-color', content: '#007aff' },
+        { name: 'theme-color', content: '#3956e7' },
         { name: 'twitter:card', content: 'summary' },
         { name: 'twitter:title', content: 'Alexandrie' },
         { name: 'twitter:description', content: 'A website for taking beautiful notes in extended Markdown format.' },
