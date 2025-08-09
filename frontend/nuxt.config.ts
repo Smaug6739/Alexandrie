@@ -94,6 +94,7 @@ export default defineNuxtConfig({
     },
     base: '/',
     workbox: {
+      cacheId: 'alexandrie-pwa-v2',
       maximumFileSizeToCacheInBytes: 3000000,
       navigateFallback: null,
       globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
