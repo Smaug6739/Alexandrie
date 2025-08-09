@@ -24,7 +24,7 @@ watch(view, newView => localStorage.setItem('viewSelection', newView as 'table' 
   padding: 0 4px;
   border-radius: 18px;
   border: 1px solid var(--border-color);
-  width: fit-content;
+  min-width: 81px;
 }
 .view-button {
   border: none;
