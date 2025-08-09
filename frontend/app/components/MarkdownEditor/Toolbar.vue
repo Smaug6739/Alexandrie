@@ -106,12 +106,11 @@ const toolbar = [
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  background-color: var(--bg-contrast-2);
-  border-radius: 6px;
+  border-radius: 20px;
   border: 1px solid var(--border-color);
   padding: 0.15rem;
   color: var(--font-color-dark);
-  gap: 0 2.5px;
+  gap: 0 3px;
 }
 button {
   padding: 4px;
