@@ -94,6 +94,7 @@ export default defineNuxtConfig({
     },
     base: '/',
     workbox: {
+      maximumFileSizeToCacheInBytes: 3000000,
       navigateFallback: null,
       globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
       runtimeCaching: [
