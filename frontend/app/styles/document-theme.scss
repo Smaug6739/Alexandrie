@@ -11,6 +11,10 @@
 			text-decoration: underline;
 		}
 	}
+
+	p {
+		width: 100%;
+	}
 }
 
 @import url('https://fonts.cdnfonts.com/css/latin-modern-roman');
@@ -31,6 +35,7 @@
 
 	p {
 		padding: 0.5em 0;
+		width: 100%;
 	}
 
 	.header-anchor {
@@ -121,6 +126,7 @@
 
 	p {
 		padding: 0.5em 0;
+		width: 100%;
 	}
 
 	.header-anchor {
