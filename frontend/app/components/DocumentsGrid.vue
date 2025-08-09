@@ -17,7 +17,7 @@ defineProps<{ documents: Document[] }>();
 <style scoped lang="scss">
 .document-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   width: 100%;
 }
