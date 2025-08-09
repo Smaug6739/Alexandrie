@@ -141,7 +141,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
-  margin-top: 20px;
+  margin: 20px auto;
   max-width: 1200px;
 }
 </style>
