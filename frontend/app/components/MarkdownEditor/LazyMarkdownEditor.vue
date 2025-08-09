@@ -6,8 +6,8 @@
         <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
         <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
         <div class="markdown" ref="container">
-          <div ref="editorContainer" class="codemirror-editor" @scroll="syncScroll" />
-          <div v-if="showPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" ref="markdownPreview" v-html="document.content_html"></div>
+          <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
+          <div v-if="showPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" ref="markdownPreview" style="position: relative" v-html="document.content_html"></div>
         </div>
       </div>
     </div>
@@ -231,16 +231,17 @@ const state = EditorState.create({
 });
 onMounted(() => {
   if (!editorContainer.value) return;
-
   editorView.value = new EditorView({
     state,
     parent: editorContainer.value,
   });
+  editorView.value.scrollDOM.addEventListener('scroll', syncScroll);
   window.addEventListener('keydown', handleGlobalKeys);
 });
 
 onBeforeUnmount(() => {
   if (editorView.value) editorView.value.destroy();
+  editorView.value?.scrollDOM.removeEventListener('scroll', syncScroll);
   window.removeEventListener('keydown', handleGlobalKeys);
 });
 
@@ -260,8 +261,8 @@ function handleGlobalKeys(e: KeyboardEvent) {
 }
 
 function syncScroll() {
-  if (!editorContainer.value || !markdownPreview.value) return;
-  const scrollPercentage = editorContainer.value.scrollTop / (editorContainer.value.scrollHeight - editorContainer.value.clientHeight);
+  if (!editorView.value?.scrollDOM || !markdownPreview.value) return;
+  const scrollPercentage = editorView.value.scrollDOM.scrollTop / (editorView.value.scrollDOM.scrollHeight - editorView.value.scrollDOM.clientHeight);
   markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
 }
 
