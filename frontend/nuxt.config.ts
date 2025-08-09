@@ -53,7 +53,7 @@ export default defineNuxtConfig({
       start_url: '/dashboard',
       display: 'standalone',
       background_color: '#334155',
-      theme_color: '#007aff',
+      theme_color: '#3956e7',
       icons: [
         {
           src: '/android-chrome-192x192.png',
