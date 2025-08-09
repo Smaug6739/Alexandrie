@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { EditorView, keymap, highlightSpecialChars, drawSelection, lineNumbers, type KeyBinding } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
-import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { autocompletion } from '@codemirror/autocomplete';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
@@ -219,7 +219,7 @@ const state = EditorState.create({
     drawSelection(),
     autocompletion(),
     // @ts-ignore
-    keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, ...markdownKeysmap]),
+    keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, indentWithTab, ...markdownKeysmap]),
     markdown({ base: markdownLanguage }),
     updateListener,
     snippetListener,
