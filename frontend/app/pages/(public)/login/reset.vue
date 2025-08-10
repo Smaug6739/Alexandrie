@@ -1,13 +1,8 @@
 <template>
   <div class="container">
     <AppHeader />
-    <form @submit.prevent="login" class="body">
-      <h2>Connection</h2>
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="username" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
-        <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
-      </div>
+    <form @submit.prevent="reset" class="body">
+      <h2>Password Reset</h2>
       <div class="form-group">
         <label for="password">Password</label>
         <div class="password-input">
@@ -16,45 +11,56 @@
         </div>
         <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
       </div>
-      <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-      <button type="submit" class="btn">Login</button>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="password-input">
+          <input :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="confirmPassword" :class="{ 'is-invalid': errors.confirmPassword }" />
+          <button type="button" class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ? 'Hide' : 'Show' }}</button>
+        </div>
+        <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
+      </div>
+      <button type="submit" class="btn">Change password</button>
       <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-      <p class="forgot-password-link">Forgot your password? <a href="mailto:contact@alexandrie-hub.fr">Click here</a></p>
+      <p class="sub"><NuxtLink to="/login">Return to login</NuxtLink></p>
     </form>
     <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import AppHeader from './_components/AppHeader.vue';
-import AppFooter from './_components/AppFooter.vue';
-
-const username = ref('');
+import AppHeader from '../_components/AppHeader.vue';
+import AppFooter from '../_components/AppFooter.vue';
+const password = ref('');
+const confirmPassword = ref('');
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
 const errors = ref({
-  username: '',
   password: '',
+  confirmPassword: '',
   general: '',
 });
-const showPassword = ref(false);
-const password = ref('');
 const userStore = useUserStore();
 
-function login() {
-  if (!username.value) errors.value.username = 'Username is required';
-  else errors.value.username = '';
-
+async function reset() {
   if (!password.value) errors.value.password = 'Password is required';
+  else if (password.value.length < 8) errors.value.password = 'Password must be at least 8 characters long';
   else errors.value.password = '';
 
-  if (username.value && password.value) {
-    connect(username.value, password.value);
-  }
-}
+  if (confirmPassword.value !== password.value) errors.value.confirmPassword = 'Passwords do not match';
+  else errors.value.confirmPassword = '';
 
-async function connect(username: string, password: string) {
-  const result = await userStore.login(username, password);
-  if (result == true) useRouter().push('/dashboard');
-  else errors.value.general = String(result);
+  if (errors.value.password || errors.value.confirmPassword) return;
+
+  userStore
+    .resetPassword((useRoute().query?.token as string) || '', confirmPassword.value)
+    .then(() => {
+      useRouter().push('/login');
+      useNotifications().add({
+        type: 'success',
+        title: 'Password changed successfully. You can now log in with your new password.',
+      });
+    })
+    .catch(err => (errors.value.general = err || 'An error occurred while resetting the password'));
 }
 </script>
 <style scoped lang="scss">
@@ -85,25 +91,6 @@ h2 {
   border-radius: 15px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-.signup-link {
-  font-size: 0.8rem;
-  margin-top: -0.5rem;
-  margin-bottom: 1rem;
-  text-align: right;
-  text-decoration: none;
-  color: var(--primary);
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 .password-input {
   position: relative;
 }
@@ -123,6 +110,13 @@ h2 {
   &:hover {
     text-decoration: underline;
   }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 .btn {
@@ -151,8 +145,7 @@ input {
   color: $red;
 }
 
-.forgot-password-link {
-  margin-top: 20px;
+.sub {
   text-align: center;
   font-size: 14px;
 

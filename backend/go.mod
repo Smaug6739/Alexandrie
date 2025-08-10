@@ -9,6 +9,7 @@ require (
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/tinylib/msgp v1.3.0 // indirect
+	github.com/wneessen/go-mail v0.6.2 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 )
 

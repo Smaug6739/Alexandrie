@@ -3,17 +3,12 @@
     <AppHeader />
     <div class="body-container">
       <IconApp style="width: 120px" />
-      <h1>Account creation</h1>
-      <form @submit.prevent="register">
+      <h1>Connection</h1>
+      <form @submit.prevent="login">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
+          <input type="username" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" :class="{ 'is-invalid': errors.email }" />
-          <p v-if="errors.email" class="invalid-feedback">{{ errors.email }}</p>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -23,17 +18,10 @@
           </div>
           <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
         </div>
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <div class="password-input">
-            <input :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="confirmPassword" :class="{ 'is-invalid': errors.confirmPassword }" />
-            <button type="button" class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ? 'Hide' : 'Show' }}</button>
-          </div>
-          <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
-        </div>
-        <NuxtLink to="/login" class="login-link">Already have an account? Log in</NuxtLink>
-        <button type="submit" class="btn">Sign Up</button>
+        <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
+        <button type="submit" class="btn">Login</button>
         <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
+        <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
       </form>
     </div>
     <AppFooter />
@@ -41,75 +29,38 @@
 </template>
 
 <script setup lang="ts">
-import AppHeader from './_components/AppHeader.vue';
-import AppFooter from './_components/AppFooter.vue';
-
-const router = useRouter();
+import AppHeader from '../_components/AppHeader.vue';
+import AppFooter from '../_components/AppFooter.vue';
 const username = ref('');
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
-const showPassword = ref(false);
-const showConfirmPassword = ref(false);
 const errors = ref({
   username: '',
-  email: '',
   password: '',
-  confirmPassword: '',
   general: '',
 });
+const showPassword = ref(false);
+const password = ref('');
 const userStore = useUserStore();
 
-function register() {
-  let valid = true;
+function login() {
+  if (!username.value) errors.value.username = 'Username is required';
+  else errors.value.username = '';
 
-  if (!username.value) {
-    errors.value.username = 'Username is required';
-    valid = false;
-  } else {
-    errors.value.username = '';
+  if (!password.value) errors.value.password = 'Password is required';
+  else errors.value.password = '';
+
+  if (username.value && password.value) {
+    connect(username.value, password.value);
   }
-
-  if (!email.value) {
-    errors.value.email = 'Email is required';
-    valid = false;
-  } else {
-    errors.value.email = '';
-  }
-
-  if (!password.value) {
-    errors.value.password = 'Password is required';
-    valid = false;
-  } else {
-    errors.value.password = '';
-  }
-
-  if (!confirmPassword.value) {
-    errors.value.confirmPassword = 'Password confirmation is required';
-    valid = false;
-  } else if (password.value !== confirmPassword.value) {
-    errors.value.confirmPassword = 'Passwords do not match';
-    valid = false;
-  } else {
-    errors.value.confirmPassword = '';
-  }
-
-  if (valid) createAccount(username.value, email.value, password.value);
 }
 
-async function createAccount(username: string, email: string, password: string) {
-  userStore
-    .register({ username, email, password, role: 1 })
-    .then(() => {
-      router.push('/login');
-    })
-    .catch(error => {
-      errors.value.general = error;
-    });
+async function connect(username: string, password: string) {
+  const result = await userStore.login(username, password);
+  if (result == true) useRouter().push('/dashboard');
+  else errors.value.general = String(result);
 }
 </script>
-
 <style scoped lang="scss">
+/* ===== Structure générale ===== */
 .container {
   display: flex;
   flex-direction: column;
@@ -151,12 +102,13 @@ input {
   padding: 0.6rem;
   border-radius: 8px;
 }
-input,
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--border-color) inset !important;
   -webkit-text-fill-color: var(--text-color) !important;
+  transition: background-color 5000s ease-in-out 0s;
   background: var(--border-color);
 }
 
@@ -194,11 +146,11 @@ input:-webkit-autofill:focus {
   }
 }
 
-.login-link {
+.forgot-password-link {
   text-align: center;
   font-size: 16px;
   font-weight: 500;
-  margin: 1rem 0;
+
   a {
     text-decoration: underline;
 

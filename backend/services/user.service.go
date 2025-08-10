@@ -14,6 +14,7 @@ type UserService interface {
 	CreateUser(user *models.User) (*models.User, error)
 	UpdateUser(id types.Snowflake, user *models.User) (*models.User, error)
 	UpdatePassword(id types.Snowflake, password string) error
+	UpdatePasswordResetToken(id types.Snowflake, resetToken string) error
 	DeleteUser(id types.Snowflake) error
 }
 
@@ -97,7 +98,12 @@ func (s *Service) UpdateUser(id types.Snowflake, user *models.User) (*models.Use
 }
 
 func (s *Service) UpdatePassword(id types.Snowflake, password string) error {
-	_, err := s.db.Exec("UPDATE users SET password=? WHERE id=?", password, id)
+	_, err := s.db.Exec("UPDATE users SET password=?, password_reset_token=NULL WHERE id=?", password, id)
+	return err
+}
+
+func (s *Service) UpdatePasswordResetToken(id types.Snowflake, resetToken string) error {
+	_, err := s.db.Exec("UPDATE users SET password_reset_token=? WHERE id=?", resetToken, id)
 	return err
 }
 

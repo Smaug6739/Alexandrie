@@ -27,11 +27,11 @@ nav {
 }
 
 .login {
-  background: var(--font-color);
+  background: var(--primary);
   color: var(--bg-color);
 
   &:hover {
-    outline: 2px solid var(--font-color);
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
   }
 }

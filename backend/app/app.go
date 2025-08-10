@@ -7,6 +7,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/minio/minio-go/v7"
+	"github.com/wneessen/go-mail"
 )
 
 type Config struct {
@@ -44,6 +45,7 @@ type App struct {
 	Snowflake   *utils.Snowflake
 	Config      Config
 	MinioClient *minio.Client
+	MailClient  *mail.Client
 	Services    Services
 }
 
@@ -51,6 +53,7 @@ func InitApp(config Config) *App {
 	var app App
 	app.DB = DBConection(config, false)
 	app.MinioClient, _ = MinioConnection()
+	app.MailClient = GetMailClient()
 	app.Snowflake = utils.NewSnowflake(1609459200000)
 	app.Config = config
 	app.Services = Services{

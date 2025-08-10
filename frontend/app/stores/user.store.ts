@@ -62,6 +62,20 @@ export const useUserStore = defineStore('user', {
         } else reject(request.message);
       });
     },
+    requestReset(username: string) {
+      return new Promise(async (resolve, reject) => {
+        const request = await makeRequest(`auth/request-reset`, 'POST', { username });
+        if (request.status === 'success') return resolve(true);
+        reject(request.message);
+      });
+    },
+    resetPassword(token: string, newPassword: string) {
+      return new Promise(async (resolve, reject) => {
+        const request = await makeRequest(`auth/reset-password`, 'POST', { token, password: newPassword });
+        if (request.status === 'success') return resolve(true);
+        reject(request.message);
+      });
+    },
     logout() {
       return new Promise(async (resolve, reject) => {
         if (!this.user) return;

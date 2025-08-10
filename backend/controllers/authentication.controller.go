@@ -3,6 +3,7 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
+	"alexandrie/types"
 	"crypto/rand"
 	"errors"
 	"fmt"
@@ -13,12 +14,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/wneessen/go-mail"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthController interface {
 	Login(c *gin.Context) (int, any)
 	RefreshSession(c *gin.Context) (int, any)
+	RequestResetPassword(c *gin.Context) (int, any)
+	ResetPassword(c *gin.Context) (int, any)
 	Logout(c *gin.Context) (int, any)
 }
 
@@ -169,6 +173,93 @@ func (ctr *Controller) Logout(c *gin.Context) (int, any) {
 	return http.StatusOK, "Logged out successfully."
 }
 
+// Reset password
+// @Summary Reset password
+// @Method POST
+// @Router /auth/reset [post]
+// @Security Username -> send reset link
+// @Param username body string true "Username"
+// @Success 200 {object} Success(string)
+// @Failure 400 {object} Error
+func (ctr *Controller) RequestResetPassword(c *gin.Context) (int, any) {
+	if ctr.app.MailClient == nil {
+		return http.StatusInternalServerError, errors.New("mail client not configured")
+	}
+	var data struct {
+		User string `json:"username" binding:"required"`
+	}
+	if err := c.ShouldBind(&data); err != nil {
+		return http.StatusBadRequest, err
+	}
+	user, err := ctr.app.Services.User.GetUserByUsername(data.User)
+	if user == nil || err != nil {
+		return http.StatusOK, "Job done."
+	}
+	// Generate a password reset token
+	resetToken := signResetToken(user.Id)
+	if err := ctr.app.Services.User.UpdatePasswordResetToken(user.Id, resetToken); err != nil {
+		return http.StatusOK, "Job done."
+	}
+	// Send the password reset email
+	message := mail.NewMsg()
+	message.FromFormat("Alexandrie Team", os.Getenv("SMTP_MAIL"))
+	message.To(user.Email)
+	message.Subject("Alexandrie: Password Reset")
+	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Your password reset link is: %s", os.Getenv("DOMAIN_CLIENT")+"/login/reset?token="+resetToken))
+	if err := ctr.app.MailClient.DialAndSend(message); err != nil {
+		return http.StatusOK, "Job done."
+	}
+	return http.StatusOK, "Job done."
+}
+
+// Reset password
+// @Summary Reset password
+// @Method POST
+// @Router /auth/reset [post]
+// @Security Reset token -> reset password
+// @Param token body string true "Reset token"
+// @Param password body string true "New password"
+// @Success 200 {object} Success(string)
+// @Failure 400 {object} Error
+func (ctr *Controller) ResetPassword(c *gin.Context) (int, any) {
+	if ctr.app.MailClient == nil {
+		return http.StatusInternalServerError, errors.New("mail client not configured")
+	}
+	var data struct {
+		Token    string `json:"token" binding:"required"`
+		Password string `json:"password" binding:"required"`
+	}
+	if err := c.ShouldBind(&data); err != nil {
+		return http.StatusBadRequest, err
+	}
+	claims := jwt.RegisteredClaims{}
+	token, err := jwt.ParseWithClaims(data.Token, &claims, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, http.ErrAbortHandler
+		}
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil || !token.Valid {
+		return http.StatusBadRequest, errors.New("invalid reset token")
+	}
+	userId, err := strconv.ParseUint(claims.Subject, 10, 64)
+	if err != nil {
+		return http.StatusBadRequest, errors.New("invalid user ID in reset token")
+	}
+	user, err := ctr.app.Services.User.GetUserById(types.Snowflake(userId))
+	if user == nil || err != nil {
+		return http.StatusInternalServerError, errors.New("failed to get user")
+	}
+	hash, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return http.StatusInternalServerError, errors.New("failed to hash password")
+	}
+	if err := ctr.app.Services.User.UpdatePassword(user.Id, string(hash)); err != nil {
+		return http.StatusInternalServerError, errors.New("failed to update user password")
+	}
+	return http.StatusOK, "Password reset successfully."
+}
+
 func (ctr *Controller) signAccessToken(user *models.User) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":  strconv.FormatUint(uint64(user.Id), 10),                                                                   // Subject (user identifier)
@@ -189,6 +280,18 @@ func signRefreshToken() string {
 	randBytes := make([]byte, 45)
 	rand.Read(randBytes)
 	return fmt.Sprintf("%x", randBytes)
+}
+func signResetToken(userId types.Snowflake) string {
+	// JWT 20 minutes expiry
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": strconv.FormatUint(uint64(userId), 10),                 // Subject (user identifier)
+		"exp": time.Now().Add(time.Duration(time.Minute * 20)).Unix(), // Expiration time
+	})
+	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return ""
+	}
+	return tokenString
 }
 
 func deleteOldSessionsAndLogs(app *app.App) {
