@@ -2,7 +2,7 @@
   <div class="header" :class="{ 'print-style': preferences.get('printMode') }">
     <div class="text">
       <p class="category">
-        {{ category?.name }}
+        <NuxtLink :to="`/dashboard/categories/${category?.id}`">{{ category?.name }}</NuxtLink>
         <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
       </p>
       <h1 class="title">{{ doc?.name }}</h1>
@@ -30,7 +30,7 @@ const category = computed(() => categories_store.getById(props.doc?.category || 
 <style lang="scss" scoped>
 .header {
   background-color: var(--bg-contrast);
-  padding: 0.7rem 1rem;
+  padding: 0.7rem 1.2rem;
   border-radius: 0.625rem;
   display: flex;
   transition: background-color $transition-duration;

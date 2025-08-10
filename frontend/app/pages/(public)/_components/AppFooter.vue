@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div style="display: flex; align-items: center; column-gap: 0.5rem">
-      <img style="width: 50px" :src="`/Alexandrie-${colorMode.value}.svg`" alt="Alexandrie" />
+      <IconApp fill="var(--font-color)" style="width: 90px" />
       <NuxtLink to="/" style="font-weight: 600">Alexandrie</NuxtLink>
     </div>
     <p>Developed and designed by Smaug with ❤️</p>
