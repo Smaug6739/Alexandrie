@@ -61,9 +61,11 @@ function buildTree(tree: GroupedHeaders[]): TreeItem[] {
     }
     if (stack.length > 0) {
       if (!stack[stack.length - 1]!.childrens) stack[stack.length - 1]!.childrens = [];
-      else stack[stack.length - 1]!.childrens!.push(item);
-    } else result.push(item);
-
+      // @ts-ignore
+      stack[stack.length - 1].childrens.push(item);
+    } else {
+      result.push(item);
+    }
     stack.push(item);
   }
   return result;
@@ -76,13 +78,17 @@ const headers_tree = computed(() => buildTree(getHeaders(headers.value)));
 
 const marker = ref<HTMLElement>();
 
-function handleScroll() {
-  const scrollPosition = window.scrollY + window.innerHeight / 7;
+onMounted(() => window.addEventListener('scroll', updateActiveHeader, { passive: true }));
+onBeforeUnmount(() => window.removeEventListener('scroll', updateActiveHeader));
+
+function updateActiveHeader() {
+  const scrollPosition = window.scrollY + window.innerHeight / 4; // quart de la hauteur écran
   let activeHeader: HTMLElement | null = null;
 
-  for (const header of headers.value.reverse()) {
-    if (header.offsetTop <= scrollPosition && header.offsetTop + header.offsetHeight > scrollPosition) {
+  for (const header of headers.value) {
+    if (header.offsetTop <= scrollPosition) {
       activeHeader = header;
+    } else {
       break;
     }
   }
@@ -98,8 +104,6 @@ function handleScroll() {
     }
   }
 }
-onMounted(() => window.addEventListener('scroll', handleScroll));
-onBeforeUnmount(() => window.removeEventListener('scroll', handleScroll));
 
 const childs = computed(
   () =>
