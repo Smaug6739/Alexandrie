@@ -1,28 +1,31 @@
 <template>
   <div class="container">
     <AppHeader />
-    <form @submit.prevent="reset" class="body">
-      <h2>Password Reset</h2>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="password-input">
-          <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" :class="{ 'is-invalid': errors.password }" />
-          <button type="button" class="password-toggle" @click="showPassword = !showPassword">{{ showPassword ? 'Hide' : 'Show' }}</button>
+    <div class="body-container">
+      <IconApp style="width: 120px" />
+      <h1>Password Reset</h1>
+      <form @submit.prevent="reset" class="body">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-input">
+            <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" :class="{ 'is-invalid': errors.password }" />
+            <button type="button" class="password-toggle" @click="showPassword = !showPassword">{{ showPassword ? 'Hide' : 'Show' }}</button>
+          </div>
+          <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
         </div>
-        <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <div class="password-input">
-          <input :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="confirmPassword" :class="{ 'is-invalid': errors.confirmPassword }" />
-          <button type="button" class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ? 'Hide' : 'Show' }}</button>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="password-input">
+            <input :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="confirmPassword" :class="{ 'is-invalid': errors.confirmPassword }" />
+            <button type="button" class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ? 'Hide' : 'Show' }}</button>
+          </div>
+          <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
         </div>
-        <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
-      </div>
-      <button type="submit" class="btn">Change password</button>
-      <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-      <p class="sub"><NuxtLink to="/login">Return to login</NuxtLink></p>
-    </form>
+        <button type="submit" class="btn">Change password</button>
+        <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
+        <p class="sub"><NuxtLink to="/login">Return to login</NuxtLink></p>
+      </form>
+    </div>
     <AppFooter />
   </div>
 </template>
@@ -64,31 +67,33 @@ async function reset() {
 }
 </script>
 <style scoped lang="scss">
-h2 {
-  margin-top: 0;
-  padding-top: 0;
-}
 .container {
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex-grow: 1;
-  padding-top: 1.5rem;
   width: 95%;
   margin: 0 auto;
+  padding-top: 1.5rem;
+  height: 100%;
 }
 
-.body {
+.body-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+  justify-content: center;
+  max-width: 600px;
   width: 100%;
-  max-width: 620px;
-  padding: 3rem;
-  background-color: var(--bg-contrast);
-  border-radius: 15px;
+  margin: 0 auto 10%;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+/* ===== Formulaire ===== */
+form {
+  width: 100%;
 }
 
 .password-input {
@@ -98,7 +103,7 @@ h2 {
 .password-toggle {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: 5px;
   transform: translateY(-50%);
   font-size: 0.8rem;
   padding: 0.2rem;
@@ -123,7 +128,7 @@ h2 {
   font-size: 1.2rem;
   border-radius: 50px;
   width: 100%;
-  background-color: $primary-light;
+  background-color: var(--primary);
   color: white;
   &:hover {
     background: $primary-dark;
