@@ -8,6 +8,6 @@
 
 <script setup lang="ts">
 const color = usePreferences().get('primaryColor');
-setAppColor(Number(color));
+setAppColor(Number(color) || 'primary');
 useFavicon();
 </script>
