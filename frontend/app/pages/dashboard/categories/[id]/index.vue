@@ -2,7 +2,10 @@
   <div class="card-component">
     <header>
       <h1 style="font-size: 20px">Documents of category <tag class="blue">New</tag></h1>
-      <ViewSelection v-model="view" />
+      <div style="display: flex; align-items: center; gap: 8px">
+        <NuxtLink :to="`/dashboard/categories/${categoryId}/edit`"><Icon name="settings" :big="true" fill="var(--font-color)" /></NuxtLink>
+        <ViewSelection v-model="view" />
+      </div>
     </header>
     <div v-if="view == 'table'" class="line-container">
       <DocumentLine v-for="document of documents" :document="document" class="line-item" :key="document.id" />
@@ -15,7 +18,7 @@
 
 <script setup lang="ts">
 const route = useRoute();
-const mainCategoryId = route.params.id as string;
+const categoryId = route.params.id as string;
 const categoriesStore = useCategoriesStore();
 const documentsStore = useDocumentsStore();
 const view: Ref<'table' | 'list'> = ref('list');
@@ -27,8 +30,8 @@ definePageMeta({
   },
 });
 const documents = computed(() => {
-  const documents = documentsStore.getByCategories(mainCategoryId);
-  const childCategories = categoriesStore.getChilds(mainCategoryId);
+  const documents = documentsStore.getByCategories(categoryId);
+  const childCategories = categoriesStore.getChilds(categoryId);
   for (const childCategory of childCategories) {
     const childDocuments = documentsStore.getByCategories(childCategory.id);
     documents.push(...childDocuments);
