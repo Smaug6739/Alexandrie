@@ -182,30 +182,13 @@ input:-webkit-autofill:focus {
 }
 
 /* ===== Liens ===== */
-.signup-link {
+.login-link {
   display: block;
   margin-bottom: 1rem;
   text-align: center;
   color: var(--primary);
   text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.login-link {
-  text-align: center;
-  font-size: 16px;
   font-weight: 500;
-  margin: 1rem 0;
-  a {
-    text-decoration: underline;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
 }
 
 /* ===== Boutons ===== */

@@ -140,10 +140,7 @@ input:-webkit-autofill:focus {
   text-align: center;
   color: var(--primary);
   text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
+  font-weight: 500;
 }
 
 .forgot-password-link {
