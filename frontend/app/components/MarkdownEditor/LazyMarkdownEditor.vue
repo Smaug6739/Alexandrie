@@ -5,6 +5,7 @@
       <div style="padding: 6px; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px">
         <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
         <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
+        <AppTagInput v-model="document.tags" style="margin-bottom: 10px" />
         <div class="markdown" ref="container">
           <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
           <div v-if="showPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" ref="markdownPreview" style="position: relative" v-html="document.content_html"></div>
@@ -314,10 +315,12 @@ input {
 .title {
   font-size: 1.5rem;
   font-weight: bold;
+  padding: 6px 10px;
 }
 
 .description {
   font-size: 1.1rem;
   font-weight: 600;
+  padding: 4px 10px;
 }
 </style>
