@@ -7,7 +7,7 @@
         <h1>Your Notes, Beautifully Organized</h1>
         <p class="tagline">A powerful Markdown workspace designed for speed, clarity, and creativity.</p>
         <div class="cta-buttons">
-          <NuxtLink to="/dashboard" class="btn primary">Get Started</NuxtLink>
+          <NuxtLink :prefetch="false" to="/dashboard" class="btn primary">Get Started</NuxtLink>
           <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" class="btn secondary"> GitHub </NuxtLink>
         </div>
       </div>
@@ -50,7 +50,8 @@
     <section class="final-cta">
       <h2>Ready to Take Better Notes?</h2>
       <p>Join us on this journey to better note-taking.</p>
-      <NuxtLink to="/dashboard" class="btn primary large" style="display: block; margin-top: 10px; width: fit-content; margin: 0 auto">Start Now</NuxtLink>
+      <NuxtLink :prefetch="false" to="/dashboard" class="btn primary large" style="display: block; margin: 10px auto 0; width: fit-content">Start Now</NuxtLink>
+      <p style="margin-top: 30px">Want to contribute or discuss? Check out our <NuxtLink :prefetch="false" to="https://discord.gg/UPsEg6egPj" target="_blank" style="color: white; text-decoration: underline">Discord server</NuxtLink>!</p>
     </section>
 
     <AppFooter />
@@ -162,11 +163,11 @@ import TestimonialCard from './_components/TestimonialCard.vue';
 
 .final-cta {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   background: var(--primary);
   color: white;
   border-radius: 1rem;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 .final-cta .btn {
   background: white;
