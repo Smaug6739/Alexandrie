@@ -74,3 +74,6 @@ jobs:
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           MINIO_ACCESSKEY: ${{ secrets.MINIO_ACCESSKEY }}
           MINIO_SECRETKEY: ${{ secrets.MINIO_SECRETKEY }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_MAIL: ${{ secrets.SMTP_MAIL }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
