@@ -67,7 +67,7 @@ jobs:
 
       - name: Start application
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && NODE_ENV='production' DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' DATABASE_USER='${{ secrets.DATABASE_USER }}' JWT_SECRET='${{ secrets.JWT_SECRET }}' MINIO_ACCESSKEY='${{secrets.MINIO_ACCESSKEY}}' MINIO_SECRETKEY='${{secrets.MINIO_SECRETKEY}}' pm2 start ecosystem.config.js --update-env"
+          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && NODE_ENV='production' DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' DATABASE_USER='${{ secrets.DATABASE_USER }}' JWT_SECRET='${{ secrets.JWT_SECRET }}' MINIO_ACCESSKEY='${{secrets.MINIO_ACCESSKEY}}' MINIO_SECRETKEY='${{secrets.MINIO_SECRETKEY}}' SMTP_HOST='${{ secrets.SMTP_HOST }}' SMTP_MAIL='${{ secrets.SMTP_MAIL }}' SMTP_PASSWORD='${{ secrets.SMTP_PASSWORD }}' pm2 start ecosystem.config.js --update-env"
         env:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_USER: ${{ secrets.DATABASE_USER }}
