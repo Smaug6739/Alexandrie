@@ -2,18 +2,20 @@ module.exports = {
   apps: [
     {
       name: 'alexandrie-backend',
-      script: 'go run main.go',
+      script: './backend_app',
       cwd: './backend',
       env: {
         PORT: 8201,
         DOMAIN_CLIENT: 'https://alexandrie-hub.fr',
         MINIO_ENDPOINT: 'localhost:9000',
         MINIO_BUCKET: 'alexandrie',
+        CPWD: './backend/',
+        CONFIG_CPWD: '',
         COOKIE_DOMAIN: 'alexandrie-hub.fr',
         GIN_MODE: 'release',
       },
     },
-    /*{
+    {
       name: 'alexandrie-frontend',
       cwd: './frontend',
       script: 'bun .output/server/index.mjs',
@@ -21,6 +23,6 @@ module.exports = {
         NODE_ENV: 'production',
         PORT: 8200,
       },
-    },*/
+    },
   ],
 };

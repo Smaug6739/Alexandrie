@@ -21,7 +21,7 @@ func SetupServer() (*gin.Engine, *app.App) {
 		fmt.Fprintln(os.Stderr, "Error getting cwd:", err)
 		os.Exit(1)
 	}
-	absPath := filepath.Join(workingDir, fmt.Sprintf("%sconfig.toml", os.Getenv("CPWD")))
+	absPath := filepath.Join(workingDir, fmt.Sprintf("%sconfig.toml", os.Getenv("CONFIG_CPWD")))
 	config := app.Config{}
 	_, err = toml.DecodeFile(absPath, &config)
 	if err != nil {
