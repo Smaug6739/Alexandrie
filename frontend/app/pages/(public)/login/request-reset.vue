@@ -11,6 +11,7 @@
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
         <button type="submit" class="btn">Request Reset</button>
+        <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
         <p class="issue">Having issue ? <NuxtLink to="mailto:contact@alexandrie-hub.fr">Contact us !</NuxtLink></p>
       </form>
     </div>
@@ -31,8 +32,10 @@ const userStore = useUserStore();
 async function reset() {
   if (!username.value) errors.value.username = 'Username is required';
   else errors.value.username = '';
-  await userStore.requestReset(username.value);
-  useRouter().push('/login/done');
+  userStore
+    .requestReset(username.value)
+    .then(() => useRouter().push('/login/done'))
+    .catch(err => (errors.value.general = err || 'An error occurred while requesting reset'));
 }
 </script>
 <style scoped lang="scss">
@@ -96,6 +99,11 @@ input {
 .invalid-feedback {
   font-size: 0.8rem;
   color: $red;
+}
+.invalid-feedback {
+  margin-top: 0.5rem;
+  font-size: 15px;
+  text-align: center;
 }
 
 .issue {
