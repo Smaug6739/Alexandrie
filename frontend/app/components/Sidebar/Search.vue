@@ -18,9 +18,11 @@
 </template>
 
 <script setup lang="ts">
+const categoryStore = useCategoriesStore();
+
 const documents = computed(() => useDocumentsStore().getAll.filter(c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || c.tags?.toLowerCase().includes(filter.value.toLowerCase())));
 const categoryName = (id: string = '') => {
-  const category = useCategoriesStore().getById(id);
+  const category = categoryStore.getById(id);
   if (category) return `<tag ${getAppColor(category.color)}>${category.name}</tag>`;
   return '';
 };
