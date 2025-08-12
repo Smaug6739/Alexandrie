@@ -5,7 +5,9 @@
     <div class="search-container">
       <input type="text" v-model="searchQuery" placeholder="Search documents..." class="search-input" />
       <div v-if="results.length" class="results">
-        <NuxtLink v-for="result in results" :key="result.id" class="result" :to="`/dashboard/docs/${result.id}`">{{ result.name }}</NuxtLink>
+        <NuxtLink v-for="result in results" :key="result.id" class="result" :to="`/dashboard/docs/${result.id}`">
+          <Icon :name="category(result.category)?.icon || 'files'" :class="`category-icon ${getAppColor(category(result.category)?.color as number, true)}`" />{{ result.name }}</NuxtLink
+        >
       </div>
     </div>
     <div class="apps">
@@ -40,10 +42,12 @@ const colorMode = useColorMode();
 const searchQuery = ref('');
 
 const documentsStore = useDocumentsStore();
+const categoryStore = useCategoriesStore();
 const results = computed(() => {
   if (!searchQuery.value) return [];
   return documentsStore.getAll.filter(doc => doc.name.toLowerCase().includes(searchQuery.value.toLowerCase())).slice(0, 5);
 });
+const category = (id?: string) => categoryStore.getById(id || '');
 const recentDocuments = computed(() => {
   return documentsStore.getAll
     .toSorted((a, b) => {
@@ -92,19 +96,27 @@ h1 {
   border-radius: 8px;
   padding: 10px;
   width: 500px;
+  gap: 4px;
   text-align: left;
   max-height: 300px;
   overflow-y: auto;
   z-index: 10;
 }
 .result {
-  display: block;
+  display: flex;
   padding: 5px;
   cursor: pointer;
+  border-radius: 6px;
+  font-weight: 500;
   transition: background-color 0.2s;
   &:hover {
     background-color: var(--bg-contrast);
   }
+}
+.category-icon {
+  margin-right: 10px;
+  padding: 2px;
+  border-radius: 4px;
 }
 
 .apps {
