@@ -27,7 +27,7 @@
     "@types/katex": "^0.16.7",
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-container": "^2.0.10",
-    "@types/node": "^24.2.0",
+    "@types/node": "^24.2.1",
     "@vite-pwa/nuxt": "1.0.4",
     "katex": "^0.16.22",
     "markdown-it": "^14.1.0",
