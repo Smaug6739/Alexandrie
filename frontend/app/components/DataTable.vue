@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <input type="text" v-model="searchInput" placeholder="Search..." />
     <div class="table-wrapper">
       <table>
         <thead>
@@ -109,6 +110,7 @@ interface Field {
 }
 .table-wrapper {
   width: 100%;
+  border-top: 1px solid var(--border-color);
   overflow-x: auto;
 }
 .header {
