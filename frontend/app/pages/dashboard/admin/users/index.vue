@@ -1,6 +1,8 @@
 <template>
   <div class="card-component">
-    <h2 style="margin: 0">Users manager</h2>
+    <header>
+      <h1>Users manager</h1>
+    </header>
     <DataTable v-if="rows?.length" :headers="headers" :rows="rows || []">
       <template #action="{ cell }">
         <NuxtLink :to="`/dashboard/admin/users/${cell?.data.id}`"><Icon name="view" /></NuxtLink>
@@ -39,5 +41,3 @@ const rows = computed(() =>
   }),
 );
 </script>
-
-<style scoped lang="scss"></style>
