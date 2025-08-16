@@ -14,7 +14,8 @@ export function useAvatar(user?: User): string {
 
 export const appColors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
 export function getAppColor(index: number = 0, defaultPrimary?: boolean): string {
-  if (defaultPrimary && !index) return 'primary';
+  if (index == -1) return '';
+  if ((defaultPrimary && !index) || index == -2) return 'primary';
   return appColors[index % appColors.length] || 'primary';
 }
 
