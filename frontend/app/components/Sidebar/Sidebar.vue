@@ -22,7 +22,7 @@
           <div class="icons">
             <NuxtLink @click="onClick" to="/dashboard/docs/new"><Icon name="add_file" :mid="true" fill="var(--font-color)" /></NuxtLink>
             <NuxtLink @click="newCategory"><Icon name="add_folder" :mid="true" fill="var(--font-color)" /></NuxtLink>
-            <NuxtLink @click="collapseAllStates"><Icon name="collapse" :mid="true" fill="var(--font-color)" /></NuxtLink>
+            <NuxtLink @click="sidebarTree.collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color)" /></NuxtLink>
             <NuxtLink @click="toggleDock"><Icon name="dock" :mid="true" fill="var(--font-color)" /></NuxtLink>
           </div>
         </div>

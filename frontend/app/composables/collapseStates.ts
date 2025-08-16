@@ -30,14 +30,12 @@ export function collapseAllStates() {
   saveCollapseStates();
 }
 
-// Getter réactif
-export function getCollapseState(id: string): Ref<boolean> {
+export function getCollapseState(id: string): boolean {
   const states = loadCollapseStates();
-  if (!(id in states)) states[id] = true; // défaut : ouvert
-  return ref(states[id] ?? true);
+  if (!(id in states)) states[id] = true; // default open
+  return states[id] ?? true;
 }
 
-// Setter (lié à la ref)
 export function setCollapseState(id: string, value: boolean) {
   const states = loadCollapseStates();
   states[id] = value;
