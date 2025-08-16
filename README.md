@@ -17,7 +17,7 @@ Organize, search, and export your notes with an intuitive interface designed for
   </a>
 </p>
 
-![alexandrie-hub fr_dashboard_docs_218914302160015361](.github/github.png)
+![alexandrie-hub fr_dashboard_docs_218914302160015361](.github/present.png)
 
 ## ✨ Features
 
