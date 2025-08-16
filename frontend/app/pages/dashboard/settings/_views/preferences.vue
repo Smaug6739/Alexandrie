@@ -54,7 +54,6 @@ interface SelectOption extends BaseOption {
 }
 
 type Option = ToggleOption | SelectOption | ColorOption;
-console.log(preferencesStore.get('primaryColor'));
 const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'General',
@@ -172,7 +171,6 @@ const toggleOption = (option: ToggleOption) => {
 };
 
 const selectOption = (option: SelectOption) => {
-  console.log('Selected option:', option);
   preferencesStore.set(option.storageKey, option.value);
   option.onChange?.(option.value);
 };
