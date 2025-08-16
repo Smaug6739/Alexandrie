@@ -32,7 +32,7 @@
       <div class="recent">
         <DocumentCard v-for="doc in recentDocuments" :key="doc.id" :document="doc" />
       </div>
-      <NuxtLink to="/dashboard/docs/new" class="add-doc">+</NuxtLink>
+      <NuxtLink to="/dashboard/docs/new" :prefetch="false" class="add-doc">+</NuxtLink>
     </div>
   </div>
 </template>

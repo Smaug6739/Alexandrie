@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="infos">
-      <NuxtLink :to="`/dashboard/docs/edit/${document.id}`"><Icon name="edit_page" /> Edit this page</NuxtLink>
+      <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" :prefetch="false"><Icon name="edit_page" /> Edit this page</NuxtLink>
       <p>Last update: {{ new Date(parseInt(document.updated_timestamp)).toLocaleDateString() }}</p>
     </div>
     <div class="items">
