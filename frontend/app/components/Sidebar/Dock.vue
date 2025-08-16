@@ -54,9 +54,8 @@ a {
 }
 
 a.router-link-active {
-  border-bottom: 2.5px solid var(--primary);
   &:deep(svg) {
-    fill: var(--opposite-color);
+    fill: var(--primary);
   }
 }
 </style>
