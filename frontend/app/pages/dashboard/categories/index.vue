@@ -33,21 +33,7 @@ const tree = computed(() => new TreeStructure(useSidebarTree().categories.value)
 
 const filteredItems = computed(() => {
   if (!filter.value.trim()) return tree.value;
-
-  const filterRecursive = (items: Item<Category>[]): Item<Category>[] => {
-    return items
-      .map(item => {
-        const matches = item.label.toLowerCase().includes(filter.value.toLowerCase());
-        const filteredChildren = item.childrens ? filterRecursive(item.childrens) : [];
-        if (matches || filteredChildren.length > 0) {
-          return { ...item, childrens: filteredChildren };
-        }
-        return null;
-      })
-      .filter(Boolean) as Item<Category>[];
-  };
-
-  return filterRecursive(tree.value);
+  return filterRecursive<Item<Category>>(tree.value, filter);
 });
 
 const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 2 }));

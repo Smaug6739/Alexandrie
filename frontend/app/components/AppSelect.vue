@@ -48,21 +48,7 @@ const selected = computed(() => {
 
 const filteredItems = computed(() => {
   if (!search.value.trim()) return props.items;
-
-  const filterRecursive = (items: ANode[]): ANode[] => {
-    return items
-      .map(item => {
-        const matches = item.label.toLowerCase().includes(search.value.toLowerCase());
-        const filteredChildren = item.childrens ? filterRecursive(item.childrens) : [];
-        if (matches || filteredChildren.length > 0) {
-          return { ...item, childrens: filteredChildren };
-        }
-        return null;
-      })
-      .filter(Boolean) as ANode[];
-  };
-
-  return filterRecursive(props.items);
+  return filterRecursive(props.items, search);
 });
 
 function toggleDropdown() {

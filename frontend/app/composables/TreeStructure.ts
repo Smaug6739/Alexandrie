@@ -70,3 +70,15 @@ export class TreeStructure {
     };
   }
 }
+export const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] => {
+  return items
+    .map(item => {
+      const matches = item.label.toLowerCase().includes(filter.value.toLowerCase());
+      const filteredChildren = item.childrens ? filterRecursive(item.childrens, filter) : [];
+      if (matches || filteredChildren.length > 0) {
+        return { ...item, childrens: filteredChildren };
+      }
+      return null;
+    })
+    .filter(Boolean) as T[];
+};
