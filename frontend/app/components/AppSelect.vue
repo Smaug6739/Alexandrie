@@ -50,7 +50,6 @@ const filteredItems = computed(() => {
 });
 
 function toggleDropdown() {
-  console.log('Toggling dropdown');
   open.value = true;
   search.value = '';
   nextTick(() => {
@@ -106,6 +105,7 @@ button,
 .search-input {
   cursor: text;
   border: none;
+  padding: 6px 10px;
 }
 
 .app-select:has(.dropdown) button,
@@ -124,7 +124,9 @@ button,
   background: var(--bg-color);
   border-radius: 6px;
   margin-top: 4px;
-  z-index: 10000000;
+  padding: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 ul {

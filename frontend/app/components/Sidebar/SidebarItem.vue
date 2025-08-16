@@ -21,7 +21,6 @@ const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
 const dotMenu = ref();
 const customClass = computed(() => {
-  if (props.item.data.type === 'category' && props.item.data.name === 'Mathématiques') console.log(props.item.data.color, getAppColor(props.item.data.color as number));
   if ('color' in props.item.data && props.item.data.color != -1) return `item-icon ${getAppColor(props.item.data.color as number)}`;
 });
 const isActive = ref(false);
