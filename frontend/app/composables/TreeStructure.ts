@@ -16,21 +16,28 @@ export interface Item<T = Document | Category | DefaultItem | Ressource> extends
   childrens?: Item<T>[];
   icon?: string;
 }
+
 export class TreeStructure {
   public readonly items: Item[];
-  public itemMap: Map<string, Item>; // Utilisation de Map pour les recherches rapides
-  public childrenMap: Map<string, Item[]>; // Utilisation de Map pour les recherches rapides
+
+  public readonly itemMap: Map<string, Item>; // Map for quick access by ID
+
+  public readonly childrenMap: Map<string, Item[]>; // Map for quick access to children by parent ID
+
+  private rootTree: Item[];
+
   constructor(items: Item[]) {
+    console.log('MAIN: TreeStructure initialized with items:', items.length);
     this.items = items;
     this.itemMap = new Map(items.map(item => [item.id, item]));
     this.childrenMap = new Map();
 
     for (const item of items) {
-      if (!this.childrenMap.has(item.parent_id || '')) {
-        this.childrenMap.set(item.parent_id || '', []);
-      }
+      if (!this.childrenMap.has(item.parent_id || '')) this.childrenMap.set(item.parent_id || '', []);
       this.childrenMap.get(item.parent_id || '')!.push(item);
     }
+
+    this.rootTree = this.buildRootTree(); // calculé une seule fois
   }
 
   // Get item by ID
@@ -39,10 +46,13 @@ export class TreeStructure {
   }
 
   // Generate the tree structure without indexing
+  private buildRootTree(): Item[] {
+    console.log('TreeStructure reconstructed');
+    return this.items.filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id || '') || (item.data.type === 'category' && item.data.role === 2)).map(root => this.buildTree(root));
+  }
+
   public generateTree(): Item[] {
-    return this.items
-      .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id || '') || (item.data.type === 'category' && item.data.role === 2)) // Racines
-      .map(rootItem => this.buildTree(rootItem));
+    return this.items.filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id || '') || (item.data.type === 'category' && item.data.role === 2)).map(root => this.buildTree(root));
   }
   public getSubTreeById(id: string): Item | undefined {
     const root = this.getItem(id);

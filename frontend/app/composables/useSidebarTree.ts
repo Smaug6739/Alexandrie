@@ -1,4 +1,13 @@
-import { type Category } from '~/stores';
+import type { Category, Document, Ressource } from '~/stores';
+
+let initialized = false;
+const documents = shallowRef<Item<Document>[]>([]);
+const categories = shallowRef<Item<Category>[]>([]);
+const ressources = shallowRef<Item<Ressource>[]>([]);
+const collapseStates = new Map<string, Ref<boolean>>();
+const allItems = shallowRef<Item[]>([]);
+const structure = shallowRef<TreeStructure>(new TreeStructure(allItems.value));
+const tree = shallowRef<Item[]>([]);
 
 function getCollapseState(id: string): boolean {
   const stored = localStorage.getItem(`collapse-${id}`);
@@ -12,20 +21,28 @@ export function useSidebarTree() {
   const preferencesStore = usePreferences();
   const { workspaceId } = useSidebar();
 
-  const categories = computed<Item[]>(() =>
-    categoriesStore.categories.map(cat => ({
+  // **************************************************************
+  // Helper to get "Itemized" categories, documents, and ressources
+  // **************************************************************
+  if (!initialized) {
+    for (const c of categoriesStore.categories) {
+      collapseStates.set(c.id, ref(getCollapseState(c.id)));
+    }
+    for (const d of documentsStore.documents) {
+      collapseStates.set(d.id, ref(getCollapseState(d.id)));
+    }
+    categories.value = categoriesStore.categories.map(cat => ({
       id: cat.id,
       parent_id: cat.parent_id || '',
       label: cat.name,
       route: `/dashboard/categories/${cat.id}`,
       icon: cat.icon || 'folder',
       data: cat,
-      show: ref(getCollapseState(cat.id)),
-    })),
-  );
+      show: collapseStates.get(cat.id)!,
+    }));
 
-  const documents = computed<Item[]>(() =>
-    documentsStore.documents
+    documents.value = documentsStore.documents
+      .slice()
       .sort((a, b) => b.pinned - a.pinned || a.name.localeCompare(b.name))
       .map(doc => ({
         id: doc.id,
@@ -34,39 +51,41 @@ export function useSidebarTree() {
         route: `/dashboard/docs/${doc.id}`,
         icon: doc.accessibility == 1 ? 'file' : doc.accessibility == 2 ? 'draft' : 'archive',
         data: doc,
-        show: ref(getCollapseState(doc.id)),
-      })),
-  );
-  const ressources = computed<Item[]>(() => {
-    if (!preferencesStore.get('hideSidebarRessources'))
-      return ressourcesStore.getAll
-        .filter(res => res.parent_id)
-        .map(res => ({
-          id: res.id,
-          parent_id: res.parent_id || '',
-          label: res.filename,
-          route: `/dashboard/cdn/${res.id}/preview`,
-          icon: res.filetype == 'application/pdf' ? 'pdf' : 'image',
-          data: res,
-          show: ref(true),
-        }));
-    return [];
-  });
+        show: collapseStates.get(doc.id)!,
+      }));
 
-  const allItems = computed(() => [...documents.value, ...ressources.value, ...categories.value.filter(cat => (cat as Item<Category>).data.role == 1)]);
-  const structure = computed(() => new TreeStructure(allItems.value));
+    ressources.value = preferencesStore.get('hideSidebarRessources')
+      ? []
+      : ressourcesStore.getAll
+          .filter(res => res.parent_id)
+          .map(res => ({
+            id: res.id,
+            parent_id: res.parent_id || '',
+            label: res.filename,
+            route: `/dashboard/cdn/${res.id}/preview`,
+            icon: res.filetype == 'application/pdf' ? 'pdf' : 'image',
+            data: res,
+            show: ref(true),
+          }));
 
-  const tree = computed(() => {
-    // Special icons:
+    allItems.value = [...documents.value, ...ressources.value, ...categories.value.filter(cat => (cat as Item<Category>).data.role == 1)];
+
+    structure.value = new TreeStructure(allItems.value);
+
+    // gestion des icônes spéciales
     if (!preferencesStore.get('normalizeFileIcons')) {
       for (const i of structure.value.childrenMap.keys()) {
         const ref = structure.value.itemMap.get(i);
         const subs = structure.value.childrenMap.get(i);
-        if (ref?.data.type === 'document' && subs?.some(c => c.data.type != 'ressource')) structure.value.itemMap.get(i)!.icon = 'file_parent';
+        if (ref?.data.type === 'document' && subs?.some(c => c.data.type != 'ressource')) {
+          structure.value.itemMap.get(i)!.icon = 'file_parent';
+        }
       }
     }
-    return structure.value.generateTree();
-  });
+
+    tree.value = structure.value.generateTree();
+  }
+  // **************************************************************
 
   const filtered = computed(() => {
     return tree.value.filter(item => {
