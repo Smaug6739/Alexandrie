@@ -9,11 +9,6 @@ const allItems = shallowRef<Item[]>([]);
 const structure = shallowRef<TreeStructure>(new TreeStructure(allItems.value));
 const tree = shallowRef<Item[]>([]);
 
-function getCollapseState(id: string): boolean {
-  const stored = localStorage.getItem(`collapse-${id}`);
-  return stored !== 'false';
-}
-
 export function useSidebarTree() {
   const categoriesStore = useCategoriesStore();
   const documentsStore = useDocumentsStore();
@@ -95,14 +90,6 @@ export function useSidebarTree() {
     });
   });
 
-  const collapseAll = () => {
-    tree.value.forEach(item => {
-      if (item.show.value) {
-        localStorage.setItem(`collapse-${item.id}`, 'false');
-        item.show.value = false;
-      }
-    });
-  };
   const getSubTreeById = (id: string) => {
     return structure.value.treeToArray(structure.value.getSubTreeById(id)?.childrens || []);
   };
@@ -113,6 +100,5 @@ export function useSidebarTree() {
     categories,
     tree,
     filtered,
-    collapseAll,
   };
 }

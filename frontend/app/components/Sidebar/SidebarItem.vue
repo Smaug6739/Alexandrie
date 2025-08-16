@@ -76,7 +76,7 @@ const drop = async (event: DragEvent) => {
   }
   if (draggedItem.type === 'document' && props.item.data.type === 'document') {
     // Move document to document
-    if (documentStore.getAllChildrensIds(draggedItem.id).includes(props.item.parent_id)) return; // Prevent moving parent to child
+    if (documentStore.getAllChildrensIds(draggedItem.id).includes(props.item.parent_id ?? '')) return; // Prevent moving parent to child
     if (draggedItem.id === props.item.id) return; // Prevent moving to the same document
     documentStore.update({ ...draggedItem, parent_id: props.item.id, category: props.item.data.category });
   }

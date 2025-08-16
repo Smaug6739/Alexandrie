@@ -23,7 +23,7 @@ const props = defineProps<{ item: Item; root?: boolean }>();
 
 const toggleShow = () => {
   props.item.show.value = !props.item.show.value;
-  localStorage.setItem(`collapse-${props.item.id}`, props.item.show.value.toString());
+  setCollapseState(props.item.id, props.item.show.value);
 };
 </script>
 
