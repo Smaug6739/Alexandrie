@@ -1,10 +1,10 @@
 <template>
-  <div class="category-select" :style="{ width: size || '100%' }">
+  <div class="app-select" :style="{ width: size || '100%' }">
     <div v-if="!open">
-      <button @click="toggleDropdown">{{ selected?.label || placeholder }}</button>
+      <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
     </div>
     <div v-else>
-      <input type="text" v-model="search" placeholder="Search..." class="search-input" ref="searchInput" @blur="handleBlur" @keydown="handleKeyDown" />
+      <input type="text" v-model="search" placeholder="Search..." class="search-input" ref="searchInput" @keydown="handleKeyDown" />
       <div class="dropdown">
         <ul>
           <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" @select="handleSelect" :disabled="disabled" />
@@ -15,8 +15,6 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick } from 'vue';
-
 const props = defineProps<{
   items: ANode[];
   placeholder?: string;
@@ -52,6 +50,7 @@ const filteredItems = computed(() => {
 });
 
 function toggleDropdown() {
+  console.log('Toggling dropdown');
   open.value = true;
   search.value = '';
   nextTick(() => {
@@ -68,7 +67,6 @@ function handleKeyDown(event: KeyboardEvent) {
       handleSelect(firstItem);
     }
   }
-  // Ne PAS fermer sur Tab
 }
 
 function handleSelect(node: ANode) {
@@ -77,18 +75,16 @@ function handleSelect(node: ANode) {
   open.value = false;
 }
 
-function handleBlur(event: FocusEvent) {
-  setTimeout(() => {
-    const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
-    if (!relatedTarget?.closest('.category-select')) {
-      open.value = false;
-    }
-  }, 100);
+function handleClickOutside(_: MouseEvent) {
+  open.value = false;
 }
+
+onMounted(() => document.addEventListener('click', handleClickOutside));
+onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
 </script>
 
 <style scoped lang="scss">
-.category-select {
+.app-select {
   position: relative;
   width: 200px;
   border: 1px solid var(--border-color);
@@ -101,7 +97,7 @@ function handleBlur(event: FocusEvent) {
 button,
 .search-input {
   width: 100%;
-  padding: 10px;
+  padding: 8px 10px;
   text-align: left;
   font-size: 16px;
   cursor: pointer;
@@ -112,8 +108,8 @@ button,
   border: none;
 }
 
-.category-select:has(.dropdown) button,
-.category-select:has(.dropdown) .search-input {
+.app-select:has(.dropdown) button,
+.app-select:has(.dropdown) .search-input {
   outline: 2px solid var(--border-color);
 }
 
@@ -125,10 +121,10 @@ button,
   max-height: 300px;
   overflow-y: auto;
   border: 1px solid var(--border-color);
-  background: var(--bg-contrast);
+  background: var(--bg-color);
   border-radius: 6px;
   margin-top: 4px;
-  z-index: 1000;
+  z-index: 10000000;
 }
 
 ul {

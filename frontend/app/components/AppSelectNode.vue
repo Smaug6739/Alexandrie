@@ -27,7 +27,7 @@ function select() {
 <style scoped>
 .tree-node {
   display: block;
-  padding: 8px 12px;
+  padding: 6px 10px;
   text-align: left;
   cursor: pointer;
   font-size: 15px;

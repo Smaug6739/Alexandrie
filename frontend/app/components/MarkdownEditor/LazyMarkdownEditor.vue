@@ -314,13 +314,13 @@ input {
 
 .title {
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 600;
   padding: 6px 10px;
 }
 
 .description {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 500;
   padding: 4px 10px;
 }
 </style>

@@ -76,5 +76,6 @@ input {
   min-width: 80px;
   flex: 1;
   padding: 0 4px;
+  font-weight: 500;
 }
 </style>
