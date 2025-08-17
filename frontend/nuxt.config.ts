@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
+  
   vite: {
     css: {
       preprocessorOptions: {
@@ -36,6 +37,11 @@ export default defineNuxtConfig({
     ],
   },
   ssr: false,
+  nitro: {
+    prerender: {
+      routes: ['/']
+    }
+  },
   css: ['~/styles/main.scss', '~/styles/katex/katex.min.css'],
   modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt'],
 
@@ -157,14 +163,9 @@ export default defineNuxtConfig({
         { name: 'og:description', content: 'A website for taking beautiful notes in extended Markdown format.' },
         { name: 'og:image', content: '/android-chrome-192x192.png' },
         { name: 'og:image:alt', content: 'Alexandrie' },
-        { name: 'og:url', content: 'https://alexandrie-hub.fr' },
+        { name: 'og:url', content: process.env.NUXT_PUBLIC_BASE_URL || 'https://alexandrie-hub.fr' }
       ],
       link: [
-        /*{
-          rel: 'manifest',
-          crossorigin: 'use-credentials',
-          href: '/manifest.json',
-        },*/
         {
           rel: 'manifest',
           href: '/manifest.webmanifest',
@@ -188,12 +189,14 @@ export default defineNuxtConfig({
         },
         {
           rel: 'preconnect',
-          href: 'https://api.alexandrie-hub.fr',
+          href: process.env.NUXT_PUBLIC_BASE_API || 'https://api.alexandrie-hub.fr',
+          crossorigin: ''
         },
         {
           rel: 'preconnect',
-          href: 'https://cdn.alexandrie-hub.fr',
-        },
+          href: process.env.NUXT_PUBLIC_BASE_CDN || 'https://cdn.alexandrie-hub.fr', 
+          crossorigin: ''
+        }
       ],
     },
   },

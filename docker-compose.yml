@@ -1,0 +1,117 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: alexandrie-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: alexandrie
+      MYSQL_USER: alexandrie
+      MYSQL_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - alexandrie-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # MinIO Object Storage
+  minio:
+    image: minio/minio:latest
+    container_name: alexandrie-minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - alexandrie-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # Alexandrie Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend/Dockerfile
+    container_name: alexandrie-backend
+    environment:
+      # Database Configuration
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_NAME: alexandrie
+      DATABASE_USER: alexandrie
+      DATABASE_PASSWORD: password
+      
+      # Application Configuration
+      JWT_SECRET: your-secure-jwt-secret-key-change-this-in-production
+      DOMAIN_CLIENT: http://localhost:8200
+      COOKIE_DOMAIN: localhost
+      
+      # MinIO Configuration
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESSKEY: minioadmin
+      MINIO_SECRETKEY: minioadmin
+      MINIO_BUCKET: alexandrie
+      
+      # SMTP Configuration (optional)
+      SMTP_HOST: ""
+      SMTP_MAIL: ""
+      SMTP_PASSWORD: ""
+      
+      # Port Configuration
+      PORT: 8201
+      CPWD: /app/
+      CONFIG_CPWD: ""
+      GIN_MODE: release
+    ports:
+      - "8201:8201"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - alexandrie-network
+
+  # Alexandrie Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend/Dockerfile
+      args:
+        NUXT_PUBLIC_BASE_API: http://localhost:8201
+        NUXT_PUBLIC_BASE_CDN: http://localhost:9000/alexandrie
+        NUXT_PUBLIC_BASE_URL: http://localhost:8200
+    container_name: alexandrie-frontend
+    restart: unless-stopped
+    ports:
+      - "8200:8200"
+    depends_on:
+      - backend
+    networks:
+      - alexandrie-network
+
+networks:
+  alexandrie-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+  minio_data:
+    driver: local
