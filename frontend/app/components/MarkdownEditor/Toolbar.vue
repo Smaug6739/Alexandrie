@@ -1,19 +1,21 @@
 <template>
   <div class="toolbar">
-    <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name"></button>
+    <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name" class="btn"></button>
     <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" v-if="!minimal" />
     <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="300px" class="entry" v-if="!minimal" />
     <AppHint text="Tags has been moved down" />
-    <!-- TODO: Remove on release 7.4.0 -->
+    <button @click="openModal" class="help"><Icon name="help" :big="true" fill="var(--font-color-light)" /></button>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Document } from '~/stores';
+import ModalSyntax from './ModalSyntax.vue';
 const categories = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
 const emit = defineEmits(['execute-action']);
 const emitAction = (action: string) => emit('execute-action', action, props.document);
+const openModal = () => useModal().add(new Modal(shallowRef(ModalSyntax), {}, () => {}, true));
 const accessibilities: ANode[] = [
   {
     id: 1,
@@ -111,8 +113,9 @@ const toolbar = [
   padding: 0.15rem;
   color: var(--font-color-dark);
   gap: 0 3px;
+  width: 100%;
 }
-button {
+.btn {
   padding: 4px;
   margin: 0;
   transform: none;
@@ -130,8 +133,7 @@ button {
   }
 }
 
-svg,
-.toolbar:deep(svg) {
+.btn:deep(svg) {
   fill: var(--font-color-dark);
   width: 24px;
   height: 24px;
@@ -144,5 +146,12 @@ input,
 }
 .entry {
   background-color: var(--bg-color);
+}
+
+.help {
+  margin-left: auto;
+  &:hover:deep(svg) {
+    fill: var(--font-color-dark);
+  }
 }
 </style>

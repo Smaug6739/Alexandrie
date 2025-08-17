@@ -1,3 +1,11 @@
+code {
+	background: var(--bg-contrast);
+	color: var(--font-color);
+	margin: 2px;
+	padding: 3px;
+	border-radius: 5px;
+}
+
 pre code.hljs {
 	display: block;
 	overflow-x: auto;
@@ -17,9 +25,12 @@ pre {
 	width: 100%;
 }
 
+pre>code,
 code.hljs {
 	padding: 0.75em;
 	text-wrap: wrap;
+	background: #3b4244;
+	color: #fff;
 }
 
 .hljs {
