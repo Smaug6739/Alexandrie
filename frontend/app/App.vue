@@ -3,6 +3,7 @@
     <ModalManager />
     <NuxtPage />
     <Notification />
+    <GlobalSearch />
   </div>
 </template>
 
