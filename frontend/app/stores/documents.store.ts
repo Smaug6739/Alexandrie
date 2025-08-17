@@ -3,7 +3,7 @@ import type { DB_Document, Document } from './db_strustures';
 
 export const useDocumentsStore = defineStore('documents', {
   state: () => ({
-    documents: ref<Document[]>([]),
+    documents: [] as Document[],
   }),
   getters: {
     getAll: state => state.documents,
