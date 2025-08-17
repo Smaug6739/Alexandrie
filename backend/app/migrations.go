@@ -14,22 +14,22 @@ func Migrate(config *Config) {
 
 	workingDir, _ := os.Getwd()
 	absPath := filepath.Join(workingDir, os.Getenv("CONFIG_CPWD"), "migrations")
-
+	absPath = filepath.ToSlash(absPath)
 	db := DBConection(*config, true) // Use multiStatements for migration
 	defer db.Close()
-	
+
 	// Test the database connection
 	if err := db.Ping(); err != nil {
 		panic(fmt.Sprintf("failed to ping database: %v", err))
 	}
-	
+
 	driver, err := mysql.WithInstance(db, &mysql.Config{
 		MigrationsTable: "schema_migrations",
 	})
 	if err != nil {
 		panic(fmt.Sprintf("failed to create mysql driver: %v", err))
 	}
-	
+
 	m, err := migrate.NewWithDatabaseInstance(
 		fmt.Sprintf("file://%s", absPath),
 		"mysql",
