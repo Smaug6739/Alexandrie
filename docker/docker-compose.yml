@@ -46,7 +46,7 @@ services:
   # Alexandrie Backend
   backend:
     build:
-      context: ./backend
+      context: ../backend
       dockerfile: ../docker/backend/Dockerfile
     container_name: alexandrie-backend
     environment:
@@ -91,7 +91,7 @@ services:
   # Alexandrie Frontend
   frontend:
     build:
-      context: ./frontend
+      context: ../frontend
       dockerfile: ../docker/frontend/Dockerfile
     container_name: alexandrie-frontend
     restart: unless-stopped
