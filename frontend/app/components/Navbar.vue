@@ -7,8 +7,23 @@
     </button>
     <IconApp v-if="!isOpened" style="width: 40px" />
     <BreadCrumb v-if="!isMobile()" />
+    
+    <button 
+      class="search-btn" 
+      @click="openGlobalSearch"
+      title="Global search (Ctrl+K)"
+      aria-label="Global search"
+    >
+      <Icon name="search" />
+      <span class="search-text">Search</span>
+      <kbd class="shortcut">Ctrl+K</kbd>
+    </button>
+    
     <ThemeToggle style="margin-left: auto" aria-label="toggle theme" />
   </header>
+  
+      <!-- Reference to global search component -->
+  <GlobalSearch ref="globalSearchRef" />
 </template>
 
 <style lang="scss" scoped>
@@ -32,6 +47,46 @@ button {
   margin: 0;
 }
 
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--border-color);
+  border: none;
+  border-radius: 8px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 16px;
+  
+  &:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.search-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.shortcut {
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  font-weight: 600;
+}
+
 // Mobile styles
 @media screen and (max-width: 719px) {
   .no-mobile {
@@ -40,5 +95,14 @@ button {
 }
 </style>
 <script lang="ts" setup>
+import GlobalSearch from './GlobalSearch.vue'
+
 const { toggleSidebar, isOpened } = useSidebar();
+
+// Reference to global search component
+const globalSearchRef = ref()
+
+function openGlobalSearch() {
+  globalSearchRef.value?.openSearch()
+}
 </script>
