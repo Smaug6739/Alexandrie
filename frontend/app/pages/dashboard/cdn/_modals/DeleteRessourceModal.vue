@@ -25,8 +25,4 @@ const deleteRessource = async () => {
 };
 </script>
 
-<style scoped lang="scss">
-.modal {
-  min-width: 500px;
-}
-</style>
+<style scoped lang="scss"></style>

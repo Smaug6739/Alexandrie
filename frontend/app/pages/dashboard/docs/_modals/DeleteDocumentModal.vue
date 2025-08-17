@@ -28,9 +28,6 @@ const allChildren = useSidebarTree().getSubTreeById(props.documentId);
 </script>
 
 <style scoped lang="scss">
-.modal {
-  min-width: 500px;
-}
 .warn {
   color: $red-dark;
   opacity: 0.7;

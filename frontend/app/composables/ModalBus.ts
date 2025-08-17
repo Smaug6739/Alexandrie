@@ -22,5 +22,5 @@ export function useModal() {
 }
 
 export class Modal {
-  constructor(public component: any, public props: any = {}, public onClose: () => void = () => {}) {}
+  constructor(public component: any, public props: any = {}, public onClose: () => void = () => {}, public big: boolean = false) {}
 }
