@@ -14,8 +14,8 @@ export function useAvatar(user?: User): string {
 
 export const appColors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
 export function getAppColor(index: number = 0, defaultPrimary?: boolean): string {
+  if ((defaultPrimary && index < 0) || index == -2) return 'primary';
   if (index == -1) return '';
-  if ((defaultPrimary && !index) || index == -2) return 'primary';
   return appColors[index % appColors.length] || 'primary';
 }
 
@@ -26,19 +26,6 @@ export const readableFileSize = (size: number): string => {
 export function formatDate(timestamp: number | undefined): string {
   const date = new Date(timestamp || 0);
   return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
-}
-export function debounce(fn: Function, wait: number) {
-  let timer: NodeJS.Timeout;
-  return function (...args: any[]) {
-    if (timer) {
-      clearTimeout(timer); // clear any pre-existing timer
-    }
-    // @ts-ignore
-    const context = this; // get the current context
-    timer = setTimeout(() => {
-      fn.apply(context, args); // call the function if time expires
-    }, wait);
-  };
 }
 
 export function setAppColor(color: string | number) {
