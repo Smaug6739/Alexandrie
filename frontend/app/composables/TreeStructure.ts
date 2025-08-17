@@ -41,12 +41,12 @@ export class TreeStructure {
   }
 
   public generateTree(): Item[] {
-    return this.items.filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id || '') || (item.data.type === 'category' && item.data.role === 2)).map(root => this.buildTree(root));
+    return this.items.filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id || '') || (item.data.type === 'category' && item.data.role === 2)).map(root => this.buildTree(root, new Set()));
   }
   public getSubTreeById(id: string): Item | undefined {
     const root = this.getItem(id);
     if (!root) return undefined;
-    return this.buildTree(root);
+    return this.buildTree(root, new Set());
   }
   public treeToArray(tree: Item[]): Item[] {
     const result: Item[] = [];
@@ -62,11 +62,19 @@ export class TreeStructure {
   }
 
   // Generate sub tree
-  private buildTree(item: Item): Item {
+  private buildTree(item: Item, visited: Set<string> = new Set()): Item {
+    // Prevent infinite recursion by checking if we've already visited this item
+    if (visited.has(item.id)) {
+      return { ...item, childrens: [] };
+    }
+    
+    visited.add(item.id);
     const children = this.childrenMap.get(item.id) || [];
+    const newVisited = new Set(visited);
+    
     return {
       ...item,
-      childrens: children.map(child => this.buildTree(child)),
+      childrens: children.map(child => this.buildTree(child, newVisited)),
     };
   }
 }

@@ -17,7 +17,19 @@ func Migrate(config *Config) {
 
 	db := DBConection(*config, true) // Use multiStatements for migration
 	defer db.Close()
-	driver, _ := mysql.WithInstance(db, &mysql.Config{})
+	
+	// Test the database connection
+	if err := db.Ping(); err != nil {
+		panic(fmt.Sprintf("failed to ping database: %v", err))
+	}
+	
+	driver, err := mysql.WithInstance(db, &mysql.Config{
+		MigrationsTable: "schema_migrations",
+	})
+	if err != nil {
+		panic(fmt.Sprintf("failed to create mysql driver: %v", err))
+	}
+	
 	m, err := migrate.NewWithDatabaseInstance(
 		fmt.Sprintf("file://%s", absPath),
 		"mysql",
@@ -26,6 +38,7 @@ func Migrate(config *Config) {
 	if err != nil {
 		panic(fmt.Sprintf("failed to create migrate instance: %v", err))
 	}
+	defer m.Close()
 
 	if err := m.Up(); err != nil && err.Error() != "no change" {
 		panic(fmt.Sprintf("failed to apply migrations: %v", err))
