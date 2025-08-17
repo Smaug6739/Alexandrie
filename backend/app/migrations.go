@@ -16,9 +16,6 @@ func Migrate(config *Config) {
 
 	workingDir, _ := os.Getwd()
 	configCpwd := os.Getenv("CONFIG_CPWD")
-	if configCpwd == "" {
-		configCpwd = ""
-	}
 	absPath := filepath.Join(workingDir, configCpwd, "migrations")
 
 	if runtime.GOOS == "windows" {
