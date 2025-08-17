@@ -5,22 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53a67efa-5191-4bc3-90c2-1af3195b648d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Alexandrie.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Alexandrie.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/backend/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/frontend/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker/frontend/entrypoint.sh" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
   <component name="GOROOT" url="file://$USER_HOME$/go/pkg/mod/golang.org/toolchain@v0.0.1-go1.23.7.linux-amd64" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="6CyHdZ9h" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2wPtaVnbGBKWANObeSFbXmaZEPD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -36,9 +45,10 @@
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
     "RunOnceActivity.go.migrated.go.modules.settings": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "docker-improvements",
     "go.import.settings.migrated": "true",
     "last_opened_file_path": "/home/smaug",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm"
   }
 }]]></component>

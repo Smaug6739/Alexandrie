@@ -47,7 +47,6 @@ Organize, search, and export your notes with an intuitive interface designed for
 For local testing and development, you can use Docker to run the entire stack:
 
 ```bash
-cd docker
 docker compose up -d --build
 ```
 
@@ -59,7 +58,6 @@ docker compose up -d --build
 
 **To stop:**
 ```bash
-cd docker
 docker compose down
 ```
 

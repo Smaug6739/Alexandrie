@@ -21,10 +21,10 @@ RUN bun install
 COPY . .
 
 # Copy entrypoint script
-COPY ../docker/frontend/entrypoint.sh /app/entrypoint.sh
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
 
 # Make script executable and change ownership to app user
-RUN chmod +x /app/entrypoint.sh && \
+RUN chmod +x /app/docker-entrypoint.sh && \
     chown -R appuser:appgroup /app
 
 # Switch to app user
@@ -45,4 +45,4 @@ ENV VITE_BASE_CDN=""
 ENV NUXT_PUBLIC_BASE_URL=""
 
 # Use entrypoint script
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
