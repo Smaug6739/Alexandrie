@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"runtime"
-	"strings"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/mysql"
@@ -15,16 +13,12 @@ import (
 func Migrate(config *Config) {
 
 	workingDir, _ := os.Getwd()
-	configCpwd := os.Getenv("CONFIG_CPWD")
-	absPath := filepath.Join(workingDir, configCpwd, "migrations")
-
-	if runtime.GOOS == "windows" {
-		absPath = strings.ReplaceAll(absPath, "\\", "/")
-	}
-
-	db := DBConection(*config, true)
+	absPath := filepath.Join(workingDir, os.Getenv("CONFIG_CPWD"), "migrations")
+	absPath = filepath.ToSlash(absPath)
+	db := DBConection(*config, true) // Use multiStatements for migration
 	defer db.Close()
 
+	// Test the database connection
 	if err := db.Ping(); err != nil {
 		panic(fmt.Sprintf("failed to ping database: %v", err))
 	}
