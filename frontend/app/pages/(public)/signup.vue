@@ -18,15 +18,9 @@
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input 
-              :key="`password-${showPassword}`"
-              :type="showPassword ? 'text' : 'password'" 
-              id="password" 
-              v-model="password" 
-              :class="{ 'is-invalid': errors.password }" 
-            />
+            <input :key="`password-${showPassword}`" :type="showPassword ? 'text' : 'password'" id="password" v-model="password" :class="{ 'is-invalid': errors.password }" />
             <button type="button" class="password-toggle" @click="togglePassword">
-              <div class="eye-icon" :class="{ 'show': showPassword }">
+              <div class="eye-icon" :class="{ show: showPassword }">
                 <Icon v-if="showPassword" name="eye" />
                 <Icon v-else name="eye_off" />
               </div>
@@ -37,15 +31,9 @@
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
           <div class="password-input">
-            <input 
-              :key="`confirmPassword-${showConfirmPassword}`"
-              :type="showConfirmPassword ? 'text' : 'password'" 
-              id="confirmPassword" 
-              v-model="confirmPassword" 
-              :class="{ 'is-invalid': errors.confirmPassword }" 
-            />
+            <input :key="`confirmPassword-${showConfirmPassword}`" :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="confirmPassword" :class="{ 'is-invalid': errors.confirmPassword }" />
             <button type="button" class="password-toggle" @click="toggleConfirmPassword">
-              <div class="eye-icon" :class="{ 'show': showConfirmPassword }">
+              <div class="eye-icon" :class="{ show: showConfirmPassword }">
                 <Icon v-if="showConfirmPassword" name="eye" />
                 <Icon v-else name="eye_off" />
               </div>
@@ -172,10 +160,10 @@ form {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
-  margin-bottom: 1.2rem;
-  
+  margin-bottom: 0.8rem;
+
   label {
     font-weight: 600;
     color: var(--text-color);
@@ -185,14 +173,14 @@ form {
 
 input {
   width: 100%;
-  padding: 0.8rem;
+  padding: 0.6rem;
   border-radius: 8px;
   border: 2px solid var(--border-color);
   background: var(--bg-color);
   color: var(--text-color);
   font-size: 1rem;
   transition: all 0.2s ease;
-  
+
   &:focus {
     outline: none;
     border-color: var(--primary);
@@ -244,11 +232,11 @@ input:-webkit-autofill:focus {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  
+
   &.show {
     transform: scale(1.1);
   }
-  
+
   svg {
     width: 18px;
     height: 18px;
@@ -265,7 +253,7 @@ input:-webkit-autofill:focus {
   text-decoration: none;
   font-weight: 500;
   transition: all 0.2s ease;
-  
+
   &:hover {
     color: $primary-dark;
     text-decoration: underline;

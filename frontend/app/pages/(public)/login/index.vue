@@ -13,15 +13,9 @@
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input 
-              :key="`password-${showPassword}`"
-              :type="showPassword ? 'text' : 'password'" 
-              id="password" 
-              v-model="password" 
-              :class="{ 'is-invalid': errors.password }" 
-            />
+            <input :key="`password-${showPassword}`" :type="showPassword ? 'text' : 'password'" id="password" v-model="password" :class="{ 'is-invalid': errors.password }" />
             <button type="button" class="password-toggle" @click="togglePassword">
-              <div class="eye-icon" :class="{ 'show': showPassword }">
+              <div class="eye-icon" :class="{ show: showPassword }">
                 <Icon v-if="showPassword" name="eye" />
                 <Icon v-else name="eye_off" />
               </div>
@@ -108,10 +102,10 @@ form {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
-  margin-bottom: 1.2rem;
-  
+  margin-bottom: 0.8rem;
+
   label {
     font-weight: 600;
     color: var(--text-color);
@@ -121,27 +115,15 @@ form {
 
 input {
   width: 100%;
-  padding: 0.8rem;
-  border-radius: 8px;
-  border: 2px solid var(--border-color);
-  background: var(--bg-color);
-  color: var(--text-color);
-  font-size: 1rem;
-  transition: all 0.2s ease;
-  
-  &:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
-  }
+  padding: 0.6rem;
 }
 
+input,
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--border-color) inset !important;
   -webkit-text-fill-color: var(--text-color) !important;
-  transition: background-color 5000s ease-in-out 0s;
   background: var(--border-color);
 }
 
@@ -181,11 +163,11 @@ input:-webkit-autofill:focus {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  
+
   &.show {
     transform: scale(1.1);
   }
-  
+
   svg {
     width: 18px;
     height: 18px;
@@ -196,13 +178,13 @@ input:-webkit-autofill:focus {
 /* ===== Liens ===== */
 .signup-link {
   display: block;
-  margin: 1.5rem 0;
+  margin-bottom: 1rem;
   text-align: center;
   color: var(--primary);
   text-decoration: none;
   font-weight: 500;
   transition: all 0.2s ease;
-  
+
   &:hover {
     color: $primary-dark;
     text-decoration: underline;
@@ -211,7 +193,7 @@ input:-webkit-autofill:focus {
 
 .forgot-password-link {
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 16px;
   font-weight: 500;
   margin-top: 1rem;
   color: var(--text-muted);
@@ -246,12 +228,10 @@ input:-webkit-autofill:focus {
   &:hover {
     background: $primary-dark;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
   }
 
   &:active {
     transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(var(--primary-rgb), 0.3);
   }
 }
 
