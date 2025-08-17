@@ -8,6 +8,7 @@ import highlight from 'markdown-it-highlightjs';
 // @ts-ignore
 import mark from 'markdown-it-mark';
 import katex from 'katex';
+import colorPlugin from './colors';
 
 const md = new MarkdownIt({ html: true });
 md.use(containerPlugin);
@@ -18,6 +19,11 @@ md.use(mark);
 md.use(markdownItKatexPlugin);
 md.use(highlight);
 md.use(markdownItCheckbox);
+md.use(colorPlugin, {
+  enableBracketSyntax: true, // also parse [text]{color=value}
+  allowHex: true, // allow #rgb and #rrggbb
+  allowedNamedColors: ['red', 'crimson', 'rebeccapurple'], // restrict named colors (null = all standard names)
+});
 
 function markdownItKatexPlugin(md: any) {
   // Nous ajoutons une règle en ligne (inline) après la règle 'escape' (qui échappe les caractères spéciaux)
