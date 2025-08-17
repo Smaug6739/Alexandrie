@@ -20,17 +20,8 @@ RUN bun install
 # Copy source code
 COPY . .
 
-# Create entrypoint script that builds with current environment variables
-COPY <<EOF /app/entrypoint.sh
-#!/bin/bash
-echo "Building application with current environment variables..."
-echo "API: \$VITE_BASE_API"
-echo "CDN: \$VITE_BASE_CDN"
-echo "URL: \$NUXT_PUBLIC_BASE_URL"
-bun run build
-echo "Starting Nitro server..."
-exec bun .output/server/index.mjs
-EOF
+# Copy entrypoint script
+COPY ../docker/frontend/entrypoint.sh /app/entrypoint.sh
 
 # Make script executable and change ownership to app user
 RUN chmod +x /app/entrypoint.sh && \
