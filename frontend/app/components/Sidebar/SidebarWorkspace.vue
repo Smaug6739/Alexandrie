@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="option.meta?.color ? getAppColor(option.meta?.color) : '' + 'icon'" fill="var(--font-color)" />
+    <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="getAppColor(option.meta?.color) + ' icon'" fill="var(--font-color)" />
     &nbsp; {{ option.text }}
   </div>
 </template>
