@@ -21,19 +21,19 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ## ✨ Features
 
-✅ **Enhanced Markdown Editor** – Write notes with advanced syntax.  
-🔍 **Instant Search** – Find your notes in seconds.  
-📁 **Intuitive Organization** – Easily categorize and archive your notes.  
-📤 **Export & Print** – Save your notes as PDF, Markdown, and more.  
-🌍 **Access Anywhere** – Log in and retrieve your notes from any device.
+**Enhanced Markdown Editor** – Write notes with advanced syntax.  
+**Instant Search** – Find your notes in seconds.  
+**Intuitive Organization** – Easily categorize and archive your notes.  
+**Export & Print** – Save your notes as PDF, Markdown, and more.  
+**Access Anywhere** – Log in and retrieve your notes from any device.
 
 ---
 
-## 🖼️ Interface Preview
+## Interface Preview
 
 ![Interface 2](./frontend/public/screenshots/mock/2.png)
 
-### 📁 Organize your notes with categories, tags, sidebar, tree, search, and more.
+### Organize your notes with categories, tags, sidebar, tree, search, and more.
 
 ![Interface 3](./frontend/public/screenshots/mock/3.png)
 
@@ -42,7 +42,7 @@ Organize, search, and export your notes with an intuitive interface designed for
 ![Responsive Design](./frontend/public/screenshots/mock/phone-2.png)
 ![Responsive Design](./frontend/public/screenshots/mock/phone-3.png)
 
-## 🐳 Quick Start with Docker
+## Quick Start with Docker
 
 For local testing and development, you can use Docker to run the entire stack:
 
@@ -73,7 +73,7 @@ docker compose down
 
 If you don't have Docker installed, you can follow the manual setup instructions in the [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-## Contributing 🌍
+## Contributing
 
 This project has an MIT license. And you are welcome to contribute.
 For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
