@@ -29,7 +29,7 @@ import type { Workspace } from './helpers';
 const { workspaceId } = useSidebar();
 const storage_item = localStorage.getItem('filterWorkspace');
 const props = defineProps<{ options: Workspace[] }>();
-const all_workspaces = ref({ text: 'All Workspaces', value: null });
+const all_workspaces = ref({ text: 'All Workspaces', value: null, meta: { color: -1 } });
 
 if (storage_item && props.options.find(option => option.value == storage_item)) workspaceId.value = storage_item;
 

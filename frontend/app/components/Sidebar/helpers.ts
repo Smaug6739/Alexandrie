@@ -11,7 +11,7 @@ export interface DefaultItem {
 export interface Workspace {
   text: string;
   value: string | null;
-  meta?: Category;
+  meta?: Partial<Category>;
 }
 
 export const navigationItems: Item<DefaultItem>[] = [
