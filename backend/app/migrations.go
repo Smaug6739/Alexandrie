@@ -13,13 +13,13 @@ import (
 func Migrate(config *Config) {
 
 	workingDir, _ := os.Getwd()
-	absPath := filepath.Join(workingDir, os.Getenv("CONFIG_CPWD"))
+	absPath := filepath.Join(workingDir, os.Getenv("CONFIG_CPWD"), "migrations")
 
 	db := DBConection(*config, true) // Use multiStatements for migration
 	defer db.Close()
 	driver, _ := mysql.WithInstance(db, &mysql.Config{})
 	m, err := migrate.NewWithDatabaseInstance(
-		fmt.Sprintf("file://%s/migrations", absPath),
+		fmt.Sprintf("file://%s", absPath),
 		"mysql",
 		driver,
 	)
