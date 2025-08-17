@@ -30,53 +30,58 @@ function isValidColor(value: string, opts: Required<ColorPluginOptions>): boolea
   return false;
 }
 
-function createSpanTokens(state: StateInline, color: string, content: string): Token[] {
+function createSpanTokens(state: StateInline, color: string, content: string) {
   const open = state.push('span_open', 'span', 1);
   open.attrSet('style', `color:${color}`);
 
   const text = state.push('text', '', 0);
   text.content = content;
 
-  const close = state.push('span_close', 'span', -1);
-  return [open, text, close];
+  state.push('span_close', 'span', -1);
 }
 
 /** Try to parse {color:VALUE}(TEXT) starting at state.pos. */
 function parseFunctionSyntax(state: StateInline, opts: Required<ColorPluginOptions>): boolean {
-  const src = state.src;
   const start = state.pos;
-  if (src.charCodeAt(start) !== 0x7b /* { */) return false;
+  const src = state.src;
 
-  // Expecting "{color:" next
-  const label = '{color:';
-  if (src.substring(start, label.length) !== label) return false;
+  if (!src.startsWith('{color:', start)) return false;
 
-  // Find closing '}' for the color value
-  const endBrace = src.indexOf('}', start + label.length);
+  const endBrace = src.indexOf('}', start);
   if (endBrace === -1) return false;
-  let colorValue = src.slice(start + label.length, endBrace).trim();
-  if (!colorValue) return false;
 
-  if (!isValidColor(colorValue, opts)) colorValue = `var(--${colorValue})`; // Fallback to CSS variable if not valid
+  let color = src.slice(start + 7, endBrace).trim();
+  if (!color) return false;
 
-  // Next must be '(' then content then matching ')'
-  if (src.charCodeAt(endBrace + 1) !== 0x28 /* ( */) return false;
+  // Vérifier si c’est une couleur valide CSS
+  if (!isValidColor(color, opts)) {
+    color = `var(--${color})`; // fallback CSS variable
+  }
+
+  if (src[endBrace + 1] !== '(') return false;
+
+  // Trouver la parenthèse fermante
   let depth = 1;
   let i = endBrace + 2;
   while (i < src.length && depth > 0) {
-    const ch = src.charCodeAt(i);
-    if (ch === 0x28) depth++; // (
-    else if (ch === 0x29) depth--; // )
+    if (src[i] === '(') depth++;
+    else if (src[i] === ')') depth--;
     i++;
   }
-  if (depth !== 0) return false; // no matching ')'
-  const endParen = i - 1; // position of matching ')'
+  if (depth !== 0) return false;
 
-  const inner = src.slice(endBrace + 2, endParen);
+  const content = src.slice(endBrace + 2, i - 1);
 
-  state.pos = start; // reset so tokens are inserted at correct spot
-  createSpanTokens(state, colorValue, inner);
-  state.pos = endParen + 1; // advance cursor
+  // Injecter les tokens
+  const open = state.push('span_open', 'span', 1);
+  open.attrs = [['style', `color:${color}`]];
+
+  const text = state.push('text', '', 0);
+  text.content = content;
+
+  state.push('span_close', 'span', -1);
+
+  state.pos = i; // avancer le curseur
   return true;
 }
 
