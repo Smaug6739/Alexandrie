@@ -12,11 +12,11 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - '3307:3306'
     networks:
       - alexandrie-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
       timeout: 10s
       retries: 5
       start_period: 30s
@@ -33,12 +33,12 @@ services:
     volumes:
       - minio_data:/data
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - '9000:9000'
+      - '9001:9001'
     networks:
       - alexandrie-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
       interval: 30s
       timeout: 20s
       retries: 3
@@ -55,30 +55,30 @@ services:
       DATABASE_NAME: alexandrie
       DATABASE_USER: alexandrie
       DATABASE_PASSWORD: password
-      
+
       # Application Configuration
       JWT_SECRET: your-secure-jwt-secret-key-change-this-in-production
       DOMAIN_CLIENT: http://localhost:8200
       COOKIE_DOMAIN: localhost
-      
+
       # MinIO Configuration
       MINIO_ENDPOINT: minio:9000
       MINIO_ACCESSKEY: minioadmin
       MINIO_SECRETKEY: minioadmin
       MINIO_BUCKET: alexandrie
-      
+
       # SMTP Configuration (optional)
-      SMTP_HOST: ""
-      SMTP_MAIL: ""
-      SMTP_PASSWORD: ""
-      
+      SMTP_HOST: ''
+      SMTP_MAIL: ''
+      SMTP_PASSWORD: ''
+
       # Port Configuration
       PORT: 8201
       CPWD: /app/
-      CONFIG_CPWD: ""
+      CONFIG_CPWD: ''
       GIN_MODE: release
     ports:
-      - "8201:8201"
+      - '8201:8201'
     depends_on:
       mysql:
         condition: service_healthy
@@ -100,7 +100,7 @@ services:
       VITE_BASE_CDN: http://localhost:9000/alexandrie
       NUXT_PUBLIC_BASE_URL: http://localhost:8200
     ports:
-      - "8200:8200"
+      - '8200:8200'
     depends_on:
       - backend
     networks:

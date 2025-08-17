@@ -46,20 +46,32 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 For local testing and development, you can use Docker to run the entire stack:
 
+**Start a demo server (local production):**
+
 ```bash
 docker compose up -d --build
 ```
 
+**Start a development server with hot reloading (HMR):**
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
 **Access points:**
+
 - 🌐 **Frontend**: http://localhost:8200
-- 🔌 **Backend API**: http://localhost:8201  
+- 🔌 **Backend API**: http://localhost:8201
 - 📦 **MinIO Console**: http://localhost:9001
 - 🗄️ **MySQL**: localhost:3307 (user: `alexandrie`, password: `password`)
 
 **To stop:**
+
 ```bash
 docker compose down
 ```
+
+If you don't have Docker installed, you can follow the manual setup instructions in the [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Contributing 🌍
 
