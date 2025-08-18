@@ -1,4 +1,4 @@
-name: Build & deploy to VPS
+name: Build & deploy to server
 
 on:
   push:
@@ -9,9 +9,10 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     env:
-      INPUT_HOST: ${{ secrets.SSH_HOST }}
-      INPUT_REMOTE: /home/smaug/sites/alexandrie
+      SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USER }}
+      REMOTE_PATH: /home/smaug/sites/alexandrie
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,6 +25,9 @@ jobs:
         with:
           go-version: '1.24'
 
+      # -------------------------
+      # Build frontend and backend
+      # -------------------------
       - name: Build Go backend
         run: |
           cd backend
@@ -36,44 +40,64 @@ jobs:
           bun install
           bun run build
 
+      # -------------------------
+      # Prepare SSH connection
+      # -------------------------
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
-
-          chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/known_hosts
-          ssh-keyscan -t ed25519 "${INPUT_HOST}" >> ~/.ssh/known_hosts
-
-          echo -e "${DEPLOY_SSH_KEY}" > deploy_key
+          ssh-keyscan -t ed25519 "${SSH_HOST}" >> ~/.ssh/known_hosts
+          printf "%s" "${DEPLOY_SSH_KEY}" > deploy_key
           chmod 600 deploy_key
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
 
-      - name: Create Archives
+      # -------------------------
+      # Generate .env file with secrets
+      # -------------------------
+      - name: Create .env.production for backend
         run: |
-          tar -czf frontend.tar.gz frontend/.output frontend/app/.env.production
-          tar -czf backend.tar.gz backend/backend_app backend/config.toml backend/migrations
+          cat > .env.production <<EOF
+          NODE_ENV=production
+          DATABASE_USER=${{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          MINIO_ACCESSKEY=${{ secrets.MINIO_ACCESSKEY }}
+          MINIO_SECRETKEY=${{ secrets.MINIO_SECRETKEY }}
+          SMTP_HOST=${{ secrets.SMTP_HOST }}
+          SMTP_MAIL=${{ secrets.SMTP_MAIL }}
+          SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}
+          EOF
 
-      - name: Transfer Archives
+      # -------------------------
+      # Deploy files using rsync
+      # -------------------------
+      - name: Deploy frontend & backend
         run: |
-          scp -i deploy_key ecosystem.config.js ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
-          scp -i deploy_key frontend.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
-          scp -i deploy_key backend.tar.gz ${SSH_USER}@"${INPUT_HOST}":"${INPUT_REMOTE}"
+          rsync -avz -e "ssh -i deploy_key" frontend/.output ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/frontend
+          rsync -avz -e "ssh -i deploy_key" backend/backend_app backend/config.toml backend/migrations ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/backend
+          rsync -avz -e "ssh -i deploy_key" ecosystem.config.js ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}
+          rsync -avz -e "ssh -i deploy_key" .env.production ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/.env.production
 
-      - name: Extract Archives on Remote
+      # -------------------------
+      # Rollback + restart app
+      # -------------------------
+      - name: Restart application with pm2 (zero downtime)
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && tar -xzf frontend.tar.gz && tar -xzf backend.tar.gz && rm frontend.tar.gz backend.tar.gz"
+          ssh -i deploy_key ${SSH_USER}@${SSH_HOST} "
+            set -e
+            cd ${REMOTE_PATH}
+            # Load environment variables
+            set -o allexport
+            source .env.production
+            set +o allexport
+            # Reload or start the application
+            pm2 reload ecosystem.config.js --update-env || pm2 start ecosystem.config.js --update-env
+          "
 
-      - name: Start application
+      # -------------------------
+      # Cleanup sensitive files
+      # -------------------------
+      - name: Cleanup
         run: |
-          ssh -i deploy_key ${SSH_USER}@"${INPUT_HOST}" "cd ${INPUT_REMOTE} && NODE_ENV='production' DATABASE_PASSWORD='${{ secrets.DATABASE_PASSWORD }}' DATABASE_USER='${{ secrets.DATABASE_USER }}' JWT_SECRET='${{ secrets.JWT_SECRET }}' MINIO_ACCESSKEY='${{secrets.MINIO_ACCESSKEY}}' MINIO_SECRETKEY='${{secrets.MINIO_SECRETKEY}}' SMTP_HOST='${{ secrets.SMTP_HOST }}' SMTP_MAIL='${{ secrets.SMTP_MAIL }}' SMTP_PASSWORD='${{ secrets.SMTP_PASSWORD }}' pm2 start ecosystem.config.js --update-env"
-        env:
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-          DATABASE_USER: ${{ secrets.DATABASE_USER }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          MINIO_ACCESSKEY: ${{ secrets.MINIO_ACCESSKEY }}
-          MINIO_SECRETKEY: ${{ secrets.MINIO_SECRETKEY }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_MAIL: ${{ secrets.SMTP_MAIL }}
-          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          rm -f deploy_key .env.production
