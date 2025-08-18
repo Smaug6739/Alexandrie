@@ -2,58 +2,40 @@
   <Teleport to="body">
     <div v-if="isOpen" class="global-search-overlay" @click="closeSearch">
       <div class="global-search-modal" @click.stop>
+        <!-- Header -->
         <div class="search-header">
           <div class="search-input-wrapper">
-            <Icon name="search" class="search-icon" />
-            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Search for a page or action..." class="search-input" @keydown="handleKeydown" @input="filterResults" />
+            <Icon name="search" class="search-icon" fill="var(--font-color)" />
+            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Search for a page, action, or document..." class="search-input" @keydown="handleSearchKeydown" />
           </div>
           <button class="close-btn" @click="closeSearch">
             <Icon name="close" />
           </button>
         </div>
 
+        <!-- Results -->
         <div class="search-results">
-          <div v-if="searchQuery && combinedNavItems.length === 0 && filteredDocuments.length === 0" class="no-results">
+          <div v-if="searchQuery && flattenedItems.length === 0" class="no-results">
             <Icon fill="var(--font-color)" name="search" class="no-results-icon" />
             <p>No results found for "{{ searchQuery }}"</p>
           </div>
 
-          <div class="search-results-list">
-            <template v-if="combinedNavItems.length || filteredDocuments.length">
-              <div class="section" v-if="combinedNavItems.length">
-                <div class="section-title">Pages & actions</div>
-                <div v-for="(nav, nIdx) in combinedNavItems" :key="nav.id" class="search-result-item" :class="{ selected: selectedIndex === nIdx }" @click="nav.onClick()" @mouseenter="selectedIndex = nIdx">
-                  <Icon fill="var(--font-color)" :name="nav.icon" class="result-icon" />
-                  <div class="result-content">
-                    <span class="result-title">{{ nav.title }}</span>
-                    <span class="result-description">{{ nav.description }}</span>
-                  </div>
-                  <Icon name="new_tab" class="navigate-icon" />
+          <div v-else class="search-results-list">
+            <div v-for="(items, section) in groupedResults" :key="section" class="section">
+              <div class="section-title">{{ section }}</div>
+              <div v-for="item in items" :key="item.id" class="search-result-item" :class="{ selected: selectedIndex === item.globalIndex }" @click="item.onClick()" @mouseenter="selectedIndex = item.globalIndex">
+                <Icon :name="item.icon" class="result-icon" fill="var(--font-color)" />
+                <div class="result-content">
+                  <span class="result-title">{{ item.title }}</span>
+                  <span class="result-description">{{ item.description }}</span>
                 </div>
+                <Icon name="new_tab" class="navigate-icon" />
               </div>
-
-              <div class="section" v-if="filteredDocuments.length">
-                <div class="section-title">Documents</div>
-                <div
-                  v-for="(doc, dIdx) in filteredDocuments"
-                  :key="`doc-${doc.id}`"
-                  class="search-result-item"
-                  :class="{ selected: selectedIndex === combinedNavItems.length + dIdx }"
-                  @click="navigateTo(doc)"
-                  @mouseenter="selectedIndex = combinedNavItems.length + dIdx"
-                >
-                  <Icon :name="doc.icon" class="result-icon" />
-                  <div class="result-content">
-                    <span class="result-title">{{ doc.title }}</span>
-                    <span class="result-description">{{ doc.description }}</span>
-                  </div>
-                  <Icon name="new_tab" class="navigate-icon" />
-                </div>
-              </div>
-            </template>
+            </div>
           </div>
         </div>
 
+        <!-- Footer -->
         <div class="search-footer">
           <div class="shortcuts"><kbd>↑↓</kbd> Navigate <kbd>Enter</kbd> Select <kbd>Escape</kbd> Close</div>
         </div>
@@ -73,7 +55,7 @@ const searchQuery = ref('');
 const selectedIndex = ref(0);
 const searchInput = ref<HTMLInputElement>();
 
-// Unified filtering across actions and pages
+// *********** Utils ***********
 function tokenize(text: string) {
   return text.trim().toLowerCase().split(/\s+/).filter(Boolean);
 }
@@ -81,21 +63,22 @@ function matchesTokens(haystack: string, tokens: string[]) {
   const value = haystack.toLowerCase();
   return tokens.every(t => value.includes(t));
 }
-const filteredActions = computed<QuickAction[]>(() => {
+function filterByTokens<T>(items: T[], getText: (item: T) => string): T[] {
   const tokens = tokenize(searchQuery.value);
-  if (tokens.length === 0) return quickActions;
-  return quickActions.filter(a => matchesTokens(a.title, tokens) || matchesTokens(a.description, tokens));
-});
-// Documents from store (filter by title and tags)
-const filteredDocuments = computed<SearchResult[]>(() => {
-  const tokens = tokenize(searchQuery.value);
-  if (tokens.length === 0) return [];
-  return documentsStore.getAll
-    .filter(d => {
-      const name = String(d.name || '').toLowerCase();
-      const tags = Array.isArray(d.tags) ? d.tags.join(' ') : String(d.tags || '').replace(/[#,]/g, ' ');
-      return tokens.every(t => name.includes(t) || tags.toLowerCase().includes(t));
-    })
+  if (tokens.length === 0) return items;
+  return items.filter(item => matchesTokens(getText(item), tokens));
+}
+
+// ******** Filtered data ***********
+const filteredActions = computed(() => filterByTokens(quickActions, a => `${a.title} ${a.description}`));
+
+const filteredDocuments = computed<SearchResult[]>(() =>
+  filterByTokens(documentsStore.getAll, d => {
+    const name = d.name || '';
+    const tags = Array.isArray(d.tags) ? d.tags.join(' ') : String(d.tags || '');
+    return `${name} ${tags}`;
+  })
+    .slice(0, 5)
     .map(d => ({
       id: d.id,
       title: d.name,
@@ -103,49 +86,69 @@ const filteredDocuments = computed<SearchResult[]>(() => {
       icon: 'files',
       path: `/dashboard/docs/${d.id}`,
       category: 'Documents',
-    }));
-});
-const filteredPages = computed<SearchResult[]>(() => {
-  const tokens = tokenize(searchQuery.value);
-  if (tokens.length === 0) return availablePages;
-  return availablePages.filter(page => {
-    const pool = `${page.title} ${page.description} ${page.category}`;
-    return matchesTokens(pool, tokens);
-  });
-});
-const combinedNavItems = computed(() => {
-  return [
-    ...filteredActions.value.map(a => ({
+    })),
+);
+
+const filteredPages = computed(() => filterByTokens(availablePages, p => `${p.title} ${p.description} ${p.category}`));
+
+// ******** Flattened results ********
+const flattenedItems = computed(() => {
+  const items: any[] = [];
+  let globalIndex = 0;
+
+  const pushWithIndex = (arr: any[], section: string) => {
+    arr.forEach(item => {
+      items.push({ ...item, section, globalIndex });
+      globalIndex++;
+    });
+  };
+
+  pushWithIndex(
+    filteredActions.value.map(a => ({
       id: `action-${a.id}`,
       icon: a.icon,
       title: a.title,
       description: a.description,
-      shortcut: a.shortcut,
       onClick: () => executeAction(a),
     })),
-    ...filteredPages.value.map(p => ({
+    'Pages & actions',
+  );
+
+  pushWithIndex(
+    filteredPages.value.map(p => ({
       id: `page-${p.id}`,
       icon: p.icon,
       title: p.title,
       description: p.description,
       onClick: () => navigateTo(p),
     })),
-  ];
-});
-const flattenedItems = computed(() => {
-  const nav = combinedNavItems.value.map(i => ({
-    kind: 'nav' as const,
-    onClick: i.onClick,
-  }));
-  const docs = filteredDocuments.value.map(d => ({
-    kind: 'doc' as const,
-    onClick: () => navigateTo(d),
-  }));
-  return [...nav, ...docs];
+    'Pages & actions',
+  );
+
+  pushWithIndex(
+    filteredDocuments.value.map(d => ({
+      id: `doc-${d.id}`,
+      icon: d.icon,
+      title: d.title,
+      description: d.description,
+      onClick: () => navigateTo(d),
+    })),
+    'Documents',
+  );
+
+  return items;
 });
 
+const groupedResults = computed(() => {
+  return flattenedItems.value.reduce((acc, item) => {
+    (acc[item.section] ||= []).push(item);
+    return acc;
+  }, {} as Record<string, typeof flattenedItems.value>);
+});
+
+// ******** Lifecycle ********
 onMounted(() => {
-  const handleKeydown = (e: KeyboardEvent) => {
+  const handleGlobalKeydown = (e: KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
       openSearch();
@@ -155,30 +158,27 @@ onMounted(() => {
     } else if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
       e.preventDefault();
       useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }));
-    }
-
-    if (e.key === 'Escape' && isOpen.value) {
+    } else if (e.key === 'Escape' && isOpen.value) {
       closeSearch();
     }
   };
 
-  document.addEventListener('keydown', handleKeydown);
+  document.addEventListener('keydown', handleGlobalKeydown);
   const openListener = () => openSearch();
   window.addEventListener('global-search-open', openListener as EventListener);
 
   onUnmounted(() => {
-    document.removeEventListener('keydown', handleKeydown);
+    document.removeEventListener('keydown', handleGlobalKeydown);
     window.removeEventListener('global-search-open', openListener as EventListener);
   });
 });
 
+// --- Methods ---
 function openSearch() {
   isOpen.value = true;
   selectedIndex.value = 0;
   searchQuery.value = '';
-  nextTick(() => {
-    searchInput.value?.focus();
-  });
+  nextTick(() => searchInput.value?.focus());
 }
 
 function closeSearch() {
@@ -187,24 +187,16 @@ function closeSearch() {
   selectedIndex.value = 0;
 }
 
-function filterResults() {
-  // Reset selection when query changes
-  selectedIndex.value = 0;
-}
-
-function handleKeydown(e: KeyboardEvent) {
+function handleSearchKeydown(e: KeyboardEvent) {
   if (e.key === 'ArrowDown') {
     e.preventDefault();
-    selectedIndex.value = flattenedItems.value.length === 0 ? 0 : (selectedIndex.value + 1) % flattenedItems.value.length;
+    selectedIndex.value = (selectedIndex.value + 1) % flattenedItems.value.length;
   } else if (e.key === 'ArrowUp') {
     e.preventDefault();
-    selectedIndex.value = flattenedItems.value.length === 0 ? 0 : (selectedIndex.value - 1 + flattenedItems.value.length) % flattenedItems.value.length;
-  } else if (e.key === 'Enter') {
+    selectedIndex.value = (selectedIndex.value - 1 + flattenedItems.value.length) % flattenedItems.value.length;
+  } else if (e.key === 'Enter' && flattenedItems.value.length > 0) {
     e.preventDefault();
-    if (flattenedItems.value.length > 0) {
-      const entry = flattenedItems.value[selectedIndex.value]!;
-      entry.onClick();
-    }
+    flattenedItems.value[selectedIndex.value]?.onClick();
   }
 }
 
@@ -218,9 +210,10 @@ function executeAction(action: QuickAction) {
   closeSearch();
 }
 
-defineExpose({
-  openSearch,
-  closeSearch,
+defineExpose({ openSearch, closeSearch });
+
+watch(searchQuery, () => {
+  selectedIndex.value = 0;
 });
 </script>
 
@@ -239,7 +232,6 @@ defineExpose({
   justify-content: center;
   padding-top: 10vh;
 }
-
 .global-search-modal {
   background: var(--bg-color);
   border: 1px solid var(--border-color);
@@ -251,7 +243,6 @@ defineExpose({
   overflow: hidden;
   animation: slideIn 0.2s ease-out;
 }
-
 .search-header {
   display: flex;
   align-items: center;
@@ -259,12 +250,10 @@ defineExpose({
   border-bottom: 1px solid var(--border-color);
   gap: 12px;
 }
-
 .search-input-wrapper {
   flex: 1;
   position: relative;
 }
-
 .search-icon {
   position: absolute;
   left: 12px;
@@ -274,7 +263,6 @@ defineExpose({
   height: 20px;
   color: var(--text-muted);
 }
-
 .search-input {
   width: 100%;
   padding: 12px 12px 12px 44px;
@@ -283,12 +271,10 @@ defineExpose({
   color: var(--text-color);
   font-size: 16px;
   outline: none;
-
   &::placeholder {
     color: var(--text-muted);
   }
 }
-
 .close-btn {
   background: transparent;
   border: none;
@@ -297,21 +283,17 @@ defineExpose({
   padding: 8px;
   border-radius: 8px;
   transition: all 0.2s ease;
-
   &:hover {
     background: var(--border-color);
     color: var(--text-color);
   }
 }
-
 .search-results {
   max-height: calc(80vh - 160px);
   overflow-y: auto;
 }
-
 .quick-actions {
   padding: 20px;
-
   h3 {
     margin: 0 0 16px 0;
     font-size: 14px;
@@ -321,12 +303,10 @@ defineExpose({
     letter-spacing: 0.5px;
   }
 }
-
 .quick-actions-grid {
   display: grid;
   gap: 8px;
 }
-
 .quick-action-btn {
   display: flex;
   align-items: center;
@@ -338,40 +318,33 @@ defineExpose({
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
-
   &:hover {
     background: var(--border-color);
   }
-
   &:active {
     transform: scale(0.98);
   }
 }
-
 .action-icon {
   width: 20px;
   height: 20px;
   color: var(--primary);
   flex-shrink: 0;
 }
-
 .action-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
-
 .action-title {
   font-weight: 600;
   color: var(--text-color);
 }
-
 .action-description {
   font-size: 13px;
   color: var(--text-muted);
 }
-
 .shortcut {
   background: var(--border-color);
   color: var(--text-muted);
@@ -381,32 +354,28 @@ defineExpose({
   font-family: monospace;
   font-weight: 600;
 }
-
 .search-results-list {
   padding: 8px 0;
 }
-
 .search-result-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 20px;
+  gap: 10px;
+  padding: 8px 20px;
+  margin: 0 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-
   &:hover,
   &.selected {
     background: var(--border-color);
   }
 }
-
 .result-icon {
   width: 20px;
   height: 20px;
   color: var(--primary);
   flex-shrink: 0;
 }
-
 .result-content {
   flex: 1;
   display: flex;
@@ -414,7 +383,6 @@ defineExpose({
   gap: 4px;
   min-width: 0;
 }
-
 .result-title {
   font-weight: 600;
   color: var(--text-color);
@@ -422,7 +390,6 @@ defineExpose({
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .result-description {
   font-size: 13px;
   color: var(--text-muted);
@@ -430,14 +397,12 @@ defineExpose({
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .navigate-icon {
   width: 16px;
   height: 16px;
   color: var(--text-muted);
   flex-shrink: 0;
 }
-
 .section {
   padding: 8px 0 4px;
 }
@@ -451,37 +416,31 @@ defineExpose({
   color: var(--text-muted);
   padding: 6px 20px;
 }
-
 .no-results {
   padding: 40px 20px;
   text-align: center;
   color: var(--text-muted);
-
   .no-results-icon {
     width: 48px;
     height: 48px;
     margin-bottom: 16px;
     opacity: 0.5;
   }
-
   p {
     margin: 0;
     font-size: 14px;
   }
 }
-
 .search-footer {
   padding: 16px 20px;
   border-top: 1px solid var(--border-color);
   background: var(--bg-color-secondary);
 }
-
 .shortcuts {
   display: flex;
   gap: 16px;
   font-size: 12px;
   color: var(--text-muted);
-
   kbd {
     background: var(--border-color);
     padding: 2px 6px;
@@ -500,14 +459,12 @@ defineExpose({
     transform: scale(1);
   }
 }
-
 @media (max-width: 768px) {
   .global-search-modal {
     width: 95%;
     margin: 20px;
     max-height: 80vh;
   }
-
   .shortcuts {
     flex-direction: column;
     gap: 8px;
