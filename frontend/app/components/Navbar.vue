@@ -22,8 +22,6 @@
     <ThemeToggle style="margin-left: auto" aria-label="toggle theme" />
   </header>
   
-      <!-- Reference to global search component -->
-  <GlobalSearch ref="globalSearchRef" />
 </template>
 
 <style lang="scss" scoped>
@@ -95,14 +93,9 @@ button {
 }
 </style>
 <script lang="ts" setup>
-import GlobalSearch from './GlobalSearch.vue'
-
 const { toggleSidebar, isOpened } = useSidebar();
 
-// Reference to global search component
-const globalSearchRef = ref()
-
 function openGlobalSearch() {
-  globalSearchRef.value?.openSearch()
+  window.dispatchEvent(new CustomEvent('global-search-open'))
 }
 </script>
