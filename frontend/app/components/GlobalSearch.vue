@@ -64,9 +64,6 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from '#components';
-import CreateCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
-
 interface SearchResult {
   id: string;
   title: string;
