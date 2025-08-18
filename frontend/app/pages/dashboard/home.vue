@@ -2,6 +2,12 @@
   <div style="text-align: center; margin: 5vh auto; gap: 20px">
     <h1>Alexandrie dashboard</h1>
     <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
+    
+    <div class="global-search-hint">
+      <Icon name="search" class="hint-icon" />
+      <span>Press <kbd>Ctrl+K</kbd> for quick global search</span>
+    </div>
+    
     <div class="search-container">
       <input type="text" v-model="searchQuery" placeholder="Search documents..." class="search-input" />
       <div v-if="results.length" class="results">
@@ -43,9 +49,23 @@ const searchQuery = ref('');
 
 const documentsStore = useDocumentsStore();
 const categoryStore = useCategoriesStore();
+function tokenize(text: string) {
+  return text.trim().toLowerCase().split(/\s+/).filter(Boolean)
+}
+function matchesTokens(haystack: string, tokens: string[]) {
+  const value = haystack.toLowerCase()
+  return tokens.every(t => value.includes(t))
+}
 const results = computed(() => {
-  if (!searchQuery.value) return [];
-  return documentsStore.getAll.filter(doc => doc.name.toLowerCase().includes(searchQuery.value.toLowerCase())).slice(0, 5);
+  const tokens = tokenize(searchQuery.value)
+  if (!tokens.length) return []
+  return documentsStore.getAll
+    .filter((doc: any) => {
+      const name = String(doc.name || '')
+      const tags = Array.isArray(doc.tags) ? doc.tags.join(' ') : String(doc.tags || '')
+      return tokens.every(t => name.toLowerCase().includes(t) || tags.toLowerCase().includes(t))
+    })
+    .slice(0, 5)
 });
 const category = (id?: string) => categoryStore.getById(id || '');
 const recentDocuments = computed(() => {
@@ -60,6 +80,36 @@ const recentDocuments = computed(() => {
 h1 {
   font-size: 32px;
   margin-bottom: 20px;
+}
+
+.global-search-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px auto;
+  padding: 12px 20px;
+  background: var(--border-color);
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+  max-width: 500px;
+  
+  .hint-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+  }
+  
+  kbd {
+    background: var(--bg-color);
+    color: var(--text-color);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-weight: 600;
+    font-size: 12px;
+  }
 }
 .add-doc {
   position: fixed;

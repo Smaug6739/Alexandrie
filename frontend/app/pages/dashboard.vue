@@ -4,6 +4,7 @@
       <BackToTop />
     </ClientOnly>
     <Sidebar />
+    <GlobalSearch />
     <MediumView>
       <Navbar />
       <div style="height: calc(100% - 65px); width: 100%"><NuxtPage /></div>

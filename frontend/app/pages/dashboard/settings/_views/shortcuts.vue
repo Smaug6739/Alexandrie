@@ -8,6 +8,18 @@
       <span>Open quick search</span>
     </div>
     <div class="shortcut">
+      <span class="key">Ctrl + k</span>
+      <span>Navigate to a page</span>
+    </div>
+    <div class="shortcut">
+      <span class="key">Ctrl + U</span>
+      <span>Open CDN uploader</span>
+    </div>
+    <div class="shortcut">
+      <span class="key">Ctrl + Alt + N</span>
+      <span>Create a new category</span>
+    </div>
+    <div class="shortcut">
       <span class="key">Ctrl + r</span>
       <span>Reload the page</span>
     </div>
