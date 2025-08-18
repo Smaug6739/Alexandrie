@@ -69,7 +69,7 @@ export function useSidebarTree() {
   // Filtered tree based on workspace
   const filtered = computed(() =>
     tree.value.filter(item => {
-      if (item.data.type === 'category' && workspaceId.value) return item.data.workspace_id === workspaceId.value && item.data.role == 1;
+      if (item.data.type === 'category' && workspaceId.value) return item.data.parent_id === workspaceId.value && item.data.role == 1;
       if (item.data.type === 'document' && workspaceId.value) return item.data.category === workspaceId.value;
       return true;
     }),
