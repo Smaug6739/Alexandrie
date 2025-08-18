@@ -2,6 +2,12 @@
   <div style="text-align: center; margin: 5vh auto; gap: 20px">
     <h1>Alexandrie dashboard</h1>
     <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
+    
+    <div class="global-search-hint">
+      <Icon name="search" class="hint-icon" />
+      <span>Press <kbd>Ctrl+K</kbd> for quick global search</span>
+    </div>
+    
     <div class="search-container">
       <input type="text" v-model="searchQuery" placeholder="Search documents..." class="search-input" />
       <div v-if="results.length" class="results">
@@ -60,6 +66,36 @@ const recentDocuments = computed(() => {
 h1 {
   font-size: 32px;
   margin-bottom: 20px;
+}
+
+.global-search-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px auto;
+  padding: 12px 20px;
+  background: var(--border-color);
+  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+  max-width: 500px;
+  
+  .hint-icon {
+    width: 16px;
+    height: 16px;
+    color: var(--primary);
+  }
+  
+  kbd {
+    background: var(--bg-color);
+    color: var(--text-color);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-weight: 600;
+    font-size: 12px;
+  }
 }
 .add-doc {
   position: fixed;
