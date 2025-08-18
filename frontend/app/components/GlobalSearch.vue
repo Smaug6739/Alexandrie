@@ -14,7 +14,7 @@
 
         <div class="search-results">
           <div v-if="searchQuery && combinedNavItems.length === 0 && filteredDocuments.length === 0" class="no-results">
-            <Icon name="search" class="no-results-icon" />
+            <Icon fill="var(--font-color)" name="search" class="no-results-icon" />
             <p>No results found for "{{ searchQuery }}"</p>
           </div>
 
@@ -23,13 +23,12 @@
               <div class="section" v-if="combinedNavItems.length">
                 <div class="section-title">Pages & actions</div>
                 <div v-for="(nav, nIdx) in combinedNavItems" :key="nav.id" class="search-result-item" :class="{ selected: selectedIndex === nIdx }" @click="nav.onClick()" @mouseenter="selectedIndex = nIdx">
-                  <Icon :name="nav.icon" class="result-icon" />
+                  <Icon fill="var(--font-color)" :name="nav.icon" class="result-icon" />
                   <div class="result-content">
                     <span class="result-title">{{ nav.title }}</span>
                     <span class="result-description">{{ nav.description }}</span>
                   </div>
-                  <kbd v-if="nav.shortcut" class="shortcut">{{ nav.shortcut }}</kbd>
-                  <Icon v-else name="new_tab" class="navigate-icon" />
+                  <Icon name="new_tab" class="navigate-icon" />
                 </div>
               </div>
 
@@ -64,6 +63,8 @@
 </template>
 
 <script setup lang="ts">
+import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+
 interface SearchResult {
   id: string;
   title: string;
