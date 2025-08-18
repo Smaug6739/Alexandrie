@@ -91,12 +91,12 @@ const filteredDocuments = computed<SearchResult[]>(() => {
   const tokens = tokenize(searchQuery.value);
   if (tokens.length === 0) return [];
   return documentsStore.getAll
-    .filter((d: any) => {
+    .filter(d => {
       const name = String(d.name || '').toLowerCase();
       const tags = Array.isArray(d.tags) ? d.tags.join(' ') : String(d.tags || '').replace(/[#,]/g, ' ');
       return tokens.every(t => name.includes(t) || tags.toLowerCase().includes(t));
     })
-    .map((d: any) => ({
+    .map(d => ({
       id: d.id,
       title: d.name,
       description: d.tags ? `#${String(d.tags)}` : 'Document',
