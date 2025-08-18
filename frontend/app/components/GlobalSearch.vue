@@ -6,36 +6,23 @@
           <div class="search-header">
             <div class="search-input-wrapper">
               <Icon name="search" class="search-icon" />
-                             <input
-                 ref="searchInput"
-                 v-model="searchQuery"
-                 type="text"
-                 placeholder="Search for a page or action..."
-                 class="search-input"
-                 @keydown="handleKeydown"
-                 @input="filterResults"
-               />
+              <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Search for a page or action..." class="search-input" @keydown="handleKeydown" @input="filterResults" />
             </div>
             <button class="close-btn" @click="closeSearch">
               <Icon name="close" />
             </button>
           </div>
-          
+
           <div class="search-results">
-                         <div v-if="searchQuery && filteredResults.length === 0" class="no-results">
-               <Icon name="search" class="no-results-icon" />
-               <p>No results found for "{{ searchQuery }}"</p>
-             </div>
-            
-                         <div v-else-if="!searchQuery" class="quick-actions">
-               <h3>Quick Actions</h3>
+            <div v-if="searchQuery && filteredResults.length === 0" class="no-results">
+              <Icon name="search" class="no-results-icon" />
+              <p>No results found for "{{ searchQuery }}"</p>
+            </div>
+
+            <div v-else-if="!searchQuery" class="quick-actions">
+              <h3>Quick Actions</h3>
               <div class="quick-actions-grid">
-                <button 
-                  v-for="action in quickActions" 
-                  :key="action.id"
-                  class="quick-action-btn"
-                  @click="executeAction(action)"
-                >
+                <button v-for="action in quickActions" :key="action.id" class="quick-action-btn" @click="executeAction(action)">
                   <Icon :name="action.icon" class="action-icon" />
                   <div class="action-content">
                     <span class="action-title">{{ action.title }}</span>
@@ -45,16 +32,9 @@
                 </button>
               </div>
             </div>
-            
+
             <div v-else class="search-results-list">
-              <div 
-                v-for="(result, index) in filteredResults" 
-                :key="result.id"
-                class="search-result-item"
-                :class="{ 'selected': index === selectedIndex }"
-                @click="navigateTo(result)"
-                @mouseenter="selectedIndex = index"
-              >
+              <div v-for="(result, index) in filteredResults" :key="result.id" class="search-result-item" :class="{ selected: index === selectedIndex }" @click="navigateTo(result)" @mouseenter="selectedIndex = index">
                 <Icon :name="result.icon" class="result-icon" />
                 <div class="result-content">
                   <span class="result-title">{{ result.title }}</span>
@@ -64,14 +44,10 @@
               </div>
             </div>
           </div>
-          
-                     <div class="search-footer">
-             <div class="shortcuts">
-               <kbd>↑↓</kbd> Navigate
-               <kbd>Enter</kbd> Select
-               <kbd>Escape</kbd> Close
-             </div>
-           </div>
+
+          <div class="search-footer">
+            <div class="shortcuts"><kbd>↑↓</kbd> Navigate <kbd>Enter</kbd> Select <kbd>Escape</kbd> Close</div>
+          </div>
         </div>
       </div>
     </Transition>
@@ -79,221 +55,213 @@
 </template>
 
 <script setup lang="ts">
-import { Icon } from '#components'
-import CreateCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue'
+import { Icon } from '#components';
+import CreateCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 
 interface SearchResult {
-  id: string
-  title: string
-  description: string
-  icon: string
-  path: string
-  category: string
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  path: string;
+  category: string;
 }
 
 interface QuickAction {
-  id: string
-  title: string
-  description: string
-  icon: string
-  shortcut: string
-  action: () => void
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  shortcut: string;
+  action: () => void;
 }
 
-const router = useRouter()
-const isOpen = ref(false)
-const searchQuery = ref('')
-const selectedIndex = ref(0)
-const searchInput = ref<HTMLInputElement>()
+const router = useRouter();
+const isOpen = ref(false);
+const searchQuery = ref('');
+const selectedIndex = ref(0);
+const searchInput = ref<HTMLInputElement>();
 
- const availablePages: SearchResult[] = [
-   {
-     id: 'home',
-     title: 'Home',
-     description: 'Main dashboard',
-     icon: 'dashboard',
-     path: '/dashboard',
-     category: 'Navigation'
-   },
-   {
-     id: 'docs',
-     title: 'Documents',
-     description: 'Manage your documents',
-     icon: 'file',
-     path: '/dashboard/docs',
-     category: 'Management'
-   },
-   {
-     id: 'categories',
-     title: 'Categories',
-     description: 'Organize your categories',
-     icon: 'categories',
-     path: '/dashboard/categories',
-     category: 'Management'
-   },
-   {
-     id: 'cdn',
-     title: 'CDN',
-     description: 'Manage your resources',
-     icon: 'cdn',
-     path: '/dashboard/cdn',
-     category: 'Management'
-   },
-   {
-     id: 'import',
-     title: 'Import',
-     description: 'Import documents',
-     icon: 'import',
-     path: '/dashboard/import',
-     category: 'Actions'
-   },
-   {
-     id: 'settings',
-     title: 'Settings',
-     description: 'Configure the application',
-     icon: 'settings',
-     path: '/dashboard/settings',
-     category: 'Configuration'
-   },
-   {
-     id: 'admin',
-     title: 'Administration',
-     description: 'Manage users',
-     icon: 'users',
-     path: '/dashboard/admin',
-     category: 'Administration'
-   }
- ]
+const availablePages: SearchResult[] = [
+  {
+    id: 'home',
+    title: 'Home',
+    description: 'Main dashboard',
+    icon: 'dashboard',
+    path: '/dashboard',
+    category: 'Navigation',
+  },
+  {
+    id: 'docs',
+    title: 'Documents',
+    description: 'Manage your documents',
+    icon: 'file',
+    path: '/dashboard/docs',
+    category: 'Management',
+  },
+  {
+    id: 'categories',
+    title: 'Categories',
+    description: 'Organize your categories',
+    icon: 'categories',
+    path: '/dashboard/categories',
+    category: 'Management',
+  },
+  {
+    id: 'cdn',
+    title: 'CDN',
+    description: 'Manage your resources',
+    icon: 'cdn',
+    path: '/dashboard/cdn',
+    category: 'Management',
+  },
+  {
+    id: 'import',
+    title: 'Import',
+    description: 'Import documents',
+    icon: 'import',
+    path: '/dashboard/import',
+    category: 'Actions',
+  },
+  {
+    id: 'settings',
+    title: 'Settings',
+    description: 'Configure the application',
+    icon: 'settings',
+    path: '/dashboard/settings',
+    category: 'Configuration',
+  },
+  {
+    id: 'admin',
+    title: 'Administration',
+    description: 'Manage users',
+    icon: 'users',
+    path: '/dashboard/admin',
+    category: 'Administration',
+  },
+];
 
-const filteredResults = ref<SearchResult[]>([])
+const filteredResults = ref<SearchResult[]>([]);
 
- const quickActions: QuickAction[] = [
-   {
-     id: 'new-doc',
-     title: 'New document',
-     description: 'Create a new document',
-     icon: 'add_file',
-     shortcut: 'Ctrl+N',
-     action: () => router.push('/dashboard/docs/new')
-   },
-   {
-     id: 'new-category',
-     title: 'New category',
-     description: 'Create a new category',
-     icon: 'add_folder',
-     shortcut: 'Ctrl+Shift+N',
-     action: () => router.push('/dashboard/categories')
-   },
-   {
-     id: 'search-docs',
-     title: 'Search in docs',
-     description: 'Search in your documents',
-     icon: 'search',
-     shortcut: 'Ctrl+q',
-     action: () => router.push('/dashboard/docs')
-   },
-   {
-     id: 'upload-file',
-     title: 'Upload file',
-     description: 'Add a resource to CDN',
-     icon: 'import',
-     shortcut: 'Ctrl+U',
-     action: () => router.push('/dashboard/cdn')
-   }
- ]
+const quickActions: QuickAction[] = [
+  {
+    id: 'new-doc',
+    title: 'New document',
+    description: 'Create a new document',
+    icon: 'add_file',
+    shortcut: 'Ctrl+N',
+    action: () => router.push('/dashboard/docs/new'),
+  },
+  {
+    id: 'new-category',
+    title: 'New category',
+    description: 'Create a new category',
+    icon: 'add_folder',
+    shortcut: 'Ctrl+Shift+N',
+    action: () => router.push('/dashboard/categories'),
+  },
+  {
+    id: 'search-docs',
+    title: 'Search in docs',
+    description: 'Search in your documents',
+    icon: 'search',
+    shortcut: 'Ctrl+q',
+    action: () => router.push('/dashboard/docs'),
+  },
+  {
+    id: 'upload-file',
+    title: 'Upload file',
+    description: 'Add a resource to CDN',
+    icon: 'import',
+    shortcut: 'Ctrl+U',
+    action: () => router.push('/dashboard/cdn'),
+  },
+];
 
 onMounted(() => {
   const handleKeydown = (e: KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault()
-      openSearch()
-    }
-    else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
-      e.preventDefault()
-      router.push('/dashboard/cdn')
-    }
-    else if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
-      e.preventDefault()
-      useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }))
+      e.preventDefault();
+      openSearch();
+    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
+      e.preventDefault();
+      router.push('/dashboard/cdn');
+    } else if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
+      e.preventDefault();
+      useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }));
     }
 
     if (e.key === 'Escape' && isOpen.value) {
-      closeSearch()
+      closeSearch();
     }
-  }
-  
-  document.addEventListener('keydown', handleKeydown)
-  const openListener = () => openSearch()
-  window.addEventListener('global-search-open', openListener as EventListener)
-  
+  };
+
+  document.addEventListener('keydown', handleKeydown);
+  const openListener = () => openSearch();
+  window.addEventListener('global-search-open', openListener as EventListener);
+
   onUnmounted(() => {
-    document.removeEventListener('keydown', handleKeydown)
-    window.removeEventListener('global-search-open', openListener as EventListener)
-  })
-})
+    document.removeEventListener('keydown', handleKeydown);
+    window.removeEventListener('global-search-open', openListener as EventListener);
+  });
+});
 
 function openSearch() {
-  isOpen.value = true
-  selectedIndex.value = 0
-  searchQuery.value = ''
+  isOpen.value = true;
+  selectedIndex.value = 0;
+  searchQuery.value = '';
   nextTick(() => {
-    searchInput.value?.focus()
-  })
+    searchInput.value?.focus();
+  });
 }
 
 function closeSearch() {
-  isOpen.value = false
-  searchQuery.value = ''
-  selectedIndex.value = 0
+  isOpen.value = false;
+  searchQuery.value = '';
+  selectedIndex.value = 0;
 }
 
 function filterResults() {
   if (!searchQuery.value.trim()) {
-    filteredResults.value = []
-    return
+    filteredResults.value = [];
+    return;
   }
-  
-  const query = searchQuery.value.toLowerCase()
-  filteredResults.value = availablePages.filter(page => 
-    page.title.toLowerCase().includes(query) ||
-    page.description.toLowerCase().includes(query) ||
-    page.category.toLowerCase().includes(query)
-  )
-  
-  selectedIndex.value = 0
+
+  const query = searchQuery.value.toLowerCase();
+  filteredResults.value = availablePages.filter(page => page.title.toLowerCase().includes(query) || page.description.toLowerCase().includes(query) || page.category.toLowerCase().includes(query));
+
+  selectedIndex.value = 0;
 }
 
 function handleKeydown(e: KeyboardEvent) {
   if (e.key === 'ArrowDown') {
-    e.preventDefault()
-    selectedIndex.value = (selectedIndex.value + 1) % Math.max(filteredResults.value.length, 1)
+    e.preventDefault();
+    selectedIndex.value = (selectedIndex.value + 1) % Math.max(filteredResults.value.length, 1);
   } else if (e.key === 'ArrowUp') {
-    e.preventDefault()
-    selectedIndex.value = selectedIndex.value === 0 
-      ? Math.max(filteredResults.value.length - 1, 0)
-      : selectedIndex.value - 1
+    e.preventDefault();
+    selectedIndex.value = selectedIndex.value === 0 ? Math.max(filteredResults.value.length - 1, 0) : selectedIndex.value - 1;
   } else if (e.key === 'Enter') {
-    e.preventDefault()
+    e.preventDefault();
     if (filteredResults.value.length > 0) {
-      navigateTo(filteredResults.value[selectedIndex.value]!)
+      navigateTo(filteredResults.value[selectedIndex.value]!);
     }
   }
 }
 
 function navigateTo(result: SearchResult) {
-  router.push(result.path)
-  closeSearch()
+  router.push(result.path);
+  closeSearch();
 }
 
 function executeAction(action: QuickAction) {
-  action.action()
-  closeSearch()
+  action.action();
+  closeSearch();
 }
 
 defineExpose({
   openSearch,
-  closeSearch
-})
+  closeSearch,
+});
 </script>
 
 <style scoped lang="scss">
@@ -355,7 +323,7 @@ defineExpose({
   color: var(--text-color);
   font-size: 16px;
   outline: none;
-  
+
   &::placeholder {
     color: var(--text-muted);
   }
@@ -369,7 +337,7 @@ defineExpose({
   padding: 8px;
   border-radius: 8px;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background: var(--border-color);
     color: var(--text-color);
@@ -383,7 +351,7 @@ defineExpose({
 
 .quick-actions {
   padding: 20px;
-  
+
   h3 {
     margin: 0 0 16px 0;
     font-size: 14px;
@@ -410,11 +378,11 @@ defineExpose({
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
-  
+
   &:hover {
     background: var(--border-color);
   }
-  
+
   &:active {
     transform: scale(0.98);
   }
@@ -465,7 +433,7 @@ defineExpose({
   padding: 12px 20px;
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   &:hover,
   &.selected {
     background: var(--border-color);
@@ -507,14 +475,14 @@ defineExpose({
   padding: 40px 20px;
   text-align: center;
   color: var(--text-muted);
-  
+
   .no-results-icon {
     width: 48px;
     height: 48px;
     margin-bottom: 16px;
     opacity: 0.5;
   }
-  
+
   p {
     margin: 0;
     font-size: 14px;
@@ -532,7 +500,7 @@ defineExpose({
   gap: 16px;
   font-size: 12px;
   color: var(--text-muted);
-  
+
   kbd {
     background: var(--border-color);
     padding: 2px 6px;
@@ -574,7 +542,7 @@ defineExpose({
     margin: 20px;
     max-height: 80vh;
   }
-  
+
   .shortcuts {
     flex-direction: column;
     gap: 8px;
