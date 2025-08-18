@@ -64,86 +64,16 @@
 
 <script setup lang="ts">
 import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
-
-interface SearchResult {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  path: string;
-  category: string;
-}
-
-interface QuickAction {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  shortcut: string;
-  action: () => void;
-}
+import { quickActions, availablePages, type SearchResult, type QuickAction } from '@/helpers/navigation';
 
 const router = useRouter();
 const isOpen = ref(false);
+const documentsStore = useDocumentsStore();
 const searchQuery = ref('');
 const selectedIndex = ref(0);
 const searchInput = ref<HTMLInputElement>();
 
-const availablePages: SearchResult[] = [
-  {
-    id: 'home',
-    title: 'Home',
-    description: 'Main dashboard',
-    icon: 'dashboard',
-    path: '/dashboard',
-    category: 'Navigation',
-  },
-  {
-    id: 'docs',
-    title: 'Documents',
-    description: 'Manage your documents',
-    icon: 'file',
-    path: '/dashboard/docs',
-    category: 'Management',
-  },
-  {
-    id: 'categories',
-    title: 'Categories',
-    description: 'Organize your categories',
-    icon: 'categories',
-    path: '/dashboard/categories',
-    category: 'Management',
-  },
-  {
-    id: 'cdn',
-    title: 'CDN',
-    description: 'Manage your resources',
-    icon: 'cdn',
-    path: '/dashboard/cdn',
-    category: 'Management',
-  },
-  {
-    id: 'import',
-    title: 'Import',
-    description: 'Import documents',
-    icon: 'import',
-    path: '/dashboard/import',
-    category: 'Actions',
-  },
-  {
-    id: 'settings',
-    title: 'Settings',
-    description: 'Configure the application',
-    icon: 'settings',
-    path: '/dashboard/settings',
-    category: 'Configuration',
-  },
-];
-
-const filteredResults = ref<SearchResult[]>([]);
-
 // Unified filtering across actions and pages
-const query = computed(() => searchQuery.value.trim().toLowerCase());
 function tokenize(text: string) {
   return text.trim().toLowerCase().split(/\s+/).filter(Boolean);
 }
@@ -157,7 +87,6 @@ const filteredActions = computed<QuickAction[]>(() => {
   return quickActions.filter(a => matchesTokens(a.title, tokens) || matchesTokens(a.description, tokens));
 });
 // Documents from store (filter by title and tags)
-const documentsStore = useDocumentsStore();
 const filteredDocuments = computed<SearchResult[]>(() => {
   const tokens = tokenize(searchQuery.value);
   if (tokens.length === 0) return [];
@@ -214,41 +143,6 @@ const flattenedItems = computed(() => {
   }));
   return [...nav, ...docs];
 });
-
-const quickActions: QuickAction[] = [
-  {
-    id: 'new-doc',
-    title: 'New document',
-    description: 'Create a new document',
-    icon: 'add_file',
-    shortcut: 'Ctrl+N',
-    action: () => router.push('/dashboard/docs/new'),
-  },
-  {
-    id: 'new-category',
-    title: 'New category',
-    description: 'Create a new category',
-    icon: 'add_folder',
-    shortcut: 'Ctrl+Shift+N',
-    action: () => router.push('/dashboard/categories'),
-  },
-  {
-    id: 'search-docs',
-    title: 'Search in docs',
-    description: 'Search in your documents',
-    icon: 'search',
-    shortcut: 'Ctrl+q',
-    action: () => router.push('/dashboard/docs'),
-  },
-  {
-    id: 'upload-file',
-    title: 'Upload file',
-    description: 'Add a resource to CDN',
-    icon: 'import',
-    shortcut: 'Ctrl+U',
-    action: () => router.push('/dashboard/cdn'),
-  },
-];
 
 onMounted(() => {
   const handleKeydown = (e: KeyboardEvent) => {
@@ -320,7 +214,7 @@ function navigateTo(result: SearchResult) {
 }
 
 function executeAction(action: QuickAction) {
-  action.action();
+  router.push(action.path);
   closeSearch();
 }
 
@@ -338,7 +232,7 @@ defineExpose({
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
   z-index: 9999;
   display: flex;
   align-items: flex-start;
