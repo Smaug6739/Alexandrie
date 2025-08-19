@@ -57,15 +57,18 @@ jobs:
       # -------------------------
       - name: Create .env.production for backend
         run: |
-          echo "NODE_ENV=production" > .env.production
-          echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env.production
-          echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env.production
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env.production
-          echo "MINIO_ACCESSKEY=${{ secrets.MINIO_ACCESSKEY }}" >> .env.production
-          echo "MINIO_SECRETKEY=${{ secrets.MINIO_SECRETKEY }}" >> .env.production
-          echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env.production
-          echo "SMTP_MAIL=${{ secrets.SMTP_MAIL }}" >> .env.production
-          echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env.production
+          cat > .env.production <<EOF
+          NODE_ENV=production
+          DATABASE_USER={{ secrets.DATABASE_USER }}
+          DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}"
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          MINIO_ACCESSKEY=${{ secrets.MINIO_ACCESSKEY }}
+          MINIO_SECRETKEY=${{ secrets.MINIO_SECRETKEY }}
+          SMTP_HOST=${{ secrets.SMTP_HOST }}
+          SMTP_MAIL=${{ secrets.SMTP_MAIL }}
+          SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}
+          EOF
+
       # -------------------------
       # Deploy files using rsync
       # -------------------------
@@ -79,7 +82,7 @@ jobs:
       # -------------------------
       # Rollback + restart app
       # -------------------------
-      - name: Restart application with pm2 (zero downtime)
+      - name: Restart application with pm2
         run: |
           ssh -i deploy_key ${SSH_USER}@${SSH_HOST} "
             set -e
