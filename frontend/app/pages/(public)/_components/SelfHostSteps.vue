@@ -22,21 +22,31 @@
       </div>
     </div>
     <div class="notes">
-      <span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z"/></svg>No telemetry by default</span>
-      <span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z"/></svg>Keep full control of your data</span>
-      <span class="pill"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z"/></svg>MIT License</span>
+      <span class="pill"
+        ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>No telemetry by default</span
+      >
+      <span class="pill"
+        ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>Keep full control of your data</span
+      >
+      <span class="pill"
+        ><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>MIT License</span
+      >
     </div>
   </section>
- </template>
+</template>
 
 <script setup lang="ts">
 function copyDockerCompose() {
-  navigator.clipboard?.writeText('docker compose up -d --build')
+  navigator.clipboard?.writeText('docker compose up -d --build');
 }
 </script>
 
 <style scoped lang="scss">
-.self-host { text-align: center; margin: 4rem auto; max-width: 1100px; }
+.self-host {
+  text-align: center;
+  margin: 4rem auto;
+  max-width: 1100px;
+}
 .steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -51,13 +61,61 @@ function copyDockerCompose() {
   text-align: left;
 }
 .step-index {
-  width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; background: var(--primary); color: white; font-weight: 700; margin-bottom: 8px;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
-.code-wrap { display: flex; align-items: center }
-.code { flex: 1; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px; overflow: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 14px }
-.copy { margin-left: 8px; padding: 8px 10px; border-radius: 8px; background: var(--bg-contrast); border: 1px solid var(--border-color); cursor: pointer; font-weight: 600 }
-.notes { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 14px }
-.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 999px; color: var(--text-color); font-weight: 500 }
-.pill svg { width: 16px; height: 16px; fill: var(--primary) }
+.code-wrap {
+  display: flex;
+  align-items: center;
+}
+.code {
+  flex: 1;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 12px 14px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 14px;
+}
+.copy {
+  margin-left: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--bg-contrast);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  font-weight: 600;
+}
+.notes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 14px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  color: var(--text-color);
+  font-weight: 500;
+}
+.pill svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--primary);
+}
 </style>
-

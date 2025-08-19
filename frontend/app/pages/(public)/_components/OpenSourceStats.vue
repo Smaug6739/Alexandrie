@@ -25,51 +25,51 @@
 </template>
 
 <script setup lang="ts">
-const owner = 'Smaug6739'
-const repo = 'Alexandrie'
+const owner = 'Smaug6739';
+const repo = 'Alexandrie';
 
-const stars = ref<number | null>(null)
-const contributors = ref<number | null>(null)
-const latestRelease = ref<string>('')
+const stars = ref<number | null>(null);
+const contributors = ref<number | null>(null);
+const latestRelease = ref<string>('');
 
-const starsDisplay = computed(() => stars.value === null ? '-' : Intl.NumberFormat().format(stars.value))
-const contributorsDisplay = computed(() => contributors.value === null ? '-' : String(contributors.value))
+const starsDisplay = computed(() => (stars.value === null ? '-' : Intl.NumberFormat().format(stars.value)));
+const contributorsDisplay = computed(() => (contributors.value === null ? '-' : String(contributors.value)));
 
 async function fetchRepo() {
   try {
-    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`)
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
     if (res.ok) {
-      const data = await res.json()
-      stars.value = data.stargazers_count ?? null
+      const data = await res.json();
+      stars.value = data.stargazers_count ?? null;
     }
   } catch {}
 }
 
 async function fetchContributors() {
   try {
-    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100&anon=0`)
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors?per_page=100&anon=0`);
     if (res.ok) {
-      const list = await res.json()
-      contributors.value = Array.isArray(list) ? list.length : null
+      const list = await res.json();
+      contributors.value = Array.isArray(list) ? list.length : null;
     }
   } catch {}
 }
 
 async function fetchLatestRelease() {
   try {
-    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`)
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/releases/latest`);
     if (res.ok) {
-      const rel = await res.json()
-      latestRelease.value = rel.tag_name || rel.name || ''
+      const rel = await res.json();
+      latestRelease.value = rel.tag_name || rel.name || '';
     }
   } catch {}
 }
 
 onMounted(() => {
-  fetchRepo()
-  fetchContributors()
-  fetchLatestRelease()
-})
+  fetchRepo();
+  fetchContributors();
+  fetchLatestRelease();
+});
 </script>
 
 <style scoped lang="scss">
@@ -121,8 +121,15 @@ onMounted(() => {
   font-weight: 600;
   border: 1px solid var(--border-color);
 }
-.btn.github { background: var(--bg-color); }
-.btn.try { background: var(--primary); color: white; border-color: var(--primary) }
-.btn.contribute { background: var(--bg-contrast) }
+.btn.github {
+  background: var(--bg-color);
+}
+.btn.try {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+.btn.contribute {
+  background: var(--bg-contrast);
+}
 </style>
-

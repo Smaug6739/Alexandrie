@@ -23,9 +23,27 @@
 </template>
 
 <style scoped lang="scss">
-.principles { text-align: center; margin: 4rem auto; max-width: 1100px }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 14px }
-.card { border: 1px solid var(--border-color); background: var(--bg-color); border-radius: 12px; padding: 16px; text-align: left; transition: transform .2s ease, box-shadow .2s ease }
-.card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(0,0,0,.12) }
+.principles {
+  text-align: center;
+  margin: 4rem auto;
+  max-width: 1100px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+.card {
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+}
 </style>
-
