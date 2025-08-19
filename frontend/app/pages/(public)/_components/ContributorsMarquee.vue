@@ -81,6 +81,13 @@ onMounted(fetchContributors);
   background: var(--bg-color);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  aspect-ratio: 1 / 1;
+}
 .avatar::before {
   content: '';
   position: absolute;

@@ -57,6 +57,7 @@ defineProps<{ icon: string; title: string; text: string }>();
   font-weight: 700;
   margin-bottom: 0.6rem;
   background: linear-gradient(90deg, var(--primary), #6c63ff);
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
