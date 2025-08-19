@@ -59,7 +59,7 @@ jobs:
         run: |
           cat > .env.production <<EOF
           NODE_ENV=production
-          DATABASE_USER={{ secrets.DATABASE_USER }}
+          DATABASE_USER=${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}"
           JWT_SECRET=${{ secrets.JWT_SECRET }}
           MINIO_ACCESSKEY=${{ secrets.MINIO_ACCESSKEY }}
