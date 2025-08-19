@@ -9,13 +9,6 @@
           <div class="sub">GitHub</div>
         </div>
       </a>
-      <a v-for="c in displayAvatars" :key="'clone-' + c.__key" class="avatar" :href="c.html_url" target="_blank" :title="c.login">
-        <img :src="c.avatar_url + '&s=80'" :alt="c.login" />
-        <div class="profile">
-          <div class="name">{{ c.login }}</div>
-          <div class="sub">GitHub</div>
-        </div>
-      </a>
     </div>
   </section>
 </template>
@@ -28,18 +21,7 @@ interface Contributor {
   html_url: string;
 }
 const avatars = ref<Contributor[]>([]);
-const displayAvatars = computed(() => {
-  const src = avatars.value;
-  if (!src || src.length === 0) return [] as any[];
-  const min = 14;
-  const expanded: any[] = [];
-  let safety = 0;
-  while (expanded.length < min && safety < 10) {
-    expanded.push(...src);
-    safety++;
-  }
-  return expanded.slice(0, Math.max(min, src.length)).map((c, idx) => ({ ...c, __key: `${c.id}-${idx}` }));
-});
+const displayAvatars = computed(() => avatars.value.map((c, idx) => ({ ...c, __key: `${c.id}-${idx}` })));
 
 async function fetchContributors() {
   try {
@@ -61,48 +43,30 @@ onMounted(fetchContributors);
 }
 .strip {
   display: flex;
+  justify-content: center;
   gap: 12px;
-  overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   padding: 8px 0;
-  animation: marquee 22s linear infinite;
-  will-change: transform;
 }
-.strip:hover {
-  animation-play-state: paused;
-}
+
 .avatar {
   position: relative;
+  display: block;
+  background: var(--bg-color);
+  transition: transform 0.15s ease;
+}
+.avatar img {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  overflow: hidden;
-  display: block;
-  background: var(--bg-color);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: inherit;
-  aspect-ratio: 1 / 1;
 }
 .avatar::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: 0 0 0 1px var(--border-color) inset;
 }
 .avatar:hover {
   transform: translateY(-2px);
-}
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: inherit;
 }
 .profile {
   position: absolute;
@@ -114,7 +78,6 @@ onMounted(fetchContributors);
   border-radius: 999px;
   padding: 6px 10px;
   white-space: nowrap;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease, transform 0.15s ease;
@@ -134,5 +97,13 @@ onMounted(fetchContributors);
   color: var(--text-muted);
   font-size: 13px;
   margin-top: 6px;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 </style>
