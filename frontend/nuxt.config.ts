@@ -37,7 +37,7 @@ export default defineNuxtConfig({
   },
   ssr: false,
   css: ['~/styles/main.scss', '~/styles/katex/katex.min.css'],
-  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt'],
+  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt', '@nuxt/eslint'],
 
   colorMode: {
     preference: 'light', // default value of $colorMode.preference
