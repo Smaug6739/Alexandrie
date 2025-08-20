@@ -1,11 +1,7 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name" class="btn"></button>
-    <div class="color-picker">
-      <button class="btn color" title="Color" @click.stop="openColorPicker">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 3a9 9 0 0 0-9 9c0 4.97 4.03 9 9 9h4a3 3 0 0 0 0-6h-1a1 1 0 1 1 0-2h1a5 5 0 0 0 0-10h-4Zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3-2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/></svg>
-      </button>
-    </div>
+    <div class="color-picker"></div>
     <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" v-if="!minimal" />
     <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="300px" class="entry" v-if="!minimal" />
     <AppHint text="Tags has been moved down" />
@@ -20,9 +16,6 @@ const categories = new TreeStructure(useSidebarTree().categories.value).generate
 const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
 const emit = defineEmits(['execute-action']);
 const emitAction = (action: string) => emit('execute-action', action, props.document);
-function openColorPicker() {
-  emit('execute-action', 'openColorPicker', props.document)
-}
 const openModal = () => useModal().add(new Modal(shallowRef(ModalSyntax), {}, () => {}, true));
 const accessibilities: ANode[] = [
   {
@@ -91,6 +84,11 @@ const toolbar = [
     name: 'Ordered List',
     icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M680-80v-60h100v-30h-60v-60h60v-30H680v-60h120q17 0 28.5 11.5T840-280v40q0 17-11.5 28.5T800-200q17 0 28.5 11.5T840-160v40q0 17-11.5 28.5T800-80H680Zm0-280v-110q0-17 11.5-28.5T720-510h60v-30H680v-60h120q17 0 28.5 11.5T840-560v70q0 17-11.5 28.5T800-450h-60v30h100v60H680Zm60-280v-180h-60v-60h120v240h-60ZM120-200v-80h480v80H120Zm0-240v-80h480v80H120Zm0-240v-80h480v80H120Z"/></svg>',
     action: 'orderedList',
+  },
+  {
+    name: 'Color',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>`,
+    action: 'openColorPicker',
   },
   {
     name: 'Preview',

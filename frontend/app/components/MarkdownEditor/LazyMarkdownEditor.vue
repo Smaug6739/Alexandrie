@@ -42,23 +42,11 @@ const document = ref<Partial<Document>>({
   content_html: compile(props.doc?.content_markdown || ''),
 });
 
-function exec(action: string, _doc?: any, payload?: any) {
-  if (action === 'preview') {
-    showPreview.value = !showPreview.value;
-    return;
-  }
-  if (action === 'openColorPicker') {
-    openColorModal();
-    return;
-  }
-  if (action === 'save') {
-    save();
-    return;
-  }
-  if (action === 'goto') {
-    if (document.value.id) useRouter().push(`/dashboard/docs/${document.value.id}`);
-    return;
-  }
+function exec(action: string, payload?: string) {
+  if (action === 'preview') return (showPreview.value = !showPreview.value);
+  if (action === 'openColorPicker') return openColorModal();
+  if (action === 'save') return save();
+  if (action === 'goto') if (document.value.id) return useRouter().push(`/dashboard/docs/${document.value.id}`);
 
   if (!editorView.value) return;
 
@@ -102,12 +90,12 @@ function exec(action: string, _doc?: any, payload?: any) {
       changes = { from, to, insert: `1. ${selectedText}\n` };
       break;
     case 'color': {
-      const color = String(payload || '').trim()
-      if (!color) return
-      const value = selectedText || 'text'
-      const insert = `{color:${color}}(${value})`
-      changes = { from, to, insert }
-      break
+      const color = String(payload || '').trim();
+      if (!color) return;
+      const value = selectedText || 'text';
+      const insert = `{color:${color}}(${value})`;
+      changes = { from, to, insert };
+      break;
     }
   }
   view.dispatch({
@@ -119,40 +107,44 @@ function exec(action: string, _doc?: any, payload?: any) {
 }
 
 function openColorModal() {
-  const rootDoc = window.document
-  const container = rootDoc.createElement('div')
-  const modal = rootDoc.createElement('div')
-  container.className = 'color-modal-overlay'
-  modal.className = 'color-modal'
+  const rootDoc = window.document;
+  const container = rootDoc.createElement('div');
+  const modal = rootDoc.createElement('div');
+  container.className = 'color-modal-overlay';
+  modal.className = 'color-modal';
   modal.innerHTML = `
     <div class="panel">
       <div class="swatches">
-        ${['blue','red','green','yellow','primary','purple','pink','teal'].map(c => `<button class="swatch" data-color="${c}"></button>`).join('')}
+        ${['blue', 'red', 'green', 'yellow', 'primary', 'purple', 'pink', 'teal'].map(c => `<button class="swatch" data-color="${c}"></button>`).join('')}
       </div>
       <div class="custom">
         <input class="hex" placeholder="#RRGGBB" />
         <button class="apply">Apply</button>
       </div>
     </div>
-  `
-  container.appendChild(modal)
-  rootDoc.body.appendChild(container)
-  const close = () => { if (container.parentNode) rootDoc.body.removeChild(container) }
-  container.addEventListener('click', e => { if (e.target === container) close() })
+  `;
+  container.appendChild(modal);
+  rootDoc.body.appendChild(container);
+  const close = () => {
+    if (container.parentNode) rootDoc.body.removeChild(container);
+  };
+  container.addEventListener('click', e => {
+    if (e.target === container) close();
+  });
   modal.querySelectorAll('.swatch').forEach(el => {
     el.addEventListener('click', () => {
-      const color = (el as HTMLElement).getAttribute('data-color') || ''
-      exec('color', undefined, color)
-      close()
-    })
-  })
-  const input = modal.querySelector('.hex') as HTMLInputElement | null
-  const apply = modal.querySelector('.apply') as HTMLButtonElement | null
+      const color = (el as HTMLElement).getAttribute('data-color') || '';
+      exec('color', color);
+      close();
+    });
+  });
+  const input = modal.querySelector('.hex') as HTMLInputElement | null;
+  const apply = modal.querySelector('.apply') as HTMLButtonElement | null;
   apply?.addEventListener('click', () => {
-    const val = input?.value?.trim() || ''
-    if (val) exec('color', undefined, val)
-    close()
-  })
+    const val = input?.value?.trim() || '';
+    if (val) exec('color', val);
+    close();
+  });
 }
 const snippets: Record<string, string> = {
   '!blue': ':::blue\n$0\n:::',
@@ -375,22 +367,91 @@ input {
 </style>
 
 <style lang="scss">
-.color-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 99999 }
-.color-modal { background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; min-width: 280px; box-shadow: 0 20px 60px rgba(0,0,0,.3) }
-.color-modal .panel { display: grid; gap: 12px }
-.color-modal .swatches { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px }
-.color-modal .swatch { width: 30px; height: 30px; border-radius: 999px; border: 1px solid var(--border-color); cursor: pointer; transition: transform .1s ease, box-shadow .2s ease }
-.color-modal .swatch:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.15) }
-.color-modal .swatch[data-color="blue"] { background: #3b82f6 }
-.color-modal .swatch[data-color="red"] { background: #ef4444 }
-.color-modal .swatch[data-color="green"] { background: #22c55e }
-.color-modal .swatch[data-color="yellow"] { background: #eab308 }
-.color-modal .swatch[data-color="primary"] { background: var(--primary) }
-.color-modal .swatch[data-color="purple"] { background: #a855f7 }
-.color-modal .swatch[data-color="pink"] { background: #ec4899 }
-.color-modal .swatch[data-color="teal"] { background: #14b8a6 }
-.color-modal .custom { display: flex; gap: 8px; align-items: center }
-.color-modal .hex { flex: 1; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color) }
-.color-modal .apply { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-contrast); font-weight: 600; cursor: pointer; transition: background .2s ease }
-.color-modal .apply:hover { background: var(--border-color) }
+.color-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+.color-modal {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 16px;
+  min-width: 280px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+.color-modal .panel {
+  display: grid;
+  gap: 12px;
+}
+.color-modal .swatches {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+}
+.color-modal .swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+.color-modal .swatch:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+.color-modal .swatch[data-color='blue'] {
+  background: #3b82f6;
+}
+.color-modal .swatch[data-color='red'] {
+  background: #ef4444;
+}
+.color-modal .swatch[data-color='green'] {
+  background: #22c55e;
+}
+.color-modal .swatch[data-color='yellow'] {
+  background: #eab308;
+}
+.color-modal .swatch[data-color='primary'] {
+  background: var(--primary);
+}
+.color-modal .swatch[data-color='purple'] {
+  background: #a855f7;
+}
+.color-modal .swatch[data-color='pink'] {
+  background: #ec4899;
+}
+.color-modal .swatch[data-color='teal'] {
+  background: #14b8a6;
+}
+.color-modal .custom {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.color-modal .hex {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+.color-modal .apply {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-contrast);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.color-modal .apply:hover {
+  background: var(--border-color);
+}
 </style>
