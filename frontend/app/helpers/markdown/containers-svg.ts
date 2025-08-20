@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type MarkdownIt from 'markdown-it';
 import container from 'markdown-it-container';
 import { svg_info, svg_warning, containerOpen } from './constants';
@@ -69,7 +70,7 @@ export const containerSvg = (md: MarkdownIt) => {
   });
   md.use(container, 'info-', {
     validate: function (params: any) {
-      return params.trim().match(/^info\-(.*)+$/);
+      return params.trim().match(/^info-(.*)+$/);
     },
     render: function (tokens: any, idx: any) {
       const m = tokens[idx].info.trim().split(' ');

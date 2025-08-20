@@ -1,13 +1,15 @@
 <template>
   <aside>
     <h4 v-if="doc?.tags">Tags</h4>
-    <div style="display: flex; flex-wrap: wrap; font-size: 14px">
-      <tag v-for="tag in doc?.tags.split(',')" v-if="doc?.tags" :key="tag" class="primary">#{{ tag.trim() }}</tag>
+    <div v-if="doc?.tags" style="display: flex; flex-wrap: wrap; font-size: 14px">
+      <tag v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
     </div>
     <ul ref="list" style="position: relative">
-      <div v-if="headers.length" ref="marker" class="marker"/>
+      <div v-if="headers.length" ref="marker" class="marker" />
       <h4>Table of contents</h4>
-      <NodeTree v-for="header of headers_tree" v-if="headers.length" :key="header.link" :node="header" style="padding-left: 10px" />
+      <div v-if="headers.length">
+        <NodeTree v-for="header of headers_tree" :key="header.link" :node="header" style="padding-left: 10px" />
+      </div>
       <p v-else>Nothing to display</p>
     </ul>
     <h4 v-if="childs.length">Child documents</h4>
@@ -61,8 +63,7 @@ function buildTree(tree: GroupedHeaders[]): TreeItem[] {
     }
     if (stack.length > 0) {
       if (!stack[stack.length - 1]!.childrens) stack[stack.length - 1]!.childrens = [];
-      // @ts-ignore
-      stack[stack.length - 1].childrens.push(item);
+      stack[stack.length - 1]!.childrens!.push(item);
     } else {
       result.push(item);
     }

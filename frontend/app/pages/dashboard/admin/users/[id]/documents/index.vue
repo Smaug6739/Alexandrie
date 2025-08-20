@@ -3,7 +3,7 @@
     <h2 style="text-align: center">Search documents</h2>
     <DataTable :headers="headers" :rows="rows">
       <template #actions="{ cell }">
-        <NuxtLink :to="`/dashboard/admin/users/${route.params.id}/documents/${cell?.data.id}`"><Icon name="view" /></NuxtLink>
+        <NuxtLink :to="`/dashboard/admin/users/${route.params.id}/documents/${(cell?.data as Document).id}`"><Icon name="view" /></NuxtLink>
       </template>
     </DataTable>
   </div>

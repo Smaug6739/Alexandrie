@@ -5,7 +5,7 @@
     </header>
     <DataTable v-if="rows?.length" :headers="headers" :rows="rows || []">
       <template #action="{ cell }">
-        <NuxtLink :to="`/dashboard/admin/users/${cell?.data.id}`"><Icon name="view" /></NuxtLink>
+        <NuxtLink :to="`/dashboard/admin/users/${(cell?.data as User).id}`"><Icon name="view" /></NuxtLink>
       </template>
     </DataTable>
     <div v-else>No user found.</div>
@@ -13,6 +13,7 @@
 </template>
 <script setup lang="ts">
 import { useAdminStore } from '~/stores/admin.store';
+import type { User } from '~/stores';
 
 const adminStore = useAdminStore();
 adminStore.fetchAll();

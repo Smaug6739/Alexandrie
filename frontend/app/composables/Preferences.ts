@@ -5,7 +5,7 @@ export type PreferenceKey = keyof typeof DEFAULT_PREFERENCES;
 
 export interface Preference {
   key: PreferenceKey;
-  value: any;
+  value: unknown;
 }
 
 const DEFAULT_PREFERENCES = {
@@ -54,7 +54,7 @@ export function usePreferences() {
     return pref ? pref.value : DEFAULT_PREFERENCES[key];
   }
 
-  function set(key: PreferenceKey, value: any) {
+  function set(key: PreferenceKey, value: unknown) {
     const existing = preferences.value.find(p => p.key === key);
     if (existing) {
       existing.value = value;

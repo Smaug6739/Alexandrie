@@ -33,6 +33,7 @@
     "@types/node": "^24.3.0",
     "@vite-pwa/nuxt": "1.0.4",
     "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.1.8",
     "katex": "^0.16.22",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",

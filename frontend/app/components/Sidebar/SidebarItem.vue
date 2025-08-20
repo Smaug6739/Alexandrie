@@ -7,7 +7,7 @@
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="settings" fill="var(--font-color)" /> </NuxtLink>
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
     <Icon v-if="item.data.type === 'document' && item.data.pinned" name="pin" fill="var(--font-color-light)" class="ni" />
-    <slot/>
+    <slot />
   </span>
 </template>
 
@@ -22,6 +22,7 @@ const props = defineProps<{ item: Item }>();
 const dotMenu = ref();
 const customClass = computed(() => {
   if ('color' in props.item.data && props.item.data.color != -1) return `item-icon ${getAppColor(props.item.data.color as number)}`;
+  return '';
 });
 const isActive = ref(false);
 const icon = computed(() => {

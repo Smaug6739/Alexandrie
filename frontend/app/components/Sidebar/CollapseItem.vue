@@ -11,7 +11,8 @@
       </svg>
     </SidebarItem>
     <SidebarItem v-else :item="item" class="collapse-header" />
-    <div v-for="child in item.childrens" v-if="props.item.show.value" :key="child.id" class="collapse-body" style="margin-left: 15px">
+    <!--eslint-disable-next-line vue/no-use-v-if-with-v-for -->
+    <div v-for="child in item.childrens" v-if="getCollapseState(item.id)" :key="child.id" class="collapse-body" style="margin-left: 15px">
       <CollapseItem v-if="child.childrens?.length" :item="child" :root="child.data.type === 'document'" />
       <SidebarItem v-else :item="child" />
     </div>
@@ -22,8 +23,7 @@
 const props = defineProps<{ item: Item; root?: boolean }>();
 
 const toggleShow = () => {
-  props.item.show.value = !props.item.show.value;
-  setCollapseState(props.item.id, props.item.show.value);
+  setCollapseState(props.item.id, !props.item.show.value);
 };
 </script>
 

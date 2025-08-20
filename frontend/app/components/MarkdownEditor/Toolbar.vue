@@ -1,39 +1,48 @@
 <template>
   <div class="toolbar">
-    <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)" v-html="item.icon"/>
-    <div class="color-picker"/>
-    <AppSelect v-if="!minimal" v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" />
-    <AppSelect v-if="!minimal" v-model="document.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
+    <!-- eslint-disable-next-line vue/no-v-html -->
+    <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)" v-html="item.icon" />
+    <div class="color-picker" />
+    <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" />
+    <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
     <AppHint text="Tags has been moved down" />
-    <button class="help" @click="openModal"><Icon name="help" :big="true" fill="var(--font-color-light)" /></button>
+    <button class="help" @click="openModal">
+      <Icon name="help" :big="true" fill="var(--font-color-light)" />
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Document } from '~/stores';
 import ModalSyntax from './ModalSyntax.vue';
-const categories = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
-const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
-const emit = defineEmits(['execute-action']);
-const emitAction = (action: string) => emit('execute-action', action, props.document);
+
+const props = defineProps<{
+  modelValue: Partial<Document>;
+  minimal?: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: Partial<Document>): void;
+  (e: 'execute-action', action: string): void;
+}>();
+
+const localValue = computed({
+  get: () => props.modelValue,
+  set: val => emit('update:modelValue', val),
+});
+
+const emitAction = (action: string) => emit('execute-action', action);
+
 const openModal = () => useModal().add(new Modal(shallowRef(ModalSyntax), {}, () => {}, true));
+
+const categories = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
+
 const accessibilities: ANode[] = [
-  {
-    id: 1,
-    label: 'Visible',
-    parent_id: '',
-  },
-  {
-    id: 2,
-    label: 'Draft',
-    parent_id: '',
-  },
-  {
-    id: 3,
-    label: 'Archive',
-    parent_id: '',
-  },
+  { id: 1, label: 'Visible', parent_id: '' },
+  { id: 2, label: 'Draft', parent_id: '' },
+  { id: 3, label: 'Archive', parent_id: '' },
 ];
+
 const toolbar = [
   {
     name: 'Bold',
@@ -107,7 +116,6 @@ const toolbar = [
   },
 ];
 </script>
-
 <style scoped lang="scss">
 .toolbar {
   user-select: none;

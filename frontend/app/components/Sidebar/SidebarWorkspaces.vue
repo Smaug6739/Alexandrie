@@ -8,13 +8,13 @@
       <li :class="{ selected: all_workspaces.value === workspaceId }" @click="selectOption(all_workspaces)">
         <SidebarWorkspace :option="all_workspaces" />
       </li>
-      <hr style="margin: 2px 0" >
+      <hr style="margin: 2px 0" />
       <span style="margin: 4px 6px; font-size: small; font-weight: 600; color: var(--font-color-light)">Workspaces</span>
-      <li v-for="option in options" v-if="options.length" :key="option.meta?.id" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
+      <li v-for="option in options" :key="option.meta?.id" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
         <SidebarWorkspace :option="option" />
       </li>
-      <div v-else class="placeholder" style="padding: 6px; font-size: 0.9rem; font-style: italic">No workspaces found</div>
-      <hr >
+      <div v-if="!options.length" class="placeholder" style="padding: 6px; font-size: 0.9rem; font-style: italic">No workspaces found</div>
+      <hr />
       <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--font-color-light)" /> New Workspace</div>
       <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace"><Icon name="settings" fill="var(--font-color-light)" /> Edit Workspace</NuxtLink>
     </ul>

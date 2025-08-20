@@ -3,15 +3,19 @@
     <div ref="searchContainer" class="modal-container">
       <span class="search-input">
         <Icon name="search" />
-        <input ref="searchInput" v-model="filter" type="text" placeholder="Search document" >
+        <input ref="searchInput" v-model="filter" type="text" placeholder="Search document" />
         <button style="background: none" @click="close">
           <Icon name="close" :big="true" />
         </button>
       </span>
       <span class="title">Documents</span>
-      <NuxtLink v-for="doc of docs" v-if="docs.length" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close">
-        <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }} <span class="category" v-html="categoryName(doc.category)"/></NuxtLink>
-      <p v-else class="no-result">No result found.</p>
+      <NuxtLink v-for="doc of docs" :key="doc.id" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close">
+        <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }}
+        <span class="category">
+          <tag :class="getAppColor(categoryStore.getById(doc.category || '')?.color)">{{ categoryStore.getById(doc.category || '')?.name }}</tag>
+        </span>
+      </NuxtLink>
+      <p v-if="!docs.length" class="no-result">No result found.</p>
     </div>
   </div>
 </template>
@@ -20,11 +24,6 @@
 const categoryStore = useCategoriesStore();
 
 const documents = computed(() => useDocumentsStore().getAll.filter(c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || c.tags?.toLowerCase().includes(filter.value.toLowerCase())));
-const categoryName = (id: string = '') => {
-  const category = categoryStore.getById(id);
-  if (category) return `<tag ${getAppColor(category.color)}>${category.name}</tag>`;
-  return '';
-};
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);
 

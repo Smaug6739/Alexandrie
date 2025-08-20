@@ -1,5 +1,6 @@
 <template>
-  <i class="icon" :style="{ fill }" :class="{ fill, big, mid, small }" v-html="icon"/>
+  <!-- eslint-disable-next-line vue/no-v-html -->
+  <i class="icon" :style="{ fill }" :class="{ fill, big, mid, small }" v-html="icon" />
 </template>
 
 <script setup lang="ts">

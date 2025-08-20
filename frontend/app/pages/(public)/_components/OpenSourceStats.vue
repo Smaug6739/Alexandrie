@@ -42,7 +42,9 @@ async function fetchRepo() {
       const data = await res.json();
       stars.value = data.stargazers_count ?? null;
     }
-  } catch {}
+  } catch {
+    stars.value = null;
+  }
 }
 
 async function fetchContributors() {
@@ -52,7 +54,9 @@ async function fetchContributors() {
       const list = await res.json();
       contributors.value = Array.isArray(list) ? list.length : null;
     }
-  } catch {}
+  } catch {
+    contributors.value = null;
+  }
 }
 
 async function fetchLatestRelease() {
@@ -62,7 +66,9 @@ async function fetchLatestRelease() {
       const rel = await res.json();
       latestRelease.value = rel.tag_name || rel.name || '';
     }
-  } catch {}
+  } catch {
+    latestRelease.value = '';
+  }
 }
 
 onMounted(() => {

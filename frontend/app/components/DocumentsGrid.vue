@@ -1,6 +1,8 @@
 <template>
   <div class="document-list">
-    <DocumentCard v-for="document in documents" v-if="documents.length" :key="document.id" :document="document" />
+    <div v-if="documents.length">
+      <DocumentCard v-for="document in documents" :key="document.id" :document="document" />
+    </div>
     <div v-else style="width: 100%; height: 100%">
       <div style="text-align: center; margin: 10vh auto">
         <h1>No documents found</h1>

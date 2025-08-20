@@ -5,8 +5,9 @@
       <h2>{{ document.name }}</h2>
       <p>{{ document.description }}</p>
       <div style="display: flex; gap: 10px; flex: 1; width: 100%; overflow: auto; min-height: 0">
-        <textarea style="flex: 1">{{ document.content_markdown }}</textarea>
-        <div style="flex: 1" v-html="document.content_html"/>
+        <textarea v-model="document.content_markdown" style="flex: 1"></textarea>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div style="flex: 1" v-html="document.content_html" />
       </div>
     </div>
 

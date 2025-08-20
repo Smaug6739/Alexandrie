@@ -3,7 +3,7 @@
     <h2>Contributors</h2>
     <div class="strip" :style="{ ['--items' as any]: displayAvatars.length }">
       <a v-for="c in displayAvatars" :key="c.__key" class="avatar" :href="c.html_url" target="_blank" :title="c.login">
-        <img :src="c.avatar_url + '&s=80'" :alt="c.login" >
+        <img :src="c.avatar_url + '&s=80'" :alt="c.login" />
         <div class="profile">
           <div class="name">{{ c.login }}</div>
           <div class="sub">GitHub</div>
@@ -29,7 +29,9 @@ async function fetchContributors() {
     if (!res.ok) return;
     const data = await res.json();
     avatars.value = Array.isArray(data) ? (data as Contributor[]) : [];
-  } catch {}
+  } catch {
+    avatars.value = [];
+  }
 }
 
 onMounted(fetchContributors);

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'sidebar-mask': isMobile() && isOpened }"/>
+  <div :class="{ 'sidebar-mask': isMobile() && isOpened }" />
   <Resizable>
     <Dock v-if="!isMobile() && preferences.get('view_dock')" />
     <div class="sidebar" :class="{ compact: preferences.get('compactMode') }">
@@ -10,10 +10,10 @@
         </span>
         <IconClose class="btn" />
       </section>
-      <input v-model="filter" type="text" placeholder="Search or ctrl + q" >
+      <input v-model="filter" type="text" placeholder="Search or ctrl + q" />
 
       <div v-if="userStore.user" class="user">
-        <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" >
+        <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
         <div class="details">
           <div>
             <div>{{ userStore.user.username }}</div>
@@ -30,7 +30,7 @@
       <SidebarWorkspaces :options="workspaces" />
       <Search />
       <CollapseItem v-for="item in navigationItems" :key="item.id" :item="item" :root="true" />
-      <hr style="margin: 5px 0; width: 100%" >
+      <hr style="margin: 5px 0; width: 100%" />
       <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
     </div>
   </Resizable>
@@ -69,7 +69,7 @@ const tree = computed(() => filterItems(sidebarTree.filtered.value));
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
 };
-const newCategory = (m: MouseEvent) => {
+const newCategory = () => {
   onClick();
   useModal().add(new Modal(shallowRef(NewCategoryModal), { role: 1 }));
 };

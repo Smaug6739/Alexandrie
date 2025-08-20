@@ -7,18 +7,18 @@
     <AppDrop ref="dropComponent" @select="selectFile" />
     <div style="padding: 12px 0; width: 100%; display: flex; align-items: center; gap: 10px; flex-direction: column">
       <AppButton type="primary" :disabled="!selectedFile" @click="submitFile">Upload on server</AppButton>
-      <div v-if="isLoading" class="loading-spinner"/>
+      <div v-if="isLoading" class="loading-spinner" />
     </div>
     <div v-if="fileLink" class="link-section">
-      <input v-model="fileLink" type="text" readonly >
+      <input v-model="fileLink" type="text" readonly />
       <AppButton type="primary" @click="copyLink">Copy link</AppButton>
     </div>
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows">
         <template #action="{ cell }">
-          <a :href="`${CDN}/${cell?.data.author_id}/${cell?.data.transformed_path || cell?.data.original_path}`" target="_blank" style="margin-right: 10px"><Icon name="view" /> </a>
-          <NuxtLink :to="`/dashboard/cdn/${cell?.data.id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
-          <Icon name="delete" @click="() => deleteRessource(cell?.data.id)" />
+          <a :href="`${CDN}/${(cell?.data as DB_Ressource).author_id}/${(cell?.data as DB_Ressource).transformed_path || (cell?.data as DB_Ressource).original_path}`" target="_blank" style="margin-right: 10px"><Icon name="view" /> </a>
+          <NuxtLink :to="`/dashboard/cdn/${(cell?.data as DB_Ressource).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
+          <Icon name="delete" @click="() => deleteRessource((cell?.data as DB_Ressource).id)" />
         </template>
       </DataTable>
     </div>
@@ -26,6 +26,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { Field } from '~/components/DataTable.vue';
 import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
 import type { DB_Ressource } from '~/stores';
 definePageMeta({ breadcrumb: 'Upload' });
@@ -61,16 +62,16 @@ const headers = [
   { label: 'Action', key: 'action' },
 ];
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
-const rows: any = computed(() =>
+const rows: ComputedRef<Field[]> = computed(() =>
   ressourcesStore.ressources.map(res => {
     const parent = res.parent_id ? useDocumentsStore().getById(res.parent_id) : null;
     const category = parent ? useCategoriesStore().getById(parent.category || '') : null;
     return {
-      name: { content: res.filename },
-      size: { content: readableFileSize(res.filesize) },
+      name: { content: res.filename, type: 'text' },
+      size: { content: readableFileSize(res.filesize), type: 'text' },
       type: { content: `<tag class="${color(res.filetype)}">${res.filetype}</tag>`, type: 'html' },
       parent: { content: category ? `<tag class="${getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
-      date: { content: new Date(res.created_timestamp).toLocaleDateString() },
+      date: { content: new Date(res.created_timestamp).toLocaleDateString(), type: 'text' },
       action: { type: 'slot', data: res },
     };
   }),

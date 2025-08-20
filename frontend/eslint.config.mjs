@@ -1,9 +1,17 @@
 // @ts-check
 import withNuxt, { defineFlatConfigs } from './.nuxt/eslint.config.mjs';
+import prettier from 'eslint-config-prettier';
 
 export default withNuxt(
-  // ignore app/styles/katex
-  defineFlatConfigs({
-    ignores: ['app/styles/katex/**'],
-  }),
+  defineFlatConfigs(
+    {
+      ignores: ['app/styles/katex/**'],
+    },
+    {
+      rules: {
+        'vue/multi-word-component-names': 'off',
+      },
+    },
+    prettier,
+  ),
 );

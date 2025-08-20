@@ -15,7 +15,7 @@ function analyseFile(file: File): Promise<ImportationStructure> {
         try {
           const data = JSON.parse(content);
           resolve(data);
-        } catch (error) {
+        } catch {
           reject(new Error('Invalid JSON format'));
         }
       } else {
@@ -29,7 +29,7 @@ function analyseFile(file: File): Promise<ImportationStructure> {
   });
 }
 
-function validateFileStructure(data: any): data is ImportationStructure {
+function validateFileStructure(data: ImportationStructure): data is ImportationStructure {
   if (typeof data === 'object' && data !== null && Array.isArray(data.documents)) {
     return true;
   }

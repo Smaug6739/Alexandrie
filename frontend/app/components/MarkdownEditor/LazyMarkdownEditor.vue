@@ -1,14 +1,15 @@
 <template>
   <div style="height: 100%; padding: 4px">
     <div class="editor-container">
-      <Toolbar :document="document" :minimal="minimal" @execute-action="exec" />
+      <Toolbar v-model="document" :minimal="minimal" @execute-action="exec" />
       <div style="padding: 6px; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px">
-        <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" >
-        <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" >
+        <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" />
+        <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" />
         <AppTagInput v-model="document.tags" style="margin-bottom: 10px" />
         <div ref="container" class="markdown">
           <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
-          <div v-if="showPreview" ref="markdownPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" style="position: relative" v-html="document.content_html"/>
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div v-if="showPreview" ref="markdownPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" style="position: relative" v-html="document.content_html" />
         </div>
       </div>
     </div>
@@ -115,7 +116,7 @@ function openColorModal() {
   modal.innerHTML = `
     <div class="panel">
       <div class="swatches">
-        ${['primary', ...appColors].map(c => `<button class="swatch" style="background:var(--${c})"></button>`).join('')}
+        ${['primary', ...appColors].map(c => `<button class="swatch" style="background:var(--${c})" data-color="${c}"></button>`).join('')}
       </div>
       <div class="custom">
         <input class="hex" placeholder="#RRGGBB" />
@@ -153,7 +154,7 @@ const snippets: Record<string, string> = {
   '!grey': ':::grey\n$0\n:::',
   '!details': ':::details\n$0\n:::',
   '!center': ':::center\n$0\n:::',
-  '!m': '\$$0\$',
+  '!m': '$$0$',
   '!property': ':::property $0\n\n:::',
   '!warning': ':::warning $0\n\n:::',
 };
@@ -166,11 +167,9 @@ const snippetListener = EditorView.updateListener.of(update => {
   const changes = lastTransaction!.changes;
 
   // Ne gère que les insertions simples
-  let insertedText = '';
   let hasInsertion = false;
   changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
     if (inserted.length > 0) {
-      insertedText = inserted.sliceString(0);
       hasInsertion = true;
     }
   });
@@ -260,7 +259,7 @@ const state = EditorState.create({
     history(),
     drawSelection(),
     autocompletion(),
-    // @ts-ignore
+    // @ts-expect-error types error
     keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, indentWithTab, ...markdownKeysmap]),
     markdown({ base: markdownLanguage }),
     updateListener,

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <input v-model="searchInput" type="text" placeholder="Search..." >
+    <input v-model="searchInput" type="text" placeholder="Search..." />
     <div class="table-wrapper">
       <table>
         <thead>
@@ -11,13 +11,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="row in data">
-            <td v-for="header in headers">
-              <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content"/>
+          <tr v-for="(row, index) in data" :key="index">
+            <td v-for="header in headers" :key="header.key">
+              <!-- eslint-disable-next-line vue/no-v-html -->
+              <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content" />
               <span v-else-if="row[header.key]?.type === 'slot'">
-                <slot :name="header.key" :cell="row[header.key]"/>
+                <slot :name="header.key" :cell="row[header.key]" />
               </span>
-              <span v-else v-text="row[header.key]?.content"/>
+              <span v-else v-text="row[header.key]?.content" />
             </td>
           </tr>
           <tr>
@@ -27,6 +28,7 @@
                   Showing {{ paginator.startIndex.value }} to {{ paginator.endIndex.value }} of {{ paginator.totalItems.value }} entries |
                   <span>
                     <span>Rows per page</span>
+                    <!-- eslint-disable-next-line vue/no-parsing-error -->
                     <select @change="(e: Event) => paginator.setMaxPerPage(parseInt((<HTMLSelectElement>e.target)?.value) || 10)">
                       <option value="10">10</option>
                       <option value="30">30</option>
@@ -57,7 +59,7 @@
 <script lang="ts" setup>
 import { Paginator } from '../helpers/paginator';
 const props = defineProps<{ headers: Header[]; rows: Field[] }>();
-const itemsPerPage = ref(parseInt(usePreferences().get('datatableItemsCount')) || 10);
+const itemsPerPage = ref(parseInt(usePreferences().get('datatableItemsCount') as string) || 10);
 const searchInput = ref('');
 
 const paginator = new Paginator<Field>(
@@ -93,11 +95,11 @@ interface Header {
   key: string;
   label: string;
 }
-interface Field {
+export interface Field {
   [key: string]: {
     content?: string;
     type: 'html' | 'text' | 'slot' | undefined;
-    data?: any;
+    data?: unknown;
   };
 }
 </script>

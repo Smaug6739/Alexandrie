@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import MarkdownIt from 'markdown-it';
 import { containerPlugin } from './container';
 import { anchorPlugin } from './anchor';
 import { containerSvg } from './containers-svg';
-// @ts-ignore
+// @ts-expect-error no types provided
 import underline from 'markdown-it-underline';
 import highlight from 'markdown-it-highlightjs';
-// @ts-ignore
+// @ts-expect-error no types provided
 import mark from 'markdown-it-mark';
 import katex from 'katex';
 import colorPlugin from './colors';

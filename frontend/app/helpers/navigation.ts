@@ -1,4 +1,4 @@
-interface BaseCommand {
+export interface BaseCommand {
   id: string;
   title: string;
   description: string;

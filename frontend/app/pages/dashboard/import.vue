@@ -11,11 +11,13 @@
     <div v-if="files_to_import.length">
       <h2>Files to import</h2>
       <div v-for="file in files_to_import" :key="file.id" class="card-component" style="padding: 15px">
-        <p style="display: flex">
+        <div style="display: flex; align-items: center">
           <Icon name="file" />
           &nbsp;{{ file.name }}
-          <tag v-for="tag in file.tags?.split(',')" v-if="file.tags" :key="tag" class="blue">{{ tag.trim() }}</tag>
-        </p>
+          <div style="margin: 0 5px">
+            <tag v-for="tag in file.tags?.split(',')" :key="tag" class="blue">{{ tag.trim() }}</tag>
+          </div>
+        </div>
         <p>Created at: {{ new Date(file.created_timestamp).toLocaleDateString() }}</p>
         <p>Updated at: {{ new Date(file.updated_timestamp).toLocaleDateString() }}</p>
         <AppButton type="success" @click="importDoc(file)">Import single</AppButton>

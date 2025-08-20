@@ -7,11 +7,11 @@
     <button @click="edit"><Icon fill="var(--font-color)" name="edit_page" /> Edit</button>
     <button @click="copyLink"><Icon fill="var(--font-color)" name="link" /> Copy link</button>
     <button @click="pin"><Icon fill="var(--font-color)" :name="document.pinned ? 'pin_off' : 'pin'" /> {{ document.pinned ? 'Unpin' : 'Pin' }}</button>
-    <hr style="margin: 2px 0" >
+    <hr style="margin: 2px 0" />
     <button @click="emitDelete"><Icon name="delete" fill="red" /> Delete</button>
-    <hr style="margin: 2px 0" >
+    <hr style="margin: 2px 0" />
     <div class="foot-menu">
-      <p style="display: flex; align-items: center; gap: 8px"><img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin: 0" >{{ user?.username }}</p>
+      <p style="display: flex; align-items: center; gap: 8px"><img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin: 0" />{{ user?.username }}</p>
       <p>Updated on {{ numericDate(document.updated_timestamp) }}</p>
     </div>
   </AppDotMenu>
@@ -23,11 +23,7 @@ import type { Document, User } from '~/stores';
 const dotMenu = ref();
 const props = defineProps<{ document: Document; user?: User }>();
 const emit = defineEmits<{
-  (e: 'open'): void;
-  (e: 'close'): void;
-  (e: 'edit'): void;
-  (e: 'rename'): void;
-  (e: 'delete'): void;
+  (e: 'open' | 'close' | 'edit' | 'rename' | 'delete'): void;
 }>();
 defineExpose({ close: () => dotMenu.value?.close() });
 
@@ -51,8 +47,7 @@ const emitDelete = () => {
   emit('delete');
 };
 const pin = async () => {
-  props.document.pinned = props.document.pinned === 1 ? 0 : 1; // Toggle pin state
-  await useDocumentsStore().update(props.document);
+  await useDocumentsStore().update({ ...props.document, pinned: props.document.pinned === 1 ? 0 : 1 });
 };
 </script>
 

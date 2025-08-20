@@ -1,15 +1,15 @@
 <template>
   <div style="text-align: center; margin: 5vh auto; gap: 20px">
     <h1>Alexandrie dashboard</h1>
-    <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" > <br >
-    
+    <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
+
     <div class="global-search-hint">
       <Icon name="search" class="hint-icon" />
       <span>Press <kbd>Ctrl+K</kbd> for quick global search</span>
     </div>
-    
+
     <div class="search-container">
-      <input v-model="searchQuery" type="text" placeholder="Search documents..." class="search-input" >
+      <input v-model="searchQuery" type="text" placeholder="Search documents..." class="search-input" />
       <div v-if="results.length" class="results">
         <NuxtLink v-for="result in results" :key="result.id" class="result" :to="`/dashboard/docs/${result.id}`">
           <Icon :name="category(result.category)?.icon || 'files'" :class="`category-icon ${getAppColor(category(result.category)?.color as number, true)}`" />{{ result.name }}</NuxtLink
@@ -44,28 +44,26 @@
 </template>
 
 <script setup lang="ts">
+import type { Document } from '~/stores';
+
 const colorMode = useColorMode();
 const searchQuery = ref('');
 
 const documentsStore = useDocumentsStore();
 const categoryStore = useCategoriesStore();
 function tokenize(text: string) {
-  return text.trim().toLowerCase().split(/\s+/).filter(Boolean)
-}
-function matchesTokens(haystack: string, tokens: string[]) {
-  const value = haystack.toLowerCase()
-  return tokens.every(t => value.includes(t))
+  return text.trim().toLowerCase().split(/\s+/).filter(Boolean);
 }
 const results = computed(() => {
-  const tokens = tokenize(searchQuery.value)
-  if (!tokens.length) return []
+  const tokens = tokenize(searchQuery.value);
+  if (!tokens.length) return [];
   return documentsStore.getAll
-    .filter((doc: any) => {
-      const name = String(doc.name || '')
-      const tags = Array.isArray(doc.tags) ? doc.tags.join(' ') : String(doc.tags || '')
-      return tokens.every(t => name.toLowerCase().includes(t) || tags.toLowerCase().includes(t))
+    .filter((doc: Document) => {
+      const name = String(doc.name || '');
+      const tags = Array.isArray(doc.tags) ? doc.tags.join(' ') : String(doc.tags || '');
+      return tokens.every(t => name.toLowerCase().includes(t) || tags.toLowerCase().includes(t));
     })
-    .slice(0, 5)
+    .slice(0, 5);
 });
 const category = (id?: string) => categoryStore.getById(id || '');
 const recentDocuments = computed(() => {
@@ -94,13 +92,13 @@ h1 {
   color: var(--text-muted);
   font-size: 14px;
   max-width: 500px;
-  
+
   .hint-icon {
     width: 16px;
     height: 16px;
     color: var(--primary);
   }
-  
+
   kbd {
     background: var(--bg-color);
     color: var(--text-color);

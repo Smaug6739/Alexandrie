@@ -7,9 +7,6 @@
     <p>Developed and designed by Smaug with ❤️</p>
   </footer>
 </template>
-<script setup lang="ts">
-const colorMode = useColorMode();
-</script>
 <style scoped lang="scss">
 footer {
   padding: 1.5rem 2rem;

@@ -1,24 +1,26 @@
 <template>
-  <h1>Preferences</h1>
-  <div v-for="(list, index) in options" :key="index">
-    <h2>{{ list.label }}</h2>
-    <div v-for="(option, _) in list.options" class="form-group">
-      <label>{{ option.label }}</label>
+  <div>
+    <h1>Preferences</h1>
+    <div v-for="(list, index) in options" :key="index">
+      <h2>{{ list.label }}</h2>
+      <div v-for="option in list.options" :key="option.label" class="form-group">
+        <label>{{ option.label }}</label>
 
-      <!-- Toggle -->
-      <AppToggle v-if="option.type === 'toggle'" :active="option.value" @toggle="toggleOption(option)" />
+        <!-- Toggle -->
+        <AppToggle v-if="option.type === 'toggle'" :active="option.value" @toggle="toggleOption(option)" />
 
-      <!-- Native select -->
-      <AppSelect v-else-if="option.type === 'select'" v-model="option.value" :items="option.choices" size="40%" @update:model-value="o => selectOption({ ...option, value: o })" />
-      <AppColorPicker v-else-if="option.type === 'color'" :selected-color="option.value" @update:selected-color="option.onChange" />
+        <!-- Native select -->
+        <AppSelect v-else-if="option.type === 'select'" v-model="option.value" :items="option.choices" size="40%" @update:model-value="o => selectOption({ ...option, value: o })" />
+        <AppColorPicker v-else-if="option.type === 'color'" :selected-color="option.value" @update:selected-color="option.onChange" />
+      </div>
     </div>
-  </div>
-  <hr >
-  <div class="reset">
-    <p>
-      <span style="color: var(--primary); cursor: pointer" @click="preferencesStore.reset">Reset all preferences</span>
-      to default. This will reset all your preferences, including the theme and settings
-    </p>
+    <hr />
+    <div class="reset">
+      <p>
+        <span style="color: var(--primary); cursor: pointer" @click="preferencesStore.reset">Reset all preferences</span>
+        to default. This will reset all your preferences, including the theme and settings
+      </p>
+    </div>
   </div>
 </template>
 

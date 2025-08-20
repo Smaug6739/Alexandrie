@@ -31,7 +31,7 @@ const owner = 'Smaug6739';
 const repo = 'Alexandrie';
 const issues = ref<Issue[]>([]);
 
-function visibleLabels(labels: any[]): Label[] {
+function visibleLabels(labels: Label[]): Label[] {
   return (labels || []).filter(l => typeof l?.name === 'string').slice(0, 3);
 }
 
@@ -41,7 +41,9 @@ async function fetchIssues() {
     if (!res.ok) return;
     const data = await res.json();
     issues.value = Array.isArray(data) ? (data as Issue[]) : [];
-  } catch {}
+  } catch {
+    issues.value = [];
+  }
 }
 
 onMounted(fetchIssues);

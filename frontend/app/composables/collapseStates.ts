@@ -1,43 +1,46 @@
+import { reactive } from 'vue';
+
 const STORAGE_KEY = 'collapse-states';
 
-let collapseStateCache: Record<string, boolean> | null = null;
-
-// Chargement depuis localStorage (une seule fois)
+// Chargement initial
 function loadCollapseStates(): Record<string, boolean> {
-  if (!collapseStateCache) {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      collapseStateCache = raw ? JSON.parse(raw) : {};
-    } catch {
-      collapseStateCache = {};
-    }
-  }
-  return collapseStateCache!;
-}
-
-// Sauvegarde dans localStorage (entière map en une fois)
-function saveCollapseStates() {
-  if (collapseStateCache) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(collapseStateCache));
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
   }
 }
 
-export function collapseAllStates() {
-  const states = loadCollapseStates();
-  for (const key in states) {
-    states[key] = false;
-  }
-  saveCollapseStates();
+// État réactif global
+const states = reactive<Record<string, boolean>>(loadCollapseStates());
+
+function saveStates() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(states));
 }
+
+// --- API publique ---
 
 export function getCollapseState(id: string): boolean {
-  const states = loadCollapseStates();
-  if (!(id in states)) states[id] = true; // default open
+  if (!(id in states)) states[id] = true; // par défaut: open
   return states[id] ?? true;
 }
 
 export function setCollapseState(id: string, value: boolean) {
-  const states = loadCollapseStates();
   states[id] = value;
-  saveCollapseStates();
+  saveStates();
+}
+
+export function toggleCollapseState(id: string) {
+  states[id] = !getCollapseState(id);
+  saveStates();
+}
+
+export function collapseAllStates() {
+  Object.keys(states).forEach(key => (states[key] = false));
+  saveStates();
+}
+
+export function useCollapseStates() {
+  return states;
 }

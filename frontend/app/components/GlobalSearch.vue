@@ -6,7 +6,7 @@
         <div class="search-header">
           <div class="search-input-wrapper">
             <Icon name="search" class="search-icon" fill="var(--font-color)" />
-            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Search for a page, action, or document..." class="search-input" @keydown="handleSearchKeydown" >
+            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Search for a page, action, or document..." class="search-input" @keydown="handleSearchKeydown" />
           </div>
           <button class="close-btn" @click="closeSearch">
             <Icon name="close" />
@@ -23,14 +23,14 @@
           <div v-else class="search-results-list">
             <div v-for="(items, section) in groupedResults" :key="section" class="section">
               <div class="section-title">{{ section }}</div>
-              <div v-for="item in items" :key="item.id" class="search-result-item" :class="{ selected: selectedIndex === item.globalIndex }" @click="item.onClick()" @mouseenter="selectedIndex = item.globalIndex">
+              <NuxtLink v-for="item in items" :key="item.id" class="search-result-item" :to="item.path" :class="{ selected: selectedIndex === item.globalIndex }" @click="closeSearch" @mouseenter="selectedIndex = item.globalIndex">
                 <Icon :name="item.icon" class="result-icon" fill="var(--font-color)" />
                 <div class="result-content">
                   <span class="result-title">{{ item.title }}</span>
                   <span class="result-description">{{ item.description }}</span>
                 </div>
                 <Icon name="new_tab" class="navigate-icon" />
-              </div>
+              </NuxtLink>
             </div>
           </div>
         </div>
@@ -46,7 +46,7 @@
 
 <script setup lang="ts">
 import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
-import { quickActions, availablePages, type SearchResult, type QuickAction } from '@/helpers/navigation';
+import { quickActions, availablePages, type SearchResult, type BaseCommand } from '@/helpers/navigation';
 
 const router = useRouter();
 const isOpen = ref(false);
@@ -92,11 +92,16 @@ const filteredDocuments = computed<SearchResult[]>(() =>
 const filteredPages = computed(() => filterByTokens(availablePages, p => `${p.title} ${p.description} ${p.category}`));
 
 // ******** Flattened results ********
+interface FlattenedItem extends BaseCommand {
+  section: string;
+  globalIndex: number;
+}
+
 const flattenedItems = computed(() => {
-  const items: any[] = [];
+  const items: FlattenedItem[] = [];
   let globalIndex = 0;
 
-  const pushWithIndex = (arr: any[], section: string) => {
+  const pushWithIndex = (arr: Omit<FlattenedItem, 'section' | 'globalIndex'>[], section: string) => {
     arr.forEach(item => {
       items.push({ ...item, section, globalIndex });
       globalIndex++;
@@ -109,7 +114,7 @@ const flattenedItems = computed(() => {
       icon: a.icon,
       title: a.title,
       description: a.description,
-      onClick: () => executeAction(a),
+      path: a.path,
     })),
     'Pages & actions',
   );
@@ -120,7 +125,7 @@ const flattenedItems = computed(() => {
       icon: p.icon,
       title: p.title,
       description: p.description,
-      onClick: () => navigateTo(p),
+      path: p.path,
     })),
     'Pages & actions',
   );
@@ -131,7 +136,7 @@ const flattenedItems = computed(() => {
       icon: d.icon,
       title: d.title,
       description: d.description,
-      onClick: () => navigateTo(d),
+      path: d.path,
     })),
     'Documents',
   );
@@ -188,26 +193,17 @@ function closeSearch() {
 }
 
 function handleSearchKeydown(e: KeyboardEvent) {
-  if (e.key === 'ArrowDown') {
+  if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey && selectedIndex.value < flattenedItems.value.length - 1)) {
     e.preventDefault();
     selectedIndex.value = (selectedIndex.value + 1) % flattenedItems.value.length;
-  } else if (e.key === 'ArrowUp') {
+  } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey && selectedIndex.value > 0)) {
     e.preventDefault();
     selectedIndex.value = (selectedIndex.value - 1 + flattenedItems.value.length) % flattenedItems.value.length;
   } else if (e.key === 'Enter' && flattenedItems.value.length > 0) {
     e.preventDefault();
-    flattenedItems.value[selectedIndex.value]?.onClick();
+    navigateTo(flattenedItems.value[selectedIndex.value]?.path);
+    closeSearch();
   }
-}
-
-function navigateTo(result: SearchResult) {
-  router.push(result.path);
-  closeSearch();
-}
-
-function executeAction(action: QuickAction) {
-  router.push(action.path);
-  closeSearch();
 }
 
 defineExpose({ openSearch, closeSearch });

@@ -1,6 +1,5 @@
 import type MarkdownIt from 'markdown-it';
 import type { StateInline } from 'markdown-it/dist/index.cjs.js';
-import type Token from 'markdown-it/lib/token.mjs';
 
 export type ColorPluginOptions = {
   /** Also enable the bracket style: [text]{color=value} */
@@ -119,9 +118,9 @@ function parseBracketSyntax(state: StateInline, opts: Required<ColorPluginOption
 }
 
 export default function colorPlugin(md: MarkdownIt, options?: ColorPluginOptions) {
-  const opts: Required<ColorPluginOptions> = { ...DEFAULTS, ...options } as any;
+  const opts: Required<ColorPluginOptions> = { ...DEFAULTS, ...options };
 
-  function colorRule(state: StateInline, silent: boolean): boolean {
+  function colorRule(state: StateInline): boolean {
     const ch = state.src.charCodeAt(state.pos);
 
     // Try function syntax first: {color:...}(...)

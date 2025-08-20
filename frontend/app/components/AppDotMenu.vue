@@ -7,7 +7,7 @@
     </span>
     <transition name="fade-scale">
       <div v-if="open" class="menu-content">
-        <slot/>
+        <slot />
       </div>
     </transition>
   </div>
@@ -22,10 +22,10 @@ const toggleMenu = () => {
   emit(open.value ? 'open' : 'close');
 };
 
-function handleClickOutside(e: MouseEvent) {
+const handleClickOutside = () => {
   open.value = false;
   emit('close');
-}
+};
 const close = () => (open.value = false);
 defineExpose({ close, opened: open });
 
