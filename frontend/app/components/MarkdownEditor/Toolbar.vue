@@ -1,6 +1,11 @@
 <template>
   <div class="toolbar">
     <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name" class="btn"></button>
+    <div class="color-picker">
+      <button class="btn color" title="Color" @click.stop="openColorPicker">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 3a9 9 0 0 0-9 9c0 4.97 4.03 9 9 9h4a3 3 0 0 0 0-6h-1a1 1 0 1 1 0-2h1a5 5 0 0 0 0-10h-4Zm-3 8a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3-2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3 2a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/></svg>
+      </button>
+    </div>
     <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" v-if="!minimal" />
     <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="300px" class="entry" v-if="!minimal" />
     <AppHint text="Tags has been moved down" />
@@ -15,6 +20,9 @@ const categories = new TreeStructure(useSidebarTree().categories.value).generate
 const props = defineProps<{ document: Partial<Document>; minimal?: boolean }>();
 const emit = defineEmits(['execute-action']);
 const emitAction = (action: string) => emit('execute-action', action, props.document);
+function openColorPicker() {
+  emit('execute-action', 'openColorPicker', props.document)
+}
 const openModal = () => useModal().add(new Modal(shallowRef(ModalSyntax), {}, () => {}, true));
 const accessibilities: ANode[] = [
   {
@@ -131,6 +139,22 @@ const toolbar = [
       fill: var(--primary);
     }
   }
+}
+
+.color-picker .btn.color {
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+.color-picker .btn.color .dot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--primary);
+  border: 1px solid var(--border-color);
 }
 
 .btn:deep(svg) {
