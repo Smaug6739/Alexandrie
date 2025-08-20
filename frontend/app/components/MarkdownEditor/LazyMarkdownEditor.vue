@@ -115,7 +115,7 @@ function openColorModal() {
   modal.innerHTML = `
     <div class="panel">
       <div class="swatches">
-        ${['blue', 'red', 'green', 'yellow', 'primary', 'purple', 'pink', 'teal'].map(c => `<button class="swatch" data-color="${c}"></button>`).join('')}
+        ${['primary', ...appColors].map(c => `<button class="swatch" style="background:var(--${c})"></button>`).join('')}
       </div>
       <div class="custom">
         <input class="hex" placeholder="#RRGGBB" />
@@ -381,7 +381,7 @@ input {
   border: 1px solid var(--border-color);
   border-radius: 14px;
   padding: 16px;
-  min-width: 280px;
+  min-width: 300px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 .color-modal .panel {
@@ -390,14 +390,13 @@ input {
 }
 .color-modal .swatches {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   gap: 8px;
 }
 .color-modal .swatch {
   width: 30px;
   height: 30px;
-  border-radius: 999px;
-  border: 1px solid var(--border-color);
+  border-radius: 50%;
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
@@ -405,30 +404,7 @@ input {
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
-.color-modal .swatch[data-color='blue'] {
-  background: #3b82f6;
-}
-.color-modal .swatch[data-color='red'] {
-  background: #ef4444;
-}
-.color-modal .swatch[data-color='green'] {
-  background: #22c55e;
-}
-.color-modal .swatch[data-color='yellow'] {
-  background: #eab308;
-}
-.color-modal .swatch[data-color='primary'] {
-  background: var(--primary);
-}
-.color-modal .swatch[data-color='purple'] {
-  background: #a855f7;
-}
-.color-modal .swatch[data-color='pink'] {
-  background: #ec4899;
-}
-.color-modal .swatch[data-color='teal'] {
-  background: #14b8a6;
-}
+
 .color-modal .custom {
   display: flex;
   gap: 8px;
