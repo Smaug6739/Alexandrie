@@ -12,46 +12,38 @@ export const useCategoriesStore = defineStore('categories', {
     getChilds: state => (id: string) => state.categories.filter(c => c.parent_id == id),
   },
   actions: {
-    fetch: function (opts?: FetchOptions) {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/@me/${opts?.id || ''}`, 'GET', {});
-        if (request.status == 'success') {
-          if (opts?.id) {
-            // replace the document with the new one
-            const index = this.categories.findIndex(d => d.id == opts?.id);
-            if (index == -1) this.categories.push({ ...(request.result as DB_Category), type: 'category' });
-            else this.categories[index] = { ...(request.result as DB_Category), type: 'category' };
-          } else this.categories = (request.result as DB_Category[]).map((d: DB_Category) => ({ ...d, type: 'category' }));
-          resolve(this.categories);
-        } else reject(request.message);
-      });
+    async fetch(opts?: FetchOptions) {
+      const request = await makeRequest(`categories/@me/${opts?.id || ''}`, 'GET', {});
+      if (request.status == 'success') {
+        if (opts?.id) {
+          // replace the document with the new one
+          const index = this.categories.findIndex(d => d.id == opts?.id);
+          if (index == -1) this.categories.push({ ...(request.result as DB_Category), type: 'category' });
+          else this.categories[index] = { ...(request.result as DB_Category), type: 'category' };
+        } else this.categories = (request.result as DB_Category[]).map((d: DB_Category) => ({ ...d, type: 'category' }));
+        return this.categories;
+      } else throw request.message;
     },
-    post(category: Partial<Category>): Promise<string | number> {
-      return new Promise(async (resolve, reject) => {
-        const response = await makeRequest(`categories`, 'POST', category);
-        if (response.status == 'success') resolve(this.categories.push({ ...(response.result as DB_Category), type: 'category' }));
-        else reject(response.message);
-      });
+    async post(category: Partial<Category>): Promise<string | number> {
+      const response = await makeRequest(`categories`, 'POST', category);
+      if (response.status == 'success') return this.categories.push({ ...(response.result as DB_Category), type: 'category' });
+      else throw response.message;
     },
-    update(category: Category) {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/${category.id}`, 'PUT', category);
-        if (request.status == 'success') {
-          this.categories = this.categories.map(c => {
-            if (c.id == category.id) return category;
-            return c;
-          });
-          resolve(category);
-        } else reject(request.message);
-      });
+    async update(category: Category) {
+      const request = await makeRequest(`categories/${category.id}`, 'PUT', category);
+      if (request.status == 'success') {
+        this.categories = this.categories.map(c => {
+          if (c.id == category.id) return category;
+          return c;
+        });
+        return category;
+      } else throw request.message;
     },
 
-    delete(id: string) {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`categories/${id}`, 'DELETE', {});
-        if (request.status == 'success') resolve((this.categories = this.categories.filter(c => c.id != id)));
-        else reject(request.message);
-      });
+    async delete(id: string) {
+      const request = await makeRequest(`categories/${id}`, 'DELETE', {});
+      if (request.status == 'success') return (this.categories = this.categories.filter(c => c.id != id));
+      else throw request.message;
     },
   },
 });

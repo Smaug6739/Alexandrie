@@ -10,49 +10,40 @@ export const useRessourcesStore = defineStore('ressources', {
     getById: state => (id: string) => state.ressources.find(c => c.id == id),
   },
   actions: {
-    fetch: function () {
+    async fetch(): Promise<Ressource[]> {
       if (this.ressources.length > 0) return this.ressources;
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`ressources/@me`, 'GET', {});
-        if (request.status == 'success') {
-          this.ressources = (request.result as DB_Ressource[]).map((d: DB_Ressource) => ({ ...d, type: 'ressource' })) as Ressource[];
-          resolve(this.ressources);
-        } else reject(request.message);
-      });
+
+      const request = await makeRequest(`ressources/@me`, 'GET', {});
+      if (request.status == 'success') {
+        this.ressources = (request.result as DB_Ressource[]).map((d: DB_Ressource) => ({ ...d, type: 'ressource' })) as Ressource[];
+        return this.ressources;
+      } else throw request.message;
     },
-    post(ressource: FormData): Promise<Ressource | string> {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`ressources`, 'POST', ressource);
-        if (request.status == 'success') {
-          this.ressources.push(request.result as Ressource);
-          resolve(request.result as Ressource);
-        } else reject(request.message);
-      });
+    async post(ressource: FormData): Promise<Ressource | string> {
+      const request = await makeRequest(`ressources`, 'POST', ressource);
+      if (request.status == 'success') {
+        this.ressources.push(request.result as Ressource);
+        return request.result as Ressource;
+      } else throw request.message;
     },
-    postAvatar(ressource: FormData): Promise<{ original_path: string; transformed_path: string }> {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`ressources/avatar`, 'POST', ressource);
-        if (request.status == 'success') {
-          resolve(request.result as { original_path: string; transformed_path: string });
-        } else reject(request.message);
-      });
+    async postAvatar(ressource: FormData): Promise<{ original_path: string; transformed_path: string }> {
+      const request = await makeRequest(`ressources/avatar`, 'POST', ressource);
+      if (request.status == 'success') {
+        return request.result as { original_path: string; transformed_path: string };
+      } else throw request.message;
     },
-    update(ressource: Ressource): Promise<Ressource | string> {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`ressources/${ressource.id}`, 'PUT', ressource);
-        if (request.status == 'success') {
-          const index = this.ressources.findIndex(c => c.id == ressource.id);
-          if (index != -1) this.ressources[index] = ressource as Ressource;
-          resolve(request.result as Ressource);
-        } else reject(request.message);
-      });
+    async update(ressource: Ressource): Promise<Ressource | string> {
+      const request = await makeRequest(`ressources/${ressource.id}`, 'PUT', ressource);
+      if (request.status == 'success') {
+        const index = this.ressources.findIndex(c => c.id == ressource.id);
+        if (index != -1) this.ressources[index] = ressource as Ressource;
+        return request.result as Ressource;
+      } else throw request.message;
     },
-    delete(id: string) {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`ressources/${id}`, 'DELETE', {});
-        if (request.status == 'success') resolve((this.ressources = this.ressources.filter(c => c.id != id)));
-        else reject(request.message);
-      });
+    async delete(id: string) {
+      const request = await makeRequest(`ressources/${id}`, 'DELETE', {});
+      if (request.status == 'success') return (this.ressources = this.ressources.filter(c => c.id != id));
+      else throw request.message;
     },
   },
 });

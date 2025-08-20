@@ -39,52 +39,44 @@ export const useDocumentsStore = defineStore('documents', {
     },
   },
   actions: {
-    fetch: function <T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
+    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`documents/@me/${opts?.id || ''}`, 'GET', {});
-        if (request.status == 'success') {
-          if (opts?.id) {
-            const index = this.documents.findIndex(d => d.id == opts?.id);
-            const updatedDocument: Document = { ...(request.result as DB_Document), partial: false, type: 'document' };
-            if (index == -1) this.documents.push(updatedDocument);
-            else this.documents[index] = updatedDocument;
-            resolve(updatedDocument as 'id' extends keyof T ? Document : Document[]);
-          } else {
-            this.documents = (request.result as DB_Document[]).map((d: DB_Document) => ({ ...d, partial: true, type: 'document' }));
-            resolve(this.documents as 'id' extends keyof T ? Document : Document[]);
-          }
-        } else reject(request);
-      });
-    },
-    post(doc: Document): Promise<DB_Document> {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest('documents', 'POST', doc);
-        if (request.status == 'success') {
-          this.documents.push({ ...(request.result as DB_Document), type: 'document', partial: false });
-          resolve(request.result as DB_Document);
-        } else reject(request.message);
-      });
-    },
-    update(doc: Document) {
-      return new Promise(async (resolve, reject) => {
-        if (doc.partial) {
-          console.log('[store/documents] Document is partial, cannot update it directly.');
-          const fullDoc = await this.fetch({ id: doc.id });
-          if (!fullDoc) return reject('Document not found');
-          doc = { ...doc, content_markdown: fullDoc.content_markdown, content_html: fullDoc.content_html, partial: false }; // Merge with full document data
+      const request = await makeRequest(`documents/@me/${opts?.id || ''}`, 'GET', {});
+      if (request.status == 'success') {
+        if (opts?.id) {
+          const index = this.documents.findIndex(d => d.id == opts?.id);
+          const updatedDocument: Document = { ...(request.result as DB_Document), partial: false, type: 'document' };
+          if (index == -1) this.documents.push(updatedDocument);
+          else this.documents[index] = updatedDocument;
+          return updatedDocument as 'id' extends keyof T ? Document : Document[];
+        } else {
+          this.documents = (request.result as DB_Document[]).map((d: DB_Document) => ({ ...d, partial: true, type: 'document' }));
+          return this.documents as 'id' extends keyof T ? Document : Document[];
         }
-        const request = await makeRequest(`documents/${doc.id}`, 'PUT', doc);
-        if (request.status == 'success') resolve((this.documents = this.documents.map(d => (d.id == doc.id ? doc : d))));
-        else reject(request.message);
-      });
+      } else throw request;
     },
-    delete(id: string) {
-      return new Promise(async (resolve, reject) => {
-        const request = await makeRequest(`documents/${id}`, 'DELETE', {});
-        if (request.status == 'success') resolve((this.documents = this.documents.filter(d => d.id != id)));
-        else reject(request.message);
-      });
+    async post(doc: Document): Promise<DB_Document> {
+      const request = await makeRequest('documents', 'POST', doc);
+      if (request.status == 'success') {
+        this.documents.push({ ...(request.result as DB_Document), type: 'document', partial: false });
+        return request.result as DB_Document;
+      } else throw request.message;
+    },
+    async update(doc: Document) {
+      if (doc.partial) {
+        console.log('[store/documents] Document is partial, cannot update it directly.');
+        const fullDoc = await this.fetch({ id: doc.id });
+        if (!fullDoc) throw 'Document not found';
+        doc = { ...doc, content_markdown: fullDoc.content_markdown, content_html: fullDoc.content_html, partial: false }; // Merge with full document data
+      }
+      const request = await makeRequest(`documents/${doc.id}`, 'PUT', doc);
+      if (request.status == 'success') return (this.documents = this.documents.map(d => (d.id == doc.id ? doc : d)));
+      else throw request.message;
+    },
+    async delete(id: string) {
+      const request = await makeRequest(`documents/${id}`, 'DELETE', {});
+      if (request.status == 'success') return (this.documents = this.documents.filter(d => d.id != id));
+      else throw request.message;
     },
   },
 });

@@ -9,9 +9,10 @@ export interface FetchOptions {
 }
 
 let is_getting_new_token = false;
-const requestQueue: { route: string; method: string; body: Object; resolve: (value: any) => void; reject: (reason?: any) => void }[] = [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const requestQueue: { route: string; method: string; body: object; resolve: (value: APIResult<any> | PromiseLike<APIResult<any>>) => void; reject: (reason?: object) => void }[] = [];
 
-export async function makeRequest<T>(route: string, method: string, body: Object, isTreatingQueue: boolean = false): Promise<APIResult<T>> {
+export async function makeRequest<T>(route: string, method: string, body: object, isTreatingQueue: boolean = false): Promise<APIResult<T>> {
   console.log(`[API] Requesting [${method}] to /${route}`);
   if (route[route.length - 1] === '/') route = route.slice(0, -1); // Remove trailing slash if present
   const promise = new Promise<APIResult<T>>((resolve, reject) => {
@@ -60,7 +61,7 @@ function treatQueue(access_token: boolean = true) {
   }
 }
 
-function customFetch(method: string, route: string, body: Object) {
+function customFetch(method: string, route: string, body: object) {
   return fetch(`${API}/${route}`, {
     method: method,
     body: method === 'GET' || method === 'DELETE' ? null : body instanceof FormData ? body : JSON.stringify(body),
@@ -68,7 +69,7 @@ function customFetch(method: string, route: string, body: Object) {
     credentials: 'include',
   });
 }
-async function useAPI(method: string, route: string, body: Object) {
+async function useAPI(method: string, route: string, body: object) {
   try {
     const response = await customFetch(method, route, body);
     if (!response.ok) return { status: 'error', message: 'Failed to fetch' };
