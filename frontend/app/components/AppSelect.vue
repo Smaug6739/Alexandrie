@@ -4,10 +4,10 @@
       <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
     </div>
     <div v-else>
-      <input type="text" v-model="search" placeholder="Search..." class="search-input" ref="searchInput" @keydown="handleKeyDown" />
+      <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" >
       <div class="dropdown">
         <ul>
-          <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" @select="handleSelect" :disabled="disabled" />
+          <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
         </ul>
       </div>
     </div>

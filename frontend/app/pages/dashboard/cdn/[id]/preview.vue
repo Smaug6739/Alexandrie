@@ -17,11 +17,11 @@
       </p>
     </div>
     <div class="preview">
-      <img v-if="ressource!.filetype.startsWith('image/')" :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`" alt="Preview" />
-      <iframe v-else-if="ressource!.filetype.startsWith('application/pdf')" :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`" width="100%" height="500px" frameborder="0" allowfullscreen></iframe>
+      <img v-if="ressource!.filetype.startsWith('image/')" :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`" alt="Preview" >
+      <iframe v-else-if="ressource!.filetype.startsWith('application/pdf')" :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`" width="100%" height="500px" frameborder="0" allowfullscreen/>
       <p v-else>Preview not available for this file type.</p>
     </div>
-    <div style="display: flex; justify-content: flex-end"></div>
+    <div style="display: flex; justify-content: flex-end"/>
   </div>
 </template>
 

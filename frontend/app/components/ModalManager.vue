@@ -1,9 +1,9 @@
 <template>
   <TransitionGroup name="modal" tag="div">
     <div v-for="(modal, index) in modals" :key="index" class="modal-mask modal-pos" :style="{ zIndex: 120 + index }" @click.self="modalManager.close(modal)">
-      <div v-if="index !== modals.length - 1" class="modal-overlay"></div>
+      <div v-if="index !== modals.length - 1" class="modal-overlay"/>
       <div class="modal-container">
-        <button @click="modalManager.close(modal)" class="close-btn">
+        <button class="close-btn" @click="modalManager.close(modal)">
           <Icon name="close" :big="true" />
         </button>
         <component :is="modal.component" v-bind="modal.props" class="modal" :class="modal.big ? 'big' : ''" @close="modalManager.close(modal)" />

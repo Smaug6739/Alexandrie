@@ -1,6 +1,6 @@
 <template>
-  <button class="toggle" :class="{ active }" @click="toggle" :aria-pressed="active" role="switch">
-    <span class="circle"></span>
+  <button class="toggle" :class="{ active }" :aria-pressed="active" role="switch" @click="toggle">
+    <span class="circle"/>
   </button>
 </template>
 

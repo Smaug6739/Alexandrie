@@ -6,7 +6,7 @@
         <div class="search-header">
           <div class="search-input-wrapper">
             <Icon name="search" class="search-icon" fill="var(--font-color)" />
-            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Search for a page, action, or document..." class="search-input" @keydown="handleSearchKeydown" />
+            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Search for a page, action, or document..." class="search-input" @keydown="handleSearchKeydown" >
           </div>
           <button class="close-btn" @click="closeSearch">
             <Icon name="close" />

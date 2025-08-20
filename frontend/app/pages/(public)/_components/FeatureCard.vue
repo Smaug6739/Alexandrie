@@ -5,7 +5,7 @@
     </div>
     <h3 class="title">{{ title }}</h3>
     <p class="description">{{ text }}</p>
-    <slot></slot>
+    <slot/>
   </div>
 </template>
 

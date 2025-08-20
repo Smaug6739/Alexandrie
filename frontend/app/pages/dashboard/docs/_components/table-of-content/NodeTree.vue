@@ -2,7 +2,7 @@
   <li>
     <a :href="node.link">{{ node.title }}</a>
     <ul v-if="node.childrens?.length">
-      <NodeTree v-for="child in node.childrens" :node="child"></NodeTree>
+      <NodeTree v-for="child in node.childrens" :node="child"/>
     </ul>
   </li>
 </template>

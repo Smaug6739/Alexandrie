@@ -5,8 +5,8 @@
     <p style="opacity: 0.7">This action is irreversible</p>
     <p v-if="time > 0">Please wait {{ time }} seconds before confirming</p>
     <div class="footer">
-      <AppButton @click="emit('close')" type="secondary">Cancel</AppButton>
-      <AppButton @click="deleteAccount" :disabled="time > 0" type="danger">Confirm</AppButton>
+      <AppButton type="secondary" @click="emit('close')">Cancel</AppButton>
+      <AppButton :disabled="time > 0" type="danger" @click="deleteAccount">Confirm</AppButton>
     </div>
   </div>
 </template>

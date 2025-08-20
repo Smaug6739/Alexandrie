@@ -9,14 +9,14 @@
       <AppToggle v-if="option.type === 'toggle'" :active="option.value" @toggle="toggleOption(option)" />
 
       <!-- Native select -->
-      <AppSelect v-else-if="option.type === 'select'" @update:model-value="o => selectOption({ ...option, value: o })" :items="option.choices" v-model="option.value" size="40%" />
-      <AppColorPicker v-else-if="option.type === 'color'" :selectedColor="option.value" @update:selected-color="option.onChange" />
+      <AppSelect v-else-if="option.type === 'select'" v-model="option.value" :items="option.choices" size="40%" @update:model-value="o => selectOption({ ...option, value: o })" />
+      <AppColorPicker v-else-if="option.type === 'color'" :selected-color="option.value" @update:selected-color="option.onChange" />
     </div>
   </div>
-  <hr />
+  <hr >
   <div class="reset">
     <p>
-      <span @click="preferencesStore.reset" style="color: var(--primary); cursor: pointer">Reset all preferences</span>
+      <span style="color: var(--primary); cursor: pointer" @click="preferencesStore.reset">Reset all preferences</span>
       to default. This will reset all your preferences, including the theme and settings
     </p>
   </div>

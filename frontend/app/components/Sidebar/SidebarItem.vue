@@ -1,13 +1,13 @@
 <template>
-  <span class="item" @click="onClick" :draggable="true" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave" :class="{ 'drag-over': isDragOver }">
+  <span class="item" :draggable="true" :class="{ 'drag-over': isDragOver }" @click="onClick" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave">
     <Icon :name="icon" :class="customClass" />&nbsp;
 
     <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.label }}</NuxtLink>
     <DocumentDotMenu v-if="item.data.type === 'document'" ref="dotMenu" class="nav close" :class="{ active: isActive }" :document="item.data" :user="user" @open="() => (isActive = true)" @close="() => (isActive = false)" @delete="deleteDoc" />
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="settings" fill="var(--font-color)" /> </NuxtLink>
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
-    <Icon name="pin" fill="var(--font-color-light)" v-if="item.data.type === 'document' && item.data.pinned" class="ni" />
-    <slot></slot>
+    <Icon v-if="item.data.type === 'document' && item.data.pinned" name="pin" fill="var(--font-color-light)" class="ni" />
+    <slot/>
   </span>
 </template>
 

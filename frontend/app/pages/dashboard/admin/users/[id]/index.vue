@@ -1,23 +1,23 @@
 <template>
   <div class="card-component">
-    <h2 style="display: flex; align-items: center; justify-content: space-between">User Details <img style="border-radius: 50%; width: 40px; height: 40px" v-if="user" :src="useAvatar(user)" /></h2>
+    <h2 style="display: flex; align-items: center; justify-content: space-between">User Details <img v-if="user" style="border-radius: 50%; width: 40px; height: 40px" :src="useAvatar(user)" ></h2>
     <div v-if="user" style="width: 100%">
       <div class="user-details">
         <div class="user-detail">
           <label for="username">Username</label>
-          <input id="username" v-model="user.username" type="text" />
+          <input id="username" v-model="user.username" type="text" >
         </div>
         <div class="user-detail">
           <label for="firstname">Firstname</label>
-          <input id="firstname" v-model="user.firstname" type="text" />
+          <input id="firstname" v-model="user.firstname" type="text" >
         </div>
         <div class="user-detail">
           <label for="lastname">Lastname</label>
-          <input id="lastname" v-model="user.lastname" type="text" />
+          <input id="lastname" v-model="user.lastname" type="text" >
         </div>
         <div class="user-detail">
           <label for="email">Email</label>
-          <input id="email" v-model="user.email" type="email" />
+          <input id="email" v-model="user.email" type="email" >
         </div>
         <div class="user-detail">
           <label for="role">Role</label>
@@ -38,8 +38,8 @@
         </div>
       </div>
 
-      <AppButton @click="saveChanges" type="success">Save Changes</AppButton>
-      <AppButton @click="useRouter().push(`/dashboard/admin/users/${user.id}/documents`)" type="primary">View documents</AppButton>
+      <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
+      <AppButton type="primary" @click="useRouter().push(`/dashboard/admin/users/${user.id}/documents`)">View documents</AppButton>
     </div>
     <div v-else>No user found.</div>
   </div>

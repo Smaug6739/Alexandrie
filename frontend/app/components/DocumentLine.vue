@@ -9,7 +9,7 @@
       </div>
       <DocumentDotMenu :document="document" :user="user" @delete="deleteDoc" />
     </header>
-    <div class="tags" v-if="document.tags">
+    <div v-if="document.tags" class="tags">
       <tag v-for="tag in document.tags?.split(', ')" :key="tag" class="primary">{{ tag }}</tag>
     </div>
     <p class="description">{{ document.description }}</p>

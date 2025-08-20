@@ -4,8 +4,8 @@
     <p>Are you sure you want to delete this ressource ?</p>
     <p style="opacity: 0.7">This action is irreversible</p>
     <div class="footer">
-      <AppButton @click="emit('close')" type="secondary">Cancel</AppButton>
-      <AppButton @click="deleteRessource" type="danger">Confirm</AppButton>
+      <AppButton type="secondary" @click="emit('close')">Cancel</AppButton>
+      <AppButton type="danger" @click="deleteRessource">Confirm</AppButton>
     </div>
   </div>
 </template>

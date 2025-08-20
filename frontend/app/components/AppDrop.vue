@@ -1,6 +1,6 @@
 <template>
   <div class="dropzone" :class="{ 'drag-over': isDragOver }" @dragover.prevent @drop.prevent="handleFileDrop" @dragenter.prevent="dragEnter" @dragleave.prevent="dragLeave">
-    <input type="file" ref="fileInput" @change="handleFileSelect" />
+    <input ref="fileInput" type="file" @change="handleFileSelect" >
     <div v-if="selectedFile" class="file-info">
       <span>{{ selectedFile.name }}</span>
       <div class="file-size">{{ readableFileSize(selectedFile.size) }}</div>

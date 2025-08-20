@@ -1,5 +1,5 @@
 <template>
-  <div class="back-to-top" @click="scrollToTop" v-if="show"></div>
+  <div v-if="show" class="back-to-top" @click="scrollToTop"/>
 </template>
 
 <script setup lang="ts">

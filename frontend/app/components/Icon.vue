@@ -1,5 +1,5 @@
 <template>
-  <i v-html="icon" class="icon" :style="{ fill }" :class="{ fill, big, mid, small }"></i>
+  <i class="icon" :style="{ fill }" :class="{ fill, big, mid, small }" v-html="icon"/>
 </template>
 
 <script setup lang="ts">

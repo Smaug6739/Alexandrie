@@ -4,11 +4,11 @@
     <div class="body-container">
       <IconApp style="width: 120px" />
       <h1>Password Reset</h1>
-      <form @submit.prevent="reset" class="body">
+      <form class="body" @submit.prevent="reset">
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" :class="{ 'is-invalid': errors.password }" />
+            <input id="password" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" >
             <button type="button" class="password-toggle" @click="showPassword = !showPassword">{{ showPassword ? 'Hide' : 'Show' }}</button>
           </div>
           <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
@@ -16,7 +16,7 @@
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
           <div class="password-input">
-            <input :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="confirmPassword" :class="{ 'is-invalid': errors.confirmPassword }" />
+            <input id="confirmPassword" v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.confirmPassword }" >
             <button type="button" class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ? 'Hide' : 'Show' }}</button>
           </div>
           <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>

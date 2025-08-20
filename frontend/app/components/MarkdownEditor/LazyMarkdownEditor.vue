@@ -1,14 +1,14 @@
 <template>
   <div style="height: 100%; padding: 4px">
     <div class="editor-container">
-      <Toolbar :document="document" @execute-action="exec" :minimal="minimal" />
+      <Toolbar :document="document" :minimal="minimal" @execute-action="exec" />
       <div style="padding: 6px; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px">
-        <input placeholder="Title" class="title" v-model="document.name" v-if="!minimal" />
-        <input placeholder="Description" class="description" v-model="document.description" v-if="!minimal" />
+        <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" >
+        <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" >
         <AppTagInput v-model="document.tags" style="margin-bottom: 10px" />
-        <div class="markdown" ref="container">
+        <div ref="container" class="markdown">
           <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
-          <div v-if="showPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" ref="markdownPreview" style="position: relative" v-html="document.content_html"></div>
+          <div v-if="showPreview" ref="markdownPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" style="position: relative" v-html="document.content_html"/>
         </div>
       </div>
     </div>

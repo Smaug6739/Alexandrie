@@ -7,7 +7,7 @@
       <form @submit.prevent="reset">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="username" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
+          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" >
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
         <button type="submit" class="btn">Request Reset</button>

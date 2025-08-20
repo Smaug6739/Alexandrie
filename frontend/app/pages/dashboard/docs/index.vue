@@ -5,7 +5,7 @@
       <ViewSelection v-model="view" />
     </header>
     <div v-if="view == 'table'" class="line-container">
-      <DocumentLine v-for="document of documents" :document="document" class="line-item" :key="document.id" />
+      <DocumentLine v-for="document of documents" :key="document.id" :document="document" class="line-item" />
     </div>
     <div v-else class="document-list">
       <DocumentsGrid :documents="documents" />

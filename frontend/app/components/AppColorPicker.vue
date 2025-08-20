@@ -1,12 +1,12 @@
 <template>
   <div class="color-picker">
     <div
+      v-if="nullable"
       class="color-option"
       style="background-color: white; border: 1px solid var(--border-color)"
       :style="{ outline: selectedColor == -1 ? '2px solid var(--font-color-light)' : '' }"
       :class="{ selected: selectedColor === -1 }"
       @click="selectColor(-1)"
-      v-if="nullable"
     >
       <div class="hint-wrapper">
         <p class="hint-tooltip">Unset</p>

@@ -1,17 +1,16 @@
 <template>
   <div v-if="showSearchModal" class="modal-mask">
-    <div class="modal-container" ref="searchContainer">
+    <div ref="searchContainer" class="modal-container">
       <span class="search-input">
         <Icon name="search" />
-        <input type="text" v-model="filter" placeholder="Search document" ref="searchInput" />
-        <button @click="close" style="background: none">
+        <input ref="searchInput" v-model="filter" type="text" placeholder="Search document" >
+        <button style="background: none" @click="close">
           <Icon name="close" :big="true" />
         </button>
       </span>
       <span class="title">Documents</span>
-      <NuxtLink v-if="docs.length" v-for="doc of docs" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close">
-        <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }} <span v-html="categoryName(doc.category)" class="category"></span
-      ></NuxtLink>
+      <NuxtLink v-for="doc of docs" v-if="docs.length" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close">
+        <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }} <span class="category" v-html="categoryName(doc.category)"/></NuxtLink>
       <p v-else class="no-result">No result found.</p>
     </div>
   </div>

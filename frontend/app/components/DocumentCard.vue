@@ -9,10 +9,10 @@
       </div>
       <div class="body">
         <div class="category">{{ category?.name }}</div>
-        <div class="tags" v-if="document.tags">
+        <div v-if="document.tags" class="tags">
           <tag v-for="tag in document.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
         </div>
-        <p class="description" v-text="document.description"></p>
+        <p class="description" v-text="document.description"/>
       </div>
     </div>
     <footer>

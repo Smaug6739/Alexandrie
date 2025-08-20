@@ -9,9 +9,9 @@
       </div>
     </header>
     <div style="padding-bottom: 10px">
-      <input placeholder="Search for workspace..." v-model="filter" style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px" />
+      <input v-model="filter" placeholder="Search for workspace..." style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px" >
     </div>
-    <div v-if="filteredItems.length" class="workspace" v-for="workspace in filteredItems" :key="workspace.id">
+    <div v-for="workspace in filteredItems" v-if="filteredItems.length" :key="workspace.id" class="workspace">
       <h3 class="wp-name">
         <NuxtLink :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
       </h3>

@@ -2,9 +2,9 @@
   <nav :class="{ open: isOpened }">
     <div class="sidebar no-select">
       <div :style="{ width: panewidthCSS, display: 'flex' }">
-        <slot></slot>
+        <slot/>
       </div>
-      <div class="separator" @mousedown="startResize"></div>
+      <div class="separator" @mousedown="startResize"/>
     </div>
   </nav>
 </template>

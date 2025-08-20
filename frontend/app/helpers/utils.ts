@@ -45,7 +45,7 @@ export function parseUserAgent(uaString?: string) {
 
   let browser = 'Unknown Browser';
   for (let i = 0; i < browserList.length; i++) {
-    let match = uaString.match(browserList[i]!.regex);
+    const match = uaString.match(browserList[i]!.regex);
     if (match) {
       browser = browserList[i]!.name + ' ' + match[1];
       break;

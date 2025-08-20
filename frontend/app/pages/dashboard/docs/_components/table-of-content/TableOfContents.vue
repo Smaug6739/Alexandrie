@@ -2,12 +2,12 @@
   <aside>
     <h4 v-if="doc?.tags">Tags</h4>
     <div style="display: flex; flex-wrap: wrap; font-size: 14px">
-      <tag v-if="doc?.tags" v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
+      <tag v-for="tag in doc?.tags.split(',')" v-if="doc?.tags" :key="tag" class="primary">#{{ tag.trim() }}</tag>
     </div>
     <ul ref="list" style="position: relative">
-      <div class="marker" ref="marker" v-if="headers.length"></div>
+      <div v-if="headers.length" ref="marker" class="marker"/>
       <h4>Table of contents</h4>
-      <NodeTree v-if="headers.length" v-for="header of headers_tree" :node="header" :key="header.link" style="padding-left: 10px" />
+      <NodeTree v-for="header of headers_tree" v-if="headers.length" :key="header.link" :node="header" style="padding-left: 10px" />
       <p v-else>Nothing to display</p>
     </ul>
     <h4 v-if="childs.length">Child documents</h4>

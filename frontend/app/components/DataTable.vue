@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <input type="text" v-model="searchInput" placeholder="Search..." />
+    <input v-model="searchInput" type="text" placeholder="Search..." >
     <div class="table-wrapper">
       <table>
         <thead>
@@ -13,11 +13,11 @@
         <tbody>
           <tr v-for="row in data">
             <td v-for="header in headers">
-              <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content"></span>
+              <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content"/>
               <span v-else-if="row[header.key]?.type === 'slot'">
-                <slot :name="header.key" :cell="row[header.key]"></slot>
+                <slot :name="header.key" :cell="row[header.key]"/>
               </span>
-              <span v-else v-text="row[header.key]?.content"></span>
+              <span v-else v-text="row[header.key]?.content"/>
             </td>
           </tr>
           <tr>
@@ -37,13 +37,13 @@
                   </span>
                 </p>
                 <div class="pagination">
-                  <button type="button" @click="paginator.previous()" :disabled="!paginator.hasPrevious()">&lt;</button>
-                  <button @click="paginator.setPage(1)" :class="{ active: paginator.currentPage.value === 1 }">1</button>
+                  <button type="button" :disabled="!paginator.hasPrevious()" @click="paginator.previous()">&lt;</button>
+                  <button :class="{ active: paginator.currentPage.value === 1 }" @click="paginator.setPage(1)">1</button>
                   <span v-if="shouldShowEllipsisBefore" class="ellipsis">...</span>
-                  <button v-for="page in visiblePages" :key="page" @click="paginator.setPage(page)" :class="{ active: paginator.currentPage.value === page }">{{ page }}</button>
+                  <button v-for="page in visiblePages" :key="page" :class="{ active: paginator.currentPage.value === page }" @click="paginator.setPage(page)">{{ page }}</button>
                   <span v-if="shouldShowEllipsisAfter" class="ellipsis">...</span>
-                  <button v-if="paginator.totalPages.value > 1" @click="paginator.setPage(paginator.totalPages.value)" :class="{ active: paginator.currentPage.value === paginator.totalPages.value }">{{ paginator.totalPages.value }}</button>
-                  <button type="button" @click="paginator.next()" :disabled="!paginator.hasNext()">&gt;</button>
+                  <button v-if="paginator.totalPages.value > 1" :class="{ active: paginator.currentPage.value === paginator.totalPages.value }" @click="paginator.setPage(paginator.totalPages.value)">{{ paginator.totalPages.value }}</button>
+                  <button type="button" :disabled="!paginator.hasNext()" @click="paginator.next()">&gt;</button>
                 </div>
               </div>
             </td>

@@ -1,17 +1,17 @@
 <template>
   <div v-if="item.childrens?.length">
     <SidebarItem v-if="true || (root && item.data.type == 'document')" :item="item" class="collapse-header doc">
-      <svg @click="toggleShow" :class="{ rotated: !props.item.show.value }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+      <svg :class="{ rotated: !props.item.show.value }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" @click="toggleShow">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
     </SidebarItem>
-    <SidebarItem v-else-if="root" :item="item" @click="toggleShow" class="collapse-header">
+    <SidebarItem v-else-if="root" :item="item" class="collapse-header" @click="toggleShow">
       <svg :class="{ rotated: !props.item.show.value }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
     </SidebarItem>
     <SidebarItem v-else :item="item" class="collapse-header" />
-    <div v-if="props.item.show.value" class="collapse-body" v-for="child in item.childrens" :key="child.id" style="margin-left: 15px">
+    <div v-for="child in item.childrens" v-if="props.item.show.value" :key="child.id" class="collapse-body" style="margin-left: 15px">
       <CollapseItem v-if="child.childrens?.length" :item="child" :root="child.data.type === 'document'" />
       <SidebarItem v-else :item="child" />
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="tree-node" v-if="node.data.type === 'category'">
+  <div v-if="node.data.type === 'category'" class="tree-node">
     <div class="tree-content">
       <div class="tree-label">
         <Icon class="icon" name="folder" style="display: inline; width: 15px" />
@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="tree-children" v-if="node.childrens && node.childrens.length">
+    <div v-if="node.childrens && node.childrens.length" class="tree-children">
       <WorkspaceTree v-for="child in node.childrens" :key="child.id" :node="child" @edit="$emit('edit', $event)" @delete="$emit('delete', $event)" />
     </div>
   </div>

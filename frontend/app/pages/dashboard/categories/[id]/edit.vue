@@ -1,32 +1,32 @@
 <template>
   <div class="card-component">
     <h1 style="font-size: 20px">Update category & workspace</h1>
-    <form @submit.prevent v-if="category">
+    <form v-if="category" @submit.prevent>
       <div class="form-row">
         <div class="form-column">
           <label>ID</label>
-          <input type="text" v-model="category.id" id="id" disabled />
+          <input id="id" v-model="category.id" type="text" disabled >
         </div>
         <div class="form-column">
           <label for="order">Order</label>
-          <input type="number" v-model.number="category.order" id="order" />
+          <input id="order" v-model.number="category.order" type="number" >
         </div>
       </div>
       <label>Name</label>
-      <input type="text" v-model="category.name" id="name" required />
+      <input id="name" v-model="category.name" type="text" required >
       <label>Role</label>
       <select v-model="category.role">
         <option :value="1">Category</option>
         <option :value="2">Workspace</option>
       </select>
       <label style="display: flex; align-items: center">Icon <AppHint text="SVG supported" /></label>
-      <textarea type="text" v-model="category.icon" rows="5"></textarea>
+      <textarea v-model="category.icon" type="text" rows="5"/>
 
       <label>Parent</label>
       <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
 
       <label for="color">Color</label>
-      <AppColorPicker v-model:selectedColor="category.color" name="color" :nullable="true" />
+      <AppColorPicker v-model:selected-color="category.color" name="color" :nullable="true" />
 
       <div style="display: flex; justify-content: flex-end">
         <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>

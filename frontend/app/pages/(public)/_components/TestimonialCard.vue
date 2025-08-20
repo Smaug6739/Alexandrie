@@ -1,6 +1,6 @@
 <template>
   <div class="testimonial-card">
-    <img :src="avatar" :alt="name" class="avatar" />
+    <img :src="avatar" :alt="name" class="avatar" >
     <blockquote>{{ text }}</blockquote>
     <p class="author">
       {{ name }} <span>- {{ role }}</span>

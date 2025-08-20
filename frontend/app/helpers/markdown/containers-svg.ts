@@ -8,7 +8,7 @@ export const containerSvg = (md: MarkdownIt) => {
       return params.trim().match(/^definition\s+(.*)$/);
     },
     render: function (tokens: any, idx: any) {
-      var m = tokens[idx].info.trim().match(/^definition\s+(.*)$/);
+      const m = tokens[idx].info.trim().match(/^definition\s+(.*)$/);
 
       if (tokens[idx].nesting === 1) {
         // opening tag
@@ -24,7 +24,7 @@ export const containerSvg = (md: MarkdownIt) => {
       return params.trim().match(/^property\s+(.*)$/);
     },
     render: function (tokens: any, idx: any) {
-      var m = tokens[idx].info.trim().match(/^property\s+(.*)$/);
+      const m = tokens[idx].info.trim().match(/^property\s+(.*)$/);
 
       if (tokens[idx].nesting === 1) {
         // opening tag
@@ -40,7 +40,7 @@ export const containerSvg = (md: MarkdownIt) => {
       return params.trim().match(/^theorem\s+(.*)$/);
     },
     render: function (tokens: any, idx: any) {
-      var m = tokens[idx].info.trim().match(/^theorem\s+(.*)$/);
+      const m = tokens[idx].info.trim().match(/^theorem\s+(.*)$/);
 
       if (tokens[idx].nesting === 1) {
         // opening tag
@@ -56,7 +56,7 @@ export const containerSvg = (md: MarkdownIt) => {
       return params.trim().match(/^warning\s+(.*)$/);
     },
     render: function (tokens: any, idx: any) {
-      var m = tokens[idx].info.trim().match(/^warning\s+(.*)$/);
+      const m = tokens[idx].info.trim().match(/^warning\s+(.*)$/);
 
       if (tokens[idx].nesting === 1) {
         // opening tag
@@ -72,7 +72,7 @@ export const containerSvg = (md: MarkdownIt) => {
       return params.trim().match(/^info\-(.*)+$/);
     },
     render: function (tokens: any, idx: any) {
-      var m = tokens[idx].info.trim().split(' ');
+      const m = tokens[idx].info.trim().split(' ');
       if (tokens[idx].nesting === 1) {
         // opening tag
         return containerOpen(m.slice(1).join(' '), svg_info, m[0]?.split('-')[1]);

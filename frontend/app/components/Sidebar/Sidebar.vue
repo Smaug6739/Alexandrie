@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'sidebar-mask': isMobile() && isOpened }"></div>
+  <div :class="{ 'sidebar-mask': isMobile() && isOpened }"/>
   <Resizable>
     <Dock v-if="!isMobile() && preferences.get('view_dock')" />
     <div class="sidebar" :class="{ compact: preferences.get('compactMode') }">
@@ -10,17 +10,17 @@
         </span>
         <IconClose class="btn" />
       </section>
-      <input type="text" placeholder="Search or ctrl + q" v-model="filter" />
+      <input v-model="filter" type="text" placeholder="Search or ctrl + q" >
 
-      <div class="user" v-if="userStore.user">
-        <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+      <div v-if="userStore.user" class="user">
+        <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" >
         <div class="details">
           <div>
             <div>{{ userStore.user.username }}</div>
             <div class="email">{{ userStore.user.email }}</div>
           </div>
           <div class="icons">
-            <NuxtLink @click="onClick" to="/dashboard/docs/new" :prefetch="false"><Icon name="add_file" :mid="true" fill="var(--font-color)" /></NuxtLink>
+            <NuxtLink to="/dashboard/docs/new" :prefetch="false" @click="onClick"><Icon name="add_file" :mid="true" fill="var(--font-color)" /></NuxtLink>
             <NuxtLink @click="newCategory"><Icon name="add_folder" :mid="true" fill="var(--font-color)" /></NuxtLink>
             <NuxtLink @click="sidebarTree.collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color)" /></NuxtLink>
             <NuxtLink @click="toggleDock"><Icon name="dock" :mid="true" fill="var(--font-color)" /></NuxtLink>
@@ -30,7 +30,7 @@
       <SidebarWorkspaces :options="workspaces" />
       <Search />
       <CollapseItem v-for="item in navigationItems" :key="item.id" :item="item" :root="true" />
-      <hr style="margin: 5px 0; width: 100%" />
+      <hr style="margin: 5px 0; width: 100%" >
       <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
     </div>
   </Resizable>

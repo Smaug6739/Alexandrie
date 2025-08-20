@@ -4,27 +4,27 @@
       <h3>Update ressource&nbsp;<tag blue>New</tag></h3>
       Manage ressources and files on the server. You can edit metadata and delete file from the server.
     </header>
-    <form @submit.prevent v-if="ressource">
+    <form v-if="ressource" @submit.prevent>
       <div class="form-row">
         <div class="form-column">
           <label>ID</label>
-          <input type="text" :value="ressource.id" id="id" disabled />
+          <input id="id" type="text" :value="ressource.id" disabled >
         </div>
         <div class="form-column">
           <label>Size</label>
-          <input type="text" :value="readableFileSize(ressource.filesize)" id="size" disabled />
+          <input id="size" type="text" :value="readableFileSize(ressource.filesize)" disabled >
         </div>
       </div>
       <label>Name</label>
-      <input type="text" v-model="ressource.filename" id="name" required />
+      <input id="name" v-model="ressource.filename" type="text" required >
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
       <AppSelect v-model="ressource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.type !== 'document'" placeholder="Select a ressource parent" />
       <label>Type</label>
-      <input type="text" :value="ressource.filetype" id="id" disabled />
+      <input id="id" type="text" :value="ressource.filetype" disabled >
       <label>Original path</label>
-      <input type="text" :value="ressource.original_path" id="original_path" disabled />
+      <input id="original_path" type="text" :value="ressource.original_path" disabled >
       <label>Path</label>
-      <input type="text" :value="ressource.transformed_path" id="path" disabled />
+      <input id="path" type="text" :value="ressource.transformed_path" disabled >
       <p style="overflow-wrap: break-word">
         Ressource: <a :href="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" target="_blank">{{ `${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}` }}</a>
       </p>
@@ -33,7 +33,7 @@
       </div>
       <h4>Preview</h4>
       <div class="preview">
-        <img v-if="ressource.filetype.startsWith('image/')" :src="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" alt="Preview" />
+        <img v-if="ressource.filetype.startsWith('image/')" :src="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" alt="Preview" >
         <p v-else>Preview not available for this file type.</p>
       </div>
       <h4>Danger</h4>

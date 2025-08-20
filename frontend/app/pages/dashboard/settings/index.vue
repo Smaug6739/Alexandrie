@@ -3,8 +3,8 @@
     <div class="component">
       <nav>
         <span>Account settings</span>
-        <div class="user" v-if="store.user">
-          <img :src="useAvatar(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+        <div v-if="store.user" class="user">
+          <img :src="useAvatar(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" >
           <div>
             <div class="username">{{ store.user.username }}</div>
             <div class="email">{{ store.user.email }}</div>
@@ -29,8 +29,8 @@
         <NuxtLink @click="logoutUser"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
       </nav>
       <div class="content">
-        <button @click="close" class="close-btn"><Icon name="close" :big="true" /></button>
-        <ProfileView v-if="currentPage === 'profile'"></ProfileView>
+        <button class="close-btn" @click="close"><Icon name="close" :big="true" /></button>
+        <ProfileView v-if="currentPage === 'profile'"/>
         <PreferencesView v-else-if="currentPage === 'preferences'" />
         <SecurityView v-else-if="currentPage === 'security'" />
         <BackupView v-else-if="currentPage == 'backup'" />

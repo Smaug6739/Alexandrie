@@ -1,7 +1,7 @@
 <template>
   <header>
     <div>
-      <button v-if="!isOpened" @click="toggleSidebar" class="open-sidebar" aria-label="open sidebar">
+      <button v-if="!isOpened" class="open-sidebar" aria-label="open sidebar" @click="toggleSidebar">
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
           <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
         </svg>
@@ -10,7 +10,7 @@
       <BreadCrumb v-if="!isMobile()" />
     </div>
     <div>
-      <button class="search-btn" @click="openGlobalSearch" title="Global search (Ctrl+K)" aria-label="Global search">
+      <button class="search-btn" title="Global search (Ctrl+K)" aria-label="Global search" @click="openGlobalSearch">
         <Icon name="search" />
         <span class="search-text">Search</span>
         <kbd class="shortcut">Ctrl+K</kbd>
@@ -21,6 +21,10 @@
   </header>
 </template>
 
+<script lang="ts" setup>
+const { toggleSidebar, isOpened } = useSidebar();
+const openGlobalSearch = () => window.dispatchEvent(new CustomEvent('global-search-open'));
+</script>
 <style lang="scss" scoped>
 header {
   height: 50px;
@@ -93,7 +97,3 @@ button {
   }
 }
 </style>
-<script lang="ts" setup>
-const { toggleSidebar, isOpened } = useSidebar();
-const openGlobalSearch = () => window.dispatchEvent(new CustomEvent('global-search-open'));
-</script>

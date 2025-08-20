@@ -5,8 +5,8 @@
     <p style="opacity: 0.7">This action is irreversible</p>
     <p v-if="allChildren.length > 0" class="warn">This document has {{ allChildren.length }} child documents. They will be deleted too.</p>
     <div class="footer">
-      <AppButton @click="emit('close')" type="secondary">Cancel</AppButton>
-      <AppButton @click="deleteDoc" type="danger">Confirm</AppButton>
+      <AppButton type="secondary" @click="emit('close')">Cancel</AppButton>
+      <AppButton type="danger" @click="deleteDoc">Confirm</AppButton>
     </div>
   </div>
 </template>

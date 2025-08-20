@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: center; margin: 5vh auto; gap: 20px">
     <h1>Alexandrie dashboard</h1>
-    <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
+    <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" > <br >
     
     <div class="global-search-hint">
       <Icon name="search" class="hint-icon" />
@@ -9,7 +9,7 @@
     </div>
     
     <div class="search-container">
-      <input type="text" v-model="searchQuery" placeholder="Search documents..." class="search-input" />
+      <input v-model="searchQuery" type="text" placeholder="Search documents..." class="search-input" >
       <div v-if="results.length" class="results">
         <NuxtLink v-for="result in results" :key="result.id" class="result" :to="`/dashboard/docs/${result.id}`">
           <Icon :name="category(result.category)?.icon || 'files'" :class="`category-icon ${getAppColor(category(result.category)?.color as number, true)}`" />{{ result.name }}</NuxtLink

@@ -16,7 +16,7 @@
     <NuxtLink to="/dashboard/import">
       <Icon name="import" fill="var(--font-color)" :big="true" />
     </NuxtLink>
-    <NuxtLink to="/dashboard/admin" v-if="useUserStore().user?.role === 2">
+    <NuxtLink v-if="useUserStore().user?.role === 2" to="/dashboard/admin">
       <Icon name="users" fill="var(--font-color)" :big="true" />
     </NuxtLink>
     <div style="margin-top: auto">
@@ -29,6 +29,12 @@
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+function closeDock() {
+  usePreferences().set('view_dock', false);
+}
+</script>
 
 <style scoped lang="scss">
 .dock {
@@ -59,9 +65,3 @@ a.router-link-active {
   }
 }
 </style>
-
-<script setup lang="ts">
-function closeDock() {
-  usePreferences().set('view_dock', false);
-}
-</script>

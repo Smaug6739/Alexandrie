@@ -1,11 +1,11 @@
 <template>
   <div class="toolbar">
-    <button v-for="item in toolbar" :key="item.name" v-html="item.icon" @click="emitAction(item.action)" :title="item.name" class="btn"></button>
-    <div class="color-picker"></div>
-    <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" v-if="!minimal" />
-    <AppSelect v-model="document.category" :items="categories" placeholder="Select category" size="300px" class="entry" v-if="!minimal" />
+    <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)" v-html="item.icon"/>
+    <div class="color-picker"/>
+    <AppSelect v-if="!minimal" v-model="document.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" />
+    <AppSelect v-if="!minimal" v-model="document.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
     <AppHint text="Tags has been moved down" />
-    <button @click="openModal" class="help"><Icon name="help" :big="true" fill="var(--font-color-light)" /></button>
+    <button class="help" @click="openModal"><Icon name="help" :big="true" fill="var(--font-color-light)" /></button>
   </div>
 </template>
 

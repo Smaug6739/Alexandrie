@@ -6,7 +6,7 @@
     <p>You can import documents from a previous export. If you don't have export, you can create a new one from the <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">settings</NuxtLink> page.</p>
     <AppDrop ref="dropComponent" @select="handleFileSelect" />
     <div class="submit">
-      <AppButton @click="submit" type="primary" :disabled="!selectedFile">Analyse file</AppButton>
+      <AppButton type="primary" :disabled="!selectedFile" @click="submit">Analyse file</AppButton>
     </div>
     <div v-if="files_to_import.length">
       <h2>Files to import</h2>
@@ -14,7 +14,7 @@
         <p style="display: flex">
           <Icon name="file" />
           &nbsp;{{ file.name }}
-          <tag v-if="file.tags" v-for="tag in file.tags?.split(',')" :key="tag" class="blue">{{ tag.trim() }}</tag>
+          <tag v-for="tag in file.tags?.split(',')" v-if="file.tags" :key="tag" class="blue">{{ tag.trim() }}</tag>
         </p>
         <p>Created at: {{ new Date(file.created_timestamp).toLocaleDateString() }}</p>
         <p>Updated at: {{ new Date(file.updated_timestamp).toLocaleDateString() }}</p>

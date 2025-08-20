@@ -7,18 +7,18 @@
       <form @submit.prevent="register">
         <div class="form-group">
           <label for="username">Username</label>
-          <input type="text" id="username" v-model="username" :class="{ 'is-invalid': errors.username }" />
+          <input id="username" v-model="username" type="text" :class="{ 'is-invalid': errors.username }" >
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" :class="{ 'is-invalid': errors.email }" />
+          <input id="email" v-model="email" type="email" :class="{ 'is-invalid': errors.email }" >
           <p v-if="errors.email" class="invalid-feedback">{{ errors.email }}</p>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input :key="`password-${showPassword}`" :type="showPassword ? 'text' : 'password'" id="password" v-model="password" :class="{ 'is-invalid': errors.password }" />
+            <input id="password" :key="`password-${showPassword}`" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" >
             <button type="button" class="password-toggle" @click="togglePassword">
               <div class="eye-icon" :class="{ show: showPassword }">
                 <Icon v-if="showPassword" name="eye" />
@@ -31,7 +31,7 @@
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
           <div class="password-input">
-            <input :key="`confirmPassword-${showConfirmPassword}`" :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="confirmPassword" :class="{ 'is-invalid': errors.confirmPassword }" />
+            <input id="confirmPassword" :key="`confirmPassword-${showConfirmPassword}`" v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.confirmPassword }" >
             <button type="button" class="password-toggle" @click="toggleConfirmPassword">
               <div class="eye-icon" :class="{ show: showConfirmPassword }">
                 <Icon v-if="showConfirmPassword" name="eye" />

@@ -4,7 +4,7 @@
     <div class="issues-grid">
       <a v-for="issue in issues" :key="issue.id" :href="issue.html_url" target="_blank" class="issue">
         <div class="top">
-          <span class="label" v-for="label in visibleLabels(issue.labels)" :key="label.id">{{ label.name }}</span>
+          <span v-for="label in visibleLabels(issue.labels)" :key="label.id" class="label">{{ label.name }}</span>
         </div>
         <div class="title">{{ issue.title }}</div>
         <div class="meta">#{{ issue.number }} • {{ new Date(issue.created_at).toLocaleDateString() }}</div>

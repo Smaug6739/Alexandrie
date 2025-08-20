@@ -6,12 +6,12 @@
     </header>
     <AppDrop ref="dropComponent" @select="selectFile" />
     <div style="padding: 12px 0; width: 100%; display: flex; align-items: center; gap: 10px; flex-direction: column">
-      <AppButton @click="submitFile" type="primary" :disabled="!selectedFile">Upload on server</AppButton>
-      <div v-if="isLoading" class="loading-spinner"></div>
+      <AppButton type="primary" :disabled="!selectedFile" @click="submitFile">Upload on server</AppButton>
+      <div v-if="isLoading" class="loading-spinner"/>
     </div>
     <div v-if="fileLink" class="link-section">
-      <input type="text" v-model="fileLink" readonly />
-      <AppButton @click="copyLink" type="primary">Copy link</AppButton>
+      <input v-model="fileLink" type="text" readonly >
+      <AppButton type="primary" @click="copyLink">Copy link</AppButton>
     </div>
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows">

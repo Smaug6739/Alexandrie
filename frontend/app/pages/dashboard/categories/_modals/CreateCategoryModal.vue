@@ -2,24 +2,24 @@
   <div class="modal">
     <h2>New {{ role == 1 ? 'category' : 'workspace' }}</h2>
     <label for="name">Name</label>
-    <input class="entry" type="text" v-model="category.name" required id="name" placeholder="Display name" />
+    <input id="name" v-model="category.name" class="entry" type="text" required placeholder="Display name" >
 
     <label>Parent</label>
     <div>
-      <AppSelect class="entry" v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
+      <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" placeholder="Select a category parent" />
     </div>
     <div style="display: flex">
       <div style="flex: 1; margin-right: 10px">
         <label for="order">Order <AppHint text="Order of the category in the sidebar" /></label>
-        <input class="entry" type="number" v-model.number="category.order" id="order" placeholder="0" />
+        <input id="order" v-model.number="category.order" class="entry" type="number" placeholder="0" >
       </div>
       <div style="flex: 1; margin-left: 10px">
         <label for="color">Color</label>
-        <AppColorPicker class="entry" v-model:selectedColor="category.color" id="color" :nullable="true" />
+        <AppColorPicker id="color" v-model:selected-color="category.color" class="entry" :nullable="true" />
       </div>
     </div>
     <div class="footer">
-      <AppButton @click="emit('close')" type="secondary">Cancel</AppButton>
+      <AppButton type="secondary" @click="emit('close')">Cancel</AppButton>
       <AppButton type="primary" @click="createCategory">Create</AppButton>
     </div>
   </div>

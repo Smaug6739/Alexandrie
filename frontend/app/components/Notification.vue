@@ -4,7 +4,7 @@
       <div class="content">
         <div class="header">
           <p class="title">{{ notification.title }}</p>
-          <span class="btn" @click="close(notification.id)" aria-label="Close">&times;</span>
+          <span class="btn" aria-label="Close" @click="close(notification.id)">&times;</span>
         </div>
         <p v-if="notification.message" class="message">{{ notification.message }}</p>
       </div>

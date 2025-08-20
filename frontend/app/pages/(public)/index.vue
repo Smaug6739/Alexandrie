@@ -1,12 +1,12 @@
 <template>
   <main class="landing">
     <!-- Hero -->
-    <section class="hero" ref="heroEl">
+    <section ref="heroEl" class="hero">
       <div class="hero-bg">
-        <span class="orb orb-1"></span>
-        <span class="orb orb-2"></span>
-        <span class="orb orb-3"></span>
-        <span class="grid"></span>
+        <span class="orb orb-1"/>
+        <span class="orb orb-2"/>
+        <span class="orb orb-3"/>
+        <span class="grid"/>
       </div>
       <div class="hero-content">
         <div class="badges">
@@ -22,7 +22,7 @@
           <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" class="btn secondary"> GitHub </NuxtLink>
         </div>
       </div>
-      <img src="/screenshots/mock/0.png" class="hero-image" alt="App preview" />
+      <img src="/screenshots/mock/0.png" class="hero-image" alt="App preview" >
       
     </section>
 
@@ -44,9 +44,9 @@
     <section class="showcase reveal">
       <h2>See Alexandrie in Action</h2>
       <div class="screenshots">
-        <img src="/screenshots/mock/documents.png" alt="Notes" class="tilt" />
-        <img src="/screenshots/mock/2.png" alt="Organizing notes" class="tilt" />
-        <img src="/screenshots/mock/3.png" alt="Editing notes" class="tilt" />
+        <img src="/screenshots/mock/documents.png" alt="Notes" class="tilt" >
+        <img src="/screenshots/mock/2.png" alt="Organizing notes" class="tilt" >
+        <img src="/screenshots/mock/3.png" alt="Editing notes" class="tilt" >
       </div>
     </section>
 

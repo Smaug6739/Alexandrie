@@ -1,7 +1,7 @@
 <template>
   <nav class="breadcrumb">
-    <svg @click="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" /></svg>
-    <svg @click="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" /></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" @click="next"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" /></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" @click="previous"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" /></svg>
     <ol class="breadcrumb">
       <li v-for="(segment, index) in breadcrumbs" :key="index" class="breadcrumb-item">
         <NuxtLink :to="segment.path"> {{ segment.name }} </NuxtLink>

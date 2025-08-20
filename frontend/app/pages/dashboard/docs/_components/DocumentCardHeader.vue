@@ -7,7 +7,7 @@
       </p>
       <h1 class="title">{{ doc?.name }}</h1>
       <p class="description">{{ doc?.description }}</p>
-      <div class="document-tags" v-if="doc.tags">
+      <div v-if="doc.tags" class="document-tags">
         <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
       </div>
     </div>
