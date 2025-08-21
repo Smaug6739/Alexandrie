@@ -28,7 +28,6 @@
         </div>
       </div>
       <SidebarWorkspaces :options="workspaces" />
-      <Search />
       <CollapseItem v-for="item in navigationItems" :key="item.id" :item="item" :root="true" />
       <hr style="margin: 5px 0; width: 100%" />
       <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
@@ -41,7 +40,6 @@ import CollapseItem from './CollapseItem.vue';
 import SidebarWorkspaces from './SidebarWorkspaces.vue';
 import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
-import Search from './Search.vue';
 import { navigationItems } from './helpers';
 import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 import Dock from './Dock.vue';
@@ -51,12 +49,8 @@ const categoriesStore = useCategoriesStore();
 const preferences = usePreferences();
 const userStore = useUserStore();
 const filter = ref<string>('');
-const showSearchModal = ref<boolean>(false);
 const workspaces = computed(() => [...categoriesStore.categories.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id, meta: c }))]);
 
-const handleSearchShortCut = (e: KeyboardEvent) => {
-  if (e.ctrlKey && e.key === 'q') showSearchModal.value = !showSearchModal.value;
-};
 const sidebarTree = useSidebarTree();
 const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock'));
 const filterItems = (items: Item[]): Item[] => {
@@ -82,12 +76,10 @@ onMounted(() => {
   if (isMobile()) return document.addEventListener('click', handleClickOutside);
   // ELSE: Desktop
   isOpened.value = true;
-  document.addEventListener('keypress', handleSearchShortCut);
 });
 onBeforeUnmount(() => {
   hasSidebar.value = false;
   document.removeEventListener('click', handleClickOutside);
-  document.removeEventListener('keypress', handleSearchShortCut);
 });
 </script>
 
