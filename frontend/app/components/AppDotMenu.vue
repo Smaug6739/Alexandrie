@@ -5,11 +5,11 @@
         <path style="fill: var(--font-color)" d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
       </svg>
     </span>
-    <transition name="fade-scale">
+    <Transition name="fade-scale">
       <div v-if="open" class="menu-content">
         <slot />
       </div>
-    </transition>
+    </Transition>
   </div>
 </template>
 
