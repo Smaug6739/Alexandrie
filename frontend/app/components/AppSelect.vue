@@ -4,7 +4,7 @@
       <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
     </div>
     <div v-else>
-      <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" >
+      <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" />
       <div class="dropdown">
         <ul>
           <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
@@ -23,7 +23,7 @@ const props = defineProps<{
   disabled?: (i: ANode) => boolean;
 }>();
 
-const selectedId = ref<string | number>(props.modelValue || '');
+const selectedId = ref<string | number>(props.modelValue ?? '');
 const open = ref(false);
 const search = ref('');
 const searchInput = ref<HTMLInputElement | null>(null);
