@@ -1,4 +1,4 @@
-interface BaseCommand {
+export interface BaseCommand {
   id: string;
   title: string;
   description: string;
@@ -8,6 +8,7 @@ interface BaseCommand {
 
 export interface SearchResult extends BaseCommand {
   category: string;
+  metadata?: string;
 }
 
 export interface QuickAction extends BaseCommand {
