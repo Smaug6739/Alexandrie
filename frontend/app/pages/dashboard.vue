@@ -4,10 +4,11 @@
       <BackToTop />
     </ClientOnly>
     <Sidebar />
-    <GlobalSearch />
+    <CommandCenter />
+    <QuickSearch />
     <MediumView>
       <Navbar />
-      <div style="height: calc(100% - 65px); width: 100%"><NuxtPage /></div>
+      <div style="height: calc(100% - 65px); width: 100%" :style="!isMobile() ? { paddingLeft: '100px' } : {}"><NuxtPage /></div>
     </MediumView>
   </div>
 </template>

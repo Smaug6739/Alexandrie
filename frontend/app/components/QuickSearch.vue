@@ -51,8 +51,8 @@ const handleTab = (event: KeyboardEvent) => {
   focusableItems[nextIndex]?.focus();
 };
 
-onMounted(() => document.addEventListener('keydown', handleSearchShortCut));
-onBeforeUnmount(() => document.removeEventListener('keydown', handleSearchShortCut));
+onMounted(() => window.addEventListener('keydown', handleSearchShortCut));
+onBeforeUnmount(() => window.removeEventListener('keydown', handleSearchShortCut));
 const handleSearchShortCut = (e: KeyboardEvent) => {
   if (e.ctrlKey && e.key === 'q') {
     if (!showSearchModal.value) {
