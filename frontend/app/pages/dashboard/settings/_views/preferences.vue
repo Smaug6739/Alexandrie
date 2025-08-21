@@ -97,7 +97,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'Document size',
         type: 'select',
-        value: preferencesStore.get('docSize'),
+        value: preferencesStore.get('docSize') as number,
         storageKey: 'docSize',
         choices: [
           { label: 'Large', id: 0 },
@@ -152,7 +152,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'Default datatable items count',
         type: 'select',
-        value: preferencesStore.get('datatableItemsCount'),
+        value: preferencesStore.get('datatableItemsCount') as number,
         storageKey: 'datatableItemsCount',
         choices: [
           { label: '10', id: 10 },
