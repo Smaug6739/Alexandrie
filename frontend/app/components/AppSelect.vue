@@ -121,8 +121,6 @@ button,
   cursor: text;
 }
 
-}
-
 .dropdown {
   position: absolute;
   top: 100%;
