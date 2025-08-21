@@ -1,12 +1,6 @@
 <template>
   <div class="tab-navigation">
-    <button
-      v-for="tab in tabs"
-      :key="tab.id"
-      class="tab-button"
-      :class="{ active: activeTab === tab.id }"
-      @click="$emit('changeTab', tab.id)"
-    >
+    <button v-for="tab in tabs" :key="tab.id" class="tab-button" :class="{ active: activeTab === tab.id }" @click="$emit('changeTab', tab.id)">
       <Icon :name="tab.icon" class="tab-icon" />
       <span class="tab-label">{{ tab.label }}</span>
     </button>
@@ -22,11 +16,11 @@ interface Tab {
   icon: string;
 }
 
-const props = defineProps<{
+defineProps<{
   activeTab: string;
 }>();
 
-const emit = defineEmits<{
+defineEmits<{
   changeTab: [tabId: string];
 }>();
 
@@ -54,6 +48,7 @@ const tabs: Tab[] = [
 .tab-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 16px 20px;
   background: transparent;
@@ -64,7 +59,8 @@ const tabs: Tab[] = [
   font-weight: 500;
   transition: all 0.2s ease;
   border-bottom: 2px solid transparent;
-
+  flex: 1;
+  border-radius: 0;
   &:hover {
     color: var(--text-color);
     background: var(--bg-color-secondary);

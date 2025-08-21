@@ -26,17 +26,15 @@
 <script setup lang="ts">
 import { quickActions, availablePages, type SearchResult, type BaseCommand } from '@/helpers/navigation';
 import Icon from '~/components/Icon.vue';
+import type { Document } from '~/stores';
 
 const props = defineProps<{
   searchQuery: string;
   selectedIndex: number;
-  documents: any[];
+  documents: Document[];
 }>();
 
-const emit = defineEmits<{
-  selectItem: [];
-  updateSelectedIndex: [index: number];
-}>();
+defineEmits<{ selectItem: []; updateSelectedIndex: [index: number] }>();
 
 function tokenize(text: string) {
   return text.trim().toLowerCase().split(/\s+/).filter(Boolean);

@@ -1,6 +1,6 @@
 <template>
   <li>
-    <div class="tree-node" :style="{ marginLeft: `${level * 20}px`, fontWeight: node.childrens?.length ? 600 : 500 }" :disabled="disabled && disabled(node)" @click.stop="select">
+    <div class="tree-node" :style="{ marginLeft: `${level * 20}px`, fontWeight: node.childrens?.length ? 500 : 400 }" :disabled="disabled && disabled(node)" @click.stop="select">
       {{ node.label }}
     </div>
     <ul v-if="node.childrens?.length">
@@ -32,7 +32,7 @@ function select() {
   text-align: left;
   cursor: pointer;
   font-size: 14px;
-  margin: 0 auto;
+  margin: 2px auto;
 }
 .tree-node:hover {
   background-color: var(--selection-color);

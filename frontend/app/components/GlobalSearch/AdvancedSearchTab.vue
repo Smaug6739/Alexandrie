@@ -3,103 +3,100 @@
     <div class="search-filters">
       <div class="filters-header">
         <h3 class="filters-title">Advanced Filters</h3>
-        <button @click="toggleFilters" class="toggle-filters-btn" :class="{ collapsed: !showFilters }">
+        <button class="toggle-filters-btn" :class="{ collapsed: !showFilters }" @click="toggleFilters">
           <Icon :name="showFilters ? 'collapse' : 'expand'" />
         </button>
       </div>
-      
+
       <div v-show="showFilters" class="filters-content">
         <div class="filter-group">
           <label class="filter-label">Date Range</label>
-        <div class="date-filters">
-          <div class="date-input">
-            <label>From</label>
-            <input v-model="dateFrom" type="date" class="date-picker" />
-          </div>
-          <div class="date-input">
-            <label>To</label>
-            <input v-model="dateTo" type="date" class="date-picker" />
-          </div>
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label">Date Type</label>
-        <div class="radio-group">
-          <label class="radio-option">
-            <input v-model="dateType" type="radio" value="created" />
-            <span>Created</span>
-          </label>
-          <label class="radio-option">
-            <input v-model="dateType" type="radio" value="modified" />
-            <span>Modified</span>
-          </label>
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label">Tags</label>
-        <div class="tags-filter">
-          <div class="tags-input-wrapper">
-            <div class="tags-input">
-              <input 
-                v-model="tagInput" 
-                type="text" 
-                placeholder="Add tag filter..." 
-                class="tag-input" 
-                @keydown.enter="handleEnter"
-                @keydown.arrow-up="handleArrowUp"
-                @keydown.arrow-down="handleArrowDown"
-                @keydown.escape="hideSuggestions"
-                @input="handleTagInput"
-                @focus="showSuggestions = true"
-                @blur="hideSuggestions"
-              />
-              <button @click="addTag" class="add-tag-btn">
-                <Icon name="plus" />
-              </button>
+          <div class="date-filters">
+            <div class="date-input">
+              <label>From</label>
+              <input v-model="dateFrom" type="date" class="date-picker" />
             </div>
-            
-            <div v-if="showSuggestions && filteredTagSuggestions.length > 0" class="tag-suggestions">
-              <div 
-                v-for="(tag, index) in filteredTagSuggestions" 
-                :key="tag"
-                class="tag-suggestion"
-                :class="{ selected: selectedSuggestionIndex === index }"
-                @mousedown="selectTag(tag)"
-                @mouseenter="selectedSuggestionIndex = index"
-              >
-                {{ tag }}
+            <div class="date-input">
+              <label>To</label>
+              <input v-model="dateTo" type="date" class="date-picker" />
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Date Type</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input v-model="dateType" type="radio" value="created" />
+              <span>Created</span>
+            </label>
+            <label class="radio-option">
+              <input v-model="dateType" type="radio" value="modified" />
+              <span>Modified</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Tags</label>
+          <div class="tags-filter">
+            <div class="tags-input-wrapper">
+              <div class="tags-input">
+                <input
+                  v-model="tagInput"
+                  type="text"
+                  placeholder="Add tag filter..."
+                  class="tag-input"
+                  @keydown.enter="handleEnter"
+                  @keydown.arrow-up="handleArrowUp"
+                  @keydown.arrow-down="handleArrowDown"
+                  @keydown.escape="hideSuggestions"
+                  @input="handleTagInput"
+                  @focus="showSuggestions = true"
+                  @blur="hideSuggestions"
+                />
+                <button class="add-tag-btn" @click="addTag">
+                  <Icon name="plus" fill="#fff" />
+                </button>
+              </div>
+
+              <div v-if="showSuggestions && filteredTagSuggestions.length > 0" class="tag-suggestions">
+                <div v-for="(tag, index) in filteredTagSuggestions" :key="tag" class="tag-suggestion" :class="{ selected: selectedSuggestionIndex === index }" @mousedown="selectTag(tag)" @mouseenter="selectedSuggestionIndex = index">
+                  {{ tag }}
+                </div>
               </div>
             </div>
-          </div>
-          <div class="selected-tags">
-            <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
-              {{ tag }}
-              <button @click="removeTag(tag)" class="remove-tag">
-                <Icon name="close" />
-              </button>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="filter-group">
-        <label class="filter-label">Category</label>
-        <select v-model="selectedCategory" class="category-select">
-          <option value="">All Categories</option>
-          <option v-for="category in categories" :key="category.id" :value="category.id">
-            {{ category.name }}
-          </option>
-        </select>
-      </div>
-
-                <div class="filter-actions">
-            <button @click="clearFilters" class="clear-filters-btn">Clear Filters</button>
-            <button @click="applyFilters" class="apply-filters-btn">Apply Filters</button>
+            <div class="selected-tags">
+              <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
+                {{ tag }}
+                <button class="remove-tag" @click="removeTag(tag)">
+                  <Icon name="close" />
+                </button>
+              </span>
+            </div>
           </div>
         </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Category</label>
+          <select v-model="selectedCategory" class="category-select">
+            <option value="">All Categories</option>
+            <option v-for="category in categories" :key="category.id" :value="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+
+          <br />
+          <br />
+          <AppSelect v-model="selectedCategory" :items="categoriesTree" placeholder="Select a category" />
+        </div>
+
+        <div class="filter-actions">
+          <button class="clear-filters-btn" @click="clearFilters">Clear Filters</button>
+          <button class="apply-filters-btn">Apply Filters</button>
+        </div>
       </div>
+    </div>
 
     <div class="search-results">
       <div v-if="filteredDocuments.length === 0" class="no-results">
@@ -151,6 +148,7 @@ const selectedSuggestionIndex = ref(0);
 
 const categoryStore = useCategoriesStore();
 const categories = computed(() => categoryStore.getAll);
+const categoriesTree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 
 const allTags = computed(() => {
   const tags = new Set<string>();
@@ -165,12 +163,7 @@ const allTags = computed(() => {
 const filteredTagSuggestions = computed(() => {
   if (!tagInput.value) return [];
   const input = tagInput.value.toLowerCase();
-  return allTags.value
-    .filter(tag => 
-      tag.toLowerCase().includes(input) && 
-      !selectedTags.value.includes(tag)
-    )
-    .slice(0, 5);
+  return allTags.value.filter(tag => tag.toLowerCase().includes(input) && !selectedTags.value.includes(tag)).slice(0, 5);
 });
 
 const filteredDocuments = computed(() => {
@@ -220,7 +213,8 @@ function addTag() {
   }
 }
 
-function selectTag(tag: string) {
+function selectTag(tag?: string) {
+  if (!tag) return;
   selectedTags.value.push(tag);
   tagInput.value = '';
   showSuggestions.value = false;
@@ -249,18 +243,14 @@ function handleEnter(event: KeyboardEvent) {
 function handleArrowUp(event: KeyboardEvent) {
   event.preventDefault();
   if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
-    selectedSuggestionIndex.value = selectedSuggestionIndex.value > 0 
-      ? selectedSuggestionIndex.value - 1 
-      : filteredTagSuggestions.value.length - 1;
+    selectedSuggestionIndex.value = selectedSuggestionIndex.value > 0 ? selectedSuggestionIndex.value - 1 : filteredTagSuggestions.value.length - 1;
   }
 }
 
 function handleArrowDown(event: KeyboardEvent) {
   event.preventDefault();
   if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
-    selectedSuggestionIndex.value = selectedSuggestionIndex.value < filteredTagSuggestions.value.length - 1
-      ? selectedSuggestionIndex.value + 1 
-      : 0;
+    selectedSuggestionIndex.value = selectedSuggestionIndex.value < filteredTagSuggestions.value.length - 1 ? selectedSuggestionIndex.value + 1 : 0;
   }
 }
 
@@ -277,10 +267,6 @@ function clearFilters() {
   dateTo.value = '';
   selectedTags.value = [];
   selectedCategory.value = '';
-}
-
-function applyFilters() {
-  // Filters are applied automatically via computed
 }
 
 function selectDocument(doc: Document) {
@@ -306,7 +292,10 @@ function formatDate(timestamp: string) {
 
 function parseTags(tags: string): string[] {
   if (typeof tags === 'string') {
-    return tags.split(',').map(tag => tag.trim()).filter(Boolean);
+    return tags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(Boolean);
   }
   return [];
 }
@@ -431,7 +420,7 @@ function parseTags(tags: string): string[] {
   font-size: 14px;
   color: var(--text-color);
 
-  input[type="radio"] {
+  input[type='radio'] {
     accent-color: var(--primary);
   }
 }

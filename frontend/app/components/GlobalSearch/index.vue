@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
-    <div v-if="isOpen" class="global-search-overlay" @click="closeSearch">
-      <div class="global-search-modal" @click.stop>
+    <div v-if="isOpen" class="command-center-overlay" @click="closeSearch">
+      <div class="command-center-modal">
         <!-- Header -->
         <div class="search-header">
           <div class="search-input-wrapper">
@@ -18,31 +18,14 @@
 
         <!-- Tab Content -->
         <div class="tab-content">
-          <QuickSearchTab
-            v-if="activeTab === 'quick'"
-            :search-query="searchQuery"
-            :selected-index="selectedIndex"
-            :documents="documentsStore.getAll"
-            @select-item="closeSearch"
-            @update-selected-index="updateSelectedIndex"
-            ref="quickSearchTab"
-          />
-          
-          <AdvancedSearchTab
-            v-else-if="activeTab === 'advanced'"
-            :documents="documentsStore.getAll"
-            @select-document="handleDocumentSelect"
-          />
+          <QuickSearchTab v-if="activeTab === 'quick'" ref="quickSearchTab" :search-query="searchQuery" :selected-index="selectedIndex" :documents="documentsStore.getAll" @select-item="closeSearch" @update-selected-index="updateSelectedIndex" />
+
+          <AdvancedSearchTab v-else-if="activeTab === 'advanced'" :documents="documentsStore.getAll" @select-document="handleDocumentSelect" />
         </div>
 
         <!-- Footer -->
         <div class="search-footer">
-          <div class="shortcuts">
-            <kbd>↑↓</kbd> Navigate 
-            <kbd>Enter</kbd> Select 
-            <kbd>Tab</kbd> Switch tabs
-            <kbd>Escape</kbd> Close
-          </div>
+          <div class="shortcuts"><kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close</div>
         </div>
       </div>
     </div>
@@ -51,10 +34,11 @@
 
 <script setup lang="ts">
 import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
-import TabNavigation from './GlobalSearch/TabNavigation.vue';
-import QuickSearchTab from './GlobalSearch/QuickSearchTab.vue';
-import AdvancedSearchTab from './GlobalSearch/AdvancedSearchTab.vue';
+import TabNavigation from './TabNavigation.vue';
+import QuickSearchTab from './QuickSearchTab.vue';
+import AdvancedSearchTab from './AdvancedSearchTab.vue';
 import { useModal, Modal } from '~/composables/ModalBus';
+import type { Document } from '~/stores';
 
 const router = useRouter();
 const isOpen = ref(false);
@@ -79,7 +63,7 @@ onMounted(() => {
       useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }));
     } else if (e.key === 'Escape' && isOpen.value) {
       closeSearch();
-    } else if (e.key === 'Tab' && isOpen.value) {
+    } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && isOpen.value) {
       e.preventDefault();
       changeTab(activeTab.value === 'quick' ? 'advanced' : 'quick');
     }
@@ -100,16 +84,15 @@ onMounted(() => {
   };
 
   document.addEventListener('keydown', handleGlobalKeydown);
-  document.addEventListener('wheel', handleWheel, { passive: false });
   document.addEventListener('touchmove', handleTouchMove, { passive: false });
   const openListener = () => openSearch();
-  window.addEventListener('global-search-open', openListener as EventListener);
+  window.addEventListener('command-center-open', openListener as EventListener);
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleGlobalKeydown);
     document.removeEventListener('wheel', handleWheel);
     document.removeEventListener('touchmove', handleTouchMove);
-    window.removeEventListener('global-search-open', openListener as EventListener);
+    window.removeEventListener('command-center-open', openListener as EventListener);
   });
 });
 
@@ -119,11 +102,11 @@ function openSearch() {
   selectedIndex.value = 0;
   searchQuery.value = '';
   activeTab.value = 'quick';
-  document.body.style.overflow = 'hidden';
   nextTick(() => searchInput.value?.focus());
 }
 
-function closeSearch() {
+function closeSearch(e?: MouseEvent) {
+  if (e && e.target && (e.target as Element).closest('.command-center-modal')) return;
   isOpen.value = false;
   searchQuery.value = '';
   selectedIndex.value = 0;
@@ -142,7 +125,7 @@ function updateSelectedIndex(index: number) {
   selectedIndex.value = index;
 }
 
-function handleDocumentSelect(document: any) {
+function handleDocumentSelect(document: Document) {
   navigateTo(`/dashboard/docs/${document.id}`);
   closeSearch();
 }
@@ -152,7 +135,7 @@ function handleSearchKeydown(e: KeyboardEvent) {
     return;
   }
 
-  if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey && selectedIndex.value < (quickSearchTab.value?.flattenedItems?.length || 0) - 1)) {
+  if ((e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) && selectedIndex.value < (quickSearchTab.value?.flattenedItems?.length || 0) - 1) {
     e.preventDefault();
     const maxIndex = (quickSearchTab.value?.flattenedItems?.length || 0) - 1;
     selectedIndex.value = (selectedIndex.value + 1) % Math.max(maxIndex + 1, 1);
@@ -178,7 +161,7 @@ watch(searchQuery, () => {
 </script>
 
 <style scoped lang="scss">
-.global-search-overlay {
+.command-center-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -191,10 +174,9 @@ watch(searchQuery, () => {
   align-items: flex-start;
   justify-content: center;
   padding-top: 10vh;
-  overflow: hidden;
 }
 
-.global-search-modal {
+.command-center-modal {
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 16px;
@@ -204,10 +186,9 @@ watch(searchQuery, () => {
   max-height: 80vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
   animation: slideIn 0.2s ease-out;
   position: relative;
-  overscroll-behavior: contain;
 }
 
 .search-header {
@@ -265,7 +246,7 @@ watch(searchQuery, () => {
 
 .tab-content {
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
   min-height: 0;
   position: relative;
 }
@@ -279,8 +260,9 @@ watch(searchQuery, () => {
 
 .shortcuts {
   display: flex;
-  gap: 16px;
-  font-size: 12px;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--text-muted);
 
   kbd {
@@ -304,7 +286,7 @@ watch(searchQuery, () => {
 }
 
 @media (max-width: 768px) {
-  .global-search-modal {
+  .command-center-modal {
     width: 95%;
     margin: 20px;
     max-height: 80vh;
