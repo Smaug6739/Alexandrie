@@ -1,6 +1,6 @@
 <template>
   <main ref="mediumContainer" class="medium-view" :style="{ paddingLeft: marginLeft, transition }">
-    <slot/>
+    <slot />
   </main>
 </template>
 
