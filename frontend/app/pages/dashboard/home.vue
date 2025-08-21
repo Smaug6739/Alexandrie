@@ -3,7 +3,7 @@
     <h1>Alexandrie dashboard</h1>
     <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
 
-    <div class="global-search-hint">
+    <div class="command-center-hint">
       <Icon name="search" class="hint-icon" />
       <span>Press <kbd>Ctrl+K</kbd> for quick global search</span>
     </div>
@@ -80,7 +80,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.global-search-hint {
+.command-center-hint {
   display: flex;
   max-width: 500px;
   margin: 20px auto;

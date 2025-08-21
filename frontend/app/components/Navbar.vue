@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 const { toggleSidebar, isOpened } = useSidebar();
-const openGlobalSearch = () => window.dispatchEvent(new CustomEvent('global-search-open'));
+const openGlobalSearch = () => window.dispatchEvent(new CustomEvent('command-center-open'));
 </script>
 <style lang="scss" scoped>
 header {

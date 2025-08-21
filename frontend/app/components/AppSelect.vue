@@ -1,7 +1,10 @@
 <template>
   <div class="app-select" :style="{ width: size || '100%' }">
-    <div v-if="!open">
-      <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
+    <div v-if="!open" style="display: flex; justify-content: space-between; align-items: center; padding: 1px">
+      <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button
+      ><svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+        <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
+      </svg>
     </div>
     <div v-else>
       <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" />
@@ -78,8 +81,8 @@ function handleClickOutside(_: MouseEvent) {
   open.value = false;
 }
 
-onMounted(() => document.addEventListener('click', handleClickOutside));
-onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
+onMounted(() => window.addEventListener('click', handleClickOutside));
+onBeforeUnmount(() => window.removeEventListener('click', handleClickOutside));
 </script>
 
 <style scoped lang="scss">
@@ -87,10 +90,15 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   position: relative;
   width: 200px;
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-
+  margin: 0;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  color: var(--font-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: Inter;
   &:focus {
-    outline: 2px solid var(--border-color);
+    outline: 1px solid var(--primary);
   }
 }
 
@@ -98,20 +106,21 @@ button,
 .search-input {
   width: 100%;
   padding: 8px 10px;
-  font-size: 16px;
   text-align: left;
+  font-size: 1rem;
+  font-size: 16px;
   cursor: pointer;
+  border-radius: 6px;
 }
 
 .search-input {
+  cursor: text;
+  border: none;
   padding: 6px 10px;
   border: none;
   cursor: text;
 }
 
-.app-select:has(.dropdown) button,
-.app-select:has(.dropdown) .search-input {
-  outline: 2px solid var(--border-color);
 }
 
 .dropdown {
