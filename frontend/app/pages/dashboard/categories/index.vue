@@ -11,15 +11,13 @@
     <div style="padding-bottom: 10px">
       <input v-model="filter" placeholder="Search for workspace..." style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px" />
     </div>
-    <div v-if="filteredItems.length">
-      <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
-        <h3 class="wp-name">
-          <NuxtLink :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
-        </h3>
-        <WorkspaceTree v-for="node in workspace.childrens" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
-      </div>
+    <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
+      <h3 class="wp-name">
+        <NuxtLink :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
+      </h3>
+      <WorkspaceTree v-for="node in workspace.childrens" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
-    <div v-else style="color: #6c757d; font-style: italic">No workspaces or category found</div>
+    <div v-if="!filteredItems.length" style="color: #6c757d; font-style: italic">No workspaces or category found</div>
   </div>
 </template>
 
