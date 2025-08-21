@@ -1,12 +1,12 @@
 <template>
-  <div ref="menuRoot" class="three-dots-menu">
+  <div ref="menuRoot" class="container">
     <span class="menu-button" aria-label="Menu" @click="toggleMenu">
       <svg class="menu-icon" viewBox="0 9 20 2" xmlns="http://www.w3.org/2000/svg">
         <path style="fill: var(--font-color)" d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
       </svg>
     </span>
     <Transition name="fade-scale">
-      <div v-if="open" class="menu-content">
+      <div v-if="open" class="content">
         <slot />
       </div>
     </Transition>
@@ -34,7 +34,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
 </script>
 
 <style scoped>
-.three-dots-menu {
+.container {
   position: relative;
   display: inline-block;
 }
@@ -58,7 +58,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   margin: auto 0;
 }
 
-.menu-content {
+.content {
   position: absolute;
   right: 0;
   margin-top: 4px;
@@ -68,7 +68,6 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   border-radius: 6px;
   box-shadow: 0 2px 6px var(--shadow);
   border: 1px solid var(--border-color);
-
   overflow: hidden;
   z-index: 2;
 }
