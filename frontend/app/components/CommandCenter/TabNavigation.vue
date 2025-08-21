@@ -41,29 +41,29 @@ const tabs: Tab[] = [
 <style scoped lang="scss">
 .tab-navigation {
   display: flex;
-  border-bottom: 1px solid var(--border-color);
   background: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .tab-button {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   padding: 16px 20px;
-  background: transparent;
   border: none;
-  cursor: pointer;
+  border-radius: 0;
   font-size: 14px;
   font-weight: 500;
+  background: transparent;
+  align-items: center;
   border-bottom: 2px solid transparent;
+  cursor: pointer;
   flex: 1;
-  border-radius: 0;
+  gap: 8px;
+  justify-content: center;
 
   &.active {
     color: var(--primary);
-    border-bottom-color: var(--primary);
     background: var(--bg-color-secondary);
+    border-bottom-color: var(--primary);
   }
 }
 

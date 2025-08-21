@@ -87,7 +87,6 @@ h1 {
   padding: 12px 20px;
   border-radius: 12px;
   font-size: 14px;
-
   background: var(--border-color);
   align-items: center;
   gap: 8px;

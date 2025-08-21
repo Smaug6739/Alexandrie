@@ -1,6 +1,6 @@
 <template>
   <div class="app-select" :style="{ width: size || '100%' }">
-    <div v-if="!open" style="display: flex; justify-content: space-between; align-items: center; padding: 1px">
+    <div v-if="!open" style="display: flex; padding: 1px; align-items: center; justify-content: space-between">
       <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button
       ><svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
@@ -89,14 +89,14 @@ onBeforeUnmount(() => window.removeEventListener('click', handleClickOutside));
 .app-select {
   position: relative;
   width: 200px;
-  border: 1px solid var(--border-color);
   margin: 0;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
-  color: var(--font-color);
   border-radius: 6px;
-  font-size: 1rem;
   font-family: Inter;
+  font-size: 1rem;
+  color: var(--font-color);
+  background: var(--bg-color);
+
   &:focus {
     outline: 1px solid var(--primary);
   }
@@ -106,16 +106,13 @@ button,
 .search-input {
   width: 100%;
   padding: 8px 10px;
-  text-align: left;
-  font-size: 1rem;
-  font-size: 16px;
-  cursor: pointer;
   border-radius: 6px;
+  font-size: 16px;
+  text-align: left;
+  cursor: pointer;
 }
 
 .search-input {
-  cursor: text;
-  border: none;
   padding: 6px 10px;
   border: none;
   cursor: text;

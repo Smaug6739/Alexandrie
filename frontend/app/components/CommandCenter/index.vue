@@ -6,7 +6,14 @@
         <div class="search-header">
           <div class="search-input-wrapper">
             <Icon name="search" class="search-icon" fill="var(--font-color)" />
-            <input ref="searchInput" v-model="searchQuery" type="text" placeholder="Search for a page, action, or document..." class="search-input" @keydown="handleSearchKeydown" />
+            <input
+              ref="searchInput"
+              v-model="searchQuery"
+              type="text"
+              placeholder="Search for a page, action, or document..."
+              class="search-input"
+              @keydown="handleSearchKeydown"
+            />
           </div>
           <button class="close-btn" @click="closeSearch">
             <Icon name="close" />
@@ -18,14 +25,24 @@
 
         <!-- Tab Content -->
         <div class="tab-content">
-          <QuickSearchTab v-if="activeTab === 'quick'" ref="quickSearchTab" :search-query="searchQuery" :selected-index="selectedIndex" :documents="documentsStore.getAll" @select-item="closeSearch" @update-selected-index="updateSelectedIndex" />
+          <QuickSearchTab
+            v-if="activeTab === 'quick'"
+            ref="quickSearchTab"
+            :search-query="searchQuery"
+            :selected-index="selectedIndex"
+            :documents="documentsStore.getAll"
+            @select-item="closeSearch"
+            @update-selected-index="updateSelectedIndex"
+          />
 
           <AdvancedSearchTab v-else-if="activeTab === 'advanced'" :documents="documentsStore.getAll" @select-document="handleDocumentSelect" />
         </div>
 
         <!-- Footer -->
         <div class="search-footer">
-          <div class="shortcuts"><kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close</div>
+          <div class="shortcuts">
+            <kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close
+          </div>
         </div>
       </div>
     </div>
@@ -163,76 +180,69 @@ watch(searchQuery, () => {
 <style scoped lang="scss">
 .command-center-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
+  inset: 0;
   z-index: 9999;
   display: flex;
+  background: rgb(0 0 0 / 50%);
   align-items: flex-start;
+  backdrop-filter: blur(2px);
   justify-content: center;
   padding-top: 10vh;
 }
 
 .command-center-modal {
-  background: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: flex;
   width: 92%;
   max-width: 720px;
   max-height: 80vh;
-  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--bg-color);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
+  animation: slide-in 0.2s ease-out;
   flex-direction: column;
   overflow: auto;
-  animation: slideIn 0.2s ease-out;
-  position: relative;
 }
 
 .search-header {
   display: flex;
-  align-items: center;
   padding: 20px;
+  align-items: center;
   border-bottom: 1px solid var(--border-color);
-  gap: 12px;
   flex-shrink: 0;
+  gap: 12px;
 }
 
 .search-input-wrapper {
-  flex: 1;
   position: relative;
+  flex: 1;
 }
 
 .search-icon {
   position: absolute;
-  left: 12px;
   top: 50%;
-  transform: translateY(-50%);
+  left: 12px;
   width: 20px;
   height: 20px;
+  transform: translateY(-50%);
 }
 
 .search-input {
   width: 100%;
   padding: 12px 12px 12px 44px;
   border: none;
-  background: transparent;
   font-size: 16px;
+  background: transparent;
   outline: none;
-
-  &::placeholder {
-  }
 }
 
 .close-btn {
-  background: transparent;
-  border: none;
-
-  cursor: pointer;
   padding: 8px;
+  border: none;
   border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
 
   &:hover {
     background: var(--border-color);
@@ -240,50 +250,51 @@ watch(searchQuery, () => {
 }
 
 .tab-content {
+  position: relative;
+  min-height: 0;
   flex: 1;
   overflow: auto;
-  min-height: 0;
-  position: relative;
 }
 
 .search-footer {
   padding: 16px 20px;
-  border-top: 1px solid var(--border-color);
   background: var(--bg-color-secondary);
+  border-top: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
 .shortcuts {
   display: flex;
-  gap: 10px;
   font-size: 13px;
   font-weight: 500;
+  gap: 10px;
 
   kbd {
-    background: var(--border-color);
     padding: 2px 6px;
     border-radius: 4px;
     font-family: monospace;
     font-weight: 600;
+    background: var(--border-color);
   }
 }
 
-@keyframes slideIn {
+@keyframes slide-in {
   from {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .command-center-modal {
     width: 95%;
-    margin: 20px;
     max-height: 80vh;
+    margin: 20px;
   }
 
   .shortcuts {

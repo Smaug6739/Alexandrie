@@ -61,7 +61,14 @@
               </div>
 
               <div v-if="showSuggestions && filteredTagSuggestions.length > 0" class="tag-suggestions">
-                <div v-for="(tag, index) in filteredTagSuggestions" :key="tag" class="tag-suggestion" :class="{ selected: selectedSuggestionIndex === index }" @mousedown="selectTag(tag)" @mouseenter="selectedSuggestionIndex = index">
+                <div
+                  v-for="(tag, index) in filteredTagSuggestions"
+                  :key="tag"
+                  class="tag-suggestion"
+                  :class="{ selected: selectedSuggestionIndex === index }"
+                  @mousedown="selectTag(tag)"
+                  @mouseenter="selectedSuggestionIndex = index"
+                >
                   {{ tag }}
                 </div>
               </div>
@@ -138,7 +145,9 @@ const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(0);
 
 const categoryStore = useCategoriesStore();
-const categoriesTree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
+const categoriesTree = new TreeStructure(useSidebarTree().categories.value)
+  .generateTree()
+  .filter(i => i.data.type === 'category' && i.data.role == 2);
 
 const allTags = computed(() => {
   const tags = new Set<string>();
@@ -294,43 +303,42 @@ function parseTags(tags: string): string[] {
 <style scoped lang="scss">
 .advanced-search-tab {
   display: flex;
-  flex-direction: column;
   height: 100%;
+  flex-direction: column;
   overflow: hidden;
 }
 
 .search-filters {
-  flex-shrink: 0;
   background: var(--bg-color-secondary);
   border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
 }
 
 .filters-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 16px 20px;
+  align-items: center;
   border-bottom: 1px solid var(--border-color);
+  justify-content: space-between;
 }
 
 .filters-title {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .toggle-filters-btn {
-  background: transparent;
-  border: none;
-
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: transform 0.2s ease;
   display: flex;
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  transition: transform 0.2s ease;
   align-items: center;
+  cursor: pointer;
   justify-content: center;
 
   &:hover {
@@ -358,10 +366,9 @@ function parseTags(tags: string): string[] {
   display: block;
   font-size: 12px;
   font-weight: 600;
-  text-transform: uppercase;
-
-  margin-bottom: 8px;
   letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
 }
 
 .date-filters {
@@ -375,7 +382,6 @@ function parseTags(tags: string): string[] {
   label {
     display: block;
     font-size: 11px;
-
     margin-bottom: 4px;
   }
 }
@@ -385,8 +391,8 @@ function parseTags(tags: string): string[] {
   padding: 8px 12px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  background: var(--bg-color);
   font-size: 14px;
+  background: var(--bg-color);
   outline: none;
 
   &:focus {
@@ -401,10 +407,10 @@ function parseTags(tags: string): string[] {
 
 .radio-option {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
   font-size: 14px;
+  align-items: center;
+  cursor: pointer;
+  gap: 6px;
 
   input[type='radio'] {
     accent-color: var(--primary);
@@ -423,12 +429,12 @@ function parseTags(tags: string): string[] {
   }
 
   .tag-input {
-    flex: 1;
     padding: 8px 12px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: var(--bg-color);
     font-size: 14px;
+    background: var(--bg-color);
+    flex: 1;
     outline: none;
 
     &:focus {
@@ -437,16 +443,16 @@ function parseTags(tags: string): string[] {
   }
 
   .add-tag-btn {
+    display: flex;
     padding: 8px 12px;
-    background: var(--primary);
     border: none;
     border-radius: 6px;
     color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--primary);
     transition: background-color 0.2s ease;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
 
     &:hover {
       background: var(--primary-dark, #0056b3);
@@ -457,22 +463,22 @@ function parseTags(tags: string): string[] {
 .tag-suggestions {
   position: absolute;
   top: 100%;
-  left: 0;
   right: 48px;
-  background: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  left: 0;
   z-index: 10;
   max-height: 200px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-color);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   overflow-y: auto;
 }
 
 .tag-suggestion {
   padding: 8px 12px;
-  cursor: pointer;
   font-size: 14px;
   transition: background 0.2s ease;
+  cursor: pointer;
 
   &:hover,
   &.selected {
@@ -496,29 +502,28 @@ function parseTags(tags: string): string[] {
 
 .tag-chip {
   display: inline-flex;
-  align-items: center;
-  gap: 4px;
   padding: 4px 8px;
-  background: var(--border-color);
   border-radius: 12px;
   font-size: 12px;
+  background: var(--border-color);
+  align-items: center;
+  gap: 4px;
 
   .remove-tag {
-    background: none;
-    border: none;
-
-    cursor: pointer;
-    padding: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 16px;
     height: 16px;
+    padding: 0;
+    border: none;
     border-radius: 50%;
+    background: none;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
 
     &:hover {
-      background: var(--text-muted);
       color: white;
+      background: var(--text-muted);
     }
   }
 }
@@ -528,8 +533,8 @@ function parseTags(tags: string): string[] {
   padding: 8px 12px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  background: var(--bg-color);
   font-size: 14px;
+  background: var(--bg-color);
   outline: none;
 
   &:focus {
@@ -545,13 +550,13 @@ function parseTags(tags: string): string[] {
 
 .clear-filters-btn,
 .apply-filters-btn {
-  flex: 1;
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+  flex: 1;
 }
 
 .clear-filters-btn {
@@ -563,8 +568,8 @@ function parseTags(tags: string): string[] {
 }
 
 .apply-filters-btn {
-  background: var(--primary);
   color: white;
+  background: var(--primary);
 
   &:hover {
     background: var(--primary-dark, #0056b3);
@@ -572,12 +577,12 @@ function parseTags(tags: string): string[] {
 }
 
 .search-results {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
   position: relative;
-  overscroll-behavior: contain;
+  min-height: 0;
+  flex: 1;
   -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .no-results {
@@ -587,8 +592,8 @@ function parseTags(tags: string): string[] {
   .no-results-icon {
     width: 48px;
     height: 48px;
-    margin-bottom: 16px;
     opacity: 0.5;
+    margin-bottom: 16px;
   }
 
   p {
@@ -598,19 +603,19 @@ function parseTags(tags: string): string[] {
 }
 
 .documents-list {
+  max-height: 100%;
   padding: 8px 0;
   overflow-y: auto;
-  max-height: 100%;
 }
 
 .document-item {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
   margin: 0 5px;
+  padding: 12px 20px;
   border-radius: 8px;
+  align-items: center;
   cursor: pointer;
+  gap: 12px;
 
   &:hover {
     background: var(--border-color);
@@ -625,30 +630,30 @@ function parseTags(tags: string): string[] {
 }
 
 .document-info {
-  flex: 1;
   min-width: 0;
+  flex: 1;
 }
 
 .document-title {
   font-weight: 600;
   margin-bottom: 4px;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .document-meta {
   display: flex;
+  font-size: 12px;
   gap: 12px;
   margin-bottom: 6px;
-  font-size: 12px;
 }
 
 .document-category {
-  background: var(--border-color);
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 11px;
+  background: var(--border-color);
 }
 
 .document-date {
@@ -657,23 +662,22 @@ function parseTags(tags: string): string[] {
 
 .document-tags {
   display: flex;
-  gap: 4px;
   flex-wrap: wrap;
+  gap: 4px;
 }
 
 .tag {
-  background: var(--primary);
-  color: white;
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 10px;
   font-weight: 500;
+  color: white;
+  background: var(--primary);
 }
 
 .navigate-icon {
   width: 16px;
   height: 16px;
-
   flex-shrink: 0;
 }
 </style>

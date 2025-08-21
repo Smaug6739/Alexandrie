@@ -137,36 +137,36 @@ defineExpose({ flattenedItems });
 <style scoped lang="scss">
 .quick-search-tab {
   display: flex;
-  flex-direction: column;
   height: 100%;
+  flex-direction: column;
   overflow: hidden;
 }
 
 .search-results {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
   position: relative;
-  overscroll-behavior: contain;
+  min-height: 0;
+  flex: 1;
   -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .search-results-list {
+  max-height: 100%;
   padding: 8px 0;
   overflow-y: auto;
-  max-height: 100%;
 }
 
 .search-result-item {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 20px;
   margin: 0 5px;
+  padding: 8px 20px;
   border-radius: 8px;
-  cursor: pointer;
-  text-decoration: none;
   color: inherit;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+  text-decoration: none;
 
   &:hover,
   &.selected {
@@ -182,32 +182,30 @@ defineExpose({ flattenedItems });
 }
 
 .result-content {
-  flex: 1;
   display: flex;
+  min-width: 0;
+  flex: 1;
   flex-direction: column;
   gap: 4px;
-  min-width: 0;
 }
 
 .result-title {
   font-weight: 600;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .result-description {
   font-size: 13px;
-
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .navigate-icon {
   width: 16px;
   height: 16px;
-
   flex-shrink: 0;
 }
 
@@ -218,12 +216,11 @@ defineExpose({ flattenedItems });
 .section-title {
   position: sticky;
   top: 0;
-  background: var(--bg-color);
   z-index: 1;
-  font-size: 12px;
-  text-transform: uppercase;
-
   padding: 6px 20px;
+  font-size: 12px;
+  background: var(--bg-color);
+  text-transform: uppercase;
 }
 
 .no-results {
@@ -233,8 +230,8 @@ defineExpose({ flattenedItems });
   .no-results-icon {
     width: 48px;
     height: 48px;
-    margin-bottom: 16px;
     opacity: 0.5;
+    margin-bottom: 16px;
   }
 
   p {

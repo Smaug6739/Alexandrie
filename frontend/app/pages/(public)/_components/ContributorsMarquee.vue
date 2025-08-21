@@ -105,7 +105,6 @@ onMounted(fetchContributors);
 
 .hint {
   font-size: 13px;
-
   margin-top: 6px;
 }
 
