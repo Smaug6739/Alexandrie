@@ -8,7 +8,6 @@ export interface BaseCommand {
 
 export interface SearchResult extends BaseCommand {
   category: string;
-  metadata?: string;
 }
 
 export interface QuickAction extends BaseCommand {
