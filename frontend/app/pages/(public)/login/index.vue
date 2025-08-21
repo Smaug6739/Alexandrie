@@ -109,7 +109,6 @@ form {
   label {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--text-color);
   }
 }
 
@@ -185,7 +184,7 @@ input {
 .forgot-password-link {
   font-size: 16px;
   font-weight: 500;
-  color: var(--text-muted);
+
   text-align: center;
   margin-top: 1rem;
 

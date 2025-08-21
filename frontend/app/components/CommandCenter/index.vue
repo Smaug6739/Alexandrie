@@ -212,7 +212,6 @@ watch(searchQuery, () => {
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
-  color: var(--text-muted);
 }
 
 .search-input {
@@ -220,27 +219,23 @@ watch(searchQuery, () => {
   padding: 12px 12px 12px 44px;
   border: none;
   background: transparent;
-  color: var(--text-color);
   font-size: 16px;
   outline: none;
 
   &::placeholder {
-    color: var(--text-muted);
   }
 }
 
 .close-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+
   cursor: pointer;
   padding: 8px;
   border-radius: 8px;
-  transition: all 0.2s ease;
 
   &:hover {
     background: var(--border-color);
-    color: var(--text-color);
   }
 }
 
@@ -263,7 +258,6 @@ watch(searchQuery, () => {
   gap: 10px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--text-muted);
 
   kbd {
     background: var(--border-color);

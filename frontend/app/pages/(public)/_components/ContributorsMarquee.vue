@@ -101,12 +101,11 @@ onMounted(fetchContributors);
 
 .sub {
   font-size: 12px;
-  color: var(--text-muted);
 }
 
 .hint {
   font-size: 13px;
-  color: var(--text-muted);
+
   margin-top: 6px;
 }
 

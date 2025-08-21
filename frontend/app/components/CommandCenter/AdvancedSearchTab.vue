@@ -70,7 +70,7 @@
               <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
                 {{ tag }}
                 <button class="remove-tag" @click="removeTag(tag)">
-                  <Icon name="close" />
+                  <Icon name="close" fill="var(--font-color)" />
                 </button>
               </span>
             </div>
@@ -79,15 +79,6 @@
 
         <div class="filter-group">
           <label class="filter-label">Category</label>
-          <select v-model="selectedCategory" class="category-select">
-            <option value="">All Categories</option>
-            <option v-for="category in categories" :key="category.id" :value="category.id">
-              {{ category.name }}
-            </option>
-          </select>
-
-          <br />
-          <br />
           <AppSelect v-model="selectedCategory" :items="categoriesTree" placeholder="Select a category" />
         </div>
 
@@ -106,7 +97,7 @@
 
       <div v-else class="documents-list">
         <div v-for="doc in filteredDocuments" :key="doc.id" class="document-item" @click="selectDocument(doc)">
-          <Icon :name="getDocumentIcon(doc)" class="document-icon" />
+          <Icon :name="getDocumentIcon(doc)" class="document-icon" fill="var(--font-color)" />
           <div class="document-info">
             <div class="document-title">{{ doc.name }}</div>
             <div class="document-meta">
@@ -117,7 +108,7 @@
               <span v-for="tag in parseTags(doc.tags)" :key="tag" class="tag">{{ tag }}</span>
             </div>
           </div>
-          <Icon name="new_tab" class="navigate-icon" />
+          <Icon name="new_tab" class="navigate-icon" fill="var(--font-color)" />
         </div>
       </div>
     </div>
@@ -147,7 +138,6 @@ const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(0);
 
 const categoryStore = useCategoriesStore();
-const categories = computed(() => categoryStore.getAll);
 const categoriesTree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 
 const allTags = computed(() => {
@@ -327,7 +317,6 @@ function parseTags(tags: string): string[] {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-color);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -335,18 +324,17 @@ function parseTags(tags: string): string[] {
 .toggle-filters-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
 
   &:hover {
     background: var(--border-color);
-    color: var(--text-color);
   }
 
   &.collapsed {
@@ -371,7 +359,7 @@ function parseTags(tags: string): string[] {
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  color: var(--text-muted);
+
   margin-bottom: 8px;
   letter-spacing: 0.5px;
 }
@@ -387,7 +375,7 @@ function parseTags(tags: string): string[] {
   label {
     display: block;
     font-size: 11px;
-    color: var(--text-muted);
+
     margin-bottom: 4px;
   }
 }
@@ -398,7 +386,6 @@ function parseTags(tags: string): string[] {
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: var(--bg-color);
-  color: var(--text-color);
   font-size: 14px;
   outline: none;
 
@@ -418,7 +405,6 @@ function parseTags(tags: string): string[] {
   gap: 6px;
   cursor: pointer;
   font-size: 14px;
-  color: var(--text-color);
 
   input[type='radio'] {
     accent-color: var(--primary);
@@ -442,7 +428,6 @@ function parseTags(tags: string): string[] {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: var(--bg-color);
-    color: var(--text-color);
     font-size: 14px;
     outline: none;
 
@@ -461,7 +446,7 @@ function parseTags(tags: string): string[] {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease;
 
     &:hover {
       background: var(--primary-dark, #0056b3);
@@ -487,7 +472,6 @@ function parseTags(tags: string): string[] {
   padding: 8px 12px;
   cursor: pointer;
   font-size: 14px;
-  color: var(--text-color);
   transition: background 0.2s ease;
 
   &:hover,
@@ -518,12 +502,11 @@ function parseTags(tags: string): string[] {
   background: var(--border-color);
   border-radius: 12px;
   font-size: 12px;
-  color: var(--text-color);
 
   .remove-tag {
     background: none;
     border: none;
-    color: var(--text-muted);
+
     cursor: pointer;
     padding: 0;
     display: flex;
@@ -546,7 +529,6 @@ function parseTags(tags: string): string[] {
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: var(--bg-color);
-  color: var(--text-color);
   font-size: 14px;
   outline: none;
 
@@ -570,12 +552,10 @@ function parseTags(tags: string): string[] {
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .clear-filters-btn {
   background: var(--border-color);
-  color: var(--text-color);
 
   &:hover {
     background: var(--selection-color);
@@ -603,7 +583,6 @@ function parseTags(tags: string): string[] {
 .no-results {
   padding: 40px 20px;
   text-align: center;
-  color: var(--text-muted);
 
   .no-results-icon {
     width: 48px;
@@ -632,7 +611,6 @@ function parseTags(tags: string): string[] {
   margin: 0 5px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
 
   &:hover {
     background: var(--border-color);
@@ -653,7 +631,6 @@ function parseTags(tags: string): string[] {
 
 .document-title {
   font-weight: 600;
-  color: var(--text-color);
   margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
@@ -665,7 +642,6 @@ function parseTags(tags: string): string[] {
   gap: 12px;
   margin-bottom: 6px;
   font-size: 12px;
-  color: var(--text-muted);
 }
 
 .document-category {
@@ -697,7 +673,7 @@ function parseTags(tags: string): string[] {
 .navigate-icon {
   width: 16px;
   height: 16px;
-  color: var(--text-muted);
+
   flex-shrink: 0;
 }
 </style>

@@ -101,6 +101,5 @@ onMounted(fetchIssues);
 
 .meta {
   font-size: 12px;
-  color: var(--text-muted);
 }
 </style>

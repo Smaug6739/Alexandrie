@@ -1,7 +1,7 @@
 <template>
   <div class="tab-navigation">
     <button v-for="tab in tabs" :key="tab.id" class="tab-button" :class="{ active: activeTab === tab.id }" @click="$emit('changeTab', tab.id)">
-      <Icon :name="tab.icon" class="tab-icon" />
+      <Icon :name="tab.icon" class="tab-icon" fill="var(--font-color)" />
       <span class="tab-label">{{ tab.label }}</span>
     </button>
   </div>
@@ -53,18 +53,12 @@ const tabs: Tab[] = [
   padding: 16px 20px;
   background: transparent;
   border: none;
-  color: var(--text-muted);
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  transition: all 0.2s ease;
   border-bottom: 2px solid transparent;
   flex: 1;
   border-radius: 0;
-  &:hover {
-    color: var(--text-color);
-    background: var(--bg-color-secondary);
-  }
 
   &.active {
     color: var(--primary);

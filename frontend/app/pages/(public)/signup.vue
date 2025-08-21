@@ -167,7 +167,6 @@ form {
   label {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--text-color);
   }
 }
 
@@ -177,7 +176,6 @@ input {
   border: 2px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
-  color: var(--text-color);
   background: var(--bg-color);
   transition: all 0.2s ease;
 

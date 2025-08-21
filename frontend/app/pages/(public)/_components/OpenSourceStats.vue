@@ -90,7 +90,6 @@ onMounted(() => {
 }
 
 .subtitle {
-  color: var(--text-muted);
   margin-top: 4px;
 }
 
@@ -116,7 +115,6 @@ onMounted(() => {
 
 .label {
   font-size: 13px;
-  color: var(--text-muted);
 }
 
 .actions {

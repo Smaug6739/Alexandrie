@@ -15,7 +15,7 @@
               <span class="result-title">{{ item.title }}</span>
               <span class="result-description">{{ item.description }}</span>
             </div>
-            <Icon name="new_tab" class="navigate-icon" />
+            <Icon name="new_tab" class="navigate-icon" fill="var(--font-color)" />
           </NuxtLink>
         </div>
       </div>
@@ -191,7 +191,6 @@ defineExpose({ flattenedItems });
 
 .result-title {
   font-weight: 600;
-  color: var(--text-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -199,7 +198,7 @@ defineExpose({ flattenedItems });
 
 .result-description {
   font-size: 13px;
-  color: var(--text-muted);
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -208,7 +207,7 @@ defineExpose({ flattenedItems });
 .navigate-icon {
   width: 16px;
   height: 16px;
-  color: var(--text-muted);
+
   flex-shrink: 0;
 }
 
@@ -223,14 +222,13 @@ defineExpose({ flattenedItems });
   z-index: 1;
   font-size: 12px;
   text-transform: uppercase;
-  color: var(--text-muted);
+
   padding: 6px 20px;
 }
 
 .no-results {
   padding: 40px 20px;
   text-align: center;
-  color: var(--text-muted);
 
   .no-results-icon {
     width: 48px;

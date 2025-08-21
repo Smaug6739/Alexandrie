@@ -420,7 +420,6 @@ input {
   padding: 8px 10px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  color: var(--text-color);
   background: var(--bg-color);
   flex: 1;
 }

@@ -10,7 +10,7 @@
       <BreadCrumb v-if="!isMobile()" />
     </div>
     <div>
-      <button class="search-btn" title="Global search (Ctrl+K)" aria-label="Global search" @click="openGlobalSearch">
+      <button class="search-btn" title="Command center (Ctrl+K)" aria-label="Command center" @click="openCommandCenter">
         <Icon name="search" />
         <span class="search-text">Search</span>
         <kbd class="shortcut">Ctrl+K</kbd>
@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 const { toggleSidebar, isOpened } = useSidebar();
-const openGlobalSearch = () => window.dispatchEvent(new CustomEvent('command-center-open'));
+const openCommandCenter = () => window.dispatchEvent(new CustomEvent('command-center-open'));
 </script>
 <style lang="scss" scoped>
 header {
@@ -59,7 +59,6 @@ button {
   padding: 8px 12px;
   border: none;
   border-radius: 8px;
-  color: var(--text-color);
   background: var(--border-color);
   transition: all 0.2s ease;
   align-items: center;

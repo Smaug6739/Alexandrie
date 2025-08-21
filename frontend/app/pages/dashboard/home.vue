@@ -1,5 +1,5 @@
 <template>
-  <div style=" margin: 5vh auto;text-align: center; gap: 20px">
+  <div style="margin: 5vh auto; text-align: center; gap: 20px">
     <h1>Alexandrie dashboard</h1>
     <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
 
@@ -34,7 +34,7 @@
         <span>Import</span>
       </NuxtLink>
     </div>
-    <div style=" width: 90%; margin: 0 auto;text-align: left">
+    <div style="width: 90%; margin: 0 auto; text-align: left">
       <div class="recent">
         <DocumentCard v-for="doc in recentDocuments" :key="doc.id" :document="doc" />
       </div>
@@ -87,7 +87,7 @@ h1 {
   padding: 12px 20px;
   border-radius: 12px;
   font-size: 14px;
-  color: var(--text-muted);
+
   background: var(--border-color);
   align-items: center;
   gap: 8px;
@@ -105,7 +105,6 @@ h1 {
     font-family: monospace;
     font-size: 12px;
     font-weight: 600;
-    color: var(--text-color);
     background: var(--bg-color);
   }
 }
@@ -190,7 +189,6 @@ h1 {
   padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  color: var(--text-color);
   transition: background-color 0.2s, transform 0.2s;
   align-items: center;
   flex-direction: column;

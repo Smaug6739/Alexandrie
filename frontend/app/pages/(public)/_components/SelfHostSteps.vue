@@ -116,7 +116,6 @@ function copyDockerCompose() {
   border: 1px solid var(--border-color);
   border-radius: 999px;
   font-weight: 500;
-  color: var(--text-color);
   background: var(--bg-color);
   align-items: center;
   gap: 8px;

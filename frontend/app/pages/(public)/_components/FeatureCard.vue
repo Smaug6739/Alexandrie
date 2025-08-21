@@ -34,7 +34,6 @@ defineProps<{ icon: string; title: string; text: string }>();
   text-align: center;
   background: var(--bg-color);
   box-shadow: 0 10px 30px rgb(0 0 0 / 6%);
-  transition: all 0.3s ease;
   overflow: hidden;
 
   &:hover {
