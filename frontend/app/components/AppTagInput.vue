@@ -48,34 +48,35 @@ function removeLastTag() {
 <style scoped lang="scss">
 .tag-input {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  background: var(--bg-color);
+  width: 100%;
   padding: 0 7px;
   border-radius: 10px;
-  width: 100%;
+  background: var(--bg-color);
+  align-items: center;
+  flex-wrap: wrap;
 }
+
 button {
   margin: 0;
   padding: 0;
 }
 
 .remove {
-  background: none;
   border: none;
-  color: inherit;
-  cursor: pointer;
   font-weight: bold;
+  color: inherit;
+  background: none;
+  cursor: pointer;
   margin-left: 4px;
 }
 
 input {
-  border: none;
-  outline: none;
-  background: transparent;
   min-width: 80px;
-  flex: 1;
   padding: 0 4px;
+  border: none;
   font-weight: 500;
+  background: transparent;
+  flex: 1;
+  outline: none;
 }
 </style>

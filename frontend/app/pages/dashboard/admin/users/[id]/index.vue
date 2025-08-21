@@ -1,6 +1,6 @@
 <template>
   <div class="card-component">
-    <h2 style="display: flex; align-items: center; justify-content: space-between">User Details <img v-if="user" style="border-radius: 50%; width: 40px; height: 40px" :src="useAvatar(user)" ></h2>
+    <h2 style="display: flex; align-items: center; justify-content: space-between">User Details <img v-if="user" style=" width: 40px; height: 40px;border-radius: 50%" :src="useAvatar(user)" ></h2>
     <div v-if="user" style="width: 100%">
       <div class="user-details">
         <div class="user-detail">
@@ -69,23 +69,24 @@ const saveChanges = async () => {
 <style scoped lang="scss">
 .user-details {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1rem;
   width: 100%;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .user-detail {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
   width: 100%;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 label {
   font-weight: bold;
 }
+
 button {
   margin-top: 1rem;
 }

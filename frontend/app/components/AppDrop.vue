@@ -38,18 +38,18 @@ defineExpose({ reset });
 
 <style scoped lang="scss">
 .dropzone {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 150px;
   border: 2px dashed var(--border-color);
   border-radius: 4px;
   font-size: 14px;
   color: var(--font-color-light);
-  position: relative;
-  transition: background-color $transition-duration;
   background-color: var(--dropzone-bg, transparent);
+  transition: background-color $transition-duration;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: var(--bg-contrast);
@@ -61,17 +61,16 @@ defineExpose({ reset });
 }
 
 .drag-over {
-  background-color: var(--bg-contrast);
   border-color: var(--primary);
+  background-color: var(--bg-contrast);
   transition: background-color $transition-duration, border-color $transition-duration;
 }
 
 .file-info {
   display: flex;
-  flex-direction: column;
+  color: var(--primary);
   align-items: center;
-  color: var(--primary);
-  color: var(--primary);
+  flex-direction: column;
 
   .file-size {
     font-size: 0.8rem;

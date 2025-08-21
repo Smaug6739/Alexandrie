@@ -97,7 +97,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'Document size',
         type: 'select',
-        value: preferencesStore.get('docSize'),
+        value: preferencesStore.get('docSize') as number,
         storageKey: 'docSize',
         choices: [
           { label: 'Large', id: 0 },
@@ -152,7 +152,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'Default datatable items count',
         type: 'select',
-        value: preferencesStore.get('datatableItemsCount'),
+        value: preferencesStore.get('datatableItemsCount') as number,
         storageKey: 'datatableItemsCount',
         choices: [
           { label: '10', id: 10 },
@@ -182,13 +182,15 @@ const selectOption = (option: SelectOption) => {
 .form-group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
+
 h2 {
   font-size: 1.2em;
 }
+
 label {
   font-weight: 700;
   flex: 1;

@@ -1,8 +1,8 @@
 @use "./_variables.scss" as *;
 
 .alexandrie-theme {
-	font-family: "Poppins", sans-serif;
 	max-width: 100%;
+	font-family: Poppins, sans-serif;
 
 	a {
 		color: var(--primary);
@@ -18,22 +18,22 @@
 }
 
 .latex-theme {
+	max-width: 100%;
 	font-family: "Latin Modern Roman", serif;
 	font-size: 18px;
-	max-width: 100%;
 
 	h1 {
 		font-size: 1.5em;
 	}
 
 	h2 {
-		font-size: 1.3em;
 		margin: 1em 0;
+		font-size: 1.3em;
 	}
 
 	p {
-		padding: 0.5em 0;
 		width: 100%;
+		padding: 0.5em 0;
 	}
 
 	.header-anchor {
@@ -42,20 +42,20 @@
 
 	.markdown-container {
 		display: flex;
+		margin: 0.5em 0;
+		padding: 0;
+		border: none;
+		color: var(--font-color);
 		background-color: transparent;
 		gap: 1rem;
-		border: none;
-		padding: 0;
-		margin: 0.5em 0;
-		color: var(--font-color);
 
 		.title {
-			border-right: 1px solid var(--font-color);
-			color: var(--font-color-dark);
-			padding: 5px 12px;
 			min-width: 150px;
 			max-width: 170px;
+			padding: 5px 12px;
 			font-size: 15px;
+			color: var(--font-color-dark);
+			border-right: 1px solid var(--font-color);
 
 			svg {
 				display: none;
@@ -68,28 +68,28 @@
 	}
 
 	.custom-block {
-		background-color: transparent;
-		border: none;
-		padding: 0;
-		margin: 2em 0;
 		display: flex;
+		margin: 2em 0;
+		padding: 0;
+		border: none;
 		font-size: 16px;
 		color: var(--font-color);
+		background-color: transparent;
 
 		.custom-block-title {
-			border-right: 1px solid var(--font-color);
-			font-weight: bold;
-			padding: 5px 12px;
-			color: var(--font-color-dark);
 			min-width: 150px;
 			max-width: 170px;
+			padding: 5px 12px;
+			font-weight: bold;
+			color: var(--font-color-dark);
+			border-right: 1px solid var(--font-color);
 		}
 
 
 
 		.custom-block-content {
-			flex: 1;
 			padding: 0 0.5em;
+			flex: 1;
 
 			p {
 				padding: 0 0.5em;
@@ -109,22 +109,22 @@
 }
 
 .latex-colored-theme {
+	max-width: 100%;
 	font-family: "Latin Modern Roman", serif;
 	font-size: 18px;
-	max-width: 100%;
 
 	h1 {
 		font-size: 1.5em;
 	}
 
 	h2 {
-		font-size: 1.3em;
 		margin: 1em 0;
+		font-size: 1.3em;
 	}
 
 	p {
-		padding: 0.5em 0;
 		width: 100%;
+		padding: 0.5em 0;
 	}
 
 	.header-anchor {
@@ -133,19 +133,19 @@
 
 	.markdown-container {
 		display: flex;
+		margin: 0.5em 0;
+		padding: 0;
+		border-radius: 4px;
+		color: var(--font-color);
 		background-color: transparent;
 		gap: 1rem;
-		padding: 0;
-		margin: 0.5em 0;
-		color: var(--font-color);
-		border-radius: 4px;
 
 		.title {
-			border-right: 1px solid var(--font-color);
-			padding: 5px 12px;
 			min-width: 150px;
 			max-width: 170px;
+			padding: 5px 12px;
 			font-size: 15px;
+			border-right: 1px solid var(--font-color);
 
 			svg {
 				display: none;
@@ -158,77 +158,77 @@
 	}
 
 	.custom-block {
-		padding: 4px;
-		margin: 2em 0;
 		display: flex;
-		font-size: 16px;
-		color: var(--font-color);
+		margin: 2em 0;
+		padding: 4px;
 		border: none;
 		border-radius: 4px;
+		font-size: 16px;
+		color: var(--font-color);
 
 		.grey {
-			border-left: 4px solid var(--grey);
 			color: var(--grey);
 			background-color: var(--grey-bg-light);
+			border-left: 4px solid var(--grey);
 		}
 
 		&.blue {
-			border-left: 4px solid var(--blue);
 			color: var(--blue);
 			background-color: var(--blue-bg-light);
+			border-left: 4px solid var(--blue);
 		}
 
 		&.green {
-			border-left: 4px solid var(--green);
 			color: var(--green);
 			background-color: var(--green-bg-light);
+			border-left: 4px solid var(--green);
 		}
 
 		&.teal {
-			border-left: 4px solid var(--teal);
 			color: var(--teal);
 			background-color: var(--teal-bg-light);
+			border-left: 4px solid var(--teal);
 		}
 
 		&.yellow {
-			border-left: 4px solid var(--yellow);
 			color: var(--yellow);
 			background-color: var(--yellow-bg-light);
+			border-left: 4px solid var(--yellow);
 		}
 
 
 		&.red {
-			border-left: 4px solid var(--red);
 			color: var(--red);
 			background-color: var(--red-bg-light);
+			border-left: 4px solid var(--red);
 		}
 
 		&.purple {
-			border-left: 4px solid var(--purple);
 			color: var(--purple);
 			background-color: var(--purple-bg-light);
+			border-left: 4px solid var(--purple);
 		}
 
 
 		&.custom-block.details {
-			border-left: 4px solid var(--blue);
 			color: var(--blue);
 			background-color: var(--blue-bg-light);
+			border-left: 4px solid var(--blue);
 		}
 
 		.custom-block-title {
-			border-right: 1px solid var(--border-color);
-			font-weight: bold;
-			padding: 5px 12px;
 			min-width: 150px;
 			max-width: 170px;
+			padding: 5px 12px;
+			font-weight: bold;
+			border-right: 1px solid var(--border-color);
 		}
 
 
 
 		.custom-block-content {
-			flex: 1;
 			padding: 0 0.5em;
+			flex: 1;
 
 			p {
 				padding: 0 0.5em;

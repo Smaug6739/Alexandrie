@@ -71,14 +71,15 @@ textarea,
 select {
   width: 100%;
 }
+
 .form-row {
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 .form-column {
-  flex: 1;
   min-width: 200px;
+  flex: 1;
 }
 </style>

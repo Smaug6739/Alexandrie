@@ -17,6 +17,7 @@ const icon = computed(() => useIcon(props.name as IconName) || props.name);
   &:deep(svg) {
     width: 20px;
     max-height: 20px;
+
     path {
       fill: inherit;
     }
@@ -26,18 +27,21 @@ const icon = computed(() => useIcon(props.name as IconName) || props.name);
 .fill:deep(svg) > path {
   fill: inherit !important;
 }
+
 .small {
   &:deep(svg) {
     width: 18px;
     max-height: 18px;
   }
 }
+
 .mid {
   &:deep(svg) {
     width: 21px;
     max-height: 21px;
   }
 }
+
 .big {
   &:deep(svg) {
     width: 25px;

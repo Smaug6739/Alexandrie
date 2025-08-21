@@ -50,16 +50,17 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 100;
+  height: 100%;
   transition: transform 0.3s;
   transform: translate(-100%);
-  height: 100%;
-  z-index: 100;
 }
 
 .sidebar {
-  overflow-x: hidden;
-  height: 100%;
   display: flex;
+  height: 100%;
+  overflow-x: hidden;
+
   &:hover {
     .separator {
       background-color: var(--bg-contrast);
@@ -68,8 +69,8 @@ nav {
 }
 
 .open {
-  transform: translate(0);
   border-right: 1px solid var(--border-color);
+  transform: translate(0);
 }
 
 .separator {
@@ -80,12 +81,11 @@ nav {
 }
 
 /* Disable text selection while resizing */
+
 /* Selection can cause problems with selection */
+
 /* PREVENT SELECTION DURING MOUSE EVENTS */
 .no-select {
   user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 }
 </style>

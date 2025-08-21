@@ -11,7 +11,7 @@
     <button @click="emitDelete"><Icon name="delete" fill="red" /> Delete</button>
     <hr style="margin: 2px 0" />
     <div class="foot-menu">
-      <p style="display: flex; align-items: center; gap: 8px"><img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; border-radius: 50%; margin: 0" />{{ user?.username }}</p>
+      <p style="display: flex; align-items: center; gap: 8px"><img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; margin: 0; border-radius: 50%" />{{ user?.username }}</p>
       <p>Updated on {{ numericDate(document.updated_timestamp) }}</p>
     </div>
   </AppDotMenu>
@@ -54,27 +54,30 @@ const pin = async () => {
 <style scoped lang="scss">
 button {
   display: flex;
-  align-items: center;
-  padding: 6px 8px;
   width: 100%;
-  gap: 8px;
+  padding: 6px 8px;
   border: none;
-  background: none;
-  font-size: 14px;
   font-family: ui-sans-serif, sans-serif;
-  cursor: pointer;
+  font-size: 14px;
   color: var(--font-color);
+  background: none;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+
   &:hover {
     background-color: var(--bg-contrast);
   }
 }
+
 .foot-menu {
+  display: flex;
+  padding: 4px 8px;
   font-size: 0.85rem;
   color: var(--font-color-light);
-  padding: 4px 8px;
-  display: flex;
   flex-direction: column;
   gap: 5px;
+
   p {
     margin: 0;
   }

@@ -24,26 +24,29 @@
 
 <style scoped lang="scss">
 .principles {
-  text-align: center;
-  margin: 4rem auto;
   max-width: 1100px;
+  margin: 4rem auto;
+  text-align: center;
 }
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   margin-top: 14px;
 }
+
 .card {
-  border: 1px solid var(--border-color);
-  background: var(--bg-color);
-  border-radius: 12px;
   padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   text-align: left;
+  background: var(--bg-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .card:hover {
+  box-shadow: 0 14px 32px rgb(0 0 0 / 12%);
   transform: translateY(-4px);
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
 }
 </style>

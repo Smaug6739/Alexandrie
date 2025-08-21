@@ -118,28 +118,31 @@ const toolbar = [
 </script>
 <style scoped lang="scss">
 .toolbar {
-  user-select: none;
   display: flex;
+  width: 100%;
+  padding: 0.15rem;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  color: var(--font-color-dark);
   align-items: center;
   flex-wrap: wrap;
-  border-radius: 20px;
-  border: 1px solid var(--border-color);
-  padding: 0.15rem;
-  color: var(--font-color-dark);
   gap: 0 3px;
-  width: 100%;
+  user-select: none;
 }
+
 .btn {
-  padding: 4px;
-  margin: 0;
-  transform: none;
-  border-radius: 50%;
   display: flex;
+  margin: 0;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
+  transform: none;
+
   &:hover {
     background-color: var(--primary-bg);
+
     &:deep(svg) {
       transition: fill 0.2s;
       fill: var(--primary);
@@ -152,21 +155,22 @@ const toolbar = [
   width: 30px;
   height: 30px;
 }
+
 .color-picker .btn.color .dot {
   position: absolute;
-  bottom: 2px;
   right: 2px;
+  bottom: 2px;
   width: 8px;
   height: 8px;
+  border: 1px solid var(--border-color);
   border-radius: 999px;
   background: var(--primary);
-  border: 1px solid var(--border-color);
 }
 
 .btn:deep(svg) {
-  fill: var(--font-color-dark);
   width: 24px;
   height: 24px;
+  fill: var(--font-color-dark);
 }
 
 input,
@@ -174,12 +178,14 @@ input,
   display: inline-block;
   max-width: 350px;
 }
+
 .entry {
   background-color: var(--bg-color);
 }
 
 .help {
   margin-left: auto;
+
   &:hover:deep(svg) {
     fill: var(--font-color-dark);
   }

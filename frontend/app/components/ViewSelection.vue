@@ -19,20 +19,22 @@ watch(view, newView => localStorage.setItem('viewSelection', newView as 'table' 
 
 <style scoped lang="scss">
 .view-selection {
-  gap: 10px;
+  min-width: 81px;
   margin: 2px 4px;
   padding: 0 4px;
-  border-radius: 18px;
   border: 1px solid var(--border-color);
-  min-width: 81px;
+  border-radius: 18px;
+  gap: 10px;
 }
+
 .view-button {
+  width: 35px;
+  padding: 8px;
   border: none;
   border-radius: 6px;
-  padding: 8px;
-  width: 35px;
-  cursor: pointer;
   transition: background-color 0.3s;
+  cursor: pointer;
+
   &.active:deep(svg) {
     transition: fill 0.1s;
     fill: var(--primary);

@@ -82,6 +82,7 @@ function importAllDocs() {
 <style scoped lang="scss">
 header {
   padding-bottom: 16px;
+
   a {
     color: var(--primary);
   }

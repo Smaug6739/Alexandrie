@@ -11,7 +11,7 @@
       Alexandrie is a personal knowledge management tool designed to help you organize and retrieve your notes efficiently. <br />
       It offers a range of features including document organization, tagging, and advanced search capabilities. <br />
       If you have any questions, suggestions or if you found a bug, please feel free to reach out to us! You can create an issue on the
-      <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" style="color: var(--primary); font-weight: bold">GitHub repository</NuxtLink>.
+      <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" style=" font-weight: bold;color: var(--primary)">GitHub repository</NuxtLink>.
     </p>
   </div>
 </template>

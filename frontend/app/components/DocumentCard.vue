@@ -44,26 +44,26 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
 
 <style scoped lang="scss">
 .document-card {
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
+  display: flex;
   max-width: 380px;
   min-height: 250px;
-  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .header {
-  padding: 12px;
   display: flex;
+  padding: 12px;
   align-items: center;
   justify-content: space-between;
 }
 
 .category-icon {
-  margin-right: 10px;
   padding: 6px;
   border-radius: 6px;
+  margin-right: 10px;
 }
 
 .document-title {
@@ -71,18 +71,21 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
   font-weight: bold;
   color: var(--font-color-dark);
 }
+
 .body {
   padding: 4px 12px;
 }
+
 .category {
   font-size: 15.5px;
   color: var(--font-color-light);
   padding-bottom: 8px;
 }
+
 .description {
   height: 100%;
-  overflow: hidden;
   margin: 0;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -92,12 +95,12 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
 }
 
 footer {
-  padding: 6px 12px;
   display: flex;
-  flex-direction: column;
+  padding: 6px 12px;
   font-size: 14px;
   color: var(--font-color-light);
   border-top: 1px solid var(--border-color-accent);
+  flex-direction: column;
 }
 
 .footer-item {

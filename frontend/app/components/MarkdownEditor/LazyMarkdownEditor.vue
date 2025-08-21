@@ -2,7 +2,7 @@
   <div style="height: 100%; padding: 4px">
     <div class="editor-container">
       <Toolbar v-model="document" :minimal="minimal" @execute-action="exec" />
-      <div style="padding: 6px; flex: 1; display: flex; flex-direction: column; min-height: 0; gap: 8px">
+      <div style="display: flex; min-height: 0; padding: 6px; flex: 1; flex-direction: column; gap: 8px">
         <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" />
         <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" />
         <AppTagInput v-model="document.tags" style="margin-bottom: 10px" />
@@ -317,15 +317,16 @@ function save() {
 
 <style scoped lang="scss">
 .markdown {
-  flex: 1;
   display: flex;
-  gap: 8px;
   min-height: 0; /* permet aux enfants flexibles de ne pas déborder */
+  flex: 1;
+  gap: 8px;
 }
+
 .editor-container {
+  display: flex;
   width: 100%;
   height: 100%;
-  display: flex;
   flex-direction: column;
 }
 
@@ -333,99 +334,107 @@ function save() {
   flex: 1;
   overflow: auto;
 }
+
 .editor-container:deep(.cm-editor) {
   height: 100%;
 }
+/* stylelint-disable */
 .editor-container:deep(.cm-selectionBackground) {
   background-color: var(--selection-color) !important;
 }
 
 .markdown-preview {
-  flex: 1;
-  overflow: auto;
+  height: 100%;
   padding: 1rem;
   background: var(--bg-color);
-  height: 100%;
+  flex: 1;
+  overflow: auto;
 }
+
 input {
-  outline: none;
   border: none;
+  outline: none;
 }
 
 .title {
+  padding: 6px 10px;
   font-size: 1.5rem;
   font-weight: 600;
-  padding: 6px 10px;
 }
 
 .description {
+  padding: 4px 10px;
   font-size: 1.1rem;
   font-weight: 500;
-  padding: 4px 10px;
 }
-</style>
-
-<style lang="scss">
 .color-modal-overlay {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 99999;
+  display: flex;
+  background: rgb(0 0 0 / 45%);
+  align-items: center;
+  inset: 0;
+  justify-content: center;
 }
+
 .color-modal {
-  background: var(--bg-color);
+  min-width: 300px;
+  padding: 16px;
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  padding: 16px;
-  min-width: 300px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: var(--bg-color);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
 }
+
 .color-modal .panel {
   display: grid;
   gap: 12px;
 }
+
 .color-modal .swatches {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
   gap: 8px;
+  grid-template-columns: repeat(9, 1fr);
 }
+
 .color-modal .swatch {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
+
 .color-modal .swatch:hover {
+  box-shadow: 0 6px 16px rgb(0 0 0 / 15%);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .color-modal .custom {
   display: flex;
-  gap: 8px;
   align-items: center;
+  gap: 8px;
 }
+
 .color-modal .hex {
-  flex: 1;
   padding: 8px 10px;
-  border-radius: 8px;
   border: 1px solid var(--border-color);
-  background: var(--bg-color);
+  border-radius: 8px;
   color: var(--text-color);
+  background: var(--bg-color);
+  flex: 1;
 }
+
 .color-modal .apply {
   padding: 8px 12px;
-  border-radius: 8px;
   border: 1px solid var(--border-color);
-  background: var(--bg-contrast);
+  border-radius: 8px;
   font-weight: 600;
+  background: var(--bg-contrast);
+  transition: background-color 0.2s ease;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
+
 .color-modal .apply:hover {
   background: var(--border-color);
 }

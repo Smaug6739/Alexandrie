@@ -56,9 +56,11 @@ const createCategory = () => {
 .modal {
   min-width: 700px;
 }
+
 label {
   margin: 5px 0;
 }
+
 .entry {
   background: var(--bg-color);
 }

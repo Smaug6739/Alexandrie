@@ -72,8 +72,8 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
   width: 600px;
   margin: auto;
   padding: 20px;
-  background-color: var(--bg-color);
   border-radius: 10px;
+  background-color: var(--bg-color);
   box-shadow: 0 2px 8px var(--shadow);
   transition: all 0.3s ease;
 }
@@ -83,10 +83,10 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
   align-items: center;
 
   input {
-    background-color: var(--bg-color);
-    border: none;
-    outline: none;
     width: 100%;
+    border: none;
+    background-color: var(--bg-color);
+    outline: none;
   }
 
   svg {
@@ -95,21 +95,21 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 }
 
 .title {
-  font-weight: 500;
-  font-size: 0.9rem;
-  color: #737373;
   padding: 10px 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #737373;
 }
 
 .item-search {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
   margin: 2.5px 0;
   padding: 10px 0;
   border-radius: 5px;
   color: var(--font-color);
+  align-items: center;
   cursor: pointer;
+  justify-content: flex-start;
 
   &:hover {
     background: var(--bg-contrast-2);
@@ -129,17 +129,18 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
     }
   }
 }
+
 .category {
+  padding: 2px 5px;
+  border-radius: 3px;
   font-size: 1.1rem;
   color: var(--font-color);
   margin-left: auto;
-  padding: 2px 5px;
-  border-radius: 3px;
 }
 
 .no-result {
-  text-align: center;
-  font-weight: 500;
   font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
 }
 </style>

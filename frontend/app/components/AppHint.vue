@@ -15,19 +15,19 @@ const show = ref(false);
 <style scoped lang="scss">
 .hint-wrapper {
   position: relative;
-  margin-left: 0.25rem;
   display: inline-block;
+  margin-left: 0.25rem;
 }
 
 .hint-icon {
+  display: flex;
   width: 1rem;
   height: 1rem;
-  background-color: var(--primary);
-  color: white;
-  font-weight: bold;
   border-radius: 50%;
   font-size: 0.75rem;
-  display: flex;
+  font-weight: bold;
+  color: white;
+  background-color: var(--primary);
   align-items: center;
   justify-content: center;
 }
@@ -36,15 +36,15 @@ const show = ref(false);
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
-  margin-top: 0.4rem;
-  background-color: #1f2937;
-  color: white;
+  z-index: 100;
   padding: 0.4rem 0.6rem;
   border-radius: 0.4rem;
-  white-space: nowrap;
   font-size: 0.75rem;
-  z-index: 100;
+  color: white;
+  background-color: #1f2937;
   box-shadow: 0 2px 8px var(--shadow);
+  margin-top: 0.4rem;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 </style>

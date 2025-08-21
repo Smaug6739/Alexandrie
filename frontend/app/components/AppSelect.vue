@@ -26,7 +26,7 @@ const props = defineProps<{
   disabled?: (i: ANode) => boolean;
 }>();
 
-const selectedId = ref<string | number>(props.modelValue || '');
+const selectedId = ref<string | number>(props.modelValue ?? '');
 const open = ref(false);
 const search = ref('');
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -108,6 +108,7 @@ button,
   padding: 8px 10px;
   text-align: left;
   font-size: 1rem;
+  font-size: 16px;
   cursor: pointer;
   border-radius: 6px;
 }
@@ -115,27 +116,32 @@ button,
 .search-input {
   cursor: text;
   border: none;
+  padding: 6px 10px;
+  border: none;
+  cursor: text;
+}
+
 }
 
 .dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
   right: 0;
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid var(--border-color);
-  background: var(--bg-color);
-  border-radius: 6px;
-  margin-top: 4px;
-  padding: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  left: 0;
   z-index: 1000;
+  max-height: 300px;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-color);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  margin-top: 4px;
+  overflow-y: auto;
 }
 
 ul {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 </style>

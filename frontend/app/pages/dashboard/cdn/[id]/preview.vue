@@ -1,7 +1,7 @@
 <template>
   <div class="card-component">
     <div v-if="ressource">
-      <header style="display: flex; justify-content: space-between; align-items: center">
+      <header style="display: flex; align-items: center; justify-content: space-between">
         <h1>Preview <tag blue>New</tag></h1>
         <div style="display: flex">
           <NuxtLink :to="`/dashboard/cdn/${ressource.id}`"><AppButton type="primary">Edit</AppButton></NuxtLink>
@@ -37,8 +37,8 @@ const copyLink = () => {
 <style scoped lang="scss">
 .preview {
   display: flex;
-  justify-content: center;
   width: 100%;
   height: 100%;
+  justify-content: center;
 }
 </style>

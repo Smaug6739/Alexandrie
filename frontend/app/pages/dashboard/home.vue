@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center; margin: 5vh auto; gap: 20px">
+  <div style=" margin: 5vh auto;text-align: center; gap: 20px">
     <h1>Alexandrie dashboard</h1>
     <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
 
@@ -34,7 +34,7 @@
         <span>Import</span>
       </NuxtLink>
     </div>
-    <div style="text-align: left; width: 90%; margin: 0 auto">
+    <div style=" width: 90%; margin: 0 auto;text-align: left">
       <div class="recent">
         <DocumentCard v-for="doc in recentDocuments" :key="doc.id" :document="doc" />
       </div>
@@ -82,16 +82,16 @@ h1 {
 
 .command-center-hint {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  max-width: 500px;
   margin: 20px auto;
   padding: 12px 20px;
-  background: var(--border-color);
   border-radius: 12px;
-  color: var(--text-muted);
   font-size: 14px;
-  max-width: 500px;
+  color: var(--text-muted);
+  background: var(--border-color);
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
 
   .hint-icon {
     width: 16px;
@@ -100,108 +100,118 @@ h1 {
   }
 
   kbd {
-    background: var(--bg-color);
-    color: var(--text-color);
     padding: 4px 8px;
     border-radius: 6px;
     font-family: monospace;
-    font-weight: 600;
     font-size: 12px;
+    font-weight: 600;
+    color: var(--text-color);
+    background: var(--bg-color);
   }
 }
+
 .add-doc {
   position: fixed;
-  bottom: 20px;
   right: 20px;
+  bottom: 20px;
+  display: flex;
   width: 50px;
   height: 50px;
-  background-color: var(--primary);
-  color: white;
   border-radius: 50%;
-  display: flex;
+  font-size: 30px;
+  color: white;
+  background-color: var(--primary);
   align-items: center;
   justify-content: center;
-  font-size: 30px;
   text-decoration: none;
 }
+
 .search-container {
   position: relative;
+  max-width: 500px;
   margin: 20px auto;
-  max-width: 500px;
 }
+
 .search-input {
-  max-width: 500px;
   width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid var(--border-color);
+  max-width: 500px;
   margin: 0 auto;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
 }
+
 .results {
   position: absolute;
-  background-color: var(--bg-color);
+  z-index: 10;
+  width: 500px;
+  max-height: 300px;
+  padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 10px;
-  width: 500px;
-  gap: 4px;
   text-align: left;
-  max-height: 300px;
+  background-color: var(--bg-color);
+  gap: 4px;
   overflow-y: auto;
-  z-index: 10;
 }
+
 .result {
   display: flex;
   padding: 5px;
-  cursor: pointer;
   border-radius: 6px;
   font-weight: 500;
   transition: background-color 0.2s;
+  cursor: pointer;
+
   &:hover {
     background-color: var(--bg-contrast);
   }
 }
+
 .category-icon {
-  margin-right: 10px;
   padding: 2px;
   border-radius: 4px;
+  margin-right: 10px;
 }
 
 .apps {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-top: 20px;
   max-width: 500px;
   margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
 }
+
 .app {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: var(--text-color);
+  width: 150px;
   padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  color: var(--text-color);
   transition: background-color 0.2s, transform 0.2s;
-  width: 150px;
+  align-items: center;
+  flex-direction: column;
+  text-decoration: none;
+
   &:hover {
     background-color: var(--bg-contrast);
     transform: scale(1.05);
   }
+
   span {
-    margin-top: 5px;
     font-size: 14px;
+    margin-top: 5px;
   }
 }
 
 .recent {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin: 20px auto;
   max-width: 1200px;
+  margin: 20px auto;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 </style>

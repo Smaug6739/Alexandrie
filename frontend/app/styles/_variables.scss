@@ -33,13 +33,9 @@ $primary-light: color.adjust(#6024ec, $lightness: 10%);
 $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 
 :root {
-
-
-
 	--default: #3956e7;
 	--default-bg: #dde1f8;
 	--default-border: #dde1f8;
-
 	--bg-color: #fff;
 	--bg-contrast: #F1F6FD;
 	--bg-contrast-2: #e2ebfd;
@@ -50,7 +46,7 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 	--opposite-color: #111;
 	--border-color: #dfe0e5;
 	--border-color-accent: #c4c6d0;
-	--shadow: rgba(0, 0, 0, 0.15);
+	--shadow: rgb(0 0 0 / 15%);
 
 
 	// COLORS \\
@@ -59,83 +55,73 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 	--blue: #007aff;
 	--blue-bg: #cce0ff;
 	--blue-bg-light: #f3f5fc;
-	--blue-border: rgba(0, 123, 255, 0.3);
+	--blue-border: rgb(0 123 255 / 30%);
 	--green: #009879;
-	--green-bg: rgba(40, 167, 69, 0.15);
-	--green-bg-light: rgba(40, 167, 69, 0.05);
-	--green-border: rgba(40, 167, 69, 0.3);
+	--green-bg: rgb(40 167 69 / 15%);
+	--green-bg-light: rgb(40 167 69 / 5%);
+	--green-border: rgb(40 167 69 / 30%);
 	--red: #FF204E;
-	--red-bg: rgba(220, 53, 69, 0.15);
-	--red-bg-light: rgba(220, 53, 69, 0.05);
-	--red-border: rgba(220, 53, 69, 0.3);
+	--red-bg: rgb(220 53 69 / 15%);
+	--red-bg-light: rgb(220 53 69 / 5%);
+	--red-border: rgb(220 53 69 / 30%);
 	--yellow: #F97300;
-	--yellow-bg: rgba(255, 193, 7, 0.15);
-	--yellow-bg-light: rgba(255, 193, 7, 0.05);
-	--yellow-border: rgba(255, 193, 7, 0.3);
+	--yellow-bg: rgb(255 193 7 / 15%);
+	--yellow-bg-light: rgb(255 193 7 / 5%);
+	--yellow-border: rgb(255 193 7 / 30%);
 	--teal: #00ADB5;
-	--teal-bg: rgba(23, 162, 184, 0.2);
-	--teal-bg-light: rgba(23, 162, 184, 0.05);
-	--teal-border: rgba(23, 162, 184, 0.25);
+	--teal-bg: rgb(23 162 184 / 20%);
+	--teal-bg-light: rgb(23 162 184 / 5%);
+	--teal-border: rgb(23 162 184 / 25%);
 	--purple: #6024ec;
-	--purple-bg: rgba(111, 66, 193, 0.2);
-	--purple-bg-light: rgba(111, 66, 193, 0.05);
-	--purple-border: rgba(111, 66, 193, 0.25);
+	--purple-bg: rgb(111 66 193 / 20%);
+	--purple-bg-light: rgb(111 66 193 / 5%);
+	--purple-border: rgb(111 66 193 / 25%);
 	--pink: #ff0e6a;
-	--pink-bg: rgba(255, 14, 106, 0.2);
-	--pink-bg-light: rgba(255, 14, 106, 0.05);
-	--pink-border: rgba(255, 14, 106, 0.25);
-
+	--pink-bg: rgb(255 14 106 / 20%);
+	--pink-bg-light: rgb(255 14 106 / 5%);
+	--pink-border: rgb(255 14 106 / 25%);
 	--info-border: #2573cf;
 }
 
 .dark-mode {
-
 	--default: #3956e7;
 	--default-bg: #2b304e;
 	--default-border: #8e5fff1f;
-
 	--bg-color: #1c2127;
 	--bg-contrast: #2a2f35;
 	--bg-contrast-2: #363a42;
 	--selection-color: #444850;
-	--font-color: #cccccc;
+	--font-color: #ccc;
 	--font-color-dark: #ccc;
-	--font-color-light: rgb(179, 179, 179);
-	--border-color: rgba(255, 255, 255, 0.1);
+	--font-color-light: rgb(179 179 179);
+	--border-color: rgb(255 255 255 / 10%);
 	--opposite-color: #eee;
-	--shadow: rgba(0, 0, 0, 1);
+	--shadow: rgb(0 0 0 / 100%);
 
 	// COLORS \\
-	--grey: #bbbbbb;
+	--grey: #bbb;
 	--grey-bg: #2c2c2c;
-
 	--blue: #339CFF;
-	--blue-bg: rgba(51, 156, 255, 0.12);
-	--blue-border: rgba(51, 156, 255, 0.25);
-
+	--blue-bg: rgb(51 156 255 / 12%);
+	--blue-border: rgb(51 156 255 / 25%);
 	--green: #00c19a;
-	--green-bg: rgba(0, 193, 154, 0.12);
-	--green-border: rgba(0, 193, 154, 0.25);
-
+	--green-bg: rgb(0 193 154 / 12%);
+	--green-border: rgb(0 193 154 / 25%);
 	--red: #ff4c5b;
-	--red-bg: rgba(255, 76, 91, 0.12);
-	--red-border: rgba(255, 76, 91, 0.25);
-
+	--red-bg: rgb(255 76 91 / 12%);
+	--red-border: rgb(255 76 91 / 25%);
 	--yellow: #ffae00;
-	--yellow-bg: rgba(255, 174, 0, 0.12);
-	--yellow-border: rgba(255, 174, 0, 0.25);
-
+	--yellow-bg: rgb(255 174 0 / 12%);
+	--yellow-border: rgb(255 174 0 / 25%);
 	--purple: #8e5fff;
-	--purple-bg: rgba(142, 95, 255, 0.12);
-	--purple-border: rgba(142, 95, 255, 0.25);
-
+	--purple-bg: rgb(142 95 255 / 12%);
+	--purple-border: rgb(142 95 255 / 25%);
 	--teal: #1cd4d4;
-	--teal-bg: rgba(28, 212, 212, 0.12);
-	--teal-border: rgba(28, 212, 212, 0.25);
-
+	--teal-bg: rgb(28 212 212 / 12%);
+	--teal-border: rgb(28 212 212 / 25%);
 	--pink: #ff4da6;
-	--pink-bg: rgba(255, 77, 166, 0.12);
-	--pink-border: rgba(255, 77, 166, 0.25);
+	--pink-bg: rgb(255 77 166 / 12%);
+	--pink-border: rgb(255 77 166 / 25%);
 
 }
 
@@ -150,24 +136,24 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 		--font-color: #1f2937;
 		--font-color-dark: #374151;
 		--font-color-light: #6b7280;
-		--border-color: rgba(0, 0, 0, 0.1);
+		--border-color: rgb(0 0 0 / 10%);
 		// COLORS \\
 		--grey: #666;
-		--grey-bg: rgb(240, 240, 240);
+		--grey-bg: rgb(240 240 240);
 		--blue: #007aff;
 		--blue-bg: #cce0ff;
-		--blue-border: rgba(0, 123, 255, 0.3);
+		--blue-border: rgb(0 123 255 / 30%);
 		--green: #009879;
-		--green-bg: rgba(40, 167, 69, 0.15);
-		--green-border: rgba(40, 167, 69, 0.3);
+		--green-bg: rgb(40 167 69 / 15%);
+		--green-border: rgb(40 167 69 / 30%);
 		--red: #FF204E;
-		--red-bg: rgba(220, 53, 69, 0.15);
-		--red-border: rgba(220, 53, 69, 0.3);
+		--red-bg: rgb(220 53 69 / 15%);
+		--red-border: rgb(220 53 69 / 30%);
 		--yellow: #F97300;
-		--yellow-bg: rgba(255, 193, 7, 0.15);
-		--yellow-border: rgba(255, 193, 7, 0.3);
+		--yellow-bg: rgb(255 193 7 / 15%);
+		--yellow-border: rgb(255 193 7 / 30%);
 		--teal: #00ADB5;
-		--teal-bg: rgba(23, 162, 184, 0.2);
-		--teal-border: rgba(23, 162, 184, 0.25);
+		--teal-bg: rgb(23 162 184 / 20%);
+		--teal-border: rgb(23 162 184 / 25%);
 	}
 }

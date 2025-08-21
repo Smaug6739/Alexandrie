@@ -43,76 +43,85 @@ function copyDockerCompose() {
 
 <style scoped lang="scss">
 .self-host {
-  text-align: center;
-  margin: 4rem auto;
   max-width: 1100px;
+  margin: 4rem auto;
+  text-align: center;
 }
+
 .steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   margin-top: 16px;
 }
+
 .step {
-  background: var(--bg-contrast);
+  padding: 16px;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 16px;
   text-align: left;
+  background: var(--bg-contrast);
 }
+
 .step-index {
+  display: inline-flex;
   width: 28px;
   height: 28px;
-  display: inline-flex;
+  border-radius: 999px;
+  font-weight: 700;
+  color: white;
+  background: var(--primary);
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  background: var(--primary);
-  color: white;
-  font-weight: 700;
   margin-bottom: 8px;
 }
+
 .code-wrap {
   display: flex;
   align-items: center;
 }
+
 .code {
-  flex: 1;
-  background: var(--bg-color);
+  padding: 12px 14px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  padding: 12px 14px;
-  overflow: auto;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   font-size: 14px;
+  background: var(--bg-color);
+  flex: 1;
+  overflow: auto;
 }
+
 .copy {
-  margin-left: 8px;
   padding: 8px 10px;
-  border-radius: 8px;
-  background: var(--bg-contrast);
   border: 1px solid var(--border-color);
-  cursor: pointer;
+  border-radius: 8px;
   font-weight: 600;
+  background: var(--bg-contrast);
+  cursor: pointer;
+  margin-left: 8px;
 }
+
 .notes {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
   margin-top: 14px;
 }
+
 .pill {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
   padding: 6px 10px;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 999px;
-  color: var(--text-color);
   font-weight: 500;
+  color: var(--text-color);
+  background: var(--bg-color);
+  align-items: center;
+  gap: 8px;
 }
+
 .pill svg {
   width: 16px;
   height: 16px;

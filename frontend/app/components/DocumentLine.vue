@@ -37,39 +37,45 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
 <style scoped lang="scss">
 .document-line {
   display: flex;
-  flex-direction: column;
   padding: 12px;
   border: 1px solid var(--border-color);
+  flex-direction: column;
 }
+
 header {
   border: none;
 }
+
 .category-icon {
-  margin-right: 5px;
   padding: 6px;
   border-radius: 6px;
-}
-.document-title {
   margin-right: 5px;
+}
+
+.document-title {
   font-size: 18px;
   font-weight: bold;
+  margin-right: 5px;
   text-decoration: none;
 }
+
 .description {
+  height: 100%;
+  margin: 0;
   padding: 4px 0;
   font-size: 16px;
-  height: 100%;
   overflow: hidden;
-  margin: 0;
   text-overflow: ellipsis;
 }
+
 footer {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
   font-size: 14px;
+  align-items: center;
+  justify-content: flex-start;
   margin-top: 8px;
 }
+
 .tags {
   display: flex;
   flex-wrap: wrap;
