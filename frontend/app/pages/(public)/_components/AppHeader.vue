@@ -9,16 +9,17 @@
 nav {
   display: flex;
   justify-content: flex-end;
+
   a {
-    padding: 4px 15px;
     margin: 0 8px;
+    padding: 4px 15px;
     border-radius: 25px;
   }
 }
 
 .sign-up {
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
+  background: var(--bg-color);
 
   &:hover {
     outline: 2px solid var(--border-color);
@@ -27,8 +28,8 @@ nav {
 }
 
 .login {
-  background: var(--primary);
   color: var(--bg-color);
+  background: var(--primary);
 
   &:hover {
     outline: 2px solid var(--primary);

@@ -95,15 +95,16 @@ const drop = async (event: DragEvent) => {
 <style lang="scss" scoped>
 .item {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 1px 4px;
   margin: 2.5px 0;
+  padding: 1px 4px;
   border-radius: 6px;
   font-size: 15px;
   font-weight: 450;
-  letter-spacing: -0.4px;
+  align-items: center;
   cursor: pointer;
+  justify-content: flex-start;
+  letter-spacing: -0.4px;
+
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
     background: var(--bg-contrast-2);
@@ -112,33 +113,39 @@ const drop = async (event: DragEvent) => {
   .icon {
     width: 20px;
     height: 20px;
+
     &:deep(svg) {
       fill: var(--primary);
+
       path {
         fill: var(--primary);
       }
     }
   }
+
   .item-icon {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
     padding: 2px;
     border-radius: 4px; // Coins arrondis
+    align-items: center;
+    justify-content: center;
   }
 }
 
 .drag-over {
-  border-bottom: 2px solid var(--primary);
   box-shadow: 0 2px 10px var(--shadow);
+  border-bottom: 2px solid var(--primary);
 }
+
 .nav {
   display: none;
 }
+
 .nav:deep(svg),
 .ni:deep(svg) {
   fill: inherit !important;
 }
+
 .item:hover .nav,
 .active {
   display: block;

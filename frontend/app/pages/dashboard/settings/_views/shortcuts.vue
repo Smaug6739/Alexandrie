@@ -115,22 +115,23 @@
   flex-direction: column;
   gap: 8px;
 }
+
 .shortcut {
   display: flex;
-  align-items: center;
-  gap: 1rem; // ajuste cet espace selon tes besoins
   padding: 6px;
   border-radius: 5px;
   text-align: left; // s'assure que le texte est bien aligné à gauche
+  align-items: center;
+  gap: 1rem; // ajuste cet espace selon tes besoins
 }
 
 .key {
-  font-weight: bold;
-  font-size: 0.8rem;
-  background-color: var(--blue-bg);
-  border: 1px solid var(--blue-border);
-  color: var(--blue);
   padding: 3px;
+  border: 1px solid var(--blue-border);
   border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--blue);
+  background-color: var(--blue-bg);
 }
 </style>

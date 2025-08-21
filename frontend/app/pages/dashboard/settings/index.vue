@@ -66,21 +66,21 @@ const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/
 <style scoped lang="scss">
 .component {
   display: flex;
-  border-radius: 8px;
-  height: 90%;
-  box-shadow: 0 2px 10px var(--shadow);
-  background-color: var(--bg-color);
   width: 1150px;
-  height: calc(-100px + 100vh);
   max-width: calc(-100px + 100vw);
+  height: calc(-100px + 100vh);
   max-height: 715px;
   margin: auto;
+  border-radius: 8px;
+  background-color: var(--bg-color);
+  box-shadow: 0 2px 10px var(--shadow);
+
   nav {
-    gap: 1rem;
-    background-color: var(--bg-contrast);
     padding: 1rem;
-    border-top-left-radius: 8px;
+    background-color: var(--bg-contrast);
     border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    gap: 1rem;
 
     span {
       font-size: 0.9rem;
@@ -90,12 +90,12 @@ const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/
 
     a {
       display: flex;
+      margin: 0.5rem;
+      border-radius: 4px;
+      color: inherit;
       align-items: center;
       gap: 0.5rem;
-      margin: 0.5rem;
       text-decoration: none;
-      color: inherit;
-      border-radius: 4px;
 
       &:hover,
       &.active {
@@ -119,28 +119,31 @@ const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/
     }
   }
 }
+
 .content {
   position: relative;
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
   margin: 0.5rem;
+  padding: 2rem;
+  flex: 1;
+  overflow-y: auto;
 }
+
 .close-btn {
   position: absolute;
-  right: 0px;
   top: 1rem;
+  right: 0;
   background: none;
 }
 
-@media screen and (max-width: 920px) {
+@media screen and (width <= 920px) {
   .component {
+    display: block;
     width: 100%;
     max-width: 100%;
     height: 100%;
-    display: block;
     box-shadow: none;
   }
+
   .close-btn {
     display: none;
   }

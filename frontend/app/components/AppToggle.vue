@@ -20,35 +20,35 @@ const toggle = () => {
 
 <style scoped lang="scss">
 .toggle {
+  display: flex;
   width: 44px;
   height: 24px;
-  background: var(--bg-contrast-2);
-  border-radius: 15px;
-  border: 1px solid var(--border-color, #ccc);
-  display: flex;
-  align-items: center;
   padding: 2px;
-  cursor: pointer;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 15px;
+  background: var(--bg-contrast-2);
   transition: background-color 0.3s ease, border-color 0.3s ease;
+  align-items: center;
+  cursor: pointer;
 
   .circle {
     width: 20px;
     height: 20px;
-    background: var(--bg-color);
+    border: 1px solid transparent;
     border-radius: 50%;
+    background: var(--bg-color);
     transition: transform 0.25s ease, background-color 0.25s, border-color 0.25s;
     transform: translateX(0);
-    border: 1px solid transparent;
   }
 
   &.active {
-    background: var(--primary);
     border-color: var(--primary);
+    background: var(--primary);
 
     .circle {
-      transform: translateX(20px);
-      background: #fff; // cercle toujours blanc
       border-color: var(--primary);
+      background: #fff; // cercle toujours blanc
+      transform: translateX(20px);
     }
   }
 }

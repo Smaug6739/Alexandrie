@@ -5,7 +5,7 @@
       <ViewSelection v-model="view" />
     </header>
     <AppDrop ref="dropComponent" @select="selectFile" />
-    <div style="padding: 12px 0; width: 100%; display: flex; align-items: center; gap: 10px; flex-direction: column">
+    <div style=" display: flex; width: 100%;padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
       <AppButton type="primary" :disabled="!selectedFile" @click="submitFile">Upload on server</AppButton>
       <div v-if="isLoading" class="loading-spinner" />
     </div>
@@ -84,21 +84,20 @@ const deleteRessource = async (id: string) => {
 
 <style scoped lang="scss">
 .link-section {
-  margin: 6px 0;
   display: flex;
-  gap: 10px;
   width: 100%;
-  display: flex;
+  margin: 6px 0;
   flex-direction: column;
+  gap: 10px;
 }
 
 .loading-spinner {
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid var(--primary);
-  border-radius: 50%;
   width: 50px;
   height: 50px;
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
   animation: spin 1s linear infinite;
+  border-top: 5px solid var(--primary);
 }
 
 .ressources-list {

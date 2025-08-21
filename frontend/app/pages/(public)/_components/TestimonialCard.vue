@@ -19,28 +19,32 @@ defineProps<{
 
 <style scoped lang="scss">
 .testimonial-card {
-  background: var(--bg-color);
+  max-width: 300px;
   padding: 1.5rem;
   border-radius: 1rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-  max-width: 300px;
   text-align: center;
+  background: var(--bg-color);
+  box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
 }
+
 .avatar {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   margin-bottom: 1rem;
 }
+
 blockquote {
-  font-style: italic;
   color: var(--font-color);
+  font-style: italic;
   margin-bottom: 1rem;
 }
+
 .author {
   font-weight: bold;
   color: var(--font-color);
 }
+
 .author span {
   font-weight: normal;
   color: var(--font-color-light);

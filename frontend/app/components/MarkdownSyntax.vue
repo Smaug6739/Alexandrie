@@ -68,7 +68,7 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
         <li>Ordered: <code>1. Item</code></li>
       </ul>
       <p>Table syntax:</p>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap">
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem">
         <table>
           <thead>
             <tr>
@@ -113,7 +113,7 @@ function hello() {
       <p>Use triple-colon blocks to insert styled sections:</p>
       <div style="display: flex; align-items: center; flex-wrap: wrap">
         <span style="flex: 1; margin-right: 10px">
-          <pre style="color: white; padding: 5px">:::blue INFO<br>:::</pre>
+          <pre style=" padding: 5px;color: white">:::blue INFO<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="blue custom-block"><p class="custom-block-title">INFO</p></div></span
@@ -121,7 +121,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style="color: white; padding: 5px">:::green SUCCESS<br>:::</pre>
+          <pre style=" padding: 5px;color: white">:::green SUCCESS<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="green custom-block"><p class="custom-block-title">SUCCESS</p></div></span
@@ -129,7 +129,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style="color: white; padding: 5px">:::yellow WARNING<br>:::</pre>
+          <pre style=" padding: 5px;color: white">:::yellow WARNING<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="yellow custom-block"><p class="custom-block-title">WARNING</p></div></span
@@ -137,7 +137,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style="color: white; padding: 5px">:::grey NOTE<br>:::</pre>
+          <pre style=" padding: 5px;color: white">:::grey NOTE<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="grey custom-block"><p class="custom-block-title">NOTE</p></div></span
@@ -145,7 +145,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style="color: white; padding: 5px">:::red DANGER<br>:::</pre>
+          <pre style=" padding: 5px;color: white">:::red DANGER<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="red custom-block"><p class="custom-block-title">DANGER</p></div></span
@@ -153,7 +153,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style="color: white; padding: 5px">:::teal TEAL<br>:::</pre>
+          <pre style=" padding: 5px;color: white">:::teal TEAL<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="teal custom-block"><p class="custom-block-title">TEAL</p></div></span
@@ -223,10 +223,11 @@ Snippets help you focus on writing, not formatting.
   margin: auto;
   line-height: 1.7;
 }
+
 .markdown-doc pre {
-  color: white;
   padding: 0.75rem;
   border-radius: 6px;
+  color: white;
   overflow-x: auto;
 }
 </style>

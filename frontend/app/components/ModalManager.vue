@@ -23,23 +23,24 @@ const modals = modalManager.modals;
 .modal-leave-active {
   transition: all 0.3s ease;
 }
+
 .modal-enter-from,
 .modal-leave-to {
-  transform: scale(1.1);
   opacity: 0;
+  transform: scale(1.1);
 }
 
 /* Styles modals */
 .modal-container {
+  position: relative;
   width: 80%;
   max-width: 750px;
   margin: auto;
   padding: 16px 22px;
-  background-color: var(--bg-color);
   border-radius: 10px;
-  box-shadow: 0 2px 10px var(--shadow);
   font-size: initial;
-  position: relative;
+  background-color: var(--bg-color);
+  box-shadow: 0 2px 10px var(--shadow);
 }
 
 .modal-container:has(> .big) {
@@ -48,27 +49,30 @@ const modals = modalManager.modals;
 
 .modal-overlay {
   position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
   z-index: 1;
+  border-radius: 10px;
+  background-color: rgb(0 0 0 / 20%);
+  inset: 0;
   pointer-events: none;
 }
+
 .close-btn {
   position: absolute;
-  right: 0px;
   top: 1rem;
-  background: none;
+  right: 0;
   z-index: 1000;
+  background: none;
 }
+
 .modal {
-  background-color: var(--bg-color);
   border-radius: 8px;
+  background-color: var(--bg-color);
 }
+
 .modal-mask {
   position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  background-color: rgb(0 0 0 / 50%);
+  inset: 0;
 }
 </style>

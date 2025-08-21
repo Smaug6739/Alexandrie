@@ -41,17 +41,18 @@ watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 
 <style scoped lang="scss">
 .main {
-  text-align: center;
   margin: auto;
+  text-align: center;
 }
+
 .loading-spinner {
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid var(--primary);
-  border-radius: 50%;
   width: 50px;
   height: 50px;
-  animation: spin 1s linear infinite;
   margin: 20px auto;
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  border-top: 5px solid var(--primary);
 }
 
 @keyframes spin {

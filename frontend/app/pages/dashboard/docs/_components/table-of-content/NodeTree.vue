@@ -23,13 +23,13 @@ a {
 }
 
 li {
-  list-style: none;
   padding: 0;
+  list-style: none;
   margin-top: 4px;
 }
 
 ul {
-  padding: 0 0 0 15px;
   margin: 0;
+  padding: 0 0 0 15px;
 }
 </style>

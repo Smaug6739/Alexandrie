@@ -1,15 +1,15 @@
 <template>
-  <div ref="menuRoot" class="three-dots-menu">
+  <div ref="menuRoot" class="container">
     <span class="menu-button" aria-label="Menu" @click="toggleMenu">
       <svg class="menu-icon" viewBox="0 9 20 2" xmlns="http://www.w3.org/2000/svg">
         <path style="fill: var(--font-color)" d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
       </svg>
     </span>
-    <transition name="fade-scale">
-      <div v-if="open" class="menu-content">
+    <Transition name="fade-scale">
+      <div v-if="open" class="content">
         <slot />
       </div>
-    </transition>
+    </Transition>
   </div>
 </template>
 
@@ -34,56 +34,59 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
 </script>
 
 <style scoped>
-.three-dots-menu {
+.container {
   position: relative;
   display: inline-block;
 }
 
 .menu-button {
-  background: none;
-  border: none;
-  cursor: pointer;
   padding: 0;
+  border: none;
   border-radius: 4px;
   line-height: 1;
+  background: none;
+  cursor: pointer;
 }
 
 .menu-button:hover {
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgb(0 0 0 / 8%);
 }
+
 .menu-icon {
   display: block;
-  height: 20px;
   width: 20px;
+  height: 20px;
   margin: auto 0;
 }
 
-.menu-content {
+.content {
   position: absolute;
   right: 0;
-  margin-top: 4px;
-  padding: 6px;
-  min-width: 270px;
-  background: var(--bg-color);
-  border-radius: 6px;
-  box-shadow: 0 2px 6px var(--shadow);
-  border: 1px solid var(--border-color);
-
-  overflow: hidden;
   z-index: 2;
+  min-width: 270px;
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-color);
+  box-shadow: 0 2px 6px var(--shadow);
+  margin-top: 4px;
+  overflow: hidden;
 }
 
 /* Animation */
 .fade-scale-enter-active {
   transition: all 120ms ease-out;
 }
+
 .fade-scale-leave-active {
   transition: all 100ms ease-in;
 }
+
 .fade-scale-enter-from {
   opacity: 0;
   transform: scale(0.95);
 }
+
 .fade-scale-leave-to {
   opacity: 0;
   transform: scale(0.95);

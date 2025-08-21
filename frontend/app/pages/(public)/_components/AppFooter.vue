@@ -9,24 +9,26 @@
 </template>
 <style scoped lang="scss">
 footer {
-  padding: 1.5rem 2rem;
   display: flex;
-  justify-content: space-between;
+  padding: 1.5rem 2rem;
   align-items: center;
   border-top: 1px solid var(--border-color);
+  justify-content: space-between;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   footer {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 2rem 1rem;
     margin: 0;
+    padding: 2rem 1rem;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
   }
+
   img {
     margin: 0 10px;
   }
+
   footer p {
     margin-top: 1rem;
   }

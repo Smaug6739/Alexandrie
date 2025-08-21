@@ -4,7 +4,7 @@
       <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
     </div>
     <div v-else>
-      <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" >
+      <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" />
       <div class="dropdown">
         <ul>
           <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
@@ -23,7 +23,7 @@ const props = defineProps<{
   disabled?: (i: ANode) => boolean;
 }>();
 
-const selectedId = ref<string | number>(props.modelValue || '');
+const selectedId = ref<string | number>(props.modelValue ?? '');
 const open = ref(false);
 const search = ref('');
 const searchInput = ref<HTMLInputElement | null>(null);
@@ -88,6 +88,7 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   width: 200px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
+
   &:focus {
     outline: 2px solid var(--border-color);
   }
@@ -97,15 +98,15 @@ button,
 .search-input {
   width: 100%;
   padding: 8px 10px;
-  text-align: left;
   font-size: 16px;
+  text-align: left;
   cursor: pointer;
 }
 
 .search-input {
-  cursor: text;
-  border: none;
   padding: 6px 10px;
+  border: none;
+  cursor: text;
 }
 
 .app-select:has(.dropdown) button,
@@ -116,22 +117,22 @@ button,
 .dropdown {
   position: absolute;
   top: 100%;
-  left: 0;
   right: 0;
-  max-height: 300px;
-  overflow-y: auto;
-  border: 1px solid var(--border-color);
-  background: var(--bg-color);
-  border-radius: 6px;
-  margin-top: 4px;
-  padding: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  left: 0;
   z-index: 1000;
+  max-height: 300px;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-color);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  margin-top: 4px;
+  overflow-y: auto;
 }
 
 ul {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 </style>

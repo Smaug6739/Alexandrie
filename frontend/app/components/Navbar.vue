@@ -27,15 +27,16 @@ const openGlobalSearch = () => window.dispatchEvent(new CustomEvent('global-sear
 </script>
 <style lang="scss" scoped>
 header {
-  height: 50px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 10px;
-  padding: 10px 0;
   position: sticky;
+  display: flex;
+  width: 100%;
+  height: 50px;
+  padding: 10px 0;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  justify-content: space-between;
+  margin-bottom: 10px;
+
   div {
     display: flex;
     align-items: center;
@@ -48,23 +49,24 @@ svg {
 }
 
 button {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 .search-btn {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  width: 200px;
   padding: 8px 12px;
-  background: var(--border-color);
   border: none;
   border-radius: 8px;
   color: var(--text-color);
-  cursor: pointer;
+  background: var(--border-color);
   transition: all 0.2s ease;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
   margin-left: 16px;
-  width: 200px;
+
   &:hover {
     background: var(--selection-color);
     transform: translateY(-1px);
@@ -81,17 +83,17 @@ button {
 }
 
 .shortcut {
-  background: rgba(255, 255, 255, 0.2);
-  color: inherit;
   padding: 2px 6px;
   border-radius: 4px;
-  font-size: 11px;
   font-family: monospace;
+  font-size: 11px;
   font-weight: 600;
+  color: inherit;
+  background: rgb(255 255 255 / 20%);
 }
 
 // Mobile styles
-@media screen and (max-width: 719px) {
+@media screen and (width <= 719px) {
   .no-mobile {
     display: none;
   }

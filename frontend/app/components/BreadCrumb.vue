@@ -42,28 +42,29 @@ watchEffect(() => {
 <style scoped lang="scss">
 .breadcrumb {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  list-style: none;
   padding: 3px;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
 }
 // Svg bubble button nav
 .breadcrumb svg {
   width: 27px;
   height: 27px;
-  margin-right: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
   border-radius: 50%;
+  transition: all 0.3s ease;
+  cursor: pointer;
   fill: var(--font-color);
+  margin-right: 8px;
+
   &:hover {
     background-color: var(--border-color);
   }
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
-  content: '>'; /* Separator */
   padding: 0 0.5rem;
+  content: '>'; /* Separator */
 }
 
 .breadcrumb-item a {

@@ -30,10 +30,10 @@ const handleError = computed(() => {
 <style lang="scss" scoped>
 .card-component {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   text-align: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .error-content {
@@ -42,17 +42,17 @@ const handleError = computed(() => {
 }
 
 .error-code {
+  margin: 0;
   font-size: 96px;
   font-weight: bold;
   color: var(--font-color);
-  margin: 0;
 }
 
 .error-message {
+  margin: 10px 0;
   font-size: 24px;
   font-weight: bold;
   color: var(--font-color-dark);
-  margin: 10px 0;
 }
 
 .error-description {
@@ -64,11 +64,11 @@ const handleError = computed(() => {
 .error-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: var(--primary);
-  color: white;
-  text-decoration: none;
   border-radius: 5px;
+  color: white;
+  background-color: var(--primary);
   transition: background-color 0.3s;
+  text-decoration: none;
 }
 
 .error-button:hover {

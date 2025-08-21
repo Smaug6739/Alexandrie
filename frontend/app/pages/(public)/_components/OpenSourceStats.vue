@@ -80,61 +80,71 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .oss-stats {
-  text-align: center;
-  margin: 4rem auto;
   max-width: 1100px;
+  margin: 4rem auto;
   padding: 2rem;
-  background: var(--bg-contrast);
   border: 1px solid var(--border-color);
   border-radius: 16px;
+  text-align: center;
+  background: var(--bg-contrast);
 }
+
 .subtitle {
   color: var(--text-muted);
   margin-top: 4px;
 }
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem auto 0.75rem;
   max-width: 760px;
+  margin: 1.5rem auto 0.75rem;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 }
+
 .stat {
-  background: var(--bg-contrast);
+  padding: 16px;
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  padding: 16px;
+  background: var(--bg-contrast);
 }
+
 .value {
   font-size: 28px;
   font-weight: 700;
 }
+
 .label {
   font-size: 13px;
   color: var(--text-muted);
 }
+
 .actions {
   display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
   flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
 }
+
 .btn {
   padding: 10px 16px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 600;
   border: 1px solid var(--border-color);
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
 }
+
 .btn.github {
   background: var(--bg-color);
 }
+
 .btn.try {
-  background: var(--primary);
-  color: white;
   border-color: var(--primary);
+  color: white;
+  background: var(--primary);
 }
+
 .btn.contribute {
   background: var(--bg-contrast);
 }

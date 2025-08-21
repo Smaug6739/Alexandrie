@@ -13,9 +13,10 @@ defineProps<{ option: Workspace }>();
 <style scoped lang="scss">
 div {
   display: flex;
-  align-items: center;
   font-weight: 500;
+  align-items: center;
 }
+
 .icon {
   padding: 1px;
   border-radius: 5px;

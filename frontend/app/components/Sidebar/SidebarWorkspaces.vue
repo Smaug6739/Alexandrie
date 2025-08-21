@@ -59,14 +59,15 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 
 .dropdown-selected {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  margin: 4px 0;
   padding: 2px 10px 2px 4px;
   border: 1px solid var(--border-color);
-  margin: 4px 0;
   border-radius: 6px;
+  align-items: center;
   cursor: pointer;
+  justify-content: space-between;
 }
+
 .placeholder {
   color: var(--font-color-light);
 }
@@ -78,21 +79,21 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 
 .dropdown-options {
   position: absolute;
+  z-index: 100;
   width: 98%;
   margin: 0;
   padding: 2px 0;
-  list-style: none;
-  background-color: var(--bg-color);
   border: 1px solid var(--border-color);
-  color: var(--font-color);
   border-radius: 8px;
+  color: var(--font-color);
+  background-color: var(--bg-color);
+  list-style: none;
   overflow-y: auto;
-  z-index: 100;
 }
 
 li {
-  padding: 4px;
   margin: 1px 4px;
+  padding: 4px;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -101,16 +102,18 @@ li.selected,
 li:hover {
   background-color: var(--selection-color);
 }
+
 .new-workspace {
   display: flex;
-  align-items: center;
-  padding: 4px;
   margin: 4px;
-  gap: 4px;
+  padding: 4px;
   border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 500;
+  align-items: center;
   cursor: pointer;
+  gap: 4px;
+
   &:hover {
     background-color: var(--selection-color);
   }

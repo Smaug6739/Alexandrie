@@ -39,19 +39,21 @@ function closeDock() {
 <style scoped lang="scss">
 .dock {
   display: flex;
-  flex-direction: column;
   padding: 1rem 0.3rem;
-  gap: 10px;
   border-right: 1px solid var(--border-color);
+  flex-direction: column;
+  gap: 10px;
 }
+
 a {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 40px;
   height: 40px;
   border-radius: 8px;
   transition: background-color 0.3s ease;
+  align-items: center;
+  justify-content: center;
+
   &:hover {
     &:deep(svg) {
       fill: var(--opposite-color);
