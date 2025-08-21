@@ -79,8 +79,8 @@ const headers_tree = computed(() => buildTree(getHeaders(headers.value)));
 
 const marker = ref<HTMLElement>();
 
-onMounted(() => window.addEventListener('scroll', updateActiveHeader, { passive: true }));
-onBeforeUnmount(() => window.removeEventListener('scroll', updateActiveHeader));
+onMounted(() => document.addEventListener('scroll', updateActiveHeader, { passive: true }));
+onBeforeUnmount(() => document.removeEventListener('scroll', updateActiveHeader));
 
 function updateActiveHeader() {
   const scrollPosition = window.scrollY + window.innerHeight / 4; // quart de la hauteur écran

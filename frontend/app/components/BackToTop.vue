@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show" class="back-to-top" @click="scrollToTop"/>
+  <div v-if="show" class="back-to-top" @click="scrollToTop" />
 </template>
 
 <script setup lang="ts">
@@ -11,9 +11,9 @@ const onScroll = () => (scrollTop.value = getScrollTop());
 
 onMounted(() => {
   scrollTop.value = getScrollTop();
-  window.addEventListener('scroll', onScroll);
+  document.addEventListener('scroll', onScroll);
 });
-onUnmounted(() => window.removeEventListener('scroll', onScroll));
+onUnmounted(() => document.removeEventListener('scroll', onScroll));
 </script>
 
 <style scoped lang="scss">

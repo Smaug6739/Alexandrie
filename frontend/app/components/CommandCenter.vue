@@ -170,11 +170,11 @@ onMounted(() => {
 
   document.addEventListener('keydown', handleGlobalKeydown);
   const openListener = () => openSearch();
-  window.addEventListener('global-search-open', openListener as EventListener);
+  document.addEventListener('global-search-open', openListener as EventListener);
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleGlobalKeydown);
-    window.removeEventListener('global-search-open', openListener as EventListener);
+    document.removeEventListener('global-search-open', openListener as EventListener);
   });
 });
 

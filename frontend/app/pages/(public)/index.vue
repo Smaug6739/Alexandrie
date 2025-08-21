@@ -91,7 +91,7 @@ function handleParallax(e: MouseEvent) {
 }
 
 onMounted(() => {
-  window.addEventListener('mousemove', handleParallax);
+  document.addEventListener('mousemove', handleParallax);
   const observer = new IntersectionObserver(
     entries => {
       entries.forEach(entry => {
@@ -102,7 +102,7 @@ onMounted(() => {
   );
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   onUnmounted(() => {
-    window.removeEventListener('mousemove', handleParallax);
+    document.removeEventListener('mousemove', handleParallax);
     observer.disconnect();
   });
 });
