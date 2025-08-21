@@ -4,7 +4,7 @@
       <tag class="primary" style="padding: 5px 6px">{{ tag }}<button type="button" class="remove" @click="removeTag(index)">×</button></tag>
     </div>
 
-    <input v-model="input" placeholder="Add a tag (enter to add)..." @keydown.enter.prevent="addTag" @keydown.delete="removeLastTag" >
+    <input v-model="input" placeholder="Add a tag (enter to add)..." @keydown.enter.prevent="addTag" @keydown.delete="removeLastTag" />
   </div>
 </template>
 

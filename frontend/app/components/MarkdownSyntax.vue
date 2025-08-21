@@ -13,7 +13,8 @@
         <li><mark>Highlight</mark>: <code>==highlight==</code></li>
       </ul>
 
-      <strong>Tags: </strong> <tag blue>Info</tag> <tag green>Success</tag><tag red>Danger</tag><tag yellow>Yellow</tag> <tag grey>Note</tag> <tag teal>Teal</tag>
+      <strong>Tags: </strong> <tag blue>Info</tag> <tag green>Success</tag><tag red>Danger</tag><tag yellow>Yellow</tag> <tag grey>Note</tag>
+      <tag teal>Teal</tag>
       <pre>
 &lt;tag blue&gt;Info&lt;/tag&gt;
 &lt;tag green&gt;Success&lt;/tag&gt;
@@ -25,8 +26,9 @@
 
       <strong>Colors: </strong>
       <strong
-        ><span style="color: var(--blue)">blue</span> ; <span style="color: var(--red)">red</span> ; <span style="color: var(--green)">green</span> ; <span style="color: var(--yellow)">yellow</span> ;
-        <span style="color: var(--primary)">primary</span> ; <span style="color: var(--purple)">purple</span> ; <span style="color: var(--pink)">pink</span> ; <span style="color: var(--teal)">teal</span></strong
+        ><span style="color: var(--blue)">blue</span> ; <span style="color: var(--red)">red</span> ; <span style="color: var(--green)">green</span> ;
+        <span style="color: var(--yellow)">yellow</span> ; <span style="color: var(--primary)">primary</span> ;
+        <span style="color: var(--purple)">purple</span> ; <span style="color: var(--pink)">pink</span> ; <span style="color: var(--teal)">teal</span></strong
       >
 
       <pre>
@@ -59,7 +61,7 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
       <h2>🔗 Links & Images</h2>
       <ul>
         <li><a href="https://example.com">Example link</a>: <code>[Example link](https://example.com)</code></li>
-        <li><img src="" alt="Image" >: <code>![Alt text](image-url)</code></li>
+        <li><img src="" alt="Image" />: <code>![Alt text](image-url)</code></li>
       </ul>
 
       <h2>🧾 Lists & Tables</h2>
@@ -107,13 +109,13 @@ function hello() {
       >
       <h2>📏 Horizontal Rules</h2>
       <p><code>---</code>, <code>***</code>, or <code>___</code> renders a line:</p>
-      <hr >
+      <hr />
 
       <h2>🎨 Colored Blocks</h2>
       <p>Use triple-colon blocks to insert styled sections:</p>
       <div style="display: flex; align-items: center; flex-wrap: wrap">
         <span style="flex: 1; margin-right: 10px">
-          <pre style=" padding: 5px;color: white">:::blue INFO<br>:::</pre>
+          <pre style="padding: 5px; color: white">:::blue INFO<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="blue custom-block"><p class="custom-block-title">INFO</p></div></span
@@ -121,7 +123,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style=" padding: 5px;color: white">:::green SUCCESS<br>:::</pre>
+          <pre style="padding: 5px; color: white">:::green SUCCESS<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="green custom-block"><p class="custom-block-title">SUCCESS</p></div></span
@@ -129,7 +131,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style=" padding: 5px;color: white">:::yellow WARNING<br>:::</pre>
+          <pre style="padding: 5px; color: white">:::yellow WARNING<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="yellow custom-block"><p class="custom-block-title">WARNING</p></div></span
@@ -137,7 +139,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style=" padding: 5px;color: white">:::grey NOTE<br>:::</pre>
+          <pre style="padding: 5px; color: white">:::grey NOTE<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="grey custom-block"><p class="custom-block-title">NOTE</p></div></span
@@ -145,7 +147,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style=" padding: 5px;color: white">:::red DANGER<br>:::</pre>
+          <pre style="padding: 5px; color: white">:::red DANGER<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="red custom-block"><p class="custom-block-title">DANGER</p></div></span
@@ -153,7 +155,7 @@ function hello() {
       </div>
       <div style="display: flex">
         <span style="flex: 1; margin-right: 10px">
-          <pre style=" padding: 5px;color: white">:::teal TEAL<br>:::</pre>
+          <pre style="padding: 5px; color: white">:::teal TEAL<br>:::</pre>
         </span>
         <span style="flex: 1; margin-left: 10px"
           ><div class="teal custom-block"><p class="custom-block-title">TEAL</p></div></span

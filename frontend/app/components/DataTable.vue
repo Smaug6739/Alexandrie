@@ -42,9 +42,17 @@
                   <button type="button" :disabled="!paginator.hasPrevious()" @click="paginator.previous()">&lt;</button>
                   <button :class="{ active: paginator.currentPage.value === 1 }" @click="paginator.setPage(1)">1</button>
                   <span v-if="shouldShowEllipsisBefore" class="ellipsis">...</span>
-                  <button v-for="page in visiblePages" :key="page" :class="{ active: paginator.currentPage.value === page }" @click="paginator.setPage(page)">{{ page }}</button>
+                  <button v-for="page in visiblePages" :key="page" :class="{ active: paginator.currentPage.value === page }" @click="paginator.setPage(page)">
+                    {{ page }}
+                  </button>
                   <span v-if="shouldShowEllipsisAfter" class="ellipsis">...</span>
-                  <button v-if="paginator.totalPages.value > 1" :class="{ active: paginator.currentPage.value === paginator.totalPages.value }" @click="paginator.setPage(paginator.totalPages.value)">{{ paginator.totalPages.value }}</button>
+                  <button
+                    v-if="paginator.totalPages.value > 1"
+                    :class="{ active: paginator.currentPage.value === paginator.totalPages.value }"
+                    @click="paginator.setPage(paginator.totalPages.value)"
+                  >
+                    {{ paginator.totalPages.value }}
+                  </button>
                   <button type="button" :disabled="!paginator.hasNext()" @click="paginator.next()">&gt;</button>
                 </div>
               </div>

@@ -6,7 +6,7 @@
       <section class="header">
         <span class="name">
           <IconApp />
-          <NuxtLink style=" font-family: Arial;font-size: 19px; font-weight: 600" to="/dashboard">Alexandrie</NuxtLink>
+          <NuxtLink style="font-family: Arial; font-size: 19px; font-weight: 600" to="/dashboard">Alexandrie</NuxtLink>
         </span>
         <IconClose class="btn" />
       </section>
@@ -29,7 +29,7 @@
       </div>
       <SidebarWorkspaces :options="workspaces" />
       <CollapseItem v-for="item in navigationItems" :key="item.id" :item="item" :root="true" />
-      <hr style=" width: 100%;margin: 5px 0" />
+      <hr style="width: 100%; margin: 5px 0" />
       <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
     </div>
   </Resizable>

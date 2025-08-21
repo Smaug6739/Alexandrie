@@ -11,7 +11,9 @@
     <button @click="emitDelete"><Icon name="delete" fill="red" /> Delete</button>
     <hr style="margin: 2px 0" />
     <div class="foot-menu">
-      <p style="display: flex; align-items: center; gap: 8px"><img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; margin: 0; border-radius: 50%" />{{ user?.username }}</p>
+      <p style="display: flex; align-items: center; gap: 8px">
+        <img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; margin: 0; border-radius: 50%" />{{ user?.username }}
+      </p>
       <p>Updated on {{ numericDate(document.updated_timestamp) }}</p>
     </div>
   </AppDotMenu>

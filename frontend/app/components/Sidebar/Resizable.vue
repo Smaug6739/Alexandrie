@@ -2,9 +2,9 @@
   <nav :class="{ open: isOpened }">
     <div class="sidebar no-select">
       <div :style="{ width: panewidthCSS, display: 'flex' }">
-        <slot/>
+        <slot />
       </div>
-      <div class="separator" @mousedown="startResize"/>
+      <div class="separator" @mousedown="startResize" />
     </div>
   </nav>
 </template>
@@ -80,11 +80,9 @@ nav {
   cursor: col-resize;
 }
 
-/* Disable text selection while resizing */
-
-/* Selection can cause problems with selection */
-
-/* PREVENT SELECTION DURING MOUSE EVENTS */
+/* Disable text selection while resizing 
+Selection can cause problems with selection
+PREVENT SELECTION DURING MOUSE EVENTS */
 .no-select {
   user-select: none;
 }

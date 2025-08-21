@@ -23,7 +23,11 @@
 <script setup lang="ts">
 const categoryStore = useCategoriesStore();
 
-const documents = computed(() => useDocumentsStore().getAll.filter(c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || c.tags?.toLowerCase().includes(filter.value.toLowerCase())));
+const documents = computed(() =>
+  useDocumentsStore().getAll.filter(
+    c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || c.tags?.toLowerCase().includes(filter.value.toLowerCase()),
+  ),
+);
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);
 

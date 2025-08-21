@@ -2,7 +2,10 @@
   <div ref="menuRoot" class="container">
     <span class="menu-button" aria-label="Menu" @click="toggleMenu">
       <svg class="menu-icon" viewBox="0 9 20 2" xmlns="http://www.w3.org/2000/svg">
-        <path style="fill: var(--font-color)" d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+        <path
+          style="fill: var(--font-color)"
+          d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
+        />
       </svg>
     </span>
     <Transition name="fade-scale">

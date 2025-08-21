@@ -3,7 +3,8 @@
     <div class="top">
       <div class="header">
         <span style="display: flex">
-          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number, true)}`" /> <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
+          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number, true)}`" />
+          <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
         </span>
         <DocumentDotMenu :document="document" :user="user" @delete="deleteDoc" />
       </div>
@@ -12,7 +13,7 @@
         <div v-if="document.tags" class="tags">
           <tag v-for="tag in document.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
         </div>
-        <p class="description" v-text="document.description"/>
+        <p class="description" v-text="document.description" />
       </div>
     </div>
     <footer>

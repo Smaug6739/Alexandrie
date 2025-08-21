@@ -16,7 +16,9 @@
       <div v-if="!options.length" class="placeholder" style="padding: 6px; font-size: 0.9rem; font-style: italic">No workspaces found</div>
       <hr />
       <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--font-color-light)" /> New Workspace</div>
-      <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace"><Icon name="settings" fill="var(--font-color-light)" /> Edit Workspace</NuxtLink>
+      <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace"
+        ><Icon name="settings" fill="var(--font-color-light)" /> Edit Workspace</NuxtLink
+      >
     </ul>
   </div>
 </template>

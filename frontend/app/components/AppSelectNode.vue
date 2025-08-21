@@ -1,10 +1,22 @@
 <template>
   <li>
-    <div class="tree-node" :style="{ marginLeft: `${level * 20}px`, fontWeight: node.childrens?.length ? 500 : 400 }" :disabled="disabled && disabled(node)" @click.stop="select">
+    <div
+      class="tree-node"
+      :style="{ marginLeft: `${level * 20}px`, fontWeight: node.childrens?.length ? 500 : 400 }"
+      :disabled="disabled && disabled(node)"
+      @click.stop="select"
+    >
       {{ node.label }}
     </div>
     <ul v-if="node.childrens?.length">
-      <AppSelectNode v-for="child in node.childrens" :key="child.id" :node="child" :level="level + 1" :disabled="disabled" @select="$emit('select', $event)" />
+      <AppSelectNode
+        v-for="child in node.childrens"
+        :key="child.id"
+        :node="child"
+        :level="level + 1"
+        :disabled="disabled"
+        @select="$emit('select', $event)"
+      />
     </ul>
   </li>
 </template>

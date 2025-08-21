@@ -2,7 +2,7 @@
   <div class="document-list">
     <DocumentCard v-for="document in documents" :key="document.id" :document="document" />
     <div v-if="!documents.length" style="width: 100%; height: 100%">
-      <div style=" margin: 10vh auto;text-align: center">
+      <div style="margin: 10vh auto; text-align: center">
         <h1>No documents found</h1>
       </div>
     </div>

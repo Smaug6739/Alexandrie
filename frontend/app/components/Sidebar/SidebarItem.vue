@@ -1,35 +1,43 @@
 <template>
-  <span class="item" :draggable="true" :class="{ 'drag-over': isDragOver }" @click="onClick" @dragstart="dragStart" @dragover.prevent="dragOver" @drop="drop" @dragleave="dragLeave">
+  <span
+    class="item"
+    :draggable="true"
+    :class="{ 'drag-over': isDragOver }"
+    @click="onClick"
+    @dragstart="dragStart"
+    @dragover.prevent="dragOver"
+    @drop="drop"
+    @dragleave="dragLeave"
+  >
     <Icon :name="icon" :class="customClass" />&nbsp;
 
     <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.label }}</NuxtLink>
-    <DocumentDotMenu v-if="item.data.type === 'document'" ref="dotMenu" class="nav close" :class="{ active: isActive }" :document="item.data" :user="user" @open="() => (isActive = true)" @close="() => (isActive = false)" @delete="deleteDoc" />
-    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close"> <Icon name="settings" fill="var(--font-color)" /> </NuxtLink>
-    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close"> <Icon name="plus" fill="var(--font-color)" /> </NuxtLink>
+
+    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
+      <Icon name="settings" fill="var(--font-color)" />
+    </NuxtLink>
+    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
+      <Icon name="plus" fill="var(--font-color)" />
+    </NuxtLink>
     <Icon v-if="item.data.type === 'document' && item.data.pinned" name="pin" fill="var(--font-color-light)" class="ni" />
     <slot />
   </span>
 </template>
 
 <script setup lang="ts">
-import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentModal.vue';
 import { navigationItems } from './helpers';
 const documentStore = useDocumentsStore();
 const categoriesStore = useCategoriesStore();
-const user = useUserStore().user;
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
-const dotMenu = ref();
 const customClass = computed(() => {
   if ('color' in props.item.data && props.item.data.color != -1) return `item-icon ${getAppColor(props.item.data.color as number)}`;
   return '';
 });
-const isActive = ref(false);
 const icon = computed(() => {
   if ('icon' in props.item.data && props.item.data.icon) return props.item.data.icon;
   return props.item.icon || '';
 });
-const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.item.id }));
 
 const isDragOver = ref<boolean>(false);
 
@@ -58,7 +66,8 @@ const drop = async (event: DragEvent) => {
   isDragOver.value = false;
   const draggedItemId = event.dataTransfer!.getData('text/plain');
 
-  let draggedItem = documentStore.getById(draggedItemId) || categoriesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
+  let draggedItem =
+    documentStore.getById(draggedItemId) || categoriesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
 
   if (!draggedItem) return;
 
