@@ -3,10 +3,10 @@
     <!-- Hero -->
     <section ref="heroEl" class="hero">
       <div class="hero-bg">
-        <span class="orb orb-1"/>
-        <span class="orb orb-2"/>
-        <span class="orb orb-3"/>
-        <span class="grid"/>
+        <span class="orb orb-1" />
+        <span class="orb orb-2" />
+        <span class="orb orb-3" />
+        <span class="grid" />
       </div>
       <div class="hero-content">
         <div class="badges">
@@ -22,11 +22,8 @@
           <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" class="btn secondary"> GitHub </NuxtLink>
         </div>
       </div>
-      <img src="/screenshots/mock/0.png" class="hero-image" alt="App preview" >
-      
+      <img src="/screenshots/mock/0.png" class="hero-image" alt="App preview" />
     </section>
-
-    
 
     <!-- Features -->
     <section class="features reveal">
@@ -40,16 +37,6 @@
       </div>
     </section>
 
-    <!-- Showcase -->
-    <section class="showcase reveal">
-      <h2>See Alexandrie in Action</h2>
-      <div class="screenshots">
-        <img src="/screenshots/mock/documents.png" alt="Notes" class="tilt" >
-        <img src="/screenshots/mock/2.png" alt="Organizing notes" class="tilt" >
-        <img src="/screenshots/mock/3.png" alt="Editing notes" class="tilt" >
-      </div>
-    </section>
-
     <!-- Testimonials -->
     <section class="testimonials reveal">
       <h2>Loved by Students & Professionals</h2>
@@ -60,8 +47,6 @@
       </div>
     </section>
 
-
-
     <OpenSourceStats class="reveal" />
     <ContributorsMarquee class="reveal" />
     <SelfHostSteps class="reveal" />
@@ -69,8 +54,6 @@
     <GoodFirstIssues class="reveal" />
     <SponsorWall class="reveal" />
 
-
-    
     <!-- Final CTA -->
     <section class="final-cta reveal">
       <h2>Ready to Take Better Notes?</h2>
@@ -94,32 +77,35 @@ import ContributorsMarquee from './_components/ContributorsMarquee.vue';
 import SponsorWall from './_components/SponsorWall.vue';
 import OSSPrinciples from './_components/OSSPrinciples.vue';
 
-const heroEl = ref<HTMLElement | null>(null)
+const heroEl = ref<HTMLElement | null>(null);
 
 function handleParallax(e: MouseEvent) {
-  if (!heroEl.value) return
-  const rect = heroEl.value.getBoundingClientRect()
-  const cx = rect.left + rect.width / 2
-  const cy = rect.top + rect.height / 2
-  const dx = (e.clientX - cx) / rect.width
-  const dy = (e.clientY - cy) / rect.height
-  heroEl.value.style.setProperty('--px', String(dx))
-  heroEl.value.style.setProperty('--py', String(dy))
+  if (!heroEl.value) return;
+  const rect = heroEl.value.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const dx = (e.clientX - cx) / rect.width;
+  const dy = (e.clientY - cy) / rect.height;
+  heroEl.value.style.setProperty('--px', String(dx));
+  heroEl.value.style.setProperty('--py', String(dy));
 }
 
 onMounted(() => {
-  window.addEventListener('mousemove', handleParallax)
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('in')
-    })
-  }, { threshold: 0.15 })
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+  window.addEventListener('mousemove', handleParallax);
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('in');
+      });
+    },
+    { threshold: 0.15 },
+  );
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   onUnmounted(() => {
-    window.removeEventListener('mousemove', handleParallax)
-    observer.disconnect()
-  })
-})
+    window.removeEventListener('mousemove', handleParallax);
+    observer.disconnect();
+  });
+});
 </script>
 
 <style scoped lang="scss">
@@ -135,7 +121,7 @@ onMounted(() => {
   align-items: center;
   padding: 4rem 2rem;
   position: relative;
-  background: radial-gradient(1200px 400px at 20% -10%, rgba(255,255,255,0.08), transparent), linear-gradient(120deg, var(--primary), #6c63ff);
+  background: radial-gradient(1200px 400px at 20% -10%, rgba(255, 255, 255, 0.08), transparent), linear-gradient(120deg, var(--primary), #6c63ff);
   color: white;
   border-radius: 1rem;
   margin-bottom: 4rem;
@@ -168,8 +154,8 @@ onMounted(() => {
 .badge {
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   font-size: 12px;
 }
 
@@ -199,10 +185,10 @@ onMounted(() => {
   transform: translateY(-3px);
 }
 .btn.glow {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 0 0 rgba(255,255,255,0.6);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 rgba(255, 255, 255, 0.6);
 }
 .btn.glow:hover {
-  box-shadow: 0 14px 36px rgba(0,0,0,0.24), 0 0 30px rgba(255,255,255,0.35);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24), 0 0 30px rgba(255, 255, 255, 0.35);
 }
 
 .features {
@@ -221,28 +207,7 @@ onMounted(() => {
 }
 .features-grid > *:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-}
-
-.showcase {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-.screenshots {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-}
-.screenshots img {
-  border-radius: 0.8rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-  max-width: 600px;
-  width: 100%;
-}
-.tilt {
-  transform: perspective(1000px) rotateX(calc(var(--py, 0) * -4deg)) rotateY(calc(var(--px, 0) * 6deg));
-  transition: transform 0.15s ease-out;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .testimonials {
@@ -279,7 +244,7 @@ onMounted(() => {
   transform: translateX(-50%);
   width: 24px;
   height: 36px;
-  border: 2px solid rgba(255,255,255,0.6);
+  border: 2px solid rgba(255, 255, 255, 0.6);
   border-radius: 14px;
   display: flex;
   align-items: flex-start;
@@ -289,14 +254,23 @@ onMounted(() => {
 .scroll-indicator span {
   width: 4px;
   height: 8px;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 2px;
   animation: scroll 1.6s ease-in-out infinite;
 }
 @keyframes scroll {
-  0% { transform: translateY(0); opacity: 1 }
-  60% { transform: translateY(12px); opacity: 0 }
-  100% { transform: translateY(0); opacity: 0 }
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
 }
 
 .hero-bg {
@@ -311,19 +285,47 @@ onMounted(() => {
   border-radius: 50%;
   transform: translate3d(calc(var(--px, 0) * 20px), calc(var(--py, 0) * 20px), 0);
 }
-.orb-1 { width: 320px; height: 320px; background: #ffffff; top: -80px; left: -60px; opacity: 0.15 }
-.orb-2 { width: 240px; height: 240px; background: #9aa5ff; bottom: -40px; right: 10%; opacity: 0.25 }
-.orb-3 { width: 180px; height: 180px; background: #ffd6a5; top: 20%; right: -60px; opacity: 0.2 }
+.orb-1 {
+  width: 320px;
+  height: 320px;
+  background: #ffffff;
+  top: -80px;
+  left: -60px;
+  opacity: 0.15;
+}
+.orb-2 {
+  width: 240px;
+  height: 240px;
+  background: #9aa5ff;
+  bottom: -40px;
+  right: 10%;
+  opacity: 0.25;
+}
+.orb-3 {
+  width: 180px;
+  height: 180px;
+  background: #ffd6a5;
+  top: 20%;
+  right: -60px;
+  opacity: 0.2;
+}
 .grid {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 28px 28px;
   mask-image: radial-gradient(600px 280px at 30% 10%, #000, transparent 70%);
 }
 
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease }
-.reveal.in { opacity: 1; transform: translateY(0) }
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 @media screen and (max-width: 768px) {
   .landing {
