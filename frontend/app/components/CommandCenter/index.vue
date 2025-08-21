@@ -40,9 +40,7 @@
 
         <!-- Footer -->
         <div class="search-footer">
-          <div class="shortcuts">
-            <kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close
-          </div>
+          <div class="shortcuts"><kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close</div>
         </div>
       </div>
     </div>
@@ -258,13 +256,13 @@ watch(searchQuery, () => {
 
 .search-footer {
   padding: 16px 20px;
-  background: var(--bg-color-secondary);
   border-top: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
 .shortcuts {
   display: flex;
+  flex-wrap: wrap;
   font-size: 13px;
   font-weight: 500;
   gap: 10px;
@@ -290,7 +288,7 @@ watch(searchQuery, () => {
   }
 }
 
-@media (width <= 768px) {
+@media (max-width: 768px) {
   .command-center-modal {
     width: 95%;
     max-height: 80vh;
@@ -298,7 +296,6 @@ watch(searchQuery, () => {
   }
 
   .shortcuts {
-    flex-direction: column;
     gap: 8px;
   }
 }

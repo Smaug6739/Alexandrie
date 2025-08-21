@@ -145,9 +145,7 @@ const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(0);
 
 const categoryStore = useCategoriesStore();
-const categoriesTree = new TreeStructure(useSidebarTree().categories.value)
-  .generateTree()
-  .filter(i => i.data.type === 'category' && i.data.role == 2);
+const categoriesTree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 
 const allTags = computed(() => {
   const tags = new Set<string>();
@@ -309,7 +307,6 @@ function parseTags(tags: string): string[] {
 }
 
 .search-filters {
-  background: var(--bg-color-secondary);
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
 }
@@ -586,14 +583,15 @@ function parseTags(tags: string): string[] {
 }
 
 .no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 40px 20px;
   text-align: center;
+  gap: 5px;
 
   .no-results-icon {
-    width: 48px;
-    height: 48px;
     opacity: 0.5;
-    margin-bottom: 16px;
   }
 
   p {

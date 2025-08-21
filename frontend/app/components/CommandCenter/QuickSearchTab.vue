@@ -9,7 +9,15 @@
       <div v-else class="search-results-list">
         <div v-for="(items, section) in groupedResults" :key="section" class="section">
           <div class="section-title">{{ section }}</div>
-          <NuxtLink v-for="item in items" :key="item.id" class="search-result-item" :to="item.path" :class="{ selected: selectedIndex === item.globalIndex }" @click="$emit('selectItem')" @mouseenter="$emit('updateSelectedIndex', item.globalIndex)">
+          <NuxtLink
+            v-for="item in items"
+            :key="item.id"
+            class="search-result-item"
+            :to="item.path"
+            :class="{ selected: selectedIndex === item.globalIndex }"
+            @click="$emit('selectItem')"
+            @mouseenter="$emit('updateSelectedIndex', item.globalIndex)"
+          >
             <Icon :name="item.icon" class="result-icon" fill="var(--font-color)" />
             <div class="result-content">
               <span class="result-title">{{ item.title }}</span>
@@ -224,14 +232,15 @@ defineExpose({ flattenedItems });
 }
 
 .no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 40px 20px;
   text-align: center;
+  gap: 5px;
 
   .no-results-icon {
-    width: 48px;
-    height: 48px;
     opacity: 0.5;
-    margin-bottom: 16px;
   }
 
   p {

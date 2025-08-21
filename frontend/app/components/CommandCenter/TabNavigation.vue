@@ -62,7 +62,6 @@ const tabs: Tab[] = [
 
   &.active {
     color: var(--primary);
-    background: var(--bg-color-secondary);
     border-bottom-color: var(--primary);
   }
 }
