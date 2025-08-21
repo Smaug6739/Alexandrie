@@ -62,12 +62,12 @@ a {
 }
 
 button {
-  font-weight: 600;
   font-size: medium;
+  font-weight: 600;
 }
 
 .confirm {
-  background-color: var(--font-color);
   color: var(--bg-color);
+  background-color: var(--font-color);
 }
 </style>

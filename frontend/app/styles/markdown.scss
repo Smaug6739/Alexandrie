@@ -1,12 +1,12 @@
 .markdown-container {
-	margin-top: 10px;
-	background-color: var(--bg-contrast);
-	border-radius: 4px;
 	padding: 10px;
+	border-radius: 4px;
+	background-color: var(--bg-contrast);
+	margin-top: 10px;
 
 	&:has(.blue) {
-		border-left: 4px solid var(--blue);
 		padding: 10px;
+		border-left: 4px solid var(--blue);
 	}
 
 	&:has(.red) {
@@ -23,16 +23,15 @@
 	}
 
 	.svg-icon {
+		display: inline-block;
 		box-sizing: border-box;
+		font-size: 16px;
 		color: var(--blue);
 		color-scheme: dark;
-		display: inline-block;
 		fill: var(--blue);
-		font-size: 16px;
 		margin-right: 8px;
+		overflow: visible;
 		overflow-wrap: break-word;
-		overflow-x: visible;
-		overflow-y: visible;
 		vertical-align: text-bottom
 	}
 
@@ -44,8 +43,8 @@
 		color: var(--red);
 
 		.svg-icon {
-			fill: var(--red);
 			color: var(--red);
+			fill: var(--red);
 		}
 	}
 
@@ -53,8 +52,8 @@
 		color: var(--teal);
 
 		.svg-icon {
-			fill: var(--teal);
 			color: var(--teal);
+			fill: var(--teal);
 		}
 	}
 
@@ -62,8 +61,8 @@
 		color: var(--blue);
 
 		.svg-icon {
-			fill: var(--blue);
 			color: var(--blue);
+			fill: var(--blue);
 		}
 	}
 
@@ -71,8 +70,8 @@
 		color: var(--yellow);
 
 		.svg-icon {
-			fill: var(--yellow);
 			color: var(--yellow);
+			fill: var(--yellow);
 		}
 	}
 
@@ -82,25 +81,49 @@
 }
 
 .custom-block {
+	padding: 10px 10px 8px;
 	border: 1px solid transparent;
 	border-radius: 8px;
-	margin-top: 10px;
-	padding: 10px 10px 8px;
-	line-height: 24px;
 	font-size: 14px;
-	color: rgba(235, 235, 235, 1);
+	line-height: 24px;
+	color: rgb(235 235 235 / 100%);
+	margin-bottom: 5px;
+	margin-top: 10px;
+
+	p {
+		margin: 0;
+		padding: 0;
+	}
+
+	p+p {
+		margin: 8px 0;
+	}
+
+	a {
+		font-weight: 600;
+		color: inherit;
+		text-decoration: underline;
+	}
+
+	a:hover {
+		opacity: 0.6;
+	}
+}
+
+.custom-block-title {
+	font-weight: 700;
 }
 
 .checkbox-container {
 	display: flex;
 	align-items: center;
-	justify-content: flex-start;
 	gap: 8px;
+	justify-content: flex-start;
 }
 
 .checkbox-container input[type="checkbox"] {
-	margin-right: 8px;
 	width: unset;
+	margin-right: 8px;
 }
 
 .checkbox-container span {
@@ -249,47 +272,12 @@
 	background-color: var(--blue-bg);
 
 	summary {
-		cursor: pointer;
 		margin: 0 0 8px;
 		font-weight: 700;
+		cursor: pointer;
 
 		&+p {
 			margin: 8px 0;
 		}
 	}
-}
-
-.center {
-	text-align: center;
-	align-items: center;
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-}
-
-.custom-block-title {
-	font-weight: 700;
-}
-
-.custom-block {
-	margin-bottom: 5px;
-
-	p {
-		margin: 0px;
-		padding: 0px;
-	}
-
-	p+p {
-		margin: 8px 0;
-	}
-}
-
-.custom-block a {
-	color: inherit;
-	font-weight: 600;
-	text-decoration: underline;
-}
-
-.custom-block a:hover {
-	opacity: 0.6;
 }

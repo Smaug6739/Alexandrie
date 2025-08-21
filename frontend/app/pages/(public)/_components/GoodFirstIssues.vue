@@ -51,47 +51,54 @@ onMounted(fetchIssues);
 
 <style scoped lang="scss">
 .good-first-issues {
+  max-width: 1100px;
   margin: 4rem auto;
   text-align: center;
-  max-width: 1100px;
 }
+
 .issues-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   margin-top: 14px;
 }
+
 .issue {
   display: block;
+  padding: 14px;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 14px;
-  text-decoration: none;
   color: inherit;
   background: var(--bg-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
 }
+
 .issue:hover {
+  box-shadow: 0 10px 28px rgb(0 0 0 / 12%);
   transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
 }
+
 .top {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 6px;
 }
+
 .label {
-  background: var(--bg-contrast);
+  padding: 2px 8px;
   border: 1px solid var(--border-color);
   border-radius: 999px;
-  padding: 2px 8px;
   font-size: 12px;
+  background: var(--bg-contrast);
 }
+
 .title {
   font-weight: 600;
   margin-bottom: 6px;
 }
+
 .meta {
   font-size: 12px;
   color: var(--text-muted);

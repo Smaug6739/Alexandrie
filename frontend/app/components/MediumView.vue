@@ -13,19 +13,19 @@ const transition = computed(() => (isResizing.value ? 'none' : 'padding-left 0.3
 
 <style scoped>
 .medium-view {
-  padding: 0 20px;
   width: 100%;
   height: 100%;
+  padding: 0 20px;
 }
 
 @media print {
   .medium-view {
-    padding: 0 !important;
     margin: 0 !important;
+    padding: 0 !important;
   }
 }
 
-@media screen and (max-width: 719px) {
+@media screen and (width <= 719px) {
   .medium-view {
     padding: 0 0.5rem;
   }

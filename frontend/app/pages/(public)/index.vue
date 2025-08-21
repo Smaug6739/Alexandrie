@@ -58,7 +58,7 @@
     <section class="final-cta reveal">
       <h2>Ready to Take Better Notes?</h2>
       <p>Join us on this journey to better note-taking.</p>
-      <NuxtLink :prefetch="false" to="/dashboard" class="btn primary large" style="display: block; margin: 10px auto 0; width: fit-content">Start Now</NuxtLink>
+      <NuxtLink :prefetch="false" to="/dashboard" class="btn primary large" style="display: block; width: fit-content; margin: 10px auto 0">Start Now</NuxtLink>
       <p style="margin-top: 30px">Want to contribute or discuss? Check out our <NuxtLink :prefetch="false" to="https://discord.gg/UPsEg6egPj" target="_blank" style="color: white; text-decoration: underline">Discord server</NuxtLink>!</p>
     </section>
 
@@ -110,20 +110,20 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .landing {
-  margin-top: 1em;
-  font-family: var(--font-main);
   padding: 0 2rem;
+  font-family: var(--font-main);
+  margin-top: 1em;
 }
 
 .hero {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  padding: 4rem 2rem;
   position: relative;
-  background: radial-gradient(1200px 400px at 20% -10%, rgba(255, 255, 255, 0.08), transparent), linear-gradient(120deg, var(--primary), #6c63ff);
-  color: white;
+  display: flex;
+  padding: 4rem 2rem;
   border-radius: 1rem;
+  color: white;
+  background: radial-gradient(1200px 400px at 20% -10%, rgb(255 255 255 / 8%), transparent), linear-gradient(120deg, var(--primary), #6c63ff);
+  align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 4rem;
   overflow: hidden;
 }
@@ -135,15 +135,14 @@ onMounted(() => {
 .hero-image {
   width: 600px;
   border-radius: 1rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px rgb(0 0 0 / 30%);
   margin-top: 10px;
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, #fff, #e3e8ff, #fff);
-  -webkit-background-clip: text;
-  background-clip: text;
   color: transparent;
+  background: linear-gradient(90deg, #fff, #e3e8ff, #fff);
+  background-clip: text;
 }
 
 .badges {
@@ -151,125 +150,140 @@ onMounted(() => {
   gap: 8px;
   margin-bottom: 12px;
 }
+
 .badge {
   padding: 6px 10px;
+  border: 1px solid rgb(255 255 255 / 25%);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
   font-size: 12px;
+  background: rgb(255 255 255 / 15%);
 }
 
 .cta-buttons {
-  margin-top: 1.5rem;
   display: flex;
   gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .btn {
   padding: 0.9rem 1.8rem;
   border-radius: 50px;
   font-weight: 600;
-  text-decoration: none;
   transition: all 0.3s ease;
+  text-decoration: none;
 }
+
 .btn.primary {
-  background: white;
   color: var(--primary);
+  background: white;
 }
+
 .btn.secondary {
-  background: rgba(255, 255, 255, 0.2);
   color: white;
+  background: rgb(255 255 255 / 20%);
 }
+
 .btn.primary:hover,
 .btn.secondary:hover {
   transform: translateY(-3px);
 }
+
 .btn.glow {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 20%), 0 0 0 rgb(255 255 255 / 60%);
 }
+
 .btn.glow:hover {
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24), 0 0 30px rgba(255, 255, 255, 0.35);
+  box-shadow: 0 14px 36px rgb(0 0 0 / 24%), 0 0 30px rgb(255 255 255 / 35%);
 }
 
 .features {
   text-align: center;
   margin-bottom: 4rem;
 }
+
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   margin-top: 2rem;
 }
+
 .features-grid > * {
-  transform: translateZ(0);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transform: translateZ(0);
 }
+
 .features-grid > *:hover {
+  box-shadow: 0 10px 30px rgb(0 0 0 / 15%);
   transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .testimonials {
-  background: var(--bg-contrast);
   padding: 3rem 2rem;
-  text-align: center;
-  margin-bottom: 4rem;
   border-radius: 1rem;
+  text-align: center;
+  background: var(--bg-contrast);
+  margin-bottom: 4rem;
 }
+
 .testimonials-grid {
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
-  flex-wrap: wrap;
 }
 
 .final-cta {
-  text-align: center;
   padding: 3rem 2rem;
-  background: var(--primary);
-  color: white;
   border-radius: 1rem;
+  color: white;
+  text-align: center;
+  background: var(--primary);
   margin-bottom: 3rem;
 }
+
 .final-cta .btn {
-  background: white;
   color: var(--primary);
+  background: white;
 }
 
 .scroll-indicator {
   position: absolute;
-  left: 50%;
   bottom: 12px;
-  transform: translateX(-50%);
+  left: 50%;
+  display: flex;
   width: 24px;
   height: 36px;
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  border: 2px solid rgb(255 255 255 / 60%);
   border-radius: 14px;
-  display: flex;
   align-items: flex-start;
   justify-content: center;
   padding-top: 6px;
+  transform: translateX(-50%);
 }
+
 .scroll-indicator span {
   width: 4px;
   height: 8px;
-  background: rgba(255, 255, 255, 0.8);
   border-radius: 2px;
+  background: rgb(255 255 255 / 80%);
   animation: scroll 1.6s ease-in-out infinite;
 }
+
 @keyframes scroll {
   0% {
-    transform: translateY(0);
     opacity: 1;
-  }
-  60% {
-    transform: translateY(12px);
-    opacity: 0;
-  }
-  100% {
     transform: translateY(0);
+  }
+
+  60% {
     opacity: 0;
+    transform: translateY(12px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(0);
   }
 }
 
@@ -278,69 +292,78 @@ onMounted(() => {
   inset: 0;
   pointer-events: none;
 }
+
 .orb {
   position: absolute;
-  filter: blur(40px);
-  opacity: 0.55;
   border-radius: 50%;
+  opacity: 0.55;
+  filter: blur(40px);
   transform: translate3d(calc(var(--px, 0) * 20px), calc(var(--py, 0) * 20px), 0);
 }
+
 .orb-1 {
-  width: 320px;
-  height: 320px;
-  background: #ffffff;
   top: -80px;
   left: -60px;
+  width: 320px;
+  height: 320px;
+  background: #fff;
   opacity: 0.15;
 }
+
 .orb-2 {
+  right: 10%;
+  bottom: -40px;
   width: 240px;
   height: 240px;
   background: #9aa5ff;
-  bottom: -40px;
-  right: 10%;
   opacity: 0.25;
 }
+
 .orb-3 {
+  top: 20%;
+  right: -60px;
   width: 180px;
   height: 180px;
   background: #ffd6a5;
-  top: 20%;
-  right: -60px;
   opacity: 0.2;
 }
+
 .grid {
   position: absolute;
-  inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-image: linear-gradient(rgb(255 255 255 / 6%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 6%) 1px, transparent 1px);
   background-size: 28px 28px;
+  inset: 0;
   mask-image: radial-gradient(600px 280px at 30% 10%, #000, transparent 70%);
 }
 
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(24px);
 }
+
 .reveal.in {
   opacity: 1;
   transform: translateY(0);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   .landing {
     padding: 0 1rem;
   }
+
   .hero {
-    flex-direction: column;
-    text-align: center;
     padding: 2rem 1rem;
+    text-align: center;
+    flex-direction: column;
   }
+
   .hero-image {
     width: 100%;
     max-width: 500px;
     margin-top: 2rem;
   }
+
   .features-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }

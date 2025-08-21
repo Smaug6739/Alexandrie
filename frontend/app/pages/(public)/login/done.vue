@@ -12,28 +12,31 @@
 <style scoped lang="scss">
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
   max-width: 600px;
   margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
+
 h1 {
   font-size: 2.5em;
 }
+
 p {
   font-size: 1.2em;
   margin-bottom: 20px;
 }
+
 .button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: var(--primary);
-  color: white;
-  text-decoration: none;
   border-radius: 5px;
+  color: white;
+  background-color: var(--primary);
   transition: background-color 0.3s;
+  text-decoration: none;
 }
 </style>

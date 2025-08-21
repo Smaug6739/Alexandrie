@@ -51,13 +51,12 @@ function deleteNode(node: Item) {
 
 <style scoped>
 .workspace {
-  display: flex;
-  flex-direction: column;
-  padding: 5px 15px;
-  border-radius: 10px;
-  border: var(--border-color) 1px solid;
-  width: 100%;
   display: block;
+  width: 100%;
+  padding: 5px 15px;
+  border: var(--border-color) 1px solid;
+  border-radius: 10px;
+  flex-direction: column;
   margin-bottom: 16px;
 }
 
@@ -65,7 +64,8 @@ function deleteNode(node: Item) {
   font-size: 15px;
   font-weight: bold;
 }
-@media screen and (max-width: 768px) {
+
+@media screen and (width <= 768px) {
   header {
     flex-direction: column;
   }

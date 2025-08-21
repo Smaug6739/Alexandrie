@@ -182,13 +182,15 @@ const selectOption = (option: SelectOption) => {
 .form-group {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
+
 h2 {
   font-size: 1.2em;
 }
+
 label {
   font-weight: 700;
   flex: 1;

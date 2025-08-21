@@ -40,49 +40,53 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
 }
 
 .menu-button {
-  background: none;
-  border: none;
-  cursor: pointer;
   padding: 0;
+  border: none;
   border-radius: 4px;
   line-height: 1;
+  background: none;
+  cursor: pointer;
 }
 
 .menu-button:hover {
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgb(0 0 0 / 8%);
 }
+
 .menu-icon {
   display: block;
-  height: 20px;
   width: 20px;
+  height: 20px;
   margin: auto 0;
 }
 
 .content {
   position: absolute;
   right: 0;
-  margin-top: 4px;
-  padding: 6px;
-  min-width: 270px;
-  background: var(--bg-color);
-  border-radius: 6px;
-  box-shadow: 0 2px 6px var(--shadow);
-  border: 1px solid var(--border-color);
-  overflow: hidden;
   z-index: 2;
+  min-width: 270px;
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-color);
+  box-shadow: 0 2px 6px var(--shadow);
+  margin-top: 4px;
+  overflow: hidden;
 }
 
 /* Animation */
 .fade-scale-enter-active {
   transition: all 120ms ease-out;
 }
+
 .fade-scale-leave-active {
   transition: all 100ms ease-in;
 }
+
 .fade-scale-enter-from {
   opacity: 0;
   transform: scale(0.95);
 }
+
 .fade-scale-leave-to {
   opacity: 0;
   transform: scale(0.95);

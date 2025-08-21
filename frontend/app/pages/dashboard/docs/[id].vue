@@ -57,7 +57,7 @@ const previous = computed(() => documentsStore.getPrevious(article.value));
 </script>
 
 <style scoped lang="scss">
-@media screen and (max-width: 1280px) {
+@media screen and (width <= 1280px) {
   .toc {
     display: none;
   }

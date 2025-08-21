@@ -106,38 +106,41 @@ export interface Field {
 
 <style lang="scss" scoped>
 .container {
-  border-radius: 8px;
-  border: 1.5px solid var(--border-color);
   width: 100%;
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
 }
+
 .table-wrapper {
   width: 100%;
   border-top: 1px solid var(--border-color);
   overflow-x: auto;
 }
+
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 0 8px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 table {
+  display: table;
   width: 100%;
+  border-color: inherit;
   border-collapse: collapse;
   table-layout: auto;
-  border-color: inherit;
-  display: table;
 }
 
 th,
 td {
   padding: 10px;
   text-align: left;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
+
 td > span {
   display: flex;
   align-items: center;
@@ -157,12 +160,12 @@ td {
 }
 
 button {
-  margin-right: 20px;
   padding: 0.1rem 0.25rem;
-  font-size: 1rem;
   border: none;
-  cursor: pointer;
   border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 20px;
 
   &:disabled {
     background-color: var(--disabled-color);
@@ -171,15 +174,15 @@ button {
 
   &:hover,
   &.active {
-    transform: none;
     font-weight: bold;
+    transform: none;
   }
 }
 
 .pagination {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .pagination button {
@@ -199,8 +202,8 @@ button {
 select {
   max-width: 100px;
   margin: 0;
-  margin-left: 10px;
   padding: 0;
+  margin-left: 10px;
 }
 
 svg {
@@ -223,23 +226,21 @@ input {
   color: var(--font-color-dark);
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (width >= 1000px) {
   .container {
     zoom: 1;
-  }
-
-  .noMobile {
-    display: table-cell;
   }
 
   table {
     zoom: 1;
   }
 }
-@media screen and (max-width: 768px) {
+
+@media screen and (width <= 768px) {
   table {
     table-layout: fixed;
   }
+
   th,
   td {
     width: 100%;

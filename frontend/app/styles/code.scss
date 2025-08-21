@@ -1,36 +1,36 @@
+/* stylelint-disable */
+pre {
+	display: inline-block;
+	width: 100%;
+	margin: 12px 0;
+	border-radius: 8px;
+	background: #3b4244;
+	word-break: break-all;
+}
+
 code {
-	background: var(--bg-contrast);
-	color: var(--font-color);
 	margin: 2px;
 	padding: 3px;
 	border-radius: 5px;
+	color: var(--font-color);
+	background: var(--bg-contrast);
 }
 
 pre code.hljs {
 	display: block;
-	overflow-x: auto;
 	font-family: 'JetBrains Mono', monospace;
 	font-size: 14px;
+	overflow-x: auto;
 }
 
-pre {
-	display: inline-block;
-	word-break: break-all;
-}
 
-pre {
-	border-radius: 8px;
-	margin: 12px 0px;
-	background: #3b4244;
-	width: 100%;
-}
 
 pre>code,
 code.hljs {
 	padding: 0.75em;
-	text-wrap: wrap;
-	background: #3b4244;
 	color: #fff;
+	background: #3b4244;
+	text-wrap: wrap;
 }
 
 .hljs {
@@ -73,8 +73,8 @@ code.hljs {
 
 .hljs-section,
 .hljs-title {
-	color: #79d984;
-	font-weight: 700
+	font-weight: 700;
+	color: #79d984
 }
 
 .hljs-title.function_ {

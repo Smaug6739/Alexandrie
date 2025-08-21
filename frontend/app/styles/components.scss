@@ -1,47 +1,55 @@
 .modal {
-
-	max-height: 715px;
 	height: 100%;
+	max-height: 715px;
 	overflow-y: auto;
 
 	.footer {
-		margin: 6px 0;
-		padding: 6px 0 0 0;
-		border-top: 1px solid var(--border-color);
 		display: flex;
-		justify-content: flex-end;
+		margin: 6px 0;
+		padding: 6px 0 0;
 		align-items: center;
+		border-top: 1px solid var(--border-color);
+		justify-content: flex-end;
 	}
+}
+
+.center {
+	display: flex;
+	text-align: center;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .card-component {
 	display: block;
 	margin: 12px 6px;
-	gap: 16px;
 	padding: 24px;
+	border: 1px solid var(--border-color);
 	border-radius: 8px;
 	box-shadow: 0 2px 6px var(--shadow);
-	border: 1px solid var(--border-color);
+	gap: 16px;
 
 	header {
 		h1 {
-			font-size: 20px;
-			padding: 6px 4px;
 			margin: 10px 0;
+			padding: 6px 4px;
+			font-size: 20px;
 		}
 
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 10px;
 		border-bottom: 1px solid var(--border-color);
+		justify-content: space-between;
+		margin-bottom: 10px;
 	}
 }
 
+/* stylelint-disable */
 tag {
+	margin: 1px 2px 1px 0;
 	padding: 2px 4px;
 	border-radius: 6px;
-	margin: 1px 2px 1px 0;
 	font-size: 0.8em;
 }
 

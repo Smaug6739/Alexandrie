@@ -19,55 +19,61 @@ const close = (id: number) => useNotifications().remove(id);
 <style scoped lang="scss">
 .notification-container {
   position: fixed;
-  bottom: 20px;
   right: 20px;
+  bottom: 20px;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  z-index: 1000;
 }
 
 .notification {
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
   width: 360px;
   padding: 16px 18px;
   border-radius: 8px;
-  backdrop-filter: blur(12px);
   color: white;
   box-shadow: 0 2px 10px var(--shadow);
-  animation: fadeIn 0.3s ease;
-  position: relative;
+  align-items: flex-start;
+  animation: fade-in 0.3s ease;
+  backdrop-filter: blur(12px);
+  gap: 12px;
 }
+
 .header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
+
 p {
-  font-size: 14px;
   margin: 0;
+  font-size: 14px;
   line-height: 1.4;
 }
+
 .title {
   font-weight: 500;
 }
+
 .message {
   opacity: 0.8;
   margin-top: 4px;
 }
+
 .btn {
-  font-size: 25px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  opacity: 0.6;
   position: absolute;
   top: 5px;
   right: 15px;
+  border: none;
+  font-size: 25px;
+  color: white;
+  opacity: 0.6;
+  cursor: pointer;
 }
+
 /* Notification types */
 .success {
   background: $green;
@@ -90,28 +96,33 @@ p {
 .notification-slide-leave-active {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
 .notification-enter-from {
   opacity: 0;
   transform: translateX(100%);
 }
+
 .notification-enter-to {
   opacity: 1;
   transform: translateX(0);
 }
+
 .notification-leave-from {
   opacity: 1;
   transform: translateX(0);
 }
+
 .notification-leave-to {
   opacity: 0;
   transform: translateX(100%);
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

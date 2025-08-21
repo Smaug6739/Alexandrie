@@ -27,24 +27,27 @@ function select() {
 <style scoped>
 .tree-node {
   display: block;
+  margin: 0 auto;
   padding: 3px 8px;
   border-radius: 6px;
+  font-size: 14px;
   text-align: left;
   cursor: pointer;
-  font-size: 14px;
-  margin: 0 auto;
 }
+
 .tree-node:hover {
   background-color: var(--selection-color);
 }
+
 ul,
 li {
-  list-style: none;
   margin: 0;
   padding: 0;
+  list-style: none;
 }
+
 button[disabled] {
-  cursor: not-allowed;
   opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>

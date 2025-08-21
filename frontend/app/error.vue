@@ -34,12 +34,12 @@ const props = defineProps({
 <style lang="scss">
 .error-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  text-align: center;
   padding: 20px;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .error-content {
@@ -48,16 +48,16 @@ const props = defineProps({
 }
 
 .error-code {
+  margin: 0;
   font-size: 96px;
   font-weight: bold;
   color: var(--font-color);
-  margin: 0;
 }
 
 .error-message {
+  margin: 10px 0;
   font-size: 24px;
   color: var(--font-color-dark);
-  margin: 10px 0;
 }
 
 .error-description {
@@ -69,11 +69,11 @@ const props = defineProps({
 .error-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: var(--primary);
-  color: white;
-  text-decoration: none;
   border-radius: 5px;
+  color: white;
+  background-color: var(--primary);
   transition: background-color 0.3s;
+  text-decoration: none;
 }
 
 .error-button:hover {

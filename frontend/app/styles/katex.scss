@@ -1,9 +1,9 @@
 .katex-container {
 	display: inline-flex;
 	max-width: 100%;
+	padding: 2.5px;
 	//overflow: hidden;
 	overflow: auto hidden;
-	padding: 2.5px;
 
 	i {
 		max-width: 100%;
@@ -15,7 +15,7 @@
 	//text-align: left;
 }
 
-@media screen and (min-width:1000px) {
+@media screen and (width >=1000px) {
 	.katex-display>.katex {
 		text-align: left !important;
 		white-space: wrap !important;
@@ -24,7 +24,7 @@
 
 .katex {
 	.text {
-		font-family: 'Poppins';
+		font-family: Poppins;
 		font-size: 16px;
 	}
 }

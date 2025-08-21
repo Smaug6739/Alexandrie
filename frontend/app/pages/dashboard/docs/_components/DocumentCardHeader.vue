@@ -29,10 +29,10 @@ const category = computed(() => categories_store.getById(props.doc?.category || 
 
 <style lang="scss" scoped>
 .header {
-  background-color: var(--bg-contrast);
+  display: flex;
   padding: 0.7rem 1.2rem;
   border-radius: 0.625rem;
-  display: flex;
+  background-color: var(--bg-contrast);
   transition: background-color $transition-duration;
 }
 
@@ -54,49 +54,52 @@ p {
   }
 
   .title {
-    font-weight: 700;
     font-size: 26px;
+    font-weight: 700;
     color: var(--font-color-dark);
   }
 
   .category {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
     font-size: 20px;
     font-weight: 500;
     color: var(--font-color-light);
+    align-items: baseline;
+    justify-content: space-between;
   }
 }
 
 .document-tags {
-  padding-top: 5px;
-  margin-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 10px;
+  padding-top: 5px;
 }
 
-@media print, screen and (min-width: 1024px) {
+@media print, screen and (width >= 1024px) {
   .icon {
     display: block;
   }
 }
+
 @media print {
   .print-style {
-    align-items: center;
     padding: 0.4rem 0.2rem;
     background: none;
+    align-items: center;
+
     .icon,
     .description,
     .document-tags,
     .category {
       display: none;
     }
+
     .title {
       font-size: 27px;
       font-weight: 700;
-      border-bottom: 1px solid var(--font-color);
       text-align: center;
+      border-bottom: 1px solid var(--font-color);
     }
   }
 }

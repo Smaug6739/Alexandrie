@@ -2,7 +2,7 @@
   <div>
     <h1>Security</h1>
     <h2>Last connection</h2>
-    <div v-if="store.last_connection" class="last_connection">
+    <div v-if="store.last_connection" class="last-connection">
       <div style="display: flex">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="569.4 86.3 83.6 48.2" width="100px">
           <path fill="var(--cl-chassis-back, black)" d="M577 89.8c0-1.4.2-2 .6-2.6.5-.5 1.2-.9 2.8-.9h61.7c1.4 0 2 .3 2.5.8s.7 1.2.7 2.7v41c0 1.4-.2 2-.5 2.4a2.7 2.7 0 0 1-2.2 1.1h-63c-.8 0-1.6-.3-2-1-.4-.4-.6-1-.6-2.5v-41Z" />
@@ -76,24 +76,26 @@ const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountM
 </script>
 
 <style scoped lang="scss">
-.last_connection {
-  align-items: center;
+.last-connection {
   padding: 0.3rem 0.5rem;
   border-radius: 10px;
   background-color: var(--bg-contrast-2);
+  align-items: center;
 }
+
 p {
   margin: 0.5rem;
   font-size: 0.9rem;
 }
 
 .warning {
-  color: $red;
   font-size: 0.9rem;
-}
-.err {
   color: $red;
+}
+
+.err {
   padding: 0.1rem 0.5rem;
   font-size: 0.8rem;
+  color: $red;
 }
 </style>

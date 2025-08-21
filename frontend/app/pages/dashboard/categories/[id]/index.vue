@@ -45,10 +45,12 @@ const documents = computed(() => {
   display: flex;
   flex-direction: column;
 }
+
 .line-item:first-child {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
+
 .line-item:last-child {
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;

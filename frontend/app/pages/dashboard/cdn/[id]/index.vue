@@ -78,6 +78,7 @@ const showDeleteModal = () => {
 h2 {
   font-size: 26px;
 }
+
 label {
   margin-top: 10px;
 }
@@ -87,24 +88,27 @@ textarea,
 select {
   width: 100%;
 }
+
 .form-row {
   display: flex;
-  gap: 20px;
   flex-wrap: wrap;
+  gap: 20px;
 }
 
 .form-column {
-  flex: 1;
   min-width: 200px;
+  flex: 1;
 }
+
 a {
   color: var(--primary);
   text-decoration: underline;
 }
+
 .preview {
   display: flex;
-  justify-content: center;
   width: 100%;
   height: 100%;
+  justify-content: center;
 }
 </style>

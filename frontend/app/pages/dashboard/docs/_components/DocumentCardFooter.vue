@@ -24,28 +24,30 @@ defineProps<{ document: Document; next?: Document; previous?: Document }>();
 
 <style scoped lang="scss">
 footer {
-  margin: 50px 0 40px 0;
+  margin: 50px 0 40px;
 }
+
 .items {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
   gap: 10px;
+  justify-content: space-between;
 }
 
 .item {
   display: block;
   width: 100%;
-  max-width: 400px;
   min-width: 280px;
-  border-radius: 7px;
-  border: 1px solid var(--border-color);
-  padding: 10px;
+  max-width: 400px;
   margin: 5px 0;
-  font-weight: 500;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
   font-size: 15px;
+  font-weight: 500;
   transition: color 0.25s;
   flex: 1;
+
   b {
     display: block;
   }
@@ -57,25 +59,29 @@ footer {
 }
 
 .right {
-  margin-left: auto;
   text-align: right;
+  margin-left: auto;
 }
 
 .left {
-  margin-right: auto;
   text-align: left;
+  margin-right: auto;
 }
 
 .min {
   font-size: small;
 }
 
+svg {
+  fill: var(--font-color);
+}
+
 .infos {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   font-weight: 500;
+  align-items: center;
   border-bottom: 1px solid var(--border-color);
+  justify-content: space-between;
 
   a {
     display: flex;
@@ -84,9 +90,5 @@ footer {
       margin-right: 5px;
     }
   }
-}
-
-svg {
-  fill: var(--font-color);
 }
 </style>

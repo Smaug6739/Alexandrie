@@ -69,22 +69,22 @@ async function reset() {
 <style scoped lang="scss">
 .container {
   display: flex;
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
   flex-direction: column;
   justify-content: space-between;
-  width: 95%;
-  margin: 0 auto;
   padding-top: 1.5rem;
-  height: 100%;
 }
 
 .body-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 600px;
   width: 100%;
+  max-width: 600px;
   margin: 0 auto 10%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h1 {
@@ -104,13 +104,13 @@ form {
   position: absolute;
   top: 50%;
   right: 5px;
-  transform: translateY(-50%);
-  font-size: 0.8rem;
   padding: 0.2rem;
-  background-color: transparent;
   border: none;
+  font-size: 0.8rem;
+  background-color: transparent;
   cursor: pointer;
   outline: none;
+  transform: translateY(-50%);
 
   &:hover {
     text-decoration: underline;
@@ -119,17 +119,18 @@ form {
 
 .form-group {
   display: flex;
-  flex-direction: column;
   width: 100%;
+  flex-direction: column;
   margin-bottom: 1rem;
 }
 
 .btn {
-  font-size: 1.2rem;
-  border-radius: 50px;
   width: 100%;
-  background-color: var(--primary);
+  border-radius: 50px;
+  font-size: 1.2rem;
   color: white;
+  background-color: var(--primary);
+
   &:hover {
     background: $primary-dark;
     transform: none;
@@ -151,8 +152,8 @@ input {
 }
 
 .sub {
-  text-align: center;
   font-size: 14px;
+  text-align: center;
 
   a {
     text-decoration: underline;

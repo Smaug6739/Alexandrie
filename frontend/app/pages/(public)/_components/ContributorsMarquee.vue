@@ -39,15 +39,16 @@ onMounted(fetchContributors);
 
 <style scoped lang="scss">
 .contributors {
-  text-align: center;
-  margin: 4rem auto;
   max-width: 1100px;
+  margin: 4rem auto;
+  text-align: center;
 }
+
 .strip {
   display: flex;
-  justify-content: center;
-  gap: 12px;
   padding: 8px 0;
+  gap: 12px;
+  justify-content: center;
 }
 
 .avatar {
@@ -56,54 +57,64 @@ onMounted(fetchContributors);
   background: var(--bg-color);
   transition: transform 0.15s ease;
 }
+
 .avatar img {
   width: 48px;
   height: 48px;
   border-radius: 50%;
 }
+
 .avatar::before {
-  content: '';
   position: absolute;
-  inset: 0;
   border-radius: inherit;
+  content: '';
+  inset: 0;
 }
+
 .avatar:hover {
   transform: translateY(-2px);
 }
+
 .profile {
   position: absolute;
-  left: 50%;
   bottom: calc(100% + 8px);
-  transform: translateX(-50%) translateY(0);
-  background: var(--bg-color);
+  left: 50%;
+  padding: 6px 10px;
   border: 1px solid var(--border-color);
   border-radius: 999px;
-  padding: 6px 10px;
-  white-space: nowrap;
+  background: var(--bg-color);
   opacity: 0;
-  pointer-events: none;
   transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(0);
+  white-space: nowrap;
 }
+
 .avatar:hover .profile {
   opacity: 1;
   transform: translateX(-50%) translateY(-2px);
 }
+
 .name {
   font-weight: 700;
 }
+
 .sub {
   font-size: 12px;
   color: var(--text-muted);
 }
+
 .hint {
-  color: var(--text-muted);
   font-size: 13px;
+  color: var(--text-muted);
   margin-top: 6px;
 }
+
 @keyframes marquee {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(-50%);
   }

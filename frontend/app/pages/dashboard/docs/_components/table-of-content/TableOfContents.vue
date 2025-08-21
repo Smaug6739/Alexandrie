@@ -1,7 +1,7 @@
 <template>
   <aside>
     <h4 v-if="doc?.tags">Tags</h4>
-    <div v-if="doc?.tags" style="display: flex; flex-wrap: wrap; font-size: 14px">
+    <div v-if="doc?.tags" style="display: flex; font-size: 14px; flex-wrap: wrap">
       <tag v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
     </div>
     <ul ref="list" style="position: relative">
@@ -120,43 +120,46 @@ h4 {
 }
 
 aside {
-  max-width: 350px;
   position: sticky;
   top: 20px;
-  margin-left: 50px;
+  max-width: 350px;
+  padding: 0 15px;
   font-size: 0.8rem;
   border-left: 1px solid var(--border-color);
-  padding: 0 15px;
+  margin-left: 50px;
 }
+
 .marker {
   position: absolute;
-  left: -8px;
   top: 32px;
+  left: -8px;
+  z-index: 1;
   width: 3px;
   height: 15px;
-  background-color: var(--primary);
   border-radius: 2px;
+  background-color: var(--primary);
   transition: top 0.25s ease, height 0.25s ease;
-  z-index: 1;
 }
+
 ul {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
+
 li:deep(a).active {
-  color: var(--primary);
   font-weight: 600;
+  color: var(--primary);
 }
 
 .child-link {
   display: flex;
-  align-items: flex-start;
   margin: 5px 0;
   font-weight: bold;
-  gap: 5px;
   color: var(--font-color);
-  text-decoration: none;
   transition: color 0.25s;
+  align-items: flex-start;
+  gap: 5px;
+  text-decoration: none;
 
   &:hover {
     color: var(--primary);

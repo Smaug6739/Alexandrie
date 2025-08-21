@@ -8,11 +8,11 @@
 
 /* only needed once */
 * {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 ::-webkit-scrollbar {
@@ -30,41 +30,37 @@
 	display: none;
 }
 
-::-moz-selection {
-	background-color: var(--selection-color);
-}
-
 ::selection {
 	background-color: var(--selection-color);
 }
 
 .modal-mask {
 	position: fixed;
-	z-index: 120;
 	top: 0;
 	left: 0;
+	z-index: 120;
+	display: flex;
 	width: 100vw;
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.5);
-	display: flex;
+	background-color: rgb(0 0 0 / 50%);
 }
 
 .modal-pos {
 	position: fixed;
 	top: 0;
 	left: 0;
+	display: flex;
 	width: 100vw;
 	height: 100vh;
-	display: flex;
 
 }
 
 
 body {
-	background: var(--bg-color);
-	color: var(--font-color);
 	font-family: $external-font;
 	line-height: 1.5;
+	color: var(--font-color);
+	background: var(--bg-color);
 	transition: background-color $transition-duration;
 }
 
@@ -74,7 +70,7 @@ body {
 
 
 
-@media screen and (min-width: 768px) {
+@media screen and (width >=768px) {
 	.card-component {
 		padding: 2rem;
 	}
@@ -92,7 +88,6 @@ form {
 }
 
 @media print {
-
 	header,
 	footer,
 	nav,
@@ -103,13 +98,13 @@ form {
 
 	.markdown-container,
 	.custom-block {
-		break-inside: avoid;
-		background-color: none !important;
 		border-width: 2px;
+		background-color: none !important;
+		break-inside: avoid;
 
-		/**:not(.custom-block-title) {
+		/** :not(.custom-block-title) {
 			color: black !important;
-		}*/
+		} */
 	}
 
 	.no-print {

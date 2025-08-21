@@ -7,7 +7,7 @@
       <form @submit.prevent="reset">
         <div class="form-group">
           <label for="username">Username</label>
-          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" >
+          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
         <button type="submit" class="btn">Request Reset</button>
@@ -41,22 +41,22 @@ async function reset() {
 <style scoped lang="scss">
 .container {
   display: flex;
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
   flex-direction: column;
   justify-content: space-between;
-  width: 95%;
-  margin: 0 auto;
   padding-top: 1.5rem;
-  height: 100%;
 }
 
 .body-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 600px;
   width: 100%;
+  max-width: 600px;
   margin: 0 auto 10%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h1 {
@@ -70,17 +70,18 @@ form {
 
 .form-group {
   display: flex;
-  flex-direction: column;
   width: 100%;
+  flex-direction: column;
   margin-bottom: 1rem;
 }
 
 .btn {
-  font-size: 1.2rem;
-  border-radius: 50px;
   width: 100%;
-  background-color: var(--primary);
+  border-radius: 50px;
+  font-size: 1.2rem;
   color: white;
+  background-color: var(--primary);
+
   &:hover {
     background: $primary-dark;
     transform: none;
@@ -97,18 +98,15 @@ input {
 }
 
 .invalid-feedback {
-  font-size: 0.8rem;
-  color: $red;
-}
-.invalid-feedback {
-  margin-top: 0.5rem;
   font-size: 15px;
+  color: $red;
   text-align: center;
+  margin-top: 0.5rem;
 }
 
 .issue {
-  text-align: center;
   font-size: 14px;
+  text-align: center;
 
   a {
     text-decoration: underline;

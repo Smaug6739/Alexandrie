@@ -7,13 +7,13 @@
       <form @submit.prevent="login">
         <div class="form-group">
           <label for="username">Username</label>
-          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" >
+          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input id="password" :key="`password-${showPassword}`" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" >
+            <input id="password" :key="`password-${showPassword}`" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" />
             <button type="button" class="password-toggle" @click="togglePassword">
               <div class="eye-icon" :class="{ show: showPassword }">
                 <Icon v-if="showPassword" name="eye" />
@@ -72,44 +72,44 @@ async function connect(username: string, password: string) {
 /* ===== Structure générale ===== */
 .container {
   display: flex;
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
   flex-direction: column;
   justify-content: space-between;
-  width: 95%;
-  margin: 0 auto;
   padding-top: 1.5rem;
-  height: 100%;
 }
 
 .body-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 600px;
   width: 100%;
+  max-width: 600px;
   margin: 0 auto 10%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h1 {
   font-size: 2.5em;
 }
 
-/* ===== Formulaire ===== */
+/* ===== Form ===== */
 form {
   width: 100%;
 }
 
 .form-group {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 6px;
-  width: 100%;
   margin-bottom: 0.8rem;
 
   label {
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text-color);
-    font-size: 0.95rem;
   }
 }
 
@@ -118,16 +118,7 @@ input {
   padding: 0.6rem;
 }
 
-input,
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--border-color) inset !important;
-  -webkit-text-fill-color: var(--text-color) !important;
-  background: var(--border-color);
-}
-
-/* ===== Mot de passe ===== */
+/* ===== Password ===== */
 .password-input {
   position: relative;
 }
@@ -136,19 +127,19 @@ input:-webkit-autofill:focus {
   position: absolute;
   top: 50%;
   right: 8px;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
   display: flex;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  transition: all 0.2s ease;
   align-items: center;
+  cursor: pointer;
   justify-content: center;
+  transform: translateY(-50%);
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgb(0 0 0 / 5%);
   }
 
   &:active {
@@ -157,12 +148,12 @@ input:-webkit-autofill:focus {
 }
 
 .eye-icon {
+  display: flex;
   width: 20px;
   height: 20px;
-  display: flex;
+  transition: all 0.3s ease;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
 
   &.show {
     transform: scale(1.1);
@@ -178,12 +169,12 @@ input:-webkit-autofill:focus {
 /* ===== Liens ===== */
 .signup-link {
   display: block;
-  margin-bottom: 1rem;
-  text-align: center;
-  color: var(--primary);
-  text-decoration: none;
   font-weight: 500;
+  color: var(--primary);
+  text-align: center;
   transition: all 0.2s ease;
+  margin-bottom: 1rem;
+  text-decoration: none;
 
   &:hover {
     color: $primary-dark;
@@ -192,17 +183,17 @@ input:-webkit-autofill:focus {
 }
 
 .forgot-password-link {
-  text-align: center;
   font-size: 16px;
   font-weight: 500;
-  margin-top: 1rem;
   color: var(--text-muted);
+  text-align: center;
+  margin-top: 1rem;
 
   a {
-    color: var(--primary);
-    text-decoration: none;
     font-weight: 600;
+    color: var(--primary);
     transition: all 0.2s ease;
+    text-decoration: none;
 
     &:hover {
       color: $primary-dark;
@@ -213,16 +204,16 @@ input:-webkit-autofill:focus {
 
 /* ===== Boutons ===== */
 .btn {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 12px;
-  width: 100%;
-  background-color: var(--primary);
   color: white;
-  border: none;
-  padding: 0.9rem;
-  cursor: pointer;
+  background-color: var(--primary);
   transition: all 0.2s ease;
+  cursor: pointer;
   margin-top: 1rem;
 
   &:hover {
@@ -241,9 +232,9 @@ input:-webkit-autofill:focus {
 }
 
 .invalid-feedback {
+  margin: 0;
   font-size: 0.8rem;
   color: $red;
   text-align: center;
-  margin: 0;
 }
 </style>

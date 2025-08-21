@@ -31,15 +31,18 @@ const toggleShow = () => {
 .collapse-header {
   svg {
     fill: var(--font-color);
+
     &.rotated {
       transform: rotate(-90deg);
     }
   }
 }
+
 .doc {
   svg {
     opacity: 0;
   }
+
   &:hover {
     svg {
       opacity: 1;

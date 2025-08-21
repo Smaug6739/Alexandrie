@@ -7,18 +7,18 @@
       <form @submit.prevent="register">
         <div class="form-group">
           <label for="username">Username</label>
-          <input id="username" v-model="username" type="text" :class="{ 'is-invalid': errors.username }" >
+          <input id="username" v-model="username" type="text" :class="{ 'is-invalid': errors.username }" />
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" v-model="email" type="email" :class="{ 'is-invalid': errors.email }" >
+          <input id="email" v-model="email" type="email" :class="{ 'is-invalid': errors.email }" />
           <p v-if="errors.email" class="invalid-feedback">{{ errors.email }}</p>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input id="password" :key="`password-${showPassword}`" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" >
+            <input id="password" :key="`password-${showPassword}`" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" />
             <button type="button" class="password-toggle" @click="togglePassword">
               <div class="eye-icon" :class="{ show: showPassword }">
                 <Icon v-if="showPassword" name="eye" />
@@ -31,7 +31,7 @@
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
           <div class="password-input">
-            <input id="confirmPassword" :key="`confirmPassword-${showConfirmPassword}`" v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.confirmPassword }" >
+            <input id="confirmPassword" :key="`confirmPassword-${showConfirmPassword}`" v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.confirmPassword }" />
             <button type="button" class="password-toggle" @click="toggleConfirmPassword">
               <div class="eye-icon" :class="{ show: showConfirmPassword }">
                 <Icon v-if="showConfirmPassword" name="eye" />
@@ -130,22 +130,22 @@ async function createAccount(username: string, email: string, password: string) 
 <style scoped lang="scss">
 .container {
   display: flex;
+  width: 95%;
+  height: 100%;
+  margin: 0 auto;
   flex-direction: column;
   justify-content: space-between;
-  width: 95%;
-  margin: 0 auto;
   padding-top: 1.5rem;
-  height: 100%;
 }
 
 .body-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  max-width: 600px;
   width: 100%;
+  max-width: 600px;
   margin: 0 auto 10%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
 h1 {
@@ -159,41 +159,33 @@ form {
 
 .form-group {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 6px;
-  width: 100%;
   margin-bottom: 0.8rem;
 
   label {
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text-color);
-    font-size: 0.95rem;
   }
 }
 
 input {
   width: 100%;
   padding: 0.6rem;
-  border-radius: 8px;
   border: 2px solid var(--border-color);
-  background: var(--bg-color);
-  color: var(--text-color);
+  border-radius: 8px;
   font-size: 1rem;
+  color: var(--text-color);
+  background: var(--bg-color);
   transition: all 0.2s ease;
 
   &:focus {
-    outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+    box-shadow: 0 0 0 3px rgb(var(--primary-rgb), 0.1);
+    outline: none;
   }
-}
-input,
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px var(--border-color) inset !important;
-  -webkit-text-fill-color: var(--text-color) !important;
-  background: var(--border-color);
 }
 
 /* ===== Mot de passe ===== */
@@ -205,19 +197,19 @@ input:-webkit-autofill:focus {
   position: absolute;
   top: 50%;
   right: 8px;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
   display: flex;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  transition: all 0.2s ease;
   align-items: center;
+  cursor: pointer;
   justify-content: center;
+  transform: translateY(-50%);
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgb(0 0 0 / 5%);
   }
 
   &:active {
@@ -226,12 +218,12 @@ input:-webkit-autofill:focus {
 }
 
 .eye-icon {
+  display: flex;
   width: 20px;
   height: 20px;
-  display: flex;
+  transition: all 0.3s ease;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
 
   &.show {
     transform: scale(1.1);
@@ -248,11 +240,11 @@ input:-webkit-autofill:focus {
 .login-link {
   display: block;
   margin: 1.5rem 0;
-  text-align: center;
-  color: var(--primary);
-  text-decoration: none;
   font-weight: 500;
+  color: var(--primary);
+  text-align: center;
   transition: all 0.2s ease;
+  text-decoration: none;
 
   &:hover {
     color: $primary-dark;
@@ -262,27 +254,27 @@ input:-webkit-autofill:focus {
 
 /* ===== Boutons ===== */
 .btn {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 12px;
   font-size: 1.1rem;
   font-weight: 600;
-  border-radius: 12px;
-  width: 100%;
-  background-color: var(--primary);
   color: white;
-  border: none;
-  padding: 0.9rem;
-  cursor: pointer;
+  background-color: var(--primary);
   transition: all 0.2s ease;
+  cursor: pointer;
   margin-top: 1rem;
 
   &:hover {
     background: $primary-dark;
+    box-shadow: 0 4px 12px rgb(var(--primary-rgb), 0.3);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
   }
 
   &:active {
+    box-shadow: 0 2px 6px rgb(var(--primary-rgb), 0.3);
     transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(var(--primary-rgb), 0.3);
   }
 }
 
@@ -292,9 +284,9 @@ input:-webkit-autofill:focus {
 }
 
 .invalid-feedback {
+  margin: 0;
   font-size: 0.8rem;
   color: $red;
   text-align: center;
-  margin: 0;
 }
 </style>

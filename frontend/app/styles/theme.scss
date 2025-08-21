@@ -1,8 +1,8 @@
 @use "./_variables.scss" as *;
 
 a {
-	text-decoration: none;
 	color: var(--font-color);
+	text-decoration: none;
 
 	&:hover {
 		cursor: pointer;
@@ -10,9 +10,9 @@ a {
 }
 
 blockquote {
-	border-left: 4px solid var(--primary);
 	padding: 0 15px;
 	border-radius: 4px;
+	border-left: 4px solid var(--primary);
 
 	> :first-child {
 		margin-top: 0;
@@ -28,15 +28,15 @@ button {
 	border: none;
 	border-radius: 6px;
 	color: var(--font-color);
-	cursor: pointer;
 	background: transparent;
+	cursor: pointer;
 }
 
 
 fieldset {
 	margin: auto;
-	margin-top: 3% !important;
 	padding: 10px;
+	margin-top: 3% !important;
 }
 
 h1,
@@ -50,18 +50,18 @@ h3,
 h4,
 h5,
 h6 {
-	font-weight: 600;
 	margin: 10px 0;
+	font-weight: 600;
 }
 
 h1 {
-	font-size: 1.7rem;
 	margin: 15px 0;
+	font-size: 1.7rem;
 }
 
 h2 {
+	margin: 25px 0 15px;
 	font-size: 1.5em;
-	margin: 25px 0 15px 0;
 	border-bottom: 1px solid var(--border-color);
 }
 
@@ -82,33 +82,33 @@ h6 {
 }
 
 hr {
-	background-color: var(--border-color);
+	width: 98%;
+	height: 1px;
+	margin: 0 auto;
 	border: none;
 	color: var(--border-color);
-	height: 1px;
-	width: 98%;
-	margin: 0 auto;
+	background-color: var(--border-color);
 }
 
 img {
-	height: auto;
-	margin-bottom: 5px;
-	max-height: 400px;
-	max-width: 100%;
 	width: auto;
+	max-width: 100%;
+	height: auto;
+	max-height: 400px;
+	margin-bottom: 5px;
 }
 
 input,
 select,
 textarea {
-	padding: 8px 10px;
 	margin: 0;
-	background: var(--bg-color);
+	padding: 8px 10px;
 	border: 1px solid var(--border-color);
-	color: var(--font-color);
 	border-radius: 8px;
-	font-size: 1rem;
 	font-family: Inter;
+	font-size: 1rem;
+	color: var(--font-color);
+	background: var(--bg-color);
 
 	&:disabled {
 		opacity: 0.8;
@@ -120,25 +120,28 @@ textarea {
 	}
 }
 
-select {
-	padding: 5px 10px;
-}
-
 input {
 	display: block;
 	width: 100%;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+	background: var(--border-color);
+	box-shadow: 0 0 0 1000px var(--border-color) inset !important;
+}
+
 label {
-	padding: 4px 2px;
 	display: block;
+	padding: 4px 2px;
 	font-weight: 500;
 }
 
 mark {
-	background-color: var(--yellow);
 	padding: 0 2px;
 	border-radius: 5px;
+	background-color: var(--yellow);
 }
 
 option {
@@ -155,19 +158,20 @@ p {
 }
 
 select {
-	font-family: $external-font;
-	font-size: 15px;
+	padding: 5px 10px;
 	border: 1px solid var(--border-color);
 	border-radius: 5px;
+	font-family: $external-font;
+	font-size: 15px;
 }
 
 table {
-	border-collapse: collapse;
-	font-size: 0.9em;
-	overflow-x: auto;
+	position: relative;
 	display: block; // Add this line to make the table scrollable
 	max-width: 100%;
-	position: relative;
+	font-size: 0.9em;
+	border-collapse: collapse;
+	overflow-x: auto;
 
 	thead {
 		border-bottom: 1px solid var(--border-color);
@@ -186,9 +190,9 @@ table {
 		background-color: var(--bg-contrast);
 	}
 
-	@media (max-width: 600px) {
-		zoom: 0.9;
+	@media (width <=600px) {
 		min-width: 300px;
+		zoom: 0.9;
 	}
 }
 

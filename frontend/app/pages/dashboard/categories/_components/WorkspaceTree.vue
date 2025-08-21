@@ -28,33 +28,34 @@ defineEmits(['edit', 'delete']);
 <style scoped lang="scss">
 .tree-node {
   position: relative;
+  border-left: 1px solid var(--border-color);
   margin-left: 20px;
   padding-left: 12px;
-  border-left: 1px solid var(--border-color);
 }
 
 .tree-content {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: relative;
 }
 
 .tree-content::before {
-  content: '';
   position: absolute;
-  left: -12px;
   top: 50%;
+  left: -12px;
   width: 12px;
   height: 1px;
   background-color: var(--border-color);
+  content: '';
 }
 
 .tree-label {
+  display: flex;
   padding: 4px 0;
   font-size: 14px;
-  display: flex;
   align-items: center;
+
   span {
     margin-left: 4px;
   }
@@ -65,12 +66,14 @@ defineEmits(['edit', 'delete']);
 }
 
 .tree-actions span {
+  margin: 0 2.5px;
   border-radius: 4px;
   cursor: pointer;
-  margin: 0 2.5px;
 }
+
 .icon {
   margin-right: 2px;
+
   &:deep(svg) {
     width: 20px;
     height: 20px;
