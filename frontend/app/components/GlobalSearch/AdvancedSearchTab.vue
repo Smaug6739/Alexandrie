@@ -1,0 +1,714 @@
+<template>
+  <div class="advanced-search-tab">
+    <div class="search-filters">
+      <div class="filters-header">
+        <h3 class="filters-title">Advanced Filters</h3>
+        <button @click="toggleFilters" class="toggle-filters-btn" :class="{ collapsed: !showFilters }">
+          <Icon :name="showFilters ? 'collapse' : 'expand'" />
+        </button>
+      </div>
+      
+      <div v-show="showFilters" class="filters-content">
+        <div class="filter-group">
+          <label class="filter-label">Date Range</label>
+        <div class="date-filters">
+          <div class="date-input">
+            <label>From</label>
+            <input v-model="dateFrom" type="date" class="date-picker" />
+          </div>
+          <div class="date-input">
+            <label>To</label>
+            <input v-model="dateTo" type="date" class="date-picker" />
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Date Type</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input v-model="dateType" type="radio" value="created" />
+            <span>Created</span>
+          </label>
+          <label class="radio-option">
+            <input v-model="dateType" type="radio" value="modified" />
+            <span>Modified</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Tags</label>
+        <div class="tags-filter">
+          <div class="tags-input-wrapper">
+            <div class="tags-input">
+              <input 
+                v-model="tagInput" 
+                type="text" 
+                placeholder="Add tag filter..." 
+                class="tag-input" 
+                @keydown.enter="handleEnter"
+                @keydown.arrow-up="handleArrowUp"
+                @keydown.arrow-down="handleArrowDown"
+                @keydown.escape="hideSuggestions"
+                @input="handleTagInput"
+                @focus="showSuggestions = true"
+                @blur="hideSuggestions"
+              />
+              <button @click="addTag" class="add-tag-btn">
+                <Icon name="plus" />
+              </button>
+            </div>
+            
+            <div v-if="showSuggestions && filteredTagSuggestions.length > 0" class="tag-suggestions">
+              <div 
+                v-for="(tag, index) in filteredTagSuggestions" 
+                :key="tag"
+                class="tag-suggestion"
+                :class="{ selected: selectedSuggestionIndex === index }"
+                @mousedown="selectTag(tag)"
+                @mouseenter="selectedSuggestionIndex = index"
+              >
+                {{ tag }}
+              </div>
+            </div>
+          </div>
+          <div class="selected-tags">
+            <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
+              {{ tag }}
+              <button @click="removeTag(tag)" class="remove-tag">
+                <Icon name="close" />
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Category</label>
+        <select v-model="selectedCategory" class="category-select">
+          <option value="">All Categories</option>
+          <option v-for="category in categories" :key="category.id" :value="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+
+                <div class="filter-actions">
+            <button @click="clearFilters" class="clear-filters-btn">Clear Filters</button>
+            <button @click="applyFilters" class="apply-filters-btn">Apply Filters</button>
+          </div>
+        </div>
+      </div>
+
+    <div class="search-results">
+      <div v-if="filteredDocuments.length === 0" class="no-results">
+        <Icon name="search" class="no-results-icon" />
+        <p>No documents match your filters</p>
+      </div>
+
+      <div v-else class="documents-list">
+        <div v-for="doc in filteredDocuments" :key="doc.id" class="document-item" @click="selectDocument(doc)">
+          <Icon :name="getDocumentIcon(doc)" class="document-icon" />
+          <div class="document-info">
+            <div class="document-title">{{ doc.name }}</div>
+            <div class="document-meta">
+              <span class="document-category">{{ getCategoryName(doc.category) }}</span>
+              <span class="document-date">{{ formatDate(doc[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']) }}</span>
+            </div>
+            <div v-if="doc.tags" class="document-tags">
+              <span v-for="tag in parseTags(doc.tags)" :key="tag" class="tag">{{ tag }}</span>
+            </div>
+          </div>
+          <Icon name="new_tab" class="navigate-icon" />
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import type { Document } from '~/stores';
+import Icon from '~/components/Icon.vue';
+
+const props = defineProps<{
+  documents: Document[];
+}>();
+
+const emit = defineEmits<{
+  selectDocument: [document: Document];
+}>();
+
+const dateFrom = ref('');
+const dateTo = ref('');
+const dateType = ref<'created' | 'modified'>('modified');
+const tagInput = ref('');
+const selectedTags = ref<string[]>([]);
+const selectedCategory = ref('');
+const showFilters = ref(true);
+const showSuggestions = ref(false);
+const selectedSuggestionIndex = ref(0);
+
+const categoryStore = useCategoriesStore();
+const categories = computed(() => categoryStore.getAll);
+
+const allTags = computed(() => {
+  const tags = new Set<string>();
+  props.documents.forEach(doc => {
+    if (doc.tags) {
+      parseTags(doc.tags).forEach(tag => tags.add(tag));
+    }
+  });
+  return Array.from(tags).sort();
+});
+
+const filteredTagSuggestions = computed(() => {
+  if (!tagInput.value) return [];
+  const input = tagInput.value.toLowerCase();
+  return allTags.value
+    .filter(tag => 
+      tag.toLowerCase().includes(input) && 
+      !selectedTags.value.includes(tag)
+    )
+    .slice(0, 5);
+});
+
+const filteredDocuments = computed(() => {
+  let filtered = [...props.documents];
+
+  if (selectedCategory.value) {
+    filtered = filtered.filter(doc => doc.category === selectedCategory.value);
+  }
+
+  if (dateFrom.value) {
+    const fromDate = new Date(dateFrom.value).getTime();
+    filtered = filtered.filter(doc => {
+      const docDate = parseInt(doc[dateType.value === 'created' ? 'created_timestamp' : 'updated_timestamp']);
+      return docDate >= fromDate;
+    });
+  }
+
+  if (dateTo.value) {
+    const toDate = new Date(dateTo.value).getTime();
+    filtered = filtered.filter(doc => {
+      const docDate = parseInt(doc[dateType.value === 'created' ? 'created_timestamp' : 'updated_timestamp']);
+      return docDate <= toDate;
+    });
+  }
+
+  if (selectedTags.value.length > 0) {
+    filtered = filtered.filter(doc => {
+      if (!doc.tags) return false;
+      const docTags = parseTags(doc.tags);
+      return selectedTags.value.some(tag => docTags.includes(tag));
+    });
+  }
+
+  return filtered.sort((a, b) => {
+    const aDate = parseInt(a[dateType.value === 'created' ? 'created_timestamp' : 'updated_timestamp']);
+    const bDate = parseInt(b[dateType.value === 'created' ? 'created_timestamp' : 'updated_timestamp']);
+    return bDate - aDate;
+  });
+});
+
+function addTag() {
+  const tag = tagInput.value.trim();
+  if (tag && !selectedTags.value.includes(tag)) {
+    selectedTags.value.push(tag);
+    tagInput.value = '';
+    showSuggestions.value = false;
+  }
+}
+
+function selectTag(tag: string) {
+  selectedTags.value.push(tag);
+  tagInput.value = '';
+  showSuggestions.value = false;
+}
+
+function handleTagInput() {
+  selectedSuggestionIndex.value = 0;
+  showSuggestions.value = filteredTagSuggestions.value.length > 0;
+}
+
+function hideSuggestions() {
+  setTimeout(() => {
+    showSuggestions.value = false;
+  }, 200);
+}
+
+function handleEnter(event: KeyboardEvent) {
+  event.preventDefault();
+  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
+    selectTag(filteredTagSuggestions.value[selectedSuggestionIndex.value]);
+  } else {
+    addTag();
+  }
+}
+
+function handleArrowUp(event: KeyboardEvent) {
+  event.preventDefault();
+  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
+    selectedSuggestionIndex.value = selectedSuggestionIndex.value > 0 
+      ? selectedSuggestionIndex.value - 1 
+      : filteredTagSuggestions.value.length - 1;
+  }
+}
+
+function handleArrowDown(event: KeyboardEvent) {
+  event.preventDefault();
+  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
+    selectedSuggestionIndex.value = selectedSuggestionIndex.value < filteredTagSuggestions.value.length - 1
+      ? selectedSuggestionIndex.value + 1 
+      : 0;
+  }
+}
+
+function toggleFilters() {
+  showFilters.value = !showFilters.value;
+}
+
+function removeTag(tag: string) {
+  selectedTags.value = selectedTags.value.filter(t => t !== tag);
+}
+
+function clearFilters() {
+  dateFrom.value = '';
+  dateTo.value = '';
+  selectedTags.value = [];
+  selectedCategory.value = '';
+}
+
+function applyFilters() {
+  // Filters are applied automatically via computed
+}
+
+function selectDocument(doc: Document) {
+  emit('selectDocument', doc);
+}
+
+function getDocumentIcon(doc: Document) {
+  if (doc.pinned === 1) return 'pin';
+  if (doc.pinned === 2) return 'pin';
+  return 'files';
+}
+
+function getCategoryName(categoryId?: string) {
+  if (!categoryId) return 'Uncategorized';
+  const category = categoryStore.getById(categoryId);
+  return category?.name || 'Unknown';
+}
+
+function formatDate(timestamp: string) {
+  const date = new Date(parseInt(timestamp));
+  return date.toLocaleDateString();
+}
+
+function parseTags(tags: string): string[] {
+  if (typeof tags === 'string') {
+    return tags.split(',').map(tag => tag.trim()).filter(Boolean);
+  }
+  return [];
+}
+</script>
+
+<style scoped lang="scss">
+.advanced-search-tab {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.search-filters {
+  flex-shrink: 0;
+  background: var(--bg-color-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.filters-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.toggle-filters-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: var(--border-color);
+    color: var(--text-color);
+  }
+
+  &.collapsed {
+    transform: rotate(180deg);
+  }
+}
+
+.filters-content {
+  padding: 20px;
+}
+
+.filter-group {
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.filter-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+.date-filters {
+  display: flex;
+  gap: 12px;
+}
+
+.date-input {
+  flex: 1;
+
+  label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+}
+
+.date-picker {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    border-color: var(--primary);
+  }
+}
+
+.radio-group {
+  display: flex;
+  gap: 16px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-color);
+
+  input[type="radio"] {
+    accent-color: var(--primary);
+  }
+}
+
+.tags-filter {
+  .tags-input-wrapper {
+    position: relative;
+    margin-bottom: 12px;
+  }
+
+  .tags-input {
+    display: flex;
+    gap: 8px;
+  }
+
+  .tag-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    outline: none;
+
+    &:focus {
+      border-color: var(--primary);
+    }
+  }
+
+  .add-tag-btn {
+    padding: 8px 12px;
+    background: var(--primary);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--primary-dark, #0056b3);
+    }
+  }
+}
+
+.tag-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 48px;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.tag-suggestion {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-color);
+  transition: background 0.2s ease;
+
+  &:hover,
+  &.selected {
+    background: var(--border-color);
+  }
+
+  &:first-child {
+    border-radius: 6px 6px 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 6px 6px;
+  }
+}
+
+.selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--border-color);
+  border-radius: 12px;
+  font-size: 12px;
+  color: var(--text-color);
+
+  .remove-tag {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+
+    &:hover {
+      background: var(--text-muted);
+      color: white;
+    }
+  }
+}
+
+.category-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-size: 14px;
+  outline: none;
+
+  &:focus {
+    border-color: var(--primary);
+  }
+}
+
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.clear-filters-btn,
+.apply-filters-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-filters-btn {
+  background: var(--border-color);
+  color: var(--text-color);
+
+  &:hover {
+    background: var(--selection-color);
+  }
+}
+
+.apply-filters-btn {
+  background: var(--primary);
+  color: white;
+
+  &:hover {
+    background: var(--primary-dark, #0056b3);
+  }
+}
+
+.search-results {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  position: relative;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-results {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+
+  .no-results-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+.documents-list {
+  padding: 8px 0;
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.document-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  margin: 0 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--border-color);
+  }
+}
+
+.document-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.document-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.document-title {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.document-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.document-category {
+  background: var(--border-color);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.document-date {
+  font-family: monospace;
+}
+
+.document-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: var(--primary);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.navigate-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+</style>
