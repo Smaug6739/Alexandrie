@@ -3,42 +3,27 @@
     <div class="modal-header">
       <h3>Select Image from CDN</h3>
     </div>
-    
+
     <div class="modal-content">
       <div class="search-bar">
-        <input 
-          v-model="searchQuery" 
-          placeholder="Search images..." 
-          class="search-input"
-          @input="filterImages"
-        />
+        <input v-model="searchQuery" placeholder="Search images..." class="search-input" @input="filterImages" />
       </div>
-      
+
       <div class="images-grid">
-        <div 
-          v-for="image in filteredImages" 
-          :key="image.id" 
-          class="image-item"
-          @click="selectImage(image)"
-        >
-          <img 
-            :src="image.transformed_path" 
-            :alt="image.filename"
-            class="image-preview"
-            @error="handleImageError"
-          />
+        <div v-for="image in filteredImages" :key="image.id" class="image-item" @click="selectImage(image)">
+          <img :src="CDN + `/${useUserStore().user?.id}/` + image.transformed_path" :alt="image.filename" class="image-preview" @error="handleImageError" />
           <div class="image-info">
             <span class="image-name">{{ image.filename }}</span>
             <span class="image-size">{{ formatFileSize(image.filesize) }}</span>
           </div>
         </div>
       </div>
-      
+
       <div v-if="filteredImages.length === 0" class="no-images">
         <p>No images found</p>
       </div>
     </div>
-    
+
     <div class="modal-footer">
       <button class="cancel-btn" @click="closeModal">Cancel</button>
     </div>
@@ -67,11 +52,8 @@ const filteredImages = computed(() => {
   if (!searchQuery.value.trim()) {
     return images.value.filter(img => isImageFile(img.filetype));
   }
-  
-  return images.value.filter(img => 
-    isImageFile(img.filetype) && 
-    img.filename.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+
+  return images.value.filter(img => isImageFile(img.filetype) && img.filename.toLowerCase().includes(searchQuery.value.toLowerCase()));
 });
 
 const isImageFile = (filetype: string): boolean => {
@@ -92,7 +74,7 @@ const handleImageError = (event: Event) => {
 };
 
 const selectImage = (image: Ressource) => {
-  const imageUrl = image.transformed_path;
+  const imageUrl = CDN + `/${useUserStore().user?.id}/` + image.transformed_path;
   const altText = image.filename.replace(/\.[^/.]+$/, '');
   props.onImageSelect(imageUrl, altText);
   emit('close');
@@ -139,20 +121,18 @@ onMounted(() => {
   align-items: center;
   padding: 20px 0;
   flex-shrink: 0;
-  
+
   h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
     color: var(--font-color-dark);
   }
-  
-
 }
 
 .modal-content {
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -162,7 +142,7 @@ onMounted(() => {
   padding: 16px 0;
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
-  
+
   .search-input {
     width: 100%;
     padding: 12px 16px;
@@ -171,13 +151,13 @@ onMounted(() => {
     background: var(--bg-color-secondary);
     color: var(--font-color-dark);
     font-size: 14px;
-    
+
     &:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
     }
-    
+
     &::placeholder {
       color: var(--font-color-light);
     }
@@ -186,7 +166,6 @@ onMounted(() => {
 
 .images-grid {
   flex: 1;
-  overflow-y: auto;
   padding: 16px 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -199,24 +178,24 @@ onMounted(() => {
   border-radius: 8px;
   overflow: hidden;
   transition: all 0.2s ease;
-  
+
   &:hover {
     border-color: var(--primary);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   }
-  
+
   .image-preview {
     width: 100%;
     height: 150px;
     object-fit: cover;
     background: var(--bg-color-secondary);
   }
-  
+
   .image-info {
     padding: 12px;
     background: var(--bg-color-secondary);
-    
+
     .image-name {
       display: block;
       font-size: 14px;
@@ -227,7 +206,7 @@ onMounted(() => {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .image-size {
       display: block;
       font-size: 12px;
@@ -251,7 +230,7 @@ onMounted(() => {
   justify-content: flex-end;
   gap: 12px;
   flex-shrink: 0;
-  
+
   .cancel-btn {
     padding: 10px 20px;
     border: 1px solid var(--border-color);
@@ -261,7 +240,7 @@ onMounted(() => {
     cursor: pointer;
     font-size: 14px;
     transition: all 0.2s ease;
-    
+
     &:hover {
       background: var(--border-color);
     }

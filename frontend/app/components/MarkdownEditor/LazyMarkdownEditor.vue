@@ -9,7 +9,13 @@
         <div ref="container" class="markdown">
           <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-if="showPreview" ref="markdownPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" style="position: relative" v-html="document.content_html" />
+          <div
+            v-if="showPreview"
+            ref="markdownPreview"
+            :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]"
+            style="position: relative"
+            v-html="document.content_html"
+          />
         </div>
       </div>
     </div>
@@ -150,31 +156,25 @@ function openColorModal() {
 
 function openImageSelector() {
   const modalManager = useModal();
-  console.log('Modals avant ouverture:', modalManager.modals.value.length);
-  // Fermer tous les modals existants avant d'en ouvrir un nouveau
-  while (modalManager.modals.value.length > 0) {
-    modalManager.close(modalManager.modals.value[0]);
-  }
   modalManager.add(new Modal(shallowRef(ImageSelectorModal), { onImageSelect: handleImageSelect }, () => {}, true));
-  console.log('Modals après ouverture:', modalManager.modals.value.length);
 }
 
 function handleImageSelect(imageUrl: string, altText: string) {
   if (!editorView.value) return;
-  
+
   const view = editorView.value;
   const state = view.state;
   const { from, to } = state.selection.main;
   const selectedText = state.sliceDoc(from, to);
-  
+
   const alt = selectedText || altText;
   const insert = `![${alt}](${imageUrl})`;
-  
+
   view.dispatch({
     changes: { from, to, insert },
     selection: { anchor: from + insert.length, head: from + insert.length },
   });
-  
+
   view.focus();
 }
 const snippets: Record<string, string> = {
@@ -289,7 +289,6 @@ const state = EditorState.create({
     history(),
     drawSelection(),
     autocompletion(),
-    // @ts-expect-error types error
     keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, indentWithTab, ...markdownKeysmap]),
     markdown({ base: markdownLanguage }),
     updateListener,
