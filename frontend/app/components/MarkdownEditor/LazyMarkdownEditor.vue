@@ -26,6 +26,7 @@ import { materialLight } from '@fsegurai/codemirror-theme-material-light';
 import { materialDark } from '@fsegurai/codemirror-theme-material-dark';
 import Toolbar from './Toolbar.vue';
 import ImageSelectorModal from './ImageSelectorModal.vue';
+import GridOrganizationModal from './GridOrganizationModal.vue';
 
 import compile from '~/helpers/markdown';
 import type { Document } from '~/stores';
@@ -51,6 +52,7 @@ function exec(action: string, payload?: string) {
   if (action === 'save') return save();
   if (action === 'goto') if (document.value.id) return useRouter().push(`/dashboard/docs/${document.value.id}`);
   if (action === 'image') return openImageSelector();
+  if (action === 'gridOrganization') return openGridOrganization();
 
   if (!editorView.value) return;
 
@@ -159,6 +161,15 @@ function openImageSelector() {
   console.log('Modals après ouverture:', modalManager.modals.value.length);
 }
 
+function openGridOrganization() {
+  const modalManager = useModal();
+  // Fermer tous les modals existants avant d'en ouvrir un nouveau
+  while (modalManager.modals.value.length > 0) {
+    modalManager.close(modalManager.modals.value[0]);
+  }
+  modalManager.add(new Modal(shallowRef(GridOrganizationModal), { onGridSelect: handleGridSelect }, () => {}, true));
+}
+
 function handleImageSelect(imageUrl: string, altText: string) {
   if (!editorView.value) return;
   
@@ -173,6 +184,21 @@ function handleImageSelect(imageUrl: string, altText: string) {
   view.dispatch({
     changes: { from, to, insert },
     selection: { anchor: from + insert.length, head: from + insert.length },
+  });
+  
+  view.focus();
+}
+
+function handleGridSelect(gridMarkdown: string) {
+  if (!editorView.value) return;
+  
+  const view = editorView.value;
+  const state = view.state;
+  const { from, to } = state.selection.main;
+  
+  view.dispatch({
+    changes: { from, to, insert: gridMarkdown },
+    selection: { anchor: from + gridMarkdown.length, head: from + gridMarkdown.length },
   });
   
   view.focus();
