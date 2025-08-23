@@ -27,6 +27,7 @@ import { materialDark } from '@fsegurai/codemirror-theme-material-dark';
 import Toolbar from './Toolbar.vue';
 import ImageSelectorModal from './ImageSelectorModal.vue';
 import GridOrganizationModal from './GridOrganizationModal.vue';
+import ColorPickerModal from './ColorPickerModal.vue';
 
 import compile from '~/helpers/markdown';
 import type { Document } from '~/stores';
@@ -110,44 +111,16 @@ function exec(action: string, payload?: string) {
 }
 
 function openColorModal() {
-  const rootDoc = window.document;
-  const container = rootDoc.createElement('div');
-  const modal = rootDoc.createElement('div');
-  container.className = 'color-modal-overlay';
-  modal.className = 'color-modal';
-  modal.innerHTML = `
-    <div class="panel">
-      <div class="swatches">
-        ${['primary', ...appColors].map(c => `<button class="swatch" style="background:var(--${c})" data-color="${c}"></button>`).join('')}
-      </div>
-      <div class="custom">
-        <input class="hex" placeholder="#RRGGBB" />
-        <button class="apply">Apply</button>
-      </div>
-    </div>
-  `;
-  container.appendChild(modal);
-  rootDoc.body.appendChild(container);
-  const close = () => {
-    if (container.parentNode) rootDoc.body.removeChild(container);
-  };
-  container.addEventListener('click', e => {
-    if (e.target === container) close();
-  });
-  modal.querySelectorAll('.swatch').forEach(el => {
-    el.addEventListener('click', () => {
-      const color = (el as HTMLElement).getAttribute('data-color') || '';
-      exec('color', color);
-      close();
-    });
-  });
-  const input = modal.querySelector('.hex') as HTMLInputElement | null;
-  const apply = modal.querySelector('.apply') as HTMLButtonElement | null;
-  apply?.addEventListener('click', () => {
-    const val = input?.value?.trim() || '';
-    if (val) exec('color', val);
-    close();
-  });
+  const modalManager = useModal();
+  // Fermer tous les modals existants avant d'en ouvrir un nouveau
+  while (modalManager.modals.value.length > 0) {
+    modalManager.close(modalManager.modals.value[0]);
+  }
+  modalManager.add(new Modal(shallowRef(ColorPickerModal), { onColorSelect: handleColorSelect }, () => {}, true));
+}
+
+function handleColorSelect(color: string) {
+  exec('color', color);
 }
 
 function openImageSelector() {
@@ -423,76 +396,7 @@ input {
   font-size: 1.1rem;
   font-weight: 500;
 }
-.color-modal-overlay {
-  position: fixed;
-  z-index: 99999;
-  display: flex;
-  background: rgb(0 0 0 / 45%);
-  align-items: center;
-  inset: 0;
-  justify-content: center;
-}
 
-.color-modal {
-  min-width: 300px;
-  padding: 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  background: var(--bg-color);
-  box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
-}
-
-.color-modal .panel {
-  display: grid;
-  gap: 12px;
-}
-
-.color-modal .swatches {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(9, 1fr);
-}
-
-.color-modal .swatch {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-}
-
-.color-modal .swatch:hover {
-  box-shadow: 0 6px 16px rgb(0 0 0 / 15%);
-  transform: translateY(-1px);
-}
-
-.color-modal .custom {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.color-modal .hex {
-  padding: 8px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-color);
-  flex: 1;
-}
-
-.color-modal .apply {
-  padding: 8px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-weight: 600;
-  background: var(--bg-contrast);
-  transition: background-color 0.2s ease;
-  cursor: pointer;
-}
-
-.color-modal .apply:hover {
-  background: var(--border-color);
-}
 
 .image-selector-overlay {
   position: fixed;
