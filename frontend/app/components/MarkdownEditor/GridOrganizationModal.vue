@@ -201,7 +201,7 @@ const generateGridMarkdown = (columns: number, rows: number): string => {
 
   markdown += '|';
   for (let i = 0; i < columns; i++) {
-    markdown += ' Column ' + (i + 1) + ' |';
+    markdown += '  |';
   }
   markdown += '\n';
 
@@ -214,7 +214,7 @@ const generateGridMarkdown = (columns: number, rows: number): string => {
   for (let row = 0; row < rows; row++) {
     markdown += '|';
     for (let col = 0; col < columns; col++) {
-      markdown += ' Content ' + (row * columns + col + 1) + ' |';
+      markdown += '  |';
     }
     markdown += '\n';
   }

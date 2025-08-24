@@ -119,7 +119,7 @@ function exec(action: string, payload?: string) {
 
 function openColorModal() {
   const modalManager = useModal();
-  modalManager.add(new Modal(shallowRef(ColorPickerModal), { onColorSelect: handleColorSelect }, () => {}, true));
+  modalManager.add(new Modal(shallowRef(ColorPickerModal), { onColorSelect: handleColorSelect }, () => {}, false));
 }
 
 function handleColorSelect(color: string) {
@@ -133,7 +133,7 @@ function openImageSelector() {
 
 function openGridOrganization() {
   const modalManager = useModal();
-  modalManager.add(new Modal(shallowRef(GridOrganizationModal), { onGridSelect: handleGridSelect }, () => {}, true));
+  modalManager.add(new Modal(shallowRef(GridOrganizationModal), { onGridSelect: handleGridSelect }, () => {}, false));
 }
 
 function handleImageSelect(imageUrl: string, altText: string) {
