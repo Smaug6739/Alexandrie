@@ -31,9 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import { useRessourcesStore } from '~/stores/ressources.store';
-import type { Ressource } from '~/stores/db_strustures';
+import { useRessourcesStore, type Ressource } from '~/stores';
 
 const props = defineProps<{
   onImageSelect: (imageUrl: string, altText: string) => void;

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div style="height: 100%; padding: 4px">
     <div class="editor-container">
@@ -118,10 +119,6 @@ function exec(action: string, payload?: string) {
 
 function openColorModal() {
   const modalManager = useModal();
-  // Fermer tous les modals existants avant d'en ouvrir un nouveau
-  while (modalManager.modals.value.length > 0) {
-    modalManager.close(modalManager.modals.value[0]);
-  }
   modalManager.add(new Modal(shallowRef(ColorPickerModal), { onColorSelect: handleColorSelect }, () => {}, true));
 }
 
@@ -136,10 +133,6 @@ function openImageSelector() {
 
 function openGridOrganization() {
   const modalManager = useModal();
-  // Fermer tous les modals existants avant d'en ouvrir un nouveau
-  while (modalManager.modals.value.length > 0) {
-    modalManager.close(modalManager.modals.value[0]);
-  }
   modalManager.add(new Modal(shallowRef(GridOrganizationModal), { onGridSelect: handleGridSelect }, () => {}, true));
 }
 
@@ -164,16 +157,16 @@ function handleImageSelect(imageUrl: string, altText: string) {
 
 function handleGridSelect(gridMarkdown: string) {
   if (!editorView.value) return;
-  
+
   const view = editorView.value;
   const state = view.state;
   const { from, to } = state.selection.main;
-  
+
   view.dispatch({
     changes: { from, to, insert: gridMarkdown },
     selection: { anchor: from + gridMarkdown.length, head: from + gridMarkdown.length },
   });
-  
+
   view.focus();
 }
 const snippets: Record<string, string> = {
@@ -395,7 +388,6 @@ input {
   font-size: 1.1rem;
   font-weight: 500;
 }
-
 
 .image-selector-overlay {
   position: fixed;
