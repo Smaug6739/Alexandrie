@@ -1,14 +1,20 @@
 <template>
   <div class="image-selector-modal">
     <div class="modal-header">
-      <h3>Select Image from CDN</h3>
-    </div>
-
-    <div class="modal-content">
-      <div class="search-bar">
-        <input v-model="searchQuery" placeholder="Search images..." class="search-input" @input="filterImages" />
+      <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
+          <path
+            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"
+          />
+        </svg>
       </div>
-
+      <h3>Image selector</h3>
+      <p class="header-subtitle">Choose image from your library</p>
+    </div>
+    <div class="search-bar">
+      <input v-model="searchQuery" placeholder="Search images..." class="search-input" />
+    </div>
+    <div class="modal-content">
       <div class="images-grid">
         <div v-for="image in filteredImages" :key="image.id" class="image-item" @click="selectImage(image)">
           <img :src="CDN + `/${useUserStore().user?.id}/` + image.transformed_path" :alt="image.filename" class="image-preview" @error="handleImageError" />
@@ -82,10 +88,6 @@ const closeModal = () => {
   emit('close');
 };
 
-const filterImages = () => {
-  // Filtering is handled by computed property
-};
-
 const loadImages = async () => {
   try {
     loading.value = true;
@@ -110,21 +112,52 @@ onMounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .modal-header {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 20px 0;
+  padding: 24px 0 20px 0;
   flex-shrink: 0;
+  text-align: center;
+
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: white;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
 
   h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 800;
     color: var(--font-color-dark);
+    letter-spacing: -0.8px;
+    background: linear-gradient(135deg, var(--font-color-dark), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: var(--font-color-light);
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: 280px;
   }
 }
 
@@ -174,8 +207,6 @@ onMounted(() => {
   cursor: pointer;
   border: 2px solid transparent;
   border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.2s ease;
 
   &:hover {
     border-color: var(--primary);
@@ -184,6 +215,7 @@ onMounted(() => {
   }
 
   .image-preview {
+    border-radius: 6px;
     width: 100%;
     height: 150px;
     object-fit: cover;

@@ -1,12 +1,19 @@
 <template>
   <div class="grid-organization-modal">
     <div class="modal-header">
-      <h3>Grid Organization</h3>
+      <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
+          <path
+            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h133v-133H200v133Zm213 0h134v-133H413v133Zm214 0h133v-133H627v133ZM200-413h133v-134H200v134Zm213 0h134v-134H413v134Zm214 0h133v-134H627v134ZM200-627h133v-133H200v133Zm213 0h134v-133H413v133Zm214 0h133v-133H627v133Z"
+          />
+        </svg>
+      </div>
+      <h3>Table creator</h3>
+      <p class="header-subtitle">Choose from predefined table layouts or create your own</p>
     </div>
 
     <div class="modal-content">
       <div class="table-selector">
-        <h4>Select Table Size</h4>
         <div class="table-grid">
           <div v-for="row in 12" :key="`row-${row}`" class="table-row">
             <div
@@ -30,7 +37,6 @@
       </div>
 
       <div class="quick-presets">
-        <h4>Quick Presets</h4>
         <div class="presets-grid">
           <div v-for="preset in gridPresets" :key="preset.name" class="preset-item" @click="selectPreset(preset)">
             <div class="preset-visual" :style="getPresetStyle(preset)">
@@ -235,42 +241,59 @@ const closeModal = () => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
   padding: 0 16px;
 }
 
 .modal-header {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   padding: 24px 0 20px 0;
   flex-shrink: 0;
-  position: relative;
+  text-align: center;
+
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: white;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
 
   h3 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 800;
     color: var(--font-color-dark);
-    letter-spacing: -0.5px;
+    letter-spacing: -0.8px;
+    background: linear-gradient(135deg, var(--font-color-dark), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light, var(--primary)));
-    border-radius: 2px;
+  .header-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: var(--font-color-light);
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: 280px;
   }
 }
-
 .modal-content {
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -280,24 +303,6 @@ const closeModal = () => {
 .table-selector,
 .quick-presets {
   margin-top: 8px;
-
-  h4 {
-    margin: 0 0 20px 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--font-color-dark);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    &::before {
-      content: '';
-      width: 4px;
-      height: 18px;
-      background: var(--primary);
-      border-radius: 2px;
-    }
-  }
 }
 
 .table-grid {
