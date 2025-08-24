@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div style="height: 100%; padding: 4px">
     <div class="editor-container">
@@ -9,7 +10,13 @@
         <div ref="container" class="markdown">
           <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-if="showPreview" ref="markdownPreview" :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]" style="position: relative" v-html="document.content_html" />
+          <div
+            v-if="showPreview"
+            ref="markdownPreview"
+            :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]"
+            style="position: relative"
+            v-html="document.content_html"
+          />
         </div>
       </div>
     </div>
@@ -25,9 +32,13 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { materialLight } from '@fsegurai/codemirror-theme-material-light';
 import { materialDark } from '@fsegurai/codemirror-theme-material-dark';
 import Toolbar from './Toolbar.vue';
+import ImageSelectorModal from './ImageSelectorModal.vue';
+import GridOrganizationModal from './GridOrganizationModal.vue';
+import ColorPickerModal from './ColorPickerModal.vue';
 
 import compile from '~/helpers/markdown';
 import type { Document } from '~/stores';
+import { useModal, Modal } from '~/composables/ModalBus';
 
 const props = defineProps<{ doc?: Partial<Document>; minimal?: boolean }>();
 
@@ -48,6 +59,8 @@ function exec(action: string, payload?: string) {
   if (action === 'openColorPicker') return openColorModal();
   if (action === 'save') return save();
   if (action === 'goto') if (document.value.id) return useRouter().push(`/dashboard/docs/${document.value.id}`);
+  if (action === 'image') return openImageSelector();
+  if (action === 'gridOrganization') return openGridOrganization();
 
   if (!editorView.value) return;
 
@@ -74,9 +87,6 @@ function exec(action: string, payload?: string) {
       break;
     case 'link':
       changes = { from, to, insert: `[](${selectedText})` };
-      break;
-    case 'image':
-      changes = { from, to, insert: `![](${selectedText})` };
       break;
     case 'code':
       changes = { from, to, insert: `\`${selectedText}\`` };
@@ -108,44 +118,56 @@ function exec(action: string, payload?: string) {
 }
 
 function openColorModal() {
-  const rootDoc = window.document;
-  const container = rootDoc.createElement('div');
-  const modal = rootDoc.createElement('div');
-  container.className = 'color-modal-overlay';
-  modal.className = 'color-modal';
-  modal.innerHTML = `
-    <div class="panel">
-      <div class="swatches">
-        ${['primary', ...appColors].map(c => `<button class="swatch" style="background:var(--${c})" data-color="${c}"></button>`).join('')}
-      </div>
-      <div class="custom">
-        <input class="hex" placeholder="#RRGGBB" />
-        <button class="apply">Apply</button>
-      </div>
-    </div>
-  `;
-  container.appendChild(modal);
-  rootDoc.body.appendChild(container);
-  const close = () => {
-    if (container.parentNode) rootDoc.body.removeChild(container);
-  };
-  container.addEventListener('click', e => {
-    if (e.target === container) close();
+  const modalManager = useModal();
+  modalManager.add(new Modal(shallowRef(ColorPickerModal), { onColorSelect: handleColorSelect }, () => {}, false));
+}
+
+function handleColorSelect(color: string) {
+  exec('color', color);
+}
+
+function openImageSelector() {
+  const modalManager = useModal();
+  modalManager.add(new Modal(shallowRef(ImageSelectorModal), { onImageSelect: handleImageSelect }, () => {}, true));
+}
+
+function openGridOrganization() {
+  const modalManager = useModal();
+  modalManager.add(new Modal(shallowRef(GridOrganizationModal), { onGridSelect: handleGridSelect }, () => {}, false));
+}
+
+function handleImageSelect(imageUrl: string, altText: string) {
+  if (!editorView.value) return;
+
+  const view = editorView.value;
+  const state = view.state;
+  const { from, to } = state.selection.main;
+  const selectedText = state.sliceDoc(from, to);
+
+  const alt = selectedText || altText;
+  const insert = `![${alt}](${imageUrl})`;
+
+  view.dispatch({
+    changes: { from, to, insert },
+    selection: { anchor: from + insert.length, head: from + insert.length },
   });
-  modal.querySelectorAll('.swatch').forEach(el => {
-    el.addEventListener('click', () => {
-      const color = (el as HTMLElement).getAttribute('data-color') || '';
-      exec('color', color);
-      close();
-    });
+
+  view.focus();
+}
+
+function handleGridSelect(gridMarkdown: string) {
+  if (!editorView.value) return;
+
+  const view = editorView.value;
+  const state = view.state;
+  const { from, to } = state.selection.main;
+
+  view.dispatch({
+    changes: { from, to, insert: gridMarkdown },
+    selection: { anchor: from + gridMarkdown.length, head: from + gridMarkdown.length },
   });
-  const input = modal.querySelector('.hex') as HTMLInputElement | null;
-  const apply = modal.querySelector('.apply') as HTMLButtonElement | null;
-  apply?.addEventListener('click', () => {
-    const val = input?.value?.trim() || '';
-    if (val) exec('color', val);
-    close();
-  });
+
+  view.focus();
 }
 const snippets: Record<string, string> = {
   '!blue': ':::blue\n$0\n:::',
@@ -259,7 +281,6 @@ const state = EditorState.create({
     history(),
     drawSelection(),
     autocompletion(),
-    // @ts-expect-error types error
     keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, indentWithTab, ...markdownKeysmap]),
     markdown({ base: markdownLanguage }),
     updateListener,
@@ -367,7 +388,8 @@ input {
   font-size: 1.1rem;
   font-weight: 500;
 }
-.color-modal-overlay {
+
+.image-selector-overlay {
   position: fixed;
   z-index: 99999;
   display: flex;
@@ -375,66 +397,6 @@ input {
   align-items: center;
   inset: 0;
   justify-content: center;
-}
-
-.color-modal {
-  min-width: 300px;
-  padding: 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 14px;
-  background: var(--bg-color);
-  box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
-}
-
-.color-modal .panel {
-  display: grid;
-  gap: 12px;
-}
-
-.color-modal .swatches {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(9, 1fr);
-}
-
-.color-modal .swatch {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  transition: transform 0.1s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-}
-
-.color-modal .swatch:hover {
-  box-shadow: 0 6px 16px rgb(0 0 0 / 15%);
-  transform: translateY(-1px);
-}
-
-.color-modal .custom {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.color-modal .hex {
-  padding: 8px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-color);
-  flex: 1;
-}
-
-.color-modal .apply {
-  padding: 8px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-weight: 600;
-  background: var(--bg-contrast);
-  transition: background-color 0.2s ease;
-  cursor: pointer;
-}
-
-.color-modal .apply:hover {
-  background: var(--border-color);
+  padding: 20px;
 }
 </style>
