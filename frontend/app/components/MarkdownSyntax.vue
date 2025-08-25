@@ -340,26 +340,6 @@ Snippets help you focus on writing, not formatting.
   justify-content: center;
 }
 
-.grid-2x2 {
-  grid-template-columns: repeat(2, 60px);
-  grid-template-rows: repeat(2, 40px);
-}
-
-.grid-3x2 {
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: repeat(2, 40px);
-}
-
-.grid-2x3 {
-  grid-template-columns: repeat(2, 60px);
-  grid-template-rows: repeat(3, 35px);
-}
-
-.grid-3x3 {
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: repeat(3, 35px);
-}
-
 .grid-cell {
   background: var(--primary);
   color: white;
@@ -428,46 +408,6 @@ Snippets help you focus on writing, not formatting.
   height: 80px;
 }
 
-.feature-compare {
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto auto;
-}
-
-.feature-compare .feature-header {
-  grid-column: 1 / -1;
-  background: var(--primary);
-  height: 40px;
-}
-
-.feature-compare .plan-a {
-  background: var(--blue);
-  height: 35px;
-}
-
-.feature-compare .plan-b {
-  background: var(--green);
-  height: 35px;
-}
-
-.feature-compare .feature-1,
-.feature-compare .feature-2 {
-  background: var(--grey);
-  height: 35px;
-}
-
-.feature-compare .plan-a-yes,
-.feature-compare .plan-b-yes {
-  background: var(--green);
-  height: 35px;
-  font-size: 1.2rem;
-}
-
-.feature-compare .plan-a-no {
-  background: var(--red);
-  height: 35px;
-  font-size: 1.2rem;
-}
-
 /* Markdown Examples */
 .markdown-examples {
   display: grid;
@@ -534,13 +474,6 @@ Snippets help you focus on writing, not formatting.
   .custom-grid-example,
   .example-section {
     padding: 1rem;
-  }
-
-  .grid-2x2,
-  .grid-3x2,
-  .grid-2x3,
-  .grid-3x3 {
-    transform: scale(0.9);
   }
 }
 </style>
