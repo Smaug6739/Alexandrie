@@ -1,44 +1,35 @@
 <template>
   <div class="image-selector-modal">
     <div class="modal-header">
-      <h3>Select Image from CDN</h3>
-    </div>
-    
-    <div class="modal-content">
-      <div class="search-bar">
-        <input 
-          v-model="searchQuery" 
-          placeholder="Search images..." 
-          class="search-input"
-          @input="filterImages"
-        />
-      </div>
-      
-      <div class="images-grid">
-        <div 
-          v-for="image in filteredImages" 
-          :key="image.id" 
-          class="image-item"
-          @click="selectImage(image)"
-        >
-          <img 
-            :src="image.transformed_path" 
-            :alt="image.filename"
-            class="image-preview"
-            @error="handleImageError"
+      <div class="header-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
+          <path
+            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"
           />
+        </svg>
+      </div>
+      <h3>Image selector</h3>
+      <p class="header-subtitle">Choose image from your library</p>
+    </div>
+    <div class="search-bar">
+      <input v-model="searchQuery" placeholder="Search images..." class="search-input" />
+    </div>
+    <div class="modal-content">
+      <div class="images-grid">
+        <div v-for="image in filteredImages" :key="image.id" class="image-item" @click="selectImage(image)">
+          <img :src="CDN + `/${useUserStore().user?.id}/` + image.transformed_path" :alt="image.filename" class="image-preview" @error="handleImageError" />
           <div class="image-info">
             <span class="image-name">{{ image.filename }}</span>
             <span class="image-size">{{ formatFileSize(image.filesize) }}</span>
           </div>
         </div>
       </div>
-      
+
       <div v-if="filteredImages.length === 0" class="no-images">
         <p>No images found</p>
       </div>
     </div>
-    
+
     <div class="modal-footer">
       <button class="cancel-btn" @click="closeModal">Cancel</button>
     </div>
@@ -46,9 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import { useRessourcesStore } from '~/stores/ressources.store';
-import type { Ressource } from '~/stores/db_strustures';
+import { useRessourcesStore, type Ressource } from '~/stores';
 
 const props = defineProps<{
   onImageSelect: (imageUrl: string, altText: string) => void;
@@ -67,11 +56,8 @@ const filteredImages = computed(() => {
   if (!searchQuery.value.trim()) {
     return images.value.filter(img => isImageFile(img.filetype));
   }
-  
-  return images.value.filter(img => 
-    isImageFile(img.filetype) && 
-    img.filename.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+
+  return images.value.filter(img => isImageFile(img.filetype) && img.filename.toLowerCase().includes(searchQuery.value.toLowerCase()));
 });
 
 const isImageFile = (filetype: string): boolean => {
@@ -92,7 +78,7 @@ const handleImageError = (event: Event) => {
 };
 
 const selectImage = (image: Ressource) => {
-  const imageUrl = image.transformed_path;
+  const imageUrl = CDN + `/${useUserStore().user?.id}/` + image.transformed_path;
   const altText = image.filename.replace(/\.[^/.]+$/, '');
   props.onImageSelect(imageUrl, altText);
   emit('close');
@@ -100,10 +86,6 @@ const selectImage = (image: Ressource) => {
 
 const closeModal = () => {
   emit('close');
-};
-
-const filterImages = () => {
-  // Filtering is handled by computed property
 };
 
 const loadImages = async () => {
@@ -130,29 +112,58 @@ onMounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .modal-header {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  padding: 20px 0;
+  padding: 24px 0 20px 0;
   flex-shrink: 0;
-  
-  h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--font-color-dark);
-  }
-  
+  text-align: center;
 
+  .header-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: white;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--font-color-dark);
+    letter-spacing: -0.8px;
+    background: linear-gradient(135deg, var(--font-color-dark), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: var(--font-color-light);
+    font-weight: 500;
+    line-height: 1.4;
+    max-width: 280px;
+  }
 }
 
 .modal-content {
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -162,7 +173,7 @@ onMounted(() => {
   padding: 16px 0;
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
-  
+
   .search-input {
     width: 100%;
     padding: 12px 16px;
@@ -171,13 +182,13 @@ onMounted(() => {
     background: var(--bg-color-secondary);
     color: var(--font-color-dark);
     font-size: 14px;
-    
+
     &:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
     }
-    
+
     &::placeholder {
       color: var(--font-color-light);
     }
@@ -186,7 +197,6 @@ onMounted(() => {
 
 .images-grid {
   flex: 1;
-  overflow-y: auto;
   padding: 16px 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -197,26 +207,25 @@ onMounted(() => {
   cursor: pointer;
   border: 2px solid transparent;
   border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  
+
   &:hover {
     border-color: var(--primary);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   }
-  
+
   .image-preview {
+    border-radius: 6px;
     width: 100%;
     height: 150px;
     object-fit: cover;
     background: var(--bg-color-secondary);
   }
-  
+
   .image-info {
     padding: 12px;
     background: var(--bg-color-secondary);
-    
+
     .image-name {
       display: block;
       font-size: 14px;
@@ -227,7 +236,7 @@ onMounted(() => {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .image-size {
       display: block;
       font-size: 12px;
@@ -251,7 +260,7 @@ onMounted(() => {
   justify-content: flex-end;
   gap: 12px;
   flex-shrink: 0;
-  
+
   .cancel-btn {
     padding: 10px 20px;
     border: 1px solid var(--border-color);
@@ -261,7 +270,7 @@ onMounted(() => {
     cursor: pointer;
     font-size: 14px;
     transition: all 0.2s ease;
-    
+
     &:hover {
       background: var(--border-color);
     }

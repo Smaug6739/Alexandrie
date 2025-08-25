@@ -99,6 +99,7 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
 
       <h2>🔲 Grid Organization</h2>
       <p>Use the <strong>Grid Organization</strong> button in the toolbar to create custom layouts:</p>
+<<<<<<< HEAD
       
       <h3>Quick Presets</h3>
       <p>Pre-built grid layouts for common use cases:</p>
@@ -160,6 +161,12 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
       <h3>Generated Markdown</h3>
       <p>Here's what gets inserted when you use the Grid Organization tool:</p>
       
+=======
+
+      <h3>Generated Markdown</h3>
+      <p>Here's what gets inserted when you use the Grid Organization tool:</p>
+
+>>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
       <div class="markdown-examples">
         <div class="example-section">
           <h4>Simple 2x2 Table</h4>
@@ -183,10 +190,19 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
               </tbody>
             </table>
           </div>
+<<<<<<< HEAD
           <pre>| Header 1 | Header 2 |
 |----------|----------|
 | Cell 1   | Cell 2   |
 | Cell 3   | Cell 4   |</pre>
+=======
+          <pre>
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |</pre
+          >
+>>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
         </div>
 
         <div class="example-section">
@@ -219,11 +235,21 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
               </tbody>
             </table>
           </div>
+<<<<<<< HEAD
           <pre>| Product | Price  | Rating |
 |---------|--------|--------|
 | Item A  | $19.99 | ⭐⭐⭐⭐⭐ |
 | Item B  | $29.99 | ⭐⭐⭐⭐  |
 | Item C  | $39.99 | ⭐⭐⭐   |</pre>
+=======
+          <pre>
+| Product | Price  | Rating |
+|---------|--------|--------|
+| Item A  | $19.99 | ⭐⭐⭐⭐⭐ |
+| Item B  | $29.99 | ⭐⭐⭐⭐  |
+| Item C  | $39.99 | ⭐⭐⭐   |</pre
+          >
+>>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
         </div>
       </div>
 
@@ -363,6 +389,7 @@ Snippets help you focus on writing, not formatting.
   overflow-x: auto;
 }
 
+<<<<<<< HEAD
 /* Grid Organization Examples */
 .grid-examples {
   display: grid;
@@ -521,6 +548,8 @@ Snippets help you focus on writing, not formatting.
   font-size: 1.2rem;
 }
 
+=======
+>>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
 /* Markdown Examples */
 .markdown-examples {
   display: grid;
@@ -576,12 +605,16 @@ Snippets help you focus on writing, not formatting.
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+<<<<<<< HEAD
   .grid-examples,
   .custom-grid-examples,
+=======
+>>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
   .markdown-examples {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+<<<<<<< HEAD
   
   .grid-example,
   .custom-grid-example,
@@ -595,5 +628,11 @@ Snippets help you focus on writing, not formatting.
   .grid-3x3 {
     transform: scale(0.9);
   }
+=======
+
+  .example-section {
+    padding: 1rem;
+  }
+>>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
 }
 </style>
