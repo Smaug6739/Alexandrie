@@ -99,67 +99,10 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
 
       <h2>🔲 Grid Organization</h2>
       <p>Use the <strong>Grid Organization</strong> button in the toolbar to create custom layouts:</p>
-      
-      <h3>Quick Presets</h3>
-      <p>Pre-built grid layouts for common use cases:</p>
-      
-      <div class="grid-examples">
-        <div class="grid-example">
-          <h4>2x2 Grid</h4>
-          <div class="grid-preview grid-2x2">
-            <div class="grid-cell">Cell 1</div>
-            <div class="grid-cell">Cell 2</div>
-            <div class="grid-cell">Cell 3</div>
-            <div class="grid-cell">Cell 4</div>
-          </div>
-          <p><strong>Perfect for:</strong> Comparing two concepts, pros/cons lists</p>
-        </div>
 
-        <div class="grid-example">
-          <h4>3x2 Grid</h4>
-          <div class="grid-preview grid-3x2">
-            <div class="grid-cell">Cell 1</div>
-            <div class="grid-cell">Cell 2</div>
-            <div class="grid-cell">Cell 3</div>
-            <div class="grid-cell">Cell 4</div>
-            <div class="grid-cell">Cell 5</div>
-            <div class="grid-cell">Cell 6</div>
-          </div>
-          <p><strong>Ideal for:</strong> Feature comparisons, process steps</p>
-        </div>
-
-        <div class="grid-example">
-          <h4>2x3 Grid</h4>
-          <div class="grid-preview grid-2x3">
-            <div class="grid-cell">Cell 1</div>
-            <div class="grid-cell">Cell 2</div>
-            <div class="grid-cell">Cell 3</div>
-            <div class="grid-cell">Cell 4</div>
-            <div class="grid-cell">Cell 5</div>
-            <div class="grid-cell">Cell 6</div>
-          </div>
-          <p><strong>Great for:</strong> Step-by-step processes, timelines</p>
-        </div>
-
-        <div class="grid-example">
-          <h4>3x3 Grid</h4>
-          <div class="grid-preview grid-3x3">
-            <div class="grid-cell">Cell 1</div>
-            <div class="grid-cell">Cell 2</div>
-            <div class="grid-cell">Cell 3</div>
-            <div class="grid-cell">Cell 4</div>
-            <div class="grid-cell">Cell 5</div>
-            <div class="grid-cell">Cell 6</div>
-            <div class="grid-cell">Cell 7</div>
-            <div class="grid-cell">Cell 8</div>
-            <div class="grid-cell">Cell 9</div>
-          </div>
-          <p><strong>Comprehensive:</strong> Information display, data organization</p>
-        </div>
-      </div>
       <h3>Generated Markdown</h3>
       <p>Here's what gets inserted when you use the Grid Organization tool:</p>
-      
+
       <div class="markdown-examples">
         <div class="example-section">
           <h4>Simple 2x2 Table</h4>
@@ -183,10 +126,12 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
               </tbody>
             </table>
           </div>
-          <pre>| Header 1 | Header 2 |
+          <pre>
+| Header 1 | Header 2 |
 |----------|----------|
 | Cell 1   | Cell 2   |
-| Cell 3   | Cell 4   |</pre>
+| Cell 3   | Cell 4   |</pre
+          >
         </div>
 
         <div class="example-section">
@@ -219,11 +164,13 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
               </tbody>
             </table>
           </div>
-          <pre>| Product | Price  | Rating |
+          <pre>
+| Product | Price  | Rating |
 |---------|--------|--------|
 | Item A  | $19.99 | ⭐⭐⭐⭐⭐ |
 | Item B  | $29.99 | ⭐⭐⭐⭐  |
-| Item C  | $39.99 | ⭐⭐⭐   |</pre>
+| Item C  | $39.99 | ⭐⭐⭐   |</pre
+          >
         </div>
       </div>
 
@@ -582,13 +529,13 @@ Snippets help you focus on writing, not formatting.
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
+
   .grid-example,
   .custom-grid-example,
   .example-section {
     padding: 1rem;
   }
-  
+
   .grid-2x2,
   .grid-3x2,
   .grid-2x3,
