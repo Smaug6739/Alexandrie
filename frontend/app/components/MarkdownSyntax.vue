@@ -310,104 +310,6 @@ Snippets help you focus on writing, not formatting.
   overflow-x: auto;
 }
 
-/* Grid Organization Examples */
-.grid-examples {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin: 1.5rem 0;
-}
-
-.grid-example {
-  background: var(--bg-color-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-  text-align: center;
-}
-
-.grid-example h4 {
-  margin: 0 0 1rem 0;
-  color: var(--primary);
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.grid-preview {
-  display: grid;
-  gap: 4px;
-  margin: 1rem 0;
-  justify-content: center;
-}
-
-.grid-cell {
-  background: var(--primary);
-  color: white;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-align: center;
-  padding: 4px;
-  transition: all 0.3s ease;
-}
-
-.grid-cell:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
-}
-
-/* Custom Grid Layouts */
-.custom-grid-examples {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin: 1.5rem 0;
-}
-
-.custom-grid-example {
-  background: var(--bg-color-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-.custom-grid-example h4 {
-  margin: 0 0 1rem 0;
-  color: var(--primary);
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.custom-grid-preview {
-  display: grid;
-  gap: 4px;
-  margin: 1rem 0;
-}
-
-.header-content {
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: auto 1fr;
-}
-
-.header-content .header-cell {
-  grid-column: 1 / -1;
-  background: var(--blue);
-  height: 50px;
-}
-
-.header-content .content-cell {
-  background: var(--green);
-  height: 80px;
-}
-
-.header-content .sidebar-cell {
-  background: var(--purple);
-  height: 80px;
-}
-
 /* Markdown Examples */
 .markdown-examples {
   display: grid;
@@ -463,15 +365,11 @@ Snippets help you focus on writing, not formatting.
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .grid-examples,
-  .custom-grid-examples,
   .markdown-examples {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
-  .grid-example,
-  .custom-grid-example,
   .example-section {
     padding: 1rem;
   }
