@@ -1,15 +1,12 @@
 <template>
   <div class="voice-recognition">
-    <div style="font-size: 10px; color: red;">Debug: {{ isRecording }} | Icon: {{ isRecording ? 'CLOSED' : 'OPEN' }}</div>
-    <button
-      :class="['btn', { 'recording': isRecording }]"
-      :title="isRecording ? 'Stop recording' : 'Start voice recognition'"
-      @click="toggleRecording"
-    >
+    <div style="font-size: 10px; color: red">Debug: {{ isRecording }} | Icon: {{ isRecording ? 'CLOSED' : 'OPEN' }}</div>
+    <button :class="['btn', { recording: isRecording }]" :title="isRecording ? 'Stop recording' : 'Start voice recognition'" @click="toggleRecording">
       <svg
         v-if="!isRecording"
         xmlns="http://www.w3.org/2000/svg"
-        width="24" height="24"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -17,15 +14,16 @@
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <rect x="9" y="2" width="6" height="12" rx="3"/>
-        <path d="M5 10v2a7 7 0 0 0 14 0v-2"/>
-        <path d="M12 19v3"/>
-        <path d="M8 22h8"/>
+        <rect x="9" y="2" width="6" height="12" rx="3" />
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2" />
+        <path d="M12 19v3" />
+        <path d="M8 22h8" />
       </svg>
       <svg
         v-else
         xmlns="http://www.w3.org/2000/svg"
-        width="24" height="24"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -33,21 +31,17 @@
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <rect x="9" y="2" width="6" height="12" rx="3"/>
-        <path d="M5 10v2a7 7 0 0 0 14 0v-2"/>
-        <path d="M12 19v3"/>
-        <path d="M8 22h8"/>
-        <line x1="2" y1="2" x2="22" y2="22"/>
+        <rect x="9" y="2" width="6" height="12" rx="3" />
+        <path d="M5 10v2a7 7 0 0 0 14 0v-2" />
+        <path d="M12 19v3" />
+        <path d="M8 22h8" />
+        <line x1="2" y1="2" x2="22" y2="22" />
       </svg>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  onTranscription?: (text: string) => void;
-}>();
-
 const emit = defineEmits<{
   (e: 'transcription', text: string): void;
 }>();
@@ -73,7 +67,7 @@ const startRecording = () => {
   recordingStartTime.value = Date.now();
   const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
   recognition.value = new SpeechRecognition();
-  
+
   recognition.value.continuous = true;
   recognition.value.interimResults = false;
   recognition.value.maxAlternatives = 1;
@@ -86,7 +80,7 @@ const startRecording = () => {
 
   recognition.value.onresult = (event: any) => {
     if (isProcessing.value) return;
-    
+
     let finalTranscript = '';
 
     for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -98,37 +92,32 @@ const startRecording = () => {
 
     if (finalTranscript && finalTranscript.trim()) {
       const cleanText = finalTranscript.trim();
-      
+
       if (cleanText.length > 0 && cleanText !== lastTranscribedText.value) {
         isProcessing.value = true;
-        
-        setTimeout(() => {
-          lastTranscribedText.value = cleanText;
-          emit('transcription', cleanText);
-          if (props.onTranscription) {
-            props.onTranscription(cleanText);
-          }
-          isProcessing.value = false;
-        }, 100);
+
+        lastTranscribedText.value = cleanText;
+        isProcessing.value = false;
+        return emit('transcription', cleanText);
       }
     }
   };
 
   recognition.value.onerror = (event: any) => {
     console.error('Speech recognition error:', event.error);
-    
+
     if (event.error === 'no-speech' || event.error === 'audio-capture') {
       console.log('No speech detected, continuing recording...');
       return;
     }
-    
+
     isRecording.value = false;
   };
 
   recognition.value.onend = () => {
     const recordingDuration = Date.now() - recordingStartTime.value;
     console.log('Speech recognition ended after', recordingDuration, 'ms');
-    
+
     if (recordingDuration < 1000) {
       console.log('Recording too short, restarting...');
       if (recognition.value) {
@@ -136,7 +125,7 @@ const startRecording = () => {
       }
       return;
     }
-    
+
     isRecording.value = false;
   };
 
@@ -145,12 +134,12 @@ const startRecording = () => {
 
 const stopRecording = () => {
   const recordingDuration = Date.now() - recordingStartTime.value;
-  
+
   if (recordingDuration < 1000) {
     console.log('Recording too short, not stopping yet');
     return;
   }
-  
+
   if (recognition.value) {
     recognition.value.stop();
     recognition.value = null;

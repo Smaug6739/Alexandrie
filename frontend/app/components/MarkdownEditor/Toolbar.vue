@@ -26,7 +26,7 @@ const handleTranscription = (text: string) => {
 };
 const emit = defineEmits<{
   (e: 'update:modelValue', value: Partial<Document>): void;
-  (e: 'execute-action', action: string, ...args: unknown[]): void;
+  (e: 'execute-action', action: string, payload?: string): void;
 }>();
 
 const localValue = computed({
