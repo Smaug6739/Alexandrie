@@ -2,6 +2,7 @@
   <div class="toolbar">
     <!-- eslint-disable-next-line vue/no-v-html -->
     <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)" v-html="item.icon" />
+    <VoiceRecognition @transcription="handleTranscription" />
     <div class="color-picker" />
     <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" />
     <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
@@ -15,6 +16,7 @@
 <script setup lang="ts">
 import type { Document } from '~/stores';
 import ModalSyntax from './ModalSyntax.vue';
+import VoiceRecognition from './VoiceRecognition.vue';
 
 const props = defineProps<{
   modelValue: Partial<Document>;
@@ -23,7 +25,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: Partial<Document>): void;
-  (e: 'execute-action', action: string): void;
+  (e: 'execute-action', action: string, payload?: any): void;
 }>();
 
 const localValue = computed({
@@ -32,6 +34,10 @@ const localValue = computed({
 });
 
 const emitAction = (action: string) => emit('execute-action', action);
+
+const handleTranscription = (text: string) => {
+  emit('execute-action', 'insertText', text);
+};
 
 const openModal = () => useModal().add(new Modal(shallowRef(ModalSyntax), {}, () => {}, true));
 
@@ -93,6 +99,10 @@ const toolbar = [
     name: 'Ordered List',
     icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M680-80v-60h100v-30h-60v-60h60v-30H680v-60h120q17 0 28.5 11.5T840-280v40q0 17-11.5 28.5T800-200q17 0 28.5 11.5T840-160v40q0 17-11.5 28.5T800-80H680Zm0-280v-110q0-17 11.5-28.5T720-510h60v-30H680v-60h120q17 0 28.5 11.5T840-560v70q0 17-11.5 28.5T800-450h-60v30h100v60H680Zm60-280v-180h-60v-60h120v240h-60ZM120-200v-80h480v80H120Zm0-240v-80h480v80H120Zm0-240v-80h480v80H120Z"/></svg>',
     action: 'orderedList',
+  },
+  {
+    name: 'Grid Organization',
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/><g fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></g></svg>',    action: 'gridOrganization',
   },
   {
     name: 'Color',
