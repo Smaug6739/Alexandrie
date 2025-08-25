@@ -40,7 +40,7 @@
             @mouseleave="hoveredColor = null"
           >
             <div class="swatch-inner">
-              <div class="swatch-check" v-if="hoveredColor === color">
+              <div v-if="hoveredColor === color" class="swatch-check">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                   <polyline points="20,6 9,17 4,12" />
                 </svg>

@@ -2,7 +2,7 @@
   <div class="toolbar">
     <!-- eslint-disable-next-line vue/no-v-html -->
     <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)" v-html="item.icon" />
-    <div class="color-picker" />
+    <VoiceRecognition @transcription="handleTranscription" />
     <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" />
     <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
     <AppHint text="Tags has been moved down" />
@@ -15,15 +15,18 @@
 <script setup lang="ts">
 import type { Document } from '~/stores';
 import ModalSyntax from './ModalSyntax.vue';
+import VoiceRecognition from './VoiceRecognition.vue';
 
 const props = defineProps<{
   modelValue: Partial<Document>;
   minimal?: boolean;
 }>();
-
+const handleTranscription = (text: string) => {
+  emit('execute-action', 'insertText', text);
+};
 const emit = defineEmits<{
   (e: 'update:modelValue', value: Partial<Document>): void;
-  (e: 'execute-action', action: string): void;
+  (e: 'execute-action', action: string, payload?: string): void;
 }>();
 
 const localValue = computed({

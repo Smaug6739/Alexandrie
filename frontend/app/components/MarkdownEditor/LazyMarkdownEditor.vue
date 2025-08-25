@@ -61,6 +61,7 @@ function exec(action: string, payload?: string) {
   if (action === 'goto') if (document.value.id) return useRouter().push(`/dashboard/docs/${document.value.id}`);
   if (action === 'image') return openImageSelector();
   if (action === 'gridOrganization') return openGridOrganization();
+  if (action === 'insertText') return insertText(payload || '');
 
   if (!editorView.value) return;
 
@@ -116,7 +117,20 @@ function exec(action: string, payload?: string) {
 
   view.focus();
 }
+function insertText(text: string) {
+  if (!editorView.value || !text) return;
 
+  const view = editorView.value;
+  const state = view.state;
+  const { from, to } = state.selection.main;
+
+  view.dispatch({
+    changes: { from, to, insert: text },
+    selection: { anchor: from + text.length, head: from + text.length },
+  });
+
+  view.focus();
+}
 function openColorModal() {
   const modalManager = useModal();
   modalManager.add(new Modal(shallowRef(ColorPickerModal), { onColorSelect: handleColorSelect }, () => {}, false));
