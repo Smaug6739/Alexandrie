@@ -99,74 +99,10 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
 
       <h2>🔲 Grid Organization</h2>
       <p>Use the <strong>Grid Organization</strong> button in the toolbar to create custom layouts:</p>
-<<<<<<< HEAD
-      
-      <h3>Quick Presets</h3>
-      <p>Pre-built grid layouts for common use cases:</p>
-      
-      <div class="grid-examples">
-        <div class="grid-example">
-          <h4>2x2 Grid</h4>
-          <div class="grid-preview grid-2x2">
-            <div class="grid-cell">Cell 1</div>
-            <div class="grid-cell">Cell 2</div>
-            <div class="grid-cell">Cell 3</div>
-            <div class="grid-cell">Cell 4</div>
-          </div>
-          <p><strong>Perfect for:</strong> Comparing two concepts, pros/cons lists</p>
-        </div>
-
-        <div class="grid-example">
-          <h4>3x2 Grid</h4>
-          <div class="grid-preview grid-3x2">
-            <div class="grid-cell">Cell 1</div>
-            <div class="grid-cell">Cell 2</div>
-            <div class="grid-cell">Cell 3</div>
-            <div class="grid-cell">Cell 4</div>
-            <div class="grid-cell">Cell 5</div>
-            <div class="grid-cell">Cell 6</div>
-          </div>
-          <p><strong>Ideal for:</strong> Feature comparisons, process steps</p>
-        </div>
-
-        <div class="grid-example">
-          <h4>2x3 Grid</h4>
-          <div class="grid-preview grid-2x3">
-            <div class="grid-cell">Cell 1</div>
-            <div class="grid-cell">Cell 2</div>
-            <div class="grid-cell">Cell 3</div>
-            <div class="grid-cell">Cell 4</div>
-            <div class="grid-cell">Cell 5</div>
-            <div class="grid-cell">Cell 6</div>
-          </div>
-          <p><strong>Great for:</strong> Step-by-step processes, timelines</p>
-        </div>
-
-        <div class="grid-example">
-          <h4>3x3 Grid</h4>
-          <div class="grid-preview grid-3x3">
-            <div class="grid-cell">Cell 1</div>
-            <div class="grid-cell">Cell 2</div>
-            <div class="grid-cell">Cell 3</div>
-            <div class="grid-cell">Cell 4</div>
-            <div class="grid-cell">Cell 5</div>
-            <div class="grid-cell">Cell 6</div>
-            <div class="grid-cell">Cell 7</div>
-            <div class="grid-cell">Cell 8</div>
-            <div class="grid-cell">Cell 9</div>
-          </div>
-          <p><strong>Comprehensive:</strong> Information display, data organization</p>
-        </div>
-      </div>
-      <h3>Generated Markdown</h3>
-      <p>Here's what gets inserted when you use the Grid Organization tool:</p>
-      
-=======
 
       <h3>Generated Markdown</h3>
       <p>Here's what gets inserted when you use the Grid Organization tool:</p>
 
->>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
       <div class="markdown-examples">
         <div class="example-section">
           <h4>Simple 2x2 Table</h4>
@@ -190,19 +126,12 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
               </tbody>
             </table>
           </div>
-<<<<<<< HEAD
-          <pre>| Header 1 | Header 2 |
-|----------|----------|
-| Cell 1   | Cell 2   |
-| Cell 3   | Cell 4   |</pre>
-=======
           <pre>
 | Header 1 | Header 2 |
 |----------|----------|
 | Cell 1   | Cell 2   |
 | Cell 3   | Cell 4   |</pre
           >
->>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
         </div>
 
         <div class="example-section">
@@ -235,13 +164,6 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
               </tbody>
             </table>
           </div>
-<<<<<<< HEAD
-          <pre>| Product | Price  | Rating |
-|---------|--------|--------|
-| Item A  | $19.99 | ⭐⭐⭐⭐⭐ |
-| Item B  | $29.99 | ⭐⭐⭐⭐  |
-| Item C  | $39.99 | ⭐⭐⭐   |</pre>
-=======
           <pre>
 | Product | Price  | Rating |
 |---------|--------|--------|
@@ -249,7 +171,6 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
 | Item B  | $29.99 | ⭐⭐⭐⭐  |
 | Item C  | $39.99 | ⭐⭐⭐   |</pre
           >
->>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
         </div>
       </div>
 
@@ -389,167 +310,6 @@ Snippets help you focus on writing, not formatting.
   overflow-x: auto;
 }
 
-<<<<<<< HEAD
-/* Grid Organization Examples */
-.grid-examples {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin: 1.5rem 0;
-}
-
-.grid-example {
-  background: var(--bg-color-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-  text-align: center;
-}
-
-.grid-example h4 {
-  margin: 0 0 1rem 0;
-  color: var(--primary);
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.grid-preview {
-  display: grid;
-  gap: 4px;
-  margin: 1rem 0;
-  justify-content: center;
-}
-
-.grid-2x2 {
-  grid-template-columns: repeat(2, 60px);
-  grid-template-rows: repeat(2, 40px);
-}
-
-.grid-3x2 {
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: repeat(2, 40px);
-}
-
-.grid-2x3 {
-  grid-template-columns: repeat(2, 60px);
-  grid-template-rows: repeat(3, 35px);
-}
-
-.grid-3x3 {
-  grid-template-columns: repeat(3, 50px);
-  grid-template-rows: repeat(3, 35px);
-}
-
-.grid-cell {
-  background: var(--primary);
-  color: white;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-align: center;
-  padding: 4px;
-  transition: all 0.3s ease;
-}
-
-.grid-cell:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
-}
-
-/* Custom Grid Layouts */
-.custom-grid-examples {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin: 1.5rem 0;
-}
-
-.custom-grid-example {
-  background: var(--bg-color-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
-}
-
-.custom-grid-example h4 {
-  margin: 0 0 1rem 0;
-  color: var(--primary);
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.custom-grid-preview {
-  display: grid;
-  gap: 4px;
-  margin: 1rem 0;
-}
-
-.header-content {
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: auto 1fr;
-}
-
-.header-content .header-cell {
-  grid-column: 1 / -1;
-  background: var(--blue);
-  height: 50px;
-}
-
-.header-content .content-cell {
-  background: var(--green);
-  height: 80px;
-}
-
-.header-content .sidebar-cell {
-  background: var(--purple);
-  height: 80px;
-}
-
-.feature-compare {
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto auto;
-}
-
-.feature-compare .feature-header {
-  grid-column: 1 / -1;
-  background: var(--primary);
-  height: 40px;
-}
-
-.feature-compare .plan-a {
-  background: var(--blue);
-  height: 35px;
-}
-
-.feature-compare .plan-b {
-  background: var(--green);
-  height: 35px;
-}
-
-.feature-compare .feature-1,
-.feature-compare .feature-2 {
-  background: var(--grey);
-  height: 35px;
-}
-
-.feature-compare .plan-a-yes,
-.feature-compare .plan-b-yes {
-  background: var(--green);
-  height: 35px;
-  font-size: 1.2rem;
-}
-
-.feature-compare .plan-a-no {
-  background: var(--red);
-  height: 35px;
-  font-size: 1.2rem;
-}
-
-=======
->>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
 /* Markdown Examples */
 .markdown-examples {
   display: grid;
@@ -605,34 +365,13 @@ Snippets help you focus on writing, not formatting.
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-<<<<<<< HEAD
-  .grid-examples,
-  .custom-grid-examples,
-=======
->>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
   .markdown-examples {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-<<<<<<< HEAD
-  
-  .grid-example,
-  .custom-grid-example,
-  .example-section {
-    padding: 1rem;
-  }
-  
-  .grid-2x2,
-  .grid-3x2,
-  .grid-2x3,
-  .grid-3x3 {
-    transform: scale(0.9);
-  }
-=======
 
   .example-section {
     padding: 1rem;
   }
->>>>>>> 4cf5f349be0800eddc51160dc064c70cd715fbe4
 }
 </style>
