@@ -97,6 +97,83 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
         >
       </div>
 
+      <h2>🔲 Grid Organization</h2>
+      <p>Use the <strong>Grid Organization</strong> button in the toolbar to create custom layouts:</p>
+
+      <h3>Generated Markdown</h3>
+      <p>Here's what gets inserted when you use the Grid Organization tool:</p>
+
+      <div class="markdown-examples">
+        <div class="example-section">
+          <h4>Simple 2x2 Table</h4>
+          <div class="rendered-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Header 1</th>
+                  <th>Header 2</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Cell 1</td>
+                  <td>Cell 2</td>
+                </tr>
+                <tr>
+                  <td>Cell 3</td>
+                  <td>Cell 4</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <pre>
+| Header 1 | Header 2 |
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |</pre
+          >
+        </div>
+
+        <div class="example-section">
+          <h4>3x3 Data Table</h4>
+          <div class="rendered-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Item A</td>
+                  <td>$19.99</td>
+                  <td>⭐⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                  <td>Item B</td>
+                  <td>$29.99</td>
+                  <td>⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                  <td>Item C</td>
+                  <td>$39.99</td>
+                  <td>⭐⭐⭐</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <pre>
+| Product | Price  | Rating |
+|---------|--------|--------|
+| Item A  | $19.99 | ⭐⭐⭐⭐⭐ |
+| Item B  | $29.99 | ⭐⭐⭐⭐  |
+| Item C  | $39.99 | ⭐⭐⭐   |</pre
+          >
+        </div>
+      </div>
+
       <h2>💻 Code</h2>
       <p>Inline: <code>`inline code`</code></p>
       <p>Multiline:</p>
@@ -231,5 +308,70 @@ Snippets help you focus on writing, not formatting.
   border-radius: 6px;
   color: white;
   overflow-x: auto;
+}
+
+/* Markdown Examples */
+.markdown-examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.example-section {
+  background: var(--bg-color-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.example-section h4 {
+  margin: 0 0 1rem 0;
+  color: var(--primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.rendered-table {
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.rendered-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rendered-table th {
+  background: var(--primary);
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.rendered-table td {
+  padding: 10px 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.rendered-table tr:hover {
+  background: var(--bg-color-secondary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .markdown-examples {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .example-section {
+    padding: 1rem;
+  }
 }
 </style>
