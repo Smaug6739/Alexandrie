@@ -20,7 +20,10 @@
             <span class="result-title">{{ item.title }}</span>
             <span class="result-description">{{ item.description }}</span>
           </div>
-          <Icon name="new_tab" class="navigate-icon" fill="var(--font-color)" />
+          <div class="result-shortcut">
+            <kbd v-if="item.shortcut">{{ item.shortcut }}</kbd>
+            <Icon name="new_tab" class="navigate-icon" fill="var(--font-color)" />
+          </div>
         </NuxtLink>
       </div>
     </div>
@@ -94,6 +97,10 @@ const groupedItems = computed(() => {
   flex: 1;
   flex-direction: column;
   gap: 4px;
+}
+.result-shortcut {
+  display: flex;
+  gap: 6px;
 }
 
 .result-title {

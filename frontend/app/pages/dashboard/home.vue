@@ -12,7 +12,10 @@
       <input v-model="searchQuery" type="text" placeholder="Search documents..." class="search-input" />
       <div v-if="results.length" class="results">
         <NuxtLink v-for="result in results" :key="result.id" class="result" :to="`/dashboard/docs/${result.id}`">
-          <Icon :name="category(result.category)?.icon || 'files'" :class="`category-icon ${getAppColor(category(result.category)?.color as number, true)}`" />{{ result.name }}</NuxtLink
+          <Icon
+            :name="category(result.category)?.icon || 'files'"
+            :class="`category-icon ${getAppColor(category(result.category)?.color as number, true)}`"
+          />{{ result.name }}</NuxtLink
         >
       </div>
     </div>
@@ -96,15 +99,6 @@ h1 {
     width: 16px;
     height: 16px;
     color: var(--primary);
-  }
-
-  kbd {
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-family: monospace;
-    font-size: 12px;
-    font-weight: 600;
-    background: var(--bg-color);
   }
 }
 

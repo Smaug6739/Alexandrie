@@ -78,6 +78,7 @@ const flattenedItems = computed(() => {
       title: a.title,
       description: a.description,
       path: a.path,
+      shortcut: a.shortcut,
     })),
     'Pages & actions',
   );

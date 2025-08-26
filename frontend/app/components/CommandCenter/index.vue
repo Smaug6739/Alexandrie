@@ -291,14 +291,6 @@ watch(searchQuery, () => {
   font-weight: 500;
   flex-wrap: wrap;
   gap: 10px;
-
-  kbd {
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: monospace;
-    font-weight: 600;
-    background: var(--border-color);
-  }
 }
 
 @keyframes slide-in {

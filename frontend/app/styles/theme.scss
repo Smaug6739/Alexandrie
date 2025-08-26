@@ -132,6 +132,14 @@ input:-webkit-autofill:focus {
 	box-shadow: 0 0 0 1000px var(--border-color) inset !important;
 }
 
+kbd {
+	padding: 2px 6px;
+	border-radius: 4px;
+	font-family: monospace;
+	font-weight: 600;
+	background: var(--border-color);
+}
+
 label {
 	display: block;
 	padding: 4px 2px;

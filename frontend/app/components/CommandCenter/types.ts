@@ -6,4 +6,5 @@ export interface Item {
   path: string;
   section: string;
   globalIndex: number;
+  shortcut?: string;
 }
