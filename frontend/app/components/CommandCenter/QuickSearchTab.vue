@@ -233,11 +233,11 @@ defineExpose({ flattenedItems });
 
 .no-results {
   display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 40px 20px;
   text-align: center;
+  align-items: center;
   gap: 5px;
+  justify-content: center;
 
   .no-results-icon {
     opacity: 0.5;

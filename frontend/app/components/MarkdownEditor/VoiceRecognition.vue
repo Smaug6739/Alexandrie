@@ -146,18 +146,18 @@ onUnmounted(() => {
 
 .btn {
   display: flex;
-  margin: 0;
-  padding: 4px;
-  border-radius: 50%;
-  transition: all 0.2s;
-  align-items: center;
-  justify-content: center;
-  transform: none;
-  border: none;
-  background: none;
-  cursor: pointer;
   width: 32px;
   height: 32px;
+  margin: 0;
+  padding: 4px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  transition: all 0.2s;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  transform: none;
 
   &:hover {
     background-color: var(--primary-bg);
@@ -168,11 +168,11 @@ onUnmounted(() => {
   }
 
   svg {
+    display: block;
     width: 24px;
     height: 24px;
-    stroke: var(--font-color-dark);
     fill: none;
-    display: block;
+    stroke: var(--font-color-dark);
   }
 
   &.recording svg {
@@ -184,9 +184,11 @@ onUnmounted(() => {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
+
   100% {
     transform: scale(1);
   }
