@@ -113,29 +113,21 @@
 
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
-const props = defineProps<{
-  onColorSelect: (color: string) => void;
-}>();
-
-const emit = defineEmits<{
-  (e: 'close'): void;
-}>();
+const props = defineProps<{ onColorSelect: (color: string) => void }>();
+const emit = defineEmits<{ (e: 'close'): void }>();
 
 const hexColor = ref('');
 const hoveredColor = ref<string | null>(null);
 const colorWheel = ref<HTMLCanvasElement>();
 const isSelecting = ref(false);
-const hue = ref(0);
-const saturation = ref(100);
-const brightness = ref(100);
+const hue = ref(0),
+  saturation = ref(100),
+  brightness = ref(100);
 const selectedWheelColor = ref('#FF0000');
 const cursorPosition = ref({ x: 150, y: 75 });
 
 const availableColors = ['primary', ...Array.from({ length: 8 }, (_, i) => getAppColor(i))];
-
-const isValidHex = computed(() => {
-  return hexColor.value && /^[0-9A-F]{6}$/i.test(hexColor.value);
-});
+const isValidHex = computed(() => hexColor.value && /^[0-9A-F]{6}$/i.test(hexColor.value));
 
 const selectColor = (color: string) => {
   props.onColorSelect(color);
@@ -146,146 +138,90 @@ const startColorSelection = (e: MouseEvent) => {
   isSelecting.value = true;
   updateColorSelection(e);
 };
-
 const stopColorSelection = () => {
   isSelecting.value = false;
 };
 
 const updateColorSelection = (e: MouseEvent) => {
   if (!isSelecting.value || !colorWheel.value) return;
-
   const rect = colorWheel.value.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
-  const centerX = rect.width / 2;
-  const centerY = rect.height / 2;
-
-  const deltaX = x - centerX;
-  const deltaY = y - centerY;
-
-  const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-  const maxDistance = Math.min(centerX, centerY);
-
-  if (distance <= maxDistance) {
+  const x = e.clientX - rect.left,
+    y = e.clientY - rect.top;
+  const centerX = rect.width / 2,
+    centerY = rect.height / 2;
+  const dx = x - centerX,
+    dy = y - centerY,
+    dist = Math.sqrt(dx * dx + dy * dy),
+    maxDist = Math.min(centerX, centerY);
+  if (dist <= maxDist) {
     cursorPosition.value = { x, y };
-
-    const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-    hue.value = angle < 0 ? angle + 360 : angle;
-
-    saturation.value = Math.min(100, (distance / maxDistance) * 100);
-
+    hue.value = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360;
+    saturation.value = Math.min(100, (dist / maxDist) * 100);
     updateWheelColor();
   }
 };
 
 const selectColorFromWheel = (e: MouseEvent) => {
   updateColorSelection(e);
-  hexColor.value = selectedWheelColor.value.replace('#', '');
+  hexColor.value = selectedWheelColor.value.slice(1);
 };
-
 const validateWheelColor = () => {
   props.onColorSelect(selectedWheelColor.value);
   emit('close');
 };
 
 const updateWheelColor = () => {
-  const h = hue.value;
-  const s = saturation.value;
-  const v = brightness.value;
-
-  selectedWheelColor.value = hsvToHex(h, s, v);
+  selectedWheelColor.value = hsvToHex(hue.value, saturation.value, brightness.value);
 };
 
-const hsvToHex = (h: number, s: number, v: number): string => {
-  const c = (v / 100) * (s / 100);
-  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-  const m = v / 100 - c;
+function hsvToHex(h: number, s: number, v: number): string {
+  s /= 100;
+  v /= 100;
+  const c = v * s,
+    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+    m = v - c;
+  const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+  return (
+    '#' +
+    [r, g, b]
+      .map(v =>
+        Math.round((v + m) * 255)
+          .toString(16)
+          .padStart(2, '0'),
+      )
+      .join('')
+      .toUpperCase()
+  );
+}
 
-  let r = 0,
-    g = 0,
-    b = 0;
-
-  if (h >= 0 && h < 60) {
-    r = c;
-    g = x;
-    b = 0;
-  } else if (h >= 60 && h < 120) {
-    r = x;
-    g = c;
-    b = 0;
-  } else if (h >= 120 && h < 180) {
-    r = 0;
-    g = c;
-    b = x;
-  } else if (h >= 180 && h < 240) {
-    r = 0;
-    g = x;
-    b = c;
-  } else if (h >= 240 && h < 300) {
-    r = x;
-    g = 0;
-    b = c;
-  } else if (h >= 300 && h < 360) {
-    r = c;
-    g = 0;
-    b = x;
-  }
-
-  const rHex = Math.round((r + m) * 255)
-    .toString(16)
-    .padStart(2, '0');
-  const gHex = Math.round((g + m) * 255)
-    .toString(16)
-    .padStart(2, '0');
-  const bHex = Math.round((b + m) * 255)
-    .toString(16)
-    .padStart(2, '0');
-
-  return `#${rHex}${gHex}${bHex}`.toUpperCase();
-};
-
-const drawColorWheel = () => {
+function drawColorWheel() {
   if (!colorWheel.value) return;
-
-  const canvas = colorWheel.value;
-  const ctx = canvas.getContext('2d');
+  const canvas = colorWheel.value,
+    ctx = canvas.getContext('2d');
   if (!ctx) return;
-
-  const width = canvas.width;
-  const height = canvas.height;
-  const centerX = width / 2;
-  const centerY = height / 2;
-  const radius = Math.min(centerX, centerY) - 10;
-
-  ctx.clearRect(0, 0, width, height);
-
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const deltaX = x - centerX;
-      const deltaY = y - centerY;
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-      if (distance <= radius) {
-        const angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
-        const hue = angle < 0 ? angle + 360 : angle;
-        const saturation = Math.min(100, (distance / radius) * 100);
-        const value = 100;
-
-        const color = hsvToHex(hue, saturation, value);
-        ctx.fillStyle = color;
+  const w = canvas.width,
+    h = canvas.height,
+    cx = w / 2,
+    cy = h / 2,
+    r = Math.min(cx, cy) - 10;
+  ctx.clearRect(0, 0, w, h);
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++) {
+      const dx = x - cx,
+        dy = y - cy,
+        dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist <= r) {
+        const hue = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360;
+        ctx.fillStyle = hsvToHex(hue, (dist / r) * 100, 100);
         ctx.fillRect(x, y, 1, 1);
       }
     }
-  }
-
-  // Draw outer circle
   ctx.strokeStyle = 'var(--border-color)';
   ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+  ctx.arc(cx, cy, r, 0, 2 * Math.PI);
   ctx.stroke();
-};
+}
 
 const applyCustomColor = () => {
   if (isValidHex.value) {
@@ -293,22 +229,19 @@ const applyCustomColor = () => {
     emit('close');
   }
 };
-
 const validateHexInput = () => {
   hexColor.value = hexColor.value.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
 };
+const closeModal = () => emit('close');
 
-const closeModal = () => {
-  emit('close');
-};
-
-onMounted(async () => {
-  await nextTick();
-  if (colorWheel.value) {
-    colorWheel.value.width = 240;
-    colorWheel.value.height = 120;
-    drawColorWheel();
-  }
+onMounted(() => {
+  nextTick(() => {
+    if (colorWheel.value) {
+      colorWheel.value.width = 240;
+      colorWheel.value.height = 120;
+      drawColorWheel();
+    }
+  });
 });
 </script>
 
@@ -450,10 +383,7 @@ onMounted(async () => {
 .custom {
   display: flex;
   padding: 20px;
-  border: 1px solid var(--border-color);
   border-radius: 16px;
-  background: linear-gradient(135deg, var(--bg-color-secondary), var(--bg-color));
-  box-shadow: inset 0 2px 8px rgb(0 0 0 / 5%);
   flex-direction: column;
   gap: 20px;
 }
@@ -472,7 +402,6 @@ onMounted(async () => {
 .color-wheel {
   border: 2px solid var(--border-color);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
   cursor: crosshair;
 }
 
