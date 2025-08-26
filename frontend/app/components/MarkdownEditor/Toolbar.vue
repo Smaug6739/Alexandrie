@@ -128,7 +128,7 @@ const toolbar = [
 .toolbar {
   display: flex;
   width: 100%;
-  padding: 0.15rem;
+  padding: 0.25rem 0.5rem;
   border: 1px solid var(--border-color);
   border-radius: 20px;
   color: var(--font-color-dark);
