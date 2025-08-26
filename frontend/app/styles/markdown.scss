@@ -117,8 +117,8 @@
 .checkbox-container {
 	display: flex;
 	align-items: center;
-	gap: 8px;
 	justify-content: flex-start;
+	padding: 0;
 }
 
 .checkbox-container input[type="checkbox"] {
