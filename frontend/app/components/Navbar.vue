@@ -11,7 +11,7 @@
     </div>
     <div>
       <button class="search-btn" title="Command center (Ctrl+K)" aria-label="Command center" @click="openCommandCenter">
-        <Icon name="search" />
+        <Icon name="search" fill="var(--font-color)" />
         <span class="search-text">Search</span>
         <kbd class="shortcut">Ctrl+K</kbd>
       </button>
