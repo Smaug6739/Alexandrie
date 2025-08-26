@@ -99,12 +99,4 @@ export const quickActions: QuickAction[] = [
     shortcut: 'Ctrl+q',
     path: '/dashboard/docs',
   },
-  {
-    id: 'upload-file',
-    title: 'Upload file',
-    description: 'Add a resource to CDN',
-    icon: 'import',
-    shortcut: 'Ctrl+U',
-    path: '/dashboard/cdn',
-  },
 ];
