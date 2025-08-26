@@ -1,6 +1,5 @@
 <template>
   <div class="voice-recognition">
-    <div style="font-size: 10px; color: red">Debug: {{ isRecording }} | Icon: {{ isRecording ? 'CLOSED' : 'OPEN' }}</div>
     <button :class="['btn', { recording: isRecording }]" :title="isRecording ? 'Stop recording' : 'Start voice recognition'" @click="toggleRecording">
       <svg
         v-if="!isRecording"
@@ -42,18 +41,26 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{
-  (e: 'transcription', text: string): void;
-}>();
+const emit = defineEmits<{ (e: 'transcription', text: string): void }>();
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    SpeechRecognition: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    webkitSpeechRecognition: any;
+  }
+}
 
 const isRecording = ref(false);
-const recognition = ref<any>(null);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const recognition = ref<any>();
 const lastTranscribedText = ref('');
 const transcriptionBuffer = ref<string[]>([]);
 const isProcessing = ref(false);
 const recordingStartTime = ref(0);
 
-const language = ref('fr-FR');
+const language = 'fr-FR';
 
 const startRecording = () => {
   if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -65,27 +72,25 @@ const startRecording = () => {
   transcriptionBuffer.value = [];
   isProcessing.value = false;
   recordingStartTime.value = Date.now();
-  const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition.value = new SpeechRecognition();
 
   recognition.value.continuous = true;
   recognition.value.interimResults = false;
   recognition.value.maxAlternatives = 1;
-  recognition.value.lang = language.value;
+  recognition.value.lang = language;
 
-  recognition.value.onstart = () => {
-    console.log('Speech recognition started, setting isRecording to true');
-    isRecording.value = true;
-  };
+  recognition.value.onstart = () => (isRecording.value = true);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   recognition.value.onresult = (event: any) => {
     if (isProcessing.value) return;
 
     let finalTranscript = '';
 
     for (let i = event.resultIndex; i < event.results.length; i++) {
-      const transcript = event.results[i][0].transcript;
-      if (event.results[i].isFinal) {
+      const transcript = event.results[i]?.[0]?.transcript;
+      if (event.results[i]?.isFinal) {
         finalTranscript += transcript;
       }
     }
@@ -103,29 +108,13 @@ const startRecording = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   recognition.value.onerror = (event: any) => {
-    console.error('Speech recognition error:', event.error);
-
-    if (event.error === 'no-speech' || event.error === 'audio-capture') {
-      console.log('No speech detected, continuing recording...');
-      return;
-    }
-
+    if (event.error === 'no-speech' || event.error === 'audio-capture') return;
     isRecording.value = false;
   };
 
   recognition.value.onend = () => {
-    const recordingDuration = Date.now() - recordingStartTime.value;
-    console.log('Speech recognition ended after', recordingDuration, 'ms');
-
-    if (recordingDuration < 1000) {
-      console.log('Recording too short, restarting...');
-      if (recognition.value) {
-        recognition.value.start();
-      }
-      return;
-    }
-
     isRecording.value = false;
   };
 
@@ -133,37 +122,20 @@ const startRecording = () => {
 };
 
 const stopRecording = () => {
-  const recordingDuration = Date.now() - recordingStartTime.value;
-
-  if (recordingDuration < 1000) {
-    console.log('Recording too short, not stopping yet');
-    return;
-  }
-
   if (recognition.value) {
     recognition.value.stop();
-    recognition.value = null;
+    recognition.value = undefined;
   }
   isRecording.value = false;
-  console.log('Recording stopped after', recordingDuration, 'ms');
 };
 
 const toggleRecording = () => {
-  console.log('Toggle recording called, current state:', isRecording.value);
-  if (isRecording.value) {
-    console.log('Stopping recording...');
-    stopRecording();
-  } else {
-    console.log('Starting recording...');
-    startRecording();
-  }
-  console.log('New recording state:', isRecording.value);
+  if (isRecording.value) stopRecording();
+  else startRecording();
 };
 
 onUnmounted(() => {
-  if (recognition.value) {
-    recognition.value.stop();
-  }
+  if (recognition.value) recognition.value.stop();
 });
 </script>
 
@@ -192,7 +164,6 @@ onUnmounted(() => {
   }
 
   &.recording {
-    background-color: var(--error-bg);
     animation: pulse 2s infinite;
   }
 
@@ -205,7 +176,7 @@ onUnmounted(() => {
   }
 
   &.recording svg {
-    stroke: var(--error);
+    stroke: var(--font-color);
   }
 }
 
