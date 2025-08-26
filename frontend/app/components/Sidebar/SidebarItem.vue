@@ -11,7 +11,7 @@
   >
     <Icon :name="icon" :class="customClass" />&nbsp;
 
-    <NuxtLink :to="item.route" style="width: 100%" class="close">{{ item.label }}</NuxtLink>
+    <NuxtLink :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
 
     <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" fill="var(--font-color)" />
@@ -101,7 +101,7 @@ const drop = async (event: DragEvent) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .item {
   display: flex;
   margin: 2.5px 0;
@@ -113,7 +113,7 @@ const drop = async (event: DragEvent) => {
   cursor: pointer;
   justify-content: flex-start;
   letter-spacing: -0.4px;
-
+  width: 100%;
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
     background: var(--bg-contrast-2);
@@ -133,11 +133,10 @@ const drop = async (event: DragEvent) => {
   }
 
   .item-icon {
-    display: inline-flex;
     padding: 2px;
-    border-radius: 4px; // Coins arrondis
-    align-items: center;
-    justify-content: center;
+    border-radius: 4px;
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -158,5 +157,7 @@ const drop = async (event: DragEvent) => {
 .item:hover .nav,
 .active {
   display: block;
+  width: 20px;
+  height: 20px;
 }
 </style>

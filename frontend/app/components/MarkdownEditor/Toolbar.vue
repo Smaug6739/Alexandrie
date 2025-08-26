@@ -1,7 +1,9 @@
 <template>
   <div class="toolbar">
     <!-- eslint-disable-next-line vue/no-v-html -->
-    <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)" v-html="item.icon" />
+    <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)">
+      <Icon :name="item.icon" :big="true" fill="var(--font-color)" />
+    </button>
     <VoiceRecognition @transcription="handleTranscription" />
     <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" />
     <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
@@ -74,7 +76,7 @@ const toolbar = [
   },
   {
     name: 'Image',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>',
+    icon: 'image',
     action: 'image',
   },
   {
@@ -99,12 +101,12 @@ const toolbar = [
   },
   {
     name: 'Table',
-    icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h133v-133H200v133Zm213 0h134v-133H413v133Zm214 0h133v-133H627v133ZM200-413h133v-134H200v134Zm213 0h134v-134H413v134Zm214 0h133v-134H627v134ZM200-627h133v-133H200v133Zm213 0h134v-133H413v133Zm214 0h133v-133H627v133Z"/></svg>',
+    icon: 'grid',
     action: 'gridOrganization',
   },
   {
     name: 'Color',
-    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-220 40q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120-160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm200 0q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17Zm120 160q26 0 43-17t17-43q0-26-17-43t-43-17q-26 0-43 17t-17 43q0 26 17 43t43 17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"/></svg>`,
+    icon: `color`,
     action: 'openColorPicker',
   },
   {
@@ -173,12 +175,6 @@ const toolbar = [
   border: 1px solid var(--border-color);
   border-radius: 999px;
   background: var(--primary);
-}
-
-.btn:deep(svg) {
-  width: 24px;
-  height: 24px;
-  fill: var(--font-color-dark);
 }
 
 input,

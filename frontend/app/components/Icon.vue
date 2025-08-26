@@ -13,10 +13,14 @@ const icon = computed(() => useIcon(props.name as IconName) || props.name);
 .icon {
   display: flex;
   align-items: center;
+  width: 20px;
+  height: 20px;
+  max-width: 100%;
+  max-height: 100%;
 
   &:deep(svg) {
-    width: 20px;
-    max-height: 20px;
+    width: 100%;
+    height: 100%;
 
     path {
       fill: inherit;
@@ -29,23 +33,17 @@ const icon = computed(() => useIcon(props.name as IconName) || props.name);
 }
 
 .small {
-  &:deep(svg) {
-    width: 18px;
-    max-height: 18px;
-  }
+  width: 18px;
+  height: 18px;
 }
 
 .mid {
-  &:deep(svg) {
-    width: 21px;
-    max-height: 21px;
-  }
+  width: 21px;
+  height: 21px;
 }
 
 .big {
-  &:deep(svg) {
-    width: 25px;
-    max-height: 25px;
-  }
+  width: 25px !important;
+  height: 25px !important;
 }
 </style>

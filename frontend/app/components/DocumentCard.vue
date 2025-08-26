@@ -65,6 +65,8 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
   padding: 6px;
   border-radius: 6px;
   margin-right: 10px;
+  width: 30px;
+  height: 30px;
 }
 
 .document-title {

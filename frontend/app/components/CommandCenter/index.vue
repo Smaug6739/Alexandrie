@@ -121,7 +121,7 @@ function openSearch() {
 }
 
 function closeSearch(e?: MouseEvent) {
-  if (e && e.target && (e.target as Element).closest('.command-center-modal')) return;
+  if (e && e.target && (e.target as Element).closest('.command-center-modal') && !(e.target as Element).classList.contains('close-btn')) return;
   isOpen.value = false;
   searchQuery.value = '';
   selectedIndex.value = 0;

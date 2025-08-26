@@ -1,16 +1,6 @@
 <template>
   <div class="image-selector-modal">
-    <div class="modal-header">
-      <div class="header-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
-          <path
-            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"
-          />
-        </svg>
-      </div>
-      <h3>Image selector</h3>
-      <p class="header-subtitle">Choose image from your library</p>
-    </div>
+    <EditorAppHeader icon="image" title="Select Image" subtitle="Choose an image to insert into your document." />
     <div class="search-bar">
       <input v-model="searchQuery" placeholder="Search images..." class="search-input" />
     </div>
@@ -37,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+import EditorAppHeader from './EditorAppHeader.vue';
 import { useRessourcesStore, type Ressource } from '~/stores';
 
 const props = defineProps<{
@@ -112,52 +103,6 @@ onMounted(() => {
   height: 100%;
   background: transparent;
   flex-direction: column;
-}
-
-.modal-header {
-  display: flex;
-  padding: 24px 0 20px;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-  flex-shrink: 0;
-
-  .header-icon {
-    display: flex;
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
-    color: white;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  h3 {
-    margin: 0 0 8px;
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--font-color-dark);
-    background: linear-gradient(135deg, var(--font-color-dark), var(--primary));
-    background-clip: text;
-    letter-spacing: -0.8px;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .header-subtitle {
-    max-width: 280px;
-    margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--font-color-light);
-  }
 }
 
 .modal-content {

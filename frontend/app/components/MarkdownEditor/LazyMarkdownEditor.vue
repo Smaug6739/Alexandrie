@@ -295,6 +295,7 @@ const state = EditorState.create({
     history(),
     drawSelection(),
     autocompletion(),
+    // @ts-expect-error normal custom key map
     keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, indentWithTab, ...markdownKeysmap]),
     markdown({ base: markdownLanguage }),
     updateListener,

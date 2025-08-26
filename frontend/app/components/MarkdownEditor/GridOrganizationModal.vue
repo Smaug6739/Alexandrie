@@ -1,16 +1,6 @@
 <template>
   <div class="grid-organization-modal">
-    <div class="modal-header">
-      <div class="header-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
-          <path
-            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h133v-133H200v133Zm213 0h134v-133H413v133Zm214 0h133v-133H627v133ZM200-413h133v-134H200v134Zm213 0h134v-134H413v134Zm214 0h133v-134H627v134ZM200-627h133v-133H200v133Zm213 0h134v-133H413v133Zm214 0h133v-133H627v133Z"
-          />
-        </svg>
-      </div>
-      <h3>Table creator</h3>
-      <p class="header-subtitle">Choose from predefined table layouts or create your own</p>
-    </div>
+    <EditorAppHeader icon="grid" title="Insert Grid" subtitle="Select a grid layout or customize your own by selecting the number of rows and columns." />
 
     <div class="modal-content">
       <div class="table-selector">
@@ -55,6 +45,7 @@
 </template>
 
 <script setup lang="ts">
+import EditorAppHeader from './EditorAppHeader.vue';
 const props = defineProps<{
   onGridSelect: (gridMarkdown: string) => void;
 }>();
@@ -243,52 +234,6 @@ const closeModal = () => {
   background: transparent;
   flex-direction: column;
   overflow: auto;
-}
-
-.modal-header {
-  display: flex;
-  padding: 24px 0 20px;
-  text-align: center;
-  align-items: center;
-  flex-direction: column;
-  flex-shrink: 0;
-
-  .header-icon {
-    display: flex;
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
-    color: white;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  h3 {
-    margin: 0 0 8px;
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--font-color-dark);
-    background: linear-gradient(135deg, var(--font-color-dark), var(--primary));
-    background-clip: text;
-    letter-spacing: -0.8px;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .header-subtitle {
-    max-width: 280px;
-    margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: var(--font-color-light);
-  }
 }
 
 .modal-content {
