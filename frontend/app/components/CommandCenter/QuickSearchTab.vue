@@ -1,48 +1,26 @@
 <template>
   <div class="quick-search-tab">
-    <div class="search-results">
-      <div v-if="searchQuery && flattenedItems.length === 0" class="no-results">
-        <Icon fill="var(--font-color)" name="search" class="no-results-icon" />
-        <p>No results found for "{{ searchQuery }}"</p>
-      </div>
-
-      <div v-else class="search-results-list">
-        <div v-for="(items, section) in groupedResults" :key="section" class="section">
-          <div class="section-title">{{ section }}</div>
-          <NuxtLink
-            v-for="item in items"
-            :key="item.id"
-            class="search-result-item"
-            :to="item.path"
-            :class="{ selected: selectedIndex === item.globalIndex }"
-            @click="$emit('selectItem')"
-            @mouseenter="$emit('updateSelectedIndex', item.globalIndex)"
-          >
-            <Icon :name="item.icon" class="result-icon" fill="var(--font-color)" />
-            <div class="result-content">
-              <span class="result-title">{{ item.title }}</span>
-              <span class="result-description">{{ item.description }}</span>
-            </div>
-            <Icon name="new_tab" class="navigate-icon" fill="var(--font-color)" />
-          </NuxtLink>
-        </div>
-      </div>
-    </div>
+    <SearchResultsList
+      :items="flattenedItems"
+      :selected-index="selectedIndex"
+      empty-text='No results found for "{{ searchQuery }}"'
+      empty-icon="search"
+      @update-selected-index="$emit('updateSelectedIndex', $event)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { quickActions, availablePages, type SearchResult, type BaseCommand } from '@/helpers/navigation';
-import Icon from '~/components/Icon.vue';
-import type { Document } from '~/stores';
+import SearchResultsList from './SearchResultsList.vue';
 
 const props = defineProps<{
   searchQuery: string;
   selectedIndex: number;
-  documents: Document[];
 }>();
+const documentStore = useDocumentsStore();
 
-defineEmits<{ selectItem: []; updateSelectedIndex: [index: number] }>();
+defineEmits<{ updateSelectedIndex: [index: number] }>();
 
 function tokenize(text: string) {
   return text.trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -62,11 +40,8 @@ function filterByTokens<T>(items: T[], getText: (item: T) => string): T[] {
 const filteredActions = computed(() => filterByTokens(quickActions, a => `${a.title} ${a.description}`));
 
 const filteredDocuments = computed<SearchResult[]>(() =>
-  filterByTokens(props.documents, d => {
-    const name = d.name || '';
-    const tags = Array.isArray(d.tags) ? d.tags.join(' ') : String(d.tags || '');
-    return `${name} ${tags}`;
-  })
+  documentStore
+    .search({ query: props.searchQuery })
     .slice(0, 5)
     .map(d => ({
       id: d.id,
@@ -130,13 +105,6 @@ const flattenedItems = computed(() => {
   );
 
   return items;
-});
-
-const groupedResults = computed(() => {
-  return flattenedItems.value.reduce((acc, item) => {
-    (acc[item.section] ||= []).push(item);
-    return acc;
-  }, {} as Record<string, typeof flattenedItems.value>);
 });
 
 defineExpose({ flattenedItems });

@@ -30,12 +30,18 @@
             ref="quickSearchTab"
             :search-query="searchQuery"
             :selected-index="selectedIndex"
-            :documents="documentsStore.getAll"
-            @select-item="closeSearch"
+            @select-item="handleQuickSelect"
             @update-selected-index="updateSelectedIndex"
           />
 
-          <AdvancedSearchTab v-else-if="activeTab === 'advanced'" :documents="documentsStore.getAll" @select-document="handleDocumentSelect" />
+          <AdvancedSearchTab
+            v-else-if="activeTab === 'advanced'"
+            ref="advancedSearchTab"
+            :query="searchQuery"
+            :selected-index="selectedIndex"
+            @select-document="handleDocumentSelect"
+            @update-selected-index="updateSelectedIndex"
+          />
         </div>
 
         <!-- Footer -->
@@ -57,12 +63,12 @@ import type { Document } from '~/stores';
 
 const router = useRouter();
 const isOpen = ref(false);
-const documentsStore = useDocumentsStore();
 const searchQuery = ref('');
 const selectedIndex = ref(0);
 const activeTab = ref('quick');
 const searchInput = ref<HTMLInputElement>();
 const quickSearchTab = ref();
+const advancedSearchTab = ref();
 
 // *********** Lifecycle ***********
 onMounted(() => {
@@ -121,7 +127,14 @@ function openSearch() {
 }
 
 function closeSearch(e?: MouseEvent) {
-  if (e && e.target && (e.target as Element).closest('.command-center-modal') && !(e.target as Element).classList.contains('close-btn')) return;
+  if (
+    e &&
+    e.target &&
+    (e.target as Element).closest('.command-center-modal') &&
+    !(e.target as Element).classList.contains('close-btn') &&
+    !(e.target as Element).closest('.search-results-list')
+  )
+    return;
   isOpen.value = false;
   searchQuery.value = '';
   selectedIndex.value = 0;
@@ -140,30 +153,42 @@ function updateSelectedIndex(index: number) {
   selectedIndex.value = index;
 }
 
+function handleQuickSelect() {
+  const selectedItem = quickSearchTab.value.flattenedItems[selectedIndex.value];
+  if (selectedItem) {
+    navigateTo(selectedItem.path);
+    closeSearch();
+  }
+}
+
 function handleDocumentSelect(document: Document) {
   navigateTo(`/dashboard/docs/${document.id}`);
   closeSearch();
 }
 
 function handleSearchKeydown(e: KeyboardEvent) {
-  if (activeTab.value === 'advanced') {
-    return;
+  let items = [];
+  if (activeTab.value === 'quick') {
+    items = quickSearchTab.value?.flattenedItems || [];
+  } else if (activeTab.value === 'advanced') {
+    items = advancedSearchTab.value?.flattenedItems || [];
   }
-
-  if ((e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) && selectedIndex.value < (quickSearchTab.value?.flattenedItems?.length || 0) - 1) {
+  const maxIndex = items.length - 1;
+  if ((e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) && selectedIndex.value < maxIndex) {
     e.preventDefault();
-    const maxIndex = (quickSearchTab.value?.flattenedItems?.length || 0) - 1;
     selectedIndex.value = (selectedIndex.value + 1) % Math.max(maxIndex + 1, 1);
   } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey && selectedIndex.value > 0)) {
     e.preventDefault();
-    const maxIndex = (quickSearchTab.value?.flattenedItems?.length || 0) - 1;
     selectedIndex.value = (selectedIndex.value - 1 + Math.max(maxIndex + 1, 1)) % Math.max(maxIndex + 1, 1);
-  } else if (e.key === 'Enter' && quickSearchTab.value?.flattenedItems?.length > 0) {
+  } else if (e.key === 'Enter' && items.length > 0) {
     e.preventDefault();
-    const selectedItem = quickSearchTab.value.flattenedItems[selectedIndex.value];
-    if (selectedItem) {
-      navigateTo(selectedItem.path);
-      closeSearch();
+    if (activeTab.value === 'quick') {
+      handleQuickSelect();
+    } else if (activeTab.value === 'advanced') {
+      const selectedItem = items[selectedIndex.value];
+      if (selectedItem) {
+        handleDocumentSelect(selectedItem);
+      }
     }
   }
 }

@@ -48,8 +48,8 @@
                   placeholder="Add tag filter..."
                   class="tag-input"
                   @keydown.enter="handleEnter"
-                  @keydown.arrow-up="handleArrowUp"
-                  @keydown.arrow-down="handleArrowDown"
+                  @keydown.arrow-up="tagHandleArrowUp"
+                  @keydown.arrow-down="tagHandleArrowDown"
                   @keydown.escape="hideSuggestions"
                   @input="handleTagInput"
                   @focus="showSuggestions = true"
@@ -76,8 +76,8 @@
             <div class="selected-tags">
               <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
                 {{ tag }}
-                <button class="remove-tag" @click="removeTag(tag)">
-                  <Icon name="close" fill="var(--font-color)" />
+                <button class="remove-tag" @click.stop="removeTag(tag)">
+                  <Icon name="close" fill="var(--font-color)" class="no-close" />
                 </button>
               </span>
             </div>
@@ -97,41 +97,27 @@
     </div>
 
     <div class="search-results">
-      <div v-if="filteredDocuments.length === 0" class="no-results">
-        <Icon name="search" class="no-results-icon" />
-        <p>No documents match your filters</p>
-      </div>
-
-      <div v-else class="documents-list">
-        <div v-for="doc in filteredDocuments" :key="doc.id" class="document-item" @click="selectDocument(doc)">
-          <Icon :name="getDocumentIcon(doc)" class="document-icon" fill="var(--font-color)" />
-          <div class="document-info">
-            <div class="document-title">{{ doc.name }}</div>
-            <div class="document-meta">
-              <span class="document-category">{{ getCategoryName(doc.category) }}</span>
-              <span class="document-date">{{ formatDate(doc[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']) }}</span>
-            </div>
-            <div v-if="doc.tags" class="document-tags">
-              <span v-for="tag in parseTags(doc.tags)" :key="tag" class="tag">{{ tag }}</span>
-            </div>
-          </div>
-          <Icon name="new_tab" class="navigate-icon" fill="var(--font-color)" />
-        </div>
-      </div>
+      <SearchResultsList
+        :items="flattenedItems"
+        :selected-index="selectedIndex"
+        empty-text="No documents match your filters"
+        empty-icon="search"
+        @update-selected-index="$emit('updateSelectedIndex', $event)"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import SearchResultsList from './SearchResultsList.vue';
 import type { Document } from '~/stores';
-import Icon from '~/components/Icon.vue';
-
 const props = defineProps<{
-  documents: Document[];
+  query: string;
+  selectedIndex: number;
 }>();
 
-const emit = defineEmits<{
-  selectDocument: [document: Document];
+defineEmits<{
+  updateSelectedIndex: [index: number];
 }>();
 
 const dateFrom = ref('');
@@ -144,61 +130,36 @@ const showFilters = ref(true);
 const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(0);
 
-const categoryStore = useCategoriesStore();
+const documentStore = useDocumentsStore();
 const categoriesTree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
-
-const allTags = computed(() => {
-  const tags = new Set<string>();
-  props.documents.forEach(doc => {
-    if (doc.tags) {
-      parseTags(doc.tags).forEach(tag => tags.add(tag));
-    }
-  });
-  return Array.from(tags).sort();
-});
 
 const filteredTagSuggestions = computed(() => {
   if (!tagInput.value) return [];
   const input = tagInput.value.toLowerCase();
-  return allTags.value.filter(tag => tag.toLowerCase().includes(input) && !selectedTags.value.includes(tag)).slice(0, 5);
+  return documentStore.allTags.filter(tag => tag.toLowerCase().includes(input) && !selectedTags.value.includes(tag)).slice(0, 5);
 });
 
 const filteredDocuments = computed(() => {
-  let filtered = [...props.documents];
-
-  if (selectedCategory.value) {
-    filtered = filtered.filter(doc => doc.category === selectedCategory.value);
-  }
-
-  if (dateFrom.value) {
-    const fromDate = new Date(dateFrom.value).getTime();
-    filtered = filtered.filter(doc => {
-      const docDate = parseInt(doc[dateType.value === 'created' ? 'created_timestamp' : 'updated_timestamp']);
-      return docDate >= fromDate;
-    });
-  }
-
-  if (dateTo.value) {
-    const toDate = new Date(dateTo.value).getTime();
-    filtered = filtered.filter(doc => {
-      const docDate = parseInt(doc[dateType.value === 'created' ? 'created_timestamp' : 'updated_timestamp']);
-      return docDate <= toDate;
-    });
-  }
-
-  if (selectedTags.value.length > 0) {
-    filtered = filtered.filter(doc => {
-      if (!doc.tags) return false;
-      const docTags = parseTags(doc.tags);
-      return selectedTags.value.some(tag => docTags.includes(tag));
-    });
-  }
-
-  return filtered.sort((a, b) => {
-    const aDate = parseInt(a[dateType.value === 'created' ? 'created_timestamp' : 'updated_timestamp']);
-    const bDate = parseInt(b[dateType.value === 'created' ? 'created_timestamp' : 'updated_timestamp']);
-    return bDate - aDate;
+  return documentStore.search({
+    query: props.query,
+    category: selectedCategory.value,
+    dateType: dateType.value,
+    fromDate: dateFrom.value ? new Date(dateFrom.value) : undefined,
+    toDate: dateTo.value ? new Date(dateTo.value) : undefined,
+    tags: selectedTags.value,
   });
+});
+
+const flattenedItems = computed(() => {
+  return filteredDocuments.value.map((doc, idx) => ({
+    id: doc.id,
+    icon: getDocumentIcon(doc),
+    title: doc.name,
+    description: doc.tags ? `#${String(doc.tags)}` : 'Document',
+    path: `/dashboard/docs/${doc.id}`,
+    section: '',
+    globalIndex: idx,
+  }));
 });
 
 function addTag() {
@@ -237,14 +198,14 @@ function handleEnter(event: KeyboardEvent) {
   }
 }
 
-function handleArrowUp(event: KeyboardEvent) {
+function tagHandleArrowUp(event: KeyboardEvent) {
   event.preventDefault();
   if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
     selectedSuggestionIndex.value = selectedSuggestionIndex.value > 0 ? selectedSuggestionIndex.value - 1 : filteredTagSuggestions.value.length - 1;
   }
 }
 
-function handleArrowDown(event: KeyboardEvent) {
+function tagHandleArrowDown(event: KeyboardEvent) {
   event.preventDefault();
   if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
     selectedSuggestionIndex.value = selectedSuggestionIndex.value < filteredTagSuggestions.value.length - 1 ? selectedSuggestionIndex.value + 1 : 0;
@@ -266,36 +227,13 @@ function clearFilters() {
   selectedCategory.value = '';
 }
 
-function selectDocument(doc: Document) {
-  emit('selectDocument', doc);
-}
-
 function getDocumentIcon(doc: Document) {
   if (doc.pinned === 1) return 'pin';
   if (doc.pinned === 2) return 'pin';
   return 'files';
 }
 
-function getCategoryName(categoryId?: string) {
-  if (!categoryId) return 'Uncategorized';
-  const category = categoryStore.getById(categoryId);
-  return category?.name || 'Unknown';
-}
-
-function formatDate(timestamp: string) {
-  const date = new Date(parseInt(timestamp));
-  return date.toLocaleDateString();
-}
-
-function parseTags(tags: string): string[] {
-  if (typeof tags === 'string') {
-    return tags
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(Boolean);
-  }
-  return [];
-}
+defineExpose({ flattenedItems });
 </script>
 
 <style scoped lang="scss">
@@ -458,7 +396,6 @@ function parseTags(tags: string): string[] {
 }
 
 .tag-suggestions {
-  position: absolute;
   top: 100%;
   right: 48px;
   left: 0;
@@ -520,7 +457,6 @@ function parseTags(tags: string): string[] {
 
     &:hover {
       color: white;
-      background: var(--text-muted);
     }
   }
 }
@@ -600,7 +536,7 @@ function parseTags(tags: string): string[] {
   }
 }
 
-.documents-list {
+.search-results-list {
   max-height: 100%;
   padding: 8px 0;
   overflow-y: auto;

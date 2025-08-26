@@ -1,12 +1,23 @@
 import { makeRequest, type FetchOptions } from './_utils';
 import type { DB_Document, Document } from './db_strustures';
 
+interface SearchOptions {
+  query?: string;
+  fromDate?: Date;
+  toDate?: Date;
+  dateType?: 'created' | 'modified';
+  tags?: string[];
+  category?: string;
+}
+
 export const useDocumentsStore = defineStore('documents', {
   state: () => ({
     documents: [] as Document[],
+    allTags: [] as string[],
   }),
   getters: {
     getAll: state => state.documents,
+    getAllTags: state => state.allTags,
     getById: state => (id: string) => state.documents.find((d: Document) => d.id == id),
     getByCategories: state => (category: string) => state.documents.filter(d => d.category == category),
 
@@ -37,8 +48,55 @@ export const useDocumentsStore = defineStore('documents', {
       if (parent) getChildrens(parent);
       return childrens;
     },
+    search: state => (options: SearchOptions) => {
+      const { query, fromDate, toDate, dateType, tags, category } = options;
+      let filtered = [...state.documents];
+      if (query) {
+        filtered = filtered.filter(doc => {
+          const docContent = `${doc.name} ${doc.description}`.toLowerCase();
+          return docContent.includes(query.toLowerCase());
+        });
+      }
+
+      if (fromDate) {
+        filtered = filtered.filter(doc => {
+          const docDate = new Date(doc[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']);
+          return docDate >= fromDate;
+        });
+      }
+
+      if (toDate) {
+        filtered = filtered.filter(doc => {
+          const docDate = new Date(doc[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']);
+          return docDate <= toDate;
+        });
+      }
+
+      if (tags && tags.length > 0) {
+        filtered = filtered.filter(doc => {
+          if (!doc.tags) return false;
+          const docTags = parseTags(doc.tags);
+          return tags.some(tag => docTags.includes(tag));
+        });
+      }
+
+      if (category) {
+        filtered = filtered.filter(doc => doc.category === category);
+      }
+
+      return filtered;
+    },
   },
   actions: {
+    recomputeTags() {
+      const tags = new Set<string>();
+      this.documents.forEach(doc => {
+        if (doc.tags) {
+          parseTags(doc.tags).forEach(tag => tags.add(tag));
+        }
+      });
+      this.allTags = Array.from(tags).sort();
+    },
     async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
       const request = await makeRequest(`documents/@me/${opts?.id || ''}`, 'GET', {});
@@ -51,6 +109,7 @@ export const useDocumentsStore = defineStore('documents', {
           return updatedDocument as 'id' extends keyof T ? Document : Document[];
         } else {
           this.documents = (request.result as DB_Document[]).map((d: DB_Document) => ({ ...d, partial: true, type: 'document' }));
+          this.recomputeTags();
           return this.documents as 'id' extends keyof T ? Document : Document[];
         }
       } else throw request;
@@ -80,3 +139,13 @@ export const useDocumentsStore = defineStore('documents', {
     },
   },
 });
+
+function parseTags(tags: string): string[] {
+  if (typeof tags === 'string') {
+    return tags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(Boolean);
+  }
+  return [];
+}

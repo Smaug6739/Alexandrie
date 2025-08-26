@@ -1,6 +1,6 @@
 <template>
   <div class="tab-navigation">
-    <button v-for="tab in tabs" :key="tab.id" class="tab-button" :class="{ active: activeTab === tab.id }" @click="$emit('changeTab', tab.id)">
+    <button v-for="tab in tabs" :key="tab.id" class="tab-button" :class="{ active: activeTab === tab.id }" @click="handleClick(tab.id)">
       <Icon :name="tab.icon" class="tab-icon" fill="var(--font-color)" />
       <span class="tab-label">{{ tab.label }}</span>
     </button>
@@ -8,8 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import Icon from '~/components/Icon.vue';
-
 interface Tab {
   id: string;
   label: string;
@@ -20,9 +18,13 @@ defineProps<{
   activeTab: string;
 }>();
 
-defineEmits<{
-  changeTab: [tabId: string];
+const emit = defineEmits<{
+  'change-tab': [tabId: string];
 }>();
+
+const handleClick = (tabId: string) => {
+  emit('change-tab', tabId);
+};
 
 const tabs: Tab[] = [
   {
