@@ -14,17 +14,9 @@ interface Tab {
   icon: string;
 }
 
-defineProps<{
-  activeTab: string;
-}>();
-
-const emit = defineEmits<{
-  'change-tab': [tabId: string];
-}>();
-
-const handleClick = (tabId: string) => {
-  emit('change-tab', tabId);
-};
+defineProps<{ activeTab: string }>();
+const emit = defineEmits<{ 'change-tab': [tabId: string] }>();
+const handleClick = (tabId: string) => emit('change-tab', tabId);
 
 const tabs: Tab[] = [
   {
