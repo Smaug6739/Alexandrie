@@ -49,14 +49,6 @@ export const availablePages: SearchResult[] = [
     category: 'Management',
   },
   {
-    id: 'cdn',
-    title: 'CDN',
-    description: 'Manage your resources',
-    icon: 'cdn',
-    path: '/dashboard/cdn',
-    category: 'Management',
-  },
-  {
     id: 'import',
     title: 'Import',
     description: 'Import documents',
@@ -98,5 +90,13 @@ export const quickActions: QuickAction[] = [
     icon: 'search',
     shortcut: 'Ctrl+q',
     path: '/dashboard/docs',
+  },
+  {
+    id: 'upload-file',
+    title: 'Upload file',
+    description: 'Add a resource to CDN',
+    icon: 'import',
+    shortcut: 'Ctrl+U',
+    path: '/dashboard/cdn',
   },
 ];
