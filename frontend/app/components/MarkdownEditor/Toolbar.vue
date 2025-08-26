@@ -160,25 +160,7 @@ const toolbar = [
   }
 }
 
-.color-picker .btn.color {
-  position: relative;
-  width: 30px;
-  height: 30px;
-}
-
-.color-picker .btn.color .dot {
-  position: absolute;
-  right: 2px;
-  bottom: 2px;
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 999px;
-  background: var(--primary);
-}
-
-input,
-.select {
+input {
   display: inline-block;
   max-width: 350px;
 }

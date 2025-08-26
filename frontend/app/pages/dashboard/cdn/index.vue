@@ -5,7 +5,7 @@
       <ViewSelection v-model="view" />
     </header>
     <AppDrop ref="dropComponent" @select="selectFile" />
-    <div style=" display: flex; width: 100%;padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
+    <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
       <AppButton type="primary" :disabled="!selectedFile" @click="submitFile">Upload on server</AppButton>
       <div v-if="isLoading" class="loading-spinner" />
     </div>
@@ -16,7 +16,12 @@
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
       <DataTable :headers="headers" :rows="rows">
         <template #action="{ cell }">
-          <a :href="`${CDN}/${(cell?.data as DB_Ressource).author_id}/${(cell?.data as DB_Ressource).transformed_path || (cell?.data as DB_Ressource).original_path}`" target="_blank" style="margin-right: 10px"><Icon name="view" /> </a>
+          <a
+            :href="`${CDN}/${(cell?.data as DB_Ressource).author_id}/${(cell?.data as DB_Ressource).transformed_path || (cell?.data as DB_Ressource).original_path}`"
+            target="_blank"
+            style="margin-right: 10px"
+            ><Icon name="view" />
+          </a>
           <NuxtLink :to="`/dashboard/cdn/${(cell?.data as DB_Ressource).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
           <Icon name="delete" @click="() => deleteRessource((cell?.data as DB_Ressource).id)" />
         </template>
@@ -112,9 +117,5 @@ const deleteRessource = async (id: string) => {
   100% {
     transform: rotate(360deg);
   }
-}
-
-.file-info {
-  color: var(--primary);
 }
 </style>

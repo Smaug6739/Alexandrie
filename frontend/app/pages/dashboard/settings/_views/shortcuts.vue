@@ -120,9 +120,9 @@
   display: flex;
   padding: 6px;
   border-radius: 5px;
-  text-align: left; // s'assure que le texte est bien aligné à gauche
+  text-align: left;
   align-items: center;
-  gap: 1rem; // ajuste cet espace selon tes besoins
+  gap: 1rem;
 }
 
 .key {

@@ -103,11 +103,6 @@ onMounted(fetchContributors);
   font-size: 12px;
 }
 
-.hint {
-  font-size: 13px;
-  margin-top: 6px;
-}
-
 @keyframes marquee {
   from {
     transform: translateX(0);

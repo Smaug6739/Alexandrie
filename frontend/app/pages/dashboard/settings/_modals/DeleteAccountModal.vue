@@ -43,10 +43,3 @@ function deleteAccount() {
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 }
 </script>
-
-<style scoped lang="scss">
-.warn {
-  color: $red-dark;
-  opacity: 0.7;
-}
-</style>

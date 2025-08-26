@@ -63,7 +63,6 @@ function handleKeyDown(event: KeyboardEvent) {
   if (event.key === 'Escape') {
     open.value = false;
   } else if (event.key === 'Enter') {
-    // Optionnel : sélectionner si 1 seul résultat ?
     const firstItem = filteredItems.value[0];
     if (firstItem) {
       handleSelect(firstItem);

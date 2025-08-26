@@ -403,15 +403,4 @@ input {
   font-size: 1.1rem;
   font-weight: 500;
 }
-
-.image-selector-overlay {
-  position: fixed;
-  z-index: 99999;
-  display: flex;
-  background: rgb(0 0 0 / 45%);
-  align-items: center;
-  inset: 0;
-  justify-content: center;
-  padding: 20px;
-}
 </style>

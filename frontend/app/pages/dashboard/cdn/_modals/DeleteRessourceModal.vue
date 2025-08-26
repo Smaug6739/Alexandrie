@@ -24,5 +24,3 @@ const deleteRessource = async () => {
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 </script>
-
-<style scoped lang="scss"></style>

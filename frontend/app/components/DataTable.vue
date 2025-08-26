@@ -125,13 +125,6 @@ export interface Field {
   overflow-x: auto;
 }
 
-.header {
-  display: flex;
-  padding: 0 8px;
-  align-items: center;
-  justify-content: space-between;
-}
-
 table {
   display: table;
   width: 100%;

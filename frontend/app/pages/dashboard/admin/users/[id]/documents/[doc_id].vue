@@ -1,7 +1,7 @@
 <template>
   <div class="card-component" style="height: 100%">
     <h1>Document view</h1>
-    <div v-if="document" style=" display: flex;width: 100%; height: 95%; min-height: 0; flex-direction: column">
+    <div v-if="document" style="display: flex; width: 100%; height: 95%; min-height: 0; flex-direction: column">
       <h2>{{ document.name }}</h2>
       <p>{{ document.description }}</p>
       <div style="display: flex; width: 100%; min-height: 0; flex: 1; gap: 10px; overflow: auto">
@@ -27,14 +27,6 @@ document.value = await store.fetchUserDocument(route.params.id as string, route.
 </script>
 
 <style scoped lang="scss">
-.user-details {
-  display: flex;
-  width: 100%;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .user-detail {
   display: flex;
   width: 100%;
