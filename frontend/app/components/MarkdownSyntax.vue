@@ -313,23 +313,23 @@ Snippets help you focus on writing, not formatting.
 /* Markdown Examples */
 .markdown-examples {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 2rem;
   margin: 1.5rem 0;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 }
 
 .example-section {
-  background: var(--bg-color-secondary);
+  padding: 1.5rem;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 1.5rem;
+  background: var(--bg-color-secondary);
 }
 
 .example-section h4 {
-  margin: 0 0 1rem 0;
-  color: var(--primary);
+  margin: 0 0 1rem;
   font-size: 1.1rem;
   font-weight: 600;
+  color: var(--primary);
 }
 
 .rendered-table {
@@ -339,19 +339,19 @@ Snippets help you focus on writing, not formatting.
 
 .rendered-table table {
   width: 100%;
-  border-collapse: collapse;
-  background: var(--bg-color);
   border-radius: 8px;
+  background: var(--bg-color);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  border-collapse: collapse;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .rendered-table th {
-  background: var(--primary);
-  color: white;
   padding: 12px;
-  text-align: left;
   font-weight: 600;
+  color: white;
+  text-align: left;
+  background: var(--primary);
 }
 
 .rendered-table td {
@@ -364,10 +364,10 @@ Snippets help you focus on writing, not formatting.
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .markdown-examples {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
 
   .example-section {

@@ -34,7 +34,7 @@
     "@types/markdown-it-container": "^2.0.10",
     "@types/node": "^24.3.0",
     "@vite-pwa/nuxt": "1.0.4",
-    "eslint": "^9.0.0",
+    "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "katex": "^0.16.22",
     "markdown-it": "^14.1.0",
@@ -52,7 +52,7 @@
     "stylelint-config-recommended-vue": "^1.6.1",
     "stylelint-config-standard": "^39.0.0",
     "stylelint-order": "^7.0.0",
-    "vue": "^3.5.19",
+    "vue": "^3.5.20",
     "vue-router": "^4.5.1"
   }
 }

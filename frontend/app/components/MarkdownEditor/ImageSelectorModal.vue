@@ -107,31 +107,31 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .image-selector-modal {
-  background: transparent;
+  display: flex;
   width: 100%;
   height: 100%;
-  display: flex;
+  background: transparent;
   flex-direction: column;
 }
 
 .modal-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 0 20px 0;
-  flex-shrink: 0;
+  padding: 24px 0 20px;
   text-align: center;
+  align-items: center;
+  flex-direction: column;
+  flex-shrink: 0;
 
   .header-icon {
+    display: flex;
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
     border-radius: 16px;
-    display: flex;
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
-    color: white;
 
     svg {
       width: 24px;
@@ -140,33 +140,32 @@ onMounted(() => {
   }
 
   h3 {
-    margin: 0 0 8px 0;
+    margin: 0 0 8px;
     font-size: 24px;
     font-weight: 800;
     color: var(--font-color-dark);
-    letter-spacing: -0.8px;
     background: linear-gradient(135deg, var(--font-color-dark), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: -0.8px;
+    -webkit-text-fill-color: transparent;
   }
 
   .header-subtitle {
+    max-width: 280px;
     margin: 0;
     font-size: 14px;
-    color: var(--font-color-light);
     font-weight: 500;
     line-height: 1.4;
-    max-width: 280px;
+    color: var(--font-color-light);
   }
 }
 
 .modal-content {
-  flex: 1;
-  overflow: auto;
   display: flex;
-  flex-direction: column;
   padding: 0;
+  flex: 1;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .search-bar {
@@ -179,14 +178,14 @@ onMounted(() => {
     padding: 12px 16px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: var(--bg-color-secondary);
-    color: var(--font-color-dark);
     font-size: 14px;
+    color: var(--font-color-dark);
+    background: var(--bg-color-secondary);
 
     &:focus {
-      outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+      box-shadow: 0 0 0 2px rgb(var(--primary-rgb), 0.1);
+      outline: none;
     }
 
     &::placeholder {
@@ -196,30 +195,30 @@ onMounted(() => {
 }
 
 .images-grid {
-  flex: 1;
-  padding: 16px 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  padding: 16px 0;
+  flex: 1;
   gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
 .image-item {
-  cursor: pointer;
   border: 2px solid transparent;
   border-radius: 8px;
+  cursor: pointer;
 
   &:hover {
     border-color: var(--primary);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   }
 
   .image-preview {
-    border-radius: 6px;
     width: 100%;
     height: 150px;
-    object-fit: cover;
+    border-radius: 6px;
     background: var(--bg-color-secondary);
+    object-fit: cover;
   }
 
   .image-info {
@@ -232,9 +231,9 @@ onMounted(() => {
       font-weight: 500;
       color: var(--font-color-dark);
       margin-bottom: 4px;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .image-size {
@@ -247,29 +246,29 @@ onMounted(() => {
 
 .no-images {
   display: flex;
+  height: 200px;
+  font-size: 16px;
+  color: var(--font-color-light);
   align-items: center;
   justify-content: center;
-  height: 200px;
-  color: var(--font-color-light);
-  font-size: 16px;
 }
 
 .modal-footer {
-  padding: 20px 0;
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+  padding: 20px 0;
   flex-shrink: 0;
+  gap: 12px;
+  justify-content: flex-end;
 
   .cancel-btn {
     padding: 10px 20px;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: var(--bg-color-secondary);
-    color: var(--font-color-dark);
-    cursor: pointer;
     font-size: 14px;
+    color: var(--font-color-dark);
+    background: var(--bg-color-secondary);
     transition: all 0.2s ease;
+    cursor: pointer;
 
     &:hover {
       background: var(--border-color);
