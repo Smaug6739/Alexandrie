@@ -203,14 +203,14 @@ watch(searchQuery, () => {
 <style scoped lang="scss">
 .command-center-overlay {
   position: fixed;
-  z-index: 9999;
+  z-index: 1000;
   display: flex;
   background: rgb(0 0 0 / 50%);
   align-items: flex-start;
   backdrop-filter: blur(2px);
   inset: 0;
   justify-content: center;
-  padding-top: 10vh;
+  padding-top: 8vh;
 }
 
 .command-center-modal {
@@ -218,7 +218,7 @@ watch(searchQuery, () => {
   display: flex;
   width: 92%;
   max-width: 720px;
-  max-height: 80vh;
+  max-height: 85vh;
   border: 1px solid var(--border-color);
   border-radius: 16px;
   background: var(--bg-color);
