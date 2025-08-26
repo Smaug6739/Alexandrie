@@ -104,6 +104,7 @@ const drop = async (event: DragEvent) => {
 <style scoped lang="scss">
 .item {
   display: flex;
+  width: 100%;
   margin: 2.5px 0;
   padding: 1px 4px;
   border-radius: 6px;
@@ -113,7 +114,7 @@ const drop = async (event: DragEvent) => {
   cursor: pointer;
   justify-content: flex-start;
   letter-spacing: -0.4px;
-  width: 100%;
+
   &:hover,
   &:has(.router-link-exact-active:not(.nav)) {
     background: var(--bg-contrast-2);
@@ -133,10 +134,10 @@ const drop = async (event: DragEvent) => {
   }
 
   .item-icon {
-    padding: 2px;
-    border-radius: 4px;
     width: 20px;
     height: 20px;
+    padding: 2px;
+    border-radius: 4px;
   }
 }
 

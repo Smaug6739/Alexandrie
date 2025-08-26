@@ -47,11 +47,11 @@ header {
 }
 
 .category-icon {
+  width: 30px;
+  height: 30px;
   padding: 6px;
   border-radius: 6px;
   margin-right: 5px;
-  width: 30px;
-  height: 30px;
 }
 
 .document-title {

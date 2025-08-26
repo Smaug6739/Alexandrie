@@ -12,11 +12,11 @@ const icon = computed(() => useIcon(props.name as IconName) || props.name);
 <style scoped lang="scss">
 .icon {
   display: flex;
-  align-items: center;
   width: 20px;
-  height: 20px;
   max-width: 100%;
+  height: 20px;
   max-height: 100%;
+  align-items: center;
 
   &:deep(svg) {
     width: 100%;

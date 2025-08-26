@@ -62,11 +62,11 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
 }
 
 .category-icon {
+  width: 30px;
+  height: 30px;
   padding: 6px;
   border-radius: 6px;
   margin-right: 10px;
-  width: 30px;
-  height: 30px;
 }
 
 .document-title {
