@@ -178,12 +178,12 @@ watch(searchQuery, () => {
 <style scoped lang="scss">
 .command-center-overlay {
   position: fixed;
-  inset: 0;
   z-index: 9999;
   display: flex;
   background: rgb(0 0 0 / 50%);
   align-items: flex-start;
   backdrop-filter: blur(2px);
+  inset: 0;
   justify-content: center;
   padding-top: 10vh;
 }
@@ -262,9 +262,9 @@ watch(searchQuery, () => {
 
 .shortcuts {
   display: flex;
-  flex-wrap: wrap;
   font-size: 13px;
   font-weight: 500;
+  flex-wrap: wrap;
   gap: 10px;
 
   kbd {
@@ -288,7 +288,7 @@ watch(searchQuery, () => {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .command-center-modal {
     width: 95%;
     max-height: 80vh;

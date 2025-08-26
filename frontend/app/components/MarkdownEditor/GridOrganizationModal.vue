@@ -236,33 +236,33 @@ const closeModal = () => {
 
 <style scoped lang="scss">
 .grid-organization-modal {
-  background: transparent;
+  display: flex;
   width: 100%;
   height: 100%;
-  display: flex;
+  padding: 0 16px;
+  background: transparent;
   flex-direction: column;
   overflow: auto;
-  padding: 0 16px;
 }
 
 .modal-header {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 24px 0 20px 0;
-  flex-shrink: 0;
+  padding: 24px 0 20px;
   text-align: center;
+  align-items: center;
+  flex-direction: column;
+  flex-shrink: 0;
 
   .header-icon {
+    display: flex;
     width: 48px;
     height: 48px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
     border-radius: 16px;
-    display: flex;
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
-    color: white;
 
     svg {
       width: 24px;
@@ -271,33 +271,33 @@ const closeModal = () => {
   }
 
   h3 {
-    margin: 0 0 8px 0;
+    margin: 0 0 8px;
     font-size: 24px;
     font-weight: 800;
     color: var(--font-color-dark);
-    letter-spacing: -0.8px;
     background: linear-gradient(135deg, var(--font-color-dark), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: -0.8px;
+    -webkit-text-fill-color: transparent;
   }
 
   .header-subtitle {
+    max-width: 280px;
     margin: 0;
     font-size: 14px;
-    color: var(--font-color-light);
     font-weight: 500;
     line-height: 1.4;
-    max-width: 280px;
+    color: var(--font-color-light);
   }
 }
+
 .modal-content {
-  flex: 1;
-  overflow: auto;
   display: flex;
-  flex-direction: column;
   padding: 0;
+  flex: 1;
+  flex-direction: column;
   gap: 32px;
+  overflow: auto;
 }
 
 .table-selector,
@@ -307,14 +307,14 @@ const closeModal = () => {
 
 .table-grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 2px;
-  margin-bottom: 16px;
+  max-width: 400px;
+  padding: 4px;
   border: 2px solid var(--border-color);
   border-radius: 8px;
-  padding: 4px;
   background: var(--bg-color);
-  max-width: 400px;
+  gap: 2px;
+  grid-template-columns: repeat(12, 1fr);
+  margin-bottom: 16px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -324,86 +324,86 @@ const closeModal = () => {
 }
 
 .table-cell {
+  position: relative;
   width: 16px;
   height: 16px;
   border: 1px solid var(--border-color);
   background: var(--bg-color-secondary);
-  cursor: pointer;
   transition: all 0.2s ease;
-  position: relative;
+  cursor: pointer;
 
   &:hover {
-    background: var(--primary);
-    border-color: var(--primary);
-    transform: scale(1.1);
     z-index: 2;
+    border-color: var(--primary);
+    background: var(--primary);
+    transform: scale(1.1);
   }
 
   &.hovered {
-    background: var(--primary);
     border-color: var(--primary);
+    background: var(--primary);
     opacity: 0.8;
   }
 
   &.selected {
-    background: var(--primary);
     border-color: var(--primary);
+    background: var(--primary);
+    box-shadow: 0 0 0 2px rgb(var(--primary-rgb), 0.3);
     opacity: 1;
-    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.3);
   }
 }
 
 .table-info {
-  text-align: center;
+  max-width: 400px;
+  min-height: 20px;
   padding: 12px;
-  background: var(--bg-color-secondary);
-  border-radius: 8px;
   border: 1px solid var(--border-color);
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
   color: var(--font-color-dark);
-  min-height: 20px;
-  max-width: 400px;
+  text-align: center;
+  background: var(--bg-color-secondary);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .presets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   margin-bottom: 16px;
 }
 
 .preset-item {
-  cursor: pointer;
-  text-align: center;
+  position: relative;
   padding: 12px;
   border: 2px solid transparent;
   border-radius: 10px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
   background: var(--bg-color-secondary);
-  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
   overflow: hidden;
 
   &::before {
-    content: '';
     position: absolute;
     top: 0;
-    left: 0;
     right: 0;
+    left: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--primary), var(--primary-light, var(--primary)));
-    transform: scaleX(0);
     transition: transform 0.3s ease;
+    content: '';
+    transform: scaleX(0);
   }
 
   &:hover {
     border-color: var(--primary);
     background: var(--bg-color);
+    box-shadow: 0 12px 32px rgb(0 0 0 / 15%);
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 
     &::before {
       transform: scaleX(1);
@@ -411,33 +411,33 @@ const closeModal = () => {
 
     .preset-visual {
       border-color: var(--primary);
-      box-shadow: 0 4px 16px rgba(var(--primary-rgb), 0.2);
+      box-shadow: 0 4px 16px rgb(var(--primary-rgb), 0.2);
     }
   }
 
   .preset-visual {
-    margin-bottom: 8px;
+    position: relative;
+    height: 50px;
     border: 2px solid var(--border-color);
     border-radius: 6px;
     background: var(--bg-color);
     transition: all 0.3s ease;
-    position: relative;
-    height: 50px;
+    margin-bottom: 8px;
 
     &::after {
-      content: '';
       position: absolute;
-      inset: 0;
       border-radius: 4px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      background: linear-gradient(135deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 5%));
+      content: '';
+      inset: 0;
       pointer-events: none;
     }
   }
 
   .preset-name {
     font-size: 13px;
-    color: var(--font-color-dark);
     font-weight: 600;
+    color: var(--font-color-dark);
     transition: color 0.3s ease;
   }
 
@@ -447,27 +447,27 @@ const closeModal = () => {
 }
 
 .modal-footer {
-  padding: 24px 0;
   display: flex;
-  justify-content: flex-end;
-  gap: 16px;
+  padding: 24px 0;
   flex-shrink: 0;
+  gap: 16px;
+  justify-content: flex-end;
 
   .cancel-btn {
     padding: 12px 24px;
     border: 2px solid var(--border-color);
     border-radius: 10px;
-    background: var(--bg-color-secondary);
-    color: var(--font-color-dark);
-    cursor: pointer;
     font-size: 14px;
     font-weight: 500;
+    color: var(--font-color-dark);
+    background: var(--bg-color-secondary);
     transition: all 0.3s ease;
+    cursor: pointer;
 
     &:hover {
-      background: var(--border-color);
       border-color: var(--primary);
       color: var(--primary);
+      background: var(--border-color);
       transform: translateY(-1px);
     }
 
@@ -477,11 +477,11 @@ const closeModal = () => {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .table-grid {
-    grid-template-columns: repeat(8, 1fr);
-    gap: 1px;
     max-width: 300px;
+    gap: 1px;
+    grid-template-columns: repeat(8, 1fr);
 
     .table-cell {
       width: 14px;
@@ -490,14 +490,14 @@ const closeModal = () => {
   }
 
   .presets-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 
   .table-info {
     max-width: 300px;
-    font-size: 13px;
     padding: 10px;
+    font-size: 13px;
   }
 }
 </style>
