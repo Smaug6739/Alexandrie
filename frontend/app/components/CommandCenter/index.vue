@@ -131,7 +131,7 @@ function closeSearch(e?: MouseEvent) {
     e &&
     e.target &&
     (e.target as Element).closest('.command-center-modal') &&
-    !(e.target as Element).classList.contains('close-btn') &&
+    !(e.target as Element).closest('.close-btn') &&
     !(e.target as Element).closest('.search-results-list')
   )
     return;
