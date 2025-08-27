@@ -124,7 +124,7 @@ h4 {
 aside {
   position: sticky;
   top: 20px;
-  max-width: 350px;
+  width: 350px;
   padding: 0 15px;
   font-size: 0.8rem;
   border-left: 1px solid var(--border-color);
