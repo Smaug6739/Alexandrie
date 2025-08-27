@@ -1,7 +1,7 @@
 <template>
   <div v-if="article?.id" style="width: 100%; padding: 1rem 0">
     <div style="display: flex; justify-content: space-between">
-      <div :style="{ maxWidth: usePreferences().get('docSize') == 0 ? '980px' : '780px' }" class="doc-container">
+      <div :style="{ maxWidth: usePreferences().get('docSize') == 0 ? '980px' : '810px' }" class="doc-container">
         <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />
         <!-- eslint-disable-next-line vue/no-v-html -->
         <article ref="element" :class="`${usePreferences().get('theme')}-theme`" style="max-width: 100%" v-html="article.content_html" />
@@ -65,9 +65,9 @@ const previous = computed(() => documentsStore.getPrevious(article.value));
   width: 100%;
   margin: 0 auto;
 }
-@media screen and (width >= 780px) {
+@media screen and (width >= 810px) {
   .doc-container {
-    padding: 0 3rem;
+    padding: 0 2rem;
   }
 }
 .toc {
