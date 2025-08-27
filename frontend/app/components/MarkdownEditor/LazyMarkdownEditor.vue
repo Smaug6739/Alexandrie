@@ -37,11 +37,12 @@ import GridOrganizationModal from './GridOrganizationModal.vue';
 import ColorPickerModal from './ColorPickerModal.vue';
 
 import compile from '~/helpers/markdown';
-import type { Document } from '~/stores';
+import type { Document, Ressource } from '~/stores';
 import { useModal, Modal } from '~/composables/ModalBus';
 
-const props = defineProps<{ doc?: Partial<Document>; minimal?: boolean }>();
+const resourcesStore = useRessourcesStore();
 
+const props = defineProps<{ doc?: Partial<Document>; minimal?: boolean }>();
 const emit = defineEmits(['save', 'exit']);
 
 const editorContainer = ref<HTMLDivElement>();
@@ -234,6 +235,43 @@ const snippetListener = EditorView.updateListener.of(update => {
     },
   });
 });
+
+const fileUploadHandler = EditorView.domEventHandlers({
+  paste: event => {
+    // Handle file upload and format as Markdown (e.g., ![filename](url))
+    const items = event.clipboardData?.items;
+    if (!items) return;
+    for (const item of items) {
+      if (item.kind === 'file') {
+        const file = item.getAsFile();
+        if (!file) return;
+        const body = new FormData();
+        body.append('file', file);
+        resourcesStore.post(body).then(result => {
+          const url = `${CDN}/${(result as Ressource).author_id}/${(result as Ressource).transformed_path}`;
+          exec('insertText', `![${file.name}](${url})\n`);
+        });
+      }
+    }
+  },
+  drop: event => {
+    const items = event.dataTransfer?.items;
+    if (!items) return;
+    for (const item of items) {
+      if (item.kind === 'file') {
+        const file = item.getAsFile();
+        if (!file) return;
+        const body = new FormData();
+        body.append('file', file);
+        resourcesStore.post(body).then(result => {
+          const url = `${CDN}/${(result as Ressource).author_id}/${(result as Ressource).transformed_path}`;
+          exec('insertText', `![${file.name}](${url})\n`);
+        });
+      }
+    }
+  },
+});
+
 const markdownKeysmap: readonly KeyBinding[] = [
   {
     key: 'Mod-b',
@@ -300,6 +338,7 @@ const state = EditorState.create({
     markdown({ base: markdownLanguage }),
     updateListener,
     snippetListener,
+    fileUploadHandler,
     themeCompartment.of(useColorMode().value === 'dark' ? materialDark : materialLight),
     highlightSelectionMatches({}),
     EditorView.lineWrapping,
