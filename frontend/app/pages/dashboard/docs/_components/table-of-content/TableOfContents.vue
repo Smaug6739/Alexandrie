@@ -13,7 +13,9 @@
       <p v-else>Nothing to display</p>
     </ul>
     <h4 v-if="childs.length">Child documents</h4>
-    <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link"><Icon name="file_shortcut" />{{ child.data.name as string }}</NuxtLink>
+    <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link"
+      ><Icon name="file_shortcut" />{{ child.data.name as string }}</NuxtLink
+    >
   </aside>
 </template>
 
@@ -126,7 +128,6 @@ aside {
   padding: 0 15px;
   font-size: 0.8rem;
   border-left: 1px solid var(--border-color);
-  margin-left: 50px;
 }
 
 .marker {
