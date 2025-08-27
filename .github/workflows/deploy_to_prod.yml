@@ -74,10 +74,10 @@ jobs:
       # -------------------------
       - name: Deploy frontend & backend
         run: |
-          rsync -avz -e "ssh -i deploy_key" frontend/.output ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/frontend
-          rsync -avz -e "ssh -i deploy_key" backend/backend_app backend/config.toml backend/migrations ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/backend
-          rsync -avz -e "ssh -i deploy_key" ecosystem.config.js ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}
-          rsync -avz -e "ssh -i deploy_key" .env.production ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/.env.production
+          rsync -avz -e --delete "ssh -i deploy_key" frontend/.output ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/frontend
+          rsync -avz -e --delete "ssh -i deploy_key" backend/backend_app backend/config.toml backend/migrations ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/backend
+          rsync -avz -e --delete "ssh -i deploy_key" ecosystem.config.js ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}
+          rsync -avz -e --delete "ssh -i deploy_key" .env.production ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/.env.production
 
       # -------------------------
       # Rollback + restart app
