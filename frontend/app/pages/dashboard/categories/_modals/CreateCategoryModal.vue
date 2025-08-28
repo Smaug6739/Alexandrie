@@ -2,7 +2,7 @@
   <div class="modal">
     <h2>New {{ role == 1 ? 'category' : 'workspace' }}</h2>
     <label for="name">Name</label>
-    <input id="name" v-model="category.name" class="entry" type="text" required placeholder="Display name" >
+    <input id="name" v-model="category.name" class="entry" type="text" required placeholder="Display name" />
 
     <label>Parent</label>
     <div>
@@ -11,7 +11,7 @@
     <div style="display: flex">
       <div style="flex: 1; margin-right: 10px">
         <label for="order">Order <AppHint text="Order of the category in the sidebar" /></label>
-        <input id="order" v-model.number="category.order" class="entry" type="number" placeholder="0" >
+        <input id="order" v-model.number="category.order" class="entry" type="number" placeholder="0" />
       </div>
       <div style="flex: 1; margin-left: 10px">
         <label for="color">Color</label>
@@ -55,6 +55,7 @@ const createCategory = () => {
 <style scoped lang="scss">
 .modal {
   min-width: 700px;
+  padding: 6px;
 }
 
 label {
