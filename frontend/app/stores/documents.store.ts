@@ -54,7 +54,7 @@ export const useDocumentsStore = defineStore('documents', {
       let filtered = [...state.documents];
       if (query) {
         filtered = filtered.filter(doc => {
-          const docContent = `${doc.name} ${doc.description}`.toLowerCase();
+          const docContent = `${doc.name} ${doc.description} ${doc.tags}`.toLowerCase();
           return docContent.includes(query.toLowerCase());
         });
       }
