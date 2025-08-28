@@ -15,6 +15,18 @@
 <script setup lang="ts">
 const modalManager = useModal();
 const modals = modalManager.modals;
+
+watch(
+  () => modalManager.modals,
+  () => {
+    console.log('Modals changed:', modals.value);
+    if (modals.value.length) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+  },
+);
 </script>
 
 <style scoped lang="scss">
@@ -43,7 +55,7 @@ const modals = modalManager.modals;
   box-shadow: 0 2px 10px var(--shadow);
 }
 
-.modal-container:has(> .big) {
+.modal-container:has(> .large) {
   max-width: 1115px;
 }
 
