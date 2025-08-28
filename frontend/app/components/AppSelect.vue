@@ -11,7 +11,7 @@
       <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" @click.stop />
       <Teleport to="body">
         <ul v-if="open" ref="portalList" class="dropdown" :style="dropdownStyle">
-          <AppSelectNode :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
+          <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
           <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
         </ul>
       </Teleport>
