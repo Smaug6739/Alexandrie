@@ -54,7 +54,8 @@ const createCategory = () => {
 
 <style scoped lang="scss">
 .modal {
-  min-width: 700px;
+  max-width: 700px;
+  width: 100%;
   padding: 6px;
 }
 
