@@ -3,6 +3,7 @@
 const modals = ref<Modal[]>([]);
 
 function add(modal: Modal) {
+  document.body.classList.add('modal-open');
   modals.value.push(modal);
 }
 function close(modal: Modal) {
@@ -10,6 +11,9 @@ function close(modal: Modal) {
   if (index !== -1) {
     modals.value.splice(index, 1);
     modal.options.onClose?.();
+  }
+  if (modals.value.length === 0) {
+    document.body.classList.remove('modal-open');
   }
 }
 
