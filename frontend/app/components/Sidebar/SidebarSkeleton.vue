@@ -30,10 +30,10 @@ defineProps<{ isLoading: boolean }>();
 <style scoped lang="scss">
 .sidebar-skeleton {
   display: flex;
+  padding: 2rem;
   flex-direction: column;
   gap: 6px;
   margin-top: 8px;
-  padding: 2rem;
 }
 
 .skeleton-line {
@@ -48,22 +48,24 @@ defineProps<{ isLoading: boolean }>();
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
 }
 
 .empty-sidebar {
-  height: 100%;
   display: flex;
-  flex-direction: column;
+  height: 100%;
   padding: 20% 1rem;
   color: var(--font-color-light);
   text-align: center;
+  flex-direction: column;
 }
 
 .empty-sidebar .icon {
   margin-bottom: 1rem;
+
   svg {
     width: 100px;
     height: 100px;
@@ -81,11 +83,12 @@ defineProps<{ isLoading: boolean }>();
   font-size: 0.75rem;
   color: var(--font-color-muted);
 }
+
 .action-link {
-  margin-top: 5px;
   font-size: 0.75rem;
   font-weight: bold;
   color: var(--primary);
   cursor: pointer;
+  margin-top: 5px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align: center; margin: 5vh auto">
+  <div style=" margin: 5vh auto;text-align: center">
     <h1>{{ title || 'Nothing here' }}</h1>
     <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" />
     <p>{{ description }}</p>

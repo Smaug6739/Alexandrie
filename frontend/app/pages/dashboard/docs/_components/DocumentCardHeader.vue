@@ -85,30 +85,35 @@ p {
 
 /* --- Skeleton Loader --- */
 .skeleton {
+  margin: 8px 0;
+  border-radius: 6px;
   background: linear-gradient(90deg, #ddd 25%, #eee 37%, #ddd 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
-  border-radius: 6px;
-  margin: 8px 0;
 }
+
 .skeleton-category {
   width: 40%;
   height: 20px;
 }
+
 .skeleton-title {
   width: 70%;
   height: 28px;
 }
+
 .skeleton-desc {
   width: 90%;
   height: 16px;
 }
+
 .skeleton-tag {
   display: inline-block;
   width: 80px;
   height: 20px;
   margin-right: 6px;
 }
+
 .skeleton-tag.short {
   width: 50px;
 }
@@ -117,6 +122,7 @@ p {
   0% {
     background-position: -400px 0;
   }
+
   100% {
     background-position: 400px 0;
   }

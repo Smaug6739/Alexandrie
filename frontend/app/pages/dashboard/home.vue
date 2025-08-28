@@ -111,12 +111,12 @@ h1 {
   height: 50px;
   border-radius: 50%;
   font-size: 30px;
+  line-height: 1;
   color: white;
   background-color: var(--primary);
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  line-height: 1;
 }
 
 .search-container {

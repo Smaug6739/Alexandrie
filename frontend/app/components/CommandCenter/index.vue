@@ -206,6 +206,7 @@ watch(searchQuery, () => (selectedIndex.value = 0));
 
 .command-center-modal {
   position: relative;
+  z-index: 1000;
   display: flex;
   width: 92%;
   max-width: 720px;
@@ -217,7 +218,6 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   animation: slide-in 0.2s ease-out;
   flex-direction: column;
   overflow: auto;
-  z-index: 1000;
 }
 
 .search-header {
@@ -231,8 +231,8 @@ watch(searchQuery, () => (selectedIndex.value = 0));
 
 .search-input-wrapper {
   position: relative;
-  align-items: center;
   display: flex;
+  align-items: center;
   flex: 1;
 }
 
@@ -246,11 +246,11 @@ watch(searchQuery, () => (selectedIndex.value = 0));
 }
 
 .search-input {
-  flex: 1;
   padding: 12px 12px 12px 44px;
   border: none;
   font-size: 16px;
   background: transparent;
+  flex: 1;
   outline: none;
 }
 

@@ -82,6 +82,7 @@ const previous = computed(() => documentsStore.getPrevious(article.value));
 .toc {
   position: relative;
 }
+
 @media screen and (width <= 1280px) {
   .toc {
     display: none;

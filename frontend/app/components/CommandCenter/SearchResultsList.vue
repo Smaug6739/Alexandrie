@@ -89,6 +89,7 @@ const groupedItems = computed(() => {
   flex-direction: column;
   gap: 4px;
 }
+
 .result-shortcut {
   display: flex;
   gap: 6px;
