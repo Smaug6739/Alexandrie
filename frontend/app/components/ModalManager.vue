@@ -33,7 +33,7 @@ const modals = modalManager.modals;
 /* Styles modals */
 .modal-container {
   position: relative;
-  width: 80%;
+  width: 90%;
   max-width: 750px;
   margin: auto;
   padding: 16px 22px;
