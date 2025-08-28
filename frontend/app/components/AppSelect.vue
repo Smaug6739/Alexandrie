@@ -1,18 +1,20 @@
 <template>
-  <div class="app-select" :style="{ width: size || '100%' }">
-    <div v-if="!open" style="display: flex; padding: 1px; align-items: center; justify-content: space-between">
-      <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button
-      ><svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+  <div ref="trigger" class="app-select" :style="{ width: size || '100%' }">
+    <div v-if="!open" class="app-select-trigger">
+      <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
+      <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
     </div>
-    <div v-else>
-      <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" />
-      <div class="dropdown">
-        <ul>
+
+    <div v-else class="app-select-open">
+      <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" @click.stop />
+      <Teleport to="body">
+        <ul v-if="open" ref="portalList" class="dropdown" :style="dropdownStyle">
+          <AppSelectNode :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
           <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
         </ul>
-      </div>
+      </Teleport>
     </div>
   </div>
 </template>
@@ -24,14 +26,18 @@ const props = defineProps<{
   modelValue?: string | number;
   size?: string;
   disabled?: (i: ANode) => boolean;
+  nullable?: boolean;
 }>();
+
+const emit = defineEmits(['update:modelValue']);
 
 const selectedId = ref<string | number>(props.modelValue ?? '');
 const open = ref(false);
 const search = ref('');
 const searchInput = ref<HTMLInputElement | null>(null);
-
-const emit = defineEmits(['update:modelValue']);
+const trigger = ref<HTMLElement | null>(null);
+const portalList = ref<HTMLElement | null>(null);
+const dropdownStyle = ref<Record<string, string>>({});
 
 const selected = computed(() => {
   const findSelected = (items: ANode[]): ANode | null => {
@@ -47,26 +53,53 @@ const selected = computed(() => {
   return findSelected(props.items);
 });
 
+const clearSelection = () => {
+  selectedId.value = '';
+  emit('update:modelValue', null);
+  toggleDropdown();
+};
+
 const filteredItems = computed(() => {
   if (!search.value.trim()) return props.items;
   return filterRecursive(props.items, search);
 });
 
-function toggleDropdown() {
-  open.value = true;
-  search.value = '';
-  nextTick(() => {
-    searchInput.value?.focus();
-  });
+function updatePosition() {
+  const el = searchInput.value ?? trigger.value;
+  if (!el) return;
+  const rect = el.getBoundingClientRect();
+  const dropdownHeight = 300; // max-height de ton dropdown
+
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const spaceAbove = rect.top;
+
+  const openUp = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+
+  dropdownStyle.value = {
+    position: 'absolute',
+    top: openUp ? `${rect.top + window.scrollY - dropdownHeight}px` : `${rect.bottom + window.scrollY}px`,
+    left: `${rect.left + window.scrollX}px`,
+    width: `${rect.width}px`,
+    zIndex: '1000',
+  };
 }
+function toggleDropdown() {
+  open.value = !open.value;
+  if (open.value) {
+    search.value = '';
+    nextTick(() => {
+      updatePosition();
+      searchInput.value?.focus();
+    });
+  }
+}
+
 function handleKeyDown(event: KeyboardEvent) {
   if (event.key === 'Escape') {
     open.value = false;
   } else if (event.key === 'Enter') {
     const firstItem = filteredItems.value[0];
-    if (firstItem) {
-      handleSelect(firstItem);
-    }
+    if (firstItem) handleSelect(firstItem);
   }
 }
 
@@ -76,18 +109,36 @@ function handleSelect(node: ANode) {
   open.value = false;
 }
 
-function handleClickOutside(_: MouseEvent) {
-  open.value = false;
+function handleClickOutside(e: MouseEvent) {
+  // use composedPath for shadow-dom-safe detection
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const path = (e.composedPath && e.composedPath()) || (e as any).path || [];
+  const targetIsInsideTrigger = trigger.value && (path.length ? path.includes(trigger.value) : trigger.value.contains(e.target as Node));
+  const targetIsInsidePortal = portalList.value && (path.length ? path.includes(portalList.value) : portalList.value.contains(e.target as Node));
+
+  if (!targetIsInsideTrigger && !targetIsInsidePortal) {
+    open.value = false;
+  }
 }
 
-onMounted(() => window.addEventListener('click', handleClickOutside));
-onBeforeUnmount(() => window.removeEventListener('click', handleClickOutside));
+onMounted(() => {
+  window.addEventListener('click', handleClickOutside);
+  window.addEventListener('resize', updatePosition);
+  // capture scroll on ancestors too
+  window.addEventListener('scroll', updatePosition, true);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('resize', updatePosition);
+  window.removeEventListener('scroll', updatePosition, true);
+});
 </script>
 
 <style scoped lang="scss">
 .app-select {
   position: relative;
-  width: 200px;
+  width: 100%;
   margin: 0;
   border: 1px solid var(--border-color);
   border-radius: 6px;
@@ -99,6 +150,13 @@ onBeforeUnmount(() => window.removeEventListener('click', handleClickOutside));
   &:focus {
     outline: 1px solid var(--primary);
   }
+}
+
+.app-select-trigger {
+  display: flex;
+  padding: 1px;
+  align-items: center;
+  justify-content: space-between;
 }
 
 button,
@@ -117,25 +175,17 @@ button,
   cursor: text;
 }
 
+/* Teleported element : attention au scoped styles + teleport.
+   :deep permet d'appliquer les règles même si l'élément est rendu hors-DOM parent */
 .dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  left: 0;
-  z-index: 1000;
   max-height: 300px;
   padding: 2px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: var(--bg-color);
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
-  margin-top: 4px;
   overflow-y: auto;
-}
-
-ul {
   margin: 0;
-  padding: 0;
   list-style: none;
 }
 </style>
