@@ -3,7 +3,8 @@ import type { DB_Ressource, Ressource } from './db_strustures';
 
 export const useRessourcesStore = defineStore('ressources', {
   state: () => ({
-    ressources: ref<Ressource[]>([]),
+    ressources: [] as Ressource[],
+    isFetching: false,
   }),
   getters: {
     getAll: state => state.ressources,
@@ -12,8 +13,9 @@ export const useRessourcesStore = defineStore('ressources', {
   actions: {
     async fetch(): Promise<Ressource[]> {
       if (this.ressources.length > 0) return this.ressources;
-
+      this.isFetching = true;
       const request = await makeRequest(`ressources/@me`, 'GET', {});
+      this.isFetching = false;
       if (request.status == 'success') {
         this.ressources = (request.result as DB_Ressource[]).map((d: DB_Ressource) => ({ ...d, type: 'ressource' })) as Ressource[];
         return this.ressources;

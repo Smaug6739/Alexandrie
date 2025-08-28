@@ -9,33 +9,40 @@ export function useSidebarTree() {
   const preferencesStore = usePreferences();
   const { workspaceId } = useSidebar();
 
+  // Wait for categories and documents to be fetched
+  const isReady = computed(() => !categoriesStore.isFetching && !documentsStore.isFetching && !ressourcesStore.isFetching);
+
   const categories = computed<Item<Category>[]>(() =>
-    categoriesStore.categories.map(cat => ({
-      id: cat.id,
-      parent_id: cat.parent_id || '',
-      label: cat.name,
-      route: `/dashboard/categories/${cat.id}`,
-      icon: cat.icon || 'folder',
-      data: cat,
-      show: ref(getCollapseState(cat.id)),
-    })),
+    isReady.value
+      ? categoriesStore.categories.map(cat => ({
+          id: cat.id,
+          parent_id: cat.parent_id || '',
+          label: cat.name,
+          route: `/dashboard/categories/${cat.id}`,
+          icon: cat.icon || 'folder',
+          data: cat,
+          show: ref(getCollapseState(cat.id)),
+        }))
+      : [],
   );
 
   const documents = computed<Item<Document>[]>(() =>
-    documentsStore.documents
-      .sort((a, b) => b.pinned - a.pinned || a.name.localeCompare(b.name))
-      .map(doc => ({
-        id: doc.id,
-        parent_id: doc.parent_id || doc.category || '',
-        label: doc.name,
-        route: `/dashboard/docs/${doc.id}`,
-        icon: doc.accessibility == 1 ? 'file' : doc.accessibility == 2 ? 'draft' : 'archive',
-        data: doc,
-        show: ref(getCollapseState(doc.id)),
-      })),
+    isReady.value
+      ? documentsStore.documents
+          .sort((a, b) => b.pinned - a.pinned || a.name.localeCompare(b.name))
+          .map(doc => ({
+            id: doc.id,
+            parent_id: doc.parent_id || doc.category || '',
+            label: doc.name,
+            route: `/dashboard/docs/${doc.id}`,
+            icon: doc.accessibility == 1 ? 'file' : doc.accessibility == 2 ? 'draft' : 'archive',
+            data: doc,
+            show: ref(getCollapseState(doc.id)),
+          }))
+      : [],
   );
   const ressources = computed<Item<Ressource>[]>(() => {
-    if (!preferencesStore.get('hideSidebarRessources'))
+    if (!preferencesStore.get('hideSidebarRessources') && isReady.value)
       return ressourcesStore.getAll
         .filter(res => res.parent_id)
         .map(res => ({
