@@ -15,18 +15,6 @@
 <script setup lang="ts">
 const modalManager = useModal();
 const modals = modalManager.modals;
-
-watch(
-  () => modalManager.modals,
-  () => {
-    console.log('Modals changed:', modals.value);
-    if (modals.value.length) {
-      document.body.classList.add('modal-open');
-    } else {
-      document.body.classList.remove('modal-open');
-    }
-  },
-);
 </script>
 
 <style scoped lang="scss">
