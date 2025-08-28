@@ -10,7 +10,13 @@
         <AppToggle v-if="option.type === 'toggle'" :active="option.value" @toggle="toggleOption(option)" />
 
         <!-- Native select -->
-        <AppSelect v-else-if="option.type === 'select'" v-model="option.value" :items="option.choices" size="40%" @update:model-value="o => selectOption({ ...option, value: o })" />
+        <AppSelect
+          v-else-if="option.type === 'select'"
+          v-model="option.value"
+          :items="option.choices"
+          size="40%"
+          @update:model-value="o => selectOption({ ...option, value: o })"
+        />
         <AppColorPicker v-else-if="option.type === 'color'" :selected-color="option.value" @update:selected-color="option.onChange" />
       </div>
     </div>

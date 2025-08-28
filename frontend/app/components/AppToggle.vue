@@ -1,19 +1,24 @@
 <template>
-  <button class="toggle" :class="{ active }" :aria-pressed="active" role="switch" @click="toggle">
+  <button class="toggle" :class="{ active: modelValue || active }" :aria-pressed="modelValue" role="switch" @click="toggle">
     <span class="circle" />
   </button>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  active: boolean;
+const props = defineProps<{
+  modelValue?: boolean;
+  active?: boolean;
 }>();
+const active = ref(props.active || props.modelValue || false);
 
 const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void;
   (e: 'toggle'): void;
 }>();
 
 const toggle = () => {
+  active.value = !active.value;
+  emit('update:modelValue', active.value);
   emit('toggle');
 };
 </script>
