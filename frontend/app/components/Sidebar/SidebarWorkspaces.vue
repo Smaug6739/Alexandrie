@@ -29,12 +29,19 @@ import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategor
 import type { Workspace } from './helpers';
 
 const { workspaceId } = useSidebar();
-const storage_item = localStorage.getItem('filterWorkspace');
 const props = defineProps<{ options: Workspace[] }>();
 const all_workspaces = ref({ text: 'All Workspaces', value: null, meta: { color: -1 } });
 
-if (storage_item && props.options.find(option => option.value == storage_item)) workspaceId.value = storage_item;
-
+watch(
+  () => props.options,
+  opts => {
+    const storage_item = localStorage.getItem('filterWorkspace');
+    if (storage_item && opts.find(option => option.value == storage_item)) {
+      workspaceId.value = storage_item;
+    }
+  },
+  { immediate: true }, // check also during mounting
+);
 const isOpen = ref(false);
 const selectedOption = computed(() => props.options.find(option => option.value == workspaceId.value) || all_workspaces.value);
 const toggleDropdown = () => (isOpen.value = !isOpen.value);

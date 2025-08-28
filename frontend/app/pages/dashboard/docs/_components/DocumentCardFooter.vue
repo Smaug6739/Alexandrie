@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer v-if="document">
     <div class="infos">
       <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" :prefetch="false"><Icon name="edit_page" /> Edit this page</NuxtLink>
       <p>Last update: {{ new Date(parseInt(document.updated_timestamp)).toLocaleDateString() }}</p>
@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import type { Document } from '~/stores';
-defineProps<{ document: Document; next?: Document; previous?: Document }>();
+defineProps<{ document?: Document; next?: Document; previous?: Document }>();
 </script>
 
 <style scoped lang="scss">

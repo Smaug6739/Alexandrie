@@ -30,7 +30,12 @@
       <SidebarWorkspaces :options="workspaces" />
       <CollapseItem v-for="item in navigationItems" :key="item.id" :item="item" :root="true" />
       <hr style="width: 100%; margin: 5px 0" />
-      <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
+      <template v-if="tree.length">
+        <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
+      </template>
+      <template v-else>
+        <SidebarSkeleton :is-loading="isLoading" />
+      </template>
     </div>
   </Resizable>
 </template>
@@ -40,16 +45,19 @@ import CollapseItem from './CollapseItem.vue';
 import SidebarWorkspaces from './SidebarWorkspaces.vue';
 import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
+import SidebarSkeleton from './SidebarSkeleton.vue';
 import { navigationItems } from './helpers';
 import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 import Dock from './Dock.vue';
 
 const { isOpened, hasSidebar } = useSidebar();
 const categoriesStore = useCategoriesStore();
+const documentsStore = useDocumentsStore();
 const preferences = usePreferences();
 const userStore = useUserStore();
 const filter = ref<string>('');
-const workspaces = computed(() => [...categoriesStore.categories.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id, meta: c }))]);
+const workspaces = computed(() => [...categoriesStore.getAll.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id, meta: c }))]);
+const isLoading = computed(() => categoriesStore.isFetching || documentsStore.isFetching);
 
 const sidebarTree = useSidebarTree();
 const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock'));

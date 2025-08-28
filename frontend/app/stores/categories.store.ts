@@ -4,6 +4,7 @@ import type { Category, DB_Category } from './db_strustures';
 export const useCategoriesStore = defineStore('categories', {
   state: () => ({
     categories: [] as Category[],
+    isFetching: false,
   }),
   getters: {
     getAll: state => state.categories,
@@ -13,7 +14,9 @@ export const useCategoriesStore = defineStore('categories', {
   },
   actions: {
     async fetch(opts?: FetchOptions) {
+      this.isFetching = true;
       const request = await makeRequest(`categories/@me/${opts?.id || ''}`, 'GET', {});
+      this.isFetching = false;
       if (request.status == 'success') {
         if (opts?.id) {
           // replace the document with the new one

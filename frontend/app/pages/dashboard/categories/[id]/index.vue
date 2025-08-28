@@ -7,12 +7,22 @@
         <ViewSelection v-model="view" />
       </div>
     </header>
-    <div v-if="view == 'table'" class="line-container">
-      <DocumentLine v-for="document of documents" :key="document.id" :document="document" class="line-item" />
+    <div v-if="documents.length">
+      <div v-if="view == 'table'" class="line-container">
+        <DocumentLine v-for="document of documents" :key="document.id" :document="document" class="line-item" />
+      </div>
+      <div v-else class="document-list">
+        <DocumentsGrid :documents="documents" />
+      </div>
     </div>
-    <div v-else class="document-list">
-      <DocumentsGrid :documents="documents" />
-    </div>
+    <NoContent
+      v-else
+      style="width: 100%; height: 100%"
+      title="No documents found"
+      description="There are no documents in this category
+"
+      ><NuxtLink to="/dashboard/docs/new"><AppButton type="link" style="font-weight: bold">+ Create new document </AppButton></NuxtLink>
+    </NoContent>
   </div>
 </template>
 

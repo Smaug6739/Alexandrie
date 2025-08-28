@@ -14,6 +14,7 @@ export const useDocumentsStore = defineStore('documents', {
   state: () => ({
     documents: [] as Document[],
     allTags: [] as string[],
+    isFetching: false,
   }),
   getters: {
     getAll: state => state.documents,
@@ -99,7 +100,9 @@ export const useDocumentsStore = defineStore('documents', {
     },
     async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
+      this.isFetching = true;
       const request = await makeRequest(`documents/@me/${opts?.id || ''}`, 'GET', {});
+      this.isFetching = false;
       if (request.status == 'success') {
         if (opts?.id) {
           const index = this.documents.findIndex(d => d.id == opts?.id);

@@ -8,11 +8,14 @@
     <QuickSearch />
     <MediumView>
       <Navbar />
-      <div style=" width: 100%;height: calc(100% - 65px)"><NuxtPage /></div>
+      <div style="width: 100%; height: calc(100% - 65px)"><NuxtPage /></div>
     </MediumView>
   </div>
 </template>
 <script setup lang="ts">
 definePageMeta({ breadcrumb: 'Home' });
-await Promise.all([useDocumentsStore().fetch(), useCategoriesStore().fetch(), useUserStore().fetch(), useRessourcesStore().fetch()]);
+useDocumentsStore().fetch();
+useCategoriesStore().fetch();
+useUserStore().fetch();
+useRessourcesStore().fetch();
 </script>

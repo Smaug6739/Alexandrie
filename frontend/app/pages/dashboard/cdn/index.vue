@@ -27,7 +27,7 @@
         </template>
       </DataTable>
     </div>
-    <div v-else>No ressource found.</div>
+    <NoContent v-else title="No ressource found"></NoContent>
   </div>
 </template>
 <script setup lang="ts">

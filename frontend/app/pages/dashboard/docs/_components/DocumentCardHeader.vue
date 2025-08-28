@@ -1,15 +1,20 @@
 <template>
   <div class="header" :class="{ 'print-style': preferences.get('printMode') }">
     <div class="text">
-      <p class="category">
-        <NuxtLink :to="`/dashboard/categories/${category?.id}`">{{ category?.name }}</NuxtLink>
-        <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
-      </p>
-      <h1 class="title">{{ doc?.name }}</h1>
-      <p class="description">{{ doc?.description }}</p>
-      <div v-if="doc.tags" class="document-tags">
-        <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
-      </div>
+      <!-- Skeleton when doc is undefined -->
+      <DocumentCardHeaderSkeleton v-if="!doc" />
+      <!-- Real content -->
+      <template v-else>
+        <p class="category">
+          <NuxtLink :to="`/dashboard/categories/${category?.id}`">{{ category?.name }}</NuxtLink>
+          <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
+        </p>
+        <h1 class="title">{{ doc?.name }}</h1>
+        <p class="description">{{ doc?.description }}</p>
+        <div v-if="doc.tags" class="document-tags">
+          <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
+        </div>
+      </template>
     </div>
     <div class="icon">
       <DocumentHeaderIllustration />
@@ -20,10 +25,12 @@
 <script setup lang="ts">
 import DocumentCardHeaderActionRow from './DocumentCardHeaderActionRow.vue';
 import DocumentHeaderIllustration from './DocumentHeaderIllustration.vue';
+import DocumentCardHeaderSkeleton from './DocumentCardHeaderSkeleton.vue';
 import type { Document } from '~/stores';
+
 const categories_store = useCategoriesStore();
 const preferences = usePreferences();
-const props = defineProps<{ doc: Document }>();
+const props = defineProps<{ doc?: Document }>();
 const category = computed(() => categories_store.getById(props.doc?.category || ''));
 </script>
 
@@ -74,6 +81,45 @@ p {
   flex-wrap: wrap;
   margin-bottom: 10px;
   padding-top: 5px;
+}
+
+/* --- Skeleton Loader --- */
+.skeleton {
+  background: linear-gradient(90deg, #ddd 25%, #eee 37%, #ddd 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 6px;
+  margin: 8px 0;
+}
+.skeleton-category {
+  width: 40%;
+  height: 20px;
+}
+.skeleton-title {
+  width: 70%;
+  height: 28px;
+}
+.skeleton-desc {
+  width: 90%;
+  height: 16px;
+}
+.skeleton-tag {
+  display: inline-block;
+  width: 80px;
+  height: 20px;
+  margin-right: 6px;
+}
+.skeleton-tag.short {
+  width: 50px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
 }
 
 @media print, screen and (width >= 1024px) {
