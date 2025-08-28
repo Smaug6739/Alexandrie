@@ -382,12 +382,12 @@ function syncScroll() {
   markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
 }
 
-function save() {
+const save = debounce(() => {
   const content = editorView.value?.state.doc.toString() || '';
   document.value.content_markdown = content;
   document.value.content_html = compile(content);
   emit('save', document.value);
-}
+}, 1000);
 </script>
 
 <style scoped lang="scss">

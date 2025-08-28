@@ -37,3 +37,28 @@ export function setAppColor(color: string | number) {
   document.documentElement.style.setProperty('--primary-bg', `var(--${color}-bg)`);
   document.documentElement.style.setProperty('--primary-border', `var(--${color}-border)`);
 }
+
+export function debounce<T extends (...args: unknown[]) => void>(fn: T, delay = 500) {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+  let called = false;
+
+  return (...args: Parameters<T>) => {
+    if (!called) {
+      // premier appel : exécution immédiate
+      fn(...args);
+      called = true;
+      timeout = setTimeout(() => {
+        called = false;
+        timeout = null;
+      }, delay);
+    } else {
+      // si on spam, on relance le timer et on exécute à la fin
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        fn(...args);
+        called = false;
+        timeout = null;
+      }, delay);
+    }
+  };
+}
