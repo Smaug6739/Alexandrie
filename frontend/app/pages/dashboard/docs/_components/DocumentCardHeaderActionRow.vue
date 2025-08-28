@@ -8,11 +8,7 @@
       </svg>
     </NuxtLink>
     <NuxtLink @click="exportMarkdown">
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-        <path
-          d="m640-360 120-120-42-43-48 48v-125h-60v125l-48-48-42 43 120 120ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm0-80h640v-480H160v480Zm0 0v-480 480Zm60-120h60v-180h40v120h60v-120h40v180h60v-200q0-17-11.5-28.5T440-600H260q-17 0-28.5 11.5T220-560v200Z"
-        />
-      </svg>
+      <Icon name="markdown" :big="true" fill="var(--font-color)" />
     </NuxtLink>
     <NuxtLink @click="print">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
@@ -20,6 +16,9 @@
           d="M640-640v-120H320v120h-80v-200h480v200h-80Zm-480 80h640-640Zm560 100q17 0 28.5-11.5T760-500q0-17-11.5-28.5T720-540q-17 0-28.5 11.5T680-500q0 17 11.5 28.5T720-460Zm-80 260v-160H320v160h320Zm80 80H240v-160H80v-240q0-51 35-85.5t85-34.5h560q51 0 85.5 34.5T880-520v240H720v160Zm80-240v-160q0-17-11.5-28.5T760-560H200q-17 0-28.5 11.5T160-520v160h80v-80h480v80h80Z"
         />
       </svg>
+    </NuxtLink>
+    <NuxtLink @click="openEditModal">
+      <Icon name="settings" :big="true" fill="var(--font-color)" />
     </NuxtLink>
     <NuxtLink @click="openDeleteModal">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
@@ -33,11 +32,13 @@
 
 <script setup lang="ts">
 import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
+import DocumentMeta from '../_modals/DocumentMeta.vue';
 import type { Document } from '~/stores';
 
 const props = defineProps<{ doc: Document }>();
 const print = () => window.print();
-const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.doc.id }));
+const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.doc.id } }));
+const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
 
 function exportMarkdown() {
   const blob = new Blob([props.doc.content_markdown || ''], { type: 'text/markdown' });
