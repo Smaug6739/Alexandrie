@@ -13,7 +13,7 @@
               placeholder="Search for a page, action, or document..."
               class="search-input"
               @keydown="handleSearchKeydown"
-            />
+            /><tag yellow style="height: fit-content">Beta</tag>
           </div>
           <button class="close-btn" @click="closeSearch">
             <Icon name="close" />
@@ -97,22 +97,13 @@ onMounted(() => {
     }
   };
 
-  const handleTouchMove = (e: TouchEvent) => {
-    if (isOpen.value) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  };
-
   document.addEventListener('keydown', handleGlobalKeydown);
-  document.addEventListener('touchmove', handleTouchMove, { passive: false });
   const openListener = () => openSearch();
   window.addEventListener('command-center-open', openListener as EventListener);
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleGlobalKeydown);
     document.removeEventListener('wheel', handleWheel);
-    document.removeEventListener('touchmove', handleTouchMove);
     window.removeEventListener('command-center-open', openListener as EventListener);
   });
 });
@@ -124,6 +115,7 @@ function openSearch() {
   searchQuery.value = '';
   activeTab.value = 'quick';
   nextTick(() => searchInput.value?.focus());
+  document.body.classList.add('modal-open');
 }
 
 function closeSearch(e?: MouseEvent) {
@@ -135,10 +127,11 @@ function closeSearch(e?: MouseEvent) {
     !(e.target as Element).closest('.search-results-list')
   )
     return;
+
   isOpen.value = false;
   searchQuery.value = '';
   selectedIndex.value = 0;
-  document.body.style.overflow = '';
+  document.body.classList.remove('modal-open');
 }
 
 function changeTab(tabId: string) {
@@ -195,15 +188,13 @@ function handleSearchKeydown(e: KeyboardEvent) {
 
 defineExpose({ openSearch, closeSearch });
 
-watch(searchQuery, () => {
-  selectedIndex.value = 0;
-});
+watch(searchQuery, () => (selectedIndex.value = 0));
 </script>
 
 <style scoped lang="scss">
 .command-center-overlay {
   position: fixed;
-  z-index: 1000;
+  z-index: 500;
   display: flex;
   background: rgb(0 0 0 / 50%);
   align-items: flex-start;
@@ -226,6 +217,7 @@ watch(searchQuery, () => {
   animation: slide-in 0.2s ease-out;
   flex-direction: column;
   overflow: auto;
+  z-index: 1000;
 }
 
 .search-header {
@@ -239,6 +231,8 @@ watch(searchQuery, () => {
 
 .search-input-wrapper {
   position: relative;
+  align-items: center;
+  display: flex;
   flex: 1;
 }
 
@@ -252,7 +246,7 @@ watch(searchQuery, () => {
 }
 
 .search-input {
-  width: 100%;
+  flex: 1;
   padding: 12px 12px 12px 44px;
   border: none;
   font-size: 16px;

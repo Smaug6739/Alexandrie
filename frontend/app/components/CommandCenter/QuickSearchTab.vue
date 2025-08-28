@@ -3,7 +3,7 @@
     <SearchResultsList
       :items="flattenedItems"
       :selected-index="selectedIndex"
-      empty-text='No results found for "{{ searchQuery }}"'
+      :query="searchQuery"
       empty-icon="search"
       @update-selected-index="$emit('updateSelectedIndex', $event)"
     />
@@ -116,6 +116,5 @@ defineExpose({ flattenedItems });
   display: flex;
   height: 100%;
   flex-direction: column;
-  overflow: hidden;
 }
 </style>

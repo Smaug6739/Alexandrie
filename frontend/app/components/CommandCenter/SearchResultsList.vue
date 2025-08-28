@@ -2,7 +2,7 @@
   <div>
     <div v-if="items.length === 0" class="no-results">
       <Icon :name="emptyIcon" class="no-results-icon" fill="var(--font-color)" />
-      <p>{{ emptyText }}</p>
+      <p>No results found for "{{ query }}"</p>
     </div>
     <div v-else class="search-results-list">
       <div v-for="(group, section) in groupedItems" :key="section" class="section">
@@ -35,7 +35,7 @@ import type { Item } from './types';
 const props = defineProps<{
   items: Item[];
   selectedIndex: number;
-  emptyText: string;
+  query: string;
   emptyIcon: string;
 }>();
 
@@ -52,15 +52,6 @@ const groupedItems = computed(() => {
 </script>
 
 <style scoped lang="scss">
-.search-results {
-  position: relative;
-  min-height: 0;
-  flex: 1;
-  -webkit-overflow-scrolling: touch;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-
 .search-results-list {
   max-height: 100%;
   padding: 8px 0;

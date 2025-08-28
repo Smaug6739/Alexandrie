@@ -64,6 +64,11 @@ body {
 	transition: background-color $transition-duration;
 }
 
+body.modal-open {
+	overflow: hidden;
+	touch-action: none;
+}
+
 :root {
 	--padding: calc((100vw - 1700px) / 2);
 }
@@ -88,6 +93,7 @@ form {
 }
 
 @media print {
+
 	header,
 	footer,
 	nav,

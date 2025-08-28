@@ -31,7 +31,10 @@ const icon = computed(() => useIcon(props.name as IconName) || props.name);
 .fill:deep(svg) > path {
   fill: inherit !important;
 }
-
+.icon :deep(svg),
+.icon :deep(svg) * {
+  pointer-events: none;
+}
 .small {
   width: 18px;
   height: 18px;

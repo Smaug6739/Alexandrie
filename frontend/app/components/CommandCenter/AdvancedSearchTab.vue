@@ -100,6 +100,7 @@
       <SearchResultsList
         :items="flattenedItems"
         :selected-index="selectedIndex"
+        :query="query"
         empty-text="No documents match your filters"
         empty-icon="search"
         @update-selected-index="$emit('updateSelectedIndex', $event)"
@@ -239,7 +240,6 @@ defineExpose({ flattenedItems });
   display: flex;
   height: 100%;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .search-filters {
@@ -497,8 +497,6 @@ defineExpose({ flattenedItems });
   position: relative;
   min-height: 0;
   flex: 1;
-  -webkit-overflow-scrolling: touch;
-  overflow-y: auto;
   overscroll-behavior: contain;
 }
 
@@ -509,11 +507,5 @@ defineExpose({ flattenedItems });
   font-weight: 500;
   color: white;
   background: var(--primary);
-}
-
-.navigate-icon {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
 }
 </style>
