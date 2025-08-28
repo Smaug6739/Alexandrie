@@ -9,7 +9,11 @@
       </div>
     </header>
     <div style="padding-bottom: 10px">
-      <input v-model="filter" placeholder="Search for workspace..." style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px" />
+      <input
+        v-model="filter"
+        placeholder="Search for workspace..."
+        style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px"
+      />
     </div>
     <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
       <h3 class="wp-name">
@@ -35,15 +39,15 @@ const filteredItems = computed(() => {
   return filterRecursive<Item<Category>>(tree.value, filter);
 });
 
-const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 2 }));
-const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }));
+const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2 } }));
+const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
 
 function editNode(node: Item) {
   useRouter().push('/dashboard/categories/' + node.id + '/edit');
 }
 
 function deleteNode(node: Item) {
-  useModal().add(new Modal(shallowRef(DeleteCategoryModal), { categoryId: node.id }));
+  useModal().add(new Modal(shallowRef(DeleteCategoryModal), { props: { categoryId: node.id } }));
 }
 </script>
 

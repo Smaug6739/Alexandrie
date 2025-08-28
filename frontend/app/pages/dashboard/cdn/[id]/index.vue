@@ -8,32 +8,39 @@
       <div class="form-row">
         <div class="form-column">
           <label>ID</label>
-          <input id="id" type="text" :value="ressource.id" disabled >
+          <input id="id" type="text" :value="ressource.id" disabled />
         </div>
         <div class="form-column">
           <label>Size</label>
-          <input id="size" type="text" :value="readableFileSize(ressource.filesize)" disabled >
+          <input id="size" type="text" :value="readableFileSize(ressource.filesize)" disabled />
         </div>
       </div>
       <label>Name</label>
-      <input id="name" v-model="ressource.filename" type="text" required >
+      <input id="name" v-model="ressource.filename" type="text" required />
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
       <AppSelect v-model="ressource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.type !== 'document'" placeholder="Select a ressource parent" />
       <label>Type</label>
-      <input id="id" type="text" :value="ressource.filetype" disabled >
+      <input id="id" type="text" :value="ressource.filetype" disabled />
       <label>Original path</label>
-      <input id="original_path" type="text" :value="ressource.original_path" disabled >
+      <input id="original_path" type="text" :value="ressource.original_path" disabled />
       <label>Path</label>
-      <input id="path" type="text" :value="ressource.transformed_path" disabled >
+      <input id="path" type="text" :value="ressource.transformed_path" disabled />
       <p style="overflow-wrap: break-word">
-        Ressource: <a :href="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" target="_blank">{{ `${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}` }}</a>
+        Ressource:
+        <a :href="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" target="_blank">{{
+          `${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`
+        }}</a>
       </p>
       <div style="display: flex; justify-content: flex-end">
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
       </div>
       <h4>Preview</h4>
       <div class="preview">
-        <img v-if="ressource.filetype.startsWith('image/')" :src="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" alt="Preview" >
+        <img
+          v-if="ressource.filetype.startsWith('image/')"
+          :src="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`"
+          alt="Preview"
+        />
         <p v-else>Preview not available for this file type.</p>
       </div>
       <h4>Danger</h4>
@@ -70,7 +77,7 @@ const updateCategory = async () => {
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const showDeleteModal = () => {
-  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { ressourceId: ressource.value?.id }));
+  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressourceId: ressource.value?.id } }));
 };
 </script>
 

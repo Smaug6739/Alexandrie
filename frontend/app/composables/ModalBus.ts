@@ -9,7 +9,7 @@ function close(modal: Modal) {
   const index = modals.value.indexOf(modal);
   if (index !== -1) {
     modals.value.splice(index, 1);
-    modal.onClose();
+    modal.options.onClose?.();
   }
 }
 
@@ -21,6 +21,19 @@ export function useModal() {
   };
 }
 
+interface ModalOptions {
+  onClose?: () => void;
+  size?: 'small' | 'medium' | 'large';
+  props?: object;
+}
+
 export class Modal {
-  constructor(public component: object, public props: object = {}, public onClose: () => void = () => {}, public big: boolean = false) {}
+  constructor(
+    public component: object,
+    public options: ModalOptions = {
+      onClose: () => {},
+      size: 'medium',
+      props: {},
+    },
+  ) {}
 }

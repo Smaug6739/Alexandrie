@@ -57,7 +57,7 @@ const handleClickOutside = (event: MouseEvent) => {
 };
 onMounted(() => document.addEventListener('click', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
-const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(NewCategoryModal), { role: 2 }));
+const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 2 } }));
 </script>
 
 <style scoped lang="scss">

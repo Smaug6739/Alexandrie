@@ -31,7 +31,7 @@ const props = defineProps<{ document: Document }>();
 const categoriesStore = useCategoriesStore();
 const category = computed(() => categoriesStore.getById(props.document.category || ''));
 const user = useUserStore().user;
-const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { documentId: props.document.id }));
+const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.document.id } }));
 </script>
 
 <style scoped lang="scss">

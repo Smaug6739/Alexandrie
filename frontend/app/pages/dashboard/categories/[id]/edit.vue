@@ -5,22 +5,22 @@
       <div class="form-row">
         <div class="form-column">
           <label>ID</label>
-          <input id="id" v-model="category.id" type="text" disabled >
+          <input id="id" v-model="category.id" type="text" disabled />
         </div>
         <div class="form-column">
           <label for="order">Order</label>
-          <input id="order" v-model.number="category.order" type="number" >
+          <input id="order" v-model.number="category.order" type="number" />
         </div>
       </div>
       <label>Name</label>
-      <input id="name" v-model="category.name" type="text" required >
+      <input id="name" v-model="category.name" type="text" required />
       <label>Role</label>
       <select v-model="category.role">
         <option :value="1">Category</option>
         <option :value="2">Workspace</option>
       </select>
       <label style="display: flex; align-items: center">Icon <AppHint text="SVG supported" /></label>
-      <textarea v-model="category.icon" type="text" rows="5"/>
+      <textarea v-model="category.icon" type="text" rows="5" />
 
       <label>Parent</label>
       <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
@@ -57,7 +57,7 @@ const updateCategory = async () => {
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const deleteCategory = async () => {
-  useModal().add(new Modal(shallowRef(DeleteModal), { categoryId: category.value?.id || '' }));
+  useModal().add(new Modal(shallowRef(DeleteModal), { props: { categoryId: category.value?.id || '' } }));
 };
 </script>
 

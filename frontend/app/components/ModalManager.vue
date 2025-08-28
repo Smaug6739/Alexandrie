@@ -6,7 +6,7 @@
         <button class="close-btn" @click="modalManager.close(modal)">
           <Icon name="close" :big="true" />
         </button>
-        <component :is="modal.component" v-bind="modal.props" class="modal" :class="modal.big ? 'big' : ''" @close="modalManager.close(modal)" />
+        <component :is="modal.component" v-bind="modal.options.props" class="modal" :class="modal.options.size" @close="modalManager.close(modal)" />
       </div>
     </div>
   </TransitionGroup>
@@ -45,6 +45,10 @@ const modals = modalManager.modals;
 
 .modal-container:has(> .big) {
   max-width: 1115px;
+}
+
+.modal-container:has(> .small) {
+  max-width: 600px;
 }
 
 .modal-overlay {

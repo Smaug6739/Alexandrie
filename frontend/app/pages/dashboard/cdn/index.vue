@@ -83,7 +83,7 @@ const rows: ComputedRef<Field[]> = computed(() =>
 );
 
 const deleteRessource = async (id: string) => {
-  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { ressourceId: id }));
+  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressourceId: id } }));
 };
 </script>
 

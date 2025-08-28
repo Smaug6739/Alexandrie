@@ -134,7 +134,7 @@ function insertText(text: string) {
 }
 function openColorModal() {
   const modalManager = useModal();
-  modalManager.add(new Modal(shallowRef(ColorPickerModal), { onColorSelect: handleColorSelect }, () => {}, false));
+  modalManager.add(new Modal(shallowRef(ColorPickerModal), { props: { onColorSelect: handleColorSelect } }));
 }
 
 function handleColorSelect(color: string) {
@@ -143,12 +143,12 @@ function handleColorSelect(color: string) {
 
 function openImageSelector() {
   const modalManager = useModal();
-  modalManager.add(new Modal(shallowRef(ImageSelectorModal), { onImageSelect: handleImageSelect }, () => {}, true));
+  modalManager.add(new Modal(shallowRef(ImageSelectorModal), { props: { onImageSelect: handleImageSelect }, size: 'large' }));
 }
 
 function openGridOrganization() {
   const modalManager = useModal();
-  modalManager.add(new Modal(shallowRef(GridOrganizationModal), { onGridSelect: handleGridSelect }, () => {}, false));
+  modalManager.add(new Modal(shallowRef(GridOrganizationModal), { props: { onGridSelect: handleGridSelect } }));
 }
 
 function handleImageSelect(imageUrl: string, altText: string) {

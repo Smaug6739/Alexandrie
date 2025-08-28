@@ -81,7 +81,7 @@ onMounted(() => {
       router.push('/dashboard/cdn');
     } else if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
       e.preventDefault();
-      useModal().add(new Modal(shallowRef(CreateCategoryModal), { role: 1 }));
+      useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
     } else if (e.key === 'Escape' && isOpen.value) {
       closeSearch();
     } else if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && isOpen.value) {

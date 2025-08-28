@@ -73,7 +73,7 @@ const handleClickOutside = (e: MouseEvent) => {
 };
 const newCategory = () => {
   onClick();
-  useModal().add(new Modal(shallowRef(NewCategoryModal), { role: 1 }));
+  useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 1 } }));
 };
 const onClick = () => {
   if (isMobile()) isOpened.value = false;
