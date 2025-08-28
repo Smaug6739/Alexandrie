@@ -15,7 +15,7 @@
       </div>
 
       <div
-        :style="{ marginRight: !isTablet() && !preferencesStore.get('hideTOC') && useSidebar().isOpened.value ? '200px' : '0px', transition: 'margin 0.3s' }"
+        :style="{ marginRight: !isTablet() && preferencesStore.get('hideTOC') && useSidebar().isOpened.value ? '200px' : '0px', transition: 'margin 0.3s' }"
       />
     </div>
     <Error v-else :error="error" />
