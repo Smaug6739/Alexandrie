@@ -15,10 +15,10 @@
       <div v-if="userStore.user" class="user">
         <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
         <div class="details">
-          <div>
+          <NuxtLink to="/dashboard/settings?p=profile">
             <div>{{ userStore.user.username }}</div>
             <div class="email">{{ userStore.user.email }}</div>
-          </div>
+          </NuxtLink>
           <div class="icons">
             <NuxtLink to="/dashboard/docs/new" :prefetch="false" @click="onClick"><Icon name="add_file" :mid="true" fill="var(--font-color)" /></NuxtLink>
             <NuxtLink @click="newCategory"><Icon name="add_folder" :mid="true" fill="var(--font-color)" /></NuxtLink>
