@@ -1,4 +1,5 @@
 // useSidebarTree.ts
+import type { DefaultItem } from '~/components/Sidebar/helpers';
 import type { Category, Document, Ressource } from '~/stores';
 
 export function useSidebarTree() {
@@ -84,10 +85,38 @@ export function useSidebarTree() {
     return structure.value.treeToArray(structure.value.getSubTreeById(id)?.childrens || []);
   };
 
+  const groupedByWorkspace = () => {
+    const workspaces: Item<Category | Document | Ressource | DefaultItem>[] = [
+      ...categoriesStore.getAll
+        .filter(c => c.role === 2)
+        .map(c => ({
+          id: c.id,
+          parent_id: c.parent_id || '',
+          label: c.name,
+          route: `/dashboard/categories/${c.id}`,
+          icon: c.icon || 'folder',
+          data: c,
+          show: ref(getCollapseState(c.id)),
+        })),
+    ];
+
+    tree.value.forEach(item => {
+      const workspaceId = item.parent_id;
+      const existing = workspaces.find(w => w.id === workspaceId);
+      if (!existing) workspaces.push(item);
+      else {
+        if (existing.childrens) existing.childrens.push(item);
+        else existing.childrens = [item];
+      }
+    });
+    return workspaces;
+  };
+
   return {
     structure,
     collapseAll,
     getSubTreeById,
+    groupedByWorkspace,
     categories,
     tree,
     filtered,
