@@ -116,6 +116,7 @@ h1 {
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  line-height: 1;
 }
 
 .search-container {
