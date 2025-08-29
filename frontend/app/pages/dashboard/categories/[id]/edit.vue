@@ -1,6 +1,6 @@
 <template>
   <div class="card-component">
-    <h1 style="font-size: 20px">Update category & workspace</h1>
+    <h1 style="font-size: 24px">Category & workspace</h1>
     <form v-if="category" @submit.prevent>
       <div class="form-row">
         <div class="form-column">
@@ -8,22 +8,30 @@
           <input id="id" v-model="category.id" type="text" disabled />
         </div>
         <div class="form-column">
-          <label for="order">Order</label>
-          <input id="order" v-model.number="category.order" type="number" />
+          <label>Role</label>
+          <AppRadio
+            v-model="category.role"
+            :items="[
+              { id: 1, name: 'Category' },
+              { id: 2, name: 'Workspace' },
+            ]"
+          />
         </div>
       </div>
       <label>Name</label>
       <input id="name" v-model="category.name" type="text" required />
-      <label>Role</label>
-      <select v-model="category.role">
-        <option :value="1">Category</option>
-        <option :value="2">Workspace</option>
-      </select>
+      <div class="form-row">
+        <div class="form-column">
+          <label>Parent</label>
+          <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
+        </div>
+        <div class="form-column">
+          <label for="order">Order</label>
+          <input id="order" v-model.number="category.order" type="number" />
+        </div>
+      </div>
       <label style="display: flex; align-items: center">Icon <AppHint text="SVG supported" /></label>
       <textarea v-model="category.icon" type="text" rows="5" />
-
-      <label>Parent</label>
-      <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
 
       <label for="color">Color</label>
       <AppColorPicker v-model:selected-color="category.color" name="color" :nullable="true" />
