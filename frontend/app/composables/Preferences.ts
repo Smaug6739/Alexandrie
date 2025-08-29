@@ -19,6 +19,12 @@ export const DEFAULT_PREFERENCES = {
     documents: false as boolean,
     newPage: false as boolean,
   } as Record<string, boolean>,
+  navbarItems: {
+    breadcrumb: true as boolean,
+    search: true as boolean,
+    theme: true as boolean,
+    navigation: true as boolean,
+  },
 };
 
 // Crée un type mapping automatique : chaque clé => type exact

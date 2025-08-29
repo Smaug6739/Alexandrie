@@ -1,7 +1,11 @@
 <template>
   <nav class="breadcrumb">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" @click="next"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" /></svg>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" @click="previous"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" /></svg>
+    <svg v-if="preferences.get('navbarItems').value.navigation" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" @click="next">
+      <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+    </svg>
+    <svg v-if="preferences.get('navbarItems').value.navigation" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" @click="previous">
+      <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+    </svg>
     <ol class="breadcrumb">
       <li v-for="(segment, index) in breadcrumbs" :key="index" class="breadcrumb-item">
         <NuxtLink :to="segment.path"> {{ segment.name }} </NuxtLink>
@@ -14,6 +18,7 @@
 const route = useRoute();
 const router = useRouter();
 const breadcrumbs: Ref<Array<{ name: string; path: string }>> = ref([]);
+const preferences = usePreferences();
 const next = () => useRouter().go(-1);
 const previous = () => useRouter().go(1);
 

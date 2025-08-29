@@ -155,7 +155,28 @@ const options = ref<{ label: string; options: Option[] }[]>([
           home: 'Home',
           newPage: 'New Page',
         },
-        onChange: val => console.log('Sidebar items changed', val),
+      },
+    ],
+  },
+  {
+    label: 'Nabvar',
+    options: [
+      {
+        label: 'Show items in navbar',
+        type: 'groupCheckbox',
+        key: 'navbarItems',
+        value: {
+          breadcrumb: true,
+          search: true,
+          theme: true,
+          navigation: true,
+        },
+        items: {
+          breadcrumb: 'Breadcrumb',
+          search: 'Search',
+          theme: 'Theme',
+          navigation: 'Navigation',
+        },
       },
     ],
   },
