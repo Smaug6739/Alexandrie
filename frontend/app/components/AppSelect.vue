@@ -179,13 +179,13 @@ button,
    :deep permet d'appliquer les règles même si l'élément est rendu hors-DOM parent */
 .dropdown {
   max-height: 300px;
+  margin: 0;
   padding: 2px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: var(--bg-color);
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
-  overflow-y: auto;
-  margin: 0;
   list-style: none;
+  overflow-y: auto;
 }
 </style>

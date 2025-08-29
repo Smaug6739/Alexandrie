@@ -186,17 +186,17 @@ const options = ref<{ label: string; options: Option[] }[]>([
 }
 
 .section {
-  margin-bottom: 2rem;
   width: 100%;
+  margin-bottom: 2rem;
 }
 
 .form-group {
   display: flex;
+  width: 100%;
   align-items: flex-start;
   gap: 1rem;
   justify-content: space-between;
   margin-bottom: 1rem;
-  width: 100%;
 }
 
 h2 {
@@ -208,17 +208,20 @@ label {
   font-weight: 700;
   flex: 1;
 }
+
 .entry {
-  margin-left: auto;
   max-width: 400px;
+  margin-left: auto;
 }
+
 .group-checkbox {
   .checkbox-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem 3rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
+
 .reset {
   margin-top: 2rem;
 }

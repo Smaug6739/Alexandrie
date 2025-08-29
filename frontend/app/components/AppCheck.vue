@@ -24,27 +24,27 @@ function toggle() {
 <style scoped lang="scss">
 .app-checkbox {
   display: inline-flex;
+  width: fit-content;
+  font-family: Inter, sans-serif;
   align-items: center;
   cursor: pointer;
-  font-family: Inter, sans-serif;
-  user-select: none;
   gap: 0.25rem;
-  width: fit-content;
+  user-select: none;
 
   input {
     display: none; // on masque le vrai input
   }
 
   .checkmark {
+    display: flex;
     width: 20px;
     height: 20px;
-    border-radius: 6px;
     border: 2px solid var(--border-color, #ccc);
+    border-radius: 6px;
     background: var(--bg-color, #fff);
-    display: flex;
+    transition: all 0.2s ease;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
 
     svg {
       width: 16px;
@@ -53,8 +53,8 @@ function toggle() {
   }
 
   input:checked + .checkmark {
-    background: var(--primary, #4f46e5);
     border-color: var(--primary, #4f46e5);
+    background: var(--primary, #4f46e5);
   }
 
   .label {
