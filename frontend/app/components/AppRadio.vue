@@ -1,22 +1,22 @@
 <template>
   <div class="segmented">
-    <button v-for="item in items" :key="item.id" :class="{ active: item.id === selected }" @click="selectItem(item.id)">{{ item.name }}</button>
+    <button v-for="item in items" :key="item.id" :class="{ active: item.id === selected }" @click="selectItem(item.id)">{{ item.label }}</button>
   </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
-  items: Array<{ id: number; name: string }>;
-  modelValue: number | null;
+  items: Array<{ id: number | string; label: string }>;
+  modelValue: number | string | null;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: number | null): void;
+  (e: 'update:modelValue', value: number | string | null): void;
 }>();
 
 const selected = ref(props.modelValue);
 
-const selectItem = (id: number) => {
+const selectItem = (id: number | string) => {
   selected.value = id;
   emit('update:modelValue', id);
 };

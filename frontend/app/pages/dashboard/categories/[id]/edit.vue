@@ -12,8 +12,8 @@
           <AppRadio
             v-model="category.role"
             :items="[
-              { id: 1, name: 'Category' },
-              { id: 2, name: 'Workspace' },
+              { id: 1, label: 'Category' },
+              { id: 2, label: 'Workspace' },
             ]"
           />
         </div>
