@@ -100,7 +100,7 @@ export const useDocumentsStore = defineStore('documents', {
     },
     async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
       console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
-      this.isFetching = true;
+      if (!this.documents.length) this.isFetching = true;
       const request = await makeRequest(`documents/@me/${opts?.id || ''}`, 'GET', {});
       this.isFetching = false;
       if (request.status == 'success') {
