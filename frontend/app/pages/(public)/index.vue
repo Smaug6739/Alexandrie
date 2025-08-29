@@ -37,11 +37,18 @@
       </div>
     </section>
 
+    <SelfHostSteps class="reveal" />
+
     <!-- Testimonials -->
     <section class="testimonials reveal">
       <h2>Loved by Students & Professionals</h2>
       <div class="testimonials-grid">
-        <TestimonialCard name="Alice" role="Student" text="Alexandrie made my study notes so much easier to manage!" avatar="https://i.pravatar.cc/150?img=32" />
+        <TestimonialCard
+          name="Alice"
+          role="Student"
+          text="Alexandrie made my study notes so much easier to manage!"
+          avatar="https://i.pravatar.cc/150?img=32"
+        />
         <TestimonialCard name="John" role="Creator" text="Very useful tool for organizing my thoughts." avatar="https://i.pravatar.cc/150?img=12" />
         <TestimonialCard name="Sara" role="Student" text="Clean, minimal, and packed with features I actually use." avatar="https://i.pravatar.cc/150?img=47" />
       </div>
@@ -49,7 +56,6 @@
 
     <OpenSourceStats class="reveal" />
     <ContributorsMarquee class="reveal" />
-    <SelfHostSteps class="reveal" />
     <OSSPrinciples class="reveal" />
     <GoodFirstIssues class="reveal" />
     <SponsorWall class="reveal" />
@@ -59,7 +65,11 @@
       <h2>Ready to Take Better Notes?</h2>
       <p>Join us on this journey to better note-taking.</p>
       <NuxtLink :prefetch="false" to="/dashboard" class="btn primary large" style="display: block; width: fit-content; margin: 10px auto 0">Start Now</NuxtLink>
-      <p style="margin-top: 30px">Want to contribute or discuss? Check out our <NuxtLink :prefetch="false" to="https://discord.gg/UPsEg6egPj" target="_blank" style="color: white; text-decoration: underline">Discord server</NuxtLink>!</p>
+      <p style="margin-top: 30px">
+        Want to contribute or discuss? Check out our
+        <NuxtLink :prefetch="false" to="https://discord.gg/UPsEg6egPj" target="_blank" style="color: white; text-decoration: underline">Discord server</NuxtLink
+        >!
+      </p>
     </section>
 
     <AppFooter />

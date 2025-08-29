@@ -83,10 +83,8 @@ onMounted(() => {
   max-width: 1100px;
   margin: 4rem auto;
   padding: 2rem;
-  border: 1px solid var(--border-color);
   border-radius: 16px;
   text-align: center;
-  background: var(--bg-contrast);
 }
 
 .subtitle {
