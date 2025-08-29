@@ -9,7 +9,7 @@
       <label for="description">Description</label>
       <textarea id="description" v-model="document.description"></textarea>
       <label for="accessibility">Accessibility</label>
-      <AppSelect v-model="document.accessibility" :items="accessibilities" placeholder="Access" />
+      <AppRadio v-model="document.accessibility" :items="accessibilities" placeholder="Access" />
       <div style="display: flex; align-items: center; gap: 10px">
         <label for="pinned">Pinned</label>
         <AppToggle id="pinned" v-model="pinnedToggle" />
