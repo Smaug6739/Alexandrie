@@ -1,55 +1,57 @@
 <template>
   <Teleport to="body">
-    <div v-if="isOpen" class="command-center-overlay" @click="closeSearch">
-      <div class="command-center-modal">
-        <!-- Header -->
-        <div class="search-header">
-          <div class="search-input-wrapper">
-            <Icon name="search" class="search-icon" fill="var(--font-color)" />
-            <input
-              ref="searchInput"
-              v-model="searchQuery"
-              type="text"
-              placeholder="Search for a page, action, or document..."
-              class="search-input"
-              @keydown="handleSearchKeydown"
-            /><tag yellow style="height: fit-content">Beta</tag>
+    <Transition name="modal" class="command-center-overlay">
+      <div v-if="isOpen" @click="closeSearch">
+        <div class="command-center-modal">
+          <!-- Header -->
+          <div class="search-header">
+            <div class="search-input-wrapper">
+              <Icon name="search" class="search-icon" fill="var(--font-color)" />
+              <input
+                ref="searchInput"
+                v-model="searchQuery"
+                type="text"
+                placeholder="Search for a page, action, or document..."
+                class="search-input"
+                @keydown="handleSearchKeydown"
+              /><tag yellow style="height: fit-content">Beta</tag>
+            </div>
+            <button class="close-btn" @click="closeSearch">
+              <Icon name="close" />
+            </button>
           </div>
-          <button class="close-btn" @click="closeSearch">
-            <Icon name="close" />
-          </button>
-        </div>
 
-        <!-- Tab Navigation -->
-        <TabNavigation :active-tab="activeTab" @change-tab="changeTab" />
+          <!-- Tab Navigation -->
+          <TabNavigation :active-tab="activeTab" @change-tab="changeTab" />
 
-        <!-- Tab Content -->
-        <div class="tab-content">
-          <QuickSearchTab
-            v-if="activeTab === 'quick'"
-            ref="quickSearchTab"
-            :search-query="searchQuery"
-            :selected-index="selectedIndex"
-            @select-item="handleQuickSelect"
-            @update-selected-index="updateSelectedIndex"
-          />
+          <!-- Tab Content -->
+          <div class="tab-content">
+            <QuickSearchTab
+              v-if="activeTab === 'quick'"
+              ref="quickSearchTab"
+              :search-query="searchQuery"
+              :selected-index="selectedIndex"
+              @select-item="handleQuickSelect"
+              @update-selected-index="updateSelectedIndex"
+            />
 
-          <AdvancedSearchTab
-            v-else-if="activeTab === 'advanced'"
-            ref="advancedSearchTab"
-            :query="searchQuery"
-            :selected-index="selectedIndex"
-            @select-document="handleDocumentSelect"
-            @update-selected-index="updateSelectedIndex"
-          />
-        </div>
+            <AdvancedSearchTab
+              v-else-if="activeTab === 'advanced'"
+              ref="advancedSearchTab"
+              :query="searchQuery"
+              :selected-index="selectedIndex"
+              @select-document="handleDocumentSelect"
+              @update-selected-index="updateSelectedIndex"
+            />
+          </div>
 
-        <!-- Footer -->
-        <div class="search-footer">
-          <div class="shortcuts"><kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close</div>
+          <!-- Footer -->
+          <div class="search-footer">
+            <div class="shortcuts"><kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close</div>
+          </div>
         </div>
       </div>
-    </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -198,12 +200,20 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   display: flex;
   background: rgb(0 0 0 / 50%);
   align-items: flex-start;
-  backdrop-filter: blur(2px);
   inset: 0;
   justify-content: center;
   padding-top: 8vh;
 }
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: scale(1.1);
+}
 .command-center-modal {
   position: relative;
   z-index: 1000;
@@ -215,7 +225,6 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   border-radius: 16px;
   background: var(--bg-color);
   box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
-  animation: slide-in 0.2s ease-out;
   flex-direction: column;
   overflow: auto;
 }
@@ -285,18 +294,6 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   font-weight: 500;
   flex-wrap: wrap;
   gap: 10px;
-}
-
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
 }
 
 @media (width <= 768px) {
