@@ -18,12 +18,14 @@
       </div>
       <p class="message">No content available</p>
       <small class="hint">Create a new document or category to get started</small>
-      <span class="action-link">Create New</span>
+      <NuxtLink class="action-link" to="/dashboard/docs/new">Create New</NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { NuxtLink } from '#components';
+
 defineProps<{ isLoading: boolean }>();
 </script>
 
