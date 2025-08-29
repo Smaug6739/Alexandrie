@@ -24,21 +24,22 @@ const selectItem = (id: number | string) => {
 
 <style scoped lang="scss">
 .segmented {
+  width: 100%;
   display: flex;
   gap: 0.5rem;
 
   button {
     flex: 1;
     padding: 0.6rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     background: #f8f8f8;
     border-radius: 0.5rem;
     cursor: pointer;
 
     &.active {
-      background: #2563eb;
+      background: var(--primary);
       color: white;
-      border-color: #2563eb;
+      border-color: var(--primary);
     }
   }
 }

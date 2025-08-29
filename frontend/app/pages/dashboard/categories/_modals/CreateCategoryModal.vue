@@ -15,7 +15,7 @@
       </div>
       <div style="flex: 1; margin-left: 10px">
         <label for="color">Color</label>
-        <AppColorPicker id="color" v-model:selected-color="category.color" class="entry" :nullable="true" />
+        <AppColorPicker id="color" v-model="category.color" class="entry" :nullable="true" />
       </div>
     </div>
     <div class="footer">

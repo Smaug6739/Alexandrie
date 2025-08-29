@@ -1,21 +1,24 @@
 <template>
   <div style="width: 100%; padding: 1rem 0">
     <div v-if="!error" style="display: flex; justify-content: space-between">
-      <div :style="{ maxWidth: usePreferences().get('docSize') == 0 ? '980px' : '810px' }" class="doc-container">
+      <div :style="{ maxWidth: preferencesStore.get('docSize').value == 0 ? '980px' : '810px' }" class="doc-container">
         <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />
 
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <article v-if="article" ref="element" :class="`${usePreferences().get('theme')}-theme`" style="max-width: 100%" v-html="article.content_html" />
+        <article v-if="article" ref="element" :class="`${preferencesStore.get('theme').value}-theme`" style="max-width: 100%" v-html="article.content_html" />
         <DocumentSkeleton v-else />
         <DocumentCardFooter :document="article" :next="next" :previous="previous" />
       </div>
 
-      <div v-if="!isTablet() && !preferencesStore.get('hideTOC')" class="toc">
+      <div v-if="!isTablet() && !preferencesStore.get('hideTOC').value" class="toc">
         <TableOfContent :doc="article" :element="element" style="width: 350px" />
       </div>
 
       <div
-        :style="{ marginRight: !isTablet() && preferencesStore.get('hideTOC') && useSidebar().isOpened.value ? '200px' : '0px', transition: 'margin 0.3s' }"
+        :style="{
+          marginRight: !isTablet() && preferencesStore.get('hideTOC').value && useSidebar().isOpened.value ? '200px' : '0px',
+          transition: 'margin 0.3s',
+        }"
       />
     </div>
     <Error v-else :error="error" />

@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-const color = usePreferences().get('primaryColor');
+const color = usePreferences().get('primaryColor').value;
 setAppColor(Number(color) || 'primary');
 useFavicon();
 </script>

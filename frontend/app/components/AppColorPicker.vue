@@ -4,8 +4,8 @@
       v-if="nullable"
       class="color-option"
       style="border: 1px solid var(--border-color); background-color: white"
-      :style="{ outline: selectedColor == -1 ? '2px solid var(--font-color-light)' : '' }"
-      :class="{ selected: selectedColor === -1 }"
+      :style="{ outline: modelValue == -1 ? '2px solid var(--font-color-light)' : '' }"
+      :class="{ selected: modelValue === -1 }"
       @click="selectColor(-1)"
     >
       <div class="hint-wrapper">
@@ -15,8 +15,8 @@
     <div
       class="color-option"
       style="background-color: var(--default)"
-      :style="{ outline: selectedColor == -2 ? '2px solid var(--default)' : '' }"
-      :class="{ selected: selectedColor === -2 }"
+      :style="{ outline: modelValue == -2 ? '2px solid var(--default)' : '' }"
+      :class="{ selected: modelValue === -2 }"
       @click="selectColor(-2)"
     >
       <div class="hint-wrapper">
@@ -29,9 +29,9 @@
       class="color-option"
       :style="{
         backgroundColor: getAppColor(index) ? `var(--${getAppColor(index)})` : '#fff',
-        outline: selectedColor === index ? `2px solid var(--${getAppColor(index)})` : 'none',
+        outline: modelValue === index ? `2px solid var(--${getAppColor(index)})` : 'none',
       }"
-      :class="{ selected: selectedColor === index }"
+      :class="{ selected: modelValue === index }"
       @click="selectColor(index)"
     >
       <div class="hint-wrapper">
@@ -44,14 +44,14 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ selectedColor?: number; nullable?: boolean }>();
-const emit = defineEmits<{ (e: 'update:selectedColor', color: number): void }>();
+const props = defineProps<{ modelValue?: number; nullable?: boolean }>();
+const emit = defineEmits<{ (e: 'update:modelValue', color: number): void }>();
 
-const selectedColor = ref<number | undefined>(props.selectedColor ?? -1);
+const modelValue = ref<number | undefined>(props.modelValue ?? -1);
 
 function selectColor(color: number) {
-  selectedColor.value = color;
-  emit('update:selectedColor', color);
+  modelValue.value = color;
+  emit('update:modelValue', color);
 }
 </script>
 

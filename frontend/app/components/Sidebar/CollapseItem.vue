@@ -17,7 +17,7 @@
       <SidebarItem v-else :item="child" />
     </div>
   </div>
-  <SidebarItem v-else :item="item" />
+  <SidebarItem v-else-if="item.show.value" :item="item" />
 </template>
 <script setup lang="ts">
 const props = defineProps<{ item: Item; root?: boolean }>();

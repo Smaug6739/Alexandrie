@@ -1,67 +1,78 @@
+<!-- preferences.vue -->
 <template>
-  <div>
+  <div class="preferences">
     <h1>Preferences</h1>
-    <div v-for="(list, index) in options" :key="index">
-      <h2>{{ list.label }}</h2>
-      <div v-for="option in list.options" :key="option.label" class="form-group">
-        <label>{{ option.label }}</label>
 
+    <div v-for="(section, i) in options" :key="i" class="section">
+      <h2>{{ section.label }}</h2>
+
+      <div v-for="opt in section.options" :key="opt.key" class="form-group">
+        <label>{{ opt.label }}</label>
         <!-- Toggle -->
-        <AppToggle v-if="option.type === 'toggle'" :active="option.value" @toggle="toggleOption(option)" />
-
-        <!-- Native select -->
-        <AppSelect
-          v-else-if="option.type === 'select'"
-          v-model="option.value"
-          :items="option.choices"
-          size="40%"
-          @update:model-value="o => selectOption({ ...option, value: o })"
+        <AppToggle
+          v-if="opt.type === 'toggle'"
+          v-model="prefs[opt.key] as boolean"
+          class="entry"
+          @update:model-value="opt.onChange?.(prefs[opt.key] as boolean)"
         />
-        <AppColorPicker v-else-if="option.type === 'color'" :selected-color="option.value" @update:selected-color="option.onChange" />
+
+        <!-- Select -->
+        <AppSelect
+          v-else-if="opt.type === 'select'"
+          v-model="prefs[opt.key] as string | number"
+          :items="opt.choices!"
+          size="40%"
+          class="entry"
+          @update:model-value="opt.onChange?.(prefs[opt.key] as string | number)"
+        />
+
+        <!-- Radio -->
+        <AppRadio
+          v-else-if="opt.type === 'radio'"
+          v-model="prefs[opt.key] as string | number"
+          :items="opt.choices!"
+          class="entry"
+          @update:model-value="opt.onChange?.(prefs[opt.key] as string | number)"
+        />
+
+        <!-- Color -->
+        <AppColorPicker
+          v-else-if="opt.type === 'color'"
+          v-model="prefs[opt.key] as number"
+          class="entry"
+          @update:model-value="opt.onChange?.(prefs[opt.key] as number)"
+        />
+
+        <div v-else-if="opt.type === 'groupCheckbox'" class="group-checkbox">
+          <div class="checkbox-grid">
+            <label v-for="(label, key) in opt.items" :key="key">
+              <AppCheck
+                v-model="(prefs[opt.key] as Record<string, boolean>)[key] as boolean"
+                @change="opt.onChange?.(prefs[opt.key] as Record<string, boolean>)"
+                >{{ label }}</AppCheck
+              >
+            </label>
+          </div>
+        </div>
       </div>
     </div>
+
     <hr />
+
     <div class="reset">
       <p>
-        <span style="color: var(--primary); cursor: pointer" @click="preferencesStore.reset">Reset all preferences</span>
-        to default. This will reset all your preferences, including the theme and settings
+        <span style="color: var(--primary); cursor: pointer" @click="preferencesStore.reset"> Reset all preferences </span>
+        to default.
       </p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const colorMode = useColorMode();
 const preferencesStore = usePreferences();
-
-type OptionType = 'toggle' | 'select' | 'color';
-
-interface BaseOption {
-  label: string;
-  type: OptionType;
-  storageKey: PreferenceKey;
-}
-
-interface ToggleOption extends BaseOption {
-  type: 'toggle';
-  value: boolean;
-  onToggle?: () => void;
-}
-
-interface ColorOption extends BaseOption {
-  type: 'color';
-  value: number;
-  onChange?: (value: number) => void;
-}
-
-interface SelectOption extends BaseOption {
-  type: 'select';
-  value: number | string;
-  choices: ANode[];
-  onChange?: (value: number | string) => void;
-}
-
-type Option = ToggleOption | SelectOption | ColorOption;
+const prefs = preferencesStore.all;
+const colorMode = useColorMode();
+// --- Définition déclarative des options ---
 const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'General',
@@ -69,18 +80,20 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'Enable Dark Mode',
         type: 'toggle',
-        value: colorMode.value === 'dark',
-        storageKey: 'darkMode',
-        onToggle: () => (colorMode.value === 'light' ? (colorMode.preference = 'dark') : (colorMode.preference = 'light')),
+        value: Boolean(preferencesStore.get('darkMode')),
+        key: 'darkMode',
+        onChange: (option: boolean) => {
+          colorMode.preference = option ? 'dark' : 'light';
+        },
       },
       {
         label: 'Choose primary color',
         type: 'color',
+        key: 'primaryColor',
         value: Number(preferencesStore.get('primaryColor')),
-        storageKey: 'primaryColor',
-        onChange: (value: number) => {
-          setAppColor(value);
-          preferencesStore.set('primaryColor', value);
+        onChange: (option: number) => {
+          console.log('Primary color changed to:', option);
+          setAppColor(option);
         },
       },
     ],
@@ -88,23 +101,13 @@ const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'Documents',
     options: [
-      {
-        label: 'Enable Print Mode',
-        type: 'toggle',
-        value: Boolean(preferencesStore.get('printMode')),
-        storageKey: 'printMode',
-      },
-      {
-        label: 'Hide Table of Content',
-        type: 'toggle',
-        value: Boolean(preferencesStore.get('hideTOC')),
-        storageKey: 'hideTOC',
-      },
+      { label: 'Enable Print Mode', type: 'toggle', key: 'printMode', value: Boolean(preferencesStore.get('printMode')) },
+      { label: 'Hide Table of Content', type: 'toggle', key: 'hideTOC', value: Boolean(preferencesStore.get('hideTOC')) },
       {
         label: 'Document size',
-        type: 'select',
-        value: preferencesStore.get('docSize') as number,
-        storageKey: 'docSize',
+        type: 'radio',
+        key: 'docSize',
+        value: Number(preferencesStore.get('docSize')),
         choices: [
           { label: 'Large', id: 0 },
           { label: 'Minimal', id: 1 },
@@ -113,8 +116,8 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'Theme',
         type: 'select',
-        value: preferencesStore.get('theme') as string,
-        storageKey: 'theme',
+        key: 'theme',
+        value: String(preferencesStore.get('theme')),
         choices: [
           { label: 'Alexandrie', id: 'alexandrie' },
           { label: 'Latex style', id: 'latex' },
@@ -126,29 +129,33 @@ const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'Sidebar',
     options: [
+      { label: 'Enable Compact Mode', type: 'toggle', key: 'compactMode', value: Boolean(preferencesStore.get('compactMode')) },
+      { label: 'View dock', type: 'toggle', key: 'view_dock', value: Boolean(preferencesStore.get('view_dock')) },
+      { label: 'Normalize file icons', type: 'toggle', key: 'normalizeFileIcons', value: Boolean(preferencesStore.get('normalizeFileIcons')) },
+      { label: 'Hide ressources', type: 'toggle', key: 'hideSidebarRessources', value: Boolean(preferencesStore.get('hideSidebarRessources')) },
       {
-        label: 'Enable Compact Mode',
-        type: 'toggle',
-        value: Boolean(preferencesStore.get('compactMode')),
-        storageKey: 'compactMode',
-      },
-      {
-        label: 'View dock',
-        type: 'toggle',
-        value: Boolean(preferencesStore.get('view_dock')),
-        storageKey: 'view_dock',
-      },
-      {
-        label: 'Normalize file icons',
-        type: 'toggle',
-        value: Boolean(preferencesStore.get('normalizeFileIcons')),
-        storageKey: 'normalizeFileIcons',
-      },
-      {
-        label: 'Hide ressources',
-        type: 'toggle',
-        value: Boolean(preferencesStore.get('hideSidebarRessources')),
-        storageKey: 'hideSidebarRessources',
+        label: 'Show items in Sidebar',
+        type: 'groupCheckbox',
+        key: 'sidebarItems',
+        value: {
+          manageCategories: true,
+          cdn: true,
+          settings: true,
+          home: true,
+          importation: false,
+          documents: true,
+          newPage: false,
+        },
+        items: {
+          manageCategories: 'Manage Categories',
+          importation: 'Importation',
+          cdn: 'CDN',
+          documents: 'Documents',
+          settings: 'Settings',
+          home: 'Home',
+          newPage: 'New Page',
+        },
+        onChange: val => console.log('Sidebar items changed', val),
       },
     ],
   },
@@ -158,8 +165,8 @@ const options = ref<{ label: string; options: Option[] }[]>([
       {
         label: 'Default datatable items count',
         type: 'select',
-        value: preferencesStore.get('datatableItemsCount') as number,
-        storageKey: 'datatableItemsCount',
+        key: 'datatableItemsCount',
+        value: Number(preferencesStore.get('datatableItemsCount')),
         choices: [
           { label: '10', id: 10 },
           { label: '30', id: 30 },
@@ -171,37 +178,47 @@ const options = ref<{ label: string; options: Option[] }[]>([
     ],
   },
 ]);
-
-const toggleOption = (option: ToggleOption) => {
-  option.value = !option.value;
-  preferencesStore.set(option.storageKey, option.value);
-  option.onToggle?.();
-};
-
-const selectOption = (option: SelectOption) => {
-  preferencesStore.set(option.storageKey, option.value);
-  option.onChange?.(option.value);
-};
 </script>
 
 <style scoped lang="scss">
+.preferences {
+  margin: auto;
+}
+
+.section {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
 .form-group {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   justify-content: space-between;
   margin-bottom: 1rem;
+  width: 100%;
 }
 
 h2 {
   font-size: 1.2em;
+  margin-bottom: 1rem;
 }
 
 label {
   font-weight: 700;
   flex: 1;
 }
-
+.entry {
+  margin-left: auto;
+  max-width: 400px;
+}
+.group-checkbox {
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 3rem;
+  }
+}
 .reset {
   margin-top: 2rem;
 }

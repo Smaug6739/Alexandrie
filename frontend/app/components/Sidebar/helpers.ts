@@ -13,8 +13,24 @@ export interface Workspace {
   value: string | null;
   meta?: Partial<Category>;
 }
-
+const sidebarItemsPrefs = usePreferences().get('sidebarItems');
 export const navigationItems: Item<DefaultItem>[] = [
+  {
+    id: 'home',
+    parent_id: '',
+    label: 'Home',
+    route: '/dashboard/home',
+    icon: 'dashboard',
+    data: {
+      id: 'home',
+      type: 'navigation',
+      label: 'Home',
+      icon: 'dashboard',
+      route: '/dashboard/home',
+      childrens: [],
+    },
+    show: computed(() => sidebarItemsPrefs.value.home!),
+  },
   {
     id: 'manage-categories',
     parent_id: '',
@@ -29,7 +45,7 @@ export const navigationItems: Item<DefaultItem>[] = [
       route: '/dashboard/categories',
       childrens: [],
     },
-    show: ref(true),
+    show: computed(() => sidebarItemsPrefs.value.manageCategories!),
   },
   {
     id: 'cdn',
@@ -45,7 +61,7 @@ export const navigationItems: Item<DefaultItem>[] = [
       route: '/dashboard/cdn',
       childrens: [],
     },
-    show: ref(true),
+    show: computed(() => sidebarItemsPrefs.value.cdn!),
   },
   {
     id: 'settings',
@@ -61,6 +77,54 @@ export const navigationItems: Item<DefaultItem>[] = [
       route: '/dashboard/settings',
       childrens: [],
     },
-    show: ref(true),
+    show: computed(() => sidebarItemsPrefs.value.settings!),
+  },
+  {
+    id: 'documents',
+    parent_id: '',
+    label: 'Documents',
+    route: '/dashboard/documents',
+    icon: 'files',
+    data: {
+      id: 'documents',
+      type: 'navigation',
+      label: 'Documents',
+      icon: 'files',
+      route: '/dashboard/documents',
+      childrens: [],
+    },
+    show: computed(() => sidebarItemsPrefs.value.documents!),
+  },
+  {
+    id: 'importations',
+    parent_id: '',
+    label: 'Importations',
+    route: '/dashboard/import',
+    icon: 'import',
+    data: {
+      id: 'import',
+      type: 'navigation',
+      label: 'Import',
+      icon: 'import',
+      route: '/dashboard/import',
+      childrens: [],
+    },
+    show: computed(() => sidebarItemsPrefs.value.importation!),
+  },
+  {
+    id: 'new-page',
+    parent_id: '',
+    label: 'New Page',
+    route: '/dashboard/new-page',
+    icon: 'add_file',
+    data: {
+      id: 'new-page',
+      type: 'navigation',
+      label: 'New Page',
+      icon: 'add_file',
+      route: '/dashboard/new-page',
+      childrens: [],
+    },
+    show: computed(() => sidebarItemsPrefs.value.newPage!),
   },
 ];

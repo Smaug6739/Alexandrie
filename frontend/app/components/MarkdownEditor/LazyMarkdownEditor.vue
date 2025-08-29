@@ -13,7 +13,7 @@
           <div
             v-if="showPreview"
             ref="markdownPreview"
-            :class="['markdown-preview', `${usePreferences().get('theme')}-theme`]"
+            :class="['markdown-preview', `${usePreferences().get('theme').value}-theme`]"
             style="position: relative"
             v-html="document.content_html"
           />

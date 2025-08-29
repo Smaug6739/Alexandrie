@@ -42,7 +42,7 @@ export function useSidebarTree() {
       : [],
   );
   const ressources = computed<Item<Ressource>[]>(() => {
-    if (!preferencesStore.get('hideSidebarRessources') && isReady.value)
+    if (!preferencesStore.get('hideSidebarRessources').value && isReady.value)
       return ressourcesStore.getAll
         .filter(res => res.parent_id)
         .map(res => ({
@@ -62,7 +62,7 @@ export function useSidebarTree() {
 
   // Tree with normalized icons
   const tree = computed(() => {
-    if (!preferencesStore.get('normalizeFileIcons')) {
+    if (!preferencesStore.get('normalizeFileIcons').value) {
       for (const i of structure.value.childrenMap.keys()) {
         const ref = structure.value.itemMap.get(i);
         const subs = structure.value.childrenMap.get(i);

@@ -1,8 +1,8 @@
 <template>
   <div :class="{ 'sidebar-mask': isMobile() && isOpened }" />
   <Resizable>
-    <Dock v-if="!isMobile() && preferences.get('view_dock')" />
-    <div class="sidebar" :class="{ compact: preferences.get('compactMode') }">
+    <Dock v-if="!isMobile() && preferences.get('view_dock').value" />
+    <div class="sidebar" :class="{ compact: preferences.get('compactMode').value }">
       <section class="header">
         <span class="name">
           <IconApp />
@@ -59,7 +59,7 @@ const workspaces = computed(() => [...categoriesStore.getAll.filter(c => c.role 
 const isLoading = computed(() => categoriesStore.isFetching || useDocumentsStore().isFetching || useRessourcesStore().isFetching);
 
 const sidebarTree = useSidebarTree();
-const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock'));
+const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock').value);
 const filterItems = (items: Item[]): Item[] => {
   if (!filter.value.trim()) return items;
   return filterRecursive(items, filter);

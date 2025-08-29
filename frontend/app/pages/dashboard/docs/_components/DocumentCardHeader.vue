@@ -1,5 +1,5 @@
 <template>
-  <div class="header" :class="{ 'print-style': preferences.get('printMode') }">
+  <div class="header" :class="{ 'print-style': preferences.get('printMode').value }">
     <div class="text">
       <!-- Skeleton when doc is undefined -->
       <DocumentCardHeaderSkeleton v-if="!doc" />

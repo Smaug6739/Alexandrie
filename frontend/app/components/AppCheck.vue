@@ -12,12 +12,12 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  modelValue?: number;
+  modelValue?: boolean;
 }>();
 const emit = defineEmits(['update:modelValue']);
 
 function toggle() {
-  emit('update:modelValue', props.modelValue ? 0 : 1);
+  emit('update:modelValue', !props.modelValue);
 }
 </script>
 
@@ -28,7 +28,8 @@ function toggle() {
   cursor: pointer;
   font-family: Inter, sans-serif;
   user-select: none;
-  gap: 8px;
+  gap: 0.25rem;
+  width: fit-content;
 
   input {
     display: none; // on masque le vrai input
