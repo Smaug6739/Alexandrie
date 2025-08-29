@@ -1,6 +1,6 @@
 {
   "name": "alexandrie",
-  "version": "7.5.0-alpha.2",
+  "version": "7.6.0-preview.4",
   "devDependencies": {},
   "scripts": {
     "build": "nuxt build",
