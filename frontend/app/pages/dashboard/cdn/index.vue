@@ -14,18 +14,24 @@
       <AppButton type="primary" @click="copyLink">Copy link</AppButton>
     </div>
     <div v-if="ressourcesStore.ressources.length" class="ressources-list">
-      <DataTable :headers="headers" :rows="rows">
+      <DataTable v-if="view === 'table'" :headers="headers" :rows="rows">
         <template #action="{ cell }">
-          <a
-            :href="`${CDN}/${(cell?.data as DB_Ressource).author_id}/${(cell?.data as DB_Ressource).transformed_path || (cell?.data as DB_Ressource).original_path}`"
-            target="_blank"
-            style="margin-right: 10px"
-            ><Icon name="view" />
-          </a>
+          <NuxtLink :href="`/dashboard/cdn/${(cell?.data as DB_Ressource).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
           <NuxtLink :to="`/dashboard/cdn/${(cell?.data as DB_Ressource).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
           <Icon name="delete" @click="() => deleteRessource((cell?.data as DB_Ressource).id)" />
         </template>
       </DataTable>
+      <div v-else>
+        <div class="images-grid">
+          <div v-for="image in ressourcesStore.ressources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
+            <img :src="CDN + `/${useUserStore().user?.id}/` + image.transformed_path" :alt="image.filename" class="image-preview" />
+            <div class="image-info">
+              <span class="image-name">{{ image.filename }}</span>
+              <span class="image-size">{{ readableFileSize(image.filesize) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <NoContent v-else title="No ressource found"></NoContent>
   </div>
@@ -35,6 +41,7 @@ import type { Field } from '~/components/DataTable.vue';
 import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
 import type { DB_Ressource } from '~/stores';
 definePageMeta({ breadcrumb: 'Upload' });
+const router = useRouter();
 const ressourcesStore = useRessourcesStore();
 const view = ref<'table' | 'list'>('list');
 const selectedFile: Ref<File | undefined> = ref();
@@ -109,6 +116,55 @@ const deleteRessource = async (id: string) => {
   width: 100%;
 }
 
+.images-grid {
+  display: grid;
+  padding: 16px 0;
+  flex: 1;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.image-item {
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--primary);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+    transform: translateY(-2px);
+  }
+
+  .image-preview {
+    width: 100%;
+    height: 150px;
+    border-radius: 6px;
+    background: var(--bg-color-secondary);
+    object-fit: cover;
+  }
+
+  .image-info {
+    padding: 12px;
+    background: var(--bg-color-secondary);
+
+    .image-name {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--font-color-dark);
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .image-size {
+      display: block;
+      font-size: 12px;
+      color: var(--font-color-light);
+    }
+  }
+}
 @keyframes spin {
   0% {
     transform: rotate(0deg);
