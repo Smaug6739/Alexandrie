@@ -3,7 +3,7 @@
     <div
       v-if="nullable"
       class="color-option"
-      style=" border: 1px solid var(--border-color);background-color: white"
+      style="border: 1px solid var(--border-color); background-color: white"
       :style="{ outline: selectedColor == -1 ? '2px solid var(--font-color-light)' : '' }"
       :class="{ selected: selectedColor === -1 }"
       @click="selectColor(-1)"
@@ -14,7 +14,7 @@
     </div>
     <div
       class="color-option"
-      style=" border: 1px solid var(--default-border);background-color: var(--default)"
+      style="background-color: var(--default)"
       :style="{ outline: selectedColor == -2 ? '2px solid var(--default)' : '' }"
       :class="{ selected: selectedColor === -2 }"
       @click="selectColor(-2)"
@@ -27,7 +27,10 @@
       v-for="(_, index) in appColors"
       :key="index"
       class="color-option"
-      :style="{ backgroundColor: getAppColor(index) ? `var(--${getAppColor(index)})` : '#fff', border: '1px solid var(--border-color)', outline: selectedColor === index ? `2px solid var(--${getAppColor(index)})` : 'none' }"
+      :style="{
+        backgroundColor: getAppColor(index) ? `var(--${getAppColor(index)})` : '#fff',
+        outline: selectedColor === index ? `2px solid var(--${getAppColor(index)})` : 'none',
+      }"
       :class="{ selected: selectedColor === index }"
       @click="selectColor(index)"
     >
@@ -62,9 +65,9 @@ function selectColor(color: number) {
 }
 
 .color-option {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
