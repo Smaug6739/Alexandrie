@@ -6,9 +6,16 @@ services:
       dockerfile: Dockerfile.dev
     container_name: alexandrie-frontend
     restart: unless-stopped
-    user: '${UID}:${GID}'
     volumes:
       - ./frontend:/app # montage du code local
+      - nuxt_build:/app/.nuxt
       - /app/node_modules
     ports:
       - '8200:8200'
+    environment:
+      CHOKIDAR_USEPOLLING: true
+      WATCHPACK_POLLING: true
+      CHOKIDAR_INTERVAL: 100
+volumes:
+  nuxt_build:
+  deps:
