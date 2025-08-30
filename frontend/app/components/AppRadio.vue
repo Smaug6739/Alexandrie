@@ -32,7 +32,7 @@ const selectItem = (id: number | string) => {
     padding: 0.6rem;
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
-    background: #f8f8f8;
+    background: var(--bg-contrast);
     cursor: pointer;
     flex: 1;
 

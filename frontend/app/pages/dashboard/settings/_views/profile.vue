@@ -1,31 +1,32 @@
 <template>
   <div>
-    <h1>My Profile</h1>
+    <h2 class="ctitle">My Profile</h2>
+    <p class="csubtitle">Manage your profile settings and preferences.</p>
     <form v-if="userStore.user" @submit.prevent="updateUser">
       <div class="form-group">
         <label for="username">Username</label>
-        <input id="username" v-model="userStore.user.username" type="text" disabled required >
+        <input id="username" v-model="userStore.user.username" type="text" disabled required />
       </div>
       <div class="form-group">
         <label for="firstname">First Name</label>
-        <input id="firstname" v-model="userStore.user.firstname" type="text" >
+        <input id="firstname" v-model="userStore.user.firstname" type="text" />
       </div>
       <div class="form-group">
         <label for="lastname">Last Name</label>
-        <input id="lastname" v-model="userStore.user.lastname" type="text" >
+        <input id="lastname" v-model="userStore.user.lastname" type="text" />
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input id="email" v-model="userStore.user.email" type="email" required >
+        <input id="email" v-model="userStore.user.email" type="email" required />
       </div>
       <div class="form-group">
         <label>Avatar</label>
-        <img :src="avatarPreview || useAvatar(userStore.user)" class="avatar" @click="selectAvatar" >
-        <input ref="avatarInput" type="file" accept="image/*" style="display: none" @change="previewAvatar" >
+        <img :src="avatarPreview || useAvatar(userStore.user)" class="avatar" @click="selectAvatar" />
+        <input ref="avatarInput" type="file" accept="image/*" style="display: none" @change="previewAvatar" />
       </div>
       <AppButton type="primary">Update profile</AppButton>
     </form>
-    <hr style="margin: 10px 0" >
+    <hr style="margin: 10px 0" />
     <p><strong>Account creation:</strong> {{ formatDate(parseInt(userStore.user?.created_timestamp || '0')) }}</p>
     <p><strong>Last update:</strong> {{ formatDate(parseInt(userStore.user?.updated_timestamp || '0')) }}</p>
   </div>

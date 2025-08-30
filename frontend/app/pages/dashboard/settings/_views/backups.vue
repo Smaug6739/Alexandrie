@@ -1,9 +1,8 @@
 <template>
   <div>
-    <h1>Backups</h1>
+    <h2 class="ctitle">Backups</h2>
     <div class="main">
-      <h2>Create a database backup</h2>
-      <p>Click the button below to create a backup of your database.</p>
+      <p>Click the button below to create a backup of your data.</p>
       <AppButton type="primary" @click="submitFile">Create Backup</AppButton>
       <div v-if="isLoading" class="loading-spinner" />
       <div v-if="downloadLink" class="link-section">
@@ -11,7 +10,9 @@
         <input v-model="downloadLink" type="text" readonly placeholder="Backup Link" />
         <div style="display: flex">
           <AppButton type="secondary" @click="copyLink">Copy Link</AppButton>
-          <a :href="downloadLink + '?response-content-disposition=attachment%3B%20filename%3D%22' + fileName()" download><AppButton type="primary">Download Backup</AppButton></a>
+          <a :href="downloadLink + '?response-content-disposition=attachment%3B%20filename%3D%22' + fileName()" download
+            ><AppButton type="primary">Download Backup</AppButton></a
+          >
         </div>
       </div>
     </div>

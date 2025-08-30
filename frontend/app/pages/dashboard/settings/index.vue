@@ -4,7 +4,7 @@
       <nav>
         <span>Account settings</span>
         <div v-if="store.user" class="user">
-          <img :src="useAvatar(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" >
+          <img :src="useAvatar(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
           <div>
             <div class="username">{{ store.user.username }}</div>
             <div class="email">{{ store.user.email }}</div>
@@ -18,7 +18,9 @@
         <span>Workspaces</span>
         <NuxtLink to="/dashboard/categories"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
         <NuxtLink to="/dashboard/docs"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
-        <NuxtLink to="/dashboard/import" style="display: flex; align-items: center"><Icon fill="var(--font-color)" name="import" />Manage importations <tag yellow>Beta</tag></NuxtLink>
+        <NuxtLink to="/dashboard/import" style="display: flex; align-items: center"
+          ><Icon fill="var(--font-color)" name="import" />Manage importations <tag yellow>Beta</tag></NuxtLink
+        >
         <span>Utils <tag blue>New</tag></span>
         <NuxtLink to="?p=shortcuts"><Icon fill="var(--font-color)" name="shortcuts" />Shortcuts</NuxtLink>
         <NuxtLink to="?p=snippets"><Icon fill="var(--font-color)" name="snippets" />Snippets</NuxtLink>
@@ -30,7 +32,7 @@
       </nav>
       <div class="content">
         <button class="close-btn" @click="close"><Icon name="close" :big="true" /></button>
-        <ProfileView v-if="currentPage === 'profile'"/>
+        <ProfileView v-if="currentPage === 'profile'" />
         <PreferencesView v-else-if="currentPage === 'preferences'" />
         <SecurityView v-else-if="currentPage === 'security'" />
         <BackupView v-else-if="currentPage == 'backup'" />
@@ -123,7 +125,7 @@ const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/
 .content {
   position: relative;
   margin: 0.5rem;
-  padding: 2rem;
+  padding: 1rem 2rem;
   flex: 1;
   overflow-y: auto;
 }

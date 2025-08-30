@@ -1,10 +1,10 @@
-<!-- preferences.vue -->
 <template>
   <div class="preferences">
-    <h1>Preferences</h1>
+    <h2 class="ctitle">Preferences</h2>
+    <p class="csubtitle">Manage your preferences and settings.</p>
 
     <div v-for="(section, i) in options" :key="i" class="section">
-      <h2>{{ section.label }}</h2>
+      <h3>{{ section.label }}</h3>
 
       <div v-for="opt in section.options" :key="opt.key" class="form-group">
         <label>{{ opt.label }}</label>
@@ -220,14 +220,13 @@ const options = ref<{ label: string; options: Option[] }[]>([
   margin-bottom: 1rem;
 }
 
-h2 {
-  font-size: 1.2em;
-  margin-bottom: 1rem;
-}
-
 label {
-  font-weight: 700;
+  font-weight: 500;
   flex: 1;
+}
+h3 {
+  font-weight: 600;
+  margin: 2.5rem 0 0.5rem 0;
 }
 
 .entry {

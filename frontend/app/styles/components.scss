@@ -59,3 +59,16 @@ tag {
 	justify-content: space-around;
 	flex-wrap: wrap;
 }
+
+
+.ctitle {
+	font-size: 1.7rem;
+	font-weight: bold;
+}
+
+.csubtitle {
+	color: var(--font-color-sub);
+	font-size: medium !important;
+	padding: 0;
+	margin: 0 0 1rem 0 !important;
+}
