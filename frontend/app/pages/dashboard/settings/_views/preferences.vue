@@ -214,7 +214,6 @@ const options = ref<{ label: string; options: Option[] }[]>([
 .form-group {
   display: flex;
   width: 100%;
-  align-items: flex-start;
   gap: 1rem;
   justify-content: space-between;
   margin-bottom: 1rem;
