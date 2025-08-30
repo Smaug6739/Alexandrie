@@ -158,7 +158,7 @@ onBeforeUnmount(() => {
 
 .app-select-trigger {
   display: flex;
-  padding: 1px;
+  padding: 2px;
   align-items: center;
   justify-content: space-between;
 }
@@ -174,7 +174,7 @@ button,
 }
 
 .search-input {
-  padding: 6px 10px;
+  padding: 7px 10px;
   border: none;
   cursor: text;
 }
