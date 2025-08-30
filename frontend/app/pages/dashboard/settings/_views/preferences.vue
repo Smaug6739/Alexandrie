@@ -103,6 +103,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
     options: [
       { label: 'Enable Print Mode', type: 'toggle', key: 'printMode', value: Boolean(preferencesStore.get('printMode')) },
       { label: 'Hide Table of Content', type: 'toggle', key: 'hideTOC', value: Boolean(preferencesStore.get('hideTOC')) },
+      { label: 'Enable Document Auto-save', type: 'toggle', key: 'documentAutoSave', value: Boolean(preferencesStore.get('documentAutoSave')) },
       {
         label: 'Document size',
         type: 'radio',
