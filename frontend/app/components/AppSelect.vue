@@ -66,9 +66,12 @@ const filteredItems = computed(() => {
 
 function updatePosition() {
   const el = searchInput.value ?? trigger.value;
-  if (!el) return;
+  if (!el || !portalList.value) return;
+
   const rect = el.getBoundingClientRect();
-  const dropdownHeight = 300; // max-height de ton dropdown
+  const dropdownEl = portalList.value;
+
+  const dropdownHeight = Math.min(dropdownEl.scrollHeight, 300); // choose between real height if < 300 or 300 (max height)
 
   const spaceBelow = window.innerHeight - rect.bottom;
   const spaceAbove = rect.top;
@@ -83,6 +86,7 @@ function updatePosition() {
     zIndex: '1000',
   };
 }
+
 function toggleDropdown() {
   open.value = !open.value;
   if (open.value) {
