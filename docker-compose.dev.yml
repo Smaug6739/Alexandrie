@@ -6,6 +6,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: alexandrie-frontend
     restart: unless-stopped
+    user: '${UID}:${GID}'
     volumes:
       - ./frontend:/app # montage du code local
       - /app/node_modules
