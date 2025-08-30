@@ -1,64 +1,27 @@
 <template>
-  <div class="snippets-page">
-    <h2 class="title">Snippets</h2>
-    <p class="subtitle">Manage the snippets available in the editor.</p>
-
-    <!-- Actions -->
+  <div>
+    <h2 class="ctitle">Snippets</h2>
+    <!-- Actions row -->
     <div class="actions">
-      <button @click="addSnippet" class="btn primary">+ Add snippet</button>
-      <button @click="restoreDefaults" class="btn danger">Restore defaults</button>
+      <AppButton type="primary" @click="addSnippet"> ＋ Add snippet </AppButton>
+      <AppButton type="secondary" @click="restoreDefaults"> ↺ Restore defaults </AppButton>
     </div>
-
     <!-- Snippets list -->
-    <table class="snippets-table">
-      <thead>
-        <tr>
-          <th>Key</th>
-          <th>Content</th>
-          <th class="actions-col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(snippet, index) in snippets" :key="snippet.key">
-          <td>
-            <input v-model="snippet.key" class="input key-input" placeholder="!shortcut" />
-          </td>
-          <td>
-            <textarea v-model="snippet.value" class="input content-input" placeholder="Snippet content..." />
-          </td>
-          <td class="actions-col">
-            <button @click="removeSnippet(index)" class="btn small danger">Delete</button>
-          </td>
-        </tr>
-        <tr v-if="snippets.length === 0">
-          <td colspan="3" class="empty">No snippets yet</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="snippets-list">
+      <div v-for="(snippet, index) in snippets" :key="index" class="snippet-row">
+        <input v-model="snippet.id" class="snippet-key" placeholder="!shortcut" />
+        <textarea v-model="snippet.label" class="snippet-value" placeholder="Snippet content..." />
+        <button class="delete-btn" title="Delete snippet" @click="removeSnippet(index)">✕</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-
-type Snippet = { key: string; value: string };
-
-const defaultSnippets: Snippet[] = [
-  { key: '!blue', value: ':::blue\n$0\n:::' },
-  { key: '!green', value: ':::green\n$0\n:::' },
-  { key: '!yellow', value: ':::yellow\n$0\n:::' },
-  { key: '!grey', value: ':::grey\n$0\n:::' },
-  { key: '!details', value: ':::details\n$0\n:::' },
-  { key: '!center', value: ':::center\n$0\n:::' },
-  { key: '!m', value: '$$0$' },
-  { key: '!property', value: ':::property $0\n\n:::' },
-  { key: '!warning', value: ':::warning $0\n\n:::' },
-];
-
-const snippets = ref<Snippet[]>([...defaultSnippets]);
+const snippets = usePreferences().get('snippets');
 
 function addSnippet() {
-  snippets.value.push({ key: '!new', value: 'New snippet content' });
+  snippets.value = [{ id: '', label: '' }, ...snippets.value];
 }
 
 function removeSnippet(index: number) {
@@ -66,97 +29,75 @@ function removeSnippet(index: number) {
 }
 
 function restoreDefaults() {
-  if (confirm('Are you sure you want to restore default snippets?')) {
-    snippets.value = [...defaultSnippets];
-  }
+  snippets.value = DEFAULT_PREFERENCES.snippets;
 }
 </script>
 
 <style scoped lang="scss">
-.snippets-page {
-  padding: 1.5rem;
-  max-width: 800px;
-  margin: auto;
-}
-
 .actions {
   display: flex;
-  gap: 1rem;
+  justify-content: flex-end;
+  align-items: center;
   margin-bottom: 1rem;
+  gap: 0.5rem;
 }
 
-.snippets-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #ddd;
-
-  th,
-  td {
-    padding: 0.75rem;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-  }
-
-  th {
-    background: #f8f8f8;
-    font-weight: 600;
-  }
-
-  .empty {
-    text-align: center;
-    color: #888;
-  }
+/* ---------- Snippets ---------- */
+.snippets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
-.input {
-  width: 100%;
-  padding: 0.4rem 0.6rem;
-  border: 1px solid #ccc;
+.snippet-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 32px;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.snippet-key,
+.snippet-value {
+  border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  color: var(--font-color);
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-family: $monospace-font;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color $transition-duration;
+  height: 50px;
 }
 
-.key-input {
-  font-weight: bold;
-  font-family: monospace;
+.snippet-key {
+  padding: 0.35rem 0.5rem;
+  font-weight: 600;
 }
 
-.content-input {
-  font-family: monospace;
-  min-height: 60px;
+.snippet-value {
+  padding: 0.4rem 0.6rem;
+  min-height: 44px;
   resize: vertical;
 }
 
-.actions-col {
-  text-align: right;
-  width: 120px;
+.snippet-key:focus,
+.snippet-value:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue-border);
 }
 
-.btn {
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  cursor: pointer;
+/* ---------- Delete button ---------- */
+.delete-btn {
   border: none;
-  transition: background 0.2s;
-
-  &.primary {
-    background: #2563eb;
-    color: white;
-  }
-
-  &.danger {
-    background: #ef4444;
-    color: white;
-  }
-
-  &.small {
-    padding: 0.3rem 0.6rem;
-    font-size: 0.75rem;
-  }
+  background: transparent;
+  color: var(--red);
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.2rem;
 
   &:hover {
-    opacity: 0.9;
+    background: var(--red-bg-light);
   }
 }
 </style>

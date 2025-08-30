@@ -184,17 +184,7 @@ function handleGridSelect(gridMarkdown: string) {
 
   view.focus();
 }
-const snippets: Record<string, string> = {
-  '!blue': ':::blue\n$0\n:::',
-  '!green': ':::green\n$0\n:::',
-  '!yellow': ':::yellow\n$0\n:::',
-  '!grey': ':::grey\n$0\n:::',
-  '!details': ':::details\n$0\n:::',
-  '!center': ':::center\n$0\n:::',
-  '!m': '$$0$',
-  '!property': ':::property $0\n\n:::',
-  '!warning': ':::warning $0\n\n:::',
-};
+const snippets = usePreferences().get('snippets');
 const snippetListener = EditorView.updateListener.of(update => {
   if (!update.docChanged || !editorView.value) return;
 
@@ -212,20 +202,20 @@ const snippetListener = EditorView.updateListener.of(update => {
   });
   if (!hasInsertion) return;
 
-  // Vérifie si on vient d’insérer un mot-clé
+  // Check if snippet work
   const cursorPos = state.selection.main.head;
   const line = state.doc.lineAt(cursorPos);
   const textBefore = line.text.slice(0, cursorPos - line.from);
 
-  const match = Object.keys(snippets).find(key => textBefore.endsWith(key));
+  const match = snippets.value.find(snippet => snippet.id && textBefore.endsWith(snippet.id as string));
   if (!match) return;
 
-  const start = cursorPos - match.length;
-  const snippet = snippets[match];
+  const start = cursorPos - (match.id as string).length;
+  const snippet = match.label;
 
-  // remplace $0 par un curseur
-  const [before, after] = snippet!.split('$0');
-  const newText = (before || '') + after;
+  // replace $0 with a cursor
+  const [before, after] = snippet.split('$0');
+  const newText = (before || '') + (after || '');
 
   const view = editorView.value;
   view.dispatch({

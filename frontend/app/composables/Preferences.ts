@@ -25,6 +25,17 @@ export const DEFAULT_PREFERENCES = {
     theme: true as boolean,
     navigation: true as boolean,
   },
+  snippets: [
+    { id: '!blue', label: ':::blue\n$0\n:::' },
+    { id: '!green', label: ':::green\n$0\n:::' },
+    { id: '!yellow', label: ':::yellow\n$0\n:::' },
+    { id: '!grey', label: ':::grey\n$0\n:::' },
+    { id: '!details', label: ':::details\n$0\n:::' },
+    { id: '!center', label: ':::center\n$0\n:::' },
+    { id: '!m', label: '$$0$' },
+    { id: '!property', label: ':::property $0\n\n:::' },
+    { id: '!warning', label: ':::warning $0\n\n:::' },
+  ] as ANode[],
 };
 
 // Crée un type mapping automatique : chaque clé => type exact
@@ -88,7 +99,7 @@ export function usePreferences() {
   };
 }
 
-type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox';
+type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode';
 interface BaseOption<T = unknown> {
   label: string;
   type: OptionType;
@@ -126,5 +137,11 @@ interface GroupCheckboxOption extends BaseOption<Record<string, boolean>> {
   onChange?: (value: Record<string, boolean>) => void;
 }
 
-export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption;
-export type { ColorOption, SelectOption, RadioOption, ToggleOption, GroupCheckboxOption };
+interface AnodeOption extends BaseOption<ANode[]> {
+  type: 'anode';
+  value: ANode[];
+  onChange?: (value: ANode[]) => void;
+}
+
+export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption | AnodeOption;
+export type { ColorOption, SelectOption, RadioOption, ToggleOption, GroupCheckboxOption, AnodeOption };
