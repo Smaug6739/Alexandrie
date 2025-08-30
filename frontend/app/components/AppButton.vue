@@ -14,7 +14,7 @@ const onClick = () => emit('click');
 button {
   width: fit-content;
   margin: 3px 3px 0 0;
-  padding: 10px;
+  padding: 8px 10px;
   border-radius: 6px;
   font-size: 0.9rem;
 
@@ -36,7 +36,6 @@ button {
 .secondary {
   border: 1px solid var(--primary);
   color: var(--font-color);
-
   &:hover {
     background: var(--selection-color);
   }
