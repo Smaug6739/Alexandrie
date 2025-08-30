@@ -4,8 +4,7 @@
     <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" /> <br />
 
     <div class="command-center-hint">
-      <Icon name="search" class="hint-icon" />
-      <span>Press <kbd>Ctrl+K</kbd> for quick global search</span>
+      <ProTips />
     </div>
 
     <div class="search-container">
