@@ -44,7 +44,7 @@ const resourcesStore = useRessourcesStore();
 const preferencesStore = usePreferences();
 
 const props = defineProps<{ doc?: Partial<Document>; minimal?: boolean }>();
-const emit = defineEmits(['save', 'exit']);
+const emit = defineEmits(['save', 'exit', 'autoSave']);
 
 const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
@@ -389,7 +389,7 @@ const autoSave = debounceDelayed(() => {
   const content = editorView.value?.state.doc.toString() || '';
   document.value.content_markdown = content;
   document.value.content_html = compile(content);
-  emit('save', document.value);
+  emit('autoSave', document.value);
 }, 2000)
 </script>
 
