@@ -77,10 +77,10 @@ export function debounceDelayed<T extends (...args: unknown[]) => void>(fn: T, d
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
   return (...args: Parameters<T>) => {
-    // Annuler le timer précédent
+    // Cancel the previous timer
     if (timeout) clearTimeout(timeout);
     
-    // Lancer un nouveau timer
+    // Launch a new timer
     timeout = setTimeout(() => {
       fn(...args);
       timeout = null;
