@@ -56,7 +56,7 @@ watchEffect(async () => {
       error.value = (err as Error).message || 'Failed to fetch document';
     }
   } else article.value = docFromStore;
-  useHead({ title: `Alexandrie ${article.value?.name || ''}` });
+  useHead({ title: ` ${article.value?.name || ''}` });
 });
 
 definePageMeta({
