@@ -87,7 +87,7 @@
         <span>Insert link</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + l</span>
+        <span class="key">Ctrl + k</span>
         <span>Insert image</span>
       </div>
     </div>
