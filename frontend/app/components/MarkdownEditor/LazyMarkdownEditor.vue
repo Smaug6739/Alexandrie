@@ -4,9 +4,9 @@
     <div class="editor-container">
       <Toolbar v-model="document" :minimal="minimal" @execute-action="exec" />
       <div style="display: flex; min-height: 0; padding: 6px; flex: 1; flex-direction: column; gap: 8px">
-        <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" @input="autoSave" />
-        <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" @input="autoSave" />
-        <AppTagInput v-model="document.tags" style="margin-bottom: 10px" @update:model-value="autoSave" />
+        <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" @input="autoSaveConditional" />
+        <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" @input="autoSaveConditional" />
+        <AppTagInput v-model="document.tags" style="margin-bottom: 10px" @update:model-value="autoSaveConditional" />
         <div ref="container" class="markdown">
           <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
           <!-- eslint-disable-next-line vue/no-v-html -->
@@ -314,11 +314,7 @@ const updateListener = EditorView.updateListener.of(v => {
     const content = v.state.doc.toString();
     document.value.content_markdown = content;
     document.value.content_html = compile(content);
-    
-    if(preferencesStore.get('documentAutoSave').value){
-      // delayed autoSave
-      autoSave();
-    }
+    autoSaveConditional();
   }
 });
 const state = EditorState.create({
@@ -352,6 +348,10 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  if (preferencesStore.get('documentAutoSave').value) {
+    updateDocumentContent();
+    emit('autoSave', document.value);
+  }
   if (editorView.value) editorView.value.destroy();
   editorView.value?.scrollDOM.removeEventListener('scroll', syncScroll);
   window.removeEventListener('keydown', handleGlobalKeys);
@@ -376,6 +376,12 @@ function syncScroll() {
   if (!editorView.value?.scrollDOM || !markdownPreview.value) return;
   const scrollPercentage = editorView.value.scrollDOM.scrollTop / (editorView.value.scrollDOM.scrollHeight - editorView.value.scrollDOM.clientHeight);
   markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
+}
+
+function autoSaveConditional() {
+  if (preferencesStore.get('documentAutoSave').value) {
+    autoSave();
+  }
 }
 
 function updateDocumentContent() {
