@@ -378,17 +378,19 @@ function syncScroll() {
   markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
 }
 
-const save = debounce(() => {
+function updateDocumentContent() {
   const content = editorView.value?.state.doc.toString() || '';
   document.value.content_markdown = content;
   document.value.content_html = compile(content);
+}
+
+const save = debounce(() => {
+  updateDocumentContent();
   emit('save', document.value);
 }, 1000);
 
 const autoSave = debounceDelayed(() => {
-  const content = editorView.value?.state.doc.toString() || '';
-  document.value.content_markdown = content;
-  document.value.content_html = compile(content);
+  updateDocumentContent();
   emit('autoSave', document.value);
 }, 2000)
 </script>
