@@ -4,9 +4,9 @@
     <div class="editor-container">
       <Toolbar v-model="document" :minimal="minimal" @execute-action="exec" />
       <div style="display: flex; min-height: 0; padding: 6px; flex: 1; flex-direction: column; gap: 8px">
-        <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" />
-        <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" />
-        <AppTagInput v-model="document.tags" style="margin-bottom: 10px" />
+        <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" @input="autoSaveConditional" />
+        <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" @input="autoSaveConditional" />
+        <AppTagInput v-model="document.tags" style="margin-bottom: 10px" @update:model-value="autoSaveConditional" />
         <div ref="container" class="markdown">
           <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
           <!-- eslint-disable-next-line vue/no-v-html -->
@@ -41,9 +41,10 @@ import type { Document, Ressource } from '~/stores';
 import { useModal, Modal } from '~/composables/ModalBus';
 
 const resourcesStore = useRessourcesStore();
+const preferencesStore = usePreferences();
 
 const props = defineProps<{ doc?: Partial<Document>; minimal?: boolean }>();
-const emit = defineEmits(['save', 'exit']);
+const emit = defineEmits(['save', 'exit', 'autoSave']);
 
 const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
@@ -313,6 +314,7 @@ const updateListener = EditorView.updateListener.of(v => {
     const content = v.state.doc.toString();
     document.value.content_markdown = content;
     document.value.content_html = compile(content);
+    autoSaveConditional();
   }
 });
 const state = EditorState.create({
@@ -346,6 +348,10 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  if (preferencesStore.get('documentAutoSave').value) {
+    updateDocumentContent();
+    emit('autoSave', document.value);
+  }
   if (editorView.value) editorView.value.destroy();
   editorView.value?.scrollDOM.removeEventListener('scroll', syncScroll);
   window.removeEventListener('keydown', handleGlobalKeys);
@@ -372,12 +378,27 @@ function syncScroll() {
   markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
 }
 
-const save = debounce(() => {
+function autoSaveConditional() {
+  if (preferencesStore.get('documentAutoSave').value) {
+    autoSave();
+  }
+}
+
+function updateDocumentContent() {
   const content = editorView.value?.state.doc.toString() || '';
   document.value.content_markdown = content;
   document.value.content_html = compile(content);
+}
+
+const save = debounce(() => {
+  updateDocumentContent();
   emit('save', document.value);
 }, 1000);
+
+const autoSave = debounceDelayed(() => {
+  updateDocumentContent();
+  emit('autoSave', document.value);
+}, 2000)
 </script>
 
 <style scoped lang="scss">
