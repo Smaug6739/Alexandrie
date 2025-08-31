@@ -7,7 +7,6 @@
     <VoiceRecognition @transcription="handleTranscription" />
     <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" />
     <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
-    <AppHint text="Tags has been moved down" />
     <button class="help" @click="openModal">
       <Icon name="help" :big="true" fill="var(--font-color-light)" />
     </button>
