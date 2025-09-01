@@ -286,7 +286,7 @@ const markdownKeysmap: readonly KeyBinding[] = [
     },
   },
   {
-    key: 'Mod-k',
+    key: 'Mod-e',
     run: () => {
       exec('image');
       return true;
@@ -398,7 +398,7 @@ const save = debounce(() => {
 const autoSave = debounceDelayed(() => {
   updateDocumentContent();
   emit('autoSave', document.value);
-}, 2000)
+}, 2000);
 </script>
 
 <style scoped lang="scss">

@@ -5,104 +5,104 @@
     <h2>All pages</h2>
     <div class="shortcuts">
       <div class="shortcut">
-        <span class="key">Ctrl + q</span>
+        <kbd>Ctrl + q</kbd>
         <span>Open quick search</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + k</span>
-        <span>Navigate to a page</span>
+        <kbd>Ctrl + k</kbd>
+        <span>Open command center and navigate</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + U</span>
+        <kbd>Ctrl + U</kbd>
         <span>Open CDN uploader</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + Alt + N</span>
+        <kbd>Ctrl + Alt + N</kbd>
         <span>Create a new category</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + r</span>
+        <kbd>Ctrl + r</kbd>
         <span>Reload the page</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + s</span>
+        <kbd>Ctrl + s</kbd>
         <span>Save the current page</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + p</span>
+        <kbd>Ctrl + p</kbd>
         <span>Print the page</span>
       </div>
     </div>
     <h2>Document page</h2>
     <div class="shortcuts">
       <div class="shortcut">
-        <span class="key">e</span>
+        <kbd>e</kbd>
         <span>Edit the document</span>
       </div>
       <div class="shortcut">
-        <span class="key">n</span>
+        <kbd>n</kbd>
         <span>Go to next document</span>
       </div>
       <div class="shortcut">
-        <span class="key">p</span>
+        <kbd>p</kbd>
         <span>Go to previous document</span>
       </div>
     </div>
     <h2>Editor page</h2>
     <div class="shortcuts">
       <div class="shortcut">
-        <span class="key">Ctrl + s</span>
+        <kbd>Ctrl + s</kbd>
         <span>Save the document</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + p</span>
+        <kbd>Ctrl + p</kbd>
         <span>Toggle preview</span>
       </div>
       <div class="shortcut">
-        <span class="key">Esc</span>
+        <kbd>Esc</kbd>
         <span>Exit the page</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + z</span>
+        <kbd>Ctrl + z</kbd>
         <span>Undo the last action</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + y</span>
+        <kbd>Ctrl + y</kbd>
         <span>Redo the last action</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + b</span>
+        <kbd>Ctrl + b</kbd>
         <span>Bold text</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + i</span>
+        <kbd>Ctrl + i</kbd>
         <span>Italic text</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + u</span>
+        <kbd>Ctrl + u</kbd>
         <span>Underline text</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + l</span>
+        <kbd>Ctrl + l</kbd>
         <span>Insert link</span>
       </div>
       <div class="shortcut">
-        <span class="key">Ctrl + k</span>
+        <kbd>Ctrl + e</kbd>
         <span>Insert image</span>
       </div>
     </div>
     <h2>Search page</h2>
     <div class="shortcuts">
       <div class="shortcut">
-        <span class="key">Tab</span>
+        <kbd>Tab</kbd>
         <span>Next search result</span>
       </div>
       <div class="shortcut">
-        <span class="key">Shift + Tab</span>
+        <kbd>Shift + Tab</kbd>
         <span>Previous search result</span>
       </div>
       <div class="shortcut">
-        <span class="key">Enter</span>
+        <kbd>Enter</kbd>
         <span>Open the selected search result</span>
       </div>
     </div>
@@ -123,15 +123,5 @@
   text-align: left;
   align-items: center;
   gap: 1rem;
-}
-
-.key {
-  padding: 3px;
-  border: 1px solid var(--blue-border);
-  border-radius: 5px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  color: var(--blue);
-  background-color: var(--blue-bg);
 }
 </style>
