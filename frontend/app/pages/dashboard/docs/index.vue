@@ -17,8 +17,20 @@
 </template>
 
 <script setup lang="ts">
+import type { Document } from '~/stores';
+
 const view: Ref<'table' | 'list'> = ref('list');
-const documents = computed(() => useDocumentsStore().getAll);
+const documents = computed(() => {
+  const result: Document[] = [];
+  const getDocs = (items: Item[]) => {
+    for (const item of items) {
+      if (item.data.type == 'document') result.push(item.data);
+      if (item.childrens) getDocs(item.childrens);
+    }
+  };
+  getDocs(useSidebarTree().filtered.value);
+  return result;
+});
 </script>
 
 <style scoped lang="scss">
