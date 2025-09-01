@@ -68,6 +68,37 @@ definePageMeta({
 
 const next = computed(() => documentsStore.getNext(article.value));
 const previous = computed(() => documentsStore.getPrevious(article.value));
+
+onMounted(() => {
+  // Keyboard shortcuts management for navigating between corresponding pages
+  const handleDocumentKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'e') {
+      e.preventDefault();
+      // Go to the edit page of the current document
+      if (article.value?.id) {
+        useRouter().push(`/dashboard/docs/edit/${article.value.id}`);
+      }
+    } else if (e.key === 'n') {
+      e.preventDefault();
+      // Go to the next document page
+      if (next.value?.id) {
+        useRouter().push(`/dashboard/docs/${next.value.id}`);
+      }
+    } else if (e.key === 'p') {
+      e.preventDefault();
+      // Go to the previous document page
+      if (previous.value?.id) {
+        useRouter().push(`/dashboard/docs/${previous.value.id}`);
+      }
+    }
+  };
+
+  document.addEventListener('keydown', handleDocumentKeydown);
+
+  onUnmounted(() => {
+    document.removeEventListener('keydown', handleDocumentKeydown);
+  })
+})
 </script>
 
 <style scoped lang="scss">
