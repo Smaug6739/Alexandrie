@@ -11,7 +11,7 @@
       </div>
 
       <div v-if="!isTablet() && !preferencesStore.get('hideTOC').value" class="toc">
-        <TableOfContent :doc="article" :element="element" style="width: 350px" />
+        <TableOfContent :doc="article" :element="element" style="width: 320px; margin-left: 20px" />
       </div>
 
       <div
@@ -97,8 +97,8 @@ onMounted(() => {
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleDocumentKeydown);
-  })
-})
+  });
+});
 </script>
 
 <style scoped lang="scss">
