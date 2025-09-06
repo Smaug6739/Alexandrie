@@ -21,7 +21,7 @@ func NewDocumentService(db *sql.DB) DocumentService {
 
 func (s *Service) GetAllDocuments(userId types.Snowflake) ([]*models.Document, error) {
 	var documents = make([]*models.Document, 0)
-	rows, err := s.db.Query("SELECT id, name, description, tags, pinned, thumbnail, theme, icon, color, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ? ORDER BY pinned DESC, name", userId)
+	rows, err := s.db.Query("SELECT id, name, description, tags, pinned, theme, icon, color, category, parent_id, accessibility, author_id, created_timestamp, updated_timestamp FROM documents WHERE author_id = ? ORDER BY pinned DESC, name", userId)
 	if err != nil {
 		return nil, err
 	}
@@ -35,7 +35,6 @@ func (s *Service) GetAllDocuments(userId types.Snowflake) ([]*models.Document, e
 			&document.Description,
 			&document.Tags,
 			&document.Pinned,
-			&document.Thumbnail,
 			&document.Theme,
 			&document.Icon,
 			&document.Color,
