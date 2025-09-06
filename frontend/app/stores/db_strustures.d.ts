@@ -4,6 +4,10 @@ export interface DB_Document {
   description?: string;
   tags?: string;
   pinned: number; // 0: Not pinned; 1: Pinned; 2: Favorite;
+  thumbnail?: string;
+  theme?: string;
+  icon?: string;
+  color?: number; // -1: Default; 0: None; 1-7: App colors
   category?: string;
   parent_id?: string | null;
   accessibility: number; // 1 Visible; 2 Draft; 3 Archived;
