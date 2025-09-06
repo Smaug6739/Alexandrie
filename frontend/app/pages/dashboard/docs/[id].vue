@@ -5,7 +5,13 @@
         <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />
 
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <article v-if="article" ref="element" :class="`${preferencesStore.get('theme').value}-theme`" style="max-width: 100%" v-html="article.content_html" />
+        <article
+          v-if="article"
+          ref="element"
+          :class="`${article.theme || preferencesStore.get('theme').value}-theme`"
+          style="max-width: 100%"
+          v-html="article.content_html"
+        />
         <DocumentSkeleton v-else />
         <DocumentCardFooter :document="article" :next="next" :previous="previous" />
       </div>

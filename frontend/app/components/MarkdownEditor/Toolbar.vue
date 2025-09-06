@@ -5,7 +5,7 @@
       <Icon :name="item.icon" :big="true" fill="var(--font-color)" />
     </button>
     <VoiceRecognition @transcription="handleTranscription" />
-    <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="accessibilities" placeholder="Access" size="100px" class="entry" />
+    <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Access" size="100px" class="entry" />
     <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
     <button class="help" @click="openModal">
       <Icon name="help" :big="true" fill="var(--font-color-light)" />
@@ -40,12 +40,6 @@ const emitAction = (action: string) => emit('execute-action', action);
 const openModal = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'large' }));
 
 const categories = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
-
-const accessibilities: ANode[] = [
-  { id: 1, label: 'Visible', parent_id: '' },
-  { id: 2, label: 'Draft', parent_id: '' },
-  { id: 3, label: 'Archive', parent_id: '' },
-];
 
 const toolbar = [
   {

@@ -109,21 +109,14 @@ const options = ref<{ label: string; options: Option[] }[]>([
         type: 'radio',
         key: 'docSize',
         value: Number(preferencesStore.get('docSize')),
-        choices: [
-          { label: 'Large', id: 0 },
-          { label: 'Minimal', id: 1 },
-        ],
+        choices: DOCUMENT_SIZES,
       },
       {
         label: 'Theme',
         type: 'select',
         key: 'theme',
         value: String(preferencesStore.get('theme')),
-        choices: [
-          { label: 'Alexandrie', id: 'alexandrie' },
-          { label: 'Latex style', id: 'latex' },
-          { label: 'Latex colored', id: 'latex-colored' },
-        ],
+        choices: DOCUMENT_THEMES,
       },
     ],
   },

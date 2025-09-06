@@ -17,7 +17,7 @@
       </template>
     </div>
     <div class="icon">
-      <DocumentHeaderIllustration />
+      <DocumentHeaderIllustration :document="doc" />
     </div>
   </div>
 </template>
@@ -81,51 +81,6 @@ p {
   flex-wrap: wrap;
   margin-bottom: 10px;
   padding-top: 5px;
-}
-
-/* --- Skeleton Loader --- */
-.skeleton {
-  margin: 8px 0;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #ddd 25%, #eee 37%, #ddd 63%);
-  background-size: 400% 100%;
-  animation: shimmer 1.4s ease infinite;
-}
-
-.skeleton-category {
-  width: 40%;
-  height: 20px;
-}
-
-.skeleton-title {
-  width: 70%;
-  height: 28px;
-}
-
-.skeleton-desc {
-  width: 90%;
-  height: 16px;
-}
-
-.skeleton-tag {
-  display: inline-block;
-  width: 80px;
-  height: 20px;
-  margin-right: 6px;
-}
-
-.skeleton-tag.short {
-  width: 50px;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -400px 0;
-  }
-
-  100% {
-    background-position: 400px 0;
-  }
 }
 
 @media print, screen and (width >= 1024px) {
