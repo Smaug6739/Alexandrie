@@ -31,7 +31,8 @@ const categoriesStore = useCategoriesStore();
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
 const customClass = computed(() => {
-  if ('color' in props.item.data && props.item.data.color != -1) return `item-icon ${getAppColor(props.item.data.color as number)}`;
+  if ('color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
+    return `item-icon ${getAppColor(props.item.data.color as number)}`;
   return '';
 });
 const icon = computed(() => {
