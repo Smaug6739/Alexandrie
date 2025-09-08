@@ -13,6 +13,7 @@ interface SearchOptions {
 export const useDocumentsStore = defineStore('documents', {
   state: () => ({
     documents: [] as Document[],
+    public_documents: [] as Document[],
     allTags: [] as string[],
     isFetching: false,
   }),
@@ -116,6 +117,17 @@ export const useDocumentsStore = defineStore('documents', {
           return this.documents as 'id' extends keyof T ? Document : Document[];
         }
       } else throw request;
+    },
+    async fetchPublic(id: string): Promise<Document | undefined> {
+      console.log(`[store/documents] Fetching public document with id: ${id}`);
+      const existingDoc = this.public_documents.find(d => d.id === id);
+      if (existingDoc) return existingDoc;
+      const request = await makeRequest(`documents/public/${id}`, 'GET', {});
+      if (request.status === 'success') {
+        const fetchedDoc: Document = { ...(request.result as DB_Document), partial: false, type: 'document' };
+        this.public_documents.push(fetchedDoc);
+        return fetchedDoc;
+      } else return undefined;
     },
     async post(doc: Document): Promise<DB_Document> {
       const request = await makeRequest('documents', 'POST', doc);

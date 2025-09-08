@@ -5,11 +5,11 @@
       <DocumentCardHeaderSkeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
-        <p class="category">
+        <p v-if="!public" class="category">
           <NuxtLink :to="`/dashboard/categories/${category?.id}`">{{ category?.name }}</NuxtLink>
           <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
         </p>
-        <h1 class="title">{{ doc?.name }}</h1>
+        <h1 class="title" :class="{ public: public }">{{ doc?.name }}</h1>
         <p class="description">{{ doc?.description }}</p>
         <div v-if="doc.tags" class="document-tags">
           <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
@@ -30,7 +30,7 @@ import type { Document } from '~/stores';
 
 const categories_store = useCategoriesStore();
 const preferences = usePreferences();
-const props = defineProps<{ doc?: Document }>();
+const props = defineProps<{ doc?: Document; public?: boolean }>();
 const category = computed(() => categories_store.getById(props.doc?.category || ''));
 </script>
 
@@ -58,6 +58,9 @@ p {
   .category,
   .title {
     font-family: Inter;
+  }
+  .public {
+    margin-top: 30px;
   }
 
   .title {

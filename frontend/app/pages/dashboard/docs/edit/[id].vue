@@ -1,5 +1,5 @@
 <template>
-  <MarkdownEditor v-if="document" ref="editor" :doc="document" @save="data => save(data)" @autoSave="data => autoSave(data)" @exit="exit" />
+  <MarkdownEditor v-if="document" ref="editor" :doc="document" @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import type { Document } from '~/stores';
@@ -34,7 +34,7 @@ function save(doc: Document) {
 }
 
 function autoSave(doc: Document) {
-  store.update(doc)
+  store.update(doc);
 }
 
 function exit() {
