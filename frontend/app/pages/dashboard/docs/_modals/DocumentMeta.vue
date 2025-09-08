@@ -18,8 +18,6 @@
         <AppToggle id="pinned" v-model="pinnedToggle" />
       </div>
 
-      <label for="category">Category</label>
-      <AppSelect v-model="document.category" :items="categories" placeholder="Select category" />
       <label for="parent">Parent Document</label>
       <AppSelect
         v-model="document.parent_id as string"
@@ -45,7 +43,6 @@ const props = defineProps<{ doc: Document }>();
 const document = ref<Document>(props.doc);
 const pinnedToggle = ref(!!document.value.pinned);
 
-const categories = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
 const documentsTree = computed(() => useSidebarTree().groupedByWorkspace());
 
 watch(pinnedToggle, val => (document.value.pinned = val ? 1 : 0));
@@ -61,7 +58,7 @@ watch(
   flex-direction: column;
 }
 form {
-  margin-bottom: 15px;
+  padding: 0px 5px 25px 5px;
   flex: 1;
   overflow-y: auto;
 }
