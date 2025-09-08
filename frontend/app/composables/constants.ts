@@ -7,7 +7,7 @@ export const DOCUMENT_THEMES = [
 export const DOCUMENT_ACCESSIBILITIES: ANode[] = [
   { id: 1, label: 'Visible' },
   { id: 2, label: 'Draft' },
-  { id: 3, label: 'Archive' },
+  { id: 3, label: 'Published' },
 ];
 
 export const DOCUMENT_SIZES = [
