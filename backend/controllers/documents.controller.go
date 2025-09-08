@@ -11,6 +11,7 @@ import (
 )
 
 type DocumentController interface {
+	GetPublicDocument(c *gin.Context) (int, any)
 	GetDocuments(c *gin.Context) (int, any)
 	GetDocument(c *gin.Context) (int, any)
 	CreateDocument(c *gin.Context) (int, any)
@@ -22,6 +23,27 @@ func NewDocumentController(app *app.App) DocumentController {
 	return &Controller{
 		app: app,
 	}
+}
+
+// Get public document by id
+// @Summary Get public document by id
+// @Method GET
+// @Router /documents/public/{id} [get]
+// @Security Authenfification: None
+// @Param id path string true "Document ID"
+// @Success 200 {object} Success(models.Document)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
+func (ctr *Controller) GetPublicDocument(c *gin.Context) (int, any) {
+	documentId, err := utils.GetIdParam(c, c.Param("id"))
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+	document, err := ctr.app.Services.Document.GetPublicDocument(documentId)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return http.StatusOK, document
 }
 
 // Get documents

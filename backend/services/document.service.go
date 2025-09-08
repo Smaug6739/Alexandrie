@@ -9,6 +9,7 @@ import (
 type DocumentService interface {
 	GetAllDocuments(userId types.Snowflake) ([]*models.Document, error)
 	GetAllDocumentBackup(author_id types.Snowflake) ([]*models.Document, error)
+	GetPublicDocument(documentId types.Snowflake) (*models.Document, error)
 	GetDocument(documentId types.Snowflake) (*models.Document, error)
 	CreateDocument(document *models.Document) error
 	UpdateDocument(document *models.Document) error
@@ -82,6 +83,32 @@ func (s *Service) GetAllDocumentBackup(author_id types.Snowflake) ([]*models.Doc
 		documents = append(documents, &document)
 	}
 	return documents, nil
+}
+
+func (s *Service) GetPublicDocument(documentId types.Snowflake) (*models.Document, error) {
+	var document models.Document
+	err := s.db.QueryRow("SELECT id, name, description, tags, pinned, thumbnail, theme, icon, color, category, parent_id, accessibility, content_markdown, content_html, author_id, created_timestamp, updated_timestamp FROM documents WHERE id = ? AND accessibility = 3", documentId).Scan(
+		&document.Id,
+		&document.Name,
+		&document.Description,
+		&document.Tags,
+		&document.Pinned,
+		&document.Thumbnail,
+		&document.Theme,
+		&document.Icon,
+		&document.Color,
+		&document.Category,
+		&document.ParentId,
+		&document.Accessibility,
+		&document.ContentMarkdown,
+		&document.ContentHtml,
+		&document.AuthorId,
+		&document.CreatedTimestamp,
+		&document.UpdatedTimestamp)
+	if err != nil {
+		return nil, err
+	}
+	return &document, nil
 }
 
 func (s *Service) GetDocument(documentId types.Snowflake) (*models.Document, error) {
