@@ -29,7 +29,9 @@
 import type { Category } from '~/stores';
 
 const categoriesStore = useCategoriesStore();
-const categoriesItem = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
+const categoriesItem = computed(() =>
+  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
+);
 const props = defineProps<{ role: number }>();
 
 const category = ref<Partial<Category>>({

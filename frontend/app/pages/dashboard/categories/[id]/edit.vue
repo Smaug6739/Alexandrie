@@ -50,7 +50,9 @@ import DeleteModal from '../_modals/DeleteCategoryModal.vue';
 const categoriesStore = useCategoriesStore();
 const route = useRoute();
 const category = computed(() => categoriesStore.getById(route.params.id as string));
-const categoriesItem = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
+const categoriesItem = computed(() =>
+  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
+);
 
 definePageMeta({ breadcrumb: 'Edit' });
 

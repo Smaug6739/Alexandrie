@@ -39,7 +39,9 @@ const emitAction = (action: string) => emit('execute-action', action);
 
 const openModal = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'large' }));
 
-const categories = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
+const categories = computed(() =>
+  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
+);
 
 const toolbar = [
   {
