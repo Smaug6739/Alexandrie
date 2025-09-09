@@ -35,7 +35,7 @@ export function useSidebarTree() {
             parent_id: doc.parent_id || doc.category || '',
             label: doc.name,
             route: `/dashboard/docs/${doc.id}`,
-            icon: doc.accessibility == 1 ? 'file' : doc.accessibility == 2 ? 'draft' : 'archive',
+            icon: doc.accessibility == 1 ? 'file' : doc.accessibility == 2 ? 'draft' : 'shared_doc',
             data: doc,
             show: ref(getCollapseState(doc.id)),
           }))

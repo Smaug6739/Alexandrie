@@ -12,7 +12,13 @@
       <div class="doc-container">
         <DocumentCardHeader :doc="article" :public="true" style="margin: 20px 0" />
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <article v-if="article" ref="element" :class="`${article.theme}-theme`" style="max-width: 100%" v-html="article.content_html" />
+        <article
+          v-if="article"
+          ref="element"
+          :class="`${article.theme || preferencesStore.get('theme').value}-theme`"
+          style="max-width: 100%"
+          v-html="article.content_html"
+        />
         <DocumentSkeleton v-else />
       </div>
 

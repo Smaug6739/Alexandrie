@@ -5,12 +5,13 @@ export const DOCUMENT_THEMES = [
 ];
 
 export const DOCUMENT_ACCESSIBILITIES: ANode[] = [
-  { id: 1, label: 'Visible' },
+  { id: 1, label: 'Private (default)' },
   { id: 2, label: 'Draft' },
   { id: 3, label: 'Published' },
 ];
 
 export const DOCUMENT_SIZES = [
-  { label: 'Large', id: 0 },
-  { label: 'Minimal', id: 1 },
+  { label: 'Small', id: 0 },
+  { label: 'Medium', id: 1 },
+  { label: 'Large', id: 2 },
 ];

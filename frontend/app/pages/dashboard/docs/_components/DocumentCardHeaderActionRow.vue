@@ -1,5 +1,8 @@
 <template>
   <span class="header">
+    <NuxtLink v-if="doc.accessibility == 3" :to="`/doc/${doc.id}`" :prefetch="false" target="_blank">
+      <Icon name="link" :big="true" fill="var(--font-color)" />
+    </NuxtLink>
     <NuxtLink :to="`/dashboard/docs/edit/${doc.id}`" :prefetch="false">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
         <path

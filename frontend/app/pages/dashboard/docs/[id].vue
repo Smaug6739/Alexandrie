@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; padding: 1rem 0">
     <div v-if="!error" style="display: flex; justify-content: space-between">
-      <div :style="{ maxWidth: preferencesStore.get('docSize').value == 0 ? '980px' : '810px' }" class="doc-container">
+      <div :style="{ maxWidth: width }" class="doc-container">
         <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />
 
         <!-- eslint-disable-next-line vue/no-v-html -->
@@ -74,6 +74,11 @@ definePageMeta({
 
 const next = computed(() => documentsStore.getNext(article.value));
 const previous = computed(() => documentsStore.getPrevious(article.value));
+const width = computed(() => {
+  if (preferencesStore.get('docSize').value == 2) return '980px';
+  if (preferencesStore.get('docSize').value == 1) return '800px';
+  return '700px';
+});
 
 onMounted(() => {
   // Keyboard shortcuts management for navigating between corresponding pages
