@@ -32,7 +32,7 @@
       <AppSelect
         v-model="document.parent_id as string"
         :items="documentsTree"
-        :disabled="(i:Item) => i.data?.type !== 'document'"
+        :disabled="(i) => (i as Item).data?.type !== 'document'"
         placeholder="Select a document parent"
         :nullable="true"
       />
