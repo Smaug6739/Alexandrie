@@ -36,6 +36,7 @@ button {
 .secondary {
   border: 1px solid var(--primary);
   color: var(--font-color);
+
   &:hover {
     background: var(--selection-color);
   }

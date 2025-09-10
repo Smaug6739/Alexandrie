@@ -67,11 +67,13 @@ watch(
   display: flex;
   flex-direction: column;
 }
+
 form {
-  padding: 0px 5px 25px 5px;
+  padding: 0 5px 25px;
   flex: 1;
   overflow-y: auto;
 }
+
 label {
   display: flex;
   align-items: center;
@@ -81,26 +83,28 @@ textarea {
   height: 50px;
   min-height: 50px;
   max-height: 50px;
-  resize: none;
   font-size: 14px;
+  resize: none;
 }
 
 .public-info {
-  border-radius: 7px;
   padding: 0 5px;
+  border-radius: 7px;
   margin-bottom: 10px;
 }
+
 .info-text {
+  margin: 5px 0;
   font-size: 14px;
   color: var(--font-color-light);
-  margin: 5px 0;
 }
+
 .public-link {
   display: flex;
+  color: var(--primary);
   align-items: flex-end;
   gap: 2px;
-  word-break: break-all;
-  color: var(--primary);
   text-decoration: underline;
+  word-break: break-all;
 }
 </style>

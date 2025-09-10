@@ -178,11 +178,12 @@ defineProps<{ document?: Document }>();
 
 <style scoped>
 .illustration {
+  display: block;
   width: 100%;
   height: 170px;
   padding: 10px 0;
-  display: block;
 }
+
 .illustration:deep(svg) {
   width: 100%;
   height: 100%;

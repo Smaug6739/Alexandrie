@@ -36,10 +36,10 @@ function restoreDefaults() {
 <style scoped lang="scss">
 .actions {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 1rem;
   gap: 0.5rem;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 }
 
 /* ---------- Snippets ---------- */
@@ -51,22 +51,22 @@ function restoreDefaults() {
 
 .snippet-row {
   display: grid;
-  grid-template-columns: 150px 1fr 32px;
-  gap: 0.5rem;
   align-items: flex-start;
+  gap: 0.5rem;
+  grid-template-columns: 150px 1fr 32px;
 }
 
 .snippet-key,
 .snippet-value {
+  height: 50px;
   border: 1px solid var(--border-color);
-  background: var(--bg-color);
-  color: var(--font-color);
   border-radius: 6px;
   font-family: $monospace-font;
   font-size: 0.85rem;
-  outline: none;
+  color: var(--font-color);
+  background: var(--bg-color);
   transition: border-color $transition-duration;
-  height: 50px;
+  outline: none;
 }
 
 .snippet-key {
@@ -75,8 +75,8 @@ function restoreDefaults() {
 }
 
 .snippet-value {
-  padding: 0.4rem 0.6rem;
   min-height: 44px;
+  padding: 0.4rem 0.6rem;
   resize: vertical;
 }
 
@@ -88,13 +88,13 @@ function restoreDefaults() {
 
 /* ---------- Delete button ---------- */
 .delete-btn {
-  border: none;
-  background: transparent;
-  color: var(--red);
-  font-size: 0.9rem;
-  border-radius: 4px;
-  cursor: pointer;
   padding: 0.2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--red);
+  background: transparent;
+  cursor: pointer;
 
   &:hover {
     background: var(--red-bg-light);

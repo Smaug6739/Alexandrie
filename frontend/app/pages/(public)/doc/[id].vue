@@ -60,31 +60,31 @@ watchEffect(async () => {
 /* Grille : [1fr] [contenu 800px centré] [1fr pour loger la TOC] */
 .reader {
   display: grid;
-  grid-template-columns: 1fr minmax(0, 800px) 1fr;
-  column-gap: 20px;
   align-items: start;
+  column-gap: 20px;
+  grid-template-columns: 1fr minmax(0, 800px) 1fr;
 }
 
 .doc-container {
-  grid-column: 2; /* colonne centrale */
   margin: 0; /* plus besoin d'auto */
+  grid-column: 2; /* colonne centrale */
 }
 
 @media screen and (width >= 810px) {
   .doc-container {
-    padding: 0 2rem;
     max-width: 800px; /* cohérent avec la colonne centrale */
+    padding: 0 2rem;
   }
 }
 
 /* La TOC vit dans la colonne de droite, sans décaler le centre */
 .toc {
-  grid-column: 3; /* colonne droite */
-  justify-self: start; /* colle à gauche de la colonne */
-  max-width: 320px;
-  width: 100%;
   position: sticky; /* optionnel : TOC sticky */
   top: 1rem;
+  width: 100%;
+  max-width: 320px;
+  grid-column: 3; /* colonne droite */
+  justify-self: start; /* colle à gauche de la colonne */
 }
 
 /* Cache la TOC quand la colonne droite devient trop étroite */

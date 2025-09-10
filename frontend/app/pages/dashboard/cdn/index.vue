@@ -165,6 +165,7 @@ const deleteRessource = async (id: string) => {
     }
   }
 }
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

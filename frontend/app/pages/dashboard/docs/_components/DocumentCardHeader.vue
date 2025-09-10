@@ -59,6 +59,7 @@ p {
   .title {
     font-family: Inter;
   }
+
   .public {
     margin-top: 30px;
   }

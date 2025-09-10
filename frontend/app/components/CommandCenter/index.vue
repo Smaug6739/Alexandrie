@@ -204,6 +204,7 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   justify-content: center;
   padding-top: 8vh;
 }
+
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -214,6 +215,7 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   opacity: 0;
   transform: scale(1.1);
 }
+
 .command-center-modal {
   position: relative;
   z-index: 1000;

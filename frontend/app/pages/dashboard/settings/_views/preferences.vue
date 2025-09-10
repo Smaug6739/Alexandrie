@@ -217,9 +217,10 @@ label {
   font-weight: 500;
   flex: 1;
 }
+
 h3 {
+  margin: 2.5rem 0 0.5rem;
   font-weight: 600;
-  margin: 2.5rem 0 0.5rem 0;
 }
 
 .entry {

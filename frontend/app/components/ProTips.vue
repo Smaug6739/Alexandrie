@@ -17,9 +17,9 @@ const tips = [
 <style scoped lang="scss">
 .pro-tip {
   display: flex;
-  align-items: center;
   padding: 8px 12px;
   border-radius: 8px;
+  align-items: center;
   gap: 6px;
 }
 </style>
