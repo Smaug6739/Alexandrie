@@ -24,7 +24,7 @@
       <div v-else>
         <div class="images-grid">
           <div v-for="image in ressourcesStore.ressources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
-            <img :src="CDN + `/${useUserStore().user?.id}/` + image.transformed_path" :alt="image.filename" class="image-preview" />
+            <img :src="fileURL(image)" :alt="image.filename" class="image-preview" />
             <div class="image-info">
               <span class="image-name">{{ image.filename }}</span>
               <span class="image-size">{{ readableFileSize(image.filesize) }}</span>
@@ -65,6 +65,10 @@ const submitFile = async () => {
     .finally(() => (isLoading.value = false));
 };
 
+const fileURL = (ressource: DB_Ressource) => {
+  if (ressource.filetype.includes('image/')) return `${CDN}/${ressource.author_id}/${ressource.transformed_path}`;
+  return '/file_placeholder.png';
+};
 const headers = [
   { label: 'Name', key: 'name' },
   { label: 'Size', key: 'size' },
