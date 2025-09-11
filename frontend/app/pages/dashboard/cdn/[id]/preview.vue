@@ -15,22 +15,32 @@
       <p>
         Size: <strong>{{ readableFileSize(ressource.filesize) }}</strong>
       </p>
+      <div class="preview">
+        <img
+          v-if="ressource?.filetype.startsWith('image/')"
+          :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`"
+          alt="Preview"
+        />
+        <iframe
+          v-else-if="ressource!.filetype.startsWith('application/pdf')"
+          :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`"
+          width="100%"
+          height="500px"
+          frameborder="0"
+          allowfullscreen
+        />
+        <p v-else>Preview not available for this file type.</p>
+      </div>
     </div>
-    <div class="preview">
-      <img v-if="ressource!.filetype.startsWith('image/')" :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`" alt="Preview" >
-      <iframe v-else-if="ressource!.filetype.startsWith('application/pdf')" :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`" width="100%" height="500px" frameborder="0" allowfullscreen/>
-      <p v-else>Preview not available for this file type.</p>
-    </div>
-    <div style="display: flex; justify-content: flex-end"/>
   </div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({ breadcrumb: 'Preview' });
-const ressource = useRessourcesStore().getById(useRoute().params.id as string);
+const ressource = computed(() => useRessourcesStore().getById(useRoute().params.id as string));
 
 const copyLink = () => {
-  const link = `${CDN}/${ressource?.author_id}/${ressource?.transformed_path || ressource?.original_path}`;
+  const link = `${CDN}/${ressource.value?.author_id}/${ressource.value?.transformed_path || ressource.value?.original_path}`;
   navigator.clipboard.writeText(link);
 };
 </script>
