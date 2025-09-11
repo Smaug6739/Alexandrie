@@ -66,7 +66,7 @@ p {
 
   .title {
     font-size: 26px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--font-color-dark);
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <span class="header">
+  <span class="row">
     <NuxtLink v-if="doc.accessibility == 3" :to="`/doc/${doc.id}`" :prefetch="false" target="_blank">
       <Icon name="link" :big="true" fill="var(--font-color)" />
     </NuxtLink>
@@ -57,7 +57,11 @@ function exportMarkdown() {
 </script>
 
 <style lang="scss" scoped>
-.header svg {
+.row {
+  display: flex;
+  margin: 0.5rem;
+}
+.row svg {
   cursor: pointer;
 }
 
@@ -65,7 +69,7 @@ a {
   margin: 0 5px;
 }
 
-.header svg path {
+.row svg path {
   fill: var(--font-color);
 }
 
