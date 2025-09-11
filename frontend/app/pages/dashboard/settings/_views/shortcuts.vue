@@ -37,7 +37,7 @@
     <div class="shortcuts">
       <div class="shortcut">
         <span>Edit the document</span>
-        <span><kbd>E</kbd></span>
+        <span><kbd>Ctrl</kbd> <kbd>E</kbd></span>
       </div>
       <div class="shortcut">
         <span>Go to next document</span>

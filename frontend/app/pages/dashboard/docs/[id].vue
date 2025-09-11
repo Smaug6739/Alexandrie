@@ -84,19 +84,19 @@ const width = computed(() => {
 onMounted(() => {
   // Keyboard shortcuts management for navigating between corresponding pages
   const handleDocumentKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'e') {
+    if (e.ctrlKey && e.key === 'e') {
       e.preventDefault();
       // Go to the edit page of the current document
       if (article.value?.id) {
         useRouter().push(`/dashboard/docs/edit/${article.value.id}`);
       }
-    } else if (e.key === 'n') {
+    } else if (e.ctrlKey && e.key === 'ArrowRight') {
       e.preventDefault();
       // Go to the next document page
       if (next.value?.id) {
         useRouter().push(`/dashboard/docs/${next.value.id}`);
       }
-    } else if (e.key === 'p') {
+    } else if (e.ctrlKey && e.key === 'ArrowLeft') {
       e.preventDefault();
       // Go to the previous document page
       if (previous.value?.id) {
