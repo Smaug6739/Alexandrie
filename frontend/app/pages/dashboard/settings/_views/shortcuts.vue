@@ -1,109 +1,109 @@
 <template>
   <div>
-    <h1>Shortcuts</h1>
-    <p>Here you can see the shortcuts for the different pages of the dashboard.</p>
-    <h2>All pages</h2>
+    <h2 class="ctitle">Shortcuts</h2>
+    <p class="csubtitle">Here you can see the shortcuts for the different pages of the dashboard.</p>
+    <p>General</p>
     <div class="shortcuts">
       <div class="shortcut">
-        <kbd>Ctrl + q</kbd>
         <span>Open quick search</span>
+        <span><kbd>Ctrl</kbd> <kbd>Q</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + k</kbd>
         <span>Open command center and navigate</span>
+        <span><kbd>Ctrl</kbd> <kbd>K</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + U</kbd>
         <span>Open CDN uploader</span>
+        <span><kbd>Ctrl</kbd> <kbd>U</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + Alt + N</kbd>
         <span>Create a new category</span>
+        <span><kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>N</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + r</kbd>
         <span>Reload the page</span>
+        <span><kbd>Ctrl</kbd> <kbd>R</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + s</kbd>
         <span>Save the current page</span>
+        <span><kbd>Ctrl</kbd> <kbd>S</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + p</kbd>
         <span>Print the page</span>
+        <span><kbd>Ctrl</kbd> <kbd>P</kbd></span>
       </div>
     </div>
-    <h2>Document page</h2>
+    <p>Document page</p>
     <div class="shortcuts">
       <div class="shortcut">
-        <kbd>e</kbd>
         <span>Edit the document</span>
+        <span><kbd>E</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>n</kbd>
         <span>Go to next document</span>
+        <span><kbd>Ctrl</kbd> <kbd>ArrowRight</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>p</kbd>
         <span>Go to previous document</span>
+        <span><kbd>Ctrl</kbd> <kbd>ArrowLeft</kbd></span>
       </div>
     </div>
-    <h2>Editor page</h2>
+    <p>Editor page</p>
     <div class="shortcuts">
       <div class="shortcut">
-        <kbd>Ctrl + s</kbd>
         <span>Save the document</span>
+        <span><kbd>Ctrl</kbd> <kbd>S</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + p</kbd>
         <span>Toggle preview</span>
+        <span><kbd>Ctrl</kbd> <kbd>P</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Esc</kbd>
         <span>Exit the page</span>
+        <span><kbd>Esc</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + z</kbd>
         <span>Undo the last action</span>
+        <span><kbd>Ctrl</kbd> <kbd>Z</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + y</kbd>
         <span>Redo the last action</span>
+        <span><kbd>Ctrl</kbd> <kbd>Y</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + b</kbd>
         <span>Bold text</span>
+        <span><kbd>Ctrl</kbd> <kbd>B</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + i</kbd>
         <span>Italic text</span>
+        <span><kbd>Ctrl</kbd> <kbd>I</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + u</kbd>
         <span>Underline text</span>
+        <span><kbd>Ctrl</kbd> <kbd>U</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + l</kbd>
         <span>Insert link</span>
+        <span><kbd>Ctrl</kbd> <kbd>L</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Ctrl + e</kbd>
         <span>Insert image</span>
+        <span><kbd>Ctrl</kbd> <kbd>E</kbd></span>
       </div>
     </div>
-    <h2>Search page</h2>
+    <p>Search page</p>
     <div class="shortcuts">
       <div class="shortcut">
-        <kbd>Tab</kbd>
         <span>Next search result</span>
+        <span><kbd>Tab</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Shift + Tab</kbd>
         <span>Previous search result</span>
+        <span><kbd>Shift</kbd> <kbd>Tab</kbd></span>
       </div>
       <div class="shortcut">
-        <kbd>Enter</kbd>
         <span>Open the selected search result</span>
+        <span><kbd>Enter</kbd></span>
       </div>
     </div>
   </div>
@@ -113,15 +113,39 @@
 .shortcuts {
   display: flex;
   flex-direction: column;
+  border-radius: 12px;
+  font-weight: 400;
+  font-size: 16px;
+  font-family: Inter;
+  text-size-adjust: 100%;
   gap: 8px;
+  background-color: var(--bg-ui);
 }
-
+p {
+  font-size: 17px;
+}
 .shortcut {
   display: flex;
-  padding: 6px;
-  border-radius: 5px;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 8px;
   text-align: left;
   align-items: center;
   gap: 1rem;
+  &:hover {
+    background-color: var(--bg-ui);
+  }
+}
+
+kbd {
+  display: inline-block;
+  padding: 4px 8px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--font-color-dark);
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
 }
 </style>

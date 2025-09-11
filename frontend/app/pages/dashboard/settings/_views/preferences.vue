@@ -214,13 +214,13 @@ const options = ref<{ label: string; options: Option[] }[]>([
 }
 
 label {
-  font-weight: 500;
+  font-weight: 400;
   flex: 1;
 }
 
 h3 {
-  margin: 2.5rem 0 0.5rem;
-  font-weight: 600;
+  margin: 3rem 0 0.5rem;
+  font-weight: 500;
 }
 
 .entry {
