@@ -2,7 +2,7 @@
   <li>
     <div
       class="tree-node"
-      :style="{ marginLeft: `${level * 20}px`, fontWeight: node.childrens?.length ? 600 : 500 }"
+      :style="{ marginLeft: `${level * 20}px`, fontWeight: node.childrens?.length ? 500 : 400 }"
       :disabled="disabled && disabled(node)"
       @click.stop="select"
     >
@@ -35,7 +35,7 @@ function select() {
   margin: 2px auto;
   padding: 4px 8px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 15px;
   text-align: left;
   cursor: pointer;
 }
