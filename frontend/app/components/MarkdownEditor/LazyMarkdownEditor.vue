@@ -311,9 +311,7 @@ watch(useColorMode(), mode => {
 });
 const updateListener = EditorView.updateListener.of(v => {
   if (v.docChanged) {
-    const content = v.state.doc.toString();
-    document.value.content_markdown = content;
-    document.value.content_html = compile(content);
+    updateDocumentContent();
     autoSaveConditional();
   }
 });
@@ -383,11 +381,11 @@ function autoSaveConditional() {
   }
 }
 
-function updateDocumentContent() {
+const updateDocumentContent = debounce(() => {
   const content = editorView.value?.state.doc.toString() || '';
   document.value.content_markdown = content;
   document.value.content_html = compile(content);
-}
+}, 100);
 
 const save = debounce(() => {
   updateDocumentContent();
