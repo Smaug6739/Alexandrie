@@ -1,8 +1,19 @@
 <template>
-  <div class="dropzone" :class="{ 'drag-over': isDragOver }" @dragover.prevent @drop.prevent="handleFileDrop" @dragenter.prevent="dragEnter" @dragleave.prevent="dragLeave">
-    <input ref="fileInput" type="file" @change="handleFileSelect" >
+  <div
+    class="dropzone"
+    :class="{ 'drag-over': isDragOver }"
+    @dragover.prevent
+    @drop.prevent="handleFileDrop"
+    @dragenter.prevent="dragEnter"
+    @dragleave.prevent="dragLeave"
+    @paste.prevent="handlePaste"
+  >
+    <input ref="fileInput" type="file" @change="handleFileSelect" />
     <div v-if="selectedFile" class="file-info">
-      <span>{{ selectedFile.name }}</span>
+      <div class="file-chip">
+        <span class="file-name">{{ selectedFile.name }}</span>
+        <button class="remove-btn" @click="reset" title="Remove file">×</button>
+      </div>
       <div class="file-size">{{ readableFileSize(selectedFile.size) }}</div>
     </div>
     <div v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select from computer</span>.</div>
@@ -31,6 +42,23 @@ const dragLeave = () => (isDragOver.value = false);
 const reset = () => {
   selectedFile.value = null;
   if (fileInput.value) fileInput.value.value = '';
+};
+
+const handlePaste = (event: ClipboardEvent) => {
+  const items = event.clipboardData?.items;
+  if (!items) return;
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (item?.type.startsWith('image/')) {
+      const file = item.getAsFile();
+      if (file) {
+        selectedFile.value = file;
+        emit('select', file);
+        break;
+      }
+    }
+  }
 };
 
 defineExpose({ reset });
@@ -68,15 +96,51 @@ defineExpose({ reset });
 
 .file-info {
   display: flex;
-  color: var(--primary);
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  color: var(--primary);
+}
 
-  .file-size {
-    font-size: 0.8rem;
-    color: var(--font-color-dark);
-    margin-top: 5px;
+.file-chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-contrast);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 0 8px;
+  font-size: 0.9rem;
+  color: var(--font-color-dark);
+  gap: 6px;
+}
+
+.file-name {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--font-color-light);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: var(--danger, #e74c3c);
   }
+}
+
+.file-size {
+  font-size: 0.8rem;
+  color: var(--font-color-dark);
+  margin-top: 5px;
 }
 
 .clickable {
