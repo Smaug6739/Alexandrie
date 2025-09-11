@@ -50,8 +50,6 @@ function removeLastTag() {
   display: flex;
   width: 100%;
   padding: 0 7px;
-  border-radius: 10px;
-  background: var(--bg-color);
   align-items: center;
   flex-wrap: wrap;
 }

@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div style="height: 100%; padding: 4px">
+  <div style="height: 100%">
     <div class="editor-container">
       <Toolbar v-model="document" :minimal="minimal" @execute-action="exec" />
       <div style="display: flex; min-height: 0; padding: 6px; flex: 1; flex-direction: column; gap: 8px">
@@ -29,8 +29,7 @@ import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirro
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { autocompletion } from '@codemirror/autocomplete';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { materialLight } from '@fsegurai/codemirror-theme-material-light';
-import { materialDark } from '@fsegurai/codemirror-theme-material-dark';
+import { materialLight } from './theme-light';
 import Toolbar from './Toolbar.vue';
 import ImageSelectorModal from './ImageSelectorModal.vue';
 import GridOrganizationModal from './GridOrganizationModal.vue';
@@ -303,12 +302,6 @@ const markdownKeysmap: readonly KeyBinding[] = [
 
 const themeCompartment = new Compartment();
 
-watch(useColorMode(), mode => {
-  if (!editorView.value) return;
-  editorView.value.dispatch({
-    effects: themeCompartment.reconfigure(mode.value === 'dark' ? materialDark : materialLight),
-  });
-});
 const updateListener = EditorView.updateListener.of(v => {
   if (v.docChanged) {
     updateDocumentContent();
@@ -328,7 +321,7 @@ const state = EditorState.create({
     updateListener,
     snippetListener,
     fileUploadHandler,
-    themeCompartment.of(useColorMode().value === 'dark' ? materialDark : materialLight),
+    themeCompartment.of(materialLight),
     highlightSelectionMatches({}),
     EditorView.lineWrapping,
     EditorState.allowMultipleSelections.of(true),
