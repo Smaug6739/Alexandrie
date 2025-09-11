@@ -59,7 +59,7 @@ function exportMarkdown() {
 <style lang="scss" scoped>
 .row {
   display: flex;
-  margin: 0.5rem;
+  margin: 0.75rem 0.5rem;
 }
 .row svg {
   cursor: pointer;
