@@ -21,6 +21,7 @@
       </div>
 
       <div
+        class="no-print"
         :style="{
           marginRight: !isTablet() && preferencesStore.get('hideTOC').value && useSidebar().isOpened.value ? '200px' : '0px',
           transition: 'margin 0.3s',
