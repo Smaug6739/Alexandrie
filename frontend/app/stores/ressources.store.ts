@@ -24,7 +24,7 @@ export const useRessourcesStore = defineStore('ressources', {
     async post(ressource: FormData): Promise<Ressource | string> {
       const request = await makeRequest(`ressources`, 'POST', ressource);
       if (request.status == 'success') {
-        this.ressources.push(request.result as Ressource);
+        this.ressources.unshift(request.result as Ressource);
         return request.result as Ressource;
       } else throw request.message;
     },
