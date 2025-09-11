@@ -6,11 +6,11 @@
     </div>
     <div class="items">
       <NuxtLink v-if="previous" :to="`/dashboard/docs/${previous.id}`" class="item left">
-        <b class="min">Page précédente</b>
+        <b class="min">Previous page</b>
         {{ previous.name }}
       </NuxtLink>
       <NuxtLink v-if="next" :to="`/dashboard/docs/${next.id}`" class="item right">
-        <b class="min">Page suivante</b>
+        <b class="min">Next page</b>
         {{ next.name }}
       </NuxtLink>
     </div>
