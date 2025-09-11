@@ -1,0 +1,63 @@
+<!-- This components is a modal for advanced editing document metadata -->
+<template>
+  <div class="modal-content">
+    <h2>Editor preferences <tag yellow>Beta</tag></h2>
+    <form @submit.prevent>
+      <label for="category">Font family</label>
+      <AppSelect v-model="store.get('editorFontFamily').value" :items="EDITOR_FONTS" placeholder="Select theme" />
+      <label for="category">Font size</label>
+      <input v-model="store.get('editorFontSize').value" type="number" min="1" max="100" placeholder="Select font size" />
+    </form>
+  </div>
+</template>
+
+<script setup lang="ts">
+const store = usePreferences();
+</script>
+
+<style scoped>
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+form {
+  padding: 0 5px 25px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+label {
+  display: flex;
+  align-items: center;
+}
+
+textarea {
+  height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  font-size: 14px;
+  resize: none;
+}
+
+.public-info {
+  padding: 0 5px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.info-text {
+  margin: 5px 0;
+  font-size: 14px;
+  color: var(--font-color-light);
+}
+
+.public-link {
+  display: flex;
+  color: var(--primary);
+  align-items: flex-end;
+  gap: 2px;
+  text-decoration: underline;
+  word-break: break-all;
+}
+</style>

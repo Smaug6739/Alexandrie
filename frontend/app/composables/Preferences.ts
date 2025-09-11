@@ -37,6 +37,8 @@ export const DEFAULT_PREFERENCES = {
     { id: '!property', label: ':::property $0\n\n:::' },
     { id: '!warning', label: ':::warning $0\n\n:::' },
   ] as ANode[],
+  editorFontFamily: 'JetBrains Mono' as string,
+  editorFontSize: 14 as number,
 };
 
 // Crée un type mapping automatique : chaque clé => type exact
@@ -90,7 +92,7 @@ export function usePreferences() {
     preferences.value = { ...DEFAULT_PREFERENCES };
   }
 
-  const all = computed(() => preferences.value);
+  const all = preferences.value;
 
   return {
     get,

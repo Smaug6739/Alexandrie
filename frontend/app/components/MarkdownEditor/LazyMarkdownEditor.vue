@@ -29,7 +29,7 @@ import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirro
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { autocompletion } from '@codemirror/autocomplete';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { materialLight } from './theme-light';
+import { loadTheme } from './theme-light';
 import Toolbar from './Toolbar.vue';
 import ImageSelectorModal from './ImageSelectorModal.vue';
 import GridOrganizationModal from './GridOrganizationModal.vue';
@@ -302,6 +302,17 @@ const markdownKeysmap: readonly KeyBinding[] = [
 
 const themeCompartment = new Compartment();
 
+watch(
+  preferencesStore.all,
+  () => {
+    if (!editorView.value) return;
+    editorView.value.dispatch({
+      effects: themeCompartment.reconfigure(loadTheme()),
+    });
+  },
+  { deep: true },
+);
+
 const updateListener = EditorView.updateListener.of(v => {
   if (v.docChanged) {
     updateDocumentContent();
@@ -321,7 +332,7 @@ const state = EditorState.create({
     updateListener,
     snippetListener,
     fileUploadHandler,
-    themeCompartment.of(materialLight),
+    themeCompartment.of(loadTheme()),
     highlightSelectionMatches({}),
     EditorView.lineWrapping,
     EditorState.allowMultipleSelections.of(true),
@@ -392,6 +403,7 @@ const autoSave = debounceDelayed(() => {
 </script>
 
 <style scoped lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 .markdown {
   display: flex;
   min-height: 0; /* permet aux enfants flexibles de ne pas déborder */

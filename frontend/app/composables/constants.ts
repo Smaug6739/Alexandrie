@@ -15,3 +15,12 @@ export const DOCUMENT_SIZES = [
   { label: 'Medium', id: 1 },
   { label: 'Large', id: 2 },
 ];
+
+export const EDITOR_FONTS = [
+  { label: 'JetBrains Mono', id: 'JetBrains Mono' },
+  { label: 'monospace', id: 'monospace' },
+  { label: 'Poppins', id: 'Poppins' },
+  { label: 'Inter', id: 'Inter' },
+  { label: 'Arial', id: 'Arial' },
+  { label: 'Times New Roman', id: 'Times New Roman' },
+];

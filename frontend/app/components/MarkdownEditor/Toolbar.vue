@@ -7,9 +7,15 @@
     <VoiceRecognition @transcription="handleTranscription" />
     <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Access" size="100px" class="entry" />
     <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
-    <button class="help" @click="openModal">
-      <Icon name="help" :big="true" fill="var(--font-color-light)" />
-    </button>
+
+    <div class="help">
+      <button @click="openSettings">
+        <Icon name="settings" :big="true" fill="var(--font-color-light)" />
+      </button>
+      <button @click="openHelp">
+        <Icon name="help" :big="true" fill="var(--font-color-light)" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -17,6 +23,7 @@
 import type { Document } from '~/stores';
 import ModalSyntax from './ModalSyntax.vue';
 import VoiceRecognition from './VoiceRecognition.vue';
+import EditorPreferences from './EditorPreferences.vue';
 
 const props = defineProps<{
   modelValue: Partial<Document>;
@@ -37,7 +44,8 @@ const localValue = computed({
 
 const emitAction = (action: string) => emit('execute-action', action);
 
-const openModal = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'large' }));
+const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'large' }));
+const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'medium' }));
 
 const categories = computed(() =>
   new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
@@ -166,9 +174,12 @@ input {
 
 .help {
   margin-left: auto;
-
   &:hover:deep(svg) {
     fill: var(--font-color-dark);
+  }
+  button {
+    margin: 0;
+    padding: 4px 8px;
   }
 }
 </style>

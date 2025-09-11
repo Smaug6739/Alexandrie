@@ -175,6 +175,33 @@ const options = ref<{ label: string; options: Option[] }[]>([
     ],
   },
   {
+    label: 'Editor',
+    options: [
+      {
+        label: 'Editor font family',
+        type: 'select',
+        key: 'editorFontFamily',
+        value: String(preferencesStore.get('editorFontFamily')),
+        choices: EDITOR_FONTS,
+      },
+      {
+        label: 'Editor font size',
+        type: 'select',
+        key: 'editorFontSize',
+        value: Number(preferencesStore.get('editorFontSize')),
+        choices: [
+          { label: '12', id: 12 },
+          { label: '14', id: 14 },
+          { label: '16', id: 16 },
+          { label: '18', id: 18 },
+          { label: '20', id: 20 },
+          { label: '22', id: 22 },
+          { label: '24', id: 24 },
+        ],
+      },
+    ],
+  },
+  {
     label: 'Datatable',
     options: [
       {
