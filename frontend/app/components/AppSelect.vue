@@ -2,7 +2,7 @@
   <div ref="trigger" class="app-select" :style="{ width: size || '100%' }">
     <div v-if="!open" class="app-select-trigger">
       <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
-      <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+      <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--font-color)">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
     </div>
