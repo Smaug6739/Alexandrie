@@ -32,15 +32,15 @@ import WorkspaceTree from './_components/WorkspaceTree.vue';
 import type { Category } from '~/stores';
 
 const filter = ref('');
-const tree = computed(() => new TreeStructure(useSidebarTree().categories.value).generateTree() as Item<Category>[]);
+const tree = computed(() => new TreeStructure(useSidebarTree().categories.value).generateTree().filter(c => c.data.role == 1) as Item<Category>[]);
 
 const filteredItems = computed(() => {
   if (!filter.value.trim()) return tree.value;
   return filterRecursive<Item<Category>>(tree.value, filter);
 });
 
-const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2 } }));
-const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2 } }));
 
 function editNode(node: Item) {
   useRouter().push('/dashboard/categories/' + node.id + '/edit');
