@@ -6,7 +6,7 @@
     </button>
     <VoiceRecognition @transcription="handleTranscription" />
     <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Access" size="100px" class="entry" />
-    <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
+    <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Select category" size="300px" class="entry" />
 
     <div class="help">
       <button @click="openSettings">
@@ -48,7 +48,7 @@ const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size:
 const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'medium' }));
 
 const categories = computed(() =>
-  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
+  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role === 1),
 );
 
 const toolbar = [

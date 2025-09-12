@@ -130,7 +130,7 @@ const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(0);
 
 const documentStore = useDocumentsStore();
-const categoriesTree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
+const categoriesTree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category');
 
 const filteredTagSuggestions = computed(() => {
   if (!tagInput.value) return [];

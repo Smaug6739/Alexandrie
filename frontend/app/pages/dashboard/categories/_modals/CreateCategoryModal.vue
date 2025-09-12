@@ -30,7 +30,7 @@ import type { Category } from '~/stores';
 
 const categoriesStore = useCategoriesStore();
 const categoriesItem = computed(() =>
-  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
+  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 1),
 );
 const props = defineProps<{ role: number }>();
 

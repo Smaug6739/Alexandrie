@@ -84,7 +84,7 @@ func (ctr *Controller) GetDocument(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err = utils.RessourceAccess(c, document.AuthorId)
+	err = utils.RessourceAccess(c, document.UserId)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -119,12 +119,11 @@ func (ctr *Controller) CreateDocument(c *gin.Context) (int, any) {
 		Theme:            document.Theme,
 		Icon:             document.Icon,
 		Color:            document.Color,
-		Category:         document.Category,
 		ParentId:         document.ParentId,
 		Accessibility:    document.Accessibility,
 		ContentMarkdown:  document.ContentMarkdown,
 		ContentHtml:      document.ContentHtml,
-		AuthorId:         userId,
+		UserId:           userId,
 		CreatedTimestamp: time.Now().UnixMilli(),
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
@@ -154,7 +153,7 @@ func (ctr *Controller) UpdateDocument(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err = utils.RessourceAccess(c, db_document.AuthorId)
+	err = utils.RessourceAccess(c, db_document.UserId)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -172,12 +171,11 @@ func (ctr *Controller) UpdateDocument(c *gin.Context) (int, any) {
 		Theme:            document.Theme,
 		Icon:             document.Icon,
 		Color:            document.Color,
-		Category:         document.Category,
 		ParentId:         document.ParentId,
 		Accessibility:    document.Accessibility,
 		ContentMarkdown:  document.ContentMarkdown,
 		ContentHtml:      document.ContentHtml,
-		AuthorId:         db_document.AuthorId,
+		UserId:           db_document.UserId,
 		CreatedTimestamp: time.Now().UnixMilli(),
 	}
 
@@ -206,7 +204,7 @@ func (ctr *Controller) DeleteDocument(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err = utils.RessourceAccess(c, db_document.AuthorId)
+	err = utils.RessourceAccess(c, db_document.UserId)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}

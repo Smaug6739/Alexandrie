@@ -2,7 +2,7 @@ const isOpened = ref(false);
 const hasSidebar = ref(false);
 const paneWidth = ref(isMobile() ? 350 : 390); // initial width of pane 1
 const isResizing = ref(false);
-const workspaceId = ref<string | null>(null);
+const workspaceId = ref<string | undefined>(undefined);
 
 export function useSidebar() {
   const toggleSidebar = () => (isOpened.value = !isOpened.value);

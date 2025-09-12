@@ -238,7 +238,7 @@ const fileUploadHandler = EditorView.domEventHandlers({
         const body = new FormData();
         body.append('file', file);
         resourcesStore.post(body).then(result => {
-          const url = `${CDN}/${(result as Ressource).author_id}/${(result as Ressource).transformed_path}`;
+          const url = `${CDN}/${(result as Ressource).user_id}/${(result as Ressource).transformed_path}`;
           exec('insertText', `![${file.name}](${url})\n`);
         });
       }
@@ -254,7 +254,7 @@ const fileUploadHandler = EditorView.domEventHandlers({
         const body = new FormData();
         body.append('file', file);
         resourcesStore.post(body).then(result => {
-          const url = `${CDN}/${(result as Ressource).author_id}/${(result as Ressource).transformed_path}`;
+          const url = `${CDN}/${(result as Ressource).user_id}/${(result as Ressource).transformed_path}`;
           exec('insertText', `![${file.name}](${url})\n`);
         });
       }

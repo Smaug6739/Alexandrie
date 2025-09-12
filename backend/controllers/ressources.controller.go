@@ -154,10 +154,10 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		OriginalPath:     header.Filename,
 		TransformedPath:  fmt.Sprintf("%d%s", id, ext),
 		ParentId:         nil,
-		AuthorId:         userId,
+		UserId:           userId,
 		CreatedTimestamp: time.Now().UnixMilli(),
 	}
-	objectName := fmt.Sprintf("%d/%d%s", ressource.AuthorId, ressource.Id, ext)
+	objectName := fmt.Sprintf("%d/%d%s", ressource.UserId, ressource.Id, ext)
 
 	_, err = ctr.app.Services.Ressource.CreateRessource(ressource)
 	if err != nil {
@@ -240,7 +240,7 @@ func (ctr *Controller) UpdateUpload(c *gin.Context) (int, any) {
 	if db_ressource == nil {
 		return http.StatusBadRequest, errors.New("ressource not found")
 	}
-	err = utils.RessourceAccess(c, db_ressource.AuthorId)
+	err = utils.RessourceAccess(c, db_ressource.UserId)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -257,7 +257,7 @@ func (ctr *Controller) UpdateUpload(c *gin.Context) (int, any) {
 		OriginalPath:     db_ressource.OriginalPath,
 		TransformedPath:  db_ressource.TransformedPath,
 		ParentId:         updatedRessource.ParentId,
-		AuthorId:         db_ressource.AuthorId,
+		UserId:           db_ressource.UserId,
 		CreatedTimestamp: db_ressource.CreatedTimestamp,
 	}
 
@@ -297,11 +297,11 @@ func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
 	if ressource == nil {
 		return http.StatusBadRequest, errors.New("ressource not found")
 	}
-	if ressource.AuthorId != userId && !utils.CheckUserRequestPermission(c, utils.ADMINISTRATOR) {
+	if ressource.UserId != userId && !utils.CheckUserRequestPermission(c, utils.ADMINISTRATOR) {
 		return http.StatusUnauthorized, errors.New("you are not authorized to delete this ressource")
 	}
 
-	prefix := fmt.Sprintf("%d/%d", ressource.AuthorId, ressource.Id)
+	prefix := fmt.Sprintf("%d/%d", ressource.UserId, ressource.Id)
 	// List all objects in the bucket with the given prefix
 	ctx := context.Background()
 	objectCh := ctr.app.MinioClient.ListObjects(ctx, os.Getenv("MINIO_BUCKET"), minio.ListObjectsOptions{

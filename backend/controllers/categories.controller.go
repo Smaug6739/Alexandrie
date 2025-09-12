@@ -5,6 +5,7 @@ import (
 	"alexandrie/models"
 	"alexandrie/utils"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -62,15 +63,16 @@ func (ctr *Controller) CreateCategory(c *gin.Context) (int, any) {
 		return http.StatusUnauthorized, err
 	}
 	category = models.Category{
-		Id:          ctr.app.Snowflake.Generate(),
-		Name:        category.Name,
-		Icon:        category.Icon,
-		Color:       category.Color,
-		Order:       category.Order,
-		Role:        category.Role,
-		WorkspaceId: category.WorkspaceId,
-		ParentId:    category.ParentId,
-		AuthorId:    userId,
+		Id:               ctr.app.Snowflake.Generate(),
+		Name:             category.Name,
+		Icon:             category.Icon,
+		Color:            category.Color,
+		Order:            category.Order,
+		Role:             category.Role,
+		ParentId:         category.ParentId,
+		UserId:           userId,
+		CreatedTimestamp: time.Now().UnixMilli(),
+		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
 
 	if err := ctr.app.Services.Category.CreateCategory(&category); err != nil {
@@ -98,7 +100,7 @@ func (ctr *Controller) UpdateCategory(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err = utils.RessourceAccess(c, dbCategory.AuthorId)
+	err = utils.RessourceAccess(c, dbCategory.UserId)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -107,15 +109,14 @@ func (ctr *Controller) UpdateCategory(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 	category = &models.Category{
-		Id:          categoryid,
-		Name:        category.Name,
-		Icon:        category.Icon,
-		Color:       category.Color,
-		Order:       category.Order,
-		Role:        category.Role,
-		WorkspaceId: category.WorkspaceId,
-		ParentId:    category.ParentId,
-		AuthorId:    dbCategory.AuthorId,
+		Id:       categoryid,
+		Name:     category.Name,
+		Icon:     category.Icon,
+		Color:    category.Color,
+		Order:    category.Order,
+		Role:     category.Role,
+		ParentId: category.ParentId,
+		UserId:   dbCategory.UserId,
 	}
 
 	err = ctr.app.Services.Category.UpdateCategory(category)
@@ -143,7 +144,7 @@ func (ctr *Controller) DeleteCategory(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err = utils.RessourceAccess(c, db_category.AuthorId)
+	err = utils.RessourceAccess(c, db_category.UserId)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}

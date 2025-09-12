@@ -21,17 +21,17 @@ export const useDocumentsStore = defineStore('documents', {
     getAll: state => state.documents,
     getAllTags: state => state.allTags,
     getById: state => (id: string) => state.documents.find((d: Document) => d.id == id),
-    getByCategories: state => (category: string) => state.documents.filter(d => d.category == category),
+    getByCategories: state => (category: string) => state.documents.filter(d => d.parent_id == category),
 
     getNext: state => (doc?: Document) => {
-      const cdocs = state.documents.filter(d => d.category == doc?.category);
+      const cdocs = state.documents.filter(d => d.parent_id == doc?.parent_id);
       const index = cdocs.findIndex(d => d.id == doc?.id);
       if (index == -1) return;
       return cdocs[index + 1];
     },
 
     getPrevious: state => (doc?: Document) => {
-      const cdocs = state.documents.filter(d => d.category == doc?.category);
+      const cdocs = state.documents.filter(d => d.parent_id == doc?.parent_id);
       const index = cdocs.findIndex(d => d.id == doc?.id);
       if (index == -1) return;
       return cdocs[index - 1];
@@ -83,7 +83,7 @@ export const useDocumentsStore = defineStore('documents', {
       }
 
       if (category) {
-        filtered = filtered.filter(doc => doc.category === category);
+        filtered = filtered.filter(doc => doc.parent_id === category);
       }
 
       return filtered;

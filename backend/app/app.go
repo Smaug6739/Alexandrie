@@ -37,6 +37,7 @@ type Services struct {
 	Document  services.DocumentService
 	Category  services.CategoryService
 	Ressource services.RessourceService
+	Nodes     services.NodesService
 	Minio     services.MinioService
 }
 
@@ -63,6 +64,7 @@ func InitApp(config Config) *App {
 		Document:  services.NewDocumentService(app.DB),
 		Category:  services.NewCategoryService(app.DB),
 		Ressource: services.NewRessourceService(app.DB),
+		Nodes:     services.NewNodesService(app.DB),
 		Minio:     services.NewMinioService(app.MinioClient),
 	}
 

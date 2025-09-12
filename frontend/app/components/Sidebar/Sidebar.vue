@@ -55,7 +55,7 @@ const categoriesStore = useCategoriesStore();
 const preferences = usePreferences();
 const userStore = useUserStore();
 const filter = ref<string>('');
-const workspaces = computed(() => [...categoriesStore.getAll.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id, meta: c }))]);
+const workspaces = computed(() => [...categoriesStore.getAll.filter(c => c.role === 1).map(c => ({ text: c.name, value: c.id, meta: c }))]);
 const isLoading = computed(() => categoriesStore.isFetching || useDocumentsStore().isFetching || useRessourcesStore().isFetching);
 
 const sidebarTree = useSidebarTree();

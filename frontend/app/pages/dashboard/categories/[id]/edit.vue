@@ -51,7 +51,7 @@ const categoriesStore = useCategoriesStore();
 const route = useRoute();
 const category = computed(() => categoriesStore.getById(route.params.id as string));
 const categoriesItem = computed(() =>
-  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
+  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 1),
 );
 
 definePageMeta({ breadcrumb: 'Edit' });

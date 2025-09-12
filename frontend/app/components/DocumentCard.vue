@@ -3,7 +3,7 @@
     <div class="top">
       <div class="header">
         <span style="display: flex">
-          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number, true)}`" />
+          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(document.color || category?.color as number, true)}`" />
           <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
         </span>
         <DocumentDotMenu :document="document" :user="user" @delete="deleteDoc" />
@@ -38,7 +38,7 @@ import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentMo
 
 const props = defineProps<{ document: Document }>();
 const categoriesStore = useCategoriesStore();
-const category = computed(() => categoriesStore.getById(props.document.category || ''));
+const category = computed(() => categoriesStore.getById(props.document.parent_id || ''));
 const user = useUserStore().user;
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.document.id } }));
 </script>
