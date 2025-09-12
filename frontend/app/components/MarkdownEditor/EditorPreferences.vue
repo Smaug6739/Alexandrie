@@ -39,25 +39,4 @@ textarea {
   font-size: 14px;
   resize: none;
 }
-
-.public-info {
-  padding: 0 5px;
-  border-radius: 7px;
-  margin-bottom: 10px;
-}
-
-.info-text {
-  margin: 5px 0;
-  font-size: 14px;
-  color: var(--font-color-light);
-}
-
-.public-link {
-  display: flex;
-  color: var(--primary);
-  align-items: flex-end;
-  gap: 2px;
-  text-decoration: underline;
-  word-break: break-all;
-}
 </style>
