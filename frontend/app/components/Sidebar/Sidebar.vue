@@ -20,10 +20,22 @@
             <div class="email">{{ userStore.user.email }}</div>
           </NuxtLink>
           <div class="icons">
-            <NuxtLink to="/dashboard/docs/new" :prefetch="false" @click="onClick"><Icon name="add_file" :mid="true" fill="var(--font-color)" /></NuxtLink>
-            <NuxtLink @click="newCategory"><Icon name="add_folder" :mid="true" fill="var(--font-color)" /></NuxtLink>
-            <NuxtLink @click="sidebarTree.collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color)" /></NuxtLink>
-            <NuxtLink @click="toggleDock"><Icon name="dock" :mid="true" fill="var(--font-color)" /></NuxtLink>
+            <NuxtLink to="/dashboard/docs/new" class="nav-item" :prefetch="false" @click="onClick">
+              <Icon name="add_file" :mid="true" fill="var(--font-color)" />
+              <p class="hint-tooltip">New doc</p>
+            </NuxtLink>
+            <NuxtLink class="nav-item" @click="newCategory"
+              ><Icon name="add_folder" :mid="true" fill="var(--font-color)" />
+              <p class="hint-tooltip">New category</p></NuxtLink
+            >
+            <NuxtLink class="nav-item" @click="sidebarTree.collapseAll"
+              ><Icon name="collapse" :mid="true" fill="var(--font-color)" />
+              <p class="hint-tooltip">Close all</p></NuxtLink
+            >
+            <NuxtLink class="nav-item" @click="toggleDock"
+              ><Icon name="dock" :mid="true" fill="var(--font-color)" />
+              <p class="hint-tooltip">Toggle dock</p></NuxtLink
+            >
           </div>
         </div>
       </div>
@@ -123,8 +135,11 @@ onBeforeUnmount(() => {
     align-items: center;
   }
 }
-
+.nav-item:hover .hint-tooltip {
+  display: block;
+}
 .icons {
+  position: relative;
   display: flex;
   height: fit-content;
 

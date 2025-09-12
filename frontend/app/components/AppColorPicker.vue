@@ -75,30 +75,6 @@ function selectColor(color: number) {
   outline-offset: 2px;
 }
 
-.hint-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-left: 0.25rem;
-}
-
-.hint-tooltip {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  z-index: 100;
-  display: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.4rem;
-  font-size: 0.75rem;
-  color: white;
-  background-color: #1f2937;
-  box-shadow: 0 2px 8px var(--shadow);
-  margin-top: 0.4rem;
-  text-transform: capitalize;
-  transform: translateX(-50%);
-  white-space: nowrap;
-}
-
 .color-option:hover .hint-tooltip {
   display: block;
 }
