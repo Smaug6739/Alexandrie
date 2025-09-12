@@ -29,8 +29,9 @@
 import type { Category } from '~/stores';
 
 const categoriesStore = useCategoriesStore();
+const sidebarTree = useSidebarTree();
 const categoriesItem = computed(() =>
-  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 1),
+  new TreeStructure(sidebarTree.categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 1),
 );
 const props = defineProps<{ role: number }>();
 
@@ -38,8 +39,7 @@ const category = ref<Partial<Category>>({
   name: '',
   type: 'category',
   role: props.role,
-  order: 0,
-  id: '0',
+  parent_id: sidebarTree.getCategoryFromNode(useSidebar().active_id.value)?.id,
 });
 const emit = defineEmits(['close']);
 
