@@ -147,7 +147,7 @@ export const useNodesStore = defineStore('nodes', {
         console.log('[store/nodes] Node is partial, cannot update it directly.');
         const full_node = await this.fetch({ id: node.id });
         if (!full_node) throw 'Node not found';
-        node = { ...full_node, ...node, partial: false }; // Merge with full nodeument data
+        node = mergeNode(node, full_node);
       }
       const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
       if (request.status == 'success') return (this.nodes = this.nodes.map(d => (d.id == node.id ? node : d)));
@@ -169,4 +169,19 @@ function parseTags(tags: string): string[] {
       .filter(Boolean);
   }
   return [];
+}
+
+function mergeNode(node: Node, full_node: Node): Node {
+  const result: Node = { ...full_node };
+
+  for (const key in node) {
+    const localValue = node[key as keyof Node];
+    if (localValue !== undefined && localValue !== null && localValue !== '') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (result as any)[key] = localValue; // keep local value if it's defined
+    }
+  }
+
+  result.partial = false;
+  return result;
 }

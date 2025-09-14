@@ -66,37 +66,19 @@ const drop = async (event: DragEvent) => {
   isDragOver.value = false;
   const draggedItemId = event.dataTransfer!.getData('text/plain');
 
-  let draggedItem = nodesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
+  const draggedItem = nodesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
 
   if (!draggedItem) return;
 
-  if (draggedItem.role === 3 && draggedItem.partial) {
-    draggedItem = await nodesStore.fetch({ id: draggedItem.id });
+  if (draggedItem.role === -1) return; // Prevent dropping nav items
+  if (props.item.data.role === 4) return; // Prevent dropping on ressource items
+
+  // Move item to root
+  if (props.item.data.role === -1) {
+    return nodesStore.update({ ...draggedItem, parent_id: workspaceId.value });
   }
 
-  if (draggedItem.role === 3 && props.item.data.role === 2) {
-    // Move document to category
-    nodesStore.update({ ...draggedItem, parent_id: props.item.id });
-  }
-  if (draggedItem.role === 2 && props.item.data.role === 2) {
-    // Move category to category
-    if (draggedItem.id === props.item.id) return; // Prevent moving to the same category
-    nodesStore.update({ ...draggedItem, parent_id: props.item.id });
-  }
-  if (draggedItem.role === 3 && props.item.data.role === 3) {
-    // Move document to document
-    if (nodesStore.getAllChildrensIds(draggedItem.id).includes(props.item.parent_id ?? '')) return; // Prevent moving parent to child
-    if (draggedItem.id === props.item.id) return; // Prevent moving to the same document
-    nodesStore.update({ ...draggedItem, parent_id: props.item.id });
-  }
-  if (draggedItem.role === 2 && props.item.data.role === -1) {
-    // Move category to root
-    nodesStore.update({ ...draggedItem, parent_id: workspaceId.value });
-  }
-  if (draggedItem.role === 3 && props.item.data.role === -1) {
-    // Move document to root
-    nodesStore.update({ ...draggedItem, parent_id: workspaceId.value });
-  }
+  nodesStore.update({ ...draggedItem, parent_id: props.item.id });
 };
 </script>
 
