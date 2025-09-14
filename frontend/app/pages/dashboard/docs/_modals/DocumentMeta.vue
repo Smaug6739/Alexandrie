@@ -28,14 +28,8 @@
         <AppToggle id="pinned" v-model="pinnedToggle" />
       </div>
 
-      <label for="parent">Parent Document</label>
-      <AppSelect
-        v-model="document.parent_id as string"
-        :items="documentsTree"
-        :disabled="(i) => (i as Item).data?.role !== 3"
-        placeholder="Select a document parent"
-        :nullable="true"
-      />
+      <label for="parent">Parent</label>
+      <AppSelect v-model="document.parent_id" :items="documentsTree" placeholder="Select a document parent" :nullable="true" />
       <div style="display: flex; align-items: center; gap: 10px">
         <label for="accessibility">Color</label>
         <AppColorPicker v-model="document.color" :nullable="true" />
