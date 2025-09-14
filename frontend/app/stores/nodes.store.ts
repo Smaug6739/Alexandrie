@@ -14,7 +14,6 @@ export const useNodesStore = defineStore('nodes', {
   state: () => ({
     nodes: [] as Array<Node | Node>,
     public_nodes: [] as Node[],
-    shared_nodes: [] as Node[],
     allTags: [] as string[],
     isFetching: false,
   }),
