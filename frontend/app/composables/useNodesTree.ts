@@ -4,8 +4,7 @@ import type { Node } from '~/stores';
 const preferencesStore = usePreferences();
 
 let nodes: ComputedRef<Item<Node>[]> | Ref<Item<Node>[]> = ref([]);
-const allItems = computed(() => nodes.value);
-const structure = computed(() => new TreeStructure(allItems.value));
+const structure = computed(() => new TreeStructure(nodes.value));
 
 const resolveIcon = (item: Node) => {
   if (item.role === 1 || item.role === 2) return item.icon || 'folder';
@@ -35,17 +34,11 @@ const tree = computed(() => {
 
   const tree = structure.value.generateTree();
 
-  for (const item of tree) {
-    if ((item.data as Node).shared) {
-      item.parent_id = undefined;
-      item.icon = 'users';
-    }
-  }
   return tree;
 });
 
 const collapseAll = () => {
-  allItems.value.forEach(item => {
+  nodes.value.forEach(item => {
     if (item.show.value) item.show.value = false;
     collapseAllStates();
   });

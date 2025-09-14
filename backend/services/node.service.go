@@ -24,7 +24,22 @@ func NewNodeService(db *sql.DB) NodeService {
 
 func (s *Service) GetAllNodes(userId types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
-	rows, err := s.db.Query("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `theme`, `accessibility`, `display`, `order`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE user_id = ? ORDER BY `role`, `order` DESC, name", userId)
+	rows, err := s.db.Query(`WITH RECURSIVE user_nodes AS (
+    -- 1. Every node owned by the user
+    SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
+           n.accessibility, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
+    FROM nodes n
+    WHERE n.user_id = ?
+
+    UNION
+
+    -- 2. Child nodes of owned nodes (even if not owned by the user)
+    SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
+           c.accessibility, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
+    FROM nodes c
+    JOIN user_nodes un ON un.id = c.parent_id
+)
+SELECT * FROM user_nodes ORDER BY role, 'order' DESC, name;`, userId)
 	if err != nil {
 		return nil, err
 	}

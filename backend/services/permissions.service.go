@@ -37,17 +37,35 @@ func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) bo
 		WHERE p.user_id = ?
 	`, nodeId, userId).Scan(&perm)
 
-	if err == sql.ErrNoRows {
-		return false
-	}
-	if err != nil {
-		return false
+	// Cas 1 : permission explicite suffisante
+	if perm >= required {
+		return true
 	}
 
-	if perm == 0 {
-		return false
+	// Cas 2 : pas assez de permissions → vérifier si propriétaire d’un ancêtre
+	var owns int
+	err = s.db.QueryRow(`
+		WITH RECURSIVE ancestors AS (
+			SELECT id, parent_id, user_id
+			FROM nodes
+			WHERE id = ?
+
+			UNION ALL
+
+			SELECT n.id, n.parent_id, n.user_id
+			FROM nodes n
+			INNER JOIN ancestors a ON a.parent_id = n.id
+		)
+		SELECT 1
+		FROM ancestors
+		WHERE user_id = ?
+		LIMIT 1
+	`, nodeId, userId).Scan(&owns)
+	if err == nil && owns == 1 {
+		// propriétaire d’un ancêtre = permission max
+		return required <= 3
 	}
 
-	//fmt.Println("User", userId, "has inherited permission", perm, "on node", nodeId, "required:", required)
-	return perm >= required
+	// sinon pas de permission
+	return false
 }

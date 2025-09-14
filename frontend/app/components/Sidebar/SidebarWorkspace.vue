@@ -1,7 +1,12 @@
 <template>
-  <div>
-    <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="getAppColor(option.meta?.color) + ' icon'" fill="var(--font-color)" />
-    &nbsp; {{ option.text }}
+  <div style="display: flex; align-items: center; justify-content: space-between">
+    <span style="display: flex; align-items: center">
+      <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="getAppColor(option.meta?.color) + ' icon'" fill="var(--font-color)" />
+      &nbsp; {{ option.text }}
+    </span>
+    <span>
+      <Icon v-if="option.meta?.shared" name="users" fill="var(--font-color)" />
+    </span>
   </div>
 </template>
 

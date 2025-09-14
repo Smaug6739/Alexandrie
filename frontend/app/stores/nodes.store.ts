@@ -129,7 +129,11 @@ export const useNodesStore = defineStore('nodes', {
           else this.nodes[index] = updatedNode;
           return updatedNode as 'id' extends keyof T ? Node : Node[];
         } else {
-          this.nodes.push(...(request.result as DB_Node[]).map((d: DB_Node) => ({ ...d, partial: true, shared: false })));
+          for (const node of request.result as DB_Node[]) {
+            const index = this.nodes.findIndex(d => d.id == node.id);
+            if (index == -1) this.nodes.push({ ...node, partial: true, shared: false });
+            else this.nodes[index] = { ...node, partial: true, shared: false };
+          }
           this.recomputeTags();
           return this.nodes as 'id' extends keyof T ? Node : Node[];
         }
@@ -151,7 +155,11 @@ export const useNodesStore = defineStore('nodes', {
       if (this.nodes.length) return this.nodes;
       const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
       if (request.status === 'success') {
-        this.nodes.push(...(request.result as DB_Node[]).map((d: DB_Node) => ({ ...d, partial: true, shared: true })));
+        for (const node of request.result as DB_Node[]) {
+          const index = this.nodes.findIndex(d => d.id == node.id);
+          if (index == -1) this.nodes.push({ ...node, partial: true, shared: true });
+          else this.nodes[index] = { ...node, partial: true, shared: true };
+        }
         return this.nodes;
       } else throw request;
     },
