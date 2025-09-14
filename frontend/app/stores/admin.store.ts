@@ -1,10 +1,8 @@
 import { makeRequest } from './_utils';
-import type { User, Document, Category, Ressource } from './db_strustures';
+import type { User, Node } from './db_strustures';
 
 interface UserData extends User {
-  documents?: Document[];
-  categories?: Category[];
-  files?: Ressource[];
+  nodes?: Node[];
 }
 
 export const useAdminStore = defineStore('admin', {
@@ -35,17 +33,17 @@ export const useAdminStore = defineStore('admin', {
         return request.result;
       } else throw request.message;
     },
-    async fetchUserDocuments(userId: string): Promise<Document[] | undefined> {
+    async fetchUserDocuments(userId: string): Promise<Node[] | undefined> {
       const cachedUser = this.users?.find(user => user.id === userId);
-      if (cachedUser && cachedUser.documents) return cachedUser.documents;
-      const responce = await makeRequest<Document[]>(`documents/${userId}`, 'GET', {});
+      if (cachedUser && cachedUser.nodes) return cachedUser.nodes;
+      const responce = await makeRequest<Node[]>(`nodes/${userId}`, 'GET', {});
       if (responce.status === 'success') {
-        if (cachedUser) cachedUser.documents = responce.result;
+        if (cachedUser) cachedUser.nodes = responce.result;
         return responce.result;
       } else throw responce.message;
     },
-    async fetchUserDocument(userId: string, docId: string): Promise<Document | undefined> {
-      const responce = await makeRequest<Document>(`documents/${userId}/${docId}`, 'GET', {});
+    async fetchUserDocument(userId: string, docId: string): Promise<Node | undefined> {
+      const responce = await makeRequest<Node>(`nodes/${userId}/${docId}`, 'GET', {});
       if (responce.status === 'success') {
         return responce.result;
       } else throw responce.message;

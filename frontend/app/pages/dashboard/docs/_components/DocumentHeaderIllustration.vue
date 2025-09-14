@@ -171,9 +171,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 
-defineProps<{ document?: Document }>();
+defineProps<{ document?: Node }>();
 </script>
 
 <style scoped>

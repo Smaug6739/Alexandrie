@@ -111,7 +111,7 @@
 
 <script setup lang="ts">
 import SearchResultsList from './SearchResultsList.vue';
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 const props = defineProps<{
   query: string;
   selectedIndex: number;
@@ -129,8 +129,8 @@ const showFilters = ref(true);
 const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(0);
 
-const documentStore = useDocumentsStore();
-const categoriesTree = new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2);
+const documentStore = useNodesStore();
+const categoriesTree = new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 2)).generateTree().filter(i => i.data.role === 2);
 
 const filteredTagSuggestions = computed(() => {
   if (!tagInput.value) return [];
@@ -226,9 +226,8 @@ function clearFilters() {
   selectedCategory.value = '';
 }
 
-function getDocumentIcon(doc: Document) {
-  if (doc.pinned === 1) return 'pin';
-  if (doc.pinned === 2) return 'pin';
+function getDocumentIcon(doc: Node) {
+  if (doc.order ?? 0 < 0) return 'pin';
   return 'files';
 }
 

@@ -30,7 +30,7 @@ import type { Workspace } from './helpers';
 
 const { workspaceId } = useSidebar();
 const props = defineProps<{ options: Workspace[] }>();
-const all_workspaces = ref({ text: 'All Workspaces', value: null, meta: { color: -1 } });
+const all_workspaces = ref({ text: 'All Workspaces', value: undefined, meta: { color: -1 } });
 
 watch(
   () => props.options,

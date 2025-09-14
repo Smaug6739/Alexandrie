@@ -1,6 +1,6 @@
 <template>
   <div class="modal">
-    <h2>New {{ role == 1 ? 'category' : 'workspace' }}</h2>
+    <h2>New {{ role == 1 ? 'workspace' : 'category' }}</h2>
     <label for="name">Name</label>
     <input id="name" v-model="category.name" class="entry" type="text" required placeholder="Display name" />
 
@@ -26,20 +26,18 @@
 </template>
 
 <script setup lang="ts">
-import type { Category } from '~/stores';
+import type { Node } from '~/stores';
 
-const categoriesStore = useCategoriesStore();
-const categoriesItem = computed(() =>
-  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
-);
-const props = defineProps<{ role: number }>();
+const categoriesStore = useNodesStore();
+const sidebarTree = useSidebarTree();
+const sidebar = useSidebar();
+const categoriesItem = computed(() => new TreeStructure(sidebarTree.nodes.value).generateTree().filter(i => i.data.role == 1));
+const props = defineProps<{ role: 1 | 2 }>();
 
-const category = ref<Partial<Category>>({
+const category = ref<Partial<Node>>({
   name: '',
-  type: 'category',
   role: props.role,
-  order: 0,
-  id: '0',
+  parent_id: sidebarTree.getCategoryFromNode(sidebar.active_id.value)?.id || sidebar.workspaceId.value,
 });
 const emit = defineEmits(['close']);
 

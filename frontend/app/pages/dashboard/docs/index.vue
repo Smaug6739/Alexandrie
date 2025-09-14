@@ -17,14 +17,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 
 const view: Ref<'table' | 'list'> = ref('list');
 const documents = computed(() => {
-  const result: Document[] = [];
+  const result: Node[] = [];
   const getDocs = (items: Item[]) => {
     for (const item of items) {
-      if (item.data.type == 'document') result.push(item.data);
+      if (item.data.role == 3) result.push(item.data);
       if (item.childrens) getDocs(item.childrens);
     }
   };

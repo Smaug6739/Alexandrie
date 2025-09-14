@@ -7,10 +7,10 @@
     <div class="modal-content">
       <div class="images-grid">
         <div v-for="image in filteredImages" :key="image.id" class="image-item" @click="selectImage(image)">
-          <img :src="CDN + `/${useUserStore().user?.id}/` + image.transformed_path" :alt="image.filename" class="image-preview" @error="handleImageError" />
+          <img :src="CDN + `/${useUserStore().user?.id}/` + image.content_compiled" :alt="image.name" class="image-preview" @error="handleImageError" />
           <div class="image-info">
-            <span class="image-name">{{ image.filename }}</span>
-            <span class="image-size">{{ formatFileSize(image.filesize) }}</span>
+            <span class="image-name">{{ image.name }}</span>
+            <span class="image-size">{{ formatFileSize(image.size ?? 0) }}</span>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
-import { useRessourcesStore, type Ressource } from '~/stores';
+import type { Node } from '~/stores';
 
 const props = defineProps<{
   onImageSelect: (imageUrl: string, altText: string) => void;
@@ -38,17 +38,17 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const ressourcesStore = useRessourcesStore();
+const nodesStore = useNodesStore();
 const searchQuery = ref('');
-const images = ref<Ressource[]>([]);
+const images = ref<Node[]>([]);
 const loading = ref(false);
 
 const filteredImages = computed(() => {
   if (!searchQuery.value.trim()) {
-    return images.value.filter(img => isImageFile(img.filetype));
+    return images.value.filter(img => isImageFile(img.metadata?.filetype as string));
   }
 
-  return images.value.filter(img => isImageFile(img.filetype) && img.filename.toLowerCase().includes(searchQuery.value.toLowerCase()));
+  return images.value.filter(img => isImageFile(img.metadata?.filetype as string) && img.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
 });
 
 const isImageFile = (filetype: string): boolean => {
@@ -68,9 +68,9 @@ const handleImageError = (event: Event) => {
   img.style.display = 'none';
 };
 
-const selectImage = (image: Ressource) => {
-  const imageUrl = CDN + `/${useUserStore().user?.id}/` + image.transformed_path;
-  const altText = image.filename.replace(/\.[^/.]+$/, '');
+const selectImage = (image: Node) => {
+  const imageUrl = CDN + `/${useUserStore().user?.id}/` + image.content_compiled;
+  const altText = image.name.replace(/\.[^/.]+$/, '');
   props.onImageSelect(imageUrl, altText);
   emit('close');
 };
@@ -82,8 +82,7 @@ const closeModal = () => {
 const loadImages = async () => {
   try {
     loading.value = true;
-    await ressourcesStore.fetch();
-    images.value = ressourcesStore.getAll;
+    images.value = nodesStore.getAll.filter(i => i.role === 4);
   } catch (error) {
     console.error('Failed to load images:', error);
   } finally {

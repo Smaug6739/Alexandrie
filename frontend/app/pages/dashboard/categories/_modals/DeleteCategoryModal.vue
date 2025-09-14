@@ -14,7 +14,7 @@
 <script setup lang="ts">
 const props = defineProps<{ categoryId: string }>();
 const deleteDoc = () => {
-  useCategoriesStore()
+  useNodesStore()
     .delete(props.categoryId)
     .then(() => {
       useNotifications().add({ type: 'success', title: 'Category successfully deleted' });

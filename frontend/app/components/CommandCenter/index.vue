@@ -61,7 +61,7 @@ import TabNavigation from './TabNavigation.vue';
 import QuickSearchTab from './QuickSearchTab.vue';
 import AdvancedSearchTab from './AdvancedSearchTab.vue';
 import { useModal, Modal } from '~/composables/ModalBus';
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 
 const router = useRouter();
 const isOpen = ref(false);
@@ -156,7 +156,7 @@ function handleQuickSelect() {
   }
 }
 
-function handleDocumentSelect(document: Document) {
+function handleDocumentSelect(document: Node) {
   navigateTo(`/dashboard/docs/${document.id}`);
   closeSearch();
 }

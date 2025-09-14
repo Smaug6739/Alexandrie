@@ -25,14 +25,14 @@
       </div>
       <div style="display: flex; align-items: center; gap: 10px">
         <label for="pinned">Pinned</label>
-        <AppToggle id="pinned" v-model="pinnedToggle" />
+        <!--<AppToggle id="pinned" v-model="pinnedToggle" />-->
       </div>
 
       <label for="parent">Parent Document</label>
       <AppSelect
         v-model="document.parent_id as string"
         :items="documentsTree"
-        :disabled="(i) => (i as Item).data?.type !== 'document'"
+        :disabled="(i) => (i as Item).data?.role !== 3"
         placeholder="Select a document parent"
         :nullable="true"
       />
@@ -45,17 +45,17 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '@/stores';
+import type { Node } from '@/stores';
 
-const store = useDocumentsStore();
+const store = useNodesStore();
 
-const props = defineProps<{ doc: Document }>();
-const document = ref<Document>(props.doc);
-const pinnedToggle = ref(!!document.value.pinned);
+const props = defineProps<{ doc: Node }>();
+const document = ref<Node>(props.doc);
+//const pinnedToggle = ref(!!document.value.);
 const link = computed(() => `${window.location.origin}/doc/${document.value.id}`);
 const documentsTree = computed(() => useSidebarTree().groupedByWorkspace());
 
-watch(pinnedToggle, val => (document.value.pinned = val ? 1 : 0));
+//watch(pinnedToggle, val => (document.value.pinned = val ? 1 : 0));
 watch(
   document.value,
   debounce(() => store.update(document.value), 500),

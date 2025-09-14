@@ -6,7 +6,7 @@
     </button>
     <VoiceRecognition @transcription="handleTranscription" />
     <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Access" size="100px" class="entry" />
-    <AppSelect v-if="!minimal" v-model="localValue.category" :items="categories" placeholder="Select category" size="300px" class="entry" />
+    <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Select category" size="300px" class="entry" />
 
     <div class="help">
       <button @click="openSettings">
@@ -20,20 +20,20 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 import ModalSyntax from './ModalSyntax.vue';
 import VoiceRecognition from './VoiceRecognition.vue';
 import EditorPreferences from './EditorPreferences.vue';
 
 const props = defineProps<{
-  modelValue: Partial<Document>;
+  modelValue: Partial<Node>;
   minimal?: boolean;
 }>();
 const handleTranscription = (text: string) => {
   emit('execute-action', 'insertText', text);
 };
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: Partial<Document>): void;
+  (e: 'update:modelValue', value: Partial<Node>): void;
   (e: 'execute-action', action: string, payload?: string): void;
 }>();
 
@@ -47,9 +47,7 @@ const emitAction = (action: string) => emit('execute-action', action);
 const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'large' }));
 const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'medium' }));
 
-const categories = computed(() =>
-  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
-);
+const categories = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 2)).generateTree().filter(i => i.data.role === 1));
 
 const toolbar = [
   {

@@ -12,8 +12,8 @@
       <div v-if="results.length" class="results">
         <NuxtLink v-for="result in results" :key="result.id" class="result" :to="`/dashboard/docs/${result.id}`">
           <Icon
-            :name="category(result.category)?.icon || 'files'"
-            :class="`category-icon ${getAppColor(category(result.category)?.color as number, true)}`"
+            :name="category(result.parent_id)?.icon || 'files'"
+            :class="`category-icon ${getAppColor(category(result.parent_id)?.color as number, true)}`"
           />{{ result.name }}</NuxtLink
         >
       </div>
@@ -46,30 +46,29 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 
 const colorMode = useColorMode();
 const searchQuery = ref('');
 
-const documentsStore = useDocumentsStore();
-const categoryStore = useCategoriesStore();
+const nodesStore = useNodesStore();
 function tokenize(text: string) {
   return text.trim().toLowerCase().split(/\s+/).filter(Boolean);
 }
 const results = computed(() => {
   const tokens = tokenize(searchQuery.value);
   if (!tokens.length) return [];
-  return documentsStore.getAll
-    .filter((doc: Document) => {
+  return nodesStore.getAll
+    .filter((doc: Node) => {
       const name = String(doc.name || '');
       const tags = Array.isArray(doc.tags) ? doc.tags.join(' ') : String(doc.tags || '');
       return tokens.every(t => name.toLowerCase().includes(t) || tags.toLowerCase().includes(t));
     })
     .slice(0, 5);
 });
-const category = (id?: string) => categoryStore.getById(id || '');
+const category = (id?: string) => nodesStore.getById(id || '');
 const recentDocuments = computed(() => {
-  return documentsStore.getAll
+  return nodesStore.getAll
     .toSorted((a, b) => {
       return parseInt(b.updated_timestamp) - parseInt(a.updated_timestamp);
     })

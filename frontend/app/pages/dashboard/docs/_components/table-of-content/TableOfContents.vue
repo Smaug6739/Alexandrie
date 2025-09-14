@@ -20,10 +20,10 @@
 </template>
 
 <script lang="ts" setup>
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 import NodeTree from './NodeTree.vue';
 
-const props = defineProps<{ element?: HTMLElement; doc?: Document }>();
+const props = defineProps<{ element?: HTMLElement; doc?: Node }>();
 const list = ref<HTMLElement>();
 
 interface GroupedHeaders {
@@ -112,8 +112,8 @@ const childs = computed(
   () =>
     useSidebarTree()
       .structure.value.childrenMap.get(props.doc?.id || '')
-      ?.filter(c => c.data.type === 'document') || [],
-) as Ref<Item<Document>[]>;
+      ?.filter(c => c.data.role === 3) || [],
+) as Ref<Item<Node>[]>;
 </script>
 
 <style lang="scss" scoped>

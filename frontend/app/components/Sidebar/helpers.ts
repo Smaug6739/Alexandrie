@@ -1,8 +1,9 @@
-import type { Category } from '~/stores';
+import type { Node } from '~/stores';
 
 export interface DefaultItem {
   id: string;
   type: 'navigation';
+  role: -1; // 0: Navigation item
   label: string;
   icon?: string;
   route: string;
@@ -10,8 +11,8 @@ export interface DefaultItem {
 }
 export interface Workspace {
   text: string;
-  value: string | null;
-  meta?: Partial<Category>;
+  value?: string;
+  meta?: Partial<Node>;
 }
 const sidebarItemsPrefs = usePreferences().get('sidebarItems');
 export const navigationItems: Item<DefaultItem>[] = [
@@ -24,6 +25,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'home',
       type: 'navigation',
+      role: -1,
       label: 'Home',
       icon: 'dashboard',
       route: '/dashboard/home',
@@ -40,6 +42,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'manage-categories',
       type: 'navigation',
+      role: -1,
       label: 'Manage categories',
       icon: 'categories',
       route: '/dashboard/categories',
@@ -56,6 +59,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'cdn',
       type: 'navigation',
+      role: -1,
       label: 'CDN',
       icon: 'cdn',
       route: '/dashboard/cdn',
@@ -72,6 +76,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'settings',
       type: 'navigation',
+      role: -1,
       label: 'Settings',
       icon: 'user_settings',
       route: '/dashboard/settings',
@@ -88,6 +93,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'documents',
       type: 'navigation',
+      role: -1,
       label: 'Documents',
       icon: 'files',
       route: '/dashboard/docs',
@@ -104,6 +110,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'import',
       type: 'navigation',
+      role: -1,
       label: 'Import',
       icon: 'import',
       route: '/dashboard/import',
@@ -120,6 +127,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'new-page',
       type: 'navigation',
+      role: -1,
       label: 'New Page',
       icon: 'add_file',
       route: '/dashboard/docs/new',

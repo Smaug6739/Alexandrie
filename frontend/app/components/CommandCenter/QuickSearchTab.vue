@@ -18,7 +18,7 @@ const props = defineProps<{
   searchQuery: string;
   selectedIndex: number;
 }>();
-const documentStore = useDocumentsStore();
+const documentStore = useNodesStore();
 
 defineEmits<{ updateSelectedIndex: [index: number] }>();
 

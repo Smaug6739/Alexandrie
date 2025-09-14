@@ -15,12 +15,7 @@
         <DocumentsGrid :documents="documents" />
       </div>
     </div>
-    <NoContent
-      v-else
-      style="width: 100%; height: 100%"
-      title="No documents found"
-      description="There are no documents in this category
-"
+    <NoContent v-else style="width: 100%; height: 100%" title="No documents found" description="There are no documents in this category"
       ><NuxtLink to="/dashboard/docs/new"><AppButton type="link" style="font-weight: bold">+ Create new document </AppButton></NuxtLink>
     </NoContent>
   </div>
@@ -29,21 +24,20 @@
 <script setup lang="ts">
 const route = useRoute();
 const categoryId = route.params.id as string;
-const categoriesStore = useCategoriesStore();
-const documentsStore = useDocumentsStore();
+const nodesStore = useNodesStore();
 const view: Ref<'table' | 'list'> = ref('list');
 
-definePageMeta({
-  breadcrumb: () => {
-    const category = useCategoriesStore().getById(useRoute().params.id as string);
-    return category?.name || '';
-  },
-});
+// definePageMeta({
+//   breadcrumb: () => {
+//     const category = nodesStore.getById(route.params.id as string);
+//     return category?.name || '';
+//   },
+// });
 const documents = computed(() => {
-  const documents = documentsStore.getByCategories(categoryId);
-  const childCategories = categoriesStore.getChilds(categoryId);
+  const documents = nodesStore.getByCategories(categoryId);
+  const childCategories = nodesStore.getChilds(categoryId);
   for (const childCategory of childCategories) {
-    const childDocuments = documentsStore.getByCategories(childCategory.id);
+    const childDocuments = nodesStore.getByCategories(childCategory.id);
     documents.push(...childDocuments);
   }
   return documents;

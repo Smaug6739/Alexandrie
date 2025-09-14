@@ -36,15 +36,15 @@
 <script setup lang="ts">
 import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
 import DocumentMeta from '../_modals/DocumentMeta.vue';
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 
-const props = defineProps<{ doc: Document }>();
+const props = defineProps<{ doc: Node }>();
 const print = () => window.print();
 const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.doc.id } }));
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
 
 function exportMarkdown() {
-  const blob = new Blob([props.doc.content_markdown || ''], { type: 'text/markdown' });
+  const blob = new Blob([props.doc.content || ''], { type: 'text/markdown' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

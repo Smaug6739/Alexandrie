@@ -31,9 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Item } from './types';
+import type { ItemCommand } from './types';
 const props = defineProps<{
-  items: Item[];
+  items: ItemCommand[];
   selectedIndex: number;
   query: string;
   emptyIcon: string;

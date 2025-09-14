@@ -6,7 +6,7 @@
       <!-- Real content -->
       <template v-else>
         <p v-if="!public" class="category">
-          <NuxtLink :to="`/dashboard/categories/${category?.id}`">{{ category?.name }}</NuxtLink>
+          <NuxtLink :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
           <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
         </p>
         <h1 class="title" :class="{ public: public }">{{ doc?.name }}</h1>
@@ -26,12 +26,11 @@
 import DocumentCardHeaderActionRow from './DocumentCardHeaderActionRow.vue';
 import DocumentHeaderIllustration from './DocumentHeaderIllustration.vue';
 import DocumentCardHeaderSkeleton from './DocumentCardHeaderSkeleton.vue';
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 
-const categories_store = useCategoriesStore();
 const preferences = usePreferences();
-const props = defineProps<{ doc?: Document; public?: boolean }>();
-const category = computed(() => categories_store.getById(props.doc?.category || ''));
+const props = defineProps<{ doc?: Node; public?: boolean }>();
+const category = computed(() => useSidebarTree().getCategoryFromNode(props.doc?.parent_id)?.data);
 </script>
 
 <style lang="scss" scoped>

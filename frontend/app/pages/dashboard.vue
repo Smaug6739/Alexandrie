@@ -14,8 +14,6 @@
 </template>
 <script setup lang="ts">
 definePageMeta({ breadcrumb: 'Home' });
-useDocumentsStore().fetch();
-useCategoriesStore().fetch();
+useNodesStore().fetch();
 useUserStore().fetch();
-useRessourcesStore().fetch();
 </script>

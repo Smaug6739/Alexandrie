@@ -24,3 +24,8 @@ export const EDITOR_FONTS = [
   { label: 'Arial', id: 'Arial' },
   { label: 'Times New Roman', id: 'Times New Roman' },
 ];
+
+export const CATEGORY_ROLES = [
+  { id: 1, label: 'Workspace' },
+  { id: 2, label: 'Category' },
+];

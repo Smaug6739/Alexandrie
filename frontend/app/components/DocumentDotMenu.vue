@@ -6,7 +6,9 @@
     >
     <button @click="edit"><Icon fill="var(--font-color)" name="edit_page" /> Edit</button>
     <button @click="copyLink"><Icon fill="var(--font-color)" name="link" /> Copy link</button>
-    <button @click="pin"><Icon fill="var(--font-color)" :name="document.pinned ? 'pin_off' : 'pin'" /> {{ document.pinned ? 'Unpin' : 'Pin' }}</button>
+    <button @click="pin">
+      <Icon fill="var(--font-color)" :name="document.order === -1 ? 'pin_off' : 'pin'" /> {{ document.order === -1 ? 'Unpin' : 'Pin' }}
+    </button>
     <hr style="margin: 2px 0" />
     <button @click="emitDelete"><Icon name="delete" fill="red" /> Delete</button>
     <hr style="margin: 2px 0" />
@@ -20,10 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Document, User } from '~/stores';
+import type { Node, User } from '~/stores';
 
 const dotMenu = ref();
-const props = defineProps<{ document: Document; user?: User }>();
+const props = defineProps<{ document: Node; user?: User }>();
 const emit = defineEmits<{
   (e: 'open' | 'close' | 'edit' | 'rename' | 'delete'): void;
 }>();
@@ -49,7 +51,7 @@ const emitDelete = () => {
   emit('delete');
 };
 const pin = async () => {
-  await useDocumentsStore().update({ ...props.document, pinned: props.document.pinned === 1 ? 0 : 1 });
+  await useNodesStore().update({ ...props.document });
 };
 </script>
 

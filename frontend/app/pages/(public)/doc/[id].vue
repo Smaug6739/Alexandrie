@@ -17,7 +17,7 @@
           ref="element"
           :class="`${article.theme || preferencesStore.get('theme').value}-theme`"
           style="max-width: 100%"
-          v-html="article.content_html"
+          v-html="article.content_compiled"
         />
         <DocumentSkeleton v-else />
       </div>
@@ -36,14 +36,14 @@
 import TableOfContent from '../../dashboard/docs/_components/table-of-content/TableOfContents.vue';
 import DocumentSkeleton from '../../dashboard/docs/_components/DocumentSkeleton.vue';
 import DocumentCardHeader from '../../dashboard/docs/_components/DocumentCardHeader.vue';
-import type { Document } from '@/stores';
+import type { Node } from '@/stores';
 
 const route = useRoute();
-const documentsStore = useDocumentsStore();
+const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
 const element = ref<HTMLElement>();
 
-const article = ref<Document | undefined>();
+const article = ref<Node | undefined>();
 const error: Ref<false | string> = ref(false);
 
 watchEffect(async () => {

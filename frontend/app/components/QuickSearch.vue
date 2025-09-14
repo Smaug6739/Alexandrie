@@ -12,7 +12,7 @@
       <NuxtLink v-for="doc of docs" :key="doc.id" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close">
         <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }}
         <span class="category">
-          <tag :class="getAppColor(categoryStore.getById(doc.category || '')?.color)">{{ categoryStore.getById(doc.category || '')?.name }}</tag>
+          <tag :class="getAppColor(categoryStore.getById(doc.parent_id || '')?.color)">{{ categoryStore.getById(doc.parent_id || '')?.name }}</tag>
         </span>
       </NuxtLink>
       <p v-if="!docs.length" class="no-result">No result found.</p>
@@ -21,12 +21,10 @@
 </template>
 
 <script setup lang="ts">
-const categoryStore = useCategoriesStore();
+const categoryStore = useNodesStore();
 
 const documents = computed(() =>
-  useDocumentsStore().getAll.filter(
-    c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || c.tags?.toLowerCase().includes(filter.value.toLowerCase()),
-  ),
+  useNodesStore().getAll.filter(c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || c.tags?.toLowerCase().includes(filter.value.toLowerCase())),
 );
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);

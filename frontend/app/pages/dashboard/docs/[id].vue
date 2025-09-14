@@ -10,7 +10,7 @@
           ref="element"
           :class="`${article.theme || preferencesStore.get('theme').value}-theme`"
           style="max-width: 100%"
-          v-html="article.content_html"
+          v-html="article.content_compiled"
         />
         <DocumentSkeleton v-else />
         <DocumentCardFooter :document="article" :next="next" :previous="previous" />
@@ -37,14 +37,14 @@ import DocumentCardHeader from './_components/DocumentCardHeader.vue';
 import DocumentCardFooter from './_components/DocumentCardFooter.vue';
 import DocumentSkeleton from './_components/DocumentSkeleton.vue';
 
-import type { Document } from '@/stores';
+import type { Node } from '@/stores';
 
 const route = useRoute();
-const documentsStore = useDocumentsStore();
+const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
 const element = ref<HTMLElement>();
 
-const article = ref<Document | undefined>();
+const article = ref<Node | undefined>();
 const error: Ref<false | string> = ref(false);
 
 watchEffect(async () => {
@@ -68,8 +68,8 @@ watchEffect(async () => {
 
 definePageMeta({
   breadcrumb: () => {
-    const doc = useDocumentsStore().getById(useRoute().params.id as string);
-    return doc?.name || '';
+    //const doc = useNodesStore().getById(useRoute().params.id as string);
+    //return doc?.name || '';
   },
 });
 

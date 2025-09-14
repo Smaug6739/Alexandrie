@@ -1,5 +1,5 @@
 import { makeRequest, type FetchOptions } from './_utils';
-import type { DB_Document, Document } from './db_strustures';
+import type { DB_Node, Node } from './db_strustures';
 
 interface SearchOptions {
   query?: string;
@@ -10,80 +10,82 @@ interface SearchOptions {
   category?: string;
 }
 
-export const useDocumentsStore = defineStore('documents', {
+export const useNodesStore = defineStore('nodes', {
   state: () => ({
-    documents: [] as Document[],
-    public_documents: [] as Document[],
+    nodes: [] as Array<Node | Node>,
+    public_nodes: [] as Node[],
     allTags: [] as string[],
     isFetching: false,
   }),
   getters: {
-    getAll: state => state.documents,
+    getAll: state => state.nodes,
     getAllTags: state => state.allTags,
-    getById: state => (id: string) => state.documents.find((d: Document) => d.id == id),
-    getByCategories: state => (category: string) => state.documents.filter(d => d.category == category),
+    getById: state => (id: string) => state.nodes.find((d: Node) => d.id == id),
+    getByCategories: state => (category: string) => state.nodes.filter(d => d.parent_id == category),
+    getParents: state => state.nodes.filter(c => !c.parent_id),
+    getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),
 
-    getNext: state => (doc?: Document) => {
-      const cdocs = state.documents.filter(d => d.category == doc?.category);
-      const index = cdocs.findIndex(d => d.id == doc?.id);
+    getNext: state => (node?: Node) => {
+      const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id);
+      const index = cnodes.findIndex(d => d.id == node?.id);
       if (index == -1) return;
-      return cdocs[index + 1];
+      return cnodes[index + 1];
     },
 
-    getPrevious: state => (doc?: Document) => {
-      const cdocs = state.documents.filter(d => d.category == doc?.category);
-      const index = cdocs.findIndex(d => d.id == doc?.id);
+    getPrevious: state => (node?: Node) => {
+      const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id);
+      const index = cnodes.findIndex(d => d.id == node?.id);
       if (index == -1) return;
-      return cdocs[index - 1];
+      return cnodes[index - 1];
     },
     getAllChildrensIds: state => (id: string) => {
       const childrens: string[] = [id];
-      const getChildrens = (parent: Document) => {
-        state.documents.forEach(doc => {
-          if (doc.parent_id == parent.id) {
-            childrens.push(doc.id);
-            getChildrens(doc);
+      const getChildrens = (parent: Node) => {
+        state.nodes.forEach(node => {
+          if (node.parent_id == parent.id) {
+            childrens.push(node.id);
+            getChildrens(node);
           }
         });
       };
-      const parent = state.documents.find(d => d.id == id);
+      const parent = state.nodes.find(d => d.id == id);
       if (parent) getChildrens(parent);
       return childrens;
     },
     search: state => (options: SearchOptions) => {
       const { query, fromDate, toDate, dateType, tags, category } = options;
-      let filtered = [...state.documents];
+      let filtered = [...state.nodes];
       if (query) {
-        filtered = filtered.filter(doc => {
-          const docContent = `${doc.name} ${doc.description} ${doc.tags}`.toLowerCase();
-          return docContent.includes(query.toLowerCase());
+        filtered = filtered.filter(node => {
+          const nodeContent = `${node.name} ${node.description} ${node.tags}`.toLowerCase();
+          return nodeContent.includes(query.toLowerCase());
         });
       }
 
       if (fromDate) {
-        filtered = filtered.filter(doc => {
-          const docDate = new Date(doc[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']);
-          return docDate >= fromDate;
+        filtered = filtered.filter(node => {
+          const nodeDate = new Date(node[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']);
+          return nodeDate >= fromDate;
         });
       }
 
       if (toDate) {
-        filtered = filtered.filter(doc => {
-          const docDate = new Date(doc[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']);
-          return docDate <= toDate;
+        filtered = filtered.filter(node => {
+          const nodeDate = new Date(node[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']);
+          return nodeDate <= toDate;
         });
       }
 
       if (tags && tags.length > 0) {
-        filtered = filtered.filter(doc => {
-          if (!doc.tags) return false;
-          const docTags = parseTags(doc.tags);
-          return tags.some(tag => docTags.includes(tag));
+        filtered = filtered.filter(node => {
+          if (!node.tags) return false;
+          const nodeTags = parseTags(node.tags);
+          return tags.some(tag => nodeTags.includes(tag));
         });
       }
 
       if (category) {
-        filtered = filtered.filter(doc => doc.category === category);
+        filtered = filtered.filter(node => node.parent_id === category);
       }
 
       return filtered;
@@ -92,64 +94,65 @@ export const useDocumentsStore = defineStore('documents', {
   actions: {
     recomputeTags() {
       const tags = new Set<string>();
-      this.documents.forEach(doc => {
-        if (doc.tags) {
-          parseTags(doc.tags).forEach(tag => tags.add(tag));
+      this.nodes.forEach(node => {
+        if (node.tags) {
+          parseTags(node.tags).forEach(tag => tags.add(tag));
         }
       });
       this.allTags = Array.from(tags).sort();
     },
-    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Document : Document[]> {
-      console.log(`[store/documents] Fetching documents with options: ${JSON.stringify(opts)}`);
-      if (!this.documents.length) this.isFetching = true;
-      const request = await makeRequest(`documents/@me/${opts?.id || ''}`, 'GET', {});
+    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : Node[]> {
+      console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
+      if (!this.nodes.length) this.isFetching = true;
+      const request = await makeRequest(`nodes/@me/${opts?.id || ''}`, 'GET', {});
       this.isFetching = false;
       if (request.status == 'success') {
         if (opts?.id) {
-          const index = this.documents.findIndex(d => d.id == opts?.id);
-          const updatedDocument: Document = { ...(request.result as DB_Document), partial: false, type: 'document' };
-          if (index == -1) this.documents.push(updatedDocument);
-          else this.documents[index] = updatedDocument;
-          return updatedDocument as 'id' extends keyof T ? Document : Document[];
+          const index = this.nodes.findIndex(d => d.id == opts?.id);
+          const updatedNode: Node = { ...(request.result as DB_Node), partial: false };
+          if (index == -1) this.nodes.push(updatedNode);
+          else this.nodes[index] = updatedNode;
+          return updatedNode as 'id' extends keyof T ? Node : Node[];
         } else {
-          this.documents = (request.result as DB_Document[]).map((d: DB_Document) => ({ ...d, partial: true, type: 'document' }));
+          this.nodes = (request.result as DB_Node[]).map((d: DB_Node) => ({ ...d, partial: true }));
           this.recomputeTags();
-          return this.documents as 'id' extends keyof T ? Document : Document[];
+          return this.nodes as 'id' extends keyof T ? Node : Node[];
         }
       } else throw request;
     },
-    async fetchPublic(id: string): Promise<Document | undefined> {
-      console.log(`[store/documents] Fetching public document with id: ${id}`);
-      const existingDoc = this.public_documents.find(d => d.id === id);
+    async fetchPublic(id: string): Promise<Node | undefined> {
+      console.log(`[store/nodes] Fetching public nodeument with id: ${id}`);
+      const existingDoc = this.public_nodes.find(d => d.id === id);
       if (existingDoc) return existingDoc;
-      const request = await makeRequest(`documents/public/${id}`, 'GET', {});
+      const request = await makeRequest(`nodes/public/${id}`, 'GET', {});
       if (request.status === 'success') {
-        const fetchedDoc: Document = { ...(request.result as DB_Document), partial: false, type: 'document' };
-        this.public_documents.push(fetchedDoc);
+        const fetchedDoc: Node = { ...(request.result as DB_Node), partial: false };
+        this.public_nodes.push(fetchedDoc);
         return fetchedDoc;
       } else return undefined;
     },
-    async post(doc: Document): Promise<DB_Document> {
-      const request = await makeRequest('documents', 'POST', doc);
+    async post(node: Partial<Node>): Promise<DB_Node> {
+      const request = await makeRequest('nodes', 'POST', node);
       if (request.status == 'success') {
-        this.documents.push({ ...(request.result as DB_Document), type: 'document', partial: false });
-        return request.result as DB_Document;
+        this.nodes.push({ ...(request.result as DB_Node), partial: false });
+        return request.result as DB_Node;
       } else throw request.message;
     },
-    async update(doc: Document) {
-      if (doc.partial) {
-        console.log('[store/documents] Document is partial, cannot update it directly.');
-        const fullDoc = await this.fetch({ id: doc.id });
-        if (!fullDoc) throw 'Document not found';
-        doc = { ...doc, content_markdown: fullDoc.content_markdown, content_html: fullDoc.content_html, partial: false }; // Merge with full document data
+
+    async update(node: Node) {
+      if (node.partial) {
+        console.log('[store/nodes] Node is partial, cannot update it directly.');
+        const fullDoc = await this.fetch({ id: node.id });
+        if (!fullDoc) throw 'Node not found';
+        node = { ...fullDoc, ...node, partial: false }; // Merge with full nodeument data
       }
-      const request = await makeRequest(`documents/${doc.id}`, 'PUT', doc);
-      if (request.status == 'success') return (this.documents = this.documents.map(d => (d.id == doc.id ? doc : d)));
+      const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
+      if (request.status == 'success') return (this.nodes = this.nodes.map(d => (d.id == node.id ? node : d)));
       else throw request.message;
     },
     async delete(id: string) {
-      const request = await makeRequest(`documents/${id}`, 'DELETE', {});
-      if (request.status == 'success') return (this.documents = this.documents.filter(d => d.id != id));
+      const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
+      if (request.status == 'success') return (this.nodes = this.nodes.filter(d => d.id != id));
       else throw request.message;
     },
   },

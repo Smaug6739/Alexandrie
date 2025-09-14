@@ -18,8 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { Document } from '~/stores';
-defineProps<{ document?: Document; next?: Document; previous?: Document }>();
+import type { Node } from '~/stores';
+defineProps<{ document?: Node; next?: Node; previous?: Node }>();
 </script>
 
 <style scoped lang="scss">

@@ -3,7 +3,7 @@
     <header style="display: flex; justify-content: space-between">
       <div style="display: flex; align-items: center; justify-content: flex-start">
         <div>
-          <Icon :name="category?.icon || 'files'" :class="`category-icon ${getAppColor(category?.color as number, true)}`" />
+          <Icon :name="document.icon || category?.icon || 'files'" :class="`category-icon ${getAppColor(document.color || category?.color as number, true)}`" />
         </div>
         <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
       </div>
@@ -25,11 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '@/stores';
+import type { Node } from '@/stores';
 import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentModal.vue';
-const props = defineProps<{ document: Document }>();
-const categoriesStore = useCategoriesStore();
-const category = computed(() => categoriesStore.getById(props.document.category || ''));
+const props = defineProps<{ document: Node }>();
+const categoriesStore = useNodesStore();
+const category = computed(() => categoriesStore.getById(props.document.parent_id || ''));
 const user = useUserStore().user;
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.document.id } }));
 </script>

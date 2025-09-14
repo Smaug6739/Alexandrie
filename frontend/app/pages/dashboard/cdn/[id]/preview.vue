@@ -8,22 +8,22 @@
           <AppButton type="secondary" @click="copyLink">Copy link</AppButton>
         </div>
       </header>
-      Name: <strong>{{ ressource.filename }}</strong>
+      Name: <strong>{{ ressource.name }}</strong>
       <p>
-        Type: <strong>{{ ressource.filetype }}</strong>
+        Type: <strong>{{ ressource.metadata?.filetype }}</strong>
       </p>
       <p>
-        Size: <strong>{{ readableFileSize(ressource.filesize) }}</strong>
+        Size: <strong>{{ readableFileSize(ressource.size ?? 0) }}</strong>
       </p>
       <div class="preview">
         <img
-          v-if="ressource?.filetype.startsWith('image/')"
-          :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`"
+          v-if="(ressource?.metadata?.filetype as string).startsWith('image/')"
+          :src="`${CDN}/${ressource!.user_id}/${ressource!.content_compiled || ressource!.content}`"
           alt="Preview"
         />
         <iframe
-          v-else-if="ressource!.filetype.startsWith('application/pdf')"
-          :src="`${CDN}/${ressource!.author_id}/${ressource!.transformed_path || ressource!.original_path}`"
+          v-else-if="(ressource?.metadata?.filetype as string).startsWith('application/pdf')"
+          :src="`${CDN}/${ressource!.user_id}/${ressource!.content_compiled || ressource!.content}`"
           width="100%"
           height="500px"
           frameborder="0"
@@ -40,7 +40,7 @@ definePageMeta({ breadcrumb: 'Preview' });
 const ressource = computed(() => useRessourcesStore().getById(useRoute().params.id as string));
 
 const copyLink = () => {
-  const link = `${CDN}/${ressource.value?.author_id}/${ressource.value?.transformed_path || ressource.value?.original_path}`;
+  const link = `${CDN}/${ressource.value?.user_id}/${ressource.value?.content_compiled || ressource.value?.content}`;
   navigator.clipboard.writeText(link);
 };
 </script>

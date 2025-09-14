@@ -12,23 +12,23 @@
         </div>
         <div class="form-column">
           <label>Size</label>
-          <input id="size" type="text" :value="readableFileSize(ressource.filesize)" disabled />
+          <input id="size" type="text" :value="readableFileSize(ressource.size ?? 0)" disabled />
         </div>
       </div>
       <label>Name</label>
-      <input id="name" v-model="ressource.filename" type="text" required />
+      <input id="name" v-model="ressource.name" type="text" required />
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
-      <AppSelect v-model="ressource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.type !== 'document'" placeholder="Select a ressource parent" />
+      <AppSelect v-model="ressource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.role !== 3" placeholder="Select a ressource parent" />
       <label>Type</label>
-      <input id="id" type="text" :value="ressource.filetype" disabled />
+      <input id="id" type="text" :value="ressource.metadata?.filetype" disabled />
       <label>Original path</label>
-      <input id="original_path" type="text" :value="ressource.original_path" disabled />
+      <input id="content" type="text" :value="ressource.content" disabled />
       <label>Path</label>
-      <input id="path" type="text" :value="ressource.transformed_path" disabled />
+      <input id="path" type="text" :value="ressource.content_compiled" disabled />
       <p style="overflow-wrap: break-word">
         Ressource:
-        <a :href="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`" target="_blank">{{
-          `${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`
+        <a :href="`${CDN}/${ressource.user_id}/${ressource.content_compiled || ressource.content}`" target="_blank">{{
+          `${CDN}/${ressource.user_id}/${ressource.content_compiled || ressource.content}`
         }}</a>
       </p>
       <div style="display: flex; justify-content: flex-end">
@@ -37,8 +37,8 @@
       <h4>Preview</h4>
       <div class="preview">
         <img
-          v-if="ressource.filetype.startsWith('image/')"
-          :src="`${CDN}/${ressource.author_id}/${ressource.transformed_path || ressource.original_path}`"
+          v-if="(ressource.metadata?.filetype as string).startsWith('image/')"
+          :src="`${CDN}/${ressource.user_id}/${ressource.content_compiled || ressource.content}`"
           alt="Preview"
         />
         <p v-else>Preview not available for this file type.</p>

@@ -3,18 +3,18 @@
 </template>
 <script lang="ts" setup>
 import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 
-const store = useDocumentsStore();
-const document = ref<Partial<Document>>({
-  category: (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined,
+const store = useNodesStore();
+const document = ref<Partial<Node>>({
+  parent_id: (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined,
   accessibility: 1,
 });
 const notifications = useNotifications();
 
 definePageMeta({ breadcrumb: 'New' });
 
-function save(doc: Document) {
+function save(doc: Node) {
   store
     .post(doc)
     .then(d => {

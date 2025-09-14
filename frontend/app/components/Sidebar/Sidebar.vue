@@ -20,16 +20,29 @@
             <div class="email">{{ userStore.user.email }}</div>
           </NuxtLink>
           <div class="icons">
-            <NuxtLink to="/dashboard/docs/new" :prefetch="false" @click="onClick"><Icon name="add_file" :mid="true" fill="var(--font-color)" /></NuxtLink>
-            <NuxtLink @click="newCategory"><Icon name="add_folder" :mid="true" fill="var(--font-color)" /></NuxtLink>
-            <NuxtLink @click="sidebarTree.collapseAll"><Icon name="collapse" :mid="true" fill="var(--font-color)" /></NuxtLink>
-            <NuxtLink @click="toggleDock"><Icon name="dock" :mid="true" fill="var(--font-color)" /></NuxtLink>
+            <NuxtLink to="/dashboard/docs/new" class="nav-item" :prefetch="false" @click="onClick">
+              <Icon name="add_file" :mid="true" fill="var(--font-color)" />
+              <p class="hint-tooltip">New doc</p>
+            </NuxtLink>
+            <NuxtLink class="nav-item" @click="newCategory"
+              ><Icon name="add_folder" :mid="true" fill="var(--font-color)" />
+              <p class="hint-tooltip">New category</p></NuxtLink
+            >
+            <NuxtLink class="nav-item" @click="sidebarTree.collapseAll"
+              ><Icon name="collapse" :mid="true" fill="var(--font-color)" />
+              <p class="hint-tooltip">Close all</p></NuxtLink
+            >
+            <NuxtLink class="nav-item" @click="toggleDock"
+              ><Icon name="dock" :mid="true" fill="var(--font-color)" />
+              <p class="hint-tooltip">Toggle dock</p></NuxtLink
+            >
           </div>
         </div>
       </div>
       <SidebarWorkspaces :options="workspaces" />
       <CollapseItem v-for="item in navigationItems" :key="item.id" :item="item" :root="true" />
       <hr style="width: 100%; margin: 5px 0" />
+
       <template v-if="tree.length">
         <CollapseItem v-for="item in tree" :key="item.id" :item="item" :root="true" />
       </template>
@@ -51,12 +64,12 @@ import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategor
 import Dock from './Dock.vue';
 
 const { isOpened, hasSidebar } = useSidebar();
-const categoriesStore = useCategoriesStore();
+const nodesStore = useNodesStore();
 const preferences = usePreferences();
 const userStore = useUserStore();
 const filter = ref<string>('');
-const workspaces = computed(() => [...categoriesStore.getAll.filter(c => c.role === 2).map(c => ({ text: c.name, value: c.id, meta: c }))]);
-const isLoading = computed(() => categoriesStore.isFetching || useDocumentsStore().isFetching || useRessourcesStore().isFetching);
+const workspaces = computed(() => [...nodesStore.getAll.filter(c => c.role === 1).map(c => ({ text: c.name, value: c.id, meta: c }))]);
+const isLoading = computed(() => nodesStore.isFetching);
 
 const sidebarTree = useSidebarTree();
 const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock').value);
@@ -72,7 +85,7 @@ const handleClickOutside = (e: MouseEvent) => {
 };
 const newCategory = () => {
   onClick();
-  useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 1 } }));
+  useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 2 } }));
 };
 const onClick = () => {
   if (isMobile()) isOpened.value = false;
@@ -123,8 +136,11 @@ onBeforeUnmount(() => {
     align-items: center;
   }
 }
-
+.nav-item:hover .hint-tooltip {
+  display: block;
+}
 .icons {
+  position: relative;
   display: flex;
   height: fit-content;
 

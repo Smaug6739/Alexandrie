@@ -13,21 +13,20 @@
 
     <NuxtLink :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
 
-    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
+    <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" fill="var(--font-color)" />
     </NuxtLink>
-    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
+    <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
       <Icon name="plus" fill="var(--font-color)" />
     </NuxtLink>
-    <Icon v-if="item.data.type === 'document' && item.data.pinned" name="pin" fill="var(--font-color-light)" class="ni" />
+    <Icon v-if="item.data.role === 3 && item.data.order === -1" name="pin" fill="var(--font-color-light)" class="ni" />
     <slot />
   </span>
 </template>
 
 <script setup lang="ts">
 import { navigationItems } from './helpers';
-const documentStore = useDocumentsStore();
-const categoriesStore = useCategoriesStore();
+const nodesStore = useNodesStore();
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item }>();
 const customClass = computed(() => {
@@ -62,42 +61,41 @@ const dragLeave = () => {
   // Réinitialise l'état de survol lorsque l'élément quitte la zone de dépôt
   isDragOver.value = false;
 };
-
+const { workspaceId } = useSidebar();
 const drop = async (event: DragEvent) => {
   isDragOver.value = false;
   const draggedItemId = event.dataTransfer!.getData('text/plain');
 
-  let draggedItem =
-    documentStore.getById(draggedItemId) || categoriesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
+  let draggedItem = nodesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
 
   if (!draggedItem) return;
 
-  if (draggedItem.type === 'document' && draggedItem.partial) {
-    draggedItem = await documentStore.fetch({ id: draggedItem.id });
+  if (draggedItem.role === 3 && draggedItem.partial) {
+    draggedItem = await nodesStore.fetch({ id: draggedItem.id });
   }
 
-  if (draggedItem.type === 'document' && props.item.data.type === 'category') {
+  if (draggedItem.role === 3 && props.item.data.role === 2) {
     // Move document to category
-    documentStore.update({ ...draggedItem, category: props.item.id, parent_id: null });
+    nodesStore.update({ ...draggedItem, parent_id: props.item.id });
   }
-  if (draggedItem.type === 'category' && props.item.data.type === 'category') {
+  if (draggedItem.role === 2 && props.item.data.role === 2) {
     // Move category to category
     if (draggedItem.id === props.item.id) return; // Prevent moving to the same category
-    categoriesStore.update({ ...draggedItem, parent_id: props.item.id, workspace_id: undefined });
+    nodesStore.update({ ...draggedItem, parent_id: props.item.id });
   }
-  if (draggedItem.type === 'document' && props.item.data.type === 'document') {
+  if (draggedItem.role === 3 && props.item.data.role === 3) {
     // Move document to document
-    if (documentStore.getAllChildrensIds(draggedItem.id).includes(props.item.parent_id ?? '')) return; // Prevent moving parent to child
+    if (nodesStore.getAllChildrensIds(draggedItem.id).includes(props.item.parent_id ?? '')) return; // Prevent moving parent to child
     if (draggedItem.id === props.item.id) return; // Prevent moving to the same document
-    documentStore.update({ ...draggedItem, parent_id: props.item.id, category: props.item.data.category });
+    nodesStore.update({ ...draggedItem, parent_id: props.item.id });
   }
-  if (draggedItem.type === 'category' && props.item.data.type === 'navigation') {
+  if (draggedItem.role === 2 && props.item.data.role === -1) {
     // Move category to root
-    categoriesStore.update({ ...draggedItem, parent_id: undefined, workspace_id: useSidebar().workspaceId.value || undefined });
+    nodesStore.update({ ...draggedItem, parent_id: workspaceId.value });
   }
-  if (draggedItem.type === 'document' && props.item.data.type === 'navigation') {
+  if (draggedItem.role === 3 && props.item.data.role === -1) {
     // Move document to root
-    documentStore.update({ ...draggedItem, parent_id: undefined, category: useSidebar().workspaceId.value || undefined });
+    nodesStore.update({ ...draggedItem, parent_id: workspaceId.value });
   }
 };
 </script>

@@ -47,7 +47,7 @@ const uploadAvatar = async () => {
   const body = new FormData();
   body.append('file', file);
   const r = await ressourcesStore.postAvatar(body);
-  return r.transformed_path || r.original_path;
+  return r.content_compiled || r.original_path;
 };
 const previewAvatar = (event: Event) => {
   if (!userStore.user) return;
