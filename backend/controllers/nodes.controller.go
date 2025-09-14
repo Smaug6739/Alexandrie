@@ -168,6 +168,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		Name:             node.Name,
 		Description:      node.Description,
 		Tags:             node.Tags,
+		Role:             node.Role,
 		Thumbnail:        node.Thumbnail,
 		Theme:            node.Theme,
 		Icon:             node.Icon,

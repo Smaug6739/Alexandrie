@@ -189,11 +189,12 @@ func (s *Service) CreateNode(node *models.Node) error {
 }
 
 func (s *Service) UpdateNode(node *models.Node) error {
-	_, err := s.db.Exec("UPDATE nodes SET `parent_id` = ?, `name` = ?, `description` = ?, `tags` = ?, `color` = ?, `icon` = ?, `thumbnail` = ?, `theme` = ?, `accessibility` = ?, `display` = ?, `order` = ?, `content` = ?, `content_compiled` = ?, `metadata` = ?, `updated_timestamp` = ? WHERE id = ?",
+	_, err := s.db.Exec("UPDATE nodes SET `parent_id` = ?, `name` = ?, `description` = ?, `tags` = ?, `role` = ?, `color` = ?, `icon` = ?, `thumbnail` = ?, `theme` = ?, `accessibility` = ?, `display` = ?, `order` = ?, `content` = ?, `content_compiled` = ?, `metadata` = ?, `updated_timestamp` = ? WHERE id = ?",
 		node.ParentId,
 		node.Name,
 		node.Description,
 		node.Tags,
+		node.Role,
 		node.Color,
 		node.Icon,
 		node.Thumbnail,

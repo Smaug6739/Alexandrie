@@ -25,7 +25,7 @@
       </div>
       <div style="display: flex; align-items: center; gap: 10px">
         <label for="pinned">Pinned</label>
-        <!--<AppToggle id="pinned" v-model="pinnedToggle" />-->
+        <AppToggle id="pinned" v-model="pinnedToggle" />
       </div>
 
       <label for="parent">Parent Document</label>
@@ -51,11 +51,11 @@ const store = useNodesStore();
 
 const props = defineProps<{ doc: Node }>();
 const document = ref<Node>(props.doc);
-//const pinnedToggle = ref(!!document.value.);
+const pinnedToggle = ref(document.value.order == -1);
 const link = computed(() => `${window.location.origin}/doc/${document.value.id}`);
 const documentsTree = computed(() => useSidebarTree().groupedByWorkspace());
 
-//watch(pinnedToggle, val => (document.value.pinned = val ? 1 : 0));
+watch(pinnedToggle, val => (document.value.order = val ? -1 : 0));
 watch(
   document.value,
   debounce(() => store.update(document.value), 500),

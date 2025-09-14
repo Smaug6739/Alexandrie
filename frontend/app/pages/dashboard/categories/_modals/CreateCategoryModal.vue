@@ -3,7 +3,6 @@
     <h2>New {{ role == 1 ? 'workspace' : 'category' }}</h2>
     <label for="name">Name</label>
     <input id="name" v-model="category.name" class="entry" type="text" required placeholder="Display name" />
-
     <label>Parent</label>
     <div>
       <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" placeholder="Select a category parent" />
@@ -31,7 +30,9 @@ import type { Node } from '~/stores';
 const categoriesStore = useNodesStore();
 const sidebarTree = useSidebarTree();
 const sidebar = useSidebar();
-const categoriesItem = computed(() => new TreeStructure(sidebarTree.nodes.value).generateTree().filter(i => i.data.role == 1));
+const categoriesItem = computed(() =>
+  new TreeStructure(sidebarTree.nodes.value.filter(c => c.data.role == 1 || c.data.role == 2)).generateTree().filter(i => i.data.role == 1),
+);
 const props = defineProps<{ role: 1 | 2 }>();
 
 const category = ref<Partial<Node>>({

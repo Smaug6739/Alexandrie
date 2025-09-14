@@ -31,7 +31,7 @@ const emit = defineEmits<{
 }>();
 defineExpose({ close: () => dotMenu.value?.close() });
 
-const numericDate = (timestamp: string): string => {
+const numericDate = (timestamp: number): string => {
   const date = new Date(timestamp);
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -51,7 +51,7 @@ const emitDelete = () => {
   emit('delete');
 };
 const pin = async () => {
-  await useNodesStore().update({ ...props.document });
+  await useNodesStore().update({ ...props.document, order: props.document.order === -1 ? 0 : -1 });
 };
 </script>
 

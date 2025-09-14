@@ -143,15 +143,12 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async update(node: Node) {
-      console.log(node);
       if (node.partial) {
         console.log('[store/nodes] Node is partial, cannot update it directly.');
         const full_node = await this.fetch({ id: node.id });
         if (!full_node) throw 'Node not found';
-        console.log(full_node);
         node = { ...full_node, ...node, partial: false }; // Merge with full nodeument data
       }
-      console.log(node);
       const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
       if (request.status == 'success') return (this.nodes = this.nodes.map(d => (d.id == node.id ? node : d)));
       else throw request.message;
