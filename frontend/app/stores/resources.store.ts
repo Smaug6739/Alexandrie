@@ -13,7 +13,7 @@ export const useRessourcesStore = defineStore('ressources', {
     async post(ressource: FormData): Promise<Node> {
       const request = await makeRequest(`ressources`, 'POST', ressource);
       if (request.status == 'success') {
-        this.ressources.push(request.result as Node);
+        useNodesStore().nodes.push(request.result as Node);
         return request.result as Node;
       } else throw request.message;
     },
@@ -26,14 +26,14 @@ export const useRessourcesStore = defineStore('ressources', {
     async update(ressource: Node): Promise<Node | string> {
       const request = await makeRequest(`ressources/${ressource.id}`, 'PUT', ressource);
       if (request.status == 'success') {
-        const index = this.ressources.findIndex(c => c.id == ressource.id);
-        if (index != -1) this.ressources[index] = ressource as Node;
+        const index = useNodesStore().nodes.findIndex(c => c.id == ressource.id);
+        if (index != -1) useNodesStore().nodes[index] = ressource as Node;
         return request.result as Node;
       } else throw request.message;
     },
     async delete(id: string) {
       const request = await makeRequest(`ressources/${id}`, 'DELETE', {});
-      if (request.status == 'success') return (this.ressources = this.ressources.filter(c => c.id != id));
+      if (request.status == 'success') return (useNodesStore().nodes = useNodesStore().nodes.filter(c => c.id != id));
       else throw request.message;
     },
   },

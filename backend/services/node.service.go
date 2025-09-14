@@ -23,7 +23,7 @@ func NewNodeService(db *sql.DB) NodeService {
 
 func (s *Service) GetAllNodes(userId types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
-	rows, err := s.db.Query("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `theme`, `accessibility`, `display`, `order`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE user_id = ? ORDER BY `order` DESC, name", userId)
+	rows, err := s.db.Query("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `theme`, `accessibility`, `display`, `order`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE user_id = ? ORDER BY `role`, `order` DESC, name", userId)
 	if err != nil {
 		return nil, err
 	}
@@ -45,6 +45,8 @@ func (s *Service) GetAllNodes(userId types.Snowflake) ([]*models.Node, error) {
 			&node.Accessibility,
 			&node.Display,
 			&node.Order,
+			&node.Size,
+			&node.Metadata,
 			&node.CreatedTimestamp,
 			&node.UpdatedTimestamp,
 		); err != nil {
@@ -57,7 +59,7 @@ func (s *Service) GetAllNodes(userId types.Snowflake) ([]*models.Node, error) {
 
 func (s *Service) GetAllNodeBackup(user_id types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
-	rows, err := s.db.Query("SELECT `id`, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, accessibility, display, order, content, content_compiled, size, metadata, created_timestamp, updated_timestamp FROM nodes WHERE user_id = ?", user_id)
+	rows, err := s.db.Query("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE user_id = ?", user_id)
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +95,7 @@ func (s *Service) GetAllNodeBackup(user_id types.Snowflake) ([]*models.Node, err
 
 func (s *Service) GetUserUploadsSize(userId types.Snowflake) (int64, error) {
 	var totalSize *int64
-	err := s.db.QueryRow("SELECT SUM(file_size) FROM nodes WHERE user_id = ?", userId).Scan(&totalSize)
+	err := s.db.QueryRow("SELECT SUM(size) FROM nodes WHERE user_id = ?", userId).Scan(&totalSize)
 	if err != nil {
 		return 0, err
 	}
@@ -187,12 +189,11 @@ func (s *Service) CreateNode(node *models.Node) error {
 }
 
 func (s *Service) UpdateNode(node *models.Node) error {
-	_, err := s.db.Exec("UPDATE nodes SET `parent_id` = ?, `name` = ?, `description` = ?, `tags` = ?, `role` = ?, `color` = ?, `icon` = ?, `thumbnail` = ?, `theme` = ?, `accessibility` = ?, `display` = ?, `order` = ?, `content` = ?, `content_compiled` = ?, `size` = ?, `metadata` = ?, `updated_timestamp` = ? WHERE id = ?",
+	_, err := s.db.Exec("UPDATE nodes SET `parent_id` = ?, `name` = ?, `description` = ?, `tags` = ?, `color` = ?, `icon` = ?, `thumbnail` = ?, `theme` = ?, `accessibility` = ?, `display` = ?, `order` = ?, `content` = ?, `content_compiled` = ?, `metadata` = ?, `updated_timestamp` = ? WHERE id = ?",
 		node.ParentId,
 		node.Name,
 		node.Description,
 		node.Tags,
-		node.Role,
 		node.Color,
 		node.Icon,
 		node.Thumbnail,
@@ -202,7 +203,6 @@ func (s *Service) UpdateNode(node *models.Node) error {
 		node.Order,
 		node.Content,
 		node.ContentCompiled,
-		node.Size,
 		node.Metadata,
 		node.UpdatedTimestamp,
 		node.Id)

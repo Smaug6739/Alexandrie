@@ -24,6 +24,9 @@ export const useNodesStore = defineStore('nodes', {
     getByCategories: state => (category: string) => state.nodes.filter(d => d.parent_id == category),
     getParents: state => state.nodes.filter(c => !c.parent_id),
     getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),
+    categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
+    documents: state => state.nodes.filter(d => d.role === 3),
+    ressources: state => state.nodes.filter(d => d.role === 4),
 
     getNext: state => (node?: Node) => {
       const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id);
@@ -140,12 +143,15 @@ export const useNodesStore = defineStore('nodes', {
     },
 
     async update(node: Node) {
+      console.log(node);
       if (node.partial) {
         console.log('[store/nodes] Node is partial, cannot update it directly.');
-        const fullDoc = await this.fetch({ id: node.id });
-        if (!fullDoc) throw 'Node not found';
-        node = { ...fullDoc, ...node, partial: false }; // Merge with full nodeument data
+        const full_node = await this.fetch({ id: node.id });
+        if (!full_node) throw 'Node not found';
+        console.log(full_node);
+        node = { ...full_node, ...node, partial: false }; // Merge with full nodeument data
       }
+      console.log(node);
       const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
       if (request.status == 'success') return (this.nodes = this.nodes.map(d => (d.id == node.id ? node : d)));
       else throw request.message;

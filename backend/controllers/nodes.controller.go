@@ -166,7 +166,6 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 	node = &models.Node{
 		Id:               nodeId,
 		Name:             node.Name,
-		Role:             db_node.Role,
 		Description:      node.Description,
 		Tags:             node.Tags,
 		Thumbnail:        node.Thumbnail,
@@ -179,8 +178,8 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		Order:            node.Order,
 		Content:          node.Content,
 		ContentCompiled:  node.ContentCompiled,
-		UserId:           db_node.UserId,
-		CreatedTimestamp: time.Now().UnixMilli(),
+		Metadata:         node.Metadata,
+		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
 
 	err = ctr.app.Services.Nodes.UpdateNode(node)

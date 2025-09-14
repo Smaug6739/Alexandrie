@@ -3,6 +3,7 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
+	"alexandrie/types"
 	"alexandrie/utils"
 	"bytes"
 	"context"
@@ -120,7 +121,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	}
 	id := ctr.app.Snowflake.Generate()
 	transformedPath := fmt.Sprintf("%d%s", id, ext)
-	metadata := map[string]interface{}{
+	metadata := types.JSONB{
 		"filetype":         mimeType,
 		"original_path":    header.Filename,
 		"transformed_path": transformedPath,

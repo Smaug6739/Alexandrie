@@ -9,6 +9,7 @@ const store = useNodesStore();
 const document = ref<Partial<Node>>({
   parent_id: (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined,
   accessibility: 1,
+  role: 3,
 });
 const notifications = useNotifications();
 

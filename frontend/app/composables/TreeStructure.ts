@@ -28,7 +28,6 @@ export class TreeStructure {
     this.items = items;
     this.itemMap = new Map(items.map(item => [item.id, item]));
     this.childrenMap = new Map();
-
     for (const item of items) {
       if (!this.childrenMap.has(item.parent_id || '')) this.childrenMap.set(item.parent_id || '', []);
       this.childrenMap.get(item.parent_id!)!.push(item);

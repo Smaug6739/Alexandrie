@@ -17,13 +17,13 @@
       </p>
       <div class="preview">
         <img
-          v-if="(ressource?.metadata?.filetype as string).startsWith('image/')"
-          :src="`${CDN}/${ressource!.user_id}/${ressource!.content_compiled || ressource!.content}`"
+          v-if="(ressource?.metadata?.filetype as string)?.startsWith('image/')"
+          :src="`${CDN}/${ressource!.user_id}/${ressource!.metadata?.transformed_path || ressource!.content}`"
           alt="Preview"
         />
         <iframe
-          v-else-if="(ressource?.metadata?.filetype as string).startsWith('application/pdf')"
-          :src="`${CDN}/${ressource!.user_id}/${ressource!.content_compiled || ressource!.content}`"
+          v-else-if="(ressource?.metadata?.filetype as string)?.startsWith('application/pdf')"
+          :src="`${CDN}/${ressource!.user_id}/${ressource!.metadata?.transformed_path || ressource!.content}`"
           width="100%"
           height="500px"
           frameborder="0"
@@ -37,10 +37,10 @@
 
 <script setup lang="ts">
 definePageMeta({ breadcrumb: 'Preview' });
-const ressource = computed(() => useRessourcesStore().getById(useRoute().params.id as string));
+const ressource = computed(() => useNodesStore().getById(useRoute().params.id as string));
 
 const copyLink = () => {
-  const link = `${CDN}/${ressource.value?.user_id}/${ressource.value?.content_compiled || ressource.value?.content}`;
+  const link = `${CDN}/${ressource.value?.user_id}/${ressource.value?.metadata?.transformed_path || ressource.value?.content}`;
   navigator.clipboard.writeText(link);
 };
 </script>
