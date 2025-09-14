@@ -8,6 +8,9 @@
       <li :class="{ selected: all_workspaces.value === workspaceId }" @click="selectOption(all_workspaces)">
         <SidebarWorkspace :option="all_workspaces" />
       </li>
+      <li :class="{ selected: shared_workspaces.value === workspaceId }" @click="selectOption(shared_workspaces)">
+        <SidebarWorkspace :option="shared_workspaces" />
+      </li>
       <hr style="margin: 2px 0" />
       <span style="margin: 4px 6px; font-size: small; font-weight: 600; color: var(--font-color-light)">Workspaces</span>
       <li v-for="option in options" :key="option.meta?.id" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
@@ -31,19 +34,19 @@ import type { Workspace } from './helpers';
 const { workspaceId } = useSidebar();
 const props = defineProps<{ options: Workspace[] }>();
 const all_workspaces = ref({ text: 'All Workspaces', value: undefined, meta: { color: -1 } });
-
+const shared_workspaces = ref({ text: 'Shared with me', value: 'shared', meta: { color: -1, icon: 'users' } });
 watch(
   () => props.options,
   opts => {
     const storage_item = localStorage.getItem('filterWorkspace');
-    if (storage_item && opts.find(option => option.value == storage_item)) {
+    if (storage_item && [...opts, shared_workspaces.value].find(option => option.value == storage_item)) {
       workspaceId.value = storage_item;
     }
   },
   { immediate: true }, // check also during mounting
 );
 const isOpen = ref(false);
-const selectedOption = computed(() => props.options.find(option => option.value == workspaceId.value) || all_workspaces.value);
+const selectedOption = computed(() => [...props.options, shared_workspaces.value].find(option => option.value == workspaceId.value) || all_workspaces.value);
 const toggleDropdown = () => (isOpen.value = !isOpen.value);
 const closeDropdown = () => (isOpen.value = false);
 

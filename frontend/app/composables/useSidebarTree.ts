@@ -6,7 +6,6 @@ const preferencesStore = usePreferences();
 const { workspaceId } = useSidebar();
 
 let nodes: ComputedRef<Item<Node>[]> | Ref<Item<Node>[]> = ref([]);
-
 const allItems = computed(() => nodes.value.filter(n => n.data.role !== 1));
 const structure = computed(() => new TreeStructure(allItems.value));
 
@@ -24,6 +23,7 @@ const resolveLink = (item: Node) => {
   return '/dashboard';
 };
 
+/* Do operations in the tree and return the final tree */
 const tree = computed(() => {
   if (!preferencesStore.get('normalizeFileIcons').value) {
     for (const i of structure.value.childrenMap.keys()) {
@@ -34,7 +34,16 @@ const tree = computed(() => {
       }
     }
   }
-  return structure.value.generateTree();
+
+  const tree = structure.value.generateTree();
+
+  for (const item of tree) {
+    if ((item.data as Node).shared) {
+      item.parent_id = 'shared';
+      item.icon = 'users';
+    }
+  }
+  return tree;
 });
 
 const filtered = computed(() =>

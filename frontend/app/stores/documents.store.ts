@@ -152,7 +152,7 @@ export const useNodesStore = defineStore('nodes', {
       if (this.nodes.length) return this.nodes;
       const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
       if (request.status === 'success') {
-        this.nodes.push(...(request.result as DB_Node[]).map((d: DB_Node) => ({ ...d, partial: false, shared: true })));
+        this.nodes.push(...(request.result as DB_Node[]).map((d: DB_Node) => ({ ...d, partial: true, shared: true })));
         return this.nodes;
       } else throw request;
     },
