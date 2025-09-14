@@ -1,12 +1,10 @@
 // useSidebarTree.ts
-import type { DefaultItem } from '~/components/Sidebar/helpers';
 import type { Node } from '~/stores';
 
 const preferencesStore = usePreferences();
-const { workspaceId } = useSidebar();
 
 let nodes: ComputedRef<Item<Node>[]> | Ref<Item<Node>[]> = ref([]);
-const allItems = computed(() => nodes.value.filter(n => n.data.role !== 1));
+const allItems = computed(() => nodes.value);
 const structure = computed(() => new TreeStructure(allItems.value));
 
 const resolveIcon = (item: Node) => {
@@ -39,19 +37,13 @@ const tree = computed(() => {
 
   for (const item of tree) {
     if ((item.data as Node).shared) {
-      item.parent_id = 'shared';
+      item.parent_id = undefined;
       item.icon = 'users';
     }
   }
   return tree;
 });
 
-const filtered = computed(() =>
-  tree.value.filter(item => {
-    if (workspaceId.value) return (item as Item<Node>).parent_id === workspaceId.value;
-    return true;
-  }),
-);
 const collapseAll = () => {
   allItems.value.forEach(item => {
     if (item.show.value) item.show.value = false;
@@ -91,7 +83,7 @@ function useSidebarTree() {
   }
 
   const groupedByWorkspace = () => {
-    const workspaces: Item<Node | DefaultItem>[] = [
+    const workspaces: Item<Node>[] = [
       ...nodesStore.getAll
         .filter(c => c.role === 1)
         .map(c => ({
@@ -139,8 +131,7 @@ function useSidebarTree() {
     groupedByWorkspace,
     getCategoryFromNode,
     tree,
-    filtered,
   };
 }
 
-export { useSidebarTree, tree, filtered };
+export { useSidebarTree, tree };

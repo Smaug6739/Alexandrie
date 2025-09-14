@@ -16,7 +16,8 @@
   <SidebarItem v-else-if="item.data.role !== -1 || item.show.value" :item="item" />
 </template>
 <script setup lang="ts">
-const props = defineProps<{ item: Item; root?: boolean }>();
+import type { DefaultItem } from './helpers';
+const props = defineProps<{ item: Item | DefaultItem; root?: boolean }>();
 
 const toggleShow = () => {
   setCollapseState(props.item.id, !props.item.show.value);

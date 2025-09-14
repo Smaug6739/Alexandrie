@@ -56,7 +56,7 @@ func (ctr *Controller) GetPublicNode(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetSharedNodes(c *gin.Context) (int, any) {
-	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR, "userId")
+	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -76,7 +76,7 @@ func (ctr *Controller) GetSharedNodes(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetNodes(c *gin.Context) (int, any) {
-	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR, "userId")
+	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -105,7 +105,7 @@ func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err, _ = utils.RessourceAccess(c, node, ctr.app.Services.Permissions, 1)
+	_, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.READ)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -176,7 +176,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err, userIdContext := utils.RessourceAccess(c, db_node, ctr.app.Services.Permissions, 2)
+	connectedUserId, err := utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.WRITE)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -185,7 +185,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	if db_node.UserId != userIdContext {
+	if db_node.UserId != connectedUserId {
 		// If the user is not the owner of the node, they cannot change the owner or the parent
 		node.ParentId = db_node.ParentId
 		node.UserId = db_node.UserId
@@ -236,7 +236,7 @@ func (ctr *Controller) DeleteNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err, _ = utils.RessourceAccess(c, db_node, ctr.app.Services.Permissions, 3)
+	_, err = utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.ADMIN)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}

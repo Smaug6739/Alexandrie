@@ -1,21 +1,13 @@
 import type { Node } from '~/stores';
 
-export interface DefaultItem {
-  id: string;
-  type: 'navigation';
-  role: -1; // 0: Navigation item
-  label: string;
-  icon?: string;
-  route: string;
-  childrens: DefaultItem[];
-}
+export type DefaultItem = Item<Omit<Node, 'user_id' | 'data' | 'show' | 'shared' | 'created_timestamp' | 'updated_timestamp'>>;
 export interface Workspace {
   text: string;
   value?: string;
   meta?: Partial<Node>;
 }
 const sidebarItemsPrefs = usePreferences().get('sidebarItems');
-export const navigationItems: Item<DefaultItem>[] = [
+export const navigationItems: DefaultItem[] = [
   {
     id: 'home',
     parent_id: '',
@@ -24,12 +16,9 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'dashboard',
     data: {
       id: 'home',
-      type: 'navigation',
       role: -1,
-      label: 'Home',
+      name: 'Home',
       icon: 'dashboard',
-      route: '/dashboard/home',
-      childrens: [],
     },
     show: computed(() => sidebarItemsPrefs.value.home!),
   },
@@ -41,12 +30,9 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'categories',
     data: {
       id: 'manage-categories',
-      type: 'navigation',
       role: -1,
-      label: 'Manage categories',
+      name: 'Manage categories',
       icon: 'categories',
-      route: '/dashboard/categories',
-      childrens: [],
     },
     show: computed(() => sidebarItemsPrefs.value.manageCategories!),
   },
@@ -58,12 +44,9 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'cdn',
     data: {
       id: 'cdn',
-      type: 'navigation',
       role: -1,
-      label: 'CDN',
+      name: 'CDN',
       icon: 'cdn',
-      route: '/dashboard/cdn',
-      childrens: [],
     },
     show: computed(() => sidebarItemsPrefs.value.cdn!),
   },
@@ -75,12 +58,9 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'user_settings',
     data: {
       id: 'settings',
-      type: 'navigation',
       role: -1,
-      label: 'Settings',
+      name: 'Settings',
       icon: 'user_settings',
-      route: '/dashboard/settings',
-      childrens: [],
     },
     show: computed(() => sidebarItemsPrefs.value.settings!),
   },
@@ -92,12 +72,9 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'files',
     data: {
       id: 'documents',
-      type: 'navigation',
       role: -1,
-      label: 'Documents',
+      name: 'Documents',
       icon: 'files',
-      route: '/dashboard/docs',
-      childrens: [],
     },
     show: computed(() => sidebarItemsPrefs.value.documents!),
   },
@@ -109,12 +86,9 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'import',
     data: {
       id: 'import',
-      type: 'navigation',
       role: -1,
-      label: 'Import',
+      name: 'Import',
       icon: 'import',
-      route: '/dashboard/import',
-      childrens: [],
     },
     show: computed(() => sidebarItemsPrefs.value.importation!),
   },
@@ -126,12 +100,9 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'add_file',
     data: {
       id: 'new-page',
-      type: 'navigation',
       role: -1,
-      label: 'New Page',
+      name: 'New Page',
       icon: 'add_file',
-      route: '/dashboard/docs/new',
-      childrens: [],
     },
     show: computed(() => sidebarItemsPrefs.value.newPage!),
   },

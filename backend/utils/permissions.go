@@ -18,6 +18,12 @@ const (
 	MODERATOR     = 1 << 3
 )
 
+const (
+	READ  = 1
+	WRITE = 2
+	ADMIN = 3
+)
+
 // CheckPermission checks if the user has the required permission.
 func CheckPermission(userRole, requiredRole int) bool {
 	return userRole&requiredRole == requiredRole
@@ -61,62 +67,63 @@ func GetUserIdCtx(ctx *gin.Context) (types.Snowflake, error) {
 	return types.Snowflake(id), nil
 }
 
-func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (types.Snowflake, error) {
+func SelfOrPermission(ctx *gin.Context, allowed int) (types.Snowflake, error) {
 	// Check if the c.Param("id") is "@me" or c.Param("id") is the same as the user ID in the context
 	// If not, check if the user has the required permission
 	// If one of the above is true, return the user ID from the context
 	// Otherwise, return an error
-	search_key := "id"
-	if len(key) > 0 {
-		search_key = key[0]
-	}
-	id_param, err := GetIdParam(ctx, ctx.Param(search_key))
+
+	// --- 1. Get the target user ID
+	targetUserId, err := GetIdParam(ctx, ctx.Param("userId"))
 	if err != nil {
 		return 0, err
 	}
-	userId, err := GetUserIdCtx(ctx)
+	// --- 2. Get the connected user ID
+	connectedUserId, err := GetUserIdCtx(ctx)
 	if err != nil {
 		return 0, err
 	}
-	if id_param == userId {
-		return id_param, nil
+	// --- 3. Check if the connected user is the target user => allow
+	if targetUserId == connectedUserId {
+		return targetUserId, nil
 	}
+	// --- 4. Check if the connected user is an app administrator => allow
 	role, exists := ctx.Get("user_role")
 	if !exists {
 		return 0, errors.New("user role not found in context")
 	}
-	if id_param != userId && CheckPermission(role.(int), allowed) {
-		return id_param, nil
+	if CheckPermission(role.(int), allowed) {
+		return targetUserId, nil
 	}
 	return 0, errors.New("unauthorized")
 }
 
-func RessourceAccess(ctx *gin.Context, node *models.Node, permissionService services.PermissionService, permission int) (error, types.Snowflake) {
-	// Check if the connected user has access to the resource (userId == targetId) or if the user has the required permission (app ADMINISTRATOR or node permission)
+func NodePermission(ctx *gin.Context, node *models.Node, permissionService services.PermissionService, permission int) (types.Snowflake, error) {
+	// Check if the connected user has access to the resource (connectedUserId == targetId) or if the user has the required permission (app ADMINISTRATOR or node permission)
 
 	// Check user is correctly authenticated
-	userId, err := GetUserIdCtx(ctx)
+	connectedUserId, err := GetUserIdCtx(ctx)
 	if err != nil {
-		return err, 0
+		return 0, err
 	}
 	// Case 1: User is the owner of the resource
-	if userId == node.UserId {
-		return nil, userId
+	if connectedUserId == node.UserId {
+		return connectedUserId, nil
 	}
 	// Case 2: User is an app administrator
 	role, exists := ctx.Get("user_role")
 	if !exists {
-		return errors.New("user role not found in context"), userId
+		return connectedUserId, errors.New("user role not found in context")
 	}
 	if CheckPermission(role.(int), ADMINISTRATOR) {
-		return nil, userId
+		return connectedUserId, nil
 	}
 	// Case 3: User has the required permission on the resource
-	hasPermission := permissionService.HasPermission(userId, node.Id, permission)
+	hasPermission := permissionService.HasPermission(connectedUserId, node.Id, permission)
 
 	if hasPermission {
-		return nil, userId
+		return connectedUserId, nil
 	}
 
-	return errors.New("unauthorized"), userId
+	return 0, errors.New("unauthorized")
 }

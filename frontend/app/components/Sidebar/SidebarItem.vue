@@ -25,10 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import { navigationItems } from './helpers';
+import type { Node } from '~/stores';
+import { navigationItems, type DefaultItem } from './helpers';
 const nodesStore = useNodesStore();
 const { isOpened } = useSidebar();
-const props = defineProps<{ item: Item }>();
+const props = defineProps<{ item: Item | DefaultItem }>();
 const customClass = computed(() => {
   if ('color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
     return `item-icon ${getAppColor(props.item.data.color as number)}`;
@@ -73,12 +74,13 @@ const drop = async (event: DragEvent) => {
   if (draggedItem.role === -1) return; // Prevent dropping nav items
   if (props.item.data.role === 4) return; // Prevent dropping on ressource items
   if (draggedItem.id === props.item.id) return; // Prevent dropping on itself
+  if (draggedItem.role <= 2 && props.item.data.role > 2) return; // Prevent dropping categories / workspaces on ressources / documents
   // Move item to root
   if (props.item.data.role === -1) {
-    return nodesStore.update({ ...draggedItem, parent_id: workspaceId.value });
+    return nodesStore.update({ ...(draggedItem as Node), parent_id: workspaceId.value });
   }
 
-  nodesStore.update({ ...draggedItem, parent_id: props.item.id });
+  nodesStore.update({ ...(draggedItem as Node), parent_id: props.item.id });
 };
 </script>
 

@@ -1,5 +1,4 @@
 import type { Node } from '~/stores';
-import type { DefaultItem } from '../components/Sidebar/helpers';
 
 export interface ANode {
   id: string | number;
@@ -8,7 +7,7 @@ export interface ANode {
   childrens?: ANode[];
 }
 
-export interface Item<T = Node | DefaultItem> extends ANode {
+export interface Item<T = Node> extends ANode {
   id: string;
   route: string;
   data: T;

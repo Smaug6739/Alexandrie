@@ -5,7 +5,7 @@ export interface DB_Node {
   name: string;
   description?: string;
   tags?: string;
-  role: 1 | 2 | 3 | 4; // 1: Workspace; 2: Category; 3: Document; 4: Ressource
+  role: -1 | 1 | 2 | 3 | 4; // 1: Workspace; 2: Category; 3: Document; 4: Ressource
   color?: number; // -1: Default; 0: None; 1-7: App colors
   icon?: string;
   thumbnail?: string;

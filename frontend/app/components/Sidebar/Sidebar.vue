@@ -63,7 +63,7 @@ import { navigationItems } from './helpers';
 import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 import Dock from './Dock.vue';
 
-const { isOpened, hasSidebar } = useSidebar();
+const { isOpened, hasSidebar, filtered } = useSidebar();
 const nodesStore = useNodesStore();
 const preferences = usePreferences();
 const userStore = useUserStore();
@@ -78,7 +78,7 @@ const filterItems = (items: Item[]): Item[] => {
   return filterRecursive(items, filter);
 };
 
-const tree = computed(() => filterItems(sidebarTree.filtered.value));
+const tree = computed(() => filterItems(filtered.value));
 
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;

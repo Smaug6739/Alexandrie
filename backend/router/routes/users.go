@@ -14,9 +14,9 @@ func Users(app *app.App, router *gin.RouterGroup) {
 	usrCtrl := controllers.NewUserController(app)
 
 	usr.GET("", middlewares.Auth(), middlewares.Admin(), utils.WP(usrCtrl.GetUsers))
-	usr.GET("/:id", middlewares.Auth(), utils.WP(usrCtrl.GetUserById))
+	usr.GET("/:userId", middlewares.Auth(), utils.WP(usrCtrl.GetUserById))
 	usr.POST("", utils.WP(usrCtrl.CreateUser))
-	usr.PATCH("/:id", middlewares.Auth(), utils.WP(usrCtrl.UpdateUser))
-	usr.PATCH("/:id/password", middlewares.Auth(), utils.WP(usrCtrl.UpdatePassword))
-	usr.DELETE("/:id", middlewares.Auth(), utils.WP(usrCtrl.DeleteUser))
+	usr.PATCH("/:userId", middlewares.Auth(), utils.WP(usrCtrl.UpdateUser))
+	usr.PATCH("/:userId/password", middlewares.Auth(), utils.WP(usrCtrl.UpdatePassword))
+	usr.DELETE("/:userId", middlewares.Auth(), utils.WP(usrCtrl.DeleteUser))
 }
