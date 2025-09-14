@@ -12,6 +12,7 @@ import (
 
 type NodeController interface {
 	GetPublicNode(c *gin.Context) (int, any)
+	GetSharedNodes(c *gin.Context) (int, any)
 	GetNodes(c *gin.Context) (int, any)
 	GetNode(c *gin.Context) (int, any)
 	CreateNode(c *gin.Context) (int, any)
@@ -44,6 +45,26 @@ func (ctr *Controller) GetPublicNode(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, err
 	}
 	return http.StatusOK, node
+}
+
+// Get shared nodes
+// @Summary Get all shared nodes
+// @Method GET
+// @Router /nodes/shared/:userId [get]
+// @Security Authenfification: Auth
+// @Success 200 {object} Success([]models.Node)
+// @Failure 400 {object} Error
+// @Failure 401 {object} Error
+func (ctr *Controller) GetSharedNodes(c *gin.Context) (int, any) {
+	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR, "userId")
+	if err != nil {
+		return http.StatusUnauthorized, err
+	}
+	nodes, err := ctr.app.Services.Nodes.GetSharedNodes(id)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return http.StatusOK, nodes
 }
 
 // Get nodes
@@ -84,7 +105,7 @@ func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err = utils.RessourceAccess(c, node.UserId)
+	err, _ = utils.RessourceAccess(c, node, ctr.app.Services.Permissions, 1)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -155,7 +176,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err = utils.RessourceAccess(c, db_node.UserId)
+	err, userIdContext := utils.RessourceAccess(c, db_node, ctr.app.Services.Permissions, 2)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -163,8 +184,16 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 	if err := c.ShouldBind(node); err != nil {
 		return http.StatusBadRequest, err
 	}
+
+	if db_node.UserId != userIdContext {
+		// If the user is not the owner of the node, they cannot change the owner or the parent
+		node.ParentId = db_node.ParentId
+		node.UserId = db_node.UserId
+	}
 	node = &models.Node{
 		Id:               nodeId,
+		ParentId:         node.ParentId,
+		UserId:           node.UserId,
 		Name:             node.Name,
 		Description:      node.Description,
 		Tags:             node.Tags,
@@ -173,7 +202,6 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		Theme:            node.Theme,
 		Icon:             node.Icon,
 		Color:            node.Color,
-		ParentId:         node.ParentId,
 		Accessibility:    node.Accessibility,
 		Display:          node.Display,
 		Order:            node.Order,
@@ -208,7 +236,7 @@ func (ctr *Controller) DeleteNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	err = utils.RessourceAccess(c, db_node.UserId)
+	err, _ = utils.RessourceAccess(c, db_node, ctr.app.Services.Permissions, 3)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}

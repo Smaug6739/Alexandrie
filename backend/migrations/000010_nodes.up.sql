@@ -25,7 +25,8 @@ CREATE TABLE `nodes` (
     `created_timestamp` BIGINT NOT NULL,
     `updated_timestamp` BIGINT NOT NULL,
     CONSTRAINT `nodes_parent_fk` FOREIGN KEY (`parent_id`) REFERENCES `nodes` (`id`) ON DELETE CASCADE,
-    CONSTRAINT `nodes_users_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+    CONSTRAINT `nodes_users_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `chk_parent_not_self` CHECK (`parent_id` IS NULL OR `parent_id` != `id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 

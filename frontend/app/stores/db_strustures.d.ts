@@ -49,6 +49,7 @@ export interface DB_Node {
 
 export interface Node extends DB_Node {
   partial?: boolean;
+  shared: boolean;
 }
 
 export interface User {

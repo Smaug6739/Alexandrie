@@ -17,7 +17,12 @@
       <div class="form-row">
         <div class="form-column">
           <label>Parent</label>
-          <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
+          <AppSelect
+            v-model="category.parent_id"
+            :items="categoriesItem"
+            placeholder="Select a category parent"
+            :disabled="(i) => i.id == category!.id || nodesStore.hasDescendant(category!, (i as Item).id)"
+          />
         </div>
         <div class="form-column">
           <label for="order">Order</label>

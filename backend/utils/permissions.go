@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"alexandrie/models"
+	"alexandrie/services"
 	"alexandrie/types"
 	"errors"
 	"strconv"
@@ -89,21 +91,32 @@ func SelfOrPermission(ctx *gin.Context, allowed int, key ...string) (types.Snowf
 	return 0, errors.New("unauthorized")
 }
 
-func RessourceAccess(ctx *gin.Context, targetId types.Snowflake) error {
-	// Check if the connected user has access to the resource (userId == targetId) or if the user has the required permission (ADMINISTRATOR)
+func RessourceAccess(ctx *gin.Context, node *models.Node, permissionService services.PermissionService, permission int) (error, types.Snowflake) {
+	// Check if the connected user has access to the resource (userId == targetId) or if the user has the required permission (app ADMINISTRATOR or node permission)
+
+	// Check user is correctly authenticated
 	userId, err := GetUserIdCtx(ctx)
 	if err != nil {
-		return err
+		return err, 0
 	}
-	if userId == targetId {
-		return nil
+	// Case 1: User is the owner of the resource
+	if userId == node.UserId {
+		return nil, userId
 	}
+	// Case 2: User is an app administrator
 	role, exists := ctx.Get("user_role")
 	if !exists {
-		return errors.New("user role not found in context")
+		return errors.New("user role not found in context"), userId
 	}
 	if CheckPermission(role.(int), ADMINISTRATOR) {
-		return nil
+		return nil, userId
 	}
-	return errors.New("unauthorized")
+	// Case 3: User has the required permission on the resource
+	hasPermission := permissionService.HasPermission(userId, node.Id, permission)
+
+	if hasPermission {
+		return nil, userId
+	}
+
+	return errors.New("unauthorized"), userId
 }

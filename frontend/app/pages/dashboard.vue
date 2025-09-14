@@ -15,5 +15,6 @@
 <script setup lang="ts">
 definePageMeta({ breadcrumb: 'Home' });
 useNodesStore().fetch();
+useNodesStore().fetchShared();
 useUserStore().fetch();
 </script>

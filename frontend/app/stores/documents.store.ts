@@ -14,6 +14,7 @@ export const useNodesStore = defineStore('nodes', {
   state: () => ({
     nodes: [] as Array<Node | Node>,
     public_nodes: [] as Node[],
+    shared_nodes: [] as Node[],
     allTags: [] as string[],
     isFetching: false,
   }),
@@ -27,7 +28,19 @@ export const useNodesStore = defineStore('nodes', {
     categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
     documents: state => state.nodes.filter(d => d.role === 3),
     ressources: state => state.nodes.filter(d => d.role === 4),
-
+    hasDescendant:
+      state =>
+      (node: Node, descendantId: string): boolean => {
+        const checkDescendants = (currentNode: Node): boolean => {
+          const children = state.nodes.filter(d => d.parent_id === currentNode.id);
+          for (const child of children) {
+            if (child.id === descendantId) return true;
+            if (checkDescendants(child)) return true;
+          }
+          return false;
+        };
+        return checkDescendants(node);
+      },
     getNext: state => (node?: Node) => {
       const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id && d.role === 3);
       const index = cnodes.findIndex(d => d.id == node?.id);
@@ -112,12 +125,12 @@ export const useNodesStore = defineStore('nodes', {
       if (request.status == 'success') {
         if (opts?.id) {
           const index = this.nodes.findIndex(d => d.id == opts?.id);
-          const updatedNode: Node = { ...(request.result as DB_Node), partial: false };
+          const updatedNode: Node = { ...(request.result as DB_Node), partial: false, shared: false };
           if (index == -1) this.nodes.push(updatedNode);
           else this.nodes[index] = updatedNode;
           return updatedNode as 'id' extends keyof T ? Node : Node[];
         } else {
-          this.nodes = (request.result as DB_Node[]).map((d: DB_Node) => ({ ...d, partial: true }));
+          this.nodes.push(...(request.result as DB_Node[]).map((d: DB_Node) => ({ ...d, partial: true, shared: false })));
           this.recomputeTags();
           return this.nodes as 'id' extends keyof T ? Node : Node[];
         }
@@ -129,15 +142,24 @@ export const useNodesStore = defineStore('nodes', {
       if (existingDoc) return existingDoc;
       const request = await makeRequest(`nodes/public/${id}`, 'GET', {});
       if (request.status === 'success') {
-        const fetchedDoc: Node = { ...(request.result as DB_Node), partial: false };
+        const fetchedDoc: Node = { ...(request.result as DB_Node), partial: false, shared: false };
         this.public_nodes.push(fetchedDoc);
         return fetchedDoc;
       } else return undefined;
     },
+    async fetchShared(): Promise<Node[]> {
+      console.log(`[store/nodes] Fetching shared nodes`);
+      if (this.nodes.length) return this.nodes;
+      const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
+      if (request.status === 'success') {
+        this.nodes.push(...(request.result as DB_Node[]).map((d: DB_Node) => ({ ...d, partial: false, shared: true })));
+        return this.nodes;
+      } else throw request;
+    },
     async post(node: Partial<Node>): Promise<DB_Node> {
       const request = await makeRequest('nodes', 'POST', node);
       if (request.status == 'success') {
-        this.nodes.push({ ...(request.result as DB_Node), partial: false });
+        this.nodes.push({ ...(request.result as DB_Node), partial: false, shared: false });
         return request.result as DB_Node;
       } else throw request.message;
     },

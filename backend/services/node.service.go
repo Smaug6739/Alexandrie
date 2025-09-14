@@ -8,6 +8,7 @@ import (
 
 type NodeService interface {
 	GetAllNodes(userId types.Snowflake) ([]*models.Node, error)
+	GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 	GetAllNodeBackup(user_id types.Snowflake) ([]*models.Node, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
 	GetPublicNode(nodeId types.Snowflake) (*models.Node, error)
@@ -57,6 +58,58 @@ func (s *Service) GetAllNodes(userId types.Snowflake) ([]*models.Node, error) {
 	return nodes, nil
 }
 
+func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error) {
+	var nodes = make([]*models.Node, 0)
+
+	rows, err := s.db.Query(`
+		WITH RECURSIVE accessible_nodes AS (
+    -- 1. Directly accessible nodes
+    SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme, n.accessibility, n.display, n.order,  n.size, n.metadata, n.created_timestamp, n.updated_timestamp
+    FROM nodes n
+    JOIN permissions p ON p.node_id = n.id
+    WHERE p.user_id = ?
+
+    UNION
+
+    -- 2. Child nodes of accessible nodes
+    SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme, c.accessibility, c.display, c.order,  c.size, c.metadata, c.created_timestamp, c.updated_timestamp
+    FROM nodes c
+    JOIN accessible_nodes an ON an.id = c.parent_id)
+    SELECT * FROM accessible_nodes;
+	`, userId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var node models.Node
+		if err := rows.Scan(
+			&node.Id,
+			&node.UserId,
+			&node.ParentId,
+			&node.Name,
+			&node.Description,
+			&node.Tags,
+			&node.Role,
+			&node.Color,
+			&node.Icon,
+			&node.Theme,
+			&node.Accessibility,
+			&node.Display,
+			&node.Order,
+			&node.Size,
+			&node.Metadata,
+			&node.CreatedTimestamp,
+			&node.UpdatedTimestamp,
+		); err != nil {
+			return nil, err
+		}
+		nodes = append(nodes, &node)
+	}
+
+	return nodes, nil
+}
 func (s *Service) GetAllNodeBackup(user_id types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
 	rows, err := s.db.Query("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE user_id = ?", user_id)
@@ -189,8 +242,9 @@ func (s *Service) CreateNode(node *models.Node) error {
 }
 
 func (s *Service) UpdateNode(node *models.Node) error {
-	_, err := s.db.Exec("UPDATE nodes SET `parent_id` = ?, `name` = ?, `description` = ?, `tags` = ?, `role` = ?, `color` = ?, `icon` = ?, `thumbnail` = ?, `theme` = ?, `accessibility` = ?, `display` = ?, `order` = ?, `content` = ?, `content_compiled` = ?, `metadata` = ?, `updated_timestamp` = ? WHERE id = ?",
+	_, err := s.db.Exec("UPDATE nodes SET `parent_id` = ?, `user_id` = ?, `name` = ?, `description` = ?, `tags` = ?, `role` = ?, `color` = ?, `icon` = ?, `thumbnail` = ?, `theme` = ?, `accessibility` = ?, `display` = ?, `order` = ?, `content` = ?, `content_compiled` = ?, `metadata` = ?, `updated_timestamp` = ? WHERE id = ?",
 		node.ParentId,
+		node.UserId,
 		node.Name,
 		node.Description,
 		node.Tags,

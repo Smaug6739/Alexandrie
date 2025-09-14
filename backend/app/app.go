@@ -31,11 +31,12 @@ type Config struct {
 }
 
 type Services struct {
-	User    services.UserService
-	Session services.AuthService
-	Log     services.LogService
-	Nodes   services.NodeService
-	Minio   services.MinioService
+	User        services.UserService
+	Session     services.AuthService
+	Log         services.LogService
+	Nodes       services.NodeService
+	Permissions services.PermissionService
+	Minio       services.MinioService
 }
 
 type App struct {
@@ -55,11 +56,12 @@ func InitApp(config Config) *App {
 	app.Snowflake = utils.NewSnowflake(1609459200000)
 	app.Config = config
 	app.Services = Services{
-		User:    services.NewUserService(app.DB),
-		Session: services.NewAuthService(app.DB),
-		Log:     services.NewLogService(app.DB),
-		Nodes:   services.NewNodeService(app.DB),
-		Minio:   services.NewMinioService(app.MinioClient),
+		User:        services.NewUserService(app.DB),
+		Session:     services.NewAuthService(app.DB),
+		Log:         services.NewLogService(app.DB),
+		Nodes:       services.NewNodeService(app.DB),
+		Permissions: services.NewPermissionService(app.DB),
+		Minio:       services.NewMinioService(app.MinioClient),
 	}
 
 	Migrate(&config)

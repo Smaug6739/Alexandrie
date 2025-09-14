@@ -6,6 +6,7 @@ const preferencesStore = usePreferences();
 const { workspaceId } = useSidebar();
 
 let nodes: ComputedRef<Item<Node>[]> | Ref<Item<Node>[]> = ref([]);
+
 const allItems = computed(() => nodes.value.filter(n => n.data.role !== 1));
 const structure = computed(() => new TreeStructure(allItems.value));
 
@@ -69,7 +70,7 @@ function useSidebarTree() {
             .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.name.localeCompare(b.name))
             .map(node => ({
               id: node.id,
-              parent_id: node.parent_id || '',
+              parent_id: node.role !== 1 ? node.parent_id || '' : '',
               label: node.name,
               route: resolveLink(node),
               icon: resolveIcon(node),
