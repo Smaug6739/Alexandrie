@@ -29,14 +29,14 @@ export const useNodesStore = defineStore('nodes', {
     ressources: state => state.nodes.filter(d => d.role === 4),
 
     getNext: state => (node?: Node) => {
-      const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id);
+      const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id && d.role === 3);
       const index = cnodes.findIndex(d => d.id == node?.id);
       if (index == -1) return;
       return cnodes[index + 1];
     },
 
     getPrevious: state => (node?: Node) => {
-      const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id);
+      const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id && d.role === 3);
       const index = cnodes.findIndex(d => d.id == node?.id);
       if (index == -1) return;
       return cnodes[index - 1];
