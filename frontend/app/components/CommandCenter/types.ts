@@ -1,4 +1,4 @@
-export interface Item {
+export interface ItemCommand {
   id: string;
   icon: string;
   title: string;

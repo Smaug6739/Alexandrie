@@ -40,5 +40,6 @@ func InitRouter(app *app.App) *gin.Engine {
 	routes.Uploads(app, mainGroup)
 	routes.Documents(app, mainGroup)
 	routes.Categories(app, mainGroup)
+	routes.Nodes(app, mainGroup)
 	return router
 }

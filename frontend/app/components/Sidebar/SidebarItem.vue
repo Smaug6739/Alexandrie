@@ -62,7 +62,7 @@ const dragLeave = () => {
   // Réinitialise l'état de survol lorsque l'élément quitte la zone de dépôt
   isDragOver.value = false;
 };
-
+const { workspaceId } = useSidebar();
 const drop = async (event: DragEvent) => {
   isDragOver.value = false;
   const draggedItemId = event.dataTransfer!.getData('text/plain');
@@ -78,26 +78,26 @@ const drop = async (event: DragEvent) => {
 
   if (draggedItem.type === 'document' && props.item.data.type === 'category') {
     // Move document to category
-    documentStore.update({ ...draggedItem, category: props.item.id, parent_id: null });
+    documentStore.update({ ...draggedItem, parent_id: props.item.id });
   }
   if (draggedItem.type === 'category' && props.item.data.type === 'category') {
     // Move category to category
     if (draggedItem.id === props.item.id) return; // Prevent moving to the same category
-    categoriesStore.update({ ...draggedItem, parent_id: props.item.id, workspace_id: undefined });
+    categoriesStore.update({ ...draggedItem, parent_id: props.item.id });
   }
   if (draggedItem.type === 'document' && props.item.data.type === 'document') {
     // Move document to document
     if (documentStore.getAllChildrensIds(draggedItem.id).includes(props.item.parent_id ?? '')) return; // Prevent moving parent to child
     if (draggedItem.id === props.item.id) return; // Prevent moving to the same document
-    documentStore.update({ ...draggedItem, parent_id: props.item.id, category: props.item.data.category });
+    documentStore.update({ ...draggedItem, parent_id: props.item.id });
   }
   if (draggedItem.type === 'category' && props.item.data.type === 'navigation') {
     // Move category to root
-    categoriesStore.update({ ...draggedItem, parent_id: undefined, workspace_id: useSidebar().workspaceId.value || undefined });
+    categoriesStore.update({ ...draggedItem, parent_id: workspaceId.value });
   }
   if (draggedItem.type === 'document' && props.item.data.type === 'navigation') {
     // Move document to root
-    documentStore.update({ ...draggedItem, parent_id: undefined, category: useSidebar().workspaceId.value || undefined });
+    documentStore.update({ ...draggedItem, parent_id: workspaceId.value });
   }
 };
 </script>

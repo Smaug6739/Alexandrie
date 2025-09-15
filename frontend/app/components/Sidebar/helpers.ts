@@ -3,6 +3,7 @@ import type { Category } from '~/stores';
 export interface DefaultItem {
   id: string;
   type: 'navigation';
+  role: number; // 0: Navigation item
   label: string;
   icon?: string;
   route: string;
@@ -24,6 +25,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'home',
       type: 'navigation',
+      role: 0,
       label: 'Home',
       icon: 'dashboard',
       route: '/dashboard/home',
@@ -40,6 +42,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'manage-categories',
       type: 'navigation',
+      role: 0,
       label: 'Manage categories',
       icon: 'categories',
       route: '/dashboard/categories',
@@ -56,6 +59,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'cdn',
       type: 'navigation',
+      role: 0,
       label: 'CDN',
       icon: 'cdn',
       route: '/dashboard/cdn',
@@ -72,6 +76,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'settings',
       type: 'navigation',
+      role: 0,
       label: 'Settings',
       icon: 'user_settings',
       route: '/dashboard/settings',
@@ -88,6 +93,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'documents',
       type: 'navigation',
+      role: 0,
       label: 'Documents',
       icon: 'files',
       route: '/dashboard/docs',
@@ -104,6 +110,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'import',
       type: 'navigation',
+      role: 0,
       label: 'Import',
       icon: 'import',
       route: '/dashboard/import',
@@ -120,6 +127,7 @@ export const navigationItems: Item<DefaultItem>[] = [
     data: {
       id: 'new-page',
       type: 'navigation',
+      role: 0,
       label: 'New Page',
       icon: 'add_file',
       route: '/dashboard/docs/new',

@@ -10,5 +10,5 @@ func main() {
 	fmt.Println("Starting server on port:", application.Config.Port)
 	defer application.DB.Close()
 
-	server.Run(":" + fmt.Sprintf("%d", application.Config.Port))
+	server.Run("127.0.0.1:" + fmt.Sprintf("%d", application.Config.Port))
 }
