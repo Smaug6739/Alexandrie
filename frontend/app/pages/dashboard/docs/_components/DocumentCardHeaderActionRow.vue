@@ -23,6 +23,9 @@
     <NuxtLink @click="openEditModal">
       <Icon name="settings" :big="true" fill="var(--font-color)" />
     </NuxtLink>
+    <NuxtLink @click="openPermissionsModal">
+      <Icon name="users" :big="true" fill="var(--font-color)" />
+    </NuxtLink>
     <NuxtLink @click="openDeleteModal">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
         <path
@@ -36,12 +39,14 @@
 <script setup lang="ts">
 import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
 import DocumentMeta from '../_modals/DocumentMeta.vue';
+import NodePermissions from '../_modals/NodePermissions.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ doc: Node }>();
 const print = () => window.print();
 const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.doc.id } }));
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
+const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { doc: props.doc }, size: 'small' }));
 
 function exportMarkdown() {
   const blob = new Blob([props.doc.content || ''], { type: 'text/markdown' });

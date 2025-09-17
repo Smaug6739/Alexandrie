@@ -1,9 +1,10 @@
 import { makeRequest } from './_utils';
-import type { User, ConnectionLog } from './db_strustures';
+import type { User, PublicUser, ConnectionLog } from './db_strustures';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: ref<User>(),
+    users: [] as PublicUser[],
     last_connection: null as ConnectionLog | null,
   }),
   actions: {
@@ -32,6 +33,15 @@ export const useUserStore = defineStore('user', {
         if (responce.result?.last_connection) this.last_connection = responce.result.last_connection as ConnectionLog;
         return this.user;
       } else throw responce.message;
+    },
+    async fetchPublicUser(usernameOrEmail: string): Promise<PublicUser> {
+      const responce = await makeRequest<PublicUser>(`users/public/${usernameOrEmail}`, 'GET', {});
+      if (responce.status === 'success') {
+        const user = responce.result as PublicUser;
+        if (!this.users.find(u => u.id === user.id)) this.users.push(user);
+        return user;
+      }
+      throw responce.message;
     },
     async fetchById(id: string): Promise<User | undefined> {
       const responce = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});

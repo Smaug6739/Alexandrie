@@ -62,7 +62,16 @@ export interface User {
   password?: string;
   email: string;
   created_timestamp: string;
-  updated_timestamp?: string;
+  updated_timestamp: string;
+}
+
+export interface PublicUser {
+  id: string;
+  username: string;
+  avatar?: string;
+  email: string;
+  created_timestamp: string;
+  updated_timestamp: string;
 }
 
 export interface ConnectionLog {
