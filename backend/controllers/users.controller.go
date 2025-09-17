@@ -15,6 +15,7 @@ import (
 type UserController interface {
 	GetUsers(c *gin.Context) (int, any)
 	GetUserById(c *gin.Context) (int, any)
+	GetPublicUser(c *gin.Context) (int, any)
 	CreateUser(c *gin.Context) (int, any)
 	UpdateUser(c *gin.Context) (int, any)
 	UpdatePassword(c *gin.Context) (int, any)
@@ -41,6 +42,27 @@ func (ctr *Controller) GetUsers(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, err
 	}
 	return http.StatusOK, users
+}
+
+// Get public user profile by username or email
+// @Summary Get public user profile by username or email
+// @Method GET
+// @Router /users/public/{usernameOrEmail} [get]
+// @Security None
+func (ctr *Controller) GetPublicUser(c *gin.Context) (int, any) {
+	usernameOrEmail := c.Param("query")
+	if usernameOrEmail == "" {
+		return http.StatusBadRequest, errors.New("username or email is required")
+	}
+	user, err := ctr.app.Services.User.GetPublicUser(usernameOrEmail)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	if user == nil {
+		return http.StatusNotFound, errors.New("user not found")
+	}
+
+	return http.StatusOK, user
 }
 
 // Get User by ID

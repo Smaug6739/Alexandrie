@@ -15,6 +15,7 @@ func Users(app *app.App, router *gin.RouterGroup) {
 
 	usr.GET("", middlewares.Auth(), middlewares.Admin(), utils.WP(usrCtrl.GetUsers))
 	usr.GET("/:userId", middlewares.Auth(), utils.WP(usrCtrl.GetUserById))
+	usr.GET("/public/:query", utils.WP(usrCtrl.GetPublicUser))
 	usr.POST("", utils.WP(usrCtrl.CreateUser))
 	usr.PATCH("/:userId", middlewares.Auth(), utils.WP(usrCtrl.UpdateUser))
 	usr.PATCH("/:userId/password", middlewares.Auth(), utils.WP(usrCtrl.UpdatePassword))
