@@ -2,3 +2,6 @@ frontend/app/styles/katex/contrib/*.js linguist-vendored
 frontend/app/styles/katex/contrib/*.mjs linguist-vendored
 frontend/app/styles/katex/*.css linguist-vendored
 frontend/app/styles/katex/**/* linguist-vendored
+
+
+*.sh text eol=lf
