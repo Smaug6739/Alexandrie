@@ -3,5 +3,19 @@ frontend/app/styles/katex/contrib/*.mjs linguist-vendored
 frontend/app/styles/katex/*.css linguist-vendored
 frontend/app/styles/katex/**/* linguist-vendored
 
-
+# Scripts endings
 *.sh text eol=lf
+*.bash text eol=lf
+*.ps1 text eol=lf
+
+# Code endings
+*.js text eol=lf
+*.ts text eol=lf
+*.vue text eol=lf
+*.go text eol=lf
+*.java text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
