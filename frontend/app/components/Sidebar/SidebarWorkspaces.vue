@@ -1,7 +1,7 @@
 <template>
   <div class="dropdown-container" @click="toggleDropdown">
     <div class="dropdown-selected" :class="{ open: isOpen }">
-      <span v-if="selectedOption"><SidebarWorkspace :option="selectedOption" /></span>
+      <span v-if="selectedOption" style="flex: 1"><SidebarWorkspace :option="selectedOption" /></span>
       <Icon name="expand" :small="true" fill="var(--font-color)" />
     </div>
     <ul v-show="isOpen" class="dropdown-options">

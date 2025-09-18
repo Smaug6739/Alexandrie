@@ -1,18 +1,55 @@
 package services
 
 import (
+	"alexandrie/models"
 	"alexandrie/types"
 	"database/sql"
 )
 
 type PermissionService interface {
+	GetNodePermission(nodeId types.Snowflake) ([]*models.Permission, error)
+	GetPermission(id types.Snowflake) (*models.Permission, error)
 	HasPermission(userId, nodeId types.Snowflake, required int) bool
-	//GrantPermission(userId, nodeId types.Snowflake, permission int) error
-	//RevokePermission(userId, nodeId types.Snowflake) error
+	CreatePermission(permission *models.Permission) error
+	UpdatePermission(id types.Snowflake, permission int) error
+	DeletePermission(id types.Snowflake) error
 }
 
 func NewPermissionService(db *sql.DB) PermissionService {
 	return &Service{db: db}
+}
+
+func (s *Service) GetPermission(id types.Snowflake) (*models.Permission, error) {
+	var p models.Permission
+	err := s.db.QueryRow(`SELECT id, node_id, user_id, permission, created_timestamp FROM permissions WHERE id = ?`, id).Scan(
+		&p.Id, &p.NodeId, &p.UserId, &p.Permission, &p.CreatedTimestamp,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &p, nil
+}
+
+func (s *Service) GetNodePermission(nodeId types.Snowflake) ([]*models.Permission, error) {
+	rows, err := s.db.Query(`
+		SELECT id, node_id, user_id, permission, created_timestamp
+		FROM permissions
+		WHERE node_id = ?
+	`, nodeId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var permissions []*models.Permission
+	for rows.Next() {
+		var p models.Permission
+		if err := rows.Scan(&p.Id, &p.NodeId, &p.UserId, &p.Permission, &p.CreatedTimestamp); err != nil {
+			return nil, err
+		}
+		permissions = append(permissions, &p)
+	}
+	return permissions, nil
 }
 
 func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) bool {
@@ -37,12 +74,12 @@ func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) bo
 		WHERE p.user_id = ?
 	`, nodeId, userId).Scan(&perm)
 
-	// Cas 1 : permission explicite suffisante
+	// Case 1 : Explicit permission sufficient
 	if perm >= required {
 		return true
 	}
 
-	// Cas 2 : pas assez de permissions → vérifier si propriétaire d’un ancêtre
+	// Case 2 : Not enough permissions → check if owner of an ancestor
 	var owns int
 	err = s.db.QueryRow(`
 		WITH RECURSIVE ancestors AS (
@@ -62,10 +99,26 @@ func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) bo
 		LIMIT 1
 	`, nodeId, userId).Scan(&owns)
 	if err == nil && owns == 1 {
-		// propriétaire d’un ancêtre = permission max
+		// Owner of an ancestor = max permission
 		return required <= 3
 	}
 
-	// sinon pas de permission
+	// Otherwise no permission
 	return false
+}
+
+func (s *Service) CreatePermission(permission *models.Permission) error {
+	_, err := s.db.Exec(`INSERT INTO permissions (id, node_id, user_id, permission, created_timestamp) VALUES (?, ?, ?, ?, ?)`,
+		permission.Id, permission.NodeId, permission.UserId, permission.Permission, permission.CreatedTimestamp)
+	return err
+}
+
+func (s *Service) UpdatePermission(id types.Snowflake, permission int) error {
+	_, err := s.db.Exec(`UPDATE permissions SET permission = ? WHERE id = ?`, permission, id)
+	return err
+}
+
+func (s *Service) DeletePermission(id types.Snowflake) error {
+	_, err := s.db.Exec(`DELETE FROM permissions WHERE id = ?`, id)
+	return err
 }

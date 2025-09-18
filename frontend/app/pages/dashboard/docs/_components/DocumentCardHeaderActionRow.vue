@@ -46,7 +46,7 @@ const props = defineProps<{ doc: Node }>();
 const print = () => window.print();
 const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.doc.id } }));
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
-const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { doc: props.doc }, size: 'small' }));
+const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { nodeId: props.doc.id }, size: 'small' }));
 
 function exportMarkdown() {
   const blob = new Blob([props.doc.content || ''], { type: 'text/markdown' });

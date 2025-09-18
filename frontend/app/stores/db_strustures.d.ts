@@ -47,6 +47,15 @@ export interface DB_Node {
   updated_timestamp: string;
 }
 
+export interface Permission {
+  id: string;
+  user_id: string;
+  node_id: string;
+  permission: number; // 1: Read; 2: Write; 3: Admin;
+  created_timestamp: string;
+  user?: PublicUser;
+}
+
 export interface Node extends DB_Node {
   partial?: boolean;
   shared: boolean;

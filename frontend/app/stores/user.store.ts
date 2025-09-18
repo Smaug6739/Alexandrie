@@ -34,8 +34,10 @@ export const useUserStore = defineStore('user', {
         return this.user;
       } else throw responce.message;
     },
-    async fetchPublicUser(usernameOrEmail: string): Promise<PublicUser> {
-      const responce = await makeRequest<PublicUser>(`users/public/${usernameOrEmail}`, 'GET', {});
+    async fetchPublicUser(usernameOrEmailOrId: string): Promise<PublicUser> {
+      const existingUser = this.users.find(u => u.id === usernameOrEmailOrId);
+      if (existingUser) return existingUser;
+      const responce = await makeRequest<PublicUser>(`users/public/${usernameOrEmailOrId}`, 'GET', {});
       if (responce.status === 'success') {
         const user = responce.result as PublicUser;
         if (!this.users.find(u => u.id === user.id)) this.users.push(user);

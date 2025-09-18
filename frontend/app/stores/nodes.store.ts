@@ -1,5 +1,5 @@
 import { makeRequest, type FetchOptions } from './_utils';
-import type { DB_Node, Node } from './db_strustures';
+import type { DB_Node, Node, Permission } from './db_strustures';
 
 interface SearchOptions {
   query?: string;
@@ -14,6 +14,7 @@ export const useNodesStore = defineStore('nodes', {
   state: () => ({
     nodes: [] as Array<Node | Node>,
     public_nodes: [] as Node[],
+    permissions: [] as Permission[],
     allTags: [] as string[],
     isFetching: false,
   }),
@@ -162,6 +163,46 @@ export const useNodesStore = defineStore('nodes', {
         }
         return this.nodes;
       } else throw request;
+    },
+    async fetchPermissions(nodeId: string): Promise<Permission[]> {
+      console.log(`[store/nodes/permissions] Fetching permissions for node: ${nodeId}`);
+      const node = this.nodes.find(d => d.id === nodeId);
+      if (!node) throw 'Node not found in store, cannot fetch permissions';
+      const request = await makeRequest(`permissions/${nodeId}`, 'GET', {});
+      if (request.status === 'success') {
+        for (const perm of request.result as Permission[]) {
+          perm.user = await useUserStore().fetchPublicUser(perm.user_id);
+          const index = this.permissions.findIndex(p => p.id == perm.id);
+          if (index == -1) this.permissions.push(perm);
+          else this.permissions[index] = perm;
+        }
+        return request.result as Permission[];
+      } else throw request;
+    },
+    async addPermission(perm: Omit<Permission, 'id' | 'created_timestamp'>): Promise<Permission> {
+      console.log(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
+      const request = await makeRequest(`permissions`, 'POST', perm);
+      if (request.status === 'success') {
+        this.permissions.push(request.result as Permission);
+        return request.result as Permission;
+      } else throw request.message;
+    },
+    async updatePermission(perm: Permission) {
+      console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
+      const request = await makeRequest(`permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
+      if (request.status === 'success') {
+        const index = this.permissions.findIndex(p => p.id === perm.id);
+        if (index !== -1) this.permissions[index]!.permission = perm.permission;
+      } else throw request.message;
+    },
+    async removePermission(nodeId: string, userId: string) {
+      console.log(`[store/nodes/permissions] Removing permission for user ${userId} on node ${nodeId}`);
+      const perm = this.permissions.find(p => p.node_id === nodeId && p.user_id === userId);
+      if (!perm) throw 'Permission not found in store, cannot remove permission';
+      const request = await makeRequest(`permissions/${perm.id}`, 'DELETE', {});
+      if (request.status === 'success') {
+        this.permissions = this.permissions.filter(p => p.id !== perm.id);
+      } else throw request.message;
     },
     async post(node: Partial<Node>): Promise<DB_Node> {
       const request = await makeRequest('nodes', 'POST', node);

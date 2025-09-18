@@ -1,29 +1,70 @@
-<!-- This components is a modal for advanced editing document metadata -->
 <template>
   <div class="modal-content">
-    <h2>Manage permissions <tag yellow>Beta</tag></h2>
-    <form @submit.prevent>
+    <h2 class="title">Manage permissions <tag yellow>Beta</tag></h2>
+
+    <!-- Search + add -->
+    <form @submit.prevent="addPermission">
       <label for="user">Search user</label>
       <input id="user" v-model="query" placeholder="Username or email" />
-      <div v-if="user" style="background-color: var(--bg-ui); border-radius: 8px">
+
+      <div v-if="user" class="user-card">
         <div class="user-info-row">
-          <span style="display: flex; align-items: center; gap: 10px">
-            <img v-if="user.avatar" :src="useAvatar(user)" alt="avatar" style="width: 30px; height: 30px; border-radius: 50%; margin: 0" />
+          <span class="user-meta">
+            <img :src="useAvatar(user)" alt="avatar" class="avatar" />
             <span>{{ user.username }}</span>
           </span>
-          <span style="color: var(--font-color-light); font-size: 14px"> Joined on {{ new Date(user.created_timestamp).toLocaleDateString() }} </span>
+          <span class="joined"> Joined on {{ new Date(user.created_timestamp).toLocaleDateString() }} </span>
+        </div>
+
+        <div class="user-actions">
+          <select v-model="selectedPermission">
+            <option :value="1">Viewer</option>
+            <option :value="2">Editor</option>
+            <option :value="3">Admin</option>
+          </select>
+          <button type="submit">Add</button>
         </div>
       </div>
     </form>
+
+    <!-- Current permissions -->
+    <h3>Current permissions</h3>
+    <ul class="permissions-list">
+      <li v-for="perm in permissions" :key="perm.id" class="permission-item">
+        <div class="user-info-row">
+          <span class="user-meta">
+            <img :src="useAvatar(perm.user)" alt="avatar" class="avatar" />
+            <span>{{ perm.user?.username }}</span>
+          </span>
+
+          <div class="user-actions">
+            <select v-model="perm.permission" @change="updatePermission(perm)">
+              <option :value="1">Viewer</option>
+              <option :value="2">Editor</option>
+              <option :value="3">Admin</option>
+            </select>
+            <button @click="removePermission(perm)">Remove</button>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { PublicUser } from '~/stores';
+import type { Permission, PublicUser } from '~/stores';
+
+const props = defineProps<{
+  nodeId: string;
+}>();
 
 const usersStore = useUserStore();
+const nodesStore = useNodesStore();
+
 const query = ref('');
-const user = ref(null as null | PublicUser);
+const user = ref<PublicUser | null>(null);
+const selectedPermission = ref(1);
+const permissions = ref<Permission[]>([]);
 
 watch(query, async newQuery => {
   if (newQuery) {
@@ -32,44 +73,126 @@ watch(query, async newQuery => {
     user.value = null;
   }
 });
+
+onMounted(async () => {
+  permissions.value = await nodesStore.fetchPermissions(props.nodeId);
+});
+
+const addPermission = async () => {
+  if (!user.value) return;
+  const perm = await nodesStore.addPermission({
+    node_id: props.nodeId,
+    user_id: user.value.id,
+    permission: selectedPermission.value,
+  });
+  if (perm) permissions.value.push(perm);
+  user.value = null;
+  query.value = '';
+  selectedPermission.value = 1;
+};
+
+const updatePermission = async (perm: Permission) => {
+  await nodesStore.updatePermission(perm);
+};
+
+const removePermission = async (perm: Permission) => {
+  await nodesStore.removePermission(props.nodeId, perm.user_id);
+  permissions.value = permissions.value.filter(p => p.id !== perm.id);
+};
 </script>
 
 <style scoped>
 .modal-content {
   display: flex;
   flex-direction: column;
+  gap: 15px;
+}
+
+.title {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 form {
-  padding: 0 5px 25px;
-  flex: 1;
-  overflow-y: auto;
-}
-
-label {
+  padding-bottom: 15px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
 }
 
-textarea {
-  height: 50px;
-  min-height: 50px;
-  max-height: 50px;
-  font-size: 14px;
-  resize: none;
+input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #ccc);
+}
+
+.user-card {
+  background-color: var(--bg-ui);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .user-info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
-  padding: 8px;
-  transition: background-color 0.2s;
-  border-radius: 8px;
 }
 
-.user-info-row:hover {
-  background-color: var(--bg-ui);
+.user-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.joined {
+  color: var(--font-color-light);
+  font-size: 12px;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color, #ccc);
+}
+
+button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--primary-color, #444);
+  color: white;
+}
+
+button:hover {
+  background: var(--primary-hover, #666);
+}
+
+.permissions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.permission-item {
+  padding: 8px;
+  border-bottom: 1px solid var(--border-color, #ddd);
 }
 </style>

@@ -3,6 +3,7 @@
     <header>
       <h1 style="font-size: 20px">Documents of category <tag class="blue">New</tag></h1>
       <div style="display: flex; align-items: center; gap: 8px">
+        <NuxtLink @click="openPermissionsModal"><Icon name="users" :big="true" fill="var(--font-color)" /></NuxtLink>
         <NuxtLink :to="`/dashboard/categories/${categoryId}/edit`"><Icon name="settings" :big="true" fill="var(--font-color)" /></NuxtLink>
         <ViewSelection v-model="view" />
       </div>
@@ -22,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+import NodePermissions from '../../docs/_modals/NodePermissions.vue';
 const route = useRoute();
 const categoryId = route.params.id as string;
 const nodesStore = useNodesStore();
@@ -33,6 +35,8 @@ const view: Ref<'table' | 'list'> = ref('list');
 //     return category?.name || '';
 //   },
 // });
+const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { nodeId: categoryId }, size: 'small' }));
+
 const documents = computed(() => {
   const documents = nodesStore.getByCategories(categoryId);
   const childCategories = nodesStore.getChilds(categoryId);

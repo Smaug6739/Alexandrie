@@ -19,6 +19,7 @@ const (
 )
 
 const (
+	OWNER = 0
 	READ  = 1
 	WRITE = 2
 	ADMIN = 3
@@ -99,7 +100,11 @@ func SelfOrPermission(ctx *gin.Context, allowed int) (types.Snowflake, error) {
 }
 
 func NodePermission(ctx *gin.Context, node *models.Node, permissionService services.PermissionService, permission int) (types.Snowflake, error) {
-	// Check if the connected user has access to the resource (connectedUserId == targetId) or if the user has the required permission (app ADMINISTRATOR or node permission)
+	// Check if the connected user has access to the resource
+	// Case 1: User is the owner of the node (connectedUserId == targetId) => allow
+	// Case 2: The user is an app administrator => allow
+	// Case 3: The user has the required permission on the resource => allow
+	// Otherwise, return an error
 
 	// Check user is correctly authenticated
 	connectedUserId, err := GetUserIdCtx(ctx)
@@ -118,6 +123,11 @@ func NodePermission(ctx *gin.Context, node *models.Node, permissionService servi
 	if CheckPermission(role.(int), ADMINISTRATOR) {
 		return connectedUserId, nil
 	}
+
+	if permission == OWNER {
+		return 0, errors.New("unauthorized")
+	}
+
 	// Case 3: User has the required permission on the resource
 	hasPermission := permissionService.HasPermission(connectedUserId, node.Id, permission)
 
