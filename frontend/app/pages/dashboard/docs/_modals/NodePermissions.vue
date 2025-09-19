@@ -17,11 +17,7 @@
         </div>
 
         <div class="user-actions">
-          <select v-model="selectedPermission">
-            <option :value="1">Viewer</option>
-            <option :value="2">Editor</option>
-            <option :value="3">Admin</option>
-          </select>
+          <AppSelect v-model="selectedPermission" :items="NODE_PERMISSIONS" :searchable="false" size="200px" />
           <button type="submit">Add</button>
         </div>
       </div>
@@ -38,11 +34,7 @@
           </span>
 
           <div class="user-actions">
-            <select v-model="perm.permission" @change="updatePermission(perm)">
-              <option :value="1">Viewer</option>
-              <option :value="2">Editor</option>
-              <option :value="3">Admin</option>
-            </select>
+            <AppSelect v-model="perm.permission" :items="NODE_PERMISSIONS" :searchable="false" size="200px" @update:model-value="updatePermission(perm)" />
             <button @click="removePermission(perm)">Remove</button>
           </div>
         </div>
@@ -52,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import AppSelect from '~/components/AppSelect.vue';
 import type { Node, Permission, PublicUser } from '~/stores';
 
 const props = defineProps<{

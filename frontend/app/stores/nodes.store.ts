@@ -105,6 +105,25 @@ export const useNodesStore = defineStore('nodes', {
 
       return filtered;
     },
+    hasPermissions: state => (node: Node, level: number) => {
+      // Case 1: User is the owner => All permissions
+      // Case 2: User has a permission entry for this node
+      // Case 3: A parent node has a permission entry for this node (inherited permissions)
+      const userStore = useUserStore();
+      if (node.user_id === userStore.user?.id) return true;
+      const perm = node.permissions.find(p => p.user_id === userStore.user?.id);
+      if (perm) return perm.permission >= level;
+      let permission = -1;
+      let currentNode = node;
+      while (permission < level && currentNode.parent_id) {
+        const parentNode = state.nodes.find(n => n.id === currentNode.parent_id);
+        if (!parentNode) break;
+        const parentPerm = parentNode.permissions.find(p => p.user_id === userStore.user?.id);
+        if (parentPerm && parentPerm.permission > permission) permission = parentPerm.permission;
+        currentNode = parentNode;
+      }
+      return permission >= level;
+    },
   },
   actions: {
     recomputeTags() {
@@ -158,8 +177,8 @@ export const useNodesStore = defineStore('nodes', {
       if (request.status === 'success') {
         for (const node of request.result as DB_Node[]) {
           const index = this.nodes.findIndex(d => d.id == node.id);
-          if (index == -1) this.nodes.push({ ...node, partial: true, shared: true, permissions: [] });
-          else this.nodes[index] = { ...node, partial: true, shared: true, permissions: [] };
+          if (index == -1) this.nodes.push({ ...node, partial: true, shared: true, permissions: node.permissions || [] });
+          else this.nodes[index] = { ...node, partial: true, shared: true, permissions: node.permissions || [] };
         }
         return this.nodes;
       } else throw request;

@@ -4,6 +4,7 @@ import (
 	"alexandrie/models"
 	"alexandrie/types"
 	"database/sql"
+	"strings"
 )
 
 type NodeService interface {
@@ -76,27 +77,30 @@ SELECT * FROM user_nodes ORDER BY role, 'order' DESC, name;`, userId)
 func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
 
+	// 1. Récupération des nodes accessibles
 	rows, err := s.db.Query(`
 		WITH RECURSIVE accessible_nodes AS (
-    -- 1. Directly accessible nodes
-    SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme, n.accessibility, n.display, n.order,  n.size, n.metadata, n.created_timestamp, n.updated_timestamp
-    FROM nodes n
-    JOIN permissions p ON p.node_id = n.id
-    WHERE p.user_id = ?
+		    SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
+		           n.accessibility, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
+		    FROM nodes n
+		    JOIN permissions p ON p.node_id = n.id
+		    WHERE p.user_id = ?
 
-    UNION
+		    UNION
 
-    -- 2. Child nodes of accessible nodes
-    SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme, c.accessibility, c.display, c.order,  c.size, c.metadata, c.created_timestamp, c.updated_timestamp
-    FROM nodes c
-    JOIN accessible_nodes an ON an.id = c.parent_id)
-    SELECT * FROM accessible_nodes;
+		    SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
+		           c.accessibility, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
+		    FROM nodes c
+		    JOIN accessible_nodes an ON an.id = c.parent_id
+		)
+		SELECT * FROM accessible_nodes;
 	`, userId)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
+	nodeMap := make(map[types.Snowflake]*models.Node)
 	for rows.Next() {
 		var node models.Node
 		if err := rows.Scan(
@@ -120,11 +124,47 @@ func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 		); err != nil {
 			return nil, err
 		}
+		node.Permissions = []*models.Permission{} // initialiser le slice
 		nodes = append(nodes, &node)
+		nodeMap[node.Id] = &node
+	}
+
+	// 2. Récupération des permissions pour tous les nodes récupérés
+	if len(nodes) > 0 {
+		nodeIDs := make([]interface{}, 0, len(nodes))
+		for _, n := range nodes {
+			nodeIDs = append(nodeIDs, n.Id)
+		}
+
+		query := `SELECT id, node_id, user_id, permission, created_timestamp FROM permissions WHERE node_id IN (?` + strings.Repeat(",?", len(nodeIDs)-1) + `)`
+		stmt, err := s.db.Prepare(query)
+		if err != nil {
+			return nil, err
+		}
+		defer stmt.Close()
+
+		args := nodeIDs
+		permRows, err := stmt.Query(args...)
+		if err != nil {
+			return nil, err
+		}
+		defer permRows.Close()
+
+		for permRows.Next() {
+			var p models.Permission
+			if err := permRows.Scan(&p.Id, &p.NodeId, &p.UserId, &p.Permission, &p.CreatedTimestamp); err != nil {
+				return nil, err
+			}
+
+			if node, ok := nodeMap[p.NodeId]; ok {
+				node.Permissions = append(node.Permissions, &p)
+			}
+		}
 	}
 
 	return nodes, nil
 }
+
 func (s *Service) GetAllNodeBackup(user_id types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
 	rows, err := s.db.Query("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE user_id = ?", user_id)

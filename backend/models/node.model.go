@@ -24,4 +24,7 @@ type Node struct {
 	Metadata         *types.JSONB     `json:"metadata" form:"metadata"`
 	CreatedTimestamp int64            `json:"created_timestamp" form:"created_timestamp" binding:"omitempty"`
 	UpdatedTimestamp int64            `json:"updated_timestamp" form:"updated_timestamp" binding:"omitempty"`
+
+	// Relations
+	Permissions []*Permission `json:"permissions" form:"permissions" binding:"omitempty"`
 }

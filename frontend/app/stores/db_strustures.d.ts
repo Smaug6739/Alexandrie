@@ -19,6 +19,8 @@ export interface DB_Node {
   metadata?: Record<string, unknown>;
   created_timestamp: number;
   updated_timestamp: number;
+
+  permissions?: Permission[];
 }
 export interface DB_Node {
   id: string;
