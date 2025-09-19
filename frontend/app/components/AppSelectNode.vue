@@ -32,9 +32,9 @@ function select() {
 <style scoped>
 .tree-node {
   display: block;
-  margin: 2px auto;
+  margin: 0px auto;
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 15px;
   text-align: left;
   cursor: pointer;

@@ -1,6 +1,15 @@
 <template>
   <div ref="trigger" class="app-select" :style="{ width: size || '100%' }">
-    <input v-if="open" ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" @click.stop />
+    <input
+      v-if="open && searchable"
+      ref="searchInput"
+      v-model="search"
+      type="text"
+      placeholder="Search..."
+      class="search-input"
+      @keydown="handleKeyDown"
+      @click.stop
+    />
     <div v-else class="app-select-trigger">
       <button @click.stop="toggleDropdown" style="height: 30px">{{ selected?.label || placeholder }}</button>
       <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--font-color)">
@@ -192,7 +201,7 @@ button,
 .dropdown {
   max-height: 300px;
   margin: 0;
-  padding: 2px;
+  padding: 0 2px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: var(--bg-color);
