@@ -1,7 +1,7 @@
 <template>
-  <div class="hint-wrapper" @mouseenter="show = true" @mouseleave="show = false">
-    <div class="hint-icon">i</div>
-    <div v-if="show" class="hint-tooltip">
+  <div class="chint-wrapper" @mouseenter="show = true" @mouseleave="show = false">
+    <div class="chint-icon">i</div>
+    <div v-if="show" class="chint-tooltip">
       {{ text }}
     </div>
   </div>
@@ -13,13 +13,13 @@ const show = ref(false);
 </script>
 
 <style scoped lang="scss">
-.hint-wrapper {
+.chint-wrapper {
   position: relative;
   display: inline-block;
   margin-left: 0.25rem;
 }
 
-.hint-icon {
+.chint-icon {
   display: flex;
   width: 1rem;
   height: 1rem;
@@ -32,7 +32,7 @@ const show = ref(false);
   justify-content: center;
 }
 
-.hint-tooltip {
+.chint-tooltip {
   position: absolute;
   top: 100%;
   left: 50%;
