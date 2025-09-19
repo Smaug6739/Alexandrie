@@ -1,33 +1,40 @@
 <template>
   <div ref="trigger" class="app-select" :style="{ width: size || '100%' }">
-    <div v-if="!open" class="app-select-trigger">
-      <button @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
+    <input v-if="open" ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" @click.stop />
+    <div v-else class="app-select-trigger">
+      <button @click.stop="toggleDropdown" style="height: 30px">{{ selected?.label || placeholder }}</button>
       <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--font-color)">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
     </div>
-
-    <div v-else class="app-select-open">
-      <input ref="searchInput" v-model="search" type="text" placeholder="Search..." class="search-input" @keydown="handleKeyDown" @click.stop />
-      <Teleport to="body">
-        <ul v-if="open" ref="portalList" class="dropdown" :style="dropdownStyle">
-          <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
-          <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
-        </ul>
-      </Teleport>
-    </div>
+    <Teleport to="body">
+      <ul v-if="open" ref="portalList" class="dropdown" :style="dropdownStyle">
+        <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
+        <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
+      </ul>
+    </Teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  items: ANode[];
-  placeholder?: string;
-  modelValue?: string | number;
-  size?: string;
-  disabled?: (i: ANode) => boolean;
-  nullable?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    items: ANode[];
+    placeholder?: string;
+    modelValue?: string | number;
+    size?: string;
+    disabled?: (i: ANode) => boolean;
+    nullable?: boolean;
+    searchable?: boolean;
+  }>(),
+  {
+    placeholder: 'Select an option',
+    searchable: true,
+    nullable: false,
+    disabled: () => false,
+    modelValue: '',
+  },
+);
 
 const emit = defineEmits(['update:modelValue']);
 
@@ -165,6 +172,7 @@ onBeforeUnmount(() => {
 
 button,
 .search-input {
+  height: 34px;
   width: 100%;
   padding: 6px 10px;
   border-radius: 6px;
