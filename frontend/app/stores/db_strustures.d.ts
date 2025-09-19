@@ -59,6 +59,7 @@ export interface Permission {
 export interface Node extends DB_Node {
   partial?: boolean;
   shared: boolean;
+  permissions: Permission[];
 }
 
 export interface User {

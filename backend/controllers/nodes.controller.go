@@ -105,11 +105,21 @@ func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	_, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.READ)
+	connectedUserId, err := utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.READ)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	return http.StatusOK, node
+	perms, err := ctr.app.Services.Permissions.GetNodePermission(nodeId)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	filteredPerms := []*models.Permission{}
+	for _, p := range perms {
+		if p.UserId == connectedUserId || node.UserId == connectedUserId {
+			filteredPerms = append(filteredPerms, p)
+		}
+	}
+	return http.StatusOK, gin.H{"node": node, "permissions": filteredPerms}
 }
 
 // Create node

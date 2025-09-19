@@ -30,11 +30,11 @@
     <!-- Current permissions -->
     <h3>Current permissions</h3>
     <ul class="permissions-list">
-      <li v-for="perm in permissions" :key="perm.id" class="permission-item">
+      <li v-for="perm in localNode?.permissions" :key="perm.id" class="permission-item">
         <div class="user-info-row">
           <span class="user-meta">
-            <img :src="useAvatar(perm.user)" alt="avatar" class="avatar" />
-            <span>{{ perm.user?.username }}</span>
+            <img :src="useAvatar(userById(perm.user_id))" alt="avatar" class="avatar" />
+            <span>{{ userById(perm.user_id)?.username }}</span>
           </span>
 
           <div class="user-actions">
@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Permission, PublicUser } from '~/stores';
+import type { Node, Permission, PublicUser } from '~/stores';
 
 const props = defineProps<{
   nodeId: string;
@@ -64,7 +64,17 @@ const nodesStore = useNodesStore();
 const query = ref('');
 const user = ref<PublicUser | null>(null);
 const selectedPermission = ref(1);
-const permissions = ref<Permission[]>([]);
+const localNode = ref<Node | null>(null);
+
+onMounted(async () => {
+  localNode.value = await nodesStore.fetch({ id: props.nodeId });
+  for (const perm of localNode.value.permissions) {
+    perm.user = await usersStore.fetchPublicUser(perm.user_id);
+  }
+  console.log(localNode.value);
+});
+
+const userById = computed(() => (id: string) => usersStore.getById(id) || undefined);
 
 watch(query, async newQuery => {
   if (newQuery) {
@@ -74,10 +84,6 @@ watch(query, async newQuery => {
   }
 });
 
-onMounted(async () => {
-  permissions.value = await nodesStore.fetchPermissions(props.nodeId);
-});
-
 const addPermission = async () => {
   if (!user.value) return;
   const perm = await nodesStore.addPermission({
@@ -85,7 +91,7 @@ const addPermission = async () => {
     user_id: user.value.id,
     permission: selectedPermission.value,
   });
-  if (perm) permissions.value.push(perm);
+  if (perm && localNode.value) localNode.value.permissions.push(perm);
   user.value = null;
   query.value = '';
   selectedPermission.value = 1;
@@ -96,8 +102,9 @@ const updatePermission = async (perm: Permission) => {
 };
 
 const removePermission = async (perm: Permission) => {
-  await nodesStore.removePermission(props.nodeId, perm.user_id);
-  permissions.value = permissions.value.filter(p => p.id !== perm.id);
+  if (!localNode.value) return;
+  await nodesStore.removePermission(localNode.value.id, perm.user_id);
+  localNode.value.permissions = localNode.value.permissions.filter(p => p.id !== perm.id);
 };
 </script>
 

@@ -7,6 +7,9 @@ export const useUserStore = defineStore('user', {
     users: [] as PublicUser[],
     last_connection: null as ConnectionLog | null,
   }),
+  getters: {
+    getById: state => (id: string) => state.users.find(u => u.id === id) || null,
+  },
   actions: {
     async login(username: string, password: string) {
       try {
