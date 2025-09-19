@@ -29,3 +29,9 @@ export const CATEGORY_ROLES = [
   { id: 1, label: 'Workspace' },
   { id: 2, label: 'Category' },
 ];
+
+export const NODE_PERMISSIONS = [
+  { label: 'Viewer', id: 1 },
+  { label: 'Editor', id: 2 },
+  { label: 'Admin', id: 3 },
+];
