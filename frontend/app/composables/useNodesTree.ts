@@ -108,7 +108,7 @@ function useSidebarTree() {
     let parent_id: string | undefined | null = parentId;
     while (parent_id) {
       const parent = structure.value.itemMap.get(parent_id);
-      if (parent?.data.role === 2) {
+      if (parent?.data.role === 2 || parent?.data.role === 1) {
         category = parent as Item<Node>;
         break;
       }

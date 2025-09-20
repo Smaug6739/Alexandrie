@@ -19,10 +19,10 @@ const (
 )
 
 const (
-	OWNER = 0
 	READ  = 1
 	WRITE = 2
 	ADMIN = 3
+	OWNER = 4
 )
 
 // CheckPermission checks if the user has the required permission.
@@ -124,9 +124,9 @@ func NodePermission(ctx *gin.Context, node *models.Node, permissionService servi
 		return connectedUserId, nil
 	}
 
-	if permission == OWNER {
-		return 0, errors.New("unauthorized")
-	}
+	//if permission == OWNER {
+	//	return 0, errors.New("unauthorized")
+	//}
 
 	// Case 3: User has the required permission on the resource
 	hasPermission := permissionService.HasPermission(connectedUserId, node.Id, permission)

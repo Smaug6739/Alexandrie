@@ -1,7 +1,20 @@
 <template>
-  <div class="modal-content">
-    <h2 class="title">Manage permissions <tag red>Alpha</tag></h2>
+  <div class="modal-content" v-if="localNode">
+    <h2 class="title"><Icon name="manage_access" :big="true" fill="var(--font-color)" /> Manage permissions <tag red>Alpha</tag></h2>
 
+    <label for="accessibility">Accessibility</label>
+    <AppRadio v-model="localNode.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Accessibility" />
+    <!-- Accessibility 3: Public document -->
+    <div v-if="localNode.accessibility === 3" class="public-info">
+      <p class="info-text">This document will be publicly accessible via a unique URL.</p>
+      <p class="info-text">
+        Share this link to allow anyone to view the document without needing an account:
+        <br />
+        <a :href="link" target="_blank" rel="noopener noreferrer" class="public-link"
+          ><Icon name="new_tab" :small="true" fill="var(--font-color-light)" /><span>{{ link }}</span></a
+        >
+      </p>
+    </div>
     <!-- Search + add -->
     <form @submit.prevent="addPermission">
       <label for="user">Search user</label>
@@ -24,8 +37,8 @@
     </form>
 
     <!-- Current permissions -->
-    <h3>Current permissions</h3>
-    <ul class="permissions-list">
+    <label for="permissions">Permissions</label>
+    <ul id="permissions" class="permissions-list">
       <li v-for="perm in localNode?.permissions" :key="perm.id" class="permission-item">
         <div class="user-info-row">
           <span class="user-meta">
@@ -57,6 +70,7 @@ const query = ref('');
 const user = ref<PublicUser | null>(null);
 const selectedPermission = ref(1);
 const localNode = ref<Node | null>(null);
+const link = computed(() => `${window.location.origin}/doc/${localNode.value?.id}`);
 
 onMounted(async () => {
   localNode.value = await nodesStore.fetch({ id: props.nodeId });
@@ -114,7 +128,7 @@ const removePermission = async (perm: Permission) => {
 }
 
 form {
-  padding-bottom: 15px;
+  padding: 0 4px;
   display: flex;
   flex-direction: column;
   gap: 10px;

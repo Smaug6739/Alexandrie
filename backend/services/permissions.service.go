@@ -99,8 +99,7 @@ func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) bo
 		LIMIT 1
 	`, nodeId, userId).Scan(&owns)
 	if err == nil && owns == 1 {
-		// Owner of an ancestor = max permission
-		return required <= 3
+		return true // Owner of an ancestor = max permission
 	}
 
 	// Otherwise no permission

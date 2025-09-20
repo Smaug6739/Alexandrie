@@ -22,10 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Node, User } from '~/stores';
+import type { Node, PublicUser } from '~/stores';
 
 const dotMenu = ref();
-const props = defineProps<{ document: Node; user?: User }>();
+const props = defineProps<{ document: Node; user?: PublicUser }>();
 const emit = defineEmits<{
   (e: 'open' | 'close' | 'edit' | 'rename' | 'delete'): void;
 }>();

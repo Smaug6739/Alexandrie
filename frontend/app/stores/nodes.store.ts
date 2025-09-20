@@ -127,14 +127,12 @@ export const useNodesStore = defineStore('nodes', {
       // Case 3: A parent node has a permission entry for this node (inherited permissions)
       const userStore = useUserStore();
       if (node.user_id === userStore.user?.id) return true;
-      if (level === 0) return false; // level 0 = only owner
-      const perm = node.permissions.find(p => p.user_id === userStore.user?.id);
-      if (perm) return perm.permission >= level;
-      let permission = -1;
+      let permission = node.permissions.find(p => p.user_id === userStore.user?.id)?.permission || 0;
       let currentNode = node;
       while (permission < level && currentNode.parent_id) {
         const parentNode = state.nodes.find(n => n.id === currentNode.parent_id);
         if (!parentNode) break;
+        if (parentNode.user_id === userStore.user?.id) return true; // owner of parent node
         const parentPerm = parentNode.permissions.find(p => p.user_id === userStore.user?.id);
         if (parentPerm && parentPerm.permission > permission) permission = parentPerm.permission;
         currentNode = parentNode;

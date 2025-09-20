@@ -3,7 +3,7 @@
     <header>
       <h1 style="font-size: 20px">Documents of category <tag class="blue">New</tag></h1>
       <div style="display: flex; align-items: center; gap: 8px">
-        <NuxtLink @click="openPermissionsModal"><Icon name="users" :big="true" fill="var(--font-color)" /></NuxtLink>
+        <NuxtLink @click="openPermissionsModal"><Icon name="manage_access" :big="true" fill="var(--font-color)" /></NuxtLink>
         <NuxtLink :to="`/dashboard/categories/${categoryId}/edit`"><Icon name="settings" :big="true" fill="var(--font-color)" /></NuxtLink>
         <ViewSelection v-model="view" />
       </div>
@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import NodePermissions from '../../docs/_modals/NodePermissions.vue';
+import NodePermissions from '@/components/Node/NodePermissions.vue';
 const route = useRoute();
 const categoryId = route.params.id as string;
 const nodesStore = useNodesStore();

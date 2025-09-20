@@ -5,9 +5,11 @@
 import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 import type { Node } from '~/stores';
 
+const defaultParent = (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined;
+
 const store = useNodesStore();
 const document = ref<Partial<Node>>({
-  parent_id: (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined,
+  parent_id: ['root', 'shared'].includes(defaultParent || '') ? undefined : defaultParent,
   accessibility: 1,
   role: 3,
 });

@@ -23,7 +23,7 @@
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" @click="openEditModal">
       <Icon name="settings" :big="true" fill="var(--font-color)" />
     </NuxtLink>
-    <NuxtLink v-if="nodeStore.hasPermissions(doc, 0)" @click="openPermissionsModal">
+    <NuxtLink v-if="nodeStore.hasPermissions(doc, 4)" @click="openPermissionsModal">
       <Icon name="manage_access" :big="true" fill="var(--font-color)" />
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 3)" @click="openDeleteModal">
@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
 import DocumentMeta from '../_modals/DocumentMeta.vue';
-import NodePermissions from '../_modals/NodePermissions.vue';
+import NodePermissions from '@/components/Node/NodePermissions.vue';
 import type { Node } from '~/stores';
 
 const nodeStore = useNodesStore();
