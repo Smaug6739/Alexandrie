@@ -53,6 +53,22 @@ export const useNodesStore = defineStore('nodes', {
       if (index == -1) return;
       return cnodes[index - 1];
     },
+
+    getAllChildrens: state => (id: string) => {
+      const parent = state.nodes.find(d => d.id == id);
+      if (!parent) return [];
+      const childrens: Node[] = [parent];
+      const getChildrens = (parent: Node) => {
+        state.nodes.forEach(node => {
+          if (node.parent_id == parent.id) {
+            childrens.push(node);
+            getChildrens(node);
+          }
+        });
+      };
+      getChildrens(parent);
+      return childrens;
+    },
     getAllChildrensIds: state => (id: string) => {
       const childrens: string[] = [id];
       const getChildrens = (parent: Node) => {
@@ -111,6 +127,7 @@ export const useNodesStore = defineStore('nodes', {
       // Case 3: A parent node has a permission entry for this node (inherited permissions)
       const userStore = useUserStore();
       if (node.user_id === userStore.user?.id) return true;
+      if (level === 0) return false; // level 0 = only owner
       const perm = node.permissions.find(p => p.user_id === userStore.user?.id);
       if (perm) return perm.permission >= level;
       let permission = -1;
@@ -144,7 +161,9 @@ export const useNodesStore = defineStore('nodes', {
         if (opts?.id) {
           const result = request.result as { node: DB_Node; permissions: Permission[] };
           const index = this.nodes.findIndex(d => d.id == opts?.id);
-          const updatedNode: Node = { ...(result.node as DB_Node), partial: false, shared: false, permissions: result.permissions };
+          let shared = false;
+          if (index != -1) shared = this.nodes[index]!.shared;
+          const updatedNode: Node = { ...(result.node as DB_Node), partial: false, shared: shared, permissions: result.permissions };
           if (index == -1) this.nodes.push(updatedNode);
           else this.nodes[index] = updatedNode;
           return updatedNode as 'id' extends keyof T ? Node : Node[];
@@ -178,7 +197,10 @@ export const useNodesStore = defineStore('nodes', {
         for (const node of request.result as DB_Node[]) {
           const index = this.nodes.findIndex(d => d.id == node.id);
           if (index == -1) this.nodes.push({ ...node, partial: true, shared: true, permissions: node.permissions || [] });
-          else this.nodes[index] = { ...node, partial: true, shared: true, permissions: node.permissions || [] };
+          else {
+            const state = this.nodes[index];
+            this.nodes[index] = { ...node, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] };
+          }
         }
         return this.nodes;
       } else throw request;

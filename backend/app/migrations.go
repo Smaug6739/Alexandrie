@@ -32,7 +32,7 @@ func Migrate(config *Config) {
 
 	m, err := migrate.NewWithDatabaseInstance(
 		fmt.Sprintf("file://%s", absPath),
-		"mysql",
+		"alexandrie",
 		driver,
 	)
 	if err != nil {

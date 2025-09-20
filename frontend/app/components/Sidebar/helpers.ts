@@ -1,6 +1,6 @@
 import type { Node } from '~/stores';
 
-export type DefaultItem = Item<Omit<Node, 'user_id' | 'data' | 'show' | 'shared' | 'created_timestamp' | 'updated_timestamp'>>;
+export type DefaultItem = Item<Omit<Node, 'user_id' | 'data' | 'show' | 'created_timestamp' | 'updated_timestamp'>>;
 export interface Workspace {
   text: string;
   value?: string;
@@ -19,6 +19,8 @@ export const navigationItems: DefaultItem[] = [
       role: -1,
       name: 'Home',
       icon: 'dashboard',
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.home!),
   },
@@ -33,6 +35,8 @@ export const navigationItems: DefaultItem[] = [
       role: -1,
       name: 'Manage categories',
       icon: 'categories',
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.manageCategories!),
   },
@@ -47,6 +51,8 @@ export const navigationItems: DefaultItem[] = [
       role: -1,
       name: 'CDN',
       icon: 'cdn',
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.cdn!),
   },
@@ -61,6 +67,8 @@ export const navigationItems: DefaultItem[] = [
       role: -1,
       name: 'Settings',
       icon: 'user_settings',
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.settings!),
   },
@@ -75,6 +83,8 @@ export const navigationItems: DefaultItem[] = [
       role: -1,
       name: 'Documents',
       icon: 'files',
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.documents!),
   },
@@ -89,6 +99,8 @@ export const navigationItems: DefaultItem[] = [
       role: -1,
       name: 'Import',
       icon: 'import',
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.importation!),
   },
@@ -103,6 +115,8 @@ export const navigationItems: DefaultItem[] = [
       role: -1,
       name: 'New Page',
       icon: 'add_file',
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.newPage!),
   },

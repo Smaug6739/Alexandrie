@@ -1,6 +1,6 @@
 <template>
   <div class="modal-content">
-    <h2 class="title">Manage permissions <tag yellow>Beta</tag></h2>
+    <h2 class="title">Manage permissions <tag red>Alpha</tag></h2>
 
     <!-- Search + add -->
     <form @submit.prevent="addPermission">
@@ -44,7 +44,6 @@
 </template>
 
 <script setup lang="ts">
-import AppSelect from '~/components/AppSelect.vue';
 import type { Node, Permission, PublicUser } from '~/stores';
 
 const props = defineProps<{
@@ -79,12 +78,11 @@ watch(query, async newQuery => {
 
 const addPermission = async () => {
   if (!user.value) return;
-  const perm = await nodesStore.addPermission({
+  await nodesStore.addPermission({
     node_id: props.nodeId,
     user_id: user.value.id,
     permission: selectedPermission.value,
   });
-  if (perm && localNode.value) localNode.value.permissions.push(perm);
   user.value = null;
   query.value = '';
   selectedPermission.value = 1;

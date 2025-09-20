@@ -77,7 +77,7 @@ SELECT * FROM user_nodes ORDER BY role, 'order' DESC, name;`, userId)
 func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
 
-	// 1. Récupération des nodes accessibles
+	// 1. Get all accessible nodes (owned or shared, including children of owned/shared nodes)
 	rows, err := s.db.Query(`
 		WITH RECURSIVE accessible_nodes AS (
 		    SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
@@ -124,12 +124,12 @@ func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 		); err != nil {
 			return nil, err
 		}
-		node.Permissions = []*models.Permission{} // initialiser le slice
+		node.Permissions = []*models.Permission{}
 		nodes = append(nodes, &node)
 		nodeMap[node.Id] = &node
 	}
 
-	// 2. Récupération des permissions pour tous les nodes récupérés
+	// 2. Get permissions for the retrieved nodes
 	if len(nodes) > 0 {
 		nodeIDs := make([]interface{}, 0, len(nodes))
 		for _, n := range nodes {

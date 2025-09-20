@@ -38,13 +38,7 @@ const view: Ref<'table' | 'list'> = ref('list');
 const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { nodeId: categoryId }, size: 'small' }));
 
 const documents = computed(() => {
-  const documents = nodesStore.getByCategories(categoryId);
-  const childCategories = nodesStore.getChilds(categoryId);
-  for (const childCategory of childCategories) {
-    const childDocuments = nodesStore.getByCategories(childCategory.id);
-    documents.push(...childDocuments);
-  }
-  return documents;
+  return nodesStore.getAllChildrens(categoryId).filter(d => d.role == 3);
 });
 </script>
 

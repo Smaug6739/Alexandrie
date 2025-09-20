@@ -23,7 +23,7 @@
     <NuxtLink @click="openEditModal" v-if="nodeStore.hasPermissions(doc, 2)">
       <Icon name="settings" :big="true" fill="var(--font-color)" />
     </NuxtLink>
-    <NuxtLink @click="openPermissionsModal" v-if="nodeStore.hasPermissions(doc, 3)">
+    <NuxtLink @click="openPermissionsModal" v-if="nodeStore.hasPermissions(doc, 0)">
       <Icon name="users" :big="true" fill="var(--font-color)" />
     </NuxtLink>
     <NuxtLink @click="openDeleteModal" v-if="nodeStore.hasPermissions(doc, 3)">

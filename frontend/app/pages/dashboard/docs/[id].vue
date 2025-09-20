@@ -56,6 +56,7 @@ watchEffect(async () => {
   }
   article.value = undefined;
   if (docFromStore.partial) {
+    console.log(0);
     try {
       error.value = false;
       article.value = await documentsStore.fetch({ id: document_id });

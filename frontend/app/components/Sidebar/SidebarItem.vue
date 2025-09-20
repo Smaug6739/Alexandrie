@@ -13,6 +13,8 @@
 
     <NuxtLink :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
 
+    <Icon v-if="item.data.shared && !item.parent_id" name="users" fill="var(--font-color)" />
+
     <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" fill="var(--font-color)" />
     </NuxtLink>
@@ -33,7 +35,7 @@ const props = defineProps<{ item: Item | DefaultItem }>();
 const customClass = computed(() => {
   if ('color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
     return `item-icon ${getAppColor(props.item.data.color as number)}`;
-  return '';
+  return 'default-icon';
 });
 const icon = computed(() => {
   if ('icon' in props.item.data && props.item.data.icon) return props.item.data.icon;
@@ -103,7 +105,7 @@ const drop = async (event: DragEvent) => {
     background: var(--bg-contrast-2);
   }
 
-  .icon {
+  .default-icon {
     width: 20px;
     height: 20px;
 
