@@ -24,7 +24,7 @@
       <Icon name="settings" :big="true" fill="var(--font-color)" />
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 0)" @click="openPermissionsModal">
-      <Icon name="users" :big="true" fill="var(--font-color)" />
+      <Icon name="manage_access" :big="true" fill="var(--font-color)" />
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 3)" @click="openDeleteModal">
       <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
