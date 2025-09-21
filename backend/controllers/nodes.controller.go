@@ -3,6 +3,7 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
+	"alexandrie/permissions"
 	"alexandrie/utils"
 	"net/http"
 	"time"
@@ -22,7 +23,8 @@ type NodeController interface {
 
 func NewNodeController(app *app.App) NodeController {
 	return &Controller{
-		app: app,
+		app:        app,
+		authorizer: permissions.NewAuthorizer(app.Services.Permissions),
 	}
 }
 
@@ -36,7 +38,7 @@ func NewNodeController(app *app.App) NodeController {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetPublicNode(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetIdParam(c, c.Param("id"))
+	nodeId, err := utils.GetTargetUserId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -56,11 +58,22 @@ func (ctr *Controller) GetPublicNode(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetSharedNodes(c *gin.Context) (int, any) {
-	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
+	// Get connected user ID and role from context
+	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	nodes, err := ctr.app.Services.Nodes.GetSharedNodes(id)
+	// Target user ID from param
+	targetUserId, err := utils.GetTargetUserId(c, c.Param("userId"))
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+	allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole)
+	if !allowed || err != nil {
+		return http.StatusUnauthorized, err
+	}
+
+	nodes, err := ctr.app.Services.Nodes.GetSharedNodes(targetUserId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -70,17 +83,29 @@ func (ctr *Controller) GetSharedNodes(c *gin.Context) (int, any) {
 // Get nodes
 // @Summary Get all nodes
 // @Method GET
-// @Router /nodes [get]
+// @Router /nodes/:userId [get]
 // @Security Authenfification: Auth
 // @Success 200 {object} Success([]models.Node)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetNodes(c *gin.Context) (int, any) {
-	id, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR)
+	// Get connected user ID and role from context
+	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	nodes, err := ctr.app.Services.Nodes.GetAllNodes(id)
+	// Target user ID from param
+	targetUserId, err := utils.GetTargetUserId(c, c.Param("userId"))
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole)
+	if !allowed || err != nil {
+		return http.StatusUnauthorized, err
+	}
+
+	nodes, err := ctr.app.Services.Nodes.GetAllNodes(targetUserId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -97,16 +122,22 @@ func (ctr *Controller) GetNodes(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetIdParam(c, c.Param("id"))
+	nodeId, err := utils.GetTargetUserId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	node, err := ctr.app.Services.Nodes.GetNode(nodeId)
+	dbNode, err := ctr.app.Services.Nodes.GetNode(nodeId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	connectedUserId, _, err := utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.READ)
+	// Get connected user ID and role from context
+	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
 	if err != nil {
+		return http.StatusUnauthorized, err
+	}
+
+	allowed, _, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionRead)
+	if !allowed || err != nil {
 		return http.StatusUnauthorized, err
 	}
 	perms, err := ctr.app.Services.Permissions.GetNodePermission(nodeId)
@@ -115,11 +146,11 @@ func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
 	}
 	filteredPerms := []*models.Permission{}
 	for _, p := range perms {
-		if p.UserId == connectedUserId || node.UserId == connectedUserId {
+		if p.UserId == connectedUserId || dbNode.UserId == connectedUserId {
 			filteredPerms = append(filteredPerms, p)
 		}
 	}
-	return http.StatusOK, gin.H{"node": node, "permissions": filteredPerms}
+	return http.StatusOK, gin.H{"node": dbNode, "permissions": filteredPerms}
 }
 
 // Create node
@@ -136,7 +167,7 @@ func (ctr *Controller) CreateNode(c *gin.Context) (int, any) {
 	if err := c.ShouldBind(node); err != nil {
 		return http.StatusBadRequest, err
 	}
-	userId, err := utils.GetUserIdCtx(c)
+	userId, _, err := utils.GetUserContext(c)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -179,16 +210,26 @@ func (ctr *Controller) CreateNode(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetIdParam(c, c.Param("id"))
+	nodeId, err := utils.GetTargetUserId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	db_node, err := ctr.app.Services.Nodes.GetNode(nodeId)
+
+	// Get connected user ID and role from context
+	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
+	if err != nil {
+		return http.StatusUnauthorized, err
+	}
+
+	dbNode, err := ctr.app.Services.Nodes.GetNode(nodeId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	connectedUserId, userConnectedLevel, err := utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.WRITE)
-	if err != nil && (db_node.Access < 2 || *db_node.Accessibility != 3) {
+
+	allowed, level, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionUpdate)
+
+	// Special case: The document is public (accessibility = 3) and access < 2 (write or admin)
+	if !allowed && (dbNode.Access < 2 || *dbNode.Accessibility != 3) {
 		return http.StatusUnauthorized, err
 	}
 	node := &models.Node{}
@@ -196,12 +237,12 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	if db_node.UserId != connectedUserId && userConnectedLevel < utils.OWNER {
+	if dbNode.UserId != connectedUserId && level < utils.OWNER {
 		// If the user is not owner or admin of the node he cannot change some fields
-		node.ParentId = db_node.ParentId
-		node.UserId = db_node.UserId
-		node.Accessibility = db_node.Accessibility
-		node.Access = db_node.Access
+		node.ParentId = dbNode.ParentId
+		node.UserId = dbNode.UserId
+		node.Accessibility = dbNode.Accessibility
+		node.Access = dbNode.Access
 	}
 	node = &models.Node{
 		Id:               nodeId,
@@ -242,21 +283,28 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteNode(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetIdParam(c, c.Param("id"))
+	nodeId, err := utils.GetTargetUserId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	db_node, err := ctr.app.Services.Nodes.GetNode(nodeId)
+
+	// Get connected user ID and role from context
+	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
+	if err != nil {
+		return http.StatusUnauthorized, err
+	}
+
+	dbNode, err := ctr.app.Services.Nodes.GetNode(nodeId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	_, _, err = utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.ADMIN)
-	if err != nil {
+	allowed, _, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionDelete)
+	if !allowed || err != nil {
 		return http.StatusUnauthorized, err
 	}
 	err = ctr.app.Services.Nodes.DeleteNode(nodeId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	return http.StatusOK, db_node
+	return http.StatusOK, "OK"
 }

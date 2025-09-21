@@ -148,6 +148,9 @@ export const useNodesStore = defineStore('nodes', {
         if (node.tags) {
           parseTags(node.tags).forEach(tag => tags.add(tag));
         }
+        if (node.parent_id && !this.nodes.find(n => n.id === node.parent_id)) {
+          node.parent_id = '';
+        }
       });
       this.allTags = Array.from(tags).sort();
     },

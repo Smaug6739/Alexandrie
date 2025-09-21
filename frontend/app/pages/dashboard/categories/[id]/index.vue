@@ -4,7 +4,7 @@
       <h1 style="font-size: 20px">Documents of category <tag class="blue">New</tag></h1>
       <div style="display: flex; align-items: center; gap: 8px">
         <NuxtLink @click="openPermissionsModal"><Icon name="manage_access" :big="true" fill="var(--font-color)" /></NuxtLink>
-        <NuxtLink :to="`/dashboard/categories/${categoryId}/edit`"><Icon name="settings" :big="true" fill="var(--font-color)" /></NuxtLink>
+        <NuxtLink :to="`/dashboard/categories/${node?.id}/edit`"><Icon name="settings" :big="true" fill="var(--font-color)" /></NuxtLink>
         <ViewSelection v-model="view" />
       </div>
     </header>
@@ -23,24 +23,44 @@
 </template>
 
 <script setup lang="ts">
-import NodePermissions from '@/components/Node/NodePermissions.vue';
+import NodePermissions from '@/components/Node/NodePermissions.modal.vue';
+import type { Node } from '~/stores';
 const route = useRoute();
 const categoryId = route.params.id as string;
 const nodesStore = useNodesStore();
 const view: Ref<'table' | 'list'> = ref('list');
-const node = computed(() => nodesStore.getById(categoryId));
+const node = ref<Node | undefined>();
+const error = ref<string>('');
 // definePageMeta({
 //   breadcrumb: () => {
 //     const category = nodesStore.getById(route.params.id as string);
 //     return category?.name || '';
 //   },
 // });
+
+watchEffect(async () => {
+  const nodeFromStore = nodesStore.getById(categoryId);
+  if (!nodeFromStore) {
+    if (nodesStore.isFetching) return;
+    return (error.value = 'Document not found');
+  }
+  node.value = undefined;
+  if (nodeFromStore.partial) {
+    try {
+      error.value = '';
+      node.value = await nodesStore.fetch({ id: categoryId });
+    } catch (err: unknown) {
+      error.value = (err as Error).message || 'Failed to fetch document';
+    }
+  } else node.value = nodeFromStore;
+});
+
 const openPermissionsModal = () => {
   if (node.value) useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: node.value }, size: 'small' }));
 };
 
 const documents = computed(() => {
-  return nodesStore.getAllChildrens(categoryId).filter(d => d.role == 3);
+  return nodesStore.getAllChildrens(node.value?.id || '').filter(d => d.role == 3);
 });
 </script>
 

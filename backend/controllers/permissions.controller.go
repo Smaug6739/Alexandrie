@@ -33,7 +33,7 @@ func NewPermissionsController(app *app.App) PermissionsController {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetNodePermissions(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetIdParam(c, c.Param("nodeId"))
+	nodeId, err := utils.GetTargetUserId(c, c.Param("nodeId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -99,7 +99,7 @@ func (ctr *Controller) CreatePermission(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UpdatePermission(c *gin.Context) (int, any) {
-	permId, err := utils.GetIdParam(c, c.Param("id"))
+	permId, err := utils.GetTargetUserId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -136,7 +136,7 @@ func (ctr *Controller) UpdatePermission(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeletePermission(c *gin.Context) (int, any) {
-	permId, err := utils.GetIdParam(c, c.Param("id"))
+	permId, err := utils.GetTargetUserId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
