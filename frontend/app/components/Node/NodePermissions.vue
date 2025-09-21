@@ -68,6 +68,7 @@
 import type { Node, Permission, PublicUser } from '~/stores';
 
 const props = defineProps<{ node: Node }>();
+
 const node = ref<Node>(props.node);
 
 const usersStore = useUserStore();

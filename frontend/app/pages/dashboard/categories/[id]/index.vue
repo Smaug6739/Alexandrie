@@ -28,14 +28,16 @@ const route = useRoute();
 const categoryId = route.params.id as string;
 const nodesStore = useNodesStore();
 const view: Ref<'table' | 'list'> = ref('list');
-
+const node = computed(() => nodesStore.getById(categoryId));
 // definePageMeta({
 //   breadcrumb: () => {
 //     const category = nodesStore.getById(route.params.id as string);
 //     return category?.name || '';
 //   },
 // });
-const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { nodeId: categoryId }, size: 'small' }));
+const openPermissionsModal = () => {
+  if (node.value) useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: node.value }, size: 'small' }));
+};
 
 const documents = computed(() => {
   return nodesStore.getAllChildrens(categoryId).filter(d => d.role == 3);

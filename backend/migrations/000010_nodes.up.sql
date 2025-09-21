@@ -15,7 +15,7 @@ CREATE TABLE `nodes` (
     `icon` TEXT NULL,
     `thumbnail` TEXT NULL,
     `theme` VARCHAR(30) NULL,
-    `accessibility` tinyint(1) NULL,
+    `accessibility` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1=private, 2=public',
     `access` INT NOT NULL DEFAULT 0,
     `display` TINYINT NULL,
     `order` INT NULL,
