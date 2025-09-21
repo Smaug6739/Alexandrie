@@ -92,7 +92,6 @@ const options = ref<{ label: string; options: Option[] }[]>([
         key: 'primaryColor',
         value: Number(preferencesStore.get('primaryColor')),
         onChange: (option: number) => {
-          console.log('Primary color changed to:', option);
           setAppColor(option);
         },
       },

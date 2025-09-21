@@ -18,14 +18,12 @@ watchEffect(async () => {
   if (!docFromStore) {
     try {
       document.value = await store.fetchPublic(doc_id);
-      console.log(document.value);
     } catch {
       error.value = 'Document not found';
     }
   } else if (docFromStore?.partial) {
     try {
       document.value = await store.fetch({ id: doc_id });
-      console.log(document.value);
     } catch {
       error.value = 'Document not found';
     }
