@@ -5,17 +5,17 @@
       <DocumentCardHeaderSkeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
-        <p v-if="!public" class="top-row">
+        <p class="top-row">
           <span style="display: flex; align-items: center; gap: 12px"
             ><img v-if="user" :src="useAvatar(user)" class="avatar" />
             <span style="color: var(--font-color-light); font-size: 18px">{{ user?.username }}</span>
           </span>
-          <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
+          <DocumentCardHeaderActionRow v-if="!public" :doc="doc" class="no-print" />
         </p>
         <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
         <h1 class="title" :class="{ public: public }">{{ doc?.name }}</h1>
         <p class="description">{{ doc?.description }}</p>
-        <div v-if="doc.tags" class="document-tags">
+        <div v-if="doc.tags" class="tags">
           <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
         </div>
       </template>
@@ -68,6 +68,7 @@ p {
     font-family: Inter;
   }
   .top-row {
+    margin-top: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -86,15 +87,16 @@ p {
   }
 
   .category {
+    display: block;
+    padding-top: 8px;
     font-size: 20px;
     font-weight: 500;
     color: var(--font-color-light);
   }
 }
-.document-tags {
+.tags {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 10px;
   padding-top: 5px;
 }
 
@@ -119,7 +121,7 @@ p {
 
     .icon,
     .description,
-    .document-tags,
+    .tags,
     .top-row,
     .user {
       display: none;

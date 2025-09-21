@@ -33,9 +33,9 @@
 </template>
 
 <script setup lang="ts">
-import TableOfContent from '../../dashboard/docs/_components/table-of-content/TableOfContents.vue';
-import DocumentSkeleton from '../../dashboard/docs/_components/DocumentSkeleton.vue';
-import DocumentCardHeader from '../../dashboard/docs/_components/DocumentCardHeader.vue';
+import TableOfContent from '@/pages/dashboard/docs/_components/table-of-content/TableOfContents.vue';
+import DocumentSkeleton from '@/pages/dashboard/docs/_components/DocumentSkeleton.vue';
+import DocumentCardHeader from '@/pages/dashboard/docs/_components/DocumentCardHeader.vue';
 import type { Node } from '@/stores';
 
 const route = useRoute();
@@ -57,7 +57,6 @@ watchEffect(async () => {
 </script>
 
 <style scoped lang="scss">
-/* Grille : [1fr] [contenu 800px centré] [1fr pour loger la TOC] */
 .reader {
   display: grid;
   align-items: start;
@@ -66,28 +65,26 @@ watchEffect(async () => {
 }
 
 .doc-container {
-  margin: 0; /* plus besoin d'auto */
-  grid-column: 2; /* colonne centrale */
+  margin: 0;
+  grid-column: 2;
 }
 
 @media screen and (width >= 810px) {
   .doc-container {
-    max-width: 800px; /* cohérent avec la colonne centrale */
+    max-width: 800px;
     padding: 0 2rem;
   }
 }
 
-/* La TOC vit dans la colonne de droite, sans décaler le centre */
 .toc {
-  position: sticky; /* optionnel : TOC sticky */
+  position: sticky;
   top: 1rem;
   width: 100%;
   max-width: 320px;
-  grid-column: 3; /* colonne droite */
-  justify-self: start; /* colle à gauche de la colonne */
+  grid-column: 3;
+  justify-self: start;
 }
 
-/* Cache la TOC quand la colonne droite devient trop étroite */
 @media screen and (width <= 1280px) {
   .toc {
     display: none;

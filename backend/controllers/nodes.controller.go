@@ -188,7 +188,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, err
 	}
 	connectedUserId, userConnectedLevel, err := utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.WRITE)
-	if err != nil && db_node.Access < 2 {
+	if err != nil && (db_node.Access < 2 || *db_node.Accessibility != 3) {
 		return http.StatusUnauthorized, err
 	}
 	node := &models.Node{}
@@ -201,6 +201,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		node.ParentId = db_node.ParentId
 		node.UserId = db_node.UserId
 		node.Accessibility = db_node.Accessibility
+		node.Access = db_node.Access
 	}
 	node = &models.Node{
 		Id:               nodeId,
@@ -215,6 +216,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		Icon:             node.Icon,
 		Color:            node.Color,
 		Accessibility:    node.Accessibility,
+		Access:           node.Access,
 		Display:          node.Display,
 		Order:            node.Order,
 		Content:          node.Content,

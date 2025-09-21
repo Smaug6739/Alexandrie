@@ -14,6 +14,10 @@
           ><Icon name="new_tab" :small="true" fill="var(--font-color-light)" /><span>{{ link }}</span></a
         >
       </p>
+      <div class="access">
+        <label for="access">Default permission for new users</label>
+        <AppSelect v-model="node.access" :items="DOCUMENT_GENERAL_ACCESS" :searchable="false" size="150px" placeholder="Default" />
+      </div>
     </div>
     <!-- Search + add -->
     <form @submit.prevent>
@@ -175,6 +179,7 @@ form {
 .info-secondary {
   color: var(--font-color-light);
   font-size: 14px;
+  margin: 0;
   text-align: center;
 }
 
@@ -197,6 +202,13 @@ form {
     text-decoration: underline;
     word-break: break-all;
   }
+}
+
+.access {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
 }
 
 button {

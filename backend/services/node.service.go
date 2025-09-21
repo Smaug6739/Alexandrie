@@ -28,7 +28,7 @@ func (s *Service) GetAllNodes(userId types.Snowflake) ([]*models.Node, error) {
 	rows, err := s.db.Query(`WITH RECURSIVE user_nodes AS (
     -- 1. Every node owned by the user
     SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
-           n.accessibility, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
+           n.accessibility, n.access, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
     FROM nodes n
     WHERE n.user_id = ?
 
@@ -36,7 +36,7 @@ func (s *Service) GetAllNodes(userId types.Snowflake) ([]*models.Node, error) {
 
     -- 2. Child nodes of owned nodes (even if not owned by the user)
     SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
-           c.accessibility, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
+           c.accessibility, c.access, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
     FROM nodes c
     JOIN user_nodes un ON un.id = c.parent_id
 )
@@ -60,6 +60,7 @@ SELECT * FROM user_nodes ORDER BY role, 'order' DESC, name;`, userId)
 			&node.Icon,
 			&node.Theme,
 			&node.Accessibility,
+			&node.Access,
 			&node.Display,
 			&node.Order,
 			&node.Size,
@@ -81,7 +82,7 @@ func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 	rows, err := s.db.Query(`
 		WITH RECURSIVE accessible_nodes AS (
 		    SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
-		           n.accessibility, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
+		           n.accessibility, n.access, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
 		    FROM nodes n
 		    JOIN permissions p ON p.node_id = n.id
 		    WHERE p.user_id = ?
@@ -89,7 +90,7 @@ func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 		    UNION
 
 		    SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
-		           c.accessibility, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
+		           c.accessibility, c.access, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
 		    FROM nodes c
 		    JOIN accessible_nodes an ON an.id = c.parent_id
 		)
@@ -115,6 +116,7 @@ func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 			&node.Icon,
 			&node.Theme,
 			&node.Accessibility,
+			&node.Access,
 			&node.Display,
 			&node.Order,
 			&node.Size,
@@ -167,7 +169,7 @@ func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 
 func (s *Service) GetAllNodeBackup(user_id types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
-	rows, err := s.db.Query("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE user_id = ?", user_id)
+	rows, err := s.db.Query("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `access`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE user_id = ?", user_id)
 	if err != nil {
 		return nil, err
 	}
@@ -186,6 +188,7 @@ func (s *Service) GetAllNodeBackup(user_id types.Snowflake) ([]*models.Node, err
 			&node.Thumbnail,
 			&node.Theme,
 			&node.Accessibility,
+			&node.Access,
 			&node.Display,
 			&node.Order,
 			&node.Content,
@@ -215,7 +218,7 @@ func (s *Service) GetUserUploadsSize(userId types.Snowflake) (int64, error) {
 
 func (s *Service) GetPublicNode(nodeId types.Snowflake) (*models.Node, error) {
 	var node models.Node
-	err := s.db.QueryRow("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE id = ? AND accessibility = 3", nodeId).Scan(
+	err := s.db.QueryRow("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `access`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE id = ? AND accessibility = 3", nodeId).Scan(
 		&node.Id,
 		&node.UserId,
 		&node.ParentId,
@@ -228,6 +231,7 @@ func (s *Service) GetPublicNode(nodeId types.Snowflake) (*models.Node, error) {
 		&node.Thumbnail,
 		&node.Theme,
 		&node.Accessibility,
+		&node.Access,
 		&node.Display,
 		&node.Order,
 		&node.Content,
@@ -244,7 +248,7 @@ func (s *Service) GetPublicNode(nodeId types.Snowflake) (*models.Node, error) {
 
 func (s *Service) GetNode(nodeId types.Snowflake) (*models.Node, error) {
 	var node models.Node
-	err := s.db.QueryRow("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE id = ?", nodeId).Scan(
+	err := s.db.QueryRow("SELECT `id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `access`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp` FROM nodes WHERE id = ?", nodeId).Scan(
 		&node.Id,
 		&node.UserId,
 		&node.ParentId,
@@ -257,6 +261,7 @@ func (s *Service) GetNode(nodeId types.Snowflake) (*models.Node, error) {
 		&node.Thumbnail,
 		&node.Theme,
 		&node.Accessibility,
+		&node.Access,
 		&node.Display,
 		&node.Order,
 		&node.Content,
@@ -272,7 +277,7 @@ func (s *Service) GetNode(nodeId types.Snowflake) (*models.Node, error) {
 }
 
 func (s *Service) CreateNode(node *models.Node) error {
-	_, err := s.db.Exec("INSERT INTO nodes (`id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+	_, err := s.db.Exec("INSERT INTO nodes (`id`, `user_id`, `parent_id`, `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `access`, `display`, `order`, `content`, `content_compiled`, `size`, `metadata`, `created_timestamp`, `updated_timestamp`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		node.Id,
 		node.UserId,
 		node.ParentId,
@@ -285,6 +290,7 @@ func (s *Service) CreateNode(node *models.Node) error {
 		node.Thumbnail,
 		node.Theme,
 		node.Accessibility,
+		node.Access,
 		node.Display,
 		node.Order,
 		node.Content,
@@ -297,7 +303,7 @@ func (s *Service) CreateNode(node *models.Node) error {
 }
 
 func (s *Service) UpdateNode(node *models.Node) error {
-	_, err := s.db.Exec("UPDATE nodes SET `parent_id` = ?, `user_id` = ?, `name` = ?, `description` = ?, `tags` = ?, `role` = ?, `color` = ?, `icon` = ?, `thumbnail` = ?, `theme` = ?, `accessibility` = ?, `display` = ?, `order` = ?, `content` = ?, `content_compiled` = ?, `metadata` = ?, `updated_timestamp` = ? WHERE id = ?",
+	_, err := s.db.Exec("UPDATE nodes SET `parent_id` = ?, `user_id` = ?, `name` = ?, `description` = ?, `tags` = ?, `role` = ?, `color` = ?, `icon` = ?, `thumbnail` = ?, `theme` = ?, `accessibility` = ?, `access` = ?, `display` = ?, `order` = ?, `content` = ?, `content_compiled` = ?, `metadata` = ?, `updated_timestamp` = ? WHERE id = ?",
 		node.ParentId,
 		node.UserId,
 		node.Name,
@@ -309,6 +315,7 @@ func (s *Service) UpdateNode(node *models.Node) error {
 		node.Thumbnail,
 		node.Theme,
 		node.Accessibility,
+		node.Access,
 		node.Display,
 		node.Order,
 		node.Content,

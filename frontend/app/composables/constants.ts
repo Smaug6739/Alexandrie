@@ -8,6 +8,10 @@ export const DOCUMENT_ACCESSIBILITIES: ANode[] = [
   { id: 1, label: 'Private' },
   { id: 3, label: 'Published' },
 ];
+export const DOCUMENT_GENERAL_ACCESS: ANode[] = [
+  { id: 0, label: 'Viewer' },
+  { id: 2, label: 'Editor' },
+];
 
 export const DOCUMENT_SIZES = [
   { label: 'Small', id: 0 },
