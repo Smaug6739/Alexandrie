@@ -5,6 +5,7 @@ export const DEFAULT_PREFERENCES = {
   compactMode: false as boolean,
   hideSidebarRessources: false as boolean,
   normalizeFileIcons: false as boolean,
+  displayUncategorizedRessources: true as boolean,
   datatableItemsCount: 10 as number,
   view_dock: true as boolean,
   primaryColor: -2 as number, // -2 default primary; -1 unset; >= 0 app color index

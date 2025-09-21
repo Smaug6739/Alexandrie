@@ -11,7 +11,7 @@
       @click.stop
     />
     <div v-else class="app-select-trigger">
-      <button @click.stop="toggleDropdown" style="height: 30px">{{ selected?.label || placeholder }}</button>
+      <button style="height: 30px" @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
       <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--font-color)">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
@@ -20,6 +20,7 @@
       <ul v-if="open" ref="portalList" class="dropdown" :style="dropdownStyle">
         <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
         <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
+        <slot name="list-footer"></slot>
       </ul>
     </Teleport>
   </div>
@@ -201,7 +202,7 @@ button,
 .dropdown {
   max-height: 300px;
   margin: 0;
-  padding: 0 2px;
+  padding: 2px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: var(--bg-color);

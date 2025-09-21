@@ -6,7 +6,6 @@ export const DOCUMENT_THEMES = [
 
 export const DOCUMENT_ACCESSIBILITIES: ANode[] = [
   { id: 1, label: 'Private' },
-  { id: 2, label: 'Draft' },
   { id: 3, label: 'Published' },
 ];
 

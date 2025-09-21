@@ -54,15 +54,15 @@ func (ctr *Controller) GetPublicUser(c *gin.Context) (int, any) {
 	if usernameOrEmail == "" {
 		return http.StatusBadRequest, errors.New("username or email is required")
 	}
-	user, err := ctr.app.Services.User.GetPublicUser(usernameOrEmail)
+	users, err := ctr.app.Services.User.SearchPublicUsers(usernameOrEmail)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	if user == nil {
+	if len(users) == 0 {
 		return http.StatusNotFound, errors.New("user not found")
 	}
 
-	return http.StatusOK, user
+	return http.StatusOK, users
 }
 
 // Get User by ID

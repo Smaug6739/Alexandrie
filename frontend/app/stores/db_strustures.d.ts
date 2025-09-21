@@ -55,7 +55,6 @@ export interface Permission {
   node_id: string;
   permission: number; // 1: Read; 2: Write; 3: Admin;
   created_timestamp: string;
-  user?: PublicUser;
 }
 
 export interface Node extends DB_Node {

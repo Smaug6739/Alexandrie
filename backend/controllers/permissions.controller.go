@@ -41,7 +41,7 @@ func (ctr *Controller) GetNodePermissions(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	_, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.OWNER)
+	_, _, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.OWNER)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -70,7 +70,7 @@ func (ctr *Controller) CreatePermission(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	_, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.OWNER)
+	_, _, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.OWNER)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -111,7 +111,7 @@ func (ctr *Controller) UpdatePermission(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	_, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.OWNER)
+	_, _, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.OWNER)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -148,7 +148,7 @@ func (ctr *Controller) DeletePermission(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	_, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.OWNER)
+	_, _, err = utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.OWNER)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}

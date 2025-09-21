@@ -99,7 +99,7 @@ func SelfOrPermission(ctx *gin.Context, allowed int) (types.Snowflake, error) {
 	return 0, errors.New("unauthorized")
 }
 
-func NodePermission(ctx *gin.Context, node *models.Node, permissionService services.PermissionService, permission int) (types.Snowflake, error) {
+func NodePermission(ctx *gin.Context, node *models.Node, permissionService services.PermissionService, permission int) (connectedId types.Snowflake, level int, err error) {
 	// Check if the connected user has access to the resource
 	// Case 1: User is the owner of the node (connectedUserId == targetId) => allow
 	// Case 2: The user is an app administrator => allow
@@ -109,19 +109,19 @@ func NodePermission(ctx *gin.Context, node *models.Node, permissionService servi
 	// Check user is correctly authenticated
 	connectedUserId, err := GetUserIdCtx(ctx)
 	if err != nil {
-		return 0, err
+		return 0, 0, err
 	}
 	// Case 1: User is the owner of the resource
 	if connectedUserId == node.UserId {
-		return connectedUserId, nil
+		return connectedUserId, OWNER, nil
 	}
 	// Case 2: User is an app administrator
 	role, exists := ctx.Get("user_role")
 	if !exists {
-		return connectedUserId, errors.New("user role not found in context")
+		return connectedUserId, 0, errors.New("user role not found in context")
 	}
 	if CheckPermission(role.(int), ADMINISTRATOR) {
-		return connectedUserId, nil
+		return connectedUserId, OWNER, nil
 	}
 
 	//if permission == OWNER {
@@ -129,11 +129,11 @@ func NodePermission(ctx *gin.Context, node *models.Node, permissionService servi
 	//}
 
 	// Case 3: User has the required permission on the resource
-	hasPermission := permissionService.HasPermission(connectedUserId, node.Id, permission)
+	hasPermission, level := permissionService.HasPermission(connectedUserId, node.Id, permission)
 
 	if hasPermission {
-		return connectedUserId, nil
+		return connectedUserId, level, nil
 	}
 
-	return 0, errors.New("unauthorized")
+	return 0, 0, errors.New("unauthorized")
 }

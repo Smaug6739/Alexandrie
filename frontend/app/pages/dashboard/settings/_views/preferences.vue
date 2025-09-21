@@ -126,6 +126,12 @@ const options = ref<{ label: string; options: Option[] }[]>([
       { label: 'Enable Compact Mode', type: 'toggle', key: 'compactMode', value: Boolean(preferencesStore.get('compactMode')) },
       { label: 'View dock', type: 'toggle', key: 'view_dock', value: Boolean(preferencesStore.get('view_dock')) },
       { label: 'Normalize file icons', type: 'toggle', key: 'normalizeFileIcons', value: Boolean(preferencesStore.get('normalizeFileIcons')) },
+      {
+        label: 'Display uncategorized ressources',
+        type: 'toggle',
+        key: 'displayUncategorizedRessources',
+        value: Boolean(preferencesStore.get('displayUncategorizedRessources')),
+      },
       { label: 'Hide ressources', type: 'toggle', key: 'hideSidebarRessources', value: Boolean(preferencesStore.get('hideSidebarRessources')) },
       {
         label: 'Show items in Sidebar',

@@ -16,6 +16,7 @@ CREATE TABLE `nodes` (
     `thumbnail` TEXT NULL,
     `theme` VARCHAR(30) NULL,
     `accessibility` tinyint(1) NULL,
+    `access` INT NOT NULL DEFAULT 0,
     `display` TINYINT NULL,
     `order` INT NULL,
     `content` LONGTEXT NULL,

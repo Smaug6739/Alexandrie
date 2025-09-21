@@ -16,6 +16,7 @@ type Node struct {
 	Thumbnail        *string          `json:"thumbnail" form:"thumbnail" binding:"omitempty"`
 	Theme            *string          `json:"theme" form:"theme" binding:"omitempty"`
 	Accessibility    *int             `json:"accessibility" form:"accessibility" binding:"omitempty"` // 0: Public; 1: Private; 2: Unlisted;
+	Access           int              `json:"access" form:"access" binding:"omitempty"`               // Bit field for access control (0: restricted, 1 view, 2 edit)
 	Display          *int             `json:"display" form:"display" binding:"omitempty"`
 	Order            *int             `json:"order" form:"order" binding:"omitempty"` // -1 for pinned and -2 for bookmark
 	Content          *string          `json:"content" form:"content"`

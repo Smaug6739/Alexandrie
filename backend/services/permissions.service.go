@@ -9,7 +9,7 @@ import (
 type PermissionService interface {
 	GetNodePermission(nodeId types.Snowflake) ([]*models.Permission, error)
 	GetPermission(id types.Snowflake) (*models.Permission, error)
-	HasPermission(userId, nodeId types.Snowflake, required int) bool
+	HasPermission(userId, nodeId types.Snowflake, required int) (bool, int)
 	CreatePermission(permission *models.Permission) error
 	UpdatePermission(id types.Snowflake, permission int) error
 	DeletePermission(id types.Snowflake) error
@@ -52,7 +52,7 @@ func (s *Service) GetNodePermission(nodeId types.Snowflake) ([]*models.Permissio
 	return permissions, nil
 }
 
-func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) bool {
+func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) (bool, int) {
 	var perm int
 	err := s.db.QueryRow(`
 		WITH RECURSIVE ancestors AS (
@@ -76,7 +76,7 @@ func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) bo
 
 	// Case 1 : Explicit permission sufficient
 	if perm >= required {
-		return true
+		return true, perm
 	}
 
 	// Case 2 : Not enough permissions → check if owner of an ancestor
@@ -99,11 +99,11 @@ func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) bo
 		LIMIT 1
 	`, nodeId, userId).Scan(&owns)
 	if err == nil && owns == 1 {
-		return true // Owner of an ancestor = max permission
+		return true, 4
 	}
 
 	// Otherwise no permission
-	return false
+	return false, 0
 }
 
 func (s *Service) CreatePermission(permission *models.Permission) error {

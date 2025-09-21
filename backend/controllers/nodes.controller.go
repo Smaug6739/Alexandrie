@@ -105,7 +105,7 @@ func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	connectedUserId, err := utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.READ)
+	connectedUserId, _, err := utils.NodePermission(c, node, ctr.app.Services.Permissions, utils.READ)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -153,6 +153,7 @@ func (ctr *Controller) CreateNode(c *gin.Context) (int, any) {
 		Icon:             node.Icon,
 		Color:            node.Color,
 		Accessibility:    node.Accessibility,
+		Access:           node.Access,
 		Display:          node.Display,
 		Order:            node.Order,
 		Content:          node.Content,
@@ -186,8 +187,8 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	connectedUserId, err := utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.WRITE)
-	if err != nil {
+	connectedUserId, userConnectedLevel, err := utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.WRITE)
+	if err != nil && db_node.Access < 2 {
 		return http.StatusUnauthorized, err
 	}
 	node := &models.Node{}
@@ -195,10 +196,11 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	if db_node.UserId != connectedUserId {
-		// If the user is not the owner of the node, they cannot change the owner or the parent
+	if db_node.UserId != connectedUserId && userConnectedLevel < utils.OWNER {
+		// If the user is not owner or admin of the node he cannot change some fields
 		node.ParentId = db_node.ParentId
 		node.UserId = db_node.UserId
+		node.Accessibility = db_node.Accessibility
 	}
 	node = &models.Node{
 		Id:               nodeId,
@@ -246,7 +248,7 @@ func (ctr *Controller) DeleteNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	_, err = utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.ADMIN)
+	_, _, err = utils.NodePermission(c, db_node, ctr.app.Services.Permissions, utils.ADMIN)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}

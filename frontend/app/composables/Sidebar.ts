@@ -11,6 +11,7 @@ const filtered = computed(() => {
   const found = tree.value.find(i => i.id === workspaceId.value);
   if (found) return found.childrens || [];
   if (workspaceId.value === 'shared') return tree.value.filter(i => i.data && i.data.shared);
+  if (!usePreferences().get('displayUncategorizedRessources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
   return tree.value;
 });
 
