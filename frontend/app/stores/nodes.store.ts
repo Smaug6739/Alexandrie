@@ -27,7 +27,7 @@ export const useNodesStore = defineStore('nodes', {
     categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
     documents: state => state.nodes.filter(d => d.role === 3),
     ressources: state => state.nodes.filter(d => d.role === 4),
-    hasDescendant:
+    isDescendant:
       state =>
       (node: Node, descendantId: string): boolean => {
         const checkDescendants = (currentNode: Node): boolean => {
@@ -127,6 +127,7 @@ export const useNodesStore = defineStore('nodes', {
       // Case 3: A parent node has a permission entry for this node (inherited permissions)
       const userStore = useUserStore();
       if (node.user_id === userStore.user?.id) return true;
+      if (node.accessibility === 3 && level <= node.access) return true;
       let permission = node.permissions.find(p => p.user_id === userStore.user?.id)?.permission || 0;
       let currentNode = node;
       while (permission < level && currentNode.parent_id) {

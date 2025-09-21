@@ -76,7 +76,7 @@ function useSidebarTree() {
     );
   }
 
-  const groupedByWorkspace = () => {
+  const groupedByWorkspace = (roles = [1, 2, 3]) => {
     const workspaces: Item<Node>[] = [
       ...nodesStore.getAll
         .filter(c => c.role === 1)
@@ -92,6 +92,7 @@ function useSidebarTree() {
     ];
 
     tree.value.forEach(item => {
+      if (!roles.includes(item.data.role)) return;
       const workspaceId = item.parent_id;
       const existing = workspaces.find(w => w.id === workspaceId);
       if (!existing) workspaces.push(item);

@@ -5,7 +5,6 @@
       <Icon :name="item.icon" :big="true" fill="var(--font-color)" />
     </button>
     <VoiceRecognition @transcription="handleTranscription" />
-    <AppSelect v-if="!minimal" v-model="localValue.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Access" size="100px" class="entry" />
     <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Select category" size="300px" class="entry" />
 
     <div class="help">

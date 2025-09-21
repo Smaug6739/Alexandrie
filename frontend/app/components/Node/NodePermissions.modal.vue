@@ -15,7 +15,7 @@
         >
       </p>
       <div class="access">
-        <label for="access">Default permission for new users</label>
+        <p for="access">Default permission for new users</p>
         <AppSelect v-model="node.access" :items="DOCUMENT_GENERAL_ACCESS" :searchable="false" size="150px" placeholder="Default" />
       </div>
     </div>
