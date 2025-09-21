@@ -1,20 +1,13 @@
-import type { Category } from '~/stores';
+import type { Node } from '~/stores';
 
-export interface DefaultItem {
-  id: string;
-  type: 'navigation';
-  label: string;
-  icon?: string;
-  route: string;
-  childrens: DefaultItem[];
-}
+export type DefaultItem = Item<Omit<Node, 'user_id' | 'data' | 'show' | 'created_timestamp' | 'updated_timestamp'>>;
 export interface Workspace {
   text: string;
-  value: string | null;
-  meta?: Partial<Category>;
+  value?: string;
+  meta?: Partial<Node>;
 }
 const sidebarItemsPrefs = usePreferences().get('sidebarItems');
-export const navigationItems: Item<DefaultItem>[] = [
+export const navigationItems: DefaultItem[] = [
   {
     id: 'home',
     parent_id: '',
@@ -23,11 +16,11 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'dashboard',
     data: {
       id: 'home',
-      type: 'navigation',
-      label: 'Home',
+      role: -1,
+      name: 'Home',
       icon: 'dashboard',
-      route: '/dashboard/home',
-      childrens: [],
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.home!),
   },
@@ -39,11 +32,11 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'categories',
     data: {
       id: 'manage-categories',
-      type: 'navigation',
-      label: 'Manage categories',
+      role: -1,
+      name: 'Manage categories',
       icon: 'categories',
-      route: '/dashboard/categories',
-      childrens: [],
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.manageCategories!),
   },
@@ -55,11 +48,11 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'cdn',
     data: {
       id: 'cdn',
-      type: 'navigation',
-      label: 'CDN',
+      role: -1,
+      name: 'CDN',
       icon: 'cdn',
-      route: '/dashboard/cdn',
-      childrens: [],
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.cdn!),
   },
@@ -71,11 +64,11 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'user_settings',
     data: {
       id: 'settings',
-      type: 'navigation',
-      label: 'Settings',
+      role: -1,
+      name: 'Settings',
       icon: 'user_settings',
-      route: '/dashboard/settings',
-      childrens: [],
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.settings!),
   },
@@ -87,11 +80,11 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'files',
     data: {
       id: 'documents',
-      type: 'navigation',
-      label: 'Documents',
+      role: -1,
+      name: 'Documents',
       icon: 'files',
-      route: '/dashboard/docs',
-      childrens: [],
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.documents!),
   },
@@ -103,11 +96,11 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'import',
     data: {
       id: 'import',
-      type: 'navigation',
-      label: 'Import',
+      role: -1,
+      name: 'Import',
       icon: 'import',
-      route: '/dashboard/import',
-      childrens: [],
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.importation!),
   },
@@ -119,11 +112,11 @@ export const navigationItems: Item<DefaultItem>[] = [
     icon: 'add_file',
     data: {
       id: 'new-page',
-      type: 'navigation',
-      label: 'New Page',
+      role: -1,
+      name: 'New Page',
       icon: 'add_file',
-      route: '/dashboard/docs/new',
-      childrens: [],
+      permissions: [],
+      shared: false,
     },
     show: computed(() => sidebarItemsPrefs.value.newPage!),
   },

@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '@/stores';
-defineProps<{ documents: Document[] }>();
+import type { Node } from '@/stores';
+defineProps<{ documents: Node[] }>();
 </script>
 
 <style scoped lang="scss">

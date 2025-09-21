@@ -14,7 +14,7 @@
 <script setup lang="ts">
 const props = defineProps<{ documentId: string }>();
 const deleteDoc = () => {
-  useDocumentsStore()
+  useNodesStore()
     .delete(props.documentId)
     .then(() => {
       useNotifications().add({ type: 'success', title: 'Document deleted' });

@@ -7,11 +7,11 @@
 <script setup lang="ts">
 const props = defineProps<{
   items: Array<{ id: number | string; label: string }>;
-  modelValue: number | string | null;
+  modelValue: number | string | null | undefined;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: number | string | null): void;
+  (e: 'update:modelValue', value: number | string | null | undefined): void;
 }>();
 
 const selected = ref(props.modelValue);

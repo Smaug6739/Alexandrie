@@ -13,21 +13,21 @@
       <input v-model="fileLink" type="text" readonly />
       <AppButton type="primary" @click="copyLink">Copy link</AppButton>
     </div>
-    <div v-if="ressourcesStore.ressources.length" class="ressources-list">
+    <div v-if="sortedRessources.length" class="ressources-list">
       <DataTable v-if="view === 'table'" :headers="headers" :rows="rows">
         <template #action="{ cell }">
-          <NuxtLink :href="`/dashboard/cdn/${(cell?.data as DB_Ressource).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
-          <NuxtLink :to="`/dashboard/cdn/${(cell?.data as DB_Ressource).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
-          <Icon name="delete" @click="() => deleteRessource((cell?.data as DB_Ressource).id)" />
+          <NuxtLink :href="`/dashboard/cdn/${(cell?.data as Node).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
+          <NuxtLink :to="`/dashboard/cdn/${(cell?.data as Node).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
+          <Icon name="delete" @click="() => deleteRessource((cell?.data as Node).id)" />
         </template>
       </DataTable>
       <div v-else>
         <div class="images-grid">
-          <div v-for="image in ressourcesStore.ressources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
-            <img :src="fileURL(image)" :alt="image.filename" class="image-preview" />
+          <div v-for="image in sortedRessources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
+            <img :src="fileURL(image)" :alt="image.name" class="image-preview" />
             <div class="image-info">
-              <span class="image-name">{{ image.filename }}</span>
-              <span class="image-size">{{ readableFileSize(image.filesize) }}</span>
+              <span class="image-name">{{ image.name }}</span>
+              <span class="image-size">{{ readableFileSize(image.size ?? 0) }}</span>
             </div>
           </div>
         </div>
@@ -39,10 +39,11 @@
 <script setup lang="ts">
 import type { Field } from '~/components/DataTable.vue';
 import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
-import type { DB_Ressource } from '~/stores';
+import type { Node } from '~/stores';
 definePageMeta({ breadcrumb: 'Upload' });
 const router = useRouter();
 const ressourcesStore = useRessourcesStore();
+const nodesStore = useNodesStore();
 const view = ref<'table' | 'list'>('list');
 const selectedFile: Ref<File | undefined> = ref();
 const fileLink = ref('');
@@ -60,13 +61,15 @@ const submitFile = async () => {
   dropComponent.value.reset(); // Reset drop component
   await ressourcesStore
     .post(body)
-    .then(r => (fileLink.value = `${CDN}/${(r as DB_Ressource).author_id}/${(r as DB_Ressource).transformed_path}`))
+    .then(r => (fileLink.value = `${CDN}/${(r as Node).user_id}/${(r as Node).metadata?.transformed_path as string}`))
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }))
     .finally(() => (isLoading.value = false));
 };
 
-const fileURL = (ressource: DB_Ressource) => {
-  if (ressource.filetype.includes('image/')) return `${CDN}/${ressource.author_id}/${ressource.transformed_path}`;
+const sortedRessources = computed(() => [...nodesStore.ressources].sort((a, b) => b.created_timestamp - a.created_timestamp));
+
+const fileURL = (ressource: Node) => {
+  if ((ressource.metadata?.filetype as string)?.includes('image/')) return `${CDN}/${ressource.user_id}/${ressource.metadata?.transformed_path as string}`;
   return '/file_placeholder.png';
 };
 const headers = [
@@ -79,13 +82,13 @@ const headers = [
 ];
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
 const rows: ComputedRef<Field[]> = computed(() =>
-  ressourcesStore.ressources.map(res => {
-    const parent = res.parent_id ? useDocumentsStore().getById(res.parent_id) : null;
-    const category = parent ? useCategoriesStore().getById(parent.category || '') : null;
+  sortedRessources.value.map(res => {
+    const parent = res.parent_id ? useNodesStore().getById(res.parent_id) : null;
+    const category = parent ? useNodesStore().getById(parent.parent_id || '') : null;
     return {
-      name: { content: res.filename, type: 'text' },
-      size: { content: readableFileSize(res.filesize), type: 'text' },
-      type: { content: `<tag class="${color(res.filetype)}">${res.filetype}</tag>`, type: 'html' },
+      name: { content: res.name, type: 'text' },
+      size: { content: readableFileSize(res.size ?? 0), type: 'text' },
+      type: { content: `<tag class="${color(res.metadata?.filetype as string)}">${res.metadata?.filetype as string}</tag>`, type: 'html' },
       parent: { content: category ? `<tag class="${getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
       date: { content: new Date(res.created_timestamp).toLocaleDateString(), type: 'text' },
       action: { type: 'slot', data: res },

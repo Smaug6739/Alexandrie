@@ -6,8 +6,11 @@ export const DOCUMENT_THEMES = [
 
 export const DOCUMENT_ACCESSIBILITIES: ANode[] = [
   { id: 1, label: 'Private' },
-  { id: 2, label: 'Draft' },
   { id: 3, label: 'Published' },
+];
+export const DOCUMENT_GENERAL_ACCESS: ANode[] = [
+  { id: 0, label: 'Viewer' },
+  { id: 2, label: 'Editor' },
 ];
 
 export const DOCUMENT_SIZES = [
@@ -23,4 +26,15 @@ export const EDITOR_FONTS = [
   { label: 'Inter', id: 'Inter' },
   { label: 'Arial', id: 'Arial' },
   { label: 'Times New Roman', id: 'Times New Roman' },
+];
+
+export const CATEGORY_ROLES = [
+  { id: 1, label: 'Workspace' },
+  { id: 2, label: 'Category' },
+];
+
+export const NODE_PERMISSIONS = [
+  { label: 'Viewer', id: 1 },
+  { label: 'Editor', id: 2 },
+  { label: 'Admin', id: 3 },
 ];

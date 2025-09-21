@@ -1,5 +1,4 @@
-import type { Document, Category, Ressource } from '~/stores';
-import type { DefaultItem } from '../components/Sidebar/helpers';
+import type { Node } from '~/stores';
 
 export interface ANode {
   id: string | number;
@@ -8,7 +7,7 @@ export interface ANode {
   childrens?: ANode[];
 }
 
-export interface Item<T = Document | Category | DefaultItem | Ressource> extends ANode {
+export interface Item<T = Node> extends ANode {
   id: string;
   route: string;
   data: T;
@@ -28,10 +27,9 @@ export class TreeStructure {
     this.items = items;
     this.itemMap = new Map(items.map(item => [item.id, item]));
     this.childrenMap = new Map();
-
     for (const item of items) {
       if (!this.childrenMap.has(item.parent_id || '')) this.childrenMap.set(item.parent_id || '', []);
-      this.childrenMap.get(item.parent_id || '')!.push(item);
+      this.childrenMap.get(item.parent_id!)!.push(item);
     }
   }
 
@@ -42,7 +40,7 @@ export class TreeStructure {
 
   public generateTree(): Item[] {
     return this.items
-      .filter(item => item.parent_id === '' || !this.itemMap.has(item.parent_id || '') || (item.data.type === 'category' && item.data.role === 2))
+      .filter(item => item.data.role === 1 || item.parent_id === '' || (item.parent_id && !this.itemMap.has(item.parent_id || '')))
       .map(root => this.buildTree(root, new Set()));
   }
   public getSubTreeById(id: string): Item | undefined {

@@ -1,11 +1,21 @@
 import { makeRequest } from './_utils';
-import type { User, ConnectionLog } from './db_strustures';
+import type { User, PublicUser, ConnectionLog } from './db_strustures';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: ref<User>(),
+    user: undefined as User | undefined,
+    users: {} as Record<string, PublicUser>, // dictionnaire par id
     last_connection: null as ConnectionLog | null,
   }),
+  getters: {
+    getById: state => (id: string) => state.users[id],
+    search: state => (query: string) => {
+      const lowerQuery = query.toLowerCase();
+      return Object.values(state.users).filter(
+        u => u.username?.toLowerCase().includes(lowerQuery) || u.email?.toLowerCase().includes(lowerQuery) || u.id === query,
+      );
+    },
+  },
   actions: {
     async login(username: string, password: string) {
       try {
@@ -32,6 +42,28 @@ export const useUserStore = defineStore('user', {
         if (responce.result?.last_connection) this.last_connection = responce.result.last_connection as ConnectionLog;
         return this.user;
       } else throw responce.message;
+    },
+    async fetchPublicUser(id: string): Promise<PublicUser> {
+      if (this.users[id]) return this.users[id];
+      const response = await makeRequest<PublicUser[]>(`users/public/${id}`, 'GET', {});
+      if (response.status === 'success' && response.result?.length) {
+        const user = response.result[0] as PublicUser;
+        this.users[user.id] = user;
+        return user;
+      }
+      throw response.message;
+    },
+
+    async searchFetch(query: string): Promise<PublicUser[]> {
+      const response = await makeRequest<PublicUser[]>(`users/public/${query}`, 'GET', {});
+      if (response.status === 'success') {
+        const users = response.result as PublicUser[];
+        users.forEach(user => {
+          this.users[user.id] = user;
+        });
+        return users;
+      }
+      throw response.message;
     },
     async fetchById(id: string): Promise<User | undefined> {
       const responce = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});

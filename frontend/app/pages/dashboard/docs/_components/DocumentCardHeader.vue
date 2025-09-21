@@ -5,13 +5,17 @@
       <DocumentCardHeaderSkeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
-        <p v-if="!public" class="category">
-          <NuxtLink :to="`/dashboard/categories/${category?.id}`">{{ category?.name }}</NuxtLink>
+        <p class="top-row">
+          <span style="display: flex; align-items: center; gap: 12px"
+            ><img v-if="user" :src="useAvatar(user)" class="avatar" />
+            <span style="color: var(--font-color-light); font-size: 18px">{{ user?.username }}</span>
+          </span>
           <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
         </p>
+        <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
         <h1 class="title" :class="{ public: public }">{{ doc?.name }}</h1>
         <p class="description">{{ doc?.description }}</p>
-        <div v-if="doc.tags" class="document-tags">
+        <div v-if="doc.tags" class="tags">
           <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
         </div>
       </template>
@@ -26,12 +30,16 @@
 import DocumentCardHeaderActionRow from './DocumentCardHeaderActionRow.vue';
 import DocumentHeaderIllustration from './DocumentHeaderIllustration.vue';
 import DocumentCardHeaderSkeleton from './DocumentCardHeaderSkeleton.vue';
-import type { Document } from '~/stores';
+import type { Node, PublicUser } from '~/stores';
 
-const categories_store = useCategoriesStore();
 const preferences = usePreferences();
-const props = defineProps<{ doc?: Document; public?: boolean }>();
-const category = computed(() => categories_store.getById(props.doc?.category || ''));
+const props = defineProps<{ doc?: Node; public?: boolean }>();
+const category = computed(() => useSidebarTree().getCategoryFromNode(props.doc?.parent_id)?.data);
+const store = useUserStore();
+const user = ref<PublicUser | null>(null);
+watchEffect(() => {
+  if (props.doc) store.fetchPublicUser(props.doc.user_id).then(u => (user.value = u));
+});
 </script>
 
 <style lang="scss" scoped>
@@ -55,9 +63,15 @@ p {
   flex: 2;
   padding-right: 10px;
 
-  .category,
+  .top-row,
   .title {
     font-family: Inter;
+  }
+  .top-row {
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .public {
@@ -66,24 +80,23 @@ p {
 
   .title {
     font-size: 26px;
-    font-weight: 600;
+    font-weight: 550;
+    margin: 6px 0;
+    padding: 0;
     color: var(--font-color-dark);
   }
 
   .category {
-    display: flex;
+    display: block;
+    padding-top: 8px;
     font-size: 20px;
     font-weight: 500;
     color: var(--font-color-light);
-    align-items: baseline;
-    justify-content: space-between;
   }
 }
-
-.document-tags {
+.tags {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 10px;
   padding-top: 5px;
 }
 
@@ -93,16 +106,24 @@ p {
   }
 }
 
+.avatar {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+}
 @media print {
   .print-style {
-    padding: 0.4rem 0.2rem;
+    padding: 0;
     background: none;
     align-items: center;
 
     .icon,
     .description,
-    .document-tags,
-    .category {
+    .tags,
+    .top-row,
+    .user {
       display: none;
     }
 

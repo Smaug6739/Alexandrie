@@ -3,7 +3,10 @@
     <header>
       <h1 style="font-size: 20px">Import documents <tag class="yellow">Beta</tag></h1>
     </header>
-    <p>You can import documents from a previous export. If you don't have export, you can create a new one from the <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">settings</NuxtLink> page.</p>
+    <p>
+      You can import documents from a previous export. If you don't have export, you can create a new one from the
+      <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">settings</NuxtLink> page.
+    </p>
     <AppDrop ref="dropComponent" @select="handleFileSelect" />
     <div class="submit">
       <AppButton type="primary" :disabled="!selectedFile" @click="submit">Analyse file</AppButton>
@@ -31,14 +34,14 @@
 
 <script setup lang="ts">
 import { analyseFile, validateFileStructure, compareDocumentsAndLocal, prepareNewDocuments, uploadDocument, uploadDocuments } from '~/helpers/importations';
-import type { DB_Document } from '~/stores';
+import type { DB_Node } from '~/stores';
 definePageMeta({ breadcrumb: 'Importations' });
 
 const selectedFile: Ref<File | undefined> = ref();
 const handleFileSelect = (file?: File) => (selectedFile.value = file);
 const dropComponent = ref();
 
-const files_to_import = ref<DB_Document[]>([]);
+const files_to_import = ref<DB_Node[]>([]);
 async function submit() {
   try {
     if (!selectedFile.value) return;
@@ -55,7 +58,7 @@ async function submit() {
     selectedFile.value = undefined; // Reset selected file after processing
   }
 }
-function importDoc(file: DB_Document) {
+function importDoc(file: DB_Node) {
   const fileContent = files_to_import.value.find(i => i.id === file.id);
   if (!fileContent) return useNotifications().add({ type: 'error', title: 'File not found' });
   prepareNewDocuments([fileContent]);

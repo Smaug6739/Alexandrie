@@ -1,5 +1,5 @@
 <template>
-  <div v-if="node.data.type === 'category'" class="tree-node">
+  <div v-if="node.data.role === 2" class="tree-node">
     <div class="tree-content">
       <div class="tree-label">
         <Icon class="icon" name="folder" style="display: inline; width: 15px" />
@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { Category } from '~/stores';
+import type { Node } from '~/stores';
 
-defineProps<{ node: Item<Category> }>();
+defineProps<{ node: Item<Node> }>();
 
 defineEmits(['edit', 'delete']);
 </script>

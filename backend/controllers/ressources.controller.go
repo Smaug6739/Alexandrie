@@ -3,6 +3,7 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
+	"alexandrie/types"
 	"alexandrie/utils"
 	"bytes"
 	"context"
@@ -21,11 +22,9 @@ import (
 )
 
 type RessourceController interface {
-	GetAllUploads(c *gin.Context) (int, any)
 	GetBackup(c *gin.Context) (int, any)
 	UploadFile(c *gin.Context) (int, any)
 	UploadAvatar(c *gin.Context) (int, any)
-	UpdateUpload(c *gin.Context) (int, any)
 	DeleteUpload(c *gin.Context) (int, any)
 }
 
@@ -35,20 +34,8 @@ func NewRessourceController(app *app.App) RessourceController {
 	}
 }
 
-func (ctr *Controller) GetAllUploads(c *gin.Context) (int, any) {
-	userId, err := utils.SelfOrPermission(c, utils.ADMINISTRATOR, "userId")
-	if err != nil {
-		return http.StatusUnauthorized, err
-	}
-	uploads, err := ctr.app.Services.Ressource.GetAllUploadsByUserId(userId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	return http.StatusOK, uploads
-}
-
 // Get backup
-// @Summary Get backups files of database (documents, categories, ressources)
+// @Summary Get backups files of database (documents, categories, nodes)
 // @Summary Save database as json file and save it in minio (/userid/backups)
 // @Method GET
 // @Router /uploads/backup [get]
@@ -58,30 +45,19 @@ func (ctr *Controller) GetAllUploads(c *gin.Context) (int, any) {
 // @Failure 401 {object} Error
 func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
 	if ctr.app.MinioClient == nil {
-		return http.StatusInternalServerError, errors.New("Minio client not initialized")
+		return http.StatusInternalServerError, errors.New("minio client not initialized")
 	}
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	// Create the backup file from database data
-	documents_list, err := ctr.app.Services.Document.GetAllDocumentBackup(userId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	categories_list, err := ctr.app.Services.Category.GetAllCategories(userId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	ressources_list, err := ctr.app.Services.Ressource.GetAllUploadsByUserId(userId)
+	nodes_list, err := ctr.app.Services.Nodes.GetAllNodeBackup(userId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
 	backup := map[string]interface{}{
-		"documents":  documents_list,
-		"categories": categories_list,
-		"ressources": ressources_list,
+		"nodes": nodes_list,
 	}
 	jsonString, err := json.Marshal(backup)
 	if err != nil {
@@ -103,12 +79,12 @@ func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
 // @Router /uploads/ [post]
 // @Security Authenfification: Auth
 // @Param file formData file true "File to upload"
-// @Success 200 {object} Success(ressource)
+// @Success 200 {object} Success(node)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	if ctr.app.MinioClient == nil {
-		return http.StatusInternalServerError, errors.New("Minio client not initialized")
+		return http.StatusInternalServerError, errors.New("minio client not initialized")
 	}
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
@@ -136,32 +112,38 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	}
 
 	// Check total size of uploads
-	totalSize, err := ctr.app.Services.Ressource.GetUserUploadsSize(userId)
+	totalSize, err := ctr.app.Services.Nodes.GetUserUploadsSize(userId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
 	if totalSize+header.Size > int64(ctr.app.Config.Cdn.MaxUploadsSize) {
 		return http.StatusBadRequest, errors.New("total size of uploads exceeds the limit")
 	}
-
-	// Create a new ressource
 	id := ctr.app.Snowflake.Generate()
-	ressource := &models.Ressource{
+	transformedPath := fmt.Sprintf("%d%s", id, ext)
+	metadata := types.JSONB{
+		"filetype":         mimeType,
+		"original_path":    header.Filename,
+		"transformed_path": transformedPath,
+	}
+	// Create a new node
+	node := &models.Node{
 		Id:               id,
-		Filename:         fmt.Sprintf("%.*s", 40, header.Filename),
-		Filesize:         header.Size,
-		Filetype:         mimeType,
-		OriginalPath:     header.Filename,
-		TransformedPath:  fmt.Sprintf("%d%s", id, ext),
+		UserId:           userId,
 		ParentId:         nil,
-		AuthorId:         userId,
+		Name:             fmt.Sprintf("%.*s", 50, header.Filename),
+		Role:             4, // Ressource role is always 4
+		Size:             &header.Size,
+		Content:          &header.Filename,
+		ContentCompiled:  &transformedPath,
+		Metadata:         &metadata,
 		CreatedTimestamp: time.Now().UnixMilli(),
 	}
-	objectName := fmt.Sprintf("%d/%d%s", ressource.AuthorId, ressource.Id, ext)
+	objectName := fmt.Sprintf("%d/%d%s", node.UserId, node.Id, ext)
 
-	_, err = ctr.app.Services.Ressource.CreateRessource(ressource)
+	err = ctr.app.Services.Nodes.CreateNode(node)
 	if err != nil {
-		return http.StatusInternalServerError, errors.New("failed to create ressource")
+		return http.StatusInternalServerError, errors.New("failed to create node")
 	}
 
 	_, err = ctr.app.MinioClient.PutObject(c, os.Getenv("MINIO_BUCKET"), objectName, file, header.Size, minio.PutObjectOptions{ContentType: header.Header.Get("Content-Type")})
@@ -169,7 +151,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, errors.New("failed to upload file")
 	}
 
-	return http.StatusOK, ressource
+	return http.StatusOK, node
 }
 
 // Upload avatar
@@ -183,7 +165,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 // @Failure 401 {object} Error
 func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 	if ctr.app.MinioClient == nil {
-		return http.StatusInternalServerError, errors.New("Minio client not initialized")
+		return http.StatusInternalServerError, errors.New("minio client not initialized")
 	}
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
@@ -218,57 +200,6 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 	return http.StatusOK, "File uploaded successfully"
 }
 
-// UpdateUpload
-// @Summary Update an upload (only metadata)
-// @Method PUT
-// @Router /uploads/{id} [put]
-// @Security Authenfification: Auth
-// @Param id path string true "ID of the upload to update"
-// @Param upload body models.Ressource true "Upload data"
-// @Success 200 {object} Success(models.Ressource)
-// @Failure 400 {object} Error
-// @Failure 401 {object} Error
-func (ctr *Controller) UpdateUpload(c *gin.Context) (int, any) {
-	id, err := utils.GetIdParam(c, c.Param("id"))
-	if err != nil {
-		return http.StatusBadRequest, errors.New("invalid id format")
-	}
-	db_ressource, err := ctr.app.Services.Ressource.GetRessourceById(id)
-	if err != nil {
-		return http.StatusInternalServerError, "failed to get ressource"
-	}
-	if db_ressource == nil {
-		return http.StatusBadRequest, errors.New("ressource not found")
-	}
-	err = utils.RessourceAccess(c, db_ressource.AuthorId)
-	if err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	var updatedRessource *models.Ressource
-	if err := c.ShouldBindJSON(&updatedRessource); err != nil {
-		return http.StatusBadRequest, errors.New("failed to bind JSON")
-	}
-	updatedRessource = &models.Ressource{
-		Id:               db_ressource.Id,
-		Filename:         updatedRessource.Filename,
-		Filesize:         db_ressource.Filesize,
-		Filetype:         db_ressource.Filetype,
-		OriginalPath:     db_ressource.OriginalPath,
-		TransformedPath:  db_ressource.TransformedPath,
-		ParentId:         updatedRessource.ParentId,
-		AuthorId:         db_ressource.AuthorId,
-		CreatedTimestamp: db_ressource.CreatedTimestamp,
-	}
-
-	_, err = ctr.app.Services.Ressource.UpdateRessource(updatedRessource)
-	if err != nil {
-		return http.StatusInternalServerError, errors.New("failed to update ressource")
-	}
-
-	return http.StatusOK, updatedRessource
-}
-
 // DeleteUpload
 // @Summary Delete an upload
 // @Method DELETE
@@ -280,9 +211,9 @@ func (ctr *Controller) UpdateUpload(c *gin.Context) (int, any) {
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
 	if ctr.app.MinioClient == nil {
-		return http.StatusInternalServerError, errors.New("Minio client not initialized")
+		return http.StatusInternalServerError, errors.New("minio client not initialized")
 	}
-	id, err := utils.GetIdParam(c, c.Param("id"))
+	id, err := utils.GetTargetUserId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, errors.New("invalid id format")
 	}
@@ -290,18 +221,18 @@ func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	ressource, err := ctr.app.Services.Ressource.GetRessourceById(id)
+	node, err := ctr.app.Services.Nodes.GetNode(id)
 	if err != nil {
-		return http.StatusInternalServerError, "failed to get ressource"
+		return http.StatusInternalServerError, "failed to get node"
 	}
-	if ressource == nil {
-		return http.StatusBadRequest, errors.New("ressource not found")
+	if node == nil {
+		return http.StatusBadRequest, errors.New("node not found")
 	}
-	if ressource.AuthorId != userId && !utils.CheckUserRequestPermission(c, utils.ADMINISTRATOR) {
-		return http.StatusUnauthorized, errors.New("you are not authorized to delete this ressource")
+	if node.UserId != userId && !utils.CheckUserRequestPermission(c, utils.ADMINISTRATOR) {
+		return http.StatusUnauthorized, errors.New("you are not authorized to delete this node")
 	}
 
-	prefix := fmt.Sprintf("%d/%d", ressource.AuthorId, ressource.Id)
+	prefix := fmt.Sprintf("%d/%d", node.UserId, node.Id)
 	// List all objects in the bucket with the given prefix
 	ctx := context.Background()
 	objectCh := ctr.app.MinioClient.ListObjects(ctx, os.Getenv("MINIO_BUCKET"), minio.ListObjectsOptions{
@@ -319,7 +250,7 @@ func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
 			return http.StatusInternalServerError, fmt.Errorf("failed to delete object: %v", err)
 		}
 	}
-	err = ctr.app.Services.Ressource.DeleteRessource(id)
+	err = ctr.app.Services.Nodes.DeleteNode(id)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}

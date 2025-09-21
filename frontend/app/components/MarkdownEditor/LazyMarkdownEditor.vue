@@ -15,7 +15,7 @@
             ref="markdownPreview"
             :class="['markdown-preview', `${usePreferences().get('theme').value}-theme`]"
             style="position: relative"
-            v-html="document.content_html"
+            v-html="document.content_compiled"
           />
         </div>
       </div>
@@ -36,13 +36,13 @@ import GridOrganizationModal from './GridOrganizationModal.vue';
 import ColorPickerModal from './ColorPickerModal.vue';
 
 import compile from '~/helpers/markdown';
-import type { Document, Ressource } from '~/stores';
+import type { Node } from '~/stores';
 import { useModal, Modal } from '~/composables/ModalBus';
 
 const resourcesStore = useRessourcesStore();
 const preferencesStore = usePreferences();
 
-const props = defineProps<{ doc?: Partial<Document>; minimal?: boolean }>();
+const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
 
 const editorContainer = ref<HTMLDivElement>();
@@ -50,9 +50,9 @@ const markdownPreview = ref<HTMLDivElement>();
 const editorView = ref<EditorView | null>(null);
 const showPreview = ref(false);
 
-const document = ref<Partial<Document>>({
+const document = ref<Partial<Node>>({
   ...props.doc,
-  content_html: compile(props.doc?.content_markdown || ''),
+  content_compiled: compile(props.doc?.content || ''),
 });
 
 function exec(action: string, payload?: string) {
@@ -237,8 +237,8 @@ const fileUploadHandler = EditorView.domEventHandlers({
         if (!file) return;
         const body = new FormData();
         body.append('file', file);
-        resourcesStore.post(body).then(result => {
-          const url = `${CDN}/${(result as Ressource).author_id}/${(result as Ressource).transformed_path}`;
+        resourcesStore.post(body).then((result: Node) => {
+          const url = `${CDN}/${(result as Node).user_id}/${(result as Node).content_compiled}`;
           exec('insertText', `![${file.name}](${url})\n`);
         });
       }
@@ -253,8 +253,8 @@ const fileUploadHandler = EditorView.domEventHandlers({
         if (!file) return;
         const body = new FormData();
         body.append('file', file);
-        resourcesStore.post(body).then(result => {
-          const url = `${CDN}/${(result as Ressource).author_id}/${(result as Ressource).transformed_path}`;
+        resourcesStore.post(body).then((result: Node) => {
+          const url = `${CDN}/${(result as Node).user_id}/${(result as Node).content_compiled}`;
           exec('insertText', `![${file.name}](${url})\n`);
         });
       }
@@ -320,7 +320,7 @@ const updateListener = EditorView.updateListener.of(v => {
   }
 });
 const state = EditorState.create({
-  doc: document.value.content_markdown || '',
+  doc: document.value.content || '',
   extensions: [
     lineNumbers(),
     highlightSpecialChars(),
@@ -387,8 +387,8 @@ function autoSaveConditional() {
 
 const updateDocumentContent = debounce(() => {
   const content = editorView.value?.state.doc.toString() || '';
-  document.value.content_markdown = content;
-  document.value.content_html = compile(content);
+  document.value.content = content;
+  document.value.content_compiled = compile(content);
 }, 100);
 
 const save = debounce(() => {

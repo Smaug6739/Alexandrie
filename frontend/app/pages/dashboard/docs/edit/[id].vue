@@ -2,15 +2,15 @@
   <MarkdownEditor v-if="document" ref="editor" :doc="document" @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 
-const store = useDocumentsStore();
+const store = useNodesStore();
 const route = useRoute();
 
 const editor = ref();
 const doc_id = route.params.id as string;
-const document = ref<Document | undefined>(undefined);
+const document = ref<Node | undefined>(undefined);
 const notifications = useNotifications();
 
 watchEffect(async () => {
@@ -26,14 +26,14 @@ watchEffect(async () => {
 
 definePageMeta({ breadcrumb: 'Edit' });
 
-function save(doc: Document) {
+function save(doc: Node) {
   store
     .update(doc)
     .then(() => notifications.add({ type: 'success', title: 'Document successfully updated' }))
     .catch(e => notifications.add({ type: 'error', title: 'Error', message: e }));
 }
 
-function autoSave(doc: Document) {
+function autoSave(doc: Node) {
   store.update(doc);
 }
 

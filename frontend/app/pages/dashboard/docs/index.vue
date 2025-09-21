@@ -1,7 +1,10 @@
 <template>
   <div class="card-component">
     <header>
-      <h1>Documents <tag blue>New</tag></h1>
+      <h1 v-if="category">
+        <Icon :name="category.icon || category?.icon || 'files'" :class="`category-icon ${getAppColor(category.color || category?.color as number, true)}`" />
+        {{ category.name }}
+      </h1>
       <ViewSelection v-model="view" />
     </header>
     <template v-if="documents.length">
@@ -17,23 +20,39 @@
 </template>
 
 <script setup lang="ts">
-import type { Document } from '~/stores';
+import type { Node } from '~/stores';
 
+const { filtered, workspaceId } = useSidebar();
+const nodesStore = useNodesStore();
 const view: Ref<'table' | 'list'> = ref('list');
+const category = computed(() => nodesStore.getById(workspaceId.value || ''));
 const documents = computed(() => {
-  const result: Document[] = [];
+  const result: Node[] = [];
   const getDocs = (items: Item[]) => {
     for (const item of items) {
-      if (item.data.type == 'document') result.push(item.data);
+      if (item.data.role == 3) result.push(item.data);
       if (item.childrens) getDocs(item.childrens);
     }
   };
-  getDocs(useSidebarTree().filtered.value);
+  getDocs(filtered.value);
   return result;
 });
 </script>
 
 <style scoped lang="scss">
+h1 {
+  display: flex;
+  align-items: center;
+}
+
+.category-icon {
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
 .line-container {
   display: flex;
   flex-direction: column;
@@ -42,10 +61,12 @@ const documents = computed(() => {
 .line-item:first-child {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+  border-top: 1px solid var(--border-color);
 }
 
 .line-item:last-child {
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  border-bottom: 1px solid var(--border-color);
 }
 </style>

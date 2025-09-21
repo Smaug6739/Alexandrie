@@ -38,7 +38,7 @@ func InitRouter(app *app.App) *gin.Engine {
 	routes.Users(app, mainGroup)
 	routes.Auth(app, mainGroup)
 	routes.Uploads(app, mainGroup)
-	routes.Documents(app, mainGroup)
-	routes.Categories(app, mainGroup)
+	routes.Nodes(app, mainGroup)
+	routes.Permissions(app, mainGroup)
 	return router
 }

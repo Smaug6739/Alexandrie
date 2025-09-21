@@ -9,13 +9,7 @@
         </div>
         <div class="form-column">
           <label>Role</label>
-          <AppRadio
-            v-model="category.role"
-            :items="[
-              { id: 1, label: 'Category' },
-              { id: 2, label: 'Workspace' },
-            ]"
-          />
+          <AppRadio v-model="category.role" :items="CATEGORY_ROLES" />
         </div>
       </div>
       <label>Name</label>
@@ -23,7 +17,12 @@
       <div class="form-row">
         <div class="form-column">
           <label>Parent</label>
-          <AppSelect v-model="category.parent_id" :items="categoriesItem" placeholder="Select a category parent" />
+          <AppSelect
+            v-model="category.parent_id"
+            :items="categoriesItem"
+            placeholder="Select a category parent"
+            :disabled="(i) => i.id == category!.id || nodesStore.isDescendant(category!, (i as Item).id)"
+          />
         </div>
         <div class="form-column">
           <label for="order">Order</label>
@@ -47,18 +46,16 @@
 <script lang="ts" setup>
 import DeleteModal from '../_modals/DeleteCategoryModal.vue';
 
-const categoriesStore = useCategoriesStore();
+const nodesStore = useNodesStore();
 const route = useRoute();
-const category = computed(() => categoriesStore.getById(route.params.id as string));
-const categoriesItem = computed(() =>
-  new TreeStructure(useSidebarTree().categories.value).generateTree().filter(i => i.data.type === 'category' && i.data.role == 2),
-);
+const category = computed(() => nodesStore.getById(route.params.id as string));
+const categoriesItem = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(i => i.data.role <= 2)).generateTree());
 
 definePageMeta({ breadcrumb: 'Edit' });
 
 const updateCategory = async () => {
   if (category.value)
-    categoriesStore
+    nodesStore
       .update(category.value)
       .then(() => {
         useNotifications().add({ type: 'success', title: 'Category updated' });

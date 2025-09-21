@@ -10,6 +10,7 @@ type UserService interface {
 	GetAllUsers() ([]*models.User, error)
 	GetUserById(id types.Snowflake) (*models.User, error)
 	GetUserByUsername(username string) (*models.User, error)
+	SearchPublicUsers(usernameOrEmailOrId string) ([]*models.User, error)
 	CheckUsernameExists(username string) bool
 	CreateUser(user *models.User) (*models.User, error)
 	UpdateUser(id types.Snowflake, user *models.User) (*models.User, error)
@@ -72,6 +73,24 @@ func (s *Service) GetUserByUsername(username string) (*models.User, error) {
 	}
 
 	return &user, nil
+}
+
+func (s *Service) SearchPublicUsers(usernameOrEmailOrId string) ([]*models.User, error) {
+	var users []*models.User
+	rows, err := s.db.Query("SELECT id, username, avatar, created_timestamp, updated_timestamp FROM users WHERE username = ? OR email = ? OR id = ? LIMIT 10", usernameOrEmailOrId, usernameOrEmailOrId, usernameOrEmailOrId)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var user models.User
+		if err := rows.Scan(&user.Id, &user.Username, &user.Avatar, &user.CreatedTimestamp, &user.UpdatedTimestamp); err != nil {
+			return nil, err
+		}
+		users = append(users, &user)
+	}
+	return users, nil
 }
 
 func (s *Service) GetUserById(id types.Snowflake) (*models.User, error) {

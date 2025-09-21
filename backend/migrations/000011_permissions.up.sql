@@ -1,0 +1,9 @@
+CREATE TABLE permissions (
+    `id` BIGINT UNSIGNED PRIMARY KEY,
+    node_id BIGINT UNSIGNED NOT NULL,
+    user_id BIGINT UNSIGNED NOT NULL,
+    permission TINYINT NOT NULL DEFAULT 0,
+    `created_timestamp` BIGINT NOT NULL,
+    FOREIGN KEY (node_id) REFERENCES nodes(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

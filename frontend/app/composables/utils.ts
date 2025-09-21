@@ -1,4 +1,4 @@
-import type { User } from '@/stores/db_strustures';
+import type { PublicUser, User } from '@/stores/db_strustures';
 
 export const CDN = import.meta.env.VITE_BASE_CDN;
 export const API = `${import.meta.env.VITE_BASE_API}/api`;
@@ -8,7 +8,7 @@ export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : f
 // Intermediate screen size
 export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
-export function useAvatar(user?: User): string {
+export function useAvatar(user?: User | PublicUser): string {
   return user?.avatar ? CDN + '/' + user.id + '/avatar' : '/default_avatar.avif';
 }
 
@@ -79,7 +79,7 @@ export function debounceDelayed<T extends (...args: unknown[]) => void>(fn: T, d
   return (...args: Parameters<T>) => {
     // Cancel the previous timer
     if (timeout) clearTimeout(timeout);
-    
+
     // Launch a new timer
     timeout = setTimeout(() => {
       fn(...args);

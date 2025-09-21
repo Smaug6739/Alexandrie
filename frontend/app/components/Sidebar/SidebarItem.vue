@@ -13,27 +13,29 @@
 
     <NuxtLink :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
 
-    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
+    <Icon v-if="item.data.shared && !item.parent_id" name="users" fill="var(--font-color)" />
+
+    <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" fill="var(--font-color)" />
     </NuxtLink>
-    <NuxtLink v-if="item.data.type === 'category'" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
+    <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
       <Icon name="plus" fill="var(--font-color)" />
     </NuxtLink>
-    <Icon v-if="item.data.type === 'document' && item.data.pinned" name="pin" fill="var(--font-color-light)" class="ni" />
+    <Icon v-if="item.data.role === 3 && item.data.order === -1" name="pin" fill="var(--font-color-light)" class="ni" />
     <slot />
   </span>
 </template>
 
 <script setup lang="ts">
-import { navigationItems } from './helpers';
-const documentStore = useDocumentsStore();
-const categoriesStore = useCategoriesStore();
+import type { Node } from '~/stores';
+import { navigationItems, type DefaultItem } from './helpers';
+const nodesStore = useNodesStore();
 const { isOpened } = useSidebar();
-const props = defineProps<{ item: Item }>();
+const props = defineProps<{ item: Item | DefaultItem }>();
 const customClass = computed(() => {
   if ('color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
     return `item-icon ${getAppColor(props.item.data.color as number)}`;
-  return '';
+  return 'default-icon';
 });
 const icon = computed(() => {
   if ('icon' in props.item.data && props.item.data.icon) return props.item.data.icon;
@@ -62,43 +64,25 @@ const dragLeave = () => {
   // Réinitialise l'état de survol lorsque l'élément quitte la zone de dépôt
   isDragOver.value = false;
 };
-
+const { workspaceId } = useSidebar();
 const drop = async (event: DragEvent) => {
   isDragOver.value = false;
   const draggedItemId = event.dataTransfer!.getData('text/plain');
 
-  let draggedItem =
-    documentStore.getById(draggedItemId) || categoriesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
+  const draggedItem = nodesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
 
   if (!draggedItem) return;
 
-  if (draggedItem.type === 'document' && draggedItem.partial) {
-    draggedItem = await documentStore.fetch({ id: draggedItem.id });
+  if (draggedItem.role === -1) return; // Prevent dropping nav items
+  if (props.item.data.role === 4) return; // Prevent dropping on ressource items
+  if (draggedItem.id === props.item.id) return; // Prevent dropping on itself
+  if (draggedItem.role <= 2 && props.item.data.role > 2) return; // Prevent dropping categories / workspaces on ressources / documents
+  // Move item to root
+  if (props.item.data.role === -1) {
+    return nodesStore.update({ ...(draggedItem as Node), parent_id: workspaceId.value });
   }
 
-  if (draggedItem.type === 'document' && props.item.data.type === 'category') {
-    // Move document to category
-    documentStore.update({ ...draggedItem, category: props.item.id, parent_id: null });
-  }
-  if (draggedItem.type === 'category' && props.item.data.type === 'category') {
-    // Move category to category
-    if (draggedItem.id === props.item.id) return; // Prevent moving to the same category
-    categoriesStore.update({ ...draggedItem, parent_id: props.item.id, workspace_id: undefined });
-  }
-  if (draggedItem.type === 'document' && props.item.data.type === 'document') {
-    // Move document to document
-    if (documentStore.getAllChildrensIds(draggedItem.id).includes(props.item.parent_id ?? '')) return; // Prevent moving parent to child
-    if (draggedItem.id === props.item.id) return; // Prevent moving to the same document
-    documentStore.update({ ...draggedItem, parent_id: props.item.id, category: props.item.data.category });
-  }
-  if (draggedItem.type === 'category' && props.item.data.type === 'navigation') {
-    // Move category to root
-    categoriesStore.update({ ...draggedItem, parent_id: undefined, workspace_id: useSidebar().workspaceId.value || undefined });
-  }
-  if (draggedItem.type === 'document' && props.item.data.type === 'navigation') {
-    // Move document to root
-    documentStore.update({ ...draggedItem, parent_id: undefined, category: useSidebar().workspaceId.value || undefined });
-  }
+  nodesStore.update({ ...(draggedItem as Node), parent_id: props.item.id });
 };
 </script>
 
@@ -121,7 +105,7 @@ const drop = async (event: DragEvent) => {
     background: var(--bg-contrast-2);
   }
 
-  .icon {
+  .default-icon {
     width: 20px;
     height: 20px;
 

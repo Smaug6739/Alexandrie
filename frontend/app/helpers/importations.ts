@@ -1,9 +1,7 @@
-import type { DB_Category, DB_Document, DB_Ressource } from '~/stores';
+import type { DB_Node } from '~/stores';
 
 interface ImportationStructure {
-  documents: DB_Document[];
-  categories: DB_Category[];
-  ressources: DB_Ressource[];
+  nodes: DB_Node[];
 }
 
 function analyseFile(file: File): Promise<ImportationStructure> {
@@ -30,16 +28,16 @@ function analyseFile(file: File): Promise<ImportationStructure> {
 }
 
 function validateFileStructure(data: ImportationStructure): data is ImportationStructure {
-  if (typeof data === 'object' && data !== null && Array.isArray(data.documents)) {
+  if (typeof data === 'object' && data !== null && Array.isArray(data.nodes)) {
     return true;
   }
   return false;
 }
 
 function compareDocumentsAndLocal(data: ImportationStructure) {
-  const diff: DB_Document[] = [];
+  const diff: DB_Node[] = [];
   const local = useSidebarTree().structure.value;
-  for (const doc of data.documents) {
+  for (const doc of data.nodes) {
     const localDoc = local.getItem(doc.id);
     if (!localDoc) {
       diff.push(doc);
@@ -48,28 +46,25 @@ function compareDocumentsAndLocal(data: ImportationStructure) {
   return diff;
 }
 
-function prepareNewDocuments(new_docs: Partial<DB_Document>[]) {
+function prepareNewDocuments(new_docs: Partial<DB_Node>[]) {
   // For each document, check if parent_id and category are valid
   // If not, set them to null
   const local = useSidebarTree().structure.value;
   for (const doc of new_docs) {
     if (doc.parent_id && !local.getItem(doc.parent_id)) {
-      doc.parent_id = null;
-    }
-    if (doc.category && !local.getItem(doc.category)) {
-      doc.category = undefined;
+      doc.parent_id = undefined;
     }
   }
 }
 
-async function uploadDocument(document: DB_Document) {
-  const documentsStore = useDocumentsStore();
-  await documentsStore.post({ type: 'document', ...document });
+async function uploadDocument(document: DB_Node) {
+  const documentsStore = useNodesStore();
+  await documentsStore.post(document);
 }
-async function uploadDocuments(documents: DB_Document[]) {
-  const documentsStore = useDocumentsStore();
+async function uploadDocuments(documents: DB_Node[]) {
+  const documentsStore = useNodesStore();
   for (const doc of documents) {
-    await documentsStore.post({ type: 'document', ...doc });
+    await documentsStore.post(doc);
   }
 }
 
