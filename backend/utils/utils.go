@@ -12,3 +12,7 @@ func IfNotNilValue[T any](newValue *T, defaultValue T) T {
 	}
 	return defaultValue
 }
+
+func IntPtr(i int) *int {
+	return &i
+}

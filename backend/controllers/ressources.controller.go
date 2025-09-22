@@ -132,7 +132,8 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		UserId:           userId,
 		ParentId:         nil,
 		Name:             fmt.Sprintf("%.*s", 50, header.Filename),
-		Role:             4, // Ressource role is always 4
+		Role:             4,               // Ressource role is always 4
+		Accessibility:    utils.IntPtr(1), // Default
 		Size:             &header.Size,
 		Content:          &header.Filename,
 		ContentCompiled:  &transformedPath,
