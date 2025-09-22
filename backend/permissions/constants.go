@@ -29,6 +29,7 @@ const (
 	ActionUpdate
 	ActionDelete
 	ActionShare
+	ActionManagePermissions
 )
 
 func (a NodeAction) RequiredLevel() NodePermissionLevel {
@@ -39,7 +40,9 @@ func (a NodeAction) RequiredLevel() NodePermissionLevel {
 		return PermWrite
 	case ActionDelete, ActionShare:
 		return PermAdmin
+	case ActionManagePermissions:
+		return PermOwner
 	default:
-		return PermNone
+		return PermOwner
 	}
 }

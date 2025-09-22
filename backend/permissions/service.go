@@ -5,6 +5,7 @@ import (
 	"alexandrie/services"
 	"alexandrie/types"
 	"errors"
+	"fmt"
 )
 
 type Authorizer interface {
@@ -27,18 +28,18 @@ func (a *DefaultAuthorizer) CanAccessNode(userID types.Snowflake, userRole UserR
 	if userID == node.UserId {
 		return true, PermOwner, nil
 	}
-
+	fmt.Println("Case 1 failed: not the owner")
 	// Case 2: Global app admin
 	if a.IsAppAdmin(userRole) {
 		return true, PermOwner, nil
 	}
-
+	fmt.Println("Case 2 failed: not an app admin")
 	// Case 3: Check in DB via PermissionService
 	hasPermission, level := a.permService.HasPermission(userID, node.Id, int(action.RequiredLevel()))
 	if hasPermission {
 		return true, NodePermissionLevel(level), nil
 	}
-
+	fmt.Println("Case 3 failed: no sufficient permission in DB")
 	return false, PermNone, errors.New("unauthorized")
 }
 

@@ -213,7 +213,7 @@ func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
 	if ctr.app.MinioClient == nil {
 		return http.StatusInternalServerError, errors.New("minio client not initialized")
 	}
-	id, err := utils.GetTargetUserId(c, c.Param("id"))
+	id, err := utils.GetTargetId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, errors.New("invalid id format")
 	}

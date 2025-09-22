@@ -38,7 +38,7 @@ func NewNodeController(app *app.App) NodeController {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetPublicNode(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetTargetUserId(c, c.Param("id"))
+	nodeId, err := utils.GetTargetId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -64,7 +64,7 @@ func (ctr *Controller) GetSharedNodes(c *gin.Context) (int, any) {
 		return http.StatusUnauthorized, err
 	}
 	// Target user ID from param
-	targetUserId, err := utils.GetTargetUserId(c, c.Param("userId"))
+	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -95,7 +95,7 @@ func (ctr *Controller) GetNodes(c *gin.Context) (int, any) {
 		return http.StatusUnauthorized, err
 	}
 	// Target user ID from param
-	targetUserId, err := utils.GetTargetUserId(c, c.Param("userId"))
+	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -122,7 +122,7 @@ func (ctr *Controller) GetNodes(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetTargetUserId(c, c.Param("id"))
+	nodeId, err := utils.GetTargetId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -210,7 +210,7 @@ func (ctr *Controller) CreateNode(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetTargetUserId(c, c.Param("id"))
+	nodeId, err := utils.GetTargetId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -283,7 +283,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteNode(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetTargetUserId(c, c.Param("id"))
+	nodeId, err := utils.GetTargetId(c, c.Param("id"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}

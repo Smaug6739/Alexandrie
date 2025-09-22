@@ -1,9 +1,7 @@
 package utils
 
 import (
-	"alexandrie/models"
 	"alexandrie/permissions"
-	"alexandrie/services"
 	"alexandrie/types"
 	"errors"
 	"strconv"
@@ -43,7 +41,7 @@ func CheckUserRequestPermission(ctx *gin.Context, requiredRole permissions.UserR
 	return false
 }
 
-func GetTargetUserId(ctx *gin.Context, param string) (types.Snowflake, error) {
+func GetTargetId(ctx *gin.Context, param string) (types.Snowflake, error) {
 	if param == "" {
 		return 0, errors.New("parameter is empty")
 	}
@@ -94,7 +92,7 @@ func SelfOrPermission(ctx *gin.Context, allowed permissions.UserRole) (types.Sno
 	// Otherwise, return an error
 
 	// --- 1. Get the target user ID
-	targetUserId, err := GetTargetUserId(ctx, ctx.Param("userId"))
+	targetUserId, err := GetTargetId(ctx, ctx.Param("userId"))
 	if err != nil {
 		return 0, err
 	}
@@ -116,43 +114,4 @@ func SelfOrPermission(ctx *gin.Context, allowed permissions.UserRole) (types.Sno
 		return targetUserId, nil
 	}
 	return 0, errors.New("unauthorized")
-}
-
-func NodePermission(ctx *gin.Context, node *models.Node, permissionService services.PermissionService, permission permissions.NodePermissionLevel) (connectedId types.Snowflake, level permissions.NodePermissionLevel, err error) {
-	// Check if the connected user has access to the resource
-	// Case 1: User is the owner of the node (connectedUserId == targetId) => allow
-	// Case 2: The user is an app administrator => allow
-	// Case 3: The user has the required permission on the resource => allow
-	// Otherwise, return an error
-
-	// Check user is correctly authenticated
-	connectedUserId, err := GetUserIdCtx(ctx)
-	if err != nil {
-		return 0, 0, err
-	}
-	// Case 1: User is the owner of the resource
-	if connectedUserId == node.UserId {
-		return connectedUserId, OWNER, nil
-	}
-	// Case 2: User is an app administrator
-	role, exists := ctx.Get("user_role")
-	if !exists {
-		return connectedUserId, 0, errors.New("user role not found in context")
-	}
-	if CheckPermission(role.(permissions.UserRole), ADMINISTRATOR) {
-		return connectedUserId, OWNER, nil
-	}
-
-	//if permission == OWNER {
-	//	return 0, errors.New("unauthorized")
-	//}
-
-	// Case 3: User has the required permission on the resource
-	hasPermission, levelInt := permissionService.HasPermission(connectedUserId, node.Id, int(permission))
-
-	if hasPermission {
-		return connectedUserId, permissions.NodePermissionLevel(levelInt), nil
-	}
-
-	return 0, 0, errors.New("unauthorized")
 }
