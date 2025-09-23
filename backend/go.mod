@@ -6,25 +6,32 @@ require github.com/wneessen/go-mail v0.6.2
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/goccy/go-yaml v1.18.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/quic-go/qpack v0.5.1 // indirect
+	github.com/quic-go/quic-go v0.54.0 // indirect
 	github.com/tinylib/msgp v1.3.0 // indirect
+	go.uber.org/mock v0.5.0 // indirect
+	golang.org/x/mod v0.27.0 // indirect
+	golang.org/x/sync v0.17.0 // indirect
+	golang.org/x/tools v0.36.0 // indirect
 )
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/BurntSushi/toml v1.5.0
-	github.com/bytedance/sonic v1.13.3 // indirect
-	github.com/bytedance/sonic/loader v0.2.4 // indirect
-	github.com/cloudwego/base64x v0.1.5 // indirect
+	github.com/bytedance/sonic v1.14.0 // indirect
+	github.com/bytedance/sonic/loader v0.3.0 // indirect
+	github.com/cloudwego/base64x v0.1.6 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.9 // indirect
 	github.com/gin-contrib/cors v1.7.6
 	github.com/gin-contrib/sse v1.1.0 // indirect
-	github.com/gin-gonic/gin v1.10.1
+	github.com/gin-gonic/gin v1.11.0
 	github.com/go-ini/ini v1.67.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
@@ -37,7 +44,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
-	github.com/klauspost/cpuid/v2 v2.2.11 // indirect
+	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/minio/crc64nvme v1.0.2 // indirect
@@ -50,11 +57,11 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.3.0 // indirect
-	golang.org/x/arch v0.18.0 // indirect
+	golang.org/x/arch v0.20.0 // indirect
 	golang.org/x/crypto v0.42.0
 	golang.org/x/net v0.43.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
 	golang.org/x/text v0.29.0 // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
+	google.golang.org/protobuf v1.36.9 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
