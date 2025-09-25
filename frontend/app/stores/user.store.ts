@@ -4,8 +4,9 @@ import type { User, PublicUser, ConnectionLog } from './db_strustures';
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: undefined as User | undefined,
-    users: {} as Record<string, PublicUser>, // dictionnaire par id
+    users: {} as Record<string, PublicUser>,
     last_connection: null as ConnectionLog | null,
+    current_fetching: [] as string[], // List of curently fetching user ids to avoid duplicate requests
   }),
   getters: {
     getById: state => (id: string) => state.users[id],
@@ -43,12 +44,15 @@ export const useUserStore = defineStore('user', {
         return this.user;
       } else throw responce.message;
     },
-    async fetchPublicUser(id: string): Promise<PublicUser> {
+    async fetchPublicUser(id: string): Promise<PublicUser | undefined> {
       if (this.users[id]) return this.users[id];
+      if (this.current_fetching.includes(id)) return;
+      this.current_fetching.push(id);
       const response = await makeRequest<PublicUser[]>(`users/public/${id}`, 'GET', {});
       if (response.status === 'success' && response.result?.length) {
         const user = response.result[0] as PublicUser;
         this.users[user.id] = user;
+        this.current_fetching = this.current_fetching.filter(uid => uid !== id);
         return user;
       }
       throw response.message;

@@ -39,7 +39,8 @@ import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentMo
 const props = defineProps<{ document: Node }>();
 const nodesStore = useNodesStore();
 const category = computed(() => nodesStore.getById(props.document.parent_id || ''));
-const user = await useUserStore().fetchPublicUser(props.document.user_id);
+useUserStore().fetchPublicUser(props.document.user_id);
+const user = computed(() => useUserStore().getById(props.document.user_id || ''));
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.document.id } }));
 </script>
 

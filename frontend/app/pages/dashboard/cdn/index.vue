@@ -37,6 +37,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { readableFileSize } from '@/helpers/ressources';
 import type { Field } from '~/components/DataTable.vue';
 import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
 import type { Node } from '~/stores';

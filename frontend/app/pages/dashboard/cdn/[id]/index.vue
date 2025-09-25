@@ -54,6 +54,7 @@
 
 <script lang="ts" setup>
 import DeleteRessourceModal from '../_modals/DeleteRessourceModal.vue';
+import { readableFileSize } from '@/helpers/ressources';
 definePageMeta({ breadcrumb: 'Edit' });
 const nodeStore = useNodesStore();
 const route = useRoute();

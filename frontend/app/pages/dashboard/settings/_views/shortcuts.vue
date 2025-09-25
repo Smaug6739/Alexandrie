@@ -10,7 +10,7 @@
       </div>
       <div class="shortcut">
         <span>Open command center and navigate</span>
-        <span><kbd>Ctrl</kbd> <kbd>K</kbd></span>
+        <span><kbd>Ctrl</kbd> <kbd>K</kbd> or <kbd>/</kbd></span>
       </div>
       <div class="shortcut">
         <span>Open CDN uploader</span>
@@ -41,11 +41,11 @@
       </div>
       <div class="shortcut">
         <span>Go to next document</span>
-        <span><kbd>Ctrl</kbd> <kbd>ArrowRight</kbd></span>
+        <span><kbd>ArrowRight</kbd></span>
       </div>
       <div class="shortcut">
         <span>Go to previous document</span>
-        <span><kbd>Ctrl</kbd> <kbd>ArrowLeft</kbd></span>
+        <span><kbd>ArrowLeft</kbd></span>
       </div>
     </div>
     <p>Editor page</p>

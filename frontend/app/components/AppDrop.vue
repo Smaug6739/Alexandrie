@@ -12,7 +12,7 @@
     <div v-if="selectedFile" class="file-info">
       <div class="file-chip">
         <span class="file-name">{{ selectedFile.name }}</span>
-        <button class="remove-btn" @click="reset" title="Remove file">×</button>
+        <button class="remove-btn" title="Remove file" @click="reset">×</button>
       </div>
       <div class="file-size">{{ readableFileSize(selectedFile.size) }}</div>
     </div>
@@ -20,6 +20,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { readableFileSize } from '@/helpers/ressources';
 const selectedFile: Ref<File | null | undefined> = ref(null);
 const isDragOver = ref(false);
 const fileInput: Ref<HTMLInputElement | null> = ref(null);

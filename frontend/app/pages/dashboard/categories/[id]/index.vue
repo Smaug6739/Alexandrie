@@ -31,28 +31,17 @@ const nodesStore = useNodesStore();
 const view: Ref<'table' | 'list'> = ref('list');
 const node = ref<Node | undefined>();
 const error = ref<string>('');
-// definePageMeta({
-//   breadcrumb: () => {
-//     const category = nodesStore.getById(route.params.id as string);
-//     return category?.name || '';
-//   },
-// });
+
+definePageMeta({
+  breadcrumb: () => {
+    const doc = useNodesStore().getById(useRoute().params.id as string);
+    return doc?.name || '';
+  },
+});
 
 watchEffect(async () => {
-  const nodeFromStore = nodesStore.getById(categoryId);
-  if (!nodeFromStore) {
-    if (nodesStore.isFetching) return;
-    return (error.value = 'Document not found');
-  }
-  node.value = undefined;
-  if (nodeFromStore.partial) {
-    try {
-      error.value = '';
-      node.value = await nodesStore.fetch({ id: categoryId });
-    } catch (err: unknown) {
-      error.value = (err as Error).message || 'Failed to fetch document';
-    }
-  } else node.value = nodeFromStore;
+  node.value = nodesStore.getById(categoryId);
+  if (!node.value) error.value = 'Document not found';
 });
 
 const openPermissionsModal = () => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="color-picker-modal">
+  <div class="modal-ctn">
     <EditorAppHeader icon="color" title="Select Color" subtitle="Choose a color from the palette or create a custom one." />
 
     <div class="modal-content">
@@ -78,41 +78,15 @@
               </button>
             </div>
           </div>
-
-          <div class="input-group">
-            <div class="input-wrapper">
-              <span class="input-prefix">#</span>
-              <input v-model="hexColor" class="hex" placeholder="RRGGBB" maxlength="6" @keyup.enter="applyCustomColor" @input="validateHexInput" />
-            </div>
-            <div class="color-preview" :style="{ background: hexColor && /^[0-9A-F]{6}$/i.test(hexColor) ? `#${hexColor}` : 'transparent' }">
-              <div class="preview-border"></div>
-            </div>
-          </div>
-
-          <button class="apply" :disabled="!isValidHex" @click="applyCustomColor">
-            <span class="btn-text">Apply Color</span>
-            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M5 13l4 4L19 7" />
-            </svg>
-          </button>
         </div>
       </div>
-    </div>
-
-    <div class="modal-footer">
-      <button class="cancel-btn" @click="closeModal">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18" />
-          <line x1="6" y1="6" x2="18" y2="18" />
-        </svg>
-        <span>Cancel</span>
-      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
+import { hsvToHex, drawColorWheel } from '@/helpers/colors';
 const props = defineProps<{ onColorSelect: (color: string) => void }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
 
@@ -127,7 +101,6 @@ const selectedWheelColor = ref('#FF0000');
 const cursorPosition = ref({ x: 150, y: 75 });
 
 const availableColors = ['primary', ...Array.from({ length: 8 }, (_, i) => getAppColor(i))];
-const isValidHex = computed(() => hexColor.value && /^[0-9A-F]{6}$/i.test(hexColor.value));
 
 const selectColor = (color: string) => {
   props.onColorSelect(color);
@@ -155,8 +128,8 @@ const updateColorSelection = (e: MouseEvent) => {
     maxDist = Math.min(centerX, centerY);
   if (dist <= maxDist) {
     cursorPosition.value = { x, y };
-    hue.value = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360;
-    saturation.value = Math.min(100, (dist / maxDist) * 100);
+    hue.value = Math.round(((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360);
+    saturation.value = Math.round(Math.min(100, (dist / maxDist) * 100));
     updateWheelColor();
   }
 };
@@ -170,83 +143,20 @@ const validateWheelColor = () => {
   emit('close');
 };
 
-const updateWheelColor = () => {
-  selectedWheelColor.value = hsvToHex(hue.value, saturation.value, brightness.value);
-};
-
-function hsvToHex(h: number, s: number, v: number): string {
-  s /= 100;
-  v /= 100;
-  const c = v * s,
-    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
-    m = v - c;
-  const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
-  return (
-    '#' +
-    [r, g, b]
-      .map(v =>
-        Math.round((v + m) * 255)
-          .toString(16)
-          .padStart(2, '0'),
-      )
-      .join('')
-      .toUpperCase()
-  );
-}
-
-function drawColorWheel() {
-  if (!colorWheel.value) return;
-  const canvas = colorWheel.value,
-    ctx = canvas.getContext('2d');
-  if (!ctx) return;
-  const w = canvas.width,
-    h = canvas.height,
-    cx = w / 2,
-    cy = h / 2,
-    r = Math.min(cx, cy) - 10;
-  ctx.clearRect(0, 0, w, h);
-  for (let y = 0; y < h; y++)
-    for (let x = 0; x < w; x++) {
-      const dx = x - cx,
-        dy = y - cy,
-        dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist <= r) {
-        const hue = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360;
-        ctx.fillStyle = hsvToHex(hue, (dist / r) * 100, 100);
-        ctx.fillRect(x, y, 1, 1);
-      }
-    }
-  ctx.strokeStyle = 'var(--border-color)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-  ctx.stroke();
-}
-
-const applyCustomColor = () => {
-  if (isValidHex.value) {
-    props.onColorSelect(`#${hexColor.value}`);
-    emit('close');
-  }
-};
-const validateHexInput = () => {
-  hexColor.value = hexColor.value.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
-};
-const closeModal = () => emit('close');
+const updateWheelColor = () => (selectedWheelColor.value = hsvToHex(hue.value, saturation.value, brightness.value));
 
 onMounted(() => {
   nextTick(() => {
-    if (colorWheel.value) {
-      colorWheel.value.width = 240;
-      colorWheel.value.height = 120;
-      drawColorWheel();
-    }
+    if (!colorWheel.value) return;
+    colorWheel.value.width = 240;
+    colorWheel.value.height = 120;
+    drawColorWheel(colorWheel);
   });
 });
 </script>
 
 <style scoped lang="scss">
-.color-picker-modal {
+.modal-ctn {
   display: flex;
   width: 100%;
   height: 100%;
@@ -286,46 +196,19 @@ onMounted(() => {
   }
 }
 
-.section {
-  .section-title {
-    position: relative;
-    display: flex;
-    margin: 0 0 16px;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--font-color-dark);
-    align-items: center;
-    gap: 12px;
-    letter-spacing: 0.5px;
-    padding-left: 16px;
-    text-transform: uppercase;
-
-    .section-icon {
-      width: 20px;
-      height: 20px;
-      color: var(--primary);
-      flex-shrink: 0;
-    }
-
-    &::before {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 4px;
-      height: 16px;
-      border-radius: 2px;
-      background: linear-gradient(180deg, var(--primary), var(--primary-dark));
-      content: '';
-      transform: translateY(-50%);
-    }
-  }
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--font-color-dark);
+  padding-left: 16px;
+  text-transform: uppercase;
 }
 
 .swatches {
   display: grid;
   padding: 0 8px;
   gap: 12px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   justify-items: center;
   margin-bottom: 8px;
 }
@@ -366,25 +249,13 @@ onMounted(() => {
   }
 
   &:hover {
-    border-color: var(--primary);
-    box-shadow: 0 12px 32px rgb(0 0 0 / 25%);
     transform: translateY(-4px) scale(1.1);
-
-    &.primary-color {
-      box-shadow: 0 16px 40px rgb(var(--primary-rgb), 0.4);
-    }
-  }
-
-  &:active {
-    transform: translateY(-2px) scale(1.05);
   }
 }
 
 .custom {
-  display: flex;
   padding: 20px;
   border-radius: 16px;
-  flex-direction: column;
   gap: 20px;
 }
 
@@ -393,12 +264,9 @@ onMounted(() => {
   align-items: flex-start;
   gap: 16px;
 }
-
 .color-wheel-container {
   position: relative;
-  flex-shrink: 0;
 }
-
 .color-wheel {
   border: 2px solid var(--border-color);
   border-radius: 12px;
@@ -423,17 +291,6 @@ onMounted(() => {
   flex-direction: column;
   gap: 16px;
 }
-
-.control-group {
-  label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--font-color-dark);
-    margin-bottom: 6px;
-  }
-}
-
 .slider-container {
   position: relative;
 }
@@ -454,7 +311,6 @@ onMounted(() => {
     border: 2px solid white;
     border-radius: 50%;
     background: var(--primary);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
     appearance: none;
     cursor: pointer;
   }
@@ -514,9 +370,8 @@ onMounted(() => {
   gap: 2px;
 
   .hex-value {
-    font-family: Monaco, Menlo, 'Ubuntu Mono', monospace;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--font-color-dark);
   }
 
@@ -534,13 +389,11 @@ onMounted(() => {
   width: 100%;
   min-height: 40px;
   padding: 12px 16px;
-  border: 2px solid #3b82f6;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   color: white;
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  box-shadow: 0 4px 16px rgb(59 130 246 / 30%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   cursor: pointer;
@@ -551,16 +404,11 @@ onMounted(() => {
   &:hover {
     border-color: #1e3a8a;
     background: linear-gradient(135deg, #2563eb, #1e40af);
-    box-shadow: 0 8px 24px rgb(59 130 246 / 40%);
     transform: translateY(-2px);
 
     .btn-icon {
       transform: scale(1.1);
     }
-  }
-
-  &:active {
-    transform: translateY(0);
   }
 
   .btn-icon {
@@ -574,38 +422,6 @@ onMounted(() => {
     font-weight: 600;
     color: white;
   }
-}
-
-.input-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.input-wrapper {
-  display: flex;
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  background: var(--bg-color);
-  transition: all 0.3s ease;
-  align-items: center;
-  flex: 1;
-  overflow: hidden;
-
-  &:focus-within {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgb(var(--primary-rgb), 0.1);
-    transform: scale(1.02);
-  }
-}
-
-.input-prefix {
-  padding: 0 10px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--font-color-light);
-  background: var(--bg-color-secondary);
-  border-right: 1px solid var(--border-color);
 }
 
 .hex {
@@ -629,24 +445,6 @@ onMounted(() => {
   }
 }
 
-.color-preview {
-  position: relative;
-  width: 40px;
-  height: 40px;
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  overflow: hidden;
-
-  .preview-border {
-    position: absolute;
-    border: 2px solid transparent;
-    border-radius: 8px;
-    background: linear-gradient(45deg, transparent 30%, rgb(255 255 255 / 30%) 50%, transparent 70%);
-    animation: shimmer 2s infinite;
-    inset: 0;
-  }
-}
-
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -657,120 +455,9 @@ onMounted(() => {
   }
 }
 
-.apply {
-  display: flex;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  align-items: center;
-  cursor: pointer;
-  gap: 8px;
-  justify-content: center;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  &:not(:disabled) {
-    &:hover {
-      box-shadow: 0 8px 24px rgb(var(--primary-rgb), 0.4);
-      transform: translateY(-2px);
-
-      .btn-icon {
-        transform: scale(1.1) rotate(5deg);
-      }
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-
-  .btn-text {
-    font-weight: 600;
-  }
-
-  .btn-icon {
-    width: 16px;
-    height: 16px;
-    transition: all 0.3s ease;
-  }
-}
-
-.modal-footer {
-  display: flex;
-  padding: 20px 0;
-  flex-shrink: 0;
-  gap: 16px;
-  justify-content: center;
-
-  .cancel-btn {
-    display: flex;
-    padding: 12px 24px;
-    border: 2px solid var(--border-color);
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--font-color-dark);
-    background: var(--bg-color-secondary);
-    transition: all 0.3s ease;
-    align-items: center;
-    cursor: pointer;
-    gap: 8px;
-
-    svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    &:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: var(--border-color);
-      box-shadow: 0 6px 20px rgb(0 0 0 / 15%);
-      transform: translateY(-2px);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-}
-
 @media (width <= 768px) {
-  .color-picker-modal {
+  .modal-ctn {
     padding: 0 16px;
-  }
-
-  .modal-header {
-    padding: 24px 0 20px;
-
-    .header-icon {
-      width: 40px;
-      height: 40px;
-      margin-bottom: 12px;
-
-      svg {
-        width: 20px;
-        height: 20px;
-      }
-    }
-
-    h3 {
-      font-size: 20px;
-    }
-
-    .header-subtitle {
-      max-width: 240px;
-      font-size: 13px;
-    }
   }
 
   .modal-content {
@@ -809,21 +496,6 @@ onMounted(() => {
     .btn-text {
       font-size: 13px;
     }
-  }
-
-  .input-group {
-    align-items: stretch;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .color-preview {
-    align-self: center;
-  }
-
-  .apply {
-    padding: 14px 24px;
-    font-size: 15px;
   }
 
   .modal-footer {
@@ -872,11 +544,6 @@ onMounted(() => {
 
   .hex {
     padding: 12px 14px;
-    font-size: 14px;
-  }
-
-  .apply {
-    padding: 12px 20px;
     font-size: 14px;
   }
 }

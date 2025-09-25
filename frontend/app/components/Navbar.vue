@@ -17,8 +17,7 @@
         @click="openCommandCenter"
       >
         <Icon name="search" fill="var(--font-color)" />
-        <span class="search-text">Search</span>
-        <kbd class="shortcut">Ctrl+K</kbd>
+        <span class="search-text">Type <kbd>/</kbd> to navigate</span>
       </button>
       <ThemeToggle v-if="preferences.get('navbarItems').value.theme" aria-label="toggle theme" />
     </div>
@@ -86,14 +85,12 @@ button {
   font-weight: 500;
 }
 
-.shortcut {
-  padding: 2px 6px;
+kbd {
+  padding: 0px 4px;
   border-radius: 4px;
-  font-family: monospace;
-  font-size: 11px;
   font-weight: 600;
-  color: inherit;
-  background: rgb(255 255 255 / 20%);
+  border: 1px solid var(--font-color-light);
+  border-radius: 4px;
 }
 
 // Mobile styles

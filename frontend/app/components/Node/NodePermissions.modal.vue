@@ -10,19 +10,20 @@
       <p class="info-text">
         Share this link to allow anyone to view the document without needing an account:
         <br />
-        <a :href="link" target="_blank" rel="noopener noreferrer" class="public-link"
-          ><Icon name="new_tab" :small="true" fill="var(--font-color-light)" /><span>{{ link }}</span></a
-        >
+        <a :href="link" target="_blank" rel="noopener noreferrer" class="public-link">
+          <Icon name="new_tab" :small="true" fill="var(--font-color-light)" /><span>{{ link }}</span>
+        </a>
       </p>
       <div class="access">
         <p for="access">Default permission for new users</p>
         <AppSelect v-model="node.access" :items="DOCUMENT_GENERAL_ACCESS" :searchable="false" size="150px" placeholder="Default" />
       </div>
     </div>
+
     <!-- Search + add -->
     <form @submit.prevent>
       <label for="user">Search user</label>
-      <input id="user" v-model="query" placeholder="Username or email" />
+      <input id="user" v-model="query" placeholder="Username or email" autocomplete="off" />
 
       <div v-for="user in users" :key="user.id" class="user-card">
         <div class="user-info-row">
@@ -36,7 +37,8 @@
           </div>
         </div>
       </div>
-      <p v-if="searchError" class="info-secondary">{{ searchError }}</p>
+      <Loader v-if="isLoading" style="margin: 4px auto" />
+      <p v-else-if="searchError" class="info-secondary">{{ searchError }}</p>
     </form>
 
     <!-- Current permissions -->
@@ -79,25 +81,34 @@ const users = ref<PublicUser[]>([]);
 const selectedPermission = ref(1);
 const link = computed(() => `${window.location.origin}/doc/${node.value?.id}`);
 const searchError = ref<string | null>(null);
+const isLoading = ref(0);
 
 for (const perm of node.value.permissions) {
   usersStore.fetchPublicUser(perm.user_id);
 }
 
 watch(query, async newQuery => {
-  if (newQuery) {
-    usersStore
-      .searchFetch(newQuery)
-      .then(fetchedUsers => (users.value = fetchedUsers))
-      .catch(() => {
-        users.value = [];
-        searchError.value = 'No results found';
-      });
-  } else {
-    users.value = [];
-    searchError.value = null;
-  }
+  users.value = [];
+  searchError.value = null;
+  if (!newQuery) return;
+  searchUsers(newQuery);
 });
+
+const searchUsers = debounce((query: unknown) => {
+  isLoading.value += 1;
+  usersStore
+    .searchFetch(query as string)
+    .then(fetchedUsers => {
+      users.value = fetchedUsers;
+      searchError.value = null;
+    })
+    .catch(() => {
+      users.value = [];
+      searchError.value = 'No results found';
+    })
+    .finally(() => (isLoading.value -= 1));
+}, 750);
+
 watch(
   node.value,
   debounce(() => nodesStore.update(node.value), 500),

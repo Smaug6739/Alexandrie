@@ -68,8 +68,8 @@ watchEffect(async () => {
 
 definePageMeta({
   breadcrumb: () => {
-    //const doc = useNodesStore().getById(useRoute().params.id as string);
-    //return doc?.name || '';
+    const doc = useNodesStore().getById(useRoute().params.id as string);
+    return doc?.name || '';
   },
 });
 
@@ -85,23 +85,20 @@ onMounted(() => {
   // Keyboard shortcuts management for navigating between corresponding pages
   const handleDocumentKeydown = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === 'e') {
-      e.preventDefault();
       // Go to the edit page of the current document
-      if (article.value?.id) {
-        useRouter().push(`/dashboard/docs/edit/${article.value.id}`);
-      }
-    } else if (e.ctrlKey && e.key === 'ArrowRight') {
+      if (!article.value?.id) return;
+      e.preventDefault();
+      useRouter().push(`/dashboard/docs/edit/${article.value.id}`);
+    } else if (e.key === 'ArrowRight') {
       e.preventDefault();
       // Go to the next document page
-      if (next.value?.id) {
-        useRouter().push(`/dashboard/docs/${next.value.id}`);
-      }
-    } else if (e.ctrlKey && e.key === 'ArrowLeft') {
+      if (!next.value?.id) return;
       e.preventDefault();
-      // Go to the previous document page
-      if (previous.value?.id) {
-        useRouter().push(`/dashboard/docs/${previous.value.id}`);
-      }
+      useRouter().push(`/dashboard/docs/${next.value.id}`);
+    } else if (e.key === 'ArrowLeft') {
+      if (!previous.value?.id) return;
+      e.preventDefault();
+      useRouter().push(`/dashboard/docs/${previous.value.id}`);
     }
   };
 

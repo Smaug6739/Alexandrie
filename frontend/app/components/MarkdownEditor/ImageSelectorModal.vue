@@ -1,16 +1,19 @@
 <template>
-  <div class="image-selector-modal">
+  <div class="modal-ctn">
     <EditorAppHeader icon="image" title="Select Image" subtitle="Choose an image to insert into your document." />
-    <div class="search-bar">
-      <input v-model="searchQuery" placeholder="Search images..." class="search-input" />
-    </div>
     <div class="modal-content">
+      <AppDrop ref="dropComponent" @select="submitFile" />
+      <Loader v-if="isLoading" style="margin: 12px auto" />
+      <p v-if="uploadError" class="error">{{ uploadError }}</p>
+      <div class="search-bar">
+        <input v-model="searchQuery" placeholder="Search images..." class="search-input" />
+      </div>
       <div class="images-grid">
         <div v-for="image in filteredImages" :key="image.id" class="image-item" @click="selectImage(image)">
-          <img :src="CDN + `/${useUserStore().user?.id}/` + image.content_compiled" :alt="image.name" class="image-preview" @error="handleImageError" />
+          <img :src="resolvePreviewUrl(image)" :alt="image.name" class="image-preview" @error="handleImageError" />
           <div class="image-info">
             <span class="image-name">{{ image.name }}</span>
-            <span class="image-size">{{ formatFileSize(image.size ?? 0) }}</span>
+            <span class="image-size">{{ readableFileSize(image.size ?? 0) }}</span>
           </div>
         </div>
       </div>
@@ -19,49 +22,43 @@
         <p>No images found</p>
       </div>
     </div>
-
-    <div class="modal-footer">
-      <button class="cancel-btn" @click="closeModal">Cancel</button>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
+import { readableFileSize, isImageFile, resolvePreviewUrl } from '~/helpers/ressources';
 import type { Node } from '~/stores';
 
-const props = defineProps<{
-  onImageSelect: (imageUrl: string, altText: string) => void;
-}>();
-
-const emit = defineEmits<{
-  (e: 'close'): void;
-}>();
-
+const ressourcesStore = useRessourcesStore();
 const nodesStore = useNodesStore();
+
+const props = defineProps<{ onImageSelect: (imageUrl: string, altText: string) => void }>();
+const emit = defineEmits<{ (e: 'close'): void }>();
+
 const searchQuery = ref('');
-const images = ref<Node[]>([]);
-const loading = ref(false);
+const isLoading = ref(false);
+const uploadError = ref<string | null>(null);
+const dropComponent = ref();
+
+const submitFile = (selectedFile: File) => {
+  if (!selectedFile) return;
+  isLoading.value = true;
+  const body = new FormData();
+  body.append('file', selectedFile);
+  dropComponent.value.reset(); // Reset drop component
+  ressourcesStore
+    .post(body)
+    .catch(e => (uploadError.value = e || 'An error occurred during upload.'))
+    .finally(() => (isLoading.value = false));
+};
 
 const filteredImages = computed(() => {
   if (!searchQuery.value.trim()) {
-    return images.value.filter(img => isImageFile(img.metadata?.filetype as string));
+    return nodesStore.ressources.filter(img => isImageFile(img.metadata?.filetype as string));
   }
-
-  return images.value.filter(img => isImageFile(img.metadata?.filetype as string) && img.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
+  return nodesStore.ressources.filter(img => isImageFile(img.metadata?.filetype as string) && img.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
 });
-
-const isImageFile = (filetype: string): boolean => {
-  return filetype.startsWith('image/');
-};
-
-const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) return '0 B';
-  const k = 1024;
-  const sizes = ['B', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-};
 
 const handleImageError = (event: Event) => {
   const img = event.target as HTMLImageElement;
@@ -69,47 +66,49 @@ const handleImageError = (event: Event) => {
 };
 
 const selectImage = (image: Node) => {
-  const imageUrl = CDN + `/${useUserStore().user?.id}/` + image.content_compiled;
+  const imageUrl = (CDN + `/${useUserStore().user?.id}/` + image.metadata?.transformed_path) as string;
   const altText = image.name.replace(/\.[^/.]+$/, '');
   props.onImageSelect(imageUrl, altText);
   emit('close');
 };
-
-const closeModal = () => {
-  emit('close');
-};
-
-const loadImages = async () => {
-  try {
-    loading.value = true;
-    images.value = nodesStore.getAll.filter(i => i.role === 4);
-  } catch (error) {
-    console.error('Failed to load images:', error);
-  } finally {
-    loading.value = false;
-  }
-};
-
-onMounted(() => {
-  loadImages();
-});
 </script>
 
 <style scoped lang="scss">
-.image-selector-modal {
+.modal-ctn {
   display: flex;
   width: 100%;
   height: 100%;
+  padding: 0 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: transparent;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .modal-content {
-  display: flex;
+  min-height: 0;
   padding: 0;
-  flex: 1;
-  flex-direction: column;
-  overflow: auto;
+  gap: 24px;
+  overflow-y: auto;
+  padding-right: 8px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: var(--bg-color-secondary);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: var(--border-color);
+
+    &:hover {
+      background: var(--primary);
+    }
+  }
 }
 
 .search-bar {
@@ -195,28 +194,5 @@ onMounted(() => {
   color: var(--font-color-light);
   align-items: center;
   justify-content: center;
-}
-
-.modal-footer {
-  display: flex;
-  padding: 20px 0;
-  flex-shrink: 0;
-  gap: 12px;
-  justify-content: flex-end;
-
-  .cancel-btn {
-    padding: 10px 20px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--font-color-dark);
-    background: var(--bg-color-secondary);
-    transition: all 0.2s ease;
-    cursor: pointer;
-
-    &:hover {
-      background: var(--border-color);
-    }
-  }
 }
 </style>
