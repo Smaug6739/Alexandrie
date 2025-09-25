@@ -60,7 +60,7 @@
     </div>
     <AppButton type="danger" @click="logoutUser">Log out</AppButton>
     <AppButton type="danger" @click="logoutUserAll">Log out from all devices</AppButton>
-    <h2>Delete account <tag blue>New</tag></h2>
+    <h2>Delete account</h2>
     <div>
       You can delete your account. <br />
       Be careful, if you delete your account, you will lose all your data and you will not be able to recover it.
