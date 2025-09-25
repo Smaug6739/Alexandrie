@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"alexandrie/permissions"
+	"alexandrie/types"
 	"alexandrie/utils"
 	"net/http"
 	"os"
@@ -48,9 +49,9 @@ func Auth() gin.HandlerFunc {
 			c.Abort() // Stop further processing if unauthorized
 			return
 		}
-		c.Set("user_id", user_id) // Set user ID in context
+		c.Set("user_id", types.Snowflake(user_id)) // Set user ID in context
 		c.Set("user_role", permissions.UserRole(user_role))
-		c.Set("claims", claims)
+		//c.Set("claims", claims)
 		c.Next() // Proceed to the next handler if authorized
 	}
 }

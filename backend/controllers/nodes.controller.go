@@ -237,7 +237,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	if dbNode.UserId != connectedUserId && level < utils.OWNER {
+	if dbNode.UserId != connectedUserId && level < permissions.PermOwner {
 		// If the user is not owner or admin of the node he cannot change some fields
 		node.ParentId = dbNode.ParentId
 		node.UserId = dbNode.UserId

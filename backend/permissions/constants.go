@@ -14,11 +14,11 @@ const (
 type NodePermissionLevel int
 
 const (
-	PermNone NodePermissionLevel = iota
-	PermRead
-	PermWrite
-	PermAdmin
-	PermOwner
+	PermNone  NodePermissionLevel = iota // No access
+	PermRead                             // Read access
+	PermWrite                            // Write access
+	PermAdmin                            // Admin access
+	PermOwner                            // Full control, including managing permissions
 )
 
 // NodeAction define actions that can be performed on nodes

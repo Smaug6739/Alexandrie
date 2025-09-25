@@ -3,6 +3,7 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
+	"alexandrie/permissions"
 	"alexandrie/types"
 	"alexandrie/utils"
 	"bytes"
@@ -30,7 +31,8 @@ type RessourceController interface {
 
 func NewRessourceController(app *app.App) RessourceController {
 	return &Controller{
-		app: app,
+		app:        app,
+		authorizer: permissions.NewAuthorizer(app.Services.Permissions),
 	}
 }
 
@@ -214,23 +216,28 @@ func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
 	if ctr.app.MinioClient == nil {
 		return http.StatusInternalServerError, errors.New("minio client not initialized")
 	}
-	id, err := utils.GetTargetId(c, c.Param("id"))
-	if err != nil {
-		return http.StatusBadRequest, errors.New("invalid id format")
-	}
-	userId, err := utils.GetUserIdCtx(c)
+	// Get connected user ID and role from context
+	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	node, err := ctr.app.Services.Nodes.GetNode(id)
+
+	nodeTargetId, err := utils.GetTargetId(c, c.Param("id"))
+	if err != nil {
+		return http.StatusBadRequest, errors.New("invalid id format")
+	}
+
+	node, err := ctr.app.Services.Nodes.GetNode(nodeTargetId)
 	if err != nil {
 		return http.StatusInternalServerError, "failed to get node"
 	}
 	if node == nil {
 		return http.StatusBadRequest, errors.New("node not found")
 	}
-	if node.UserId != userId && !utils.CheckUserRequestPermission(c, utils.ADMINISTRATOR) {
-		return http.StatusUnauthorized, errors.New("you are not authorized to delete this node")
+
+	// Check if the user has permission to delete the node
+	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, node.UserId, connectedUserRole); !allowed || err != nil {
+		return http.StatusUnauthorized, err
 	}
 
 	prefix := fmt.Sprintf("%d/%d", node.UserId, node.Id)
@@ -251,9 +258,9 @@ func (ctr *Controller) DeleteUpload(c *gin.Context) (int, any) {
 			return http.StatusInternalServerError, fmt.Errorf("failed to delete object: %v", err)
 		}
 	}
-	err = ctr.app.Services.Nodes.DeleteNode(id)
+	err = ctr.app.Services.Nodes.DeleteNode(nodeTargetId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	return http.StatusOK, "File deleted successfully"
+	return http.StatusOK, "Ressource deleted successfully"
 }

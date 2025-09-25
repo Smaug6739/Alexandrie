@@ -108,8 +108,8 @@ func (s *Service) GetUserById(id types.Snowflake) (*models.User, error) {
 }
 
 func (s *Service) UpdateUser(id types.Snowflake, user *models.User) (*models.User, error) {
-	_, err := s.db.Exec("UPDATE users SET username=?, firstname=?, lastname=?, role=?, avatar=?, email=?, updated_timestamp=? WHERE id=?",
-		user.Username, user.Firstname, user.Lastname, user.Role, user.Avatar, user.Email, user.UpdatedTimestamp, id)
+	_, err := s.db.Exec("UPDATE users SET username=?, firstname=?, lastname=?, avatar=?, email=?, updated_timestamp=? WHERE id=?",
+		user.Username, user.Firstname, user.Lastname, user.Avatar, user.Email, user.UpdatedTimestamp, id)
 	if err != nil {
 		return nil, err
 	}
