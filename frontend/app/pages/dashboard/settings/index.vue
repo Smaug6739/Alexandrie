@@ -83,7 +83,7 @@ const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
     gap: 1rem;
-
+    overflow-y: auto;
     span {
       font-size: 0.9rem;
       font-weight: 500;
@@ -92,15 +92,15 @@ const close = () => router.push(!routeBeforeEnter.value?.startsWith('/dashboard/
 
     a {
       display: flex;
-      margin: 0.5rem;
-      border-radius: 4px;
+      margin: 0.2rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 6px;
       color: inherit;
       align-items: center;
       gap: 0.5rem;
       text-decoration: none;
 
-      &:hover,
-      &.active {
+      &:hover {
         background-color: var(--bg-contrast-2);
       }
     }

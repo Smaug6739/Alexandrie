@@ -46,12 +46,12 @@
         <input id="password" v-model="passwordValue" type="password" required />
       </div>
       <div class="form-group">
-        <span style="display: flex"
+        <span style="display: flex; align-items: center"
           ><label for="password_confirm">Confirm password</label> <span v-if="err_password_not_match" class="err"> Password do not match !</span></span
         >
         <input id="password_confirm" v-model="passwordConfirmValue" type="password" required />
       </div>
-      <AppButton type="danger">Change password</AppButton>
+      <AppButton type="primary">Change password</AppButton>
     </form>
     <h3>Danger</h3>
     <div>
@@ -65,7 +65,17 @@
       You can delete your account. <br />
       Be careful, if you delete your account, you will lose all your data and you will not be able to recover it.
       <br />
-      <strong>This action is irreversible.</strong>
+      <strong>By deleting your account you will remove:</strong>
+      <ul>
+        <li>All your files and folders</li>
+        <li>All your uploads</li>
+        <li>All your shares</li>
+        <li>All your account data (preferences, profile...)</li>
+      </ul>
+      <p>
+        You can <NuxtLink to="/dashboard/settings?p=backup" style="text-decoration: underline; color: var(--primary)">export your data</NuxtLink> before
+        deleting your account.
+      </p>
     </div>
     <AppButton type="danger" @click="openDeleteModal">Delete account</AppButton>
   </div>
