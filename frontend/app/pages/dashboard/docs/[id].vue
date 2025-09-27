@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div style="width: 100%; padding: 1rem 0">
     <div v-if="!error" style="display: flex; justify-content: space-between">

@@ -1,5 +1,6 @@
 <template>
   <div class="illustration">
+    <!-- eslint-disable-next-line vue/no-v-html -->
     <div v-if="document?.thumbnail" style="width: 100%; height: 100%" v-html="document.thumbnail"></div>
     <svg v-else height="150" viewBox="0 0 297 205" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g style="mix-blend-mode: multiply">

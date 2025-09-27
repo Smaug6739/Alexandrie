@@ -1,4 +1,3 @@
-// useSidebarTree.ts
 import type { Node } from '~/stores';
 
 const preferencesStore = usePreferences();
@@ -33,9 +32,7 @@ const tree = computed(() => {
     }
   }
 
-  const tree = structure.value.generateTree();
-
-  return tree;
+  return structure.value.generateTree();
 });
 
 const collapseAll = () => {
@@ -129,4 +126,4 @@ function useSidebarTree() {
   };
 }
 
-export { useSidebarTree, tree };
+export { useSidebarTree };

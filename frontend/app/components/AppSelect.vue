@@ -32,6 +32,7 @@ const props = withDefaults(
     items: ANode[];
     placeholder?: string;
     modelValue?: string | number;
+    // eslint-disable-next-line vue/require-default-prop
     size?: string;
     disabled?: (i: ANode) => boolean;
     nullable?: boolean;

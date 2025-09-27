@@ -27,8 +27,8 @@
       <AppButton type="primary">Update profile</AppButton>
     </form>
     <hr style="margin: 10px 0" />
-    <p><strong>Account creation:</strong> {{ formatDate(parseInt(userStore.user?.created_timestamp || '0')) }}</p>
-    <p><strong>Last update:</strong> {{ formatDate(parseInt(userStore.user?.updated_timestamp || '0')) }}</p>
+    <p><strong>Account creation:</strong> {{ formatDate(userStore.user?.created_timestamp) }}</p>
+    <p><strong>Last update:</strong> {{ formatDate(userStore.user?.updated_timestamp) }}</p>
   </div>
 </template>
 

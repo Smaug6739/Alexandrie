@@ -68,11 +68,7 @@ const results = computed(() => {
 });
 const category = (id?: string) => nodesStore.getById(id || '');
 const recentDocuments = computed(() => {
-  return nodesStore.getAll
-    .toSorted((a, b) => {
-      return parseInt(b.updated_timestamp) - parseInt(a.updated_timestamp);
-    })
-    .slice(0, 3);
+  return nodesStore.getAll.toSorted((a, b) => b.updated_timestamp - a.updated_timestamp).slice(0, 3);
 });
 </script>
 <style scoped lang="scss">

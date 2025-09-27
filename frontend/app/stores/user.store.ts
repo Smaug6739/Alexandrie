@@ -30,7 +30,7 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    async register(user: Omit<User, 'id' | 'created_timestamp'>) {
+    async register(user: Omit<User, 'id' | 'created_timestamp' | 'updated_timestamp'>): Promise<boolean> {
       const request = await makeRequest('users', 'POST', user);
       if (request.status === 'success') return true;
       throw request.message;
@@ -44,9 +44,9 @@ export const useUserStore = defineStore('user', {
         return this.user;
       } else throw responce.message;
     },
-    async fetchPublicUser(id: string): Promise<PublicUser | undefined> {
+    async fetchPublicUser(id: string): Promise<PublicUser | null> {
       if (this.users[id]) return this.users[id];
-      if (this.current_fetching.includes(id)) return;
+      if (this.current_fetching.includes(id)) return null;
       this.current_fetching.push(id);
       const response = await makeRequest<PublicUser[]>(`users/public/${id}`, 'GET', {});
       if (response.status === 'success' && response.result?.length) {

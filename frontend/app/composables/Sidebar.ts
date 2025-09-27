@@ -8,6 +8,7 @@ const active_id = ref<string | null>(null);
 const toggleSidebar = () => (isOpened.value = !isOpened.value);
 
 const filtered = computed(() => {
+  const { tree } = useSidebarTree();
   const found = tree.value.find(i => i.id === workspaceId.value);
   if (found) return found.childrens || [];
   if (workspaceId.value === 'shared') return tree.value.filter(i => i.data && i.data.shared);

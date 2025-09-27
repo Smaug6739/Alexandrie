@@ -7,8 +7,8 @@
           <Icon name="close" :big="true" />
         </button>
         <component
-          :style="{ padding: modal.options.noPadding ? '0' : '16px 22px' }"
           :is="modal.component"
+          :style="{ padding: modal.options.noPadding ? '0' : '16px 22px' }"
           v-bind="modal.options.props"
           class="modal"
           :class="modal.options.size"

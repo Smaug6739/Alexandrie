@@ -5,31 +5,7 @@ export interface DB_Node {
   name: string;
   description?: string;
   tags?: string;
-  role: -1 | 1 | 2 | 3 | 4; // 1: Workspace; 2: Category; 3: Document; 4: Ressource
-  color?: number; // -1: Default; 0: None; 1-7: App colors
-  icon?: string;
-  thumbnail?: string;
-  theme?: string;
-  accessibility?: number; // 1 Visible; 2 Draft; 3 Archived;
-  display?: number; // 1 List; 2 Grid;
-  order?: number; // -1 for pinned and -2 for bookmark
-  content?: string;
-  content_compiled?: string;
-  size?: number; // in bytes
-  metadata?: Record<string, unknown>;
-  created_timestamp: number;
-  updated_timestamp: number;
-
-  permissions?: Permission[];
-}
-export interface DB_Node {
-  id: string;
-  user_id: string;
-  parent_id?: string;
-  name: string;
-  description?: string;
-  tags?: string;
-  role: 4; // 1: Workspace; 2: Category; 3: Document; 4: Ressource
+  role: -1 | 1 | 2 | 3 | 4; // 1: Workspace; 2: Category; 3: Document; 4: Ressource; -1: Internal (frontend use only)
   color?: number; // -1: Default; 0: None; 1-7: App colors
   icon?: string;
   thumbnail?: string;
@@ -46,8 +22,10 @@ export interface DB_Node {
     original_path?: string;
     transformed_path?: string;
   };
-  created_timestamp: string;
-  updated_timestamp: string;
+  created_timestamp: number;
+  updated_timestamp: number;
+
+  permissions?: Permission[];
 }
 
 export interface Permission {
@@ -55,7 +33,7 @@ export interface Permission {
   user_id: string;
   node_id: string;
   permission: number; // 1: Read; 2: Write; 3: Admin;
-  created_timestamp: string;
+  created_timestamp: number;
 }
 
 export interface Node extends DB_Node {
@@ -73,8 +51,8 @@ export interface User {
   avatar?: string;
   password?: string;
   email: string;
-  created_timestamp: string;
-  updated_timestamp: string;
+  created_timestamp: number;
+  updated_timestamp: number;
 }
 
 export interface PublicUser {
@@ -82,8 +60,8 @@ export interface PublicUser {
   username: string;
   avatar?: string;
   email: string;
-  created_timestamp: string;
-  updated_timestamp: string;
+  created_timestamp: number;
+  updated_timestamp: number;
 }
 
 export interface ConnectionLog {
@@ -93,5 +71,5 @@ export interface ConnectionLog {
   user_agent?: string;
   location?: string;
   type: string;
-  timestamp: string; // BIGINT converted to string
+  timestamp: number;
 }
