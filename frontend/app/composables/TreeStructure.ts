@@ -10,6 +10,7 @@ export interface ANode {
 export interface Item<T = Node> extends ANode {
   id: string;
   route: string;
+  onClick?: () => void;
   data: T;
   show: Ref<boolean>;
   childrens?: Item<T>[];
