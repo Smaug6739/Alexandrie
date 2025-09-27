@@ -11,7 +11,8 @@
   >
     <Icon :name="icon" :class="customClass" />&nbsp;
 
-    <NuxtLink :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
+    <NuxtLink v-if="item.onClick" style="flex: 1" class="close" @click="item.onClick">{{ item.label }}</NuxtLink>
+    <NuxtLink v-else :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
 
     <Icon v-if="item.data.shared && !item.parent_id" name="users" fill="var(--font-color)" />
 
@@ -27,11 +28,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Node } from '~/stores';
 import { navigationItems, type DefaultItem } from './helpers';
+import type { Node } from '~/stores';
+
 const nodesStore = useNodesStore();
 const { isOpened } = useSidebar();
 const props = defineProps<{ item: Item | DefaultItem }>();
+const isDragOver = ref<boolean>(false);
+
 const customClass = computed(() => {
   if ('color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
     return `item-icon ${getAppColor(props.item.data.color as number)}`;
@@ -42,12 +46,10 @@ const icon = computed(() => {
   return props.item.icon || '';
 });
 
-const isDragOver = ref<boolean>(false);
-
 const onClick = (m: MouseEvent) => {
   // if element does not have the "close" class, don't close the sidebar
   if (!(m.target as HTMLElement).closest('.close')) return;
-  if (isMobile() && props.item.route) isOpened.value = false;
+  if (isMobile() && (props.item.route || props.item.onClick)) isOpened.value = false;
 };
 
 const dragStart = (event: DragEvent) => {

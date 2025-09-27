@@ -1,6 +1,7 @@
-import type { Node } from '~/stores';
+import SettingsModal from '@/pages/dashboard/settings/modal.vue';
+import type { Node } from '@/stores';
 
-export type DefaultItem = Item<Omit<Node, 'user_id' | 'data' | 'show' | 'created_timestamp' | 'updated_timestamp'>>;
+export type DefaultItem = Item<Omit<Node, 'user_id' | 'data' | 'show' | 'access' | 'created_timestamp' | 'updated_timestamp'>>;
 export interface Workspace {
   text: string;
   value?: string;
@@ -60,8 +61,12 @@ export const navigationItems: DefaultItem[] = [
     id: 'settings',
     parent_id: '',
     label: 'Settings',
-    route: '/dashboard/settings',
+    route: '',
     icon: 'user_settings',
+    onClick: () => {
+      if (isMobile()) useRouter().push('/dashboard/settings');
+      else useModal().add(new Modal(shallowRef(SettingsModal), { props: {}, size: 'large', noPadding: true }));
+    },
     data: {
       id: 'settings',
       role: -1,
