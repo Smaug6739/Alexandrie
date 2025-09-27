@@ -39,7 +39,7 @@ const nodeStore = useNodesStore();
 const props = defineProps<{ doc: Node }>();
 const node = ref<Node>(props.doc);
 const pinnedToggle = ref(node.value.order == -1);
-const parentsTree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 3)).generateTree().filter(i => i.data.role === 1));
+const parentsTree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 3)).generateTree());
 
 watch(pinnedToggle, val => (node.value.order = val ? -1 : 0));
 watch(

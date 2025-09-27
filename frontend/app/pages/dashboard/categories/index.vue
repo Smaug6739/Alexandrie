@@ -32,7 +32,7 @@ import WorkspaceTree from './_components/WorkspaceTree.vue';
 import type { Node } from '~/stores';
 
 const filter = ref('');
-const tree = computed(() => new TreeStructure(useSidebarTree().nodes.value).generateTree().filter(c => c.data.role === 1) as Item<Node>[]);
+const tree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 2)).generateTree());
 
 const filteredItems = computed(() => {
   if (!filter.value.trim()) return tree.value;
