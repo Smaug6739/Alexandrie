@@ -38,6 +38,7 @@ const props = defineProps<{ role: 1 | 2 }>();
 const category = ref<Partial<Node>>({
   name: '',
   role: props.role,
+  accessibility: 1,
   parent_id: sidebarTree.getCategoryFromNode(sidebar.active_id.value)?.id || sidebar.workspaceId.value,
 });
 const emit = defineEmits(['close']);
