@@ -228,7 +228,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 
 	allowed, level, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionUpdate)
 
-	// Special case: The document is public (accessibility = 3) and access < 2 (write or admin)
+	// Special case: The document is public (accessibility = 3) and access < 2 (user is viewer or none)
 	if !allowed && (dbNode.Access < 2 || *dbNode.Accessibility != 3) {
 		return http.StatusUnauthorized, err
 	}

@@ -113,8 +113,9 @@ const searchUsers = debounce((query: unknown) => {
 }, 750);
 
 watch(
-  node.value,
+  node,
   debounce(() => nodesStore.update(node.value), 500),
+  { deep: true },
 );
 const addPermission = async (user: PublicUser) => {
   if (!user) return;
