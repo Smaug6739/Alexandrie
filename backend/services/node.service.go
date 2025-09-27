@@ -138,14 +138,14 @@ func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 			nodeIDs = append(nodeIDs, n.Id)
 		}
 
-		query := `SELECT id, node_id, user_id, permission, created_timestamp FROM permissions WHERE node_id IN (?` + strings.Repeat(",?", len(nodeIDs)-1) + `)`
+		query := `SELECT id, node_id, user_id, permission, created_timestamp FROM permissions WHERE user_id = ? AND node_id IN (?` + strings.Repeat(",?", len(nodeIDs)-1) + `)`
 		stmt, err := s.db.Prepare(query)
 		if err != nil {
 			return nil, err
 		}
 		defer stmt.Close()
 
-		args := nodeIDs
+		args := append([]interface{}{userId}, nodeIDs...)
 		permRows, err := stmt.Query(args...)
 		if err != nil {
 			return nil, err
