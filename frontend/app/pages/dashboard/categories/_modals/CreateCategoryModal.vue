@@ -5,7 +5,7 @@
     <input id="name" v-model="category.name" class="entry" type="text" required placeholder="Display name" />
     <label>Parent</label>
     <div>
-      <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" placeholder="Select a category parent" />
+      <AppSelect v-model="category.parent_id" :nullable="true" class="entry" :items="categoriesItem" placeholder="Select a category parent" />
     </div>
     <div style="display: flex">
       <div style="flex: 1; margin-right: 10px">
@@ -30,9 +30,7 @@ import type { Node } from '~/stores';
 const categoriesStore = useNodesStore();
 const sidebarTree = useSidebarTree();
 const sidebar = useSidebar();
-const categoriesItem = computed(() =>
-  new TreeStructure(sidebarTree.nodes.value.filter(c => c.data.role == 1 || c.data.role == 2)).generateTree().filter(i => i.data.role == 1),
-);
+const categoriesItem = computed(() => new TreeStructure(sidebarTree.nodes.value.filter(c => c.data.role == 1 || c.data.role == 2)).generateTree());
 const props = defineProps<{ role: 1 | 2 }>();
 
 const category = ref<Partial<Node>>({
