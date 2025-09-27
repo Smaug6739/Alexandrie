@@ -6,7 +6,14 @@
         <button class="close-btn" @click="modalManager.close(modal)">
           <Icon name="close" :big="true" />
         </button>
-        <component :is="modal.component" v-bind="modal.options.props" class="modal" :class="modal.options.size" @close="modalManager.close(modal)" />
+        <component
+          :style="{ padding: modal.options.noPadding ? '0' : '16px 22px' }"
+          :is="modal.component"
+          v-bind="modal.options.props"
+          class="modal"
+          :class="modal.options.size"
+          @close="modalManager.close(modal)"
+        />
       </div>
     </div>
   </TransitionGroup>
@@ -36,7 +43,6 @@ const modals = modalManager.modals;
   width: 90%;
   max-width: 750px;
   margin: auto;
-  padding: 16px 22px;
   border-radius: 10px;
   font-size: initial;
   background-color: var(--bg-color);
