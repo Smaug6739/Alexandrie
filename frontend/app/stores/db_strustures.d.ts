@@ -10,7 +10,7 @@ export interface DB_Node {
   icon?: string;
   thumbnail?: string;
   theme?: string;
-  accessibility?: number; // 1 Visible; 2 Draft; 3 Archived;
+  accessibility: number; // 1 Visible; 2 Draft; 3 Archived;
   access: number; // 1 Viewer; 2 Editor;
   display?: number; // 1 List; 2 Grid;
   order?: number; // -1 for pinned and -2 for bookmark
