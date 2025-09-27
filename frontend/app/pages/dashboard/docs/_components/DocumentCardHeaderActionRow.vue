@@ -68,6 +68,7 @@ function exportMarkdown() {
   display: flex;
   margin: 0 0.5rem 6px 0;
 }
+
 .row svg {
   cursor: pointer;
 }

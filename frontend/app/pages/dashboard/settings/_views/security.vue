@@ -73,7 +73,7 @@
         <li>All your account data (preferences, profile...)</li>
       </ul>
       <p>
-        You can <NuxtLink to="/dashboard/settings?p=backup" style="text-decoration: underline; color: var(--primary)">export your data</NuxtLink> before
+        You can <NuxtLink to="/dashboard/settings?p=backup" style=" color: var(--primary);text-decoration: underline">export your data</NuxtLink> before
         deleting your account.
       </p>
     </div>

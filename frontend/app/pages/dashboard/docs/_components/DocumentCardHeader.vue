@@ -8,7 +8,7 @@
         <p class="top-row">
           <span style="display: flex; align-items: center; gap: 12px"
             ><img v-if="user" :src="useAvatar(user)" class="avatar" />
-            <span style="color: var(--font-color-light); font-size: 18px">{{ user?.username }}</span>
+            <span style=" font-size: 18px;color: var(--font-color-light)">{{ user?.username }}</span>
           </span>
           <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
         </p>
@@ -67,11 +67,12 @@ p {
   .title {
     font-family: Inter;
   }
+
   .top-row {
-    margin-top: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 6px;
   }
 
   .public {
@@ -79,21 +80,22 @@ p {
   }
 
   .title {
-    font-size: 26px;
-    font-weight: 550;
     margin: 6px 0;
     padding: 0;
+    font-size: 26px;
+    font-weight: 550;
     color: var(--font-color-dark);
   }
 
   .category {
     display: block;
-    padding-top: 8px;
     font-size: 20px;
     font-weight: 500;
     color: var(--font-color-light);
+    padding-top: 8px;
   }
 }
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -109,10 +111,11 @@ p {
 .avatar {
   width: 30px;
   height: 30px;
-  padding: 0;
   margin: 0;
+  padding: 0;
   border-radius: 50%;
 }
+
 @media print {
   .print-style {
     padding: 0;

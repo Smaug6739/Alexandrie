@@ -144,10 +144,11 @@ export interface Field<V = unknown> {
   border: 1.5px solid var(--border-color);
   border-radius: 8px;
 }
+
 .header {
   display: flex;
-  align-items: center;
   padding: 0 10px;
+  align-items: center;
 }
 
 .table-wrapper {

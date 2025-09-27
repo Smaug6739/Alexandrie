@@ -9,8 +9,8 @@ import IndexSettings from './index.vue';
 <style scoped lang="scss">
 .component {
   display: flex;
-  max-width: 1150px;
   width: 100%;
+  max-width: 1150px;
   height: 715px;
   max-height: 90vh;
   border-radius: 8px;
@@ -22,6 +22,7 @@ import IndexSettings from './index.vue';
     border-top-left-radius: 8px;
     gap: 1rem;
     overflow-y: auto;
+
     span {
       font-size: 0.9rem;
       font-weight: 500;
@@ -42,9 +43,11 @@ import IndexSettings from './index.vue';
         background-color: var(--bg-contrast-2);
       }
     }
+
     .title {
       display: block !important;
     }
+
     .user {
       display: flex !important;
       align-items: center;
@@ -60,6 +63,7 @@ import IndexSettings from './index.vue';
       }
     }
   }
+
   .content {
     margin: 0.5rem;
     padding: 1rem 2rem;

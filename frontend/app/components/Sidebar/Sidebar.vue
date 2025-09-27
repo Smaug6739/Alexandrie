@@ -136,9 +136,11 @@ onBeforeUnmount(() => {
     align-items: center;
   }
 }
+
 .nav-item:hover .hint-tooltip {
   display: block;
 }
+
 .icons {
   position: relative;
   display: flex;

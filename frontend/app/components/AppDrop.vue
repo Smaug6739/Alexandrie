@@ -97,40 +97,40 @@ defineExpose({ reset });
 
 .file-info {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   color: var(--primary);
+  align-items: center;
+  flex-direction: column;
 }
 
 .file-chip {
   display: inline-flex;
-  align-items: center;
-  background: var(--bg-contrast);
+  padding: 0 8px;
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 0 8px;
   font-size: 0.9rem;
   color: var(--font-color-dark);
+  background: var(--bg-contrast);
+  align-items: center;
   gap: 6px;
 }
 
 .file-name {
   max-width: 200px;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
 }
 
 .remove-btn {
-  background: transparent;
-  border: none;
-  color: var(--font-color-light);
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
   display: flex;
+  padding: 0;
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--font-color-light);
+  background: transparent;
   align-items: center;
+  cursor: pointer;
   justify-content: center;
 
   &:hover {

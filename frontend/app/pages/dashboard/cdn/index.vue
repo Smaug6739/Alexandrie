@@ -18,7 +18,7 @@
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
-            <span style="margin-left: 4px; height: 32px; border-left: 1px solid var(--border-color)"></span>
+            <span style=" height: 32px; border-left: 1px solid var(--border-color);margin-left: 4px"></span>
             <Icon name="delete" fill="var(--font-color-light)" class="action-btn" @click="bulkDelete(selected)" />
           </div>
         </template>
@@ -137,35 +137,39 @@ const bulkDelete = async (lines: Field[]) => {
 
 .bulk-actions {
   display: flex;
-  align-items: center;
   width: 100%;
+  align-items: center;
   gap: 8px;
 }
+
 .action-btn {
-  cursor: pointer;
-  transition: background-color 0.1s;
-  border-radius: 50%;
-  padding: 6px;
   width: 32px;
   height: 32px;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background-color 0.1s;
+  cursor: pointer;
+
   &:hover {
     background: var(--bg-ui);
   }
 }
+
 .selected-count {
-  color: var(--font-color-light);
-  font-weight: bold;
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  border-radius: 4px;
-  padding: 6px;
-  border: 1px solid var(--border-color);
+  display: flex;
   width: 32px;
   height: 36px;
-  display: flex;
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: Inter, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--font-color-light);
   align-items: center;
   justify-content: center;
 }
+
 .ressources-list {
   width: 100%;
 }

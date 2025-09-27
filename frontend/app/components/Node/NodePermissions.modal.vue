@@ -144,44 +144,46 @@ const removePermission = async (perm: Permission) => {
 }
 
 h2 {
-  font-size: 20px;
   display: flex;
+  font-size: 20px;
   align-items: center;
   gap: 10px;
 }
 
 form {
-  padding: 0 4px;
   display: flex;
+  padding: 0 4px;
   flex-direction: column;
   gap: 10px;
 }
 
 .user-card {
-  background-color: var(--bg-ui);
-  border-radius: 8px;
-  padding: 6px 10px;
   display: flex;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background-color: var(--bg-ui);
   flex-direction: column;
   gap: 8px;
 }
 
 .user-info-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .user-meta {
   display: flex;
   align-items: center;
   gap: 10px;
+
   .avatar {
     width: 30px;
     height: 30px;
     border-radius: 50%;
   }
 }
+
 .user-actions {
   display: flex;
   align-items: center;
@@ -189,9 +191,9 @@ form {
 }
 
 .info-secondary {
-  color: var(--font-color-light);
-  font-size: 14px;
   margin: 0;
+  font-size: 14px;
+  color: var(--font-color-light);
   text-align: center;
 }
 
@@ -227,9 +229,9 @@ button {
   padding: 4px 8px;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
-  background: var(--primary-color, #444);
   color: white;
+  background: var(--primary-color, #444);
+  cursor: pointer;
 }
 
 button:hover {
@@ -237,9 +239,9 @@ button:hover {
 }
 
 .permissions-list {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .permission-item {

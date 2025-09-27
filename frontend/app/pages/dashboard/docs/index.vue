@@ -60,14 +60,14 @@ h1 {
 }
 
 .line-item:first-child {
+  border-top: 1px solid var(--border-color);
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  border-top: 1px solid var(--border-color);
 }
 
 .line-item:last-child {
+  border-bottom: 1px solid var(--border-color);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
-  border-bottom: 1px solid var(--border-color);
 }
 </style>

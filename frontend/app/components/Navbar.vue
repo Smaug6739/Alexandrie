@@ -86,11 +86,10 @@ button {
 }
 
 kbd {
-  padding: 0px 4px;
-  border-radius: 4px;
-  font-weight: 600;
+  padding: 0 4px;
   border: 1px solid var(--font-color-light);
   border-radius: 4px;
+  font-weight: 600;
 }
 
 // Mobile styles

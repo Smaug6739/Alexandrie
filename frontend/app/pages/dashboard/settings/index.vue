@@ -75,9 +75,10 @@ watchEffect(() => {
 
   nav {
     padding: 1rem;
+    border-right: 1px solid var(--border-color);
     gap: 1rem;
     overflow-y: auto;
-    border-right: 1px solid var(--border-color);
+
     span {
       font-size: 0.9rem;
       font-weight: 500;
@@ -129,6 +130,7 @@ watchEffect(() => {
     border: none;
     background-color: var(--bg-contrast);
   }
+
   .content {
     margin: 0.5rem;
     padding: 1rem 2rem;

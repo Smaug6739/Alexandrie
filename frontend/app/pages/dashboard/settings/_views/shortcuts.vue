@@ -112,26 +112,29 @@
 <style scoped lang="scss">
 .shortcuts {
   display: flex;
-  flex-direction: column;
   border-radius: 12px;
-  font-weight: 400;
-  font-size: 16px;
   font-family: Inter;
-  text-size-adjust: 100%;
-  gap: 8px;
+  font-size: 16px;
+  font-weight: 400;
   background-color: var(--bg-ui);
+  flex-direction: column;
+  gap: 8px;
+  text-size-adjust: 100%;
 }
+
 p {
   font-size: 17px;
 }
+
 .shortcut {
   display: flex;
-  justify-content: space-between;
   padding: 8px 12px;
   border-radius: 8px;
   text-align: left;
   align-items: center;
   gap: 1rem;
+  justify-content: space-between;
+
   &:hover {
     background-color: var(--bg-ui);
   }
@@ -140,12 +143,12 @@ p {
 kbd {
   display: inline-block;
   padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
   font-family: Inter;
   font-size: 14px;
   font-weight: 400;
   color: var(--font-color-dark);
   background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
 }
 </style>

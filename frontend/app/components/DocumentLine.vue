@@ -39,9 +39,9 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
 .document-line {
   display: flex;
   padding: 12px;
-  border-top: 1px solid var(--border-color);
   border-left: 1px solid var(--border-color);
   border-right: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
   flex-direction: column;
 }
 

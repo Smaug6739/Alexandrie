@@ -183,8 +183,8 @@ onBeforeUnmount(() => {
 
 button,
 .search-input {
-  height: 34px;
   width: 100%;
+  height: 34px;
   padding: 6px 10px;
   border-radius: 6px;
   font-size: 1rem;

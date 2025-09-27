@@ -171,9 +171,11 @@ input {
 
 .help {
   margin-left: auto;
+
   &:hover:deep(svg) {
     fill: var(--font-color-dark);
   }
+
   button {
     margin: 0;
     padding: 4px 8px;

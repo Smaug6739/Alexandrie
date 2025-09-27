@@ -264,9 +264,11 @@ onMounted(() => {
   align-items: flex-start;
   gap: 16px;
 }
+
 .color-wheel-container {
   position: relative;
 }
+
 .color-wheel {
   border: 2px solid var(--border-color);
   border-radius: 12px;
@@ -291,6 +293,7 @@ onMounted(() => {
   flex-direction: column;
   gap: 16px;
 }
+
 .slider-container {
   position: relative;
 }
