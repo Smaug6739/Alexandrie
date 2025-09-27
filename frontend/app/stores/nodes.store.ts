@@ -155,6 +155,7 @@ export const useNodesStore = defineStore('nodes', {
       this.allTags = Array.from(tags).sort();
     },
     async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : Node[]> {
+      if (opts?.id && this.nodes.find(d => d.id == opts.id && !d.partial)) return this.nodes.find(d => d.id == opts.id) as 'id' extends keyof T ? Node : Node[];
       console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
       if (!this.nodes.length) this.isFetching = true;
       const request = await makeRequest(`nodes/@me/${opts?.id || ''}`, 'GET', {});
@@ -249,7 +250,7 @@ export const useNodesStore = defineStore('nodes', {
 
     async update(node: Node) {
       if (node.partial) {
-        console.log('[store/nodes] Node is partial, cannot update it directly.');
+        console.log('[store/nodes] Node looks partial, cannot update it directly.');
         const full_node = await this.fetch({ id: node.id });
         if (!full_node) throw 'Node not found';
         node = mergeNode(node, full_node);
