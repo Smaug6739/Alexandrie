@@ -15,6 +15,13 @@
     </div>
     <div v-if="sortedRessources.length" class="ressources-list">
       <DataTable v-if="view === 'table'" :headers="headers" :rows="rows">
+        <template #bulk-actions="{ selected }">
+          <div class="bulk-actions">
+            <span class="selected-count">{{ selected.length }}</span>
+            <span style="margin-left: 4px; height: 32px; border-left: 1px solid var(--border-color)"></span>
+            <Icon name="delete" fill="var(--font-color-light)" class="action-btn" @click="bulkDelete(selected)" />
+          </div>
+        </template>
         <template #action="{ cell }">
           <NuxtLink :href="`/dashboard/cdn/${(cell?.data as Node).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
           <NuxtLink :to="`/dashboard/cdn/${(cell?.data as Node).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
@@ -37,25 +44,30 @@
   </div>
 </template>
 <script setup lang="ts">
-import { readableFileSize } from '@/helpers/ressources';
-import type { Field } from '~/components/DataTable.vue';
 import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
-import type { Node } from '~/stores';
+import { readableFileSize } from '@/helpers/ressources';
+import type { Field } from '@/components/DataTable.vue';
+import type { Node } from '@/stores';
+
 definePageMeta({ breadcrumb: 'Upload' });
+
 const router = useRouter();
 const ressourcesStore = useRessourcesStore();
 const nodesStore = useNodesStore();
+
 const view = ref<'table' | 'list'>('list');
 const selectedFile: Ref<File | undefined> = ref();
 const fileLink = ref('');
 const isLoading = ref(false);
+const dropComponent = ref();
+
+const sortedRessources = computed(() => [...nodesStore.ressources].sort((a, b) => b.created_timestamp - a.created_timestamp));
+
 const selectFile = (file?: File) => (selectedFile.value = file);
 const copyLink = () => navigator.clipboard.writeText(fileLink.value!);
-const dropComponent = ref();
 const submitFile = async () => {
   if (!selectedFile.value) return;
   isLoading.value = true;
-
   const body = new FormData();
   body.append('file', selectedFile.value);
   selectedFile.value = undefined; // Reset selected file
@@ -66,8 +78,6 @@ const submitFile = async () => {
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }))
     .finally(() => (isLoading.value = false));
 };
-
-const sortedRessources = computed(() => [...nodesStore.ressources].sort((a, b) => b.created_timestamp - a.created_timestamp));
 
 const fileURL = (ressource: Node) => {
   if ((ressource.metadata?.filetype as string)?.includes('image/')) return `${CDN}/${ressource.user_id}/${ressource.metadata?.transformed_path as string}`;
@@ -81,6 +91,7 @@ const headers = [
   { label: 'Date', key: 'date' },
   { label: 'Action', key: 'action' },
 ];
+
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
 const rows: ComputedRef<Field[]> = computed(() =>
   sortedRessources.value.map(res => {
@@ -98,7 +109,11 @@ const rows: ComputedRef<Field[]> = computed(() =>
 );
 
 const deleteRessource = async (id: string) => {
-  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressourceId: id } }));
+  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressources: [id] }, size: 'small' }));
+};
+const bulkDelete = async (lines: Field[]) => {
+  const ressourcesIds = lines.map(line => (line.action?.data as Node | undefined)?.id).filter((id): id is string => !!id);
+  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressources: ressourcesIds }, size: 'small' }));
 };
 </script>
 
@@ -120,6 +135,37 @@ const deleteRessource = async (id: string) => {
   border-top: 5px solid var(--primary);
 }
 
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+}
+.action-btn {
+  cursor: pointer;
+  transition: background-color 0.1s;
+  border-radius: 50%;
+  padding: 6px;
+  width: 32px;
+  height: 32px;
+  &:hover {
+    background: var(--bg-ui);
+  }
+}
+.selected-count {
+  color: var(--font-color-light);
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  border-radius: 4px;
+  padding: 6px;
+  border: 1px solid var(--border-color);
+  width: 32px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .ressources-list {
   width: 100%;
 }
