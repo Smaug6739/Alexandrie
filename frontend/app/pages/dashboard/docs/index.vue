@@ -5,6 +5,7 @@
         <Icon :name="category.icon || category?.icon || 'files'" :class="`category-icon ${getAppColor(category.color || category?.color as number, true)}`" />
         {{ category.name }}
       </h1>
+      <h1 v-else>All documents</h1>
       <ViewSelection v-model="view" />
     </header>
     <template v-if="documents.length">
