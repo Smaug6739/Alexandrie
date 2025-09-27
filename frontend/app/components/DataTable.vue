@@ -1,10 +1,19 @@
 <template>
   <div class="container">
-    <input v-model="searchInput" type="text" placeholder="Search..." />
+    <div class="header">
+      <input v-model="searchInput" type="text" placeholder="Search..." />
+      <!-- Actions groupées (slot) -->
+      <slot v-if="selectedRows.length > 0" name="bulk-actions" :selected="selectedRows"> </slot>
+    </div>
+
     <div class="table-wrapper">
       <table>
         <thead>
           <tr>
+            <!-- Case "Select all" -->
+            <th>
+              <input type="checkbox" style="width: 20px" :checked="selectedRows.length > 0" @change="toggleSelectAll" />
+            </th>
             <th v-for="header in headers" :key="header.key">
               {{ header.label }}
             </th>
@@ -12,6 +21,10 @@
         </thead>
         <tbody>
           <tr v-for="(row, index) in data" :key="index">
+            <!-- Case à cocher -->
+            <td>
+              <input v-model="selectedRows" type="checkbox" :value="row" style="width: 20px" />
+            </td>
             <td v-for="header in headers" :key="header.key">
               <!-- eslint-disable-next-line vue/no-v-html -->
               <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content" />
@@ -21,6 +34,8 @@
               <span v-else v-text="row[header.key]?.content" />
             </td>
           </tr>
+
+          <!-- Footer -->
           <tr>
             <td colspan="100%">
               <div class="footer">
@@ -66,10 +81,12 @@
 
 <script lang="ts" setup>
 import { Paginator } from '../helpers/paginator';
+
 const props = defineProps<{ headers: Header[]; rows: Field[] }>();
 const itemsPerPage = ref(usePreferences().get('datatableItemsCount').value || 10);
 const searchInput = ref('');
 
+// Pagination + filter
 const paginator = new Paginator<Field>(
   computed(() => props.rows),
   itemsPerPage.value,
@@ -79,8 +96,16 @@ paginator.filter(row => {
 });
 const data = paginator.currentPageItems;
 
-const maxVisiblePages = 3; // Number of pages to show around the current page
+// Gestion de la sélection
+const selectedRows = ref<Field[]>([]);
 
+const toggleSelectAll = () => {
+  if (selectedRows.value.length) selectedRows.value = [];
+  else selectedRows.value = [...data.value];
+};
+
+// Pagination (visible pages logic)
+const maxVisiblePages = 3;
 const visiblePages = computed(() => {
   const totalPages = paginator.totalPages.value;
   const currentPage = paginator.currentPage.value;
@@ -99,15 +124,16 @@ const shouldShowEllipsisBefore = computed(() => {
   return firstVisiblePage !== undefined && firstVisiblePage > 2;
 });
 
+// Types
 interface Header {
   key: string;
   label: string;
 }
-export interface Field {
+export interface Field<V = unknown> {
   [key: string]: {
     content?: string;
     type: 'html' | 'text' | 'slot' | undefined;
-    data?: unknown;
+    data?: V;
   };
 }
 </script>
@@ -117,6 +143,11 @@ export interface Field {
   width: 100%;
   border: 1.5px solid var(--border-color);
   border-radius: 8px;
+}
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .table-wrapper {
