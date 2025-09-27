@@ -98,6 +98,7 @@ onMounted(() => {
     }
     if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && isOpen.value) {
       e.preventDefault();
+      e.stopImmediatePropagation();
       return changeTab(activeTab.value === 'quick' ? 'advanced' : 'quick');
     }
   };
