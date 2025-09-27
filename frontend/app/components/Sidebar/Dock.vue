@@ -20,7 +20,7 @@
       <Icon name="users" fill="var(--font-color)" :big="true" />
     </NuxtLink>
     <div style="margin-top: auto">
-      <NuxtLink to="/dashboard/settings">
+      <NuxtLink @click="openSettings">
         <Icon name="settings" fill="var(--font-color)" :big="true" />
       </NuxtLink>
       <NuxtLink @click="closeDock">
@@ -31,6 +31,10 @@
 </template>
 
 <script setup lang="ts">
+import SettingsModal from '@/pages/dashboard/settings/modal.vue';
+const openSettings = () => {
+  useModal().add(new Modal(shallowRef(SettingsModal), { props: {}, size: 'large', noPadding: true }));
+};
 function closeDock() {
   usePreferences().set('view_dock', false);
 }
