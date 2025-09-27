@@ -14,8 +14,12 @@
         All workspaces
       </h1>
       <div style="display: flex; align-items: center; gap: 8px">
-        <NuxtLink v-if="parent" @click="openPermissionsModal"><Icon name="manage_access" :big="true" fill="var(--font-color)" /></NuxtLink>
-        <NuxtLink v-if="parent" :to="`/dashboard/categories/${parent?.id}/edit`"><Icon name="settings" :big="true" fill="var(--font-color)" /></NuxtLink>
+        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" @click="openPermissionsModal"
+          ><Icon name="manage_access" :big="true" fill="var(--font-color)"
+        /></NuxtLink>
+        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" :to="`/dashboard/categories/${parent?.id}/edit`"
+          ><Icon name="settings" :big="true" fill="var(--font-color)"
+        /></NuxtLink>
         <span class="doc-count">{{ nodes.length }}</span>
         <ViewSelection v-model="view" />
       </div>
