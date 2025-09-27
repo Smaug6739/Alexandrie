@@ -83,9 +83,12 @@ const link = computed(() => `${window.location.origin}/doc/${node.value?.id}`);
 const searchError = ref<string | null>(null);
 const isLoading = ref(0);
 
-for (const perm of node.value.permissions) {
-  usersStore.fetchPublicUser(perm.user_id);
-}
+watchEffect(() => {
+  if (node.value.partial) nodesStore.fetch({ id: node.value.id }).then(fetched => (node.value = fetched));
+  for (const perm of node.value.permissions) {
+    usersStore.fetchPublicUser(perm.user_id);
+  }
+});
 
 watch(query, async newQuery => {
   users.value = [];
