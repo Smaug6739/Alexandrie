@@ -28,7 +28,7 @@
 
       <span>Other</span>
       <NuxtLink @click="setPage('about')"><Icon fill="var(--font-color)" name="view" />About</NuxtLink>
-      <NuxtLink @click="logoutUser"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
+      <NuxtLink @click="logout"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
     </nav>
     <div class="content">
       <ProfileView v-if="currentPage === 'profile'" />
@@ -58,12 +58,17 @@ import AdvancedView from './_views/advanced.vue';
 const route = useRoute();
 const store = useUserStore();
 defineProps<{ isModal?: boolean }>();
+const emit = defineEmits<{ (e: 'close'): void }>();
 const currentPage = ref(route.query.p || 'profile');
 
 const setPage = (p: string) => (currentPage.value = p);
 watchEffect(() => {
   if (route.query.p && typeof route.query.p === 'string') currentPage.value = route.query.p;
 });
+const logout = () => {
+  logoutUser();
+  emit('close');
+};
 </script>
 
 <style scoped lang="scss">
