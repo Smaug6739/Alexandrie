@@ -15,9 +15,9 @@
       <NuxtLink @click="setPage('security')"><Icon fill="var(--font-color)" name="security" />Security</NuxtLink>
       <NuxtLink @click="setPage('backup')"><Icon fill="var(--font-color)" name="backup" />Backup</NuxtLink>
       <span>Workspaces</span>
-      <NuxtLink to="/dashboard/categories"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
-      <NuxtLink to="/dashboard/docs"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
-      <NuxtLink to="/dashboard/import" style="display: flex; align-items: center"
+      <NuxtLink to="/dashboard/categories" @click="close"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
+      <NuxtLink to="/dashboard/docs" @click="close"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
+      <NuxtLink to="/dashboard/import" @click="close" style="display: flex; align-items: center"
         ><Icon fill="var(--font-color)" name="import" />Manage importations <tag yellow>Beta</tag></NuxtLink
       >
       <span>Utils <tag blue>New</tag></span>
@@ -69,6 +69,7 @@ const logout = () => {
   logoutUser();
   emit('close');
 };
+const close = () => emit('close');
 </script>
 
 <style scoped lang="scss">
