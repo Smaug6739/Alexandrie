@@ -81,7 +81,7 @@ const users = ref<PublicUser[]>([]);
 const selectedPermission = ref(1);
 const link = computed(() => `${window.location.origin}/doc/${node.value?.id}`);
 const searchError = ref<string | null>(null);
-const isLoading = ref(0);
+const isLoading = ref(false);
 
 watchEffect(() => {
   if (node.value.partial) nodesStore.fetch({ id: node.value.id }).then(fetched => (node.value = fetched));
@@ -94,11 +94,11 @@ watch(query, async newQuery => {
   users.value = [];
   searchError.value = null;
   if (!newQuery) return;
+  isLoading.value = true;
   searchUsers(newQuery);
 });
 
 const searchUsers = debounce((query: unknown) => {
-  isLoading.value += 1;
   usersStore
     .searchFetch(query as string)
     .then(fetchedUsers => {
@@ -109,11 +109,11 @@ const searchUsers = debounce((query: unknown) => {
       users.value = [];
       searchError.value = 'No results found';
     })
-    .finally(() => (isLoading.value -= 1));
+    .finally(() => (isLoading.value = false));
 }, 750);
 
 watch(
-  node,
+  () => node.value.accessibility + node.value.access,
   debounce(() => nodesStore.update(node.value), 500),
   { deep: true },
 );
