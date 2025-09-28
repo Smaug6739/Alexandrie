@@ -42,7 +42,7 @@ const customClass = computed(() => {
   return 'default-icon';
 });
 const icon = computed(() => {
-  if (props.item.data.icon) return props.item.data.icon;
+  if (props.item.icon === 'file' && props.item.childrens?.length) return 'file_parent';
   return props.item.icon || '';
 });
 

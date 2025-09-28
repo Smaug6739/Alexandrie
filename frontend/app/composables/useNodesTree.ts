@@ -2,15 +2,11 @@ import type { Node } from '~/stores';
 
 let nodes: ComputedRef<Item<Node>[]> | Ref<Item<Node>[]> = ref([]);
 const structure = computed(() => new TreeStructure(nodes.value));
-const preferences = usePreferences();
 
 const resolveIcon = (item: Node) => {
   if (item.role === 1) return item.icon || 'workspace';
   if (item.role === 2) return item.icon || (item.shared ? 'shared_folder' : 'folder');
-  if (item.role === 3) {
-    if (!preferences.get('normalizeFileIcons').value && structure.value.childrenMap.get(item.id)?.length) return 'file_parent';
-    return item.accessibility == 1 ? 'file' : item.accessibility == 2 ? 'draft' : 'shared_doc';
-  }
+  if (item.role === 3) return item.accessibility == 1 ? 'file' : item.accessibility == 2 ? 'draft' : 'shared_doc';
   if (item.role === 4) return item.metadata?.filetype == 'application/pdf' ? 'pdf' : 'image';
   return 'file';
 };
@@ -47,7 +43,7 @@ function useSidebarTree() {
               parent_id: node.role !== 1 ? node.parent_id || '' : '',
               label: node.name,
               route: resolveLink(node),
-              icon: resolveIcon(node),
+              icon: ref(resolveIcon(node)).value,
               data: node,
               show: ref(getCollapseState(node.id)),
             }))
