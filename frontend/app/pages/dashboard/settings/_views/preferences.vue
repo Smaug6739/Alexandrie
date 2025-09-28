@@ -61,8 +61,8 @@
 
     <div class="reset">
       <p>
-        <span style="color: var(--primary); cursor: pointer" @click="preferencesStore.reset"> Reset all preferences </span>
-        to default.
+        You can reset your preferences in the
+        <NuxtLink to="/dashboard/settings?p=advanced">advanced page</NuxtLink> settings. Be careful, this action cannot be undone.
       </p>
     </div>
   </div>
@@ -224,6 +224,17 @@ const options = ref<{ label: string; options: Option[] }[]>([
       },
     ],
   },
+  {
+    label: 'Other',
+    options: [
+      {
+        label: 'Developer Mode',
+        type: 'toggle',
+        key: 'developerMode',
+        value: Boolean(preferencesStore.get('developerMode')),
+      },
+    ],
+  },
 ]);
 </script>
 
@@ -270,5 +281,10 @@ h3 {
 
 .reset {
   margin-top: 2rem;
+  a {
+    color: var(--primary);
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 </style>

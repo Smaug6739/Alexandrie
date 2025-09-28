@@ -12,7 +12,7 @@
       <button @click="action('duplicate')"><Icon fill="var(--font-color)" name="duplicate" /> Duplicate</button>
     </template>
     <button @click="action('copyLink')"><Icon fill="var(--font-color)" name="link" /> Copy link</button>
-    <button @click="action('copyId')"><Icon fill="var(--font-color)" name="snippets" /> Copy ID</button>
+    <button v-if="preferences.get('developerMode').value" @click="action('copyId')"><Icon fill="var(--font-color)" name="snippets" /> Copy ID</button>
     <template v-if="nodesStore.hasPermissions(node, 2)">
       <hr style="margin: 2px 0" />
       <button @click="action('delete')"><Icon name="delete" fill="red" /> Delete</button>
@@ -36,6 +36,7 @@ const user = ref<PublicUser | null>(null);
 
 const userStore = useUserStore();
 const nodesStore = useNodesStore();
+const preferences = usePreferences();
 
 watchEffect(async () => {
   if (props.node) user.value = await userStore.fetchPublicUser(props.node.user_id);

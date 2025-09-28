@@ -56,12 +56,16 @@ import AboutView from './_views/about.vue';
 import AdvancedView from './_views/advanced.vue';
 
 const route = useRoute();
+const router = useRouter();
 const store = useUserStore();
 defineProps<{ isModal?: boolean }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
 const currentPage = ref(route.query.p || 'profile');
 
-const setPage = (p: string) => (currentPage.value = p);
+const setPage = (p: string) => {
+  router.push({ query: { ...route.query, p: '' } });
+  currentPage.value = p;
+};
 watchEffect(() => {
   if (route.query.p && typeof route.query.p === 'string') currentPage.value = route.query.p;
 });

@@ -40,6 +40,7 @@ export const DEFAULT_PREFERENCES = {
   ] as ANode[],
   editorFontFamily: 'JetBrains Mono' as string,
   editorFontSize: 14 as number,
+  developerMode: false as boolean,
 };
 
 // Crée un type mapping automatique : chaque clé => type exact
