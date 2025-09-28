@@ -78,9 +78,9 @@ SELECT * FROM user_nodes ORDER BY role, 'order' DESC, name;`, userId)
 func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error) {
 	var nodes = make([]*models.Node, 0)
 
-	// 1. Get all accessible nodes (owned or shared, including children of owned/shared nodes)
+	// 1. Get all shared nodes (shared, including children of shared nodes)
 	rows, err := s.db.Query(`
-		WITH RECURSIVE accessible_nodes AS (
+		WITH RECURSIVE shared_nodes AS (
 		    SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
 		           n.accessibility, n.access, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
 		    FROM nodes n
@@ -92,9 +92,9 @@ func (s *Service) GetSharedNodes(userId types.Snowflake) ([]*models.Node, error)
 		    SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
 		           c.accessibility, c.access, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
 		    FROM nodes c
-		    JOIN accessible_nodes an ON an.id = c.parent_id
+		    JOIN shared_nodes an ON an.id = c.parent_id
 		)
-		SELECT * FROM accessible_nodes;
+		SELECT * FROM shared_nodes;
 	`, userId)
 	if err != nil {
 		return nil, err

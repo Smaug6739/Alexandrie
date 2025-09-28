@@ -54,7 +54,7 @@ func (s *Service) GetNodePermission(nodeId types.Snowflake) ([]*models.Permissio
 
 func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) (bool, int) {
 	var perm int
-	err := s.db.QueryRow(`
+	s.db.QueryRow(`
 		WITH RECURSIVE ancestors AS (
 			-- Start with the given node
 			SELECT id, parent_id
@@ -81,7 +81,7 @@ func (s *Service) HasPermission(userId, nodeId types.Snowflake, required int) (b
 
 	// Case 2 : Not enough permissions → check if owner of an ancestor
 	var owns int
-	err = s.db.QueryRow(`
+	err := s.db.QueryRow(`
 		WITH RECURSIVE ancestors AS (
 			SELECT id, parent_id, user_id
 			FROM nodes
