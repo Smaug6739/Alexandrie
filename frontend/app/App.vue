@@ -1,6 +1,7 @@
 <template>
   <div style="height: 100vh">
     <ModalManager />
+    <ContextMenuManager />
     <NuxtPage />
     <Notification />
   </div>

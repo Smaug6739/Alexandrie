@@ -8,7 +8,7 @@ export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : f
 // Intermediate screen size
 export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
-export function useAvatar(user?: User | PublicUser): string {
+export function useAvatar(user?: User | PublicUser | null): string {
   return user?.avatar ? CDN + '/' + user.id + '/avatar' : '/default_avatar.avif';
 }
 

@@ -4,16 +4,15 @@
     <form v-if="category" @submit.prevent>
       <div class="form-row">
         <div class="form-column">
-          <label>ID</label>
-          <input id="id" v-model="category.id" type="text" disabled />
+          <label>Name</label>
+          <input id="name" v-model="category.name" type="text" required />
         </div>
         <div class="form-column">
           <label>Role</label>
           <AppRadio v-model="category.role" :items="CATEGORY_ROLES" />
         </div>
       </div>
-      <label>Name</label>
-      <input id="name" v-model="category.name" type="text" required />
+
       <div class="form-row">
         <div class="form-column">
           <label>Parent</label>
@@ -40,6 +39,9 @@
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
       </div>
     </form>
+    <div v-if="category" class="infos">
+      <p>ID: {{ category.id }}</p>
+    </div>
   </div>
 </template>
 

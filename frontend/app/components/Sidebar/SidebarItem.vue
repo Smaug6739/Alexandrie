@@ -8,6 +8,7 @@
     @dragover.prevent="dragOver"
     @drop="drop"
     @dragleave="dragLeave"
+    @contextmenu.prevent="showContextMenu"
   >
     <Icon :name="icon" :class="customClass" />&nbsp;
 
@@ -22,12 +23,13 @@
     <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
       <Icon name="plus" fill="var(--font-color)" />
     </NuxtLink>
-    <Icon v-if="item.data.role === 3 && item.data.order === -1" name="pin" fill="var(--font-color-light)" class="ni" />
+    <Icon v-if="item.data.role < 4 && item.data.order === -1" name="pin" fill="var(--font-color-light)" class="ni" />
     <slot />
   </span>
 </template>
 
 <script setup lang="ts">
+import NodeContextMenu from '../Node/NodeContextMenu.vue';
 import { navigationItems, type DefaultItem } from './helpers';
 import type { Node } from '~/stores';
 
@@ -52,6 +54,14 @@ const onClick = (m: MouseEvent) => {
   if (isMobile() && (props.item.route || props.item.onClick)) isOpened.value = false;
 };
 
+const contextMenu = useContextMenu();
+
+function showContextMenu(event: MouseEvent) {
+  if (props.item.data.role === -1) return; // Prevent context menu on nav items
+  contextMenu.open(shallowRef(NodeContextMenu), event, {
+    props: { node: props.item.data as Node },
+  });
+}
 const dragStart = (event: DragEvent) => {
   // Stocke l'ID de l'élément en cours de glissement
   event.dataTransfer!.setData('text/plain', props.item.id.toString());

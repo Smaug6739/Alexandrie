@@ -233,7 +233,6 @@ export const useNodesStore = defineStore('nodes', {
         return request.result as DB_Node;
       } else throw request.message;
     },
-
     async update(node: Node) {
       if (node.partial) {
         console.log('[store/nodes] Node looks partial, cannot update it directly.');
@@ -246,6 +245,29 @@ export const useNodesStore = defineStore('nodes', {
         this.nodes.set(node.id, node);
         return this.nodes;
       } else throw request.message;
+    },
+    async duplicate(node: Node): Promise<DB_Node> {
+      if (!node) throw 'Node not found in store, cannot duplicate';
+      if (node.partial) {
+        console.log('[store/nodes] Node looks partial, cannot duplcate it directly.');
+        const full_node = await this.fetch({ id: node.id });
+        if (!full_node) throw 'Node not found';
+        node = mergeNode(node, full_node);
+      }
+      // use the post method to duplicate the node
+      const newNodeData: Partial<Node> = {
+        name: node.name,
+        description: node.description,
+        role: node.role,
+        parent_id: node.parent_id,
+        tags: node.tags,
+        accessibility: node.accessibility,
+        access: node.access,
+        content: node.content,
+        content_compiled: node.content_compiled,
+      };
+      const newNode = await this.post(newNodeData);
+      return newNode;
     },
     async delete(id: string) {
       const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
