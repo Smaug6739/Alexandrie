@@ -74,8 +74,8 @@ definePageMeta({
   },
 });
 
-const next = computed(() => documentsStore.getNext(article.value));
-const previous = computed(() => documentsStore.getPrevious(article.value));
+const next = computed(() => useSidebarTree().structure.value.next(article.value?.id)?.data);
+const previous = computed(() => useSidebarTree().structure.value.previous(article.value?.id)?.data);
 const width = computed(() => {
   if (preferencesStore.get('docSize').value == 2) return '980px';
   if (preferencesStore.get('docSize').value == 1) return '800px';

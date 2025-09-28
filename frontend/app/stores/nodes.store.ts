@@ -14,7 +14,7 @@ interface SearchOptions {
 export const useNodesStore = defineStore('nodes', {
   state: () => ({
     nodes: new Collection<string, Node>(),
-    public_nodes: [] as Node[],
+    public_nodes: new Collection<string, Node>(),
     allTags: [] as string[],
     isFetching: false,
   }),
@@ -41,16 +41,6 @@ export const useNodesStore = defineStore('nodes', {
         };
         return checkDescendants(node);
       },
-    getNext: state => (node?: Node) => {
-      if (!node) return state.nodes.first();
-      return state.nodes.next(node.id);
-    },
-
-    getPrevious: state => (node?: Node) => {
-      if (!node) return state.nodes.last();
-      return state.nodes.previous(node.id);
-    },
-
     getAllChildrens: state => (id: string) => {
       const parent = state.nodes.find(d => d.id == id);
       if (!parent) return [];
@@ -82,7 +72,7 @@ export const useNodesStore = defineStore('nodes', {
     },
     search: state => (options: SearchOptions) => {
       const { query, fromDate, toDate, dateType, tags, category } = options;
-      let filtered = state.nodes.toArray()!;
+      let filtered = state.nodes.toArray().filter(n => n.role === 3); // Only documents
       if (query) {
         filtered = filtered.filter(node => {
           const nodeContent = `${node.name} ${node.description} ${node.tags}`.toLowerCase();
@@ -145,15 +135,14 @@ export const useNodesStore = defineStore('nodes', {
         if (node.tags) {
           parseTags(node.tags).forEach(tag => tags.add(tag));
         }
-        if (node.parent_id && !this.nodes.find(n => n.id === node.parent_id)) {
+        if (node.parent_id && !this.nodes.get(node.parent_id)) {
           node.parent_id = '';
         }
       });
       this.allTags = Array.from(tags).sort();
     },
     async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : Collection<string, Node>> {
-      if (opts?.id && this.nodes.find(d => d.id == opts.id && !d.partial))
-        return this.nodes.find(d => d.id == opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
+      if (opts?.id && !this.nodes.get(opts.id)?.partial) return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
       console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
       if (!this.nodes.size) this.isFetching = true;
       const request = await makeRequest(`nodes/@me/${opts?.id || ''}`, 'GET', {});
@@ -181,12 +170,12 @@ export const useNodesStore = defineStore('nodes', {
     },
     async fetchPublic(id: string): Promise<Node | undefined> {
       console.log(`[store/nodes] Fetching public nodeument with id: ${id}`);
-      const existingDoc = this.public_nodes.find(d => d.id === id);
+      const existingDoc = this.public_nodes.get(id);
       if (existingDoc) return existingDoc;
       const request = await makeRequest(`nodes/public/${id}`, 'GET', {});
       if (request.status === 'success') {
         const fetchedDoc: Node = { ...(request.result as DB_Node), partial: false, shared: false, permissions: [] };
-        this.public_nodes.push(fetchedDoc);
+        this.public_nodes.set(fetchedDoc.id, fetchedDoc);
         return fetchedDoc;
       } else return undefined;
     },
@@ -208,7 +197,7 @@ export const useNodesStore = defineStore('nodes', {
 
     async addPermission(perm: Omit<Permission, 'id' | 'created_timestamp'>): Promise<Permission> {
       console.log(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
-      const node = this.nodes.find(n => n.id === perm.node_id);
+      const node = this.nodes.get(perm.node_id);
       if (!node) throw 'Node not found in store, cannot add permission';
       const request = await makeRequest(`permissions`, 'POST', perm);
       if (request.status === 'success') {
@@ -260,7 +249,7 @@ export const useNodesStore = defineStore('nodes', {
     },
     async delete(id: string) {
       const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
-      if (request.status == 'success') return (this.nodes = this.nodes.filter(d => d.id != id));
+      if (request.status == 'success') return this.nodes.delete(id);
       else throw request.message;
     },
   },

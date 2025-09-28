@@ -78,6 +78,24 @@ export class TreeStructure {
       childrens: children.map(child => this.buildTree(child, newVisited)),
     };
   }
+
+  public next(id?: string): Item | undefined {
+    const item = this.itemMap.get(id || '');
+    if (!item) return undefined;
+    const childrens = this.childrenMap.get(item.parent_id || '')?.filter(c => c.data.role === 3) || [];
+    const index = childrens.findIndex(child => child.id === id);
+    if (index === -1 || index === childrens.length - 1) return undefined;
+    return childrens[index + 1];
+  }
+
+  public previous(id?: string): Item | undefined {
+    const item = this.itemMap.get(id || '');
+    if (!item) return undefined;
+    const childrens = this.childrenMap.get(item.parent_id || '')?.filter(c => c.data.role === 3) || [];
+    const index = childrens.findIndex(child => child.id === id);
+    if (index === -1 || index === 0) return undefined;
+    return childrens[index - 1];
+  }
 }
 export const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] => {
   return items

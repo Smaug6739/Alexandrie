@@ -1,14 +1,16 @@
 import type { Node } from '~/stores';
 
-const preferencesStore = usePreferences();
-
 let nodes: ComputedRef<Item<Node>[]> | Ref<Item<Node>[]> = ref([]);
 const structure = computed(() => new TreeStructure(nodes.value));
+const preferences = usePreferences();
 
 const resolveIcon = (item: Node) => {
   if (item.role === 1) return item.icon || 'workspace';
   if (item.role === 2) return item.icon || (item.shared ? 'shared_folder' : 'folder');
-  if (item.role === 3) return item.accessibility == 1 ? 'file' : item.accessibility == 2 ? 'draft' : 'shared_doc';
+  if (item.role === 3) {
+    if (!preferences.get('normalizeFileIcons').value && structure.value.childrenMap.get(item.id)?.length) return 'file_parent';
+    return item.accessibility == 1 ? 'file' : item.accessibility == 2 ? 'draft' : 'shared_doc';
+  }
   if (item.role === 4) return item.metadata?.filetype == 'application/pdf' ? 'pdf' : 'image';
   return 'file';
 };
@@ -22,25 +24,10 @@ const resolveLink = (item: Node) => {
 
 /* Do operations in the tree and return the final tree */
 const tree = computed(() => {
-  if (!preferencesStore.get('normalizeFileIcons').value) {
-    for (const i of structure.value.childrenMap.keys()) {
-      const ref = structure.value.itemMap.get(i);
-      const subs = structure.value.childrenMap.get(i);
-      if (ref?.data.role === 3 && subs?.some(c => c.data.role != 4)) {
-        structure.value.itemMap.get(i)!.icon = 'file_parent';
-      }
-    }
-  }
-
   return structure.value.generateTree();
 });
 
-const collapseAll = () => {
-  nodes.value.forEach(item => {
-    if (item.show.value) item.show.value = false;
-    collapseAllStates();
-  });
-};
+const collapseAll = collapseAllStates;
 const getSubTreeById = (id: string) => {
   return structure.value.treeToArray(structure.value.getSubTreeById(id)?.childrens || []);
 };
@@ -64,10 +51,6 @@ function useSidebarTree() {
               data: node,
               show: ref(getCollapseState(node.id)),
             }))
-            .sort((a, b) => {
-              if ((a.data.order ?? 0) !== (b.data.order ?? 0)) return (a.data.order ?? 0) - (b.data.order ?? 0);
-              return a.data.name.localeCompare(b.data.name);
-            })
             .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || a.data.name.localeCompare(b.data.name))
         : [],
     );

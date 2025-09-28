@@ -18,7 +18,7 @@
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
-            <span style=" height: 32px; border-left: 1px solid var(--border-color);margin-left: 4px"></span>
+            <span style="height: 32px; border-left: 1px solid var(--border-color); margin-left: 4px"></span>
             <Icon name="delete" fill="var(--font-color-light)" class="action-btn" @click="bulkDelete(selected)" />
           </div>
         </template>
@@ -61,7 +61,7 @@ const fileLink = ref('');
 const isLoading = ref(false);
 const dropComponent = ref();
 
-const sortedRessources = computed(() => [...nodesStore.ressources].sort((a, b) => b.created_timestamp - a.created_timestamp));
+const sortedRessources = computed(() => nodesStore.ressources.toArray().sort((a, b) => b.created_timestamp - a.created_timestamp));
 
 const selectFile = (file?: File) => (selectedFile.value = file);
 const copyLink = () => navigator.clipboard.writeText(fileLink.value!);
@@ -95,8 +95,8 @@ const headers = [
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
 const rows: ComputedRef<Field[]> = computed(() =>
   sortedRessources.value.map(res => {
-    const parent = res.parent_id ? useNodesStore().getById(res.parent_id) : null;
-    const category = parent ? useNodesStore().getById(parent.parent_id || '') : null;
+    const parent = res.parent_id ? nodesStore.getById(res.parent_id) : null;
+    const category = parent ? nodesStore.getById(parent.parent_id || '') : null;
     return {
       name: { content: res.name, type: 'text' },
       size: { content: readableFileSize(res.size ?? 0), type: 'text' },

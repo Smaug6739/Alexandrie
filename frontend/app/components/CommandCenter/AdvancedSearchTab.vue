@@ -129,17 +129,17 @@ const showFilters = ref(true);
 const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(0);
 
-const documentStore = useNodesStore();
+const nodesStore = useNodesStore();
 const categoriesTree = new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 2)).generateTree();
 
 const filteredTagSuggestions = computed(() => {
   if (!tagInput.value) return [];
   const input = tagInput.value.toLowerCase();
-  return documentStore.allTags.filter(tag => tag.toLowerCase().includes(input) && !selectedTags.value.includes(tag)).slice(0, 5);
+  return nodesStore.allTags.filter(tag => tag.toLowerCase().includes(input) && !selectedTags.value.includes(tag)).slice(0, 5);
 });
 
 const filteredDocuments = computed(() => {
-  return documentStore.search({
+  return nodesStore.search({
     query: props.query,
     category: selectedCategory.value,
     dateType: dateType.value,
@@ -154,7 +154,7 @@ const flattenedItems = computed(() => {
     id: doc.id,
     icon: getDocumentIcon(doc),
     title: doc.name,
-    description: doc.tags ? `#${String(doc.tags)}` : 'Document',
+    description: doc.tags ? `#${String(doc.tags.split(', ').join(' #'))}` : 'Document',
     path: `/dashboard/docs/${doc.id}`,
     section: '',
     globalIndex: idx,
@@ -227,7 +227,7 @@ function clearFilters() {
 }
 
 function getDocumentIcon(doc: Node) {
-  if (doc.order ?? 0 < 0) return 'pin';
+  if (doc.order == -1) return 'pin';
   return 'files';
 }
 

@@ -24,13 +24,15 @@
 const categoryStore = useNodesStore();
 
 const documents = computed(() =>
-  useNodesStore().getAll.filter(c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || c.tags?.toLowerCase().includes(filter.value.toLowerCase())),
+  useNodesStore().documents.filter(
+    c => c.name.toLowerCase().includes(filter.value.toLowerCase()) || (typeof c.tags === 'string' && c.tags.toLowerCase().includes(filter.value.toLowerCase())),
+  ),
 );
 const filter = ref<string>('');
 const showSearchModal = ref<boolean>(false);
 
 // Docs = max 5 docs
-const docs = computed(() => documents.value.slice(0, 5));
+const docs = computed(() => documents.value.toArray().slice(0, 5));
 
 const close = () => {
   showSearchModal.value = false;

@@ -116,10 +116,9 @@ export class Collection<K, V> extends Map<K, V> {
     return this;
   }
 
-  public toArray(): Array<V> | null {
+  public toArray(): Array<V> {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that: this = this;
-    if (that == null) return that as null;
     const newArray = [];
     for (const [_, v] of that) {
       newArray.push(v);

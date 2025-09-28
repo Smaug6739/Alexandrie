@@ -9,7 +9,7 @@
         <input v-model="searchQuery" placeholder="Search images..." class="search-input" />
       </div>
       <div class="images-grid">
-        <div v-for="image in filteredImages" :key="image.id" class="image-item" @click="selectImage(image)">
+        <div v-for="image in filteredImages.values()" :key="image.id" class="image-item" @click="selectImage(image)">
           <img :src="resolvePreviewUrl(image)" :alt="image.name" class="image-preview" @error="handleImageError" />
           <div class="image-info">
             <span class="image-name">{{ image.name }}</span>
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div v-if="filteredImages.length === 0" class="no-images">
+      <div v-if="filteredImages.size === 0" class="no-images">
         <p>No images found</p>
       </div>
     </div>
