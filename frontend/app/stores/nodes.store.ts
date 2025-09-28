@@ -249,8 +249,11 @@ export const useNodesStore = defineStore('nodes', {
     },
     async delete(id: string) {
       const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
-      if (request.status == 'success') return this.nodes.delete(id);
-      else throw request.message;
+      if (request.status == 'success') {
+        const allChildrens = this.getAllChildrensIds(id);
+        this.nodes.delete(id);
+        allChildrens.forEach(childId => this.nodes.delete(childId));
+      } else throw request.message;
     },
   },
 });
