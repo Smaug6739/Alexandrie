@@ -34,7 +34,7 @@ import { navigationItems, type DefaultItem } from './helpers';
 import type { Node } from '~/stores';
 
 const nodesStore = useNodesStore();
-const { isOpened } = useSidebar();
+const { isOpened, workspaceId } = useSidebar();
 const props = defineProps<{ item: Item | DefaultItem }>();
 const isDragOver = ref<boolean>(false);
 
@@ -44,7 +44,7 @@ const customClass = computed(() => {
   return 'default-icon';
 });
 const icon = computed(() => {
-  if (props.item.icon === 'file' && props.item.childrens?.length) return 'file_parent';
+  if (props.item.icon === 'file' && props.item.childrens?.some(child => child.data.role != 4)) return 'file_parent';
   return props.item.icon || '';
 });
 
@@ -76,7 +76,6 @@ const dragLeave = () => {
   // Réinitialise l'état de survol lorsque l'élément quitte la zone de dépôt
   isDragOver.value = false;
 };
-const { workspaceId } = useSidebar();
 const drop = async (event: DragEvent) => {
   isDragOver.value = false;
   const draggedItemId = event.dataTransfer!.getData('text/plain');
