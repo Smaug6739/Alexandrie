@@ -55,12 +55,7 @@ function useSidebarTree() {
     nodes = computed(() =>
       isReady.value
         ? nodesStore.nodes
-            .sort((a, b) => {
-              if ((a.order ?? 0) !== (b.order ?? 0)) return (a.order ?? 0) - (b.order ?? 0);
-              return a.name.localeCompare(b.name);
-            })
-            .sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.name.localeCompare(b.name))
-            .map(node => ({
+            .map<Item<Node>>(node => ({
               id: node.id,
               parent_id: node.role !== 1 ? node.parent_id || '' : '',
               label: node.name,
@@ -69,6 +64,11 @@ function useSidebarTree() {
               data: node,
               show: ref(getCollapseState(node.id)),
             }))
+            .sort((a, b) => {
+              if ((a.data.order ?? 0) !== (b.data.order ?? 0)) return (a.data.order ?? 0) - (b.data.order ?? 0);
+              return a.data.name.localeCompare(b.data.name);
+            })
+            .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || a.data.name.localeCompare(b.data.name))
         : [],
     );
   }

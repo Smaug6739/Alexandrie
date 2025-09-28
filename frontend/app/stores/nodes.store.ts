@@ -1,4 +1,5 @@
 import { makeRequest, type FetchOptions } from './_utils';
+import { Collection } from './collection';
 import type { DB_Node, Node, Permission } from './db_strustures';
 
 interface SearchOptions {
@@ -12,7 +13,7 @@ interface SearchOptions {
 
 export const useNodesStore = defineStore('nodes', {
   state: () => ({
-    nodes: [] as Array<Node | Node>,
+    nodes: new Collection<string, Node>(),
     public_nodes: [] as Node[],
     allTags: [] as string[],
     isFetching: false,
@@ -20,7 +21,7 @@ export const useNodesStore = defineStore('nodes', {
   getters: {
     getAll: state => state.nodes,
     getAllTags: state => state.allTags,
-    getById: state => (id: string) => state.nodes.find((d: Node) => d.id == id),
+    getById: state => (id: string) => state.nodes.get(id),
     getByCategories: state => (category: string) => state.nodes.filter(d => d.parent_id == category),
     getParents: state => state.nodes.filter(c => !c.parent_id),
     getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),
@@ -33,25 +34,21 @@ export const useNodesStore = defineStore('nodes', {
         const checkDescendants = (currentNode: Node): boolean => {
           const children = state.nodes.filter(d => d.parent_id === currentNode.id);
           for (const child of children) {
-            if (child.id === descendantId) return true;
-            if (checkDescendants(child)) return true;
+            if (child[0] === descendantId) return true;
+            if (checkDescendants(child[1])) return true;
           }
           return false;
         };
         return checkDescendants(node);
       },
     getNext: state => (node?: Node) => {
-      const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id && d.role === 3);
-      const index = cnodes.findIndex(d => d.id == node?.id);
-      if (index == -1) return;
-      return cnodes[index + 1];
+      if (!node) return state.nodes.first();
+      return state.nodes.next(node.id);
     },
 
     getPrevious: state => (node?: Node) => {
-      const cnodes = state.nodes.filter(d => d.parent_id == node?.parent_id && d.role === 3);
-      const index = cnodes.findIndex(d => d.id == node?.id);
-      if (index == -1) return;
-      return cnodes[index - 1];
+      if (!node) return state.nodes.last();
+      return state.nodes.previous(node.id);
     },
 
     getAllChildrens: state => (id: string) => {
@@ -85,7 +82,7 @@ export const useNodesStore = defineStore('nodes', {
     },
     search: state => (options: SearchOptions) => {
       const { query, fromDate, toDate, dateType, tags, category } = options;
-      let filtered = [...state.nodes];
+      let filtered = state.nodes.toArray()!;
       if (query) {
         filtered = filtered.filter(node => {
           const nodeContent = `${node.name} ${node.description} ${node.tags}`.toLowerCase();
@@ -154,30 +151,31 @@ export const useNodesStore = defineStore('nodes', {
       });
       this.allTags = Array.from(tags).sort();
     },
-    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : Node[]> {
-      if (opts?.id && this.nodes.find(d => d.id == opts.id && !d.partial)) return this.nodes.find(d => d.id == opts.id) as 'id' extends keyof T ? Node : Node[];
+    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : Collection<string, Node>> {
+      if (opts?.id && this.nodes.find(d => d.id == opts.id && !d.partial))
+        return this.nodes.find(d => d.id == opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
       console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
-      if (!this.nodes.length) this.isFetching = true;
+      if (!this.nodes.size) this.isFetching = true;
       const request = await makeRequest(`nodes/@me/${opts?.id || ''}`, 'GET', {});
       this.isFetching = false;
       if (request.status == 'success') {
         if (opts?.id) {
           const result = request.result as { node: DB_Node; permissions: Permission[] };
-          const index = this.nodes.findIndex(d => d.id == opts?.id);
+          const n = this.nodes.get(opts.id);
           let shared = false;
-          if (index != -1) shared = this.nodes[index]!.shared;
+          if (n) shared = n.shared;
           const updatedNode: Node = { ...(result.node as DB_Node), partial: false, shared: shared, permissions: result.permissions };
-          if (index == -1) this.nodes.push(updatedNode);
-          else this.nodes[index] = updatedNode;
-          return updatedNode as 'id' extends keyof T ? Node : Node[];
+          if (!n) this.nodes.set(opts.id, updatedNode);
+          else this.nodes.set(opts.id, updatedNode);
+          return updatedNode as 'id' extends keyof T ? Node : Collection<string, Node>;
         } else {
           for (const node of request.result as DB_Node[]) {
-            const index = this.nodes.findIndex(d => d.id == node.id);
-            if (index == -1) this.nodes.push({ ...node, partial: true, shared: false, permissions: [] });
-            else this.nodes[index] = { ...node, partial: true, shared: false, permissions: [] };
+            const n = this.nodes.get(node.id);
+            if (!n) this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
+            else this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
           }
           this.recomputeTags();
-          return this.nodes as 'id' extends keyof T ? Node : Node[];
+          return this.nodes as 'id' extends keyof T ? Node : Collection<string, Node>;
         }
       } else throw request;
     },
@@ -192,17 +190,16 @@ export const useNodesStore = defineStore('nodes', {
         return fetchedDoc;
       } else return undefined;
     },
-    async fetchShared(): Promise<Node[]> {
+    async fetchShared(): Promise<Collection<string, Node>> {
       console.log(`[store/nodes] Fetching shared nodes`);
-      if (this.nodes.length) return this.nodes;
+      if (this.nodes.size) return this.nodes;
       const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
       if (request.status === 'success') {
         for (const node of request.result as DB_Node[]) {
-          const index = this.nodes.findIndex(d => d.id == node.id);
-          if (index == -1) this.nodes.push({ ...node, partial: true, shared: true, permissions: node.permissions || [] });
+          if (!this.nodes.has(node.id)) this.nodes.set(node.id, { ...node, partial: true, shared: true, permissions: node.permissions || [] });
           else {
-            const state = this.nodes[index];
-            this.nodes[index] = { ...node, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] };
+            const state = this.nodes.get(node.id);
+            this.nodes.set(node.id, { ...node, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] });
           }
         }
         return this.nodes;
@@ -243,7 +240,7 @@ export const useNodesStore = defineStore('nodes', {
     async post(node: Partial<Node>): Promise<DB_Node> {
       const request = await makeRequest('nodes', 'POST', node);
       if (request.status == 'success') {
-        this.nodes.push({ ...(request.result as DB_Node), partial: false, shared: false, permissions: [] });
+        this.nodes.set((request.result as DB_Node).id, { ...(request.result as DB_Node), partial: false, shared: false, permissions: [] });
         return request.result as DB_Node;
       } else throw request.message;
     },
@@ -256,8 +253,10 @@ export const useNodesStore = defineStore('nodes', {
         node = mergeNode(node, full_node);
       }
       const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
-      if (request.status == 'success') return (this.nodes = this.nodes.map(d => (d.id == node.id ? node : d)));
-      else throw request.message;
+      if (request.status == 'success') {
+        this.nodes.set(node.id, node);
+        return this.nodes;
+      } else throw request.message;
     },
     async delete(id: string) {
       const request = await makeRequest(`nodes/${id}`, 'DELETE', {});

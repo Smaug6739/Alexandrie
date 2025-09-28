@@ -9,7 +9,7 @@
 
     <div class="search-container">
       <input v-model="searchQuery" type="text" placeholder="Search documents..." class="search-input" />
-      <div v-if="results.length" class="results">
+      <div v-if="results?.length" class="results">
         <NuxtLink v-for="result in results" :key="result.id" class="result" :to="`/dashboard/docs/${result.id}`">
           <Icon
             :name="category(result.parent_id)?.icon || 'files'"
@@ -64,11 +64,15 @@ const results = computed(() => {
       const tags = Array.isArray(doc.tags) ? doc.tags.join(' ') : String(doc.tags || '');
       return tokens.every(t => name.toLowerCase().includes(t) || tags.toLowerCase().includes(t));
     })
-    .slice(0, 5);
+    .toArray()
+    ?.slice(0, 5);
 });
 const category = (id?: string) => nodesStore.getById(id || '');
 const recentDocuments = computed(() => {
-  return nodesStore.getAll.toSorted((a, b) => b.updated_timestamp - a.updated_timestamp).slice(0, 3);
+  return nodesStore.getAll
+    .toArray()
+    ?.toSorted((a, b) => b.updated_timestamp - a.updated_timestamp)
+    .slice(0, 3);
 });
 </script>
 <style scoped lang="scss">
