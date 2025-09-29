@@ -2,7 +2,7 @@ module alexandrie
 
 go 1.24.0
 
-require github.com/wneessen/go-mail v0.7.0
+require github.com/wneessen/go-mail v0.7.1
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
