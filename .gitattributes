@@ -21,3 +21,21 @@ frontend/app/styles/katex/**/* linguist-vendored
 *.json text eol=lf
 *.html text eol=lf
 * text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.bmp binary
+*.tiff binary
+*.tif binary
+*.svg binary
+*.mp4 binary
+*.mp3 binary
+*.wav binary
+*.flac binary
+*.ogg binary
+*.otf binary
+*.webp binary
