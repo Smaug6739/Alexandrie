@@ -1,3 +1,6 @@
+import type { ANode } from './TreeStructure';
+import { ref, watch, type Ref } from 'vue';
+
 export const DEFAULT_PREFERENCES = {
   printMode: false as boolean,
   darkMode: false as boolean,
