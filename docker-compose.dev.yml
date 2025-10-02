@@ -9,7 +9,7 @@ services:
     volumes:
       - ./frontend:/app # montage du code local
       - nuxt_build:/app/.nuxt
-      - /app/node_modules
+      - deps:/app/node_modules
     ports:
       - '8200:8200'
     environment:
