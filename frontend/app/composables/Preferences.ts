@@ -1,5 +1,4 @@
 import type { ANode } from './TreeStructure';
-import { ref, watch, type Ref } from 'vue';
 
 export const DEFAULT_PREFERENCES = {
   printMode: false as boolean,
@@ -75,12 +74,12 @@ watch(preferences, savePreferences, { deep: true });
 export function usePreferences() {
   function get<K extends PreferenceKey>(key: K) {
     // Crée un ref réactif lié à la valeur des preferences
-    const r = ref(preferences.value[key]) as Ref<Preferences[K]>;
+    const r = ref(preferences.value[key]);
 
     // Watch pour propager les changements dans le store
     watch(
       r,
-      val => {
+      (val: Preferences[K]) => {
         preferences.value[key] = val;
       },
       { deep: true },

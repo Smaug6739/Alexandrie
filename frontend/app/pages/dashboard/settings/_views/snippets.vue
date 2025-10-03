@@ -20,11 +20,13 @@
           />
         </div>
         <div class="filter-section">
-          <select v-model="sortBy" class="sort-select">
-            <option value="shortcut">Sort by Shortcut</option>
-            <option value="content">Sort by Content</option>
-            <option value="usage">Sort by Usage</option>
-          </select>
+          <AppSelect 
+            v-model="sortBy" 
+            :items="sortOptions" 
+            placeholder="Sort by..."
+            size="150px"
+            :searchable="false"
+          />
         </div>
       </div>
       
@@ -37,10 +39,10 @@
           Delete Selected ({{ selectedSnippets.length }})
         </AppButton>
         <AppButton type="secondary" @click="exportSnippets">
-          📤 Export
+          <Icon name="download" /> Export
         </AppButton>
         <AppButton type="secondary" @click="importSnippets">
-          📥 Import
+          <Icon name="upload" /> Import
         </AppButton>
         <AppButton type="primary" @click="addSnippet">
           ＋ Add Snippet
@@ -87,7 +89,7 @@
                 title="Edit snippet" 
                 @click="startEdit(index)"
               >
-                ✏️
+                <Icon name="edit" />
               </button>
               <button 
                 v-if="editingIndex === index"
@@ -95,7 +97,7 @@
                 title="Save snippet" 
                 @click="saveEdit()"
               >
-                ✓
+                <Icon name="check" />
               </button>
               <button 
                 v-if="editingIndex === index"
@@ -103,14 +105,14 @@
                 title="Cancel edit" 
                 @click="cancelEdit()"
               >
-                ✕
+                <Icon name="close" />
               </button>
               <button 
                 class="action-btn delete-btn" 
                 title="Delete snippet" 
                 @click="removeSnippet(index)"
               >
-                🗑️
+                <Icon name="delete" />
               </button>
             </div>
           </div>
@@ -165,13 +167,22 @@
       style="display: none" 
       @change="handleFileImport"
     />
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { DEFAULT_PREFERENCES } from '~/composables/Preferences';
+import compile from '~/helpers/markdown';
 
 const snippets = usePreferences().get('snippets');
+
+// Sort options for AppSelect
+const sortOptions = [
+  { id: 'shortcut', label: 'Sort by Shortcut' },
+  { id: 'content', label: 'Sort by Content' },
+  { id: 'usage', label: 'Sort by Usage' }
+];
 
 // Reactive state
 const searchQuery = ref('');
@@ -317,13 +328,7 @@ function getErrorMessage(shortcut: string): string {
 }
 
 function getPreviewHtml(content: string): string {
-  // Simple markdown-like preview (basic implementation)
-  return content
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`(.*?)`/g, '<code>$1</code>')
-    .replace(/\n/g, '<br>')
-    .replace(/:::(.*?)\n([\s\S]*?)\n:::/g, '<div class="container $1">$2</div>');
+  return compile(content);
 }
 
 function exportSnippets() {
@@ -454,8 +459,8 @@ watch(searchQuery, () => {
 
   &:focus {
     outline: none;
-    border-color: var(--blue);
-    box-shadow: 0 0 0 2px var(--blue-border);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-border);
   }
 
   &::placeholder {
@@ -479,7 +484,7 @@ watch(searchQuery, () => {
 
   &:focus {
     outline: none;
-    border-color: var(--blue);
+    border-color: var(--primary);
   }
 }
 
@@ -541,21 +546,20 @@ watch(searchQuery, () => {
 .snippet-card {
   background: var(--bg-color);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 1.5rem;
+  border-radius: 8px;
+  padding: 1rem;
   transition: all 0.2s ease;
   position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    border-color: var(--blue-border);
+    border-color: var(--primary-border);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
   }
 
   &.selected {
-    border-color: var(--blue);
-    background: var(--blue-bg-light);
+    border-color: var(--primary);
+    background: var(--primary-bg-light);
   }
 
   &.editing {
@@ -569,8 +573,8 @@ watch(searchQuery, () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border-color-light);
 }
 
@@ -589,7 +593,7 @@ watch(searchQuery, () => {
 .snippet-shortcut-display {
   .shortcut-code {
     background: var(--code-bg);
-    color: var(--blue);
+    color: var(--primary);
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     font-family: $monospace-font;
@@ -618,7 +622,7 @@ watch(searchQuery, () => {
   height: 32px;
 
   &.edit-btn:hover {
-    background: var(--blue-bg-light);
+    background: var(--primary-bg-light);
   }
 
   &.save-btn:hover {
@@ -662,8 +666,8 @@ watch(searchQuery, () => {
 
       &:focus {
         outline: none;
-        border-color: var(--blue);
-        box-shadow: 0 0 0 2px var(--blue-border);
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px var(--primary-border);
       }
 
       &.error {
@@ -737,7 +741,7 @@ watch(searchQuery, () => {
       border-radius: 4px;
       margin: 0.5rem 0;
 
-      &.blue { background: var(--blue-bg-light); border-left: 4px solid var(--blue); }
+      &.blue { background: var(--primary-bg-light); border-left: 4px solid var(--blue); }
       &.green { background: var(--green-bg-light); border-left: 4px solid var(--green); }
       &.yellow { background: var(--orange-bg-light); border-left: 4px solid var(--orange); }
       &.grey { background: var(--bg-color-secondary); border-left: 4px solid var(--border-color); }
