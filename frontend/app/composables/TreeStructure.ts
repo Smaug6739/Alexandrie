@@ -1,7 +1,7 @@
 import type { Node } from '~/stores';
 
-export interface ANode {
-  id: string | number;
+export interface ANode<id = string | number> {
+  id: id;
   label: string;
   parent_id?: string;
   childrens?: ANode[];
