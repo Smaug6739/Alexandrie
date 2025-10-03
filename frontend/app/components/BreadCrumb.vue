@@ -40,10 +40,7 @@ const canGoForward = ref(false);
 
 // Renamed for clarity
 const goBack = () => router.go(-1);
-const goForward = () => {
-  console.log('Going forward');
-  router.go(1);
-};
+const goForward = () => router.go(1);
 
 declare module 'vue-router' {
   interface RouteMeta {
