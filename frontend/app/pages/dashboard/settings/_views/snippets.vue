@@ -44,7 +44,7 @@
           <!-- Card Header -->
           <div class="snippet-header">
             <div class="snippet-header-left">
-              <input type="checkbox" :checked="selectedSnippets.includes(index)" @change="toggleSelection(index)" class="snippet-checkbox" />
+              <input type="checkbox" :checked="selectedSnippets.includes(index)" class="snippet-checkbox" @change="toggleSelection(index)" />
               <div v-if="editingIndex !== index" class="snippet-shortcut-display">
                 <code class="shortcut-code">{{ snippet.id || '!untitled' }}</code>
               </div>
