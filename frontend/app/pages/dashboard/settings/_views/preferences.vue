@@ -281,10 +281,11 @@ h3 {
 
 .reset {
   margin-top: 2rem;
+
   a {
     color: var(--primary);
-    text-decoration: underline;
     cursor: pointer;
+    text-decoration: underline;
   }
 }
 </style>

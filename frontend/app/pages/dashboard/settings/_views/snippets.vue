@@ -313,39 +313,39 @@ watch(searchQuery, () => {
 
 .search-section {
   display: flex;
-  gap: 1rem;
   align-items: center;
   flex: 1;
+  gap: 1rem;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
+  @media (width <= 768px) {
     align-items: stretch;
+    flex-direction: column;
   }
 }
 
 .search-wrapper {
   position: relative;
-  flex: 1;
   max-width: 400px;
+  flex: 1;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     max-width: none;
   }
 }
 
 .search-icon {
   position: absolute;
-  left: 0.75rem;
   top: 50%;
-  transform: translateY(-50%);
+  left: 0.75rem;
   font-size: 1rem;
+  transform: translateY(-50%);
 }
 
 .search-input {
   width: 100%;
-  padding-left: 2.5rem;
-  background: var(--bg-color);
   color: var(--font-color);
+  background: var(--bg-color);
+  padding-left: 2.5rem;
 }
 
 .filter-section {
@@ -361,10 +361,10 @@ watch(searchQuery, () => {
 
 .actions {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
   padding: 0.5rem 0;
+  align-items: center;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 // Snippets container
@@ -374,9 +374,9 @@ watch(searchQuery, () => {
 
 .no-snippets {
   display: flex;
+  padding: 4rem 2rem;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
 
   .no-snippets-icon {
     font-size: 3rem;
@@ -384,36 +384,36 @@ watch(searchQuery, () => {
   }
 
   p {
-    font-size: 1.1rem;
     margin: 0;
+    font-size: 1.1rem;
   }
 }
 
 // Grid layout
 .snippets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+  @media (width <= 768px) {
     gap: 1rem;
+    grid-template-columns: 1fr;
   }
 }
 
 // Snippet card
 .snippet-card {
-  background: var(--bg-color);
+  position: relative;
+  padding: 1rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 1rem;
+  background: var(--bg-color);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   transition: all 0.2s ease;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
     border-color: var(--primary-border);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 15%);
   }
 
   &.selected {
@@ -430,8 +430,8 @@ watch(searchQuery, () => {
 // Card header
 .snippet-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 0.75rem;
   padding-bottom: 0.5rem;
 }
@@ -450,11 +450,11 @@ watch(searchQuery, () => {
 
 .snippet-shortcut-display {
   .shortcut-code {
-    background: var(--code-bg);
-    color: var(--font-color-dark);
     font-family: $monospace-font;
     font-size: 0.9rem;
     font-weight: 600;
+    color: var(--font-color-dark);
+    background: var(--code-bg);
   }
 }
 
@@ -464,18 +464,18 @@ watch(searchQuery, () => {
 }
 
 .action-btn {
+  display: flex;
+  min-width: 32px;
+  height: 32px;
   padding: 0.4rem;
   border: none;
   border-radius: 6px;
-  background: transparent;
-  cursor: pointer;
   font-size: 0.9rem;
+  background: transparent;
   transition: background-color 0.2s ease;
-  display: flex;
   align-items: center;
+  cursor: pointer;
   justify-content: center;
-  min-width: 32px;
-  height: 32px;
 
   &:hover {
     background: var(--bg-ui);
@@ -495,14 +495,14 @@ watch(searchQuery, () => {
       border-radius: 6px;
       font-family: $monospace-font;
       font-size: 0.9rem;
+      text-align: left;
       transition: border-color 0.2s ease;
       resize: vertical;
-      text-align: left;
 
       &:focus {
-        outline: none;
         border-color: var(--primary);
         box-shadow: 0 0 0 2px var(--primary-border);
+        outline: none;
       }
 
       &.error {
@@ -512,9 +512,9 @@ watch(searchQuery, () => {
     }
 
     .error-message {
-      margin-top: 0.5rem;
-      color: var(--red);
       font-size: 0.85rem;
+      color: var(--red);
+      margin-top: 0.5rem;
     }
   }
 }
@@ -528,22 +528,22 @@ watch(searchQuery, () => {
   }
 
   .preview-content {
-    background: var(--bg-color-secondary);
-    border-radius: 6px;
     padding: 0.35rem 0;
+    border-radius: 6px;
     font-size: 0.9rem;
+    background: var(--bg-color-secondary);
   }
 
   .raw-content {
-    background: var(--code-bg);
-    border-radius: 6px;
+    margin: 0;
     padding: 0.35rem 0;
+    border-radius: 6px;
     font-family: $monospace-font;
     font-size: 0.85rem;
     line-height: 1.4;
+    background: var(--code-bg);
     white-space: pre-wrap;
     word-break: break-word;
-    margin: 0;
   }
 }
 
