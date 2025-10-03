@@ -39,7 +39,7 @@ export const DEFAULT_PREFERENCES = {
     { id: '!m', label: '$$0$' },
     { id: '!property', label: ':::property $0\n\n:::' },
     { id: '!warning', label: ':::warning $0\n\n:::' },
-  ] as ANode[],
+  ] as ANode<string>[],
   editorFontFamily: 'JetBrains Mono' as string,
   editorFontSize: 14 as number,
   developerMode: false as boolean,
@@ -74,12 +74,12 @@ watch(preferences, savePreferences, { deep: true });
 export function usePreferences() {
   function get<K extends PreferenceKey>(key: K) {
     // Crée un ref réactif lié à la valeur des preferences
-    const r = ref(preferences.value[key]);
+    const r = ref(preferences.value[key]) as Ref<Preferences[K]>;
 
     // Watch pour propager les changements dans le store
     watch(
       r,
-      (val: Preferences[K]) => {
+      val => {
         preferences.value[key] = val;
       },
       { deep: true },
