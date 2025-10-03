@@ -1,3 +1,5 @@
+import type { ANode } from './TreeStructure';
+
 export const DEFAULT_PREFERENCES = {
   printMode: false as boolean,
   darkMode: false as boolean,
@@ -37,7 +39,7 @@ export const DEFAULT_PREFERENCES = {
     { id: '!m', label: '$$0$' },
     { id: '!property', label: ':::property $0\n\n:::' },
     { id: '!warning', label: ':::warning $0\n\n:::' },
-  ] as ANode[],
+  ] as ANode<string>[],
   editorFontFamily: 'JetBrains Mono' as string,
   editorFontSize: 14 as number,
   developerMode: false as boolean,
