@@ -78,7 +78,7 @@ const updateCategory = async () => {
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const showDeleteModal = () => {
-  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressourceId: ressource.value?.id } }));
+  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressources: [ressource.value?.id] } }));
 };
 </script>
 
