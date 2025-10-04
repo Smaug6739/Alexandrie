@@ -107,9 +107,10 @@ onBeforeUnmount(() => {
 .sidebar {
   width: 100%;
   max-height: 100%;
-  padding: 0.5rem;
+  padding: .5rem .5rem .5rem .6rem;
   background: var(--bg-color);
-  overflow-y: scroll;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 
   &::-webkit-scrollbar-thumb {
     background: transparent;
