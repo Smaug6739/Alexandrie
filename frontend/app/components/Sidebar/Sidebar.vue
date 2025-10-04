@@ -107,7 +107,7 @@ onBeforeUnmount(() => {
 .sidebar {
   width: 100%;
   max-height: 100%;
-  padding: .5rem .5rem .5rem .6rem;
+  padding: .5rem .2rem .5rem .5rem;
   background: var(--bg-color);
   overflow-y: auto;
   scrollbar-gutter: stable;
