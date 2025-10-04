@@ -74,7 +74,7 @@ nav {
 }
 
 .separator {
-  width: 1px;
+  width: 3px;
   height: 96%;
   margin: auto 0;
   cursor: col-resize;
