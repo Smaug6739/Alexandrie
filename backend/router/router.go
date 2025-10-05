@@ -38,5 +38,6 @@ func InitRouter(app *app.App) *gin.Engine {
 	routes.Uploads(app, mainGroup)
 	routes.Nodes(app, mainGroup)
 	routes.Permissions(app, mainGroup)
+	routes.Fonts(app, mainGroup)
 	return router
 }
