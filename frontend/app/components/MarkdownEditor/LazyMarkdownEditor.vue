@@ -73,6 +73,8 @@ function exec(action: string, payload?: string) {
   const selectedText = state.sliceDoc(from, to);
 
   let changes;
+  let select_from = from + 2;
+  let select_to = to + 2;
 
   switch (action) {
     case 'bold':
@@ -80,6 +82,8 @@ function exec(action: string, payload?: string) {
       break;
     case 'italic':
       changes = { from, to, insert: `*${selectedText}*` };
+      select_from = from + 1;
+      select_to = select_from + selectedText.length;
       break;
     case 'underline':
       changes = { from, to, insert: `__${selectedText}__` };
@@ -89,6 +93,8 @@ function exec(action: string, payload?: string) {
       break;
     case 'link':
       changes = { from, to, insert: `[](${selectedText})` };
+      select_from = from + 3;
+      select_to = select_from;
       break;
     case 'code':
       changes = { from, to, insert: `\`${selectedText}\`` };
@@ -105,15 +111,17 @@ function exec(action: string, payload?: string) {
     case 'color': {
       const color = String(payload || '').trim();
       if (!color) return;
-      const value = selectedText || 'text';
-      const insert = `{color:${color}}(${value})`;
+      const insert = `{color:${color}}(${selectedText})`;
       changes = { from, to, insert };
+      select_from = insert.indexOf('(') + 1 + from;
+      select_to = select_from + selectedText.length;
       break;
     }
   }
+
   view.dispatch({
     changes,
-    selection: { anchor: from + 2, head: to + 2 },
+    selection: { anchor: select_from, head: select_to },
   });
 
   view.focus();
