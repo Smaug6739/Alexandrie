@@ -73,6 +73,9 @@ function exec(action: string, payload?: string) {
   const selectedText = state.sliceDoc(from, to);
 
   let changes;
+  let isColor = false;
+  let anchorPosition = 0;
+  let headPosition = 0;
 
   switch (action) {
     case 'bold':
@@ -103,17 +106,24 @@ function exec(action: string, payload?: string) {
       changes = { from, to, insert: `1. ${selectedText}\n` };
       break;
     case 'color': {
+      isColor = true;
       const color = String(payload || '').trim();
       if (!color) return;
-      const value = selectedText || 'text';
-      const insert = `{color:${color}}(${value})`;
+      const insert = `{color:${color}}()`;
       changes = { from, to, insert };
       break;
     }
   }
+  if (isColor) {
+    headPosition = changes?.insert.length ? changes?.insert.length - 1 + from : 0;
+    anchorPosition = changes?.insert.length ? changes?.insert.length - 1 + to : 0;
+  } else {
+    headPosition = to + 2;
+    anchorPosition = from + 2;
+  }
   view.dispatch({
     changes,
-    selection: { anchor: from + 2, head: to + 2 },
+    selection: { anchor: anchorPosition, head: headPosition },
   });
 
   view.focus();
