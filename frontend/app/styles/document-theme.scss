@@ -246,3 +246,139 @@
 	}
 
 }
+
+.modern-theme {
+	max-width: 100%;
+	font-family: 'Inter', 'Roboto', sans-serif;
+	color: var(--font-color, #1e1e1e);
+	line-height: 1.7;
+	font-size: 16px;
+	background-color: var(--background, #fafafa);
+	padding: 1rem 2rem;
+
+	h1, h2, h3, h4, h5, h6 {
+		font-family: 'Inter', sans-serif;
+		font-weight: 600;
+		color: var(--heading-color, #111);
+		margin-top: 1.2em;
+		margin-bottom: 0.6em;
+		letter-spacing: -0.01em;
+	}
+
+	h1 {
+		font-size: 2rem;
+	}
+
+	h2 {
+		font-size: 1.5rem;
+	}
+
+	h3 {
+		font-size: 1.25rem;
+	}
+
+	p {
+		margin: 0.8em 0;
+		width: 100%;
+		color: var(--font-color, #333);
+	}
+
+	a {
+		color: var(--primary, #3b82f6);
+		font-weight: 500;
+		text-decoration: none;
+		transition: all 0.2s ease-in-out;
+
+		&:hover {
+			color: var(--primary-hover, #2563eb);
+			text-decoration: underline;
+		}
+	}
+
+	code, pre {
+		font-family: 'Roboto Mono', monospace;
+		background-color: #f4f4f5;
+		color: #1e1e1e;
+		padding: 0.25em 0.5em;
+		border-radius: 6px;
+		font-size: 0.95em;
+	}
+
+	pre {
+		padding: 1rem;
+		overflow-x: auto;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	}
+
+	blockquote {
+		border-left: 4px solid var(--primary, #3b82f6);
+		padding-left: 1rem;
+		margin: 1.5rem 0;
+		color: #555;
+		background-color: #f9fafb;
+		border-radius: 0 6px 6px 0;
+	}
+
+	ul, ol {
+		padding-left: 1.5rem;
+		margin: 0.8em 0;
+	}
+
+	img {
+		max-width: 100%;
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		margin: 1rem 0;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.5em 0;
+		font-size: 0.95em;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+
+		th, td {
+			padding: 0.75em 1em;
+			border-bottom: 1px solid #e5e7eb;
+		}
+
+		th {
+			background-color: #f3f4f6;
+			font-weight: 600;
+			text-align: left;
+		}
+	}
+
+	.custom-block {
+		margin: 2em 0;
+		padding: 1rem;
+		border-radius: 8px;
+		font-size: 15px;
+		color: var(--font-color);
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+		&.info {
+			background-color: #e0f2fe;
+			border-left: 4px solid #0284c7;
+		}
+
+		&.success {
+			background-color: #dcfce7;
+			border-left: 4px solid #16a34a;
+		}
+
+		&.warning {
+			background-color: #fef9c3;
+			border-left: 4px solid #eab308;
+		}
+
+		&.danger {
+			background-color: #fee2e2;
+			border-left: 4px solid #dc2626;
+		}
+	}
+}
+

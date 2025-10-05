@@ -2,6 +2,7 @@ export const DOCUMENT_THEMES = [
   { label: 'Alexandrie', id: 'alexandrie' },
   { label: 'Latex style', id: 'latex' },
   { label: 'Latex colored', id: 'latex-colored' },
+  { label: 'modern colored', id: 'modern-colored' },
 ];
 
 export const DOCUMENT_ACCESSIBILITIES: ANode[] = [
