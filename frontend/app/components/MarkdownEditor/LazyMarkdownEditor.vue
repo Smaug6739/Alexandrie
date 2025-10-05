@@ -73,9 +73,8 @@ function exec(action: string, payload?: string) {
   const selectedText = state.sliceDoc(from, to);
 
   let changes;
-  let isColor = false;
-  let anchorPosition = 0;
-  let headPosition = 0;
+  let select_from = from + 2;
+  let select_to = to + 2;
 
   switch (action) {
     case 'bold':
@@ -83,6 +82,8 @@ function exec(action: string, payload?: string) {
       break;
     case 'italic':
       changes = { from, to, insert: `*${selectedText}*` };
+      select_from = from + 1;
+      select_to = select_from + selectedText.length;
       break;
     case 'underline':
       changes = { from, to, insert: `__${selectedText}__` };
@@ -92,6 +93,8 @@ function exec(action: string, payload?: string) {
       break;
     case 'link':
       changes = { from, to, insert: `[](${selectedText})` };
+      select_from = from + 3;
+      select_to = select_from;
       break;
     case 'code':
       changes = { from, to, insert: `\`${selectedText}\`` };
@@ -106,24 +109,19 @@ function exec(action: string, payload?: string) {
       changes = { from, to, insert: `1. ${selectedText}\n` };
       break;
     case 'color': {
-      isColor = true;
       const color = String(payload || '').trim();
       if (!color) return;
-      const insert = `{color:${color}}()`;
+      const insert = `{color:${color}}(${selectedText})`;
       changes = { from, to, insert };
+      select_from = insert.indexOf('(') + 1 + from;
+      select_to = select_from + selectedText.length;
       break;
     }
   }
-  if (isColor) {
-    headPosition = changes?.insert.length ? changes?.insert.length - 1 + from : 0;
-    anchorPosition = changes?.insert.length ? changes?.insert.length - 1 + to : 0;
-  } else {
-    headPosition = to + 2;
-    anchorPosition = from + 2;
-  }
+
   view.dispatch({
     changes,
-    selection: { anchor: anchorPosition, head: headPosition },
+    selection: { anchor: select_from, head: select_to },
   });
 
   view.focus();
