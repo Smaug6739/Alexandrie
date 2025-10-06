@@ -201,6 +201,7 @@ func (s *Service) GetAllNodeBackup(user_id types.Snowflake) ([]*models.Node, err
 		}
 		nodes = append(nodes, &node)
 	}
+	rows.Close()
 	return nodes, nil
 }
 
