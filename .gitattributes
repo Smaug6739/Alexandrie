@@ -20,7 +20,6 @@ frontend/app/styles/katex/**/* linguist-vendored
 *.yaml text eol=lf
 *.json text eol=lf
 *.html text eol=lf
-* text eol=lf
 
 # Binary files
 *.png binary
