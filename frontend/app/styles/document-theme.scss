@@ -251,17 +251,10 @@
 	max-width: 100%;
 	font-family: 'Inter', 'Roboto', sans-serif;
 	color: var(--font-color);
-	line-height: 1.7;
-	font-size: 16px;
-	padding: 1rem 2rem;
+	padding: 0rem 0.5rem;
 
-	h1, h2, h3, h4, h5, h6 {
-		font-family: 'Inter', sans-serif;
-		font-weight: 600;
-		color: var(--font-color-dark);
-		margin-top: 1.2em;
-		margin-bottom: 0.6em;
-		letter-spacing: -0.01em;
+	.header-anchor {
+		display: none;
 	}
 
 	h1 {
@@ -277,7 +270,6 @@
 	}
 
 	p {
-		margin: 0.8em 0;
 		width: 100%;
 	}
 
@@ -293,7 +285,8 @@
 		}
 	}
 
-	code, pre {
+	code,
+	pre {
 		font-family: 'Roboto Mono', monospace;
 		background-color: var(--bg-contrast);
 		color: var(--font-color);
@@ -316,7 +309,8 @@
 		border-radius: 0 6px 6px 0;
 	}
 
-	ul, ol {
+	ul,
+	ol {
 		padding-left: 1.5rem;
 		margin: 0.8em 0;
 	}
@@ -335,7 +329,8 @@
 		border-radius: 8px;
 		overflow: hidden;
 
-		th, td {
+		th,
+		td {
 			padding: 0.75em 1em;
 			border-bottom: 1px solid var(--border-color);
 		}
@@ -348,28 +343,30 @@
 	}
 
 	.custom-block {
-		margin: 2em 0;
-		padding: 1rem;
-		border-radius: 8px;
+		border-radius: 4px;
 		font-size: 15px;
 		color: var(--font-color);
 
-		&.info, &.blue {
+		&.info,
+		&.blue {
 			background-color: var(--blue-bg-light);
 			border-left: 4px solid var(--blue);
 		}
 
-		&.success, &.green {
+		&.success,
+		&.green {
 			background-color: var(--green-bg-light);
 			border-left: 4px solid var(--green);
 		}
 
-		&.warning, &.yellow {
+		&.warning,
+		&.yellow {
 			background-color: var(--yellow-bg-light);
 			border-left: 4px solid var(--yellow);
 		}
 
-		&.danger, &.red {
+		&.danger,
+		&.red {
 			background-color: var(--red-bg-light);
 			border-left: 4px solid var(--red);
 		}
