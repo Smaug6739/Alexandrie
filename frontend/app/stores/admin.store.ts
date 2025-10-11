@@ -43,9 +43,9 @@ export const useAdminStore = defineStore('admin', {
       } else throw responce.message;
     },
     async fetchUserDocument(userId: string, docId: string): Promise<Node | undefined> {
-      const responce = await makeRequest<Node>(`nodes/${userId}/${docId}`, 'GET', {});
+      const responce = await makeRequest<{ node: Node; permissions: [] }>(`nodes/${userId}/${docId}`, 'GET', {});
       if (responce.status === 'success') {
-        return responce.result;
+        return responce.result?.node;
       } else throw responce.message;
     },
   },

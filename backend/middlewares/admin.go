@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"alexandrie/permissions"
 	"alexandrie/utils"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +15,7 @@ func Admin() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		if role != 2 {
+		if role != permissions.RoleAdministrator {
 			c.JSON(401, utils.Error("Unauthorized"))
 			c.Abort()
 			return
