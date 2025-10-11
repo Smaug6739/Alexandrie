@@ -15,7 +15,7 @@ func Migrate(config *Config) {
 	workingDir, _ := os.Getwd()
 	absPath := filepath.Join(workingDir, os.Getenv("CONFIG_CPWD"), "migrations")
 	absPath = filepath.ToSlash(absPath)
-	db := DBConection(*config, true) // Use multiStatements for migration
+	db := DBConnection(*config, true) // Use multiStatements for migration
 	defer db.Close()
 
 	// Test the database connection

@@ -50,7 +50,7 @@ type App struct {
 
 func InitApp(config Config) *App {
 	var app App
-	app.DB = DBConection(config, false)
+	app.DB = DBConnection(config, false)
 	app.MinioClient, _ = MinioConnection()
 	app.MailClient = GetMailClient()
 	app.Snowflake = utils.NewSnowflake(1609459200000)
