@@ -83,8 +83,8 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, errors.New("failed to create session")
 	}
 
-	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
-	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
 	user.Password = ""
 
 	go func() {
@@ -139,8 +139,8 @@ func (ctr *Controller) RefreshSession(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, errors.New("failed to update session")
 	}
 
-	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
-	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
 
 	return http.StatusOK, "Session refreshed successfully."
 }
@@ -168,8 +168,8 @@ func (ctr *Controller) Logout(c *gin.Context) (int, any) {
 	if err = ctr.app.Services.Session.DeleteSession(session.Id); err != nil {
 		return http.StatusInternalServerError, errors.New("failed to delete session")
 	}
-	c.SetCookie("Authorization", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
-	c.SetCookie("RefreshToken", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+	c.SetCookie("Authorization", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
+	c.SetCookie("RefreshToken", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
 	return http.StatusOK, "Logged out successfully."
 }
 
