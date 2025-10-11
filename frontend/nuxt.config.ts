@@ -56,28 +56,10 @@ export default defineNuxtConfig({
       theme_color: '#3956e7',
       icons: [
         {
-          src: 'public/manifest-icon-192.maskable.png',
+          src: '/android-chrome-192x192.png',
           sizes: '192x192',
           type: 'image/png',
-          purpose: 'any',
-        },
-        {
-          src: 'public/manifest-icon-192.maskable.png',
-          sizes: '192x192',
-          type: 'image/png',
-          purpose: 'maskable',
-        },
-        {
-          src: 'public/manifest-icon-512.maskable.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'any',
-        },
-        {
-          src: 'public/manifest-icon-512.maskable.png',
-          sizes: '512x512',
-          type: 'image/png',
-          purpose: 'maskable',
+          purpose: 'maskable any',
         },
       ],
       screenshots: [
