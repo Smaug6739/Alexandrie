@@ -183,7 +183,7 @@ func (ctr *Controller) DeletePermission(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, err
 	}
 	allowed, _, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if !allowed || err != nil {
+	if (!allowed || err != nil) && perm.UserId != connectedUserId {
 		return http.StatusUnauthorized, err
 	}
 	err = ctr.app.Services.Permissions.DeletePermission(permId)

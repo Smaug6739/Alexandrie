@@ -14,6 +14,9 @@
         All workspaces
       </h1>
       <div style="display: flex; align-items: center; gap: 8px">
+        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" @click="openRemoveShareModal"
+          ><Icon name="group_off" :big="true" fill="var(--font-color)"
+        /></NuxtLink>
         <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" @click="openPermissionsModal"
           ><Icon name="manage_access" :big="true" fill="var(--font-color)"
         /></NuxtLink>
@@ -44,15 +47,20 @@
 
 <script setup lang="ts">
 import NodePermissions from '@/components/Node/NodePermissions.modal.vue';
+import RemoveSharedNode from '@/components/Node/RemoveSharedNode.modal.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
 const nodesStore = useNodesStore();
+const connectedId = useUserStore().user?.id;
 
 const view: Ref<'table' | 'list'> = ref('list');
 
 const openPermissionsModal = () => {
   if (props.parent) useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.parent }, size: 'small' }));
+};
+const openRemoveShareModal = () => {
+  if (props.parent) useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.parent.id }, size: 'small' }));
 };
 </script>
 

@@ -20,6 +20,9 @@
         />
       </svg>
     </NuxtLink>
+    <NuxtLink v-if="doc.shared" @click="openRemoveShareModal">
+      <Icon name="group_off" :big="true" fill="var(--font-color)" />
+    </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" @click="openEditModal">
       <Icon name="settings" :big="true" fill="var(--font-color)" />
     </NuxtLink>
@@ -40,6 +43,7 @@
 import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
 import DocumentMeta from '@/components/Node/NodeMetadata.modal.vue';
 import NodePermissions from '@/components/Node/NodePermissions.modal.vue';
+import RemoveSharedNode from '@/components/Node/RemoveSharedNode.modal.vue';
 import type { Node } from '~/stores';
 
 const nodeStore = useNodesStore();
@@ -49,6 +53,7 @@ const print = () => window.print();
 const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.doc.id } }));
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
 const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.doc }, size: 'small' }));
+const openRemoveShareModal = () => useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.doc.id }, size: 'small' }));
 
 function exportMarkdown() {
   const blob = new Blob([props.doc.content || ''], { type: 'text/markdown' });

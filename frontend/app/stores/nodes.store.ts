@@ -42,7 +42,7 @@ export const useNodesStore = defineStore('nodes', {
         return checkDescendants(node);
       },
     getAllChildrens: state => (id: string) => {
-      const parent = state.nodes.find(d => d.id == id);
+      const parent = state.nodes.get(id);
       if (!parent) return [];
       const childrens: Node[] = [parent];
       const getChildrens = (parent: Node) => {
@@ -66,7 +66,7 @@ export const useNodesStore = defineStore('nodes', {
           }
         });
       };
-      const parent = state.nodes.find(d => d.id == id);
+      const parent = state.nodes.get(id);
       if (parent) getChildrens(parent);
       return childrens;
     },
@@ -118,7 +118,7 @@ export const useNodesStore = defineStore('nodes', {
       let permission = node.permissions.find(p => p.user_id === userStore.user?.id)?.permission || 0;
       let currentNode = node;
       while (permission < level && currentNode.parent_id) {
-        const parentNode = state.nodes.find(n => n.id === currentNode.parent_id);
+        const parentNode = state.nodes.get(currentNode.parent_id);
         if (!parentNode) break;
         if (parentNode.user_id === userStore.user?.id) return true; // owner of parent node
         const parentPerm = parentNode.permissions.find(p => p.user_id === userStore.user?.id);
@@ -207,7 +207,7 @@ export const useNodesStore = defineStore('nodes', {
     },
     async updatePermission(perm: Permission) {
       console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
-      const node = this.nodes.find(n => n.id === perm.node_id);
+      const node = this.nodes.get(perm.node_id);
       if (!node) throw 'Node not found in store, cannot update permission';
       const request = await makeRequest(`permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
       if (request.status === 'success') {
@@ -217,7 +217,7 @@ export const useNodesStore = defineStore('nodes', {
     },
     async removePermission(nodeId: string, userId: string) {
       console.log(`[store/nodes/permissions] Removing permission for user ${userId} on node ${nodeId}`);
-      const node = this.nodes.find(n => n.id === nodeId);
+      const node = this.nodes.get(nodeId);
       if (!node) throw 'Node not found in store, cannot remove permission';
       const perm = node.permissions.find(p => p.user_id === userId);
       if (!perm) throw 'Permission not found in store, cannot remove permission';
