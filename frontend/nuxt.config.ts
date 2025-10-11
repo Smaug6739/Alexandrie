@@ -56,7 +56,31 @@ export default defineNuxtConfig({
       theme_color: '#3956e7',
       icons: [
         {
-          src: '/android-chrome-192x192.png',
+          src: '/icons/maskable_icon_x48.png',
+          sizes: '48x48',
+          type: 'image/png',
+          purpose: 'maskable any',
+        },
+        {
+          src: '/icons/maskable_icon_x72.png',
+          sizes: '72x72',
+          type: 'image/png',
+          purpose: 'maskable any',
+        },
+        {
+          src: '/icons/maskable_icon_x96.png',
+          sizes: '96x96',
+          type: 'image/png',
+          purpose: 'maskable any',
+        },
+        {
+          src: '/icons/maskable_icon_x144.png',
+          sizes: '144x144',
+          type: 'image/png',
+          purpose: 'maskable any',
+        },
+        {
+          src: '/icons/maskable_icon_x192.png',
           sizes: '192x192',
           type: 'image/png',
           purpose: 'maskable any',
