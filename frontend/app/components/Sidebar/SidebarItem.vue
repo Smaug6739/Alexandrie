@@ -10,7 +10,7 @@
     @dragleave="dragLeave"
     @contextmenu.prevent="showContextMenu"
   >
-    <Icon :name="icon" :class="customClass" />&nbsp;
+    <Icon :name="icon" :class="customClass" fill="red" />&nbsp;
 
     <NuxtLink v-if="item.onClick" style="flex: 1" class="close" @click="item.onClick">{{ item.label }}</NuxtLink>
     <NuxtLink v-else :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
@@ -120,12 +120,10 @@ const drop = async (event: DragEvent) => {
     width: 20px;
     height: 20px;
 
-    &:deep(svg) {
-      fill: var(--primary);
+    fill: var(--primary) !important;
 
-      path {
-        fill: var(--primary);
-      }
+    path {
+      fill: var(--primary);
     }
   }
 

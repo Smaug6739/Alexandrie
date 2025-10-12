@@ -1,7 +1,9 @@
 {
   "name": "alexandrie",
   "version": "8.0.0-beta.1",
-  "devDependencies": {},
+  "devDependencies": {
+    "vite-plugin-svg-icons": "^2.0.1"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

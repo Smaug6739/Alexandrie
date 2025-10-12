@@ -1,5 +1,9 @@
+import { resolve } from 'path';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import { defineNuxtConfig } from 'nuxt/config';
 export default defineNuxtConfig({
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
+
   vite: {
     css: {
       preprocessorOptions: {
@@ -8,7 +12,12 @@ export default defineNuxtConfig({
         },
       },
     },
-
+    plugins: [
+      createSvgIconsPlugin({
+        iconDirs: [resolve(process.cwd(), 'public/app-icons/')],
+        symbolId: 'icon-[name]',
+      }),
+    ],
     vue: {
       template: {
         compilerOptions: {

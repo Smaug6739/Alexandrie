@@ -35,9 +35,9 @@ watch(view, newView => localStorage.setItem('viewSelection', newView as 'table' 
   transition: background-color 0.3s;
   cursor: pointer;
 
-  &.active:deep(svg) {
+  &.active > svg {
     transition: fill 0.1s;
-    fill: var(--primary);
+    fill: var(--primary) !important;
   }
 
   svg {

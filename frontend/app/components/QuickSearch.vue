@@ -127,10 +127,8 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
     display: flex;
     align-items: center;
 
-    &:deep(svg) {
-      width: 35px;
-      margin-right: 5px;
-    }
+    width: 35px;
+    margin-right: 5px;
   }
 }
 

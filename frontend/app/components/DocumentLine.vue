@@ -2,9 +2,7 @@
   <div class="document-line">
     <header style="display: flex; justify-content: space-between">
       <div style="display: flex; align-items: center; justify-content: flex-start">
-        <div>
-          <Icon :name="document.icon || category?.icon || 'files'" :class="`category-icon ${getAppColor(document.color || category?.color as number, true)}`" />
-        </div>
+        <Icon :name="document.icon || category?.icon || 'files'" :class="`category-icon ${getAppColor(document.color || category?.color as number, true)}`" />
         <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
       </div>
       <DocumentDotMenu :document="document" :user="user" @delete="deleteDoc" />

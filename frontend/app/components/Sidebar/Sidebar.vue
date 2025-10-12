@@ -107,7 +107,7 @@ onBeforeUnmount(() => {
 .sidebar {
   width: 100%;
   max-height: 100%;
-  padding: .5rem .2rem .5rem .5rem;
+  padding: 0.5rem 0.2rem 0.5rem 0.5rem;
   background: var(--bg-color);
   overflow-y: auto;
   scrollbar-gutter: stable;
@@ -149,7 +149,6 @@ onBeforeUnmount(() => {
   a {
     padding: 2px;
     border-radius: 25%;
-    align-self: center;
 
     &:hover {
       background: var(--selection-color);
