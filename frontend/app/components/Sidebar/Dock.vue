@@ -59,15 +59,15 @@ a {
   justify-content: center;
 
   &:hover {
-    &:deep(svg) {
-      fill: var(--opposite-color);
+    svg {
+      color: var(--opposite-color) !important;
     }
   }
 }
 
 a.router-link-active {
-  &:deep(svg) {
-    fill: var(--primary);
+  svg {
+    color: var(--primary) !important;
   }
 }
 </style>

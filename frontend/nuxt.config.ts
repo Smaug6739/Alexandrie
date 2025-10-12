@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import { defineNuxtConfig } from 'nuxt/config';
+
 export default defineNuxtConfig({
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
 

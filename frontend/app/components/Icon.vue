@@ -1,12 +1,14 @@
 <template>
-  <svg v-if="isSpriteIcon" class="icon" :class="{ big, mid, small }" :style="{ fill: fill || 'currentColor' }" aria-hidden="true">
+  <svg v-if="isSpriteIcon" class="icon" :class="{ big, mid, small }" :style="{ color: fill || 'currentColor' }" aria-hidden="true">
     <use :href="`#icon-${name}`" />
   </svg>
 
-  <i v-else class="icon" :style="{ fill }" :class="{ fill, big, mid, small }" v-html="name" />
+  <i v-else class="icon c-icon" :style="{ fill: fill || 'currentColor' }" :class="{ fill, big, mid, small }" v-html="name" />
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
 const props = defineProps<{
   name: string;
   fill?: string;
@@ -15,28 +17,26 @@ const props = defineProps<{
   small?: boolean;
 }>();
 
-// Si l'icône existe dans le sprite (via ton ancien objet ou juste pour fallback)
 const isSpriteIcon = computed(() => {
-  // tu peux remplacer par une vérif plus robuste si tu as un registre des icons disponibles
   return typeof props.name === 'string' && props.name.length < 50;
 });
 </script>
 
 <style scoped lang="scss">
 .icon {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-
   width: 20px;
   height: 20px;
-
-  fill: currentColor;
-  color: inherit;
   pointer-events: none;
   user-select: none;
 
-  /* Tailles personnalisées */
+  use {
+    fill: currentColor;
+  }
+
+  /* Custom sizes */
   &.small {
     width: 18px;
     height: 18px;
@@ -49,5 +49,8 @@ const isSpriteIcon = computed(() => {
     width: 25px;
     height: 25px;
   }
+}
+.c-icon:deep(svg) {
+  fill: inherit !important;
 }
 </style>

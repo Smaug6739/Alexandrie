@@ -2,7 +2,7 @@
   <div v-if="node.data.role === 2" class="tree-node">
     <div class="tree-content">
       <div class="tree-label">
-        <Icon class="icon" name="folder" style="display: inline; width: 15px" />
+        <Icon class="icon" name="folder" style="display: inline; width: 18px" fill="var(--yellow)" />
         <span>{{ node.label }}</span>
       </div>
       <div class="tree-actions">

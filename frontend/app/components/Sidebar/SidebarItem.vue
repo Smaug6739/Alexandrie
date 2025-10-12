@@ -10,12 +10,12 @@
     @dragleave="dragLeave"
     @contextmenu.prevent="showContextMenu"
   >
-    <Icon :name="icon" :class="customClass" fill="red" />&nbsp;
+    <Icon :name="icon" :class="customClass" />&nbsp;
 
     <NuxtLink v-if="item.onClick" style="flex: 1" class="close" @click="item.onClick">{{ item.label }}</NuxtLink>
     <NuxtLink v-else :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
 
-    <Icon v-if="item.data.shared && !item.parent_id" name="users" fill="var(--font-color)" />
+    <Icon v-if="item.data.shared && !item.parent_id" name="users" fill="var(--font-color-light)" />
 
     <NuxtLink v-if="item.data.role === 2 && nodesStore.hasPermissions(item.data as Node, 2)" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" fill="var(--font-color)" />
@@ -44,7 +44,7 @@ const customClass = computed(() => {
   return 'default-icon';
 });
 const icon = computed(() => {
-  if (props.item.icon === 'file' && props.item.childrens?.some(child => child.data.role != 4)) return 'file_parent';
+  if (props.item.icon === 'sidebar/file' && props.item.childrens?.some(child => child.data.role != 4)) return 'file_parent';
   return props.item.icon || '';
 });
 
@@ -119,12 +119,7 @@ const drop = async (event: DragEvent) => {
   .default-icon {
     width: 20px;
     height: 20px;
-
-    fill: var(--primary) !important;
-
-    path {
-      fill: var(--primary);
-    }
+    color: var(--primary) !important;
   }
 
   .item-icon {
@@ -132,6 +127,7 @@ const drop = async (event: DragEvent) => {
     height: 20px;
     padding: 2px;
     border-radius: 4px;
+    color: var(--primary) !important;
   }
 }
 
@@ -142,11 +138,6 @@ const drop = async (event: DragEvent) => {
 
 .nav {
   display: none;
-}
-
-.nav:deep(svg),
-.ni:deep(svg) {
-  fill: inherit !important;
 }
 
 .item:hover .nav,
