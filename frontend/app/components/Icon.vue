@@ -50,7 +50,7 @@ const isSpriteIcon = computed(() => {
     height: 25px;
   }
 }
-.c-icon:deep(svg) {
+.c-icon:deep(svg, svg * path) {
   fill: inherit !important;
 }
 </style>
