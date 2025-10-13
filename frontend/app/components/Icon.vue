@@ -18,8 +18,11 @@ const props = defineProps<{
 }>();
 
 const isSpriteIcon = computed(() => {
-  return typeof props.name === 'string' && props.name.length < 50;
+  return typeof props.name === 'string' && props.name.length < 50 && !isUnicode(props.name);
 });
+const isUnicode = (str: string) => {
+  return Array.from(str).some(char => char.charCodeAt(0) > 255);
+};
 </script>
 
 <style scoped lang="scss">
@@ -50,7 +53,8 @@ const isSpriteIcon = computed(() => {
     height: 25px;
   }
 }
-.c-icon:deep(svg, svg * path) {
+.c-icon:deep(svg),
+.c-icon:deep(svg > * > path) {
   fill: inherit !important;
 }
 </style>
