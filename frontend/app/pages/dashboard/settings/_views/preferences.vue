@@ -69,11 +69,63 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import { EDITOR_FONTS } from '~/app/composables/constants';
+
 const preferencesStore = usePreferences();
 const prefs = preferencesStore.all;
 const colorMode = useColorMode();
-// --- Définition déclarative des options ---
-const options = ref<{ label: string; options: Option[] }[]>([
+
+const editorFonts = ref([...EDITOR_FONTS]);
+
+const fontFile = ref<File|null>(null);
+const fontName = ref('');
+const showFontUpload = ref(false);
+
+function onFontFileChange(e: Event) {
+  const files = (e.target as HTMLInputElement).files;
+  if (files && files.length > 0) {
+    fontFile.value = files[0];
+  }
+}
+
+async function addCustomFont() {
+  if (!fontFile.value || !fontName.value) return;
+  const fontId = fontName.value.trim();
+  const formData = new FormData();
+  formData.append('file', fontFile.value);
+  formData.append('name', fontId);
+  try {
+    const res = await fetch('/api/fonts', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+    });
+    if (!res.ok) throw new Error('Erreur lors de l’upload');
+    const data = await res.json();
+    const url = `/cdn/${data.url}`;
+    editorFonts.value.push({ label: fontName.value, id: fontId });
+    const style = document.createElement('style');
+    style.innerHTML = `@font-face { font-family: '${fontId}'; src: url('${url}'); }`;
+    document.head.appendChild(style);
+    fontFile.value = null;
+    fontName.value = '';
+    showFontUpload.value = false;
+  } catch (e) {
+    alert('Error during the police upload');
+  }
+}
+
+    <div style="margin: 1.5rem 0;">
+      <button class="app-btn" type="button" @click="showFontUpload = !showFontUpload">
+        {{ showFontUpload ? 'Cancel' : 'Add a police' }}
+      </button>
+      <div v-if="showFontUpload" style="margin-top: 1rem;">
+        <input type="file" accept=".ttf,.otf,.woff" @change="onFontFileChange" />
+        <input type="text" v-model="fontName" placeholder="Name of the police" style="margin-left: 1rem;" />
+        <button class="app-btn" type="button" @click="addCustomFont" :disabled="!fontFile || !fontName">Ajouter</button>
+      </div>
+    </div>
   {
     label: 'General',
     options: [
@@ -187,7 +239,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
         type: 'select',
         key: 'editorFontFamily',
         value: String(preferencesStore.get('editorFontFamily')),
-        choices: EDITOR_FONTS,
+        choices: editorFonts,
       },
       {
         label: 'Editor font size',
