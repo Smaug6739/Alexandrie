@@ -53,6 +53,6 @@
     "stylelint-config-standard": "^39.0.1",
     "stylelint-order": "^7.0.0",
     "vue": "^3.5.22",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.6.1"
   }
 }
