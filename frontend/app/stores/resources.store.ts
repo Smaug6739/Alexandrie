@@ -32,7 +32,7 @@ export const useRessourcesStore = defineStore('ressources', {
     },
     async delete(id: string) {
       const request = await makeRequest(`ressources/${id}`, 'DELETE', {});
-      if (request.status == 'success') return useNodesStore().nodes.delete(id);
+      if (request.status == 'success') return useNodesStore().nodes.delete(id); // Remove the node from the cache
       else throw request.message;
     },
   },
