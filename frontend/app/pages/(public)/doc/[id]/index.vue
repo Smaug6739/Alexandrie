@@ -34,10 +34,10 @@
 </template>
 
 <script setup lang="ts">
-import TableOfContent from '@/pages/dashboard/docs/_components/table-of-content/TableOfContents.vue';
-import DocumentSkeleton from '@/pages/dashboard/docs/_components/DocumentSkeleton.vue';
-import DocumentCardHeader from '@/pages/dashboard/docs/_components/DocumentCardHeader.vue';
-import type { Node } from '@/stores';
+import TableOfContent from '~/pages/dashboard/docs/_components/table-of-content/TableOfContents.vue';
+import DocumentSkeleton from '~/pages/dashboard/docs/_components/DocumentSkeleton.vue';
+import DocumentCardHeader from '~/pages/dashboard/docs/_components/DocumentCardHeader.vue';
+import type { Node } from '~/stores';
 
 const route = useRoute();
 const documentsStore = useNodesStore();

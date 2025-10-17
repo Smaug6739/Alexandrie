@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
-import { hsvToHex, drawColorWheel } from '@/helpers/colors';
+import { hsvToHex, drawColorWheel } from '~/helpers/colors';
 const props = defineProps<{ onColorSelect: (color: string) => void }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
 

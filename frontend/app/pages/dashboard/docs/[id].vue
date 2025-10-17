@@ -3,22 +3,22 @@
   <div style="width: 100%; padding: 1rem 0">
     <div v-if="!error" style="display: flex; justify-content: space-between">
       <div :style="{ maxWidth: width }" class="doc-container">
-        <DocumentCardHeader :doc="article" style="margin-bottom: 20px" />
+        <DocumentCardHeader :doc="node" style="margin-bottom: 20px" />
 
         <!-- eslint-disable-next-line vue/no-v-html -->
         <article
-          v-if="article"
+          v-if="node"
           ref="element"
-          :class="`${article.theme || preferencesStore.get('theme').value}-theme`"
+          :class="`${node.theme || preferencesStore.get('theme').value}-theme`"
           style="max-width: 100%"
-          v-html="article.content_compiled"
+          v-html="node.content_compiled"
         />
         <DocumentSkeleton v-else />
-        <DocumentCardFooter :document="article" :next="next" :previous="previous" />
+        <DocumentCardFooter :document="node" :next="next" :previous="previous" />
       </div>
 
       <div v-if="!isTablet() && !preferencesStore.get('hideTOC').value" class="toc">
-        <TableOfContent :doc="article" :element="element" style="width: 320px; margin-left: 20px" />
+        <TableOfContent :doc="node" :element="element" style="width: 320px; margin-left: 20px" />
       </div>
 
       <div
@@ -37,16 +37,15 @@ import TableOfContent from './_components/table-of-content/TableOfContents.vue';
 import DocumentCardHeader from './_components/DocumentCardHeader.vue';
 import DocumentCardFooter from './_components/DocumentCardFooter.vue';
 import DocumentSkeleton from './_components/DocumentSkeleton.vue';
-
-import type { Node } from '@/stores';
+import type { Node } from '~/stores';
 
 const route = useRoute();
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
 const element = ref<HTMLElement>();
 
-const article = ref<Node | undefined>();
-const error: Ref<false | string> = ref(false);
+const node = ref<Node | undefined>();
+const error = ref<false | string>(false);
 
 watchEffect(async () => {
   const document_id = route.params.id as string;
@@ -55,16 +54,16 @@ watchEffect(async () => {
     if (documentsStore.isFetching) return;
     return (error.value = 'Document not found');
   }
-  article.value = undefined;
+  node.value = undefined;
   if (docFromStore.partial) {
     try {
       error.value = false;
-      article.value = await documentsStore.fetch({ id: document_id });
+      node.value = await documentsStore.fetch({ id: document_id });
     } catch (err: unknown) {
       error.value = (err as Error).message || 'Failed to fetch document';
     }
-  } else article.value = docFromStore;
-  useHead({ title: article.value?.name || '' });
+  } else node.value = docFromStore;
+  useHead({ title: node.value?.name || '' });
 });
 
 definePageMeta({
@@ -74,8 +73,8 @@ definePageMeta({
   },
 });
 
-const next = computed(() => useSidebarTree().structure.value.next(article.value?.id)?.data);
-const previous = computed(() => useSidebarTree().structure.value.previous(article.value?.id)?.data);
+const next = computed(() => useSidebarTree().structure.value.next(node.value?.id)?.data);
+const previous = computed(() => useSidebarTree().structure.value.previous(node.value?.id)?.data);
 const width = computed(() => {
   if (preferencesStore.get('docSize').value == 2) return '980px';
   if (preferencesStore.get('docSize').value == 1) return '800px';
@@ -87,9 +86,9 @@ onMounted(() => {
   const handleDocumentKeydown = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === 'e') {
       // Go to the edit page of the current document
-      if (!article.value?.id) return;
+      if (!node.value?.id) return;
       e.preventDefault();
-      useRouter().push(`/dashboard/docs/edit/${article.value.id}`);
+      useRouter().push(`/dashboard/docs/edit/${node.value.id}`);
     } else if (e.key === 'ArrowRight') {
       e.preventDefault();
       // Go to the next document page

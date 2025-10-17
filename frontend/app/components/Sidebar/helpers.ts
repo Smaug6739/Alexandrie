@@ -1,5 +1,5 @@
-import SettingsModal from '@/pages/dashboard/settings/modal.vue';
-import type { Node } from '@/stores';
+import SettingsModal from '~/pages/dashboard/settings/modal.vue';
+import type { Node } from '~/stores';
 
 export type DefaultItem = Item<Omit<Node, 'user_id' | 'data' | 'show' | 'access' | 'accessibility' | 'created_timestamp' | 'updated_timestamp'>>;
 export interface Workspace {

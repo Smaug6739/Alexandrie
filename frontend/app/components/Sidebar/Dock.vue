@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import SettingsModal from '@/pages/dashboard/settings/modal.vue';
+import SettingsModal from '~/pages/dashboard/settings/modal.vue';
 const openSettings = () => {
   useModal().add(new Modal(shallowRef(SettingsModal), { props: {}, size: 'large', noPadding: true }));
 };

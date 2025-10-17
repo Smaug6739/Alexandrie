@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import NodeList from '@/components/Node/NodeList.vue';
+import NodeList from '~/components/Node/NodeList.vue';
 import type { Node } from '~/stores';
 
 const route = useRoute();

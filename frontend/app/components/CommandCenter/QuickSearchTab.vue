@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { quickActions, availablePages, type SearchResult, type BaseCommand } from '@/helpers/navigation';
+import { quickActions, availablePages, type SearchResult, type BaseCommand } from '~/helpers/navigation';
 import SearchResultsList from './SearchResultsList.vue';
 
 const props = defineProps<{

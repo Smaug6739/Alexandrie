@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import type { User } from '@/stores';
+import type { User } from '~/stores';
 
 definePageMeta({ breadcrumb: 'User Details' });
 

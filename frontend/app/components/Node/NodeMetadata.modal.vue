@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Node } from '@/stores';
+import type { Node } from '~/stores';
 
 const nodeStore = useNodesStore();
 

@@ -20,7 +20,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { readableFileSize } from '@/helpers/ressources';
+import { readableFileSize } from '~/helpers/ressources';
 const selectedFile: Ref<File | null | undefined> = ref(null);
 const isDragOver = ref(false);
 const fileInput: Ref<HTMLInputElement | null> = ref(null);

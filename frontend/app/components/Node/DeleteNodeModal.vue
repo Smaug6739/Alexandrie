@@ -13,6 +13,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{ documentId: string }>();
+
 const deleteDoc = () => {
   useNodesStore()
     .delete(props.documentId)

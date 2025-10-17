@@ -33,8 +33,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Node } from '@/stores';
-import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentModal.vue';
+import type { Node } from '~/stores';
+import DeleteDocumentModal from '~/components/Node/DeleteNodeModal.vue';
 
 const props = defineProps<{ document: Node }>();
 const nodesStore = useNodesStore();

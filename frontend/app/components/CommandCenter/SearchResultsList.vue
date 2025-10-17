@@ -74,7 +74,17 @@ const groupedItems = computed(() => {
     background: var(--border-color);
   }
 }
-
+kbd {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--font-color-dark);
+  background-color: var(--bg-color);
+}
 .result-icon {
   width: 20px;
   height: 20px;
@@ -92,6 +102,7 @@ const groupedItems = computed(() => {
 
 .result-shortcut {
   display: flex;
+  align-items: center;
   gap: 6px;
 }
 

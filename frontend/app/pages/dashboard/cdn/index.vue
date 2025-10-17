@@ -45,9 +45,9 @@
 </template>
 <script setup lang="ts">
 import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
-import { readableFileSize } from '@/helpers/ressources';
-import type { Field } from '@/components/DataTable.vue';
-import type { Node } from '@/stores';
+import { readableFileSize } from '~/helpers/ressources';
+import type { Field } from '~/components/DataTable.vue';
+import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: 'Upload' });
 

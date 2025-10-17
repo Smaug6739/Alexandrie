@@ -27,7 +27,7 @@
 </template>
 <script setup lang="ts">
 import SidebarWorkspace from './SidebarWorkspace.vue';
-import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import NewCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 
 import type { Workspace } from './helpers';
 

@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { readableFileSize } from '@/helpers/ressources';
+import { readableFileSize } from '~/helpers/ressources';
 definePageMeta({ breadcrumb: 'Preview' });
 const ressource = computed(() => useNodesStore().getById(useRoute().params.id as string));
 

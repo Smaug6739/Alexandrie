@@ -5,17 +5,17 @@
 import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 import type { Node } from '~/stores';
 
+const store = useNodesStore();
+definePageMeta({ breadcrumb: 'New' });
+
 const defaultParent = (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined;
 
-const store = useNodesStore();
 const document = ref<Partial<Node>>({
   parent_id: ['root', 'shared'].includes(defaultParent || '') ? undefined : defaultParent,
   accessibility: 1,
   role: 3,
 });
 const notifications = useNotifications();
-
-definePageMeta({ breadcrumb: 'New' });
 
 function save(doc: Node) {
   store
@@ -26,7 +26,5 @@ function save(doc: Node) {
     })
     .catch(e => notifications.add({ type: 'error', title: 'Error', message: e }));
 }
-function exit() {
-  useRouter().push('/dashboard');
-}
+const exit = () => useRouter().push('/dashboard');
 </script>

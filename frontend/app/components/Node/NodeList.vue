@@ -46,8 +46,8 @@
 </template>
 
 <script setup lang="ts">
-import NodePermissions from '@/components/Node/NodePermissions.modal.vue';
-import RemoveSharedNode from '@/components/Node/RemoveSharedNode.modal.vue';
+import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
+import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();

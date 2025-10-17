@@ -40,10 +40,10 @@
 </template>
 
 <script setup lang="ts">
-import DeleteDocumentModal from '../_modals/DeleteDocumentModal.vue';
-import DocumentMeta from '@/components/Node/NodeMetadata.modal.vue';
-import NodePermissions from '@/components/Node/NodePermissions.modal.vue';
-import RemoveSharedNode from '@/components/Node/RemoveSharedNode.modal.vue';
+import DeleteDocumentModal from '../../../../components/Node/DeleteNodeModal.vue';
+import DocumentMeta from '~/components/Node/NodeMetadata.modal.vue';
+import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
+import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
 import type { Node } from '~/stores';
 
 const nodeStore = useNodesStore();

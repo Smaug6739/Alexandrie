@@ -60,7 +60,7 @@ import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import SidebarSkeleton from './SidebarSkeleton.vue';
 import { navigationItems } from './helpers';
-import NewCategoryModal from '@/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import NewCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 import Dock from './Dock.vue';
 
 const { isOpened, hasSidebar, filtered } = useSidebar();

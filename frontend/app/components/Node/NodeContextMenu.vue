@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Node, PublicUser } from '@/stores';
-import DeleteDocumentModal from '~/pages/dashboard/docs/_modals/DeleteDocumentModal.vue';
+import type { Node, PublicUser } from '~/stores';
+import DeleteDocumentModal from '~/components/Node/DeleteNodeModal.vue';
 const props = defineProps<{ node: Node }>();
 const emit = defineEmits(['close']);
 const user = ref<PublicUser | null>(null);
