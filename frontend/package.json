@@ -24,7 +24,7 @@
     "@codemirror/search": "6.5.11",
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.6",
-    "@lezer/highlight": "^1.2.1",
+    "@lezer/highlight": "^1.2.2",
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "1.9.0",
     "@nuxtjs/color-mode": "^3.5.2",
@@ -32,7 +32,7 @@
     "@types/katex": "^0.16.7",
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-container": "^2.0.10",
-    "@types/node": "^24.7.2",
+    "@types/node": "^24.8.1",
     "@vite-pwa/nuxt": "1.0.4",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
@@ -53,6 +53,6 @@
     "stylelint-config-standard": "^39.0.1",
     "stylelint-order": "^7.0.0",
     "vue": "^3.5.22",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.6.3"
   }
 }
