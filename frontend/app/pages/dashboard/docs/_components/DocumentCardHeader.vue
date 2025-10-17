@@ -8,7 +8,7 @@
         <p class="top-row">
           <span style="display: flex; align-items: center; gap: 12px"
             ><img v-if="user" :src="useAvatar(user)" class="avatar" />
-            <span style=" font-size: 18px;color: var(--font-color-light)">{{ user?.username }}</span>
+            <span style="font-size: 18px; color: var(--font-color-light)">{{ user?.username }}</span>
           </span>
           <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
         </p>
@@ -124,6 +124,7 @@ p {
 
     .icon,
     .description,
+    .category,
     .tags,
     .top-row,
     .user {
