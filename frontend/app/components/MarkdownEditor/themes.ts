@@ -60,8 +60,8 @@ function loadTheme() {
   };
 
   // Base colors
-  const base00 = 'var(--bg-color)', // Background - pure white for clean look
-    base01 = '', // Lighter background (popups, statuslines)
+  const base00 = 'var(--bg-color)', // Background
+    base01 = 'var(--bg-contrast-2)', // Lighter background (popups, statuslines)
     base02 = 'var(--font-color)', // Main text - nearly black for contrast
     base03 = 'var(--font-color-light)', // Comments, invisibles - gray 600
     base04 = 'var(--border-color)', // Cursor and line numbers - gray 500
@@ -111,6 +111,17 @@ function loadTheme() {
         fontSize: generalContent.fontSize,
         fontFamily: generalContent.fontFamily,
       },
+      '.cm-button': {
+        backgroundColor: tooltipBackground,
+        backgroundImage: 'none',
+        color: base02,
+        border: generalPanel.border,
+        fontSize: '80%',
+        borderRadius: generalPanel.borderRadius,
+        padding: '4px 8px',
+        cursor: 'pointer',
+      },
+
       '.cm-scroller, .c1': {
         fontFamily: generalContent.fontFamily,
       },
@@ -153,8 +164,24 @@ function loadTheme() {
           color: background,
         },
       },
-      '.cm-search.cm-panel.cm-textfield': {
+      '.cm-search': {
+        backgroundColor: 'var(--bg-contrast)',
+      },
+      '.cm-search input': {
+        padding: '6px 8px',
+        width: 'calc(100% - 16px)',
+        fontSize: '14px',
+      },
+      '.cm-search label input': {
+        width: 'fit-content',
+      },
+      '.cm-search label': {
+        display: 'flex',
+        alignItems: 'center',
+      },
+      '.cm-textfield': {
         color: base02,
+        backgroundColor: 'var(--bg-contrast)',
         borderRadius: generalSearchField.borderRadius,
         padding: generalSearchField.padding,
       },
@@ -178,8 +205,8 @@ function loadTheme() {
         borderRadius: generalPanel.borderRadius,
         padding: generalPanel.padding,
       },
-      '.cm-panel button:hover': {
-        backgroundColor: '#CFD8DC',
+      '.cm-panel.cm-search [name=close]': {
+        fontSize: '25px',
       },
       // Line highlighting
       '.cm-activeLine': {

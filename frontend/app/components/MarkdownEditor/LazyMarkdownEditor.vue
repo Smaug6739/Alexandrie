@@ -29,7 +29,7 @@ import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirro
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { autocompletion } from '@codemirror/autocomplete';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { loadTheme } from './theme-light';
+import { loadTheme } from './themes';
 import Toolbar from './Toolbar.vue';
 import ImageSelectorModal from './ImageSelectorModal.vue';
 import GridOrganizationModal from './GridOrganizationModal.vue';
