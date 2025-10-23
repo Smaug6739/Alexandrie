@@ -17,28 +17,19 @@
       <tag teal>Teal</tag>
       <pre>
 &lt;tag blue&gt;Info&lt;/tag&gt;
-&lt;tag green&gt;Success&lt;/tag&gt;
 &lt;tag red&gt;Danger&lt;/tag&gt;
-&lt;tag yellow&gt;Yellow&lt;/tag&gt;
-&lt;tag grey&gt;Note&lt;/tag&gt;
-&lt;tag teal>Teal&lt;/tag></pre
+&lt;tag teal>Teal&lt;/tag>
+...</pre
       >
-
       <strong>Colors: </strong>
       <strong
         ><span style="color: var(--blue)">blue</span> ; <span style="color: var(--red)">red</span> ; <span style="color: var(--green)">green</span> ;
         <span style="color: var(--yellow)">yellow</span> ; <span style="color: var(--primary)">primary</span> ;
         <span style="color: var(--purple)">purple</span> ; <span style="color: var(--pink)">pink</span> ; <span style="color: var(--teal)">teal</span></strong
       >
-
-      <pre>
-{color:blue}(blue) ; {color:red}(red) ; {color:green}(green) ; {color:yellow}(yellow) ; {color:primary}(primary) ; {color:purple}(purple) ; {color:pink}(pink) ; {color:teal}(teal)
-
-Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
-      >
+      <pre>{color:blue}(blue) ; {color:red}(red) ; {color:green}(green) ;</pre>
 
       <h2>🔢 Headings</h2>
-
       <ul>
         <li>H1: <code># Heading 1</code></li>
         <li>H2: <code>## Heading 2</code></li>
@@ -47,11 +38,7 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
         <li>H5: <code>##### Heading 5</code></li>
         <li>H6: <code>###### Heading 6</code></li>
       </ul>
-      <pre>
-# Heading 1
-## Heading 2
-### Heading 3</pre
-      >
+
       <h2>💬 Blockquotes</h2>
       <p>Use the greater-than symbol to create blockquotes:</p>
       <pre>
@@ -97,83 +84,6 @@ Custom RGB allowed: {color:#2cafcc}(custom 1) {color:#34b125}(custom 2)</pre
         >
       </div>
 
-      <h2>🔲 Grid Organization</h2>
-      <p>Use the <strong>Grid Organization</strong> button in the toolbar to create custom layouts:</p>
-
-      <h3>Generated Markdown</h3>
-      <p>Here's what gets inserted when you use the Grid Organization tool:</p>
-
-      <div class="markdown-examples">
-        <div class="example-section">
-          <h4>Simple 2x2 Table</h4>
-          <div class="rendered-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Header 1</th>
-                  <th>Header 2</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Cell 1</td>
-                  <td>Cell 2</td>
-                </tr>
-                <tr>
-                  <td>Cell 3</td>
-                  <td>Cell 4</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <pre>
-| Header 1 | Header 2 |
-|----------|----------|
-| Cell 1   | Cell 2   |
-| Cell 3   | Cell 4   |</pre
-          >
-        </div>
-
-        <div class="example-section">
-          <h4>3x3 Data Table</h4>
-          <div class="rendered-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Price</th>
-                  <th>Rating</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Item A</td>
-                  <td>$19.99</td>
-                  <td>⭐⭐⭐⭐⭐</td>
-                </tr>
-                <tr>
-                  <td>Item B</td>
-                  <td>$29.99</td>
-                  <td>⭐⭐⭐⭐</td>
-                </tr>
-                <tr>
-                  <td>Item C</td>
-                  <td>$39.99</td>
-                  <td>⭐⭐⭐</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <pre>
-| Product | Price  | Rating |
-|---------|--------|--------|
-| Item A  | $19.99 | ⭐⭐⭐⭐⭐ |
-| Item B  | $29.99 | ⭐⭐⭐⭐  |
-| Item C  | $39.99 | ⭐⭐⭐   |</pre
-          >
-        </div>
-      </div>
-
       <h2>💻 Code</h2>
       <p>Inline: <code>`inline code`</code></p>
       <p>Multiline:</p>
@@ -190,109 +100,70 @@ function hello() {
 
       <h2>🎨 Colored Blocks</h2>
       <p>Use triple-colon blocks to insert styled sections:</p>
-      <div style="display: flex; align-items: center; flex-wrap: wrap">
-        <span style="flex: 1; margin-right: 10px">
-          <pre style="padding: 5px; color: white">:::blue INFO<br>:::</pre>
-        </span>
-        <span style="flex: 1; margin-left: 10px"
-          ><div class="blue custom-block"><p class="custom-block-title">INFO</p></div></span
-        >
+      <div class="demo">
+        <pre>:::blue INFO<br>:::</pre>
+        <div class="blue custom-block"><p class="custom-block-title">INFO</p></div>
       </div>
-      <div style="display: flex">
-        <span style="flex: 1; margin-right: 10px">
-          <pre style="padding: 5px; color: white">:::green SUCCESS<br>:::</pre>
-        </span>
-        <span style="flex: 1; margin-left: 10px"
-          ><div class="green custom-block"><p class="custom-block-title">SUCCESS</p></div></span
-        >
+      <div class="demo">
+        <pre>:::green SUCCESS<br>:::</pre>
+        <div class="green custom-block"><p class="custom-block-title">SUCCESS</p></div>
       </div>
-      <div style="display: flex">
-        <span style="flex: 1; margin-right: 10px">
-          <pre style="padding: 5px; color: white">:::yellow WARNING<br>:::</pre>
-        </span>
-        <span style="flex: 1; margin-left: 10px"
-          ><div class="yellow custom-block"><p class="custom-block-title">WARNING</p></div></span
-        >
+      <div class="demo">
+        <pre>:::yellow WARNING<br>:::</pre>
+        <div class="yellow custom-block"><p class="custom-block-title">WARNING</p></div>
       </div>
-      <div style="display: flex">
-        <span style="flex: 1; margin-right: 10px">
-          <pre style="padding: 5px; color: white">:::grey NOTE<br>:::</pre>
-        </span>
-        <span style="flex: 1; margin-left: 10px"
-          ><div class="grey custom-block"><p class="custom-block-title">NOTE</p></div></span
-        >
+      <div class="demo">
+        <pre>:::grey NOTE<br>:::</pre>
+        <div class="grey custom-block"><p class="custom-block-title">NOTE</p></div>
       </div>
-      <div style="display: flex">
-        <span style="flex: 1; margin-right: 10px">
-          <pre style="padding: 5px; color: white">:::red DANGER<br>:::</pre>
-        </span>
-        <span style="flex: 1; margin-left: 10px"
-          ><div class="red custom-block"><p class="custom-block-title">DANGER</p></div></span
-        >
+      <div class="demo">
+        <pre>:::red DANGER<br>:::</pre>
+        <div class="red custom-block"><p class="custom-block-title">DANGER</p></div>
       </div>
-      <div style="display: flex">
-        <span style="flex: 1; margin-right: 10px">
-          <pre style="padding: 5px; color: white">:::teal TEAL<br>:::</pre>
-        </span>
-        <span style="flex: 1; margin-left: 10px"
-          ><div class="teal custom-block"><p class="custom-block-title">TEAL</p></div></span
-        >
+      <div class="demo">
+        <pre>:::teal TEAL<br>:::</pre>
+        <div class="teal custom-block"><p class="custom-block-title">TEAL</p></div>
       </div>
       <h2>📚 Special Blocks</h2>
       <p>These enhance your note structure visually and semantically:</p>
-      <ul>
-        <li><code>:::center</code> – center-aligned content</li>
-        <li><code>:::no-print</code> – content hidden in PDF export</li>
-        <li><code>:::details</code> – collapsible content</li>
-        <li><code>:::definition [Title]</code></li>
-        <li><code>:::theorem [Title]</code></li>
-        <li><code>:::property [Title]</code></li>
-      </ul>
-      <p>Examples:</p>
-      <pre>
-:::center
-This text is centered!
-:::</pre
-      >
-      <pre>
-:::no-print
-This content will not appear in PDF exports.
-:::</pre
-      >
-
-      <pre>
-:::details
-Click to reveal hidden content.
-:::</pre
-      >
-
-      <pre>
-:::definition What is Markdown?
-Markdown is a lightweight markup language.
-:::</pre
-      >
-
-      <pre>
-:::theorem Pythagoras
-a² + b² = c²
-:::</pre
-      >
-
-      <pre>
-:::info-u Quick Tip
-Snippets help you focus on writing, not formatting.
-:::</pre
-      >
-
+      <div class="demo">
+        <pre>:::center<br />This text is centered!<br />:::</pre>
+        <div class="center">This text is centered!</div>
+      </div>
+      <div class="demo">
+        <pre>:::no-print <br />This content will not appear in PDF exports.<br/>:::</pre>
+        <p>This content will not appear in PDF exports.</p>
+      </div>
+      <div class="demo">
+        <pre>:::details <br />Click to reveal hidden content.<br />:::</pre>
+        <details class="details custom-block no-print">
+          <summary>Details</summary>
+          <p>Click to reveal hidden content.</p>
+        </details>
+      </div>
+      <div class="demo">
+        <pre>:::definition What is Markdown?<br />Markdown is a lightweight markup language.<br />:::</pre>
+        <div class="markdown-container">
+          <strong style="display: inline-flex; align-items: center; gap: 3px" class="red title"> <Icon name="info" color="red" />What is Markdown?</strong>
+          <div class="markdown-container-content"><p>Markdown is a lightweight markup language.</p></div>
+        </div>
+      </div>
+      <div class="demo">
+        <pre>:::theorem Pythagoras<br />a² + b² = c²<br />:::</pre>
+        <div class="markdown-container">
+          <strong style="display: inline-flex; align-items: center; gap: 3px" class="teal title"> <Icon name="info" color="teal" />Pythagoras</strong>
+          <div class="markdown-container-content"><p>a² + b² = c²</p></div>
+        </div>
+      </div>
+      <div class="demo">
+        <pre>:::property Property name<br />Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br />:::</pre>
+        <div class="markdown-container">
+          <strong style="display: inline-flex; align-items: center; gap: 3px" class="blue title"> <Icon name="info" color="blue" />Property name</strong>
+          <div class="markdown-container-content"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+        </div>
+      </div>
       <h2>📤 Export</h2>
       <p>Export your notes to PDF, automatically hiding private/debug blocks for a clean result.</p>
-
-      <h2>💡 Tips</h2>
-      <ul>
-        <li>Combine blocks for complex notes: math + code + definition</li>
-        <li>Use <code>:::details</code> to hide advanced explanations</li>
-        <li>Exported PDF respects layout and styles</li>
-      </ul>
     </div>
   </div>
 </template>
@@ -310,68 +181,17 @@ Snippets help you focus on writing, not formatting.
   overflow-x: auto;
 }
 
-/* Markdown Examples */
-.markdown-examples {
-  display: grid;
-  margin: 1.5rem 0;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-}
-
-.example-section {
-  padding: 1.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--bg-color-secondary);
-}
-
-.example-section h4 {
-  margin: 0 0 1rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--primary);
-}
-
-.rendered-table {
-  margin: 1rem 0;
-  overflow-x: auto;
-}
-
-.rendered-table table {
+.demo {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
   width: 100%;
-  border-radius: 8px;
-  background: var(--bg-color);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
-  border-collapse: collapse;
-  overflow: hidden;
-}
-
-.rendered-table th {
-  padding: 12px;
-  font-weight: 600;
-  color: white;
-  text-align: left;
-  background: var(--primary);
-}
-
-.rendered-table td {
-  padding: 10px 12px;
-  border-top: 1px solid var(--border-color);
-}
-
-.rendered-table tr:hover {
-  background: var(--bg-color-secondary);
-}
-
-/* Responsive adjustments */
-@media (width <= 768px) {
-  .markdown-examples {
-    gap: 1.5rem;
-    grid-template-columns: 1fr;
+  margin-bottom: 1rem;
+  * {
+    flex: 1;
   }
-
-  .example-section {
-    padding: 1rem;
+  pre {
+    margin: 10px 0;
   }
 }
 </style>

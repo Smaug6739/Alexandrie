@@ -1,5 +1,3 @@
 <template>
-  <div class="modal">
-    <MarkdownSyntax />
-  </div>
+  <MarkdownSyntax />
 </template>
