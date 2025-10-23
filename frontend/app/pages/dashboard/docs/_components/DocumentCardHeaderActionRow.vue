@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import DeleteDocumentModal from '../../../../components/Node/DeleteNodeModal.vue';
+import DeleteNodeModal from '~/components/Node/DeleteNodeModal.vue';
 import DocumentMeta from '~/components/Node/NodeMetadata.modal.vue';
 import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
@@ -50,7 +50,7 @@ const nodeStore = useNodesStore();
 
 const props = defineProps<{ doc: Node }>();
 const print = () => window.print();
-const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.doc.id } }));
+const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { documentId: props.doc.id } }));
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
 const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.doc }, size: 'small' }));
 const openRemoveShareModal = () => useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.doc.id }, size: 'small' }));
