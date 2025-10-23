@@ -87,20 +87,22 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 
 .dark-mode {
 	--default: #3956e7;
-	--default-bg: #2b304e;
-	--default-border: #8e5fff1f;
-	--bg-color: #1c2127;
-	--bg-contrast: #2a2f35;
-	--bg-contrast-2: #363a42;
-	--bg-ui: rgb(255 255 255 / 5%);
-	--selection-color: #444850;
-	--font-color: #ccc;
-	--font-color-dark: #ccc;
-	--font-color-light: rgb(179 179 179);
-	--font-color-sub: #888;
+	--default-bg: #2f323b;
+	--default-border: #4a4f5c;
+
+	--bg-color: #18171c;
+	--bg-contrast: #27262b;
+	--bg-contrast-2: #32363f;
+	--bg-ui: rgb(255 255 255 / 4%);
+	--selection-color: #3b4252;
+
+	--font-color: #d1d2d5; // Texte principal lisible
+	--font-color-dark: #d1d5db;
+	--font-color-light: #aab0b8;
+	--font-color-sub: #8a9099;
 	--border-color: rgb(255 255 255 / 10%);
-	--opposite-color: #eee;
-	--shadow: rgb(0 0 0 / 100%);
+	--opposite-color: #f4f4f4;
+	--shadow: rgb(0 0 0 / 30%);
 
 	// COLORS \\
 	--grey: #bbb;
@@ -108,7 +110,7 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 	--blue: #339CFF;
 	--blue-bg: rgb(51 156 255 / 12%);
 	--blue-border: rgb(51 156 255 / 25%);
-	--green: #00c19a;
+	--green: #00c194;
 	--green-bg: rgb(0 193 154 / 12%);
 	--green-border: rgb(0 193 154 / 25%);
 	--red: #ff4c5b;
@@ -126,7 +128,6 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 	--pink: #ff4da6;
 	--pink-bg: rgb(255 77 166 / 12%);
 	--pink-border: rgb(255 77 166 / 25%);
-
 }
 
 @media print {
