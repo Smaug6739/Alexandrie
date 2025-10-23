@@ -4,7 +4,7 @@
       <span v-if="selectedOption" style="flex: 1"><SidebarWorkspace :option="selectedOption" /></span>
       <Icon name="expand" :small="true" fill="var(--font-color)" />
     </div>
-    <ul v-show="isOpen" class="dropdown-options">
+    <ul v-if="isOpen" class="dropdown-options">
       <li :class="{ selected: all_workspaces.value === workspaceId }" @click="selectOption(all_workspaces)">
         <SidebarWorkspace :option="all_workspaces" />
       </li>
