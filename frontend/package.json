@@ -18,7 +18,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@codemirror/autocomplete": "^6.19.0",
+    "@codemirror/autocomplete": "^6.19.1",
     "@codemirror/commands": "^6.9.0",
     "@codemirror/lang-markdown": "^6.4.0",
     "@codemirror/search": "6.5.11",
