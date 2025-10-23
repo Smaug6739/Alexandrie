@@ -18,7 +18,6 @@ const deleteDoc = () => {
   useNodesStore()
     .delete(props.documentId)
     .then(() => {
-      useNotifications().add({ type: 'success', title: 'Document deleted' });
       emit('close');
       useRouter().push('/dashboard');
     })
