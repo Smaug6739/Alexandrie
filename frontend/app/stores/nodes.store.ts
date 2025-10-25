@@ -1,6 +1,16 @@
+import { defineStore } from 'pinia';
 import { makeRequest, type FetchOptions } from './_utils';
 import { Collection } from './collection';
 import type { DB_Node, Node, Permission } from './db_strustures';
+import { useUserStore } from './user.store';
+
+// Helper function
+function parseTags(tags: string): string[] {
+  return tags
+    .split(',')
+    .map(tag => tag.trim())
+    .filter(tag => tag.length > 0);
+}
 
 interface SearchOptions {
   query?: string;
@@ -17,6 +27,9 @@ export const useNodesStore = defineStore('nodes', {
     public_nodes: new Collection<string, Node>(),
     allTags: [] as string[],
     isFetching: false,
+    // New state for tab management
+    openTabs: [] as { id: string; path: string; title: string }[],
+    activeTabId: null as string | null,
   }),
   getters: {
     getAll: state => state.nodes,
@@ -28,14 +41,20 @@ export const useNodesStore = defineStore('nodes', {
     categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
     documents: state => state.nodes.filter(d => d.role === 3),
     ressources: state => state.nodes.filter(d => d.role === 4),
+    // New getter to get the node currently active in the tab system
+    getActiveNode: state => {
+      if (!state.activeTabId) return undefined;
+      return state.nodes.get(state.activeTabId);
+    },
     isDescendant:
       state =>
       (node: Node, descendantId: string): boolean => {
+        if (node.id === descendantId) return true;
         const checkDescendants = (currentNode: Node): boolean => {
           const children = state.nodes.filter(d => d.parent_id === currentNode.id);
           for (const child of children) {
-            if (child[0] === descendantId) return true;
-            if (checkDescendants(child[1])) return true;
+            if (child.id === descendantId) return true;
+            if (checkDescendants(child)) return true;
           }
           return false;
         };
@@ -75,7 +94,8 @@ export const useNodesStore = defineStore('nodes', {
       let filtered = state.nodes.toArray().filter(n => n.role === 3); // Only documents
       if (query) {
         filtered = filtered.filter(node => {
-          const nodeContent = `${node.name} ${node.description} ${node.tags}`.toLowerCase();
+          const nodeTagsString = node.tags ? parseTags(node.tags).join(' ') : '';
+          const nodeContent = `${node.name} ${node.description} ${nodeTagsString}`.toLowerCase();
           return nodeContent.includes(query.toLowerCase());
         });
       }
@@ -109,9 +129,6 @@ export const useNodesStore = defineStore('nodes', {
       return filtered;
     },
     hasPermissions: state => (node: Node, level: number) => {
-      // Case 1: User is the owner => All permissions
-      // Case 2: User has a permission entry for this node
-      // Case 3: A parent node has a permission entry for this node (inherited permissions)
       const userStore = useUserStore();
       if (node.user_id === userStore.user?.id) return true;
       if (node.accessibility === 3 && level <= node.access) return true;
@@ -129,6 +146,39 @@ export const useNodesStore = defineStore('nodes', {
     },
   },
   actions: {
+    // New actions for tab management
+    openNote(note: { id: string; path: string; title: string }) {
+      const isAlreadyOpen = this.openTabs.some(tab => tab.id === note.id);
+      if (!isAlreadyOpen) {
+        this.openTabs.push(note);
+      }
+      this.setActiveTab(note.id);
+    },
+    closeNote(noteId: string) {
+      const indexToClose = this.openTabs.findIndex(tab => tab.id === noteId);
+      if (indexToClose === -1) return; // Tab not found
+
+      // If the closed tab was active, determine the next active tab
+      if (this.activeTabId === noteId) {
+        if (this.openTabs.length <= 1) {
+          this.activeTabId = null; // No tabs left
+        } else {
+          // Activate the tab to the left, or the new first tab if closing the first one
+          const newIndex = Math.max(0, indexToClose - 1);
+          this.activeTabId = this.openTabs[newIndex === indexToClose ? 0 : newIndex].id;
+        }
+      }
+
+      // Remove the tab
+      this.openTabs.splice(indexToClose, 1);
+    },
+    setActiveTab(noteId: string) {
+      // Only set active if the tab is actually open
+      if (this.openTabs.some(tab => tab.id === noteId)) {
+        this.activeTabId = noteId;
+      }
+    },
+
     recomputeTags() {
       const tags = new Set<string>();
       this.nodes.forEach(node => {
@@ -141,166 +191,51 @@ export const useNodesStore = defineStore('nodes', {
       });
       this.allTags = Array.from(tags).sort();
     },
+
     async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : Collection<string, Node>> {
-      if (opts?.id && !this.nodes.get(opts.id)?.partial) return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
+      if (opts?.id && !this.nodes.get(opts.id)?.partial) {
+        return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
+      }
       console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
       if (!this.nodes.size) this.isFetching = true;
+
       const request = await makeRequest(`nodes/@me/${opts?.id || ''}`, 'GET', {});
       this.isFetching = false;
-      if (request.status == 'success') {
+
+      if (request.status === 'success') {
         if (opts?.id) {
           const result = request.result as { node: DB_Node; permissions: Permission[] };
-          const n = this.nodes.get(opts.id);
-          let shared = false;
-          if (n) shared = n.shared;
-          const updatedNode: Node = { ...(result.node as DB_Node), partial: false, shared: shared, permissions: result.permissions };
-          if (!n) this.nodes.set(opts.id, updatedNode);
-          else this.nodes.set(opts.id, updatedNode);
+          const existingNode = this.nodes.get(opts.id);
+          const updatedNode: Node = {
+            ...existingNode,
+            ...(result.node as DB_Node),
+            partial: false,
+            permissions: result.permissions,
+          };
+          this.nodes.set(opts.id, updatedNode);
           return updatedNode as 'id' extends keyof T ? Node : Collection<string, Node>;
         } else {
-          for (const node of request.result as DB_Node[]) {
-            const n = this.nodes.get(node.id);
-            if (!n) this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
-            else this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
+          const results = request.result as { node: DB_Node; permissions: Permission[] }[];
+          for (const item of results) {
+            const node: Node = {
+              ...(item.node as DB_Node),
+              partial: true,
+              shared: false, // Default value, can be updated later
+              permissions: item.permissions,
+            };
+            this.nodes.set(node.id, node);
           }
           this.recomputeTags();
-          return this.nodes as 'id' extends keyof T ? Node : Collection<string, Node>;
         }
-      } else throw request;
-    },
-    async fetchPublic(id: string): Promise<Node | undefined> {
-      console.log(`[store/nodes] Fetching public nodeument with id: ${id}`);
-      const existingDoc = this.public_nodes.get(id);
-      if (existingDoc) return existingDoc;
-      const request = await makeRequest(`nodes/public/${id}`, 'GET', {});
-      if (request.status === 'success') {
-        const fetchedDoc: Node = { ...(request.result as DB_Node), partial: false, shared: false, permissions: [] };
-        this.public_nodes.set(fetchedDoc.id, fetchedDoc);
-        return fetchedDoc;
-      } else return undefined;
-    },
-    async fetchShared(): Promise<Collection<string, Node>> {
-      console.log(`[store/nodes] Fetching shared nodes`);
-      if (this.nodes.size) return this.nodes;
-      const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
-      if (request.status === 'success') {
-        for (const node of request.result as DB_Node[]) {
-          if (!this.nodes.has(node.id)) this.nodes.set(node.id, { ...node, partial: true, shared: true, permissions: node.permissions || [] });
-          else {
-            const state = this.nodes.get(node.id);
-            this.nodes.set(node.id, { ...node, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] });
-          }
-        }
-        return this.nodes;
-      } else throw request;
-    },
+      } else {
+        console.error(`[store/nodes] Failed to fetch nodes:`, request.message);
+      }
 
-    async addPermission(perm: Omit<Permission, 'id' | 'created_timestamp'>): Promise<Permission> {
-      console.log(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
-      const node = this.nodes.get(perm.node_id);
-      if (!node) throw 'Node not found in store, cannot add permission';
-      const request = await makeRequest(`permissions`, 'POST', perm);
-      if (request.status === 'success') {
-        node.permissions.push(request.result as Permission);
-        return request.result as Permission;
-      } else throw request.message;
-    },
-    async updatePermission(perm: Permission) {
-      console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
-      const node = this.nodes.get(perm.node_id);
-      if (!node) throw 'Node not found in store, cannot update permission';
-      const request = await makeRequest(`permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
-      if (request.status === 'success') {
-        const index = node.permissions.findIndex(p => p.id === perm.id);
-        if (index !== -1) node.permissions[index]!.permission = perm.permission;
-      } else throw request.message;
-    },
-    async removePermission(nodeId: string, userId: string) {
-      console.log(`[store/nodes/permissions] Removing permission for user ${userId} on node ${nodeId}`);
-      const node = this.nodes.get(nodeId);
-      if (!node) throw 'Node not found in store, cannot remove permission';
-      const perm = node.permissions.find(p => p.user_id === userId);
-      if (!perm) throw 'Permission not found in store, cannot remove permission';
-      const request = await makeRequest(`permissions/${perm.id}`, 'DELETE', {});
-      if (request.status === 'success') {
-        node.permissions = node.permissions.filter(p => p.id !== perm.id);
-      } else throw request.message;
-    },
-    async post(node: Partial<Node>): Promise<DB_Node> {
-      const request = await makeRequest('nodes', 'POST', node);
-      if (request.status == 'success') {
-        this.nodes.set((request.result as DB_Node).id, { ...(request.result as DB_Node), partial: false, shared: false, permissions: [] });
-        return request.result as DB_Node;
-      } else throw request.message;
-    },
-    async update(node: Node) {
-      if (node.partial) {
-        console.log('[store/nodes] Node looks partial, cannot update it directly.');
-        const full_node = await this.fetch({ id: node.id });
-        if (!full_node) throw 'Node not found';
-        node = mergeNode(node, full_node);
+      if (opts?.id) {
+        return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
+      } else {
+        return this.nodes as 'id' extends keyof T ? Node : Collection<string, Node>;
       }
-      const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
-      if (request.status == 'success') {
-        this.nodes.set(node.id, node);
-        return this.nodes;
-      } else throw request.message;
-    },
-    async duplicate(node: Node): Promise<DB_Node> {
-      if (!node) throw 'Node not found in store, cannot duplicate';
-      if (node.partial) {
-        console.log('[store/nodes] Node looks partial, cannot duplcate it directly.');
-        const full_node = await this.fetch({ id: node.id });
-        if (!full_node) throw 'Node not found';
-        node = mergeNode(node, full_node);
-      }
-      // use the post method to duplicate the node
-      const newNodeData: Partial<Node> = {
-        name: node.name,
-        description: node.description,
-        role: node.role,
-        parent_id: node.parent_id,
-        tags: node.tags,
-        accessibility: node.accessibility,
-        access: node.access,
-        content: node.content,
-        content_compiled: node.content_compiled,
-      };
-      const newNode = await this.post(newNodeData);
-      return newNode;
-    },
-    async delete(id: string) {
-      const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
-      if (request.status == 'success') {
-        const allChildrens = this.getAllChildrensIds(id);
-        this.nodes.delete(id);
-        allChildrens.forEach(childId => this.nodes.delete(childId));
-      } else throw request.message;
     },
   },
 });
-
-function parseTags(tags: string): string[] {
-  if (typeof tags === 'string') {
-    return tags
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(Boolean);
-  }
-  return [];
-}
-
-function mergeNode(node: Node, full_node: Node): Node {
-  const result: Node = { ...full_node };
-
-  for (const key in node) {
-    const localValue = node[key as keyof Node];
-    if (localValue !== undefined && localValue !== null && localValue !== '') {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (result as any)[key] = localValue; // keep local value if it's defined
-    }
-  }
-
-  result.partial = false;
-  return result;
-}
