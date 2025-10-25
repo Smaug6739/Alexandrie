@@ -68,19 +68,4 @@ export const containerSvg = (md: MarkdownIt) => {
       }
     },
   });
-  md.use(container, 'info-', {
-    validate: function (params: any) {
-      return params.trim().match(/^info-(.*)+$/);
-    },
-    render: function (tokens: any, idx: any) {
-      const m = tokens[idx].info.trim().split(' ');
-      if (tokens[idx].nesting === 1) {
-        // opening tag
-        return containerOpen(m.slice(1).join(' '), svg_info, m[0]?.split('-')[1]);
-      } else {
-        // closing tag
-        return '</div></div>\n';
-      }
-    },
-  });
 };
