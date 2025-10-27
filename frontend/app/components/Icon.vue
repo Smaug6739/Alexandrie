@@ -1,5 +1,5 @@
 <template>
-  <svg v-if="isSpriteIcon" class="icon" :class="{ big, mid, small }" :style="{ color: fill || 'currentColor' }" aria-hidden="true">
+  <svg v-if="isSpriteIcon" class="icon" :class="{ big, mid, small }" :style="{ color: fill || 'currentColor', width: size, height: size }" aria-hidden="true">
     <use :href="`#icon-${name}`" />
   </svg>
 
@@ -15,6 +15,7 @@ const props = defineProps<{
   big?: boolean;
   mid?: boolean;
   small?: boolean;
+  size?: string;
 }>();
 
 const isSpriteIcon = computed(() => {
