@@ -4,7 +4,7 @@
     <div class="main">
       <p>Click the button below to create a backup of your data.</p>
       <AppButton type="primary" @click="submitFile">Create Backup</AppButton>
-      <div v-if="isLoading" class="loading-spinner" />
+      <LoaderSpinner v-if="isLoading" />
       <div v-if="downloadLink" class="link-section">
         <p>Your backup is ready. You can copy the link to share it or download it.</p>
         <input v-model="downloadLink" type="text" readonly placeholder="Backup Link" />
@@ -44,25 +44,5 @@ watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 .main {
   margin: auto;
   text-align: center;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  margin: 20px auto;
-  border: 5px solid #f3f3f3;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  border-top: 5px solid var(--primary);
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>

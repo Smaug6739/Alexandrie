@@ -7,7 +7,7 @@
     <AppDrop ref="dropComponent" @select="selectFile" />
     <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
       <AppButton type="primary" :disabled="!selectedFile" @click="submitFile">Upload on server</AppButton>
-      <div v-if="isLoading" class="loading-spinner" />
+      <LoaderSpinner v-if="isLoading" class="loading-spinner" />
     </div>
     <div v-if="fileLink" class="link-section">
       <input v-model="fileLink" type="text" readonly />
@@ -133,15 +133,6 @@ const bulkDelete = async (lines: Field[]) => {
   gap: 10px;
 }
 
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #f3f3f3;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  border-top: 5px solid var(--primary);
-}
-
 .bulk-actions {
   display: flex;
   width: 100%;
@@ -241,16 +232,6 @@ const bulkDelete = async (lines: Field[]) => {
       font-size: 12px;
       color: var(--font-color-light);
     }
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
   }
 }
 </style>
