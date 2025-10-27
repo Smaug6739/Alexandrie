@@ -9,6 +9,7 @@
     @paste.prevent="handlePaste"
   >
     <input ref="fileInput" type="file" @change="handleFileSelect" />
+    <Icon name="layers" size="40px" style="margin: 10px 0" />
     <div v-if="selectedFile" class="file-info">
       <div class="file-chip">
         <span class="file-name">{{ selectedFile.name }}</span>
@@ -69,6 +70,7 @@ defineExpose({ reset });
 .dropzone {
   position: relative;
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 150px;
   border: 2px dashed var(--border-color);
