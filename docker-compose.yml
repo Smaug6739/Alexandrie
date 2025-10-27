@@ -45,7 +45,7 @@ services:
 
   # Alexandrie Backend
   backend:
-    image: ghcr.io/Smaug6739/alexandrie-backend:latest
+    image: ghcr.io/smaug6739/alexandrie-backend:latest
     container_name: alexandrie-backend
     environment:
       # Database Configuration
@@ -88,7 +88,7 @@ services:
 
   # Alexandrie Frontend
   frontend:
-    image: ghcr.io/Smaug6739/alexandrie-frontend:latest
+    image: ghcr.io/smaug6739/alexandrie-frontend:latest
     container_name: alexandrie-frontend
     restart: unless-stopped
     environment:
