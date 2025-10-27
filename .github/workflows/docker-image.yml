@@ -2,9 +2,7 @@ name: Build and Publish Docker Images
 
 on:
   push:
-    branches: [main]
-  release:
-    types: [published]
+    branches: [feature/docker-image-ci]
 
 jobs:
   build-and-push:
