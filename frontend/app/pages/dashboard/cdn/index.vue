@@ -7,7 +7,7 @@
     <AppDrop ref="dropComponent" @select="selectFile" />
     <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
       <AppButton type="primary" :disabled="!selectedFile" @click="submitFile">Upload on server</AppButton>
-      <LoaderSpinner v-if="isLoading" class="loading-spinner" />
+      <LoaderSpinner v-if="isLoading" />
     </div>
     <div v-if="fileLink" class="link-section">
       <input v-model="fileLink" type="text" readonly />
