@@ -2,7 +2,9 @@ name: Build and Publish Docker Images
 
 on:
   push:
-    branches: [feature/docker-image-ci]
+    branches: [main]
+  release:
+    types: [published]
 
 jobs:
   build-and-push:
@@ -15,6 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set lowercase repository name
+        id: repo
+        run: echo "repo_lc=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -22,22 +28,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Build and push BACKEND
       - name: Build and push backend image
         uses: docker/build-push-action@v6
         with:
           context: ./backend
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}-backend:latest
-            ghcr.io/${{ github.repository }}-backend:${{ github.ref_name }}
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:latest
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:${{ github.ref_name }}
 
-      # Build and push FRONTEND
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}-frontend:latest
-            ghcr.io/${{ github.repository }}-frontend:${{ github.ref_name }}
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:latest
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:${{ github.ref_name }}
