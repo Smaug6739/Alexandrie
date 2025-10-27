@@ -24,7 +24,7 @@
     "@codemirror/search": "6.5.11",
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.6",
-    "@lezer/highlight": "^1.2.2",
+    "@lezer/highlight": "^1.2.3",
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "1.9.0",
     "@nuxtjs/color-mode": "^3.5.2",
