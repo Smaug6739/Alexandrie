@@ -29,13 +29,18 @@
         </template>
       </DataTable>
       <div v-else>
+        <input type="text" placeholder="Search..." v-model="filter" class="search" />
+        <hr />
         <div class="images-grid">
-          <div v-for="image in sortedRessources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
+          <div v-for="image in filteredRessources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
             <img :src="fileURL(image)" :alt="image.name" class="image-preview" />
             <div class="image-info">
               <span class="image-name">{{ image.name }}</span>
               <span class="image-size">{{ readableFileSize(image.size ?? 0) }}</span>
             </div>
+          </div>
+          <div v-if="!filteredRessources.length" class="not-found">
+            <p>No result found for "{{ filter }}"</p>
           </div>
         </div>
       </div>
@@ -60,8 +65,10 @@ const selectedFile: Ref<File | undefined> = ref();
 const fileLink = ref('');
 const isLoading = ref(false);
 const dropComponent = ref();
+const filter = ref('');
 
 const sortedRessources = computed(() => nodesStore.ressources.toArray().sort((a, b) => b.created_timestamp - a.created_timestamp));
+const filteredRessources = computed(() => sortedRessources.value.filter(r => r.name.toLowerCase().includes(filter.value.toLowerCase())));
 
 const selectFile = (file?: File) => (selectedFile.value = file);
 const copyLink = () => navigator.clipboard.writeText(fileLink.value!);
@@ -174,6 +181,19 @@ const bulkDelete = async (lines: Field[]) => {
   width: 100%;
 }
 
+.search {
+  width: 100%;
+  max-width: 450px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+.not-found {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--font-color-light);
+}
 .images-grid {
   display: grid;
   padding: 16px 0;
