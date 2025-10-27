@@ -42,13 +42,13 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 For local testing and development, you can use Docker to run the entire stack:
 
-**Start a demo server (local production):**
+**Start a demo server (local production, just need to copy the docker-compose file):**
 
 ```bash
 docker compose up -d --build
 ```
 
-**Start a development server with hot reloading (HMR):**
+**Start a development server with hot reloading (HMR, and need to clone the repo):**
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
