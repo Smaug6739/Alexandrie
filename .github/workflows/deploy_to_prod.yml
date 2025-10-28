@@ -94,7 +94,8 @@ jobs:
             source .env.production
             set +o allexport
             # Reload or start the application
-            pm2 reload ecosystem.config.js --update-env || pm2 start ecosystem.config.js --update-env
+            pm2 delete ecosystem.config.js || true
+            pm2 start ecosystem.config.js
           "
 
       # -------------------------
