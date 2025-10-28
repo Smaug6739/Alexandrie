@@ -57,10 +57,10 @@ services:
 
       # Application Configuration
       JWT_SECRET: your-secure-jwt-secret-key-change-this-in-production
-      DOMAIN_CLIENT: http://localhost:8200
-      COOKIE_DOMAIN: localhost
+      DOMAIN_CLIENT: http://localhost:8200 # For CORS Policy, if you have "Cors" error, check this
+      COOKIE_DOMAIN: localhost # For setting cookie domain: If you can't login (or you are disconnected immediatly), check this
 
-      # MinIO Configuration
+      # MinIO Configuration (optional, you can replace config with "" to disable MinIO usage)
       MINIO_ENDPOINT: minio:9000
       MINIO_ACCESSKEY: minioadmin
       MINIO_SECRETKEY: minioadmin
