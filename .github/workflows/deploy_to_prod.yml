@@ -62,6 +62,7 @@ jobs:
           DATABASE_USER=${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}"
           JWT_SECRET=${{ secrets.JWT_SECRET }}
+          BACKEND_PORT=8201
           MINIO_ACCESSKEY=${{ secrets.MINIO_ACCESSKEY }}
           MINIO_SECRETKEY=${{ secrets.MINIO_SECRETKEY }}
           SMTP_HOST=${{ secrets.SMTP_HOST }}

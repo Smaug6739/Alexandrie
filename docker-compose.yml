@@ -72,7 +72,7 @@ services:
       SMTP_PASSWORD: ''
 
       # Port Configuration
-      PORT: 8201
+      BACKEND_PORT: 8201
       CPWD: /app/
       CONFIG_CPWD: ''
       GIN_MODE: release

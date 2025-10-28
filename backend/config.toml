@@ -1,5 +1,3 @@
-Port = 8201
-
 [Database]
 Driver = "mysql"
 Host = "localhost"
