@@ -14,9 +14,6 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Println("Starting server on port:", port)
-	fmt.Println("Configuration:")
-	fmt.Println("DOMAIN_CLIENT:", os.Getenv("DOMAIN_CLIENT"))
-	fmt.Println("COOKIE_DOMAIN:", os.Getenv("COOKIE_DOMAIN"))
 	defer application.DB.Close()
 
 	server.Run(":" + fmt.Sprintf("%s", port))
