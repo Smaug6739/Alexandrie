@@ -11,14 +11,14 @@
 
 <script setup lang="ts">
 import type { Node } from '~/stores';
-definePageMeta({ breadcrumb: 'Documents' });
+definePageMeta({ breadcrumb: 'Nodes' });
 
-const documents = ref<Node[]>([]);
+const nodes = ref<Node[]>([]);
 const route = useRoute();
 const store = useAdminStore();
 
 watchEffect(async () => {
-  documents.value = (await store.fetchUserDocuments(route.params.id as string)) || [];
+  nodes.value = (await store.fetchUserDocuments(route.params.id as string)) || [];
 });
 
 const categoriesStore = useNodesStore();
@@ -27,30 +27,34 @@ const headers = [
   { label: 'Category', key: 'category' },
   { label: 'Tags', key: 'tags' },
   { label: 'Last update', key: 'last_update' },
-  { label: 'Status', key: 'status' },
+  { label: 'Attributes', key: 'attributes' },
   { label: 'Actions', key: 'actions' },
 ];
 const rows = computed(() =>
-  documents.value.map(doc => {
+  nodes.value.map(doc => {
     let badges = '';
-    switch (doc.accessibility) {
+    switch (doc.role) {
       case 1:
-        badges = '<tag class="green">Document</tag>';
+        badges = '<tag class="primary">Workspace</tag>';
         break;
       case 2:
-        badges = '<tag class="teal">Draft</tag>';
+        badges = '<tag class="red">Category</tag>';
         break;
       case 3:
-        badges = '<tag class="red">Archived</tag>';
+        badges = '<tag class="green">Document</tag>';
+        break;
+      case 4:
+        badges = '<tag class="yellow">Ressource</tag>';
+        break;
     }
     if (doc.parent_id) badges += '<tag class="yellow">Child</tag>';
-    if (documents.value.some(d => d.parent_id === doc.id)) badges += '<tag class="yellow">Parent</tag>';
+    if (nodes.value.some(d => d.parent_id === doc.id)) badges += '<tag class="yellow">Parent</tag>';
     return {
       name: { content: doc.name, type: 'text' as const },
       category: { content: categoriesStore.getById(doc.parent_id || '')?.name || '', type: 'text' as const },
       tags: { content: stringToBadge(doc.tags), type: 'html' as const },
       last_update: { content: new Date(doc.updated_timestamp).toLocaleDateString(), type: 'text' as const },
-      status: { content: badges, type: 'html' as const },
+      attributes: { content: badges, type: 'html' as const },
       actions: { type: 'slot' as const, data: { id: doc.id } },
     };
   }),
