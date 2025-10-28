@@ -1,14 +1,18 @@
 import type { PublicUser, User } from '~/stores/db_strustures';
 
-export const CDN = import.meta.env.VITE_BASE_CDN;
-export const API = `${import.meta.env.VITE_BASE_API}/api`;
-
+export function useApi() {
+  const config = useRuntimeConfig();
+  const CDN = config.public.baseCdn;
+  const API = `${config.public.baseApi}/api`;
+  return { CDN, API };
+}
 // Little screen size
 export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : false);
 // Intermediate screen size
 export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
 export function useAvatar(user?: User | PublicUser | null): string {
+  const { CDN } = useApi();
   return user?.avatar ? CDN + '/' + user.id + '/avatar' : '/default_avatar.avif';
 }
 

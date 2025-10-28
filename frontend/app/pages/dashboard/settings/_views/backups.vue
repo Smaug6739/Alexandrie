@@ -29,6 +29,7 @@ const downloadLink = ref<string | null>(null);
 const copyLink = () => navigator.clipboard.writeText(downloadLink.value!);
 const isLoading = ref(false);
 const fileName = () => `backup-${new Date().toISOString().split('T')[0]}.json`;
+const { CDN } = useApi();
 async function submitFile() {
   isLoading.value = true;
   const result = await makeRequest<{ link: string }>('ressources/backup', 'GET', {});

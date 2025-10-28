@@ -4,7 +4,12 @@ import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
-
+  runtimeConfig: {
+    public: {
+      baseApi: '',
+      baseCdn: '',
+    },
+  },
   vite: {
     css: {
       preprocessorOptions: {
