@@ -53,9 +53,9 @@ jobs:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
 
       # -------------------------
-      # Generate .env file with secrets
+      # Generate .env file with secrets & configuration
       # -------------------------
-      - name: Create .env.production for backend
+      - name: Create .env.production for application
         run: |
           cat > .env.production <<EOF
           NODE_ENV=production
@@ -67,6 +67,8 @@ jobs:
           SMTP_HOST=${{ secrets.SMTP_HOST }}
           SMTP_MAIL=${{ secrets.SMTP_MAIL }}
           SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}
+          NUXT_PUBLIC_BASE_API=https://api.alexandrie-hub.fr
+          NUXT_PUBLIC_BASE_CDN=https://cdn.alexandrie-hub.fr
           EOF
 
       # -------------------------
@@ -92,7 +94,8 @@ jobs:
             source .env.production
             set +o allexport
             # Reload or start the application
-            pm2 reload ecosystem.config.js --update-env || pm2 start ecosystem.config.js --update-env
+            pm2 delete ecosystem.config.js || true
+            pm2 start ecosystem.config.js
           "
 
       # -------------------------

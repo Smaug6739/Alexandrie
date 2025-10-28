@@ -31,6 +31,7 @@ jobs:
         with:
           context: ./backend
           push: true
+          no-cache: true
           tags: |
             ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:latest
             ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:${{ github.ref_name }}
@@ -40,6 +41,7 @@ jobs:
         with:
           context: ./frontend
           push: true
+          no-cache: true
           tags: |
             ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:latest
             ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:${{ github.ref_name }}
