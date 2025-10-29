@@ -1,3 +1,14 @@
+# Docker Compose configuration for Alexandrie application stack
+# This setup includes:
+# - MySQL Database
+# - RustFS Object Storage (S3 compatible)
+# - Alexandrie Backend
+# - Alexandrie Frontend
+
+# To use the local code (if you have cloned the repo, replace the backend/frontend image with a build context)
+## build:
+##      context: ./backend
+
 services:
   # MySQL Database
   mysql:
