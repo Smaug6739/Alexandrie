@@ -21,11 +21,12 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ## ✨ Features
 
-**Enhanced Markdown Editor** – Write notes with advanced syntax.  
+**Enhanced Markdown Editor** – Write notes with advanced and unique Markdown features.
 **Instant Search** – Find your notes in seconds.  
 **Intuitive Organization** – Easily categorize and archive your notes.  
 **Export & Print** – Save your notes as PDF, Markdown, and more.  
 **Access Anywhere** – Log in and retrieve your notes from any device.
+**Share Notes** – Share your notes with others via unique links or powerful permissions system.
 
 ---
 
@@ -36,7 +37,6 @@ Organize, search, and export your notes with an intuitive interface designed for
 ### Organize your notes with categories, tags, sidebar, tree, search, and more.
 
 ![Interface 3](./frontend/public/screenshots/mock/3.png)
-
 
 ## Quick Start with Docker
 
@@ -58,7 +58,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 - 🌐 **Frontend**: http://localhost:8200
 - 🔌 **Backend API**: http://localhost:8201
-- 📦 **MinIO Console**: http://localhost:9001
+- 📦 **Object Storage Console**: http://localhost:9001
 - 🗄️ **MySQL**: localhost:3307 (user: `alexandrie`, password: `password`)
 
 **To stop:**
@@ -66,6 +66,8 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```bash
 docker compose down
 ```
+
+_The project support S3 compatible storage. The default in docker-compose is RustFS but you can use MinIO, garage, etc._
 
 If you don't have Docker installed, you can follow the manual setup instructions in the [CONTRIBUTING.md](./CONTRIBUTING.md).
 
