@@ -9,11 +9,11 @@ export interface FetchOptions {
 }
 
 let is_getting_new_token = false;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const requestQueue: {
   route: string;
   method: string;
   body: object;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   resolve: (value: APIResult<any> | PromiseLike<APIResult<any>>) => void;
   reject: (reason?: object) => void;
 }[] = [];
