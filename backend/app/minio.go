@@ -43,16 +43,16 @@ func MinioConnection() (*minio.Client, error) {
 	}
 	// Définir la politique de lecture publique
 	policy := fmt.Sprintf(`{
-		"Version": "2012-10-17",
-		"Statement": [
-			{
-				"Effect": "Allow",
-				"Principal": "*",
-				"Action": "s3:GetObject",
-				"Resource": "arn:aws:s3:::%s/*"
-			}
-		]
-	}`, bucketName)
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": { "AWS": ["*"] },
+      "Action": ["s3:GetObject"],
+      "Resource": ["arn:aws:s3:::%s/*"]
+    }
+  ]
+}`, bucketName)
 
 	err = minioClient.SetBucketPolicy(ctx, bucketName, policy)
 	if err != nil {

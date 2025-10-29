@@ -1,3 +1,14 @@
+# Docker Compose configuration for Alexandrie application stack
+# This setup includes:
+# - MySQL Database
+# - RustFS Object Storage (S3 compatible)
+# - Alexandrie Backend
+# - Alexandrie Frontend
+
+# To use the local code (if you have cloned the repo, replace the backend/frontend image with a build context)
+## build:
+##      context: ./backend
+
 services:
   # MySQL Database
   mysql:
@@ -21,27 +32,29 @@ services:
       retries: 5
       start_period: 30s
 
-  # MinIO Object Storage
-  minio:
-    image: minio/minio:latest
-    container_name: alexandrie-minio
+  # Object Storage
+  rustfs:
+    image: rustfs/rustfs:latest
+    container_name: alexandrie-rustfs
     restart: unless-stopped
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-    command: server /data --console-address ":9001"
-    volumes:
-      - minio_data:/data
+      # définition des clés directement
+      RUSTFS_ACCESS_KEY: alexandrie-key
+      RUSTFS_SECRET_KEY: alexandrie-secret
+      RUSTFS_CONSOLE_ENABLE: 'false' # ou true si tu veux console graphique
+      # autres variables selon besoin (volume, domain, etc.)
     ports:
-      - '9000:9000'
-      - '9001:9001'
+      - '9000:9000' # API S3
+    volumes:
+      - rustfs_data:/data
     networks:
       - alexandrie-network
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      test: ['CMD-SHELL', 'nc -z localhost 9000 || exit 1']
       interval: 30s
-      timeout: 20s
+      timeout: 10s
       retries: 3
+      start_period: 20s
 
   # Alexandrie Backend
   backend:
@@ -61,9 +74,9 @@ services:
       COOKIE_DOMAIN: localhost # Very optional, can be left empty. For auth cookies: If you can't login (or you are disconnected immediatly), check this; DON'T set an URL just the DOMAIN (e.g., "example.com" or "localhost")
 
       # MinIO Configuration (optional, you can replace config with "" to disable MinIO usage)
-      MINIO_ENDPOINT: minio:9000
-      MINIO_ACCESSKEY: minioadmin
-      MINIO_SECRETKEY: minioadmin
+      MINIO_ENDPOINT: rustfs:9000
+      MINIO_ACCESSKEY: alexandrie-key
+      MINIO_SECRETKEY: alexandrie-secret
       MINIO_BUCKET: alexandrie
 
       # SMTP Configuration (optional)
@@ -81,7 +94,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      minio:
+      rustfs:
         condition: service_healthy
     networks:
       - alexandrie-network
@@ -111,5 +124,5 @@ networks:
 volumes:
   mysql_data:
     driver: local
-  minio_data:
+  rustfs_data:
     driver: local
