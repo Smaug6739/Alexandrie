@@ -59,6 +59,8 @@ definePageMeta({ breadcrumb: 'Edit' });
 const nodeStore = useNodesStore();
 const route = useRoute();
 const ressource = computed(() => nodeStore.getById(route.params.id as string));
+const { CDN } = useApi();
+
 const defaultItem: ANode = {
   id: '',
   label: 'None',
