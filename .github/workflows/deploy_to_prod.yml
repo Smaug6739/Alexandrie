@@ -90,6 +90,7 @@ jobs:
         run: |
           ssh -i deploy_key ${SSH_USER}@${SSH_HOST} "
             set -e
+            rm -rf ${REMOTE_PATH}/frontend/.output/server/node_modules
             cd ${REMOTE_PATH}/frontend/.output/server
             bun install --production
           "
