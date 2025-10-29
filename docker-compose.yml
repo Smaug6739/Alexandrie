@@ -21,27 +21,26 @@ services:
       retries: 5
       start_period: 30s
 
-  # MinIO Object Storage
-  minio:
-    image: minio/minio:latest
-    container_name: alexandrie-minio
+  # Object Storage
+  garage:
+    image: dxflrs/garage:v2.1.0
+    container_name: alexandrie-garage
     restart: unless-stopped
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-    command: server /data --console-address ":9001"
-    volumes:
-      - minio_data:/data
     ports:
-      - '9000:9000'
-      - '9001:9001'
+      - '3900:3900' # API S3
+      - '3902:3902' # Admin interface
+    volumes:
+      - ./garage.toml:/etc/garage.toml
+      - garage_data:/data
+      - garage_metadata:/metadata
     networks:
       - alexandrie-network
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      test: ['CMD', '/garage', 'status']
       interval: 30s
-      timeout: 20s
+      timeout: 10s
       retries: 3
+      start_period: 30s
 
   # Alexandrie Backend
   backend:
@@ -61,9 +60,9 @@ services:
       COOKIE_DOMAIN: localhost # Very optional, can be left empty. For auth cookies: If you can't login (or you are disconnected immediatly), check this; DON'T set an URL just the DOMAIN (e.g., "example.com" or "localhost")
 
       # MinIO Configuration (optional, you can replace config with "" to disable MinIO usage)
-      MINIO_ENDPOINT: minio:9000
-      MINIO_ACCESSKEY: minioadmin
-      MINIO_SECRETKEY: minioadmin
+      MINIO_ENDPOINT: garage:3900
+      MINIO_ACCESSKEY: alexandrie-key
+      MINIO_SECRETKEY: alexandrie-secret
       MINIO_BUCKET: alexandrie
 
       # SMTP Configuration (optional)
@@ -81,7 +80,7 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-      minio:
+      garage:
         condition: service_healthy
     networks:
       - alexandrie-network
@@ -111,5 +110,7 @@ networks:
 volumes:
   mysql_data:
     driver: local
-  minio_data:
+  garage_data:
+    driver: local
+  garage_metadata:
     driver: local
