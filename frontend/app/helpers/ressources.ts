@@ -13,6 +13,7 @@ const isImageFile = (filetype: string): boolean => {
 };
 
 const resolvePreviewUrl = (node: Node): string => {
+  const { CDN } = useApi();
   if (isImageFile((node.metadata?.filetype as string) || '')) return `${CDN}/${node.user_id}/${node.metadata?.transformed_path}`;
   return '/file_placeholder.png';
 };

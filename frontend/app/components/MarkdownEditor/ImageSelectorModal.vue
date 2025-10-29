@@ -40,6 +40,7 @@ const searchQuery = ref('');
 const isLoading = ref(false);
 const uploadError = ref<string | null>(null);
 const dropComponent = ref();
+const { CDN } = useApi();
 
 const submitFile = (selectedFile: File) => {
   if (!selectedFile) return;
