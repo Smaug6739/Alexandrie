@@ -39,6 +39,7 @@
 import { readableFileSize } from '~/helpers/ressources';
 definePageMeta({ breadcrumb: 'Preview' });
 const ressource = computed(() => useNodesStore().getById(useRoute().params.id as string));
+const { CDN } = useApi();
 
 const copyLink = () => {
   const link = `${CDN}/${ressource.value?.user_id}/${ressource.value?.metadata?.transformed_path || ressource.value?.content}`;

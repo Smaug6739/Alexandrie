@@ -41,7 +41,7 @@
       </div>
 
       <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
-      <AppButton type="primary" @click="useRouter().push(`/dashboard/admin/users/${user.id}/documents`)">View documents</AppButton>
+      <AppButton type="primary" @click="useRouter().push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
     </div>
     <div v-else>No user found.</div>
   </div>

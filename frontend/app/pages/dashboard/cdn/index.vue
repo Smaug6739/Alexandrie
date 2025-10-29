@@ -66,6 +66,7 @@ const fileLink = ref('');
 const isLoading = ref(false);
 const dropComponent = ref();
 const filter = ref('');
+const { CDN } = useApi();
 
 const sortedRessources = computed(() => nodesStore.ressources.toArray().sort((a, b) => b.created_timestamp - a.created_timestamp));
 const filteredRessources = computed(() => sortedRessources.value.filter(r => r.name.toLowerCase().includes(filter.value.toLowerCase())));

@@ -44,6 +44,7 @@ const preferencesStore = usePreferences();
 
 const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
+const { CDN } = useApi();
 
 const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
