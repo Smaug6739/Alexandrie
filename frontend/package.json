@@ -43,7 +43,7 @@
     "markdown-it-highlightjs": "^4.2.0",
     "markdown-it-mark": "^4.0.0",
     "markdown-it-underline": "^1.0.1",
-    "nuxt": "^4.1.3",
+    "nuxt": "^4.2.0",
     "pinia": "^3.0.3",
     "postcss-scss": "^4.0.9",
     "punycode": "^2.3.1",
