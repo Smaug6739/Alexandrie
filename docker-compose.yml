@@ -47,6 +47,7 @@ services:
       - '9000:9000' # API S3
     volumes:
       - rustfs_data:/data
+      - rustfs_data:/logs
     networks:
       - alexandrie-network
     healthcheck:
