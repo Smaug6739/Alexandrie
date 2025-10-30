@@ -1,7 +1,7 @@
 <template>
   <div class="card-component">
     <header>
-      <h3>Update ressource&nbsp;<tag blue>New</tag></h3>
+      <h3>Update ressource</h3>
     </header>
     <p>Manage ressources and files on the server. You can edit metadata and delete file from the server.</p>
     <form v-if="ressource" @submit.prevent>
