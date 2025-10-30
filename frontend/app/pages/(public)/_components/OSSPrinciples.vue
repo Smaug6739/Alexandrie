@@ -25,7 +25,7 @@
 <style scoped lang="scss">
 .principles {
   max-width: 1100px;
-  margin: 4rem auto;
+  margin: 4rem auto 0;
   text-align: center;
 }
 

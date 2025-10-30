@@ -103,7 +103,6 @@ onMounted(() => {
   padding: 16px;
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  background: var(--bg-contrast);
 }
 
 .value {

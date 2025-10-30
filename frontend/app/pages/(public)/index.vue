@@ -44,17 +44,7 @@
     <OSSPrinciples class="reveal" />
     <SponsorWall class="reveal" />
 
-    <!-- Final CTA -->
-    <section class="final-cta reveal">
-      <h2>Ready to Take Better Notes?</h2>
-      <p>Join us on this journey to better note-taking.</p>
-      <NuxtLink :prefetch="false" to="/dashboard" class="btn primary large" style="display: block; width: fit-content; margin: 10px auto 0">Start Now</NuxtLink>
-      <p style="margin-top: 30px">
-        Want to contribute or discuss? Check out our
-        <NuxtLink :prefetch="false" to="https://discord.gg/UPsEg6egPj" target="_blank" style="color: white; text-decoration: underline">Discord server</NuxtLink
-        >!
-      </p>
-    </section>
+    <AppCTA class="reveal" />
 
     <AppFooter />
   </main>
@@ -68,6 +58,7 @@ import SelfHostSteps from './_components/SelfHostSteps.vue';
 import ContributorsMarquee from './_components/ContributorsMarquee.vue';
 import SponsorWall from './_components/SponsorWall.vue';
 import OSSPrinciples from './_components/OSSPrinciples.vue';
+import AppCTA from './_components/AppCTA.vue';
 
 const heroEl = ref<HTMLElement | null>(null);
 
@@ -207,75 +198,6 @@ onMounted(() => {
 .features-grid > *:hover {
   box-shadow: 0 10px 30px rgb(0 0 0 / 15%);
   transform: translateY(-4px);
-}
-
-.testimonials {
-  padding: 3rem 2rem;
-  border-radius: 1rem;
-  text-align: center;
-  background: var(--bg-contrast);
-  margin-bottom: 4rem;
-}
-
-.testimonials-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  justify-content: center;
-}
-
-.final-cta {
-  padding: 3rem 2rem;
-  border-radius: 1rem;
-  color: white;
-  text-align: center;
-  background: var(--primary);
-  margin-bottom: 3rem;
-}
-
-.final-cta .btn {
-  color: var(--primary);
-  background: white;
-}
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  display: flex;
-  width: 24px;
-  height: 36px;
-  border: 2px solid rgb(255 255 255 / 60%);
-  border-radius: 14px;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 6px;
-  transform: translateX(-50%);
-}
-
-.scroll-indicator span {
-  width: 4px;
-  height: 8px;
-  border-radius: 2px;
-  background: rgb(255 255 255 / 80%);
-  animation: scroll 1.6s ease-in-out infinite;
-}
-
-@keyframes scroll {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  60% {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(0);
-  }
 }
 
 .hero-bg {
