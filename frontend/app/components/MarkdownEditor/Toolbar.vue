@@ -8,10 +8,13 @@
     <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Select category" size="300px" class="entry" />
 
     <div class="help">
-      <button @click="openSettings">
+      <button @click="openStats" title="Show statistics" aria-label="Show statistics">
+        <Icon name="performances" :big="true" fill="var(--font-color-light)" />
+      </button>
+      <button @click="openSettings" title="Settings" aria-label="Open settings">
         <Icon name="settings" :big="true" fill="var(--font-color-light)" />
       </button>
-      <button @click="openHelp">
+      <button @click="openHelp" title="Help" aria-label="Show Markdown syntax help">
         <Icon name="help" :big="true" fill="var(--font-color-light)" />
       </button>
     </div>
@@ -23,6 +26,7 @@ import type { Node } from '~/stores';
 import ModalSyntax from './ModalSyntax.vue';
 import VoiceRecognition from './VoiceRecognition.vue';
 import EditorPreferences from './EditorPreferences.vue';
+import StatisticsModal from './StatisticsModal.vue';
 
 const props = defineProps<{
   modelValue: Partial<Node>;
@@ -45,6 +49,11 @@ const emitAction = (action: string) => emit('execute-action', action);
 
 const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'large' }));
 const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'medium' }));
+
+const openStats = () => {
+  const text = props.modelValue?.content ?? '';
+  useModal().add(new Modal(shallowRef(StatisticsModal), { props: { content: text }, size: 'small' }));
+}
 
 const categories = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 2)).generateTree());
 
