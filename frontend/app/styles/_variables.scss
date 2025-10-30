@@ -8,6 +8,7 @@ $transition-duration: 0.3s;
 
 :root {
 	--default: #3956e7;
+	--default-dark: #2c3eb9;
 	--default-bg: #dde1f8;
 	--default-border: #dde1f8;
 	--bg-color: #fff;
@@ -68,6 +69,7 @@ $transition-duration: 0.3s;
 
 .dark-mode {
 	--default: #4a7aff;
+	--default-dark: #3754b1;
 	--default-bg: #2c334a;
 	--default-border: #4a4f5c;
 
