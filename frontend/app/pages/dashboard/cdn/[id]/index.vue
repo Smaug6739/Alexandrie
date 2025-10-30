@@ -33,6 +33,7 @@
       </p>
       <div style="display: flex; justify-content: flex-end">
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
+        <AppButton type="danger" @click="showDeleteModal">Delete</AppButton>
       </div>
       <h4>Preview</h4>
       <div class="preview">
@@ -42,11 +43,6 @@
           alt="Preview"
         />
         <p v-else>Preview not available for this file type.</p>
-      </div>
-      <h4>Danger</h4>
-      <p style="color: #dc3545">Deleting a ressource will remove it from the server. This action is irreversible.</p>
-      <div style="display: flex; justify-content: flex-end">
-        <AppButton type="danger" @click="showDeleteModal">Delete</AppButton>
       </div>
     </form>
   </div>
