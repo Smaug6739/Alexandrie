@@ -33,7 +33,7 @@
     <div class="content">
       <ProfileView v-if="currentPage === 'profile'" />
       <PreferencesView v-else-if="currentPage === 'preferences'" />
-      <SecurityView v-else-if="currentPage === 'security'" />
+      <SecurityView v-else-if="currentPage === 'security'" @close="close" />
       <BackupView v-else-if="currentPage == 'backup'" />
       <ShortcutsView v-else-if="currentPage == 'shortcuts'" />
       <SnippetsView v-else-if="currentPage == 'snippets'" />
