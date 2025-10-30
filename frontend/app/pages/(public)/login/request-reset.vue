@@ -83,7 +83,7 @@ form {
   background-color: var(--primary);
 
   &:hover {
-    background: $primary-dark;
+    background: var(--primary-dark);
     transform: none;
   }
 }
@@ -94,12 +94,12 @@ input {
 }
 
 .is-invalid {
-  border-color: $red !important;
+  border-color: var(--red) !important;
 }
 
 .invalid-feedback {
   font-size: 15px;
-  color: $red;
+  color: var(--red);
   text-align: center;
   margin-top: 0.5rem;
 }

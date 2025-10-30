@@ -8,7 +8,7 @@
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input id="password" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" >
+            <input id="password" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" />
             <button type="button" class="password-toggle" @click="showPassword = !showPassword">{{ showPassword ? 'Hide' : 'Show' }}</button>
           </div>
           <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
@@ -16,8 +16,15 @@
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
           <div class="password-input">
-            <input id="confirmPassword" v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.confirmPassword }" >
-            <button type="button" class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">{{ showConfirmPassword ? 'Hide' : 'Show' }}</button>
+            <input
+              id="confirmPassword"
+              v-model="confirmPassword"
+              :type="showConfirmPassword ? 'text' : 'password'"
+              :class="{ 'is-invalid': errors.confirmPassword }"
+            />
+            <button type="button" class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">
+              {{ showConfirmPassword ? 'Hide' : 'Show' }}
+            </button>
           </div>
           <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
         </div>
@@ -132,7 +139,7 @@ form {
   background-color: var(--primary);
 
   &:hover {
-    background: $primary-dark;
+    background: var(--primary-dark);
     transform: none;
   }
 }
@@ -143,12 +150,12 @@ input {
 }
 
 .is-invalid {
-  border-color: $red !important;
+  border-color: var(--red) !important;
 }
 
 .invalid-feedback {
   font-size: 0.8rem;
-  color: $red;
+  color: var(--red);
 }
 
 .sub {

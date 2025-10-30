@@ -387,7 +387,7 @@ defineExpose({ flattenedItems });
     justify-content: center;
 
     &:hover {
-      background: var(--primary-dark, #0056b3);
+      background: var(--primary-dark);
     }
   }
 }
@@ -488,7 +488,7 @@ defineExpose({ flattenedItems });
   background: var(--primary);
 
   &:hover {
-    background: var(--primary-dark, #0056b3);
+    background: var(--primary-dark);
   }
 }
 

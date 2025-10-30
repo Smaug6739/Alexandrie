@@ -77,7 +77,7 @@ const props = defineProps({
 }
 
 .error-button:hover {
-  background-color: $primary-dark;
+  background-color: var(--primary-dark);
 }
 
 .error-illustration {

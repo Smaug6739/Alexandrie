@@ -76,19 +76,19 @@ p {
 
 /* Notification types */
 .success {
-  background: $green;
+  background: var(--green);
 }
 
 .error {
-  background: $red;
+  background: var(--red);
 }
 
 .warning {
-  background: $yellow;
+  background: var(--yellow);
 }
 
 .info {
-  background: $blue;
+  background: var(--blue);
 }
 
 /* Transitions */

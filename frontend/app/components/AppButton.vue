@@ -29,7 +29,7 @@ button {
   background: var(--primary);
 
   &:hover {
-    background: $primary-dark;
+    background: var(--primary-dark);
   }
 }
 
@@ -44,10 +44,10 @@ button {
 
 .success {
   color: white;
-  background: $green;
+  background: var(--green);
 
   &:hover {
-    background: $green-dark;
+    background: var(--green-dark);
   }
 }
 
@@ -63,10 +63,10 @@ button {
 
 .danger {
   color: white;
-  background: $red;
+  background: var(--red);
 
   &:hover {
-    background: $red-dark;
+    background: var(--red-dark);
   }
 }
 </style>

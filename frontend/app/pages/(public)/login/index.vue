@@ -13,7 +13,13 @@
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input id="password" :key="`password-${showPassword}`" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" />
+            <input
+              id="password"
+              :key="`password-${showPassword}`"
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              :class="{ 'is-invalid': errors.password }"
+            />
             <button type="button" class="password-toggle" @click="togglePassword">
               <div class="eye-icon" :class="{ show: showPassword }">
                 <Icon v-if="showPassword" name="eye" />
@@ -176,7 +182,7 @@ input {
   text-decoration: none;
 
   &:hover {
-    color: $primary-dark;
+    color: var(--primary-dark);
     text-decoration: underline;
   }
 }
@@ -194,7 +200,7 @@ input {
     text-decoration: none;
 
     &:hover {
-      color: $primary-dark;
+      color: var(--primary-dark);
       text-decoration: underline;
     }
   }
@@ -215,7 +221,7 @@ input {
   margin-top: 1rem;
 
   &:hover {
-    background: $primary-dark;
+    background: var(--primary-dark);
     transform: translateY(-1px);
   }
 
@@ -226,13 +232,13 @@ input {
 
 /* ===== États et messages ===== */
 .is-invalid {
-  border-color: $red !important;
+  border-color: var(--red) !important;
 }
 
 .invalid-feedback {
   margin: 0;
   font-size: 0.8rem;
-  color: $red;
+  color: var(--red);
   text-align: center;
 }
 </style>
