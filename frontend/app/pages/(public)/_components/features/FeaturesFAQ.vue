@@ -14,7 +14,7 @@ const openIndex = ref<number | null>(null);
 
 const faqs = [
   { q: 'Is it open-source?', a: 'Yes, Alexandrie is 100% open-source and MIT licensed.' },
-  { q: 'Can I self-host?', a: 'Yes, you can run it locally or on a VPS via Docker Compose.' },
+  { q: 'Can I self-host?', a: 'Yes, you can run it locally or on a server. You can easily set it up using Docker or manually.' },
   { q: 'Does it work offline?', a: 'Absolutely. Alexandrie is local-first with offline persistence.' },
   { q: 'How is data stored?', a: 'Your data is stored in your own database when self-hosting; media files are served through the built-in CDN integration.' },
   { q: 'Can I import/export notes?', a: 'Yes. You can import Markdown and export to PDF with beautiful formatting.' },
