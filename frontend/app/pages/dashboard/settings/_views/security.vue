@@ -58,8 +58,8 @@
       You can log out from all devices or log out from this device. <br />
       Be careful, if you log out from all devices, you will be redirected to the login page. Please save your work before.
     </div>
-    <AppButton type="danger" @click="logoutUser">Log out</AppButton>
-    <AppButton type="danger" @click="logoutUserAll">Log out from all devices</AppButton>
+    <AppButton type="danger" @click="logout">Log out</AppButton>
+    <AppButton type="danger" @click="logoutAll">Log out from all devices</AppButton>
     <h2>Delete account</h2>
     <div>
       You can delete your account. <br />
@@ -73,7 +73,7 @@
         <li>All your account data (preferences, profile...)</li>
       </ul>
       <p>
-        You can <NuxtLink to="/dashboard/settings?p=backup" style=" color: var(--primary);text-decoration: underline">export your data</NuxtLink> before
+        You can <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary); text-decoration: underline">export your data</NuxtLink> before
         deleting your account.
       </p>
     </div>
@@ -84,7 +84,10 @@
 <script setup lang="ts">
 import DeleteAccountModal from '../_modals/DeleteAccountModal.vue';
 import { parseUserAgent } from '~/helpers/utils';
+
 const store = useUserStore();
+const emit = defineEmits(['close']);
+
 const passwordValue = ref('');
 const passwordConfirmValue = ref('');
 const err_password_not_match = ref(false);
@@ -102,6 +105,16 @@ const changePassword = async () => {
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error during password saving', message: e.message }));
 };
+
+const logout = () => {
+  logoutUser();
+  emit('close');
+};
+const logoutAll = () => {
+  logoutUserAll();
+  emit('close');
+};
+
 const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountModal)));
 </script>
 
@@ -120,12 +133,12 @@ p {
 
 .warning {
   font-size: 0.9rem;
-  color: $red;
+  color: var(--red);
 }
 
 .err {
   padding: 0.1rem 0.5rem;
   font-size: 0.8rem;
-  color: $red;
+  color: var(--red);
 }
 </style>

@@ -15,11 +15,9 @@ function logoutUserAll() {
   store
     .logout_all()
     .then(() => {
-      useNotifications().add({ type: 'success', title: 'Logged out:' });
-      setTimeout(() => {
-        store.post_logout();
-        useRouter().push('/login');
-      }, 3000);
+      useNotifications().add({ type: 'success', title: 'Logged out' });
+      store.post_logout();
+      useRouter().push('/login');
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 }

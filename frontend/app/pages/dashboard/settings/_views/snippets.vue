@@ -84,6 +84,7 @@
           <div v-else class="snippet-content">
             <div class="snippet-preview">
               <div class="preview-label">Preview:</div>
+              <!-- eslint-disable-next-line vue/no-v-html | OK Because user self entry -->
               <div class="preview-content" v-html="getPreviewHtml(snippet.label)" />
             </div>
 

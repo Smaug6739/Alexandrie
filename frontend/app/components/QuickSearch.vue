@@ -125,9 +125,8 @@ const handleSearchShortCut = (e: KeyboardEvent) => {
 
   .icon {
     display: flex;
-    align-items: center;
-
     width: 35px;
+    align-items: center;
     margin-right: 5px;
   }
 }

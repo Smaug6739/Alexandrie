@@ -4,6 +4,7 @@ import (
 	"alexandrie/app"
 	"alexandrie/models"
 	"alexandrie/types"
+	"alexandrie/utils"
 	"crypto/rand"
 	"errors"
 	"fmt"
@@ -24,6 +25,7 @@ type AuthController interface {
 	RequestResetPassword(c *gin.Context) (int, any)
 	ResetPassword(c *gin.Context) (int, any)
 	Logout(c *gin.Context) (int, any)
+	LogoutAllDevices(c *gin.Context) (int, any)
 }
 
 func NewAuthController(app *app.App) AuthController {
@@ -171,6 +173,28 @@ func (ctr *Controller) Logout(c *gin.Context) (int, any) {
 	c.SetCookie("Authorization", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
 	c.SetCookie("RefreshToken", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
 	return http.StatusOK, "Logged out successfully."
+}
+
+// Logout all devices
+// @Summary Logout all devices
+// @Method POST
+// @Router /auth/logout/all [post]
+// @Security Session validation
+// @Success 200 {object} Success(string)
+// @Failure 400 {object} Error
+func (ctr *Controller) LogoutAllDevices(c *gin.Context) (int, any) {
+	// Get the user ID from the context
+	userId, err := utils.GetUserIdCtx(c)
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	if err := ctr.app.Services.Session.DeleteAllUserSessions(userId); err != nil {
+		return http.StatusInternalServerError, errors.New("failed to delete sessions")
+	}
+	c.SetCookie("Authorization", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
+	c.SetCookie("RefreshToken", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), true, true)
+	return http.StatusOK, "Logged out from all devices successfully."
 }
 
 // Reset password

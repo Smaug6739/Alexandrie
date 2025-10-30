@@ -1,24 +1,3 @@
-@use "sass:color";
-
-$blue: #007aff;
-$dark-blue: color.adjust($blue, $lightness: -10%);
-$indigo: #6610f2;
-$purple: #6f42c1;
-$pink: #ff0e6a;
-$red: #d82638;
-$red-dark: color.adjust($red, $lightness: -10%);
-$white: white;
-$orange: #fd7e14;
-$yellow: #ffc107;
-$green: #009879;
-$green-dark: color.adjust($green, $lightness: -10%);
-$grey: #ffffffd9;
-$black: #27323A;
-
-$secondary-400: #8e8d8a;
-$secondary-300: color.adjust($secondary-400, $lightness: -10%);
-$secondary-500: color.adjust($secondary-400, $lightness: 10%);
-
 @forward "./font.scss";
 
 $external-font: 'Inter', sans-serif;
@@ -27,13 +6,9 @@ $monospace-font: monospace;
 // Transitions
 $transition-duration: 0.3s;
 
-
-$primary-color: #6024ec;
-$primary-light: color.adjust(#6024ec, $lightness: 10%);
-$primary-dark: color.adjust(#6024ec, $lightness: -10%);
-
 :root {
 	--default: #3956e7;
+	--default-dark: #2c3eb9;
 	--default-bg: #dde1f8;
 	--default-border: #dde1f8;
 	--bg-color: #fff;
@@ -55,30 +30,37 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 	--grey: #666;
 	--grey-bg: #EFEEEA;
 	--blue: #007aff;
+	--blue-dark: #0056b3;
 	--blue-bg: #cce0ff;
 	--blue-bg-light: #f3f5fc;
 	--blue-border: rgb(0 123 255 / 30%);
 	--green: #009879;
+	--green-dark: #007a63;
 	--green-bg: rgb(40 167 69 / 15%);
 	--green-bg-light: rgb(40 167 69 / 5%);
 	--green-border: rgb(40 167 69 / 30%);
-	--red: #FF204E;
+	--red: #dd2046;
+	--red-dark: #a70b1b;
 	--red-bg: rgb(220 53 69 / 15%);
 	--red-bg-light: rgb(220 53 69 / 5%);
 	--red-border: rgb(220 53 69 / 30%);
 	--yellow: #F97300;
+	--yellow-dark: #c46200;
 	--yellow-bg: rgb(255 193 7 / 15%);
 	--yellow-bg-light: rgb(255 193 7 / 5%);
 	--yellow-border: rgb(255 193 7 / 30%);
 	--teal: #00ADB5;
+	--teal-dark: #008f93;
 	--teal-bg: rgb(23 162 184 / 20%);
 	--teal-bg-light: rgb(23 162 184 / 5%);
 	--teal-border: rgb(23 162 184 / 25%);
 	--purple: #6024ec;
+	--purple-dark: #5a1fdb;
 	--purple-bg: rgb(111 66 193 / 20%);
 	--purple-bg-light: rgb(111 66 193 / 5%);
 	--purple-border: rgb(111 66 193 / 25%);
-	--pink: #ff0e6a;
+	--pink: #FF204E;
+	--pink-dark: #e00b58;
 	--pink-bg: rgb(255 14 106 / 20%);
 	--pink-bg-light: rgb(255 14 106 / 5%);
 	--pink-border: rgb(255 14 106 / 25%);
@@ -86,16 +68,15 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 }
 
 .dark-mode {
-	--default: #3956e7;
-	--default-bg: #2f323b;
+	--default: #4a7aff;
+	--default-dark: #3754b1;
+	--default-bg: #2c334a;
 	--default-border: #4a4f5c;
-
-	--bg-color: #18171c;
-	--bg-contrast: #27262b;
+	--bg-color: #212830;
+	--bg-contrast: #262c36;
 	--bg-contrast-2: #32363f;
 	--bg-ui: rgb(255 255 255 / 4%);
 	--selection-color: #3b4252;
-
 	--font-color: #d1d2d5; // Texte principal lisible
 	--font-color-dark: #d1d5db;
 	--font-color-light: #aab0b8;
@@ -106,27 +87,42 @@ $primary-dark: color.adjust(#6024ec, $lightness: -10%);
 
 	// COLORS \\
 	--grey: #bbb;
+	--grey-dark: #888;
 	--grey-bg: #2c2c2c;
 	--blue: #339CFF;
+	--blue-dark: #0056b3;
 	--blue-bg: rgb(51 156 255 / 12%);
+	--blue-bg-light: rgb(51 156 255 / 5%);
 	--blue-border: rgb(51 156 255 / 25%);
 	--green: #00c194;
+	--green-dark: #007a63;
 	--green-bg: rgb(0 193 154 / 12%);
+	--green-bg-light: rgb(0 193 154 / 5%);
 	--green-border: rgb(0 193 154 / 25%);
-	--red: #ff4c5b;
-	--red-bg: rgb(255 76 91 / 12%);
+	--red: #fe3938;
+	--red-dark: #c82333;
+	--red-bg: rgb(58 37 53);
+	--red-bg-light: rgb(255 76 91 / 5%);
 	--red-border: rgb(255 76 91 / 25%);
-	--yellow: #ffae00;
-	--yellow-bg: rgb(255 174 0 / 12%);
+	--yellow: #ff7c19;
+	--yellow-dark: #c46200;
+	--yellow-bg: rgb(59 44 49);
+	--yellow-bg-light: rgb(255 174 0 / 5%);
 	--yellow-border: rgb(255 174 0 / 25%);
 	--purple: #8e5fff;
+	--purple-dark: #5a1fdb;
 	--purple-bg: rgb(142 95 255 / 12%);
+	--purple-bg-light: rgb(142 95 255 / 5%);
 	--purple-border: rgb(142 95 255 / 25%);
 	--teal: #1cd4d4;
+	--teal-dark: #008f93;
 	--teal-bg: rgb(28 212 212 / 12%);
+	--teal-bg-light: rgb(28 212 212 / 5%);
 	--teal-border: rgb(28 212 212 / 25%);
-	--pink: #ff4da6;
+	--pink: #fe3938;
+	--pink-dark: #e00b58;
 	--pink-bg: rgb(255 77 166 / 12%);
+	--pink-bg-light: rgb(255 77 166 / 5%);
 	--pink-border: rgb(255 77 166 / 25%);
 }
 

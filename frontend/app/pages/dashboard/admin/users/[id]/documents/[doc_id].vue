@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component" style="height: 100%; overflow: auto; padding: 35px 25px">
+  <div class="card-component" style="height: 100%; padding: 35px 25px; overflow: auto">
     <h1>Node advanced view</h1>
     <div v-if="document" style="display: flex; height: 100%; min-height: 0; flex-direction: column">
       <label for="id">ID</label>
@@ -36,9 +36,9 @@
       <input id="size" v-model="document.size" />
       <label for="content">Content</label>
       <div style="display: flex; width: 100%; height: 500px; flex: 1; gap: 10px">
-        <textarea v-model="document.content" style="flex: 1; height: 500px; overflow: auto"></textarea>
+        <textarea v-model="document.content" style=" height: 500px;flex: 1; overflow: auto"></textarea>
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div style="flex: 1; height: 500px; overflow: auto" class="alexandrie-theme" v-html="document.content_compiled" />
+        <div style=" height: 500px;flex: 1; overflow: auto" class="alexandrie-theme" v-html="document.content_compiled" />
       </div>
     </div>
 

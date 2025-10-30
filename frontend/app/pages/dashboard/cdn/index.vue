@@ -29,7 +29,7 @@
         </template>
       </DataTable>
       <div v-else>
-        <input type="text" placeholder="Search..." v-model="filter" class="search" />
+        <input v-model="filter" type="text" placeholder="Search..." class="search" />
         <hr />
         <div class="images-grid">
           <div v-for="image in filteredRessources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
@@ -181,11 +181,13 @@ const bulkDelete = async (lines: Field[]) => {
   border-radius: 4px;
   margin-bottom: 16px;
 }
+
 .not-found {
-  grid-column: 1 / -1;
-  text-align: center;
   color: var(--font-color-light);
+  text-align: center;
+  grid-column: 1 / -1;
 }
+
 .images-grid {
   display: grid;
   padding: 16px 0;

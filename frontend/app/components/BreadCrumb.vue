@@ -72,10 +72,10 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .breadcrumb {
   display: flex;
-  align-items: center;
-  gap: 8px;
   padding: 3px;
+  align-items: center;
   flex-wrap: wrap;
+  gap: 8px;
 
   svg {
     width: 27px;
@@ -87,8 +87,8 @@ watchEffect(() => {
     margin-right: 8px;
 
     &:hover:not(.disabled) {
-      opacity: 0.8;
       background-color: var(--selection-color);
+      opacity: 0.8;
     }
 
     &.disabled {
@@ -100,10 +100,10 @@ watchEffect(() => {
 
 .breadcrumb-list {
   display: flex;
+  margin: 0;
+  padding: 0;
   align-items: center;
   list-style: none;
-  padding: 0;
-  margin: 0;
 }
 
 .breadcrumb-item {
@@ -111,25 +111,18 @@ watchEffect(() => {
   align-items: center;
 
   a {
-    color: var(--font-color);
-    text-decoration: none;
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-
-    &:hover {
-    }
-
-    &.router-link-active {
-    }
+    color: var(--font-color);
+    text-decoration: none;
   }
 
   &:not(:last-child)::after {
-    content: '/';
     margin: 0 8px;
     color: var(--font-color-light);
+    content: '/';
   }
 }
 </style>
-```

@@ -12,6 +12,7 @@ type AuthService interface {
 	GetSession(refreshToken string) (models.Session, error)
 	UpdateSession(session *models.Session) (*models.Session, error)
 	DeleteSession(id types.Snowflake) error
+	DeleteAllUserSessions(userId types.Snowflake) error
 	DeleteOldSessions() error
 }
 
@@ -47,6 +48,14 @@ func (s *Service) UpdateSession(session *models.Session) (*models.Session, error
 
 func (s *Service) DeleteSession(id types.Snowflake) error {
 	_, err := s.db.Exec("DELETE FROM sessions WHERE id = ?", id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *Service) DeleteAllUserSessions(userId types.Snowflake) error {
+	_, err := s.db.Exec("DELETE FROM sessions WHERE user_id = ?", userId)
 	if err != nil {
 		return err
 	}

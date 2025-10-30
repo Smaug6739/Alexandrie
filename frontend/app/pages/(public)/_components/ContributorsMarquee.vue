@@ -45,8 +45,8 @@ onMounted(fetchContributors);
 
 .strip {
   display: flex;
-  flex-wrap: wrap;
   padding: 8px 0;
+  flex-wrap: wrap;
   gap: 12px;
   justify-content: center;
 }
@@ -60,8 +60,8 @@ onMounted(fetchContributors);
 
 .avatar img {
   width: 48px;
-  height: 48px;
   max-width: none;
+  height: 48px;
   border-radius: 50%;
 }
 

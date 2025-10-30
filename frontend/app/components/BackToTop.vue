@@ -30,7 +30,7 @@ onUnmounted(() => document.removeEventListener('scroll', onScroll));
 }
 
 .back-to-top:hover {
-  background-color: $primary-dark;
+  background-color: var(--primary-dark);
 }
 
 @media (width <= 959px) {

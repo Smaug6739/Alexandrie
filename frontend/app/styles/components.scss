@@ -53,14 +53,6 @@ tag {
 	font-size: 0.8em;
 }
 
-.columns {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	flex-wrap: wrap;
-}
-
-
 .error {
 	margin: 8px 0 4px 0;
 	color: var(--red);

@@ -27,10 +27,10 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 <style scoped lang="scss">
 .context-menu {
   position: fixed;
-  background: var(--bg-color);
-  border-radius: 6px;
-  box-shadow: 0 2px 10px var(--shadow);
   min-width: 250px;
+  border-radius: 6px;
+  background: var(--bg-color);
+  box-shadow: 0 2px 10px var(--shadow);
   overflow: hidden;
 }
 
@@ -38,10 +38,11 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
   display: flex;
   flex-direction: column;
 }
+
 .context-backdrop {
   position: fixed;
-  inset: 0;
-  background: transparent;
   z-index: 5000;
+  background: transparent;
+  inset: 0;
 }
 </style>

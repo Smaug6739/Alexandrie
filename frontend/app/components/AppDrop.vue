@@ -70,7 +70,6 @@ defineExpose({ reset });
 .dropzone {
   position: relative;
   display: flex;
-  flex-direction: column;
   width: 100%;
   height: 150px;
   border: 2px dashed var(--border-color);
@@ -80,6 +79,7 @@ defineExpose({ reset });
   background-color: var(--dropzone-bg, transparent);
   transition: background-color $transition-duration;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
 
   &:hover {

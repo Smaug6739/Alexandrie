@@ -107,10 +107,10 @@ function copyDockerCompose() {
 }
 
 .copied {
-  margin-left: 12px;
   font-size: 14px;
-  color: var(--green);
   font-weight: 600;
+  color: var(--green);
+  margin-left: 12px;
 }
 
 .notes {

@@ -34,6 +34,7 @@ export function setAppColor(color: string | number) {
   }
   if (color === 'primary') color = 'default';
   document.documentElement.style.setProperty('--primary', `var(--${color})`);
+  document.documentElement.style.setProperty('--primary-dark', `var(--${color}-dark)`);
   document.documentElement.style.setProperty('--primary-bg', `var(--${color}-bg)`);
   document.documentElement.style.setProperty('--primary-border', `var(--${color}-border)`);
 

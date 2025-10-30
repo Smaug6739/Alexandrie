@@ -7,12 +7,12 @@
     <div>
       <AppSelect v-model="category.parent_id" :nullable="true" class="entry" :items="categoriesItem" placeholder="Select a category parent" />
     </div>
-    <div style="display: flex">
-      <div style="flex: 1; margin-right: 10px">
+    <div style="display: flex; flex-wrap: wrap">
+      <div style=" min-width: 200px;flex: 1; margin-right: 10px">
         <label for="order">Order <AppHint text="Order of the category in the sidebar" /></label>
         <input id="order" v-model.number="category.order" class="entry" type="number" placeholder="0" />
       </div>
-      <div style="flex: 1; margin-left: 10px">
+      <div style=" min-width: 200px;flex: 1; margin-left: 10px">
         <label for="color">Color</label>
         <AppColorPicker id="color" v-model="category.color" class="entry" :nullable="true" />
       </div>

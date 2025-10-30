@@ -26,7 +26,7 @@
     "@codemirror/view": "^6.38.6",
     "@lezer/highlight": "^1.2.3",
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint": "1.9.0",
+    "@nuxt/eslint": "1.10.0",
     "@nuxtjs/color-mode": "^3.5.2",
     "@pinia/nuxt": "^0.11.2",
     "@types/katex": "^0.16.7",

@@ -18,7 +18,13 @@
         <div class="form-group">
           <label for="password">Password</label>
           <div class="password-input">
-            <input id="password" :key="`password-${showPassword}`" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" />
+            <input
+              id="password"
+              :key="`password-${showPassword}`"
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              :class="{ 'is-invalid': errors.password }"
+            />
             <button type="button" class="password-toggle" @click="togglePassword">
               <div class="eye-icon" :class="{ show: showPassword }">
                 <Icon v-if="showPassword" name="eye" />
@@ -31,7 +37,13 @@
         <div class="form-group">
           <label for="confirmPassword">Confirm Password</label>
           <div class="password-input">
-            <input id="confirmPassword" :key="`confirmPassword-${showConfirmPassword}`" v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.confirmPassword }" />
+            <input
+              id="confirmPassword"
+              :key="`confirmPassword-${showConfirmPassword}`"
+              v-model="confirmPassword"
+              :type="showConfirmPassword ? 'text' : 'password'"
+              :class="{ 'is-invalid': errors.confirmPassword }"
+            />
             <button type="button" class="password-toggle" @click="toggleConfirmPassword">
               <div class="eye-icon" :class="{ show: showConfirmPassword }">
                 <Icon v-if="showConfirmPassword" name="eye" />
@@ -245,7 +257,7 @@ input {
   text-decoration: none;
 
   &:hover {
-    color: $primary-dark;
+    color: var(--primary-dark);
     text-decoration: underline;
   }
 }
@@ -265,7 +277,7 @@ input {
   margin-top: 1rem;
 
   &:hover {
-    background: $primary-dark;
+    background: var(--primary-dark);
     box-shadow: 0 4px 12px rgb(var(--primary-rgb), 0.3);
     transform: translateY(-1px);
   }
@@ -278,13 +290,13 @@ input {
 
 /* ===== États et messages ===== */
 .is-invalid {
-  border-color: $red !important;
+  border-color: var(--red) !important;
 }
 
 .invalid-feedback {
   margin: 0;
   font-size: 0.8rem;
-  color: $red;
+  color: var(--red);
   text-align: center;
 }
 </style>
