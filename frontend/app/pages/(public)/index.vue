@@ -12,7 +12,7 @@
         <div class="badges">
           <span class="badge">Open-source</span>
           <span class="badge">Markdown</span>
-          <span class="badge">Export PDF</span>
+          <span class="badge">Organization</span>
         </div>
         <IconApp class="logo" style="width: 120px" fill="white" />
         <h1><span class="gradient-text">Your Notes</span>, Beautifully Organized</h1>
@@ -39,25 +39,9 @@
 
     <SelfHostSteps class="reveal" />
 
-    <!-- Testimonials -->
-    <section class="testimonials reveal">
-      <h2>Loved by Students & Professionals</h2>
-      <div class="testimonials-grid">
-        <TestimonialCard
-          name="Alice"
-          role="Student"
-          text="Alexandrie made my study notes so much easier to manage!"
-          avatar="https://i.pravatar.cc/150?img=32"
-        />
-        <TestimonialCard name="John" role="Creator" text="Very useful tool for organizing my thoughts." avatar="https://i.pravatar.cc/150?img=12" />
-        <TestimonialCard name="Sara" role="Student" text="Clean, minimal, and packed with features I actually use." avatar="https://i.pravatar.cc/150?img=47" />
-      </div>
-    </section>
-
     <OpenSourceStats class="reveal" />
     <ContributorsMarquee class="reveal" />
     <OSSPrinciples class="reveal" />
-    <GoodFirstIssues class="reveal" />
     <SponsorWall class="reveal" />
 
     <!-- Final CTA -->
@@ -79,10 +63,8 @@
 <script setup lang="ts">
 import AppFooter from './_components/AppFooter.vue';
 import FeatureCard from './_components/FeatureCard.vue';
-import TestimonialCard from './_components/TestimonialCard.vue';
 import OpenSourceStats from './_components/OpenSourceStats.vue';
 import SelfHostSteps from './_components/SelfHostSteps.vue';
-import GoodFirstIssues from './_components/GoodFirstIssues.vue';
 import ContributorsMarquee from './_components/ContributorsMarquee.vue';
 import SponsorWall from './_components/SponsorWall.vue';
 import OSSPrinciples from './_components/OSSPrinciples.vue';
