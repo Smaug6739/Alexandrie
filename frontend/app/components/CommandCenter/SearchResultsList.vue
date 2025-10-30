@@ -74,6 +74,7 @@ const groupedItems = computed(() => {
     background: var(--border-color);
   }
 }
+
 kbd {
   display: inline-block;
   padding: 4px 8px;
@@ -85,6 +86,7 @@ kbd {
   color: var(--font-color-dark);
   background-color: var(--bg-color);
 }
+
 .result-icon {
   width: 20px;
   height: 20px;

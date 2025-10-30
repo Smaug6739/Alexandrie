@@ -181,11 +181,13 @@ const bulkDelete = async (lines: Field[]) => {
   border-radius: 4px;
   margin-bottom: 16px;
 }
+
 .not-found {
-  grid-column: 1 / -1;
-  text-align: center;
   color: var(--font-color-light);
+  text-align: center;
+  grid-column: 1 / -1;
 }
+
 .images-grid {
   display: grid;
   padding: 16px 0;

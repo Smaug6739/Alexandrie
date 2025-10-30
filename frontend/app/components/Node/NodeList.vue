@@ -71,11 +71,11 @@ h1 {
 }
 
 .doc-count {
-  font-weight: bold;
-  font-size: 1rem;
-  border-radius: 4px;
   padding: 4px 6px;
   border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .parent-icon {

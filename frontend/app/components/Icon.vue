@@ -30,15 +30,15 @@ const isUnicode = (str: string) => {
 <style scoped lang="scss">
 .icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 20px;
   height: 20px;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
   user-select: none;
 
   use {
-    fill: currentColor;
+    fill: currentcolor;
   }
 
   /* Custom sizes */
@@ -46,15 +46,18 @@ const isUnicode = (str: string) => {
     width: 18px;
     height: 18px;
   }
+
   &.mid {
     width: 21px;
     height: 21px;
   }
+
   &.big {
     width: 25px;
     height: 25px;
   }
 }
+
 .c-icon:deep(svg),
 .c-icon:deep(svg > * > path) {
   fill: inherit !important;

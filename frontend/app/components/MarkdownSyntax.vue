@@ -190,13 +190,15 @@ function hello() {
 
 .demo {
   display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
   width: 100%;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 1rem;
+
   * {
     flex: 1;
   }
+
   pre {
     margin: 10px 0;
   }
