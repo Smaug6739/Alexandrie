@@ -117,7 +117,7 @@ section {
 
 .timeline {
   position: relative;
-  max-width: 1100px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 2rem 0;
 
@@ -181,7 +181,7 @@ section {
 
         img {
           width: 100%;
-          max-width: 480px;
+          max-width: 800px;
           border-radius: 16px;
           border: 1px solid #e5e7eb;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
