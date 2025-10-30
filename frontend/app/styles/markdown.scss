@@ -281,3 +281,15 @@
 		}
 	}
 }
+
+.columns {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+.columns .column {
+	flex: 1;
+	margin: 0 10px;
+}
