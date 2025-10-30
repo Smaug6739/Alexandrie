@@ -1,6 +1,5 @@
 <template>
   <section class="contributors">
-    <h2>Contributors</h2>
     <div class="strip" :style="{ ['--items' as any]: displayAvatars.length }">
       <a v-for="c in displayAvatars" :key="c.__key" class="avatar" :href="c.html_url" target="_blank" :title="c.login">
         <img :src="c.avatar_url + '&s=80'" :alt="c.login" />
@@ -46,6 +45,7 @@ onMounted(fetchContributors);
 
 .strip {
   display: flex;
+  flex-wrap: wrap;
   padding: 8px 0;
   gap: 12px;
   justify-content: center;
@@ -61,6 +61,7 @@ onMounted(fetchContributors);
 .avatar img {
   width: 48px;
   height: 48px;
+  max-width: none;
   border-radius: 50%;
 }
 
