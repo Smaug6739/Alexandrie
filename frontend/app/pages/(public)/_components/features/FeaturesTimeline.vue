@@ -4,7 +4,7 @@
     <p class="section-subtitle">Discover how Alexandrie empowers you at every stage — from note-taking to publishing.</p>
 
     <div class="timeline">
-      <div v-for="(step, index) in steps" :key="index" class="timeline-item" :class="{ 'is-right': index % 2 === 1 }" ref="items">
+      <div v-for="(step, index) in steps" :key="index" ref="items" class="timeline-item" :class="{ 'is-right': index % 2 === 1 }">
         <div class="timeline-content">
           <div class="text">
             <h3>{{ step.title }}</h3>
@@ -220,7 +220,7 @@ section {
 
   .lightbox-content {
     position: relative;
-    max-width: 90%;
+    max-width: 60%;
     max-height: 85%;
     border-radius: 12px;
     overflow: hidden;
@@ -228,7 +228,7 @@ section {
 
     img {
       width: 100%;
-      max-width: 90%;
+      max-width: 100%;
       max-height: none;
       height: auto;
       margin: auto;

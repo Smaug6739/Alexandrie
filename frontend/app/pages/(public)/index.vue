@@ -1,6 +1,7 @@
 <template>
-  <main class="landing">
+  <main>
     <!-- Hero -->
+
     <section ref="heroEl" class="hero">
       <div class="hero-bg">
         <span class="orb orb-1" />
@@ -25,23 +26,16 @@
       <img src="/screenshots/mock/0.png" class="hero-image" alt="App preview" />
     </section>
 
-    <!-- Features -->
-    <section class="features reveal">
-      <h2>Why Alexandrie?</h2>
-      <div class="features-grid">
-        <FeatureCard icon="performances" title="Lightning Fast" text="Optimized for performance and minimal load times." />
-        <FeatureCard icon="layers" title="Organized Workspaces" text="Keep projects neat with nested categories." />
-        <FeatureCard icon="markdown" title="Rich Markdown" text="Advanced syntax, LaTeX, custom blocks, and more." />
-        <FeatureCard icon="import" title="Export & Share" text="PDF export with perfect formatting." />
-        <FeatureCard icon="shortcuts" title="Keyboard Shortcuts" text="Do everything without touching the mouse." />
-      </div>
-    </section>
-
     <SelfHostSteps class="reveal" />
 
     <OpenSourceStats class="reveal" />
     <ContributorsMarquee class="reveal" />
     <OSSPrinciples class="reveal" />
+
+    <FeaturesTimeline />
+
+    <FeaturesFAQ class="reveal" />
+
     <SponsorWall class="reveal" />
 
     <AppCTA class="reveal" />
@@ -52,12 +46,13 @@
 
 <script setup lang="ts">
 import AppFooter from './_components/AppFooter.vue';
-import FeatureCard from './_components/FeatureCard.vue';
+import FeaturesTimeline from './_components/features/FeaturesTimeline.vue';
 import OpenSourceStats from './_components/OpenSourceStats.vue';
 import SelfHostSteps from './_components/SelfHostSteps.vue';
 import ContributorsMarquee from './_components/ContributorsMarquee.vue';
 import SponsorWall from './_components/SponsorWall.vue';
 import OSSPrinciples from './_components/OSSPrinciples.vue';
+import FeaturesFAQ from './_components/features/FeaturesFAQ.vue';
 import AppCTA from './_components/AppCTA.vue';
 
 const heroEl = ref<HTMLElement | null>(null);
@@ -92,10 +87,10 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.landing {
+main {
   padding: 0 2rem;
-  font-family: var(--font-main);
   margin-top: 1em;
+  overflow-x: hidden;
 }
 
 .hero {
@@ -144,6 +139,7 @@ onMounted(() => {
 
 .cta-buttons {
   display: flex;
+  align-items: center;
   gap: 1rem;
   margin-top: 1.5rem;
 }
@@ -176,28 +172,6 @@ onMounted(() => {
 
 .btn.glow:hover {
   box-shadow: 0 14px 36px rgb(0 0 0 / 24%), 0 0 30px rgb(255 255 255 / 35%);
-}
-
-.features {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-.features-grid {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  margin-top: 2rem;
-}
-
-.features-grid > * {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  transform: translateZ(0);
-}
-
-.features-grid > *:hover {
-  box-shadow: 0 10px 30px rgb(0 0 0 / 15%);
-  transform: translateY(-4px);
 }
 
 .hero-bg {
@@ -261,7 +235,7 @@ onMounted(() => {
 }
 
 @media screen and (width <= 768px) {
-  .landing {
+  main {
     padding: 0 1rem;
   }
 
@@ -275,10 +249,6 @@ onMounted(() => {
     width: 100%;
     max-width: 500px;
     margin-top: 2rem;
-  }
-
-  .features-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
 </style>
