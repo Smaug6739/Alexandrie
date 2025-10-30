@@ -29,7 +29,7 @@
         </template>
       </DataTable>
       <div v-else>
-        <input type="text" placeholder="Search..." v-model="filter" class="search" />
+        <FilterBar :filter="filter" :sortKey="sortKey" @update:filter="val => filter = val" @update:sortKey="val => sortKey = val" />
         <hr />
         <div class="images-grid">
           <div v-for="image in filteredRessources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
@@ -50,6 +50,7 @@
 </template>
 <script setup lang="ts">
 import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
+import FilterBar from '~/components/FilterBar.vue';
 import { readableFileSize } from '~/helpers/ressources';
 import type { Field } from '~/components/DataTable.vue';
 import type { Node } from '~/stores';
@@ -66,10 +67,30 @@ const fileLink = ref('');
 const isLoading = ref(false);
 const dropComponent = ref();
 const filter = ref('');
+const sortKey = ref<'newest' | 'oldest' | 'size_asc' | 'size_desc'>('newest');
+const onlyImages = ref(false);
 const { CDN } = useApi();
 
-const sortedRessources = computed(() => nodesStore.ressources.toArray().sort((a, b) => b.created_timestamp - a.created_timestamp));
-const filteredRessources = computed(() => sortedRessources.value.filter(r => r.name.toLowerCase().includes(filter.value.toLowerCase())));
+const sortedRessources = computed(() => {
+  let arr = nodesStore.ressources.toArray();
+  if (sortKey.value === 'newest') {
+    arr.sort((a, b) => b.created_timestamp - a.created_timestamp);
+  } else if (sortKey.value === 'oldest') {
+    arr.sort((a, b) => a.created_timestamp - b.created_timestamp);
+  } else if (sortKey.value === 'size_asc') {
+    arr.sort((a, b) => (a.size ?? 0) - (b.size ?? 0));
+  } else if (sortKey.value === 'size_desc') {
+    arr.sort((a, b) => (b.size ?? 0) - (a.size ?? 0));
+  }
+  return arr;
+});
+
+const filteredRessources = computed(() => sortedRessources.value
+  .filter(r =>
+    (!onlyImages.value || (r.metadata?.filetype || '').includes('image/')) &&
+    r.name.toLowerCase().includes(filter.value.toLowerCase())
+  )
+);
 
 const selectFile = (file?: File) => (selectedFile.value = file);
 const copyLink = () => navigator.clipboard.writeText(fileLink.value!);
@@ -174,12 +195,18 @@ const bulkDelete = async (lines: Field[]) => {
 }
 
 .search {
-  width: 100%;
-  max-width: 450px;
-  padding: 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  margin-bottom: 16px;
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.8px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 15px;
+  background: var(--bg-color-secondary);
+  color: var(--font-color-dark);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.search:focus {
+  border-color: var(--primary);
 }
 .not-found {
   grid-column: 1 / -1;
@@ -234,5 +261,92 @@ const bulkDelete = async (lines: Field[]) => {
       color: var(--font-color-light);
     }
   }
+}
+.filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 14px;
+  background: transparent;
+  padding: 0;
+}
+
+.sort-select {
+  border: 1.8px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 34px 8px 10px;
+  background: var(--bg-color-secondary);
+  font-size: 15px;
+  color: var(--font-color-dark);
+  cursor: pointer;
+  font-weight: 500;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  appearance: none;
+  min-width: 140px;
+  max-width: 180px;
+}
+
+.sort-select:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.sort-select:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 0 2px var(--primary), 0 6px 20px rgba(0,0,0,0.2);
+  color: var(--primary);
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+
+.select-wrapper::after {
+  content: '▾';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-size: 1.6rem;
+  pointer-events: none;
+}
+
+.sort-select:focus + .select-wrapper::after,
+.sort-select:hover + .select-wrapper::after {
+  transform: translateY(-50%) rotate(180deg);
+  color: var(--primary-dark);
+}
+.sort-select:hover,
+.sort-select:focus {
+  border-color: var(--primary);
+  background: var(--primary-lightest);
+  color: var(--primary);
+  outline: none;
+}
+.select-arrow {
+  position: absolute;
+  right: 16px;
+  top: 52%;
+  font-size: 1em;
+  color: var(--primary);
+  pointer-events: none;
+  transform: translateY(-50%) scale(1.14);
+  transition: color 0.18s;
+}
+.select-wrapper:focus-within .select-arrow, .sort-select:focus + .select-arrow {
+  color: var(--primary-dark);
+}
+.image-only-label {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-left: 6px;
+  user-select: none;
 }
 </style>
