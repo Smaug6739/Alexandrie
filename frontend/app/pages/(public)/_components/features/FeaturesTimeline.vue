@@ -12,7 +12,14 @@
           </div>
           <div class="illustration">
             <div class="card">
-              <img :src="step.image" :alt="step.title" @click="openLightbox(step.image, step.title)" />
+              <img
+                :src="step.image"
+                :alt="step.title"
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 900px) 92vw, 50vw"
+                @click="openLightbox(step.image, step.title)"
+              />
               <div v-if="step.image_sub" class="overlay">
                 <p>{{ step.image_sub }}</p>
               </div>
@@ -101,7 +108,7 @@ section {
 
 .section-title {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
   font-weight: 800;
   color: var(--font-color-dark);
   margin-bottom: 1rem;
@@ -117,7 +124,7 @@ section {
 
 .timeline {
   position: relative;
-  max-width: 1500px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 0;
 
@@ -136,7 +143,7 @@ section {
   .timeline-item {
     display: flex;
     align-items: center;
-    margin-bottom: 6rem;
+    margin-bottom: 5rem;
     position: relative;
     opacity: 0;
     transform: translateY(40px);
@@ -155,15 +162,15 @@ section {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 3rem;
+      gap: clamp(1rem, 4vw, 3rem);
       width: 100%;
 
       .text {
         flex: 1;
-        padding: 1rem;
+        padding: 0.5rem;
 
         h3 {
-          font-size: 1.5rem;
+          font-size: clamp(1.1rem, 1.6vw + 0.75rem, 1.5rem);
           color: #111;
           margin-bottom: 0.8rem;
         }
@@ -181,7 +188,7 @@ section {
 
         img {
           width: 100%;
-          max-width: 800px;
+          max-width: 680px;
           border-radius: 16px;
           border: 1px solid #e5e7eb;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
@@ -220,20 +227,17 @@ section {
 
   .lightbox-content {
     position: relative;
-    max-width: 60%;
-    max-height: 85%;
+    max-width: min(1100px, 92vw);
+    max-height: 85vh;
     border-radius: 12px;
     overflow: hidden;
     animation: zoomIn 0.25s ease;
 
     img {
       width: 100%;
-      max-width: 100%;
-      max-height: none;
       height: auto;
-      margin: auto;
-      border-radius: 12px;
       display: block;
+      object-fit: contain;
     }
 
     .caption {
@@ -282,20 +286,28 @@ section {
   }
 }
 
+@media (max-width: 1024px) {
+  .timeline {
+    .timeline-item {
+      margin-bottom: 3.5rem;
+    }
+  }
+}
+
 @media (max-width: 900px) {
   .timeline {
     .timeline-line {
       left: 12px;
     }
 
-    .timeline-item {
+    .timeline-item,
+    .timeline-content {
       flex-direction: column !important;
       align-items: flex-start;
-      padding-left: 2rem;
 
       .timeline-content {
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 1rem;
 
         .text {
           order: 2;
@@ -306,6 +318,42 @@ section {
         }
       }
     }
+  }
+}
+
+@media (max-width: 640px) {
+  .timeline {
+    padding: 1.25rem 0;
+    .timeline-line {
+      display: none;
+    }
+    .timeline-item {
+      margin-bottom: 2rem;
+      padding-left: 0;
+      .timeline-content {
+        gap: 0.75rem;
+        .text {
+          h3 {
+            margin-bottom: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .section-subtitle {
+    margin-bottom: 2rem;
+    padding: 0 0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline .timeline-item {
+    transition: none;
+    transform: none;
+    opacity: 1;
   }
 }
 </style>
