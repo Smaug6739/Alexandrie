@@ -58,8 +58,8 @@
       You can log out from all devices or log out from this device. <br />
       Be careful, if you log out from all devices, you will be redirected to the login page. Please save your work before.
     </div>
-    <AppButton type="danger" @click="logoutUser">Log out</AppButton>
-    <AppButton type="danger" @click="logoutUserAll">Log out from all devices</AppButton>
+    <AppButton type="danger" @click="logout">Log out</AppButton>
+    <AppButton type="danger" @click="logoutAll">Log out from all devices</AppButton>
     <h2>Delete account</h2>
     <div>
       You can delete your account. <br />
@@ -84,7 +84,10 @@
 <script setup lang="ts">
 import DeleteAccountModal from '../_modals/DeleteAccountModal.vue';
 import { parseUserAgent } from '~/helpers/utils';
+
 const store = useUserStore();
+const emit = defineEmits(['close']);
+
 const passwordValue = ref('');
 const passwordConfirmValue = ref('');
 const err_password_not_match = ref(false);
@@ -102,6 +105,16 @@ const changePassword = async () => {
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error during password saving', message: e.message }));
 };
+
+const logout = () => {
+  logoutUser();
+  emit('close');
+};
+const logoutAll = () => {
+  logoutUserAll();
+  emit('close');
+};
+
 const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountModal)));
 </script>
 
