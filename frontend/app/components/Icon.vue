@@ -3,6 +3,7 @@
     <use :href="`#icon-${name}`" />
   </svg>
 
+  <!-- eslint-disable-next-line vue/no-v-html | OK Because not a user entry-->
   <i v-else class="icon c-icon" :style="{ fill: fill || 'currentColor' }" :class="{ fill, big, mid, small }" v-html="name" />
 </template>
 

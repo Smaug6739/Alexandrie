@@ -29,7 +29,7 @@
         </template>
       </DataTable>
       <div v-else>
-        <input type="text" placeholder="Search..." v-model="filter" class="search" />
+        <input v-model="filter" type="text" placeholder="Search..." class="search" />
         <hr />
         <div class="images-grid">
           <div v-for="image in filteredRessources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
