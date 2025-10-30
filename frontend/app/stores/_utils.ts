@@ -7,68 +7,9 @@ export interface APIResult<Data> {
 export interface FetchOptions {
   id: string; // id of the ressource
 }
-
-let is_getting_new_token = false;
-const requestQueue: {
-  route: string;
-  method: string;
-  body: object;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  resolve: (value: APIResult<any> | PromiseLike<APIResult<any>>) => void;
-  reject: (reason?: object) => void;
-}[] = [];
-
-export async function makeRequest<T>(route: string, method: string, body: object, isTreatingQueue: boolean = false): Promise<APIResult<T>> {
-  console.log(`[API] Requesting [${method}] to /${route}`);
-  if (route[route.length - 1] === '/') route = route.slice(0, -1); // Remove trailing slash if present
-  const promise = new Promise<APIResult<T>>((resolve, reject) => {
-    if (!isTreatingQueue) requestQueue.push({ route, method, body, resolve, reject });
-  });
-
-  try {
-    const response = await customFetch(method, route, body);
-    const decoded = await response.json();
-
-    if (response.ok && decoded.status === 'success') {
-      requestQueue.pop();
-    }
-
-    if ((response.status === 401 && decoded.message === 'Bad access token.') || decoded.message === 'Missing token cookies.') {
-      if (is_getting_new_token) return promise;
-      console.log('\x1b[41m[AUTH]\x1b[0m Access token invalid. Getting new access token...');
-      is_getting_new_token = true;
-      const login = await useAPI('POST', `auth/refresh`, {});
-      is_getting_new_token = false;
-      if (login.status === 'success') {
-        console.log('\x1b[42m[AUTH]\x1b[0m New access token received.');
-        treatQueue();
-      } else treatQueue(false);
-
-      return promise;
-    }
-    return decoded;
-  } catch (e) {
-    return { status: 'error', message: String(e) };
-  }
-}
-function treatQueue(access_token: boolean = true) {
-  console.log(`[API] Treating queue with access_token: ${access_token}`);
-  while (requestQueue.length > 0) {
-    const request = requestQueue.shift();
-    if (!request) continue;
-    if (!access_token) {
-      request.resolve({ status: 'error', message: 'No acccess token.' });
-      requestQueue.length = 0;
-      useUserStore().post_logout();
-      navigateTo('/login');
-    } else {
-      makeRequest(request.route, request.method, request.body, true).then(request.resolve).catch(console.info);
-    }
-  }
-}
-
-function customFetch(method: string, route: string, body: object) {
+function customFetch(route: string, method: string, body: object) {
   const { API } = useApi();
+  if (route.endsWith('/')) route = route.slice(0, -1);
   return fetch(`${API}/${route}`, {
     method: method,
     body: method === 'GET' || method === 'DELETE' ? null : body instanceof FormData ? body : JSON.stringify(body),
@@ -76,13 +17,72 @@ function customFetch(method: string, route: string, body: object) {
     credentials: 'include',
   });
 }
-async function useAPI(method: string, route: string, body: object) {
+
+let refreshPromise: Promise<void> | null = null;
+
+/**
+ * Refresh the access token, ensuring only one refresh request occurs at a time.
+ * Other requests wait for this refresh.
+ */
+
+async function refreshAccessToken(): Promise<void> {
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      console.log('[AUTH] Refreshing access token...');
+      const res = await customFetch('auth/refresh', 'POST', {});
+      const data = await res.json();
+
+      if (!res.ok || data.status !== 'success') {
+        console.warn('[AUTH] Refresh failed, logging out.');
+
+        useUserStore().post_logout();
+
+        // Stop the navigation and redirect to login
+        window.location.replace('/login');
+        throw new Error('Refresh token invalid');
+      }
+
+      console.log('[AUTH] Access token refreshed.');
+    })();
+
+    // reset the promise when done
+    refreshPromise.finally(() => (refreshPromise = null));
+  }
+
+  return refreshPromise;
+}
+
+/**
+ * Main function: sends an API request,
+ * attempts a refresh if the token is expired,
+ * and retries the request once if needed.
+ */
+export async function makeRequest<T>(route: string, method: string, body: object): Promise<APIResult<T>> {
   try {
-    const response = await customFetch(method, route, body);
-    if (!response.ok) return { status: 'error', message: 'Failed to fetch' };
-    const decoded = await response.json();
-    return decoded;
-  } catch {
-    return { status: 'error', message: 'Failed to fetch.' };
+    const response = await customFetch(route, method, body);
+    const data = await response.json();
+
+    if (response.ok && data.status === 'success') {
+      return data;
+    }
+
+    // Invalid or expired token case -> try to refresh and retry
+    if (response.status === 401 && (data.message === 'Bad access token.' || data.message === 'Missing token cookies.')) {
+      try {
+        await refreshAccessToken();
+
+        // Retry the request once after refresh
+        const retry = await customFetch(route, method, body);
+        const retryData = await retry.json();
+        return retryData;
+      } catch {
+        return { status: 'error', message: 'Authentication failed.' };
+      }
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[API ERROR]', err);
+    return { status: 'error', message: String(err) };
   }
 }
