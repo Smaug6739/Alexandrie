@@ -1,11 +1,11 @@
 <template>
   <div class="accordion-item" :class="{ open: isOpen, disabled }">
     <button
+      :id="triggerId"
       class="accordion-trigger"
       type="button"
       :aria-expanded="isOpen ? 'true' : 'false'"
       :aria-controls="contentId"
-      :id="triggerId"
       :disabled="disabled"
       @click="onToggle"
       @keydown.enter.prevent="onToggle"
@@ -18,7 +18,7 @@
     </button>
 
     <transition name="accordion-expand" @enter="onEnter" @after-enter="onAfterEnter" @leave="onLeave">
-      <div v-show="isOpen" class="accordion-content-wrapper" :id="contentId" role="region" :aria-labelledby="triggerId" ref="contentEl">
+      <div v-show="isOpen" :id="contentId" ref="contentEl" class="accordion-content-wrapper" role="region" :aria-labelledby="triggerId">
         <div class="accordion-content">
           <slot />
         </div>
@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<{ summary: string; modelValue?: boolean; 
   disabled: false,
 });
 
-const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void; (e: 'toggle', value: boolean): void }>();
+const emit = defineEmits<{ (e: 'update:modelValue' | 'toggle', value: boolean): void }>();
 
 const uuid = Math.random().toString(36).slice(2);
 const triggerId = `acc-trigger-${uuid}`;
@@ -179,20 +179,3 @@ function onLeave(el: Element) {
   }
 }
 </style>
-
-<!--
-Usage example:
-
-<app-accordion v-model="open" summary="Is it open-source?">
-  Yes, Alexandrie is 100% open-source and MIT licensed.
-  You can also place any HTML here.
-  <br />
-  <a href="#">Learn more</a>
-  
-</app-accordion>
-
-Also supports controlled open prop:
-<app-accordion :open="someBool" @update:modelValue="val => (someBool = val)" summary="Question">
-  Answer
-</app-accordion>
--->
