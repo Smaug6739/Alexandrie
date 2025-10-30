@@ -131,6 +131,13 @@ function hello() {
         <div class="center">This text is centered!</div>
       </div>
       <div class="demo">
+        <pre>::::columns <br />:::column<br/>:::column<br />Column left<br/>:::column<br/>Column right<br/>::::</pre>
+        <div class="columns">
+          <div class="column">Column left</div>
+          <div class="column">Column right</div>
+        </div>
+      </div>
+      <div class="demo">
         <pre>:::no-print <br />This content will not appear in PDF exports.<br/>:::</pre>
         <p>This content will not appear in PDF exports.</p>
       </div>
