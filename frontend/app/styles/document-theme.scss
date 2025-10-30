@@ -20,15 +20,20 @@
 .latex-theme {
 	max-width: 100%;
 	font-family: "Latin Modern Roman", serif;
-	font-size: 18px;
+	font-size: 17px;
 
 	h1 {
 		font-size: 1.5em;
 	}
 
 	h2 {
-		margin: 1em 0;
+		margin: 0.5rem 0;
 		font-size: 1.3em;
+	}
+
+	h3 {
+		margin: 0.5rem 0;
+		font-size: 1.1em;
 	}
 
 	p {
@@ -111,15 +116,20 @@
 .latex-colored-theme {
 	max-width: 100%;
 	font-family: "Latin Modern Roman", serif;
-	font-size: 18px;
+	font-size: 17px;
 
 	h1 {
 		font-size: 1.5em;
 	}
 
 	h2 {
-		margin: 1em 0;
+		margin: 0.5rem 0;
 		font-size: 1.3em;
+	}
+
+	h3 {
+		margin: 0.5rem 0;
+		font-size: 1.1em;
 	}
 
 	p {
