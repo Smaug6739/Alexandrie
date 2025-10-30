@@ -6,19 +6,20 @@
         <div class="step-index">1</div>
         <h3>Docker</h3>
         <div class="code-wrap">
-          <pre class="code">docker compose up -d --build</pre>
+          <pre class="code">docker compose up</pre>
           <button class="copy" @click="copyDockerCompose">Copy</button>
+          <span v-if="copied" class="copied">Copied!</span>
         </div>
       </div>
       <div class="step">
         <div class="step-index">2</div>
-        <h3>Configure</h3>
-        <p>Set environment variables for storage, auth and CDN integration.</p>
+        <h3>Go</h3>
+        <p>Nothing to configure ! The app is ready to use.</p>
       </div>
       <div class="step">
         <div class="step-index">3</div>
-        <h3>Go</h3>
-        <p>Open your instance, import notes, and start writing.</p>
+        <h3>Personalize</h3>
+        <p>Set environment variables for storage, auth and CDN integration and deploy to prod</p>
       </div>
     </div>
     <div class="notes">
@@ -36,8 +37,11 @@
 </template>
 
 <script setup lang="ts">
+const copied = ref(false);
 function copyDockerCompose() {
-  navigator.clipboard?.writeText('docker compose up -d --build');
+  navigator.clipboard?.writeText('docker compose up');
+  copied.value = true;
+  setTimeout(() => (copied.value = false), 2000);
 }
 </script>
 
@@ -100,6 +104,13 @@ function copyDockerCompose() {
   background: var(--bg-contrast);
   cursor: pointer;
   margin-left: 8px;
+}
+
+.copied {
+  margin-left: 12px;
+  font-size: 14px;
+  color: var(--green);
+  font-weight: 600;
 }
 
 .notes {
