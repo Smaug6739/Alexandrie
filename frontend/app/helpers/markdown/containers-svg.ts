@@ -4,68 +4,33 @@ import container from 'markdown-it-container';
 import { svg_info, svg_warning, containerOpen } from './constants';
 
 export const containerSvg = (md: MarkdownIt) => {
-  md.use(container, 'definition', {
-    validate: function (params: any) {
-      return params.trim().match(/^definition\s+(.*)$/);
-    },
-    render: function (tokens: any, idx: any) {
-      const m = tokens[idx].info.trim().match(/^definition\s+(.*)$/);
+  const containers = [
+    { name: 'definition', color: 'red', icon: svg_info },
+    { name: 'property', color: 'blue', icon: svg_info },
+    { name: 'theorem', color: 'teal', icon: svg_info },
+    { name: 'warning', color: 'yellow', icon: svg_warning },
+    { name: 'info-red', color: 'red', icon: svg_info },
+    { name: 'info-blue', color: 'blue', icon: svg_info },
+    { name: 'info-teal', color: 'teal', icon: svg_info },
+  ];
 
-      if (tokens[idx].nesting === 1) {
-        // opening tag
-        return containerOpen(m[1], svg_info, 'red');
-      } else {
-        // closing tag
-        return '</div></div>\n';
-      }
-    },
-  });
-  md.use(container, 'property', {
-    validate: function (params: any) {
-      return params.trim().match(/^property\s+(.*)$/);
-    },
-    render: function (tokens: any, idx: any) {
-      const m = tokens[idx].info.trim().match(/^property\s+(.*)$/);
+  containers.forEach(({ name, color, icon }) => {
+    md.use(container, name, {
+      validate(params: string) {
+        // Autorise le pattern `nom + titre`
+        return params.trim().match(new RegExp(`^${name}\\s+(.*)$`));
+      },
+      render(tokens: any, idx: number) {
+        const m = tokens[idx].info.trim().match(new RegExp(`^${name}\\s+(.*)$`));
 
-      if (tokens[idx].nesting === 1) {
-        // opening tag
-        return containerOpen(m[1], svg_info, 'blue');
-      } else {
-        // closing tag
-        return '</div></div>\n';
-      }
-    },
-  });
-  md.use(container, 'theorem', {
-    validate: function (params: any) {
-      return params.trim().match(/^theorem\s+(.*)$/);
-    },
-    render: function (tokens: any, idx: any) {
-      const m = tokens[idx].info.trim().match(/^theorem\s+(.*)$/);
-
-      if (tokens[idx].nesting === 1) {
-        // opening tag
-        return containerOpen(m[1], svg_info, 'teal');
-      } else {
-        // closing tag
-        return '</div></div>\n';
-      }
-    },
-  });
-  md.use(container, 'warning', {
-    validate: function (params: any) {
-      return params.trim().match(/^warning\s+(.*)$/);
-    },
-    render: function (tokens: any, idx: any) {
-      const m = tokens[idx].info.trim().match(/^warning\s+(.*)$/);
-
-      if (tokens[idx].nesting === 1) {
-        // opening tag
-        return containerOpen(m[1], svg_warning, 'yellow');
-      } else {
-        // closing tag
-        return '</div></div>\n';
-      }
-    },
+        if (tokens[idx].nesting === 1) {
+          // Opening tag
+          return containerOpen(m ? m[1] : '', icon, color);
+        } else {
+          // Closing tag
+          return '</div></div>\n';
+        }
+      },
+    });
   });
 };
