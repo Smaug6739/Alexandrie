@@ -21,7 +21,7 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ## ✨ Features
 
-**Enhanced Markdown Editor** – Write notes with advanced and unique Markdown features.
+**Enhanced Markdown Editor** – Write notes with advanced and unique Markdown features.  
 **Instant Search** – Find your notes in seconds.  
 **Intuitive Organization** – Easily categorize and archive your notes.  
 **Export & Print** – Save your notes as PDF, Markdown, and more.  
@@ -32,7 +32,7 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ## Interface Preview
 
-![Interface 2](./frontend/public/screenshots/1.png)
+![Interface 2](./frontend/public/screenshots/mock/2.png)
 
 ### Share your notes, collaborate with others, manage permissions.
 
