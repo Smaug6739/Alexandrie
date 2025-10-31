@@ -22,6 +22,7 @@ type NodeController interface {
 }
 
 func NewNodeController(app *app.App) NodeController {
+	utils.InitBluemonday()
 	return &Controller{
 		app:        app,
 		authorizer: permissions.NewAuthorizer(app.Services.Permissions),
@@ -171,6 +172,7 @@ func (ctr *Controller) CreateNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
+	escapedHTMLContent := utils.EscapeHTML(*node.ContentCompiled)
 	node = &models.Node{
 		Id:               ctr.app.Snowflake.Generate(),
 		ParentId:         node.ParentId,
@@ -188,7 +190,7 @@ func (ctr *Controller) CreateNode(c *gin.Context) (int, any) {
 		Display:          node.Display,
 		Order:            node.Order,
 		Content:          node.Content,
-		ContentCompiled:  node.ContentCompiled,
+		ContentCompiled:  &escapedHTMLContent,
 		CreatedTimestamp: time.Now().UnixMilli(),
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
@@ -244,6 +246,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		node.Accessibility = dbNode.Accessibility
 		node.Access = dbNode.Access
 	}
+	escapedHTMLContent := utils.EscapeHTML(*node.ContentCompiled)
 	node = &models.Node{
 		Id:               nodeId,
 		ParentId:         node.ParentId,
@@ -261,7 +264,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		Display:          node.Display,
 		Order:            node.Order,
 		Content:          node.Content,
-		ContentCompiled:  node.ContentCompiled,
+		ContentCompiled:  &escapedHTMLContent,
 		Metadata:         node.Metadata,
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
