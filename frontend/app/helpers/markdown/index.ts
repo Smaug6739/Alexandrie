@@ -27,48 +27,59 @@ md.use(colorPlugin, {
 });
 
 function markdownItKatexPlugin(md: any) {
-  // Nous ajoutons une règle en ligne (inline) après la règle 'escape' (qui échappe les caractères spéciaux)
   md.inline.ruler.after('escape', 'katex', (state: any, silent: any) => {
-    if (silent) return false; // Si le mode silencieux est activé, nous arrêtons ici
+    if (silent) return false;
 
-    const startMathPos = state.pos; // Nous stockons la position du début de l'expression mathématique
-    if (state.src.charCodeAt(startMathPos) !== 0x24 /* $ */) {
-      // Nous vérifions si le caractère à la position de départ est un dollar sign ($)
-      return false;
-    }
-    const endMarker = '$'; // Le délimiteur de fin pour l'expression mathématique
-    let found = false; // Variable pour savoir si nous avons trouvé le délimiteur de fin
-    let endMathPos = -1; // Position du délimiteur de fin dans la chaîne
+    const startMathPos = state.pos;
+    if (state.src.charCodeAt(startMathPos) !== 0x24 /* $ */) return false;
 
-    // Nous parcourons la chaîne à partir de la position de départ pour trouver le délimiteur de fin
-    for (let i = startMathPos + 1; i < state.src.length; i++) {
+    // Vérifie si c'est $$ (display) ou $ (inline)
+    const isDisplay = state.src.charCodeAt(startMathPos + 1) === 0x24;
+    const endMarker = isDisplay ? '$$' : '$';
+
+    let found = false;
+    let endMathPos = -1;
+    const searchStart = startMathPos + (isDisplay ? 2 : 1);
+
+    // Recherche du délimiteur de fin
+    for (let i = searchStart; i < state.src.length; i++) {
       if (state.src.charCodeAt(i) === 0x24 /* $ */) {
-        // Si nous trouvons un dollar sign ($)
-        if (state.src.charCodeAt(i - 1) !== 0x5c /* \ */) {
-          // Et qu'il n'est pas précédé d'un backslash (\)
-          found = true; // Nous avons trouvé le délimiteur de fin
-          endMathPos = i; // Nous stockons sa position
-          break; // Nous arrêtons la recherche
+        // Si on a $$ en fin
+        if (isDisplay && state.src.charCodeAt(i + 1) === 0x24 && state.src.charCodeAt(i - 1) !== 0x5c) {
+          found = true;
+          endMathPos = i;
+          break;
+        }
+        // Si on a $ en fin
+        if (!isDisplay && state.src.charCodeAt(i - 1) !== 0x5c) {
+          found = true;
+          endMathPos = i;
+          break;
         }
       }
     }
 
-    if (!found) return false; // Si nous n'avons pas trouvé le délimiteur de fin, nous arrêtons ici
+    if (!found) return false;
 
-    // Nous ajoutons un token de type 'katex_inline' à la liste des tokens
-    const token = state.push('katex_inline', '', 0);
-    token.markup = endMarker; // Le délimiteur de fin pour ce token
-    token.content = state.src.slice(startMathPos + 1, endMathPos); // Le contenu entre les délimiteurs de début et de fin
-    state.pos = endMathPos + 1; // Nous mettons à jour la position de l'analyseur pour passer après le délimiteur de fin
+    const token = state.push(isDisplay ? 'katex_display' : 'katex_inline', '', 0);
+    token.markup = endMarker;
+    token.content = state.src.slice(startMathPos + endMarker.length, endMathPos);
 
-    return true; // Nous signalons que nous avons traité un token avec succès
+    state.pos = endMathPos + endMarker.length;
+    return true;
   });
 
-  // Nous définissons la méthode de rendu pour les tokens de type 'katex_inline'
+  // Inline math ($...$)
   md.renderer.rules.katex_inline = (tokens: any, idx: any) => {
-    return mdTokatex(tokens[idx].content); // Nous utilisons notre fonction mdTokatex pour rendre le contenu mathématique
+    return mdToKatex(tokens[idx].content, false);
+  };
+
+  // Display math ($$...$$)
+  md.renderer.rules.katex_display = (tokens: any, idx: any) => {
+    return mdToKatex(tokens[idx].content, true);
   };
 }
+
 // [ ] and [x] checkbox
 // Fonction markdownItCheckbox
 // Ajout d'une règle pour les listes
@@ -114,12 +125,12 @@ export default function compile(str: string = ''): string {
     html: true,
   });
 }
-function mdTokatex(text: string): string {
+function mdToKatex(text: string, centered: boolean): string {
   const expressionWithoutDollar = text;
   const render = katex.renderToString(expressionWithoutDollar, {
     throwOnError: false,
     displayMode: true,
     trust: true,
   });
-  return `<span class="katex-container"><i>${render}</i></span>`;
+  return `<span class="katex-container ${centered ? 'center' : ''}"><i>${render}</i></span>`;
 }
