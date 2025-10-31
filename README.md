@@ -1,4 +1,4 @@
-# 📖 Alexandrie – The Ultimate Note-Taking App
+# Alexandrie – The Ultimate Note-Taking App
 
 <img src="./frontend/public/Logo/Alexandrie-logo-dark.png" width="120" align="left">
 
