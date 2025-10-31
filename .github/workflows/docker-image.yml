@@ -1,8 +1,8 @@
 name: Build and Publish Docker Images
 
 on:
-  push:
-    branches: [deploy]
+  release:
+    types: [published]
 
 jobs:
   build-and-push:
@@ -34,7 +34,7 @@ jobs:
           no-cache: true
           tags: |
             ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:latest
-            ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:${{ github.ref_name }}
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:${{ github.event.release.tag_name }}
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
@@ -44,4 +44,4 @@ jobs:
           no-cache: true
           tags: |
             ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:latest
-            ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:${{ github.ref_name }}
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:${{ github.event.release.tag_name }}
