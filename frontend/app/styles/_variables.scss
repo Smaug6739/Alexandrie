@@ -28,7 +28,10 @@ $transition-duration: 0.3s;
 
 	// COLORS \\
 	--grey: #666;
+	--grey-dark: #444;
 	--grey-bg: #EFEEEA;
+	--grey-bg-light: #FAFAFA;
+	--grey-border: #CCC;
 	--blue: #007aff;
 	--blue-dark: #0056b3;
 	--blue-bg: #cce0ff;
@@ -89,6 +92,8 @@ $transition-duration: 0.3s;
 	--grey: #bbb;
 	--grey-dark: #888;
 	--grey-bg: #2c2c2c;
+	--grey-bg-light: #FAFAFA;
+	--grey-border: #CCC;
 	--blue: #339CFF;
 	--blue-dark: #0056b3;
 	--blue-bg: rgb(51 156 255 / 12%);
