@@ -1,206 +1,240 @@
 <template>
-  <div class="modal">
-    <div class="markdown-doc">
-      <h1>📘 Alexandrie Markdown Syntax Guide</h1>
-      <p>This guide shows you how to use Alexandrie’s extended Markdown features to create expressive and organized notes.</p>
+  <div class="markdown-guide">
+    <div class="content">
+      <h1><IconApp style="width: 60px" /> Alexandrie Markdown Syntax Guide</h1>
+      <p style="margin: 0">This guide shows you how to use Alexandrie’s extended Markdown features to create expressive and organized notes.</p>
 
-      <h2>✍️ Basic Formatting</h2>
+      <!-- BASIC FORMATTING -->
+      <h2><Icon name="edit" fill="var(--primary)" /> Basic Formatting</h2>
       <ul>
         <li><strong>Bold</strong>: <code>**bold**</code> or <code>__bold__</code></li>
-        <li><em>Italic</em>: <code>*italic*</code></li>
+        <li><em>Italic</em>: <code>*italic*</code> or <code>_italic_</code></li>
         <li><u>Underline</u>: <code>_underline_</code></li>
         <li><del>Strikethrough</del>: <code>~~strikethrough~~</code></li>
         <li><mark>Highlight</mark>: <code>==highlight==</code></li>
       </ul>
 
-      <strong>Tags: </strong> <tag blue>Info</tag> <tag green>Success</tag><tag red>Danger</tag><tag yellow>Yellow</tag> <tag grey>Note</tag>
-      <tag teal>Teal</tag>
-      <pre>
-&lt;tag blue&gt;Info&lt;/tag&gt;
-&lt;tag red&gt;Danger&lt;/tag&gt;
-&lt;tag teal>Teal&lt;/tag>
-...</pre
-      >
-      <strong>Colors: </strong>
-      <strong
-        ><span style="color: var(--blue)">blue</span> ; <span style="color: var(--red)">red</span> ; <span style="color: var(--green)">green</span> ;
-        <span style="color: var(--yellow)">yellow</span> ; <span style="color: var(--primary)">primary</span> ;
-        <span style="color: var(--purple)">purple</span> ; <span style="color: var(--pink)">pink</span> ; <span style="color: var(--teal)">teal</span></strong
-      >
-      <pre>{color:blue}(blue) ; {color:red}(red) ; {color:green}(green) ;</pre>
+      <!-- TAGS -->
+      <p>
+        <strong>Tags: </strong> <tag blue>Blue</tag> <tag green>Green</tag> <tag red>Red</tag> <tag yellow>Yellow</tag> <tag grey>Grey</tag> <tag teal>Teal</tag
+        ><br />
+        Syntax: <code v-text="`<tag 'color'>Content</tag>`"></code> — example: <code v-text="`<tag blue>Blue</tag>`"></code>
+      </p>
 
-      <h2>🔢 Headings</h2>
-      <ul>
-        <li>H1: <code># Heading 1</code></li>
-        <li>H2: <code>## Heading 2</code></li>
-        <li>H3: <code>### Heading 3</code></li>
-        <li>H4: <code>#### Heading 4</code></li>
-        <li>H5: <code>##### Heading 5</code></li>
-        <li>H6: <code>###### Heading 6</code></li>
-      </ul>
+      <!-- COLORS -->
+      <p>
+        <strong>Colors: </strong>
+        <strong>
+          <span style="color: var(--blue)">blue</span> ; <span style="color: var(--red)">red</span> ; <span style="color: var(--green)">green</span> ;
+          <span style="color: var(--yellow)">yellow</span> ; <span style="color: var(--primary)">primary</span> ;
+          <span style="color: var(--purple)">purple</span> ; <span style="color: var(--pink)">pink</span> ;
+          <span style="color: var(--teal)">teal</span> </strong
+        ><br />
+        Syntax: <code v-text="`{color:'color'}(Text to color)`"></code> — example: <code v-text="`{color:blue}(blue)`"></code>
+      </p>
 
-      <h2>💬 Blockquotes</h2>
-      <p>Use the greater-than symbol to create blockquotes:</p>
-      <pre>
-> This is a blockquote.
-> It can span multiple lines.</pre
-      >
-      <h2>🔗 Links & Images</h2>
-      <ul>
-        <li><a href="https://example.com">Example link</a>: <code>[Example link](https://example.com)</code></li>
-        <li><img src="" alt="Image" />: <code>![Alt text](image-url)</code></li>
-      </ul>
+      <p>
+        <strong>Titles:</strong>
+        Syntax: <code v-text="`# H1`"></code> → <code v-text="`###### H6`"></code>
+      </p>
 
-      <h2>🧾 Lists & Tables</h2>
-      <ul>
-        <li>Unordered: <code>- Item</code></li>
-        <li>Ordered: <code>1. Item</code></li>
-      </ul>
-      <p>Table syntax:</p>
-      <div style="display: flex; flex-wrap: wrap; gap: 1rem">
-        <table>
-          <thead>
-            <tr>
-              <th>Header 1</th>
-              <th>Header 2</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Row 1</td>
-              <td>Cell 1</td>
-            </tr>
-            <tr>
-              <td>Row 2</td>
-              <td>Cell 2</td>
-            </tr>
-          </tbody>
-        </table>
-        <pre>
-| Header 1 | Header 2 |
-|----------|----------|
-| Row 1    | Cell 1   |
-| Row 2    | Cell 2   |</pre
-        >
+      <p>
+        <strong>Links & Images:</strong>
+        Use <code>[links](https://example.com)</code> and <code>![images](image.png)</code>.
+      </p>
+
+      <!-- COLORED BLOCKS -->
+      <h2><Icon name="layers" fill="var(--primary)" /> Colored Blocks</h2>
+      <p>Use colored blocks with the syntax <code>:::color TITLE</code>.</p>
+      <div class="block-grid">
+        <div class="custom-block blue">
+          <p class="custom-block-title">INFO</p>
+          <pre>:::blue INFO<br />:::</pre>
+        </div>
+        <div class="custom-block green">
+          <p class="custom-block-title">SUCCESS</p>
+          <pre>:::green SUCCESS<br />:::</pre>
+        </div>
+        <div class="custom-block yellow">
+          <p class="custom-block-title">WARNING</p>
+          <pre>:::yellow WARNING<br />:::</pre>
+        </div>
+        <div class="custom-block red">
+          <p class="custom-block-title">DANGER</p>
+          <pre>:::red DANGER<br />:::</pre>
+        </div>
+        <div class="custom-block grey">
+          <p class="custom-block-title">NOTE</p>
+          <pre>:::grey NOTE<br />:::</pre>
+        </div>
+        <div class="custom-block teal">
+          <p class="custom-block-title">NOTE</p>
+          <pre>:::teal NOTE<br />:::</pre>
+        </div>
       </div>
 
-      <h2>💻 Code</h2>
-      <p>Inline: <code>`inline code`</code></p>
-      <p>Multiline:</p>
-      <pre>
-```javascript
-function hello() {
-  console.log("Hello, world!");
-}
-```</pre
-      >
-      <h2>📏 Horizontal Rules</h2>
-      <p><code>---</code>, <code>***</code>, or <code>___</code> renders a line:</p>
-      <hr />
+      <!-- ADVANCED BLOCKS -->
+      <h2><Icon name="layers" fill="var(--primary)" /> Advanced Blocks</h2>
+      <p>Use info blocks with the syntax <code>:::name TITLE Content :::</code>.</p>
 
-      <h2>🎨 Colored Blocks</h2>
-      <p>Use triple-colon blocks to insert styled sections:</p>
-      <div class="demo">
-        <pre>:::blue INFO<br>:::</pre>
-        <div class="blue custom-block"><p class="custom-block-title">INFO</p></div>
+      <div class="block-grid">
+        <div class="markdown-container">
+          <strong class="red title"><Icon name="info" color="red" /> INFO Red</strong>
+          <div class="markdown-container-content">
+            <code>:::info-red Title<br />Content<br />:::</code>
+          </div>
+        </div>
+
+        <div class="markdown-container">
+          <strong class="teal title"><Icon name="info" color="teal" /> INFO Teal</strong>
+          <div class="markdown-container-content">
+            <code>:::info-teal Title<br />Content<br />:::</code>
+          </div>
+        </div>
+
+        <div class="markdown-container">
+          <strong class="blue title"><Icon name="info" color="blue" /> INFO Blue</strong>
+          <div class="markdown-container-content">
+            <code>:::info-blue Title<br />Content<br />:::</code>
+          </div>
+        </div>
       </div>
-      <div class="demo">
-        <pre>:::green SUCCESS<br>:::</pre>
-        <div class="green custom-block"><p class="custom-block-title">SUCCESS</p></div>
-      </div>
-      <div class="demo">
-        <pre>:::yellow WARNING<br>:::</pre>
-        <div class="yellow custom-block"><p class="custom-block-title">WARNING</p></div>
-      </div>
-      <div class="demo">
-        <pre>:::grey NOTE<br>:::</pre>
-        <div class="grey custom-block"><p class="custom-block-title">NOTE</p></div>
-      </div>
-      <div class="demo">
-        <pre>:::red DANGER<br>:::</pre>
-        <div class="red custom-block"><p class="custom-block-title">DANGER</p></div>
-      </div>
-      <div class="demo">
-        <pre>:::teal TEAL<br>:::</pre>
-        <div class="teal custom-block"><p class="custom-block-title">TEAL</p></div>
-      </div>
-      <h2>📚 Special Blocks</h2>
-      <p>These enhance your note structure visually and semantically:</p>
+
+      <hr style="margin: 8px" />
+
+      <!-- LAYOUT BLOCKS -->
       <div class="demo">
         <pre>:::center<br />This text is centered!<br />:::</pre>
         <div class="center">This text is centered!</div>
       </div>
+
       <div class="demo">
-        <pre>::::columns <br />:::column<br/>:::column<br />Column left<br/>:::column<br/>Column right<br/>::::</pre>
+        <pre>::::columns<br />:::column<br />Column left<br />:::<br />:::column<br />Column right<br />::::</pre>
         <div class="columns">
           <div class="column">Column left</div>
           <div class="column">Column right</div>
         </div>
       </div>
+
       <div class="demo">
-        <pre>:::no-print <br />This content will not appear in PDF exports.<br/>:::</pre>
+        <pre>:::no-print<br />This content will not appear in PDF exports.<br />:::</pre>
         <p>This content will not appear in PDF exports.</p>
       </div>
+
       <div class="demo">
-        <pre>:::details <br />Click to reveal hidden content.<br />:::</pre>
+        <pre>:::details<br />Click to reveal hidden content.<br />:::</pre>
         <details class="details custom-block no-print">
           <summary>Details</summary>
           <p>Click to reveal hidden content.</p>
         </details>
       </div>
+
+      <!-- MATH -->
+      <h2><Icon name="maths" fill="var(--primary)" /> Math Syntax</h2>
+      <p>Use KaTeX for math expressions: <code>$...$</code> (inline) or <code>$$...$$</code> (block).</p>
       <div class="demo">
-        <pre>:::definition What is Markdown?<br />Markdown is a lightweight markup language.<br />:::</pre>
-        <div class="markdown-container">
-          <strong style="display: inline-flex; align-items: center; gap: 3px" class="red title"> <Icon name="info" color="red" />What is Markdown?</strong>
-          <div class="markdown-container-content"><p>Markdown is a lightweight markup language.</p></div>
-        </div>
+        <pre>$\int_{-\infty}^{+\infty} e^{-x^2} dx = \sqrt{\pi}$</pre>
+        <p v-html="compile('$$\\int_{-\\infty}^{+\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$')"></p>
       </div>
-      <div class="demo">
-        <pre>:::theorem Pythagoras<br />a² + b² = c²<br />:::</pre>
-        <div class="markdown-container">
-          <strong style="display: inline-flex; align-items: center; gap: 3px" class="teal title"> <Icon name="info" color="teal" />Pythagoras</strong>
-          <div class="markdown-container-content"><p>a² + b² = c²</p></div>
-        </div>
-      </div>
-      <div class="demo">
-        <pre>:::property Property name<br />Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br />:::</pre>
-        <div class="markdown-container">
-          <strong style="display: inline-flex; align-items: center; gap: 3px" class="blue title"> <Icon name="info" color="blue" />Property name</strong>
-          <div class="markdown-container-content"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
-        </div>
-      </div>
-      <h2>📤 Export</h2>
-      <p>Export your notes to PDF, automatically hiding private/debug blocks for a clean result.</p>
+
+      <!-- EXTENDED SYNTAX -->
+      <h2><Icon name="import" fill="var(--primary)" /> Extended Syntax</h2>
+      <ul>
+        <li><strong>Code blocks:</strong> <code>```language ... ```</code></li>
+        <li><strong>Blockquotes:</strong> <code>> Quoted text</code></li>
+        <li><strong>Horizontal rule:</strong> <code>---</code> or <code>***</code></li>
+        <li><strong>Lists:</strong> <code>- item</code> or <code>1. item</code></li>
+        <li><strong>Nested lists:</strong> indent with two spaces</li>
+        <li><strong>Task lists:</strong> <code>- [ ] Todo</code>, <code>- [x] Done</code></li>
+        <li>
+          <strong>Tables:</strong><br />
+          <pre style="padding: 0.75rem; border-radius: 6px; color: white; overflow-x: auto; margin: 10px 0">
+| Column 1 | Column 2 |
+|-----------|-----------|
+| Cell 1    | Cell 2    |</pre
+          >
+        </li>
+        <li><strong>Footnotes:</strong> <code>Text[^1]</code> with <code>[^1]: footnote text</code></li>
+        <li><strong>Inline HTML:</strong> <code>&lt;span style="color:red"&gt;text&lt;/span&gt;</code></li>
+      </ul>
     </div>
   </div>
 </template>
 
-<style scoped>
-.markdown-doc {
-  margin: auto;
+<script setup lang="ts">
+import compile from '~/helpers/markdown';
+</script>
+
+<style scoped lang="scss">
+.markdown-guide {
   line-height: 1.7;
+  margin: auto;
 }
-
-.markdown-doc pre {
-  padding: 0.75rem;
-  border-radius: 6px;
-  color: white;
-  overflow-x: auto;
+.content {
+  margin: 1rem 0.5rem;
 }
-
+h1 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  font-size: 1.3rem;
+  color: var(--primary);
+}
+code {
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+}
 .demo {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
-
+  pre {
+    padding: 0.75rem;
+    border-radius: 6px;
+    color: white;
+    overflow-x: auto;
+    margin: 10px 0;
+  }
   * {
     flex: 1;
   }
+}
+.custom-block pre {
+  background: rgba(255, 255, 255, 0.3);
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+}
+.block-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.external-link {
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
 
-  pre {
-    margin: 10px 0;
+@media screen and (max-width: 800px) {
+  .block-grid {
+    grid-template-columns: 1fr;
+  }
+  .demo {
+    flex-direction: column;
   }
 }
 </style>
