@@ -34,7 +34,7 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ![Interface 2](./frontend/public/screenshots/1.png)
 
-### Organize your notes with categories, tags, sidebar, tree, search, and more.
+### Share your notes, collaborate with others, manage permissions.
 
 ![Interface 3](./frontend/public/screenshots/mock/3.png)
 
@@ -56,10 +56,10 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 **Access points:**
 
-- 🌐 **Frontend**: http://localhost:8200
-- 🔌 **Backend API**: http://localhost:8201
-- 📦 **Object Storage Console**: http://localhost:9001
-- 🗄️ **MySQL**: localhost:3307 (user: `alexandrie`, password: `password`)
+- **Frontend**: http://localhost:8200
+- **Backend API**: http://localhost:8201
+- **Object Storage Console**: http://localhost:9001
+- **MySQL**: localhost:3307 (user: `alexandrie`, password: `password`)
 
 **To stop:**
 
