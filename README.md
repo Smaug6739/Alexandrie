@@ -21,12 +21,12 @@ Organize, search, and export your notes with an intuitive interface designed for
 
 ## ✨ Features
 
-**Enhanced Markdown Editor** – Write notes with advanced and unique Markdown features.  
-**Instant Search** – Find your notes in seconds.  
-**Intuitive Organization** – Easily categorize and archive your notes.  
-**Export & Print** – Save your notes as PDF, Markdown, and more.  
-**Access Anywhere** – Log in and retrieve your notes from any device.
-**Share Notes** – Share your notes with others via unique links or powerful permissions system.
+- **Enhanced Markdown Editor** – Write notes with advanced and unique Markdown features.
+- **Instant Search** – Find your notes in seconds.
+- **Intuitive Organization** – Easily categorize and archive your notes with a complete sidebar, workspaces, categories, nested documents / categories, tags...
+- **Export & Print** – Save your notes as PDF, Markdown, and more.
+- **Access Anywhere** – Log in and retrieve your notes from any device. Use the PWA to access your notes offline.
+- **Share Notes** – Share your notes with others via unique links or powerful permissions system.
 
 ---
 
