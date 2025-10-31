@@ -39,9 +39,6 @@
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
       </div>
     </form>
-    <div v-if="category" class="infos">
-      <p>ID: {{ category.id }}</p>
-    </div>
   </div>
 </template>
 
