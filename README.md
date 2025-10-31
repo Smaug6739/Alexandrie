@@ -15,6 +15,12 @@ Organize, search, and export your notes with an intuitive interface designed for
   <a href="https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE">
     <img alt="GitHub license" src="https://img.shields.io/github/license/Smaug6739/Alexandrie">
   </a>
+  <a href="https://github.com/Smaug6739/Alexandrie/pulls">
+    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/Smaug6739/Alexandrie">
+  </a>
+    <a href="https://github.com/Smaug6739/Alexandrie/releases">
+    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Smaug6739/Alexandrie">
+  </a>
 </p>
 
 ![alexandrie-hub fr_dashboard_docs_218914302160015361](.github/present.png)
