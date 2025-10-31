@@ -21,6 +21,9 @@ Organize, search, and export your notes with an intuitive interface designed for
     <a href="https://github.com/Smaug6739/Alexandrie/releases">
     <img alt="GitHub release" src="https://img.shields.io/github/v/release/Smaug6739/Alexandrie">
   </a>
+  <a href="https://discord.gg/UPsEg6egPj">
+    <img alt="Discord" src="https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white">
+  </a>
 </p>
 
 ![alexandrie-hub fr_dashboard_docs_218914302160015361](.github/present.png)
