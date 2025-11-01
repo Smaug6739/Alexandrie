@@ -172,7 +172,7 @@ func (ctr *Controller) CreateNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	escapedHTMLContent := utils.EscapeHTML(*node.ContentCompiled)
+	escapedHTMLContent := utils.EscapeHTML(node.ContentCompiled)
 	node = &models.Node{
 		Id:               ctr.app.Snowflake.Generate(),
 		ParentId:         node.ParentId,
@@ -246,7 +246,7 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		node.Accessibility = dbNode.Accessibility
 		node.Access = dbNode.Access
 	}
-	escapedHTMLContent := utils.EscapeHTML(*node.ContentCompiled)
+	escapedHTMLContent := utils.EscapeHTML(node.ContentCompiled)
 	node = &models.Node{
 		Id:               nodeId,
 		ParentId:         node.ParentId,
