@@ -68,6 +68,7 @@ services:
       DATABASE_NAME: alexandrie
       DATABASE_USER: alexandrie
       DATABASE_PASSWORD: password
+      ALLOW_UNSECURE: 'true' # Set to 'true' if you run without HTTPS (e.g., local dev); in production, use 'false' and set up HTTPS
 
       # Application Configuration
       JWT_SECRET: your-secure-jwt-secret-key-change-this-in-production
