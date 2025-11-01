@@ -5,25 +5,17 @@
 <b>A modern and elegant application for taking notes in extended Markdown.</b><br>
 Organize, search, and export your notes with an intuitive interface designed for students and productivity.
 
+
+
 <p align="center">
-  <a href="https://github.com/Smaug6739/Alexandrie/stargazers">
-    <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Smaug6739/Alexandrie?style=social">
-  </a>
-  <a href="https://github.com/Smaug6739/Alexandrie/issues">
-    <img alt="GitHub issues" src="https://img.shields.io/github/issues/Smaug6739/Alexandrie">
-  </a>
-  <a href="https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE">
-    <img alt="GitHub license" src="https://img.shields.io/github/license/Smaug6739/Alexandrie">
-  </a>
-  <a href="https://github.com/Smaug6739/Alexandrie/pulls">
-    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/Smaug6739/Alexandrie">
-  </a>
-    <a href="https://github.com/Smaug6739/Alexandrie/releases">
-    <img alt="GitHub release" src="https://img.shields.io/github/v/release/Smaug6739/Alexandrie">
-  </a>
-  <a href="https://discord.gg/UPsEg6egPj">
-    <img alt="Discord" src="https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white">
-  </a>
+
+  [![GitHub Repo stars](https://img.shields.io/github/stars/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/stargazers)
+  [![GitHub issues](https://img.shields.io/github/issues/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/issues)
+  [![GitHub license](https://img.shields.io/github/license/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE)
+  [![GitHub pull requests](https://img.shields.io/github/issues-pr/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/pulls)
+  [![GitHub release](https://img.shields.io/github/v/release/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/releases)
+  [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white)]([https://github.com/Smaug6739/Alexandrie/pulls](https://discord.gg/UPsEg6egPj))
+
 </p>
 
 ![alexandrie-hub fr_dashboard_docs_218914302160015361](.github/present.png)
@@ -54,7 +46,7 @@ For local testing and development, you can use Docker to run the entire stack:
 **Start a demo server (local production, just need to copy the docker-compose file):**
 
 ```bash
-docker compose up -d --build
+docker compose up
 ```
 
 **Start a development server with hot reloading (HMR, and need to clone the repo):**
