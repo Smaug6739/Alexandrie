@@ -99,6 +99,9 @@ func InitBluemonday() {
 }
 
 // EscapeHTML sanitizes user input to prevent XSS attacks
-func EscapeHTML(input string) string {
-	return policy.Sanitize(input)
+func EscapeHTML(input *string) string {
+	if input == nil || *input == "" {
+		return ""
+	}
+	return policy.Sanitize(*input)
 }
