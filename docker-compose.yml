@@ -68,13 +68,12 @@ services:
       DATABASE_NAME: alexandrie
       DATABASE_USER: alexandrie
       DATABASE_PASSWORD: password
-      ALLOW_UNSECURE: 'true' # Set to 'true' if you run without HTTPS (e.g., local dev); in production, use 'false' and set up HTTPS
 
       # Application Configuration
-      JWT_SECRET: your-secure-jwt-secret-key-change-this-in-production
-      DOMAIN_CLIENT: http://localhost:8200 # For CORS Policy, if you have "Cors" error, check this
-      COOKIE_DOMAIN: localhost # Very optional, can be left empty. For auth cookies: If you can't login (or you are disconnected immediatly), check this; DON'T set an URL just the DOMAIN (e.g., "example.com" or "localhost")
-
+      JWT_SECRET: t493m87nh5sgjpe8rmzu8smjz0usheijbfkophgroh548pje9kgore§G/(GO
+      DOMAIN_CLIENT: http://192.168.0.25:8200 # For CORS Policy, if you have "Cors" error, check this
+      COOKIE_DOMAIN: 192.168.0.25 # Very optional, can be left empty. For auth cookies: If you can't login (or you are disconnected immediatly), check this; DON'T set an URL just the DOMAIN (e.g., "example.com" or "localhost")
+      ALLOW_UNSECURE: 'true' # Allow cookies over HTTP (not HTTPS). Set to 'false' in production with HTTPS
       # MinIO Configuration (optional, you can replace config with "" to disable MinIO usage)
       MINIO_ENDPOINT: rustfs:9000
       MINIO_ACCESSKEY: alexandrie-key
@@ -109,9 +108,9 @@ services:
     environment:
       PORT: 8200
       # Runtime configuration - builds with these values at startup
-      NUXT_PUBLIC_BASE_API: http://localhost:8201
-      NUXT_PUBLIC_BASE_CDN: http://localhost:9000/alexandrie
-      NUXT_PUBLIC_BASE_URL: http://localhost:8200
+      NUXT_PUBLIC_BASE_API: http://192.168.0.25:8201
+      NUXT_PUBLIC_BASE_CDN: http://192.168.0.25:9000/alexandrie
+      NUXT_PUBLIC_BASE_URL: http://192.168.0.25:8200
     ports:
       - '8200:8200'
     depends_on:
