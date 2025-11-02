@@ -31,7 +31,7 @@ func Auth() gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			c.JSON(http.StatusUnauthorized, utils.Error("Unauthorized"))
+			c.JSON(http.StatusUnauthorized, utils.Error("Bad access token."))
 			c.Abort() // Stop further processing if unauthorized
 			return
 		}
