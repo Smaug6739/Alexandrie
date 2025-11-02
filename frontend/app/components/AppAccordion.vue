@@ -17,13 +17,13 @@
       </svg>
     </button>
 
-    <transition name="accordion-expand" @enter="onEnter" @after-enter="onAfterEnter" @leave="onLeave">
+    <Transition name="accordion-expand" @enter="onEnter" @after-enter="onAfterEnter" @leave="onLeave">
       <div v-show="isOpen" :id="contentId" ref="contentEl" class="accordion-content-wrapper" role="region" :aria-labelledby="triggerId">
         <div class="accordion-content">
           <slot />
         </div>
       </div>
-    </transition>
+    </Transition>
   </div>
 </template>
 
