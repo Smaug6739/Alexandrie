@@ -5,12 +5,12 @@
         <Icon name="search" />
         <input ref="searchInput" v-model="filter" type="text" placeholder="Search document" />
         <button style="background: none" @click="close">
-          <Icon name="close" :big="true" />
+          <Icon name="close" display="lg" />
         </button>
       </span>
       <span class="title">Documents</span>
       <NuxtLink v-for="doc of docs" :key="doc.id" class="item-search" :to="`/dashboard/docs/${doc.id}`" @click="close">
-        <Icon name="draft" :big="true" fill="var(--font-color)" /> {{ doc.name }}
+        <Icon name="draft" display="lg" /> {{ doc.name }}
         <span class="category">
           <tag :class="getAppColor(categoryStore.getById(doc.parent_id || '')?.color)">{{ categoryStore.getById(doc.parent_id || '')?.name }}</tag>
         </span>

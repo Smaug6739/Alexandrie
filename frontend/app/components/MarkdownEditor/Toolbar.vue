@@ -2,17 +2,17 @@
   <div class="toolbar">
     <!-- eslint-disable-next-line vue/no-v-html -->
     <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)">
-      <Icon :name="item.icon" :big="true" fill="var(--font-color)" />
+      <Icon :name="item.icon" display="lg" />
     </button>
     <VoiceRecognition @transcription="handleTranscription" />
     <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Select category" size="300px" class="entry" />
 
     <div class="help">
       <button @click="openSettings">
-        <Icon name="settings" :big="true" fill="var(--font-color-light)" />
+        <Icon name="settings" display="lg" fill="var(--font-color-light)" />
       </button>
       <button @click="openHelp">
-        <Icon name="help" :big="true" fill="var(--font-color-light)" />
+        <Icon name="help" display="lg" fill="var(--font-color-light)" />
       </button>
     </div>
   </div>

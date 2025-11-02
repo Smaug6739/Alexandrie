@@ -18,10 +18,10 @@
     <Icon v-if="item.data.shared && !item.parent_id" name="users" fill="var(--font-color-light)" />
 
     <NuxtLink v-if="item.data.role === 2 && nodesStore.hasPermissions(item.data as Node, 2)" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
-      <Icon name="settings" fill="var(--font-color)" />
+      <Icon name="settings" />
     </NuxtLink>
     <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
-      <Icon name="plus" fill="var(--font-color)" />
+      <Icon name="plus" />
     </NuxtLink>
     <Icon v-if="item.data.role < 4 && item.data.order === -1" name="pin" fill="var(--font-color-light)" class="ni" />
     <slot />

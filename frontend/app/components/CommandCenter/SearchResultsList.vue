@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="items.length === 0" class="no-results">
-      <Icon :name="emptyIcon" class="no-results-icon" fill="var(--font-color)" />
+      <Icon :name="emptyIcon" class="no-results-icon" />
       <p>No results found for "{{ query }}"</p>
     </div>
     <div v-else class="search-results-list">
@@ -15,14 +15,14 @@
           :class="{ selected: selectedIndex === item.globalIndex }"
           @mouseenter="$emit('updateSelectedIndex', item.globalIndex)"
         >
-          <Icon :name="item.icon" class="result-icon" fill="var(--font-color)" />
+          <Icon :name="item.icon" class="result-icon" />
           <div class="result-content">
             <span class="result-title">{{ item.title }}</span>
             <span class="result-description">{{ item.description }}</span>
           </div>
           <div class="result-shortcut">
             <kbd v-if="item.shortcut">{{ item.shortcut }}</kbd>
-            <Icon name="new_tab" class="navigate-icon" fill="var(--font-color)" />
+            <Icon name="new_tab" class="navigate-icon" />
           </div>
         </NuxtLink>
       </div>

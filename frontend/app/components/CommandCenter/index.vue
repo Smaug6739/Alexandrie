@@ -6,7 +6,7 @@
           <!-- Header -->
           <div class="search-header">
             <div class="search-input-wrapper">
-              <Icon name="search" class="search-icon" fill="var(--font-color)" />
+              <Icon name="search" class="search-icon" />
               <input
                 ref="searchInput"
                 v-model="searchQuery"

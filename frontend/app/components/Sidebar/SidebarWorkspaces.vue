@@ -2,7 +2,7 @@
   <div class="dropdown-container" @click="toggleDropdown">
     <div class="dropdown-selected" :class="{ open: isOpen }">
       <span v-if="selectedOption" style="flex: 1"><SidebarWorkspace :option="selectedOption" /></span>
-      <Icon name="expand" :small="true" fill="var(--font-color)" />
+      <Icon name="expand" display="sm" />
     </div>
     <ul v-if="isOpen" class="dropdown-options">
       <li :class="{ selected: all_workspaces.value === workspaceId }" @click="selectOption(all_workspaces)">

@@ -4,7 +4,7 @@
       <div v-if="index !== modals.length - 1" class="modal-overlay" />
       <div class="modal-container">
         <button class="close-btn" @click="modalManager.close(modal)">
-          <Icon name="close" :big="true" />
+          <Icon name="close" display="lg" />
         </button>
         <component
           :is="modal.component"

@@ -1,28 +1,28 @@
 <template>
   <span class="row">
     <NuxtLink v-if="doc.accessibility == 3" :to="`/doc/${doc.id}`" :prefetch="false" target="_blank">
-      <Icon name="link" :big="true" fill="var(--font-color)" />
+      <Icon name="link" display="lg" />
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" :to="`/dashboard/docs/edit/${doc.id}`" :prefetch="false">
-      <Icon name="edit" :big="true" fill="var(--font-color)" />
+      <Icon name="edit" display="lg" />
     </NuxtLink>
     <NuxtLink @click="exportMarkdown">
-      <Icon name="markdown" :big="true" fill="var(--font-color)" />
+      <Icon name="markdown" display="lg" />
     </NuxtLink>
     <NuxtLink @click="print">
-      <Icon name="print" :big="true" fill="var(--font-color)" />
+      <Icon name="print" display="lg" />
     </NuxtLink>
     <NuxtLink v-if="doc.shared" @click="openRemoveShareModal">
-      <Icon name="group_off" :big="true" fill="var(--font-color)" />
+      <Icon name="group_off" display="lg" />
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" @click="openEditModal">
-      <Icon name="settings" :big="true" fill="var(--font-color)" />
+      <Icon name="settings" display="lg" />
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 4)" @click="openPermissionsModal">
-      <Icon name="manage_access" :big="true" fill="var(--font-color)" />
+      <Icon name="manage_access" display="lg" />
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 3)" @click="openDeleteModal">
-      <Icon name="delete" :big="true" fill="var(--font-color)" />
+      <Icon name="delete" display="lg" />
     </NuxtLink>
   </span>
 </template>

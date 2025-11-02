@@ -1,23 +1,18 @@
 <template>
-  <svg v-if="isSpriteIcon" class="icon" :class="{ big, mid, small }" :style="{ color: fill || 'currentColor', width: size, height: size }" aria-hidden="true">
+  <svg v-if="isSpriteIcon" class="icon" :class="display" :style="{ color: fill || 'currentColor', width: size, height: size }" aria-hidden="true">
     <use :href="`#icon-${name}`" />
   </svg>
 
   <!-- eslint-disable-next-line vue/no-v-html | OK Because not a user entry-->
-  <i v-else class="icon c-icon" :style="{ fill: fill || 'currentColor' }" :class="{ fill, big, mid, small }" v-html="name" />
+  <i v-else class="icon c-icon" :style="{ fill: fill || 'currentColor' }" :class="display" v-html="name" />
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-
-const props = defineProps<{
-  name: string;
-  fill?: string;
-  big?: boolean;
-  mid?: boolean;
-  small?: boolean;
-  size?: string;
-}>();
+const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 'sm' | 'md' | 'lg' | 'xl'; size?: string }>(), {
+  display: 'md',
+  fill: 'var(--font-color)',
+  size: undefined,
+});
 
 const isSpriteIcon = computed(() => {
   return typeof props.name === 'string' && props.name.length < 50 && !isUnicode(props.name);
@@ -30,8 +25,6 @@ const isUnicode = (str: string) => {
 <style scoped lang="scss">
 .icon {
   display: flex;
-  width: 20px;
-  height: 20px;
   align-items: center;
   justify-content: center;
   pointer-events: none;
@@ -42,19 +35,23 @@ const isUnicode = (str: string) => {
   }
 
   /* Custom sizes */
-  &.small {
+  &.sm {
     width: 18px;
     height: 18px;
   }
 
-  &.mid {
-    width: 21px;
-    height: 21px;
+  &.md {
+    width: 20px;
+    height: 20px;
   }
 
-  &.big {
+  &.lg {
     width: 25px;
     height: 25px;
+  }
+  &.xl {
+    width: 28px;
+    height: 28px;
   }
 }
 

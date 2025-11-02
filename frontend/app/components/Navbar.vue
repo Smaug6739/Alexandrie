@@ -16,7 +16,7 @@
         aria-label="Command center"
         @click="openCommandCenter"
       >
-        <Icon name="search" fill="var(--font-color)" />
+        <Icon name="search" />
         <span class="search-text">Type <kbd>/</kbd> to navigate</span>
       </button>
       <ThemeToggle v-if="preferences.get('navbarItems').value.theme" aria-label="toggle theme" />

@@ -77,7 +77,7 @@
               <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
                 {{ tag }}
                 <button class="remove-tag" @click.stop="removeTag(tag)">
-                  <Icon name="close" fill="var(--font-color)" class="no-close" />
+                  <Icon name="close" class="no-close" />
                 </button>
               </span>
             </div>

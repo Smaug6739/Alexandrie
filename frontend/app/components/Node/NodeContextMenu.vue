@@ -1,18 +1,16 @@
 <template>
   <div>
-    <button @click="action('open')"><Icon fill="var(--font-color)" name="file_open" /> Open</button>
+    <button @click="action('open')"><Icon name="file_open" /> Open</button>
     <NuxtLink :to="`/dashboard/docs/${props.node.id}`" target="_blank"
-      ><button><Icon fill="var(--font-color)" name="new_tab" />Open in new tab</button></NuxtLink
+      ><button><Icon name="new_tab" />Open in new tab</button></NuxtLink
     >
     <template v-if="nodesStore.hasPermissions(node, 2)">
-      <button @click="action('edit')"><Icon fill="var(--font-color)" name="edit_page" /> Edit</button>
-      <button @click="action('pin')">
-        <Icon fill="var(--font-color)" :name="node.order === -1 ? 'pin_off' : 'pin'" /> {{ node.order === -1 ? 'Unpin' : 'Pin' }}
-      </button>
-      <button @click="action('duplicate')"><Icon fill="var(--font-color)" name="duplicate" /> Duplicate</button>
+      <button @click="action('edit')"><Icon name="edit_page" /> Edit</button>
+      <button @click="action('pin')"><Icon :name="node.order === -1 ? 'pin_off' : 'pin'" /> {{ node.order === -1 ? 'Unpin' : 'Pin' }}</button>
+      <button @click="action('duplicate')"><Icon name="duplicate" /> Duplicate</button>
     </template>
-    <button @click="action('copyLink')"><Icon fill="var(--font-color)" name="link" /> Copy link</button>
-    <button v-if="preferences.get('developerMode').value" @click="action('copyId')"><Icon fill="var(--font-color)" name="snippets" /> Copy ID</button>
+    <button @click="action('copyLink')"><Icon name="link" /> Copy link</button>
+    <button v-if="preferences.get('developerMode').value" @click="action('copyId')"><Icon name="snippets" /> Copy ID</button>
     <template v-if="nodesStore.hasPermissions(node, 2)">
       <hr style="margin: 2px 0" />
       <button @click="action('delete')"><Icon name="delete" fill="red" /> Delete</button>

@@ -1,7 +1,7 @@
 <template>
   <div class="tab-navigation">
     <button v-for="tab in tabs" :key="tab.id" class="tab-button" :class="{ active: activeTab === tab.id }" @click="handleClick(tab.id)">
-      <Icon :name="tab.icon" class="tab-icon" fill="var(--font-color)" />
+      <Icon :name="tab.icon" class="tab-icon" />
       <span class="tab-label">{{ tab.label }}</span>
     </button>
   </div>

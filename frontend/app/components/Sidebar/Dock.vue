@@ -1,30 +1,30 @@
 <template>
   <div class="dock">
     <NuxtLink to="/dashboard/home">
-      <Icon name="dashboard" fill="var(--font-color)" :big="true" />
+      <Icon name="dashboard" display="lg" />
     </NuxtLink>
     <NuxtLink to="/dashboard/categories">
-      <Icon name="categories" fill="var(--font-color)" :big="true" />
+      <Icon name="categories" display="lg" />
     </NuxtLink>
     <NuxtLink to="/dashboard/docs">
-      <Icon name="files" fill="var(--font-color)" :big="true" />
+      <Icon name="files" display="lg" />
     </NuxtLink>
     <NuxtLink to="/dashboard/cdn">
-      <Icon name="cdn" fill="var(--font-color)" :big="true" />
+      <Icon name="cdn" display="lg" />
     </NuxtLink>
 
     <NuxtLink to="/dashboard/import">
-      <Icon name="import" fill="var(--font-color)" :big="true" />
+      <Icon name="import" display="lg" />
     </NuxtLink>
     <NuxtLink v-if="useUserStore().user?.role === 2" to="/dashboard/admin">
-      <Icon name="users" fill="var(--font-color)" :big="true" />
+      <Icon name="users" display="lg" />
     </NuxtLink>
     <div style="margin-top: auto">
       <NuxtLink @click="openSettings">
-        <Icon name="settings" fill="var(--font-color)" :big="true" />
+        <Icon name="settings" display="lg" />
       </NuxtLink>
       <NuxtLink @click="closeDock">
-        <Icon name="arrow_close" fill="var(--font-color)" :big="true" />
+        <Icon name="arrow_close" display="lg" />
       </NuxtLink>
     </div>
   </div>

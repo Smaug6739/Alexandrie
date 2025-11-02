@@ -2,26 +2,26 @@
   <div class="card-component">
     <header>
       <h1 v-if="parent">
-        <Icon :name="parent.icon || parent?.icon || 'files'" :class="`parent-icon ${getAppColor(parent.color || parent?.color as number, true)}`" />
+        <Icon
+          :name="parent.icon || parent?.icon || 'files'"
+          display="xl"
+          :class="`parent-icon ${getAppColor(parent.color || parent?.color as number, true)}`"
+        />
         {{ parent.name }}
       </h1>
       <h1 v-else-if="parentId === 'shared'">
-        <Icon name="users" :class="`parent-icon grey`" />
+        <Icon name="users" display="xl" :class="`parent-icon grey`" />
         All workspaces
       </h1>
       <h1 v-else>
-        <Icon name="workspace" :class="`parent-icon primary`" />
+        <Icon name="workspace" display="xl" :class="`parent-icon primary`" />
         All workspaces
       </h1>
       <div style="display: flex; align-items: center; gap: 8px">
-        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" @click="openRemoveShareModal"
-          ><Icon name="group_off" :big="true" fill="var(--font-color)"
-        /></NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" @click="openPermissionsModal"
-          ><Icon name="manage_access" :big="true" fill="var(--font-color)"
-        /></NuxtLink>
+        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" @click="openRemoveShareModal"><Icon name="group_off" display="lg" /></NuxtLink>
+        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" @click="openPermissionsModal"><Icon name="manage_access" display="lg" /></NuxtLink>
         <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" :to="`/dashboard/categories/${parent?.id}/edit`"
-          ><Icon name="settings" :big="true" fill="var(--font-color)"
+          ><Icon name="settings" display="lg"
         /></NuxtLink>
         <span class="doc-count">{{ nodes.length }}</span>
         <ViewSelection v-model="view" />
@@ -79,8 +79,6 @@ h1 {
 }
 
 .parent-icon {
-  width: 30px;
-  height: 30px;
   padding: 6px;
   border-radius: 6px;
   margin-right: 10px;

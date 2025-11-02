@@ -20,19 +20,19 @@
     </div>
     <div class="apps">
       <NuxtLink to="/dashboard/docs" class="app">
-        <Icon name="files" :big="true" fill="var(--primary)" />
+        <Icon name="files" display="lg" fill="var(--primary)" />
         <span>Documents</span>
       </NuxtLink>
       <NuxtLink to="/dashboard/categories" class="app">
-        <Icon name="categories" :big="true" fill="var(--primary)" />
+        <Icon name="categories" display="lg" fill="var(--primary)" />
         <span>Organizer</span>
       </NuxtLink>
       <NuxtLink to="/dashboard/cdn" class="app">
-        <Icon name="cdn" :big="true" fill="var(--primary)" />
+        <Icon name="cdn" display="lg" fill="var(--primary)" />
         <span>CDN</span>
       </NuxtLink>
       <NuxtLink to="/dashboard/import" class="app">
-        <Icon name="import" :big="true" fill="var(--primary)" />
+        <Icon name="import" display="lg" fill="var(--primary)" />
         <span>Import</span>
       </NuxtLink>
     </div>

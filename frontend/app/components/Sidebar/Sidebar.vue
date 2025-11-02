@@ -21,19 +21,19 @@
           </NuxtLink>
           <div class="icons">
             <NuxtLink to="/dashboard/docs/new" class="nav-item" :prefetch="false" @click="onClick">
-              <Icon name="add_file" :mid="true" fill="var(--font-color)" />
+              <Icon name="add_file" />
               <p class="hint-tooltip">New doc</p>
             </NuxtLink>
             <NuxtLink class="nav-item" @click="newCategory"
-              ><Icon name="add_folder" :mid="true" fill="var(--font-color)" />
+              ><Icon name="add_folder" />
               <p class="hint-tooltip">New category</p></NuxtLink
             >
             <NuxtLink class="nav-item" @click="sidebarTree.collapseAll"
-              ><Icon name="collapse" :mid="true" fill="var(--font-color)" />
+              ><Icon name="collapse" />
               <p class="hint-tooltip">Close all</p></NuxtLink
             >
             <NuxtLink class="nav-item" @click="toggleDock"
-              ><Icon name="dock" :mid="true" fill="var(--font-color)" />
+              ><Icon name="dock" />
               <p class="hint-tooltip">Toggle dock</p></NuxtLink
             >
           </div>

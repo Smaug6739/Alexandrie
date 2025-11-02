@@ -1,6 +1,6 @@
 <template>
   <div v-if="node" class="modal-content">
-    <h2 class="title"><Icon name="manage_access" :big="true" fill="var(--font-color)" /> Manage permissions <tag red>Alpha</tag></h2>
+    <h2 class="title"><Icon name="manage_access" display="lg" /> Manage permissions <tag red>Alpha</tag></h2>
 
     <label for="accessibility">General access</label>
     <AppRadio v-model="node.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Accessibility" />
@@ -11,7 +11,7 @@
         Share this link to allow anyone to view the document without needing an account:
         <br />
         <a :href="link" target="_blank" rel="noopener noreferrer" class="public-link">
-          <Icon name="new_tab" :small="true" fill="var(--font-color-light)" /><span>{{ link }}</span>
+          <Icon name="new_tab" display="sm" fill="var(--font-color-light)" /><span>{{ link }}</span>
         </a>
       </p>
       <div class="access">

@@ -9,7 +9,7 @@
     <div class="toolbar">
       <div class="search-section">
         <div class="search-wrapper">
-          <Icon fill="var(--font-color)" name="search" class="search-icon" />
+          <Icon name="search" class="search-icon" />
           <input v-model="searchQuery" type="text" placeholder="Search snippets..." class="search-input" />
         </div>
         <div class="filter-section">
@@ -19,8 +19,8 @@
 
       <div class="actions">
         <AppButton v-if="selectedSnippets.length > 0" type="danger" @click="deleteSelected"> Delete Selected ({{ selectedSnippets.length }}) </AppButton>
-        <AppButton type="secondary" class="flex-btn" @click="exportSnippets"><Icon fill="var(--font-color)" name="backup" /> Export </AppButton>
-        <AppButton type="secondary" class="flex-btn" @click="importSnippets"><Icon fill="var(--font-color)" name="import" /> Import </AppButton>
+        <AppButton type="secondary" class="flex-btn" @click="exportSnippets"><Icon name="backup" /> Export </AppButton>
+        <AppButton type="secondary" class="flex-btn" @click="importSnippets"><Icon name="import" /> Import </AppButton>
         <AppButton type="secondary" @click="restoreDefaults"> ↺ Restore defaults</AppButton>
         <AppButton type="primary" @click="addSnippet"> ＋ Add Snippet </AppButton>
       </div>
@@ -29,7 +29,7 @@
     <!-- Snippets Grid -->
     <div class="snippets-container">
       <div v-if="filteredSnippets.length === 0" class="no-snippets">
-        <Icon fill="var(--font-color)" name="search" class="no-snippets-icon" />
+        <Icon name="search" class="no-snippets-icon" />
         <p v-if="searchQuery">No snippets found matching "{{ searchQuery }}"</p>
         <p v-else>No snippets available. Create your first snippet!</p>
       </div>
@@ -52,16 +52,16 @@
 
             <div class="snippet-actions">
               <button v-if="editingIndex !== index" class="action-btn edit-btn" title="Edit snippet" @click="startEdit(index)">
-                <Icon fill="var(--font-color)" name="edit" />
+                <Icon name="edit" />
               </button>
               <button v-if="editingIndex === index" class="action-btn save-btn" title="Save snippet" @click="saveEdit()">
-                <Icon fill="var(--font-color)" name="check" />
+                <Icon name="check" />
               </button>
               <button v-if="editingIndex === index" class="action-btn cancel-btn" title="Cancel edit" @click="cancelEdit()">
-                <Icon fill="var(--font-color)" name="close" />
+                <Icon name="close" />
               </button>
               <button class="action-btn delete-btn" title="Delete snippet" @click="removeSnippet(index)">
-                <Icon fill="var(--font-color)" name="delete" />
+                <Icon name="delete" />
               </button>
             </div>
           </div>

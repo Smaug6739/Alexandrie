@@ -1,11 +1,11 @@
 <template>
   <div class="view-selection">
     <button :class="{ active: view === 'table' }" @click="view = 'table'">
-      <Icon fill="var(--font-color)" name="list" />
+      <Icon name="list" />
     </button>
     <span style="border-right: 1px solid var(--border-color)" />
     <button :class="{ active: view === 'list' }" @click="view = 'list'">
-      <Icon fill="var(--font-color)" name="table" />
+      <Icon name="table" />
     </button>
   </div>
 </template>

@@ -10,25 +10,25 @@
         </div>
       </div>
       <span>General</span>
-      <NuxtLink @click="setPage('profile')"><Icon fill="var(--font-color)" name="profil" />My profile</NuxtLink>
-      <NuxtLink @click="setPage('preferences')"><Icon fill="var(--font-color)" name="settings" />Preferences</NuxtLink>
-      <NuxtLink @click="setPage('security')"><Icon fill="var(--font-color)" name="security" />Security</NuxtLink>
-      <NuxtLink @click="setPage('backup')"><Icon fill="var(--font-color)" name="backup" />Backup</NuxtLink>
+      <NuxtLink @click="setPage('profile')"><Icon name="profil" />My profile</NuxtLink>
+      <NuxtLink @click="setPage('preferences')"><Icon name="settings" />Preferences</NuxtLink>
+      <NuxtLink @click="setPage('security')"><Icon name="security" />Security</NuxtLink>
+      <NuxtLink @click="setPage('backup')"><Icon name="backup" />Backup</NuxtLink>
       <span>Workspaces</span>
-      <NuxtLink to="/dashboard/categories" @click="close"><Icon fill="var(--font-color)" name="categories" />Manage categories</NuxtLink>
-      <NuxtLink to="/dashboard/docs" @click="close"><Icon fill="var(--font-color)" name="draft" />Manage documents</NuxtLink>
+      <NuxtLink to="/dashboard/categories" @click="close"><Icon name="categories" />Manage categories</NuxtLink>
+      <NuxtLink to="/dashboard/docs" @click="close"><Icon name="draft" />Manage documents</NuxtLink>
       <NuxtLink to="/dashboard/import" style="display: flex; align-items: center" @click="close"
-        ><Icon fill="var(--font-color)" name="import" />Manage importations <tag yellow>Beta</tag></NuxtLink
+        ><Icon name="import" />Manage importations <tag yellow>Beta</tag></NuxtLink
       >
       <span>Utils <tag blue>New</tag></span>
-      <NuxtLink @click="setPage('shortcuts')"><Icon fill="var(--font-color)" name="shortcuts" />Shortcuts</NuxtLink>
-      <NuxtLink @click="setPage('snippets')"><Icon fill="var(--font-color)" name="snippets" />Snippets</NuxtLink>
-      <NuxtLink @click="setPage('markdown')"><Icon fill="var(--font-color)" name="markdown" />Markdown</NuxtLink>
-      <NuxtLink @click="setPage('advanced')"><Icon fill="var(--font-color)" name="advanced" />Advanced</NuxtLink>
+      <NuxtLink @click="setPage('shortcuts')"><Icon name="shortcuts" />Shortcuts</NuxtLink>
+      <NuxtLink @click="setPage('snippets')"><Icon name="snippets" />Snippets</NuxtLink>
+      <NuxtLink @click="setPage('markdown')"><Icon name="markdown" />Markdown</NuxtLink>
+      <NuxtLink @click="setPage('advanced')"><Icon name="advanced" />Advanced</NuxtLink>
 
       <span>Other</span>
-      <NuxtLink @click="setPage('about')"><Icon fill="var(--font-color)" name="view" />About</NuxtLink>
-      <NuxtLink @click="logout"><Icon fill="var(--font-color)" name="logout" />Logout</NuxtLink>
+      <NuxtLink @click="setPage('about')"><Icon name="view" />About</NuxtLink>
+      <NuxtLink @click="logout"><Icon name="logout" />Logout</NuxtLink>
     </nav>
     <div class="content">
       <ProfileView v-if="currentPage === 'profile'" />

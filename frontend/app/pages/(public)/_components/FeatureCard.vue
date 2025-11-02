@@ -1,7 +1,7 @@
 <template>
   <div class="feature-card" data-aos="fade-up">
     <div class="icon-wrapper">
-      <Icon :class="`icon-${icon}`" class="icon" :name="icon" fill="white" :big="true" />
+      <Icon :class="`icon-${icon}`" class="icon" :name="icon" fill="white" display="lg" />
     </div>
     <h3 class="title">{{ title }}</h3>
     <p class="description">{{ text }}</p>
