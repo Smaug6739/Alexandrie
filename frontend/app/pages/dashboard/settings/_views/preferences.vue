@@ -84,6 +84,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
         key: 'darkMode',
         onChange: (option: boolean) => {
           colorMode.preference = option ? 'dark' : 'light';
+          document.body.style.colorScheme = colorMode.preference;
         },
       },
       {

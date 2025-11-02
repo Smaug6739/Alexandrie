@@ -39,6 +39,7 @@ const toggleColorMode = () => {
     colorMode.preference = 'light';
     usePreferences().set('darkMode', false);
   }
+  document.body.style.colorScheme = colorMode.preference;
 };
 </script>
 

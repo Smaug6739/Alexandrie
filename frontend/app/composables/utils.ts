@@ -38,7 +38,9 @@ export function setAppColor(color: string | number) {
   document.documentElement.style.setProperty('--primary-bg', `var(--${color}-bg)`);
   document.documentElement.style.setProperty('--primary-border', `var(--${color}-border)`);
 
-  usePreferences().set('darkMode', useColorMode().value === 'dark');
+  const colorMode = useColorMode();
+  usePreferences().set('darkMode', colorMode.value === 'dark');
+  document.body.style.colorScheme = colorMode.preference;
 }
 
 export function debounce<T extends (...args: unknown[]) => void>(fn: T, delay = 500) {
