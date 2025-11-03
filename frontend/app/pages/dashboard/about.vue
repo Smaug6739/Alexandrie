@@ -1,17 +1,21 @@
 <template>
-  <div class="about-view">
+  <div class="about-page">
     <AppAbout />
   </div>
 </template>
 
 <script setup lang="ts">
 import AppAbout from '~/components/AppAbout.vue';
+
+definePageMeta({
+  breadcrumb: 'About',
+});
 </script>
 
 <style scoped lang="scss">
-.about-view {
-  max-width: 900px;
+.about-page {
+  max-width: 960px;
   margin: 0 auto;
-  padding-bottom: 2rem;
+  padding: 2rem 1rem 4rem;
 }
 </style>

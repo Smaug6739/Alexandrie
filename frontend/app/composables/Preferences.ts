@@ -19,6 +19,7 @@ export const DEFAULT_PREFERENCES = {
     cdn: true as boolean,
     settings: true as boolean,
     home: true as boolean,
+    about: true as boolean,
     importation: false as boolean,
     documents: false as boolean,
     newPage: false as boolean,

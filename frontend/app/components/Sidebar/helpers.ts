@@ -78,6 +78,22 @@ export const navigationItems: DefaultItem[] = [
     show: computed(() => sidebarItemsPrefs.value.settings!),
   },
   {
+    id: 'about',
+    parent_id: '',
+    label: 'About',
+    route: '/dashboard/about',
+    icon: 'view',
+    data: {
+      id: 'about',
+      role: -1,
+      name: 'About',
+      icon: 'view',
+      permissions: [],
+      shared: false,
+    },
+    show: computed(() => sidebarItemsPrefs.value.about!),
+  },
+  {
     id: 'documents',
     parent_id: '',
     label: 'Documents',
