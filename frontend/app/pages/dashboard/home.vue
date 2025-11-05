@@ -35,6 +35,10 @@
         <Icon name="import" display="lg" fill="var(--primary)" />
         <span>Import</span>
       </NuxtLink>
+      <NuxtLink to="/dashboard/about" class="app">
+        <Icon name="info" display="lg" fill="var(--primary)" />
+        <span>About</span>
+      </NuxtLink>
     </div>
     <div style="width: 90%; margin: 0 auto; text-align: left">
       <div class="recent">
