@@ -1,5 +1,3 @@
-import { ref } from 'vue';
-
 type ContextMenuOptions = {
   props?: Record<string, unknown>;
 };
