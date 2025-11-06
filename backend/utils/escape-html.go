@@ -71,7 +71,7 @@ func InitBluemonday() {
 
 	// SVG-specific attributes
 	policy.AllowAttrs(
-		"viewBox", "fill-rule", "d", "x", "y", "cx", "cy", "r", "rx", "ry", "points",
+		"viewBox", "fill-rule", "d", "x", "y", "cx", "cy", "r", "rx", "ry", "points", "stroke", "stroke-width", "fill", "preserveAspectRatio", "xmlns",
 	).OnElements("svg", "path", "line", "polygon", "polyline", "rect", "circle", "ellipse", "text")
 
 	// Links
