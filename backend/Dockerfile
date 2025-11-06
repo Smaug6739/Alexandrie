@@ -13,7 +13,7 @@ RUN go mod download
 COPY . .
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o backend_app .
+RUN CGO_ENABLED=0 GOOS=linux go build -installsuffix cgo -o backend_app .
 
 # Production stage - distroless
 FROM gcr.io/distroless/static-debian12:nonroot
