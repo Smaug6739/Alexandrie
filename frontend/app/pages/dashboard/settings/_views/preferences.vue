@@ -9,48 +9,34 @@
       <div v-for="opt in section.options" :key="opt.key" class="form-group">
         <label>{{ opt.label }}</label>
         <!-- Toggle -->
-        <AppToggle
-          v-if="opt.type === 'toggle'"
-          v-model="prefs[opt.key] as boolean"
-          class="entry"
-          @update:model-value="opt.onChange?.(prefs[opt.key] as boolean)"
-        />
+        <AppToggle v-if="opt.type === 'toggle'" v-model="prefs[opt.key]" class="entry" @update:model-value="opt.onChange?.(prefs[opt.key])" />
 
         <!-- Select -->
         <AppSelect
           v-else-if="opt.type === 'select'"
-          v-model="prefs[opt.key] as string | number"
+          v-model="prefs[opt.key]"
           :items="opt.choices!"
           size="40%"
           class="entry"
-          @update:model-value="opt.onChange?.(prefs[opt.key] as string | number)"
+          @update:model-value="opt.onChange?.(prefs[opt.key])"
         />
 
         <!-- Radio -->
         <AppRadio
           v-else-if="opt.type === 'radio'"
-          v-model="prefs[opt.key] as string | number"
+          v-model="prefs[opt.key]"
           :items="opt.choices!"
           class="entry"
-          @update:model-value="opt.onChange?.(prefs[opt.key] as string | number)"
+          @update:model-value="opt.onChange?.(prefs[opt.key])"
         />
 
         <!-- Color -->
-        <AppColorPicker
-          v-else-if="opt.type === 'color'"
-          v-model="prefs[opt.key] as number"
-          class="entry"
-          @update:model-value="opt.onChange?.(prefs[opt.key] as number)"
-        />
+        <AppColorPicker v-else-if="opt.type === 'color'" v-model="prefs[opt.key]" class="entry" @update:model-value="opt.onChange?.(prefs[opt.key])" />
 
         <div v-else-if="opt.type === 'groupCheckbox'" class="group-checkbox">
           <div class="checkbox-grid">
             <label v-for="(label, key) in opt.items" :key="key">
-              <AppCheck
-                v-model="(prefs[opt.key] as Record<string, boolean>)[key] as boolean"
-                @change="opt.onChange?.(prefs[opt.key] as Record<string, boolean>)"
-                >{{ label }}</AppCheck
-              >
+              <AppCheck v-model="prefs[opt.key][key]" @change="opt.onChange?.(prefs[opt.key])">{{ label }}</AppCheck>
             </label>
           </div>
         </div>
@@ -70,9 +56,9 @@
 
 <script setup lang="ts">
 const preferencesStore = usePreferences();
-const prefs = preferencesStore.all;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const prefs: Record<string, any> = preferencesStore.all;
 const colorMode = useColorMode();
-// --- Définition déclarative des options ---
 const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'General',
