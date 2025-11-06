@@ -5,16 +5,14 @@
 <b>A modern and elegant application for taking notes in extended Markdown.</b><br>
 Organize, search, and export your notes with an intuitive interface designed for students and productivity.
 
-
-
 <p align="center">
 
-  [![GitHub Repo stars](https://img.shields.io/github/stars/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/stargazers)
-  [![GitHub issues](https://img.shields.io/github/issues/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/issues)
-  [![GitHub license](https://img.shields.io/github/license/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE)
-  [![GitHub pull requests](https://img.shields.io/github/issues-pr/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/pulls)
-  [![GitHub release](https://img.shields.io/github/v/release/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/releases)
-  [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white)]([https://github.com/Smaug6739/Alexandrie/pulls](https://discord.gg/UPsEg6egPj))
+[![GitHub Repo stars](https://img.shields.io/github/stars/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/issues)
+[![GitHub license](https://img.shields.io/github/license/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/pulls)
+[![GitHub release](https://img.shields.io/github/v/release/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/releases)
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white)](<[https://github.com/Smaug6739/Alexandrie/pulls](https://discord.gg/UPsEg6egPj)>)
 
 </p>
 
@@ -54,6 +52,8 @@ docker compose up
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
+
+For complete setup instructions, please refer to the [Setup Documentation](./docs/setup.md).
 
 **Access points:**
 
