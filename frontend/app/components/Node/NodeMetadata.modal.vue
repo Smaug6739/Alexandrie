@@ -1,7 +1,7 @@
 <!-- This components is a modal for advanced editing document metadata -->
 <template>
   <div class="modal-content">
-    <h2>Document Metadata <tag yellow>Beta</tag></h2>
+    <h2>Document Metadata</h2>
     <form @submit.prevent>
       <label for="category">Theme</label>
       <AppSelect v-model="node.theme" :items="DOCUMENT_THEMES" placeholder="Select theme" />

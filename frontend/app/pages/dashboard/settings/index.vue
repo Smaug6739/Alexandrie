@@ -17,9 +17,7 @@
       <span>Workspaces</span>
       <NuxtLink to="/dashboard/categories" @click="close"><Icon name="categories" />Manage categories</NuxtLink>
       <NuxtLink to="/dashboard/docs" @click="close"><Icon name="draft" />Manage documents</NuxtLink>
-      <NuxtLink to="/dashboard/import" style="display: flex; align-items: center" @click="close"
-        ><Icon name="import" />Manage importations <tag yellow>Beta</tag></NuxtLink
-      >
+      <NuxtLink to="/dashboard/import" style="display: flex; align-items: center" @click="close"><Icon name="import" />Manage importations</NuxtLink>
       <span>Utils <tag blue>New</tag></span>
       <NuxtLink @click="setPage('shortcuts')"><Icon name="shortcuts" />Shortcuts</NuxtLink>
       <NuxtLink @click="setPage('snippets')"><Icon name="snippets" />Snippets</NuxtLink>

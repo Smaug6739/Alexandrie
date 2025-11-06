@@ -1,7 +1,7 @@
 <!-- This components is a modal for advanced editing document metadata -->
 <template>
   <div class="modal-content">
-    <h2>Editor preferences <tag yellow>Beta</tag></h2>
+    <h2>Editor preferences</h2>
     <form @submit.prevent>
       <label for="category">Font family</label>
       <AppSelect v-model="store.get('editorFontFamily').value" :items="EDITOR_FONTS" placeholder="Select theme" />

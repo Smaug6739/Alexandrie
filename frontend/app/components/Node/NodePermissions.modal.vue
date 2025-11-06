@@ -1,6 +1,6 @@
 <template>
   <div v-if="node" class="modal-content">
-    <h2 class="title"><Icon name="manage_access" display="lg" /> Manage permissions <tag red>Alpha</tag></h2>
+    <h2 class="title"><Icon name="manage_access" display="lg" /> Manage permissions</h2>
 
     <label for="accessibility">General access</label>
     <AppRadio v-model="node.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Accessibility" />
