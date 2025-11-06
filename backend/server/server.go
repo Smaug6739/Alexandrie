@@ -10,11 +10,9 @@ import (
 	"github.com/BurntSushi/toml"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 func SetupServer() (*gin.Engine, *app.App) {
-	godotenv.Load()
 
 	workingDir, err := os.Getwd()
 	if err != nil {

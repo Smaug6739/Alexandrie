@@ -5,9 +5,7 @@
 # - Alexandrie Backend
 # - Alexandrie Frontend
 
-# To use the local code (if you have cloned the repo, replace the backend/frontend image with a build context)
-## build:
-##      context: ./backend
+# For details please refer to the documentation (./docs/setup.md)
 
 services:
   # MySQL Database
@@ -32,22 +30,21 @@ services:
       retries: 5
       start_period: 30s
 
-  # Object Storage
+  # Object Storage (RustFS, S3 compatible)
   rustfs:
     image: rustfs/rustfs:latest
     container_name: alexandrie-rustfs
     restart: unless-stopped
     environment:
-      # définition des clés directement
       RUSTFS_ACCESS_KEY: alexandrie-key
       RUSTFS_SECRET_KEY: alexandrie-secret
-      RUSTFS_CONSOLE_ENABLE: 'false' # ou true si tu veux console graphique
-      # autres variables selon besoin (volume, domain, etc.)
+      RUSTFS_CONSOLE_ENABLE: 'false' # Disable web console
+      RUSTFS_LOG_LEVEL: info
     ports:
-      - '9000:9000' # API S3
+      - '9000:9000'
     volumes:
       - rustfs_data:/data
-      - rustfs_data:/logs
+      - rustfs_logs:/logs
     networks:
       - alexandrie-network
     healthcheck:
@@ -62,35 +59,35 @@ services:
     image: ghcr.io/smaug6739/alexandrie-backend:latest
     container_name: alexandrie-backend
     environment:
+      # General configuration
+      BACKEND_PORT: 8201
+      GIN_MODE: release # Set to 'release' for production, 'debug' for development
+
       # Database Configuration
       DATABASE_HOST: mysql
       DATABASE_PORT: 3306
       DATABASE_NAME: alexandrie
       DATABASE_USER: alexandrie
       DATABASE_PASSWORD: password
-      ALLOW_UNSECURE: 'true' # Set to 'true' if you run without HTTPS (e.g., local dev); in production, use 'false' and set up HTTPS
 
-      # Application Configuration
-      JWT_SECRET: your-secure-jwt-secret-key-change-this-in-production
-      DOMAIN_CLIENT: http://localhost:8200 # For CORS Policy, if you have "Cors" error, check this
-      COOKIE_DOMAIN: localhost # Very optional, can be left empty. For auth cookies: If you can't login (or you are disconnected immediatly), check this; DON'T set an URL just the DOMAIN (e.g., "example.com" or "localhost")
-
-      # MinIO Configuration (optional, you can replace config with "" to disable MinIO usage)
+      # Object storage configuration (S3 compatible like RustFS, MinIO, etc.)
+      # OPTIONAL: If you don't want to use the CDN feature you can leave these variables empty
       MINIO_ENDPOINT: rustfs:9000
       MINIO_ACCESSKEY: alexandrie-key
       MINIO_SECRETKEY: alexandrie-secret
       MINIO_BUCKET: alexandrie
 
-      # SMTP Configuration (optional)
+      # SMTP Configuration (only for password reset emails)
+      # OPTIONAL: If you don't want to use email features, you can leave these variables empty
       SMTP_HOST: ''
       SMTP_MAIL: ''
       SMTP_PASSWORD: ''
 
-      # Port Configuration
-      BACKEND_PORT: 8201
-      CPWD: /app/
-      CONFIG_CPWD: ''
-      GIN_MODE: release
+      # Application authentication and security
+      JWT_SECRET: your-secure-jwt-secret-key-change-this-in-production # Change this secret in production!
+      FRONTEND_URL: http://localhost:8200 # URL where the frontend is hosted
+      ALLOW_UNSECURE: 'true' # Set to 'true' if you run without HTTPS (e.g., local dev);
+
     ports:
       - '8201:8201'
     depends_on:
@@ -127,4 +124,6 @@ volumes:
   mysql_data:
     driver: local
   rustfs_data:
+    driver: local
+  rustfs_logs:
     driver: local
