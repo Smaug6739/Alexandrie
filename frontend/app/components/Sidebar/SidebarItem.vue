@@ -10,7 +10,7 @@
     @dragleave="dragLeave"
     @contextmenu.prevent="showContextMenu"
   >
-    <Icon :name="icon" :class="customClass" />&nbsp;
+    <Icon :fill="item.data.role == 3 ? 'var(--pink) !important' : undefined" :name="icon" :class="customClass" />&nbsp;
 
     <NuxtLink v-if="item.onClick" style="flex: 1" class="close" @click="item.onClick">{{ item.label }}</NuxtLink>
     <NuxtLink v-else :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
