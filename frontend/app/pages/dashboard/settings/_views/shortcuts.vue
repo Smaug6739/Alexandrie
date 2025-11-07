@@ -17,6 +17,10 @@
         <span><kbd>Ctrl</kbd> <kbd>U</kbd></span>
       </div>
       <div class="shortcut">
+        <span>Create a new document</span>
+        <span><kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>C</kbd></span>
+      </div>
+      <div class="shortcut">
         <span>Create a new category</span>
         <span><kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>N</kbd></span>
       </div>

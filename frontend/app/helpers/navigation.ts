@@ -72,7 +72,7 @@ export const quickActions: QuickAction[] = [
     title: 'New document',
     description: 'Create a new document',
     icon: 'add_file',
-    shortcut: 'Ctrl+N',
+    shortcut: 'Ctrl+Alt+C',
     path: '/dashboard/docs/new',
   },
   {
@@ -80,7 +80,7 @@ export const quickActions: QuickAction[] = [
     title: 'New category',
     description: 'Create a new category',
     icon: 'add_folder',
-    shortcut: 'Ctrl+Shift+N',
+    shortcut: 'Ctrl+Alt+N',
     path: '/dashboard/categories',
   },
   {

@@ -85,9 +85,14 @@ onMounted(() => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
       e.preventDefault();
       return openSearch();
-    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
       e.preventDefault();
       return router.push('/dashboard/cdn');
+    }
+    if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'c') {
+      e.preventDefault();
+      return router.push('/dashboard/docs/new');
     }
     if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
       e.preventDefault();
