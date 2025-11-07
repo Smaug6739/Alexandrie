@@ -32,16 +32,16 @@ defineProps<{ isLoading: boolean }>();
 <style scoped lang="scss">
 .sidebar-skeleton {
   display: flex;
-  padding: 2rem;
+  padding: 0.5rem;
   flex-direction: column;
   gap: 6px;
   margin-top: 8px;
 }
 
 .skeleton-line {
-  height: 22px;
+  height: 20px;
   border-radius: 6px;
-  background: linear-gradient(90deg, var(--bg-contrast) 25%, var(--bg-color) 37%, var(--bg-contrast) 63%);
+  background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-contrast) 37%, var(--border-color) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
 }
