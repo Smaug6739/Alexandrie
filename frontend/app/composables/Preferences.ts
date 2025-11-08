@@ -109,6 +109,7 @@ export function usePreferences() {
 type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode';
 interface BaseOption<T = unknown> {
   label: string;
+  description?: string;
   type: OptionType;
   key: PreferenceKey;
   onChange?: (value: T) => void;

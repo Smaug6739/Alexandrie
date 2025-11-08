@@ -7,7 +7,10 @@
       <h3>{{ section.label }}</h3>
 
       <div v-for="opt in section.options" :key="opt.key" class="form-group">
-        <label>{{ opt.label }}</label>
+        <div>
+          <label>{{ opt.label }}</label>
+          <p class="description">{{ opt.description }}</p>
+        </div>
         <!-- Toggle -->
         <AppToggle v-if="opt.type === 'toggle'" v-model="prefs[opt.key]" class="entry" @update:model-value="opt.onChange?.(prefs[opt.key])" />
 
@@ -87,9 +90,15 @@ const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'Documents',
     options: [
-      { label: 'Enable Print Mode', type: 'toggle', key: 'printMode', value: Boolean(preferencesStore.get('printMode')) },
+      {
+        label: 'Enable Print Mode',
+        description: 'Simplify the header of printed documents (remove the thumbnail, tags, description and keep only the title)',
+        type: 'toggle',
+        key: 'printMode',
+        value: Boolean(preferencesStore.get('printMode')),
+      },
       { label: 'Hide Table of Content', type: 'toggle', key: 'hideTOC', value: Boolean(preferencesStore.get('hideTOC')) },
-      { label: 'Enable Document Auto-save', type: 'toggle', key: 'documentAutoSave', value: Boolean(preferencesStore.get('documentAutoSave')) },
+      { label: 'Enable Document auto-save', type: 'toggle', key: 'documentAutoSave', value: Boolean(preferencesStore.get('documentAutoSave')) },
       {
         label: 'Document size',
         type: 'radio',
@@ -99,6 +108,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
       },
       {
         label: 'Theme',
+        description: 'Default theme used for documents. You can override it for each document individually.',
         type: 'select',
         key: 'theme',
         value: String(preferencesStore.get('theme')),
@@ -109,11 +119,30 @@ const options = ref<{ label: string; options: Option[] }[]>([
   {
     label: 'Sidebar',
     options: [
-      { label: 'Enable Compact Mode', type: 'toggle', key: 'compactMode', value: Boolean(preferencesStore.get('compactMode')) },
-      { label: 'View dock', type: 'toggle', key: 'view_dock', value: Boolean(preferencesStore.get('view_dock')) },
-      { label: 'Normalize file icons', type: 'toggle', key: 'normalizeFileIcons', value: Boolean(preferencesStore.get('normalizeFileIcons')) },
+      {
+        label: 'Enable Compact Mode',
+        description: 'Reduce the size of the sidebar items to show more content on the screen.',
+        type: 'toggle',
+        key: 'compactMode',
+        value: Boolean(preferencesStore.get('compactMode')),
+      },
+      {
+        label: 'View dock',
+        description: 'Show the dock on the right side of the sidebar to access to the different apps quickly.',
+        type: 'toggle',
+        key: 'view_dock',
+        value: Boolean(preferencesStore.get('view_dock')),
+      },
+      {
+        label: 'Normalize file icons',
+        description: 'Display file parents with the same icon as classic files (not in green)',
+        type: 'toggle',
+        key: 'normalizeFileIcons',
+        value: Boolean(preferencesStore.get('normalizeFileIcons')),
+      },
       {
         label: 'Display uncategorized ressources',
+        description: 'Show resources (uploads from CDN) that are not categorized at the top of the sidebar.',
         type: 'toggle',
         key: 'displayUncategorizedRessources',
         value: Boolean(preferencesStore.get('displayUncategorizedRessources')),
@@ -216,6 +245,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
     options: [
       {
         label: 'Developer Mode',
+        description: 'Enable additional debugging features and options like "Copy ID" in context menus.',
         type: 'toggle',
         key: 'developerMode',
         value: Boolean(preferencesStore.get('developerMode')),
@@ -240,12 +270,19 @@ const options = ref<{ label: string; options: Option[] }[]>([
   width: 100%;
   gap: 1rem;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
 label {
   font-weight: 400;
   flex: 1;
+}
+
+.description {
+  margin-top: 0.25rem;
+  color: var(--font-color-light);
+  font-size: 0.9rem;
 }
 
 h3 {
