@@ -10,8 +10,8 @@
       @keydown="handleKeyDown"
       @click.stop
     />
-    <div v-else class="app-select-trigger">
-      <button style="height: 30px" @click.stop="toggleDropdown">{{ selected?.label || placeholder }}</button>
+    <div v-else class="app-select-trigger" @click.stop="toggleDropdown">
+      <button style="height: 30px">{{ selected?.label || placeholder }}</button>
       <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--font-color)">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
@@ -32,7 +32,6 @@ const props = withDefaults(
     items: ANode[];
     placeholder?: string;
     modelValue?: string | number;
-    // eslint-disable-next-line vue/require-default-prop
     size?: string;
     disabled?: (i: ANode) => boolean;
     nullable?: boolean;
@@ -44,12 +43,16 @@ const props = withDefaults(
     nullable: false,
     disabled: () => false,
     modelValue: '',
+    size: undefined,
   },
 );
 
 const emit = defineEmits(['update:modelValue']);
 
-const selectedId = ref<string | number>(props.modelValue ?? '');
+const selectedId = computed({
+  get: () => props.modelValue ?? '',
+  set: val => emit('update:modelValue', val),
+});
 const open = ref(false);
 const search = ref('');
 const searchInput = ref<HTMLInputElement | null>(null);
