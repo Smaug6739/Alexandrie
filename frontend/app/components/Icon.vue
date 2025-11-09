@@ -58,5 +58,6 @@ const isUnicode = (str: string) => {
 .c-icon:deep(svg),
 .c-icon:deep(svg > * > path) {
   fill: inherit !important;
+  height: min-content;
 }
 </style>
