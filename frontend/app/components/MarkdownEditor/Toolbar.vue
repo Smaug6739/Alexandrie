@@ -1,7 +1,14 @@
 <template>
   <div class="toolbar">
     <!-- eslint-disable-next-line vue/no-v-html -->
-    <button v-for="item in toolbar" :key="item.name" :title="item.name" class="btn" @click="emitAction(item.action)">
+    <button
+      v-for="item in toolbar"
+      :key="item.name"
+      :title="item.name"
+      class="btn"
+      :disabled="props.disableSaving && item.action === 'save'"
+      @click="emitAction(item.action)"
+    >
       <Icon :name="item.icon" display="lg" />
     </button>
     <VoiceRecognition @transcription="handleTranscription" />
@@ -27,6 +34,7 @@ import EditorPreferences from './EditorPreferences.vue';
 const props = defineProps<{
   modelValue: Partial<Node>;
   minimal?: boolean;
+  disableSaving?: boolean;
 }>();
 const handleTranscription = (text: string) => {
   emit('execute-action', 'insertText', text);
@@ -156,6 +164,15 @@ const toolbar = [
     &:deep(svg) {
       transition: fill 0.2s;
       fill: var(--primary);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+
+    &:deep(svg) {
+      fill: var(--font-color-light);
     }
   }
 }

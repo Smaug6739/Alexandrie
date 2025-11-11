@@ -73,6 +73,10 @@
       </ul>
     </section>
 
+    <section class="about__card about__demo-card">
+      <AboutDocumentDemo />
+    </section>
+
     <footer class="about__footer">
       <p>
         Have feedback or ideas? Contribute on
@@ -85,6 +89,7 @@
 
 <script setup lang="ts">
 import pkg from '~/../package.json';
+import AboutDocumentDemo from '~/components/AboutDocumentDemo.vue';
 
 const version = pkg.version ?? 'unknown';
 const clientType = ref('Website');

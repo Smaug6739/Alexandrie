@@ -2,7 +2,7 @@
 <template>
   <div style="height: 100%">
     <div class="editor-container">
-      <Toolbar v-model="document" :minimal="minimal" @execute-action="exec" />
+      <Toolbar v-model="document" :minimal="minimal" :disable-saving="disableSaving" @execute-action="exec" />
       <div style="display: flex; min-height: 0; padding: 6px; flex: 1; flex-direction: column; gap: 8px">
         <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" @input="autoSaveConditional" />
         <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" @input="autoSaveConditional" />
@@ -42,9 +42,12 @@ import { useModal, Modal } from '~/composables/ModalBus';
 const resourcesStore = useRessourcesStore();
 const preferencesStore = usePreferences();
 
-const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();
+const props = withDefaults(defineProps<{ doc?: Partial<Node>; minimal?: boolean; disableSaving?: boolean }>(), {
+  disableSaving: false,
+});
 const emit = defineEmits(['save', 'exit', 'autoSave']);
 const { CDN } = useApi();
+const notifications = useNotifications();
 
 const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
@@ -59,7 +62,13 @@ const document = ref<Partial<Node>>({
 function exec(action: string, payload?: string) {
   if (action === 'preview') return (showPreview.value = !showPreview.value);
   if (action === 'openColorPicker') return openColorModal();
-  if (action === 'save') return save();
+  if (action === 'save') {
+    if (props.disableSaving) {
+      notifications.add({ type: 'info', title: 'Demo mode', message: 'Saving is disabled on the public demo.' });
+      return;
+    }
+    return save();
+  }
   if (action === 'goto') if (document.value.id) return useRouter().push(`/dashboard/docs/${document.value.id}`);
   if (action === 'image') return openImageSelector();
   if (action === 'gridOrganization') return openGridOrganization();
@@ -358,7 +367,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  if (preferencesStore.get('documentAutoSave').value) {
+  if (!props.disableSaving && preferencesStore.get('documentAutoSave').value) {
     updateDocumentContent();
     emit('autoSave', document.value);
   }
@@ -370,7 +379,8 @@ onBeforeUnmount(() => {
 function handleGlobalKeys(e: KeyboardEvent) {
   if ((e.ctrlKey || e.metaKey) && e.key === 's') {
     e.preventDefault();
-    save();
+    if (props.disableSaving) notifications.add({ type: 'info', title: 'Demo mode', message: 'Saving is disabled on the public demo.' });
+    else save();
   }
   if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
     e.preventDefault();
@@ -401,11 +411,13 @@ const updateDocumentContent = debounce(() => {
 }, 100);
 
 const save = debounce(() => {
+  if (props.disableSaving) return;
   updateDocumentContent();
   emit('save', document.value);
 }, 1000);
 
 const autoSave = debounceDelayed(() => {
+  if (props.disableSaving) return;
   updateDocumentContent();
   emit('autoSave', document.value);
 }, 2000);
