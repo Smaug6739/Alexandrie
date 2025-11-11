@@ -35,7 +35,7 @@
         <Icon name="import" display="lg" fill="var(--primary)" />
         <span>Import</span>
       </NuxtLink>
-      <NuxtLink to="/dashboard/about" class="app">
+      <NuxtLink to="/about" class="app">
         <Icon name="info" display="lg" fill="var(--primary)" />
         <span>About</span>
       </NuxtLink>

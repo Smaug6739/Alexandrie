@@ -1,7 +1,7 @@
 <template>
-  <div class="about-page">
+  <main class="about-page">
     <AppAbout />
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">

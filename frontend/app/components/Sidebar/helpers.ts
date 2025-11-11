@@ -81,7 +81,7 @@ export const navigationItems: DefaultItem[] = [
     id: 'about',
     parent_id: '',
     label: 'About',
-    route: '/dashboard/about',
+    route: '/about',
     icon: 'view',
     data: {
       id: 'about',
