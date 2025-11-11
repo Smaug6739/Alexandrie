@@ -8,10 +8,6 @@
           ready to explore.
         </p>
       </div>
-      <AppButton type="secondary" class="about-demo__guide" @click="openSyntaxGuide">
-        <Icon name="help" display="lg" />
-        Markdown Syntax Guide
-      </AppButton>
     </header>
     <ClientOnly>
       <div class="about-demo__editor">
@@ -25,10 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, shallowRef } from 'vue';
+import { reactive} from 'vue';
 import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
-import MarkdownSyntax from '~/components/MarkdownSyntax.vue';
-import { Modal, useModal } from '~/composables/ModalBus';
+
 
 const demoDocument = reactive({
   name: 'Alexandrie Editor Demo',
@@ -65,10 +60,8 @@ export function greet(name) {
 Need syntax reminders? Open the guide from the button above.`,
 });
 
-const modal = useModal();
-const openSyntaxGuide = () => {
-  modal.add(new Modal(shallowRef(MarkdownSyntax), { size: 'large' }));
-};
+
+
 </script>
 
 <style scoped lang="scss">
@@ -104,7 +97,6 @@ const openSyntaxGuide = () => {
 
 .about-demo__editor {
   min-height: 480px;
-  border: 1px solid var(--border-color);
   border-radius: 16px;
   overflow: hidden;
 }

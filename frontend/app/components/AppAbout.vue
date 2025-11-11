@@ -54,24 +54,6 @@
       </ol>
     </section>
 
-    <section class="about__card">
-      <h3>Product highlights</h3>
-      <p class="about__subtitle">A quick glance at what makes Alexandrie feel productive from day one.</p>
-      <ul class="about__feature-list">
-        <li>
-          <strong>Realtime Markdown editor</strong>
-          <span>Immediate preview, keyboard shortcuts, and slash commands keep note-taking fast.</span>
-        </li>
-        <li>
-          <strong>Unified knowledge graph</strong>
-          <span>Link documents, categories, and attachments so context is always one click away.</span>
-        </li>
-        <li>
-          <strong>Offline-ready PWA</strong>
-          <span>Install Alexandrie as an app and access content even with an unreliable connection.</span>
-        </li>
-      </ul>
-    </section>
 
     <section class="about__card about__demo-card">
       <AboutDocumentDemo />
