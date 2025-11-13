@@ -2,13 +2,16 @@ import { makeRequest, type FetchOptions } from './_utils';
 import { Collection } from './collection';
 import type { DB_Node, Node, Permission } from './db_strustures';
 
-interface SearchOptions {
+export interface SearchOptions {
   query?: string;
   fromDate?: Date;
   toDate?: Date;
   dateType?: 'created' | 'modified';
   tags?: string[];
   category?: string;
+  sortBy?: 'created' | 'modified' | 'name';
+  sortType?: 'ascending' | 'descending';
+  matchMode?: 'includes' | 'starts' | 'exact';
 }
 
 export const useNodesStore = defineStore('nodes', {
@@ -70,44 +73,92 @@ export const useNodesStore = defineStore('nodes', {
       if (parent) getChildrens(parent);
       return childrens;
     },
-    search: state => (options: SearchOptions) => {
-      const { query, fromDate, toDate, dateType, tags, category } = options;
-      let filtered = state.nodes.toArray().filter(n => n.role === 3); // Only documents
-      if (query) {
-        filtered = filtered.filter(node => {
-          const nodeContent = `${node.name} ${node.description} ${node.tags}`.toLowerCase();
-          return nodeContent.includes(query.toLowerCase());
+    search:
+      state =>
+      (options: SearchOptions, nodes = state.nodes.toArray()) => {
+        const {
+          query,
+          fromDate,
+          toDate,
+          dateType = 'modified',
+          tags,
+          category,
+          sortBy = 'modified',
+          sortType = 'descending',
+          matchMode = 'includes',
+        } = options;
+
+        const queryLower = query?.toLowerCase().trim();
+        const hasQuery = Boolean(queryLower);
+        const hasTags = tags && tags.length > 0;
+
+        const filtered = nodes.filter(node => {
+          if (node.role !== 3) return false; // Only objects with role = 3 (documents)
+
+          // --- Filter by text search ---
+          if (hasQuery) {
+            const content = `${node.name ?? ''} ${node.description ?? ''} ${node.tags ?? ''}`.toLowerCase();
+            switch (matchMode) {
+              case 'starts':
+                if (!content.startsWith(queryLower!)) return false;
+                break;
+              case 'exact':
+                if (node.name.toLowerCase() !== queryLower) return false;
+                break;
+              default: // includes
+                if (!content.includes(queryLower!)) return false;
+            }
+          }
+
+          // --- Filter by dates ---
+          if (fromDate || toDate) {
+            const timestamp = dateType === 'created' ? node.created_timestamp : node.updated_timestamp;
+            const nodeDate = new Date(timestamp);
+            if (fromDate && nodeDate < fromDate) return false;
+            if (toDate && nodeDate > toDate) return false;
+          }
+
+          // --- Filter by tags ---
+          if (hasTags) {
+            if (!node.tags) return false;
+            const nodeTags = parseTags(node.tags);
+            // All tags must match
+            if (!tags!.some(tag => nodeTags.includes(tag))) return false;
+          }
+
+          // --- Filter by category ---
+          if (category && node.parent_id !== category) return false;
+
+          return true;
         });
-      }
 
-      if (fromDate) {
-        filtered = filtered.filter(node => {
-          const nodeDate = new Date(node[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']);
-          return nodeDate >= fromDate;
+        // --- Sort results ---
+        filtered.sort((a, b) => {
+          let valA: string | number = '';
+          let valB: string | number = '';
+
+          switch (sortBy) {
+            case 'created':
+              valA = new Date(a.created_timestamp).getTime();
+              valB = new Date(b.created_timestamp).getTime();
+              break;
+            case 'modified':
+              valA = new Date(a.updated_timestamp).getTime();
+              valB = new Date(b.updated_timestamp).getTime();
+              break;
+            case 'name':
+              valA = a.name.toLowerCase();
+              valB = b.name.toLowerCase();
+              break;
+          }
+
+          if (valA < valB) return sortType === 'ascending' ? -1 : 1;
+          if (valA > valB) return sortType === 'ascending' ? 1 : -1;
+          return 0;
         });
-      }
 
-      if (toDate) {
-        filtered = filtered.filter(node => {
-          const nodeDate = new Date(node[dateType === 'created' ? 'created_timestamp' : 'updated_timestamp']);
-          return nodeDate <= toDate;
-        });
-      }
-
-      if (tags && tags.length > 0) {
-        filtered = filtered.filter(node => {
-          if (!node.tags) return false;
-          const nodeTags = parseTags(node.tags);
-          return tags.some(tag => nodeTags.includes(tag));
-        });
-      }
-
-      if (category) {
-        filtered = filtered.filter(node => node.parent_id === category);
-      }
-
-      return filtered;
-    },
+        return filtered;
+      },
     hasPermissions: state => (node: Node, level: number) => {
       // Case 1: User is the owner => All permissions
       // Case 2: User has a permission entry for this node
