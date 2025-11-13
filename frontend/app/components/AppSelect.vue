@@ -167,9 +167,6 @@ onBeforeUnmount(() => {
   margin: 0;
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  font-family: Inter;
-  font-size: 1rem;
-  color: var(--font-color);
   background: var(--bg-color);
 
   &:focus {
@@ -190,7 +187,7 @@ button,
   height: 34px;
   padding: 6px 10px;
   border-radius: 6px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   text-align: left;
   cursor: pointer;
 }
