@@ -45,6 +45,16 @@
 	}
 }
 
+.btn-icon {
+	padding: 4px;
+	border-radius: 8px;
+	cursor: pointer;
+
+	&:hover {
+		background: var(--bg-ui);
+	}
+}
+
 /* stylelint-disable */
 tag {
 	margin: 1px 2px 1px 0;

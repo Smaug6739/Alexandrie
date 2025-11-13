@@ -10,17 +10,22 @@
         {{ parent.name }}
       </h1>
       <h1 v-else-if="parentId === 'shared'">
-        <Icon name="users" display="xl" :class="`parent-icon grey`" />
-        All workspaces
+        <Icon name="users" display="xl" class="parent-icon grey" />
+        Shared with me
       </h1>
       <h1 v-else>
-        <Icon name="workspace" display="xl" :class="`parent-icon primary`" />
+        <Icon name="workspace" display="xl" class="parent-icon primary" />
         All workspaces
       </h1>
-      <div style="display: flex; align-items: center; gap: 8px">
-        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" @click="openRemoveShareModal"><Icon name="group_off" display="lg" /></NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" @click="openPermissionsModal"><Icon name="manage_access" display="lg" /></NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" :to="`/dashboard/categories/${parent?.id}/edit`"
+      <div style="display: flex; align-items: center; gap: 4px">
+        <NodeFilter :nodes="nodes" />
+        <NuxtLink class="btn-icon" v-if="parent?.shared && parent.user_id != connectedId" @click="openRemoveShareModal"
+          ><Icon name="group_off" display="lg"
+        /></NuxtLink>
+        <NuxtLink class="btn-icon" v-if="parent && nodesStore.hasPermissions(parent, 4)" @click="openPermissionsModal"
+          ><Icon name="manage_access" display="lg"
+        /></NuxtLink>
+        <NuxtLink class="btn-icon" v-if="parent && nodesStore.hasPermissions(parent, 2)" :to="`/dashboard/categories/${parent?.id}/edit`"
           ><Icon name="settings" display="lg"
         /></NuxtLink>
         <span class="doc-count">{{ nodes.length }}</span>
@@ -48,6 +53,7 @@
 <script setup lang="ts">
 import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
+import NodeFilter from '~/components/Node/Filter.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
