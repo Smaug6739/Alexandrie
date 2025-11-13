@@ -91,11 +91,4 @@ kbd {
   border-radius: 4px;
   font-weight: 600;
 }
-
-// Mobile styles
-@media screen and (width <= 719px) {
-  .no-mobile {
-    display: none;
-  }
-}
 </style>
