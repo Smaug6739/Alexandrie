@@ -106,7 +106,7 @@ textarea {
 	border: 1px solid var(--border-color);
 	border-radius: 8px;
 	font-family: Inter;
-	font-size: 1rem;
+	font-size: 0.95rem;
 	color: var(--font-color);
 	background: var(--bg-color);
 
@@ -148,6 +148,7 @@ kbd {
 label {
 	display: block;
 	padding: 4px 2px;
+	font-size: 0.95rem;
 	font-weight: 500;
 }
 

@@ -187,7 +187,7 @@ button,
   height: 34px;
   padding: 6px 10px;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   text-align: left;
   cursor: pointer;
 }

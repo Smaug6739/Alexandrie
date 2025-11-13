@@ -18,17 +18,17 @@
         All workspaces
       </h1>
       <div style="display: flex; align-items: center; gap: 4px">
-        <NodeFilter :nodes="nodes" @update:nodes="filteredNodes = $event" />
-        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon" @click="openRemoveShareModal"
+        <NodeFilter v-show="!isMobile()" :nodes="nodes" @update:nodes="filteredNodes = $event" />
+        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon no-mobile" @click="openRemoveShareModal"
           ><Icon name="group_off" display="lg"
         /></NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon" @click="openPermissionsModal"
+        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon no-mobile" @click="openPermissionsModal"
           ><Icon name="manage_access" display="lg"
         /></NuxtLink>
         <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" class="btn-icon" :to="`/dashboard/categories/${parent?.id}/edit`"
           ><Icon name="settings" display="lg"
         /></NuxtLink>
-        <span class="doc-count">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }} </span>
+        <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }} </span>
         <ViewSelection v-model="view" />
       </div>
     </header>
