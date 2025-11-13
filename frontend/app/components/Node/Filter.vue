@@ -2,53 +2,69 @@
   <div ref="root" class="filter-component">
     <div class="btn-icon" @click="toggle" @keydown.enter.prevent="toggle">
       <Icon name="filter" display="lg" />
+      <span v-if="filtered.length != nodes?.length" class="bubble"></span>
     </div>
 
-    <transition name="pop">
-      <div v-if="localOpened" class="filter-panel" role="dialog" aria-label="Filter nodes" @keydown.esc.prevent="close">
-        <div class="panel-row">
-          <label class="vis-label">Search</label>
-          <input ref="inputRef" v-model="query" @input="onInput" @keydown.enter.prevent="apply" />
+    <Transition name="pop">
+      <div v-if="opened" class="filter-panel" role="dialog" aria-label="Filter nodes" @keydown.esc.prevent="close">
+        <!-- Search -->
+        <div>
+          <label>Search</label>
+          <input ref="inputRef" v-model="options.query" />
         </div>
 
-        <div class="panel-row two-cols">
+        <!-- Sort & Match -->
+        <div class="row">
+          <label class="row">
+            <input v-model="options.sortType" type="radio" value="ascending" />
+            <span>Ascending</span>
+          </label>
+          <label class="row">
+            <input v-model="options.sortType" type="radio" value="descending" />
+            <span>Descending</span>
+          </label>
+        </div>
+        <div class="row">
           <div style="flex: 1">
-            <label class="vis-label">Sort</label>
-            <AppSelect v-model="sort" :items="SORT_OPTIONS" />
+            <label>Sort</label>
+            <AppSelect v-model="options.sortBy" :items="SORT_OPTIONS" />
           </div>
 
           <div>
-            <label class="vis-label">Match</label>
-            <AppSelect v-model="matchMode" :items="MATCH_OPTIONS" size="125px" class="select" />
+            <label>Match</label>
+            <AppSelect v-model="options.matchMode" :items="MATCH_OPTIONS" size="125px" class="select" />
           </div>
         </div>
 
         <div class="panel-actions">
-          <button class="btn primary" type="button" @click="apply">Apply</button>
           <button class="btn" type="button" @click="reset">Reset</button>
         </div>
 
-        <div v-if="nodesCount !== null" class="panel-footer">
-          <small>{{ previewText }}</small>
+        <div class="panel-footer">
+          <small>{{ filtered.length }} / {{ nodes?.length }} nodes match</small> <small>• <kbd>esc</kbd> to close</small>
         </div>
       </div>
-    </transition>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Node } from '~/stores';
+import { useNodesStore } from '~/stores';
+import type { Node, SearchOptions } from '~/stores';
 
-const props = defineProps({
-  nodes: {
-    type: Array as PropType<Node[] | undefined>,
-    default: undefined,
-  },
-  opened: {
-    type: Boolean,
-    default: false,
-  },
-});
+const props = defineProps<{ nodes: Node[] }>();
+
+const defaultOptions: SearchOptions = {
+  query: '',
+  sortType: 'ascending',
+  sortBy: 'created',
+  matchMode: 'includes',
+};
+const store = useNodesStore();
+const options = ref({ ...defaultOptions });
+const opened = ref<boolean>(false);
+const inputRef = ref<HTMLInputElement | null>(null);
+const root = ref<HTMLDivElement | null>(null);
 
 const SORT_OPTIONS = [
   { id: 'created', label: 'Created' },
@@ -62,120 +78,28 @@ const MATCH_OPTIONS = [
   { id: 'exact', label: 'Exact' },
 ];
 
-const emit = defineEmits<{
-  (e: 'update:opened', v: boolean): void;
-  (e: 'update:nodes', v: Node[]): void; // legacy/optional — kept for backward compatibility
-  (e: 'apply', payload: { query: string; sort: string; matchMode: string }): void;
-  (e: 'reset'): void;
-}>();
-
-// Local reactive state so parent v-model stays in sync
-const localOpened = ref<boolean>(props.opened);
-watch(
-  () => props.opened,
-  v => (localOpened.value = !!v),
-);
-watch(localOpened, v => emit('update:opened', v));
-
-const query = ref<string>('');
-const sort = ref<string>('created_desc');
-const matchMode = ref<string>('includes');
-const inputRef = ref<HTMLInputElement | null>(null);
-const root = ref<HTMLDivElement | null>(null);
+const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
 
 let outsideHandler: ((e: MouseEvent) => void) | null = null;
 
-const nodesCount = computed<number | null>(() => (props.nodes ? props.nodes.length : null));
-
-const previewText = computed(() => {
-  if (!props.nodes) return 'No node list provided — component will emit filter criteria.';
-  const filtered = computeFiltered(props.nodes, query.value, sort.value, matchMode.value);
-  return `${filtered.length} / ${props.nodes.length} nodes match`;
-});
+const filtered = computed(() => store.search(options.value, props.nodes));
 
 function toggle() {
-  localOpened.value = !localOpened.value;
-  if (localOpened.value) focusInput();
+  opened.value = !opened.value;
+  if (opened.value) focusInput();
 }
-function close() {
-  localOpened.value = false;
-}
+const close = () => (opened.value = false);
+const reset = () => (options.value = { ...defaultOptions });
+const focusInput = () => nextTick(() => inputRef.value?.focus());
 
-function focusInput() {
-  nextTick(() => inputRef.value?.focus());
-}
-
-function onInput() {
-  // optional: debounce preview only (we don't debounce final apply)
-}
-
-function apply() {
-  // If parent passed nodes, we compute the filtered list and emit update:nodes (backwards compatible)
-  if (props.nodes) {
-    const filtered = computeFiltered(props.nodes, query.value, sort.value, matchMode.value);
-    emit('update:nodes', filtered);
-  }
-
-  // Always emit generic 'apply' so parent can react however it wants
-  emit('apply', { query: query.value, sort: sort.value, matchMode: matchMode.value });
-  // Keep the panel open so user can tweek, or close if you prefer:
-  // localOpened.value = false;
-}
-
-function reset() {
-  console.log('resetting filter');
-  query.value = '';
-  sort.value = 'created';
-  matchMode.value = 'includes';
-  if (props.nodes) emit('update:nodes', props.nodes.slice());
-  emit('reset');
-}
-
-function computeFiltered(nodes: Node[], q: string, s: string, m: string) {
-  let out = nodes.slice();
-  const qq = q.trim().toLowerCase();
-  if (qq) {
-    out = out.filter(n => {
-      const name = String(n.name ?? '').toLowerCase();
-      if (m === 'starts') return name.startsWith(qq);
-      if (m === 'exact') return name === qq;
-      return name.includes(qq);
-    });
-  }
-
-  switch (s) {
-    case 'created_asc':
-      out.sort((a, b) => Number(a.created_timestamp ?? 0) - Number(b.created_timestamp ?? 0));
-      break;
-    case 'created_desc':
-      out.sort((a, b) => Number(b.created_timestamp ?? 0) - Number(a.created_timestamp ?? 0));
-      break;
-    case 'modified_asc':
-    case 'updated_asc':
-      out.sort((a, b) => Number(a.updated_timestamp ?? 0) - Number(b.updated_timestamp ?? 0));
-      break;
-    case 'modified_desc':
-    case 'updated_desc':
-      out.sort((a, b) => Number(b.updated_timestamp ?? 0) - Number(a.updated_timestamp ?? 0));
-      break;
-    case 'name_asc':
-      out.sort((a, b) => String(a.name ?? '').localeCompare(String(b.name ?? '')));
-      break;
-    case 'name_desc':
-      out.sort((a, b) => String(b.name ?? '').localeCompare(String(a.name ?? '')));
-      break;
-    default:
-      break;
-  }
-  return out;
-}
+watchEffect(() => {
+  if (props.nodes) emit('update:nodes', filtered.value);
+});
 
 onMounted(() => {
   outsideHandler = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (localOpened.value && root.value && !root.value.contains(target)) {
-      close();
-    }
+    if (opened.value && root.value && !root.value.contains(target)) close();
   };
   document.addEventListener('click', outsideHandler);
 });
@@ -189,6 +113,16 @@ onBeforeUnmount(() => {
 .filter-component {
   position: relative;
   display: inline-block;
+}
+.bubble {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  background: var(--primary-bg);
+  border: 3px solid var(--primary);
+  border-radius: 50%;
 }
 
 .filter-panel {
@@ -204,14 +138,13 @@ onBeforeUnmount(() => {
   z-index: 200;
 }
 
-.panel-row {
-  margin-bottom: 10px;
-}
-.panel-row.two-cols {
+.row {
   display: flex;
+  justify-content: space-around;
   gap: 8px;
+  margin: 4px 0;
 }
-.vis-label {
+label {
   font-size: 13px;
   margin-bottom: 6px;
 }
