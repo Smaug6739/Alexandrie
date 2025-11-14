@@ -23,7 +23,7 @@
     "@codemirror/lang-markdown": "^6.5.0",
     "@codemirror/search": "6.5.11",
     "@codemirror/state": "^6.5.2",
-    "@codemirror/view": "^6.38.6",
+    "@codemirror/view": "^6.38.7",
     "@lezer/highlight": "^1.2.3",
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "1.10.0",
