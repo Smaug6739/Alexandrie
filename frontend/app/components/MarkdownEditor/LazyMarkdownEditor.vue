@@ -193,6 +193,7 @@ function handleGridSelect(gridMarkdown: string) {
 
   view.focus();
 }
+
 const snippets = usePreferences().get('snippets');
 const snippetListener = EditorView.updateListener.of(update => {
   if (!update.docChanged || !editorView.value) return;
@@ -345,6 +346,11 @@ const state = EditorState.create({
     highlightSelectionMatches({}),
     EditorView.lineWrapping,
     EditorState.allowMultipleSelections.of(true),
+    EditorView.contentAttributes.of({
+      spellcheck: preferencesStore.get('editorSpellCheck').value ? 'true' : 'false',
+      autocorrect: 'on',
+      autocapitalize: 'on',
+    }),
   ],
 });
 onMounted(() => {

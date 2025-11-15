@@ -42,6 +42,7 @@ export const DEFAULT_PREFERENCES = {
   ] as ANode<string>[],
   editorFontFamily: 'JetBrains Mono' as string,
   editorFontSize: 14 as number,
+  editorSpellCheck: true as boolean,
   developerMode: false as boolean,
 };
 

@@ -220,6 +220,13 @@ const options = ref<{ label: string; options: Option[] }[]>([
           { label: '24', id: 24 },
         ],
       },
+      {
+        label: 'Enable Spell Check',
+        description: 'Enable spell check of browser in the editor. Changes may require a page reload to take effect.',
+        type: 'toggle',
+        key: 'editorSpellCheck',
+        value: Boolean(preferencesStore.get('editorSpellCheck')),
+      },
     ],
   },
   {
