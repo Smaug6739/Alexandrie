@@ -52,7 +52,7 @@ export type Preferences = {
 };
 export type PreferenceKey = keyof Preferences;
 
-const preferences = ref<Preferences>(loadPreferences());
+const preferences = reactive<Preferences>(loadPreferences());
 
 function loadPreferences(): Preferences {
   try {
@@ -67,37 +67,31 @@ function loadPreferences(): Preferences {
 }
 
 function savePreferences() {
-  localStorage.setItem('preferences', JSON.stringify(preferences.value));
+  localStorage.setItem('preferences', JSON.stringify(preferences));
 }
-
-watch(preferences, savePreferences, { deep: true });
 
 export function usePreferences() {
   function get<K extends PreferenceKey>(key: K) {
-    // Crée un ref réactif lié à la valeur des preferences
-    const r = ref(preferences.value[key]) as Ref<Preferences[K]>;
-
-    // Watch pour propager les changements dans le store
-    watch(
-      r,
-      val => {
-        preferences.value[key] = val;
+    return computed<Preferences[K]>({
+      get: () => preferences[key],
+      set: val => {
+        preferences[key] = val;
+        savePreferences();
       },
-      { deep: true },
-    );
-
-    return r;
+    });
   }
 
   function set<K extends PreferenceKey>(key: K, value: Preferences[K]) {
-    preferences.value[key] = value;
+    preferences[key] = value;
+    savePreferences();
   }
 
   function reset() {
-    preferences.value = { ...DEFAULT_PREFERENCES };
+    Object.assign(preferences, DEFAULT_PREFERENCES);
+    savePreferences();
   }
 
-  const all = preferences.value;
+  const all = preferences;
 
   return {
     get,
