@@ -93,8 +93,6 @@ export const useNodesStore = defineStore('nodes', {
         const hasTags = tags && tags.length > 0;
 
         const filtered = nodes.filter(node => {
-          if (node.role !== 3) return false; // Only objects with role = 3 (documents)
-
           // --- Filter by text search ---
           if (hasQuery) {
             const content = `${node.name ?? ''} ${node.description ?? ''} ${node.tags ?? ''}`.toLowerCase();
