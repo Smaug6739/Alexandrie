@@ -13,7 +13,7 @@
           <div
             v-if="showPreview"
             ref="markdownPreview"
-            :class="['markdown-preview', `${usePreferences().get('theme').value}-theme`]"
+            :class="['markdown-preview', `${preferences.get('theme').value}-theme`]"
             style="position: relative"
             v-html="document.content_compiled"
           />
@@ -40,7 +40,7 @@ import type { Node } from '~/stores';
 import { useModal, Modal } from '~/composables/ModalBus';
 
 const resourcesStore = useRessourcesStore();
-const preferencesStore = usePreferences();
+const preferences = usePreferences();
 
 const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
@@ -194,7 +194,7 @@ function handleGridSelect(gridMarkdown: string) {
   view.focus();
 }
 
-const snippets = usePreferences().get('snippets');
+const snippets = preferences.get('snippets');
 const snippetListener = EditorView.updateListener.of(update => {
   if (!update.docChanged || !editorView.value) return;
 

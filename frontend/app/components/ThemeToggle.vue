@@ -31,13 +31,14 @@
 
 <script setup lang="ts">
 const colorMode = useColorMode();
+const preferences = usePreferences();
 const toggleColorMode = () => {
   if (colorMode.value === 'light') {
     colorMode.preference = 'dark';
-    usePreferences().set('darkMode', true);
+    preferences.set('darkMode', true);
   } else {
     colorMode.preference = 'light';
-    usePreferences().set('darkMode', false);
+    preferences.set('darkMode', false);
   }
   document.body.style.colorScheme = colorMode.preference;
 };
