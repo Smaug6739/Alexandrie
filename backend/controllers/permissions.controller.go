@@ -1,194 +1,98 @@
 package controllers
 
 import (
-	"alexandrie/app"
-	"alexandrie/models"
-	"alexandrie/permissions"
-	"alexandrie/utils"
-	"net/http"
-	"time"
+"alexandrie/app"
+"alexandrie/models"
+"alexandrie/permissions"
+"alexandrie/utils"
+"net/http"
 
-	"github.com/gin-gonic/gin"
+"github.com/gin-gonic/gin"
 )
 
 type PermissionsController interface {
-	GetNodePermissions(c *gin.Context) (int, any)
-	CreatePermission(c *gin.Context) (int, any)
-	UpdatePermission(c *gin.Context) (int, any)
-	DeletePermission(c *gin.Context) (int, any)
+GetNodePermissions(c *gin.Context) (int, any)
+CreatePermission(c *gin.Context) (int, any)
+UpdatePermission(c *gin.Context) (int, any)
+DeletePermission(c *gin.Context) (int, any)
 }
 
 func NewPermissionsController(app *app.App) PermissionsController {
-	return &Controller{
-		app:        app,
-		authorizer: permissions.NewAuthorizer(app.Services.Permissions),
-	}
+return &Controller{
+app:        app,
+authorizer: permissions.NewAuthorizer(app.Repos.Permission),
+}
 }
 
-// Get node permissions by id
-// @Summary Get all node permissions by id
-// @Method GET
-// @Router /permissions/{nodeId} [get]
-// @Security Authenfification: Auth
-// @Param nodeId path string true "Node ID"
-// @Success 200 {object} Success([]models.Permission)
-// @Failure 400 {object} Error
-// @Failure 401 {object} Error
 func (ctr *Controller) GetNodePermissions(c *gin.Context) (int, any) {
-	nodeId, err := utils.GetTargetId(c, c.Param("nodeId"))
-	if err != nil {
-		return http.StatusBadRequest, err
-	}
-
-	// Get connected user ID and role from context
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	dbNode, err := ctr.app.Services.Nodes.GetNode(nodeId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-
-	allowed, _, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if !allowed || err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	perms, err := ctr.app.Services.Permissions.GetNodePermission(nodeId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	return http.StatusOK, perms
+nodeId, err := utils.GetTargetId(c, c.Param("nodeId"))
+if err != nil {
+return http.StatusBadRequest, err
+}
+connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
+if err != nil {
+return http.StatusUnauthorized, err
 }
 
-// Create permission
-// @Summary Create permission
-// @Method POST
-// @Router /permissions [post]
-// @Security Authenfification: Auth
-// @Body permission body models.Permission true "Permission"
-// @Success 200 {object} Success(models.Permission)
-// @Failure 400 {object} Error
-// @Failure 401 {object} Error
+perms, err := ctr.app.Services.Permission.GetNodePermissions(nodeId, connectedUserId, connectedUserRole, ctr.authorizer)
+if err != nil {
+return http.StatusUnauthorized, err
+}
+return http.StatusOK, perms
+}
+
 func (ctr *Controller) CreatePermission(c *gin.Context) (int, any) {
-	perm := &models.Permission{}
-	if err := c.ShouldBindJSON(perm); err != nil {
-		return http.StatusBadRequest, err
-	}
-
-	// Get connected user ID and role from context
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	dbNode, err := ctr.app.Services.Nodes.GetNode(perm.NodeId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-
-	allowed, _, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if !allowed || err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	perm = &models.Permission{
-		Id:               ctr.app.Snowflake.Generate(),
-		NodeId:           perm.NodeId,
-		UserId:           perm.UserId,
-		Permission:       perm.Permission,
-		CreatedTimestamp: time.Now().UnixMilli(),
-	}
-	err = ctr.app.Services.Permissions.CreatePermission(perm)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	return http.StatusOK, perm
+var perm models.Permission
+if err := c.ShouldBindJSON(&perm); err != nil {
+return http.StatusBadRequest, err
+}
+connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
+if err != nil {
+return http.StatusUnauthorized, err
 }
 
-// Update permission
-// @Summary Update permission
-// @Method PUT
-// @Router /permissions/{id} [put]
-// @Security Authenfification: Auth
-// @Param id path string true "Permissions ID"
-// @Body node body models.Permissions true "Permissions"
-// @Success 200 {object} Success(models.Permissions)
-// @Failure 400 {object} Error
-// @Failure 401 {object} Error
+createdPerm, err := ctr.app.Services.Permission.CreatePermission(perm.NodeId, perm.UserId, perm.Permission, connectedUserId, connectedUserRole, ctr.authorizer)
+if err != nil {
+return http.StatusUnauthorized, err
+}
+return http.StatusOK, createdPerm
+}
+
 func (ctr *Controller) UpdatePermission(c *gin.Context) (int, any) {
-	permId, err := utils.GetTargetId(c, c.Param("id"))
-	if err != nil {
-		return http.StatusBadRequest, err
-	}
-
-	// Get connected user ID and role from context
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	perm, err := ctr.app.Services.Permissions.GetPermission(permId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	dbNode, err := ctr.app.Services.Nodes.GetNode(perm.NodeId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-
-	allowed, _, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if !allowed || err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	requestChange := &models.Permission{}
-	if err := c.ShouldBindJSON(requestChange); err != nil {
-		return http.StatusBadRequest, err
-	}
-	err = ctr.app.Services.Permissions.UpdatePermission(permId, requestChange.Permission)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	return 0, nil
+permId, err := utils.GetTargetId(c, c.Param("id"))
+if err != nil {
+return http.StatusBadRequest, err
+}
+connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
+if err != nil {
+return http.StatusUnauthorized, err
 }
 
-// Delete permission
-// @Summary Delete permission
-// @Method DELETE
-// @Router /permissions/{id} [delete]
-// @Security Authenfification: Auth
-// @Param id path string true "Permissions ID"
-// @Success 200 {object} Success(string)
-// @Failure 400 {object} Error
-// @Failure 401 {object} Error
+var requestChange models.Permission
+if err := c.ShouldBindJSON(&requestChange); err != nil {
+return http.StatusBadRequest, err
+}
+
+err = ctr.app.Services.Permission.UpdatePermission(permId, requestChange.Permission, connectedUserId, connectedUserRole, ctr.authorizer)
+if err != nil {
+return http.StatusUnauthorized, err
+}
+return http.StatusOK, "Permission updated"
+}
+
 func (ctr *Controller) DeletePermission(c *gin.Context) (int, any) {
-	permId, err := utils.GetTargetId(c, c.Param("id"))
-	if err != nil {
-		return http.StatusBadRequest, err
-	}
-	// Get connected user ID and role from context
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
-	}
-	perm, err := ctr.app.Services.Permissions.GetPermission(permId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	dbNode, err := ctr.app.Services.Nodes.GetNode(perm.NodeId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	allowed, _, err := ctr.authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if (!allowed || err != nil) && perm.UserId != connectedUserId {
-		return http.StatusUnauthorized, err
-	}
-	err = ctr.app.Services.Permissions.DeletePermission(permId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	return http.StatusOK, "Permission deleted"
+permId, err := utils.GetTargetId(c, c.Param("id"))
+if err != nil {
+return http.StatusBadRequest, err
+}
+connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
+if err != nil {
+return http.StatusUnauthorized, err
+}
+
+err = ctr.app.Services.Permission.DeletePermission(permId, connectedUserId, connectedUserRole, ctr.authorizer)
+if err != nil {
+return http.StatusUnauthorized, err
+}
+return http.StatusOK, "Permission deleted"
 }

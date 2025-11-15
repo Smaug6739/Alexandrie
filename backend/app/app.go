@@ -1,9 +1,11 @@
 package app
 
 import (
+	"alexandrie/repositories"
 	"alexandrie/services"
 	"alexandrie/utils"
 	"database/sql"
+	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/minio/minio-go/v7"
@@ -31,12 +33,15 @@ type Config struct {
 }
 
 type Services struct {
+	Auth        services.AuthService
 	User        services.UserService
-	Session     services.AuthService
+	Node        services.NodeService
+	Permission  services.PermissionService
 	Log         services.LogService
-	Nodes       services.NodeService
-	Permissions services.PermissionService
+	Session     services.SessionService
 	Minio       services.MinioService
+	Geolocation services.GeolocationService
+	Ressource   services.RessourceService
 }
 
 type App struct {
@@ -46,6 +51,7 @@ type App struct {
 	MinioClient *minio.Client
 	MailClient  *mail.Client
 	Services    Services
+	Repos       *repositories.RepositoryManager
 }
 
 func InitApp(config Config) *App {
@@ -55,13 +61,25 @@ func InitApp(config Config) *App {
 	app.MailClient = GetMailClient()
 	app.Snowflake = utils.NewSnowflake(1609459200000)
 	app.Config = config
+
+	// Initialize repositories
+	repoManager, err := repositories.NewRepositoryManager(app.DB)
+	if err != nil {
+		log.Fatalf("Failed to initialize repository manager: %v", err)
+	}
+	app.Repos = repoManager
+
+	// Initialize services
 	app.Services = Services{
-		User:        services.NewUserService(app.DB),
-		Session:     services.NewAuthService(app.DB),
-		Log:         services.NewLogService(app.DB),
-		Nodes:       services.NewNodeService(app.DB),
-		Permissions: services.NewPermissionService(app.DB),
+		Auth:        services.NewAuthService(repoManager.User, repoManager.Session, app.Snowflake),
+		User:        services.NewUserService(repoManager.User, repoManager.Log, app.Snowflake),
+		Node:        services.NewNodeService(repoManager.Node, repoManager.Permission, app.Snowflake),
+		Permission:  services.NewPermissionService(repoManager.Permission, repoManager.Node, app.Snowflake),
+		Log:         services.NewLogService(repoManager.Log, app.Snowflake),
+		Session:     services.NewSessionService(repoManager.Session),
 		Minio:       services.NewMinioService(app.MinioClient),
+		Geolocation: services.NewGeolocationService(repoManager.Log),
+		Ressource:   services.NewRessourceService(repoManager.Node, app.Snowflake),
 	}
 
 	Migrate(&config)

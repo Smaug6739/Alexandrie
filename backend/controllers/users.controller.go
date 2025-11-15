@@ -7,10 +7,8 @@ import (
 	"alexandrie/utils"
 	"errors"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type UserController interface {
@@ -26,7 +24,7 @@ type UserController interface {
 func NewUserController(app *app.App) UserController {
 	return &Controller{
 		app:        app,
-		authorizer: permissions.NewAuthorizer(app.Services.Permissions),
+		authorizer: permissions.NewAuthorizer(app.Repos.Permission),
 	}
 }
 
@@ -77,38 +75,25 @@ func (ctr *Controller) GetPublicUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetUserById(c *gin.Context) (int, any) {
-	// Define targets and connected user
 	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	// Target user ID from param
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	// Check permissions
 	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole); !allowed || err != nil {
 		return http.StatusUnauthorized, err
 	}
-	// Get user from database
-	user, err := ctr.app.Services.User.GetUserById(targetUserId)
+
+	result, err := ctr.app.Services.User.GetUserById(targetUserId)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
-	if user == nil {
-		return http.StatusNotFound, errors.New("user not found")
-	}
-	last_connection, err := ctr.app.Services.Log.GetLastConnection(targetUserId)
-	if err != nil {
-		last_connection = nil
-	}
 
-	return http.StatusOK, gin.H{
-		"user":            user,
-		"last_connection": last_connection,
-	}
+	return http.StatusOK, result
 }
 
 // Create User
@@ -124,37 +109,16 @@ func (ctr *Controller) CreateUser(c *gin.Context) (int, any) {
 	if err := c.ShouldBind(&user); err != nil {
 		return http.StatusBadRequest, err
 	}
-	if len(user.Password) == 0 {
-		return http.StatusBadRequest, errors.New("password is required")
-	}
-	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return http.StatusInternalServerError, errors.New("failed to hash password")
-	}
-	user = models.User{
-		Id:               ctr.app.Snowflake.Generate(),
-		Username:         user.Username,
-		Firstname:        user.Firstname,
-		Lastname:         user.Lastname,
-		Avatar:           user.Avatar,
-		Role:             1,
-		Email:            user.Email,
-		Password:         string(hash),
-		CreatedTimestamp: time.Now().UnixMilli(),
-		UpdatedTimestamp: time.Now().UnixMilli(),
-	}
-	// Specific validation for username and password
 
-	exists := ctr.app.Services.User.CheckUsernameExists(user.Username)
-	if exists {
-		return http.StatusBadRequest, errors.New("username already exists")
+	firstname := utils.StringValue(user.Firstname)
+	lastname := utils.StringValue(user.Lastname)
+	avatar := utils.StringValue(user.Avatar)
+
+	createdUser, err := ctr.app.Services.User.CreateUser(user.Username, firstname, lastname, avatar, user.Email, user.Password)
+	if err != nil {
+		return http.StatusBadRequest, err
 	}
 
-	createdUser, err := ctr.app.Services.User.CreateUser(&user)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
-	createdUser.Password = "" // Remove password from response
 	return http.StatusCreated, createdUser
 }
 
@@ -169,18 +133,15 @@ func (ctr *Controller) CreateUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
-	// Define targets and connected user
 	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	// Target user ID from param
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	// Check permissions
 	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole); !allowed || err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -190,23 +151,7 @@ func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	dbUser, err := ctr.app.Services.User.GetUserById(targetUserId)
-	if err != nil || dbUser == nil {
-		return http.StatusInternalServerError, err
-	}
-	// Only update provided fields
-	user = models.User{
-		Id:               targetUserId,
-		Username:         dbUser.Username,
-		Firstname:        utils.IfNotNilPointer(user.Firstname, dbUser.Firstname),
-		Lastname:         utils.IfNotNilPointer(user.Lastname, dbUser.Lastname),
-		Avatar:           utils.IfNotNilPointer(user.Avatar, dbUser.Avatar),
-		Email:            utils.IfNotNilValue(&user.Email, dbUser.Email),
-		CreatedTimestamp: dbUser.CreatedTimestamp,
-		UpdatedTimestamp: time.Now().UnixMilli(),
-	}
-
-	updatedUser, err := ctr.app.Services.User.UpdateUser(targetUserId, &user)
+	updatedUser, err := ctr.app.Services.User.UpdateUser(targetUserId, user.Firstname, user.Lastname, user.Avatar, &user.Email)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -224,36 +169,27 @@ func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
-	// Define targets and connected user
 	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	// Target user ID from param
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	// Check permissions
 	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole); !allowed || err != nil {
 		return http.StatusUnauthorized, err
 	}
+
 	var payload struct {
 		Password string `form:"password" json:"password"`
 	}
 	if err := c.ShouldBind(&payload); err != nil {
 		return http.StatusBadRequest, errors.New("invalid request payload")
 	}
-	if payload.Password == "" {
-		return http.StatusBadRequest, errors.New("password is required")
-	}
-	// Hash the new password
-	hash, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
-	if err != nil {
-		return http.StatusInternalServerError, errors.New("failed to hash password")
-	}
-	err = ctr.app.Services.User.UpdatePassword(targetUserId, string(hash))
+
+	err = ctr.app.Services.User.UpdatePassword(targetUserId, payload.Password)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -270,28 +206,20 @@ func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteUser(c *gin.Context) (int, any) {
-	// Define targets and connected user
 	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
-	// Target user ID from param
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	// Check permissions
 	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole); !allowed || err != nil {
 		return http.StatusUnauthorized, err
 	}
-	// Delete uploaded files
-	err = ctr.app.Services.Minio.DeleteAllFromUser(targetUserId)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
 
-	err = ctr.app.Services.User.DeleteUser(targetUserId)
+	err = ctr.app.Services.User.DeleteUser(targetUserId, ctr.app.Services.Minio)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
