@@ -277,7 +277,7 @@ const options = ref<{ label: string; options: Option[] }[]>([
   width: 100%;
   gap: 1rem;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 1rem;
 }
 
