@@ -292,3 +292,36 @@
 	margin: 0 10px;
 	flex: 1;
 }
+
+// *************** CODE BLOCKS **************** //
+// Copy Button Styles
+.code-block-wrapper {
+	position: relative;
+}
+
+.code-copy-btn {
+	position: absolute;
+	top: 22px;
+	right: 14px;
+	padding: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	fill: #e3e4e6;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity .15s ease, background-color .15s ease, border-color .15s ease;
+}
+
+.code-block-wrapper:hover .code-copy-btn {
+	opacity: 1;
+}
+
+.code-copy-btn:hover {
+	background: #b0aeb91a;
+}
+
+.code-copy-btn.copied {
+	fill: #2ac27a;
+}

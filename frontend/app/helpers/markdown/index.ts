@@ -3,6 +3,7 @@ import MarkdownIt from 'markdown-it';
 import { containerPlugin } from './container';
 import { anchorPlugin } from './anchor';
 import { containerSvg } from './containers-svg';
+import { copyCodePlugin } from './code-block';
 // @ts-expect-error no types provided
 import underline from 'markdown-it-underline';
 import highlight from 'markdown-it-highlightjs';
@@ -15,6 +16,7 @@ const md = new MarkdownIt({ html: true });
 md.use(containerPlugin);
 md.use(anchorPlugin);
 md.use(containerSvg);
+md.use(copyCodePlugin);
 md.use(underline);
 md.use(mark);
 md.use(markdownItKatexPlugin);
