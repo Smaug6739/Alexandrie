@@ -312,17 +312,6 @@ const markdownKeysmap: readonly KeyBinding[] = [
 
 const themeCompartment = new Compartment();
 
-watch(
-  preferencesStore.all,
-  () => {
-    if (!editorView.value) return;
-    editorView.value.dispatch({
-      effects: themeCompartment.reconfigure(loadTheme()),
-    });
-  },
-  { deep: true },
-);
-
 const updateListener = EditorView.updateListener.of(v => {
   if (v.docChanged) {
     updateDocumentContent();
@@ -347,7 +336,7 @@ const state = EditorState.create({
     EditorView.lineWrapping,
     EditorState.allowMultipleSelections.of(true),
     EditorView.contentAttributes.of({
-      spellcheck: preferencesStore.get('editorSpellCheck').value ? 'true' : 'false',
+      spellcheck: preferences.get('editorSpellCheck').value ? 'true' : 'false',
       autocorrect: 'on',
       autocapitalize: 'on',
     }),
@@ -364,7 +353,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  if (preferencesStore.get('documentAutoSave').value) {
+  if (preferences.get('documentAutoSave').value) {
     updateDocumentContent();
     emit('autoSave', document.value);
   }
@@ -395,7 +384,7 @@ function syncScroll() {
 }
 
 function autoSaveConditional() {
-  if (preferencesStore.get('documentAutoSave').value) {
+  if (preferences.get('documentAutoSave').value) {
     autoSave();
   }
 }
