@@ -37,9 +37,9 @@ export const useNodesStore = defineStore('nodes', {
       (node: Node, descendantId: string): boolean => {
         const checkDescendants = (currentNode: Node): boolean => {
           const children = state.nodes.filter(d => d.parent_id === currentNode.id);
-          for (const child of children) {
-            if (child[0] === descendantId) return true;
-            if (checkDescendants(child[1])) return true;
+          for (const child of children.values()) {
+            if (child.id === descendantId) return true;
+            if (checkDescendants(child)) return true;
           }
           return false;
         };
