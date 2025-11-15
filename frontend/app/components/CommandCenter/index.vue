@@ -72,50 +72,50 @@ const searchInput = ref<HTMLInputElement>();
 const quickSearchTab = ref();
 const advancedSearchTab = ref();
 
+const handleGlobalKeydown = (e: KeyboardEvent) => {
+  if (e.key === '/') {
+    const target = e.target as HTMLElement;
+    const isTyping = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
+    if (isTyping) return;
+    e.preventDefault();
+    return openSearch();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    return openSearch();
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
+    e.preventDefault();
+    return router.push('/dashboard/cdn');
+  }
+  if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'c') {
+    e.preventDefault();
+    return router.push('/dashboard/docs/new');
+  }
+  if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
+    e.preventDefault();
+    return useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+  }
+  if (e.key === 'Escape' && isOpen.value) {
+    return closeSearch();
+  }
+  if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && isOpen.value) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    return changeTab(activeTab.value === 'quick' ? 'advanced' : 'quick');
+  }
+};
+const openListener = () => openSearch();
+
 // *********** Lifecycle ***********
 onMounted(() => {
-  const handleGlobalKeydown = (e: KeyboardEvent) => {
-    if (e.key === '/') {
-      const target = e.target as HTMLElement;
-      const isTyping = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
-      if (isTyping) return;
-      e.preventDefault();
-      return openSearch();
-    }
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault();
-      return openSearch();
-    }
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
-      e.preventDefault();
-      return router.push('/dashboard/cdn');
-    }
-    if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'c') {
-      e.preventDefault();
-      return router.push('/dashboard/docs/new');
-    }
-    if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
-      e.preventDefault();
-      return useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
-    }
-    if (e.key === 'Escape' && isOpen.value) {
-      return closeSearch();
-    }
-    if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && isOpen.value) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      return changeTab(activeTab.value === 'quick' ? 'advanced' : 'quick');
-    }
-  };
-
   document.addEventListener('keydown', handleGlobalKeydown);
-  const openListener = () => openSearch();
   window.addEventListener('command-center-open', openListener as EventListener);
+});
 
-  onUnmounted(() => {
-    document.removeEventListener('keydown', handleGlobalKeydown);
-    window.removeEventListener('command-center-open', openListener as EventListener);
-  });
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleGlobalKeydown);
+  window.removeEventListener('command-center-open', openListener as EventListener);
 });
 
 // --- Methods ---
