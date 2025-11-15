@@ -146,6 +146,7 @@ const filteredDocuments = computed(() => {
     fromDate: dateFrom.value ? new Date(dateFrom.value) : undefined,
     toDate: dateTo.value ? new Date(dateTo.value) : undefined,
     tags: selectedTags.value,
+    role: 3,
   });
 });
 

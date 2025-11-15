@@ -12,6 +12,7 @@ export interface SearchOptions {
   sortBy?: 'created' | 'modified' | 'name';
   sortType?: 'ascending' | 'descending';
   matchMode?: 'includes' | 'starts' | 'exact';
+  role?: 1 | 2 | 3 | 4;
 }
 
 export const useNodesStore = defineStore('nodes', {
@@ -93,6 +94,8 @@ export const useNodesStore = defineStore('nodes', {
         const hasTags = tags && tags.length > 0;
 
         const filtered = nodes.filter(node => {
+          // --- Filter by role ---
+          if (options.role && node.role !== options.role) return false;
           // --- Filter by text search ---
           if (hasQuery) {
             const content = `${node.name ?? ''} ${node.description ?? ''} ${node.tags ?? ''}`.toLowerCase();
