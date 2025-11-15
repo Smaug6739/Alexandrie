@@ -13,15 +13,6 @@
 <script setup lang="ts">
 const contextMenu = useContextMenu();
 const menu = contextMenu.menu;
-
-function handleClickOutside(event: MouseEvent) {
-  const target = event.target as HTMLElement;
-  if (menu && !target.closest('.context-menu')) {
-    contextMenu.close();
-  }
-}
-onMounted(() => document.addEventListener('click', handleClickOutside));
-onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
 </script>
 
 <style scoped lang="scss">
