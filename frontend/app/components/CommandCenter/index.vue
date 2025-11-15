@@ -108,20 +108,12 @@ onMounted(() => {
     }
   };
 
-  const handleWheel = (e: WheelEvent) => {
-    if (isOpen.value) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  };
-
   document.addEventListener('keydown', handleGlobalKeydown);
   const openListener = () => openSearch();
   window.addEventListener('command-center-open', openListener as EventListener);
 
   onUnmounted(() => {
     document.removeEventListener('keydown', handleGlobalKeydown);
-    document.removeEventListener('wheel', handleWheel);
     window.removeEventListener('command-center-open', openListener as EventListener);
   });
 });
