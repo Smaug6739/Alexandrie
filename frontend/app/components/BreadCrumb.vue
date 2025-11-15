@@ -1,8 +1,8 @@
 <template>
-  <nav class="breadcrumb">
+  <nav class="breadcrumb no-mobile" aria-label="Breadcrumb">
     <svg
       v-if="preferences.get('navbarItems').value.navigation"
-      :class="{ disabled: !canGoBack }"
+      :class="{ disabled: !canGoBack, 'no-tablet': true }"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 -960 960 960"
       @click="goBack"
@@ -12,7 +12,7 @@
 
     <svg
       v-if="preferences.get('navbarItems').value.navigation"
-      :class="{ disabled: !canGoForward }"
+      :class="{ disabled: !canGoForward, 'no-tablet': true }"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 -960 960 960"
       @click="goForward"

@@ -118,8 +118,16 @@ form {
 	}
 }
 
+// TABLET \\
+@media screen and (width <=1023px) {
+	.no-tablet {
+		display: none;
+	}
+}
+
+// MOBILE \\
 @media screen and (width <=719px) {
 	.no-mobile {
-		display: none;
+		display: none !important;
 	}
 }
