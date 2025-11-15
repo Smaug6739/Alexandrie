@@ -43,6 +43,7 @@ export const DEFAULT_PREFERENCES = {
   editorFontFamily: 'JetBrains Mono' as string,
   editorFontSize: 14 as number,
   editorSpellCheck: true as boolean,
+  editorDisplayStats: false as boolean,
   developerMode: false as boolean,
 };
 

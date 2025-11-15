@@ -7,7 +7,10 @@
     <VoiceRecognition @transcription="handleTranscription" />
     <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Select category" size="300px" class="entry" />
 
-    <div class="help">
+    <div class="right">
+      <tag v-if="preferences.get('editorDisplayStats').value" class="stats no-tablet">
+        {{ stats.words }} words • {{ stats.characters }} chars • {{ stats.lines }} lines
+      </tag>
       <button @click="openSettings">
         <Icon name="settings" display="lg" fill="var(--font-color-light)" />
       </button>
@@ -28,6 +31,22 @@ const props = defineProps<{
   modelValue: Partial<Node>;
   minimal?: boolean;
 }>();
+
+const preferences = usePreferences();
+
+const stats = computed(() => {
+  const content = props.modelValue.content || '';
+  const words = content
+    .trim()
+    .split(/\s+/)
+    .filter(word => word.length > 0);
+  return {
+    characters: content.length,
+    words: words.length,
+    lines: content.split('\n').length,
+  };
+});
+
 const handleTranscription = (text: string) => {
   emit('execute-action', 'insertText', text);
 };
@@ -169,9 +188,10 @@ input {
   background-color: var(--bg-color);
 }
 
-.help {
+.right {
   margin-left: auto;
-
+  display: flex;
+  align-items: center;
   &:hover:deep(svg) {
     fill: var(--font-color-dark);
   }
@@ -180,5 +200,9 @@ input {
     margin: 0;
     padding: 4px 8px;
   }
+}
+
+.stats {
+  color: var(--font-color-light);
 }
 </style>

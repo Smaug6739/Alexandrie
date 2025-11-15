@@ -227,6 +227,13 @@ const options = ref<{ label: string; options: Option[] }[]>([
         key: 'editorSpellCheck',
         value: Boolean(preferencesStore.get('editorSpellCheck')),
       },
+      {
+        label: 'Display statistics bar',
+        description: 'Show a small statistics bar at the top of the editor with word count, characters, and lines.',
+        type: 'toggle',
+        key: 'editorDisplayStats',
+        value: Boolean(preferencesStore.get('editorDisplayStats')),
+      },
     ],
   },
   {
