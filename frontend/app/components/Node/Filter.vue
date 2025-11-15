@@ -56,7 +56,7 @@ const props = defineProps<{ nodes: Node[] }>();
 
 const defaultOptions: SearchOptions = {
   query: '',
-  sortType: 'ascending',
+  sortType: 'descending',
   sortBy: 'created',
   matchMode: 'includes',
 };
