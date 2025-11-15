@@ -2,7 +2,10 @@
   <div class="card-component">
     <header>
       <h1>File manager</h1>
-      <ViewSelection v-model="view" />
+      <div class="action-row">
+        <NodeFilter v-show="!isMobile()" :nodes="nodes" @update:nodes="filteredRessources = $event" />
+        <ViewSelection v-model="view" />
+      </div>
     </header>
     <AppDrop ref="dropComponent" @select="selectFile" />
     <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
@@ -13,7 +16,7 @@
       <input v-model="fileLink" type="text" readonly />
       <AppButton type="primary" @click="copyLink">Copy link</AppButton>
     </div>
-    <div v-if="sortedRessources.length" class="ressources-list">
+    <div v-if="filteredRessources.length" class="ressources-list">
       <DataTable v-if="view === 'table'" :headers="headers" :rows="rows">
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
@@ -29,7 +32,6 @@
         </template>
       </DataTable>
       <div v-else>
-        <input v-model="filter" type="text" placeholder="Search..." class="search" />
         <hr />
         <div class="images-grid">
           <div v-for="image in filteredRessources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
@@ -68,8 +70,8 @@ const dropComponent = ref();
 const filter = ref('');
 const { CDN } = useApi();
 
-const sortedRessources = computed(() => nodesStore.ressources.toArray().sort((a, b) => b.created_timestamp - a.created_timestamp));
-const filteredRessources = computed(() => sortedRessources.value.filter(r => r.name.toLowerCase().includes(filter.value.toLowerCase())));
+const nodes = computed(() => nodesStore.ressources.toArray());
+const filteredRessources = ref(nodes.value);
 
 const selectFile = (file?: File) => (selectedFile.value = file);
 const copyLink = () => navigator.clipboard.writeText(fileLink.value!);
@@ -102,7 +104,7 @@ const headers = [
 
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
 const rows: ComputedRef<Field[]> = computed(() =>
-  sortedRessources.value.map(res => {
+  filteredRessources.value.map(res => {
     const parent = res.parent_id ? nodesStore.getById(res.parent_id) : null;
     const category = parent ? nodesStore.getById(parent.parent_id || '') : null;
     return {
@@ -126,6 +128,10 @@ const bulkDelete = async (lines: Field[]) => {
 </script>
 
 <style scoped lang="scss">
+.action-row {
+  display: flex;
+  align-items: center;
+}
 .link-section {
   display: flex;
   width: 100%;
@@ -171,15 +177,6 @@ const bulkDelete = async (lines: Field[]) => {
 
 .ressources-list {
   width: 100%;
-}
-
-.search {
-  width: 100%;
-  max-width: 450px;
-  padding: 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  margin-bottom: 16px;
 }
 
 .not-found {
