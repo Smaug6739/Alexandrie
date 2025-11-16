@@ -1,5 +1,7 @@
 package utils
 
+// Utility functions to extract information from the Gin context
+
 import (
 	"alexandrie/permissions"
 	"alexandrie/types"

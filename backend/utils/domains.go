@@ -1,5 +1,7 @@
 package utils
 
+// Utility functions for domain and environment variable management
+
 import (
 	"fmt"
 	"net/url"

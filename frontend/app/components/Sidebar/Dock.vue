@@ -45,6 +45,7 @@ function closeDock() {
   display: flex;
   padding: 1rem 0.3rem;
   border-right: 1px solid var(--border-color);
+  background-color: var(--bg-color);
   flex-direction: column;
   gap: 10px;
 }

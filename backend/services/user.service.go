@@ -2,131 +2,146 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/repositories"
 	"alexandrie/types"
-	"database/sql"
+	"alexandrie/utils"
+	"errors"
+	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UserService interface {
 	GetAllUsers() ([]*models.User, error)
-	GetUserById(id types.Snowflake) (*models.User, error)
+	GetUserById(id types.Snowflake) (map[string]interface{}, error)
 	GetUserByUsername(username string) (*models.User, error)
-	SearchPublicUsers(usernameOrEmailOrId string) ([]*models.User, error)
-	CheckUsernameExists(username string) bool
-	CreateUser(user *models.User) (*models.User, error)
-	UpdateUser(id types.Snowflake, user *models.User) (*models.User, error)
-	UpdatePassword(id types.Snowflake, password string) error
-	UpdatePasswordResetToken(id types.Snowflake, resetToken string) error
-	DeleteUser(id types.Snowflake) error
+	SearchPublicUsers(query string) ([]*models.User, error)
+	CreateUser(username, firstname, lastname, avatar, email, password string) (*models.User, error)
+	UpdateUser(id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error)
+	UpdatePassword(id types.Snowflake, newPassword string) error
+	DeleteUser(id types.Snowflake, minioService MinioService) error
 }
 
-func NewUserService(db *sql.DB) UserService {
-	return &Service{db: db}
+type userService struct {
+	userRepo repositories.UserRepository
+	logRepo  repositories.LogRepository
+	snowflake *utils.Snowflake
 }
 
-func (s *Service) GetAllUsers() ([]*models.User, error) {
-	var users = make([]*models.User, 0)
-	rows, err := s.db.Query("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users ORDER BY created_timestamp DESC")
+func NewUserService(userRepo repositories.UserRepository, logRepo repositories.LogRepository, snowflake *utils.Snowflake) UserService {
+	return &userService{
+		userRepo:  userRepo,
+		logRepo:   logRepo,
+		snowflake: snowflake,
+	}
+}
+
+func (s *userService) GetAllUsers() ([]*models.User, error) {
+	return s.userRepo.GetAll()
+}
+
+func (s *userService) GetUserById(id types.Snowflake) (map[string]interface{}, error) {
+	user, err := s.userRepo.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	if user == nil {
+		return nil, errors.New("user not found")
+	}
 
-	for rows.Next() {
-		var user models.User
-		if err := rows.Scan(&user.Id, &user.Username, &user.Firstname, &user.Lastname,
-			&user.Role, &user.Avatar, &user.Email, &user.CreatedTimestamp, &user.UpdatedTimestamp); err != nil {
-			return nil, err
+	lastConnection, _ := s.logRepo.GetLastByUserID(id)
+
+	return map[string]interface{}{
+		"user":            user,
+		"last_connection": lastConnection,
+	}, nil
+}
+
+func (s *userService) GetUserByUsername(username string) (*models.User, error) {
+	return s.userRepo.GetByUsername(username)
+}
+
+func (s *userService) SearchPublicUsers(query string) ([]*models.User, error) {
+	return s.userRepo.SearchPublic(query)
+}
+
+func (s *userService) CreateUser(username, firstname, lastname, avatar, email, password string) (*models.User, error) {
+	exists, err := s.userRepo.CheckUsernameExists(username)
+	if err != nil {
+		return nil, err
+	}
+	if exists {
+		return nil, errors.New("username already exists")
+	}
+
+	if len(password) == 0 {
+		return nil, errors.New("password is required")
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, errors.New("failed to hash password")
+	}
+
+	user := &models.User{
+		Id:               s.snowflake.Generate(),
+		Username:         username,
+		Firstname:        &firstname,
+		Lastname:         &lastname,
+		Avatar:           &avatar,
+		Role:             1,
+		Email:            email,
+		Password:         string(hash),
+		CreatedTimestamp: time.Now().UnixMilli(),
+		UpdatedTimestamp: time.Now().UnixMilli(),
+	}
+
+	createdUser, err := s.userRepo.Create(user)
+	if err != nil {
+		return nil, err
+	}
+	createdUser.Password = ""
+	return createdUser, nil
+}
+
+func (s *userService) UpdateUser(id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error) {
+	dbUser, err := s.userRepo.GetByID(id)
+	if err != nil || dbUser == nil {
+		return nil, errors.New("user not found")
+	}
+
+	user := &models.User{
+		Id:               id,
+		Username:         dbUser.Username,
+		Firstname:        utils.IfNotNilPointer(firstname, dbUser.Firstname),
+		Lastname:         utils.IfNotNilPointer(lastname, dbUser.Lastname),
+		Avatar:           utils.IfNotNilPointer(avatar, dbUser.Avatar),
+		Email:            utils.IfNotNilValue(email, dbUser.Email),
+		CreatedTimestamp: dbUser.CreatedTimestamp,
+		UpdatedTimestamp: time.Now().UnixMilli(),
+	}
+
+	return s.userRepo.Update(id, user)
+}
+
+func (s *userService) UpdatePassword(id types.Snowflake, newPassword string) error {
+	if newPassword == "" {
+		return errors.New("password is required")
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return errors.New("failed to hash password")
+	}
+
+	return s.userRepo.UpdatePassword(id, string(hash))
+}
+
+func (s *userService) DeleteUser(id types.Snowflake, minioService MinioService) error {
+	if minioService != nil {
+		if err := minioService.DeleteAllFromUser(id); err != nil {
+			return err
 		}
-		users = append(users, &user)
 	}
-	return users, nil
-}
-
-func (m *Service) CheckUsernameExists(username string) bool {
-	var count int
-	err := m.db.QueryRow("SELECT COUNT(*) FROM users WHERE username = ?", username).Scan(&count)
-	if err != nil {
-		return false
-	}
-	return count > 0
-}
-
-func (s *Service) CreateUser(user *models.User) (*models.User, error) {
-	_, err := s.db.Exec("INSERT INTO users (id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?)",
-		user.Id, user.Username, user.Firstname, user.Lastname, user.Role, user.Avatar, user.Email, user.Password, user.CreatedTimestamp, user.UpdatedTimestamp)
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
-}
-
-func (s *Service) GetUserByUsername(username string) (*models.User, error) {
-	var user models.User
-	err := s.db.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp FROM users WHERE username = ?", username).Scan(
-		&user.Id, &user.Username, &user.Firstname, &user.Lastname,
-		&user.Role, &user.Avatar, &user.Email, &user.Password, &user.CreatedTimestamp, &user.UpdatedTimestamp,
-	)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &user, nil
-}
-
-func (s *Service) SearchPublicUsers(usernameOrEmailOrId string) ([]*models.User, error) {
-	var users []*models.User
-	rows, err := s.db.Query("SELECT id, username, avatar, created_timestamp, updated_timestamp FROM users WHERE username = ? OR email = ? OR id = ? LIMIT 10", usernameOrEmailOrId, usernameOrEmailOrId, usernameOrEmailOrId)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var user models.User
-		if err := rows.Scan(&user.Id, &user.Username, &user.Avatar, &user.CreatedTimestamp, &user.UpdatedTimestamp); err != nil {
-			return nil, err
-		}
-		users = append(users, &user)
-	}
-	return users, nil
-}
-
-func (s *Service) GetUserById(id types.Snowflake) (*models.User, error) {
-	var user models.User
-	err := s.db.QueryRow("SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp FROM users WHERE id = ?", id).Scan(
-		&user.Id, &user.Username, &user.Firstname, &user.Lastname,
-		&user.Role, &user.Avatar, &user.Email, &user.CreatedTimestamp, &user.UpdatedTimestamp,
-	)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &user, nil
-}
-
-func (s *Service) UpdateUser(id types.Snowflake, user *models.User) (*models.User, error) {
-	_, err := s.db.Exec("UPDATE users SET username=?, firstname=?, lastname=?, avatar=?, email=?, updated_timestamp=? WHERE id=?",
-		user.Username, user.Firstname, user.Lastname, user.Avatar, user.Email, user.UpdatedTimestamp, id)
-	if err != nil {
-		return nil, err
-	}
-	return user, nil
-}
-
-func (s *Service) UpdatePassword(id types.Snowflake, password string) error {
-	_, err := s.db.Exec("UPDATE users SET password=?, password_reset_token=NULL WHERE id=?", password, id)
-	return err
-}
-
-func (s *Service) UpdatePasswordResetToken(id types.Snowflake, resetToken string) error {
-	_, err := s.db.Exec("UPDATE users SET password_reset_token=? WHERE id=?", resetToken, id)
-	return err
-}
-
-func (s *Service) DeleteUser(id types.Snowflake) error {
-	_, err := s.db.Exec("DELETE FROM users WHERE id=?", id)
-	return err
+	return s.userRepo.Delete(id)
 }

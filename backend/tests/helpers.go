@@ -10,11 +10,11 @@ import (
 	"testing"
 )
 
-const BaseURL = "http://localhost:8080/api"
+const BaseURL = "http://localhost:8201/api"
 const ADMIN_USERNAME = "Smaug"
-const ADMIN_PASSWORD = "10082005"
+const ADMIN_PASSWORD = "41258"
 const USER_USERNAME = "Hacker"
-const USER_PASSWORD = "10082005"
+const USER_PASSWORD = "41258"
 const USER_ID = "543"
 
 type APIResponse struct {

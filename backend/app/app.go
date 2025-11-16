@@ -1,9 +1,11 @@
 package app
 
 import (
+	"alexandrie/repositories"
 	"alexandrie/services"
 	"alexandrie/utils"
 	"database/sql"
+	"log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/minio/minio-go/v7"
@@ -30,22 +32,14 @@ type Config struct {
 	}
 }
 
-type Services struct {
-	User        services.UserService
-	Session     services.AuthService
-	Log         services.LogService
-	Nodes       services.NodeService
-	Permissions services.PermissionService
-	Minio       services.MinioService
-}
-
 type App struct {
 	DB          *sql.DB
 	Snowflake   *utils.Snowflake
 	Config      Config
 	MinioClient *minio.Client
 	MailClient  *mail.Client
-	Services    Services
+	Services    *services.ServiceManager
+	Repos       *repositories.RepositoryManager
 }
 
 func InitApp(config Config) *App {
@@ -55,14 +49,20 @@ func InitApp(config Config) *App {
 	app.MailClient = GetMailClient()
 	app.Snowflake = utils.NewSnowflake(1609459200000)
 	app.Config = config
-	app.Services = Services{
-		User:        services.NewUserService(app.DB),
-		Session:     services.NewAuthService(app.DB),
-		Log:         services.NewLogService(app.DB),
-		Nodes:       services.NewNodeService(app.DB),
-		Permissions: services.NewPermissionService(app.DB),
-		Minio:       services.NewMinioService(app.MinioClient),
+
+	// Initialize repository manager
+	repoManager, err := repositories.NewRepositoryManager(app.DB)
+	if err != nil {
+		log.Fatalf("Failed to initialize repository manager: %v", err)
 	}
+	app.Repos = repoManager
+
+	// Initialize service manager
+	serviceManager, err := services.NewServiceManager(repoManager, app.Snowflake, app.MinioClient)
+	if err != nil {
+		log.Fatalf("Failed to initialize service manager: %v", err)
+	}
+	app.Services = serviceManager
 
 	Migrate(&config)
 	return &app

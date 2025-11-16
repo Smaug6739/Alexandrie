@@ -2,7 +2,7 @@ package permissions
 
 import (
 	"alexandrie/models"
-	"alexandrie/services"
+	"alexandrie/repositories"
 	"alexandrie/types"
 	"errors"
 )
@@ -14,11 +14,11 @@ type Authorizer interface {
 }
 
 type DefaultAuthorizer struct {
-	permService services.PermissionService
+	permRepo repositories.PermissionRepository
 }
 
-func NewAuthorizer(permService services.PermissionService) Authorizer {
-	return &DefaultAuthorizer{permService: permService}
+func NewAuthorizer(permRepo repositories.PermissionRepository) Authorizer {
+	return &DefaultAuthorizer{permRepo: permRepo}
 }
 
 // Check access to a node resource
@@ -31,8 +31,8 @@ func (a *DefaultAuthorizer) CanAccessNode(userID types.Snowflake, userRole UserR
 	if a.IsAppAdmin(userRole) {
 		return true, PermOwner, nil
 	}
-	// Case 3: Check in DB via PermissionService
-	hasPermission, level := a.permService.HasPermission(userID, node.Id, int(action.RequiredLevel()))
+	// Case 3: Check in DB via PermissionRepository
+	hasPermission, level := a.permRepo.HasPermission(userID, node.Id, int(action.RequiredLevel()))
 	if hasPermission {
 		return true, NodePermissionLevel(level), nil
 	}

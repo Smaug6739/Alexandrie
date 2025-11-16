@@ -16,7 +16,7 @@ func LoginAs(t *testing.T, client *http.Client, username, password string) APIRe
 func TestLogin(t *testing.T) {
 	client := InitClient(t)
 	t.Run("Correct credentials", func(t *testing.T) {
-		r := LoginAs(t, client, "Smaug", "10082005")
+		r := LoginAs(t, client, "Smaug", "41258")
 		assert.Equal(t, "success", r.Status)
 		assert.Equal(t, 200, r.StatusCode)
 		assert.Equal(t, IsValidUser(t, r), true)

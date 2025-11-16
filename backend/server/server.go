@@ -2,6 +2,7 @@ package server
 
 import (
 	"alexandrie/app"
+	"alexandrie/logger"
 	"alexandrie/router"
 	"fmt"
 	"os"
@@ -16,22 +17,22 @@ func SetupServer() (*gin.Engine, *app.App) {
 
 	workingDir, err := os.Getwd()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error getting cwd:", err)
+		logger.Error("Error getting cwd: " + err.Error())
 		os.Exit(1)
 	}
 	absPath := filepath.Join(workingDir, fmt.Sprintf("%sconfig.toml", os.Getenv("CONFIG_CPWD")))
 	config := app.Config{}
 	_, err = toml.DecodeFile(absPath, &config)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error loading config:", err)
+		logger.Error("Error loading config: " + err.Error())
 		os.Exit(1)
 	}
-	fmt.Println("Loaded configuration from:", absPath, " successfully")
+	logger.Success("Loaded configuration from: " + absPath + " successfully")
 
-	// Initialiser l'application
+	// Initialize the application
 	application := app.InitApp(config)
 
-	// Créer le routeur
+	// Create Gin router
 	appRouter := router.InitRouter(application)
 
 	return appRouter, application

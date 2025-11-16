@@ -1,75 +1,123 @@
-# Nuxt 3 Minimal Starter
+# Frontend - Alexandrie
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Overview
 
-## Setup
+The Alexandrie frontend is a Vue 3 application built with Nuxt 4. It features a component-based architecture, state management with Pinia, and a rich editing experience.
 
-Make sure to install the dependencies:
+## Technology Stack
+
+- **Framework**: Nuxt 4 (Vue 3)
+- **State Management**: Pinia
+- **Editor**: CodeMirror 6
+- **Markdown**: markdown-it with custom extensions
+- **Styling**: SCSS with custom design system
+- **Build Tool**: Vite
+- **PWA**: Offline support with @vite-pwa/nuxt
+
+## Architecture
+
+```
+┌─────────────────────────────────────┐
+│            User Interface           │
+└──────────────┬──────────────────────┘
+               │
+        ┌──────┴──────┐
+        │   Pages     │  ← Route components
+        └──────┬──────┘
+               │
+        ┌──────┴──────┐
+        │ Components  │  ← Reusable UI elements
+        └──────┬──────┘
+               │
+    ┌──────────┴──────────┐
+    │   Composables       │  ← Business logic & API calls
+    └──────────┬──────────┘
+               │
+    ┌──────────┴──────────┐
+    │   Pinia Stores      │  ← State management
+    └──────────┬──────────┘
+               │
+    ┌──────────┴──────────┐
+    │   Backend API       │  ← REST API
+    └─────────────────────┘
+```
+
+## Directory Structure
+
+### `/app/components`
+
+Reusable Vue components organized by feature:
+
+**Base Components**:
+
+- `AppX.vue` - Generic UI elements: (buttons, inputs, modals, etc.)
+- `Folder/` - Folder represent a single component (for big components)
+- `Other.vue` - Misc reusable components
+
+_Sometimes components are stored in `pages/<page>/_components/` if they are only used by that page._
+
+### `/app/composables`
+
+Reusable composition functions for shared logic:
+
+- **`useNotifications.ts`** - Toast notifications system
+- **`useContextMenu.ts`** - Right-click context menus
+- **`useNodesTree.ts`** - Tree structure operations on nodes
+- **`user.ts`** - User authentication state
+- **`Preferences.ts`** - User preferences management
+- **`utils.ts`** - Helper functions
+
+### `/app/stores`
+
+Pinia stores for application state:
+
+- **`user.store.ts`** - User authentication and profile
+- **`nodes.store.ts`** - Documents and categories management
+- **`resources.store.ts`** - File uploads and media
+- **`admin.store.ts`** - Admin operations
+
+### `/app/middleware`
+
+Route middleware for navigation guards:
+
+## API Integration
+
+API calls are centralized in `stores/_utils.ts` using the Fetch API with error handling and authentication tokens (also refresh token implementation).
+
+## Development Commands
 
 ```bash
-# npm
+# Install dependencies
 npm install
 
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
+# Development server (http://localhost:3000)
 npm run dev
 
-# pnpm
-pnpm run dev
+# Development with host access (for mobile testing)
+npm run dev:host
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
+# Build for production
 npm run build
 
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
+# Preview production build
 npm run preview
 
-# pnpm
-pnpm run preview
+# Lint code
+npm run lint
 
-# yarn
-yarn preview
+# Lint and auto-fix
+npm run lint:fix
 
-# bun
-bun run preview
+# Lint CSS/SCSS
+npm run lint:css
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Environment Configuration
+
+Create `.env` file:
+
+```env
+# API Configuration
+NUXT_PUBLIC_BASE_API=http://localhost:8201
+NUXT_PUBLIC_BASE_CDN=http://localhost:9000/alexandrie
+```
