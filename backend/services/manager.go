@@ -1,10 +1,10 @@
 package services
 
 import (
+	"alexandrie/logger"
 	"alexandrie/repositories"
 	"alexandrie/utils"
 	"fmt"
-	"log"
 
 	"github.com/minio/minio-go/v7"
 )
@@ -31,7 +31,7 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *utils.S
 	}
 
 	sm.initialized = true
-	log.Println("✅ Service manager initialized successfully")
+	logger.Success("Service manager initialized successfully")
 	return sm, nil
 }
 

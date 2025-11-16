@@ -1,6 +1,7 @@
 package app
 
 import (
+	"alexandrie/logger"
 	"context"
 	"fmt"
 	"log"
@@ -34,12 +35,12 @@ func MinioConnection() (*minio.Client, error) {
 		// Check to see if we already own this bucket (which happens if you run this twice)
 		exists, errBucketExists := minioClient.BucketExists(ctx, bucketName)
 		if errBucketExists == nil && exists {
-			log.Printf("We already own %s\n", bucketName)
+			logger.Info(fmt.Sprintf("We already own %s", bucketName))
 		} else {
 			log.Fatalln(err)
 		}
 	} else {
-		fmt.Println("✅ Successfully created ", bucketName)
+		logger.Success("Successfully created " + bucketName)
 	}
 	// Définir la politique de lecture publique
 	policy := fmt.Sprintf(`{
@@ -58,6 +59,6 @@ func MinioConnection() (*minio.Client, error) {
 	if err != nil {
 		log.Fatalf("Failed to set bucket policy: %v", err)
 	}
-	fmt.Println("✅ Successfully set bucket policy")
+	logger.Success("Successfully set bucket policy")
 	return minioClient, errInit
 }

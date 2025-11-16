@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"alexandrie/app"
+	"alexandrie/logger"
 	"alexandrie/utils"
 	"errors"
-	"fmt"
 	"net/http"
 	"os"
 	"time"
@@ -192,15 +192,15 @@ func (ctr *Controller) ResetPassword(c *gin.Context) (int, any) {
 func deleteOldSessionsAndLogs(app *app.App) {
 	err := app.Services.Log.DeleteOldLogs()
 	if err != nil {
-		fmt.Println("❌ Error deleting old logs:", err)
+		logger.Error("Error deleting old logs: " + err.Error())
 	} else {
-		fmt.Println("✅ Old logs deleted successfully.")
+		logger.Success("Old logs deleted successfully.")
 	}
 	err = app.Services.Session.DeleteOldSessions()
 	if err != nil {
-		fmt.Println("❌ Error deleting old sessions:", err)
+		logger.Error("Error deleting old sessions: " + err.Error())
 	} else {
-		fmt.Println("✅ Old sessions deleted successfully.")
+		logger.Success("Old sessions deleted successfully.")
 	}
 }
 

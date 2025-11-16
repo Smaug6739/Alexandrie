@@ -1,9 +1,9 @@
 package repositories
 
 import (
+	"alexandrie/logger"
 	"database/sql"
 	"fmt"
-	"log"
 	"sync"
 )
 
@@ -32,7 +32,7 @@ func NewRepositoryManager(db *sql.DB) (*RepositoryManager, error) {
 	}
 
 	rm.initialized = true
-	log.Println("✅ Repository manager initialized successfully with prepared statements")
+	logger.Success("Repository manager initialized successfully with prepared statements")
 	return rm, nil
 }
 
@@ -126,7 +126,7 @@ func (rm *RepositoryManager) Close() error {
 		return fmt.Errorf("errors occurred while closing statements: %v", errors)
 	}
 
-	log.Println("✅ Repository manager closed successfully")
+	logger.Success("Repository manager closed successfully")
 	return nil
 }
 
