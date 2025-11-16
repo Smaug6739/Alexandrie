@@ -129,6 +129,72 @@
         </details>
       </div>
 
+      <h2><Icon name="layers" fill="var(--primary)" /> Cards & panels</h2>
+      <p>
+        Use powerful block containers with a simplified syntax and <strong>modifiers</strong>. You can style your blocks using attributes like
+        <code>border</code>, <code>rounded</code>, <code>bordered</code>, <code>shadow</code>, and even a custom <code>title="..."</code>.
+      </p>
+      <p>
+        Syntax:
+        <code>:::block-name modifier=value another-modifier title="Your Title"</code>
+      </p>
+
+      <h3>Available block types:</h3>
+      <ul>
+        <li><code>:::frame</code> — general purpose framed block</li>
+        <li><code>:::card</code> — card-like container</li>
+        <li><code>:::panel</code> — side panel / auxiliary container</li>
+      </ul>
+
+      <h3>Available modifiers:</h3>
+      <ul>
+        <li><strong>border=red|blue|green|yellow|teal|primary|grey|pink|purple…</strong></li>
+        <li><strong>rounded</strong> — adds strong border radius</li>
+        <li><strong>shadow</strong> — soft drop shadow</li>
+        <li><strong>bordered</strong> — stronger border</li>
+        <li><strong>gap=sm|md|lg</strong> — internal spacing</li>
+        <li><strong>title="Your Title"</strong> — custom header</li>
+      </ul>
+
+      <div class="demo">
+        <pre>
+:::frame border=red title="Important"
+This is a framed block with a custom color and rounded edges.
+:::</pre
+        >
+
+        <div class="block frame border-red">
+          <div class="block-title">Important</div>
+          <p style="margin: 0">This is a framed block with a custom color and rounded edges.</p>
+        </div>
+      </div>
+
+      <div class="demo">
+        <pre>
+:::card shadow bordered title="Card Example"
+Cards can be styled with multiple modifiers at once.
+:::</pre
+        >
+
+        <div class="block card shadow bordered">
+          <div class="block-title">Card Example</div>
+          <p>Cards can be styled with multiple modifiers at once.</p>
+        </div>
+      </div>
+
+      <div class="demo">
+        <pre>
+:::panel gap=md title="Panel"
+Useful for side content or notes.
+:::</pre
+        >
+
+        <div class="block panel gap-md">
+          <div class="block-title">Panel</div>
+          <p>Useful for side content or notes.</p>
+        </div>
+      </div>
+
       <!-- MATH -->
       <h2><Icon name="maths" fill="var(--primary)" /> Math Syntax</h2>
       <p>Use KaTeX for math expressions: <code>$...$</code> (inline) or <code>$$...$$</code> (block).</p>
