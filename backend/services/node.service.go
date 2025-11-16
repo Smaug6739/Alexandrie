@@ -23,9 +23,9 @@ type NodeService interface {
 }
 
 type nodeService struct {
-	nodeRepo   repositories.NodeRepository
-	permRepo   repositories.PermissionRepository
-	snowflake  *utils.Snowflake
+	nodeRepo  repositories.NodeRepository
+	permRepo  repositories.PermissionRepository
+	snowflake *utils.Snowflake
 }
 
 func NewNodeService(nodeRepo repositories.NodeRepository, permRepo repositories.PermissionRepository, snowflake *utils.Snowflake) NodeService {
@@ -93,7 +93,7 @@ func (s *nodeService) GetNode(nodeId types.Snowflake, connectedUserId types.Snow
 
 func (s *nodeService) CreateNode(node *models.Node, userId types.Snowflake) (*models.Node, error) {
 	escapedHTMLContent := utils.EscapeHTML(node.ContentCompiled)
-	
+
 	description := ""
 	if node.Description != nil {
 		description = *node.Description

@@ -205,8 +205,8 @@ func (r *LogRepositoryImpl) DeleteOld() error {
 	}
 
 	// Delete logs older than 90 days
-	nintyDaysAgo := time.Now().AddDate(0, 0, -90).UnixMilli()
-	_, err = stmt.Exec(nintyDaysAgo)
+	ninetyDaysAgo := time.Now().AddDate(0, 0, -90).UnixMilli()
+	_, err = stmt.Exec(ninetyDaysAgo)
 	if err != nil {
 		return fmt.Errorf("failed to delete old logs: %w", err)
 	}
@@ -256,6 +256,10 @@ func (s *LogRepositoryImpl) getLocationIdFromIP(ip string) (int64, error) {
 	}
 
 	err = stmt.QueryRow(ipInt).Scan(&locationId)
+	if err != nil {
+		return 0, err
+	}
+
 	return locationId, nil
 }
 
