@@ -1,5 +1,7 @@
 package utils
 
+// Utility functions for HTML escaping and sanitization to prevent XSS
+
 import (
 	"github.com/microcosm-cc/bluemonday"
 )

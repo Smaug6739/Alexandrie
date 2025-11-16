@@ -1,5 +1,7 @@
 package utils
 
+// Utility functions for Snowflake ID generation and management
+
 import (
 	"alexandrie/types"
 	"os"
