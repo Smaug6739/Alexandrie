@@ -68,164 +68,13 @@ Each repository implementation provides:
 - **Error Handling**: Consistent error wrapping with context
 - **Performance**: Optimized queries with proper indexing support
 
-#### User Repository (`user_repository.go`)
-
-Handles all user-related database operations:
-
-```go
-// Example usage
-user, err := repo.GetByID(userId)
-users, err := repo.SearchPublic("username")
-exists, err := repo.CheckUsernameExists("john")
-```
-
-**Prepared Statements**: 10 statements
-
-- GetAll, GetByID, GetByUsername, SearchPublic, CheckUsernameExists
-- Create, Update, UpdatePassword, UpdatePasswordResetToken, Delete
-
-#### Node Repository (`node_repository.go`)
-
-Manages notes/documents with optimized recursive queries:
-
-```go
-// Example usage
-nodes, err := repo.GetAll(userId)          // Get all user nodes with hierarchy
-shared, err := repo.GetShared(userId)      // Get shared nodes with permissions
-node, err := repo.GetByID(nodeId)          // Get single node with full content
-```
-
-**Prepared Statements**: 9 statements + 3 complex recursive CTEs
-
-- GetAll (recursive CTE for node hierarchy)
-- GetShared (recursive CTE with permissions)
-- GetByID, GetPublic, GetUserUploadsSize
-- Create, Update, Delete
-
-**Optimizations**:
-
-- Batch permission loading to avoid N+1 queries
-- Separate queries for list views (no content) vs detail views (with content)
-- Recursive CTEs for efficient hierarchy traversal
-
-#### Session Repository (`session_repository.go`)
-
-Manages authentication sessions:
-
-```go
-// Example usage
-session, err := repo.GetByRefreshToken(token)
-err := repo.DeleteOld()  // Cleanup expired sessions
-```
-
-**Prepared Statements**: 6 statements
-
-#### Permission Repository (`permission_repository.go`)
-
-Handles node access permissions:
-
-```go
-// Example usage
-perms, err := repo.GetByNode(nodeId)
-perm, err := repo.GetByNodeAndUser(nodeId, userId)
-```
-
-**Prepared Statements**: 5 statements
-
-#### Log Repository (`log_repository.go`)
-
-Tracks connection logs:
-
-```go
-// Example usage
-lastLog, err := repo.GetLastConnection(userId)
-err := repo.CreateConnection(log)
-err := repo.DeleteOld()  // Cleanup logs older than 90 days
-```
-
-**Prepared Statements**: 3 statements
-
-## Benefits
-
-### 1. Performance
-
-**Before** (Direct SQL in services):
-
-```go
-// New statement created for EVERY request
-rows, err := db.Query("SELECT * FROM users WHERE id = ?", userId)
-```
-
-**After** (Prepared statements):
-
-```go
-// Statement prepared ONCE at startup, reused for all requests
-stmt, _ := manager.GetStatement("user_get_by_id")
-rows, err := stmt.Query(userId)
-```
-
-**Performance Gains**:
-
-- **50-70% faster queries**: No SQL parsing overhead per request
-- **Reduced database load**: Less CPU usage for query planning
-- **Better caching**: Database can cache execution plans more effectively
-
-### 2. Security
-
-- **SQL Injection Protection**: Prepared statements with parameterized queries
-- **Type Safety**: Go's type system prevents common errors
-- **Input Validation**: Consistent validation at repository layer
-
-### 3. Maintainability
-
-- **Single Source of Truth**: All SQL queries in one place per entity
-- **Easy Testing**: Mock repositories for unit tests
-- **Refactoring**: Change database schema without touching business logic
-- **Code Reuse**: Common queries shared across services
-
-### 4. Monitoring
-
-```go
-// Monitor prepared statement count
-count := app.RepositoryMgr.GetStatementCount()
-log.Printf("Active prepared statements: %d", count)
-```
-
 ## Usage Example
-
-### Old Pattern (Services with direct DB access)
-
-```go
-type UserService struct {
-    db *sql.DB
-}
-
-func (s *UserService) GetUserById(id Snowflake) (*User, error) {
-    // Query created every time, not optimized
-    var user User
-    err := s.db.QueryRow("SELECT * FROM users WHERE id = ?", id).Scan(...)
-    return &user, err
-}
-```
-
-### New Pattern (Services with Repository)
-
-```go
-type UserServiceV2 struct {
-    repo repositories.UserRepository
-}
-
-func (s *UserServiceV2) GetUserById(id Snowflake) (*User, error) {
-    // Uses prepared statement, much faster
-    return s.repo.GetByID(id)
-}
-```
 
 ### Application Initialization
 
 ```go
 // Initialize with repository pattern
-app, err := app.InitAppV2(config)
+app, err := app.InitApp(config)
 if err != nil {
     log.Fatal(err)
 }
@@ -234,25 +83,6 @@ defer app.Close()  // Properly cleanup prepared statements
 // Services now use optimized repositories
 user, err := app.Services.User.GetUserById(userId)
 ```
-
-## Migration Guide
-
-To migrate from old services to new repository-based services:
-
-1. **Update App Initialization**:
-
-   ```go
-   // Old
-   app := app.InitApp(config)
-
-   // New
-   app, err := app.InitAppV2(config)
-   defer app.Close()  // Important: cleanup resources
-   ```
-
-2. **Service Interfaces Remain the Same**: No changes needed in controllers or other code using services
-
-3. **Automatic Cleanup**: The new pattern includes graceful shutdown
 
 ## Database Indexing
 
@@ -308,7 +138,7 @@ func TestUserRepository_GetByID(t *testing.T) {
 **Solution**: Ensure repository manager is initialized before use and closed only on shutdown
 
 ```go
-app, err := app.InitAppV2(config)
+app, err := app.InitApp(config)
 defer app.Close()  // Defer cleanup to end of main()
 ```
 
