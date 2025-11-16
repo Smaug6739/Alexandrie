@@ -15,7 +15,7 @@
     <NuxtLink v-if="item.onClick" style="flex: 1" class="close" @click="item.onClick">{{ item.label }}</NuxtLink>
     <NuxtLink v-else :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
 
-    <Icon v-if="item.data.shared && !item.parent_id" name="users" fill="var(--font-color-light)" />
+    <Icon v-if="item.data.shared && level === 0" name="users" fill="var(--font-color-light)" />
 
     <NuxtLink v-if="item.data.role === 2 && nodesStore.hasPermissions(item.data as Node, 2)" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" />
@@ -35,7 +35,7 @@ import type { Node } from '~/stores';
 
 const nodesStore = useNodesStore();
 const { isOpened, workspaceId } = useSidebar();
-const props = defineProps<{ item: Item | DefaultItem }>();
+const props = defineProps<{ item: Item | DefaultItem; level: number }>();
 const isDragOver = ref<boolean>(false);
 
 const customClass = computed(() => {
