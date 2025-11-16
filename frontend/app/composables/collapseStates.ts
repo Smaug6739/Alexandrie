@@ -2,7 +2,7 @@ import { reactive } from 'vue';
 
 const STORAGE_KEY = 'collapse-states';
 
-// Chargement initial
+// Initial load
 function loadCollapseStates(): Record<string, boolean> {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -12,17 +12,15 @@ function loadCollapseStates(): Record<string, boolean> {
   }
 }
 
-// État réactif global
+// Global reactive state
 const states = reactive<Record<string, boolean>>(loadCollapseStates());
 
 function saveStates() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(states));
 }
 
-// --- API publique ---
-
 export function getCollapseState(id: string): boolean {
-  if (!(id in states)) states[id] = true; // par défaut: open
+  if (!(id in states)) states[id] = true; // default: expanded
   return states[id] ?? true;
 }
 
