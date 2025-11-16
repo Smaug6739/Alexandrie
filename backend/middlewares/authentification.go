@@ -12,6 +12,11 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+type AuthClaims struct {
+	Role string `json:"role"`
+	jwt.RegisteredClaims
+}
+
 func Auth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		tokenString, err := c.Cookie("Authorization")
@@ -22,7 +27,7 @@ func Auth() gin.HandlerFunc {
 		}
 
 		// Parse the token
-		claims := utils.AuthClaims{}
+		claims := AuthClaims{}
 		token, err := jwt.ParseWithClaims(tokenString, &claims, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, http.ErrAbortHandler
