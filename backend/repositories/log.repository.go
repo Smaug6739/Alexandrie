@@ -4,7 +4,11 @@ import (
 	"alexandrie/models"
 	"alexandrie/types"
 	"database/sql"
+	"errors"
 	"fmt"
+	"math/big"
+	"net"
+	"strings"
 	"time"
 )
 
@@ -21,14 +25,18 @@ type LogRepository interface {
 	Create(log *models.Log) error
 	DeleteOld() error
 	GetLocationFromIP(ip string) string
+	getLocationIdFromIP(ip string) (int64, error)
 }
 
 // Prepared statement keys
 const (
-	stmtLogGetByUserID       = "log_get_by_user_id"
-	stmtLogGetLastConnection = "log_get_last_connection"
-	stmtLogCreateConnection  = "log_create_connection"
-	stmtLogDeleteOld         = "log_delete_old"
+	stmtLogGetByUserID        = "log_get_by_user_id"
+	stmtLogGetLastConnection  = "log_get_last_connection"
+	stmtLogCreateConnection   = "log_create_connection"
+	stmtLogDeleteOld          = "log_delete_old"
+	stmtGetLocationIdFromIpV4 = "log_get_location_id_from_ip_v4"
+	stmtGetLocationIdFromIpV6 = "log_get_location_id_from_ip_v6"
+	stmtGetLocationFromID     = "log_get_location_from_id"
 )
 
 // NewLogRepository creates a new log repository with prepared statements
@@ -68,6 +76,25 @@ func (r *LogRepositoryImpl) prepareStatements() error {
 		stmtLogDeleteOld: `
 			DELETE FROM connections_logs
 			WHERE timestamp < ?`,
+
+		// Geo IP related statements
+		stmtGetLocationIdFromIpV4: `
+			SELECT geoname_id
+			FROM city_ipv4_complete
+			WHERE ? BETWEEN network_start_integer AND network_last_integer
+			LIMIT 1`,
+
+		stmtGetLocationIdFromIpV6: `
+			SELECT geoname_id
+			FROM city_ipv6_complete
+			WHERE ? BETWEEN network_start_integer AND network_last_integer
+			LIMIT 1`,
+
+		stmtGetLocationFromID: `
+			SELECT city_name, subdivision_1_name, subdivision_2_name, country_name
+			FROM city_locations_fr
+			WHERE geoname_id = ?
+			LIMIT 1`,
 	}
 
 	// Prepare all statements
@@ -187,9 +214,62 @@ func (r *LogRepositoryImpl) DeleteOld() error {
 	return nil
 }
 
-// GetLocationFromIP is a placeholder - implement actual IP location lookup
-func (r *LogRepositoryImpl) GetLocationFromIP(ip string) string {
-	// TODO: Implement actual IP geolocation
-	// For now, return empty string
-	return ""
+func (s *LogRepositoryImpl) GetLocationFromIP(ip string) string {
+	geonameId, err := s.getLocationIdFromIP(ip)
+	if err != nil {
+		return "Unknown location"
+	}
+	var res [4]*string
+	err = s.db.QueryRow("SELECT city_name, subdivision_1_name, subdivision_2_name, country_name FROM city_Locations_fr WHERE geoname_id = ? LIMIT 1", geonameId).Scan(&res[0], &res[1], &res[2], &res[3])
+	if err != nil {
+		return "Unknown location"
+	}
+	parts := []string{}
+	for _, part := range res {
+		if part != nil && *part != "" {
+			parts = append(parts, *part)
+		}
+	}
+	return strings.Join(parts, ", ")
+}
+
+func (s *LogRepositoryImpl) getLocationIdFromIP(ip string) (int64, error) {
+	ipInt, db, err := ipToDecimal(ip)
+	if err != nil {
+		return 0, err
+	}
+	var locationId int64
+
+	stmtKey := ""
+	switch db {
+	case "ipv4":
+		stmtKey = stmtGetLocationIdFromIpV4
+	case "ipv6":
+		stmtKey = stmtGetLocationIdFromIpV6
+	default:
+		return 0, errors.New("unsupported IP address type")
+	}
+
+	stmt, err := s.manager.GetStatement(stmtKey)
+	if err != nil {
+		return 0, err
+	}
+
+	err = stmt.QueryRow(ipInt).Scan(&locationId)
+	return locationId, nil
+}
+
+func ipToDecimal(ipStr string) (string, string, error) {
+	ip := net.ParseIP(ipStr)
+	if ip == nil {
+		return "", "", errors.New("invalid IP adress")
+	}
+	if ip4 := ip.To4(); ip4 != nil {
+		return big.NewInt(0).SetBytes(ip4).String(), "ipv4", nil
+	}
+	ip = ip.To16()
+	if ip == nil {
+		return "", "", errors.New("invalid or unsupported IP address")
+	}
+	return big.NewInt(0).SetBytes(ip).String(), "ipv6", nil
 }

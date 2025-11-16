@@ -18,7 +18,7 @@ import (
 )
 
 type AuthService interface {
-	Login(username, password string) (*models.User, *models.Session, error)
+	Login(username, password, ip, userAgent string) (*models.User, *models.Session, error)
 	RefreshSession(refreshToken string) (*models.User, *models.Session, error)
 	Logout(refreshToken string) error
 	LogoutAllDevices(userId types.Snowflake) error
@@ -30,19 +30,28 @@ type AuthService interface {
 type authService struct {
 	userRepo    repositories.UserRepository
 	sessionRepo repositories.SessionRepository
+	logRepo     repositories.LogRepository
 	snowflake   *utils.Snowflake
 }
 
-func NewAuthService(userRepo repositories.UserRepository, sessionRepo repositories.SessionRepository, snowflake *utils.Snowflake) AuthService {
+func NewAuthService(userRepo repositories.UserRepository, sessionRepo repositories.SessionRepository, logRepo repositories.LogRepository, snowflake *utils.Snowflake) AuthService {
 	return &authService{
 		userRepo:    userRepo,
 		sessionRepo: sessionRepo,
+		logRepo:     logRepo,
 		snowflake:   snowflake,
 	}
 }
 
-func (s *authService) Login(username, password string) (*models.User, *models.Session, error) {
+// Login user
+// Find the user by username
+// Compare the password with the hashed password
+// Create a new session with a refresh token
+// Return the user and session
+func (s *authService) Login(username, password, ip, userAgent string) (*models.User, *models.Session, error) {
+
 	user, err := s.userRepo.GetByUsername(username)
+
 	if user == nil || err != nil {
 		return nil, nil, errors.New("invalid credentials")
 	}
@@ -65,6 +74,18 @@ func (s *authService) Login(username, password string) (*models.User, *models.Se
 	if _, err := s.sessionRepo.Create(session); err != nil {
 		return nil, nil, errors.New("failed to create session")
 	}
+
+	go func() {
+		s.logRepo.Create(&models.Log{
+			Id:        s.snowflake.Generate(),
+			UserId:    user.Id,
+			IpAddr:    ip,
+			Timestamp: time.Now().UnixMilli(),
+			Type:      "login",
+			Location:  s.logRepo.GetLocationFromIP(ip),
+			UserAgent: userAgent,
+		})
+	}()
 
 	user.Password = ""
 	return user, session, nil
@@ -131,7 +152,7 @@ func (s *authService) RequestPasswordReset(username string, mailClient *mail.Cli
 	message.To(user.Email)
 	message.Subject("Alexandrie: Password Reset")
 	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Your password reset link is: %s", os.Getenv("DOMAIN_CLIENT")+"/login/reset?token="+resetToken))
-	
+
 	if err := mailClient.DialAndSend(message); err != nil {
 		return nil // Don't reveal errors
 	}

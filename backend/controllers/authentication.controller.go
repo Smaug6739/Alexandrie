@@ -50,7 +50,7 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	user, session, err := ctr.app.Services.Auth.Login(authClaims.Username, authClaims.Password)
+	user, session, err := ctr.app.Services.Auth.Login(authClaims.Username, authClaims.Password, c.ClientIP(), c.Request.UserAgent())
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
@@ -64,11 +64,6 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
 	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
 
-	go func() {
-		location := ctr.app.Services.Geolocation.GetLocationFromIp(c.ClientIP())
-		ctr.app.Services.Log.CreateConnectionLog(user.Id, c.ClientIP(), c.Request.UserAgent(), location, "login")
-	}()
-	
 	return http.StatusOK, user
 }
 
