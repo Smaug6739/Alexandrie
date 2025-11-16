@@ -151,3 +151,136 @@ defer app.Close()  // Defer cleanup to end of main()
 ```go
 log.Printf("Prepared statements: %d", app.GetStatementCount())
 ```
+
+## Mermaid Diagram
+
+```mermaid
+classDiagram
+direction BT
+class city_ipv4_complete {
+   bigint network_start_integer
+   bigint network_last_integer
+   int geoname_id
+   int registered_country_geoname_id
+   text represented_country_geoname_id
+   int is_anonymous_proxy
+   int is_satellite_provider
+   text postal_code
+   double latitude
+   double longitude
+   int accuracy_radius
+   text is_anycast
+}
+class city_ipv6_complete {
+   double network_start_integer
+   double network_last_integer
+   int geoname_id
+   int registered_country_geoname_id
+   text represented_country_geoname_id
+   int is_anonymous_proxy
+   int is_satellite_provider
+   text postal_code
+   double latitude
+   text longitude
+   text accuracy_radius
+   text is_anycast
+}
+class city_locations_fr {
+   text locale_code
+   text continent_code
+   text continent_name
+   text country_iso_code
+   text country_name
+   text subdivision_1_iso_code
+   text subdivision_1_name
+   text subdivision_2_iso_code
+   text subdivision_2_name
+   text city_name
+   text metro_code
+   text time_zone
+   text is_in_european_union
+   int geoname_id
+}
+class connections_logs {
+   bigint unsigned user_id
+   varchar(50) ip_adress
+   varchar(200) user_agent
+   varchar(100) location
+   varchar(10) type
+   bigint timestamp
+   bigint unsigned id
+}
+class nodes {
+   bigint unsigned user_id
+   bigint unsigned parent_id
+   varchar(50) name
+   varchar(255) description
+   varchar(200) tags
+   tinyint role  /* 1=workspace, 2=category, 3=document, 4=ressource */
+   int color
+   text icon
+   text thumbnail
+   varchar(30) theme
+   tinyint(1) accessibility  /* 1=private, 2=public */
+   int access
+   tinyint display
+   int order
+   longtext content
+   longtext content_compiled
+   int size
+   json metadata
+   bigint created_timestamp
+   bigint updated_timestamp
+   bigint unsigned id
+}
+class permissions {
+   bigint unsigned node_id
+   bigint unsigned user_id
+   tinyint permission
+   bigint created_timestamp
+   bigint unsigned id
+}
+class schema_migrations {
+   tinyint(1) dirty
+   bigint version
+}
+class sessions {
+   bigint unsigned user_id
+   varchar(255) refresh_token
+   bigint expire_token
+   bigint last_refresh_timestamp
+   int active
+   bigint login_timestamp
+   bigint logout_timestamp
+   bigint unsigned id
+}
+class users {
+   varchar(25) username
+   varchar(25) firstname
+   varchar(25) lastname
+   int role
+   varchar(75) avatar
+   varchar(50) email
+   varchar(255) password
+   varchar(255) password_reset_token
+   bigint created_timestamp
+   bigint updated_timestamp
+   bigint unsigned id
+}
+
+city_ipv4_complete  -->  city_locations_fr : geoname_id
+
+city_ipv6_complete  -->  city_locations_fr : geoname_id
+
+connections_logs  -->  users : user_id-id
+
+nodes  -->  nodes : parent_id-id
+
+nodes  -->  users : user_id-id
+
+permissions  -->  nodes : node_id-id
+
+permissions  -->  users : user_id-id
+
+sessions  -->  users : user_id-id
+```
