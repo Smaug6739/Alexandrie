@@ -1,5 +1,5 @@
 <template>
-  <div class="document-card">
+  <div class="document-card" @contextmenu.prevent="showContextMenu">
     <div class="top">
       <div class="header">
         <span style="display: flex">
@@ -35,6 +35,7 @@
 <script setup lang="ts">
 import type { Node } from '~/stores';
 import DeleteDocumentModal from '~/components/Node/DeleteNodeModal.vue';
+import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
 
 const props = defineProps<{ document: Node }>();
 const nodesStore = useNodesStore();
@@ -42,6 +43,13 @@ const category = computed(() => nodesStore.getById(props.document.parent_id || '
 useUserStore().fetchPublicUser(props.document.user_id);
 const user = computed(() => useUserStore().getById(props.document.user_id || ''));
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.document } }));
+
+function showContextMenu(event: MouseEvent) {
+  if (props.document.role === -1) return; // Prevent context menu on nav items
+  useContextMenu().open(shallowRef(NodeContextMenu), event, {
+    props: { node: props.document as Node },
+  });
+}
 </script>
 
 <style scoped lang="scss">
