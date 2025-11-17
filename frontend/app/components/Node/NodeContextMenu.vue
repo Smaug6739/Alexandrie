@@ -1,19 +1,21 @@
 <template>
-  <button @click="action('open')"><Icon name="file_open" /> Open</button>
-  <button @click="action('edit')"><Icon name="edit_page" /> Edit</button>
-  <button><Icon name="duplicate" /> Duplicate</button>
-  <button @click="action('copyLink')"><Icon name="link" /> Copy link</button>
-  <button @click="action('pin')"><Icon :name="node.order === -1 ? 'pin_off' : 'pin'" /> {{ node.order === -1 ? 'Unpin' : 'Pin' }}</button>
-  <button v-if="nodeStore.hasPermissions(node, 4)" @click="action('manageAccess')"><Icon name="manage_access" />Manage Access</button>
-  <hr />
-  <button @click="action('delete')"><Icon name="delete" fill="red" /> Delete</button>
-  <button v-if="preferences.get('developerMode').value"><Icon name="snippets" /> Copy ID</button>
-  <hr />
-  <div class="footer">
-    <p style="display: flex; align-items: center; gap: 8px">
-      <img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; margin: 0; border-radius: 50%" />{{ user?.username }}
-    </p>
-    <p>Updated on {{ numericDate(node.updated_timestamp) }}</p>
+  <div>
+    <button @click="action('open')"><Icon name="file_open" /> Open</button>
+    <button @click="action('edit')"><Icon name="edit_page" /> Edit</button>
+    <button @click="action('duplicate')"><Icon name="duplicate" /> Duplicate</button>
+    <button @click="action('copyLink')"><Icon name="link" /> Copy link</button>
+    <button @click="action('pin')"><Icon :name="node.order === -1 ? 'pin_off' : 'pin'" /> {{ node.order === -1 ? 'Unpin' : 'Pin' }}</button>
+    <button v-if="nodeStore.hasPermissions(node, 4)" @click="action('manageAccess')"><Icon name="manage_access" />Manage Access</button>
+    <hr />
+    <button @click="action('delete')"><Icon name="delete" fill="red" /> Delete</button>
+    <button v-if="preferences.get('developerMode').value"><Icon name="snippets" /> Copy ID</button>
+    <hr />
+    <div class="footer">
+      <p style="display: flex; align-items: center; gap: 8px">
+        <img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; margin: 0; border-radius: 50%" />{{ user?.username }}
+      </p>
+      <p>Updated on {{ numericDate(node.updated_timestamp) }}</p>
+    </div>
   </div>
 </template>
 
@@ -39,6 +41,9 @@ async function action(name: string) {
       break;
     case 'edit':
       useRouter().push(`/dashboard/docs/edit/${props.node.id}`);
+      break;
+    case 'duplicate':
+      nodeStore.duplicate(props.node);
       break;
     case 'delete':
       dotMenu.value?.close();
