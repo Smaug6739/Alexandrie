@@ -29,7 +29,7 @@ const allChildren = useSidebarTree().getSubTreeById(props.documentId);
 
 <style scoped lang="scss">
 .warn {
-  color: var(--red)-dark;
+  color: var(--red-dark);
   opacity: 0.7;
 }
 </style>
