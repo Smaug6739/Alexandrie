@@ -41,7 +41,7 @@ const nodesStore = useNodesStore();
 const category = computed(() => nodesStore.getById(props.document.parent_id || ''));
 useUserStore().fetchPublicUser(props.document.user_id);
 const user = computed(() => useUserStore().getById(props.document.user_id || ''));
-const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { documentId: props.document.id } }));
+const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.document } }));
 </script>
 
 <style scoped lang="scss">

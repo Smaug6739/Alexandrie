@@ -42,7 +42,7 @@ async function action(name: string) {
       break;
     case 'delete':
       dotMenu.value?.close();
-      useModal().add(new Modal(shallowRef(NodeDeleteModal), { props: { documentId: props.node.id }, size: 'small' }));
+      useModal().add(new Modal(shallowRef(NodeDeleteModal), { props: { node: props.node }, size: 'small' }));
       break;
     case 'copyLink':
       navigator.clipboard.writeText(`${window.location.origin}/dashboard/docs/${props.node.id}`);

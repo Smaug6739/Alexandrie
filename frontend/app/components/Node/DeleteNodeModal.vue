@@ -1,9 +1,9 @@
 <template>
   <div class="modal">
-    <h3>Delete document</h3>
-    <p>Are you sure you want to delete this document ?</p>
+    <h3>Delete {{ nodeType }}</h3>
+    <p>Are you sure you want to delete this {{ nodeType }} ?</p>
     <p style="opacity: 0.7">This action is irreversible</p>
-    <p v-if="allChildren.length > 0" class="warn">This document has {{ allChildren.length }} child documents. They will be deleted too.</p>
+    <p v-if="allChildren.length > 0" class="warn">This {{ nodeType }} has {{ allChildren.length }} child documents. They will be deleted too.</p>
     <div class="footer">
       <AppButton type="secondary" @click="emit('close')">Cancel</AppButton>
       <AppButton type="danger" @click="deleteDoc">Confirm</AppButton>
@@ -12,11 +12,13 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ documentId: string }>();
+import type { Node } from '~/stores';
+
+const props = defineProps<{ node: Node }>();
 
 const deleteDoc = () => {
   useNodesStore()
-    .delete(props.documentId)
+    .delete(props.node.id)
     .then(() => {
       emit('close');
       useRouter().push('/dashboard');
@@ -24,7 +26,21 @@ const deleteDoc = () => {
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const emit = defineEmits(['close']);
-const allChildren = useSidebarTree().getSubTreeById(props.documentId);
+const allChildren = useSidebarTree().getSubTreeById(props.node.id);
+const nodeType = computed(() => {
+  switch (props.node.role) {
+    case 1:
+      return 'workspace';
+    case 2:
+      return 'category';
+    case 3:
+      return 'document';
+    case 4:
+      return 'resource';
+    default:
+      return 'node';
+  }
+});
 </script>
 
 <style scoped lang="scss">
