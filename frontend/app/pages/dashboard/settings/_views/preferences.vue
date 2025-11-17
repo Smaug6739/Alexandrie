@@ -72,6 +72,7 @@ const options: Array<{ label: string; options: Option[] }> = [
         label: 'Enable Dark Mode',
         type: 'toggle',
         key: 'darkMode',
+        // @ts-expect-error -> specific type
         onChange: (option: boolean) => {
           colorMode.preference = option ? 'dark' : 'light';
           document.body.style.colorScheme = colorMode.preference;
@@ -81,6 +82,7 @@ const options: Array<{ label: string; options: Option[] }> = [
         label: 'Choose primary color',
         type: 'color',
         key: 'primaryColor',
+        // @ts-expect-error -> specific type
         onChange: (option: number) => {
           setAppColor(option);
         },
