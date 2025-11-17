@@ -74,7 +74,7 @@ function savePreferences() {
 export function usePreferences() {
   function get<K extends PreferenceKey>(key: K) {
     return computed<Preferences[K]>({
-      get: () => preferences[key],
+      get: () => preferences[key] as Preferences[K],
       set: val => {
         preferences[key] = val;
         savePreferences();
@@ -103,48 +103,42 @@ export function usePreferences() {
 }
 
 type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode';
-interface BaseOption<T = unknown> {
+interface BaseOption<K extends PreferenceKey = PreferenceKey> {
   label: string;
   description?: string;
   type: OptionType;
-  key: PreferenceKey;
-  onChange?: (value: T) => void;
+  key: K;
+  onChange?: (value: Preferences[K]) => void;
 }
-interface ToggleOption extends BaseOption<boolean> {
+interface ToggleOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
   type: 'toggle';
-  value: boolean;
-  onChange?: (value: boolean) => void;
 }
-interface ColorOption extends BaseOption<number> {
+
+interface ColorOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
   type: 'color';
-  value: number;
-  onChange?: (value: number) => void;
+  items: Array<{ label: string; id: string | number }>;
+  onChange?: (value: Preferences[K]) => void;
 }
-interface SelectOption extends BaseOption<number | string> {
+interface SelectOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
   type: 'select';
-  value: number | string;
   choices: ANode[];
-  onChange?: (value: number | string) => void;
+  onChange?: (value: Preferences[K]) => void;
 }
-interface RadioOption extends BaseOption<number | string> {
+interface RadioOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
   type: 'radio';
-  value: number | string;
   choices: Array<{ id: number | string; label: string }>;
-  onChange?: (value: number | string) => void;
+  onChange?: (value: Preferences[K]) => void;
 }
 
-interface GroupCheckboxOption extends BaseOption<Record<string, boolean>> {
+interface GroupCheckboxOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
   type: 'groupCheckbox';
-  // Les sous-options sont un objet clé => label
   items: Record<string, string>;
-  value: Record<string, boolean>;
-  onChange?: (value: Record<string, boolean>) => void;
+  onChange?: (value: Preferences[K]) => void;
 }
 
-interface AnodeOption extends BaseOption<ANode[]> {
+interface AnodeOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
   type: 'anode';
-  value: ANode[];
-  onChange?: (value: ANode[]) => void;
+  onChange?: (value: Preferences[K]) => void;
 }
 
 export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption | AnodeOption;
