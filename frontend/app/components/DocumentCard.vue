@@ -6,7 +6,7 @@
           <Icon :name="category?.icon || 'files'" display="xl" :class="`category-icon ${getAppColor(document.color || category?.color as number, true)}`" />
           <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
         </span>
-        <DocumentDotMenu :document="document" :user="user" @delete="deleteDoc" />
+        <NodeDotMenu :node="document" :user="user" @delete="deleteDoc" />
       </div>
       <div class="body">
         <div class="category">{{ category?.name }}</div>
