@@ -12,6 +12,6 @@
 import 'virtual:svg-icons-register';
 
 const color = usePreferences().get('primaryColor').value;
-setAppColor(Number(color) || 'primary');
+setAppColor(Number(color));
 useFavicon();
 </script>
