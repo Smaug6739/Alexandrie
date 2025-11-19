@@ -81,6 +81,7 @@ const filterItems = (items: Item[]): Item[] => {
 const tree = computed(() => filterItems(filtered.value));
 
 const handleClickOutside = (e: MouseEvent) => {
+  if (!(e.target as HTMLElement).closest('.no-m-close')) return;
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
 };
 const newCategory = () => {

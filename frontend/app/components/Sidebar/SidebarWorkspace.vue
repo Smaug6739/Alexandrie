@@ -1,7 +1,7 @@
 <template>
-  <div style="display: flex; align-items: center; justify-content: space-between">
+  <div>
     <span style="display: flex; align-items: center">
-      <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="getAppColor(option.meta?.color) + ' icon'" />
+      <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="[getAppColor(option.meta?.color), 'icon']" />
       &nbsp; {{ option.text }}
     </span>
     <span>
@@ -20,6 +20,7 @@ div {
   display: flex;
   font-weight: 500;
   align-items: center;
+  justify-content: space-between;
 }
 
 .icon {
