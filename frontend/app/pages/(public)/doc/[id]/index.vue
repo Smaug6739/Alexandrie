@@ -53,7 +53,26 @@ watchEffect(async () => {
   const doc = await documentsStore.fetchPublic(document_id);
   if (doc) article.value = doc;
   else error.value = 'Document not found';
-  useHead({ title: article.value?.name || '' });
+  const title = article.value?.name || 'Unknown Document';
+  const description = article.value?.description;
+  useHead({
+    title: title,
+    meta: [
+      // Basic
+      { name: 'description', content: description },
+
+      // OpenGraph
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: description },
+      { property: 'og:type', content: 'article' },
+      { property: 'og:url', content: `${window.location.origin}/doc/${document_id}` },
+
+      // Twitter card
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: description },
+    ],
+  });
 });
 </script>
 
