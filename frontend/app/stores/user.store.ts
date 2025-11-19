@@ -123,7 +123,16 @@ export const useUserStore = defineStore('user', {
     },
     async post_logout() {
       this.user = undefined;
+      useNodesStore().clear();
+      useRessourcesStore().clear();
+      useUserStore().clear();
       if (import.meta.client) localStorage.removeItem('isLoggedIn');
+    },
+    clear() {
+      this.user = undefined;
+      this.users = {};
+      this.last_connection = null;
+      this.current_fetching = [];
     },
   },
 });

@@ -35,5 +35,9 @@ export const useRessourcesStore = defineStore('ressources', {
       if (request.status == 'success') return useNodesStore().nodes.delete(id); // Remove the node from the cache
       else throw request.message;
     },
+    clear() {
+      this.ressources = [];
+      this.isFetching = false;
+    },
   },
 });

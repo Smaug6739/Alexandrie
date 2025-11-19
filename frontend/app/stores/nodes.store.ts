@@ -329,6 +329,12 @@ export const useNodesStore = defineStore('nodes', {
         allChildrens.forEach(childId => this.nodes.delete(childId));
       } else throw request.message;
     },
+    clear() {
+      this.nodes.clear();
+      this.public_nodes.clear();
+      this.allTags = [];
+      this.isFetching = false;
+    },
   },
 });
 
