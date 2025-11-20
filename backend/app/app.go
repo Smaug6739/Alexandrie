@@ -50,6 +50,9 @@ func InitApp(config Config) *App {
 	app.Snowflake = utils.NewSnowflake(1609459200000)
 	app.Config = config
 
+	// Run database migrations / schema creation
+	Migrate(&config)
+
 	// Initialize repository manager
 	repoManager, err := repositories.NewRepositoryManager(app.DB)
 	if err != nil {
@@ -64,6 +67,5 @@ func InitApp(config Config) *App {
 	}
 	app.Services = serviceManager
 
-	Migrate(&config)
 	return &app
 }
