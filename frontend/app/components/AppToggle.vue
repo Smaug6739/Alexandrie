@@ -26,7 +26,7 @@ const toggle = () => {
 <style scoped lang="scss">
 .toggle {
   display: flex;
-  width: 44px;
+  flex: 0 0 44px; // Avoiding shrinking
   height: 24px;
   padding: 2px;
   border: 1px solid var(--border-color, #ccc);
@@ -52,7 +52,7 @@ const toggle = () => {
 
     .circle {
       border-color: var(--primary);
-      background: #fff; // cercle toujours blanc
+      background: #fff;
       transform: translateX(20px);
     }
   }
