@@ -14,7 +14,7 @@ const parent = ref<Node | undefined>();
 
 definePageMeta({ breadcrumb: () => useNodesStore().getById(useRoute().params.id as string)?.name || '' });
 
-watchEffect(async () => {
+watchEffect(() => {
   parent.value = nodesStore.getById(parentId);
 });
 
