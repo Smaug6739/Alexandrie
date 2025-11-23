@@ -25,9 +25,7 @@
         <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon no-mobile" @click="openPermissionsModal"
           ><Icon name="manage_access" display="lg"
         /></NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" class="btn-icon" :to="`/dashboard/categories/${parent?.id}/edit`"
-          ><Icon name="settings" display="lg"
-        /></NuxtLink>
+        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" class="btn-icon" @click="openEditModal"><Icon name="settings" display="lg" /></NuxtLink>
         <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }} </span>
         <ViewSelection v-model="view" />
       </div>
@@ -55,6 +53,7 @@ import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
 import NodeFilter from '~/components/Node/Filter.vue';
 import type { Node } from '~/stores';
+import NodeMetadataModal from './NodeMetadata.modal.vue';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
 const nodesStore = useNodesStore();
@@ -69,6 +68,7 @@ const openPermissionsModal = () => {
 const openRemoveShareModal = () => {
   if (props.parent) useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.parent.id }, size: 'small' }));
 };
+const openEditModal = () => useModal().add(new Modal(shallowRef(NodeMetadataModal), { props: { doc: props.parent }, size: 'small' }));
 </script>
 
 <style scoped lang="scss">

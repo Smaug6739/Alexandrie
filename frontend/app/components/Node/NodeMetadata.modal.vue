@@ -1,20 +1,30 @@
 <!-- This components is a modal for advanced editing document metadata -->
 <template>
   <div class="modal-content">
-    <h2>Document Metadata</h2>
+    <h2>Metadata</h2>
     <form @submit.prevent>
-      <label for="category">Theme</label>
-      <AppSelect v-model="node.theme" :items="DOCUMENT_THEMES" placeholder="Select theme" />
+      <template v-if="node.role == 1 || node.role == 2">
+        <label for="category">Name</label>
+        <input id="category" v-model="node.name" />
+        <label>Role</label>
+        <AppRadio v-model="node.role" :items="CATEGORY_ROLES" />
+      </template>
+
+      <template v-if="node.role == 3">
+        <label for="category">Theme</label>
+        <AppSelect v-model="node.theme" :items="DOCUMENT_THEMES" placeholder="Select theme" />
+      </template>
 
       <label for="icon">Emoji or icon <AppHint text="SVG or emojis supported" /></label>
       <textarea id="icon" v-model="node.icon"></textarea>
-      <label for="thumbnail">Thumbnail <AppHint text="SVG supported" /></label>
-      <textarea id="thumbnail" v-model="node.thumbnail"></textarea>
-      <div style="display: flex; align-items: center; gap: 10px">
-        <label for="pinned">Pinned</label>
-        <AppToggle id="pinned" v-model="pinnedToggle" />
-      </div>
-
+      <template v-if="node.role == 3">
+        <label for="thumbnail">Thumbnail <AppHint text="SVG supported" /></label>
+        <textarea id="thumbnail" v-model="node.thumbnail"></textarea>
+        <div style="display: flex; align-items: center; gap: 10px">
+          <label for="pinned">Pinned</label>
+          <AppToggle id="pinned" v-model="pinnedToggle" />
+        </div>
+      </template>
       <label for="parent">Parent</label>
       <AppSelect
         v-model="node.parent_id"
@@ -39,7 +49,7 @@ const nodeStore = useNodesStore();
 const props = defineProps<{ doc: Node }>();
 const node = ref<Node>(props.doc);
 const pinnedToggle = ref(node.value.order == -1);
-const parentsTree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 3)).generateTree());
+const parentsTree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= node.value.role)).generateTree());
 
 watch(pinnedToggle, val => (node.value.order = val ? -1 : 0));
 watch(
