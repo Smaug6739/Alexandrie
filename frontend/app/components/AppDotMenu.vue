@@ -67,7 +67,6 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   right: 0;
   z-index: 2;
   min-width: 270px;
-  padding: 6px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: var(--bg-color);

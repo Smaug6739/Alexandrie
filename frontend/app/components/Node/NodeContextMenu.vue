@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <button @click="action('open')"><Icon name="file_open" /> Open</button>
     <button @click="action('edit')"><Icon name="edit_page" /> Edit</button>
     <button @click="action('duplicate')"><Icon name="duplicate" /> Duplicate</button>
@@ -64,6 +64,9 @@ async function action(name: string) {
 </script>
 
 <style scoped lang="scss">
+.content {
+  padding: 6px;
+}
 button {
   display: flex;
   width: 100%;
