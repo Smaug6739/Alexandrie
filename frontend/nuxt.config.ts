@@ -154,7 +154,8 @@ export default defineNuxtConfig({
           },
         },
         {
-          urlPattern: /^http[s]?:\/\/[^/]+\/api\/.*/,
+          // Api cache: match /api calls
+          urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
           handler: 'NetworkFirst',
           options: {
             cacheName: 'api-cache',
