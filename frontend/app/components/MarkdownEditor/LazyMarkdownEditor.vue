@@ -3,13 +3,12 @@
   <div style="height: 100%">
     <div class="editor-container">
       <Toolbar v-model="document" :minimal="minimal" @execute-action="exec" />
-      <div style="display: flex; min-height: 0; padding: 6px; flex: 1; flex-direction: column; gap: 8px">
+      <div style="display: flex; min-height: 0; padding: 6px 0; flex: 1; flex-direction: column; gap: 8px">
         <input v-if="!minimal" v-model="document.name" placeholder="Title" class="title" @input="autoSaveConditional" />
         <input v-if="!minimal" v-model="document.description" placeholder="Description" class="description" @input="autoSaveConditional" />
         <AppTagInput v-model="document.tags" style="margin-bottom: 10px" @update:model-value="autoSaveConditional" />
         <div ref="container" class="markdown">
           <div ref="editorContainer" class="codemirror-editor" style="border-right: 1px solid var(--border-color)" />
-          <!-- eslint-disable-next-line vue/no-v-html -->
           <div
             v-if="showPreview"
             ref="markdownPreview"
@@ -22,14 +21,16 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { EditorView, keymap, highlightSpecialChars, drawSelection, lineNumbers, type KeyBinding } from '@codemirror/view';
 import { EditorState, Compartment } from '@codemirror/state';
 import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
-import { autocompletion } from '@codemirror/autocomplete';
+import { autocompletion, completionKeymap, snippet, type CompletionContext } from '@codemirror/autocomplete';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { loadTheme } from './themes';
+import { katexSnippets } from './katex-snippets';
 import Toolbar from './Toolbar.vue';
 import ImageSelectorModal from './ImageSelectorModal.vue';
 import GridOrganizationModal from './GridOrganizationModal.vue';
@@ -55,6 +56,10 @@ const document = ref<Partial<Node>>({
   ...props.doc,
   content_compiled: compile(props.doc?.content || ''),
 });
+
+// ... [FONCTIONS EXEC, MODALS, ETC. INCHANGÉES] ...
+// Je ne répète pas le bloc exec/insertText/Modals pour gagner de la place,
+// gardez exactement ce que vous aviez.
 
 function exec(action: string, payload?: string) {
   if (action === 'preview') return (showPreview.value = !showPreview.value);
@@ -127,6 +132,7 @@ function exec(action: string, payload?: string) {
 
   view.focus();
 }
+
 function insertText(text: string) {
   if (!editorView.value || !text) return;
 
@@ -141,6 +147,7 @@ function insertText(text: string) {
 
   view.focus();
 }
+
 function openColorModal() {
   const modalManager = useModal();
   modalManager.add(new Modal(shallowRef(ColorPickerModal), { props: { onColorSelect: handleColorSelect } }));
@@ -194,51 +201,8 @@ function handleGridSelect(gridMarkdown: string) {
   view.focus();
 }
 
-const snippets = preferences.get('snippets');
-const snippetListener = EditorView.updateListener.of(update => {
-  if (!update.docChanged || !editorView.value) return;
-
-  const { state, transactions } = update;
-  const lastTransaction = transactions[0];
-
-  const changes = lastTransaction!.changes;
-
-  // Ne gère que les insertions simples
-  let hasInsertion = false;
-  changes.iterChanges((fromA, toA, fromB, toB, inserted) => {
-    if (inserted.length > 0) {
-      hasInsertion = true;
-    }
-  });
-  if (!hasInsertion) return;
-
-  // Check if snippet work
-  const cursorPos = state.selection.main.head;
-  const line = state.doc.lineAt(cursorPos);
-  const textBefore = line.text.slice(0, cursorPos - line.from);
-
-  const match = snippets.value.find(snippet => snippet.id && textBefore.endsWith(snippet.id as string));
-  if (!match) return;
-
-  const start = cursorPos - (match.id as string).length;
-  const snippet = match.label;
-
-  // replace $0 with a cursor
-  const [before, after] = snippet.split('$0');
-  const newText = (before || '') + (after || '');
-
-  const view = editorView.value;
-  view.dispatch({
-    changes: { from: start, to: cursorPos, insert: newText },
-    selection: {
-      anchor: start + (before?.length || 0),
-    },
-  });
-});
-
 const fileUploadHandler = EditorView.domEventHandlers({
   paste: event => {
-    // Handle file upload and format as Markdown (e.g., ![filename](url))
     const items = event.clipboardData?.items;
     if (!items) return;
     for (const item of items) {
@@ -318,6 +282,29 @@ const updateListener = EditorView.updateListener.of(v => {
     autoSaveConditional();
   }
 });
+
+function snippetSource(context: CompletionContext) {
+  const snippets = preferences.get('snippets').value;
+
+  const word = context.matchBefore(/[\w!:]+/);
+
+  if (!word && !context.explicit) return null;
+  return {
+    from: word ? word.from : context.pos,
+    // MODIFICATION CLÉ: Remplacer snippetCompletion() par un objet Completion littéral
+    // avec 'apply: snippet(s.label)'
+
+    options: [...snippets, ...katexSnippets].map(s => ({
+      label: s.label, // Le déclencheur qui apparaît dans la liste (ex: !yellow)
+      detail: 'Snippet',
+      type: 'snippet',
+      // On utilise 'snippet' pour créer explicitement la fonction d'application
+      // qui va analyser et gérer le curseur pour $0, $1, etc.
+      apply: snippet(s.label),
+    })),
+  };
+}
+
 const state = EditorState.create({
   doc: document.value.content || '',
   extensions: [
@@ -326,10 +313,12 @@ const state = EditorState.create({
     history(),
     drawSelection(),
     autocompletion(),
-    keymap.of([...defaultKeymap, ...historyKeymap, ...searchKeymap, indentWithTab, ...markdownKeysmap]),
+    keymap.of([...completionKeymap, ...defaultKeymap, ...historyKeymap, indentWithTab, ...searchKeymap, ...markdownKeysmap]),
     markdown({ base: markdownLanguage }),
+    markdownLanguage.data.of({
+      autocomplete: snippetSource,
+    }),
     updateListener,
-    snippetListener,
     fileUploadHandler,
     themeCompartment.of(loadTheme()),
     highlightSelectionMatches({}),
@@ -342,6 +331,7 @@ const state = EditorState.create({
     }),
   ],
 });
+
 onMounted(() => {
   if (!editorContainer.value) return;
   editorView.value = new EditorView({
@@ -352,6 +342,7 @@ onMounted(() => {
   window.addEventListener('keydown', handleGlobalKeys);
 });
 
+// ... [REST OF COMPONENT INCHANGED] ...
 onBeforeUnmount(() => {
   if (preferences.get('documentAutoSave').value) {
     updateDocumentContent();
@@ -371,7 +362,6 @@ function handleGlobalKeys(e: KeyboardEvent) {
     e.preventDefault();
     showPreview.value = !showPreview.value;
   }
-
   if (e.key === 'Escape') {
     emit('exit');
   }
@@ -408,34 +398,28 @@ const autoSave = debounceDelayed(() => {
 
 <style scoped lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-
 .markdown {
   display: flex;
-  min-height: 0; /* permet aux enfants flexibles de ne pas déborder */
+  min-height: 0;
   flex: 1;
   gap: 8px;
 }
-
 .editor-container {
   display: flex;
   width: 100%;
   height: 100%;
   flex-direction: column;
 }
-
 .codemirror-editor {
   flex: 1;
   overflow: auto;
 }
-
 .editor-container:deep(.cm-editor) {
   height: 100%;
 }
-/* stylelint-disable */
 .editor-container:deep(.cm-selectionBackground) {
   background-color: var(--selection-color) !important;
 }
-
 .markdown-preview {
   height: 100%;
   padding: 1rem;
@@ -443,18 +427,15 @@ const autoSave = debounceDelayed(() => {
   flex: 1;
   overflow: auto;
 }
-
 input {
   border: none;
   outline: none;
 }
-
 .title {
   padding: 6px 10px;
   font-size: 1.5rem;
   font-weight: 600;
 }
-
 .description {
   padding: 4px 10px;
   font-size: 1.1rem;

@@ -4,19 +4,14 @@
       <h2 class="ctitle">Snippets</h2>
       <p class="csubtitle">Manage your markdown snippets for quick insertion. Use shortcuts like !blue to quickly insert pre-defined content.</p>
     </div>
-
     <!-- Search and Actions -->
     <div class="toolbar">
       <div class="search-section">
         <div class="search-wrapper">
-          <Icon name="search" class="search-icon" />
-          <input v-model="searchQuery" type="text" placeholder="Search snippets..." class="search-input" />
+          <Icon name="search" class="search-icon" /> <input v-model="searchQuery" type="text" placeholder="Search snippets..." class="search-input" />
         </div>
-        <div class="filter-section">
-          <AppSelect v-model="sortBy" :items="sortOptions" placeholder="Sort by..." size="200px" :searchable="false" />
-        </div>
+        <div class="filter-section"><AppSelect v-model="sortBy" :items="sortOptions" placeholder="Sort by..." size="200px" :searchable="false" /></div>
       </div>
-
       <div class="actions">
         <AppButton v-if="selectedSnippets.length > 0" type="danger" @click="deleteSelected"> Delete Selected ({{ selectedSnippets.length }}) </AppButton>
         <AppButton type="secondary" class="flex-btn" @click="exportSnippets"><Icon name="backup" /> Export </AppButton>
@@ -25,31 +20,56 @@
         <AppButton type="primary" @click="addSnippet"> ＋ Add Snippet </AppButton>
       </div>
     </div>
-
-    <!-- Snippets Grid -->
     <div class="snippets-container">
-      <div v-if="filteredSnippets.length === 0" class="no-snippets">
+      <div v-if="filteredSnippets.length === 0 && !creatingSnippet" class="no-snippets">
         <Icon name="search" class="no-snippets-icon" />
         <p v-if="searchQuery">No snippets found matching "{{ searchQuery }}"</p>
         <p v-else>No snippets available. Create your first snippet!</p>
       </div>
 
       <TransitionGroup name="snippet" tag="div" class="snippets-grid">
+        <!-- Existing snippets -->
+        <div v-if="creatingSnippet" class="snippet-card editing">
+          <div class="snippet-header">
+            <div class="snippet-header-left"></div>
+            <div class="snippet-actions">
+              <button class="action-btn save-btn" title="Save snippet" @click="saveNewSnippet()">
+                <Icon name="check" />
+              </button>
+              <button class="action-btn cancel-btn" title="Cancel creation" @click="cancelNewSnippet()">
+                <Icon name="close" />
+              </button>
+            </div>
+          </div>
+          <div class="snippet-edit-form">
+            <div class="form-group">
+              <input v-model="newSnippet.id" class="snippet-key-input" placeholder="!shortcut" :class="{ error: error(newSnippet.id) }" />
+              <div v-if="error(newSnippet.id)" class="error-message">{{ error(newSnippet.id) }}</div>
+            </div>
+            <div class="form-group">
+              <label>Content:</label>
+              <textarea
+                v-model="newSnippet.label"
+                class="snippet-content-input"
+                placeholder="Snippet content...&#10;Use ${0}, ${1}, ... to tab through placeholders"
+                rows="4"
+              />
+            </div>
+          </div>
+        </div>
         <div
           v-for="(snippet, index) in filteredSnippets"
           :key="snippet.id || index"
           class="snippet-card"
           :class="{ selected: selectedSnippets.includes(index), editing: editingIndex === index }"
         >
-          <!-- Card Header -->
           <div class="snippet-header">
             <div class="snippet-header-left">
               <input type="checkbox" :checked="selectedSnippets.includes(index)" class="snippet-checkbox" @change="toggleSelection(index)" />
               <div v-if="editingIndex !== index" class="snippet-shortcut-display">
-                <code class="shortcut-code">{{ snippet.id || '!untitled' }}</code>
+                <code class="shortcut-code">{{ snippet.id }}</code>
               </div>
             </div>
-
             <div class="snippet-actions">
               <button v-if="editingIndex !== index" class="action-btn edit-btn" title="Edit snippet" @click="startEdit(index)">
                 <Icon name="edit" />
@@ -73,7 +93,6 @@
               <input v-model="editingSnippet.id" class="snippet-key-input" placeholder="!shortcut" :class="{ error: error(editingSnippet.id) }" />
               <div v-if="error(editingSnippet.id)" class="error-message">{{ error(editingSnippet.id) }}</div>
             </div>
-
             <div class="form-group">
               <label>Content:</label>
               <textarea v-model="editingSnippet.label" class="snippet-content-input" placeholder="Snippet content..." rows="4" />
@@ -82,38 +101,21 @@
 
           <!-- View Mode -->
           <div v-else class="snippet-content">
-            <div class="snippet-preview">
-              <div class="preview-label">Preview:</div>
-              <!-- eslint-disable-next-line vue/no-v-html | OK Because user self entry -->
-              <div class="preview-content" v-html="getPreviewHtml(snippet.label)" />
-            </div>
-
-            <div class="snippet-raw">
-              <div class="raw-label">Raw content:</div>
-              <pre class="raw-content">{{ snippet.label }}</pre>
-            </div>
+            <pre class="raw-content">{{ snippet.label }}</pre>
           </div>
         </div>
+
+        <!-- Temporary snippet creation -->
       </TransitionGroup>
     </div>
-
-    <!-- Import file input (hidden) -->
     <input ref="fileInput" type="file" accept=".json" style="display: none" @change="handleFileImport" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { DEFAULT_PREFERENCES } from '~/composables/Preferences';
-import compile from '~/helpers/markdown';
-
-const snippets = usePreferences().get('snippets');
-
-// Sort options for AppSelect
-const sortOptions = [
-  { id: 'shortcut', label: 'Sort by Shortcut' },
-  { id: 'content', label: 'Sort by Content' },
-  { id: 'usage', label: 'Sort by Usage' },
-];
+const preferences = usePreferences();
+const snippets = preferences.get('snippets');
 
 // Reactive state
 const searchQuery = ref('');
@@ -122,41 +124,44 @@ const selectedSnippets = ref<number[]>([]);
 const editingIndex = ref<number | null>(null);
 const editingSnippet = ref<{ id: string; label: string }>({ id: '', label: '' });
 const originalSnippet = ref<{ id: string; label: string }>({ id: '', label: '' });
-const fileInput = ref<HTMLInputElement | null>(null);
 
-// Computed properties
+// Temporary snippet creation
+const creatingSnippet = ref(false);
+const newSnippet = ref<{ id: string; label: string }>({ id: '', label: '' });
+const sortOptions = [
+  { id: 'shortcut', label: 'Sort by Shortcut' },
+  { id: 'content', label: 'Sort by Content' },
+  { id: 'usage', label: 'Sort by Usage' },
+];
+// Computed
 const filteredSnippets = computed(() => {
-  const filtered = snippets.value.filter(snippet => {
-    const searchLower = searchQuery.value.toLowerCase();
-    return snippet.id.toLowerCase().includes(searchLower) || snippet.label.toLowerCase().includes(searchLower);
-  });
-
-  // Sort snippets
-  return filtered.sort((a, b) => {
-    switch (sortBy.value) {
-      case 'shortcut':
-        return a.id.localeCompare(b.id);
-      case 'content':
-        return a.label.localeCompare(b.label);
-      case 'usage':
-        // For now, sort by id as usage tracking isn't implemented
-        return a.id.localeCompare(b.id);
-      default:
-        return 0;
-    }
-  });
+  return snippets.value
+    .filter(
+      snippet => snippet.id.toLowerCase().includes(searchQuery.value.toLowerCase()) || snippet.label.toLowerCase().includes(searchQuery.value.toLowerCase()),
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
 });
 
 // Functions
 function addSnippet() {
-  const newSnippet = { id: '', label: '' };
-  snippets.value = [newSnippet, ...snippets.value];
-
-  // Start editing the new snippet immediately
-  nextTick(() => {
-    startEdit(0);
-  });
+  creatingSnippet.value = true;
+  newSnippet.value = { id: '', label: '' };
 }
+
+function saveNewSnippet() {
+  if (error(newSnippet.value.id)) return;
+  snippets.value.unshift({ ...newSnippet.value });
+  preferences.set('snippets', snippets.value);
+  creatingSnippet.value = false;
+  newSnippet.value = { id: '', label: '' };
+}
+
+function cancelNewSnippet() {
+  creatingSnippet.value = false;
+  newSnippet.value = { id: '', label: '' };
+}
+
+const fileInput = ref<HTMLInputElement | null>(null);
 
 function removeSnippet(index: number) {
   const actualIndex = findActualIndex(index);
@@ -165,7 +170,7 @@ function removeSnippet(index: number) {
 
     // Clear selection if deleted snippet was selected
     selectedSnippets.value = selectedSnippets.value.filter(i => i !== index);
-
+    preferences.set('snippets', snippets.value);
     // Cancel editing if we're editing this snippet
     if (editingIndex.value === index) {
       cancelEdit();
@@ -195,6 +200,7 @@ function deleteSelected() {
 
   actualIndices.forEach(index => {
     snippets.value.splice(index, 1);
+    preferences.set('snippets', snippets.value);
   });
 
   selectedSnippets.value = [];
@@ -215,6 +221,7 @@ function saveEdit() {
     const actualIndex = findActualIndex(editingIndex.value);
     if (actualIndex !== -1) {
       snippets.value[actualIndex] = { ...editingSnippet.value };
+      preferences.set('snippets', snippets.value);
     }
     cancelEdit();
   }
@@ -227,17 +234,15 @@ function cancelEdit() {
 }
 
 function error(shortcut: string): string | false {
-  if (!shortcut.trim()) return 'Shortcut is required';
-  const otherSnippets = snippets.value.filter((_, index) => index !== (editingIndex.value !== null ? findActualIndex(editingIndex.value) : -1));
-  if (otherSnippets.some(snippet => snippet.id === shortcut)) {
-    return 'This shortcut already exists';
+  // Return This shortcut already exists if duplicate
+  const isDuplicate = snippets.value.some((snippet, index) => {
+    const actualIndex = findActualIndex(index);
+    return snippet.id === shortcut && actualIndex !== findActualIndex(editingIndex.value ?? -1);
+  });
+  if (isDuplicate) {
+    return 'This shortcut already exists.';
   }
-
   return false;
-}
-
-function getPreviewHtml(content: string): string {
-  return compile(content);
 }
 
 function exportSnippets() {
@@ -274,9 +279,8 @@ function handleFileImport(event: Event) {
 
         snippets.value = [...snippets.value, ...newSnippets];
       }
-    } catch (error) {
-      console.error('Failed to import snippets:', error);
-      alert('Failed to import snippets. Please check the file format.');
+    } catch {
+      useNotifications().add({ title: 'Failed to import snippets. Please check the file format.', type: 'error' });
     }
   };
 
@@ -371,6 +375,8 @@ watch(searchQuery, () => {
 // Snippets container
 .snippets-container {
   min-height: 200px;
+  background-color: var(--bg-ui);
+  border-radius: 12px;
 }
 
 .no-snippets {
@@ -386,7 +392,6 @@ watch(searchQuery, () => {
 
   p {
     margin: 0;
-    font-size: 1.1rem;
   }
 }
 
@@ -405,16 +410,12 @@ watch(searchQuery, () => {
 // Snippet card
 .snippet-card {
   position: relative;
-  padding: 1rem;
-  border: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
   border-radius: 8px;
-  background: var(--bg-color);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: var(--primary-border);
-    box-shadow: 0 4px 16px rgb(0 0 0 / 15%);
+    background-color: var(--bg-ui);
   }
 
   &.selected {
@@ -424,7 +425,6 @@ watch(searchQuery, () => {
 
   &.editing {
     border-color: var(--green);
-    box-shadow: 0 4px 16px var(--green-border);
   }
 }
 
@@ -433,8 +433,6 @@ watch(searchQuery, () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
 }
 
 .snippet-header-left {
@@ -444,8 +442,8 @@ watch(searchQuery, () => {
 }
 
 .snippet-checkbox {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   cursor: pointer;
 }
 
@@ -522,29 +520,17 @@ watch(searchQuery, () => {
 
 // View mode content
 .snippet-content {
-  .preview-label,
   .raw-label {
     font-size: 0.85rem;
     font-weight: 600;
   }
 
-  .preview-content {
-    padding: 0.35rem 0;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    background: var(--bg-color-secondary);
-  }
-
   .raw-content {
     margin: 0;
-    padding: 0.35rem 0;
-    border-radius: 6px;
     font-family: $monospace-font;
-    font-size: 0.85rem;
     line-height: 1.4;
     background: var(--code-bg);
-    white-space: pre-wrap;
-    word-break: break-word;
+    white-space: nowrap;
   }
 }
 
