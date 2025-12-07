@@ -346,7 +346,6 @@ function snippetSource(context: CompletionContext) {
   return {
     from: word ? word.from : context.pos,
     options: [
-      // snippets "normaux" toujours disponibles
       ...allSnippets.map(s => ({
         label: s.id,
         detail: 'Snippet',
@@ -354,7 +353,6 @@ function snippetSource(context: CompletionContext) {
         apply: snippet(s.label),
       })),
 
-      // snippets KaTeX seulement dans $...$ ou $$...$$
       ...(inMath
         ? katexSnippets.map(s => ({
             label: s.id,
