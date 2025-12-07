@@ -291,15 +291,10 @@ function snippetSource(context: CompletionContext) {
   if (!word && !context.explicit) return null;
   return {
     from: word ? word.from : context.pos,
-    // MODIFICATION CLÉ: Remplacer snippetCompletion() par un objet Completion littéral
-    // avec 'apply: snippet(s.label)'
-
     options: [...snippets, ...katexSnippets].map(s => ({
-      label: s.label, // Le déclencheur qui apparaît dans la liste (ex: !yellow)
+      label: s.label,
       detail: 'Snippet',
       type: 'snippet',
-      // On utilise 'snippet' pour créer explicitement la fonction d'application
-      // qui va analyser et gérer le curseur pour $0, $1, etc.
       apply: snippet(s.label),
     })),
   };
