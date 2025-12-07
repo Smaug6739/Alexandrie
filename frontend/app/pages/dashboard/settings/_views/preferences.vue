@@ -8,7 +8,10 @@
 
       <div v-for="opt in section.options" :key="opt.key" class="form-group">
         <div>
-          <label>{{ opt.label }}</label>
+          <label
+            >{{ opt.label }} <tag v-if="opt.tag" class="blue">{{ opt.tag }}</tag></label
+          >
+
           <p class="description">{{ opt.description }}</p>
         </div>
         <!-- Toggle -->
@@ -63,8 +66,12 @@ const preferencesStore = usePreferences();
 // @ts-expect-error unknown type
 const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnType<unknown>;
 
+type InterfaceOption = Option & {
+  tag?: string;
+};
+
 const colorMode = useColorMode();
-const options: Array<{ label: string; options: Option[] }> = [
+const options: Array<{ label: string; options: InterfaceOption[] }> = [
   {
     label: 'General',
     options: [
@@ -209,6 +216,13 @@ const options: Array<{ label: string; options: Option[] }> = [
         description: 'Show a small statistics bar at the top of the editor with word count, characters, and lines.',
         type: 'toggle',
         key: 'editorDisplayStats',
+      },
+      {
+        label: 'Enable Snippets',
+        tag: 'New',
+        description: 'Enable or disable editor snippets functionality.',
+        type: 'toggle',
+        key: 'editorSnippetsEnabled',
       },
     ],
   },

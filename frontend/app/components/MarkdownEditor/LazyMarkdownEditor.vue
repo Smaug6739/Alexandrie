@@ -282,21 +282,88 @@ const updateListener = EditorView.updateListener.of(v => {
     autoSaveConditional();
   }
 });
+function isInsideMath(context: CompletionContext): boolean {
+  const doc = context.state.doc.toString();
+  const pos = context.pos;
+  const len = doc.length;
+  const tokens: { pos: number; type: '$' | '$$' }[] = [];
+
+  // Tokenize: find $ and $$ that are NOT escaped (preceded by backslash)
+  for (let i = 0; i < len; i++) {
+    if (doc[i] !== '$') continue;
+    // count backslashes immediately before to check escaping
+    let j = i - 1;
+    let backslashes = 0;
+    while (j >= 0 && doc[j] === '\\') {
+      backslashes++;
+      j--;
+    }
+    if (backslashes % 2 === 1) continue; // escaped -> ignore
+
+    if (i + 1 < len && doc[i + 1] === '$') {
+      tokens.push({ pos: i, type: '$$' });
+      i++; // skip second $
+    } else {
+      tokens.push({ pos: i, type: '$' });
+    }
+  }
+
+  // Count $$ before the cursor
+  const blockDollarPositions = tokens.filter(t => t.type === '$$').map(t => t.pos);
+  const blockCountBefore = blockDollarPositions.filter(p => p < pos).length;
+  // If odd number of $$ before cursor -> we're inside a $$...$$ block
+  if (blockCountBefore % 2 === 1) return true;
+
+  // Build intervals of $$ pairs to exclude single $ inside them
+  const blockIntervals: Array<[number, number]> = [];
+  for (let i = 0; i + 1 < blockDollarPositions.length; i += 2) {
+    const start = blockDollarPositions[i] ?? 0;
+    const end = (blockDollarPositions[i + 1] ?? 0) + 2; // end index after closing $$
+    blockIntervals.push([start, end]);
+  }
+
+  // Helper: check if position is inside any $$ interval
+  const inBlock = (p: number) => blockIntervals.some(([s, e]) => p >= s && p < e);
+
+  // Filter single $ tokens that are NOT inside a $$ interval
+  const singleDollarPositions = tokens.filter(t => t.type === '$' && !inBlock(t.pos)).map(t => t.pos);
+
+  const singleCountBefore = singleDollarPositions.filter(p => p < pos).length;
+
+  // If odd -> inside inline $...$
+  return singleCountBefore % 2 === 1;
+}
 
 function snippetSource(context: CompletionContext) {
-  const snippets = preferences.get('snippets').value;
+  if (!preferences.get('editorSnippetsEnabled').value) return null;
+  const allSnippets = preferences.get('snippets').value;
 
   const word = context.matchBefore(/[\w!:]+/);
-
   if (!word && !context.explicit) return null;
+
+  const inMath = isInsideMath(context);
+
   return {
     from: word ? word.from : context.pos,
-    options: [...snippets, ...katexSnippets].map(s => ({
-      label: s.label,
-      detail: 'Snippet',
-      type: 'snippet',
-      apply: snippet(s.label),
-    })),
+    options: [
+      // snippets "normaux" toujours disponibles
+      ...allSnippets.map(s => ({
+        label: s.id,
+        detail: 'Snippet',
+        type: 'snippet',
+        apply: snippet(s.label),
+      })),
+
+      // snippets KaTeX seulement dans $...$ ou $$...$$
+      ...(inMath
+        ? katexSnippets.map(s => ({
+            label: s.id,
+            detail: 'KaTeX',
+            type: 'snippet',
+            apply: snippet(s.label),
+          }))
+        : []),
+    ],
   };
 }
 
@@ -337,7 +404,6 @@ onMounted(() => {
   window.addEventListener('keydown', handleGlobalKeys);
 });
 
-// ... [REST OF COMPONENT INCHANGED] ...
 onBeforeUnmount(() => {
   if (preferences.get('documentAutoSave').value) {
     updateDocumentContent();

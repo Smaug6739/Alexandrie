@@ -16,6 +16,10 @@
         <label for="category">Display editor statistics</label>
         <AppToggle v-model="store.get('editorDisplayStats').value" />
       </div>
+      <div class="row">
+        <label for="category">Enable snippets</label>
+        <AppToggle v-model="store.get('editorSnippetsEnabled').value" />
+      </div>
     </form>
   </div>
 </template>
