@@ -1,13 +1,7 @@
 # ========================================
 # Build stage
 # ========================================
-FROM node:22-alpine AS builder
-
-# Install bun
-RUN apk add --no-cache curl unzip bash && \
-    curl -fsSL https://bun.sh/install | bash && \
-    cp /root/.bun/bin/bun /usr/local/bin/bun && \
-    chmod +x /usr/local/bin/bun
+FROM jarredsumner/bun:latest AS builder
 
 WORKDIR /app
 COPY package.json bun.lock ./
