@@ -1,7 +1,7 @@
 # ========================================
 # Build stage
 # ========================================
-FROM jarredsumner/bun:latest AS builder
+FROM oven/bun:1 AS builder
 
 WORKDIR /app
 COPY package.json bun.lock ./
