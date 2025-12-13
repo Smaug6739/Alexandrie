@@ -61,8 +61,9 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 	}
 
 	secure := shouldUseSecureCookies()
-	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
-	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
+	domain := getCookieDomain()
+	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", domain, secure, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", domain, secure, true)
 
 	return http.StatusOK, user
 }
@@ -92,8 +93,9 @@ func (ctr *Controller) RefreshSession(c *gin.Context) (int, any) {
 	}
 
 	secure := shouldUseSecureCookies()
-	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
-	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
+	domain := getCookieDomain()
+	c.SetCookie("Authorization", tokenString, ctr.app.Config.Auth.AccessTokenExpiry, "/", domain, secure, true)
+	c.SetCookie("RefreshToken", session.RefreshToken, ctr.app.Config.Auth.RefreshTokenExpiry, "/", domain, secure, true)
 
 	return http.StatusOK, "Session refreshed successfully."
 }
@@ -116,8 +118,9 @@ func (ctr *Controller) Logout(c *gin.Context) (int, any) {
 	}
 
 	secure := shouldUseSecureCookies()
-	c.SetCookie("Authorization", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
-	c.SetCookie("RefreshToken", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
+	domain := getCookieDomain()
+	c.SetCookie("Authorization", "", -1, "/", domain, secure, true)
+	c.SetCookie("RefreshToken", "", -1, "/", domain, secure, true)
 	return http.StatusOK, "Logged out successfully."
 }
 
@@ -139,8 +142,9 @@ func (ctr *Controller) LogoutAllDevices(c *gin.Context) (int, any) {
 	}
 
 	secure := shouldUseSecureCookies()
-	c.SetCookie("Authorization", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
-	c.SetCookie("RefreshToken", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), secure, true)
+	domain := getCookieDomain()
+	c.SetCookie("Authorization", "", -1, "/", domain, secure, true)
+	c.SetCookie("RefreshToken", "", -1, "/", domain, secure, true)
 	return http.StatusOK, "Logged out from all devices successfully."
 }
 
@@ -204,7 +208,21 @@ func deleteOldSessionsAndLogs(app *app.App) {
 	}
 }
 
+// Cookies security helpers
+
 func shouldUseSecureCookies() bool {
 	value := os.Getenv("ALLOW_UNSECURE")
 	return !(value == "true" || value == "1")
+}
+
+func getCookieDomain() string {
+	domain := os.Getenv("COOKIE_DOMAIN")
+	if domain == "" {
+		return "" // par défaut le cookie sera lié au host courant
+	}
+	// Ajouter un point devant pour inclure les sous-domaines
+	if domain[0] != '.' {
+		domain = "." + domain
+	}
+	return domain
 }
