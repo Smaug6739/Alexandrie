@@ -1,7 +1,7 @@
-<template>
-  <div />
-</template>
-
 <script setup lang="ts">
-await navigateTo('/dashboard/home');
+definePageMeta({
+  redirect: '/dashboard/home',
+});
 </script>
+
+<template><div /></template>
