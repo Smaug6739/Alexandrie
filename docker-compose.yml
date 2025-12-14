@@ -85,7 +85,8 @@ services:
 
       # Application authentication and security
       JWT_SECRET: your-secure-jwt-secret-key-change-this-in-production # Change this secret in production!
-      FRONTEND_URL: http://localhost:8200 # URL where the frontend is hosted
+      COOKIE_DOMAIN: localhost:8200 # Common domain for cookies (e.g., yourdomain.com if you have frontend.yourdomain.com and api.yourdomain.com)
+      DOMAIN_CLIENT: http://localhost:8200 # URL where the frontend is hosted (for CORS policy and url generation in emails)
       ALLOW_UNSECURE: 'true' # Set to 'true' if you run without HTTPS (e.g., local dev);
 
     ports:
