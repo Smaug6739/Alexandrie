@@ -76,7 +76,7 @@ export async function makeRequest<T>(route: string, method: string, body: object
         const retryData = await retry.json();
         return retryData;
       } catch {
-        return { status: 'error', message: 'Authentication failed.' };
+        return { status: 'error', message: data.message || 'Authentication failed.' };
       }
     }
 
