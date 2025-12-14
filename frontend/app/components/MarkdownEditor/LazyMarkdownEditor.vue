@@ -45,11 +45,6 @@ import Toolbar from './Toolbar.vue';
 import compile from '~/helpers/markdown';
 import type { Node } from '~/stores';
 
-/* Modals */
-import ImageSelectorModal from './ImageSelectorModal.vue';
-import GridOrganizationModal from './GridOrganizationModal.vue';
-import ColorPickerModal from './ColorPickerModal.vue';
-
 const resourcesStore = useRessourcesStore();
 const preferences = usePreferences();
 
@@ -68,16 +63,11 @@ const document = ref<Partial<Node>>({
 });
 
 const commands = createCommands({
-  getView: () => editorView.value,
-  getDoc: () => document.value,
+  getView: () => editorView.value as EditorView | null,
+  getDoc: () => document.value as Node,
   setDoc: d => (document.value = d),
   showPreview,
   save: () => save(),
-  modals: {
-    ImageSelectorModal,
-    GridOrganizationModal,
-    ColorPickerModal,
-  },
 });
 
 const uploadsHandlers = createUploadsHandlers({ resourcesStore, CDN, insertText: (t: string) => commands.exec('insertText', t) });
