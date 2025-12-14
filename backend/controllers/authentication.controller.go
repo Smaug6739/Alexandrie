@@ -218,9 +218,9 @@ func shouldUseSecureCookies() bool {
 func getCookieDomain() string {
 	domain := os.Getenv("COOKIE_DOMAIN")
 	if domain == "" {
-		return "" // par défaut le cookie sera lié au host courant
+		return ""
 	}
-	// Ajouter un point devant pour inclure les sous-domaines
+	// Include leading dot for subdomains
 	if domain[0] != '.' {
 		domain = "." + domain
 	}
