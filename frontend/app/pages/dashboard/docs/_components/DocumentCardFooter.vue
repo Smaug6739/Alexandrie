@@ -1,8 +1,16 @@
 <template>
   <footer v-if="document">
     <div class="infos">
-      <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" :prefetch="false"><Icon name="edit_page" /> Edit this page</NuxtLink>
-      <p>Last update: {{ new Date(document.updated_timestamp).toLocaleDateString() }}</p>
+      <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" :prefetch="false" class="edit-link">
+        <Icon name="edit_page" />
+        <span>Edit this page</span>
+      </NuxtLink>
+      <div class="footer-meta">
+        <span class="meta-item">
+          <Icon name="update" />
+          Last updated {{ formatRelativeDate(document.updated_timestamp) }}
+        </span>
+      </div>
     </div>
     <div class="items">
       <NuxtLink v-if="previous" :to="`/dashboard/docs/${previous.id}`" class="item left">
@@ -26,7 +34,52 @@ defineProps<{ document?: Node; next?: Node; previous?: Node }>();
 footer {
   margin: 50px 0 40px;
 }
+.edit-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--bg-ui);
+  color: var(--font-color);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 
+  :deep(svg) {
+    width: 16px;
+    height: 16px;
+    fill: var(--font-color-light);
+  }
+
+  &:hover {
+    background: var(--primary-bg);
+    color: var(--primary);
+
+    :deep(svg) {
+      fill: var(--primary);
+    }
+  }
+}
+.footer-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--font-color-light);
+
+  :deep(svg) {
+    width: 14px;
+    height: 14px;
+    fill: var(--font-color-light);
+  }
+}
 .items {
   display: flex;
   flex-wrap: wrap;
@@ -79,6 +132,7 @@ svg {
 .infos {
   display: flex;
   font-weight: 500;
+  padding: 10px 0;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
   justify-content: space-between;

@@ -8,7 +8,7 @@
         <p class="top-row">
           <span style="display: flex; align-items: center; gap: 12px"
             ><img v-if="user" :src="useAvatar(user)" class="avatar" />
-            <span style="font-size: 18px; color: var(--font-color-light)">{{ user?.username }}</span>
+            <span style="font-size: 16px; color: var(--font-color-light)">{{ user?.username }}</span>
           </span>
           <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
         </p>
@@ -20,7 +20,7 @@
         </div>
       </template>
     </div>
-    <div class="icon">
+    <div class="thumbnail">
       <DocumentHeaderIllustration :document="doc" />
     </div>
   </div>
@@ -45,9 +45,10 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .header {
   display: flex;
-  padding: 0.7rem 1.2rem;
+  padding: 1rem 1.2rem;
   border-radius: 0.625rem;
   background-color: var(--bg-contrast);
+  border: 1px solid var(--border-color-light);
   transition: background-color $transition-duration;
 }
 
@@ -55,18 +56,14 @@ p {
   margin: 0;
 }
 
-.icon {
+.thumbnail {
   display: none;
+  max-width: 30%;
 }
 
 .text {
   flex: 2;
   padding-right: 10px;
-
-  .top-row,
-  .title {
-    font-family: Inter;
-  }
 
   .top-row {
     display: flex;
@@ -80,16 +77,20 @@ p {
   }
 
   .title {
-    margin: 6px 0;
+    margin: 4px 0;
     padding: 0;
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 550;
     color: var(--font-color-dark);
   }
-
+  .description {
+    font-size: 14px;
+    color: var(--font-color-light);
+    margin-bottom: 8px;
+  }
   .category {
     display: block;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     color: var(--font-color-light);
     padding-top: 8px;
@@ -103,14 +104,14 @@ p {
 }
 
 @media print, screen and (width >= 1024px) {
-  .icon {
+  .thumbnail {
     display: block;
   }
 }
 
 .avatar {
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin: 0;
   padding: 0;
   border-radius: 50%;
@@ -122,7 +123,7 @@ p {
     background: none;
     align-items: center;
 
-    .icon,
+    .thumbnail,
     .description,
     .category,
     .tags,

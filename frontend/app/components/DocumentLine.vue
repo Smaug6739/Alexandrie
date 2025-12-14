@@ -49,11 +49,30 @@ function showContextMenu(event: MouseEvent) {
 <style scoped lang="scss">
 .document-line {
   display: flex;
-  padding: 12px;
-  border-left: 1px solid var(--border-color);
-  border-right: 1px solid var(--border-color);
-  border-top: 1px solid var(--border-color);
+  padding: 14px 16px;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-bottom: none;
   flex-direction: column;
+  transition: background 0.15s ease;
+
+  &:first-child {
+    border-radius: 10px 10px 0 0;
+  }
+
+  &:last-child {
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0 0 10px 10px;
+  }
+
+  &:only-child {
+    border-radius: 10px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  &:hover {
+    background: var(--bg-contrast);
+  }
 }
 
 header {
@@ -62,36 +81,52 @@ header {
 
 .category-icon {
   padding: 6px;
-  border-radius: 6px;
-  margin-right: 5px;
+  border-radius: 8px;
+  margin-right: 8px;
 }
 
 .document-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--font-color-dark);
   text-decoration: none;
+  transition: color 0.15s;
+
+  &:hover {
+    color: var(--primary);
+  }
 }
 
 .description {
-  height: 100%;
   margin: 0;
-  padding: 4px 0;
-  font-size: 16px;
+  padding: 6px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--font-color-light);
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 footer {
   display: flex;
-  font-size: 14px;
+  font-size: 12px;
+  color: var(--font-color-light);
   align-items: center;
-  justify-content: flex-start;
-  margin-top: 8px;
+  gap: 6px;
+  margin-top: 4px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.6;
+  }
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
 }
 </style>
