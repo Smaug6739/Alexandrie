@@ -29,10 +29,15 @@ async function refreshAccessToken(): Promise<void> {
   if (!refreshPromise) {
     refreshPromise = (async () => {
       console.log('[AUTH] Refreshing access token...');
-      const res = await customFetch('auth/refresh', 'POST', {});
-      const data = await res.json();
+      try {
+        const res = await customFetch('auth/refresh', 'POST', {});
+        console.log(res);
+        const data = await res.json();
 
-      if (!res.ok || data.status !== 'success') {
+        if (!res.ok || data.status !== 'success') throw new Error('Refresh token invalid');
+
+        console.log('[AUTH] Access token refreshed.');
+      } catch {
         console.warn('[AUTH] Refresh failed, logging out.');
 
         useUserStore().post_logout();
@@ -41,8 +46,6 @@ async function refreshAccessToken(): Promise<void> {
         window.location.replace('/login');
         throw new Error('Refresh token invalid');
       }
-
-      console.log('[AUTH] Access token refreshed.');
     })();
 
     // reset the promise when done
