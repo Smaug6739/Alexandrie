@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 'sm' | 'md' | 'lg' | 'xl'; size?: string }>(), {
+const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 'sm' | 'md' | 'lg' | 'xl' | 'xll'; size?: string }>(), {
   display: 'md',
   fill: 'var(--font-color)',
   size: undefined,
@@ -41,8 +41,8 @@ const isUnicode = (str: string) => {
   }
 
   &.md {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
   }
 
   &.lg {
@@ -52,6 +52,10 @@ const isUnicode = (str: string) => {
   &.xl {
     width: 28px;
     height: 28px;
+  }
+  &.xll {
+    width: 32px;
+    height: 32px;
   }
 }
 

@@ -7,7 +7,7 @@
         <p class="subtitle">{{ todayFormatted }} · {{ documentsCount }} documents · {{ workspacesCount }} workspaces</p>
       </div>
       <div class="quick-actions">
-        <button class="action-btn primary" @click="createNewDocument"><Icon name="new" /> New document</button>
+        <AppButton type="primary" @click="createNewDocument">+ New document</AppButton>
       </div>
     </header>
 
@@ -44,17 +44,13 @@
     <!-- Section "Continuer à travailler" -->
     <section v-if="recentlyEdited.length" class="section">
       <div class="section-header">
-        <h2><Icon name="schedule" />Continue Working</h2>
-        <NuxtLink to="/dashboard/docs" class="see-all">See all →</NuxtLink>
+        <h2><Icon name="layers" />Continue Working</h2>
+        <NuxtLink to="/dashboard/docs" class="see-all">See all</NuxtLink>
       </div>
       <div class="continue-working">
         <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`" class="continue-card">
           <div class="continue-header">
-            <Icon
-              :name="getNodeIcon(doc)"
-              display="xl"
-              :class="`continue-icon ${getAppColor(doc.color || getCategory(doc.parent_id)?.color as number, true)}`"
-            />
+            <Icon :name="getNodeIcon(doc)" display="xl" :class="`node-icon ${getAppColor(doc.color || getCategory(doc.parent_id)?.color as number, true)}`" />
             <span class="continue-time">{{ relativeTime(doc.updated_timestamp) }}</span>
           </div>
           <h3 class="continue-title">{{ doc.name }}</h3>
@@ -88,7 +84,7 @@
     <section class="section">
       <div class="section-header">
         <h2><Icon name="workspace" /> Your Workspaces</h2>
-        <NuxtLink to="/dashboard/categories" class="see-all">Manage →</NuxtLink>
+        <NuxtLink to="/dashboard/categories" class="see-all">Manage</NuxtLink>
       </div>
       <div class="workspaces-grid">
         <NuxtLink
@@ -113,7 +109,7 @@
         </NuxtLink>
         <button class="workspace-card add-workspace" @click="openCreateWorkspace">
           <Icon name="add" class="add-icon" />
-          <span>Nouveau workspace</span>
+          <span>New workspace</span>
         </button>
       </div>
     </section>
@@ -121,14 +117,14 @@
     <!-- Section activité récente -->
     <section class="section">
       <div class="section-header">
-        <h2><Icon name="timeline" /> Recent Activity</h2>
+        <h2><Icon name="recent" /> Recent Activity</h2>
       </div>
       <div class="activity-timeline">
         <div v-for="(group, date) in activityByDate" :key="date" class="activity-group">
           <div class="activity-date">{{ date }}</div>
           <div class="activity-items">
             <NuxtLink v-for="item in group" :key="item.id" :to="getNodeLink(item)" class="activity-item">
-              <Icon :name="getNodeIcon(item)" :class="`activity-icon ${getAppColor(item.color as number, true)}`" />
+              <Icon :name="getNodeIcon(item)" display="md" :class="`activity-icon ${getAppColor(item.color as number, true)}`" />
               <div class="activity-content">
                 <span class="activity-name">{{ item.name }}</span>
                 <span class="activity-time">{{ formatTime(item.updated_timestamp) }}</span>
@@ -142,28 +138,28 @@
     <!-- Quick stats -->
     <section class="section stats-section">
       <div class="stat-card">
-        <Icon name="files" class="stat-icon" />
+        <Icon name="files" display="xll" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ documentsCount }}</span>
           <span class="stat-label">Documents</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="workspace" class="stat-icon" />
+        <Icon name="categories" display="xll" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ workspacesCount }}</span>
           <span class="stat-label">Workspaces</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="tag" class="stat-icon" />
+        <Icon name="advanced" display="xll" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ tagsCount }}</span>
           <span class="stat-label">Tags</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="cdn" class="stat-icon" />
+        <Icon name="import" display="xll" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ resourcesCount }}</span>
           <span class="stat-label">CDN Files</span>
@@ -172,15 +168,14 @@
     </section>
 
     <!-- Floating action button -->
-    <NuxtLink to="/dashboard/docs/new" :prefetch="false" class="fab">
-      <Icon name="add" />
-    </NuxtLink>
+    <NuxtLink to="/dashboard/docs/new" :prefetch="false" class="fab"> + </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Node } from '~/stores';
 import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import type AppButtonVue from '~/components/AppButton.vue';
 
 const router = useRouter();
 const nodesStore = useNodesStore();
@@ -319,11 +314,12 @@ const relativeTime = (timestamp: number) => {
   const hours = Math.floor(diff / 3600000);
   const days = Math.floor(diff / 86400000);
 
-  if (minutes < 1) return "À l'instant";
-  if (minutes < 60) return `Il y a ${minutes} min`;
-  if (hours < 24) return `Il y a ${hours}h`;
-  if (days === 1) return 'Hier';
-  if (days < 7) return `Il y a ${days} jours`;
+  // English version
+  if (minutes < 1) return 'Just now';
+  if (minutes < 60) return `${minutes}m ago`;
+  if (hours < 24) return `${hours}h ago`;
+  if (days === 1) return 'Yesterday';
+  if (days < 7) return `${days} days ago`;
   return formatDate(timestamp);
 };
 
@@ -344,7 +340,6 @@ const formatTime = (timestamp: number) => {
 
 // Actions
 const createNewDocument = () => router.push('/dashboard/docs/new');
-const openCommandCenter = () => window.dispatchEvent(new CustomEvent('command-center-open'));
 const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
 </script>
 
@@ -594,7 +589,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   margin-bottom: 0.5rem;
 }
 
-.continue-icon {
+.node-icon {
   padding: 0.4rem;
   border-radius: 6px;
 }
@@ -889,11 +884,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .stat-icon {
-  font-size: 1.5rem;
-  color: var(--primary);
-  padding: 0.75rem;
+  padding: 0.4rem;
   background: var(--primary-bg);
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .stat-content {
@@ -916,12 +909,13 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   position: fixed;
   right: 2rem;
   bottom: 2rem;
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: var(--primary);
   color: white;
   display: flex;
+  font-size: xx-large;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
