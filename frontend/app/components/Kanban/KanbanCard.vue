@@ -1,16 +1,20 @@
 <template>
   <div class="kanban-card" draggable="true" @dragstart="onDragStart" @dragend="onDragEnd">
     <div class="card-header">
-      <span class="card-icon" :class="getAppColor(node.color as number || props.parent.color as number, true)">
-        <Icon :name="node.icon || 'file'" display="sm" />
-      </span>
+      <div class="card-header-left">
+        <span class="card-icon" :class="getAppColor(node.color as number || props.parent.color as number, true)">
+          <Icon :name="node.icon || 'file'" display="sm" />
+        </span>
+
+        <NuxtLink :to="`/dashboard/docs/${node.id}`" class="card-title">
+          {{ node.name }}
+        </NuxtLink>
+      </div>
       <span v-if="node.order === -1" class="pin-badge" title="Pinned">
         <Icon name="pin" />
       </span>
     </div>
-    <NuxtLink :to="`/dashboard/docs/${node.id}`" class="card-title">
-      {{ node.name }}
-    </NuxtLink>
+
     <p v-if="node.description" class="card-description">{{ node.description }}</p>
     <div class="card-footer">
       <div v-if="node.tags" class="card-tags">
@@ -75,6 +79,12 @@ const onDragEnd = () => {
   align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
+}
+
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .card-icon {
