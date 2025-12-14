@@ -31,7 +31,6 @@ async function refreshAccessToken(): Promise<void> {
       console.log('[AUTH] Refreshing access token...');
       try {
         const res = await customFetch('auth/refresh', 'POST', {});
-        console.log(res);
         const data = await res.json();
 
         if (!res.ok || data.status !== 'success') throw new Error('Refresh token invalid');
