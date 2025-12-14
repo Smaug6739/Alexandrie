@@ -30,7 +30,7 @@
       <Transition name="dropdown">
         <div v-if="searchResults?.length" class="search-results">
           <NuxtLink v-for="result in searchResults" :key="result.id" class="search-result" :to="getNodeLink(result)">
-            <Icon :name="getNodeIcon(result)" :class="`node-icon ${getAppColor(result.color as number, true)}`" />
+            <Icon :name="resolveIcon(result)" :class="`node-icon ${getAppColor(result.color as number, true)}`" />
             <div class="result-content">
               <span class="result-name">{{ result.name }}</span>
               <span class="result-path">{{ getNodePath(result) }}</span>
@@ -48,21 +48,8 @@
         <NuxtLink to="/dashboard/docs" class="see-all">See all</NuxtLink>
       </div>
       <div class="continue-working">
-        <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`" class="continue-card">
-          <div class="continue-header">
-            <Icon :name="getNodeIcon(doc)" display="xl" :class="`node-icon ${getAppColor(doc.color || getCategory(doc.parent_id)?.color as number, true)}`" />
-            <span class="continue-time">{{ relativeTime(doc.updated_timestamp) }}</span>
-          </div>
-          <h3 class="continue-title">{{ doc.name }}</h3>
-          <p v-if="doc.description" class="continue-desc">{{ doc.description }}</p>
-          <div class="continue-meta">
-            <span v-if="getCategory(doc.parent_id)" class="continue-category">
-              {{ getCategory(doc.parent_id)?.name }}
-            </span>
-            <div v-if="doc.tags" class="continue-tags">
-              <tag v-for="tag in doc.tags.split(',').slice(0, 2)" :key="tag" class="mini">{{ tag.trim() }}</tag>
-            </div>
-          </div>
+        <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
+          <NodeRecentCard :node="doc" />
         </NuxtLink>
       </div>
     </section>
@@ -73,9 +60,8 @@
         <h2><Icon name="pin" /> Pinned Documents</h2>
       </div>
       <div class="pinned-grid">
-        <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`" class="pinned-card">
-          <Icon :name="getNodeIcon(doc)" :class="`node-icon ${getAppColor(doc.color || getCategory(doc.parent_id)?.color as number, true)}`" />
-          <span class="pinned-name">{{ doc.name }}</span>
+        <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
+          <NodeRecentCard :node="doc" />
         </NuxtLink>
       </div>
     </section>
@@ -87,30 +73,10 @@
         <NuxtLink to="/dashboard/categories" class="see-all">Manage</NuxtLink>
       </div>
       <div class="workspaces-grid">
-        <NuxtLink
-          v-for="workspace in workspaces"
-          :key="workspace.id"
-          :to="`/dashboard/categories/${workspace.id}`"
-          class="workspace-card"
-          :class="getAppColor(workspace.color as number, true)"
-        >
-          <div class="workspace-header">
-            <Icon :name="workspace.icon || 'workspace'" class="workspace-icon" />
-            <span class="workspace-count">{{ getWorkspaceDocCount(workspace.id) }}</span>
-          </div>
-          <h3 class="workspace-name">{{ workspace.name }}</h3>
-          <p v-if="workspace.description" class="workspace-desc">{{ workspace.description }}</p>
-          <div class="workspace-children">
-            <span v-for="child in getWorkspaceCategories(workspace.id).slice(0, 3)" :key="child.id" class="child-badge">
-              {{ child.name }}
-            </span>
-            <span v-if="getWorkspaceCategories(workspace.id).length > 3" class="child-more"> +{{ getWorkspaceCategories(workspace.id).length - 3 }} </span>
-          </div>
+        <NuxtLink v-for="workspace in workspaces" :key="workspace.id" :to="`/dashboard/categories/${workspace.id}`">
+          <NodeWorkspaceCard :workspace="workspace" />
         </NuxtLink>
-        <button class="workspace-card add-workspace" @click="openCreateWorkspace">
-          <Icon name="add" class="add-icon" />
-          <span>New workspace</span>
-        </button>
+        <button class="add-workspace" @click="openCreateWorkspace">New workspace</button>
       </div>
     </section>
 
@@ -125,7 +91,7 @@
           <div class="activity-items">
             <NuxtLink v-for="item in group" :key="item.id" :to="getNodeLink(item)" class="activity-item">
               <Icon
-                :name="getNodeIcon(item)"
+                :name="resolveIcon(item)"
                 display="md"
                 :class="`activity-icon ${getAppColor(item.color || getCategory(item.parent_id)?.color as number, true)}`"
               />
@@ -170,20 +136,17 @@
         </div>
       </div>
     </section>
-
-    <!-- Floating action button -->
-    <NuxtLink to="/dashboard/docs/new" :prefetch="false" class="fab"> + </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
+import { resolveIcon } from '~/helpers/node';
 import type { Node } from '~/stores';
 import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 
 const router = useRouter();
 const nodesStore = useNodesStore();
 const userStore = useUserStore();
-const locale = 'en-US';
 
 // Search state
 const searchQuery = ref('');
@@ -191,15 +154,6 @@ const isSearchFocused = ref(false);
 
 // User info
 const userName = computed(() => userStore.user?.firstname || userStore.user?.username || '');
-
-// Formatted date
-const todayFormatted = computed(() => {
-  return new Date().toLocaleDateString(locale, {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  });
-});
 
 // Stats
 const documentsCount = computed(() => nodesStore.documents.size);
@@ -227,17 +181,6 @@ const workspaces = computed(() => {
     .toArray()
     .toSorted((a, b) => a.name.localeCompare(b.name));
 });
-
-// Get workspace categories
-const getWorkspaceCategories = (workspaceId: string) => {
-  return nodesStore.getAll.filter(n => n.parent_id === workspaceId && n.role === 2).toArray();
-};
-
-// Get document count for a workspace
-const getWorkspaceDocCount = (workspaceId: string) => {
-  const allChildren = nodesStore.getAllChildrensIds(workspaceId);
-  return nodesStore.documents.filter(d => allChildren.includes(d.id)).size;
-};
 
 // Activity grouped by date
 const activityByDate = computed(() => {
@@ -274,15 +217,6 @@ const searchResults = computed(() => {
 // Helpers
 const getCategory = (id?: string) => nodesStore.getById(id || '');
 
-const getNodeIcon = (node: Node) => {
-  if (node.icon) return node.icon;
-  if (node.role === 1) return 'workspace';
-  if (node.role === 2) return 'folder';
-  if (node.role === 3) return node.accessibility === 1 ? 'sidebar/file' : 'draft';
-  if (node.role === 4) return 'sidebar/image';
-  return 'sidebar/file';
-};
-
 const getNodeLink = (node: Node) => {
   if (node.role === 1 || node.role === 2) return `/dashboard/categories/${node.id}`;
   if (node.role === 3) return `/dashboard/docs/${node.id}`;
@@ -309,36 +243,6 @@ const getNodePath = (node: Node) => {
     } else break;
   }
   return parts.join(' / ') || 'Racine';
-};
-
-const relativeTime = (timestamp: number) => {
-  const diff = Date.now() - timestamp;
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
-
-  // English version
-  if (minutes < 1) return 'Just now';
-  if (minutes < 60) return `${minutes}m ago`;
-  if (hours < 24) return `${hours}h ago`;
-  if (days === 1) return 'Yesterday';
-  if (days < 7) return `${days} days ago`;
-  return formatDate(timestamp);
-};
-
-const formatDateLabel = (timestamp: number) => {
-  const date = new Date(timestamp);
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  if (date.toDateString() === today.toDateString()) return 'Today';
-  if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
-  return date.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' });
-};
-
-const formatTime = (timestamp: number) => {
-  return new Date(timestamp).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
 };
 
 // Actions
@@ -377,41 +281,6 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .quick-actions {
   display: flex;
   gap: 0.75rem;
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-color);
-  color: var(--font-color);
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background: var(--bg-contrast);
-  }
-
-  &.primary {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: white;
-
-    &:hover {
-      background: var(--primary-dark);
-    }
-  }
-
-  kbd {
-    padding: 0.15rem 0.4rem;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.2);
-    font-size: 0.75rem;
-  }
 }
 
 // Search
@@ -564,209 +433,18 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   gap: 1rem;
 }
 
-.continue-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--font-color);
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
-}
-
-.continue-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.node-icon {
-  padding: 0.4rem;
-  border-radius: 6px;
-}
-
-.continue-time {
-  font-size: 0.75rem;
-  color: var(--font-color-light);
-}
-
-.continue-title {
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.continue-desc {
-  font-size: 0.85rem;
-  color: var(--font-color-light);
-  margin-bottom: 0.5rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.continue-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: auto;
-}
-
-.continue-category {
-  font-size: 0.75rem;
-  color: var(--font-color-light);
-}
-
-.continue-tags {
-  display: flex;
-  gap: 0.25rem;
-}
-
 // Pinned
 .pinned-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.pinned-card {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  text-decoration: none;
-  color: var(--font-color);
-  transition: all 0.2s;
-
-  &:hover {
-    background: var(--bg-contrast);
-    border-color: var(--primary);
-  }
-}
-
-.pinned-name {
-  font-size: 0.9rem;
-  font-weight: 500;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
 // Workspaces
 .workspaces-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
-}
-
-.workspace-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1.25rem;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  text-decoration: none;
-  color: var(--font-color);
-  transition: all 0.2s;
-  background: var(--bg-color);
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  }
-
-  // Color variants
-  &.blue {
-    border-left: 4px solid var(--blue);
-  }
-  &.red {
-    border-left: 4px solid var(--red);
-  }
-  &.green {
-    border-left: 4px solid var(--green);
-  }
-  &.yellow {
-    border-left: 4px solid var(--yellow);
-  }
-  &.purple {
-    border-left: 4px solid var(--purple);
-  }
-  &.pink {
-    border-left: 4px solid var(--pink);
-  }
-  &.teal {
-    border-left: 4px solid var(--teal);
-  }
-  &.primary {
-    border-left: 4px solid var(--primary);
-  }
-}
-
-.workspace-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.workspace-icon {
-  font-size: 1.5rem;
-  color: var(--primary);
-}
-
-.workspace-count {
-  font-size: 0.8rem;
-  padding: 0.2rem 0.6rem;
-  background: var(--bg-contrast);
-  border-radius: 12px;
-  color: var(--font-color-light);
-}
-
-.workspace-name {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-.workspace-desc {
-  font-size: 0.85rem;
-  color: var(--font-color-light);
-  margin-bottom: 0.75rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.workspace-children {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: auto;
-}
-
-.child-badge {
-  font-size: 0.75rem;
-  padding: 0.2rem 0.5rem;
-  background: var(--bg-contrast);
-  border-radius: 4px;
-  color: var(--font-color-light);
-}
-
-.child-more {
-  font-size: 0.75rem;
-  color: var(--font-color-light);
 }
 
 .add-workspace {
@@ -775,24 +453,18 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   align-items: center;
   justify-content: center;
   border: 2px dashed var(--border-color);
+  transition: all 0.2s;
+  border-radius: 12px;
   background: transparent;
   cursor: pointer;
   min-height: 150px;
-
+  font-size: 0.9rem;
+  color: var(--font-color-light);
   &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     border-color: var(--primary);
     background: var(--primary-bg);
-  }
-
-  .add-icon {
-    font-size: 2rem;
-    color: var(--font-color-light);
-    margin-bottom: 0.5rem;
-  }
-
-  span {
-    font-size: 0.9rem;
-    color: var(--font-color-light);
   }
 }
 
@@ -898,31 +570,6 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   color: var(--font-color-light);
 }
 
-// FAB
-.fab {
-  position: fixed;
-  right: 2rem;
-  bottom: 2rem;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: white;
-  display: flex;
-  font-size: xx-large;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  text-decoration: none;
-  transition: all 0.2s;
-  z-index: 50;
-
-  &:hover {
-    transform: scale(1.1);
-    background: var(--primary-dark);
-  }
-}
-
 // Transitions
 .dropdown-enter-active,
 .dropdown-leave-active {
@@ -947,15 +594,6 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
   .quick-actions {
     width: 100%;
-
-    .action-btn {
-      flex: 1;
-      justify-content: center;
-    }
-
-    kbd {
-      display: none;
-    }
   }
 
   .greeting h1 {
