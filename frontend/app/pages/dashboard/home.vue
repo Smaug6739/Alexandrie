@@ -1,9 +1,9 @@
 <template>
   <div class="home-container">
-    <!-- Header avec salutation et actions rapides -->
+    <!-- Header with greeting and quick actions -->
     <header class="home-header">
       <div class="greeting">
-        <h1>Hey, {{ userName }}</h1>
+        <h1>👋 Hey, {{ userName }}</h1>
         <p class="subtitle">{{ todayFormatted }} · {{ documentsCount }} documents · {{ workspacesCount }} workspaces</p>
       </div>
       <div class="quick-actions">
@@ -11,7 +11,7 @@
       </div>
     </header>
 
-    <!-- Barre de recherche rapide -->
+    <!-- Quick search bar -->
     <div class="search-section">
       <div class="search-wrapper" :class="{ focused: isSearchFocused }">
         <Icon name="search" class="search-icon" />
@@ -30,7 +30,7 @@
       <Transition name="dropdown">
         <div v-if="searchResults?.length" class="search-results">
           <NuxtLink v-for="result in searchResults" :key="result.id" class="search-result" :to="getNodeLink(result)">
-            <Icon :name="getNodeIcon(result)" :class="`result-icon ${getAppColor(result.color as number, true)}`" />
+            <Icon :name="getNodeIcon(result)" :class="`node-icon ${getAppColor(result.color as number, true)}`" />
             <div class="result-content">
               <span class="result-name">{{ result.name }}</span>
               <span class="result-path">{{ getNodePath(result) }}</span>
@@ -41,10 +41,10 @@
       </Transition>
     </div>
 
-    <!-- Section "Continuer à travailler" -->
+    <!-- Section "Continue Working" -->
     <section v-if="recentlyEdited.length" class="section">
       <div class="section-header">
-        <h2><Icon name="layers" />Continue Working</h2>
+        <h2><Icon name="work" />Continue Working</h2>
         <NuxtLink to="/dashboard/docs" class="see-all">See all</NuxtLink>
       </div>
       <div class="continue-working">
@@ -67,20 +67,20 @@
       </div>
     </section>
 
-    <!-- Section documents épinglés -->
+    <!-- Section Pinned Documents -->
     <section v-if="pinnedDocuments.length" class="section">
       <div class="section-header">
         <h2><Icon name="pin" /> Pinned Documents</h2>
       </div>
       <div class="pinned-grid">
         <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`" class="pinned-card">
-          <Icon :name="getNodeIcon(doc)" :class="`pinned-icon ${getAppColor(doc.color || getCategory(doc.parent_id)?.color as number, true)}`" />
+          <Icon :name="getNodeIcon(doc)" :class="`node-icon ${getAppColor(doc.color || getCategory(doc.parent_id)?.color as number, true)}`" />
           <span class="pinned-name">{{ doc.name }}</span>
         </NuxtLink>
       </div>
     </section>
 
-    <!-- Section Workspaces -->
+    <!-- Workspaces Section -->
     <section class="section">
       <div class="section-header">
         <h2><Icon name="workspace" /> Your Workspaces</h2>
@@ -114,7 +114,7 @@
       </div>
     </section>
 
-    <!-- Section activité récente -->
+    <!-- Recent Activity Section -->
     <section class="section">
       <div class="section-header">
         <h2><Icon name="recent" /> Recent Activity</h2>
@@ -124,7 +124,11 @@
           <div class="activity-date">{{ date }}</div>
           <div class="activity-items">
             <NuxtLink v-for="item in group" :key="item.id" :to="getNodeLink(item)" class="activity-item">
-              <Icon :name="getNodeIcon(item)" display="md" :class="`activity-icon ${getAppColor(item.color as number, true)}`" />
+              <Icon
+                :name="getNodeIcon(item)"
+                display="md"
+                :class="`activity-icon ${getAppColor(item.color || getCategory(item.parent_id)?.color as number, true)}`"
+              />
               <div class="activity-content">
                 <span class="activity-name">{{ item.name }}</span>
                 <span class="activity-time">{{ formatTime(item.updated_timestamp) }}</span>
@@ -175,7 +179,6 @@
 <script setup lang="ts">
 import type { Node } from '~/stores';
 import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
-import type AppButtonVue from '~/components/AppButton.vue';
 
 const router = useRouter();
 const nodesStore = useNodesStore();
@@ -289,9 +292,9 @@ const getNodeLink = (node: Node) => {
 
 const getNodeType = (node: Node) => {
   if (node.role === 1) return 'Workspace';
-  if (node.role === 2) return 'Catégorie';
+  if (node.role === 2) return 'Category';
   if (node.role === 3) return 'Document';
-  if (node.role === 4) return 'Ressource';
+  if (node.role === 4) return 'Resource';
   return '';
 };
 
@@ -329,8 +332,8 @@ const formatDateLabel = (timestamp: number) => {
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
 
-  if (date.toDateString() === today.toDateString()) return "Aujourd'hui";
-  if (date.toDateString() === yesterday.toDateString()) return 'Hier';
+  if (date.toDateString() === today.toDateString()) return 'Today';
+  if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
   return date.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' });
 };
 
@@ -465,6 +468,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   top: calc(100% + 8px);
   left: 0;
   right: 0;
+  padding: 2px;
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 12px;
@@ -482,7 +486,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   text-decoration: none;
   color: var(--font-color);
   transition: background 0.15s;
-
+  border-radius: 8px;
   &:hover {
     background: var(--bg-contrast);
   }
@@ -494,11 +498,6 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   &:last-child {
     border-radius: 0 0 12px 12px;
   }
-}
-
-.result-icon {
-  padding: 0.4rem;
-  border-radius: 6px;
 }
 
 .result-content {
@@ -544,7 +543,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
     align-items: center;
     gap: 0.5rem;
     font-size: 1.1rem;
-    font-weight: 600;
+    flex: 1;
   }
 }
 
@@ -657,11 +656,6 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
     background: var(--bg-contrast);
     border-color: var(--primary);
   }
-}
-
-.pinned-icon {
-  padding: 0.3rem;
-  border-radius: 4px;
 }
 
 .pinned-name {
