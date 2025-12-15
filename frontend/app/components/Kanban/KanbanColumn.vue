@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import KanbanCard from './KanbanCard.vue';
-import DeleteColumnModal from './DeleteColumnModal.vue';
+import DeleteColumnModal from './DeleteColumn.modal.vue';
 import type { Node } from '~/stores';
 
 export interface KanbanColumnData {

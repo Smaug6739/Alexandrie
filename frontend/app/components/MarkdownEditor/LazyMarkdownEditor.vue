@@ -8,9 +8,7 @@
       <!-- Compact Document Metadata -->
       <div v-if="!minimal" class="document-meta">
         <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
-        <span class="meta-separator">•</span>
         <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
-        <span class="meta-separator">•</span>
         <AppTagInput v-model="document.tags" class="meta-tags" @update:model-value="autoSaveConditional" />
       </div>
       <AppTagInput v-else v-model="document.tags" style="margin: 4px 0" @update:model-value="autoSaveConditional" />
@@ -224,12 +222,6 @@ const autoSave = debounceDelayed(() => {
   }
 }
 
-.meta-separator {
-  color: var(--border-color);
-  font-size: 0.7rem;
-  user-select: none;
-}
-
 .meta-tags {
   flex: 0 1 auto;
   min-width: 150px;
@@ -325,10 +317,6 @@ const autoSave = debounceDelayed(() => {
     align-items: stretch;
     gap: 4px;
     padding: 8px 10px;
-  }
-
-  .meta-separator {
-    display: none;
   }
 
   .meta-title,

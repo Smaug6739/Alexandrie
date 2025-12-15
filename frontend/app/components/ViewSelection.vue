@@ -14,7 +14,7 @@ const props = withDefaults(
     showKanban?: boolean;
   }>(),
   {
-    showKanban: true,
+    showKanban: false,
   },
 );
 
@@ -74,9 +74,5 @@ button {
     height: 18px;
     fill: currentColor;
   }
-}
-// Separator between buttons
-button + button {
-  border-left: 1px solid var(--border-color);
 }
 </style>

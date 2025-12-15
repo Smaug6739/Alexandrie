@@ -66,10 +66,10 @@ const sortedColumns = computed(() => [...kanbanData.value.columns].sort((a, b) =
 // Default columns
 function getDefaultColumns(): KanbanColumnData[] {
   return [
-    { id: 'backlog', title: 'Backlog', color: 1, order: 0 },
-    { id: 'todo', title: 'To Do', color: 6, order: 1 },
-    { id: 'in-progress', title: 'In Progress', color: 3, order: 2 },
-    { id: 'done', title: 'Done', color: 5, order: 3 },
+    { id: '0', title: 'Backlog', color: 1, order: 0 },
+    { id: '1', title: 'To Do', color: 6, order: 1 },
+    { id: '2', title: 'In Progress', color: 3, order: 2 },
+    { id: '3', title: 'Done', color: 5, order: 3 },
   ];
 }
 
@@ -162,6 +162,17 @@ function updateColumn(column: KanbanColumnData) {
     },
   });
 }
+
+function resetKanbanData() {
+  const data = {
+    kanban: {
+      columns: getDefaultColumns(),
+      cardColumns: {},
+    },
+  };
+  emit('updateMetadata', data);
+}
+defineExpose({ resetKanbanData });
 </script>
 
 <style scoped lang="scss">

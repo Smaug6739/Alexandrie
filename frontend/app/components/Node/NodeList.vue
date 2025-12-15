@@ -18,6 +18,9 @@
         All workspaces
       </h1>
       <div class="header-actions">
+        <NuxtLink v-if="view == 'kanban'" class="btn-icon no-mobile" @click="resetKanban">
+          <Icon name="reset" display="lg" />
+        </NuxtLink>
         <NodeFilter v-show="!isMobile()" :nodes="nodes" @update:nodes="filteredNodes = $event" />
         <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon no-mobile" @click="openRemoveShareModal">
           <Icon name="group_off" display="lg" />
@@ -48,6 +51,7 @@
       <!-- Kanban View -->
       <KanbanBoard
         v-else-if="view === 'kanban' && parent"
+        ref="kanbanBoard"
         :workspace="parent"
         :documents="filteredNodes"
         @update-metadata="updateKanbanMetadata"
@@ -72,10 +76,11 @@
 import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
 import NodeFilter from '~/components/Node/Filter.vue';
-import KanbanBoard from '~/components/Kanban/KanbanBoard.vue';
+import KanbanBoard, { type KanbanMetadata } from '~/components/Kanban/KanbanBoard.vue';
+import NodeMetadataModal from './NodeMetadata.modal.vue';
+import ResetBoardModal from '../Kanban/ResetBoard.modal.vue';
 import type { ViewMode } from '~/components/ViewSelection.vue';
 import type { Node } from '~/stores';
-import NodeMetadataModal from './NodeMetadata.modal.vue';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
 const nodesStore = useNodesStore();
@@ -84,6 +89,19 @@ const connectedId = useUserStore().user?.id;
 
 const view = ref<ViewMode>();
 const filteredNodes = ref<Node[]>(props.nodes);
+
+// Kanban board reference
+const kanbanBoard = ref<InstanceType<typeof KanbanBoard> | null>(null);
+const resetKanban = () => {
+  useModal().add(
+    new Modal(shallowRef(ResetBoardModal), {
+      props: {
+        onConfirm: () => kanbanBoard.value?.resetKanbanData(),
+      },
+      size: 'small',
+    }),
+  );
+};
 
 // Watch for nodes changes to update filtered nodes
 watch(
@@ -110,7 +128,7 @@ const openRemoveShareModal = () => {
 const openEditModal = () => useModal().add(new Modal(shallowRef(NodeMetadataModal), { props: { doc: props.parent }, size: 'small' }));
 
 // Kanban functionality
-async function updateKanbanMetadata(metadata: any) {
+async function updateKanbanMetadata(metadata: KanbanMetadata) {
   if (!props.parent) return;
 
   try {
