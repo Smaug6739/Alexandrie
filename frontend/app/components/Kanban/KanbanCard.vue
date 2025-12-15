@@ -59,7 +59,6 @@ const onDragEnd = () => {
   border-radius: 8px;
   padding: 12px;
   cursor: grab;
-  transition: all $transition-duration $transition-duration;
 
   &:hover {
     border-color: var(--primary);

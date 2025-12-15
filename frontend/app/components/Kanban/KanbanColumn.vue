@@ -181,7 +181,6 @@ function handleClickOutside(e: MouseEvent) {
   background: var(--bg-contrast);
   border-radius: 12px;
   padding: 12px;
-  transition: all $transition-duration $transition-duration;
 
   &.drag-over {
     background: rgba(57, 86, 231, 0.06);
@@ -272,7 +271,6 @@ function handleClickOutside(e: MouseEvent) {
   background: transparent;
   color: var(--font-color-light);
   cursor: pointer;
-  transition: all $transition-duration $transition-duration;
 
   &:hover {
     background: var(--bg-color);
@@ -314,7 +312,6 @@ function handleClickOutside(e: MouseEvent) {
   border: 2px solid transparent;
   border-radius: 50%;
   cursor: pointer;
-  transition: all $transition-duration $transition-duration;
 
   &:hover {
     transform: scale(1.15);
@@ -398,7 +395,6 @@ function handleClickOutside(e: MouseEvent) {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all $transition-duration $transition-duration;
 
   &:hover {
     color: var(--primary);

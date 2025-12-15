@@ -185,10 +185,6 @@ function updateColumn(column: KanbanColumnData) {
     height: 6px;
   }
 
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
   &::-webkit-scrollbar-thumb {
     background: transparent;
     border-radius: 3px;
@@ -222,7 +218,6 @@ function updateColumn(column: KanbanColumnData) {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all $transition-duration $transition-duration;
 
   &:hover {
     border-color: var(--primary);
