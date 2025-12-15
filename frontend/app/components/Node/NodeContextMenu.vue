@@ -8,7 +8,7 @@
     <button v-if="nodeStore.hasPermissions(node, 4)" @click="action('manageAccess')"><Icon name="manage_access" />Manage Access</button>
     <hr />
     <button @click="action('delete')"><Icon name="delete" fill="red" /> Delete</button>
-    <button v-if="preferences.get('developerMode').value"><Icon name="snippets" /> Copy ID</button>
+    <button v-if="preferences.get('developerMode').value" @click="action('copyId')"><Icon name="snippets" /> Copy ID</button>
     <hr />
     <div class="footer">
       <p style="display: flex; align-items: center; gap: 8px">
@@ -57,6 +57,9 @@ async function action(name: string) {
       break;
     case 'manageAccess':
       useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.node }, size: 'small' }));
+      break;
+    case 'copyId':
+      navigator.clipboard.writeText(props.node.id);
       break;
   }
   emit('close');
