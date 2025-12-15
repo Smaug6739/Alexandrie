@@ -4,7 +4,7 @@
       <tag class="primary" style="padding: 5px 6px">{{ tag }}<button type="button" class="remove" @click="removeTag(index)">×</button></tag>
     </div>
 
-    <input v-model="input" placeholder="Add a tag (enter to add)..." @keydown.enter.prevent="addTag" @keydown.delete="removeLastTag" />
+    <input v-model="input" placeholder="Add a tag (enter to add)" @keydown.enter.prevent="addTag" @keydown.delete="removeLastTag" />
   </div>
 </template>
 
@@ -72,9 +72,28 @@ input {
   min-width: 80px;
   padding: 0 4px;
   border: none;
-  font-weight: 500;
   background: transparent;
   flex: 1;
   outline: none;
+  flex: 1 1 150px;
+  min-width: 100px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 0.85rem;
+  color: var(--font-color);
+  outline: none;
+  transition: background 0.15s ease;
+
+  &:hover,
+  &:focus {
+    background: var(--bg-ui);
+  }
+
+  &::placeholder {
+    color: var(--font-color-light);
+    opacity: 0.7;
+  }
 }
 </style>
