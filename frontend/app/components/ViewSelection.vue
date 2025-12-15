@@ -54,7 +54,7 @@ button {
   height: 32px;
   padding: 0;
   border: none;
-  border-radius: 6px;
+  border-radius: 0;
   background: transparent;
   color: var(--font-color-light);
   cursor: pointer;
@@ -74,5 +74,9 @@ button {
     height: 18px;
     fill: currentColor;
   }
+}
+// Separator between buttons
+button + button {
+  border-left: 1px solid var(--border-color);
 }
 </style>

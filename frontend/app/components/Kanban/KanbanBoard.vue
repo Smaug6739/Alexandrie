@@ -207,7 +207,7 @@ function updateColumn(column: KanbanColumnData) {
   justify-content: center;
   gap: 8px;
   min-width: 200px;
-  height: 120px;
+  height: stretch;
   margin-top: auto;
   margin-bottom: auto;
   padding: 20px;
