@@ -43,7 +43,7 @@ footer {
   background: var(--bg-ui);
   color: var(--font-color);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 450;
   transition: all 0.2s ease;
 
   :deep(svg) {
@@ -65,6 +65,10 @@ footer {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+b {
+  font-weight: 600;
 }
 
 .meta-item {
@@ -97,7 +101,7 @@ footer {
   border: 1px solid var(--border-color);
   border-radius: 7px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 450;
   transition: color 0.25s;
   flex: 1;
 
@@ -131,7 +135,7 @@ svg {
 
 .infos {
   display: flex;
-  font-weight: 500;
+  font-weight: 450;
   padding: 10px 0;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
