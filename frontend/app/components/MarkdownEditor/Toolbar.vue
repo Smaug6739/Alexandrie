@@ -217,6 +217,8 @@ const actionTools: ToolItem[] = [
 <style scoped lang="scss">
 .toolbar {
   display: flex;
+  overflow-x: clip;
+
   width: 100%;
   padding: 8px 12px;
   background: var(--bg-color);

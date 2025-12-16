@@ -306,6 +306,10 @@ const autoSave = debounceDelayed(() => {
     max-height: 50%;
   }
 
+  .meta-description {
+    flex: 0;
+  }
+
   .preview-panel {
     max-height: 50%;
   }
