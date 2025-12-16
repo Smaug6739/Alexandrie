@@ -54,12 +54,11 @@ button {
   height: 32px;
   padding: 0;
   border: none;
-  border-radius: 0;
+  border-radius: $radius-sm;
   background: transparent;
   color: var(--font-color-light);
   cursor: pointer;
-  transition: all $transition-duration $transition-duration;
-
+  transition: color 0.2s, background 0.2s;
   &:hover {
     color: var(--font-color);
     background: var(--bg-color);
