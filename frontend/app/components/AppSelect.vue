@@ -1,7 +1,8 @@
 <template>
   <div ref="trigger" class="app-select" :style="{ width: size || '100%' }">
+    <!-- Desktop: inline search input -->
     <input
-      v-if="open && searchable"
+      v-if="open && searchable && !isMobile"
       ref="searchInput"
       v-model="search"
       type="text"
@@ -16,12 +17,50 @@
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
     </div>
+
+    <!-- Desktop dropdown -->
     <Teleport to="body">
-      <ul v-if="open" ref="portalList" class="dropdown" :style="dropdownStyle">
+      <ul v-if="open && !isMobile" ref="portalList" class="dropdown" :style="dropdownStyle">
         <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
         <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
         <slot name="list-footer"></slot>
       </ul>
+    </Teleport>
+
+    <!-- Mobile: Bottom Sheet Modal -->
+    <Teleport to="body">
+      <Transition name="mobile-sheet">
+        <div v-if="open && isMobile" class="mobile-overlay" @click.self="toggleDropdown">
+          <div class="mobile-sheet">
+            <div class="mobile-sheet-header">
+              <span class="mobile-sheet-title">{{ placeholder }}</span>
+              <button class="mobile-sheet-close" @click="toggleDropdown">
+                <Icon name="close" display="md" fill="var(--font-color)" />
+              </button>
+            </div>
+
+            <div v-if="searchable" class="mobile-search-wrapper">
+              <Icon name="search" display="md" fill="var(--font-color-light)" />
+              <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." class="mobile-search-input" @keydown="handleKeyDown" />
+            </div>
+
+            <ul class="mobile-list">
+              <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
+              <AppSelectNode
+                v-for="item in filteredItems"
+                :key="item.id"
+                :node="item"
+                :level="0"
+                :disabled="disabled"
+                :selected-id="selectedId"
+                @select="handleSelect"
+              />
+              <li v-if="filteredItems.length === 0" class="mobile-no-results">No results found</li>
+              <slot name="list-footer"></slot>
+            </ul>
+          </div>
+        </div>
+      </Transition>
     </Teleport>
   </div>
 </template>
@@ -36,6 +75,7 @@ const props = withDefaults(
     disabled?: (i: ANode) => boolean;
     nullable?: boolean;
     searchable?: boolean;
+    mobileBreakpoint?: number;
   }>(),
   {
     placeholder: 'Select an option',
@@ -44,6 +84,7 @@ const props = withDefaults(
     disabled: () => false,
     modelValue: '',
     size: undefined,
+    mobileBreakpoint: 768,
   },
 );
 
@@ -56,9 +97,18 @@ const selectedId = computed({
 const open = ref(false);
 const search = ref('');
 const searchInput = ref<HTMLInputElement | null>(null);
+const mobileSearchInput = ref<HTMLInputElement | null>(null);
 const trigger = ref<HTMLElement | null>(null);
 const portalList = ref<HTMLElement | null>(null);
 const dropdownStyle = ref<Record<string, string>>({});
+
+// Mobile detection
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
+const isMobile = computed(() => windowWidth.value < props.mobileBreakpoint);
+
+function updateWindowWidth() {
+  windowWidth.value = window.innerWidth;
+}
 
 const selected = computed(() => {
   const findSelected = (items: ANode[]): ANode | null => {
@@ -113,9 +163,18 @@ function toggleDropdown() {
   if (open.value) {
     search.value = '';
     nextTick(() => {
-      updatePosition();
-      searchInput.value?.focus();
+      if (isMobile.value) {
+        // Lock body scroll on mobile
+        document.body.style.overflow = 'hidden';
+        mobileSearchInput.value?.focus();
+      } else {
+        updatePosition();
+        searchInput.value?.focus();
+      }
     });
+  } else {
+    // Restore body scroll
+    document.body.style.overflow = '';
   }
 }
 
@@ -132,6 +191,7 @@ function handleSelect(node: ANode) {
   selectedId.value = node.id;
   emit('update:modelValue', node.id);
   open.value = false;
+  document.body.style.overflow = '';
 }
 
 function handleClickOutside(e: MouseEvent) {
@@ -149,6 +209,7 @@ function handleClickOutside(e: MouseEvent) {
 onMounted(() => {
   window.addEventListener('click', handleClickOutside);
   window.addEventListener('resize', updatePosition);
+  window.addEventListener('resize', updateWindowWidth);
   // capture scroll on ancestors too
   window.addEventListener('scroll', updatePosition, true);
 });
@@ -156,7 +217,10 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('click', handleClickOutside);
   window.removeEventListener('resize', updatePosition);
+  window.removeEventListener('resize', updateWindowWidth);
   window.removeEventListener('scroll', updatePosition, true);
+  // Ensure body scroll is restored
+  document.body.style.overflow = '';
 });
 </script>
 
@@ -210,5 +274,148 @@ button,
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   list-style: none;
   overflow-y: auto;
+}
+
+/* ========================
+   Mobile Bottom Sheet Styles
+   ======================== */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgb(0 0 0 / 50%);
+}
+
+.mobile-sheet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 85vh;
+  border-radius: 16px 16px 0 0;
+  background: var(--bg-color);
+  animation: slide-up 0.3s ease-out;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.mobile-sheet-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-sheet-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.mobile-sheet-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg-secondary, #f5f5f5);
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: var(--bg-hover, #e0e0e0);
+  }
+}
+
+.mobile-search-wrapper {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary, #f9f9f9);
+}
+
+.mobile-search-input {
+  flex: 1;
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-color);
+  font-size: 1rem;
+
+  &:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+}
+
+.mobile-list {
+  flex: 1;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  :deep(.app-select-node) {
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: background 0.15s;
+
+    &:active {
+      background: var(--bg-hover, #f0f0f0);
+    }
+  }
+
+  :deep(.app-select-node.selected) {
+    background: var(--primary-light, #e3f2fd);
+    color: var(--primary);
+    font-weight: 500;
+  }
+}
+
+.mobile-no-results {
+  padding: 24px 16px;
+  color: var(--font-color-light, #888);
+  text-align: center;
+}
+
+/* Transitions */
+.mobile-sheet-enter-active,
+.mobile-sheet-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.mobile-sheet-enter-active .mobile-sheet,
+.mobile-sheet-leave-active .mobile-sheet {
+  transition: transform 0.3s ease;
+}
+
+.mobile-sheet-enter-from,
+.mobile-sheet-leave-to {
+  opacity: 0;
+}
+
+.mobile-sheet-enter-from .mobile-sheet,
+.mobile-sheet-leave-to .mobile-sheet {
+  transform: translateY(100%);
 }
 </style>
