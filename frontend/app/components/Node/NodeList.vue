@@ -3,9 +3,9 @@
     <header>
       <h1 v-if="parent">
         <Icon
-          :name="parent.icon || parent?.icon || 'files'"
+          :name="parent.icon || 'files'"
           display="xl"
-          :class="`parent-icon ${getAppColor(parent.color || parent?.color as number, true)}`"
+          :class="`parent-icon ${getAppColor(parent.color as number, true)}`"
         />
         {{ parent.name }}
       </h1>

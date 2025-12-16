@@ -33,12 +33,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Node } from '~/stores';
 import DeleteDocumentModal from '~/components/Node/DeleteNodeModal.vue';
 import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
+import type { Node } from '~/stores';
 
 const props = defineProps<{ document: Node }>();
 const nodesStore = useNodesStore();
+
 const category = computed(() => nodesStore.getById(props.document.parent_id || ''));
 useUserStore().fetchPublicUser(props.document.user_id);
 const user = computed(() => useUserStore().getById(props.document.user_id || ''));

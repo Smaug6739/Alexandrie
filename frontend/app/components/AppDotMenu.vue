@@ -1,5 +1,5 @@
 <template>
-  <div ref="menuRoot" class="container">
+  <div class="container">
     <span class="menu-button" aria-label="Menu" @click="toggleMenu">
       <svg class="menu-icon" viewBox="0 9 20 2" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -19,7 +19,7 @@
 <script setup lang="ts">
 const open = ref(false);
 const emit = defineEmits(['open', 'close']);
-const menuRoot: Ref<HTMLDivElement | undefined> = ref();
+
 const toggleMenu = () => {
   open.value = !open.value;
   emit(open.value ? 'open' : 'close');
@@ -29,7 +29,9 @@ const handleClickOutside = () => {
   open.value = false;
   emit('close');
 };
+
 const close = () => (open.value = false);
+
 defineExpose({ close, opened: open });
 
 onMounted(() => document.addEventListener('mousedown', handleClickOutside));

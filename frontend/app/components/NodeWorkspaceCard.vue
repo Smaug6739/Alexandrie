@@ -49,35 +49,17 @@ const getWorkspaceDocCount = (workspaceId: string) => {
   transition: all 0.2s;
   background: var(--bg-color);
   height: 100%;
+  
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   }
 
-  // Color variants
-  &.blue {
-    border-left: 4px solid var(--blue);
-  }
-  &.red {
-    border-left: 4px solid var(--red);
-  }
-  &.green {
-    border-left: 4px solid var(--green);
-  }
-  &.yellow {
-    border-left: 4px solid var(--yellow);
-  }
-  &.purple {
-    border-left: 4px solid var(--purple);
-  }
-  &.pink {
-    border-left: 4px solid var(--pink);
-  }
-  &.teal {
-    border-left: 4px solid var(--teal);
-  }
-  &.primary {
-    border-left: 4px solid var(--primary);
+  // Color variants - generated
+  @each $color in (blue, red, green, yellow, purple, pink, teal, primary) {
+    &.#{$color} {
+      border-left: 4px solid var(--#{$color});
+    }
   }
 }
 

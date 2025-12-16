@@ -1,7 +1,7 @@
 <template>
-  <div style=" margin: 5vh auto;text-align: center">
+  <div class="no-content">
     <h1>{{ title || 'Nothing here' }}</h1>
-    <img style="max-width: 300px; max-height: 300px" :src="`/empty-${colorMode.value}.png`" />
+    <img :src="`/empty-${colorMode.value}.png`" alt="" />
     <p>{{ description }}</p>
     <slot />
   </div>
@@ -11,3 +11,15 @@
 const colorMode = useColorMode();
 defineProps<{ title?: string; description?: string }>();
 </script>
+
+<style scoped lang="scss">
+.no-content {
+  margin: 5vh auto;
+  text-align: center;
+
+  img {
+    max-width: 300px;
+    max-height: 300px;
+  }
+}
+</style>

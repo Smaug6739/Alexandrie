@@ -1,5 +1,5 @@
 <template>
-  <AppDotMenu ref="dotMenu">
+  <AppDotMenu>
     <NodeContextMenu :node="node" />
   </AppDotMenu>
 </template>

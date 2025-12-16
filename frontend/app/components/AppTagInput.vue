@@ -69,12 +69,6 @@ button {
 }
 
 input {
-  min-width: 80px;
-  padding: 0 4px;
-  border: none;
-  background: transparent;
-  flex: 1;
-  outline: none;
   flex: 1 1 150px;
   min-width: 100px;
   padding: 4px 8px;
