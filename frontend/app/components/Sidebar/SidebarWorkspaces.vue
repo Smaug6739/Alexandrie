@@ -1,5 +1,6 @@
 <template>
-  <div class="dropdown-container no-m-close" @click="toggleDropdown">
+  <div class="dropdown-container" @click.stop="toggleDropdown">
+    <!-- stop propagation to avoid closing sidebar on mobile -->
     <div class="dropdown-selected" :class="{ open: isOpen }">
       <span v-if="selectedOption" style="flex: 1"><SidebarWorkspace :option="selectedOption" /></span>
       <Icon name="expand" display="sm" />
