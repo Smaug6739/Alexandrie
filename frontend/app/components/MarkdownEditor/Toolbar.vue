@@ -46,9 +46,9 @@
     <div class="toolbar-divider" />
 
     <!-- Voice & Category -->
-    <div class="toolbar-group" style="flex-direction: row">
+    <div class="toolbar-group" style="flex-direction: row; flex: 1">
       <VoiceRecognition @transcription="handleTranscription" />
-      <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Category" size="220px" class="category-select" />
+      <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Category" class="category-select" />
     </div>
 
     <!-- Right Section -->
