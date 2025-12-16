@@ -24,6 +24,7 @@
           :items="opt.choices!"
           size="40%"
           class="entry"
+          :searchable="false"
           @update:model-value="opt.onChange?.(p(opt.key).value)"
         />
 
