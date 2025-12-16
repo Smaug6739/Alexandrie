@@ -1,5 +1,5 @@
 <template>
-  <div class="context-menu">
+  <div class="context-menu" :class="{ 'is-context-menu': props.contextMenu }">
     <div class="menu-header">
       <img :src="useAvatar(user)" alt="" class="header-avatar" />
       <div class="header-info">
@@ -44,7 +44,7 @@ const nodeStore = useNodesStore();
 const preferences = usePreferences();
 const emit = defineEmits(['close']);
 const dotMenu = ref();
-const props = defineProps<{ node: Node }>();
+const props = defineProps<{ node: Node; contextMenu?: boolean }>();
 
 useUserStore().fetchPublicUser(props.node.user_id);
 const user = computed(() => useUserStore().getById(props.node.user_id || ''));
@@ -179,6 +179,18 @@ async function action(name: string) {
     kbd {
       color: var(--red);
       background: var(--red-bg);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .context-menu.is-context-menu {
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    .menu-item {
+      font-size: 16px;
+      padding: 12px 16px;
     }
   }
 }

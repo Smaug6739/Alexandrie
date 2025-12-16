@@ -47,7 +47,7 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
 function showContextMenu(event: MouseEvent) {
   if (props.document.role === -1) return; // Prevent context menu on nav items
   useContextMenu().open(shallowRef(NodeContextMenu), event, {
-    props: { node: props.document as Node },
+    props: { node: props.document as Node, contextMenu: true },
   });
 }
 </script>

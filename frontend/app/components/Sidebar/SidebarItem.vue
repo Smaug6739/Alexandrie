@@ -59,7 +59,7 @@ const contextMenu = useContextMenu();
 function showContextMenu(event: MouseEvent) {
   if (props.item.data.role === -1) return; // Prevent context menu on nav items
   contextMenu.open(shallowRef(NodeContextMenu), event, {
-    props: { node: props.item.data as Node },
+    props: { node: props.item.data as Node, contextMenu: true },
   });
 }
 const dragStart = (event: DragEvent) => {
