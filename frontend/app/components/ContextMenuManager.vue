@@ -164,7 +164,6 @@ const pos = computed(() => {
   z-index: 6000;
   min-width: 240px;
   border-radius: 12px;
-  border: 1px solid var(--border-color);
   background: var(--bg-color);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
   overflow: hidden;
