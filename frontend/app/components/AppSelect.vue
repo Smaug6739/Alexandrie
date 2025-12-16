@@ -2,7 +2,7 @@
   <div ref="trigger" class="app-select" :style="{ width: size || '100%' }">
     <!-- Desktop: inline search input -->
     <input
-      v-if="open && searchable && !isMobile"
+      v-if="open && searchable && !isMobile()"
       ref="searchInput"
       v-model="search"
       type="text"
@@ -20,7 +20,7 @@
 
     <!-- Desktop dropdown -->
     <Teleport to="body">
-      <ul v-if="open && !isMobile" ref="portalList" class="dropdown" :style="dropdownStyle">
+      <ul v-if="open && !isMobile()" ref="portalList" class="dropdown" :style="dropdownStyle">
         <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
         <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
         <slot name="list-footer"></slot>
