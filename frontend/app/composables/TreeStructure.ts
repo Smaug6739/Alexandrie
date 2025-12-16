@@ -1,5 +1,10 @@
+/**
+ * Tree Structure utilities
+ * Provides hierarchical data management for nodes (categories, documents, etc.)
+ */
 import type { Node } from '~/stores';
 
+/** Base node interface for tree structures */
 export interface ANode<id = string | number> {
   id: id;
   label: string;
@@ -7,6 +12,7 @@ export interface ANode<id = string | number> {
   childrens?: ANode[];
 }
 
+/** Extended node with routing and display properties */
 export interface Item<T = Node> extends ANode {
   id: string;
   route: string;
@@ -17,6 +23,10 @@ export interface Item<T = Node> extends ANode {
   icon?: string;
 }
 
+/**
+ * Manages a flat list of items and provides tree operations
+ * Uses Maps for O(1) lookups by ID and parent ID
+ */
 export class TreeStructure {
   public readonly items: Item[];
 

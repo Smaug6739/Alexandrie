@@ -140,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { resolveIcon } from '~/helpers/node';
+import { resolveIcon, resolveNodeLink, resolveNodeType } from '~/helpers/node';
 import type { Node } from '~/stores';
 import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 
@@ -216,21 +216,8 @@ const searchResults = computed(() => {
 
 // Helpers
 const getCategory = (id?: string) => nodesStore.getById(id || '');
-
-const getNodeLink = (node: Node) => {
-  if (node.role === 1 || node.role === 2) return `/dashboard/categories/${node.id}`;
-  if (node.role === 3) return `/dashboard/docs/${node.id}`;
-  if (node.role === 4) return `/dashboard/cdn/${node.id}/preview`;
-  return '/dashboard';
-};
-
-const getNodeType = (node: Node) => {
-  if (node.role === 1) return 'Workspace';
-  if (node.role === 2) return 'Category';
-  if (node.role === 3) return 'Document';
-  if (node.role === 4) return 'Resource';
-  return '';
-};
+const getNodeLink = resolveNodeLink; // Use centralized helper
+const getNodeType = resolveNodeType; // Use centralized helper
 
 const getNodePath = (node: Node) => {
   const parts: string[] = [];

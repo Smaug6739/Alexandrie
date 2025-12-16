@@ -1,3 +1,9 @@
+/**
+ * User authentication actions
+ * Provides logout functions with notification feedback
+ */
+
+/** Logout current session */
 function logoutUser() {
   const store = useUserStore();
   store
@@ -10,6 +16,7 @@ function logoutUser() {
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 }
 
+/** Logout all sessions (including other devices) */
 function logoutUserAll() {
   const store = useUserStore();
   store

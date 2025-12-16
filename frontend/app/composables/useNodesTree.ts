@@ -1,15 +1,8 @@
-import { resolveIcon } from '~/helpers/node';
+import { resolveIcon, resolveNodeLink } from '~/helpers/node';
 import type { Node } from '~/stores';
 
 let nodes: ComputedRef<Item<Node>[]> | Ref<Item<Node>[]> = ref([]);
 const structure = computed(() => new TreeStructure(nodes.value));
-
-const resolveLink = (item: Node) => {
-  if (item.role === 1 || item.role === 2) return `/dashboard/categories/${item.id}`;
-  if (item.role === 3) return `/dashboard/docs/${item.id}`;
-  if (item.role === 4) return `/dashboard/cdn/${item.id}/preview`;
-  return '/dashboard';
-};
 
 /* Do operations in the tree and return the final tree */
 const tree = computed(() => {
@@ -35,7 +28,7 @@ function useSidebarTree() {
               id: node.id,
               parent_id: node.role !== 1 ? node.parent_id || '' : '',
               label: node.name,
-              route: resolveLink(node),
+              route: resolveNodeLink(node),
               icon: ref(resolveIcon(node)).value,
               data: node,
               show: ref(getCollapseState(node.id)),

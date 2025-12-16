@@ -1,5 +1,21 @@
 const locale = 'en-US';
 
+/** Format a timestamp to a readable date string (e.g., "15 Dec 2024") */
+export function formatDate(timestamp: number | undefined): string {
+  const date = new Date(timestamp || 0);
+  return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+}
+
+/** Format a timestamp to a numeric date string (e.g., "12/15/2024") */
+export function numericDate(timestamp: number): string {
+  return new Date(timestamp).toLocaleDateString(locale, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+}
+
+/** Format a timestamp to a relative time string (e.g., "2h ago") */
 export const relativeTime = (timestamp: number) => {
   const diff = Date.now() - timestamp;
   const minutes = Math.floor(diff / 60000);

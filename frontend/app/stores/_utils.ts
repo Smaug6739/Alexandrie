@@ -1,3 +1,8 @@
+/**
+ * API utilities for making authenticated requests
+ * Handles token refresh and retry logic automatically
+ */
+
 export interface APIResult<Data> {
   status: 'success' | 'error';
   message: string;
@@ -5,8 +10,10 @@ export interface APIResult<Data> {
 }
 
 export interface FetchOptions {
-  id: string; // id of the ressource
+  id: string;
 }
+
+/** Low-level fetch wrapper with credentials and proper headers */
 function customFetch(route: string, method: string, body: object) {
   const { API } = useApi();
   if (route.endsWith('/')) route = route.slice(0, -1);

@@ -1,55 +1,25 @@
+/**
+ * Core application utilities
+ * Contains API configuration, screen size helpers, colors, and debounce functions
+ */
 import type { PublicUser, User } from '~/stores/db_strustures';
 
+/** Provides API and CDN base URLs from runtime config */
 export function useApi() {
   const config = useRuntimeConfig();
   const CDN = config.public.baseCdn;
   const API = `${config.public.baseApi}/api`;
   return { CDN, API };
 }
-// Little screen size
+
+// Screen size breakpoints
 export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : false);
-// Intermediate screen size
 export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
 
+/** Get user avatar URL or fallback to default */
 export function useAvatar(user?: User | PublicUser | null): string {
   const { CDN } = useApi();
   return user?.avatar ? CDN + '/' + user.id + '/avatar' : '/default_avatar.avif';
-}
-
-export const appColors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
-export function getAppColor(index: number = 0, defaultPrimary?: boolean): string {
-  if ((defaultPrimary && index < 0) || index == -2) return 'primary';
-  if (index == -1) return '';
-  return appColors[index % appColors.length] || 'primary';
-}
-
-export function formatDate(timestamp: number | undefined): string {
-  const date = new Date(timestamp || 0);
-  return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
-}
-
-export function numericDate(timestamp: number): string {
-  const date = new Date(timestamp);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
-}
-
-export function setAppColor(color: string | number) {
-  if (typeof color === 'number') {
-    color = getAppColor(color);
-  }
-  if (color === 'primary') color = 'default';
-  document.documentElement.style.setProperty('--primary', `var(--${color})`);
-  document.documentElement.style.setProperty('--primary-dark', `var(--${color}-dark)`);
-  document.documentElement.style.setProperty('--primary-bg', `var(--${color}-bg)`);
-  document.documentElement.style.setProperty('--primary-border', `var(--${color}-border)`);
-
-  const colorMode = useColorMode();
-  usePreferences().set('darkMode', colorMode.value === 'dark');
-  document.body.style.colorScheme = colorMode.preference;
 }
 
 export function debounce<T extends (...args: unknown[]) => void>(fn: T, delay = 500) {
