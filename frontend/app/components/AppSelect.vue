@@ -30,7 +30,7 @@
     <!-- Mobile: Bottom Sheet Modal -->
     <Teleport to="body">
       <Transition name="mobile-sheet">
-        <div v-if="open && isMobile" class="mobile-overlay" @click.self="toggleDropdown">
+        <div v-if="open && isMobile()" class="mobile-overlay" @click.self="toggleDropdown">
           <div class="mobile-sheet">
             <div class="mobile-sheet-header">
               <span class="mobile-sheet-title">{{ placeholder }}</span>
@@ -75,7 +75,6 @@ const props = withDefaults(
     disabled?: (i: ANode) => boolean;
     nullable?: boolean;
     searchable?: boolean;
-    mobileBreakpoint?: number;
   }>(),
   {
     placeholder: 'Select an option',
@@ -84,7 +83,6 @@ const props = withDefaults(
     disabled: () => false,
     modelValue: '',
     size: undefined,
-    mobileBreakpoint: 768,
   },
 );
 
@@ -104,7 +102,6 @@ const dropdownStyle = ref<Record<string, string>>({});
 
 // Mobile detection
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
-const isMobile = computed(() => windowWidth.value < props.mobileBreakpoint);
 
 function updateWindowWidth() {
   windowWidth.value = window.innerWidth;
@@ -163,7 +160,7 @@ function toggleDropdown() {
   if (open.value) {
     search.value = '';
     nextTick(() => {
-      if (isMobile.value) {
+      if (isMobile()) {
         // Lock body scroll on mobile
         document.body.style.overflow = 'hidden';
         mobileSearchInput.value?.focus();
