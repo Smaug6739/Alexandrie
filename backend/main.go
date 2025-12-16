@@ -25,5 +25,5 @@ func main() {
 	logger.Info("Starting server on port: " + port)
 	defer application.DB.Close()
 
-	server.Run("192.168.31.106:" + port)
+	server.Run("localhost:" + port)
 }
