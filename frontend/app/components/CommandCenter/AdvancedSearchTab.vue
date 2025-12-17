@@ -40,7 +40,7 @@
 
         <div class="filter-group">
           <label class="filter-label">Category</label>
-          <AppSelect v-model="searchQuery.category" :items="categoriesTree" placeholder="All categories" />
+          <AppSelect v-model="searchQuery.category" :items="categoriesTree" :nullable="true" placeholder="All categories" />
         </div>
 
         <div class="filter-group">
@@ -129,6 +129,7 @@ const isLoading = ref(false);
 
 const searchQuery = ref<SearchOptions>({
   query: props.query,
+  dateType: 'created',
 });
 
 /**
@@ -267,6 +268,7 @@ function addTag() {
 
 function selectTag(tag?: string) {
   if (!tag) return;
+  if (!searchQuery.value.tags) searchQuery.value.tags = [];
   searchQuery.value.tags?.push(tag);
   tagInput.value = '';
   showSuggestions.value = false;
@@ -315,7 +317,7 @@ function removeTag(tag: string) {
 }
 
 function clearFilters() {
-  searchQuery.value = { query: props.query };
+  searchQuery.value = { query: props.query, dateType: 'created' };
   tagInput.value = '';
 }
 
