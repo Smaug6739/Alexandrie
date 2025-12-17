@@ -14,6 +14,7 @@ func Nodes(app *app.App, router *gin.RouterGroup) {
 	nodeCtrl := controllers.NewNodeController(app)
 
 	node.GET("/public/:id", utils.WP(nodeCtrl.GetPublicNode))
+	node.GET("/search", middlewares.Auth(), utils.WP(nodeCtrl.SearchNodes))
 	node.GET("/shared/:userId", middlewares.Auth(), utils.WP(nodeCtrl.GetSharedNodes))
 	node.GET("/:userId", middlewares.Auth(), utils.WP(nodeCtrl.GetNodes))
 	node.GET("/:userId/:id", middlewares.Auth(), utils.WP(nodeCtrl.GetNode))

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="items.length === 0" class="no-results">
-      <Icon :name="emptyIcon" class="no-results-icon" />
+      <Icon name="search" class="no-results-icon" />
       <p>No results found for "{{ query }}"</p>
     </div>
     <div v-else class="search-results-list">
@@ -18,7 +18,8 @@
           <Icon :name="item.icon" class="result-icon" />
           <div class="result-content">
             <span class="result-title">{{ item.title }}</span>
-            <span class="result-description">{{ item.description }}</span>
+            <!-- eslint-disable-next-line vue/no-v-html OK because app format -->
+            <span class="result-description" v-html="item.description"></span>
           </div>
           <div class="result-shortcut">
             <kbd v-if="item.shortcut">{{ item.shortcut }}</kbd>
@@ -36,7 +37,6 @@ const props = defineProps<{
   items: ItemCommand[];
   selectedIndex: number;
   query: string;
-  emptyIcon: string;
 }>();
 
 defineEmits<{
@@ -75,18 +75,6 @@ const groupedItems = computed(() => {
   }
 }
 
-kbd {
-  display: inline-block;
-  padding: 4px 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  font-family: Inter;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--font-color-dark);
-  background-color: var(--bg-color);
-}
-
 .result-icon {
   width: 20px;
   height: 20px;
@@ -109,7 +97,8 @@ kbd {
 }
 
 .result-title {
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

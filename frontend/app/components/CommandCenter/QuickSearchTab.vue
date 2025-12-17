@@ -4,7 +4,6 @@
       :items="flattenedItems"
       :selected-index="selectedIndex"
       :query="searchQuery"
-      empty-icon="search"
       @update-selected-index="$emit('updateSelectedIndex', $event)"
     />
   </div>

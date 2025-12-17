@@ -71,3 +71,25 @@ export function debounceDelayed<T extends (...args: unknown[]) => void>(fn: T, d
     }, delay);
   };
 }
+
+/**
+ * Creates a debounced function similar to VueUse's useDebounceFn.
+ * Useful for search inputs where you want to wait for the user to stop typing.
+ * Works with both sync and async functions.
+ *
+ * @param fn - The function to debounce (can be async)
+ * @param delay - The number of milliseconds to delay (default: 300)
+ * @returns A debounced function
+ */
+export function useDebounceFn<T extends (...args: Parameters<T>) => ReturnType<T>>(fn: T, delay = 300) {
+  let timeout: ReturnType<typeof setTimeout> | null = null;
+
+  return (...args: Parameters<T>) => {
+    if (timeout) clearTimeout(timeout);
+
+    timeout = setTimeout(() => {
+      fn(...args);
+      timeout = null;
+    }, delay);
+  };
+}

@@ -143,16 +143,4 @@ p {
     background-color: var(--bg-ui);
   }
 }
-
-kbd {
-  display: inline-block;
-  padding: 4px 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  font-family: Inter;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--font-color-dark);
-  background-color: var(--bg-color);
-}
 </style>

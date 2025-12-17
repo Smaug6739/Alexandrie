@@ -20,6 +20,7 @@ type NodeService interface {
 	CreateNode(node *models.Node, userId types.Snowflake) (*models.Node, error)
 	UpdateNode(nodeId types.Snowflake, node *models.Node, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (*models.Node, error)
 	DeleteNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error
+	SearchNodes(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error)
 }
 
 type nodeService struct {
@@ -193,4 +194,9 @@ func (s *nodeService) DeleteNode(nodeId types.Snowflake, connectedUserId types.S
 	}
 
 	return s.nodeRepo.Delete(nodeId)
+}
+
+// SearchNodes performs a fulltext search on user's documents
+func (s *nodeService) SearchNodes(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error) {
+	return s.nodeRepo.SearchFulltext(userId, query, includeContent, limit)
 }

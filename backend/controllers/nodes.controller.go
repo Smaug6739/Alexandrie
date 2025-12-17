@@ -6,6 +6,7 @@ import (
 	"alexandrie/permissions"
 	"alexandrie/utils"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +19,7 @@ type NodeController interface {
 	CreateNode(c *gin.Context) (int, any)
 	UpdateNode(c *gin.Context) (int, any)
 	DeleteNode(c *gin.Context) (int, any)
+	SearchNodes(c *gin.Context) (int, any)
 }
 
 func NewNodeController(app *app.App) NodeController {
@@ -146,4 +148,37 @@ func (ctr *Controller) DeleteNode(c *gin.Context) (int, any) {
 		return http.StatusUnauthorized, err
 	}
 	return http.StatusOK, "OK"
+}
+
+// SearchNodes performs a fulltext search on user's documents
+// Query params:
+//   - q: search query (required, min 2 chars)
+//   - content: include content body in search (optional, default false)
+//   - limit: max results (optional, default 20, max 100)
+func (ctr *Controller) SearchNodes(c *gin.Context) (int, any) {
+	connectedUserId, _, err := utils.GetUserContext(c)
+	if err != nil {
+		return http.StatusUnauthorized, err
+	}
+
+	query := c.Query("q")
+	if len(query) < 2 {
+		return http.StatusBadRequest, "Search query must be at least 2 characters"
+	}
+
+	includeContent := c.Query("content") == "true"
+
+	limit := 20
+	if limitStr := c.Query("limit"); limitStr != "" {
+		if parsedLimit, err := strconv.Atoi(limitStr); err == nil && parsedLimit > 0 {
+			limit = parsedLimit
+		}
+	}
+
+	results, err := ctr.app.Services.Node.SearchNodes(connectedUserId, query, includeContent, limit)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	return http.StatusOK, results
 }

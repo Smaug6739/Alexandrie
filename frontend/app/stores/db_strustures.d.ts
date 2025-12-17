@@ -64,6 +64,20 @@ export interface PublicUser {
   updated_timestamp: number;
 }
 
+export interface NodeSearchResult {
+  id: string;
+  user_id: string;
+  parent_id?: string;
+  name: string;
+  description?: string;
+  tags?: string;
+  role: number;
+  icon?: string;
+  relevance: number;
+  content_snippet?: string;
+  updated_timestamp: number;
+}
+
 export interface ConnectionLog {
   id: string;
   user_id: string;
