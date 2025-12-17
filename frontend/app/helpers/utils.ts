@@ -3,17 +3,6 @@
  * Contains hash-based color generation and user agent parsing
  */
 
-const colors = ['var(--blue)', 'var(--teal)', 'var(--yellow)', 'var(--red)', 'var(--red)'];
-
-/** Generate a consistent color from a string (useful for avatars, labels) */
-export function useColorHash(str: string, list = colors): string {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  return list[Math.abs(hash % list.length)] as string;
-}
-
 /** Parse a user agent string to extract OS and browser info */
 export function parseUserAgent(uaString?: string) {
   if (!uaString) return { os: 'Unknown OS', browser: 'Unknown Browser' };
