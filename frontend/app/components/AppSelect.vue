@@ -21,7 +21,10 @@
     <!-- Desktop dropdown -->
     <Teleport to="body">
       <ul v-if="open && !isMobile()" ref="portalList" class="dropdown" :style="dropdownStyle">
-        <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
+        <li v-if="nullable && selected" class="clear-option" @click="clearSelection">
+          <Icon name="close" display="sm" fill="var(--font-color-light)" />
+          <span>Clear selection</span>
+        </li>
         <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
         <slot name="list-footer"></slot>
       </ul>
@@ -45,7 +48,10 @@
             </div>
 
             <ul class="mobile-list">
-              <AppSelectNode v-if="nullable" :node="{ id: '', label: '— Remove selection —' }" :level="0" @select="clearSelection" />
+              <li v-if="nullable && selected" class="clear-option" @click="clearSelection">
+                <Icon name="close" display="sm" fill="var(--font-color-light)" />
+                <span>Clear selection</span>
+              </li>
               <AppSelectNode
                 v-for="item in filteredItems"
                 :key="item.id"
@@ -329,12 +335,12 @@ button,
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: var(--bg-secondary, #f5f5f5);
+  background: var(--bg-contrast);
   cursor: pointer;
   transition: background 0.2s;
 
   &:hover {
-    background: var(--bg-hover, #e0e0e0);
+    background: var(--selection-color);
   }
 }
 
@@ -345,7 +351,7 @@ button,
   gap: 8px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--border-color);
-  background: var(--bg-secondary, #f9f9f9);
+  background: var(--bg-contrast);
 }
 
 .mobile-search-input {
@@ -378,12 +384,12 @@ button,
     transition: background 0.15s;
 
     &:active {
-      background: var(--bg-hover, #f0f0f0);
+      background: var(--selection-color);
     }
   }
 
   :deep(.app-select-node.selected) {
-    background: var(--primary-light, #e3f2fd);
+    background: var(--selection-color);
     color: var(--primary);
     font-weight: 500;
   }
@@ -391,8 +397,36 @@ button,
 
 .mobile-no-results {
   padding: 24px 16px;
-  color: var(--font-color-light, #888);
+  color: var(--font-color-light);
   text-align: center;
+}
+
+/* Clear selection option */
+.clear-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 6px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--font-color-light);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--selection-color);
+    color: var(--red);
+
+    :deep(svg) {
+      fill: var(--red);
+    }
+  }
+
+  span {
+    font-weight: 400;
+  }
 }
 
 /* Transitions */
