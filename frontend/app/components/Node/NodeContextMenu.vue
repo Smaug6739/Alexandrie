@@ -1,20 +1,36 @@
 <template>
-  <div class="content">
-    <button @click="action('open')"><Icon name="file_open" /> Open</button>
-    <button @click="action('edit')"><Icon name="edit_page" /> Edit</button>
-    <button @click="action('duplicate')"><Icon name="duplicate" /> Duplicate</button>
-    <button @click="action('copyLink')"><Icon name="link" /> Copy link</button>
-    <button @click="action('pin')"><Icon :name="node.order === -1 ? 'pin_off' : 'pin'" /> {{ node.order === -1 ? 'Unpin' : 'Pin' }}</button>
-    <button v-if="nodeStore.hasPermissions(node, 4)" @click="action('manageAccess')"><Icon name="manage_access" />Manage Access</button>
-    <hr />
-    <button @click="action('delete')"><Icon name="delete" fill="red" /> Delete</button>
-    <button v-if="preferences.get('developerMode').value"><Icon name="snippets" /> Copy ID</button>
-    <hr />
-    <div class="footer">
-      <p style="display: flex; align-items: center; gap: 8px">
-        <img :src="useAvatar(user)" alt="Avatar" style="width: 20px; height: 20px; margin: 0; border-radius: 50%" />{{ user?.username }}
-      </p>
-      <p>Updated on {{ numericDate(node.updated_timestamp) }}</p>
+  <div class="context-menu" :class="{ 'is-context-menu': props.contextMenu }">
+    <div class="menu-header">
+      <img :src="useAvatar(user)" alt="" class="header-avatar" />
+      <div class="header-info">
+        <span class="header-name">{{ node.name }}</span>
+        <span class="header-meta">{{ user?.username }} · {{ formatDate(node.updated_timestamp) }}</span>
+      </div>
+    </div>
+
+    <div class="menu-group">
+      <button class="menu-item" @click="action('open')"><Icon name="file_open" />Open<kbd>Enter</kbd></button>
+      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />Edit<kbd>E</kbd></button>
+    </div>
+
+    <div class="menu-group">
+      <button class="menu-item" @click="action('duplicate')"><Icon name="duplicate" />Duplicate<kbd>Ctrl+D</kbd></button>
+      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />Copy link<kbd>Ctrl+L</kbd></button>
+      <button class="menu-item" @click="action('pin')">
+        <Icon :name="node.order === -1 ? 'pin_off' : 'pin'" />{{ node.order === -1 ? 'Unpin' : 'Pin to top' }}<kbd>P</kbd>
+      </button>
+    </div>
+
+    <div v-if="nodeStore.hasPermissions(node, 4)" class="menu-group">
+      <button class="menu-item" @click="action('manageAccess')"><Icon name="manage_access" />Manage access</button>
+    </div>
+
+    <div class="menu-group">
+      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />Move to trash<kbd>Del</kbd></button>
+    </div>
+
+    <div v-if="preferences.get('developerMode').value" class="menu-group">
+      <button class="menu-item" @click="action('copyId')"><Icon name="snippets" />Copy ID</button>
     </div>
   </div>
 </template>
@@ -28,7 +44,7 @@ const nodeStore = useNodesStore();
 const preferences = usePreferences();
 const emit = defineEmits(['close']);
 const dotMenu = ref();
-const props = defineProps<{ node: Node }>();
+const props = defineProps<{ node: Node; contextMenu?: boolean }>();
 
 useUserStore().fetchPublicUser(props.node.user_id);
 const user = computed(() => useUserStore().getById(props.node.user_id || ''));
@@ -58,44 +74,124 @@ async function action(name: string) {
     case 'manageAccess':
       useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.node }, size: 'small' }));
       break;
+    case 'copyId':
+      navigator.clipboard.writeText(props.node.id);
+      break;
   }
   emit('close');
 }
 </script>
 
 <style scoped lang="scss">
-.content {
+.context-menu {
   padding: 6px;
 }
-button {
-  display: flex;
-  width: 100%;
-  padding: 4px;
-  border: none;
-  font-family: ui-sans-serif, sans-serif;
-  font-size: 14px;
-  color: var(--font-color);
-  background: none;
-  align-items: center;
-  cursor: pointer;
-  gap: 8px;
 
-  &:hover {
-    background-color: var(--bg-contrast);
+.menu-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 12px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 6px;
+}
+
+.header-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.header-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--font-color-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-meta {
+  font-size: 11px;
+  color: var(--font-color-light);
+}
+
+.menu-group {
+  padding: 2px 0;
+
+  & + .menu-group {
+    border-top: 1px solid var(--border-color);
+    margin-top: 2px;
+    padding-top: 4px;
   }
 }
 
-.footer {
+.menu-item {
   display: flex;
-  margin-top: 4px;
-  padding: 4px 8px;
-  font-size: 0.85rem;
-  color: var(--font-color-light);
-  flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--font-color);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s;
 
-  p {
-    margin: 0;
+  &:hover {
+    background: var(--bg-contrast);
+  }
+
+  :deep(svg) {
+    width: 16px;
+    height: 16px;
+    fill: var(--font-color-light);
+    flex-shrink: 0;
+  }
+
+  kbd {
+    margin-left: auto;
+    padding: 2px 5px;
+    font-family: inherit;
+    font-size: 10px;
+    color: var(--font-color-light);
+    background: var(--bg-contrast);
+    border-radius: 4px;
+  }
+
+  &.delete {
+    color: var(--red);
+    :deep(svg) {
+      fill: var(--red);
+    }
+    kbd {
+      color: var(--red);
+      background: var(--red-bg);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .context-menu.is-context-menu {
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    .menu-item {
+      font-size: 16px;
+      padding: 12px 16px;
+    }
   }
 }
 </style>

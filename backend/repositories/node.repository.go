@@ -25,6 +25,7 @@ type NodeRepository interface {
 	Create(node *models.Node) error
 	Update(node *models.Node) error
 	Delete(nodeId types.Snowflake) error
+	SearchFulltext(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error)
 }
 
 // Prepared statement keys
@@ -38,6 +39,8 @@ const (
 	stmtNodeCreate             = "node_create"
 	stmtNodeUpdate             = "node_update"
 	stmtNodeDelete             = "node_delete"
+	stmtNodeSearchFulltext     = "node_search_fulltext"
+	stmtNodeSearchContent      = "node_search_content"
 	// Note: GetAll and GetShared use complex recursive CTEs, prepared separately
 )
 
@@ -135,6 +138,34 @@ func (r *NodeRepositoryImpl) prepareStatements() error {
 		stmtNodeDelete: `
 			DELETE FROM nodes 
 			WHERE id = ?`,
+
+		// FULLTEXT search on name, description, tags only (faster, for quick search)
+		stmtNodeSearchFulltext: `
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
+			       MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
+			       NULL AS content_snippet,
+						 n.created_timestamp,
+			       n.updated_timestamp
+			FROM nodes n
+			WHERE n.user_id = ? AND n.role = 3
+			  AND MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
+			ORDER BY relevance DESC
+			LIMIT ?`,
+
+		// FULLTEXT search including content body (for content search)
+		stmtNodeSearchContent: `
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
+			       MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
+			       SUBSTRING(n.content, 
+			           GREATEST(1, LOCATE(?, LOWER(n.content)) - 50), 
+			           200) AS content_snippet,
+						 n.created_timestamp,
+			       n.updated_timestamp
+			FROM nodes n
+			WHERE n.user_id = ? AND n.role = 3
+			  AND MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
+			ORDER BY relevance DESC
+			LIMIT ?`,
 	}
 
 	// Prepare all statements
@@ -497,4 +528,77 @@ func (r *NodeRepositoryImpl) Delete(nodeId types.Snowflake) error {
 	}
 
 	return nil
+}
+
+// SearchFulltext performs a FULLTEXT search on nodes
+// If includeContent is true, it searches in the content body as well
+func (r *NodeRepositoryImpl) SearchFulltext(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error) {
+	if limit <= 0 {
+		limit = 20
+	}
+	if limit > 100 {
+		limit = 100
+	}
+
+	// Prepare the search query for MySQL FULLTEXT
+	// Clean the query for safety
+	cleanQuery := strings.TrimSpace(query)
+	if len(cleanQuery) < 2 {
+		return []*models.NodeSearchResult{}, nil
+	}
+
+	var stmtKey string
+	if includeContent {
+		stmtKey = stmtNodeSearchContent
+	} else {
+		stmtKey = stmtNodeSearchFulltext
+	}
+
+	stmt, err := r.manager.GetStatement(stmtKey)
+	if err != nil {
+		return nil, err
+	}
+
+	var rows *sql.Rows
+	if includeContent {
+		// For content search, we need the query for MATCH, for LOCATE (snippet), userId, and limit
+		rows, err = stmt.Query(cleanQuery, strings.ToLower(cleanQuery), userId, cleanQuery, limit)
+	} else {
+		// For fulltext search: query for MATCH, userId, query for MATCH again, and limit
+		rows, err = stmt.Query(cleanQuery, userId, cleanQuery, limit)
+	}
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to execute fulltext search: %w", err)
+	}
+	defer rows.Close()
+
+	results := make([]*models.NodeSearchResult, 0)
+	for rows.Next() {
+		var result models.NodeSearchResult
+		err := rows.Scan(
+			&result.Id,
+			&result.UserId,
+			&result.ParentId,
+			&result.Name,
+			&result.Description,
+			&result.Tags,
+			&result.Role,
+			&result.Icon,
+			&result.Relevance,
+			&result.ContentSnippet,
+			&result.CreatedTimestamp,
+			&result.UpdatedTimestamp,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("failed to scan search result: %w", err)
+		}
+		results = append(results, &result)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating search results: %w", err)
+	}
+
+	return results, nil
 }

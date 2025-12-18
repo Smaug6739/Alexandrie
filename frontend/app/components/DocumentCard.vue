@@ -33,12 +33,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Node } from '~/stores';
 import DeleteDocumentModal from '~/components/Node/DeleteNodeModal.vue';
 import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
+import type { Node } from '~/stores';
 
 const props = defineProps<{ document: Node }>();
 const nodesStore = useNodesStore();
+
 const category = computed(() => nodesStore.getById(props.document.parent_id || ''));
 useUserStore().fetchPublicUser(props.document.user_id);
 const user = computed(() => useUserStore().getById(props.document.user_id || ''));
@@ -47,7 +48,7 @@ const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal)
 function showContextMenu(event: MouseEvent) {
   if (props.document.role === -1) return; // Prevent context menu on nav items
   useContextMenu().open(shallowRef(NodeContextMenu), event, {
-    props: { node: props.document as Node },
+    props: { node: props.document as Node, contextMenu: true },
   });
 }
 </script>
@@ -57,68 +58,98 @@ function showContextMenu(event: MouseEvent) {
   display: flex;
   max-width: 380px;
   min-height: 250px;
+  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   flex-direction: column;
   justify-content: space-between;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+
+  &:hover {
+    border-color: var(--border-color-accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
 }
 
 .header {
   display: flex;
-  padding: 12px;
+  padding: 14px 14px 8px;
   align-items: center;
   justify-content: space-between;
 }
 
 .category-icon {
-  padding: 6px;
-  border-radius: 6px;
+  padding: 8px;
+  border-radius: 8px;
   margin-right: 10px;
 }
 
 .document-title {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 17px;
+  font-weight: 600;
   color: var(--font-color-dark);
+  transition: color 0.15s;
+  line-height: 1.3;
+
+  &:hover {
+    color: var(--primary);
+  }
 }
 
 .body {
-  padding: 4px 12px;
+  padding: 0 14px;
+  flex: 1;
 }
 
 .category {
-  font-size: 15.5px;
+  font-size: 13px;
+  font-weight: 500;
   color: var(--font-color-light);
   padding-bottom: 8px;
 }
 
 .description {
-  height: 100%;
   margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--font-color-light);
   overflow: hidden;
   text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .tags {
   display: flex;
   flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 footer {
   display: flex;
-  padding: 6px 12px;
-  font-size: 14px;
+  padding: 10px 14px;
+  font-size: 12px;
   color: var(--font-color-light);
-  border-top: 1px solid var(--border-color-accent);
-  flex-direction: column;
+  background: var(--bg-contrast);
+  border-top: 1px solid var(--border-color);
+  border-radius: 0 0 11px 11px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .footer-item {
   display: flex;
   align-items: center;
-}
+  gap: 4px;
 
-.footer-item svg {
-  margin-right: 5px;
+  svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.6;
+  }
 }
 </style>

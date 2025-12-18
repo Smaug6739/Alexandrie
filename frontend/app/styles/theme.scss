@@ -1,3 +1,6 @@
+// Global element styles
+// Define styles for standard HTML elements here (for entiere app)
+
 @use "./_variables.scss" as *;
 
 a {
@@ -106,7 +109,7 @@ textarea {
 	border: 1px solid var(--border-color);
 	border-radius: 8px;
 	font-family: Inter;
-	font-size: 0.95rem;
+	font-size: 14px;
 	color: var(--font-color);
 	background: var(--bg-color);
 
@@ -138,11 +141,15 @@ input:-webkit-autofill:focus {
 }
 
 kbd {
-	padding: 2px 6px;
-	border-radius: 4px;
-	font-family: monospace;
-	font-weight: 600;
-	background: var(--border-color);
+	display: inline-block;
+	padding: 4px 6px;
+	border: 1px solid var(--border-color);
+	border-radius: 6px;
+	font-family: Inter;
+	font-size: 13px;
+	font-weight: 400;
+	color: var(--font-color-dark);
+	background-color: var(--bg-color);
 }
 
 label {
@@ -158,26 +165,11 @@ mark {
 	background-color: var(--yellow);
 }
 
-option {
-	padding: 8px 12px;
-	font-family: $external-font;
-
-	&:hover {
-		box-shadow: 0 2px 10px var(--shadow);
-	}
-}
 
 p {
 	margin: 12px 0;
 }
 
-select {
-	padding: 5px 10px;
-	border: 1px solid var(--border-color);
-	border-radius: 5px;
-	font-family: $external-font;
-	font-size: 15px;
-}
 
 table {
 	position: relative;

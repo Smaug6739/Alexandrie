@@ -2,7 +2,7 @@
   <section class="faq">
     <h2>Frequently asked questions</h2>
     <div class="faq-list">
-      <app-accordion v-for="(f, i) in faqs" :key="i" :summary="f.q" :open="openIndex === i" @update:modelValue="val => (openIndex = val ? i : null)">
+      <app-accordion v-for="(f, i) in faqs" :key="i" :summary="f.q" :open="openIndex === i" @update:model-value="val => (openIndex = val ? i : null)">
         <p>{{ f.a }}</p>
       </app-accordion>
     </div>

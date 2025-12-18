@@ -67,63 +67,31 @@ import AppHeader from './_components/AppHeader.vue';
 import AppFooter from './_components/AppFooter.vue';
 
 const router = useRouter();
+const userStore = useUserStore();
+
+// Form fields
 const username = ref('');
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
-const showPassword = ref(false);
-const showConfirmPassword = ref(false);
-const errors = ref({
-  username: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  general: '',
-});
-const userStore = useUserStore();
+const errors = ref({ username: '', email: '', password: '', confirmPassword: '', general: '' });
 
-function togglePassword() {
-  showPassword.value = !showPassword.value;
-}
-
-function toggleConfirmPassword() {
-  showConfirmPassword.value = !showConfirmPassword.value;
-}
+// Reusable password visibility toggles
+const { showPassword, togglePassword } = usePasswordField();
+const { showPassword: showConfirmPassword, togglePassword: toggleConfirmPassword } = usePasswordField();
 
 function register() {
-  let valid = true;
+  // Validate all fields
+  errors.value.username = !username.value ? 'Username is required' : '';
+  errors.value.email = !email.value ? 'Email is required' : '';
+  errors.value.password = !password.value ? 'Password is required' : '';
+  errors.value.confirmPassword = !confirmPassword.value
+    ? 'Password confirmation is required'
+    : password.value !== confirmPassword.value
+      ? 'Passwords do not match'
+      : '';
 
-  if (!username.value) {
-    errors.value.username = 'Username is required';
-    valid = false;
-  } else {
-    errors.value.username = '';
-  }
-
-  if (!email.value) {
-    errors.value.email = 'Email is required';
-    valid = false;
-  } else {
-    errors.value.email = '';
-  }
-
-  if (!password.value) {
-    errors.value.password = 'Password is required';
-    valid = false;
-  } else {
-    errors.value.password = '';
-  }
-
-  if (!confirmPassword.value) {
-    errors.value.confirmPassword = 'Password confirmation is required';
-    valid = false;
-  } else if (password.value !== confirmPassword.value) {
-    errors.value.confirmPassword = 'Passwords do not match';
-    valid = false;
-  } else {
-    errors.value.confirmPassword = '';
-  }
-
+  const valid = !Object.values(errors.value).some(e => e);
   if (valid) createAccount(username.value, email.value, password.value);
 }
 

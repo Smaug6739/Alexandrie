@@ -1,6 +1,6 @@
 import { makeRequest, type FetchOptions } from './_utils';
 import { Collection } from './collection';
-import type { DB_Node, Node, Permission } from './db_strustures';
+import type { DB_Node, Node, NodeSearchResult, Permission } from './db_strustures';
 
 export interface SearchOptions {
   query?: string;
@@ -328,6 +328,27 @@ export const useNodesStore = defineStore('nodes', {
         this.nodes.delete(id);
         allChildrens.forEach(childId => this.nodes.delete(childId));
       } else throw request.message;
+    },
+    /**
+     * Performs a fulltext search on the server using MySQL FULLTEXT index
+     * This is optimized for searching in document content (body)
+     * @param query - Search query (min 2 characters)
+     * @param includeContent - Whether to search in document body content
+     * @param limit - Max results to return
+     */
+    async searchFulltext(query: string, includeContent = true, limit = 20): Promise<NodeSearchResult[]> {
+      if (query.length < 2) return [];
+      const params = new URLSearchParams({
+        q: query,
+        content: includeContent.toString(),
+        limit: limit.toString(),
+      });
+      const request = await makeRequest(`nodes/search?${params.toString()}`, 'GET', {});
+      if (request.status === 'success') {
+        return request.result as NodeSearchResult[];
+      }
+      console.error('[store/nodes] Fulltext search failed:', request.message);
+      return [];
     },
     clear() {
       this.nodes.clear();

@@ -1,11 +1,11 @@
 <template>
-  <div class="card-component">
+  <div class="card-component node-list">
     <header>
       <h1 v-if="parent">
         <Icon
-          :name="parent.icon || parent?.icon || 'files'"
+          :name="parent.icon || 'files'"
           display="xl"
-          :class="`parent-icon ${getAppColor(parent.color || parent?.color as number, true)}`"
+          :class="`parent-icon ${getAppColor(parent.color as number, true)}`"
         />
         {{ parent.name }}
       </h1>
@@ -17,33 +17,57 @@
         <Icon name="workspace" display="xl" class="parent-icon primary" />
         All workspaces
       </h1>
-      <div style="display: flex; align-items: center; gap: 4px">
+      <div class="header-actions">
+        <NuxtLink v-if="view == 'kanban'" class="btn-icon no-mobile" @click="resetKanban">
+          <Icon name="reset" display="lg" />
+        </NuxtLink>
         <NodeFilter v-show="!isMobile()" :nodes="nodes" @update:nodes="filteredNodes = $event" />
-        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon no-mobile" @click="openRemoveShareModal"
-          ><Icon name="group_off" display="lg"
-        /></NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon no-mobile" @click="openPermissionsModal"
-          ><Icon name="manage_access" display="lg"
-        /></NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" class="btn-icon" @click="openEditModal"><Icon name="settings" display="lg" /></NuxtLink>
-        <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }} </span>
-        <ViewSelection v-model="view" />
+        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon no-mobile" @click="openRemoveShareModal">
+          <Icon name="group_off" display="lg" />
+        </NuxtLink>
+        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon no-mobile" @click="openPermissionsModal">
+          <Icon name="manage_access" display="lg" />
+        </NuxtLink>
+        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" class="btn-icon" @click="openEditModal">
+          <Icon name="settings" display="lg" />
+        </NuxtLink>
+        <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }}</span>
+        <ViewSelection v-model="view" :show-kanban="!!parent" />
       </div>
     </header>
-    <div v-if="filteredNodes.length">
-      <div v-if="view == 'table'" class="line-container">
+
+    <!-- Content based on view mode -->
+    <div v-if="filteredNodes.length" class="node-content">
+      <!-- Table/List View -->
+      <div v-if="view === 'table'" class="line-container">
         <DocumentLine v-for="document of filteredNodes" :key="document.id" :document="document" class="line-item" />
       </div>
-      <div v-else class="document-list">
+
+      <!-- Grid View -->
+      <div v-else-if="view === 'list'" class="document-list">
         <DocumentsGrid :documents="filteredNodes" />
       </div>
+
+      <!-- Kanban View -->
+      <KanbanBoard
+        v-else-if="view === 'kanban' && parent"
+        ref="kanbanBoard"
+        :workspace="parent"
+        :documents="filteredNodes"
+        @update-metadata="updateKanbanMetadata"
+        @create-document="createDocumentInColumn"
+      />
     </div>
+
     <NoContent
       v-else-if="!nodesStore.isFetching"
       style="width: 100%; height: 100%"
       title="No documents found"
       description="There are no documents in this category"
-      ><NuxtLink to="/dashboard/docs/new"><AppButton type="link" style="font-weight: bold">+ Create new document </AppButton></NuxtLink>
+    >
+      <NuxtLink to="/dashboard/docs/new">
+        <AppButton type="link" style="font-weight: bold">+ Create new document</AppButton>
+      </NuxtLink>
     </NoContent>
   </div>
 </template>
@@ -52,15 +76,47 @@
 import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
 import NodeFilter from '~/components/Node/Filter.vue';
-import type { Node } from '~/stores';
+import KanbanBoard, { type KanbanMetadata } from '~/components/Kanban/KanbanBoard.vue';
 import NodeMetadataModal from './NodeMetadata.modal.vue';
+import ResetBoardModal from '../Kanban/ResetBoard.modal.vue';
+import type { ViewMode } from '~/components/ViewSelection.vue';
+import type { Node } from '~/stores';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
 const nodesStore = useNodesStore();
+const router = useRouter();
 const connectedId = useUserStore().user?.id;
 
-const view: Ref<'table' | 'list'> = ref('list');
+const view = ref<ViewMode>();
 const filteredNodes = ref<Node[]>(props.nodes);
+
+// Kanban board reference
+const kanbanBoard = ref<InstanceType<typeof KanbanBoard> | null>(null);
+const resetKanban = () => {
+  useModal().add(
+    new Modal(shallowRef(ResetBoardModal), {
+      props: {
+        onConfirm: () => kanbanBoard.value?.resetKanbanData(),
+      },
+      size: 'small',
+    }),
+  );
+};
+
+// Watch for nodes changes to update filtered nodes
+watch(
+  () => props.nodes,
+  newNodes => {
+    filteredNodes.value = newNodes;
+  },
+  { immediate: true },
+);
+
+onMounted(() => {
+  const storedView = localStorage.getItem('viewSelection');
+  if (storedView && ['table', 'list', 'kanban'].includes(storedView)) view.value = storedView as ViewMode;
+  else view.value = 'table';
+});
 
 const openPermissionsModal = () => {
   if (props.parent) useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.parent }, size: 'small' }));
@@ -69,26 +125,85 @@ const openRemoveShareModal = () => {
   if (props.parent) useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.parent.id }, size: 'small' }));
 };
 const openEditModal = () => useModal().add(new Modal(shallowRef(NodeMetadataModal), { props: { doc: props.parent }, size: 'small' }));
+
+// Kanban functionality
+async function updateKanbanMetadata(metadata: KanbanMetadata) {
+  if (!props.parent) return;
+
+  try {
+    await nodesStore.update({
+      ...props.parent,
+      metadata: {
+        ...props.parent.metadata,
+        ...metadata,
+      },
+    });
+  } catch (error) {
+    console.error('Failed to update kanban metadata:', error);
+  }
+}
+
+function createDocumentInColumn(columnId: string) {
+  if (!props.parent) return;
+  router.push({
+    path: '/dashboard/docs/new',
+    query: {
+      parent: String(props.parent.id),
+      kanbanColumn: columnId,
+    },
+  });
+}
 </script>
 
 <style scoped lang="scss">
+header {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 h1 {
   display: flex;
   align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-.doc-count {
-  padding: 4px 6px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: bold;
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
+.parent-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  transition: transform $transition-duration $transition-duration;
+
+  :deep(svg) {
+    fill: currentColor;
+  }
+}
 .parent-icon {
   padding: 6px;
   border-radius: 6px;
   margin-right: 10px;
+}
+.doc-count {
+  padding: 6px 10px;
+  background: var(--bg-contrast);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--font-color-light);
+}
+
+.node-content {
+  margin-top: 8px;
 }
 
 .line-container {

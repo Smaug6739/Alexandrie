@@ -3,7 +3,6 @@
 </template>
 
 <style scoped>
-/* HTML: <div class="loader"></div> */
 .loader {
   width: 25px;
   background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;

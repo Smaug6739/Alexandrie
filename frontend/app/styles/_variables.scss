@@ -1,10 +1,15 @@
 @forward "./font.scss";
 
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 $external-font: 'Inter', sans-serif;
-$monospace-font: monospace;
+$monospace-font: 'JetBrains Mono', monospace;
 
 // Transitions
 $transition-duration: 0.3s;
+
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 14px;
 
 :root {
 	--default: #3956e7;
@@ -22,6 +27,7 @@ $transition-duration: 0.3s;
 	--font-color-sub: #666;
 	--opposite-color: #111;
 	--border-color: #dfe0e5;
+	--border-color-light: #dfe0e585;
 	--border-color-accent: #c4c6d0;
 	--shadow: rgb(0 0 0 / 15%);
 
@@ -85,6 +91,8 @@ $transition-duration: 0.3s;
 	--font-color-light: #aab0b8;
 	--font-color-sub: #8a9099;
 	--border-color: rgb(255 255 255 / 10%);
+	--border-color-light: rgb(255 255 255 / 5%);
+	--border-color-accent: #4a4f5c;
 	--opposite-color: #f4f4f4;
 	--shadow: rgb(0 0 0 / 30%);
 

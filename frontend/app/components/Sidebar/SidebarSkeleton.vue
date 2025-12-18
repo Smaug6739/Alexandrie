@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%">
+  <div class="skeleton-container">
     <div v-if="isLoading" class="sidebar-skeleton">
       <div v-for="n in 30" :key="n" class="skeleton-line" :style="{ marginRight: `${(n % 3) * 22}px` }" />
     </div>
@@ -24,12 +24,15 @@
 </template>
 
 <script setup lang="ts">
-import { NuxtLink } from '#components';
-
 defineProps<{ isLoading: boolean }>();
 </script>
 
 <style scoped lang="scss">
+.skeleton-container {
+  width: 100%;
+  height: 100%;
+}
+
 .sidebar-skeleton {
   display: flex;
   padding: 0.5rem;

@@ -53,8 +53,8 @@ function toggle() {
   }
 
   input:checked + .checkmark {
-    border-color: var(--primary, var(--primary));
-    background: var(--primary, var(--primary));
+    border-color: var(--primary);
+    background: var(--primary);
   }
 
   .label {

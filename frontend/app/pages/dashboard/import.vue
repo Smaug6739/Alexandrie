@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { analyseFile, validateFileStructure, compareDocumentsAndLocal, prepareNewDocuments, uploadDocument, uploadDocuments } from '~/helpers/importations';
+import { analyseFile, validateFileStructure, compareDocumentsAndLocal, prepareNewDocuments } from '~/helpers/node';
 import type { DB_Node } from '~/stores';
 definePageMeta({ breadcrumb: 'Importations' });
 
@@ -58,6 +58,18 @@ async function submit() {
     selectedFile.value = undefined; // Reset selected file after processing
   }
 }
+
+async function uploadDocument(document: DB_Node) {
+  const documentsStore = useNodesStore();
+  await documentsStore.post(document);
+}
+async function uploadDocuments(documents: DB_Node[]) {
+  const documentsStore = useNodesStore();
+  for (const doc of documents) {
+    await documentsStore.post(doc);
+  }
+}
+
 function importDoc(file: DB_Node) {
   const fileContent = files_to_import.value.find(i => i.id === file.id);
   if (!fileContent) return useNotifications().add({ type: 'error', title: 'File not found' });

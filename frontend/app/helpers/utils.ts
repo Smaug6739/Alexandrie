@@ -1,18 +1,12 @@
-const colors = ['var(--blue)', 'var(--teal)', 'var(--yellow)', 'var(--red)', 'var(--red)'];
+/**
+ * String & parsing utilities
+ * Contains hash-based color generation and user agent parsing
+ */
 
-export function useColorHash(str: string, list = colors): string {
-  // Calculer un hash unique pour la chaîne
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  const index = Math.abs(hash % list.length);
-  return list[index] as string;
-}
-
+/** Parse a user agent string to extract OS and browser info */
 export function parseUserAgent(uaString?: string) {
   if (!uaString) return { os: 'Unknown OS', browser: 'Unknown Browser' };
+
   const osList = [
     { name: 'Windows 10', regex: /Windows NT 10.0/ },
     { name: 'Windows 8.1', regex: /Windows NT 6.3/ },

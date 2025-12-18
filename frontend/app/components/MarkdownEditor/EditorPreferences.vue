@@ -1,4 +1,3 @@
-<!-- This components is a modal for advanced editing document metadata -->
 <template>
   <div class="modal-content">
     <h2>Editor preferences</h2>

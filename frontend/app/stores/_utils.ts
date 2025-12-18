@@ -1,3 +1,8 @@
+/**
+ * API utilities for making authenticated requests
+ * Handles token refresh and retry logic automatically
+ */
+
 export interface APIResult<Data> {
   status: 'success' | 'error';
   message: string;
@@ -5,8 +10,10 @@ export interface APIResult<Data> {
 }
 
 export interface FetchOptions {
-  id: string; // id of the ressource
+  id: string;
 }
+
+/** Low-level fetch wrapper with credentials and proper headers */
 function customFetch(route: string, method: string, body: object) {
   const { API } = useApi();
   if (route.endsWith('/')) route = route.slice(0, -1);
@@ -29,10 +36,14 @@ async function refreshAccessToken(): Promise<void> {
   if (!refreshPromise) {
     refreshPromise = (async () => {
       console.log('[AUTH] Refreshing access token...');
-      const res = await customFetch('auth/refresh', 'POST', {});
-      const data = await res.json();
+      try {
+        const res = await customFetch('auth/refresh', 'POST', {});
+        const data = await res.json();
 
-      if (!res.ok || data.status !== 'success') {
+        if (!res.ok || data.status !== 'success') throw new Error('Refresh token invalid');
+
+        console.log('[AUTH] Access token refreshed.');
+      } catch {
         console.warn('[AUTH] Refresh failed, logging out.');
 
         useUserStore().post_logout();
@@ -41,8 +52,6 @@ async function refreshAccessToken(): Promise<void> {
         window.location.replace('/login');
         throw new Error('Refresh token invalid');
       }
-
-      console.log('[AUTH] Access token refreshed.');
     })();
 
     // reset the promise when done

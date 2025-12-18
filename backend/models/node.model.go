@@ -29,3 +29,19 @@ type Node struct {
 	// Relations
 	Permissions []*Permission `json:"permissions" form:"permissions" binding:"omitempty"`
 }
+
+// NodeSearchResult represents a search result with relevance score and content snippet
+type NodeSearchResult struct {
+	Id               types.Snowflake  `json:"id"`
+	UserId           types.Snowflake  `json:"user_id"`
+	ParentId         *types.Snowflake `json:"parent_id"`
+	Name             string           `json:"name"`
+	Description      *string          `json:"description"`
+	Tags             *string          `json:"tags"`
+	Role             int              `json:"role"`
+	Icon             *string          `json:"icon"`
+	Relevance        float64          `json:"relevance"`
+	ContentSnippet   *string          `json:"content_snippet,omitempty"`
+	CreatedTimestamp int64            `json:"created_timestamp"`
+	UpdatedTimestamp int64            `json:"updated_timestamp"`
+}

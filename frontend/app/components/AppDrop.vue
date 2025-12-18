@@ -22,9 +22,9 @@
 </template>
 <script setup lang="ts">
 import { readableFileSize } from '~/helpers/ressources';
-const selectedFile: Ref<File | null | undefined> = ref(null);
+const selectedFile = ref<File | null>(null);
 const isDragOver = ref(false);
-const fileInput: Ref<HTMLInputElement | null> = ref(null);
+const fileInput = ref<HTMLInputElement | null>(null);
 const triggerFileSelect = () => fileInput.value!.click();
 const handleFileSelect = (event: Event) => {
   emit('select', (event.target as HTMLInputElement | null)?.files?.[0] || null);
@@ -33,8 +33,11 @@ const handleFileSelect = (event: Event) => {
 const emit = defineEmits(['select']);
 const handleFileDrop = (event: DragEvent) => {
   if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
-    selectedFile.value = event.dataTransfer.files[0];
-    emit('select', event.dataTransfer.files[0]);
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      selectedFile.value = file;
+      emit('select', file);
+    }
     isDragOver.value = false;
   }
 };

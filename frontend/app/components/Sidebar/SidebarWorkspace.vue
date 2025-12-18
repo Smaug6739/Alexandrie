@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <span style="display: flex; align-items: center">
+  <div class="workspace-item">
+    <span class="workspace-name">
       <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="[getAppColor(option.meta?.color), 'icon']" />
-      &nbsp; {{ option.text }}
+      {{ option.text }}
     </span>
     <span>
       <Icon v-if="option.meta?.shared" name="users" />
@@ -16,11 +16,17 @@ defineProps<{ option: Workspace }>();
 </script>
 
 <style scoped lang="scss">
-div {
+.workspace-item {
   display: flex;
   font-weight: 500;
   align-items: center;
   justify-content: space-between;
+}
+
+.workspace-name {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .icon {

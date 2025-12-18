@@ -1,4 +1,4 @@
-import { type KeyBinding } from '@codemirror/view';
+import type { KeyBinding } from '@codemirror/view';
 
 export function createKeymaps(commands: { exec: (action: string) => void }) {
   const markdownKeysmap: readonly KeyBinding[] = [

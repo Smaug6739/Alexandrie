@@ -1,3 +1,12 @@
+/**
+ * Application constants
+ * Centralized configuration options for documents, nodes, and UI settings
+ */
+
+// Theme color palette
+export const appColors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
+
+// Document display themes
 export const DOCUMENT_THEMES = [
   { label: 'Alexandrie', id: 'alexandrie' },
   { label: 'Latex style', id: 'latex' },
@@ -5,21 +14,26 @@ export const DOCUMENT_THEMES = [
   { label: 'Modern', id: 'modern' },
 ];
 
+// Document visibility options (1 = Private, 3 = Published)
 export const DOCUMENT_ACCESSIBILITIES: ANode[] = [
   { id: 1, label: 'Private' },
   { id: 3, label: 'Published' },
 ];
+
+// Sharing access levels (0 = View only, 2 = Can edit)
 export const DOCUMENT_GENERAL_ACCESS: ANode[] = [
   { id: 0, label: 'Viewer' },
   { id: 2, label: 'Editor' },
 ];
 
+// Document width presets
 export const DOCUMENT_SIZES = [
   { label: 'Small', id: 0 },
   { label: 'Medium', id: 1 },
   { label: 'Large', id: 2 },
 ];
 
+// Editor font options
 export const EDITOR_FONTS = [
   { label: 'JetBrains Mono', id: 'JetBrains Mono' },
   { label: 'monospace', id: 'monospace' },
@@ -29,11 +43,13 @@ export const EDITOR_FONTS = [
   { label: 'Times New Roman', id: 'Times New Roman' },
 ];
 
+// Node role options (1 = Workspace, 2 = Category)
 export const CATEGORY_ROLES = [
   { id: 1, label: 'Workspace' },
   { id: 2, label: 'Category' },
 ];
 
+// Permission levels for sharing
 export const NODE_PERMISSIONS = [
   { label: 'Viewer', id: 1 },
   { label: 'Editor', id: 2 },

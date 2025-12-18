@@ -42,26 +42,16 @@
 <script setup lang="ts">
 import AppHeader from '../_components/AppHeader.vue';
 import AppFooter from '../_components/AppFooter.vue';
+
 const username = ref('');
-const errors = ref({
-  username: '',
-  password: '',
-  general: '',
-});
-const showPassword = ref(false);
 const password = ref('');
+const errors = ref({ username: '', password: '', general: '' });
+const { showPassword, togglePassword } = usePasswordField();
 const userStore = useUserStore();
 
-function togglePassword() {
-  showPassword.value = !showPassword.value;
-}
-
 function login() {
-  if (!username.value) errors.value.username = 'Username is required';
-  else errors.value.username = '';
-
-  if (!password.value) errors.value.password = 'Password is required';
-  else errors.value.password = '';
+  errors.value.username = !username.value ? 'Username is required' : '';
+  errors.value.password = !password.value ? 'Password is required' : '';
 
   if (username.value && password.value) {
     connect(username.value, password.value);
@@ -70,7 +60,7 @@ function login() {
 
 async function connect(username: string, password: string) {
   const result = await userStore.login(username, password);
-  if (result == true) useRouter().push('/dashboard');
+  if (result === true) useRouter().push('/dashboard');
   else errors.value.general = String(result);
 }
 </script>
