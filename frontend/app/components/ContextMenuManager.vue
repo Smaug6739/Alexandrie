@@ -136,7 +136,7 @@ const pos = computed(() => {
 
   // Estimated menu dimensions (cannot measure before rendering)
   const menuWidth = 240;
-  const menuHeight = 380;
+  const menuHeight = 340;
   const pad = 8;
   const vw = typeof window !== 'undefined' ? window.innerWidth : 1920;
   const vh = typeof window !== 'undefined' ? window.innerHeight : 1080;

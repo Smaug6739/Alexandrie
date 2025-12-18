@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div style="width: 100%; padding: 1rem 0">
+  <div style="width: 100%; padding: 1rem 0" @contextmenu.prevent="showContextMenu">
     <div v-if="!error" style="display: flex; justify-content: space-between">
       <div :style="{ maxWidth: width }" class="doc-container">
         <DocumentCardHeader :doc="node" style="margin-bottom: 20px" />
@@ -38,6 +38,7 @@ import DocumentCardHeader from './_components/DocumentCardHeader.vue';
 import DocumentCardFooter from './_components/DocumentCardFooter.vue';
 import DocumentSkeleton from './_components/DocumentSkeleton.vue';
 import type { Node } from '~/stores';
+import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
 
 const route = useRoute();
 const documentsStore = useNodesStore();
@@ -80,6 +81,15 @@ const width = computed(() => {
   if (preferencesStore.get('docSize').value == 1) return '800px';
   return '700px';
 });
+
+// Context menu
+const contextMenu = useContextMenu();
+
+function showContextMenu(event: MouseEvent) {
+  contextMenu.open(shallowRef(NodeContextMenu), event, {
+    props: { node: node.value, contextMenu: true },
+  });
+}
 
 onMounted(() => {
   // Keyboard shortcuts management for navigating between corresponding pages
