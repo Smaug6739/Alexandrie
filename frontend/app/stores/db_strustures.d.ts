@@ -75,6 +75,7 @@ export interface NodeSearchResult {
   icon?: string;
   relevance: number;
   content_snippet?: string;
+  created_timestamp: number;
   updated_timestamp: number;
 }
 

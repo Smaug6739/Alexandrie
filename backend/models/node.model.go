@@ -42,5 +42,6 @@ type NodeSearchResult struct {
 	Icon             *string          `json:"icon"`
 	Relevance        float64          `json:"relevance"`
 	ContentSnippet   *string          `json:"content_snippet,omitempty"`
+	CreatedTimestamp int64            `json:"created_timestamp"`
 	UpdatedTimestamp int64            `json:"updated_timestamp"`
 }

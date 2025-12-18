@@ -18,20 +18,20 @@
             <div class="date-filters">
               <div class="date-input">
                 <label>From</label>
-                <input v-model="searchQuery.fromDate" type="date" class="date-picker" />
+                <input v-model="dateFrom" type="date" class="date-picker" />
               </div>
               <div class="date-input">
                 <label>To</label>
-                <input v-model="searchQuery.toDate" type="date" class="date-picker" />
+                <input v-model="dateTo" type="date" class="date-picker" />
               </div>
             </div>
             <div class="radio-group">
               <label class="radio-option">
-                <input v-model="searchQuery.dateType" type="radio" value="created" />
+                <input v-model="dateType" type="radio" value="created" />
                 <span>Created</span>
               </label>
               <label class="radio-option">
-                <input v-model="searchQuery.dateType" type="radio" value="modified" />
+                <input v-model="dateType" type="radio" value="modified" />
                 <span>Modified</span>
               </label>
             </div>
@@ -40,7 +40,7 @@
 
         <div class="filter-group">
           <label class="filter-label">Category</label>
-          <AppSelect v-model="searchQuery.category" :items="categoriesTree" :nullable="true" placeholder="All categories" />
+          <AppSelect v-model="selectedCategory" :items="categoriesTree" :nullable="true" placeholder="All categories" />
         </div>
 
         <div class="filter-group">
@@ -78,8 +78,8 @@
                 </div>
               </div>
             </div>
-            <div v-if="searchQuery.tags?.length" class="selected-tags">
-              <span v-for="tag in searchQuery.tags" :key="tag" class="tag-chip">
+            <div v-if="selectedTags?.length" class="selected-tags">
+              <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
                 {{ tag }}
                 <button class="remove-tag" @click.stop="removeTag(tag)">×</button>
               </span>
@@ -107,7 +107,7 @@
 
 <script setup lang="ts">
 import SearchResultsList from './SearchResultsList.vue';
-import type { SearchOptions, Node, NodeSearchResult } from '~/stores';
+import type { Node, NodeSearchResult } from '~/stores';
 
 const props = defineProps<{ query: string; selectedIndex: number }>();
 
@@ -120,42 +120,45 @@ const categoriesTree = new TreeStructure(useSidebarTree().nodes.value.filter(n =
 const showFilters = ref(true);
 const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(0);
-const tagInput = ref('');
 
 // Search State
 const searchInContent = ref(true);
 const searchResults = ref<(NodeSearchResult | Node)[]>([]);
-const isLoading = ref(false);
-
-const searchQuery = ref<SearchOptions>({
-  query: props.query,
-  dateType: 'created',
-});
+const dateFrom = ref('');
+const dateTo = ref('');
+const dateType = ref<'created' | 'modified'>('modified');
+const tagInput = ref('');
+const selectedTags = ref<string[]>([]);
+const selectedCategory = ref('');
 
 /**
  * Global search function
  * - If searchInContent is ON and query >= 2 chars → API fulltext search
  * - Otherwise → local store search
  */
-async function search(query: string) {
-  const shouldUseAPI = searchInContent.value && query.length >= 2;
 
-  if (shouldUseAPI) {
-    // API fulltext search
-    isLoading.value = true;
-    try {
-      const apiResults = await nodesStore.searchFulltext(query, true, 30);
-      searchResults.value = applyFilters(apiResults);
-    } catch (error) {
-      console.error('[CommandCenter] Fulltext search error:', error);
-      searchResults.value = [];
-    } finally {
-      isLoading.value = false;
-    }
-  } else {
-    // Local store search (instant, no API)
-    searchResults.value = nodesStore.search({ ...searchQuery.value, query, role: 3 });
+async function searchAPI() {
+  try {
+    const apiResults = await nodesStore.searchFulltext(props.query, true, 30);
+    searchResults.value = applyFilters(apiResults);
+  } catch (error) {
+    console.error('[CommandCenter] Fulltext search error:', error);
+    searchResults.value = [];
   }
+}
+
+const searchAPIdebounced = useDebounceFn(() => searchAPI(), 300);
+
+async function localSearch() {
+  searchResults.value = nodesStore.search({
+    query: props.query,
+    category: selectedCategory.value,
+    dateType: dateType.value,
+    fromDate: dateFrom.value ? new Date(dateFrom.value) : undefined,
+    toDate: dateTo.value ? new Date(dateTo.value) : undefined,
+    tags: selectedTags.value,
+    role: 3,
+  });
 }
 
 /**
@@ -164,35 +167,47 @@ async function search(query: string) {
 function applyFilters(results: (NodeSearchResult | Node)[]): (NodeSearchResult | Node)[] {
   let filtered = [...results];
 
-  if (searchQuery.value.category) {
-    filtered = filtered.filter(d => d.parent_id === searchQuery.value.category);
+  // Apply category filter
+  if (selectedCategory.value) {
+    filtered = filtered.filter(d => d.parent_id === selectedCategory.value);
   }
 
-  if (searchQuery.value.tags?.length) {
+  // Apply tag filters
+  if (selectedTags.value.length) {
     filtered = filtered.filter(d => {
       if (!d.tags) return false;
       const nodeTags = d.tags.split(',').map(t => t.trim());
-      return searchQuery.value.tags!.some(tag => nodeTags.includes(tag));
+      return selectedTags.value.some(tag => nodeTags.includes(tag));
     });
   }
 
-  if (searchQuery.value.fromDate || searchQuery.value.toDate) {
+  // Apply date filters
+  const fromDate = dateFrom.value ? new Date(dateFrom.value) : null;
+  const toDate = dateTo.value ? new Date(dateTo.value) : null;
+  if (fromDate || toDate) {
     filtered = filtered.filter(d => {
-      const date = new Date(d.updated_timestamp);
-      if (searchQuery.value.fromDate && date < new Date(searchQuery.value.fromDate)) return false;
-      if (searchQuery.value.toDate && date > new Date(searchQuery.value.toDate)) return false;
-      return true;
+      const timestamp = dateType.value === 'created' ? d.created_timestamp : d.updated_timestamp;
+      const nodeDate = new Date(timestamp);
+      if (fromDate && nodeDate < fromDate) return false;
+      if (toDate && nodeDate > toDate) return false;
     });
   }
 
   return filtered;
 }
 
-// Debounced search (300ms) - single watcher for all search triggers
-const debouncedSearch = useDebounceFn((query: string) => search(query), 300);
-
-// Watch all search-related changes and trigger debounced search
-watch([() => props.query, searchInContent, () => searchQuery.value], ([query]) => debouncedSearch(query), { immediate: true, deep: true });
+// Watch all search-related changes and trigger search
+watch(
+  [() => props.query, searchInContent, dateFrom, dateTo, dateType, selectedCategory, selectedTags],
+  () => {
+    if (props.query.length >= 2 && searchInContent.value) {
+      searchAPIdebounced();
+    } else {
+      localSearch();
+    }
+  },
+  { immediate: true, deep: true },
+);
 
 const filteredTagSuggestions = computed(() => {
   if (!tagInput.value) return [];
@@ -258,9 +273,8 @@ function escapeHtml(text: string): string {
 
 function addTag() {
   const tag = tagInput.value.trim();
-  if (!searchQuery.value.tags) searchQuery.value.tags = [];
-  if (tag && !searchQuery.value.tags.includes(tag)) {
-    searchQuery.value.tags.push(tag);
+  if (tag && !selectedTags.value.includes(tag)) {
+    selectedTags.value.push(tag);
     tagInput.value = '';
     showSuggestions.value = false;
   }
@@ -268,8 +282,7 @@ function addTag() {
 
 function selectTag(tag?: string) {
   if (!tag) return;
-  if (!searchQuery.value.tags) searchQuery.value.tags = [];
-  searchQuery.value.tags?.push(tag);
+  selectedTags.value.push(tag);
   tagInput.value = '';
   showSuggestions.value = false;
 }
@@ -313,12 +326,17 @@ function toggleFilters() {
 }
 
 function removeTag(tag: string) {
-  searchQuery.value.tags = searchQuery.value.tags?.filter(t => t !== tag);
+  selectedTags.value = selectedTags.value.filter(t => t !== tag);
 }
 
 function clearFilters() {
-  searchQuery.value = { query: props.query, dateType: 'created' };
+  selectedTags.value = [];
   tagInput.value = '';
+  selectedCategory.value = '';
+  dateFrom.value = '';
+  dateTo.value = '';
+  dateType.value = 'modified';
+  searchInContent.value = true;
 }
 
 function getDocumentIcon(doc: NodeSearchResult | Node): string {
@@ -467,9 +485,7 @@ defineExpose({ flattenedItems });
   }
 
   .tag-input {
-    padding: 6px 8px;
     border: 1px solid var(--border-color);
-    border-radius: 4px;
     font-size: 12px;
     background: var(--bg-color);
     flex: 1;
@@ -552,7 +568,7 @@ defineExpose({ flattenedItems });
     justify-content: center;
 
     &:hover {
-      color: white;
+      color: var(--opposite-color);
     }
   }
 }

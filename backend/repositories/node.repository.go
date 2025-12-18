@@ -144,6 +144,7 @@ func (r *NodeRepositoryImpl) prepareStatements() error {
 			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
 			       MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
 			       NULL AS content_snippet,
+						 n.created_timestamp,
 			       n.updated_timestamp
 			FROM nodes n
 			WHERE n.user_id = ? AND n.role = 3
@@ -158,6 +159,7 @@ func (r *NodeRepositoryImpl) prepareStatements() error {
 			       SUBSTRING(n.content, 
 			           GREATEST(1, LOCATE(?, LOWER(n.content)) - 50), 
 			           200) AS content_snippet,
+						 n.created_timestamp,
 			       n.updated_timestamp
 			FROM nodes n
 			WHERE n.user_id = ? AND n.role = 3
@@ -585,6 +587,7 @@ func (r *NodeRepositoryImpl) SearchFulltext(userId types.Snowflake, query string
 			&result.Icon,
 			&result.Relevance,
 			&result.ContentSnippet,
+			&result.CreatedTimestamp,
 			&result.UpdatedTimestamp,
 		)
 		if err != nil {
