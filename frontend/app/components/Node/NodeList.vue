@@ -2,11 +2,7 @@
   <div class="card-component node-list">
     <header>
       <h1 v-if="parent">
-        <Icon
-          :name="parent.icon || 'files'"
-          display="xl"
-          :class="`parent-icon ${getAppColor(parent.color as number, true)}`"
-        />
+        <Icon :name="parent.icon || 'files'" display="xl" :class="`parent-icon ${getAppColor(parent.color as number, true)}`" />
         {{ parent.name }}
       </h1>
       <h1 v-else-if="parentId === 'shared'">
@@ -175,19 +171,6 @@ h1 {
   gap: 6px;
 }
 
-.parent-icon-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  transition: transform $transition-duration $transition-duration;
-
-  :deep(svg) {
-    fill: currentColor;
-  }
-}
 .parent-icon {
   padding: 6px;
   border-radius: 6px;
@@ -219,5 +202,14 @@ h1 {
 .line-item:last-child {
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+}
+
+@media screen and (max-width: 768px) {
+  .parent-icon {
+    margin-right: 0;
+  }
+  .header-actions {
+    gap: 0;
+  }
 }
 </style>
