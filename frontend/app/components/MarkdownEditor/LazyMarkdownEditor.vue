@@ -237,6 +237,7 @@ const autoSave = debounceDelayed(() => {
 .preview-panel {
   display: flex;
   flex-direction: column;
+  position: relative;
   flex: 1;
   min-width: 0;
   background: var(--bg-color);
