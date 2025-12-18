@@ -119,6 +119,7 @@ p {
 
 @media print {
   .print-style {
+    border: none;
     padding: 0;
     background: none;
     align-items: center;
