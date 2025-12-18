@@ -370,7 +370,6 @@ defineExpose({ flattenedItems });
 .filters-title {
   margin: 0;
   font-size: 11px;
-  font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -448,7 +447,7 @@ defineExpose({ flattenedItems });
   padding: 6px 8px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  font-size: 12px;
+  font-size: 13px;
   background: var(--bg-color);
   outline: none;
 
@@ -464,7 +463,7 @@ defineExpose({ flattenedItems });
 
 .radio-option {
   display: flex;
-  font-size: 12px;
+  font-size: 13px;
   align-items: center;
   cursor: pointer;
   gap: 4px;
@@ -486,7 +485,7 @@ defineExpose({ flattenedItems });
 
   .tag-input {
     border: 1px solid var(--border-color);
-    font-size: 12px;
+    font-size: 13px;
     background: var(--bg-color);
     flex: 1;
     outline: none;
@@ -613,7 +612,6 @@ defineExpose({ flattenedItems });
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 10px;
-  font-weight: 500;
   color: white;
   background: var(--primary);
 }

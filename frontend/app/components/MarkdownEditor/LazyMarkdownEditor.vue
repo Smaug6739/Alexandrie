@@ -147,8 +147,6 @@ const autoSave = debounceDelayed(() => {
 </script>
 
 <style scoped lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-
 .editor-wrapper {
   height: 100%;
   padding: 0;

@@ -362,7 +362,6 @@ const actionTools: ToolItem[] = [
 
   kbd {
     padding: 2px 5px;
-    background: rgba(255, 255, 255, 0.15);
     border-radius: 3px;
     font-size: 10px;
     font-family: inherit;
@@ -388,9 +387,9 @@ const actionTools: ToolItem[] = [
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px;
+  padding: 4px 12px;
   background: linear-gradient(135deg, var(--bg-contrast) 0%, var(--bg-contrast-2) 100%);
-  border-radius: 20px;
+  border-radius: 8px;
   border: 1px solid var(--border-color);
 }
 
@@ -404,7 +403,7 @@ const actionTools: ToolItem[] = [
 
 .stat-value {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--font-color-dark);
   font-variant-numeric: tabular-nums;
 }
