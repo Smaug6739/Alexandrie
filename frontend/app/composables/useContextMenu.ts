@@ -14,6 +14,7 @@ const menu = ref<ContextMenu | null>(null);
 export function useContextMenu() {
   function open(component: object, event: MouseEvent, options: ContextMenuOptions = {}) {
     close();
+    document.body.classList.add('modal-open');
     const { clientX: x, clientY: y } = event;
     menu.value = { component, x, y, options };
     event.preventDefault();
@@ -21,6 +22,7 @@ export function useContextMenu() {
 
   function close() {
     menu.value = null;
+    document.body.classList.remove('modal-open');
   }
 
   return {
