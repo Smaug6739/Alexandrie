@@ -58,6 +58,10 @@ function login() {
   }
 }
 
+watch([username, password], () => {
+  errors.value.general = '';
+});
+
 async function connect(username: string, password: string) {
   const result = await userStore.login(username, password);
   if (result === true) useRouter().push('/dashboard');
@@ -65,7 +69,6 @@ async function connect(username: string, password: string) {
 }
 </script>
 <style scoped lang="scss">
-/* ===== Structure générale ===== */
 .container {
   display: flex;
   width: 95%;

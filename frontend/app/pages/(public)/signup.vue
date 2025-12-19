@@ -88,12 +88,16 @@ function register() {
   errors.value.confirmPassword = !confirmPassword.value
     ? 'Password confirmation is required'
     : password.value !== confirmPassword.value
-      ? 'Passwords do not match'
-      : '';
+    ? 'Passwords do not match'
+    : '';
 
   const valid = !Object.values(errors.value).some(e => e);
   if (valid) createAccount(username.value, email.value, password.value);
 }
+
+watch([username, email, password, confirmPassword], () => {
+  errors.value.general = '';
+});
 
 async function createAccount(username: string, email: string, password: string) {
   userStore
