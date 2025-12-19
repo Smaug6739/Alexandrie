@@ -356,6 +356,12 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   }
 }
 
+.node-icon {
+  padding: 3px;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
 .result-content {
   flex: 1;
   min-width: 0;
