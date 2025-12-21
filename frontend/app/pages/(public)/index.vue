@@ -26,18 +26,13 @@
       <img src="/screenshots/mock/0.png" class="hero-image" alt="App preview" />
     </section>
 
+    <BentoFeatures class="reveal" />
+    <FeaturesShowcase class="reveal" />
     <SelfHostSteps class="reveal" />
-
     <OpenSourceStats class="reveal" />
     <ContributorsMarquee class="reveal" />
-    <OSSPrinciples class="reveal" />
-
-    <FeaturesTimeline />
-
     <FeaturesFAQ class="reveal" />
-
     <SponsorWall class="reveal" />
-
     <AppCTA class="reveal" />
 
     <AppFooter />
@@ -46,12 +41,12 @@
 
 <script setup lang="ts">
 import AppFooter from './_components/AppFooter.vue';
-import FeaturesTimeline from './_components/features/FeaturesTimeline.vue';
+import BentoFeatures from './_components/BentoFeatures.vue';
+import FeaturesShowcase from './_components/FeaturesShowcase.vue';
 import OpenSourceStats from './_components/OpenSourceStats.vue';
 import SelfHostSteps from './_components/SelfHostSteps.vue';
 import ContributorsMarquee from './_components/ContributorsMarquee.vue';
 import SponsorWall from './_components/SponsorWall.vue';
-import OSSPrinciples from './_components/OSSPrinciples.vue';
 import FeaturesFAQ from './_components/features/FeaturesFAQ.vue';
 import AppCTA from './_components/AppCTA.vue';
 
