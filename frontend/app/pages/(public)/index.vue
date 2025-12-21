@@ -32,7 +32,6 @@
     <OpenSourceStats class="reveal" />
     <ContributorsMarquee class="reveal" />
     <FeaturesFAQ class="reveal" />
-    <SponsorWall class="reveal" />
     <AppCTA class="reveal" />
 
     <AppFooter />
@@ -46,7 +45,6 @@ import FeaturesShowcase from './_components/FeaturesShowcase.vue';
 import OpenSourceStats from './_components/OpenSourceStats.vue';
 import SelfHostSteps from './_components/SelfHostSteps.vue';
 import ContributorsMarquee from './_components/ContributorsMarquee.vue';
-import SponsorWall from './_components/SponsorWall.vue';
 import FeaturesFAQ from './_components/features/FeaturesFAQ.vue';
 import AppCTA from './_components/AppCTA.vue';
 
