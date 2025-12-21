@@ -73,11 +73,10 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 .dropdown-selected {
   display: flex;
   margin: 4px 0;
-  padding: 2px 10px 2px 4px;
+  padding: 4px 10px 4px 4px;
   border: 1px solid var(--border-color);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--bg-color);
-  box-shadow: 0 2px 4px var(--shadow);
   align-items: center;
   cursor: pointer;
   justify-content: space-between;
