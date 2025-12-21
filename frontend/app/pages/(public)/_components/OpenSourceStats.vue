@@ -48,7 +48,7 @@
           <div class="stat-label">GitHub stars</div>
         </div>
         <div class="stat">
-          <div class="stat-icon"><Icon name="users" display="xl" /></div>
+          <div class="stat-icon">👥</div>
           <div class="stat-value">{{ contributorsDisplay }}</div>
           <div class="stat-label">Contributors</div>
         </div>
