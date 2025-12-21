@@ -75,10 +75,22 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   margin: 4px 0;
   padding: 2px 10px 2px 4px;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: 10px;
+  background: var(--bg-color);
+  box-shadow: 0 2px 4px var(--shadow);
   align-items: center;
   cursor: pointer;
   justify-content: space-between;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--border-color-accent);
+    box-shadow: 0 4px 8px var(--shadow);
+  }
+
+  svg {
+    transition: transform 0.2s ease;
+  }
 }
 
 .placeholder {
@@ -86,49 +98,88 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 }
 
 .dropdown-selected.open {
-  border-color: var(--selection-color);
-  box-shadow: 0 2px 10px var(--shadow);
+  border-color: var(--default);
+  box-shadow: 0 4px 16px var(--shadow);
+
+  svg {
+    transform: rotate(180deg);
+  }
 }
 
 .dropdown-options {
   position: absolute;
   z-index: 100;
-  width: 98%;
+  width: 100%;
   margin: 0;
-  padding: 2px 0;
+  padding: 4px;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--font-color);
   background-color: var(--bg-color);
+  box-shadow: 0 8px 24px var(--shadow), 0 2px 8px var(--shadow);
   list-style: none;
   overflow-y: auto;
+  animation: slideDown 0.15s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 li {
-  margin: 1px 4px;
-  padding: 4px;
-  border-radius: 4px;
+  margin: 4px 0;
+  padding: 2px 4px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-li.selected,
-li:hover {
-  background-color: var(--selection-color);
+li.selected {
+  background: var(--default-bg);
+  font-weight: 500;
+}
+
+li:hover:not(.selected) {
+  background-color: var(--bg-contrast-2);
+}
+
+li:active {
+  transform: scale(0.98);
+}
+
+hr {
+  margin: 6px 0;
+  border: none;
+  border-top: 1px solid var(--border-color-light);
 }
 
 .new-workspace {
   display: flex;
-  margin: 4px;
-  padding: 4px;
-  border-radius: 6px;
+  margin: 2px 0;
+  padding: 8px;
+  border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
+  color: var(--font-color-light);
   align-items: center;
   cursor: pointer;
-  gap: 4px;
+  gap: 6px;
+  transition: all 0.15s ease;
 
   &:hover {
-    background-color: var(--selection-color);
+    background-color: var(--bg-contrast-2);
+    color: var(--font-color);
+
+    svg {
+      fill: var(--default) !important;
+    }
   }
 }
 </style>

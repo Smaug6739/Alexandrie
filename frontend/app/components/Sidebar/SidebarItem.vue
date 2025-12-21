@@ -111,9 +111,12 @@ const drop = async (event: DragEvent) => {
   justify-content: flex-start;
   letter-spacing: -0.4px;
 
-  &:hover,
-  &:has(.router-link-exact-active:not(.nav)) {
+  &:hover {
     background: var(--bg-contrast-2);
+  }
+
+  &:has(.router-link-exact-active:not(.nav)) {
+    background: var(--default-bg);
   }
 
   .default-icon {
