@@ -27,9 +27,10 @@ function loadTheme() {
     fontWeight: '500',
   };
   const generalPanel = {
-    border: 'none',
-    borderRadius: '4px',
-    padding: '2px 10px',
+    border: '1px solid var(--primary)',
+    borderRadius: '6px',
+    padding: '6px 10px',
+    fontSize: '13px',
   };
   const generalLine = {
     borderRadius: '2px',
@@ -60,24 +61,24 @@ function loadTheme() {
   };
 
   // Base colors
-  const base00 = 'var(--bg-color)', // Background
-    base01 = 'var(--bg-contrast-2)', // Lighter background (popups, statuslines)
-    base02 = 'var(--font-color)', // Main text - nearly black for contrast
-    base03 = 'var(--font-color-light)', // Comments, invisibles - gray 600
-    base04 = 'var(--border-color)', // Cursor and line numbers - gray 500
-    base05 = '#424242', // Default foreground - gray 800
-    base06 = '#eeeeee', // Light borders or divisions - gray 200
-    base07 = 'var(--bg-color)', // Light background (gutter) - gray 50
+  const base00 = 'var(--bg-color)',
+    base01 = 'var(--bg-contrast-2)',
+    base02 = 'var(--font-color)',
+    base03 = 'var(--font-color-light)',
+    base04 = 'var(--border-color)',
+    base05 = '#424242',
+    base06 = '#eeeeee',
+    base07 = 'var(--bg-color)',
     // Accent colors - using standard Material Design palette
-    base08 = 'var(--red)', // Red 500
-    base09 = '#ff3e00', // Deep Orange 500
-    base0A = '#FF00E9FF', // Pink 500
-    base0B = '#ffc107', // Amber 500 (better than yellow for light theme)
-    base0C = 'var(--yellow)', // Orange 500
-    base0D = 'var(--teal)', // Cyan 600 (better contrast for light theme)
-    base0E = 'var(--blue)', // Indigo 600 (better contrast for light theme)
-    base0F = 'var(--purple)', // Purple 600 (better contrast for light theme)
-    base10 = 'var(--green)', // Green 600 (better contrast for light theme)
+    base08 = 'var(--red)',
+    base09 = '#ff3e00',
+    base0A = '#FF00E9FF',
+    yellowWhite = '#ffc107',
+    yellow = 'var(--yellow)',
+    teal = 'var(--teal)',
+    blue = 'var(--blue)',
+    purple = 'var(--purple)',
+    green = 'var(--green)',
     base11 = '#00897b', // Teal 600 (better contrast for light theme)
     base12 = '#1e88e5'; // Blue 600 (better contrast for light theme)
   // UI specific colors
@@ -89,10 +90,9 @@ function loadTheme() {
     selectionMatch = '#90a4ae26', // Selection match background
     cursor = base04, // Cursor color
     activeBracketBg = '#DDEEFF80', // Active bracket background
-    activeBracketBorder = base0D, // Active bracket border
-    diagnosticWarning = base0C, // Warning color
-    linkColor = base0D, // Link color
-    visitedLinkColor = base0F, // Visited link color
+    activeBracketBorder = teal, // Active bracket border
+    diagnosticWarning = yellow, // Warning color
+    linkColor = base12, // Link color
     hoverHighlight = '#ECEFF180'; // Hover highlight
   // Diff/merge specific colors
   const addedBackground = '#e6ffed80', // Light green with transparency for insertions
@@ -118,7 +118,7 @@ function loadTheme() {
         border: generalPanel.border,
         fontSize: '80%',
         borderRadius: generalPanel.borderRadius,
-        padding: '4px 8px',
+        padding: '8px',
         cursor: 'pointer',
       },
 
@@ -149,7 +149,7 @@ function loadTheme() {
       // Search functionality
       '.cm-searchMatch': {
         backgroundColor: '#FFA72680',
-        outline: `1px solid ${base0B}`,
+        outline: `1px solid ${yellowWhite}`,
         color: base02,
         borderRadius: generalSearchField.borderRadius,
         '& span': {
@@ -157,7 +157,7 @@ function loadTheme() {
         },
       },
       '.cm-searchMatch.cm-searchMatch-selected': {
-        backgroundColor: base0D,
+        backgroundColor: teal,
         color: background,
         padding: generalSearchField.padding,
         '& span': {
@@ -204,6 +204,11 @@ function loadTheme() {
         border: generalPanel.border,
         borderRadius: generalPanel.borderRadius,
         padding: generalPanel.padding,
+        fontSize: generalPanel.fontSize,
+        cursor: 'pointer',
+      },
+      '.cm-panel button:hover': {
+        backgroundColor: hoverHighlight,
       },
       '.cm-panel.cm-search [name=close]': {
         fontSize: '25px',
@@ -369,7 +374,7 @@ function loadTheme() {
       // Focus outline
       '&.cm-focused': {
         outline: 'none',
-        boxShadow: `0 0 0 2px ${background}, 0 0 0 3px ${base0D}40`,
+        boxShadow: `0 0 0 2px ${background}, 0 0 0 3px ${teal}40`,
       },
       // Scrollbars
       '& .cm-scroller::-webkit-scrollbar': {
@@ -398,21 +403,21 @@ function loadTheme() {
 
   const materialLightHighlightStyle = HighlightStyle.define([
     // Keywords and control flow
-    { tag: tags.keyword, color: base0D, fontWeight: 'bold' },
-    { tag: tags.controlKeyword, color: base0D, fontWeight: 'bold' },
-    { tag: tags.moduleKeyword, color: base0D, fontWeight: 'bold' },
+    { tag: tags.keyword, color: teal, fontWeight: 'bold' },
+    { tag: tags.controlKeyword, color: teal, fontWeight: 'bold' },
+    { tag: tags.moduleKeyword, color: teal, fontWeight: 'bold' },
     // Names and variables
     { tag: [tags.name, tags.deleted, tags.character, tags.macroName], color: base05 },
     { tag: [tags.variableName], color: base05 },
     { tag: [tags.propertyName], color: base11, fontStyle: 'normal' },
     // Classes and types
-    { tag: [tags.typeName], color: base0C },
-    { tag: [tags.className], color: base0C, fontStyle: 'italic' },
-    { tag: [tags.namespace], color: base0E, fontStyle: 'italic' },
+    { tag: [tags.typeName], color: yellow },
+    { tag: [tags.className], color: yellow, fontStyle: 'italic' },
+    { tag: [tags.namespace], color: blue, fontStyle: 'italic' },
     // Operators and punctuation
-    { tag: [tags.operator, tags.operatorKeyword], color: base0E },
-    { tag: [tags.bracket], color: base0F },
-    { tag: [tags.brace], color: base0F },
+    { tag: [tags.operator, tags.operatorKeyword], color: blue },
+    { tag: [tags.bracket], color: purple },
+    { tag: [tags.brace], color: purple },
     { tag: [tags.punctuation], color: base03 },
     // Functions and parameters
     { tag: [tags.function(tags.variableName)], color: base09 },
@@ -420,19 +425,19 @@ function loadTheme() {
     { tag: [tags.definition(tags.function(tags.variableName))], color: base09 },
     { tag: [tags.definition(tags.variableName)], color: base0A },
     // Constants and literals
-    { tag: tags.number, color: base0C },
-    { tag: tags.changed, color: base0C },
+    { tag: tags.number, color: yellow },
+    { tag: tags.changed, color: yellow },
     { tag: tags.annotation, color: invalid, fontStyle: 'italic' },
-    { tag: tags.modifier, color: base0C, fontStyle: 'italic' },
-    { tag: tags.self, color: base0C },
+    { tag: tags.modifier, color: yellow, fontStyle: 'italic' },
+    { tag: tags.self, color: yellow },
     {
       tag: [tags.color, tags.constant(tags.name), tags.standard(tags.name)],
-      color: base0C,
+      color: yellow,
     },
-    { tag: [tags.atom, tags.bool], color: base0F },
+    { tag: [tags.atom, tags.bool], color: purple },
     // Strings and regex
-    { tag: [tags.processingInstruction, tags.inserted], color: base10 },
-    { tag: tags.string, color: base10 },
+    { tag: [tags.processingInstruction, tags.inserted], color: green },
+    { tag: tags.string, color: green },
     { tag: [tags.special(tags.string), tags.regexp], color: base0A },
     // Punctuation and structure
     { tag: tags.definition(tags.typeName), color: base0A, fontWeight: 'bold' },
@@ -447,17 +452,17 @@ function loadTheme() {
     // Markdown and text formatting
     { tag: [tags.heading], fontWeight: 'bold', color: base11 },
     { tag: tags.heading1, color: base12, fontSize: '1.2em', fontWeight: 'bold' },
-    { tag: tags.heading2, color: base0C, fontSize: '1.1em', fontWeight: 'bold' },
-    { tag: tags.heading3, color: base0D, fontSize: '1em', fontWeight: 'bold' },
-    { tag: tags.heading4, color: base0E },
-    { tag: tags.heading5, color: base0F },
-    { tag: tags.heading6, color: base10 },
-    { tag: [tags.strong], fontWeight: 'bold', color: base0E },
-    { tag: [tags.emphasis], fontStyle: 'italic', color: base0C },
+    { tag: tags.heading2, color: purple, fontSize: '1.1em', fontWeight: 'bold' },
+    { tag: tags.heading3, color: teal, fontSize: '1em', fontWeight: 'bold' },
+    { tag: tags.heading4, color: yellow },
+    { tag: tags.heading5, color: purple },
+    { tag: tags.heading6, color: green },
+    { tag: [tags.strong], fontWeight: 'bold', color: purple },
+    { tag: [tags.emphasis], fontStyle: 'italic', color: yellow },
     // Links and URLs
     {
       tag: [tags.link],
-      color: visitedLinkColor,
+      color: linkColor,
       fontWeight: '500',
       textDecoration: 'underline',
       textUnderlinePosition: 'under',
@@ -482,9 +487,8 @@ function loadTheme() {
     { tag: tags.squareBracket, color: base08 },
     { tag: tags.angleBracket, color: base02 },
     // Additional specific styles
-    { tag: tags.monospace, color: base02 },
-    { tag: [tags.contentSeparator], color: base0D },
-    { tag: tags.quote, color: base10 },
+    { tag: [tags.contentSeparator], color: teal },
+    { tag: tags.quote, color: green },
   ]);
   /**
    * Combined Material Light theme extension
