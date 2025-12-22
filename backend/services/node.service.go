@@ -1,12 +1,14 @@
 package services
 
 import (
+	"alexandrie/logger"
 	"alexandrie/models"
 	"alexandrie/permissions"
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -24,16 +26,18 @@ type NodeService interface {
 }
 
 type nodeService struct {
-	nodeRepo  repositories.NodeRepository
-	permRepo  repositories.PermissionRepository
-	snowflake *utils.Snowflake
+	nodeRepo     repositories.NodeRepository
+	permRepo     repositories.PermissionRepository
+	minioService MinioService
+	snowflake    *utils.Snowflake
 }
 
-func NewNodeService(nodeRepo repositories.NodeRepository, permRepo repositories.PermissionRepository, snowflake *utils.Snowflake) NodeService {
+func NewNodeService(nodeRepo repositories.NodeRepository, permRepo repositories.PermissionRepository, minioService MinioService, snowflake *utils.Snowflake) NodeService {
 	return &nodeService{
-		nodeRepo:  nodeRepo,
-		permRepo:  permRepo,
-		snowflake: snowflake,
+		nodeRepo:     nodeRepo,
+		permRepo:     permRepo,
+		minioService: minioService,
+		snowflake:    snowflake,
 	}
 }
 
@@ -188,11 +192,35 @@ func (s *nodeService) DeleteNode(nodeId types.Snowflake, connectedUserId types.S
 		return err
 	}
 
+	if dbNode == nil {
+		return errors.New("node not found")
+	}
+
 	allowed, _, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionDelete)
 	if !allowed || err != nil {
 		return errors.New("unauthorized")
 	}
 
+	// Get all descendant resources (role=4) before deletion
+	// This is necessary because ON DELETE CASCADE will remove them from DB
+	// but we need to clean up their files in MinIO first
+	resources, err := s.nodeRepo.GetDescendantResources(nodeId)
+	if err != nil {
+		logger.Warn(fmt.Sprintf("Failed to get descendant resources for node %d: %v", nodeId, err))
+		// Continue with deletion even if we can't get resources
+		// This prevents blocking deletion due to MinIO issues
+	}
+
+	// Delete MinIO files for all descendant resources
+	if len(resources) > 0 {
+		if err := s.minioService.DeleteNodeFiles(resources); err != nil {
+			// Log the error but continue with DB deletion
+			// Orphaned files can be cleaned up by a background job later
+			logger.Warn(fmt.Sprintf("Failed to delete some MinIO files for node %d: %v", nodeId, err))
+		}
+	}
+
+	// Now delete the node from DB (CASCADE will handle children)
 	return s.nodeRepo.Delete(nodeId)
 }
 

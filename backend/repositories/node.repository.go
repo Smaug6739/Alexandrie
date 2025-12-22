@@ -22,6 +22,7 @@ type NodeRepository interface {
 	GetByID(nodeId types.Snowflake) (*models.Node, error)
 	GetPublic(nodeId types.Snowflake) (*models.Node, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
+	GetDescendantResources(nodeId types.Snowflake) ([]*models.NodeResourceInfo, error)
 	Create(node *models.Node) error
 	Update(node *models.Node) error
 	Delete(nodeId types.Snowflake) error
@@ -30,17 +31,18 @@ type NodeRepository interface {
 
 // Prepared statement keys
 const (
-	stmNodeGetAll              = "node_get_all"
-	stmNodeGetShared           = "node_get_shared"
-	stmNodeGetAllForBackup     = "node_get_all_backup"
-	stmtNodeGetByID            = "node_get_by_id"
-	stmtNodeGetPublic          = "node_get_public"
-	stmtNodeGetUserUploadsSize = "node_get_user_uploads_size"
-	stmtNodeCreate             = "node_create"
-	stmtNodeUpdate             = "node_update"
-	stmtNodeDelete             = "node_delete"
-	stmtNodeSearchFulltext     = "node_search_fulltext"
-	stmtNodeSearchContent      = "node_search_content"
+	stmNodeGetAll                  = "node_get_all"
+	stmNodeGetShared               = "node_get_shared"
+	stmNodeGetAllForBackup         = "node_get_all_backup"
+	stmtNodeGetByID                = "node_get_by_id"
+	stmtNodeGetPublic              = "node_get_public"
+	stmtNodeGetUserUploadsSize     = "node_get_user_uploads_size"
+	stmtNodeGetDescendantResources = "node_get_descendant_resources"
+	stmtNodeCreate                 = "node_create"
+	stmtNodeUpdate                 = "node_update"
+	stmtNodeDelete                 = "node_delete"
+	stmtNodeSearchFulltext         = "node_search_fulltext"
+	stmtNodeSearchContent          = "node_search_content"
 	// Note: GetAll and GetShared use complex recursive CTEs, prepared separately
 )
 
@@ -121,6 +123,24 @@ func (r *NodeRepositoryImpl) prepareStatements() error {
 			SELECT COALESCE(SUM(size), 0) 
 			FROM nodes 
 			WHERE user_id = ?`,
+
+		// Get all descendant resource nodes (role=4) for cleanup before deletion
+		// This includes the node itself if it's a resource, plus all descendant resources
+		stmtNodeGetDescendantResources: `
+			WITH RECURSIVE descendants AS (
+				SELECT id, user_id, role, metadata
+				FROM nodes
+				WHERE id = ?
+				
+				UNION ALL
+				
+				SELECT n.id, n.user_id, n.role, n.metadata
+				FROM nodes n
+				JOIN descendants d ON n.parent_id = d.id
+			)
+			SELECT id, user_id, metadata
+			FROM descendants
+			WHERE role = 4`,
 
 		stmtNodeCreate: `
 			INSERT INTO nodes (id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
@@ -439,6 +459,36 @@ func (r *NodeRepositoryImpl) GetUserUploadsSize(userId types.Snowflake) (int64, 
 	}
 
 	return totalSize, nil
+}
+
+// GetDescendantResources retrieves all descendant nodes with role=4 (resources)
+// This is used to clean up MinIO files before deleting a node and its children
+func (r *NodeRepositoryImpl) GetDescendantResources(nodeId types.Snowflake) ([]*models.NodeResourceInfo, error) {
+	stmt, err := r.manager.GetStatement(stmtNodeGetDescendantResources)
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := stmt.Query(nodeId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query descendant resources: %w", err)
+	}
+	defer rows.Close()
+
+	resources := make([]*models.NodeResourceInfo, 0)
+	for rows.Next() {
+		var res models.NodeResourceInfo
+		if err := rows.Scan(&res.Id, &res.UserId, &res.Metadata); err != nil {
+			return nil, fmt.Errorf("failed to scan resource info: %w", err)
+		}
+		resources = append(resources, &res)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating descendant resources: %w", err)
+	}
+
+	return resources, nil
 }
 
 // Create creates a new node

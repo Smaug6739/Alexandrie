@@ -45,3 +45,10 @@ type NodeSearchResult struct {
 	CreatedTimestamp int64            `json:"created_timestamp"`
 	UpdatedTimestamp int64            `json:"updated_timestamp"`
 }
+
+// NodeResourceInfo contains minimal info needed to delete a resource file from storage
+type NodeResourceInfo struct {
+	Id       types.Snowflake `json:"id"`
+	UserId   types.Snowflake `json:"user_id"`
+	Metadata *types.JSONB    `json:"metadata"`
+}
