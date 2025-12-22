@@ -174,6 +174,12 @@ td {
   white-space: nowrap;
 }
 
+th {
+  background: var(--bg-ui);
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
 td > span {
   display: flex;
   align-items: center;
@@ -192,40 +198,31 @@ td {
   }
 }
 
-button {
-  padding: 0.1rem 0.25rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-right: 20px;
-
-  &:disabled {
-    background-color: var(--disabled-color);
-    cursor: not-allowed;
-  }
-
-  &:hover,
-  &.active {
-    font-weight: bold;
-    transform: none;
-  }
-}
-
 .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
-  button {
-    margin: 0 5px;
-    padding: 6px 10px;
-    border-radius: $radius-sm;
-    border: 1px solid var(--border-color);
-    &:hover {
-      border-color: var(--primary);
-    }
-  }
+
   .active {
+    background-color: var(--primary);
+    color: white;
+  }
+}
+button {
+  font-size: 1rem;
+  margin: 0 5px;
+  padding: 8px 12px;
+  border-radius: $radius-sm;
+  border: 1px solid var(--border-color);
+  &:hover {
+    border-color: var(--primary);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &.active {
     background-color: var(--primary);
     color: white;
   }
