@@ -108,12 +108,6 @@ watch(
   { immediate: true },
 );
 
-onMounted(() => {
-  const storedView = localStorage.getItem('viewSelection');
-  if (storedView && ['table', 'list', 'kanban'].includes(storedView)) view.value = storedView as ViewMode;
-  else view.value = 'table';
-});
-
 const openPermissionsModal = () => {
   if (props.parent) useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.parent }, size: 'small' }));
 };

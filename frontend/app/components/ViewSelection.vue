@@ -34,6 +34,14 @@ const viewOptions = computed(() => {
 watch(view, newView => {
   if (newView) localStorage.setItem('viewSelection', newView);
 });
+
+onMounted(() => {
+  const storedView = localStorage.getItem('viewSelection');
+  const list = ['table', 'list'];
+  if (props.showKanban) list.push('kanban');
+  if (storedView && list.includes(storedView)) view.value = storedView as ViewMode;
+  else view.value = 'table';
+});
 </script>
 
 <style scoped lang="scss">
