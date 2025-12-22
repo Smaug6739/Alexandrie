@@ -22,7 +22,7 @@
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
             <span style="height: 32px; border-left: 1px solid var(--border-color); margin-left: 4px"></span>
-            <Icon name="delete" fill="var(--font-color-light)" class="action-btn" @click="bulkDelete(selected)" />
+            <span @click="bulkDelete(selected)"><Icon name="delete" fill="var(--font-color-light)" class="action-btn" /></span>
           </div>
         </template>
         <template #action="{ cell }">
@@ -148,11 +148,6 @@ const bulkDelete = async (lines: Field[]) => {
 }
 
 .action-btn {
-  width: 32px;
-  height: 32px;
-  padding: 6px;
-  border-radius: 50%;
-  transition: background-color 0.1s;
   cursor: pointer;
 
   &:hover {
