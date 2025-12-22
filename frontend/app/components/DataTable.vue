@@ -216,14 +216,19 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.pagination button {
-  margin: 0 5px;
-}
-
-.pagination .active {
-  background-color: var(--active-color);
+  button {
+    margin: 0 5px;
+    padding: 6px 10px;
+    border-radius: $radius-sm;
+    border: 1px solid var(--border-color);
+    &:hover {
+      border-color: var(--primary);
+    }
+  }
+  .active {
+    background-color: var(--primary);
+    color: white;
+  }
 }
 
 .footer {
@@ -235,7 +240,7 @@ button {
 select {
   max-width: 100px;
   margin: 0;
-  padding: 0;
+  padding: 4px 8px;
   margin-left: 10px;
 }
 
