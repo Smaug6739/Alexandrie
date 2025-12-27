@@ -69,6 +69,17 @@ import AppFooter from './_components/AppFooter.vue';
 const router = useRouter();
 const userStore = useUserStore();
 
+definePageMeta({
+  middleware: [
+    function redirectSignupDisabled() {
+      const config = useRuntimeConfig();
+      if (config.public.configDisableSignupPage) {
+        return navigateTo('/login');
+      }
+    },
+  ],
+});
+
 // Form fields
 const username = ref('');
 const email = ref('');
@@ -115,7 +126,6 @@ async function createAccount(username: string, email: string, password: string) 
 .container {
   display: flex;
   width: 95%;
-  height: 100%;
   margin: 0 auto;
   flex-direction: column;
   justify-content: space-between;

@@ -48,6 +48,17 @@ import ContributorsMarquee from './_components/ContributorsMarquee.vue';
 import FeaturesFAQ from './_components/features/FeaturesFAQ.vue';
 import AppCTA from './_components/AppCTA.vue';
 
+definePageMeta({
+  middleware: [
+    function redirectLandingDisabled() {
+      const config = useRuntimeConfig();
+      if (config.public.configDisableLandingPage) {
+        return navigateTo('/login');
+      }
+    },
+  ],
+});
+
 const heroEl = ref<HTMLElement | null>(null);
 
 function handleParallax(e: MouseEvent) {

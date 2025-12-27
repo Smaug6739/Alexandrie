@@ -6,8 +6,12 @@ export default defineNuxtConfig({
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
   runtimeConfig: {
     public: {
+      // Base URLs
       baseApi: '',
       baseCdn: '',
+      // Feature flags
+      configDisableSignupPage: '',
+      configDisableLandingPage: '',
     },
   },
   vite: {

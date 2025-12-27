@@ -48,7 +48,6 @@ const password = ref('');
 const errors = ref({ username: '', password: '', general: '' });
 const { showPassword, togglePassword } = usePasswordField();
 const userStore = useUserStore();
-
 function login() {
   errors.value.username = !username.value ? 'Username is required' : '';
   errors.value.password = !password.value ? 'Password is required' : '';
