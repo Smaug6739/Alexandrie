@@ -4,3 +4,4 @@ uploads
 minio.exe
 main.exe
 data
+.env
