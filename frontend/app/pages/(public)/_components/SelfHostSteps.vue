@@ -88,13 +88,13 @@ const steps = [
   {
     title: 'Clone the repo',
     description:
-      'Get the source code from GitHub <br /> <a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/docker-compose.yml">Download the docker-compose.yml file</a>',
+      'Get the config files from GitHub <br /> <a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/docker-compose.yml">Download the docker-compose.yml file</a> <br /><a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/.env.example">Download the .env.example file</a> ',
     //code: 'git clone https://github.com/Smaug6739/Alexandrie.git',
   },
   {
     title: 'Configure',
     description: 'Change environment variables as needed (optional)',
-    code: '# Edit the .env file\nnano .env',
+    code: 'cp .env.example .env && nano .env',
   },
   {
     title: 'Launch',
