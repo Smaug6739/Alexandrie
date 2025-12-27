@@ -7,6 +7,7 @@ import (
 	"alexandrie/utils"
 	"errors"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -105,6 +106,13 @@ func (ctr *Controller) GetUserById(c *gin.Context) (int, any) {
 // @Success 201 {object} Success(models.User)
 // @Failure 400 {object} Error
 func (ctr *Controller) CreateUser(c *gin.Context) (int, any) {
+
+	disabled := os.Getenv("CONFIG_DISABLE_SIGNUP")
+
+	if disabled == "true" {
+		return http.StatusForbidden, errors.New("user signup is disabled")
+	}
+
 	var user models.User
 	if err := c.ShouldBind(&user); err != nil {
 		return http.StatusBadRequest, err
