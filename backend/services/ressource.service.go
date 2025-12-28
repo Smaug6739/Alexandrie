@@ -14,6 +14,7 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
+	"time"
 
 	"github.com/minio/minio-go/v7"
 )
@@ -101,17 +102,19 @@ func (s *ressourceService) UploadFile(filename string, fileSize int64, fileConte
 	accessibility := utils.IntPtr(1)
 
 	node := &models.Node{
-		Id:            id,
-		UserId:        userId,
-		ParentId:      nil,
-		Name:          name,
-		Role:          4,
-		Accessibility: accessibility,
-		Access:        0,
-		Size:          &fileSize,
-		Content:       &filename,
-		ContentCompiled: &transformedPath,
-		Metadata:      &metadata,
+		Id:               id,
+		UserId:           userId,
+		ParentId:         nil,
+		Name:             name,
+		Role:             4,
+		Accessibility:    accessibility,
+		Access:           0,
+		Size:             &fileSize,
+		Content:          &filename,
+		ContentCompiled:  &transformedPath,
+		Metadata:         &metadata,
+		CreatedTimestamp: time.Now().UnixMilli(),
+		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
 
 	if err := s.nodeRepo.Create(node); err != nil {
