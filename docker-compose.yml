@@ -93,8 +93,7 @@ services:
 
   # Alexandrie Frontend
   frontend:
-    build:
-      context: ./frontend
+    image: ghcr.io/smaug6739/alexandrie-frontend:latest
     container_name: alexandrie-frontend
     restart: unless-stopped
     environment:
