@@ -7,6 +7,20 @@
         <ViewSelection v-model="view" />
       </div>
     </header>
+    <div class="storage-indicator">
+      <div class="storage-info">
+        <span class="storage-label">Storage used</span>
+        <span class="storage-values">{{ readableFileSize(totalUsedSpace) }} / {{ readableFileSize(MAX_STORAGE) }}</span>
+      </div>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          :style="{ width: storagePercentage + '%' }"
+          :class="{ warning: storagePercentage > 80, danger: storagePercentage > 95 }"
+        ></div>
+      </div>
+      <span class="storage-percentage">{{ storagePercentage.toFixed(1) }}%</span>
+    </div>
     <AppDrop ref="dropComponent" @select="selectFile" />
     <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
       <AppButton type="primary" :disabled="!selectedFile" @click="submitFile">Upload on server</AppButton>
@@ -70,8 +84,13 @@ const dropComponent = ref();
 const filter = ref('');
 const { CDN } = useApi();
 
+const MAX_STORAGE = 1024 * 1024 * 1024; // 1 GB in bytes
+
 const nodes = computed(() => nodesStore.ressources.toArray());
 const filteredRessources = ref(nodes.value);
+
+const totalUsedSpace = computed(() => nodes.value.reduce((acc, node) => acc + (node.size ?? 0), 0));
+const storagePercentage = computed(() => Math.min((totalUsedSpace.value / MAX_STORAGE) * 100, 100));
 
 const selectFile = (file?: File) => (selectedFile.value = file);
 const copyLink = () => navigator.clipboard.writeText(fileLink.value!);
@@ -128,6 +147,66 @@ const bulkDelete = async (lines: Field[]) => {
 </script>
 
 <style scoped lang="scss">
+.storage-indicator {
+  display: flex;
+  width: 100%;
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 8px;
+  background: var(--bg-color-secondary);
+  align-items: center;
+  gap: 12px;
+
+  .storage-info {
+    display: flex;
+    min-width: 180px;
+    flex-direction: column;
+    gap: 2px;
+
+    .storage-label {
+      font-size: 12px;
+      color: var(--font-color-light);
+    }
+
+    .storage-values {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--font-color-dark);
+    }
+  }
+
+  .progress-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--bg-ui);
+    flex: 1;
+    overflow: hidden;
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+
+      &.warning {
+        background: #f59e0b;
+      }
+
+      &.danger {
+        background: #ef4444;
+      }
+    }
+  }
+
+  .storage-percentage {
+    min-width: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--font-color-light);
+    text-align: right;
+  }
+}
+
 .action-row {
   display: flex;
   align-items: center;
