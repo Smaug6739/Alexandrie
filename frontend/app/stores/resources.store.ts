@@ -35,6 +35,30 @@ export const useRessourcesStore = defineStore('ressources', {
       if (request.status == 'success') return useNodesStore().nodes.delete(id); // Remove the node from the cache
       else throw request.message;
     },
+    // Loop through ids and delete them one by one
+    // Only update the store after all deletions are successful
+    // Return the list of deleted ids and failed ids
+    async bulkDelete(ids: string[]) {
+      const deletedIds: string[] = [];
+      const failedIds: { id: string; message: string }[] = [];
+      for (const id of ids) {
+        try {
+          const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
+          if (request.status === 'success') {
+            deletedIds.push(id);
+          } else {
+            failedIds.push({ id, message: request.message || 'Unknown error' });
+          }
+        } catch (error) {
+          failedIds.push({ id, message: (error as Error).message });
+        }
+      }
+      // Update store
+      deletedIds.forEach(id => {
+        useNodesStore().nodes.delete(id);
+      });
+      return { deletedIds, failedIds };
+    },
     clear() {
       this.ressources = [];
       this.isFetching = false;
