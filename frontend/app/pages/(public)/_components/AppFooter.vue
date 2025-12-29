@@ -100,24 +100,24 @@
 <style scoped lang="scss">
 .footer {
   position: relative;
-  margin-top: 4rem;
   padding: 0 2rem;
+  margin-top: 4rem;
   overflow: hidden;
 }
 
 .footer-container {
-  max-width: 1400px;
-  margin: 0 auto;
   position: relative;
   z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .footer-main {
   display: grid;
-  grid-template-columns: 1.5fr 2.5fr;
-  gap: 4rem;
   padding: 4rem 0;
   border-top: 1px solid var(--border-color);
+  gap: 4rem;
+  grid-template-columns: 1.5fr 2.5fr;
 }
 
 // Brand Section
@@ -139,8 +139,8 @@
 
 .brand-desc {
   font-size: 0.9rem;
-  color: var(--font-color-light);
   line-height: 1.7;
+  color: var(--font-color-light);
   margin-bottom: 1.5rem;
 }
 
@@ -150,20 +150,20 @@
 
   a {
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 40px;
     height: 40px;
-    background: var(--bg-contrast);
     border: 1px solid var(--border-color);
     border-radius: 10px;
     color: var(--font-color-light);
+    background: var(--bg-contrast);
     transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
-      background: var(--primary);
       border-color: var(--primary);
       color: white;
+      background: var(--primary);
       transform: translateY(-2px);
     }
   }
@@ -172,35 +172,35 @@
 // Links Section
 .footer-links {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .links-column {
   h4 {
     font-size: 0.85rem;
     font-weight: 700;
-    text-transform: uppercase;
+    color: var(--font-color);
     letter-spacing: 0.5px;
     margin-bottom: 1rem;
-    color: var(--font-color);
+    text-transform: uppercase;
   }
 
   ul {
-    list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    list-style: none;
 
     li {
       margin-bottom: 0.5rem;
     }
 
     a {
+      display: inline-block;
       font-size: 0.9rem;
       color: var(--font-color-light);
-      text-decoration: none;
       transition: all 0.2s ease;
-      display: inline-block;
+      text-decoration: none;
 
       &:hover {
         color: var(--primary);
@@ -213,23 +213,23 @@
 // Footer Bottom
 .footer-bottom {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 1.5rem 0;
+  align-items: center;
   border-top: 1px solid var(--border-color);
+  justify-content: space-between;
 }
 
 .footer-bottom-left {
   display: flex;
-  align-items: center;
-  gap: 12px;
   font-size: 0.85rem;
   color: var(--font-color-light);
+  align-items: center;
+  gap: 12px;
 
   a {
+    font-weight: 500;
     color: var(--primary);
     text-decoration: none;
-    font-weight: 500;
 
     &:hover {
       text-decoration: underline;
@@ -248,26 +248,26 @@
 .footer-bg {
   position: absolute;
   inset: 0;
-  pointer-events: none;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .gradient-blur {
   position: absolute;
   bottom: -100px;
   left: 50%;
-  transform: translateX(-50%);
   width: 800px;
   height: 400px;
-  background: radial-gradient(ellipse, rgba(99, 102, 241, 0.1), transparent 70%);
+  background: radial-gradient(ellipse, rgb(99 102 241 / 10%), transparent 70%);
   filter: blur(60px);
+  transform: translateX(-50%);
 }
 
 // Responsive
-@media screen and (max-width: 1024px) {
+@media screen and (width <= 1024px) {
   .footer-main {
-    grid-template-columns: 1fr;
     gap: 3rem;
+    grid-template-columns: 1fr;
   }
 
   .footer-brand {
@@ -279,7 +279,7 @@
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (width <= 640px) {
   .footer {
     padding: 0 1rem;
   }
@@ -289,14 +289,14 @@
   }
 
   .footer-links {
-    grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
   }
 
   .footer-bottom {
+    text-align: center;
     flex-direction: column;
     gap: 1rem;
-    text-align: center;
   }
 
   .footer-bottom-left {

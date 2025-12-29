@@ -1,33 +1,34 @@
 <template>
-  <MarkdownEditor v-if="document && !error" ref="editor" :doc="document" @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
+  <MarkdownEditor v-if="document && !error" :doc="document" @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
-import type { Node } from '~/stores';
 import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
-const store = useNodesStore();
-const route = useRoute();
+import type { Node } from '~/stores';
 
-const editor = ref();
-const doc_id = route.params.id as string;
-const document = ref<Node | undefined>(undefined);
+const store = useNodesStore();
+
+const route = useRoute();
 const notifications = useNotifications();
+
+const nodeId = route.params.id as string;
+const document = ref<Node | undefined>(undefined);
 const error: Ref<string> = ref('');
 
 watchEffect(async () => {
-  const docFromStore = store.getById(doc_id);
-  if (!docFromStore) {
+  const storedNode = store.getById(nodeId);
+  if (!storedNode) {
     try {
-      document.value = await store.fetchPublic(doc_id);
+      document.value = await store.fetchPublic(nodeId);
     } catch {
       error.value = 'Document not found';
     }
-  } else if (docFromStore?.partial) {
+  } else if (storedNode?.partial) {
     try {
-      document.value = await store.fetch({ id: doc_id });
+      document.value = await store.fetch({ id: nodeId });
     } catch {
       error.value = 'Document not found';
     }
-  } else document.value = docFromStore;
+  } else document.value = storedNode;
 });
 
 definePageMeta({ breadcrumb: 'Edit' });
@@ -43,5 +44,5 @@ function autoSave(doc: Node) {
   store.update(doc);
 }
 
-const exit = () => useRouter().push(`/doc/${doc_id}`);
+const exit = () => useRouter().push(`/doc/${nodeId}`);
 </script>

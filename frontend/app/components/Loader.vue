@@ -5,6 +5,7 @@
 <style scoped>
 .loader {
   width: 25px;
+  margin: 4px auto;
   background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
   background-size: 20% 100%;
   animation: l1 1s infinite linear;

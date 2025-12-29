@@ -17,7 +17,7 @@
         <NuxtLink v-if="view == 'kanban'" class="btn-icon no-mobile" @click="resetKanban">
           <Icon name="reset" display="lg" />
         </NuxtLink>
-        <NodeFilter v-show="!isMobile()" :nodes="nodes" @update:nodes="filteredNodes = $event" />
+        <NodeFilter v-show="!isMobile" :nodes="nodes" @update:nodes="filteredNodes = $event" />
         <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon no-mobile" @click="openRemoveShareModal">
           <Icon name="group_off" display="lg" />
         </NuxtLink>
@@ -28,7 +28,7 @@
           <Icon name="settings" display="lg" />
         </NuxtLink>
         <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }}</span>
-        <ViewSelection v-model="view" :show-kanban="!!parent" />
+        <ViewSelection v-model="view" :show-kanban="true" />
       </div>
     </header>
 
@@ -62,7 +62,7 @@
       description="There are no documents in this category"
     >
       <NuxtLink to="/dashboard/docs/new">
-        <AppButton type="link" style="font-weight: bold">+ Create new document</AppButton>
+        <AppButton type="link">+ Create new document</AppButton>
       </NuxtLink>
     </NoContent>
   </div>
@@ -79,10 +79,15 @@ import type { ViewMode } from '~/components/ViewSelection.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
-const nodesStore = useNodesStore();
-const router = useRouter();
-const connectedId = useUserStore().user?.id;
 
+const nodesStore = useNodesStore();
+
+const router = useRouter();
+const userStore = useUserStore();
+const { isMobile } = useDevice();
+const { getAppColor } = useAppColors();
+
+const connectedId = userStore.user?.id;
 const view = ref<ViewMode>();
 const filteredNodes = ref<Node[]>(props.nodes);
 
@@ -153,10 +158,10 @@ header {
 
 h1 {
   display: flex;
-  align-items: center;
-  gap: 12px;
   font-size: 18px;
   font-weight: 600;
+  align-items: center;
+  gap: 12px;
 }
 
 .header-actions {
@@ -170,13 +175,14 @@ h1 {
   border-radius: 6px;
   margin-right: 10px;
 }
+
 .doc-count {
   padding: 6px 10px;
-  background: var(--bg-contrast);
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   color: var(--font-color-light);
+  background: var(--bg-contrast);
 }
 
 .node-content {
@@ -198,10 +204,11 @@ h1 {
   border-bottom-right-radius: 12px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   .parent-icon {
     margin-right: 0;
   }
+
   .header-actions {
     gap: 0;
   }

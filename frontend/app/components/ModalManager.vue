@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 const modalManager = useModal();
+
 const modals = modalManager.modals;
 </script>
 

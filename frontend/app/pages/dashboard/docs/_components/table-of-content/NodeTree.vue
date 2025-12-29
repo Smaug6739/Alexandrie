@@ -1,6 +1,6 @@
 <template>
   <li>
-    <a :href="node.link">{{ node.title }}</a>
+    <NuxtLink :to="node.link">{{ node.title }}</NuxtLink>
     <ul v-if="node.childrens?.length">
       <NodeTree v-for="child in node.childrens" :key="child.link" :node="child" />
     </ul>

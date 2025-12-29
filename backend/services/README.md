@@ -66,7 +66,7 @@ type NodeService interface {
 type nodeService struct {
     nodeRepo       repositories.NodeRepository
     permissionRepo repositories.PermissionRepository
-    snowflake      *utils.Snowflake
+    snowflake      *snowflake.Snowflake
 }
 
 func (s *nodeService) CreateNode(node *models.Node) error {

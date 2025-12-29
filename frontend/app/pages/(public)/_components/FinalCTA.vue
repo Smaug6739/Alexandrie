@@ -101,8 +101,8 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: 5rem 3rem;
-  background: linear-gradient(135deg, var(--primary), #6366f1, #8b5cf6);
   border-radius: 32px;
+  background: linear-gradient(135deg, var(--primary), #6366f1, #8b5cf6);
   overflow: hidden;
 }
 
@@ -115,9 +115,9 @@
 
 .grid-pattern {
   position: absolute;
-  inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-image: linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px);
   background-size: 40px 40px;
+  inset: 0;
   mask-image: radial-gradient(ellipse 80% 50% at 50% 50%, black, transparent);
 }
 
@@ -132,7 +132,7 @@
   right: -100px;
   width: 400px;
   height: 400px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgb(255 255 255 / 20%);
 }
 
 .glow-2 {
@@ -140,29 +140,29 @@
   left: -100px;
   width: 300px;
   height: 300px;
-  background: rgba(236, 72, 153, 0.3);
+  background: rgb(236 72 153 / 30%);
 }
 
 // Content
 .cta-content {
   position: relative;
   z-index: 1;
-  text-align: center;
   color: white;
+  text-align: center;
 }
 
 .cta-badge {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
   padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 100px;
   font-size: 13px;
   font-weight: 500;
-  margin-bottom: 2rem;
+  background: rgb(255 255 255 / 15%);
+  align-items: center;
   backdrop-filter: blur(10px);
+  gap: 8px;
+  margin-bottom: 2rem;
 
   svg {
     color: #fbbf24;
@@ -179,42 +179,41 @@
     display: block;
     background: linear-gradient(90deg, #fff, #e0e7ff, #fff);
     background-clip: text;
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 }
 
 .cta-subtitle {
-  font-size: 1.125rem;
-  opacity: 0.9;
   max-width: 500px;
   margin: 0 auto 2rem;
+  font-size: 1.125rem;
   line-height: 1.6;
+  opacity: 0.9;
 }
 
 .cta-actions {
   display: flex;
-  justify-content: center;
   gap: 1rem;
+  justify-content: center;
   margin-bottom: 2rem;
 }
 
 .btn-primary {
   display: inline-flex;
+  padding: 16px 28px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary);
+  background: white;
+  transition: all 0.3s ease;
   align-items: center;
   gap: 8px;
-  padding: 16px 28px;
-  background: white;
-  color: var(--primary);
-  font-weight: 600;
-  font-size: 15px;
-  border-radius: 12px;
   text-decoration: none;
-  transition: all 0.3s ease;
 
   &:hover {
+    box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 
     svg {
       transform: translateX(4px);
@@ -228,38 +227,38 @@
 
 .btn-secondary {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
   padding: 16px 28px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  font-weight: 600;
-  font-size: 15px;
+  border: 1px solid rgb(255 255 255 / 30%);
   border-radius: 12px;
-  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  background: rgb(255 255 255 / 15%);
   transition: all 0.3s ease;
+  align-items: center;
   backdrop-filter: blur(10px);
+  gap: 8px;
+  text-decoration: none;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgb(255 255 255 / 25%);
     transform: translateY(-3px);
   }
 }
 
 .cta-features {
   display: flex;
-  justify-content: center;
-  gap: 2rem;
   flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
   margin-bottom: 3rem;
 
   .feature {
     display: flex;
-    align-items: center;
-    gap: 6px;
     font-size: 14px;
     opacity: 0.9;
+    align-items: center;
+    gap: 6px;
 
     svg {
       color: #a5f3fc;
@@ -270,37 +269,37 @@
 // Discord Banner
 .discord-banner {
   display: flex;
-  align-items: center;
-  gap: 1rem;
   max-width: 500px;
   margin: 0 auto;
   padding: 1rem 1.5rem;
-  background: rgba(88, 101, 242, 0.3);
-  border: 1px solid rgba(88, 101, 242, 0.5);
+  border: 1px solid rgb(88 101 242 / 50%);
   border-radius: 16px;
+  background: rgb(88 101 242 / 30%);
+  align-items: center;
   backdrop-filter: blur(10px);
+  gap: 1rem;
 }
 
 .discord-icon {
+  display: flex;
   width: 48px;
   height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #5865f2;
   border-radius: 12px;
+  background: #5865f2;
+  align-items: center;
   flex-shrink: 0;
+  justify-content: center;
 }
 
 .discord-text {
-  flex: 1;
   text-align: left;
+  flex: 1;
 }
 
 .discord-title {
   display: block;
-  font-weight: 600;
   font-size: 0.95rem;
+  font-weight: 600;
 }
 
 .discord-desc {
@@ -310,22 +309,22 @@
 
 .discord-btn {
   padding: 10px 18px;
-  background: white;
-  color: #5865f2;
-  font-weight: 600;
-  font-size: 13px;
   border-radius: 10px;
-  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #5865f2;
+  background: white;
   transition: all 0.3s ease;
+  text-decoration: none;
   white-space: nowrap;
 
   &:hover {
+    box-shadow: 0 6px 20px rgb(0 0 0 / 15%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   .final-cta {
     padding: 1rem;
   }
@@ -336,8 +335,8 @@
   }
 
   .cta-actions {
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
   }
 
   .cta-features {
@@ -345,8 +344,8 @@
   }
 
   .discord-banner {
-    flex-direction: column;
     text-align: center;
+    flex-direction: column;
   }
 
   .discord-text {

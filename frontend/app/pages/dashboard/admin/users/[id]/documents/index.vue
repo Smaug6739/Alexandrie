@@ -11,17 +11,21 @@
 
 <script setup lang="ts">
 import type { Node } from '~/stores';
+
 definePageMeta({ breadcrumb: 'Nodes' });
 
-const nodes = ref<Node[]>([]);
-const route = useRoute();
+const categoriesStore = useNodesStore();
 const store = useAdminStore();
+
+const route = useRoute();
+const { numericDate } = useDateFormatters();
+
+const nodes = ref<Node[]>([]);
 
 watchEffect(async () => {
   nodes.value = (await store.fetchUserDocuments(route.params.id as string)) || [];
 });
 
-const categoriesStore = useNodesStore();
 const headers = [
   { label: 'Name', key: 'name' },
   { label: 'Category', key: 'category' },
@@ -53,7 +57,7 @@ const rows = computed(() =>
       name: { content: doc.name, type: 'text' as const },
       category: { content: categoriesStore.getById(doc.parent_id || '')?.name || '', type: 'text' as const },
       tags: { content: stringToBadge(doc.tags), type: 'html' as const },
-      last_update: { content: new Date(doc.updated_timestamp).toLocaleDateString(), type: 'text' as const },
+      last_update: { content: numericDate(doc.updated_timestamp), type: 'text' as const },
       attributes: { content: badges, type: 'html' as const },
       actions: { type: 'slot' as const, data: { id: doc.id } },
     };

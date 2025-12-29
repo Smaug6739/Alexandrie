@@ -3,7 +3,7 @@
     <nav>
       <span v-if="isModal">Account settings</span>
       <div v-if="isModal && store.user" class="user">
-        <img :src="useAvatar(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+        <img :src="api.avatarURL(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
         <div>
           <div class="username">{{ store.user.username }}</div>
           <div class="email">{{ store.user.email }}</div>
@@ -53,11 +53,15 @@ import MarkdownView from './_views/markdown.vue';
 import AboutView from './_views/about.vue';
 import AdvancedView from './_views/advanced.vue';
 
+defineProps<{ isModal?: boolean }>();
+const emit = defineEmits<{ (e: 'close'): void }>();
+
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-defineProps<{ isModal?: boolean }>();
-const emit = defineEmits<{ (e: 'close'): void }>();
+
+const api = useApi();
+
 const currentPage = ref(route.query.p || 'profile');
 
 const setPage = (p: string) => {
@@ -80,12 +84,14 @@ const close = () => emit('close');
   width: 100%;
   height: 100%;
   background-color: var(--bg-color);
+
   nav {
+    width: 270px;
     padding: 1rem;
     border-right: 1px solid var(--border-color);
     gap: 1rem;
     overflow-y: auto;
-    width: 270px;
+
     span {
       font-size: 0.9rem;
       font-weight: 500;

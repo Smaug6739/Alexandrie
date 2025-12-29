@@ -23,10 +23,10 @@
             d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"
           />
         </svg>
-        <span>{{ formatDate(document.created_timestamp) }}</span>
+        <span>{{ shortDate(document.created_timestamp) }}</span>
       </div>
       <div class="footer-item">
-        <span>Updated : {{ formatDate(document.updated_timestamp) }}</span>
+        <span>Updated : {{ shortDate(document.updated_timestamp) }}</span>
       </div>
     </footer>
   </div>
@@ -38,11 +38,16 @@ import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ document: Node }>();
+
 const nodesStore = useNodesStore();
+const userStore = useUserStore();
+
+const { shortDate } = useDateFormatters();
+const { getAppColor } = useAppColors();
 
 const category = computed(() => nodesStore.getById(props.document.parent_id || ''));
-useUserStore().fetchPublicUser(props.document.user_id);
-const user = computed(() => useUserStore().getById(props.document.user_id || ''));
+userStore.fetchPublicUser(props.document.user_id);
+const user = computed(() => userStore.getById(props.document.user_id || ''));
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.document } }));
 
 function showContextMenu(event: MouseEvent) {
@@ -58,17 +63,17 @@ function showContextMenu(event: MouseEvent) {
   display: flex;
   max-width: 380px;
   min-height: 250px;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 12px;
+  background: var(--bg-color);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 4%);
+  transition: all 0.2s ease;
   flex-direction: column;
   justify-content: space-between;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 
   &:hover {
     border-color: var(--border-color-accent);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
     transform: translateY(-2px);
   }
 }
@@ -89,9 +94,9 @@ function showContextMenu(event: MouseEvent) {
 .document-title {
   font-size: 17px;
   font-weight: 600;
+  line-height: 1.3;
   color: var(--font-color-dark);
   transition: color 0.15s;
-  line-height: 1.3;
 
   &:hover {
     color: var(--primary);
@@ -111,15 +116,15 @@ function showContextMenu(event: MouseEvent) {
 }
 
 .description {
+  display: -webkit-box;
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
   color: var(--font-color-light);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
 }
 
 .tags {
@@ -132,13 +137,13 @@ function showContextMenu(event: MouseEvent) {
 footer {
   display: flex;
   padding: 10px 14px;
+  border-radius: 0 0 11px 11px;
   font-size: 12px;
   color: var(--font-color-light);
   background: var(--bg-contrast);
-  border-top: 1px solid var(--border-color);
-  border-radius: 0 0 11px 11px;
-  justify-content: space-between;
   align-items: center;
+  border-top: 1px solid var(--border-color);
+  justify-content: space-between;
 }
 
 .footer-item {

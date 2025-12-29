@@ -2,6 +2,7 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
@@ -23,12 +24,12 @@ type UserService interface {
 }
 
 type userService struct {
-	userRepo repositories.UserRepository
-	logRepo  repositories.LogRepository
-	snowflake *utils.Snowflake
+	userRepo  repositories.UserRepository
+	logRepo   repositories.LogRepository
+	snowflake *snowflake.Snowflake
 }
 
-func NewUserService(userRepo repositories.UserRepository, logRepo repositories.LogRepository, snowflake *utils.Snowflake) UserService {
+func NewUserService(userRepo repositories.UserRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake) UserService {
 	return &userService{
 		userRepo:  userRepo,
 		logRepo:   logRepo,

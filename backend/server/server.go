@@ -2,7 +2,7 @@ package server
 
 import (
 	"alexandrie/app"
-	"alexandrie/logger"
+	"alexandrie/pkg/logger"
 	"alexandrie/router"
 	"fmt"
 	"os"

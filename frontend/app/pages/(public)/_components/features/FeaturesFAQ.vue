@@ -12,8 +12,8 @@
             <span class="question-text">{{ f.q }}</span>
             <span class="question-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 5v14M5 12h14" v-if="openIndex !== i" />
-                <path d="M5 12h14" v-else />
+                <path v-if="openIndex !== i" d="M12 5v14M5 12h14" />
+                <path v-else d="M5 12h14" />
               </svg>
             </span>
           </button>
@@ -94,11 +94,11 @@ const faqs = [
 }
 
 h2 {
+  border: none;
   font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
-  border: none;
 }
 
 .subtitle {
@@ -108,9 +108,9 @@ h2 {
 
 .faq-container {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 3rem;
   align-items: start;
+  gap: 3rem;
+  grid-template-columns: 1.5fr 1fr;
 }
 
 .faq-list {
@@ -120,11 +120,11 @@ h2 {
 }
 
 .faq-item {
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  overflow: hidden;
+  background: var(--bg-color);
   transition: all 0.3s ease;
+  overflow: hidden;
 
   &:hover {
     border-color: var(--primary);
@@ -132,55 +132,55 @@ h2 {
 
   &.open {
     border-color: var(--primary);
-    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 10px 40px rgb(99 102 241 / 10%);
   }
 }
 
 .faq-question {
-  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  width: 100%;
   padding: 1.25rem 1.5rem;
-  background: none;
   border: none;
-  cursor: pointer;
-  text-align: left;
   font-size: 1rem;
   font-weight: 600;
   color: var(--font-color);
+  text-align: left;
+  background: none;
   transition: all 0.2s ease;
+  align-items: center;
+  cursor: pointer;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 .question-icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 28px;
   height: 28px;
-  background: var(--bg-contrast);
   border-radius: 8px;
   color: var(--primary);
-  flex-shrink: 0;
+  background: var(--bg-contrast);
   transition: all 0.3s ease;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
 
   .open & {
-    background: var(--primary);
     color: white;
+    background: var(--primary);
   }
 }
 
 .faq-answer {
   max-height: 0;
-  overflow: hidden;
   transition: max-height 0.3s ease;
+  overflow: hidden;
 
   p {
     padding: 0 1.5rem 1.25rem;
-    color: var(--font-color-light);
-    line-height: 1.7;
     font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--font-color-light);
   }
 }
 
@@ -192,10 +192,10 @@ h2 {
 
 .cta-content {
   padding: 2.5rem 2rem;
-  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
   border: 1px solid var(--border-color);
   border-radius: 24px;
   text-align: center;
+  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
 }
 
 .cta-icon {
@@ -217,24 +217,24 @@ h2 {
 
 .cta-btn {
   display: inline-flex;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: #5865f2;
+  transition: all 0.3s ease;
   align-items: center;
   gap: 8px;
-  padding: 12px 24px;
-  background: #5865f2;
-  color: white;
-  font-weight: 600;
-  font-size: 14px;
-  border-radius: 12px;
   text-decoration: none;
-  transition: all 0.3s ease;
 
   &:hover {
+    box-shadow: 0 8px 20px rgb(88 101 242 / 30%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(88, 101, 242, 0.3);
   }
 }
 
-@media screen and (max-width: 968px) {
+@media screen and (width <= 968px) {
   .faq-container {
     grid-template-columns: 1fr;
   }
@@ -244,7 +244,7 @@ h2 {
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (width <= 640px) {
   .faq {
     padding: 1rem;
   }

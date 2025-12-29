@@ -19,12 +19,13 @@
   background: var(--primary);
   margin-bottom: 3rem;
 }
+
 .btn {
   padding: 0.9rem 1.8rem;
   border-radius: 50px;
   font-weight: 600;
-  text-decoration: none;
   margin-top: 10px;
+  text-decoration: none;
 }
 
 .btn.primary {

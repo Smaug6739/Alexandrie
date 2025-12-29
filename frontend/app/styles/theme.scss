@@ -85,9 +85,9 @@ h6 {
 }
 
 hr {
-	width: 98%;
+	width: 100%;
 	height: 1px;
-	margin: 0 auto;
+	margin: 2px auto;
 	border: none;
 	color: var(--border-color);
 	background-color: var(--border-color);
@@ -129,8 +129,8 @@ input {
 }
 
 input[type="radio"]:focus {
-	outline: none;
 	box-shadow: none;
+	outline: none;
 }
 
 input:-webkit-autofill,

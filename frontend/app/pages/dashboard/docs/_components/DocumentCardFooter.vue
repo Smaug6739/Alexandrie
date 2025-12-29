@@ -27,24 +27,28 @@
 
 <script lang="ts" setup>
 import type { Node } from '~/stores';
+
 defineProps<{ document?: Node; next?: Node; previous?: Node }>();
+
+const { formatRelativeDate } = useDateFormatters();
 </script>
 
 <style scoped lang="scss">
 footer {
   margin: 50px 0 40px;
 }
+
 .edit-link {
   display: flex;
-  align-items: center;
-  gap: 6px;
   padding: 8px 14px;
   border-radius: 8px;
-  background: var(--bg-ui);
-  color: var(--font-color);
   font-size: 13px;
   font-weight: 450;
+  color: var(--font-color);
+  background: var(--bg-ui);
   transition: all 0.2s ease;
+  align-items: center;
+  gap: 6px;
 
   :deep(svg) {
     width: 16px;
@@ -53,14 +57,15 @@ footer {
   }
 
   &:hover {
-    background: var(--primary-bg);
     color: var(--primary);
+    background: var(--primary-bg);
 
     :deep(svg) {
       fill: var(--primary);
     }
   }
 }
+
 .footer-meta {
   display: flex;
   align-items: center;
@@ -73,10 +78,10 @@ b {
 
 .meta-item {
   display: flex;
-  align-items: center;
-  gap: 6px;
   font-size: 13px;
   color: var(--font-color-light);
+  align-items: center;
+  gap: 6px;
 
   :deep(svg) {
     width: 14px;
@@ -84,6 +89,7 @@ b {
     fill: var(--font-color-light);
   }
 }
+
 .items {
   display: flex;
   flex-wrap: wrap;
@@ -135,8 +141,8 @@ svg {
 
 .infos {
   display: flex;
-  font-weight: 450;
   padding: 10px 0;
+  font-weight: 450;
   align-items: center;
   border-bottom: 1px solid var(--border-color);
   justify-content: space-between;

@@ -7,7 +7,7 @@
       <template v-else>
         <p class="top-row">
           <span style="display: flex; align-items: center; gap: 12px"
-            ><img v-if="user" :src="useAvatar(user)" class="avatar" />
+            ><img v-if="user" :src="api.avatarURL(user)" class="avatar" />
             <span style="font-size: 16px; color: var(--font-color-light)">{{ user?.username }}</span>
           </span>
           <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
@@ -33,6 +33,8 @@ import DocumentCardHeaderSkeleton from './DocumentCardHeaderSkeleton.vue';
 import type { Node, PublicUser } from '~/stores';
 
 const preferences = usePreferences();
+const api = useApi();
+
 const props = defineProps<{ doc?: Node; public?: boolean }>();
 const category = computed(() => useSidebarTree().getCategoryFromNode(props.doc?.parent_id)?.data);
 const store = useUserStore();
@@ -46,9 +48,9 @@ watchEffect(() => {
 .header {
   display: flex;
   padding: 1rem 1.2rem;
+  border: 1px solid var(--border-color-light);
   border-radius: 0.625rem;
   background-color: var(--bg-contrast);
-  border: 1px solid var(--border-color-light);
   transition: background-color $transition-duration;
 }
 
@@ -83,11 +85,13 @@ p {
     font-weight: 550;
     color: var(--font-color-dark);
   }
+
   .description {
     font-size: 14px;
     color: var(--font-color-light);
     margin-bottom: 8px;
   }
+
   .category {
     display: block;
     font-size: 18px;
@@ -119,8 +123,8 @@ p {
 
 @media print {
   .print-style {
-    border: none;
     padding: 0;
+    border: none;
     background: none;
     align-items: center;
 

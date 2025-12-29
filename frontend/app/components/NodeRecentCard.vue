@@ -21,9 +21,12 @@
 import { resolveIcon } from '~/helpers/node';
 import type { Node } from '~/stores';
 
+const props = defineProps<{ node: Node }>();
+
 const nodesStore = useNodesStore();
 
-const props = defineProps<{ node: Node }>();
+const { relativeTime } = useDateFormatters();
+const { getAppColor } = useAppColors();
 
 const category = nodesStore.getById(props.node.parent_id || '');
 const icon = resolveIcon(props.node);
@@ -32,25 +35,26 @@ const icon = resolveIcon(props.node);
 <style scoped lang="scss">
 .card {
   display: flex;
-  flex-direction: column;
+  height: 100%;
   padding: 1rem;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  text-decoration: none;
   color: var(--font-color);
   transition: all 0.2s;
-  height: 100%;
+  flex-direction: column;
+  text-decoration: none;
+
   &:hover {
     border-color: var(--primary);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 }
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 0.5rem;
 }
 
@@ -63,19 +67,19 @@ const icon = resolveIcon(props.node);
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .desc {
+  display: -webkit-box;
   font-size: 0.85rem;
   color: var(--font-color-light);
-  margin-bottom: 0.5rem;
-  display: -webkit-box;
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
-  -webkit-box-orient: vertical;
+  margin-bottom: 0.5rem;
   overflow: hidden;
 }
 

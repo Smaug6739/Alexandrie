@@ -13,18 +13,18 @@ code {
 	padding: 3px 6px;
 	border-radius: 5px;
 	color: var(--font-color);
-	background: rgba(255, 255, 255, 0.06);
+	background: rgb(255 255 255 / 6%);
 }
 
 /* Block code */
 pre code.hljs {
 	display: block;
+	padding: 1em;
 	font-family: 'JetBrains Mono', monospace;
 	font-size: 14px;
-	overflow-x: auto;
-	padding: 1em;
-	background: #292d3e;
 	color: #abb2bf;
+	background: #292d3e;
+	overflow-x: auto;
 }
 
 /* Base */
@@ -58,6 +58,7 @@ pre code.hljs {
 .hljs-selector-id,
 .hljs-type {
 	color: #56b6c2;
+
 	/* turquoise élégant */
 }
 

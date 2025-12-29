@@ -1,10 +1,10 @@
 <template>
   <div class="context-menu" :class="{ 'is-context-menu': props.contextMenu }">
     <div class="menu-header">
-      <img :src="useAvatar(user)" alt="" class="header-avatar" />
+      <img :src="avatarURL(user)" alt="" class="avatar" />
       <div class="header-info">
         <span class="header-name">{{ node.name }}</span>
-        <span class="header-meta">{{ user?.username }} · {{ formatDate(node.updated_timestamp) }}</span>
+        <span class="header-meta">{{ user?.username }} · {{ shortDate(node.updated_timestamp) }}</span>
       </div>
     </div>
 
@@ -40,15 +40,20 @@ import NodePermissions from './NodePermissions.modal.vue';
 import NodeDeleteModal from './DeleteNodeModal.vue';
 import type { Node } from '~/stores';
 
-const nodeStore = useNodesStore();
-const preferences = usePreferences();
-const emit = defineEmits(['close']);
-const dotMenu = ref();
 const props = defineProps<{ node: Node; contextMenu?: boolean }>();
+const emit = defineEmits(['close']);
 
-useUserStore().fetchPublicUser(props.node.user_id);
-const user = computed(() => useUserStore().getById(props.node.user_id || ''));
-defineExpose({ close: () => dotMenu.value?.close() });
+const nodeStore = useNodesStore();
+const userStore = useUserStore();
+
+const preferences = usePreferences();
+const { shortDate } = useDateFormatters();
+const { avatarURL } = useApi();
+
+const dotMenu = ref();
+
+userStore.fetchPublicUser(props.node.user_id);
+const user = computed(() => userStore.getById(props.node.user_id || ''));
 
 async function action(name: string) {
   switch (name) {
@@ -89,34 +94,34 @@ async function action(name: string) {
 
 .menu-header {
   display: flex;
-  align-items: center;
-  gap: 10px;
   padding: 8px 10px 12px;
+  align-items: center;
   border-bottom: 1px solid var(--border-color);
+  gap: 10px;
   margin-bottom: 6px;
-}
 
-.header-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  object-fit: cover;
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-sm;
+    object-fit: cover;
+  }
 }
 
 .header-info {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 2px;
-  min-width: 0;
 }
 
 .header-name {
   font-size: 13px;
   font-weight: 600;
   color: var(--font-color-dark);
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .header-meta {
@@ -127,7 +132,7 @@ async function action(name: string) {
 .menu-group {
   padding: 2px 0;
 
-  & + .menu-group {
+  & + & {
     border-top: 1px solid var(--border-color);
     margin-top: 2px;
     padding-top: 4px;
@@ -136,19 +141,19 @@ async function action(name: string) {
 
 .menu-item {
   display: flex;
-  align-items: center;
-  gap: 10px;
   width: 100%;
   padding: 4px 10px;
   border: none;
-  border-radius: 8px;
-  background: none;
-  color: var(--font-color);
+  border-radius: $radius-sm;
   font: inherit;
   font-size: 13px;
+  color: var(--font-color);
   text-align: left;
-  cursor: pointer;
+  background: none;
   transition: background 0.1s;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
 
   &:hover {
     background: var(--bg-contrast);
@@ -162,20 +167,22 @@ async function action(name: string) {
   }
 
   kbd {
-    margin-left: auto;
     padding: 2px 5px;
+    border-radius: 4px;
     font-family: inherit;
     font-size: 10px;
     color: var(--font-color-light);
     background: var(--bg-contrast);
-    border-radius: 4px;
+    margin-left: auto;
   }
 
   &.delete {
     color: var(--red);
+
     :deep(svg) {
       fill: var(--red);
     }
+
     kbd {
       color: var(--red);
       background: var(--red-bg);
@@ -183,14 +190,15 @@ async function action(name: string) {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   .context-menu.is-context-menu {
     width: 100%;
-    box-shadow: none;
     border: none;
+    box-shadow: none;
+
     .menu-item {
-      font-size: 16px;
       padding: 12px 16px;
+      font-size: 16px;
     }
   }
 }

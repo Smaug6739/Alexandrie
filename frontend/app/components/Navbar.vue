@@ -27,8 +27,10 @@
 <script lang="ts" setup>
 const { toggleSidebar, isOpened } = useSidebar();
 const preferences = usePreferences();
+
 const openCommandCenter = () => window.dispatchEvent(new CustomEvent('command-center-open'));
 </script>
+
 <style lang="scss" scoped>
 header {
   position: sticky;
@@ -62,7 +64,7 @@ button {
   width: 200px;
   padding: 8px 12px;
   border: none;
-  border-radius: 8px;
+  border-radius: $radius-sm;
   background: var(--border-color);
   transition: all 0.2s ease;
   align-items: center;
@@ -88,9 +90,9 @@ button {
 kbd {
   padding: 0 4px;
   border: 1px solid var(--font-color-light);
-  font-size: 14px;
-  font-family: monospace;
   border-radius: 4px;
+  font-family: monospace;
+  font-size: 14px;
   font-weight: 600;
   background: var(--border-color);
 }

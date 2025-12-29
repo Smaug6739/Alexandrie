@@ -46,7 +46,7 @@
     <div class="toolbar-divider" />
 
     <!-- Voice & Category -->
-    <div class="toolbar-group" style="flex-direction: row; flex: 1">
+    <div class="toolbar-group" style=" flex: 1;flex-direction: row">
       <VoiceRecognition @transcription="handleTranscription" />
       <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Category" class="category-select" />
     </div>
@@ -217,22 +217,21 @@ const actionTools: ToolItem[] = [
 <style scoped lang="scss">
 .toolbar {
   display: flex;
-  overflow-x: clip;
-
   width: 100%;
   padding: 8px 12px;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background: var(--bg-color);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
+  transition: box-shadow 0.2s ease;
   align-items: center;
   flex-wrap: wrap;
   gap: 6px;
+  overflow-x: clip;
   user-select: none;
-  transition: box-shadow 0.2s ease;
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
   }
 }
 
@@ -244,10 +243,10 @@ const actionTools: ToolItem[] = [
 
 .group-buttons {
   display: flex;
-  gap: 2px;
   padding: 4px;
-  background: var(--bg-ui);
   border-radius: 8px;
+  background: var(--bg-ui);
+  gap: 2px;
 }
 
 .toolbar-btn {
@@ -255,28 +254,28 @@ const actionTools: ToolItem[] = [
   display: flex;
   width: 32px;
   height: 32px;
-  padding: 0;
   margin: 0;
+  padding: 0;
   border: none;
   border-radius: 6px;
   background: transparent;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
   transition: all 0.15s ease;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 
   .btn-icon {
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 18px;
     height: 18px;
+    align-items: center;
+    justify-content: center;
 
     :deep(svg) {
       width: 18px;
       height: 18px;
-      fill: var(--font-color-light);
       transition: fill 0.15s ease, transform 0.15s ease;
+      fill: var(--font-color-light);
     }
   }
 
@@ -289,8 +288,8 @@ const actionTools: ToolItem[] = [
 
     .tooltip {
       opacity: 1;
-      visibility: visible;
       transform: translateX(-50%) translateY(0);
+      visibility: visible;
     }
   }
 
@@ -300,8 +299,9 @@ const actionTools: ToolItem[] = [
 }
 
 .btn-primary {
-  background: var(--primary-bg);
   border: 1px solid var(--border-color);
+  background: var(--primary-bg);
+
   &:hover {
     border-color: var(--primary);
     background: var(--primary-bg);
@@ -309,12 +309,12 @@ const actionTools: ToolItem[] = [
 }
 
 .btn-accent {
-  background: var(--bg-contrast);
   border: 1px solid var(--border-color);
+  background: var(--bg-contrast);
 
   &:hover {
-    background: var(--primary-bg);
     border-color: var(--primary);
+    background: var(--primary-bg);
   }
 }
 
@@ -322,8 +322,8 @@ const actionTools: ToolItem[] = [
   opacity: 0.9;
 
   &:hover {
-    opacity: 1;
     background: var(--bg-ui);
+    opacity: 1;
   }
 }
 
@@ -331,48 +331,48 @@ const actionTools: ToolItem[] = [
   position: absolute;
   top: calc(100% + 8px);
   left: 50%;
-  transform: translateX(-50%) translateY(-4px);
+  z-index: 1000;
+  display: flex;
   padding: 6px 10px;
-  background: var(--opposite-color);
-  color: var(--bg-color);
+  border-radius: 6px;
   font-size: 11px;
   font-weight: 500;
-  border-radius: 6px;
-  white-space: nowrap;
+  color: var(--bg-color);
+  background: var(--opposite-color);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   opacity: 0;
-  visibility: hidden;
   transition: all 0.2s ease;
-  z-index: 1000;
-  pointer-events: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  display: flex;
   align-items: center;
   gap: 6px;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-4px);
+  visibility: hidden;
+  white-space: nowrap;
 
   &::before {
-    content: '';
     position: absolute;
     top: -4px;
     left: 50%;
-    transform: translateX(-50%);
+    border-bottom: 5px solid var(--opposite-color);
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid var(--opposite-color);
+    content: '';
+    transform: translateX(-50%);
   }
 
   kbd {
     padding: 2px 5px;
     border-radius: 3px;
-    font-size: 10px;
     font-family: inherit;
+    font-size: 10px;
   }
 }
 
 .toolbar-divider {
   width: 1px;
   height: 32px;
-  background: var(--border-color);
   margin: 0 6px;
+  background: var(--border-color);
   opacity: 0.5;
 }
 
@@ -385,20 +385,20 @@ const actionTools: ToolItem[] = [
 
 .stats-badge {
   display: flex;
+  padding: 4px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--bg-contrast) 0%, var(--bg-contrast-2) 100%);
   align-items: center;
   gap: 8px;
-  padding: 4px 12px;
-  background: linear-gradient(135deg, var(--bg-contrast) 0%, var(--bg-contrast-2) 100%);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
 }
 
 .stat-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
   line-height: 1.1;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
 }
 
 .stat-value {
@@ -411,8 +411,8 @@ const actionTools: ToolItem[] = [
 .stat-label {
   font-size: 9px;
   color: var(--font-color-light);
-  text-transform: uppercase;
   letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
 .stat-divider {
@@ -423,10 +423,10 @@ const actionTools: ToolItem[] = [
 
 .action-buttons {
   display: flex;
-  gap: 4px;
   padding: 4px;
-  background: var(--bg-ui);
   border-radius: 8px;
+  background: var(--bg-ui);
+  gap: 4px;
 }
 
 .settings-buttons {
@@ -435,12 +435,12 @@ const actionTools: ToolItem[] = [
 }
 
 .category-select {
-  background: var(--bg-color);
   border-radius: 8px;
+  background: var(--bg-color);
 }
 
 // Responsive adjustments
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .toolbar {
     padding: 6px 8px;
     gap: 4px;
@@ -478,7 +478,7 @@ const actionTools: ToolItem[] = [
   }
 }
 
-@media (max-width: 700px) {
+@media (width <= 700px) {
   .toolbar-divider {
     display: none;
   }
@@ -494,7 +494,7 @@ const actionTools: ToolItem[] = [
 
 // Tablet hide
 .no-tablet {
-  @media (max-width: 1024px) {
+  @media (width <= 1024px) {
     display: none;
   }
 }

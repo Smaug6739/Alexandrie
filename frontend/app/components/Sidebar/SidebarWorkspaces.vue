@@ -2,7 +2,7 @@
   <div class="dropdown-container" @click.stop="toggleDropdown">
     <!-- stop propagation to avoid closing sidebar on mobile -->
     <div class="dropdown-selected" :class="{ open: isOpen }">
-      <span v-if="selectedOption" style="flex: 1"><SidebarWorkspace :option="selectedOption" /></span>
+      <span v-if="selectedOption" class="selected"><SidebarWorkspace :option="selectedOption" /></span>
       <Icon name="expand" display="sm" />
     </div>
     <ul v-if="isOpen" class="dropdown-options">
@@ -12,12 +12,12 @@
       <li :class="{ selected: shared_workspaces.value === workspaceId }" @click="selectOption(shared_workspaces)">
         <SidebarWorkspace :option="shared_workspaces" />
       </li>
-      <hr style="margin: 2px 0" />
-      <span style="margin: 4px 6px; font-size: small; font-weight: 600; color: var(--font-color-light)">Workspaces</span>
+      <hr />
+      <span class="workspaces-label">Workspaces</span>
       <li v-for="option in options" :key="option.meta?.id" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
         <SidebarWorkspace :option="option" />
       </li>
-      <div v-if="!options.length" class="placeholder" style="padding: 6px; font-size: 0.9rem; font-style: italic">No workspaces found</div>
+      <div v-if="!options.length" class="placeholder">No workspaces found</div>
       <hr />
       <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--font-color-light)" /> New Workspace</div>
       <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace"
@@ -77,10 +77,10 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   border: 1px solid var(--border-color);
   border-radius: 8px;
   background: var(--bg-color);
+  transition: all 0.2s ease;
   align-items: center;
   cursor: pointer;
   justify-content: space-between;
-  transition: all 0.2s ease;
 
   &:hover {
     border-color: var(--border-color-accent);
@@ -92,8 +92,15 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   }
 }
 
+.selected {
+  flex: 1;
+}
+
 .placeholder {
+  padding: 6px;
+  font-size: 0.9rem;
   color: var(--font-color-light);
+  font-style: italic;
 }
 
 .dropdown-selected.open {
@@ -116,9 +123,9 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   color: var(--font-color);
   background-color: var(--bg-color);
   box-shadow: 0 8px 24px var(--shadow), 0 2px 8px var(--shadow);
+  animation: slideDown 0.15s ease-out;
   list-style: none;
   overflow-y: auto;
-  animation: slideDown 0.15s ease-out;
 }
 
 @keyframes slideDown {
@@ -126,6 +133,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
     opacity: 0;
     transform: translateY(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -136,13 +144,13 @@ li {
   margin: 4px 0;
   padding: 2px 4px;
   border-radius: 6px;
-  cursor: pointer;
   transition: all 0.15s ease;
+  cursor: pointer;
 }
 
 li.selected {
-  background: var(--default-bg);
   font-weight: 500;
+  background: var(--default-bg);
 }
 
 li:hover:not(.selected) {
@@ -159,6 +167,14 @@ hr {
   border-top: 1px solid var(--border-color-light);
 }
 
+.workspaces-label {
+  display: block;
+  margin: 4px 6px;
+  font-size: small;
+  font-weight: 600;
+  color: var(--font-color-light);
+}
+
 .new-workspace {
   display: flex;
   margin: 2px 0;
@@ -167,14 +183,14 @@ hr {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--font-color-light);
+  transition: all 0.15s ease;
   align-items: center;
   cursor: pointer;
   gap: 6px;
-  transition: all 0.15s ease;
 
   &:hover {
-    background-color: var(--bg-contrast-2);
     color: var(--font-color);
+    background-color: var(--bg-contrast-2);
 
     svg {
       fill: var(--default) !important;

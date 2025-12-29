@@ -7,6 +7,7 @@ export interface Workspace {
   value?: string;
   meta?: Partial<Node>;
 }
+const { isMobile } = useDevice();
 const sidebarItemsPrefs = usePreferences().get('sidebarItems');
 export const navigationItems: DefaultItem[] = [
   {
@@ -64,7 +65,7 @@ export const navigationItems: DefaultItem[] = [
     route: '',
     icon: 'user_settings',
     onClick: () => {
-      if (isMobile()) useRouter().push('/dashboard/settings');
+      if (isMobile.value) useRouter().push('/dashboard/settings');
       else useModal().add(new Modal(shallowRef(SettingsModal), { props: {}, size: 'large', noPadding: true }));
     },
     data: {

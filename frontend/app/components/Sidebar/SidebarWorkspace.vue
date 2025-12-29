@@ -12,7 +12,10 @@
 
 <script setup lang="ts">
 import type { Workspace } from './helpers';
+
 defineProps<{ option: Workspace }>();
+
+const { getAppColor } = useAppColors();
 </script>
 
 <style scoped lang="scss">

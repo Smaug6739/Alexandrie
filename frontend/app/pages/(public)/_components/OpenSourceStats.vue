@@ -130,12 +130,12 @@ onMounted(() => {
 <style scoped lang="scss">
 .oss-stats {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
   max-width: 1200px;
   margin: 6rem auto;
   padding: 2rem;
+  align-items: center;
+  gap: 4rem;
+  grid-template-columns: 1fr 1fr;
 }
 
 .stats-visual {
@@ -144,52 +144,52 @@ onMounted(() => {
 
 .visual-bg {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
   border-radius: 24px;
+  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
+  inset: 0;
   overflow: hidden;
 }
 
 .code-lines {
   position: absolute;
-  inset: 0;
-  padding: 2rem;
   display: flex;
+  padding: 2rem;
   flex-direction: column;
   gap: 12px;
+  inset: 0;
 }
 
 .code-line {
-  height: 12px;
   width: var(--width);
-  background: var(--border-color);
+  height: 12px;
   border-radius: 6px;
+  background: var(--border-color);
   opacity: 0.4;
 }
 
 .github-card {
   position: relative;
+  margin: 2rem;
   padding: 2rem;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
-  margin: 2rem;
+  background: var(--bg-color);
+  box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
 }
 
 .card-header {
   display: flex;
+  font-weight: 600;
   align-items: center;
   gap: 12px;
   margin-bottom: 1rem;
-  font-weight: 600;
 }
 
 .card-desc {
   font-size: 0.9rem;
+  line-height: 1.6;
   color: var(--font-color-light);
   margin-bottom: 1.5rem;
-  line-height: 1.6;
 }
 
 .card-stats {
@@ -199,10 +199,10 @@ onMounted(() => {
 
 .mini-stat {
   display: flex;
-  align-items: center;
-  gap: 6px;
   font-size: 14px;
   color: var(--font-color-light);
+  align-items: center;
+  gap: 6px;
 
   svg {
     color: var(--primary);
@@ -214,14 +214,14 @@ onMounted(() => {
   .section-tag {
     display: inline-block;
     padding: 6px 14px;
-    background: linear-gradient(135deg, #8b5cf6, #6366f1);
-    color: white;
+    border-radius: 100px;
     font-size: 12px;
     font-weight: 600;
-    text-transform: uppercase;
+    color: white;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
     letter-spacing: 1px;
-    border-radius: 100px;
     margin-bottom: 1rem;
+    text-transform: uppercase;
   }
 
   h2 {
@@ -233,30 +233,30 @@ onMounted(() => {
 
   .subtitle {
     font-size: 1.1rem;
-    color: var(--font-color-light);
     line-height: 1.7;
+    color: var(--font-color-light);
     margin-bottom: 2rem;
   }
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
   margin-bottom: 2rem;
 }
 
 .stat {
   padding: 1.25rem;
-  background: var(--bg-contrast);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   text-align: center;
+  background: var(--bg-contrast);
   transition: all 0.3s ease;
 
   &:hover {
-    transform: translateY(-4px);
     border-color: var(--primary);
+    transform: translateY(-4px);
   }
 }
 
@@ -270,7 +270,6 @@ onMounted(() => {
   font-weight: 800;
   background: linear-gradient(135deg, var(--primary), #8b5cf6);
   background-clip: text;
-  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -288,30 +287,30 @@ onMounted(() => {
 
 .btn {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
   padding: 12px 20px;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  font-weight: 600;
   font-size: 14px;
-  text-decoration: none;
+  font-weight: 600;
   transition: all 0.3s ease;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
 
   &.primary {
-    background: var(--primary);
     border-color: var(--primary);
     color: white;
+    background: var(--primary);
 
     &:hover {
+      box-shadow: 0 8px 20px rgb(99 102 241 / 30%);
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
     }
   }
 
   &.secondary {
-    background: var(--bg-color);
     color: var(--font-color);
+    background: var(--bg-color);
 
     &:hover {
       border-color: var(--primary);
@@ -320,8 +319,8 @@ onMounted(() => {
   }
 
   &.tertiary {
-    background: var(--bg-contrast);
     color: var(--font-color);
+    background: var(--bg-contrast);
 
     &:hover {
       border-color: var(--primary);
@@ -329,10 +328,10 @@ onMounted(() => {
   }
 }
 
-@media screen and (max-width: 968px) {
+@media screen and (width <= 968px) {
   .oss-stats {
-    grid-template-columns: 1fr;
     gap: 2rem;
+    grid-template-columns: 1fr;
   }
 
   .stats-visual {
@@ -348,7 +347,7 @@ onMounted(() => {
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (width <= 640px) {
   .oss-stats {
     padding: 1rem;
   }

@@ -1,13 +1,13 @@
 const locale = 'en-US';
 
 /** Format a timestamp to a readable date string (e.g., "15 Dec 2024") */
-export function formatDate(timestamp: number | undefined): string {
+function shortDate(timestamp: number | undefined): string {
   const date = new Date(timestamp || 0);
   return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
 }
 
 /** Format a timestamp to a numeric date string (e.g., "12/15/2024") */
-export function numericDate(timestamp: number): string {
+function numericDate(timestamp: number): string {
   return new Date(timestamp).toLocaleDateString(locale, {
     year: 'numeric',
     month: '2-digit',
@@ -16,7 +16,7 @@ export function numericDate(timestamp: number): string {
 }
 
 /** Format a timestamp to a relative time string (e.g., "2h ago") */
-export const relativeTime = (timestamp: number) => {
+const relativeTime = (timestamp: number) => {
   const diff = Date.now() - timestamp;
   const minutes = Math.floor(diff / 60000);
   const hours = Math.floor(diff / 3600000);
@@ -28,10 +28,10 @@ export const relativeTime = (timestamp: number) => {
   if (hours < 24) return `${hours}h ago`;
   if (days === 1) return 'Yesterday';
   if (days < 7) return `${days} days ago`;
-  return formatDate(timestamp);
+  return shortDate(timestamp);
 };
 
-export const formatRelativeDate = (timestamp?: number) => {
+const formatRelativeDate = (timestamp?: number) => {
   if (!timestamp) return '';
   const now = Date.now();
   const diff = now - timestamp;
@@ -40,10 +40,10 @@ export const formatRelativeDate = (timestamp?: number) => {
   if (days === 1) return 'yesterday';
   if (days < 7) return `${days} days ago`;
   if (days < 30) return `${Math.floor(days / 7)} weeks ago`;
-  return new Date(timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return new Date(timestamp).toLocaleDateString(locale, { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
-export const formatDateLabel = (timestamp: number) => {
+const shortDateLabel = (timestamp: number) => {
   const date = new Date(timestamp);
   const today = new Date();
   const yesterday = new Date(today);
@@ -54,14 +54,26 @@ export const formatDateLabel = (timestamp: number) => {
   return date.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long' });
 };
 
-export const formatTime = (timestamp: number) => {
+const formatTime = (timestamp: number) => {
   return new Date(timestamp).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
 };
 
-export const todayFormatted = computed(() => {
+const todayFormatted = computed(() => {
   return new Date().toLocaleDateString(locale, {
     weekday: 'long',
     day: 'numeric',
     month: 'long',
   });
 });
+
+export const useDateFormatters = () => {
+  return {
+    shortDate,
+    numericDate,
+    relativeTime,
+    formatRelativeDate,
+    shortDateLabel,
+    formatTime,
+    todayFormatted,
+  };
+};

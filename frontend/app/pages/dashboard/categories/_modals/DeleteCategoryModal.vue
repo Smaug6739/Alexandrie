@@ -14,6 +14,8 @@
 
 <script setup lang="ts">
 const props = defineProps<{ categoryId: string }>();
+const emit = defineEmits(['close']);
+
 const deleteDoc = () => {
   useNodesStore()
     .delete(props.categoryId)
@@ -26,7 +28,6 @@ const deleteDoc = () => {
       useNotifications().add({ type: 'error', title: 'Error during deletion', message: e });
     });
 };
-const emit = defineEmits(['close']);
 const allChildren = useSidebarTree().getSubTreeById(props.categoryId);
 </script>
 

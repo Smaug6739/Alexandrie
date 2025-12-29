@@ -27,19 +27,23 @@
       <AppButton type="primary">Update profile</AppButton>
     </form>
     <hr style="margin: 10px 0" />
-    <p><strong>Account creation:</strong> {{ formatDate(userStore.user?.created_timestamp) }}</p>
-    <p><strong>Last update:</strong> {{ formatDate(userStore.user?.updated_timestamp) }}</p>
+    <p><strong>Account creation:</strong> {{ shortDate(userStore.user?.created_timestamp) }}</p>
+    <p><strong>Last update:</strong> {{ shortDate(userStore.user?.updated_timestamp) }}</p>
   </div>
 </template>
 
 <script setup lang="ts">
 const userStore = useUserStore();
 const ressourcesStore = useRessourcesStore();
-const avatarInput = ref<HTMLInputElement | null>(null);
-const selectAvatar = () => avatarInput.value?.click();
 
+const api = useApi();
+const { shortDate } = useDateFormatters();
+
+const avatarInput = ref<HTMLInputElement | null>(null);
 const avatarPreview = ref('');
-const avatarDisplayed = computed(() => avatarPreview.value || useAvatar(userStore.user));
+const avatarDisplayed = computed(() => avatarPreview.value || api.avatarURL(userStore.user));
+
+const selectAvatar = () => avatarInput.value?.click();
 
 const uploadAvatar = async () => {
   if (!userStore.user) return;

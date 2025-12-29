@@ -5,7 +5,6 @@
       <div :style="{ maxWidth: width }" class="doc-container">
         <DocumentCardHeader :doc="node" style="margin-bottom: 20px" />
 
-        <!-- eslint-disable-next-line vue/no-v-html -->
         <article
           v-if="node"
           ref="element"
@@ -17,14 +16,14 @@
         <DocumentCardFooter :document="node" :next="next" :previous="previous" />
       </div>
 
-      <div v-if="!isTablet() && !preferencesStore.get('hideTOC').value" class="toc">
+      <div v-if="!devise.isTablet.value && !preferencesStore.get('hideTOC').value" class="toc">
         <TableOfContent :doc="node" :element="element" style="width: 320px; margin-left: 20px" />
       </div>
 
       <div
         class="no-print"
         :style="{
-          marginRight: !isTablet() && preferencesStore.get('hideTOC').value && useSidebar().isOpened.value ? '200px' : '0px',
+          marginRight: !devise.isTablet.value && preferencesStore.get('hideTOC').value && sidebar.isOpened.value ? '200px' : '0px',
           transition: 'margin 0.3s',
         }"
       />
@@ -43,8 +42,11 @@ import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
 const route = useRoute();
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
-const element = ref<HTMLElement>();
 
+const devise = useDevice();
+const sidebar = useSidebar();
+
+const element = ref<HTMLElement>();
 const node = ref<Node | undefined>();
 const error = ref<false | string>(false);
 

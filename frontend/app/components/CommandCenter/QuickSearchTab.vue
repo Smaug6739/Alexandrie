@@ -13,13 +13,10 @@
 import { quickActions, availablePages, type SearchResult, type BaseCommand } from '~/helpers/navigation';
 import SearchResultsList from './SearchResultsList.vue';
 
-const props = defineProps<{
-  searchQuery: string;
-  selectedIndex: number;
-}>();
-const documentStore = useNodesStore();
-
+const props = defineProps<{ searchQuery: string; selectedIndex: number }>();
 defineEmits<{ updateSelectedIndex: [index: number] }>();
+
+const documentStore = useNodesStore();
 
 function tokenize(text: string) {
   return text.trim().toLowerCase().split(/\s+/).filter(Boolean);

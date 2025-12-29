@@ -6,9 +6,7 @@
           <Icon :name="node.icon || 'file'" display="sm" />
         </span>
 
-        <NuxtLink :to="`/dashboard/docs/${node.id}`" class="card-title">
-          {{ node.name }}
-        </NuxtLink>
+        <NuxtLink :to="`/dashboard/docs/${node.id}`" class="card-title"> {{ node.name }} </NuxtLink>
       </div>
       <span v-if="node.order === -1" class="pin-badge" title="Pinned">
         <Icon name="pin" />
@@ -20,7 +18,7 @@
       <div v-if="node.tags" class="card-tags">
         <span v-for="tag in parsedTags" :key="tag" class="tag">{{ tag }}</span>
       </div>
-      <span class="card-date">{{ formatDate(node.updated_timestamp) }}</span>
+      <span class="card-date">{{ shortDate(node.updated_timestamp) }}</span>
     </div>
   </div>
 </template>
@@ -29,10 +27,10 @@
 import type { Node } from '~/stores';
 
 const props = defineProps<{ node: Node; parent: Node }>();
-const emit = defineEmits<{
-  dragStart: [node: Node];
-  dragEnd: [];
-}>();
+const emit = defineEmits<{ dragStart: [node: Node]; dragEnd: [] }>();
+
+const { getAppColor } = useAppColors();
+const { shortDate } = useDateFormatters();
 
 const parsedTags = computed(() => {
   if (!props.node.tags) return [];
@@ -54,10 +52,10 @@ const onDragEnd = () => {
 
 <style scoped lang="scss">
 .kanban-card {
-  background: var(--bg-color);
+  padding: 12px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 12px;
+  background: var(--bg-color);
   cursor: grab;
 
   &:hover {
@@ -67,9 +65,9 @@ const onDragEnd = () => {
   }
 
   &:active {
+    box-shadow: var(--shadow-sm);
     cursor: grabbing;
     transform: scale(0.98);
-    box-shadow: var(--shadow-sm);
   }
 }
 
@@ -88,16 +86,16 @@ const onDragEnd = () => {
 
 .card-icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 22px;
   height: 22px;
   border-radius: 6px;
+  align-items: center;
+  justify-content: center;
 
   :deep(svg) {
     width: 16px;
     height: 16px;
-    fill: currentColor;
+    fill: currentcolor;
   }
 }
 
@@ -116,11 +114,11 @@ const onDragEnd = () => {
   display: block;
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.3;
   color: var(--font-color-dark);
+  transition: color $transition-duration;
   margin-bottom: 4px;
   text-decoration: none;
-  line-height: 1.3;
-  transition: color $transition-duration;
 
   &:hover {
     color: var(--primary);
@@ -128,43 +126,43 @@ const onDragEnd = () => {
 }
 
 .card-description {
-  font-size: 12px;
-  color: var(--font-color-light);
-  margin: 0 0 10px;
   display: -webkit-box;
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--font-color-light);
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
-  -webkit-box-orient: vertical;
   overflow: hidden;
-  line-height: 1.4;
 }
 
 .card-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
+  justify-content: space-between;
 }
 
 .card-tags {
   display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-  flex: 1;
   min-width: 0;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .tag {
+  max-width: 80px;
+  padding: 2px 6px;
+  border-radius: 6px;
   font-size: 10px;
   font-weight: 500;
-  padding: 2px 6px;
-  background: var(--bg-contrast);
-  border-radius: 6px;
   color: var(--font-color-light);
-  white-space: nowrap;
+  background: var(--bg-contrast);
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 80px;
+  white-space: nowrap;
 }
 
 .card-date {

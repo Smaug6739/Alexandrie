@@ -1,12 +1,12 @@
 <template>
-  <div class="container">
-    <div class="header">
+  <div class="table">
+    <header>
       <input v-model="searchInput" type="text" placeholder="Search..." />
       <!-- Actions groupées (slot) -->
       <slot v-if="selectedRows.length > 0" name="bulk-actions" :selected="selectedRows"> </slot>
-    </div>
+    </header>
 
-    <div class="table-wrapper">
+    <div class="wrapper">
       <table>
         <thead>
           <tr>
@@ -38,7 +38,7 @@
           <!-- Footer -->
           <tr>
             <td colspan="100%">
-              <div class="footer">
+              <footer>
                 <p>
                   Showing {{ paginator.startIndex.value }} to {{ paginator.endIndex.value }} of {{ paginator.totalItems.value }} entries |
                   <span>
@@ -70,7 +70,7 @@
                   </button>
                   <button type="button" :disabled="!paginator.hasNext()" @click="paginator.next()">&gt;</button>
                 </div>
-              </div>
+              </footer>
             </td>
           </tr>
         </tbody>
@@ -139,19 +139,19 @@ export interface Field<V = unknown> {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.table {
   width: 100%;
   border: 1.5px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: $radius-md;
 }
 
-.header {
+header {
   display: flex;
   padding: 0 10px;
   align-items: center;
 }
 
-.table-wrapper {
+.wrapper {
   width: 100%;
   border-top: 1px solid var(--border-color);
   overflow-x: auto;
@@ -175,26 +175,22 @@ td {
 }
 
 th {
+  font-size: 13px;
+  color: var(--font-color-dark);
   background: var(--bg-ui);
   text-transform: uppercase;
-  font-size: 13px;
-}
-
-td > span {
-  display: flex;
-  align-items: center;
-}
-
-th {
-  color: var(--font-color-dark);
 }
 
 td {
   color: var(--font-color-light);
 
-  &:has(.footer) {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+  > span {
+    display: flex;
+    align-items: center;
+  }
+
+  &:has(footer) {
+    border-radius: 0 0 $radius-md $radius-md;
   }
 }
 
@@ -202,33 +198,31 @@ td {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .active {
-    background-color: var(--primary);
-    color: white;
-  }
 }
+
 button {
-  font-size: 1rem;
   margin: 0 5px;
   padding: 8px 12px;
-  border-radius: $radius-sm;
   border: 1px solid var(--border-color);
+  border-radius: $radius-sm;
+  font-size: 1rem;
+
   &:hover {
     border-color: var(--primary);
   }
+
   &:disabled {
-    cursor: not-allowed;
     opacity: 0.5;
+    cursor: not-allowed;
   }
 
   &.active {
-    background-color: var(--primary);
     color: white;
+    background-color: var(--primary);
   }
 }
 
-.footer {
+footer {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -236,16 +230,8 @@ button {
 
 select {
   max-width: 100px;
-  margin: 0;
+  margin: 0 0 0 10px;
   padding: 4px 8px;
-  margin-left: 10px;
-}
-
-svg {
-  position: absolute;
-  top: 13px;
-  left: 13px;
-  fill: var(--grey);
 }
 
 input {
@@ -259,16 +245,6 @@ input {
 .ellipsis {
   margin: 0 5px;
   color: var(--font-color-dark);
-}
-
-@media screen and (width >= 1000px) {
-  .container {
-    zoom: 1;
-  }
-
-  table {
-    zoom: 1;
-  }
 }
 
 @media screen and (width <= 768px) {

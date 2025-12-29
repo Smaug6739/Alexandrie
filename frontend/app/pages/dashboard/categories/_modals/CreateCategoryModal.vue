@@ -27,11 +27,15 @@
 <script setup lang="ts">
 import type { Node } from '~/stores';
 
+const props = defineProps<{ role: 1 | 2 }>();
+const emit = defineEmits(['close']);
+
 const categoriesStore = useNodesStore();
+
 const sidebarTree = useSidebarTree();
 const sidebar = useSidebar();
+
 const categoriesItem = computed(() => new TreeStructure(sidebarTree.nodes.value.filter(c => c.data.role == 1 || c.data.role == 2)).generateTree());
-const props = defineProps<{ role: 1 | 2 }>();
 
 const category = ref<Partial<Node>>({
   name: '',
@@ -39,7 +43,6 @@ const category = ref<Partial<Node>>({
   accessibility: 1,
   parent_id: sidebarTree.getCategoryFromNode(sidebar.active_id.value)?.id || sidebar.workspaceId.value,
 });
-const emit = defineEmits(['close']);
 
 const createCategory = () => {
   categoriesStore

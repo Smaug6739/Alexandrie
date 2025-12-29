@@ -1,5 +1,5 @@
 <template>
-  <nav class="breadcrumb no-mobile" aria-label="Breadcrumb">
+  <nav class="no-mobile" aria-label="Breadcrumb">
     <svg
       v-if="preferences.get('navbarItems').value.navigation"
       :class="{ disabled: !canGoBack, 'no-tablet': true }"
@@ -20,8 +20,8 @@
       <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
     </svg>
 
-    <ol class="breadcrumb-list">
-      <li v-for="(segment, index) in breadcrumbs" :key="index" class="breadcrumb-item">
+    <ol class="list">
+      <li v-for="(segment, index) in breadcrumbs" :key="index" class="item">
         <NuxtLink :to="segment.path"> {{ segment.name }} </NuxtLink>
       </li>
     </ol>
@@ -70,7 +70,7 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-.breadcrumb {
+nav {
   display: flex;
   padding: 3px;
   align-items: center;
@@ -98,7 +98,7 @@ watchEffect(() => {
   }
 }
 
-.breadcrumb-list {
+.list {
   display: flex;
   margin: 0;
   padding: 0;
@@ -106,7 +106,7 @@ watchEffect(() => {
   list-style: none;
 }
 
-.breadcrumb-item {
+.item {
   display: inline-flex;
   align-items: center;
 

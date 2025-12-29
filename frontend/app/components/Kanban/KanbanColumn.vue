@@ -64,6 +64,7 @@
 <script setup lang="ts">
 import KanbanCard from './KanbanCard.vue';
 import DeleteColumnModal from './DeleteColumn.modal.vue';
+import { appColors } from '~/helpers/constants';
 import type { Node } from '~/stores';
 
 export interface KanbanColumnData {
@@ -87,6 +88,8 @@ const emit = defineEmits<{
   cardDragStart: [node: Node];
   cardDragEnd: [];
 }>();
+
+const { getAppColor } = useAppColors();
 
 const isDragOver = ref(false);
 const isEditing = ref(false);
@@ -175,15 +178,15 @@ function handleClickOutside(e: MouseEvent) {
 <style scoped lang="scss">
 .kanban-column {
   display: flex;
-  flex-direction: column;
   min-width: 300px;
   max-width: 320px;
-  background: var(--bg-contrast);
-  border-radius: 12px;
   padding: 12px;
+  border-radius: 12px;
+  background: var(--bg-contrast);
+  flex-direction: column;
 
   &.drag-over {
-    background: rgba(57, 86, 231, 0.06);
+    background: rgb(57 86 231 / 6%);
     box-shadow: inset 0 0 0 2px var(--primary);
   }
 }
@@ -206,9 +209,9 @@ function handleClickOutside(e: MouseEvent) {
   padding: 0;
   border: none;
   border-radius: 50%;
+  transition: transform $transition-duration;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform $transition-duration;
 
   &:hover {
     transform: scale(1.2);
@@ -216,15 +219,15 @@ function handleClickOutside(e: MouseEvent) {
 }
 
 .column-title {
-  flex: 1;
+  margin: 0;
+  padding: 2px 0;
+  border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
   color: var(--font-color-dark);
-  margin: 0;
-  cursor: pointer;
-  padding: 2px 0;
-  border-radius: 6px;
   transition: color $transition-duration;
+  cursor: pointer;
+  flex: 1;
 
   &:hover {
     color: var(--primary);
@@ -232,26 +235,26 @@ function handleClickOutside(e: MouseEvent) {
 }
 
 .column-title-input {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 600;
   padding: 4px 8px;
   border: 1px solid var(--primary);
   border-radius: 6px;
-  background: var(--bg-color);
+  font-size: 14px;
+  font-weight: 600;
   color: var(--font-color-dark);
+  background: var(--bg-color);
+  box-shadow: 0 0 0 3px rgb(57 86 231 / 10%);
+  flex: 1;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(57, 86, 231, 0.1);
 }
 
 .column-count {
+  height: fit-content;
+  padding: 2px 8px;
+  border-radius: 16px;
   font-size: 12px;
   font-weight: 600;
-  padding: 2px 8px;
-  height: fit-content;
-  background: var(--bg-color);
-  border-radius: 16px;
   color: var(--font-color-light);
+  background: var(--bg-color);
 }
 
 .column-actions {
@@ -261,31 +264,31 @@ function handleClickOutside(e: MouseEvent) {
 
 .action-btn {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 28px;
   height: 28px;
   padding: 0;
   border: none;
   border-radius: 6px;
-  background: transparent;
   color: var(--font-color-light);
+  background: transparent;
+  align-items: center;
   cursor: pointer;
+  justify-content: center;
 
   &:hover {
-    background: var(--bg-color);
     color: var(--font-color);
+    background: var(--bg-color);
   }
 
   &.danger:hover {
-    background: var(--red-bg);
     color: var(--red);
+    background: var(--red-bg);
   }
 
   :deep(svg) {
     width: 16px;
     height: 16px;
-    fill: currentColor;
+    fill: currentcolor;
   }
 }
 
@@ -295,14 +298,14 @@ function handleClickOutside(e: MouseEvent) {
   left: 0;
   z-index: 10;
   display: flex;
-  gap: 6px;
+  max-width: 180px;
   padding: 10px;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 8px;
+  background: var(--bg-color);
   box-shadow: var(--shadow-md);
   flex-wrap: wrap;
-  max-width: 180px;
+  gap: 6px;
 }
 
 .color-option {
@@ -324,23 +327,23 @@ function handleClickOutside(e: MouseEvent) {
 }
 
 .column-content {
-  flex: 1;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
   min-height: 120px;
   max-height: 60vh;
-  overflow-y: auto;
-  padding: 4px;
   margin: -4px;
+  padding: 4px;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
 
   &::-webkit-scrollbar {
     width: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: transparent;
     border-radius: 4px;
+    background: transparent;
   }
 
   &:hover::-webkit-scrollbar-thumb {
@@ -350,28 +353,28 @@ function handleClickOutside(e: MouseEvent) {
 
 .empty-state {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 32px 16px;
-  color: var(--font-color-light);
-  text-align: center;
   border: 2px dashed var(--border-color);
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.02);
+  color: var(--font-color-light);
+  text-align: center;
+  background: rgb(0 0 0 / 2%);
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 
   :deep(svg) {
     width: 24px;
     height: 24px;
-    fill: currentColor;
     opacity: 0.5;
+    fill: currentcolor;
     margin-bottom: 8px;
   }
 
   p {
+    margin: 0 0 2px;
     font-size: 13px;
     font-weight: 500;
-    margin: 0 0 2px;
   }
 
   span {
@@ -382,29 +385,29 @@ function handleClickOutside(e: MouseEvent) {
 
 .add-card-btn {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
   width: 100%;
   padding: 10px;
-  margin-top: 12px;
   border: none;
   border-radius: 8px;
-  background: var(--bg-color);
-  color: var(--font-color-light);
   font-size: 13px;
   font-weight: 500;
+  color: var(--font-color-light);
+  background: var(--bg-color);
+  align-items: center;
   cursor: pointer;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 12px;
 
   &:hover {
     color: var(--primary);
-    background: rgba(57, 86, 231, 0.08);
+    background: rgb(57 86 231 / 8%);
   }
 
   :deep(svg) {
     width: 16px;
     height: 16px;
-    fill: currentColor;
+    fill: currentcolor;
   }
 }
 

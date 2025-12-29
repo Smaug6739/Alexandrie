@@ -1,8 +1,8 @@
 package services
 
 import (
-	"alexandrie/logger"
 	"alexandrie/models"
+	"alexandrie/pkg/logger"
 	"alexandrie/types"
 	"context"
 	"fmt"

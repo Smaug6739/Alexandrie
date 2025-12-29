@@ -52,6 +52,7 @@ button {
 }
 
 .link {
+  font-weight: bold;
   color: var(--primary);
   background: none;
   cursor: pointer;

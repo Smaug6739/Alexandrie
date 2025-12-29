@@ -47,26 +47,27 @@ onMounted(() => {
 <style scoped lang="scss">
 .view-selection {
   display: flex;
-  align-items: center;
-  background: var(--bg-contrast);
-  border-radius: 8px;
   padding: 3px;
+  border-radius: $radius-sm;
+  background: var(--bg-contrast);
+  align-items: center;
   gap: 2px;
 }
 
 button {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 32px;
   height: 32px;
   padding: 0;
   border: none;
   border-radius: $radius-sm;
-  background: transparent;
   color: var(--font-color-light);
-  cursor: pointer;
+  background: transparent;
   transition: color 0.2s, background 0.2s;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+
   &:hover {
     color: var(--font-color);
     background: var(--bg-color);
@@ -79,7 +80,7 @@ button {
   :deep(svg) {
     width: 18px;
     height: 18px;
-    fill: currentColor;
+    fill: currentcolor;
   }
 }
 </style>

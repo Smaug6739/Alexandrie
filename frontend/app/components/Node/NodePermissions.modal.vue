@@ -28,7 +28,7 @@
       <div v-for="user in users" :key="user.id" class="user-card">
         <div class="user-info-row">
           <span class="user-meta">
-            <img :src="useAvatar(user)" alt="avatar" class="avatar" />
+            <img :src="avatarURL(user)" alt="avatar" class="avatar" />
             <span>{{ user.username }}</span>
           </span>
           <div class="user-actions">
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <Loader v-if="isLoading" style="margin: 4px auto" />
+      <Loader v-if="isLoading" />
       <p v-else-if="searchError" class="info-secondary">{{ searchError }}</p>
     </form>
 
@@ -48,14 +48,14 @@
       <li v-for="perm in node.permissions" :key="perm.id" class="permission-item">
         <div class="user-info-row">
           <span class="user-meta">
-            <img :src="useAvatar(usersStore.getById(perm.user_id))" alt="avatar" class="avatar" />
+            <img :src="avatarURL(usersStore.getById(perm.user_id))" alt="avatar" class="avatar" />
             <span>{{ usersStore.getById(perm.user_id)?.username }}</span>
           </span>
 
           <div class="user-actions">
             <AppSelect v-model="perm.permission" :items="NODE_PERMISSIONS" :searchable="false" size="250px" @update:model-value="updatePermission(perm)">
               <template #list-footer>
-                <hr style="margin: 4px 0" />
+                <hr />
                 <AppSelectNode :level="0" :node="{ id: `$rm-${perm.id}`, label: 'Remove permission' }" @select="removePermission(perm)" />
               </template>
             </AppSelect>
@@ -67,21 +67,24 @@
 </template>
 
 <script setup lang="ts">
+import { DOCUMENT_ACCESSIBILITIES, DOCUMENT_GENERAL_ACCESS, NODE_PERMISSIONS } from '~/helpers/constants';
 import type { Node, Permission, PublicUser } from '~/stores';
 
 const props = defineProps<{ node: Node }>();
 
-const node = ref<Node>(props.node);
-
 const usersStore = useUserStore();
 const nodesStore = useNodesStore();
 
+const { avatarURL } = useApi();
+
+const node = ref<Node>(props.node);
 const query = ref('');
 const users = ref<PublicUser[]>([]);
 const selectedPermission = ref(1);
-const link = computed(() => `${window.location.origin}/doc/${node.value?.id}`);
 const searchError = ref<string | null>(null);
 const isLoading = ref(false);
+
+const link = computed(() => `${window.location.origin}/doc/${node.value?.id}`);
 
 watchEffect(() => {
   if (node.value.partial) nodesStore.fetch({ id: node.value.id }).then(fetched => (node.value = fetched));

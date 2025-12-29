@@ -1,7 +1,7 @@
 <template>
   <div class="card-component">
     <h2 style="display: flex; align-items: center; justify-content: space-between">
-      User Details <img v-if="user" style="width: 40px; height: 40px; border-radius: 50%" :src="useAvatar(user)" />
+      User Details <img v-if="user" style="width: 40px; height: 40px; border-radius: 50%" :src="avatarURL(user)" />
     </h2>
     <div v-if="user" style="width: 100%">
       <div class="user-details">
@@ -31,17 +31,17 @@
         <div style="display: flex; width: 100%">
           <div class="user-detail">
             <label>Created At</label>
-            <div class="value">{{ new Date(user.created_timestamp).toLocaleDateString() }}</div>
+            <div class="value">{{ numericDate(user.created_timestamp) }}</div>
           </div>
           <div class="user-detail">
             <label>Updated At</label>
-            <div class="value">{{ new Date(user.updated_timestamp || 0).toLocaleDateString() }}</div>
+            <div class="value">{{ numericDate(user.updated_timestamp) }}</div>
           </div>
         </div>
       </div>
 
       <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
-      <AppButton type="primary" @click="useRouter().push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
+      <AppButton type="primary" @click="router.push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
     </div>
     <div v-else>No user found.</div>
   </div>
@@ -52,9 +52,15 @@ import type { User } from '~/stores';
 
 definePageMeta({ breadcrumb: 'User Details' });
 
-const route = useRoute();
-const user = ref<User | undefined>(undefined);
 const store = useAdminStore();
+
+const route = useRoute();
+const router = useRouter();
+const { avatarURL } = useApi();
+const { numericDate } = useDateFormatters();
+
+const user = ref<User | undefined>(undefined);
+
 watchEffect(async () => {
   user.value = await store.fetchById(route.params.id as string);
 });

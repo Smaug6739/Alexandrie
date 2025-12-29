@@ -1,9 +1,9 @@
 package app
 
 import (
+	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/services"
-	"alexandrie/utils"
 	"database/sql"
 	"log"
 
@@ -34,7 +34,7 @@ type Config struct {
 
 type App struct {
 	DB          *sql.DB
-	Snowflake   *utils.Snowflake
+	Snowflake   *snowflake.Snowflake
 	Config      Config
 	MinioClient *minio.Client
 	MailClient  *mail.Client
@@ -47,7 +47,7 @@ func InitApp(config Config) *App {
 	app.DB = DBConnection(config, false)
 	app.MinioClient, _ = MinioConnection()
 	app.MailClient = GetMailClient()
-	app.Snowflake = utils.NewSnowflake(1609459200000)
+	app.Snowflake = snowflake.NewSnowflake(1609459200000)
 	app.Config = config
 
 	// Run database migrations / schema creation

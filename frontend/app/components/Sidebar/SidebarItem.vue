@@ -2,7 +2,7 @@
   <span
     class="item"
     :draggable="true"
-    :class="{ 'drag-over': isDragOver }"
+    :class="{ dragging: isDragOver }"
     @click="onClick"
     @dragstart="dragStart"
     @dragover.prevent="dragOver"
@@ -12,8 +12,8 @@
   >
     <Icon :fill="item.data.role == 3 ? 'var(--pink) !important' : undefined" :name="icon" :class="customClass" />&nbsp;
 
-    <NuxtLink v-if="item.onClick" style="flex: 1" class="close" @click="item.onClick">{{ item.label }}</NuxtLink>
-    <NuxtLink v-else :to="item.route" style="flex: 1" class="close">{{ item.label }}</NuxtLink>
+    <NuxtLink v-if="item.onClick" class="close content" @click="item.onClick">{{ item.label }}</NuxtLink>
+    <NuxtLink v-else :to="item.route" class="close content">{{ item.label }}</NuxtLink>
 
     <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--font-color-light)" />
 
@@ -35,6 +35,9 @@ import type { Node } from '~/stores';
 
 const nodesStore = useNodesStore();
 const { isOpened, workspaceId } = useSidebar();
+const { getAppColor } = useAppColors();
+const { isMobile } = useDevice();
+
 const props = defineProps<{ item: Item | DefaultItem; level: number }>();
 const isDragOver = ref<boolean>(false);
 
@@ -51,7 +54,7 @@ const icon = computed(() => {
 const onClick = (m: MouseEvent) => {
   // if element does not have the "close" class, don't close the sidebar
   if (!(m.target as HTMLElement).closest('.close')) return;
-  if (isMobile() && (props.item.route || props.item.onClick)) isOpened.value = false;
+  if (isMobile.value && (props.item.route || props.item.onClick)) isOpened.value = false;
 };
 
 const contextMenu = useContextMenu();
@@ -103,7 +106,7 @@ const drop = async (event: DragEvent) => {
   width: 100%;
   margin: 2.5px 0;
   padding: 1px 4px;
-  border-radius: 6px;
+  border-radius: $radius-sm;
   font-size: 15px;
   font-weight: 450;
   align-items: center;
@@ -119,22 +122,24 @@ const drop = async (event: DragEvent) => {
     background: var(--default-bg);
   }
 
-  .default-icon {
+  .default-icon,
+  .item-icon {
     width: 20px;
     height: 20px;
     color: var(--primary) !important;
   }
 
   .item-icon {
-    width: 20px;
-    height: 20px;
     padding: 2px;
     border-radius: 4px;
-    color: var(--primary) !important;
   }
 }
 
-.drag-over {
+.content {
+  flex: 1;
+}
+
+.dragging {
   box-shadow: 0 2px 10px var(--shadow);
   border-bottom: 2px solid var(--primary);
 }

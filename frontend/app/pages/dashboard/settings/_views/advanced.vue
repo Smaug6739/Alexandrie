@@ -8,7 +8,7 @@
       <div class="setting">
         <h4>Reset all preferences</h4>
         <p>This will reset all your preferences to their default values. This action cannot be undone.</p>
-        <AppButton type="danger" @click="usePreferences().reset">Reset preferences</AppButton>
+        <AppButton type="danger" @click="preferences.reset">Reset preferences</AppButton>
       </div>
       <div class="setting">
         <h4>Reset local storage</h4>
@@ -20,6 +20,8 @@
 </template>
 
 <script setup lang="ts">
+const preferences = usePreferences();
+
 const deleteLocalStorage = () => {
   localStorage.clear();
   location.reload();

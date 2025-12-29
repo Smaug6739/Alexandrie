@@ -1,18 +1,18 @@
 <template>
-  <div ref="trigger" class="app-select" :style="{ width: size || '100%' }">
+  <div ref="trigger" class="select" :style="{ width: size || '100%' }">
     <!-- Desktop: inline search input -->
     <input
-      v-if="open && searchable && !isMobile()"
+      v-if="open && searchable && !isMobile"
       ref="searchInput"
       v-model="search"
       type="text"
       placeholder="Search..."
-      class="search-input"
+      class="search"
       @keydown="handleKeyDown"
       @click.stop
     />
-    <div v-else class="app-select-trigger" @click.stop="toggleDropdown">
-      <button style="height: 30px">{{ selected?.label || placeholder }}</button>
+    <div v-else class="trigger" @click.stop="toggleDropdown">
+      <button class="value">{{ selected?.label || placeholder }}</button>
       <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--font-color)">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
@@ -20,8 +20,8 @@
 
     <!-- Desktop dropdown -->
     <Teleport to="body">
-      <ul v-if="open && !isMobile()" ref="portalList" class="dropdown" :style="dropdownStyle">
-        <li v-if="nullable && selected" class="clear-option" @click="clearSelection">
+      <ul v-if="open && !isMobile" ref="portalList" class="dropdown" :style="dropdownStyle">
+        <li v-if="nullable && selected" class="clear" @click="clearSelection">
           <Icon name="close" display="sm" fill="var(--font-color-light)" />
           <span>Clear selection</span>
         </li>
@@ -32,23 +32,23 @@
 
     <!-- Mobile: Bottom Sheet Modal -->
     <Teleport to="body">
-      <Transition name="mobile-sheet">
-        <div v-if="open && isMobile()" class="mobile-overlay" @click.self="toggleDropdown">
-          <div class="mobile-sheet">
-            <div class="mobile-sheet-header">
-              <span class="mobile-sheet-title">{{ placeholder }}</span>
-              <button class="mobile-sheet-close" @click="toggleDropdown">
+      <Transition name="sheet">
+        <div v-if="open && isMobile" class="overlay" @click.self="toggleDropdown">
+          <div class="sheet">
+            <header>
+              <span class="sheet-title">{{ placeholder }}</span>
+              <button class="close-btn" @click="toggleDropdown">
                 <Icon name="close" display="md" fill="var(--font-color)" />
               </button>
-            </div>
+            </header>
 
-            <div v-if="searchable" class="mobile-search-wrapper">
+            <div v-if="searchable" class="sheet-search">
               <Icon name="search" display="md" fill="var(--font-color-light)" />
-              <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." class="mobile-search-input" @keydown="handleKeyDown" />
+              <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." @keydown="handleKeyDown" />
             </div>
 
-            <ul class="mobile-list">
-              <li v-if="nullable && selected" class="clear-option" @click="clearSelection">
+            <ul class="sheet-list">
+              <li v-if="nullable && selected" class="clear" @click="clearSelection">
                 <Icon name="close" display="sm" fill="var(--font-color-light)" />
                 <span>Clear selection</span>
               </li>
@@ -61,7 +61,7 @@
                 :selected-id="selectedId"
                 @select="handleSelect"
               />
-              <li v-if="filteredItems.length === 0" class="mobile-no-results">No results found</li>
+              <li v-if="filteredItems.length === 0" class="empty">No results found</li>
               <slot name="list-footer"></slot>
             </ul>
           </div>
@@ -93,6 +93,8 @@ const props = withDefaults(
 );
 
 const emit = defineEmits(['update:modelValue']);
+
+const { isMobile } = useDevice();
 
 const selectedId = computed({
   get: () => props.modelValue ?? '',
@@ -166,7 +168,7 @@ function toggleDropdown() {
   if (open.value) {
     search.value = '';
     nextTick(() => {
-      if (isMobile()) {
+      if (isMobile.value) {
         // Lock body scroll on mobile
         document.body.style.overflow = 'hidden';
         mobileSearchInput.value?.focus();
@@ -228,12 +230,12 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped lang="scss">
-.app-select {
+.select {
   position: relative;
   width: 100%;
   margin: 0;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: $radius-sm;
   background: var(--bg-color);
 
   &:focus {
@@ -241,65 +243,76 @@ onBeforeUnmount(() => {
   }
 }
 
-.app-select-trigger {
+.trigger {
   display: flex;
   padding: 2px;
   align-items: center;
   justify-content: space-between;
 }
 
+.value {
+  height: 30px;
+}
+
 button,
-.search-input {
+.search {
   width: 100%;
   height: 34px;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: $radius-sm;
   font-size: 0.95rem;
   text-align: left;
   cursor: pointer;
 }
 
-.search-input {
+.search {
   padding: 7px 10px;
   border: none;
   cursor: text;
 }
 
-/* Teleported element : attention au scoped styles + teleport.
-   :deep permet d'appliquer les règles même si l'élément est rendu hors-DOM parent */
 .dropdown {
   max-height: 300px;
   margin: 0;
   padding: 2px;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
+  border-radius: $radius-sm;
   background: var(--bg-color);
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   list-style: none;
   overflow-y: auto;
 }
 
-/* ========================
-   Mobile Bottom Sheet Styles
-   ======================== */
-.mobile-overlay {
+// ===========================
+// Mobile Bottom Sheet
+// ===========================
+.overlay {
   position: fixed;
-  inset: 0;
   z-index: 1000;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
   background: rgb(0 0 0 / 50%);
+  align-items: flex-end;
+  inset: 0;
+  justify-content: center;
 }
 
-.mobile-sheet {
+.sheet {
   display: flex;
-  flex-direction: column;
   width: 100%;
   max-height: 85vh;
   border-radius: 16px 16px 0 0;
   background: var(--bg-color);
   animation: slide-up 0.3s ease-out;
+  flex-direction: column;
+
+  header {
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+    justify-content: space-between;
+  }
 }
 
 @keyframes slide-up {
@@ -312,74 +325,65 @@ button,
   }
 }
 
-.mobile-sheet-header {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.mobile-sheet-title {
+.sheet-title {
   font-size: 1.1rem;
   font-weight: 600;
 }
 
-.mobile-sheet-close {
+.close-btn {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 36px;
   height: 36px;
   padding: 0;
   border: none;
   border-radius: 50%;
   background: var(--bg-contrast);
-  cursor: pointer;
   transition: background 0.2s;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 
   &:hover {
     background: var(--selection-color);
   }
 }
 
-.mobile-search-wrapper {
+.sheet-search {
   display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 8px;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--border-color);
   background: var(--bg-contrast);
-}
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  gap: 8px;
 
-.mobile-search-input {
-  flex: 1;
-  height: 40px;
-  padding: 8px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-color);
-  font-size: 1rem;
+  input {
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    font-size: 1rem;
+    background: var(--bg-color);
+    flex: 1;
 
-  &:focus {
-    border-color: var(--primary);
-    outline: none;
+    &:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
   }
 }
 
-.mobile-list {
-  flex: 1;
+.sheet-list {
   margin: 0;
   padding: 8px;
+  flex: 1;
   list-style: none;
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
 
-  :deep(.app-select-node) {
+  :deep(.tree-node) {
     padding: 14px 16px;
-    border-radius: 8px;
+    border-radius: $radius-sm;
     font-size: 1rem;
     transition: background 0.15s;
 
@@ -388,36 +392,35 @@ button,
     }
   }
 
-  :deep(.app-select-node.selected) {
-    background: var(--selection-color);
-    color: var(--primary);
+  :deep(.tree-node.selected) {
     font-weight: 500;
+    color: var(--primary);
+    background: var(--selection-color);
   }
 }
 
-.mobile-no-results {
+.empty {
   padding: 24px 16px;
   color: var(--font-color-light);
   text-align: center;
 }
 
-/* Clear selection option */
-.clear-option {
+.clear {
   display: flex;
-  align-items: center;
-  gap: 8px;
   margin: 2px 0 6px;
   padding: 6px 12px;
   border-radius: 4px;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--font-color-light);
   font-size: 0.9rem;
-  cursor: pointer;
+  color: var(--font-color-light);
   transition: all 0.15s ease;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  gap: 8px;
 
   &:hover {
-    background: var(--selection-color);
     color: var(--red);
+    background: var(--selection-color);
 
     :deep(svg) {
       fill: var(--red);
@@ -429,24 +432,22 @@ button,
   }
 }
 
-/* Transitions */
-.mobile-sheet-enter-active,
-.mobile-sheet-leave-active {
+// Transitions
+.sheet-enter-active,
+.sheet-leave-active {
   transition: opacity 0.3s ease;
+
+  .sheet {
+    transition: transform 0.3s ease;
+  }
 }
 
-.mobile-sheet-enter-active .mobile-sheet,
-.mobile-sheet-leave-active .mobile-sheet {
-  transition: transform 0.3s ease;
-}
-
-.mobile-sheet-enter-from,
-.mobile-sheet-leave-to {
+.sheet-enter-from,
+.sheet-leave-to {
   opacity: 0;
-}
 
-.mobile-sheet-enter-from .mobile-sheet,
-.mobile-sheet-leave-to .mobile-sheet {
-  transform: translateY(100%);
+  .sheet {
+    transform: translateY(100%);
+  }
 }
 </style>

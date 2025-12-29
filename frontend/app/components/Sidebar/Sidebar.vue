@@ -1,19 +1,19 @@
 <template>
-  <div :class="{ 'sidebar-mask': isMobile() && isOpened }" />
+  <div :class="{ 'sidebar-mask': isMobile && isOpened }" />
   <Resizable>
-    <Dock v-if="!isMobile() && preferences.get('view_dock').value" />
+    <Dock v-if="!isMobile && preferences.get('view_dock').value" />
     <div class="sidebar" :class="{ compact: preferences.get('compactMode').value }">
       <section class="header">
         <span class="name">
           <IconApp />
-          <NuxtLink style="font-family: Arial; font-size: 19px; font-weight: 600" to="/dashboard">Alexandrie</NuxtLink>
+          <NuxtLink class="home-link" to="/dashboard">Alexandrie</NuxtLink>
         </span>
         <IconClose class="btn" />
       </section>
       <input v-model="filter" type="text" placeholder="Search or ctrl + q" />
 
       <div v-if="userStore.user" class="user">
-        <img :src="useAvatar(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+        <img :src="avatarURL(userStore.user)" alt="Avatar" class="avatar" />
         <div class="details">
           <NuxtLink to="/dashboard/settings?p=profile">
             <div>{{ userStore.user.username }}</div>
@@ -63,15 +63,19 @@ import { navigationItems } from './helpers';
 import NewCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
 import Dock from './Dock.vue';
 
-const { isOpened, hasSidebar, filtered } = useSidebar();
 const nodesStore = useNodesStore();
 const preferences = usePreferences();
 const userStore = useUserStore();
+
+const sidebarTree = useSidebarTree();
+const { isOpened, hasSidebar, filtered } = useSidebar();
+const { isMobile } = useDevice();
+const { avatarURL } = useApi();
+
 const filter = ref<string>('');
 const workspaces = computed(() => [...nodesStore.getAll.filter(c => c.role === 1).map(c => ({ text: c.name, value: c.id, meta: c }))]);
 const isLoading = computed(() => nodesStore.isFetching);
 
-const sidebarTree = useSidebarTree();
 const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock').value);
 const filterItems = (items: Item[]): Item[] => {
   if (!filter.value.trim()) return items;
@@ -88,12 +92,12 @@ const newCategory = () => {
   useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 2 } }));
 };
 const onClick = () => {
-  if (isMobile()) isOpened.value = false;
+  if (isMobile.value) isOpened.value = false;
 };
 
 onMounted(() => {
   hasSidebar.value = true;
-  if (isMobile()) return document.addEventListener('click', handleClickOutside);
+  if (isMobile.value) return document.addEventListener('click', handleClickOutside);
   // ELSE: Desktop
   isOpened.value = true;
 });
@@ -115,6 +119,12 @@ onBeforeUnmount(() => {
   &::-webkit-scrollbar-thumb {
     background: transparent;
   }
+}
+
+.home-link {
+  font-family: Arial;
+  font-size: 19px;
+  font-weight: 600;
 }
 
 .header {
@@ -187,11 +197,17 @@ input {
     font-size: 0.85rem;
     justify-content: space-between;
     margin-left: 5px;
+  }
 
-    .email {
-      font-size: 0.7rem;
-      color: var(--font-color-light);
-    }
+  .email {
+    font-size: 0.7rem;
+    color: var(--font-color-light);
+  }
+
+  .avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
   }
 }
 

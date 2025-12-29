@@ -87,10 +87,10 @@ function onLeave(el: Element) {
 
 <style scoped lang="scss">
 .accordion-item {
-  background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  background: #fff;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 4%);
   transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
   overflow: hidden;
 
@@ -105,21 +105,21 @@ function onLeave(el: Element) {
 }
 
 .accordion-trigger {
-  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  width: 100%;
   padding: 1.1rem 1.4rem;
-  background: transparent;
   border: 0;
-  cursor: pointer;
   text-align: left;
+  background: transparent;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.75rem;
+  justify-content: space-between;
 
   &:focus-visible {
+    border-radius: 10px;
     outline: 2px solid var(--primary);
     outline-offset: 2px;
-    border-radius: 10px;
   }
 }
 
@@ -131,15 +131,15 @@ function onLeave(el: Element) {
 .chevron {
   width: 20px;
   height: 20px;
+  transition: transform 0.3s ease, stroke 0.3s ease;
+  fill: none;
   stroke: #444;
   stroke-width: 2;
-  fill: none;
-  transition: transform 0.3s ease, stroke 0.3s ease;
 }
 
 .open .chevron {
-  transform: rotate(180deg);
   stroke: var(--primary);
+  transform: rotate(180deg);
 }
 
 .accordion-content-wrapper {
@@ -147,9 +147,9 @@ function onLeave(el: Element) {
 }
 
 .accordion-content {
-  padding: 0 1.4rem 1.1rem 1.4rem;
-  color: #555;
+  padding: 0 1.4rem 1.1rem;
   line-height: 1.6;
+  color: #555;
   background: #fafafa;
   border-top: 1px solid #eee;
 }
@@ -161,11 +161,11 @@ function onLeave(el: Element) {
 
 .accordion-expand-enter-from,
 .accordion-expand-leave-to {
-  opacity: 0;
   max-height: 0;
+  opacity: 0;
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .accordion-title {
     font-size: 1.1rem;
   }
@@ -175,7 +175,7 @@ function onLeave(el: Element) {
   }
 
   .accordion-content {
-    padding: 0 1.6rem 1.2rem 1.6rem;
+    padding: 0 1.6rem 1.2rem;
   }
 }
 </style>

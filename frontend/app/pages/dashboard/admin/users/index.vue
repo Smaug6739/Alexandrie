@@ -16,6 +16,10 @@ import { useAdminStore } from '~/stores/admin.store';
 import type { User } from '~/stores';
 
 const adminStore = useAdminStore();
+
+const { avatarURL } = useApi();
+const { numericDate } = useDateFormatters();
+
 adminStore.fetchAll();
 
 const headers = [
@@ -32,14 +36,14 @@ const rows = computed(() =>
   adminStore.users?.map(u => {
     return {
       username: {
-        content: `<img style="border-radius:50%;width:25px;height:25px;" src="${useAvatar(u)}"/>&nbsp;&nbsp;&nbsp;${u.username}`,
+        content: `<img style="border-radius:50%;width:25px;height:25px;" src="${avatarURL(u)}"/>&nbsp;&nbsp;&nbsp;${u.username}`,
         type: 'html' as const,
       },
       firstname: { content: u.firstname, type: 'text' as const },
       lastname: { content: u.lastname, type: 'text' as const },
       email: { content: u.email, type: 'text' as const },
       role: { content: u.role == 2 ? `<tag class="red">Admin</tag>` : `<tag class="blue">User</tag>`, type: 'html' as const },
-      created_at: { content: new Date(u.created_timestamp).toLocaleDateString(), type: 'text' as const },
+      created_at: { content: numericDate(u.created_timestamp), type: 'text' as const },
       action: { type: 'slot' as const, data: { id: u.id } },
     };
   }),

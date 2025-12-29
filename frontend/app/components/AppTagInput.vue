@@ -1,9 +1,8 @@
 <template>
-  <div class="tag-input">
-    <div v-for="(tag, index) in tagsArray" :key="index">
-      <tag class="primary" style="padding: 5px 6px">{{ tag }}<button type="button" class="remove" @click="removeTag(index)">×</button></tag>
-    </div>
-
+  <div class="tags">
+    <tag v-for="(tag, index) in tagsArray" :key="index" class="primary">
+      {{ tag }}<button type="button" class="remove" @click="removeTag(index)">×</button>
+    </tag>
     <input v-model="input" placeholder="Add a tag (enter to add)" @keydown.enter.prevent="addTag" @keydown.delete="removeLastTag" />
   </div>
 </template>
@@ -46,12 +45,16 @@ function removeLastTag() {
 </script>
 
 <style scoped lang="scss">
-.tag-input {
+.tags {
   display: flex;
   width: 100%;
   padding: 0 7px;
   align-items: center;
   flex-wrap: wrap;
+}
+
+tag {
+  padding: 5px 6px;
 }
 
 button {
@@ -69,16 +72,16 @@ button {
 }
 
 input {
-  flex: 1 1 150px;
   min-width: 100px;
   padding: 4px 8px;
   border: none;
-  border-radius: 6px;
-  background: transparent;
+  border-radius: $radius-sm;
   font-size: 0.85rem;
   color: var(--font-color);
-  outline: none;
+  background: transparent;
   transition: background 0.15s ease;
+  flex: 1 1 150px;
+  outline: none;
 
   &:hover,
   &:focus {

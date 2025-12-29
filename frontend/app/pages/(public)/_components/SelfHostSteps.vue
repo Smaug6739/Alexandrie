@@ -7,12 +7,13 @@
 
     <div class="steps-container">
       <div class="steps">
-        <div class="step" v-for="(step, index) in steps" :key="index">
+        <div v-for="(step, index) in steps" :key="index" class="step">
           <div class="step-header">
             <div class="step-index">{{ index + 1 }}</div>
             <h3>{{ step.title }}</h3>
           </div>
           <div class="step-content">
+            <!-- eslint-disable-next-line vue/no-v-html  OK fixed value -->
             <p v-html="step.description" />
             <div v-if="step.code" class="code-wrap">
               <pre class="code">{{ step.code }}</pre>
@@ -138,9 +139,9 @@ h2 {
 
 .steps-container {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 3rem;
   align-items: center;
+  gap: 3rem;
+  grid-template-columns: 1fr 1.2fr;
   margin-bottom: 2rem;
 }
 
@@ -153,9 +154,9 @@ h2 {
 .step {
   position: relative;
   padding: 1.5rem;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 16px;
+  background: var(--bg-color);
   transition: all 0.3s ease;
 
   &:hover {
@@ -176,8 +177,8 @@ h2 {
   width: 32px;
   height: 32px;
   border-radius: 10px;
-  font-weight: 700;
   font-size: 14px;
+  font-weight: 700;
   color: white;
   background: var(--primary);
   align-items: center;
@@ -185,9 +186,9 @@ h2 {
 }
 
 .step-header h3 {
+  margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  margin: 0;
 }
 
 .step-content p {
@@ -203,30 +204,30 @@ h2 {
 }
 
 .code {
-  flex: 1;
   padding: 10px 14px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   font-family: $monospace-font;
   font-size: 13px;
   background: var(--bg-contrast);
+  flex: 1;
   overflow: auto;
   white-space: nowrap;
 }
 
 .copy {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 36px;
   height: 36px;
   padding: 0;
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  background: var(--bg-color);
   color: var(--font-color-light);
-  cursor: pointer;
+  background: var(--bg-color);
   transition: all 0.2s ease;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 
   &:hover {
     border-color: var(--primary);
@@ -243,19 +244,19 @@ h2 {
 .terminal {
   width: 100%;
   max-width: 500px;
-  background: #1e1e2e;
   border-radius: 16px;
+  background: #1e1e2e;
+  box-shadow: 0 25px 80px rgb(0 0 0 / 20%);
   overflow: hidden;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
 }
 
 .terminal-header {
   display: flex;
-  align-items: center;
-  gap: 1rem;
   padding: 12px 16px;
   background: #181825;
+  align-items: center;
   border-bottom: 1px solid #313244;
+  gap: 1rem;
 }
 
 .terminal-dots {
@@ -270,9 +271,11 @@ h2 {
     &:nth-child(1) {
       background: #f38ba8;
     }
+
     &:nth-child(2) {
       background: #f9e2af;
     }
+
     &:nth-child(3) {
       background: #a6e3a1;
     }
@@ -293,8 +296,8 @@ h2 {
 
 .terminal-line {
   display: flex;
-  gap: 8px;
   color: #cdd6f4;
+  gap: 8px;
 
   &.output {
     color: #6c7086;
@@ -340,12 +343,12 @@ h2 {
   padding: 8px 14px;
   border: 1px solid var(--border-color);
   border-radius: 999px;
-  font-weight: 500;
   font-size: 13px;
+  font-weight: 500;
   background: var(--bg-color);
+  transition: all 0.2s ease;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s ease;
 
   &:hover {
     border-color: var(--primary);
@@ -358,7 +361,7 @@ h2 {
   fill: var(--green);
 }
 
-@media screen and (max-width: 968px) {
+@media screen and (width <= 968px) {
   .steps-container {
     grid-template-columns: 1fr;
   }
@@ -368,7 +371,7 @@ h2 {
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (width <= 640px) {
   .self-host {
     padding: 1rem;
   }

@@ -20,7 +20,7 @@
       <template v-if="node.role == 3">
         <label for="thumbnail">Thumbnail <AppHint text="SVG supported" /></label>
         <textarea id="thumbnail" v-model="node.thumbnail"></textarea>
-        <div style="display: flex; align-items: center; gap: 10px">
+        <div class="inline-input">
           <label for="pinned">Pinned</label>
           <AppToggle id="pinned" v-model="pinnedToggle" />
         </div>
@@ -33,7 +33,7 @@
         :nullable="true"
         :disabled="(i) => i.id == node.id || nodeStore.isDescendant(node, (i as Item).id)"
       />
-      <div style="display: flex; align-items: center; gap: 10px">
+      <div class="inline-input">
         <label for="accessibility">Color</label>
         <AppColorPicker v-model="node.color" :nullable="true" />
       </div>
@@ -42,11 +42,13 @@
 </template>
 
 <script setup lang="ts">
+import { DOCUMENT_THEMES, CATEGORY_ROLES } from '~/helpers/constants';
 import type { Node } from '~/stores';
+
+const props = defineProps<{ doc: Node }>();
 
 const nodeStore = useNodesStore();
 
-const props = defineProps<{ doc: Node }>();
 const node = ref<Node>(props.doc);
 const pinnedToggle = ref(node.value.order == -1);
 const parentsTree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= node.value.role)).generateTree());
@@ -62,6 +64,12 @@ watch(
 .modal-content {
   display: flex;
   flex-direction: column;
+}
+
+.inline-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 form {

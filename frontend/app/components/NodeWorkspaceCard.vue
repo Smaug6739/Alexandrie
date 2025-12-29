@@ -21,9 +21,11 @@
 <script setup lang="ts">
 import type { Node } from '~/stores';
 
+defineProps<{ workspace: Node }>();
+
 const nodesStore = useNodesStore();
 
-defineProps<{ workspace: Node }>();
+const { getAppColor } = useAppColors();
 
 // Get workspace categories
 const getWorkspaceCategories = (workspaceId: string) => {
@@ -40,19 +42,19 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 <style scoped lang="scss">
 .card {
   display: flex;
-  flex-direction: column;
+  height: 100%;
   padding: 1.25rem;
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  text-decoration: none;
   color: var(--font-color);
-  transition: all 0.2s;
   background: var(--bg-color);
-  height: 100%;
+  transition: all 0.2s;
+  flex-direction: column;
+  text-decoration: none;
 
   &:hover {
+    box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   }
 
   // Color variants - generated
@@ -65,10 +67,11 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 0.75rem;
 }
+
 .title {
   display: flex;
   align-items: center;
@@ -81,11 +84,11 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 }
 
 .count {
-  font-size: 0.8rem;
   padding: 0.2rem 0.6rem;
-  background: var(--bg-contrast);
   border-radius: 12px;
+  font-size: 0.8rem;
   color: var(--font-color-light);
+  background: var(--bg-contrast);
 }
 
 .name {
@@ -95,13 +98,13 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 }
 
 .desc {
+  display: -webkit-box;
   font-size: 0.85rem;
   color: var(--font-color-light);
-  margin-bottom: 0.75rem;
-  display: -webkit-box;
+  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
-  -webkit-box-orient: vertical;
+  margin-bottom: 0.75rem;
   overflow: hidden;
 }
 
@@ -113,11 +116,11 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 }
 
 .child-badge {
-  font-size: 0.75rem;
   padding: 0.2rem 0.5rem;
-  background: var(--bg-contrast);
   border-radius: 4px;
+  font-size: 0.75rem;
   color: var(--font-color-light);
+  background: var(--bg-contrast);
 }
 
 .child-more {

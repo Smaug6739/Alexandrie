@@ -3,7 +3,7 @@
     <header>
       <h1>File manager</h1>
       <div class="action-row">
-        <NodeFilter v-show="!isMobile()" :nodes="nodes" @update:nodes="filteredRessources = $event" />
+        <NodeFilter v-show="!device.isMobile" :nodes="nodes" @update:nodes="filteredRessources = $event" />
         <ViewSelection v-model="view" />
       </div>
     </header>
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div v-if="fileLinks.length" class="link-section">
-      <div v-text="linksText" class="links-text"></div>
+      <div class="links-text" v-text="linksText"></div>
       <div class="links-actions">
         <AppButton type="primary" @click="copyLinks">Copy {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
         <AppButton type="secondary" @click="fileLinks = []">Clear</AppButton>
@@ -83,6 +83,10 @@ definePageMeta({ breadcrumb: 'Upload' });
 const router = useRouter();
 const ressourcesStore = useRessourcesStore();
 const nodesStore = useNodesStore();
+
+const device = useDevice();
+const appColors = useAppColors();
+const { numericDate } = useDateFormatters();
 
 const view = ref<'table' | 'list'>('list');
 const selectedFiles = ref<File[]>([]);
@@ -162,8 +166,8 @@ const rows: ComputedRef<Field[]> = computed(() =>
       name: { content: res.name, type: 'text' },
       size: { content: readableFileSize(res.size ?? 0), type: 'text' },
       type: { content: `<tag class="${color(res.metadata?.filetype as string)}">${res.metadata?.filetype as string}</tag>`, type: 'html' },
-      parent: { content: category ? `<tag class="${getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
-      date: { content: new Date(res.created_timestamp).toLocaleDateString(), type: 'text' },
+      parent: { content: category ? `<tag class="${appColors.getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
+      date: { content: numericDate(res.created_timestamp), type: 'text' },
       action: { type: 'slot', data: res },
     };
   }),
@@ -182,8 +186,8 @@ const bulkDelete = async (lines: Field[]) => {
 .storage-indicator {
   display: flex;
   width: 100%;
-  padding: 12px 16px;
   margin: 12px 0;
+  padding: 12px 16px;
   border-radius: 8px;
   background: var(--bg-color-secondary);
   align-items: center;
@@ -243,12 +247,13 @@ const bulkDelete = async (lines: Field[]) => {
   display: flex;
   align-items: center;
 }
+
 .upload-progress {
   display: flex;
-  align-items: center;
-  gap: 10px;
   font-size: 14px;
   color: var(--font-color-light);
+  align-items: center;
+  gap: 10px;
 }
 
 .link-section {
@@ -263,13 +268,14 @@ const bulkDelete = async (lines: Field[]) => {
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: var(--bg-color-secondary);
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
     color: var(--font-color-dark);
+    background: var(--bg-color-secondary);
     white-space: pre-wrap;
     word-break: break-all;
   }
+
   .links-actions {
     display: flex;
     gap: 10px;

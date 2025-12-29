@@ -63,7 +63,11 @@
 </template>
 
 <script setup lang="ts">
+import { DOCUMENT_SIZES, DOCUMENT_THEMES, EDITOR_FONTS } from '~/helpers/constants';
+
 const preferencesStore = usePreferences();
+const appColors = useAppColors();
+
 // @ts-expect-error unknown type
 const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnType<unknown>;
 
@@ -92,7 +96,7 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
         key: 'primaryColor',
         // @ts-expect-error -> specific type
         onChange: (option: number) => {
-          setAppColor(option);
+          appColors.setAppColor(option);
         },
       },
     ],
@@ -271,9 +275,9 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
 .form-group {
   display: flex;
   width: 100%;
+  align-items: flex-start;
   gap: 1rem;
   justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: 1rem;
 }
 
@@ -283,9 +287,9 @@ label {
 }
 
 .description {
-  margin-top: 0.25rem;
-  color: var(--font-color-light);
   font-size: 0.9rem;
+  color: var(--font-color-light);
+  margin-top: 0.25rem;
 }
 
 h3 {
