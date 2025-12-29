@@ -21,7 +21,7 @@
       </div>
       <div class="form-group">
         <label>Avatar</label>
-        <img :src="avatarPreview || useAvatar(userStore.user)" class="avatar" @click="selectAvatar" />
+        <img :src="avatarDisplayed" class="avatar" @click="selectAvatar" />
         <input ref="avatarInput" type="file" accept="image/*" style="display: none" @change="previewAvatar" />
       </div>
       <AppButton type="primary">Update profile</AppButton>
@@ -39,6 +39,7 @@ const avatarInput = ref<HTMLInputElement | null>(null);
 const selectAvatar = () => avatarInput.value?.click();
 
 const avatarPreview = ref('');
+const avatarDisplayed = computed(() => avatarPreview.value || useAvatar(userStore.user));
 
 const uploadAvatar = async () => {
   if (!userStore.user) return;
@@ -61,12 +62,15 @@ const previewAvatar = (event: Event) => {
 
 const updateUser = async () => {
   if (!userStore.user) return;
-  await uploadAvatar();
-  userStore.user.avatar = 'ok';
-  userStore
-    .update(userStore.user)
-    .then(() => useNotifications().add({ type: 'success', title: 'User updated' }))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+  try {
+    await uploadAvatar();
+    userStore.user.avatar = Date.now().toString();
+    await userStore.update(userStore.user);
+    useNotifications().add({ type: 'success', title: 'User updated' });
+  } catch (e) {
+    avatarPreview.value = '';
+    useNotifications().add({ type: 'error', title: 'Error', message: e as string });
+  }
 };
 </script>
 

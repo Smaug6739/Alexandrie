@@ -19,14 +19,12 @@
 const props = defineProps<{ ressources: string[] }>();
 const emit = defineEmits(['close']);
 const deleteRessource = async () => {
-  for (const ressourceId of props.ressources) {
-    await useRessourcesStore()
-      .delete(ressourceId)
-      .then(() => {
-        emit('close');
-        useRouter().push('/dashboard/cdn');
-      })
-      .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
-  }
+  await useNodesStore()
+    .bulkDelete(props.ressources)
+    .then(() => {
+      emit('close');
+      useRouter().push('/dashboard/cdn');
+    })
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 </script>

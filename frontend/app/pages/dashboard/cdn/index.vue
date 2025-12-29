@@ -7,14 +7,36 @@
         <ViewSelection v-model="view" />
       </div>
     </header>
-    <AppDrop ref="dropComponent" @select="selectFile" />
-    <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
-      <AppButton type="primary" :disabled="!selectedFile" @click="submitFile">Upload on server</AppButton>
-      <LoaderSpinner v-if="isLoading" />
+    <div class="storage-indicator">
+      <div class="storage-info">
+        <span class="storage-label">Storage used</span>
+        <span class="storage-values">{{ readableFileSize(totalUsedSpace) }} / {{ readableFileSize(MAX_STORAGE) }}</span>
+      </div>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          :style="{ width: storagePercentage + '%' }"
+          :class="{ warning: storagePercentage > 80, danger: storagePercentage > 95 }"
+        ></div>
+      </div>
+      <span class="storage-percentage">{{ storagePercentage.toFixed(1) }}%</span>
     </div>
-    <div v-if="fileLink" class="link-section">
-      <input v-model="fileLink" type="text" readonly />
-      <AppButton type="primary" @click="copyLink">Copy link</AppButton>
+    <AppDrop ref="dropComponent" multiple :max-files="10" @select="selectFiles" />
+    <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
+      <AppButton type="primary" :disabled="!selectedFiles.length" @click="submitFiles">
+        Upload {{ selectedFiles.length ? `${selectedFiles.length} file(s)` : '' }} on server
+      </AppButton>
+      <div v-if="isLoading" class="upload-progress">
+        <LoaderSpinner />
+        <span>Uploading {{ uploadProgress.current }} / {{ uploadProgress.total }}</span>
+      </div>
+    </div>
+    <div v-if="fileLinks.length" class="link-section">
+      <div v-text="linksText" class="links-text"></div>
+      <div class="links-actions">
+        <AppButton type="primary" @click="copyLinks">Copy {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
+        <AppButton type="secondary" @click="fileLinks = []">Clear</AppButton>
+      </div>
     </div>
     <div v-if="filteredRessources.length" class="ressources-list">
       <DataTable v-if="view === 'table'" :headers="headers" :rows="rows">
@@ -28,7 +50,7 @@
         <template #action="{ cell }">
           <NuxtLink :href="`/dashboard/cdn/${(cell?.data as Node).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
           <NuxtLink :to="`/dashboard/cdn/${(cell?.data as Node).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
-          <Icon name="delete" @click="() => deleteRessource((cell?.data as Node).id)" />
+          <span @click="() => deleteRessource((cell?.data as Node).id)"><Icon name="delete" /></span>
         </template>
       </DataTable>
       <div v-else>
@@ -63,30 +85,59 @@ const ressourcesStore = useRessourcesStore();
 const nodesStore = useNodesStore();
 
 const view = ref<'table' | 'list'>('list');
-const selectedFile: Ref<File | undefined> = ref();
-const fileLink = ref('');
+const selectedFiles = ref<File[]>([]);
+const fileLinks = ref<string[]>([]);
 const isLoading = ref(false);
+const uploadProgress = ref({ current: 0, total: 0 });
 const dropComponent = ref();
 const filter = ref('');
 const { CDN } = useApi();
 
+const MAX_STORAGE = 1024 * 1024 * 1024; // 1 GB in bytes
+
 const nodes = computed(() => nodesStore.ressources.toArray());
 const filteredRessources = ref(nodes.value);
 
-const selectFile = (file?: File) => (selectedFile.value = file);
-const copyLink = () => navigator.clipboard.writeText(fileLink.value!);
-const submitFile = async () => {
-  if (!selectedFile.value) return;
+const totalUsedSpace = computed(() => nodes.value.reduce((acc, node) => acc + (node.size ?? 0), 0));
+const storagePercentage = computed(() => Math.min((totalUsedSpace.value / MAX_STORAGE) * 100, 100));
+const linksText = computed(() => fileLinks.value.join('\n'));
+
+const selectFiles = (files: File | File[] | null) => {
+  if (!files) {
+    selectedFiles.value = [];
+  } else if (Array.isArray(files)) {
+    selectedFiles.value = files;
+  } else {
+    selectedFiles.value = [files];
+  }
+};
+const copyLinks = () => navigator.clipboard.writeText(fileLinks.value.join('\n'));
+const submitFiles = async () => {
+  if (!selectedFiles.value.length) return;
   isLoading.value = true;
-  const body = new FormData();
-  body.append('file', selectedFile.value);
-  selectedFile.value = undefined; // Reset selected file
-  dropComponent.value.reset(); // Reset drop component
-  await ressourcesStore
-    .post(body)
-    .then(r => (fileLink.value = `${CDN}/${(r as Node).user_id}/${(r as Node).metadata?.transformed_path as string}`))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }))
-    .finally(() => (isLoading.value = false));
+  fileLinks.value = [];
+  uploadProgress.value = { current: 0, total: selectedFiles.value.length };
+
+  const filesToUpload = [...selectedFiles.value];
+  selectedFiles.value = [];
+  dropComponent.value.reset();
+
+  for (const file of filesToUpload) {
+    const body = new FormData();
+    body.append('file', file);
+    try {
+      const r = await ressourcesStore.post(body);
+      fileLinks.value.push(`${CDN}/${(r as Node).user_id}/${(r as Node).metadata?.transformed_path as string}`);
+    } catch (e) {
+      useNotifications().add({ type: 'error', title: 'Error', message: `Failed to upload ${file.name}: ${e}` });
+    }
+    uploadProgress.value.current++;
+  }
+
+  isLoading.value = false;
+  if (fileLinks.value.length) {
+    useNotifications().add({ type: 'success', title: 'Upload complete', message: `${fileLinks.value.length} file(s) uploaded successfully` });
+  }
 };
 
 const fileURL = (ressource: Node) => {
@@ -128,16 +179,101 @@ const bulkDelete = async (lines: Field[]) => {
 </script>
 
 <style scoped lang="scss">
+.storage-indicator {
+  display: flex;
+  width: 100%;
+  padding: 12px 16px;
+  margin: 12px 0;
+  border-radius: 8px;
+  background: var(--bg-color-secondary);
+  align-items: center;
+  gap: 12px;
+
+  .storage-info {
+    display: flex;
+    min-width: 180px;
+    flex-direction: column;
+    gap: 2px;
+
+    .storage-label {
+      font-size: 12px;
+      color: var(--font-color-light);
+    }
+
+    .storage-values {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--font-color-dark);
+    }
+  }
+
+  .progress-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: var(--bg-ui);
+    flex: 1;
+    overflow: hidden;
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+
+      &.warning {
+        background: #f59e0b;
+      }
+
+      &.danger {
+        background: #ef4444;
+      }
+    }
+  }
+
+  .storage-percentage {
+    min-width: 50px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--font-color-light);
+    text-align: right;
+  }
+}
+
 .action-row {
   display: flex;
   align-items: center;
 }
+.upload-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--font-color-light);
+}
+
 .link-section {
   display: flex;
   width: 100%;
   margin: 6px 0;
   flex-direction: column;
   gap: 10px;
+
+  .links-text {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-color-secondary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--font-color-dark);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .links-actions {
+    display: flex;
+    gap: 10px;
+  }
 }
 
 .bulk-actions {

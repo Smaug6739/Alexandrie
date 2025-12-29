@@ -6,13 +6,14 @@ Port = 3306
 
 [Cdn]
 MaxSize = 2e+7 				# 20MB
-MaxUploadsSize = 1e+9 # 1GB
+MaxUploadsSize = 1073741824 # 1GB
 SupportedTypesImages = [
 	"image/png",
 	"image/jpeg",
 	"image/gif",
 	"image/bmp",
 	"image/webp",
+	"image/avif",
 	"image/svg+xml",
 	"image/vnd.microsoft.icon",
 ]
@@ -23,7 +24,7 @@ SupportedTypes = [
 	"image/gif",
 	"image/bmp",
 	"image/webp",
-	"image/avif",       # .avif
+	"image/avif",
 	"image/svg+xml",
 	"image/vnd.microsoft.icon",
 	# video formats

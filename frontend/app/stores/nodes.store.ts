@@ -329,6 +329,33 @@ export const useNodesStore = defineStore('nodes', {
         allChildrens.forEach(childId => this.nodes.delete(childId));
       } else throw request.message;
     },
+
+    // Loop through ids and delete them one by one
+    // Only update the store after all deletions are successful
+    // Return the list of deleted ids and failed ids
+    async bulkDelete(ids: string[]) {
+      const deletedIds: string[] = [];
+      const failedIds: { id: string; message: string }[] = [];
+      for (const id of ids) {
+        try {
+          const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
+          if (request.status === 'success') {
+            deletedIds.push(id);
+          } else {
+            failedIds.push({ id, message: request.message || 'Unknown error' });
+          }
+        } catch (error) {
+          failedIds.push({ id, message: (error as Error).message });
+        }
+      }
+      // Update store
+      deletedIds.forEach(id => {
+        const allChildrens = this.getAllChildrensIds(id);
+        this.nodes.delete(id);
+        allChildrens.forEach(childId => this.nodes.delete(childId));
+      });
+      return { deletedIds, failedIds };
+    },
     /**
      * Performs a fulltext search on the server using MySQL FULLTEXT index
      * This is optimized for searching in document content (body)

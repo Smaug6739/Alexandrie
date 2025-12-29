@@ -2,7 +2,6 @@ package services
 
 import (
 	"alexandrie/models"
-	"alexandrie/permissions"
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
@@ -14,15 +13,15 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
+	"time"
 
 	"github.com/minio/minio-go/v7"
 )
 
 type RessourceService interface {
 	CreateBackup(userId types.Snowflake, minioClient *minio.Client) (string, error)
-	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxSize, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
-	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxSize float64, supportedTypes []string, minioClient *minio.Client) error
-	DeleteUpload(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer, minioClient *minio.Client) error
+	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
+	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error
 }
 
 type ressourceService struct {
@@ -64,13 +63,9 @@ func (s *ressourceService) CreateBackup(userId types.Snowflake, minioClient *min
 	return objectName, nil
 }
 
-func (s *ressourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxSize, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
+func (s *ressourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
 	if minioClient == nil {
 		return nil, errors.New("minio client not initialized")
-	}
-
-	if fileSize > int64(maxSize) {
-		return nil, errors.New("file size exceeds the limit")
 	}
 
 	if !slices.Contains(supportedTypes, mimeType) {
@@ -101,17 +96,19 @@ func (s *ressourceService) UploadFile(filename string, fileSize int64, fileConte
 	accessibility := utils.IntPtr(1)
 
 	node := &models.Node{
-		Id:            id,
-		UserId:        userId,
-		ParentId:      nil,
-		Name:          name,
-		Role:          4,
-		Accessibility: accessibility,
-		Access:        0,
-		Size:          &fileSize,
-		Content:       &filename,
-		ContentCompiled: &transformedPath,
-		Metadata:      &metadata,
+		Id:               id,
+		UserId:           userId,
+		ParentId:         nil,
+		Name:             name,
+		Role:             4,
+		Accessibility:    accessibility,
+		Access:           0,
+		Size:             &fileSize,
+		Content:          &filename,
+		ContentCompiled:  &transformedPath,
+		Metadata:         &metadata,
+		CreatedTimestamp: time.Now().UnixMilli(),
+		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
 
 	if err := s.nodeRepo.Create(node); err != nil {
@@ -127,13 +124,9 @@ func (s *ressourceService) UploadFile(filename string, fileSize int64, fileConte
 	return node, nil
 }
 
-func (s *ressourceService) UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxSize float64, supportedTypes []string, minioClient *minio.Client) error {
+func (s *ressourceService) UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error {
 	if minioClient == nil {
 		return errors.New("minio client not initialized")
-	}
-
-	if fileSize > int64(maxSize) {
-		return errors.New("file size exceeds the limit")
 	}
 
 	if !slices.Contains(supportedTypes, mimeType) {
@@ -143,41 +136,4 @@ func (s *ressourceService) UploadAvatar(filename string, fileSize int64, fileCon
 	objectName := fmt.Sprintf("%d/avatar", userId)
 	_, err := minioClient.PutObject(context.Background(), os.Getenv("MINIO_BUCKET"), objectName, bytes.NewReader(fileContent), fileSize, minio.PutObjectOptions{ContentType: mimeType})
 	return err
-}
-
-func (s *ressourceService) DeleteUpload(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer, minioClient *minio.Client) error {
-	if minioClient == nil {
-		return errors.New("minio client not initialized")
-	}
-
-	node, err := s.nodeRepo.GetByID(nodeId)
-	if err != nil {
-		return err
-	}
-	if node == nil {
-		return errors.New("node not found")
-	}
-
-	if allowed, err := authorizer.CanAccessUser(connectedUserId, node.UserId, connectedUserRole); !allowed || err != nil {
-		return errors.New("unauthorized")
-	}
-
-	prefix := fmt.Sprintf("%d/%d", node.UserId, node.Id)
-	ctx := context.Background()
-	objectCh := minioClient.ListObjects(ctx, os.Getenv("MINIO_BUCKET"), minio.ListObjectsOptions{
-		Prefix:    prefix,
-		Recursive: true,
-	})
-
-	for object := range objectCh {
-		if object.Err != nil {
-			return object.Err
-		}
-		err = minioClient.RemoveObject(ctx, os.Getenv("MINIO_BUCKET"), object.Key, minio.RemoveObjectOptions{})
-		if err != nil {
-			return fmt.Errorf("failed to delete object: %v", err)
-		}
-	}
-
-	return s.nodeRepo.Delete(nodeId)
 }
