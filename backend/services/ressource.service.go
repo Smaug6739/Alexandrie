@@ -2,6 +2,7 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
@@ -26,10 +27,10 @@ type RessourceService interface {
 
 type ressourceService struct {
 	nodeRepo  repositories.NodeRepository
-	snowflake *utils.Snowflake
+	snowflake *snowflake.Snowflake
 }
 
-func NewRessourceService(nodeRepo repositories.NodeRepository, snowflake *utils.Snowflake) RessourceService {
+func NewRessourceService(nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake) RessourceService {
 	return &ressourceService{
 		nodeRepo:  nodeRepo,
 		snowflake: snowflake,

@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"alexandrie/logger"
+	"alexandrie/pkg/logger"
 	"database/sql"
 	"fmt"
 	"sync"

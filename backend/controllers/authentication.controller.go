@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"alexandrie/app"
-	"alexandrie/logger"
+	"alexandrie/pkg/logger"
 	"alexandrie/utils"
 	"errors"
 	"net/http"

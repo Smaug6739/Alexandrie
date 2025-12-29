@@ -1,9 +1,9 @@
 package services
 
 import (
-	"alexandrie/logger"
+	"alexandrie/pkg/logger"
+	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
-	"alexandrie/utils"
 	"fmt"
 
 	"github.com/minio/minio-go/v7"
@@ -23,7 +23,7 @@ type ServiceManager struct {
 }
 
 // NewServiceManager creates a new service manager and initializes all services
-func NewServiceManager(repos *repositories.RepositoryManager, snowflake *utils.Snowflake, minioClient *minio.Client) (*ServiceManager, error) {
+func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client) (*ServiceManager, error) {
 	sm := &ServiceManager{}
 
 	if err := sm.initializeServices(repos, snowflake, minioClient); err != nil {
@@ -36,7 +36,7 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *utils.S
 }
 
 // initializeServices creates and initializes all service instances
-func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManager, snowflake *utils.Snowflake, minioClient *minio.Client) error {
+func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client) error {
 	// Initialize Auth Service
 	sm.Auth = NewAuthService(repos.User, repos.Session, repos.Log, snowflake)
 

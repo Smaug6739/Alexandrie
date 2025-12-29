@@ -3,9 +3,9 @@ package services
 import (
 	"alexandrie/models"
 	"alexandrie/permissions"
+	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
-	"alexandrie/utils"
 	"errors"
 	"time"
 )
@@ -22,10 +22,10 @@ type PermissionService interface {
 type permissionService struct {
 	permRepo  repositories.PermissionRepository
 	nodeRepo  repositories.NodeRepository
-	snowflake *utils.Snowflake
+	snowflake *snowflake.Snowflake
 }
 
-func NewPermissionService(permRepo repositories.PermissionRepository, nodeRepo repositories.NodeRepository, snowflake *utils.Snowflake) PermissionService {
+func NewPermissionService(permRepo repositories.PermissionRepository, nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake) PermissionService {
 	return &permissionService{
 		permRepo:  permRepo,
 		nodeRepo:  nodeRepo,

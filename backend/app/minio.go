@@ -1,7 +1,7 @@
 package app
 
 import (
-	"alexandrie/logger"
+	"alexandrie/pkg/logger"
 	"context"
 	"fmt"
 	"log"

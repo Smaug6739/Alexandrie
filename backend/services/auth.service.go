@@ -2,9 +2,9 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
-	"alexandrie/utils"
 	"crypto/rand"
 	"errors"
 	"fmt"
@@ -31,10 +31,10 @@ type authService struct {
 	userRepo    repositories.UserRepository
 	sessionRepo repositories.SessionRepository
 	logRepo     repositories.LogRepository
-	snowflake   *utils.Snowflake
+	snowflake   *snowflake.Snowflake
 }
 
-func NewAuthService(userRepo repositories.UserRepository, sessionRepo repositories.SessionRepository, logRepo repositories.LogRepository, snowflake *utils.Snowflake) AuthService {
+func NewAuthService(userRepo repositories.UserRepository, sessionRepo repositories.SessionRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake) AuthService {
 	return &authService{
 		userRepo:    userRepo,
 		sessionRepo: sessionRepo,

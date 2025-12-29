@@ -1,7 +1,7 @@
 package main
 
 import (
-	"alexandrie/logger"
+	"alexandrie/pkg/logger"
 	"alexandrie/server"
 	"alexandrie/utils"
 	"os"

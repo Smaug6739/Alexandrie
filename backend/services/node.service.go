@@ -1,9 +1,10 @@
 package services
 
 import (
-	"alexandrie/logger"
 	"alexandrie/models"
 	"alexandrie/permissions"
+	"alexandrie/pkg/logger"
+	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
@@ -29,10 +30,10 @@ type nodeService struct {
 	nodeRepo     repositories.NodeRepository
 	permRepo     repositories.PermissionRepository
 	minioService MinioService
-	snowflake    *utils.Snowflake
+	snowflake    *snowflake.Snowflake
 }
 
-func NewNodeService(nodeRepo repositories.NodeRepository, permRepo repositories.PermissionRepository, minioService MinioService, snowflake *utils.Snowflake) NodeService {
+func NewNodeService(nodeRepo repositories.NodeRepository, permRepo repositories.PermissionRepository, minioService MinioService, snowflake *snowflake.Snowflake) NodeService {
 	return &nodeService{
 		nodeRepo:     nodeRepo,
 		permRepo:     permRepo,

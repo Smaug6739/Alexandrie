@@ -2,9 +2,9 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
-	"alexandrie/utils"
 	"time"
 )
 
@@ -17,10 +17,10 @@ type LogService interface {
 
 type logService struct {
 	logRepo   repositories.LogRepository
-	snowflake *utils.Snowflake
+	snowflake *snowflake.Snowflake
 }
 
-func NewLogService(logRepo repositories.LogRepository, snowflake *utils.Snowflake) LogService {
+func NewLogService(logRepo repositories.LogRepository, snowflake *snowflake.Snowflake) LogService {
 	return &logService{
 		logRepo:   logRepo,
 		snowflake: snowflake,

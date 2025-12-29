@@ -1,4 +1,4 @@
-package utils
+package snowflake
 
 // Utility functions for Snowflake ID generation and management
 
