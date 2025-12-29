@@ -38,9 +38,16 @@ func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
 }
 
 func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
+
+	// Limit request body size
+	c.Request.Body = http.MaxBytesReader(
+		c.Writer,
+		c.Request.Body,
+		int64(ctr.app.Config.Cdn.MaxSize),
+	)
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
-		return http.StatusBadRequest, errors.New("failed to get file")
+		return http.StatusBadRequest, errors.New("file too large or failed to get file")
 	}
 	defer file.Close()
 
@@ -61,7 +68,6 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		fileContent,
 		mimeType,
 		userId,
-		ctr.app.Config.Cdn.MaxSize,
 		ctr.app.Config.Cdn.MaxUploadsSize,
 		ctr.app.Config.Cdn.SupportedTypes,
 		ctr.app.MinioClient,
@@ -74,9 +80,16 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 }
 
 func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
+
+	// Limit request body size
+	c.Request.Body = http.MaxBytesReader(
+		c.Writer,
+		c.Request.Body,
+		int64(ctr.app.Config.Cdn.MaxSize),
+	)
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
-		return http.StatusBadRequest, errors.New("failed to get file")
+		return http.StatusBadRequest, errors.New("file too large or failed to get file")
 	}
 	defer file.Close()
 
@@ -97,7 +110,6 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 		fileContent,
 		mimeType,
 		userId,
-		ctr.app.Config.Cdn.MaxSize,
 		ctr.app.Config.Cdn.SupportedTypesImages,
 		ctr.app.MinioClient,
 	)

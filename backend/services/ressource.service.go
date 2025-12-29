@@ -20,8 +20,8 @@ import (
 
 type RessourceService interface {
 	CreateBackup(userId types.Snowflake, minioClient *minio.Client) (string, error)
-	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxSize, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
-	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxSize float64, supportedTypes []string, minioClient *minio.Client) error
+	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
+	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error
 }
 
 type ressourceService struct {
@@ -63,13 +63,9 @@ func (s *ressourceService) CreateBackup(userId types.Snowflake, minioClient *min
 	return objectName, nil
 }
 
-func (s *ressourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxSize, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
+func (s *ressourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
 	if minioClient == nil {
 		return nil, errors.New("minio client not initialized")
-	}
-
-	if fileSize > int64(maxSize) {
-		return nil, errors.New("file size exceeds the limit")
 	}
 
 	if !slices.Contains(supportedTypes, mimeType) {
@@ -128,13 +124,9 @@ func (s *ressourceService) UploadFile(filename string, fileSize int64, fileConte
 	return node, nil
 }
 
-func (s *ressourceService) UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxSize float64, supportedTypes []string, minioClient *minio.Client) error {
+func (s *ressourceService) UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error {
 	if minioClient == nil {
 		return errors.New("minio client not initialized")
-	}
-
-	if fileSize > int64(maxSize) {
-		return errors.New("file size exceeds the limit")
 	}
 
 	if !slices.Contains(supportedTypes, mimeType) {
