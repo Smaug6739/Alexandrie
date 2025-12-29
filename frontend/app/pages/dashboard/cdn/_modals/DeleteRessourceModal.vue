@@ -19,7 +19,7 @@
 const props = defineProps<{ ressources: string[] }>();
 const emit = defineEmits(['close']);
 const deleteRessource = async () => {
-  await useRessourcesStore()
+  await useNodesStore()
     .bulkDelete(props.ressources)
     .then(() => {
       emit('close');
