@@ -67,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import { DOCUMENT_ACCESSIBILITIES, DOCUMENT_GENERAL_ACCESS, NODE_PERMISSIONS } from '~/helpers/constants';
 import type { Node, Permission, PublicUser } from '~/stores';
 
 const props = defineProps<{ node: Node }>();

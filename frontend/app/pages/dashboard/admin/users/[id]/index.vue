@@ -41,7 +41,7 @@
       </div>
 
       <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
-      <AppButton type="primary" @click="useRouter().push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
+      <AppButton type="primary" @click="router.push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
     </div>
     <div v-else>No user found.</div>
   </div>
@@ -53,6 +53,8 @@ import type { User } from '~/stores';
 definePageMeta({ breadcrumb: 'User Details' });
 
 const route = useRoute();
+const router = useRouter();
+
 const user = ref<User | undefined>(undefined);
 const store = useAdminStore();
 watchEffect(async () => {

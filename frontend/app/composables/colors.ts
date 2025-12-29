@@ -1,3 +1,5 @@
+import { appColors } from '~/helpers/constants';
+
 /** Get theme color name by index (-2 = primary, -1 = none, 0+ = color index) */
 export function getAppColor(index: number = 0, defaultPrimary?: boolean): string {
   if ((defaultPrimary && index < 0) || index == -2) return 'primary';

@@ -24,6 +24,8 @@
 </template>
 
 <script setup lang="ts">
+import { EDITOR_FONTS } from '~/helpers/constants';
+
 const store = usePreferences();
 </script>
 

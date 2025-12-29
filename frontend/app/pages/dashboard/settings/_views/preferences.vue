@@ -63,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+import { DOCUMENT_SIZES, DOCUMENT_THEMES, EDITOR_FONTS } from '~/helpers/constants';
 const preferencesStore = usePreferences();
 // @ts-expect-error unknown type
 const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnType<unknown>;

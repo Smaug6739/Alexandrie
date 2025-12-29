@@ -42,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+import { DOCUMENT_THEMES, CATEGORY_ROLES } from '~/helpers/constants';
 import type { Node } from '~/stores';
 
 const nodeStore = useNodesStore();

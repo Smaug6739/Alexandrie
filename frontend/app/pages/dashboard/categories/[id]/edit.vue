@@ -43,6 +43,7 @@
 </template>
 
 <script lang="ts" setup>
+import { CATEGORY_ROLES } from '~/helpers/constants';
 import DeleteModal from '../_modals/DeleteCategoryModal.vue';
 
 const nodesStore = useNodesStore();
