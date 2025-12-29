@@ -1,5 +1,5 @@
 import { EditorView, keymap, highlightSpecialChars, drawSelection, lineNumbers, type KeyBinding } from '@codemirror/view';
-import { EditorState, Compartment } from '@codemirror/state';
+import { EditorState, Compartment, type Extension } from '@codemirror/state';
 import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { autocompletion } from '@codemirror/autocomplete';
@@ -7,10 +7,10 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 
 export interface CreateEditorStateParams {
   initialDoc: string;
-  preferences: any;
-  themeExtension: any;
+  preferences: ReturnType<typeof import('~/composables/Preferences').usePreferences>;
+  themeExtension: Extension;
   keymaps: readonly KeyBinding[];
-  snippetSource: any;
+  snippetSource: object;
   onDocChanged: () => void;
   uploadsHandlers: ReturnType<typeof EditorView.domEventHandlers>;
 }
