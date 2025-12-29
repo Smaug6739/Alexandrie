@@ -1,7 +1,7 @@
 <template>
   <div
-    class="dropzone"
-    :class="{ 'drag-over': isDragOver, 'has-files': selectedFiles.length }"
+    class="drop"
+    :class="{ dragging: isDragOver, 'has-files': selectedFiles.length }"
     @dragover.prevent
     @drop.prevent="handleFileDrop"
     @dragenter.prevent="dragEnter"
@@ -10,31 +10,31 @@
   >
     <input ref="fileInput" type="file" :multiple="multiple" @change="handleFileSelect" />
 
-    <div v-if="selectedFiles.length" class="files-container">
-      <div class="files-list">
-        <div v-for="(file, index) in selectedFiles" :key="index" class="file-item">
-          <div class="file-icon">
+    <div v-if="selectedFiles.length" class="files">
+      <div class="list">
+        <div v-for="(file, index) in selectedFiles" :key="index" class="item">
+          <div class="icon">
             <Icon :name="getFileIcon(file.type)" size="20px" />
           </div>
-          <div class="file-details">
-            <span class="file-name">{{ file.name }}</span>
-            <span class="file-meta">{{ readableFileSize(file.size) }} • {{ getFileType(file.type) }}</span>
+          <div class="details">
+            <span class="name">{{ file.name }}</span>
+            <span class="meta">{{ readableFileSize(file.size) }} • {{ getFileType(file.type) }}</span>
           </div>
-          <button class="remove-btn" title="Remove file" @click.stop="removeFile(index)">
+          <button class="remove" title="Remove file" @click.stop="removeFile(index)">
             <Icon name="close" size="16px" />
           </button>
         </div>
       </div>
-      <div class="files-footer">
-        <span class="total-info">{{ selectedFiles.length }} file{{ selectedFiles.length > 1 ? 's' : '' }} • {{ readableFileSize(totalSize) }}</span>
-        <span class="clickable" @click="triggerFileSelect">+ Add more</span>
-      </div>
+      <footer>
+        <span class="total">{{ selectedFiles.length }} file{{ selectedFiles.length > 1 ? 's' : '' }} • {{ readableFileSize(totalSize) }}</span>
+        <span class="link" @click="triggerFileSelect">+ Add more</span>
+      </footer>
     </div>
 
-    <div v-else class="empty-state">
+    <div v-else class="empty">
       <Icon name="layers" size="40px" />
-      <p v-if="multiple">Drop files here or <span class="clickable" @click="triggerFileSelect">click to select</span></p>
-      <p v-else>Drop file here or <span class="clickable" @click="triggerFileSelect">click to select</span></p>
+      <p v-if="multiple">Drop files here or <span class="link" @click="triggerFileSelect">click to select</span></p>
+      <p v-else>Drop file here or <span class="link" @click="triggerFileSelect">click to select</span></p>
       <span v-if="multiple" class="hint">Maximum {{ maxFiles }} files</span>
     </div>
   </div>
@@ -164,23 +164,23 @@ defineExpose({ reset });
 </script>
 
 <style scoped lang="scss">
-.dropzone {
+.drop {
   position: relative;
   display: flex;
   width: 100%;
   min-height: 150px;
   border: 2px dashed var(--border-color);
-  border-radius: 8px;
+  border-radius: $radius-md;
   font-size: 14px;
   color: var(--font-color-light);
-  background-color: var(--dropzone-bg, transparent);
+  background-color: transparent;
   transition: all 0.2s ease;
   align-items: center;
   flex-direction: column;
   justify-content: center;
 
   &:hover {
-    border-color: var(--border-color-hover, var(--border-color));
+    border-color: var(--border-color-accent);
     background-color: var(--bg-contrast);
   }
 
@@ -189,17 +189,17 @@ defineExpose({ reset });
     align-items: stretch;
   }
 
+  &.dragging {
+    border-color: var(--primary);
+    background-color: var(--bg-contrast);
+  }
+
   input[type='file'] {
     display: none;
   }
 }
 
-.drag-over {
-  border-color: var(--primary);
-  background-color: var(--bg-contrast);
-}
-
-.empty-state {
+.empty {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -211,18 +211,18 @@ defineExpose({ reset });
 
   .hint {
     font-size: 12px;
-    color: var(--font-color-lighter, var(--font-color-light));
+    color: var(--font-color-light);
   }
 }
 
-.files-container {
+.files {
   display: flex;
   width: 100%;
   flex-direction: column;
   gap: 8px;
 }
 
-.files-list {
+.list {
   display: flex;
   max-height: 200px;
   flex-direction: column;
@@ -230,31 +230,31 @@ defineExpose({ reset });
   overflow-y: auto;
 }
 
-.file-item {
+.item {
   display: flex;
   padding: 10px 12px;
   border: 1px solid var(--border-color);
-  border-radius: 6px;
-  background: var(--bg-color-secondary);
+  border-radius: $radius-sm;
+  background: var(--bg-color);
   transition: all 0.15s ease;
   align-items: center;
   gap: 12px;
 
   &:hover {
-    border-color: var(--border-color-hover, var(--border-color));
+    border-color: var(--border-color-accent);
     background: var(--bg-contrast);
 
-    .remove-btn {
+    .remove {
       opacity: 1;
     }
   }
 }
 
-.file-icon {
+.icon {
   display: flex;
   width: 36px;
   height: 36px;
-  border-radius: 6px;
+  border-radius: $radius-sm;
   color: var(--primary);
   background: var(--bg-ui);
   align-items: center;
@@ -262,7 +262,7 @@ defineExpose({ reset });
   justify-content: center;
 }
 
-.file-details {
+.details {
   display: flex;
   min-width: 0;
   flex: 1;
@@ -270,7 +270,7 @@ defineExpose({ reset });
   gap: 2px;
 }
 
-.file-name {
+.name {
   font-size: 14px;
   font-weight: 500;
   color: var(--font-color-dark);
@@ -279,12 +279,12 @@ defineExpose({ reset });
   white-space: nowrap;
 }
 
-.file-meta {
+.meta {
   font-size: 12px;
   color: var(--font-color-light);
 }
 
-.remove-btn {
+.remove {
   display: flex;
   width: 28px;
   height: 28px;
@@ -301,13 +301,13 @@ defineExpose({ reset });
   justify-content: center;
 
   &:hover {
-    color: var(--danger, #e74c3c);
+    color: var(--red);
     background: var(--bg-ui);
     opacity: 1;
   }
 }
 
-.files-footer {
+footer {
   display: flex;
   align-items: center;
   border-top: 1px solid var(--border-color);
@@ -315,13 +315,13 @@ defineExpose({ reset });
   padding-top: 8px;
 }
 
-.total-info {
+.total {
   font-size: 13px;
   font-weight: 500;
   color: var(--font-color-dark);
 }
 
-.clickable {
+.link {
   font-size: 13px;
   color: var(--primary);
   cursor: pointer;

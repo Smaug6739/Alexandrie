@@ -47,6 +47,7 @@ const deleteDoc = () => {
 .description {
   opacity: 0.7;
 }
+
 .warn {
   color: var(--red-dark);
   opacity: 0.7;

@@ -1,20 +1,20 @@
 <template>
-  <div class="document-line" @contextmenu.prevent="showContextMenu">
-    <header style="display: flex; justify-content: space-between">
-      <div style="display: flex; align-items: center; justify-content: flex-start">
+  <div class="line" @contextmenu.prevent="showContextMenu">
+    <header>
+      <div class="title-row">
         <Icon
           :name="document.icon || category?.icon || 'files'"
           display="xl"
-          :class="`category-icon ${getAppColor(document.color || category?.color as number, true)}`"
+          :class="['icon', getAppColor(document.color || category?.color as number, true)]"
         />
-        <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
+        <NuxtLink :to="`/dashboard/docs/${document.id}`" class="name">{{ document.name }}</NuxtLink>
       </div>
       <NodeDotMenu :node="document" :user="user" @delete="deleteDoc" />
     </header>
     <div v-if="document.tags" class="tags">
       <tag v-for="tag in document.tags?.split(', ')" :key="tag" class="primary">{{ tag }}</tag>
     </div>
-    <p class="description">{{ document.description }}</p>
+    <p class="desc">{{ document.description }}</p>
     <footer>
       <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)">
         <path
@@ -53,7 +53,7 @@ function showContextMenu(event: MouseEvent) {
 </script>
 
 <style scoped lang="scss">
-.document-line {
+.line {
   display: flex;
   padding: 14px 16px;
   border: 1px solid var(--border-color);
@@ -63,16 +63,16 @@ function showContextMenu(event: MouseEvent) {
   flex-direction: column;
 
   &:first-child {
-    border-radius: 10px 10px 0 0;
+    border-radius: $radius-md $radius-md 0 0;
   }
 
   &:last-child {
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 $radius-md $radius-md;
     border-bottom: 1px solid var(--border-color);
   }
 
   &:only-child {
-    border-radius: 10px;
+    border-radius: $radius-md;
     border-bottom: 1px solid var(--border-color);
   }
 
@@ -82,16 +82,24 @@ function showContextMenu(event: MouseEvent) {
 }
 
 header {
+  display: flex;
   border: none;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.category-icon {
+.title-row {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
   padding: 6px;
-  border-radius: 8px;
+  border-radius: $radius-sm;
   margin-right: 8px;
 }
 
-.document-title {
+.name {
   font-size: 16px;
   font-weight: 600;
   color: var(--font-color-dark);
@@ -103,7 +111,7 @@ header {
   }
 }
 
-.description {
+.desc {
   margin: 0;
   padding: 6px 0;
   font-size: 14px;

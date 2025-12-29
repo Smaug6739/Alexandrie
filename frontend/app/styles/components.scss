@@ -1,3 +1,59 @@
+@use "./_variables.scss" as *;
+
+// ===========================
+// LAYOUT UTILITIES
+// ===========================
+.center {
+	display: flex;
+	text-align: center;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-col {
+	flex-direction: column;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.items-center {
+	align-items: center;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.gap-xs {
+	gap: 4px;
+}
+
+.gap-sm {
+	gap: 8px;
+}
+
+.gap-md {
+	gap: 16px;
+}
+
+.gap-lg {
+	gap: 24px;
+}
+
+// ===========================
+// MODAL STYLES
+// ===========================
 .modal {
 	height: 100%;
 	max-height: 715px;
@@ -9,45 +65,50 @@
 		padding: 6px 0 0;
 		align-items: center;
 		border-top: 1px solid var(--border-color);
+		gap: 8px;
 		justify-content: flex-end;
 	}
 }
 
-.center {
-	display: flex;
-	text-align: center;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.card-component {
+// ===========================
+// CARD COMPONENT
+// ===========================
+.card {
 	display: block;
 	margin: 12px 6px;
 	padding: 24px;
 	border: 1px solid var(--border-color);
-	border-radius: 8px;
+	border-radius: $radius-md;
 	box-shadow: 0 2px 6px var(--shadow);
 	gap: 16px;
 
 	header {
-		h1 {
-			margin: 10px 0;
-			padding: 6px 4px;
-			font-size: 20px;
-		}
-
 		display: flex;
 		align-items: center;
 		border-bottom: 1px solid var(--border-color);
 		justify-content: space-between;
 		margin-bottom: 10px;
+
+		h1 {
+			margin: 10px 0;
+			padding: 6px 4px;
+			font-size: 20px;
+		}
 	}
 }
 
+// Legacy alias
+.card-component {
+	@extend .card;
+}
+
+// ===========================
+// BUTTONS
+// ===========================
 .btn-icon {
 	padding: 4px;
-	border-radius: 8px;
+	border-radius: $radius-sm;
+	transition: background 0.15s;
 	cursor: pointer;
 
 	&:hover {
@@ -55,33 +116,57 @@
 	}
 }
 
-/* stylelint-disable */
+// ===========================
+// TAGS
+// ===========================
 tag {
 	margin: 1px 2px 1px 0;
-	padding: 2px 4px;
-	border-radius: 6px;
+	padding: 2px 6px;
+	border-radius: $radius-sm;
 	font-size: 0.8em;
+
+	&.primary {
+		color: var(--primary);
+		background: var(--default-bg);
+	}
 }
 
+// ===========================
+// FORM / FEEDBACK
+// ===========================
 .error {
-	margin: 8px 0 4px 0;
+	margin: 8px 0 4px;
+	font-size: 0.95rem;
 	color: var(--red);
 	text-align: center;
-	font-size: 0.95rem;
 }
 
-.ctitle {
+// ===========================
+// TYPOGRAPHY HELPERS
+// ===========================
+.title {
 	font-size: 1.7rem;
 	font-weight: bold;
 }
 
-.csubtitle {
+.subtitle {
+	margin: 0 0 1rem;
+	font-size: 1rem;
 	color: var(--font-color-sub);
-	font-size: medium !important;
-	padding: 0;
-	margin: 0 0 1rem 0 !important;
 }
 
+// Legacy aliases
+.ctitle {
+	@extend .title;
+}
+
+.csubtitle {
+	@extend .subtitle;
+}
+
+// ===========================
+// TOOLTIPS / HINTS
+// ===========================
 .hint-wrapper {
 	position: relative;
 	display: inline-block;
@@ -95,7 +180,7 @@ tag {
 	z-index: 100;
 	display: none;
 	padding: 0.4rem 0.6rem;
-	border-radius: 0.4rem;
+	border-radius: $radius-sm;
 	font-size: 0.75rem;
 	color: white;
 	background-color: #1f2937;
@@ -104,4 +189,25 @@ tag {
 	text-transform: capitalize;
 	transform: translateX(-50%);
 	white-space: nowrap;
+}
+
+// ===========================
+// VISIBILITY HELPERS
+// ===========================
+.no-mobile {
+	@media (width <=768px) {
+		display: none !important;
+	}
+}
+
+.no-tablet {
+	@media (width <=1024px) {
+		display: none !important;
+	}
+}
+
+.mobile-only {
+	@media (width > 768px) {
+		display: none !important;
+	}
 }

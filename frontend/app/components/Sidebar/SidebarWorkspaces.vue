@@ -91,14 +91,15 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
     transition: transform 0.2s ease;
   }
 }
+
 .selected {
   flex: 1;
 }
 
 .placeholder {
-  color: var(--font-color-light);
   padding: 6px;
   font-size: 0.9rem;
+  color: var(--font-color-light);
   font-style: italic;
 }
 

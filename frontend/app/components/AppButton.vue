@@ -52,9 +52,9 @@ button {
 }
 
 .link {
+  font-weight: bold;
   color: var(--primary);
   background: none;
-  font-weight: bold;
   cursor: pointer;
 
   &:hover {

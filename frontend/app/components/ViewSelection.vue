@@ -48,7 +48,7 @@ onMounted(() => {
 .view-selection {
   display: flex;
   padding: 3px;
-  border-radius: 8px;
+  border-radius: $radius-sm;
   background: var(--bg-contrast);
   align-items: center;
   gap: 2px;

@@ -197,12 +197,13 @@ input {
     font-size: 0.85rem;
     justify-content: space-between;
     margin-left: 5px;
-
-    .email {
-      font-size: 0.7rem;
-      color: var(--font-color-light);
-    }
   }
+
+  .email {
+    font-size: 0.7rem;
+    color: var(--font-color-light);
+  }
+
   .avatar {
     width: 25px;
     height: 25px;

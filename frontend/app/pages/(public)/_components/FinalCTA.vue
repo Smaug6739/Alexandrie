@@ -179,7 +179,6 @@
     display: block;
     background: linear-gradient(90deg, #fff, #e0e7ff, #fff);
     background-clip: text;
-    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 }

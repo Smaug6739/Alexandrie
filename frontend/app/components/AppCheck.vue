@@ -1,7 +1,7 @@
 <template>
-  <label class="app-checkbox">
+  <label class="checkbox">
     <input type="checkbox" :checked="!!modelValue" @change="toggle" />
-    <span class="checkmark">
+    <span class="mark">
       <svg v-if="modelValue" viewBox="0 0 24 24">
         <path d="M20 6L9 17l-5-5" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -11,9 +11,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  modelValue?: boolean;
-}>();
+const props = defineProps<{ modelValue?: boolean }>();
 const emit = defineEmits(['update:modelValue']);
 
 function toggle() {
@@ -22,7 +20,7 @@ function toggle() {
 </script>
 
 <style scoped lang="scss">
-.app-checkbox {
+.checkbox {
   display: inline-flex;
   width: fit-content;
   font-family: Inter, sans-serif;
@@ -32,16 +30,16 @@ function toggle() {
   user-select: none;
 
   input {
-    display: none; // on masque le vrai input
+    display: none;
   }
 
-  .checkmark {
+  .mark {
     display: flex;
     width: 20px;
     height: 20px;
-    border: 2px solid var(--border-color, #ccc);
-    border-radius: 6px;
-    background: var(--bg-color, #fff);
+    border: 2px solid var(--border-color);
+    border-radius: $radius-sm;
+    background: var(--bg-color);
     transition: all 0.2s ease;
     align-items: center;
     justify-content: center;
@@ -52,14 +50,14 @@ function toggle() {
     }
   }
 
-  input:checked + .checkmark {
+  input:checked + .mark {
     border-color: var(--primary);
     background: var(--primary);
   }
 
   .label {
     font-size: 1rem;
-    color: var(--font-color, #333);
+    color: var(--font-color);
   }
 }
 </style>

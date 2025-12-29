@@ -1,7 +1,7 @@
 <template>
   <div class="context-menu" :class="{ 'is-context-menu': props.contextMenu }">
     <div class="menu-header">
-      <img :src="avatarURL(user)" alt="" class="header-avatar" />
+      <img :src="avatarURL(user)" alt="" class="avatar" />
       <div class="header-info">
         <span class="header-name">{{ node.name }}</span>
         <span class="header-meta">{{ user?.username }} · {{ shortDate(node.updated_timestamp) }}</span>
@@ -99,13 +99,13 @@ async function action(name: string) {
   border-bottom: 1px solid var(--border-color);
   gap: 10px;
   margin-bottom: 6px;
-}
 
-.header-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  object-fit: cover;
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-sm;
+    object-fit: cover;
+  }
 }
 
 .header-info {
@@ -132,7 +132,7 @@ async function action(name: string) {
 .menu-group {
   padding: 2px 0;
 
-  & + .menu-group {
+  & + & {
     border-top: 1px solid var(--border-color);
     margin-top: 2px;
     padding-top: 4px;
@@ -144,7 +144,7 @@ async function action(name: string) {
   width: 100%;
   padding: 4px 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: $radius-sm;
   font: inherit;
   font-size: 13px;
   color: var(--font-color);
