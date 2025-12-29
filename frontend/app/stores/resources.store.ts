@@ -1,14 +1,7 @@
 import { makeRequest } from './_utils';
 import type { Node } from './db_strustures';
 export const useRessourcesStore = defineStore('ressources', {
-  state: () => ({
-    ressources: [] as Node[],
-    isFetching: false,
-  }),
-  getters: {
-    getAll: state => state.ressources,
-    getById: state => (id: string) => state.ressources.find(c => c.id == id),
-  },
+  state: () => ({}),
   actions: {
     async post(ressource: FormData): Promise<Node> {
       const request = await makeRequest(`ressources`, 'POST', ressource);
@@ -58,10 +51,6 @@ export const useRessourcesStore = defineStore('ressources', {
         useNodesStore().nodes.delete(id);
       });
       return { deletedIds, failedIds };
-    },
-    clear() {
-      this.ressources = [];
-      this.isFetching = false;
     },
   },
 });
