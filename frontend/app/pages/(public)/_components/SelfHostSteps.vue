@@ -13,6 +13,7 @@
             <h3>{{ step.title }}</h3>
           </div>
           <div class="step-content">
+            <!-- eslint-disable-next-line vue/no-v-html  OK fixed value -->
             <p v-html="step.description" />
             <div v-if="step.code" class="code-wrap">
               <pre class="code">{{ step.code }}</pre>

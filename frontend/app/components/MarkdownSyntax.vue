@@ -200,6 +200,7 @@ Useful for side content or notes.
       <p>Use KaTeX for math expressions: <code>$...$</code> (inline) or <code>$$...$$</code> (block).</p>
       <div class="demo">
         <pre>$\int_{-\infty}^{+\infty} e^{-x^2} dx = \sqrt{\pi}$</pre>
+        <!-- eslint-disable-next-line vue/no-v-html  OK fixed value -->
         <p v-html="compile('$$\\int_{-\\infty}^{+\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$')"></p>
       </div>
 
