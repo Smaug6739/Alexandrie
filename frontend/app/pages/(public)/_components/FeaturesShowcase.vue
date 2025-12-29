@@ -13,7 +13,7 @@
             <span class="nav-title">{{ item.title }}</span>
             <span class="nav-desc">{{ item.shortDesc }}</span>
           </div>
-          <div class="nav-progress" v-if="activeIndex === index">
+          <div v-if="activeIndex === index" class="nav-progress">
             <div class="progress-bar" :style="{ width: `${progress}%` }"></div>
           </div>
         </button>
@@ -22,7 +22,7 @@
       <div class="showcase-display">
         <div class="display-wrapper">
           <TransitionGroup name="showcase">
-            <div v-for="(item, index) in features" :key="index" v-show="activeIndex === index" class="display-item">
+            <div v-for="(item, index) in features" v-show="activeIndex === index" :key="index" class="display-item">
               <div class="display-content">
                 <h3>{{ item.title }}</h3>
                 <p>{{ item.description }}</p>

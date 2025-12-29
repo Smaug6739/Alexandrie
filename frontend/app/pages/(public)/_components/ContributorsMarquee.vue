@@ -5,7 +5,7 @@
       <p>Meet the amazing people who make Alexandrie possible</p>
     </div>
 
-    <div class="contributors-wrapper" v-if="displayAvatars.length">
+    <div v-if="displayAvatars.length" class="contributors-wrapper">
       <div class="contributors-track">
         <a v-for="c in displayAvatars" :key="c.__key" class="contributor" :href="c.html_url" target="_blank" :title="c.login">
           <img :src="c.avatar_url + '&s=80'" :alt="c.login" loading="lazy" />

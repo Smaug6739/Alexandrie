@@ -32,7 +32,7 @@
       </div>
     </div>
     <div v-if="fileLinks.length" class="link-section">
-      <div v-text="linksText" class="links-text"></div>
+      <div class="links-text" v-text="linksText"></div>
       <div class="links-actions">
         <AppButton type="primary" @click="copyLinks">Copy {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
         <AppButton type="secondary" @click="fileLinks = []">Clear</AppButton>

@@ -12,8 +12,8 @@
             <span class="question-text">{{ f.q }}</span>
             <span class="question-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 5v14M5 12h14" v-if="openIndex !== i" />
-                <path d="M5 12h14" v-else />
+                <path v-if="openIndex !== i" d="M12 5v14M5 12h14" />
+                <path v-else d="M5 12h14" />
               </svg>
             </span>
           </button>

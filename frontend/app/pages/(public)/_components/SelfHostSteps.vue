@@ -7,7 +7,7 @@
 
     <div class="steps-container">
       <div class="steps">
-        <div class="step" v-for="(step, index) in steps" :key="index">
+        <div v-for="(step, index) in steps" :key="index" class="step">
           <div class="step-header">
             <div class="step-index">{{ index + 1 }}</div>
             <h3>{{ step.title }}</h3>
