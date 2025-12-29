@@ -45,9 +45,10 @@
 import { DOCUMENT_THEMES, CATEGORY_ROLES } from '~/helpers/constants';
 import type { Node } from '~/stores';
 
+const props = defineProps<{ doc: Node }>();
+
 const nodeStore = useNodesStore();
 
-const props = defineProps<{ doc: Node }>();
 const node = ref<Node>(props.doc);
 const pinnedToggle = ref(node.value.order == -1);
 const parentsTree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= node.value.role)).generateTree());

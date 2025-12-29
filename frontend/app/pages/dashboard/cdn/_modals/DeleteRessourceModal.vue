@@ -17,7 +17,9 @@
 
 <script setup lang="ts">
 const props = defineProps<{ ressources: string[] }>();
+
 const emit = defineEmits(['close']);
+
 const deleteRessource = async () => {
   await useNodesStore()
     .bulkDelete(props.ressources)

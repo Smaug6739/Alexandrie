@@ -27,8 +27,10 @@
 <script lang="ts" setup>
 const { toggleSidebar, isOpened } = useSidebar();
 const preferences = usePreferences();
+
 const openCommandCenter = () => window.dispatchEvent(new CustomEvent('command-center-open'));
 </script>
+
 <style lang="scss" scoped>
 header {
   position: sticky;

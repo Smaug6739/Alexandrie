@@ -46,6 +46,8 @@
 <script setup lang="ts">
 import { appColors } from '~/helpers/constants';
 
+const { getAppColor } = useAppColors();
+
 const props = defineProps<{ modelValue?: number; nullable?: boolean }>();
 const emit = defineEmits<{ (e: 'update:modelValue', color: number): void }>();
 

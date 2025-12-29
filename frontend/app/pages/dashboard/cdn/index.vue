@@ -3,7 +3,7 @@
     <header>
       <h1>File manager</h1>
       <div class="action-row">
-        <NodeFilter v-show="!isMobile()" :nodes="nodes" @update:nodes="filteredRessources = $event" />
+        <NodeFilter v-show="!device.isMobile" :nodes="nodes" @update:nodes="filteredRessources = $event" />
         <ViewSelection v-model="view" />
       </div>
     </header>
@@ -84,6 +84,10 @@ const router = useRouter();
 const ressourcesStore = useRessourcesStore();
 const nodesStore = useNodesStore();
 
+const device = useDevice();
+const appColors = useAppColors();
+const { numericDate } = useDateFormatters();
+
 const view = ref<'table' | 'list'>('list');
 const selectedFiles = ref<File[]>([]);
 const fileLinks = ref<string[]>([]);
@@ -162,7 +166,7 @@ const rows: ComputedRef<Field[]> = computed(() =>
       name: { content: res.name, type: 'text' },
       size: { content: readableFileSize(res.size ?? 0), type: 'text' },
       type: { content: `<tag class="${color(res.metadata?.filetype as string)}">${res.metadata?.filetype as string}</tag>`, type: 'html' },
-      parent: { content: category ? `<tag class="${getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
+      parent: { content: category ? `<tag class="${appColors.getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
       date: { content: numericDate(res.created_timestamp), type: 'text' },
       action: { type: 'slot', data: res },
     };

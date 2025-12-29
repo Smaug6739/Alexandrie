@@ -38,11 +38,16 @@ import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ document: Node }>();
+
 const nodesStore = useNodesStore();
+const userStore = useUserStore();
+
+const { shortDate } = useDateFormatters();
+const { getAppColor } = useAppColors();
 
 const category = computed(() => nodesStore.getById(props.document.parent_id || ''));
-useUserStore().fetchPublicUser(props.document.user_id);
-const user = computed(() => useUserStore().getById(props.document.user_id || ''));
+userStore.fetchPublicUser(props.document.user_id);
+const user = computed(() => userStore.getById(props.document.user_id || ''));
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.document } }));
 
 function showContextMenu(event: MouseEvent) {

@@ -1,5 +1,5 @@
 <template>
-  <MarkdownEditor v-if="node" ref="editor" :doc="node" @save="data => save(data)" @auto-save="autoSave" @exit="exit" />
+  <MarkdownEditor v-if="node" :doc="node" @save="data => save(data)" @auto-save="autoSave" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import type { Node } from '~/stores';
@@ -8,16 +8,15 @@ import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 const store = useNodesStore();
 const route = useRoute();
 
-const editor = ref();
-const doc_id = route.params.id as string;
+const nodeId = route.params.id as string;
 const node = ref<Node | undefined>(undefined);
 const notifications = useNotifications();
 
 watchEffect(async () => {
-  const docFromStore = store.getById(doc_id);
+  const docFromStore = store.getById(nodeId);
   if (docFromStore?.partial) {
     try {
-      node.value = await store.fetch({ id: doc_id });
+      node.value = await store.fetch({ id: nodeId });
     } catch (error) {
       console.error('Error fetching node:', error);
     }
@@ -38,6 +37,6 @@ function autoSave(doc: Node) {
 }
 
 function exit() {
-  useRouter().push(`/dashboard/docs/${doc_id}`);
+  useRouter().push(`/dashboard/docs/${nodeId}`);
 }
 </script>

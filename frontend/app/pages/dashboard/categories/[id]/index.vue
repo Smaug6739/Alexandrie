@@ -6,13 +6,13 @@
 import NodeList from '~/components/Node/NodeList.vue';
 import type { Node } from '~/stores';
 
+definePageMeta({ breadcrumb: () => useNodesStore().getById(useRoute().params.id as string)?.name || '' });
+
 const route = useRoute();
 const nodesStore = useNodesStore();
 
 const parentId = route.params.id as string;
 const parent = ref<Node | undefined>();
-
-definePageMeta({ breadcrumb: () => useNodesStore().getById(useRoute().params.id as string)?.name || '' });
 
 watchEffect(() => {
   parent.value = nodesStore.getById(parentId);

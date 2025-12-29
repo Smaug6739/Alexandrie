@@ -33,15 +33,9 @@
 
 <script setup lang="ts">
 import type { ItemCommand } from './types';
-const props = defineProps<{
-  items: ItemCommand[];
-  selectedIndex: number;
-  query: string;
-}>();
 
-defineEmits<{
-  updateSelectedIndex: [index: number];
-}>();
+const props = defineProps<{ items: ItemCommand[]; selectedIndex: number; query: string }>();
+defineEmits<{ updateSelectedIndex: [index: number] }>();
 
 const groupedItems = computed(() => {
   return props.items.reduce((acc, item) => {

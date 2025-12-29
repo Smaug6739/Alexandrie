@@ -17,7 +17,10 @@
 </template>
 <script setup lang="ts">
 import type { DefaultItem } from './helpers';
+
 const props = withDefaults(defineProps<{ item: Item | DefaultItem; level?: number }>(), { level: 0 });
+
+const { getCollapseState, setCollapseState } = useCollapseStates();
 
 const toggleShow = () => {
   setCollapseState(props.item.id, !props.item.show.value);

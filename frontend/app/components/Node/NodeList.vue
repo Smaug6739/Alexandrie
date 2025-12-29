@@ -17,7 +17,7 @@
         <NuxtLink v-if="view == 'kanban'" class="btn-icon no-mobile" @click="resetKanban">
           <Icon name="reset" display="lg" />
         </NuxtLink>
-        <NodeFilter v-show="!isMobile()" :nodes="nodes" @update:nodes="filteredNodes = $event" />
+        <NodeFilter v-show="!isMobile" :nodes="nodes" @update:nodes="filteredNodes = $event" />
         <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon no-mobile" @click="openRemoveShareModal">
           <Icon name="group_off" display="lg" />
         </NuxtLink>
@@ -79,10 +79,15 @@ import type { ViewMode } from '~/components/ViewSelection.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
-const nodesStore = useNodesStore();
-const router = useRouter();
-const connectedId = useUserStore().user?.id;
 
+const nodesStore = useNodesStore();
+
+const router = useRouter();
+const userStore = useUserStore();
+const { isMobile } = useDevice();
+const { getAppColor } = useAppColors();
+
+const connectedId = userStore.user?.id;
 const view = ref<ViewMode>();
 const filteredNodes = ref<Node[]>(props.nodes);
 

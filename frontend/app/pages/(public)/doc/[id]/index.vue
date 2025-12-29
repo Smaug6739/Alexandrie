@@ -6,7 +6,7 @@
       v-if="!error"
       class="reader"
       :style="{
-        marginRight: !isTablet() && preferencesStore.get('hideTOC').value && useSidebar().isOpened.value ? '200px' : '0px',
+        marginRight: !devise.isTablet.value && preferencesStore.get('hideTOC').value && sidebar.isOpened.value ? '200px' : '0px',
         transition: 'margin 0.3s',
       }"
     >
@@ -24,7 +24,7 @@
       </div>
 
       <!-- ⬇️ retire le style inline (width/margin-left), on gère en CSS -->
-      <div v-if="!isTablet() && !preferencesStore.get('hideTOC').value" class="toc">
+      <div v-if="!devise.isTablet.value && !preferencesStore.get('hideTOC').value" class="toc">
         <TableOfContent :doc="article" :element="element" />
       </div>
     </div>
@@ -39,9 +39,13 @@ import DocumentSkeleton from '~/pages/dashboard/docs/_components/DocumentSkeleto
 import DocumentCardHeader from '~/pages/dashboard/docs/_components/DocumentCardHeader.vue';
 import type { Node } from '~/stores';
 
-const route = useRoute();
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
+
+const route = useRoute();
+const sidebar = useSidebar();
+const devise = useDevice();
+
 const element = ref<HTMLElement>();
 
 const article = ref<Node | undefined>();

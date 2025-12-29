@@ -148,6 +148,9 @@ const router = useRouter();
 const nodesStore = useNodesStore();
 const userStore = useUserStore();
 
+const { todayFormatted, formatTime, shortDateLabel } = useDateFormatters();
+const { getAppColor } = useAppColors();
+
 // Search state
 const searchQuery = ref('');
 const isSearchFocused = ref(false);

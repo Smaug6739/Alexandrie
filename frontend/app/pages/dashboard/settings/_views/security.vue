@@ -47,7 +47,7 @@
       </div>
       <div class="form-group">
         <span style="display: flex; align-items: center"
-          ><label for="password_confirm">Confirm password</label> <span v-if="err_password_not_match" class="err"> Password do not match !</span></span
+          ><label for="password_confirm">Confirm password</label> <span v-if="errPasswordNotMatch" class="err"> Password do not match !</span></span
         >
         <input id="password_confirm" v-model="passwordConfirmValue" type="password" required />
       </div>
@@ -85,22 +85,25 @@
 import DeleteAccountModal from '../_modals/DeleteAccountModal.vue';
 import { parseUserAgent } from '~/helpers/utils';
 
-const store = useUserStore();
 const emit = defineEmits(['close']);
+
+const store = useUserStore();
+
+const { numericDate } = useDateFormatters();
 
 const passwordValue = ref('');
 const passwordConfirmValue = ref('');
-const err_password_not_match = ref(false);
+const errPasswordNotMatch = ref(false);
 
 const changePassword = async () => {
   if (!store.user) return;
-  if (passwordValue.value !== passwordConfirmValue.value) return (err_password_not_match.value = true);
+  if (passwordValue.value !== passwordConfirmValue.value) return (errPasswordNotMatch.value = true);
   store
     .updatePassword(passwordValue.value)
     .then(() => {
       passwordValue.value = '';
       passwordConfirmValue.value = '';
-      err_password_not_match.value = false;
+      errPasswordNotMatch.value = false;
       useNotifications().add({ type: 'success', title: 'Password changed successfully' });
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error during password saving', message: e.message }));

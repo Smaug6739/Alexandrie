@@ -16,6 +16,10 @@ import { useAdminStore } from '~/stores/admin.store';
 import type { User } from '~/stores';
 
 const adminStore = useAdminStore();
+
+const { avatarURL } = useApi();
+const { numericDate } = useDateFormatters();
+
 adminStore.fetchAll();
 
 const headers = [
@@ -32,7 +36,7 @@ const rows = computed(() =>
   adminStore.users?.map(u => {
     return {
       username: {
-        content: `<img style="border-radius:50%;width:25px;height:25px;" src="${useAvatar(u)}"/>&nbsp;&nbsp;&nbsp;${u.username}`,
+        content: `<img style="border-radius:50%;width:25px;height:25px;" src="${avatarURL(u)}"/>&nbsp;&nbsp;&nbsp;${u.username}`,
         type: 'html' as const,
       },
       firstname: { content: u.firstname, type: 'text' as const },

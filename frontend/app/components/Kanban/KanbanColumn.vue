@@ -64,6 +64,7 @@
 <script setup lang="ts">
 import KanbanCard from './KanbanCard.vue';
 import DeleteColumnModal from './DeleteColumn.modal.vue';
+import { appColors } from '~/helpers/constants';
 import type { Node } from '~/stores';
 
 export interface KanbanColumnData {
@@ -87,6 +88,8 @@ const emit = defineEmits<{
   cardDragStart: [node: Node];
   cardDragEnd: [];
 }>();
+
+const { getAppColor } = useAppColors();
 
 const isDragOver = ref(false);
 const isEditing = ref(false);

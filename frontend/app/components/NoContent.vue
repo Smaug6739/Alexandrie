@@ -8,8 +8,9 @@
 </template>
 
 <script setup lang="ts">
-const colorMode = useColorMode();
 defineProps<{ title?: string; description?: string }>();
+
+const colorMode = useColorMode();
 </script>
 
 <style scoped lang="scss">

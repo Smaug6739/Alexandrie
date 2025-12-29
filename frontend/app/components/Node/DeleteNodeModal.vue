@@ -15,17 +15,8 @@
 import type { Node } from '~/stores';
 
 const props = defineProps<{ node: Node }>();
-
-const deleteDoc = () => {
-  useNodesStore()
-    .delete(props.node.id)
-    .then(() => {
-      emit('close');
-      useRouter().push('/dashboard');
-    })
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
-};
 const emit = defineEmits(['close']);
+
 const allChildren = useSidebarTree().getSubTreeById(props.node.id);
 const nodeType = computed(() => {
   switch (props.node.role) {
@@ -41,6 +32,15 @@ const nodeType = computed(() => {
       return 'node';
   }
 });
+const deleteDoc = () => {
+  useNodesStore()
+    .delete(props.node.id)
+    .then(() => {
+      emit('close');
+      useRouter().push('/dashboard');
+    })
+    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+};
 </script>
 
 <style scoped lang="scss">

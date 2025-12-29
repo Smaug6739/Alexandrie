@@ -37,6 +37,7 @@ import type { Node } from '~/stores';
 const nodeStore = useNodesStore();
 
 const props = defineProps<{ doc: Node }>();
+
 const print = () => window.print();
 const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { node: props.doc } }));
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));

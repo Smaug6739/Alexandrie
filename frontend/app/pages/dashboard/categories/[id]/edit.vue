@@ -46,12 +46,13 @@
 import { CATEGORY_ROLES } from '~/helpers/constants';
 import DeleteModal from '../_modals/DeleteCategoryModal.vue';
 
+definePageMeta({ breadcrumb: 'Edit' });
+
 const nodesStore = useNodesStore();
 const route = useRoute();
+
 const category = computed(() => nodesStore.getById(route.params.id as string));
 const categoriesItem = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(i => i.data.role <= 2)).generateTree());
-
-definePageMeta({ breadcrumb: 'Edit' });
 
 const updateCategory = async () => {
   if (category.value)

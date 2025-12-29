@@ -1,26 +1,4 @@
-/**
- * Core application utilities
- * Contains API configuration, screen size helpers, colors, and debounce functions
- */
-import type { PublicUser, User } from '~/stores/db_strustures';
-
-/** Provides API and CDN base URLs from runtime config */
-export function useApi() {
-  const config = useRuntimeConfig();
-  const CDN = config.public.baseCdn;
-  const API = `${config.public.baseApi}/api`;
-  return { CDN, API };
-}
-
-// Screen size breakpoints
-export const isMobile = () => (import.meta.client ? window.innerWidth <= 768 : false);
-export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : false);
-
 /** Get user avatar URL or fallback to default */
-export function useAvatar(user?: User | PublicUser | null): string {
-  const { CDN } = useApi();
-  return user?.avatar ? CDN + '/' + user.id + `/avatar?v=${user.avatar}` : '/default_avatar.avif';
-}
 
 export function debounce<T extends (...args: unknown[]) => void>(fn: T, delay = 500) {
   let timeout: ReturnType<typeof setTimeout> | null = null;

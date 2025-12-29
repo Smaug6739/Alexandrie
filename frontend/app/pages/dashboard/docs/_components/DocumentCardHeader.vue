@@ -7,7 +7,7 @@
       <template v-else>
         <p class="top-row">
           <span style="display: flex; align-items: center; gap: 12px"
-            ><img v-if="user" :src="useAvatar(user)" class="avatar" />
+            ><img v-if="user" :src="api.avatarURL(user)" class="avatar" />
             <span style="font-size: 16px; color: var(--font-color-light)">{{ user?.username }}</span>
           </span>
           <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
@@ -33,6 +33,8 @@ import DocumentCardHeaderSkeleton from './DocumentCardHeaderSkeleton.vue';
 import type { Node, PublicUser } from '~/stores';
 
 const preferences = usePreferences();
+const api = useApi();
+
 const props = defineProps<{ doc?: Node; public?: boolean }>();
 const category = computed(() => useSidebarTree().getCategoryFromNode(props.doc?.parent_id)?.data);
 const store = useUserStore();

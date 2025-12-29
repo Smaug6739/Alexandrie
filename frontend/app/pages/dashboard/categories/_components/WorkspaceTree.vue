@@ -21,7 +21,6 @@
 import type { Node } from '~/stores';
 
 defineProps<{ node: Item<Node> }>();
-
 defineEmits(['edit', 'delete']);
 </script>
 

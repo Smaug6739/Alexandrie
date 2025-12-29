@@ -13,6 +13,10 @@
 
 <script setup lang="ts">
 const props = defineProps<{ nodeId: string }>();
+const emit = defineEmits(['close']);
+
+const allChildren = useSidebarTree().getSubTreeById(props.nodeId);
+
 const removeDoc = () => {
   useNodesStore()
     .removePermission(props.nodeId, useUserStore().user!.id)
@@ -23,8 +27,6 @@ const removeDoc = () => {
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
-const emit = defineEmits(['close']);
-const allChildren = useSidebarTree().getSubTreeById(props.nodeId);
 </script>
 
 <style scoped lang="scss">

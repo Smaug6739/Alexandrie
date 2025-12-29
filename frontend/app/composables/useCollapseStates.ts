@@ -22,30 +22,35 @@ function saveStates() {
 }
 
 /** Get collapse state for an item (defaults to expanded) */
-export function getCollapseState(id: string): boolean {
+function getCollapseState(id: string): boolean {
   if (!(id in states)) states[id] = true;
   return states[id] ?? true;
 }
 
 /** Set collapse state for an item */
-export function setCollapseState(id: string, value: boolean) {
+function setCollapseState(id: string, value: boolean) {
   states[id] = value;
   saveStates();
 }
 
 /** Toggle collapse state for an item */
-export function toggleCollapseState(id: string) {
+function toggleCollapseState(id: string) {
   states[id] = !getCollapseState(id);
   saveStates();
 }
 
 /** Collapse all items */
-export function collapseAllStates() {
+function collapseAllStates() {
   Object.keys(states).forEach(key => (states[key] = false));
   saveStates();
 }
 
 /** Access the raw reactive states object */
 export function useCollapseStates() {
-  return states;
+  return {
+    getCollapseState,
+    setCollapseState,
+    toggleCollapseState,
+    collapseAllStates,
+  };
 }

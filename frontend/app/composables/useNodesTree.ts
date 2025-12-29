@@ -1,6 +1,8 @@
 import { resolveIcon, resolveNodeLink } from '~/helpers/node';
 import type { Node } from '~/stores';
 
+const collapse = useCollapseStates();
+
 let nodes: ComputedRef<Item<Node>[]> | Ref<Item<Node>[]> = ref([]);
 const structure = computed(() => new TreeStructure(nodes.value));
 
@@ -9,7 +11,7 @@ const tree = computed(() => {
   return structure.value.generateTree();
 });
 
-const collapseAll = collapseAllStates;
+const collapseAll = collapse.collapseAllStates;
 const getSubTreeById = (id: string) => {
   return structure.value.treeToArray(structure.value.getSubTreeById(id)?.childrens || []);
 };
@@ -31,7 +33,7 @@ function useSidebarTree() {
               route: resolveNodeLink(node),
               icon: ref(resolveIcon(node)).value,
               data: node,
-              show: ref(getCollapseState(node.id)),
+              show: ref(collapse.getCollapseState(node.id)),
             }))
             .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0) || a.data.name.localeCompare(b.data.name))
         : [],
@@ -49,7 +51,7 @@ function useSidebarTree() {
           route: `/dashboard/categories/${c.id}`,
           icon: c.icon || 'folder',
           data: c,
-          show: ref(getCollapseState(c.id)),
+          show: ref(collapse.getCollapseState(c.id)),
         })),
     ];
 

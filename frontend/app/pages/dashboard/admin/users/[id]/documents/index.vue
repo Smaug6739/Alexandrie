@@ -11,17 +11,21 @@
 
 <script setup lang="ts">
 import type { Node } from '~/stores';
+
 definePageMeta({ breadcrumb: 'Nodes' });
 
-const nodes = ref<Node[]>([]);
-const route = useRoute();
+const categoriesStore = useNodesStore();
 const store = useAdminStore();
+
+const route = useRoute();
+const { numericDate } = useDateFormatters();
+
+const nodes = ref<Node[]>([]);
 
 watchEffect(async () => {
   nodes.value = (await store.fetchUserDocuments(route.params.id as string)) || [];
 });
 
-const categoriesStore = useNodesStore();
 const headers = [
   { label: 'Name', key: 'name' },
   { label: 'Category', key: 'category' },

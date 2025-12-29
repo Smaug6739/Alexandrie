@@ -20,16 +20,14 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute();
-const currentPage = ref(route.query.p || 'profile');
-
-watchEffect(() => (currentPage.value = route.query.p || 'profile'));
+const { CDN } = useApi();
 
 const downloadLink = ref<string | null>(null);
-const copyLink = () => navigator.clipboard.writeText(downloadLink.value!);
 const isLoading = ref(false);
+
+const copyLink = () => navigator.clipboard.writeText(downloadLink.value!);
 const fileName = () => `backup-${new Date().toISOString().split('T')[0]}.json`;
-const { CDN } = useApi();
+
 async function submitFile() {
   isLoading.value = true;
   const result = await makeRequest<{ link: string }>('ressources/backup', 'GET', {});
@@ -37,8 +35,6 @@ async function submitFile() {
   if (result.status != 'success') return useNotifications().add({ type: 'error', title: 'Error', message: result.message });
   downloadLink.value = `${CDN}/${result.result?.link || ''}`;
 }
-
-watchEffect(() => (currentPage.value = route.query.p || 'profile'));
 </script>
 
 <style scoped lang="scss">

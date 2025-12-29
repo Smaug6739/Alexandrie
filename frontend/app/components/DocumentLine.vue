@@ -27,15 +27,21 @@
 </template>
 
 <script setup lang="ts">
-import type { Node } from '~/stores';
 import DeleteDocumentModal from '~/components/Node/DeleteNodeModal.vue';
 import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
+import type { Node } from '~/stores';
 
 const props = defineProps<{ document: Node }>();
+
 const categoriesStore = useNodesStore();
+const userStore = useUserStore();
+
+const { shortDate } = useDateFormatters();
+const { getAppColor } = useAppColors();
+
 const category = computed(() => categoriesStore.getById(props.document.parent_id || ''));
-useUserStore().fetchPublicUser(props.document.user_id);
-const user = computed(() => useUserStore().getById(props.document.user_id || ''));
+userStore.fetchPublicUser(props.document.user_id);
+const user = computed(() => userStore.getById(props.document.user_id || ''));
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.document } }));
 
 function showContextMenu(event: MouseEvent) {

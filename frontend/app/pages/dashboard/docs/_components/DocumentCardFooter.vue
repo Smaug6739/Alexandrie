@@ -27,7 +27,10 @@
 
 <script lang="ts" setup>
 import type { Node } from '~/stores';
+
 defineProps<{ document?: Node; next?: Node; previous?: Node }>();
+
+const { formatRelativeDate } = useDateFormatters();
 </script>
 
 <style scoped lang="scss">

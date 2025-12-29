@@ -1,7 +1,7 @@
 <template>
   <div class="context-menu" :class="{ 'is-context-menu': props.contextMenu }">
     <div class="menu-header">
-      <img :src="useAvatar(user)" alt="" class="header-avatar" />
+      <img :src="avatarURL(user)" alt="" class="header-avatar" />
       <div class="header-info">
         <span class="header-name">{{ node.name }}</span>
         <span class="header-meta">{{ user?.username }} · {{ shortDate(node.updated_timestamp) }}</span>
@@ -40,15 +40,20 @@ import NodePermissions from './NodePermissions.modal.vue';
 import NodeDeleteModal from './DeleteNodeModal.vue';
 import type { Node } from '~/stores';
 
-const nodeStore = useNodesStore();
-const preferences = usePreferences();
-const emit = defineEmits(['close']);
-const dotMenu = ref();
 const props = defineProps<{ node: Node; contextMenu?: boolean }>();
+const emit = defineEmits(['close']);
 
-useUserStore().fetchPublicUser(props.node.user_id);
-const user = computed(() => useUserStore().getById(props.node.user_id || ''));
-defineExpose({ close: () => dotMenu.value?.close() });
+const nodeStore = useNodesStore();
+const userStore = useUserStore();
+
+const preferences = usePreferences();
+const { shortDate } = useDateFormatters();
+const { avatarURL } = useApi();
+
+const dotMenu = ref();
+
+userStore.fetchPublicUser(props.node.user_id);
+const user = computed(() => userStore.getById(props.node.user_id || ''));
 
 async function action(name: string) {
   switch (name) {

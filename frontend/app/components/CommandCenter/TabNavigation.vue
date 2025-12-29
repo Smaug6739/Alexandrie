@@ -8,15 +8,16 @@
 </template>
 
 <script setup lang="ts">
+defineProps<{ activeTab: string }>();
+const emit = defineEmits<{ 'change-tab': [tabId: string] }>();
+
+const handleClick = (tabId: string) => emit('change-tab', tabId);
+
 interface Tab {
   id: string;
   label: string;
   icon: string;
 }
-
-defineProps<{ activeTab: string }>();
-const emit = defineEmits<{ 'change-tab': [tabId: string] }>();
-const handleClick = (tabId: string) => emit('change-tab', tabId);
 
 const tabs: Tab[] = [
   {

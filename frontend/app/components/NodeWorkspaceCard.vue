@@ -21,9 +21,11 @@
 <script setup lang="ts">
 import type { Node } from '~/stores';
 
+defineProps<{ workspace: Node }>();
+
 const nodesStore = useNodesStore();
 
-defineProps<{ workspace: Node }>();
+const { getAppColor } = useAppColors();
 
 // Get workspace categories
 const getWorkspaceCategories = (workspaceId: string) => {

@@ -11,9 +11,9 @@
     <div class="submit">
       <AppButton type="primary" :disabled="!selectedFile" @click="submit">Analyse file</AppButton>
     </div>
-    <div v-if="files_to_import.length">
+    <div v-if="filesToImport.length">
       <h2>Files to import</h2>
-      <div v-for="file in files_to_import" :key="file.id" class="card-component" style="padding: 15px">
+      <div v-for="file in filesToImport" :key="file.id" class="card-component" style="padding: 15px">
         <div style="display: flex; align-items: center">
           <Icon name="file" />
           &nbsp;{{ file.name }}
@@ -35,13 +35,17 @@
 <script setup lang="ts">
 import { analyseFile, validateFileStructure, compareDocumentsAndLocal, prepareNewDocuments } from '~/helpers/node';
 import type { DB_Node } from '~/stores';
+
 definePageMeta({ breadcrumb: 'Importations' });
 
+const { numericDate } = useDateFormatters();
+
 const selectedFile: Ref<File | undefined> = ref();
-const handleFileSelect = (file?: File) => (selectedFile.value = file);
+const filesToImport = ref<DB_Node[]>([]);
 const dropComponent = ref();
 
-const files_to_import = ref<DB_Node[]>([]);
+const handleFileSelect = (file?: File) => (selectedFile.value = file);
+
 async function submit() {
   try {
     if (!selectedFile.value) return;
@@ -49,7 +53,7 @@ async function submit() {
     const valid = validateFileStructure(fileContent);
     if (!valid) useNotifications().add({ type: 'error', title: 'Invalid file structure' });
     else useNotifications().add({ type: 'success', title: 'File structure is valid' });
-    files_to_import.value = compareDocumentsAndLocal(fileContent);
+    filesToImport.value = compareDocumentsAndLocal(fileContent);
   } catch (e) {
     if (e instanceof Error) useNotifications().add({ type: 'error', title: 'Error while analysing file', message: e.message });
     else useNotifications().add({ type: 'error', title: 'Error while analysing file', message: 'Unknown error' });
@@ -71,24 +75,24 @@ async function uploadDocuments(documents: DB_Node[]) {
 }
 
 function importDoc(file: DB_Node) {
-  const fileContent = files_to_import.value.find(i => i.id === file.id);
+  const fileContent = filesToImport.value.find(i => i.id === file.id);
   if (!fileContent) return useNotifications().add({ type: 'error', title: 'File not found' });
   prepareNewDocuments([fileContent]);
   uploadDocument(fileContent)
     .then(() => {
       useNotifications().add({ type: 'success', title: 'Document imported successfully' });
-      files_to_import.value = files_to_import.value.filter(i => i.id !== file.id);
+      filesToImport.value = filesToImport.value.filter(i => i.id !== file.id);
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error while importing document', message: e }));
 }
 function importAllDocs() {
-  if (!files_to_import.value.length) return;
-  const files = [...files_to_import.value];
+  if (!filesToImport.value.length) return;
+  const files = [...filesToImport.value];
   prepareNewDocuments(files);
   uploadDocuments(files)
     .then(() => {
       useNotifications().add({ type: 'success', title: 'Documents imported successfully' });
-      files_to_import.value = [];
+      filesToImport.value = [];
     })
     .catch(e => useNotifications().add({ type: 'error', title: 'Error while importing documents', message: e }));
 }

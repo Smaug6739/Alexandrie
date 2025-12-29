@@ -35,6 +35,9 @@ import type { Node } from '~/stores';
 
 const nodesStore = useNodesStore();
 const { isOpened, workspaceId } = useSidebar();
+const { getAppColor } = useAppColors();
+const { isMobile } = useDevice();
+
 const props = defineProps<{ item: Item | DefaultItem; level: number }>();
 const isDragOver = ref<boolean>(false);
 
@@ -51,7 +54,7 @@ const icon = computed(() => {
 const onClick = (m: MouseEvent) => {
   // if element does not have the "close" class, don't close the sidebar
   if (!(m.target as HTMLElement).closest('.close')) return;
-  if (isMobile() && (props.item.route || props.item.onClick)) isOpened.value = false;
+  if (isMobile.value && (props.item.route || props.item.onClick)) isOpened.value = false;
 };
 
 const contextMenu = useContextMenu();

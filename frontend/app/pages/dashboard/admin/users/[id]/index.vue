@@ -1,7 +1,7 @@
 <template>
   <div class="card-component">
     <h2 style="display: flex; align-items: center; justify-content: space-between">
-      User Details <img v-if="user" style="width: 40px; height: 40px; border-radius: 50%" :src="useAvatar(user)" />
+      User Details <img v-if="user" style="width: 40px; height: 40px; border-radius: 50%" :src="avatarURL(user)" />
     </h2>
     <div v-if="user" style="width: 100%">
       <div class="user-details">
@@ -52,11 +52,15 @@ import type { User } from '~/stores';
 
 definePageMeta({ breadcrumb: 'User Details' });
 
+const store = useAdminStore();
+
 const route = useRoute();
 const router = useRouter();
+const { avatarURL } = useApi();
+const { numericDate } = useDateFormatters();
 
 const user = ref<User | undefined>(undefined);
-const store = useAdminStore();
+
 watchEffect(async () => {
   user.value = await store.fetchById(route.params.id as string);
 });

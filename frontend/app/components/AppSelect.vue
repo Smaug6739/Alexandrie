@@ -2,7 +2,7 @@
   <div ref="trigger" class="app-select" :style="{ width: size || '100%' }">
     <!-- Desktop: inline search input -->
     <input
-      v-if="open && searchable && !isMobile()"
+      v-if="open && searchable && !isMobile"
       ref="searchInput"
       v-model="search"
       type="text"
@@ -20,7 +20,7 @@
 
     <!-- Desktop dropdown -->
     <Teleport to="body">
-      <ul v-if="open && !isMobile()" ref="portalList" class="dropdown" :style="dropdownStyle">
+      <ul v-if="open && !isMobile" ref="portalList" class="dropdown" :style="dropdownStyle">
         <li v-if="nullable && selected" class="clear-option" @click="clearSelection">
           <Icon name="close" display="sm" fill="var(--font-color-light)" />
           <span>Clear selection</span>
@@ -33,7 +33,7 @@
     <!-- Mobile: Bottom Sheet Modal -->
     <Teleport to="body">
       <Transition name="mobile-sheet">
-        <div v-if="open && isMobile()" class="mobile-overlay" @click.self="toggleDropdown">
+        <div v-if="open && isMobile" class="mobile-overlay" @click.self="toggleDropdown">
           <div class="mobile-sheet">
             <div class="mobile-sheet-header">
               <span class="mobile-sheet-title">{{ placeholder }}</span>
@@ -93,6 +93,8 @@ const props = withDefaults(
 );
 
 const emit = defineEmits(['update:modelValue']);
+
+const { isMobile } = useDevice();
 
 const selectedId = computed({
   get: () => props.modelValue ?? '',
@@ -166,7 +168,7 @@ function toggleDropdown() {
   if (open.value) {
     search.value = '';
     nextTick(() => {
-      if (isMobile()) {
+      if (isMobile) {
         // Lock body scroll on mobile
         document.body.style.overflow = 'hidden';
         mobileSearchInput.value?.focus();

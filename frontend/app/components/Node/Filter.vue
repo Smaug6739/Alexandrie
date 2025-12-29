@@ -53,6 +53,7 @@ import { useNodesStore } from '~/stores';
 import type { Node, SearchOptions } from '~/stores';
 
 const props = defineProps<{ nodes: Node[] }>();
+const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
 
 const defaultOptions: SearchOptions = {
   query: '',
@@ -77,8 +78,6 @@ const MATCH_OPTIONS = [
   { id: 'starts', label: 'Starts with' },
   { id: 'exact', label: 'Exact' },
 ];
-
-const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
 
 let outsideHandler: ((e: MouseEvent) => void) | null = null;
 

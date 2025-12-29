@@ -21,9 +21,12 @@
 import { resolveIcon } from '~/helpers/node';
 import type { Node } from '~/stores';
 
+const props = defineProps<{ node: Node }>();
+
 const nodesStore = useNodesStore();
 
-const props = defineProps<{ node: Node }>();
+const { relativeTime } = useDateFormatters();
+const { getAppColor } = useAppColors();
 
 const category = nodesStore.getById(props.node.parent_id || '');
 const icon = resolveIcon(props.node);
