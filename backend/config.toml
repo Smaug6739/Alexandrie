@@ -6,7 +6,7 @@ Port = 3306
 
 [Cdn]
 MaxSize = 2e+7 				# 20MB
-MaxUploadsSize = 1e+9 # 1GB
+MaxUploadsSize = 1073741824 # 1GB
 SupportedTypesImages = [
 	"image/png",
 	"image/jpeg",
