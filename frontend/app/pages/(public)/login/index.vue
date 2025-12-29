@@ -69,8 +69,8 @@ async function connect(username: string, password: string) {
 </script>
 <style scoped lang="scss">
 .container {
-  width: 95%;
   display: flex;
+  width: 95%;
   margin: 0 auto;
   flex-direction: column;
   justify-content: space-between;

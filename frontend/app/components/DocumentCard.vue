@@ -58,17 +58,17 @@ function showContextMenu(event: MouseEvent) {
   display: flex;
   max-width: 380px;
   min-height: 250px;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 12px;
+  background: var(--bg-color);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 4%);
+  transition: all 0.2s ease;
   flex-direction: column;
   justify-content: space-between;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 
   &:hover {
     border-color: var(--border-color-accent);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
     transform: translateY(-2px);
   }
 }
@@ -89,9 +89,9 @@ function showContextMenu(event: MouseEvent) {
 .document-title {
   font-size: 17px;
   font-weight: 600;
+  line-height: 1.3;
   color: var(--font-color-dark);
   transition: color 0.15s;
-  line-height: 1.3;
 
   &:hover {
     color: var(--primary);
@@ -111,15 +111,15 @@ function showContextMenu(event: MouseEvent) {
 }
 
 .description {
+  display: -webkit-box;
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
   color: var(--font-color-light);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
 }
 
 .tags {
@@ -132,13 +132,13 @@ function showContextMenu(event: MouseEvent) {
 footer {
   display: flex;
   padding: 10px 14px;
+  border-radius: 0 0 11px 11px;
   font-size: 12px;
   color: var(--font-color-light);
   background: var(--bg-contrast);
-  border-top: 1px solid var(--border-color);
-  border-radius: 0 0 11px 11px;
-  justify-content: space-between;
   align-items: center;
+  border-top: 1px solid var(--border-color);
+  justify-content: space-between;
 }
 
 .footer-item {

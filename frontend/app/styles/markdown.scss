@@ -335,15 +335,14 @@
 	position: absolute;
 	top: 22px;
 	right: 14px;
-	padding: 4px;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	fill: #e3e4e6;
-	cursor: pointer;
+	padding: 4px;
 	opacity: 0;
 	transition: opacity .15s ease, background-color .15s ease, border-color .15s ease;
+	align-items: center;
+	cursor: pointer;
+	fill: #e3e4e6;
+	justify-content: center;
 }
 
 .code-block-wrapper:hover .code-copy-btn {
@@ -360,10 +359,10 @@
 
 // *************** CARDS BLOCKS **************** //
 .block {
+	display: flex;
 	margin: 0.5rem 0;
 	padding: 0.5rem;
 	border: 1px solid var(--border-color);
-	display: flex;
 	flex-direction: column;
 }
 
@@ -382,11 +381,11 @@
 	padding-top: 0;
 
 	.block-title {
-		margin: 0 -0.5rem 0 -0.5rem;
+		margin: 0 -0.5rem;
+		padding: .5rem 1rem;
+		font-weight: 600;
 		background: var(--bg-contrast);
 		border-bottom: 1px solid var(--border-color);
-		font-weight: 600;
-		padding: .5rem 1rem;
 	}
 }
 
@@ -400,7 +399,7 @@
 }
 
 .shadow {
-	box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+	box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
 }
 
 .bordered {

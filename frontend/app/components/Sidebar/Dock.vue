@@ -44,8 +44,8 @@ function closeDock() {
 .dock {
   display: flex;
   padding: 1rem 0.3rem;
-  border-right: 1px solid var(--border-color);
   background-color: var(--bg-color);
+  border-right: 1px solid var(--border-color);
   flex-direction: column;
   gap: 10px;
 }

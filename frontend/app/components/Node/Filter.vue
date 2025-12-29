@@ -114,62 +114,67 @@ onBeforeUnmount(() => {
   position: relative;
   display: inline-block;
 }
+
 .bubble {
   position: absolute;
   top: 2px;
   right: 2px;
   width: 10px;
   height: 10px;
-  background: var(--primary-bg);
   border: 3px solid var(--primary);
   border-radius: 50%;
+  background: var(--primary-bg);
 }
 
 .filter-panel {
   position: absolute;
-  right: 0;
   top: 48px;
-  width: 320px;
-  background: var(--bg-color);
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.2);
-  border: 1px solid var(--border-color);
+  right: 0;
   z-index: 200;
+  width: 320px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-color);
+  box-shadow: 0 10px 30px rgb(2 6 23 / 20%);
 }
 
 .row {
   display: flex;
-  justify-content: space-around;
-  gap: 8px;
   margin: 4px 0;
+  gap: 8px;
+  justify-content: space-around;
 }
+
 label {
   font-size: 13px;
   margin-bottom: 6px;
 }
+
 .panel-actions {
   display: flex;
   gap: 8px;
   justify-content: flex-end;
   margin-top: 6px;
 }
+
 .btn {
   padding: 8px 12px;
-  border-radius: 8px;
   border: 1px solid var(--border-color);
+  border-radius: 8px;
   background: transparent;
   cursor: pointer;
 }
+
 .btn.primary {
-  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-600) 100%);
-  color: white;
   border: none;
+  color: white;
+  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-600) 100%);
 }
 
 .panel-footer {
-  margin-top: 8px;
   color: var(--muted);
+  margin-top: 8px;
 }
 
 /* small pop animation */
@@ -177,20 +182,24 @@ label {
 .pop-leave-active {
   transition: transform 0.15s ease, opacity 0.15s ease;
 }
+
 .pop-enter-from {
-  transform: scale(0.98);
   opacity: 0;
+  transform: scale(0.98);
 }
+
 .pop-enter-to {
-  transform: scale(1);
   opacity: 1;
+  transform: scale(1);
 }
+
 .pop-leave-from {
-  transform: scale(1);
   opacity: 1;
+  transform: scale(1);
 }
+
 .pop-leave-to {
-  transform: scale(0.98);
   opacity: 0;
+  transform: scale(0.98);
 }
 </style>

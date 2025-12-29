@@ -231,44 +231,44 @@
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
-  color: var(--font-color-light);
   max-width: 500px;
   margin: 0 auto;
+  font-size: 1.125rem;
+  color: var(--font-color-light);
 }
 
 .bento-grid {
   display: grid;
+  gap: 1.25rem;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(3, auto);
-  gap: 1.25rem;
 }
 
 .bento-card {
-  background: var(--bg-color);
+  position: relative;
+  padding: 1.5rem;
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 1.5rem;
-  overflow: hidden;
-  position: relative;
+  background: var(--bg-color);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
     border-color: var(--primary);
+    box-shadow: 0 20px 60px rgb(0 0 0 / 12%);
+    transform: translateY(-4px);
   }
 
   .card-icon {
+    display: flex;
     width: 48px;
     height: 48px;
-    display: flex;
+    border-radius: 12px;
+    color: var(--primary);
+    background: var(--bg-contrast);
     align-items: center;
     justify-content: center;
-    background: var(--bg-contrast);
-    border-radius: 12px;
     margin-bottom: 1rem;
-    color: var(--primary);
   }
 
   h3 {
@@ -279,17 +279,17 @@
 
   p {
     font-size: 0.9rem;
-    color: var(--font-color-light);
     line-height: 1.6;
+    color: var(--font-color-light);
   }
 }
 
 // Card Sizes
 .card-large {
-  grid-column: span 2;
-  grid-row: span 2;
   display: flex;
   flex-direction: column;
+  grid-column: span 2;
+  grid-row: span 2;
 }
 
 .card-tall {
@@ -303,9 +303,9 @@
 }
 
 .card-small {
+  padding: 1.25rem;
   grid-column: span 1;
   grid-row: span 1;
-  padding: 1.25rem;
 
   .card-icon {
     width: 40px;
@@ -324,11 +324,11 @@
 }
 
 .card-wide {
-  grid-column: span 2;
-  grid-row: span 1;
   display: flex;
   align-items: center;
   gap: 2rem;
+  grid-column: span 2;
+  grid-row: span 1;
 
   .card-content {
     flex: 1;
@@ -340,30 +340,30 @@
   background: linear-gradient(135deg, var(--bg-color), var(--bg-contrast));
 
   .card-visual {
-    flex: 1;
     display: flex;
     align-items: flex-end;
+    flex: 1;
   }
 
   .editor-preview {
     width: 100%;
-    background: var(--bg-color);
+    padding: 1rem;
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 1rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 13px;
     line-height: 1.8;
+    background: var(--bg-color);
   }
 
   .editor-line {
-    white-space: nowrap;
     overflow: hidden;
+    white-space: nowrap;
   }
 
   .syntax-heading {
-    color: var(--primary);
     font-weight: 700;
+    color: var(--primary);
   }
 
   .syntax-text {
@@ -371,15 +371,15 @@
   }
 
   .syntax-bold {
-    color: var(--purple);
     font-weight: 700;
+    color: var(--purple);
   }
 
   .syntax-code {
-    color: var(--green);
-    background: var(--green-bg);
     padding: 2px 6px;
     border-radius: 4px;
+    color: var(--green);
+    background: var(--green-bg);
   }
 
   .syntax-link {
@@ -392,10 +392,10 @@
   }
 
   .cursor {
+    display: inline-block;
     width: 2px;
     height: 16px;
     background: var(--primary);
-    display: inline-block;
     margin-left: 2px;
     vertical-align: text-bottom;
   }
@@ -414,11 +414,11 @@
 
   .folder-item {
     display: flex;
-    align-items: center;
-    gap: 8px;
     padding: 6px 10px;
     border-radius: 8px;
     transition: background 0.2s;
+    align-items: center;
+    gap: 8px;
 
     &:hover {
       background: var(--bg-contrast);
@@ -457,8 +457,8 @@
     img {
       width: 32px;
       height: 32px;
-      border-radius: 50%;
       border: 2px solid var(--bg-color);
+      border-radius: 50%;
       margin-left: -8px;
 
       &:first-child {
@@ -467,18 +467,18 @@
     }
 
     .avatar-more {
+      display: flex;
       width: 32px;
       height: 32px;
+      border: 2px solid var(--bg-color);
       border-radius: 50%;
-      background: var(--primary);
-      color: white;
       font-size: 11px;
       font-weight: 600;
-      display: flex;
+      color: white;
+      background: var(--primary);
       align-items: center;
       justify-content: center;
       margin-left: -8px;
-      border: 2px solid var(--bg-color);
     }
   }
 
@@ -495,29 +495,29 @@
   }
 
   .search-demo {
-    background: var(--bg-contrast);
     border: 1px solid var(--border-color);
     border-radius: 12px;
+    background: var(--bg-contrast);
     overflow: hidden;
   }
 
   .search-input {
     display: flex;
-    align-items: center;
-    gap: 10px;
     padding: 12px 14px;
-    border-bottom: 1px solid var(--border-color);
     font-size: 14px;
     color: var(--font-color-light);
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    gap: 10px;
 
     .kbd {
-      margin-left: auto;
       padding: 4px 8px;
-      background: var(--bg-color);
       border: 1px solid var(--border-color);
       border-radius: 6px;
       font-size: 11px;
       font-weight: 600;
+      background: var(--bg-color);
+      margin-left: auto;
     }
   }
 
@@ -527,12 +527,12 @@
 
   .search-result {
     display: flex;
-    align-items: center;
-    gap: 10px;
     padding: 10px 12px;
     border-radius: 8px;
-    cursor: pointer;
     transition: background 0.2s;
+    align-items: center;
+    cursor: pointer;
+    gap: 10px;
 
     &:hover {
       background: var(--bg-color);
@@ -548,8 +548,8 @@
     }
 
     .result-title {
-      font-weight: 600;
       font-size: 13px;
+      font-weight: 600;
     }
 
     .result-path {
@@ -568,40 +568,40 @@
 
   .publish-preview {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     padding: 12px 14px;
-    background: var(--bg-contrast);
     border: 1px solid var(--border-color);
     border-radius: 10px;
     font-size: 13px;
+    background: var(--bg-contrast);
+    align-items: center;
+    justify-content: space-between;
   }
 
   .url-bar {
     display: flex;
+    color: var(--font-color-light);
     align-items: center;
     gap: 6px;
-    color: var(--font-color-light);
   }
 
   .status-badge {
     display: flex;
-    align-items: center;
-    gap: 6px;
     padding: 4px 10px;
     border-radius: 100px;
     font-size: 11px;
     font-weight: 600;
+    align-items: center;
+    gap: 6px;
 
     &.published {
-      background: var(--green-bg);
       color: var(--green);
+      background: var(--green-bg);
 
       .dot {
         width: 6px;
         height: 6px;
-        background: var(--green);
         border-radius: 50%;
+        background: var(--green);
       }
     }
   }
@@ -610,9 +610,10 @@
 // Themes Card
 .card-themes {
   background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
+
   .card-icon {
-    background: var(--purple-bg);
     color: var(--purple);
+    background: var(--purple-bg);
   }
 }
 
@@ -621,23 +622,23 @@
   background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
 
   .card-icon {
-    background: var(--purple-bg);
     color: var(--purple);
+    background: var(--purple-bg);
   }
 }
 
 // Responsive
-@media screen and (max-width: 1200px) {
+@media screen and (width <= 1200px) {
   .bento-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
   .card-large {
+    align-items: center;
+    flex-direction: row;
+    gap: 2rem;
     grid-column: span 2;
     grid-row: span 1;
-    flex-direction: row;
-    align-items: center;
-    gap: 2rem;
   }
 
   .card-tall {
@@ -650,7 +651,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   .bento-section {
     padding: 4rem 1rem;
   }
@@ -661,9 +662,9 @@
 
   .card-large,
   .card-wide {
-    grid-column: span 1;
-    flex-direction: column;
     align-items: stretch;
+    flex-direction: column;
+    grid-column: span 1;
   }
 }
 </style>

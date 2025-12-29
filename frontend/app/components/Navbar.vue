@@ -88,9 +88,9 @@ button {
 kbd {
   padding: 0 4px;
   border: 1px solid var(--font-color-light);
-  font-size: 14px;
-  font-family: monospace;
   border-radius: 4px;
+  font-family: monospace;
+  font-size: 14px;
   font-weight: 600;
   background: var(--border-color);
 }

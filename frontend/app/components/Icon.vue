@@ -49,10 +49,12 @@ const isUnicode = (str: string) => {
     width: 25px;
     height: 25px;
   }
+
   &.xl {
     width: 28px;
     height: 28px;
   }
+
   &.xll {
     width: 32px;
     height: 32px;
@@ -61,7 +63,7 @@ const isUnicode = (str: string) => {
 
 .c-icon:deep(svg),
 .c-icon:deep(svg > * > path) {
-  fill: inherit !important;
   height: min-content;
+  fill: inherit !important;
 }
 </style>

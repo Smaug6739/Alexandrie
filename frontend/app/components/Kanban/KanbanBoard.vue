@@ -178,27 +178,26 @@ defineExpose({ resetKanbanData });
 <style scoped lang="scss">
 .kanban-board {
   display: flex;
-  flex-direction: column;
   height: 100%;
   min-height: 0;
   flex: 1;
+  flex-direction: column;
 }
 
 .board-content {
-  flex: 1;
   display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  overflow-y: hidden;
   padding: 8px 4px 16px;
+  flex: 1;
+  gap: 16px;
+  overflow: auto hidden;
 
   &::-webkit-scrollbar {
     height: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: transparent;
     border-radius: 3px;
+    background: transparent;
   }
 
   &:hover::-webkit-scrollbar-thumb {
@@ -213,33 +212,33 @@ defineExpose({ resetKanbanData });
 
 .add-column-btn {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   min-width: 200px;
   height: stretch;
-  margin-top: auto;
-  margin-bottom: auto;
   padding: 20px;
-  background: transparent;
   border: 2px dashed var(--border-color);
   border-radius: 12px;
-  color: var(--font-color-light);
   font-size: 13px;
   font-weight: 500;
+  color: var(--font-color-light);
+  background: transparent;
+  align-items: center;
   cursor: pointer;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: auto;
+  margin-top: auto;
 
   &:hover {
     border-color: var(--primary);
     color: var(--primary);
-    background: rgba(57, 86, 231, 0.04);
+    background: rgb(57 86 231 / 4%);
   }
 
   :deep(svg) {
     width: 24px;
     height: 24px;
-    fill: currentColor;
+    fill: currentcolor;
   }
 }
 

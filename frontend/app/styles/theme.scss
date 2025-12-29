@@ -129,8 +129,8 @@ input {
 }
 
 input[type="radio"]:focus {
-	outline: none;
 	box-shadow: none;
+	outline: none;
 }
 
 input:-webkit-autofill,

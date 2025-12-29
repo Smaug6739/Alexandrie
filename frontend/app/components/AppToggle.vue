@@ -26,7 +26,6 @@ const toggle = () => {
 <style scoped lang="scss">
 .toggle {
   display: flex;
-  flex: 0 0 44px; // Avoiding shrinking
   height: 24px;
   padding: 2px;
   border: 1px solid var(--border-color, #ccc);
@@ -35,6 +34,7 @@ const toggle = () => {
   transition: background-color 0.3s ease, border-color 0.3s ease;
   align-items: center;
   cursor: pointer;
+  flex: 0 0 44px; // Avoiding shrinking
 
   .circle {
     width: 20px;

@@ -215,7 +215,7 @@ Useful for side content or notes.
         <li><strong>Task lists:</strong> <code>- [ ] Todo</code>, <code>- [x] Done</code></li>
         <li>
           <strong>Tables:</strong><br />
-          <pre style="padding: 0.75rem; border-radius: 6px; color: white; overflow-x: auto; margin: 10px 0">
+          <pre style=" margin: 10px 0;padding: 0.75rem; border-radius: 6px; color: white; overflow-x: auto">
 | Column 1 | Column 2 |
 |-----------|-----------|
 | Cell 1    | Cell 2    |</pre
@@ -234,72 +234,83 @@ import compile from '~/helpers/markdown';
 
 <style scoped lang="scss">
 .markdown-guide {
-  line-height: 1.7;
   margin: auto;
+  line-height: 1.7;
 }
+
 .content {
   margin: 1rem 0.5rem;
 }
+
 h1 {
   display: flex;
-  align-items: center;
   margin: 0;
+  align-items: center;
 }
+
 h2 {
   display: flex;
+  font-size: 1.3rem;
+  color: var(--primary);
   align-items: center;
   gap: 0.5rem;
   margin-top: 2rem;
-  font-size: 1.3rem;
-  color: var(--primary);
 }
+
 code {
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.8rem;
 }
+
 .demo {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
+
   pre {
+    margin: 10px 0;
     padding: 0.75rem;
     border-radius: 6px;
     color: white;
     overflow-x: auto;
-    margin: 10px 0;
   }
+
   * {
     flex: 1;
   }
 }
+
 .custom-block pre {
-  background: rgba(255, 255, 255, 0.3);
-  margin-top: 0.5rem;
   padding: 0.5rem;
   border-radius: 6px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.85rem;
+  background: rgb(255 255 255 / 30%);
+  margin-top: 0.5rem;
 }
+
 .block-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
 }
+
 .external-link {
-  color: var(--primary);
   display: inline-flex;
+  color: var(--primary);
   align-items: center;
   gap: 4px;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (width <= 800px) {
   .block-grid {
     grid-template-columns: 1fr;
   }
+
   .demo {
     flex-direction: column;
   }

@@ -123,39 +123,39 @@ onUnmounted(() => {
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
-  color: var(--font-color-light);
   max-width: 500px;
   margin: 0 auto;
+  font-size: 1.125rem;
+  color: var(--font-color-light);
 }
 
 .showcase-container {
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 3rem;
   align-items: start;
+  gap: 3rem;
+  grid-template-columns: 300px 1fr;
 }
 
 .showcase-nav {
+  position: sticky;
+  top: 100px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  position: sticky;
-  top: 100px;
 }
 
 .nav-item {
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
   padding: 1.25rem;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   text-align: left;
-  cursor: pointer;
+  background: var(--bg-color);
   transition: all 0.3s ease;
-  position: relative;
+  align-items: flex-start;
+  cursor: pointer;
+  gap: 1rem;
   overflow: hidden;
 
   &:hover {
@@ -164,29 +164,29 @@ onUnmounted(() => {
   }
 
   &.active {
-    background: var(--bg-contrast);
     border-color: var(--primary);
-    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.15);
+    background: var(--bg-contrast);
+    box-shadow: 0 10px 40px rgb(99 102 241 / 15%);
 
     .nav-number {
-      background: var(--primary);
       color: white;
+      background: var(--primary);
     }
   }
 }
 
 .nav-number {
+  display: flex;
   min-width: 32px;
   height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-contrast);
   border-radius: 8px;
   font-size: 12px;
   font-weight: 700;
   color: var(--font-color-light);
+  background: var(--bg-contrast);
   transition: all 0.3s ease;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav-content {
@@ -195,8 +195,8 @@ onUnmounted(() => {
 
 .nav-title {
   display: block;
-  font-weight: 600;
   font-size: 0.95rem;
+  font-weight: 600;
   margin-bottom: 2px;
 }
 
@@ -207,9 +207,9 @@ onUnmounted(() => {
 
 .nav-progress {
   position: absolute;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
   height: 3px;
   background: var(--border-color);
   overflow: hidden;
@@ -222,8 +222,8 @@ onUnmounted(() => {
 }
 
 .showcase-display {
-  height: 500px;
   position: relative;
+  height: 500px;
 }
 
 .display-wrapper {
@@ -233,11 +233,11 @@ onUnmounted(() => {
 
 .display-item {
   position: absolute;
-  inset: 0;
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 3rem;
   align-items: center;
+  gap: 3rem;
+  grid-template-columns: 1fr 1.5fr;
+  inset: 0;
 }
 
 .display-content {
@@ -249,23 +249,23 @@ onUnmounted(() => {
 
   p {
     font-size: 1.1rem;
-    color: var(--font-color-light);
     line-height: 1.7;
+    color: var(--font-color-light);
     margin-bottom: 1.5rem;
   }
 }
 
 .feature-list {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
 
   li {
     display: flex;
-    align-items: center;
-    gap: 10px;
     padding: 0.5rem 0;
     font-size: 0.95rem;
+    align-items: center;
+    gap: 10px;
 
     svg {
       color: var(--green);
@@ -279,15 +279,15 @@ onUnmounted(() => {
 }
 
 .visual-frame {
-  background: var(--bg-contrast);
   border: 1px solid var(--border-color);
   border-radius: 16px;
+  background: var(--bg-contrast);
+  box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
   overflow: hidden;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.1);
 
   img {
-    width: 100%;
     display: block;
+    width: 100%;
   }
 }
 
@@ -302,17 +302,17 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (width <= 1024px) {
   .showcase-container {
-    grid-template-columns: 1fr;
     gap: 2rem;
+    grid-template-columns: 1fr;
   }
 
   .showcase-nav {
-    flex-direction: row;
-    overflow-x: auto;
     position: static;
+    flex-direction: row;
     gap: 0.75rem;
+    overflow-x: auto;
     padding-bottom: 0.5rem;
 
     &::-webkit-scrollbar {
@@ -320,8 +320,8 @@ onUnmounted(() => {
     }
 
     &::-webkit-scrollbar-thumb {
-      background: var(--border-color);
       border-radius: 4px;
+      background: var(--border-color);
     }
   }
 
@@ -335,9 +335,9 @@ onUnmounted(() => {
   }
 
   .showcase-display {
+    position: relative;
     height: auto;
     min-height: 600px;
-    position: relative;
   }
 
   .display-wrapper {
@@ -347,13 +347,13 @@ onUnmounted(() => {
 
   .display-item {
     position: relative;
-    inset: auto;
-    grid-template-columns: 1fr;
     gap: 2rem;
+    grid-template-columns: 1fr;
+    inset: auto;
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (width <= 640px) {
   .showcase-section {
     padding: 4rem 1rem;
   }

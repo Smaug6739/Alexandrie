@@ -165,7 +165,7 @@ const pos = computed(() => {
   min-width: 240px;
   border-radius: 12px;
   background: var(--bg-color);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 30px rgb(0 0 0 / 12%), 0 2px 8px rgb(0 0 0 / 6%);
   overflow: hidden;
 }
 
@@ -182,7 +182,7 @@ const pos = computed(() => {
 }
 
 :root.dark .context-menu {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 30px rgb(0 0 0 / 40%), 0 0 1px rgb(255 255 255 / 10%);
 }
 
 /* ========================
@@ -190,23 +190,23 @@ const pos = computed(() => {
    ======================== */
 .mobile-overlay {
   position: fixed;
-  inset: 0;
   z-index: 6000;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
   background: rgb(0 0 0 / 50%);
+  align-items: flex-end;
+  inset: 0;
+  justify-content: center;
 }
 
 .mobile-sheet {
   display: flex;
-  flex-direction: column;
   width: 100%;
   min-height: 60vh;
   max-height: 85vh;
   border-radius: 16px 16px 0 0;
   background: var(--bg-color);
   animation: slide-up 0.3s ease-out;
+  flex-direction: column;
 }
 
 @keyframes slide-up {
@@ -221,11 +221,11 @@ const pos = computed(() => {
 
 .mobile-sheet-header {
   display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
   padding: 12px 16px 8px;
+  align-items: center;
   cursor: grab;
+  flex-shrink: 0;
+  justify-content: center;
   touch-action: none;
   user-select: none;
 
@@ -249,8 +249,8 @@ const pos = computed(() => {
 
 .mobile-sheet-body {
   flex: 1;
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
 }
 
 /* Transitions */

@@ -68,9 +68,9 @@ body.modal-open {
 	overflow: hidden;
 	touch-action: none;
 	user-select: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
+	user-select: none;
+	user-select: none;
+	user-select: none;
 }
 
 :root {
@@ -97,7 +97,6 @@ form {
 }
 
 @media print {
-
 	header,
 	footer,
 	nav,

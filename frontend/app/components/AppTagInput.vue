@@ -69,16 +69,16 @@ button {
 }
 
 input {
-  flex: 1 1 150px;
   min-width: 100px;
   padding: 4px 8px;
   border: none;
   border-radius: 6px;
-  background: transparent;
   font-size: 0.85rem;
   color: var(--font-color);
-  outline: none;
+  background: transparent;
   transition: background 0.15s ease;
+  flex: 1 1 150px;
+  outline: none;
 
   &:hover,
   &:focus {

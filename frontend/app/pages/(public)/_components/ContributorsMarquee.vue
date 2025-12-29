@@ -73,8 +73,8 @@ onMounted(fetchContributors);
   }
 
   p {
-    color: var(--font-color-light);
     font-size: 1rem;
+    color: var(--font-color-light);
   }
 }
 
@@ -92,20 +92,20 @@ onMounted(fetchContributors);
 
 .contributor {
   display: flex;
-  align-items: center;
-  gap: 12px;
   padding: 12px 16px;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 14px;
-  text-decoration: none;
+  background: var(--bg-color);
   transition: all 0.3s ease;
+  align-items: center;
   flex-shrink: 0;
+  gap: 12px;
+  text-decoration: none;
 
   &:hover {
     border-color: var(--primary);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 10%);
     transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 
     img {
       transform: scale(1.1);
@@ -122,12 +122,12 @@ onMounted(fetchContributors);
 
 .contributor-info {
   display: flex;
-  flex-direction: column;
   text-align: left;
+  flex-direction: column;
 
   .name {
-    font-weight: 600;
     font-size: 0.9rem;
+    font-weight: 600;
     color: var(--font-color);
   }
 
@@ -143,17 +143,17 @@ onMounted(fetchContributors);
 
 .cta-btn {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
   padding: 12px 24px;
-  background: var(--bg-contrast);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  font-weight: 600;
   font-size: 14px;
+  font-weight: 600;
   color: var(--font-color);
-  text-decoration: none;
+  background: var(--bg-contrast);
   transition: all 0.3s ease;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
 
   &:hover {
     border-color: var(--primary);
@@ -162,7 +162,7 @@ onMounted(fetchContributors);
   }
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (width <= 640px) {
   .contributors {
     padding: 2rem 1rem;
   }

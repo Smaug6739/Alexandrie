@@ -163,28 +163,28 @@ const autoSave = debounceDelayed(() => {
 // Compact Document Metadata - Single line
 .document-meta {
   display: flex;
-  align-items: center;
-  gap: 8px;
   padding: 6px 12px;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 10px;
+  background: var(--bg-color);
+  align-items: center;
   flex-wrap: wrap;
+  gap: 8px;
 }
 
 .meta-title {
-  flex: 0 1 auto;
   min-width: 120px;
   max-width: 280px;
   padding: 4px 8px;
   border: none;
   border-radius: 6px;
-  background: transparent;
   font-size: 1rem;
   font-weight: 600;
   color: var(--font-color-dark);
-  outline: none;
+  background: transparent;
   transition: background 0.15s ease;
+  flex: 0 1 auto;
+  outline: none;
 
   &:hover,
   &:focus {
@@ -192,22 +192,22 @@ const autoSave = debounceDelayed(() => {
   }
 
   &::placeholder {
-    color: var(--font-color-light);
     font-weight: 500;
+    color: var(--font-color-light);
   }
 }
 
 .meta-description {
-  flex: 1 1 150px;
   min-width: 100px;
   padding: 4px 8px;
   border: none;
   border-radius: 6px;
-  background: transparent;
   font-size: 0.85rem;
   color: var(--font-color);
-  outline: none;
+  background: transparent;
   transition: background 0.15s ease;
+  flex: 1 1 150px;
+  outline: none;
 
   &:hover,
   &:focus {
@@ -221,28 +221,28 @@ const autoSave = debounceDelayed(() => {
 }
 
 .meta-tags {
-  flex: 0 1 auto;
   min-width: 150px;
+  flex: 0 1 auto;
 }
 
 // Editor Content Section
 .editor-content {
   display: flex;
-  flex: 1;
   min-height: 0;
+  flex: 1;
   gap: 8px;
 }
 
 .editor-panel,
 .preview-panel {
-  display: flex;
-  flex-direction: column;
   position: relative;
-  flex: 1;
+  display: flex;
   min-width: 0;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
   border-radius: 10px;
+  background: var(--bg-color);
+  flex: 1;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -252,18 +252,18 @@ const autoSave = debounceDelayed(() => {
 
 .panel-header {
   display: flex;
-  align-items: center;
   padding: 6px 12px;
   background: var(--bg-ui);
+  align-items: center;
   border-bottom: 1px solid var(--border-color);
 }
 
 .panel-label {
   font-size: 10px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   color: var(--font-color-light);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .codemirror-editor {
@@ -288,14 +288,14 @@ const autoSave = debounceDelayed(() => {
 }
 
 .markdown-preview {
-  flex: 1;
   padding: 12px 16px;
   background: var(--bg-color);
+  flex: 1;
   overflow: auto;
 }
 
 // Responsive
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .editor-content {
     flex-direction: column;
   }
@@ -314,18 +314,18 @@ const autoSave = debounceDelayed(() => {
   }
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .document-meta {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 4px;
     padding: 8px 10px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .meta-title,
   .meta-description {
-    max-width: 100%;
     width: 100%;
+    max-width: 100%;
   }
 
   .meta-tags {

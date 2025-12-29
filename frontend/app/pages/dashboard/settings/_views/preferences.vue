@@ -271,9 +271,9 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
 .form-group {
   display: flex;
   width: 100%;
+  align-items: flex-start;
   gap: 1rem;
   justify-content: space-between;
-  align-items: flex-start;
   margin-bottom: 1rem;
 }
 
@@ -283,9 +283,9 @@ label {
 }
 
 .description {
-  margin-top: 0.25rem;
-  color: var(--font-color-light);
   font-size: 0.9rem;
+  color: var(--font-color-light);
+  margin-top: 0.25rem;
 }
 
 h3 {

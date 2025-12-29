@@ -50,19 +50,19 @@ function showContextMenu(event: MouseEvent) {
 .document-line {
   display: flex;
   padding: 14px 16px;
-  background: var(--bg-color);
   border: 1px solid var(--border-color);
+  background: var(--bg-color);
+  transition: background 0.15s ease;
   border-bottom: none;
   flex-direction: column;
-  transition: background 0.15s ease;
 
   &:first-child {
     border-radius: 10px 10px 0 0;
   }
 
   &:last-child {
-    border-bottom: 1px solid var(--border-color);
     border-radius: 0 0 10px 10px;
+    border-bottom: 1px solid var(--border-color);
   }
 
   &:only-child {
@@ -89,8 +89,8 @@ header {
   font-size: 16px;
   font-weight: 600;
   color: var(--font-color-dark);
-  text-decoration: none;
   transition: color 0.15s;
+  text-decoration: none;
 
   &:hover {
     color: var(--primary);

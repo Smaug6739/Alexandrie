@@ -284,22 +284,22 @@ button,
    ======================== */
 .mobile-overlay {
   position: fixed;
-  inset: 0;
   z-index: 1000;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
   background: rgb(0 0 0 / 50%);
+  align-items: flex-end;
+  inset: 0;
+  justify-content: center;
 }
 
 .mobile-sheet {
   display: flex;
-  flex-direction: column;
   width: 100%;
   max-height: 85vh;
   border-radius: 16px 16px 0 0;
   background: var(--bg-color);
   animation: slide-up 0.3s ease-out;
+  flex-direction: column;
 }
 
 @keyframes slide-up {
@@ -314,11 +314,11 @@ button,
 
 .mobile-sheet-header {
   display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: space-between;
   padding: 16px;
+  align-items: center;
   border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  justify-content: space-between;
 }
 
 .mobile-sheet-title {
@@ -328,16 +328,16 @@ button,
 
 .mobile-sheet-close {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 36px;
   height: 36px;
   padding: 0;
   border: none;
   border-radius: 50%;
   background: var(--bg-contrast);
-  cursor: pointer;
   transition: background 0.2s;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 
   &:hover {
     background: var(--selection-color);
@@ -346,22 +346,22 @@ button,
 
 .mobile-search-wrapper {
   display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 8px;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--border-color);
   background: var(--bg-contrast);
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  gap: 8px;
 }
 
 .mobile-search-input {
-  flex: 1;
   height: 40px;
   padding: 8px 12px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  background: var(--bg-color);
   font-size: 1rem;
+  background: var(--bg-color);
+  flex: 1;
 
   &:focus {
     border-color: var(--primary);
@@ -370,12 +370,12 @@ button,
 }
 
 .mobile-list {
-  flex: 1;
   margin: 0;
   padding: 8px;
+  flex: 1;
   list-style: none;
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
 
   :deep(.app-select-node) {
     padding: 14px 16px;
@@ -389,9 +389,9 @@ button,
   }
 
   :deep(.app-select-node.selected) {
-    background: var(--selection-color);
-    color: var(--primary);
     font-weight: 500;
+    color: var(--primary);
+    background: var(--selection-color);
   }
 }
 
@@ -404,20 +404,20 @@ button,
 /* Clear selection option */
 .clear-option {
   display: flex;
-  align-items: center;
-  gap: 8px;
   margin: 2px 0 6px;
   padding: 6px 12px;
   border-radius: 4px;
-  border-bottom: 1px solid var(--border-color);
-  color: var(--font-color-light);
   font-size: 0.9rem;
-  cursor: pointer;
+  color: var(--font-color-light);
   transition: all 0.15s ease;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  gap: 8px;
 
   &:hover {
-    background: var(--selection-color);
     color: var(--red);
+    background: var(--selection-color);
 
     :deep(svg) {
       fill: var(--red);

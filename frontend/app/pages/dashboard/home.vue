@@ -247,11 +247,11 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 // Header
 .home-header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2rem;
   flex-wrap: wrap;
   gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
 .greeting h1 {
@@ -261,8 +261,8 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .subtitle {
-  color: var(--font-color-light);
   font-size: 0.9rem;
+  color: var(--font-color-light);
 }
 
 .quick-actions {
@@ -278,12 +278,12 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .search-wrapper {
   display: flex;
-  align-items: center;
   padding: 0.75rem 1rem;
   border: 2px solid var(--border-color);
   border-radius: 12px;
   background: var(--bg-color);
   transition: all 0.2s;
+  align-items: center;
 
   &.focused {
     border-color: var(--primary);
@@ -297,11 +297,11 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .search-input {
-  flex: 1;
   border: none;
-  background: transparent;
   font-size: 1rem;
   color: var(--font-color);
+  background: transparent;
+  flex: 1;
   outline: none;
 
   &::placeholder {
@@ -310,9 +310,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .search-clear {
-  cursor: pointer;
   padding: 0.25rem;
   border-radius: 4px;
+  cursor: pointer;
 
   &:hover {
     background: var(--bg-contrast);
@@ -322,27 +322,28 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .search-results {
   position: absolute;
   top: calc(100% + 8px);
-  left: 0;
   right: 0;
-  padding: 2px;
-  background: var(--bg-color);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  left: 0;
   z-index: 100;
   max-height: 400px;
+  padding: 2px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-color);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 12%);
   overflow-y: auto;
 }
 
 .search-result {
   display: flex;
-  align-items: center;
   padding: 0.75rem 1rem;
-  gap: 0.75rem;
-  text-decoration: none;
+  border-radius: 8px;
   color: var(--font-color);
   transition: background 0.15s;
-  border-radius: 8px;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+
   &:hover {
     background: var(--bg-contrast);
   }
@@ -363,16 +364,16 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .result-content {
-  flex: 1;
   min-width: 0;
+  flex: 1;
 }
 
 .result-name {
   display: block;
   font-weight: 500;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .result-path {
@@ -382,11 +383,11 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .result-type {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
   font-size: 0.75rem;
   color: var(--font-color-light);
-  padding: 0.2rem 0.5rem;
   background: var(--bg-contrast);
-  border-radius: 4px;
 }
 
 // Sections
@@ -396,16 +397,16 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .section-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 1rem;
 
   h2 {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
     font-size: 1.1rem;
+    align-items: center;
     flex: 1;
+    gap: 0.5rem;
   }
 }
 
@@ -422,42 +423,43 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 // Continue working cards
 .continue-working {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 // Pinned
 .pinned-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 // Workspaces
 .workspaces-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 .add-workspace {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed var(--border-color);
-  transition: all 0.2s;
-  border-radius: 12px;
-  background: transparent;
-  cursor: pointer;
   min-height: 150px;
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
   font-size: 0.9rem;
   color: var(--font-color-light);
+  background: transparent;
+  transition: all 0.2s;
+  align-items: center;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     border-color: var(--primary);
     background: var(--primary-bg);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+    transform: translateY(-2px);
   }
 }
 
@@ -483,21 +485,21 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .activity-items {
   display: flex;
+  border-left: 2px solid var(--border-color);
   flex-direction: column;
   gap: 0.25rem;
   padding-left: 1rem;
-  border-left: 2px solid var(--border-color);
 }
 
 .activity-item {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
   padding: 0.5rem;
   border-radius: 8px;
-  text-decoration: none;
   color: var(--font-color);
   transition: background 0.15s;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
 
   &:hover {
     background: var(--bg-contrast);
@@ -510,10 +512,10 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .activity-content {
-  flex: 1;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  flex: 1;
+  justify-content: space-between;
 }
 
 .activity-name {
@@ -528,24 +530,24 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 // Stats
 .stats-section {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .stat-card {
   display: flex;
-  align-items: center;
-  gap: 1rem;
   padding: 1.25rem;
   border: 1px solid var(--border-color);
   border-radius: 12px;
   background: var(--bg-color);
+  align-items: center;
+  gap: 1rem;
 }
 
 .stat-icon {
   padding: 0.4rem;
-  background: var(--primary-bg);
   border-radius: 8px;
+  background: var(--primary-bg);
 }
 
 .stat-content {
@@ -576,7 +578,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 // Responsive
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .home-container {
     padding: 1rem;
   }

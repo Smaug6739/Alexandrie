@@ -192,9 +192,9 @@ main {
 }
 
 .about-section.alt {
-  background: rgb(255 255 255 / 2%);
   padding: 3rem 2rem;
   border-radius: 1rem;
+  background: rgb(255 255 255 / 2%);
 }
 
 .section-title {
@@ -204,28 +204,28 @@ main {
 }
 
 .section-text {
+  font-size: 1.05rem;
   line-height: 1.7;
   color: var(--text-secondary);
-  font-size: 1.05rem;
 }
 
 .feature-list {
-  list-style: none;
-  margin-top: 2rem;
   padding: 0;
   text-align: left;
+  list-style: none;
+  margin-top: 2rem;
 }
 
 .feature-list li {
-  margin-bottom: 0.8rem;
   line-height: 1.6;
+  margin-bottom: 0.8rem;
 }
 
 .demo-gallery {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 1.5rem;
+  justify-content: center;
   margin-top: 2rem;
 }
 

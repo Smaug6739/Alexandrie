@@ -102,24 +102,24 @@ onMounted(() => {
 
 <style scoped lang="scss">
 section {
-  padding: 2rem;
   position: relative;
+  padding: 2rem;
 }
 
 .section-title {
-  text-align: center;
   font-size: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
   font-weight: 800;
   color: var(--font-color-dark);
+  text-align: center;
   margin-bottom: 1rem;
 }
 
 .section-subtitle {
-  text-align: center;
   max-width: 600px;
   margin: 0 auto 4rem;
-  color: var(--font-color-light);
   line-height: 1.6;
+  color: var(--font-color-light);
+  text-align: center;
 }
 
 .timeline {
@@ -134,20 +134,20 @@ section {
     left: 50%;
     width: 3px;
     height: 100%;
-    background: var(--primary);
-    transform: translateX(-50%);
     border-radius: 3px;
+    background: var(--primary);
     opacity: 0.3;
+    transform: translateX(-50%);
   }
 
   .timeline-item {
+    position: relative;
     display: flex;
+    opacity: 0;
+    transition: all 0.8s ease;
     align-items: center;
     margin-bottom: 5rem;
-    position: relative;
-    opacity: 0;
     transform: translateY(40px);
-    transition: all 0.8s ease;
 
     &.visible {
       opacity: 1;
@@ -160,14 +160,14 @@ section {
 
     .timeline-content {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: clamp(1rem, 4vw, 3rem);
       width: 100%;
+      align-items: center;
+      gap: clamp(1rem, 4vw, 3rem);
+      justify-content: space-between;
 
       .text {
-        flex: 1;
         padding: 0.5rem;
+        flex: 1;
 
         h3 {
           font-size: clamp(1.1rem, 1.6vw + 0.75rem, 1.5rem);
@@ -176,29 +176,29 @@ section {
         }
 
         p {
-          color: #444;
           line-height: 1.7;
+          color: #444;
         }
       }
 
       .illustration {
-        flex: 1;
         display: flex;
+        flex: 1;
         justify-content: center;
 
         img {
           width: 100%;
           max-width: 680px;
-          border-radius: 16px;
           border: 1px solid #e5e7eb;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+          border-radius: 16px;
           background: white;
+          box-shadow: 0 10px 30px rgb(0 0 0 / 7%);
           transition: transform 0.5s ease, box-shadow 0.5s ease;
           cursor: zoom-in;
 
           &:hover {
+            box-shadow: 0 14px 40px rgb(0 0 0 / 10%);
             transform: translateY(-5px);
-            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.1);
           }
         }
       }
@@ -217,32 +217,32 @@ section {
 /* Lightbox */
 .lightbox {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   z-index: 2000;
+  display: flex;
+  background: rgb(0 0 0 / 85%);
+  align-items: center;
   animation: fadeIn 0.25s ease;
+  inset: 0;
+  justify-content: center;
 
   .lightbox-content {
     position: relative;
     max-width: min(1100px, 92vw);
     max-height: 85vh;
     border-radius: 12px;
-    overflow: hidden;
     animation: zoomIn 0.25s ease;
+    overflow: hidden;
 
     img {
+      display: block;
       width: 100%;
       height: auto;
-      display: block;
       object-fit: contain;
     }
 
     .caption {
-      color: #f0f0f0;
       font-size: 1rem;
+      color: #f0f0f0;
       text-align: center;
       margin-top: 1rem;
     }
@@ -251,13 +251,13 @@ section {
       position: absolute;
       top: 10px;
       right: 15px;
-      background: transparent;
-      color: white;
-      font-size: 2rem;
       border: none;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+      font-size: 2rem;
       line-height: 1;
+      color: white;
+      background: transparent;
+      transition: transform 0.2s ease;
+      cursor: pointer;
 
       &:hover {
         transform: scale(1.2);
@@ -270,6 +270,7 @@ section {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -277,16 +278,17 @@ section {
 
 @keyframes zoomIn {
   from {
-    transform: scale(0.95);
     opacity: 0.8;
+    transform: scale(0.95);
   }
+
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .timeline {
     .timeline-item {
       margin-bottom: 3.5rem;
@@ -294,7 +296,7 @@ section {
   }
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .timeline {
     .timeline-line {
       left: 12px;
@@ -302,8 +304,8 @@ section {
 
     .timeline-item,
     .timeline-content {
-      flex-direction: column !important;
       align-items: flex-start;
+      flex-direction: column !important;
 
       .timeline-content {
         flex-direction: column;
@@ -321,17 +323,21 @@ section {
   }
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   .timeline {
     padding: 1.25rem 0;
+
     .timeline-line {
       display: none;
     }
+
     .timeline-item {
       margin-bottom: 2rem;
       padding-left: 0;
+
       .timeline-content {
         gap: 0.75rem;
+
         .text {
           h3 {
             margin-bottom: 0.5rem;
@@ -342,18 +348,18 @@ section {
   }
 }
 
-@media (max-width: 400px) {
+@media (width <= 400px) {
   .section-subtitle {
-    margin-bottom: 2rem;
     padding: 0 0.25rem;
+    margin-bottom: 2rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .timeline .timeline-item {
+    opacity: 1;
     transition: none;
     transform: none;
-    opacity: 1;
   }
 }
 </style>

@@ -46,9 +46,9 @@ watchEffect(() => {
 .header {
   display: flex;
   padding: 1rem 1.2rem;
+  border: 1px solid var(--border-color-light);
   border-radius: 0.625rem;
   background-color: var(--bg-contrast);
-  border: 1px solid var(--border-color-light);
   transition: background-color $transition-duration;
 }
 
@@ -83,11 +83,13 @@ p {
     font-weight: 550;
     color: var(--font-color-dark);
   }
+
   .description {
     font-size: 14px;
     color: var(--font-color-light);
     margin-bottom: 8px;
   }
+
   .category {
     display: block;
     font-size: 18px;
@@ -119,8 +121,8 @@ p {
 
 @media print {
   .print-style {
-    border: none;
     padding: 0;
+    border: none;
     background: none;
     align-items: center;
 

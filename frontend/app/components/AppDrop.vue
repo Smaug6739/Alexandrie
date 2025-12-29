@@ -180,8 +180,8 @@ defineExpose({ reset });
   justify-content: center;
 
   &:hover {
-    background-color: var(--bg-contrast);
     border-color: var(--border-color-hover, var(--border-color));
+    background-color: var(--bg-contrast);
   }
 
   &.has-files {
@@ -201,8 +201,8 @@ defineExpose({ reset });
 
 .empty-state {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
   gap: 8px;
 
   p {
@@ -236,13 +236,13 @@ defineExpose({ reset });
   border: 1px solid var(--border-color);
   border-radius: 6px;
   background: var(--bg-color-secondary);
+  transition: all 0.15s ease;
   align-items: center;
   gap: 12px;
-  transition: all 0.15s ease;
 
   &:hover {
-    background: var(--bg-contrast);
     border-color: var(--border-color-hover, var(--border-color));
+    background: var(--bg-contrast);
 
     .remove-btn {
       opacity: 1;
@@ -255,8 +255,8 @@ defineExpose({ reset });
   width: 36px;
   height: 36px;
   border-radius: 6px;
-  background: var(--bg-ui);
   color: var(--primary);
+  background: var(--bg-ui);
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
@@ -294,11 +294,11 @@ defineExpose({ reset });
   color: var(--font-color-light);
   background: transparent;
   opacity: 0.6;
+  transition: all 0.15s ease;
   align-items: center;
   cursor: pointer;
   flex-shrink: 0;
   justify-content: center;
-  transition: all 0.15s ease;
 
   &:hover {
     color: var(--danger, #e74c3c);
@@ -309,10 +309,10 @@ defineExpose({ reset });
 
 .files-footer {
   display: flex;
-  padding-top: 8px;
-  border-top: 1px solid var(--border-color);
   align-items: center;
+  border-top: 1px solid var(--border-color);
   justify-content: space-between;
+  padding-top: 8px;
 }
 
 .total-info {

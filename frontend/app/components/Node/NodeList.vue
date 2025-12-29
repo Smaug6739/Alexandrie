@@ -153,10 +153,10 @@ header {
 
 h1 {
   display: flex;
-  align-items: center;
-  gap: 12px;
   font-size: 18px;
   font-weight: 600;
+  align-items: center;
+  gap: 12px;
 }
 
 .header-actions {
@@ -170,13 +170,14 @@ h1 {
   border-radius: 6px;
   margin-right: 10px;
 }
+
 .doc-count {
   padding: 6px 10px;
-  background: var(--bg-contrast);
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   color: var(--font-color-light);
+  background: var(--bg-contrast);
 }
 
 .node-content {
@@ -198,10 +199,11 @@ h1 {
   border-bottom-right-radius: 12px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   .parent-icon {
     margin-right: 0;
   }
+
   .header-actions {
     gap: 0;
   }

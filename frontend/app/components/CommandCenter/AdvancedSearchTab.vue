@@ -373,6 +373,7 @@ defineExpose({ flattenedItems });
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
+
 .filters-actions {
   display: flex;
   align-items: center;
@@ -402,8 +403,8 @@ defineExpose({ flattenedItems });
 .filters-content {
   display: grid;
   padding: 12px 16px;
-  grid-template-columns: 1fr 1fr;
   gap: 12px 16px;
+  grid-template-columns: 1fr 1fr;
 }
 
 .filter-group {
@@ -437,8 +438,8 @@ defineExpose({ flattenedItems });
   label {
     display: block;
     font-size: 10px;
-    margin-bottom: 2px;
     opacity: 0.6;
+    margin-bottom: 2px;
   }
 }
 
@@ -519,11 +520,11 @@ defineExpose({ flattenedItems });
   left: 0;
   z-index: 10;
   max-height: 150px;
-  margin-top: 2px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   background: var(--bg-color);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  margin-top: 2px;
   overflow-y: auto;
 }
 
@@ -541,8 +542,8 @@ defineExpose({ flattenedItems });
 .selected-tags {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 6px;
   gap: 4px;
+  margin-top: 6px;
 }
 
 .tag-chip {
@@ -574,8 +575,8 @@ defineExpose({ flattenedItems });
 
 .filter-actions {
   display: flex;
-  grid-column: 1 / -1;
   gap: 8px;
+  grid-column: 1 / -1;
 }
 
 .clear-filters-btn {
@@ -603,7 +604,7 @@ defineExpose({ flattenedItems });
 }
 
 .filter-hint {
-  margin: 2px 0 0 0;
+  margin: 2px 0 0;
   font-size: 10px;
   color: var(--text-secondary);
 }

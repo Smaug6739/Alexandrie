@@ -182,8 +182,8 @@ const bulkDelete = async (lines: Field[]) => {
 .storage-indicator {
   display: flex;
   width: 100%;
-  padding: 12px 16px;
   margin: 12px 0;
+  padding: 12px 16px;
   border-radius: 8px;
   background: var(--bg-color-secondary);
   align-items: center;
@@ -243,12 +243,13 @@ const bulkDelete = async (lines: Field[]) => {
   display: flex;
   align-items: center;
 }
+
 .upload-progress {
   display: flex;
-  align-items: center;
-  gap: 10px;
   font-size: 14px;
   color: var(--font-color-light);
+  align-items: center;
+  gap: 10px;
 }
 
 .link-section {
@@ -263,13 +264,14 @@ const bulkDelete = async (lines: Field[]) => {
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: var(--bg-color-secondary);
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
     color: var(--font-color-dark);
+    background: var(--bg-color-secondary);
     white-space: pre-wrap;
     word-break: break-all;
   }
+
   .links-actions {
     display: flex;
     gap: 10px;

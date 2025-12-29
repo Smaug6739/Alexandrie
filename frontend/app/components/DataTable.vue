@@ -175,9 +175,9 @@ td {
 }
 
 th {
+  font-size: 13px;
   background: var(--bg-ui);
   text-transform: uppercase;
-  font-size: 13px;
 }
 
 td > span {
@@ -204,27 +204,30 @@ td {
   justify-content: center;
 
   .active {
-    background-color: var(--primary);
     color: white;
+    background-color: var(--primary);
   }
 }
+
 button {
-  font-size: 1rem;
   margin: 0 5px;
   padding: 8px 12px;
-  border-radius: $radius-sm;
   border: 1px solid var(--border-color);
+  border-radius: $radius-sm;
+  font-size: 1rem;
+
   &:hover {
     border-color: var(--primary);
   }
+
   &:disabled {
-    cursor: not-allowed;
     opacity: 0.5;
+    cursor: not-allowed;
   }
 
   &.active {
-    background-color: var(--primary);
     color: white;
+    background-color: var(--primary);
   }
 }
 

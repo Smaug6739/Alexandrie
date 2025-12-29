@@ -77,10 +77,10 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   border: 1px solid var(--border-color);
   border-radius: 8px;
   background: var(--bg-color);
+  transition: all 0.2s ease;
   align-items: center;
   cursor: pointer;
   justify-content: space-between;
-  transition: all 0.2s ease;
 
   &:hover {
     border-color: var(--border-color-accent);
@@ -116,9 +116,9 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   color: var(--font-color);
   background-color: var(--bg-color);
   box-shadow: 0 8px 24px var(--shadow), 0 2px 8px var(--shadow);
+  animation: slideDown 0.15s ease-out;
   list-style: none;
   overflow-y: auto;
-  animation: slideDown 0.15s ease-out;
 }
 
 @keyframes slideDown {
@@ -126,6 +126,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
     opacity: 0;
     transform: translateY(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -136,13 +137,13 @@ li {
   margin: 4px 0;
   padding: 2px 4px;
   border-radius: 6px;
-  cursor: pointer;
   transition: all 0.15s ease;
+  cursor: pointer;
 }
 
 li.selected {
-  background: var(--default-bg);
   font-weight: 500;
+  background: var(--default-bg);
 }
 
 li:hover:not(.selected) {
@@ -167,14 +168,14 @@ hr {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--font-color-light);
+  transition: all 0.15s ease;
   align-items: center;
   cursor: pointer;
   gap: 6px;
-  transition: all 0.15s ease;
 
   &:hover {
-    background-color: var(--bg-contrast-2);
     color: var(--font-color);
+    background-color: var(--bg-contrast-2);
 
     svg {
       fill: var(--default) !important;

@@ -375,8 +375,8 @@ watch(searchQuery, () => {
 // Snippets container
 .snippets-container {
   min-height: 200px;
-  background-color: var(--bg-ui);
   border-radius: 12px;
+  background-color: var(--bg-ui);
 }
 
 .no-snippets {

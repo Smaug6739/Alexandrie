@@ -80,12 +80,14 @@ const close = () => emit('close');
   width: 100%;
   height: 100%;
   background-color: var(--bg-color);
+
   nav {
+    width: 270px;
     padding: 1rem;
     border-right: 1px solid var(--border-color);
     gap: 1rem;
     overflow-y: auto;
-    width: 270px;
+
     span {
       font-size: 0.9rem;
       font-weight: 500;

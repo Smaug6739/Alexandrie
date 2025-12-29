@@ -97,8 +97,8 @@ const groupedItems = computed(() => {
 }
 
 .result-title {
-  font-weight: 500;
   font-size: 14px;
+  font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

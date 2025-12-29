@@ -57,10 +57,10 @@ const close = (id: number) => useNotifications().remove(id);
   display: flex;
   width: 380px;
   padding: 14px 16px;
-  border-radius: 12px;
   border: 1px solid var(--border-color);
+  border-radius: 12px;
   background: var(--bg-color);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
   align-items: flex-start;
   gap: 12px;
   overflow: hidden;
@@ -69,8 +69,8 @@ const close = (id: number) => useNotifications().remove(id);
 .icon-wrapper {
   display: flex;
   width: 36px;
-  height: 36px;
   min-width: 36px;
+  height: 36px;
   border-radius: 10px;
   align-items: center;
   justify-content: center;
@@ -82,10 +82,10 @@ const close = (id: number) => useNotifications().remove(id);
 }
 
 .content {
-  flex: 1;
   min-width: 0;
-  padding-top: 2px;
   text-align: left;
+  flex: 1;
+  padding-top: 2px;
 }
 
 .title {
@@ -110,13 +110,13 @@ const close = (id: number) => useNotifications().remove(id);
   padding: 0;
   border: none;
   border-radius: 8px;
-  background: transparent;
   color: var(--font-color-light);
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
+  background: transparent;
   transition: all 0.15s ease;
+  align-items: center;
+  cursor: pointer;
   flex-shrink: 0;
+  justify-content: center;
 
   svg {
     width: 16px;
@@ -124,8 +124,8 @@ const close = (id: number) => useNotifications().remove(id);
   }
 
   &:hover {
-    background: var(--bg-contrast);
     color: var(--font-color);
+    background: var(--bg-contrast);
   }
 }
 
@@ -133,18 +133,19 @@ const close = (id: number) => useNotifications().remove(id);
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 3px;
   width: 100%;
-  background: currentColor;
+  height: 3px;
+  background: currentcolor;
   opacity: 0.3;
-  transform-origin: left;
   animation: shrink linear forwards;
+  transform-origin: left;
 }
 
 @keyframes shrink {
   from {
     transform: scaleX(1);
   }
+
   to {
     transform: scaleX(0);
   }
@@ -153,9 +154,10 @@ const close = (id: number) => useNotifications().remove(id);
 /* Notification types */
 .success {
   .icon-wrapper {
-    background: var(--green-bg);
     color: var(--green);
+    background: var(--green-bg);
   }
+
   .progress-bar {
     background: var(--green);
   }
@@ -163,9 +165,10 @@ const close = (id: number) => useNotifications().remove(id);
 
 .error {
   .icon-wrapper {
-    background: var(--red-bg);
     color: var(--red);
+    background: var(--red-bg);
   }
+
   .progress-bar {
     background: var(--red);
   }
@@ -173,9 +176,10 @@ const close = (id: number) => useNotifications().remove(id);
 
 .warning {
   .icon-wrapper {
-    background: var(--yellow-bg);
     color: var(--yellow);
+    background: var(--yellow-bg);
   }
+
   .progress-bar {
     background: var(--yellow);
   }
@@ -183,9 +187,10 @@ const close = (id: number) => useNotifications().remove(id);
 
 .info {
   .icon-wrapper {
-    background: var(--blue-bg);
     color: var(--blue);
+    background: var(--blue-bg);
   }
+
   .progress-bar {
     background: var(--blue);
   }
@@ -216,6 +221,6 @@ const close = (id: number) => useNotifications().remove(id);
 
 /* Dark mode adjustments */
 :global(.dark-mode) .notification {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 30%), 0 2px 4px -2px rgb(0 0 0 / 20%);
 }
 </style>
