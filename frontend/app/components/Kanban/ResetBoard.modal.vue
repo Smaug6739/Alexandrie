@@ -11,15 +11,8 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  columnTitle: string;
-  cardCount: number;
-  onConfirm: () => void;
-}>();
-
-const emit = defineEmits<{
-  close: [];
-}>();
+const props = defineProps<{ onConfirm: () => void }>();
+const emit = defineEmits<{ close: [] }>();
 
 const confirmDelete = () => {
   props.onConfirm();
