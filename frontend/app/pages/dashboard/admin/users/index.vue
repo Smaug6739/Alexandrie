@@ -39,7 +39,7 @@ const rows = computed(() =>
       lastname: { content: u.lastname, type: 'text' as const },
       email: { content: u.email, type: 'text' as const },
       role: { content: u.role == 2 ? `<tag class="red">Admin</tag>` : `<tag class="blue">User</tag>`, type: 'html' as const },
-      created_at: { content: new Date(u.created_timestamp).toLocaleDateString(), type: 'text' as const },
+      created_at: { content: numericDate(u.created_timestamp), type: 'text' as const },
       action: { type: 'slot' as const, data: { id: u.id } },
     };
   }),

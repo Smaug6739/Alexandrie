@@ -30,7 +30,7 @@
           <path fill="var(--cl-screen, #111111)" fill-rule="evenodd" d="M579.7 89.5h63v39.4h-63V89.5Z" clip-rule="evenodd" />
         </svg>
         <div>
-          <p><strong>Last connection:</strong> {{ new Date(store.last_connection.timestamp).toLocaleString() }}</p>
+          <p><strong>Last connection:</strong> {{ numericDate(store.last_connection.timestamp) }}</p>
           <p><strong>IP:</strong> {{ store.last_connection.ip_adress }} ({{ store.last_connection.location }})</p>
           <p><strong>Browser:</strong> {{ parseUserAgent(store.last_connection.user_agent).browser }}</p>
           <p><strong>OS:</strong> {{ parseUserAgent(store.last_connection.user_agent).os }}</p>

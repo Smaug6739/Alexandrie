@@ -163,7 +163,7 @@ const rows: ComputedRef<Field[]> = computed(() =>
       size: { content: readableFileSize(res.size ?? 0), type: 'text' },
       type: { content: `<tag class="${color(res.metadata?.filetype as string)}">${res.metadata?.filetype as string}</tag>`, type: 'html' },
       parent: { content: category ? `<tag class="${getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
-      date: { content: new Date(res.created_timestamp).toLocaleDateString(), type: 'text' },
+      date: { content: numericDate(res.created_timestamp), type: 'text' },
       action: { type: 'slot', data: res },
     };
   }),

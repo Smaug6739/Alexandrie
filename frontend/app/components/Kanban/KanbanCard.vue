@@ -20,7 +20,7 @@
       <div v-if="node.tags" class="card-tags">
         <span v-for="tag in parsedTags" :key="tag" class="tag">{{ tag }}</span>
       </div>
-      <span class="card-date">{{ formatDate(node.updated_timestamp) }}</span>
+      <span class="card-date">{{ shortDate(node.updated_timestamp) }}</span>
     </div>
   </div>
 </template>

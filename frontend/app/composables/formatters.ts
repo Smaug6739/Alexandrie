@@ -1,7 +1,7 @@
 const locale = 'en-US';
 
 /** Format a timestamp to a readable date string (e.g., "15 Dec 2024") */
-export function formatDate(timestamp: number | undefined): string {
+export function shortDate(timestamp: number | undefined): string {
   const date = new Date(timestamp || 0);
   return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
 }
@@ -28,7 +28,7 @@ export const relativeTime = (timestamp: number) => {
   if (hours < 24) return `${hours}h ago`;
   if (days === 1) return 'Yesterday';
   if (days < 7) return `${days} days ago`;
-  return formatDate(timestamp);
+  return shortDate(timestamp);
 };
 
 export const formatRelativeDate = (timestamp?: number) => {
@@ -43,7 +43,7 @@ export const formatRelativeDate = (timestamp?: number) => {
   return new Date(timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 };
 
-export const formatDateLabel = (timestamp: number) => {
+export const shortDateLabel = (timestamp: number) => {
   const date = new Date(timestamp);
   const today = new Date();
   const yesterday = new Date(today);

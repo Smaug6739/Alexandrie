@@ -31,11 +31,11 @@
         <div style="display: flex; width: 100%">
           <div class="user-detail">
             <label>Created At</label>
-            <div class="value">{{ new Date(user.created_timestamp).toLocaleDateString() }}</div>
+            <div class="value">{{ numericDate(user.created_timestamp) }}</div>
           </div>
           <div class="user-detail">
             <label>Updated At</label>
-            <div class="value">{{ new Date(user.updated_timestamp || 0).toLocaleDateString() }}</div>
+            <div class="value">{{ numericDate(user.updated_timestamp) }}</div>
           </div>
         </div>
       </div>

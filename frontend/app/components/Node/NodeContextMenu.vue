@@ -4,7 +4,7 @@
       <img :src="useAvatar(user)" alt="" class="header-avatar" />
       <div class="header-info">
         <span class="header-name">{{ node.name }}</span>
-        <span class="header-meta">{{ user?.username }} · {{ formatDate(node.updated_timestamp) }}</span>
+        <span class="header-meta">{{ user?.username }} · {{ shortDate(node.updated_timestamp) }}</span>
       </div>
     </div>
 

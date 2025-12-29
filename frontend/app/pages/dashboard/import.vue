@@ -21,8 +21,8 @@
             <tag v-for="tag in file.tags?.split(',')" :key="tag" class="blue">{{ tag.trim() }}</tag>
           </div>
         </div>
-        <p>Created at: {{ new Date(file.created_timestamp).toLocaleDateString() }}</p>
-        <p>Updated at: {{ new Date(file.updated_timestamp).toLocaleDateString() }}</p>
+        <p>Created at: {{ numericDate(file.created_timestamp) }}</p>
+        <p>Updated at: {{ numericDate(file.updated_timestamp) }}</p>
         <AppButton type="success" @click="importDoc(file)">Import single</AppButton>
       </div>
       <p style="display: flex; justify-content: flex-end">

@@ -191,7 +191,7 @@ const activityByDate = computed(() => {
 
   const groups: Record<string, Node[]> = {};
   docs.forEach(doc => {
-    const date = formatDateLabel(doc.updated_timestamp);
+    const date = shortDateLabel(doc.updated_timestamp);
     if (!groups[date]) groups[date] = [];
     groups[date].push(doc);
   });
