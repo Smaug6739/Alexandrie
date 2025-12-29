@@ -47,7 +47,7 @@
         <template #action="{ cell }">
           <NuxtLink :href="`/dashboard/cdn/${(cell?.data as Node).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
           <NuxtLink :to="`/dashboard/cdn/${(cell?.data as Node).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
-          <Icon name="delete" @click="() => deleteRessource((cell?.data as Node).id)" />
+          <span @click="() => deleteRessource((cell?.data as Node).id)"><Icon name="delete" /></span>
         </template>
       </DataTable>
       <div v-else>
