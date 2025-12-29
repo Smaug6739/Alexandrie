@@ -28,7 +28,7 @@
           <Icon name="settings" display="lg" />
         </NuxtLink>
         <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }}</span>
-        <ViewSelection v-model="view" :show-kanban="!!parent" />
+        <ViewSelection v-model="view" :show-kanban="true" />
       </div>
     </header>
 
