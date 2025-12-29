@@ -33,7 +33,10 @@
     </div>
     <div v-if="fileLinks.length" class="link-section">
       <div v-text="linksText" class="links-text"></div>
-      <AppButton type="primary" @click="copyLinks">Copy {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
+      <div class="links-actions">
+        <AppButton type="primary" @click="copyLinks">Copy {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
+        <AppButton type="secondary" @click="fileLinks = []">Clear</AppButton>
+      </div>
     </div>
     <div v-if="filteredRessources.length" class="ressources-list">
       <DataTable v-if="view === 'table'" :headers="headers" :rows="rows">
@@ -266,6 +269,10 @@ const bulkDelete = async (lines: Field[]) => {
     color: var(--font-color-dark);
     white-space: pre-wrap;
     word-break: break-all;
+  }
+  .links-actions {
+    display: flex;
+    gap: 10px;
   }
 }
 

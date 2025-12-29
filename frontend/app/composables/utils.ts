@@ -19,7 +19,7 @@ export const isTablet = () => (import.meta.client ? window.innerWidth <= 1280 : 
 /** Get user avatar URL or fallback to default */
 export function useAvatar(user?: User | PublicUser | null): string {
   const { CDN } = useApi();
-  return user?.avatar ? CDN + '/' + user.id + '/avatar' : '/default_avatar.avif';
+  return user?.avatar ? CDN + '/' + user.id + `/avatar?v=${user.avatar}` : '/default_avatar.avif';
 }
 
 export function debounce<T extends (...args: unknown[]) => void>(fn: T, delay = 500) {

@@ -61,12 +61,15 @@ const previewAvatar = (event: Event) => {
 
 const updateUser = async () => {
   if (!userStore.user) return;
-  await uploadAvatar();
-  userStore.user.avatar = 'ok';
-  userStore
-    .update(userStore.user)
-    .then(() => useNotifications().add({ type: 'success', title: 'User updated' }))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+  try {
+    await uploadAvatar();
+    userStore.user.avatar = Date.now().toString();
+    await userStore.update(userStore.user);
+    useNotifications().add({ type: 'success', title: 'User updated' });
+  } catch (e) {
+    avatarPreview.value = '';
+    useNotifications().add({ type: 'error', title: 'Error', message: e as string });
+  }
 };
 </script>
 
