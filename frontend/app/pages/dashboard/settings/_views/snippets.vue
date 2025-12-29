@@ -113,8 +113,8 @@
 </template>
 
 <script setup lang="ts">
-import { DEFAULT_PREFERENCES } from '~/composables/Preferences';
 const preferences = usePreferences();
+
 const snippets = preferences.get('snippets');
 
 // Reactive state
@@ -125,15 +125,15 @@ const editingIndex = ref<number | null>(null);
 const editingSnippet = ref<{ id: string; label: string }>({ id: '', label: '' });
 const originalSnippet = ref<{ id: string; label: string }>({ id: '', label: '' });
 
-// Temporary snippet creation
 const creatingSnippet = ref(false);
+const fileInput = ref<HTMLInputElement | null>(null);
 const newSnippet = ref<{ id: string; label: string }>({ id: '', label: '' });
 const sortOptions = [
   { id: 'shortcut', label: 'Sort by Shortcut' },
   { id: 'content', label: 'Sort by Content' },
   { id: 'usage', label: 'Sort by Usage' },
 ];
-// Computed
+
 const filteredSnippets = computed(() => {
   return snippets.value
     .filter(
@@ -160,8 +160,6 @@ function cancelNewSnippet() {
   creatingSnippet.value = false;
   newSnippet.value = { id: '', label: '' };
 }
-
-const fileInput = ref<HTMLInputElement | null>(null);
 
 function removeSnippet(index: number) {
   const actualIndex = findActualIndex(index);

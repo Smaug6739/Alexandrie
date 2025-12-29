@@ -11,8 +11,8 @@
       @keydown="handleKeyDown"
       @click.stop
     />
-    <div v-else class="app-select-trigger" @click.stop="toggleDropdown">
-      <button style="height: 30px">{{ selected?.label || placeholder }}</button>
+    <div v-else class="trigger" @click.stop="toggleDropdown">
+      <button class="trigger-button">{{ selected?.label || placeholder }}</button>
       <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--font-color)">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
@@ -168,7 +168,7 @@ function toggleDropdown() {
   if (open.value) {
     search.value = '';
     nextTick(() => {
-      if (isMobile) {
+      if (isMobile.value) {
         // Lock body scroll on mobile
         document.body.style.overflow = 'hidden';
         mobileSearchInput.value?.focus();
@@ -243,11 +243,14 @@ onBeforeUnmount(() => {
   }
 }
 
-.app-select-trigger {
+.trigger {
   display: flex;
   padding: 2px;
   align-items: center;
   justify-content: space-between;
+}
+.trigger-button {
+  height: 30px;
 }
 
 button,

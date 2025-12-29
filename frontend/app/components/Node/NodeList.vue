@@ -62,7 +62,7 @@
       description="There are no documents in this category"
     >
       <NuxtLink to="/dashboard/docs/new">
-        <AppButton type="link" style="font-weight: bold">+ Create new document</AppButton>
+        <AppButton type="link">+ Create new document</AppButton>
       </NuxtLink>
     </NoContent>
   </div>

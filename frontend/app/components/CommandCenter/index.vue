@@ -60,7 +60,6 @@ import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCate
 import TabNavigation from './TabNavigation.vue';
 import QuickSearchTab from './QuickSearchTab.vue';
 import AdvancedSearchTab from './AdvancedSearchTab.vue';
-import { useModal, Modal } from '~/composables/useModal';
 import type { Node } from '~/stores';
 
 const router = useRouter();

@@ -1,7 +1,7 @@
 <template>
   <div class="workspace-item">
     <span class="workspace-name">
-      <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="[appColors.getAppColor(option.meta?.color), 'icon']" />
+      <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="[getAppColor(option.meta?.color), 'icon']" />
       {{ option.text }}
     </span>
     <span>
@@ -15,7 +15,7 @@ import type { Workspace } from './helpers';
 
 defineProps<{ option: Workspace }>();
 
-const appColors = useAppColors();
+const { getAppColor } = useAppColors();
 </script>
 
 <style scoped lang="scss">

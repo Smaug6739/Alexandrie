@@ -6,9 +6,7 @@
           <Icon :name="node.icon || 'file'" display="sm" />
         </span>
 
-        <NuxtLink :to="`/dashboard/docs/${node.id}`" class="card-title">
-          {{ node.name }}
-        </NuxtLink>
+        <NuxtLink :to="`/dashboard/docs/${node.id}`" class="card-title"> {{ node.name }} </NuxtLink>
       </div>
       <span v-if="node.order === -1" class="pin-badge" title="Pinned">
         <Icon name="pin" />
@@ -29,10 +27,10 @@
 import type { Node } from '~/stores';
 
 const props = defineProps<{ node: Node; parent: Node }>();
-const emit = defineEmits<{
-  dragStart: [node: Node];
-  dragEnd: [];
-}>();
+const emit = defineEmits<{ dragStart: [node: Node]; dragEnd: [] }>();
+
+const { getAppColor } = useAppColors();
+const { shortDate } = useDateFormatters();
 
 const parsedTags = computed(() => {
   if (!props.node.tags) return [];

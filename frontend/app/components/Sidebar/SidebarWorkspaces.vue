@@ -2,7 +2,7 @@
   <div class="dropdown-container" @click.stop="toggleDropdown">
     <!-- stop propagation to avoid closing sidebar on mobile -->
     <div class="dropdown-selected" :class="{ open: isOpen }">
-      <span v-if="selectedOption" style="flex: 1"><SidebarWorkspace :option="selectedOption" /></span>
+      <span v-if="selectedOption" class="selected"><SidebarWorkspace :option="selectedOption" /></span>
       <Icon name="expand" display="sm" />
     </div>
     <ul v-if="isOpen" class="dropdown-options">
@@ -12,12 +12,12 @@
       <li :class="{ selected: shared_workspaces.value === workspaceId }" @click="selectOption(shared_workspaces)">
         <SidebarWorkspace :option="shared_workspaces" />
       </li>
-      <hr style="margin: 2px 0" />
-      <span style="margin: 4px 6px; font-size: small; font-weight: 600; color: var(--font-color-light)">Workspaces</span>
+      <hr />
+      <span class="workspaces-label">Workspaces</span>
       <li v-for="option in options" :key="option.meta?.id" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
         <SidebarWorkspace :option="option" />
       </li>
-      <div v-if="!options.length" class="placeholder" style="padding: 6px; font-size: 0.9rem; font-style: italic">No workspaces found</div>
+      <div v-if="!options.length" class="placeholder">No workspaces found</div>
       <hr />
       <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--font-color-light)" /> New Workspace</div>
       <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace"
@@ -91,9 +91,15 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
     transition: transform 0.2s ease;
   }
 }
+.selected {
+  flex: 1;
+}
 
 .placeholder {
   color: var(--font-color-light);
+  padding: 6px;
+  font-size: 0.9rem;
+  font-style: italic;
 }
 
 .dropdown-selected.open {
@@ -158,6 +164,14 @@ hr {
   margin: 6px 0;
   border: none;
   border-top: 1px solid var(--border-color-light);
+}
+
+.workspaces-label {
+  display: block;
+  margin: 4px 6px;
+  font-size: small;
+  font-weight: 600;
+  color: var(--font-color-light);
 }
 
 .new-workspace {

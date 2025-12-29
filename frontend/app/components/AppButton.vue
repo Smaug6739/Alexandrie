@@ -54,6 +54,7 @@ button {
 .link {
   color: var(--primary);
   background: none;
+  font-weight: bold;
   cursor: pointer;
 
   &:hover {

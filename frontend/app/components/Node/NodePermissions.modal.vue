@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <Loader v-if="isLoading" style="margin: 4px auto" />
+      <Loader v-if="isLoading" />
       <p v-else-if="searchError" class="info-secondary">{{ searchError }}</p>
     </form>
 
@@ -55,7 +55,7 @@
           <div class="user-actions">
             <AppSelect v-model="perm.permission" :items="NODE_PERMISSIONS" :searchable="false" size="250px" @update:model-value="updatePermission(perm)">
               <template #list-footer>
-                <hr style="margin: 4px 0" />
+                <hr />
                 <AppSelectNode :level="0" :node="{ id: `$rm-${perm.id}`, label: 'Remove permission' }" @select="removePermission(perm)" />
               </template>
             </AppSelect>

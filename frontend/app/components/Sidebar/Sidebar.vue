@@ -6,14 +6,14 @@
       <section class="header">
         <span class="name">
           <IconApp />
-          <NuxtLink style="font-family: Arial; font-size: 19px; font-weight: 600" to="/dashboard">Alexandrie</NuxtLink>
+          <NuxtLink class="home-link" to="/dashboard">Alexandrie</NuxtLink>
         </span>
         <IconClose class="btn" />
       </section>
       <input v-model="filter" type="text" placeholder="Search or ctrl + q" />
 
       <div v-if="userStore.user" class="user">
-        <img :src="avatarURL(userStore.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+        <img :src="avatarURL(userStore.user)" alt="Avatar" class="avatar" />
         <div class="details">
           <NuxtLink to="/dashboard/settings?p=profile">
             <div>{{ userStore.user.username }}</div>
@@ -121,6 +121,12 @@ onBeforeUnmount(() => {
   }
 }
 
+.home-link {
+  font-family: Arial;
+  font-size: 19px;
+  font-weight: 600;
+}
+
 .header {
   display: flex;
   height: 50px;
@@ -196,6 +202,11 @@ input {
       font-size: 0.7rem;
       color: var(--font-color-light);
     }
+  }
+  .avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
   }
 }
 
