@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import LazyPDFViewer from '~/components/LazyPDFViewer.vue';
 import { PDF_SCALES, DEFAULT_PDF_SCALE } from '~/helpers/constants';
 
 definePageMeta({ breadcrumb: 'Preview' });
