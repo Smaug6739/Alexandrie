@@ -24,6 +24,10 @@ func NewResourceController(app *app.App) ResourceController {
 	}
 }
 
+// GetBackup generates a backup link for the user's data
+// @Method GET
+// @Description Generate a backup link for the user's data.
+// @Router /resources/backup [get]
 func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
@@ -37,6 +41,10 @@ func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
 	return http.StatusCreated, gin.H{"link": link}
 }
 
+// UploadFile handles file upload and stores it in the CDN
+// @Method POST
+// @Description Upload a file to the CDN.
+// @Router /resources/upload [post]
 func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 
 	// Limit request body size
@@ -79,6 +87,10 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	return http.StatusOK, node
 }
 
+// UploadAvatar handles avatar upload and stores it in the CDN
+// @Method POST
+// @Description Upload a user avatar to the CDN.
+// @Router /resources/avatar [post]
 func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 
 	// Limit request body size

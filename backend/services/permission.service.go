@@ -81,6 +81,7 @@ func (s *permissionService) CreatePermission(nodeId, userId types.Snowflake, per
 }
 
 func (s *permissionService) UpdatePermission(id types.Snowflake, permission int, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error {
+
 	perm, err := s.permRepo.GetByID(id)
 	if err != nil {
 		return err
@@ -90,7 +91,6 @@ func (s *permissionService) UpdatePermission(id types.Snowflake, permission int,
 	if err != nil {
 		return err
 	}
-
 	allowed, _, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
 	if !allowed || err != nil {
 		return errors.New("unauthorized")
