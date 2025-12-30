@@ -23,10 +23,10 @@ type NodeRepository interface {
 	GetPublic(nodeId types.Snowflake) (*models.Node, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
 	GetDescendantResources(nodeId types.Snowflake) ([]*models.NodeResourceInfo, error)
+	SearchFulltext(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error)
 	Create(node *models.Node) error
 	Update(node *models.Node) error
 	Delete(nodeId types.Snowflake) error
-	SearchFulltext(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error)
 }
 
 // Prepared statement keys
@@ -142,6 +142,21 @@ func (r *NodeRepositoryImpl) prepareStatements() error {
 			FROM descendants
 			WHERE role = 4`,
 
+		// FULLTEXT search including content body (for content search)
+		stmtNodeSearchContent: `
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
+			       MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
+			       SUBSTRING(n.content, 
+			           GREATEST(1, LOCATE(?, LOWER(n.content)) - 50), 
+			           200) AS content_snippet,
+						 n.created_timestamp,
+			       n.updated_timestamp
+			FROM nodes n
+			WHERE n.user_id = ? AND n.role = 3
+			  AND MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
+			ORDER BY relevance DESC
+			LIMIT ?`,
+
 		stmtNodeCreate: `
 			INSERT INTO nodes (id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
 			                   accessibility, access, display, ` + "`order`" + `, content, content_compiled, size, metadata, 
@@ -169,21 +184,6 @@ func (r *NodeRepositoryImpl) prepareStatements() error {
 			FROM nodes n
 			WHERE n.user_id = ? AND n.role = 3
 			  AND MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
-			ORDER BY relevance DESC
-			LIMIT ?`,
-
-		// FULLTEXT search including content body (for content search)
-		stmtNodeSearchContent: `
-			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
-			       MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
-			       SUBSTRING(n.content, 
-			           GREATEST(1, LOCATE(?, LOWER(n.content)) - 50), 
-			           200) AS content_snippet,
-						 n.created_timestamp,
-			       n.updated_timestamp
-			FROM nodes n
-			WHERE n.user_id = ? AND n.role = 3
-			  AND MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
 			ORDER BY relevance DESC
 			LIMIT ?`,
 	}
@@ -232,7 +232,7 @@ func (r *NodeRepositoryImpl) scanNode(scanner interface {
 	return &node, nil
 }
 
-// scanNodePartial scans a node without content fields (for list views)
+// scanNodePartial scans a node with partial fields from a database row
 func (r *NodeRepositoryImpl) scanNodePartial(scanner interface {
 	Scan(dest ...interface{}) error
 }) (*models.Node, error) {
@@ -417,9 +417,7 @@ func (r *NodeRepositoryImpl) GetByID(nodeId types.Snowflake) (*models.Node, erro
 	}
 
 	node, err := r.scanNode(stmt.QueryRow(nodeId))
-	if err == sql.ErrNoRows {
-		return nil, nil
-	}
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to get node by id: %w", err)
 	}
@@ -435,9 +433,7 @@ func (r *NodeRepositoryImpl) GetPublic(nodeId types.Snowflake) (*models.Node, er
 	}
 
 	node, err := r.scanNode(stmt.QueryRow(nodeId))
-	if err == sql.ErrNoRows {
-		return nil, nil
-	}
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to get public node: %w", err)
 	}
@@ -489,95 +485,6 @@ func (r *NodeRepositoryImpl) GetDescendantResources(nodeId types.Snowflake) ([]*
 	}
 
 	return resources, nil
-}
-
-// Create creates a new node
-func (r *NodeRepositoryImpl) Create(node *models.Node) error {
-	stmt, err := r.manager.GetStatement(stmtNodeCreate)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(
-		node.Id,
-		node.UserId,
-		node.ParentId,
-		node.Name,
-		node.Description,
-		node.Tags,
-		node.Role,
-		node.Color,
-		node.Icon,
-		node.Thumbnail,
-		node.Theme,
-		node.Accessibility,
-		node.Access,
-		node.Display,
-		node.Order,
-		node.Content,
-		node.ContentCompiled,
-		node.Size,
-		node.Metadata,
-		node.CreatedTimestamp,
-		node.UpdatedTimestamp,
-	)
-
-	if err != nil {
-		return fmt.Errorf("failed to create node: %w", err)
-	}
-
-	return nil
-}
-
-// Update updates an existing node
-func (r *NodeRepositoryImpl) Update(node *models.Node) error {
-	stmt, err := r.manager.GetStatement(stmtNodeUpdate)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(
-		node.ParentId,
-		node.UserId,
-		node.Name,
-		node.Description,
-		node.Tags,
-		node.Role,
-		node.Color,
-		node.Icon,
-		node.Thumbnail,
-		node.Theme,
-		node.Accessibility,
-		node.Access,
-		node.Display,
-		node.Order,
-		node.Content,
-		node.ContentCompiled,
-		node.Metadata,
-		node.UpdatedTimestamp,
-		node.Id,
-	)
-
-	if err != nil {
-		return fmt.Errorf("failed to update node: %w", err)
-	}
-
-	return nil
-}
-
-// Delete deletes a node
-func (r *NodeRepositoryImpl) Delete(nodeId types.Snowflake) error {
-	stmt, err := r.manager.GetStatement(stmtNodeDelete)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(nodeId)
-	if err != nil {
-		return fmt.Errorf("failed to delete node: %w", err)
-	}
-
-	return nil
 }
 
 // SearchFulltext performs a FULLTEXT search on nodes
@@ -651,4 +558,93 @@ func (r *NodeRepositoryImpl) SearchFulltext(userId types.Snowflake, query string
 	}
 
 	return results, nil
+}
+
+// Create a new node
+func (r *NodeRepositoryImpl) Create(node *models.Node) error {
+	stmt, err := r.manager.GetStatement(stmtNodeCreate)
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(
+		node.Id,
+		node.UserId,
+		node.ParentId,
+		node.Name,
+		node.Description,
+		node.Tags,
+		node.Role,
+		node.Color,
+		node.Icon,
+		node.Thumbnail,
+		node.Theme,
+		node.Accessibility,
+		node.Access,
+		node.Display,
+		node.Order,
+		node.Content,
+		node.ContentCompiled,
+		node.Size,
+		node.Metadata,
+		node.CreatedTimestamp,
+		node.UpdatedTimestamp,
+	)
+
+	if err != nil {
+		return fmt.Errorf("failed to create node: %w", err)
+	}
+
+	return nil
+}
+
+// Update an existing node
+func (r *NodeRepositoryImpl) Update(node *models.Node) error {
+	stmt, err := r.manager.GetStatement(stmtNodeUpdate)
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(
+		node.ParentId,
+		node.UserId,
+		node.Name,
+		node.Description,
+		node.Tags,
+		node.Role,
+		node.Color,
+		node.Icon,
+		node.Thumbnail,
+		node.Theme,
+		node.Accessibility,
+		node.Access,
+		node.Display,
+		node.Order,
+		node.Content,
+		node.ContentCompiled,
+		node.Metadata,
+		node.UpdatedTimestamp,
+		node.Id,
+	)
+
+	if err != nil {
+		return fmt.Errorf("failed to update node: %w", err)
+	}
+
+	return nil
+}
+
+// Delete a node
+func (r *NodeRepositoryImpl) Delete(nodeId types.Snowflake) error {
+	stmt, err := r.manager.GetStatement(stmtNodeDelete)
+	if err != nil {
+		return err
+	}
+
+	_, err = stmt.Exec(nodeId)
+	if err != nil {
+		return fmt.Errorf("failed to delete node: %w", err)
+	}
+
+	return nil
 }

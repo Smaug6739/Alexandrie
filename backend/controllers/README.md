@@ -51,7 +51,7 @@ type Controller struct {
 - **`users.controller.go`** - User profile management, updates
 - **`nodes.controller.go`** - Document/note CRUD operations
 - **`permissions.controller.go`** - Access control management
-- **`ressources.controller.go`** - File upload and media handling
+- **`resources.controller.go`** - File upload and media handling
 
 ## Usage Example
 
@@ -190,12 +190,12 @@ Example test structure:
 func TestGetNodeById(t *testing.T) {
     app := fiber.New()
     controller := NewController(testApp)
-    
+
     app.Get("/nodes/:id", controller.GetNodeById)
-    
+
     req := httptest.NewRequest("GET", "/nodes/123", nil)
     resp, err := app.Test(req)
-    
+
     assert.NoError(t, err)
     assert.Equal(t, 200, resp.StatusCode)
 }

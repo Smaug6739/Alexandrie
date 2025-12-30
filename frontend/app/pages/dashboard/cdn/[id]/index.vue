@@ -1,34 +1,34 @@
 <template>
   <div class="card-component">
     <header>
-      <h3>Update ressource</h3>
+      <h3>Update resource</h3>
     </header>
-    <p>Manage ressources and files on the server. You can edit metadata and delete file from the server.</p>
-    <form v-if="ressource" @submit.prevent>
+    <p>Manage resources and files on the server. You can edit metadata and delete file from the server.</p>
+    <form v-if="resource" @submit.prevent>
       <div class="form-row">
         <div class="form-column">
           <label>ID</label>
-          <input id="id" type="text" :value="ressource.id" disabled />
+          <input id="id" type="text" :value="resource.id" disabled />
         </div>
         <div class="form-column">
           <label>Size</label>
-          <input id="size" type="text" :value="readableFileSize(ressource.size ?? 0)" disabled />
+          <input id="size" type="text" :value="readableFileSize(resource.size ?? 0)" disabled />
         </div>
       </div>
       <label>Name</label>
-      <input id="name" v-model="ressource.name" type="text" required />
+      <input id="name" v-model="resource.name" type="text" required />
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
-      <AppSelect v-model="ressource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.role !== 3" placeholder="Select a ressource parent" />
+      <AppSelect v-model="resource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.role !== 3" placeholder="Select a resource parent" />
       <label>Type</label>
-      <input id="id" type="text" :value="ressource.metadata?.filetype" disabled />
+      <input id="id" type="text" :value="resource.metadata?.filetype" disabled />
       <label>Original path</label>
-      <input id="content" type="text" :value="ressource.content" disabled />
+      <input id="content" type="text" :value="resource.content" disabled />
       <label>Path</label>
-      <input id="path" type="text" :value="ressource.metadata?.transformed_path" disabled />
+      <input id="path" type="text" :value="resource.metadata?.transformed_path" disabled />
       <p style="overflow-wrap: break-word">
-        Ressource:
-        <a :href="`${CDN}/${ressource.user_id}/${ressource.metadata?.transformed_path || ressource.content}`" target="_blank">{{
-          `${CDN}/${ressource.user_id}/${ressource.metadata?.transformed_path || ressource.content}`
+        Resource:
+        <a :href="`${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`" target="_blank">{{
+          `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`
         }}</a>
       </p>
       <div style="display: flex; justify-content: flex-end">
@@ -38,8 +38,8 @@
       <h4>Preview</h4>
       <div class="preview">
         <img
-          v-if="(ressource.metadata?.filetype as string)?.startsWith('image/')"
-          :src="`${CDN}/${ressource.user_id}/${ressource.metadata?.transformed_path || ressource.content}`"
+          v-if="(resource.metadata?.filetype as string)?.startsWith('image/')"
+          :src="`${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`"
           alt="Preview"
         />
         <p v-else>Preview not available for this file type.</p>
@@ -49,8 +49,8 @@
 </template>
 
 <script lang="ts" setup>
-import DeleteRessourceModal from '../_modals/DeleteRessourceModal.vue';
-import { readableFileSize } from '~/helpers/ressources';
+import DeleteResourceModal from '../_modals/DeleteResourceModal.vue';
+import { readableFileSize } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Edit' });
 
@@ -58,7 +58,7 @@ const nodeStore = useNodesStore();
 const route = useRoute();
 const { CDN } = useApi();
 
-const ressource = computed(() => nodeStore.getById(route.params.id as string));
+const resource = computed(() => nodeStore.getById(route.params.id as string));
 
 const defaultItem: ANode = {
   id: '',
@@ -69,17 +69,17 @@ const defaultItem: ANode = {
 const tree = computed(() => [defaultItem, ...useSidebarTree().tree.value]);
 
 const updateCategory = async () => {
-  if (ressource.value)
+  if (resource.value)
     nodeStore
-      .update(ressource.value)
+      .update(resource.value)
       .then(() => {
-        useNotifications().add({ type: 'success', title: 'Ressource updated' });
+        useNotifications().add({ type: 'success', title: 'Resource updated' });
         useRouter().push('/dashboard/cdn');
       })
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const showDeleteModal = () => {
-  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressources: [ressource.value?.id] } }));
+  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: [resource.value?.id] } }));
 };
 </script>
 

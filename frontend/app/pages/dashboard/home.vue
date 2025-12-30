@@ -30,7 +30,7 @@
       <Transition name="dropdown">
         <div v-if="searchResults?.length" class="search-results">
           <NuxtLink v-for="result in searchResults" :key="result.id" class="search-result" :to="getNodeLink(result)">
-            <Icon :name="resolveIcon(result)" :class="`node-icon ${getAppColor(result.color as number, true)}`" />
+            <Icon :name="resolveIcon(result)" :class="`node-icon ${getAppAccent(result.color as number, true)}`" />
             <div class="result-content">
               <span class="result-name">{{ result.name }}</span>
               <span class="result-path">{{ getNodePath(result) }}</span>
@@ -93,7 +93,7 @@
               <Icon
                 :name="resolveIcon(item)"
                 display="md"
-                :class="`activity-icon ${getAppColor(item.color || getCategory(item.parent_id)?.color as number, true)}`"
+                :class="`activity-icon ${getAppAccent(item.color || getCategory(item.parent_id)?.color as number, true)}`"
               />
               <div class="activity-content">
                 <span class="activity-name">{{ item.name }}</span>
@@ -149,7 +149,7 @@ const nodesStore = useNodesStore();
 const userStore = useUserStore();
 
 const { todayFormatted, formatTime, shortDateLabel } = useDateFormatters();
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 
 // Search state
 const searchQuery = ref('');
@@ -162,7 +162,7 @@ const userName = computed(() => userStore.user?.firstname || userStore.user?.use
 const documentsCount = computed(() => nodesStore.documents.size);
 const workspacesCount = computed(() => nodesStore.getAll.filter(n => n.role === 1).size);
 const tagsCount = computed(() => nodesStore.getAllTags.length);
-const resourcesCount = computed(() => nodesStore.ressources.size);
+const resourcesCount = computed(() => nodesStore.resources.size);
 
 // Recently edited documents (last 5, sorted by update time)
 const recentlyEdited = computed(() => {

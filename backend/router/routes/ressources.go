@@ -10,11 +10,11 @@ import (
 )
 
 func Uploads(app *app.App, router *gin.RouterGroup) {
-	ressources := router.Group("/ressources")
-	ressourcesCtrl := controllers.NewRessourceController(app)
+	resources := router.Group("/resources")
+	resourcesCtrl := controllers.NewResourceController(app)
 
-	ressources.Use(middlewares.Auth())
-	ressources.GET(("/backup"), utils.WP(ressourcesCtrl.GetBackup))
-	ressources.POST("", utils.WP(ressourcesCtrl.UploadFile))
-	ressources.POST("/avatar", utils.WP(ressourcesCtrl.UploadAvatar))
+	resources.Use(middlewares.Auth())
+	resources.GET(("/backup"), utils.WP(resourcesCtrl.GetBackup))
+	resources.POST("", utils.WP(resourcesCtrl.UploadFile))
+	resources.POST("/avatar", utils.WP(resourcesCtrl.UploadAvatar))
 }

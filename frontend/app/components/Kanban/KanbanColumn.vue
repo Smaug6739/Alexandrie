@@ -2,7 +2,12 @@
   <div class="kanban-column" :class="{ 'drag-over': isDragOver }" @dragover.prevent="onDragOver" @dragleave="onDragLeave" @drop="onDrop">
     <div class="column-header">
       <div class="column-title-row">
-        <button class="column-color-btn" title="Change color" :style="{ background: `var(--${getAppColor(column.color, true)})` }" @click="toggleColorPicker" />
+        <button
+          class="column-color-btn"
+          title="Change color"
+          :style="{ background: `var(--${getAppAccent(column.color, true)})` }"
+          @click="toggleColorPicker"
+        />
         <input
           v-if="isEditing"
           ref="titleInput"
@@ -31,7 +36,7 @@
           <button
             v-for="(_, index) in appColors"
             :key="index"
-            :style="{ backgroundColor: `var(--${getAppColor(index, true)})` }"
+            :style="{ backgroundColor: `var(--${getAppAccent(index, true)})` }"
             :class="['color-option ', { active: column.color === index }]"
             @click="selectColor(index)"
           />
@@ -89,7 +94,7 @@ const emit = defineEmits<{
   cardDragEnd: [];
 }>();
 
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 
 const isDragOver = ref(false);
 const isEditing = ref(false);

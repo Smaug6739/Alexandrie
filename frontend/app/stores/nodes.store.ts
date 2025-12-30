@@ -31,7 +31,7 @@ export const useNodesStore = defineStore('nodes', {
     getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),
     categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
     documents: state => state.nodes.filter(d => d.role === 3),
-    ressources: state => state.nodes.filter(d => d.role === 4),
+    resources: state => state.nodes.filter(d => d.role === 4),
     isDescendant:
       state =>
       (node: Node, descendantId: string): boolean => {
@@ -197,7 +197,7 @@ export const useNodesStore = defineStore('nodes', {
       if (opts?.id && !this.nodes.get(opts.id)?.partial) return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
       console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
       if (!this.nodes.size) this.isFetching = true;
-      const request = await makeRequest(`nodes/@me/${opts?.id || ''}`, 'GET', {});
+      const request = await makeRequest(`nodes/${opts?.id ? opts.id : 'user/@me'}`, 'GET', {});
       this.isFetching = false;
       if (request.status == 'success') {
         if (opts?.id) {
@@ -246,12 +246,32 @@ export const useNodesStore = defineStore('nodes', {
         return this.nodes;
       } else throw request;
     },
-
+    /**
+     * Performs a fulltext search on the server using MySQL FULLTEXT index
+     * This is optimized for searching in document content (body)
+     * @param query - Search query (min 2 characters)
+     * @param includeContent - Whether to search in document body content
+     * @param limit - Max results to return
+     */
+    async searchFulltext(query: string, includeContent = true, limit = 20): Promise<NodeSearchResult[]> {
+      if (query.length < 2) return [];
+      const params = new URLSearchParams({
+        q: query,
+        content: includeContent.toString(),
+        limit: limit.toString(),
+      });
+      const request = await makeRequest(`nodes/search?${params.toString()}`, 'GET', {});
+      if (request.status === 'success') {
+        return request.result as NodeSearchResult[];
+      }
+      console.error('[store/nodes] Fulltext search failed:', request.message);
+      return [];
+    },
     async addPermission(perm: Omit<Permission, 'id' | 'created_timestamp'>): Promise<Permission> {
       console.log(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
       const node = this.nodes.get(perm.node_id);
       if (!node) throw 'Node not found in store, cannot add permission';
-      const request = await makeRequest(`permissions`, 'POST', perm);
+      const request = await makeRequest(`nodes/${perm.node_id}/permissions`, 'POST', perm);
       if (request.status === 'success') {
         node.permissions.push(request.result as Permission);
         return request.result as Permission;
@@ -261,7 +281,7 @@ export const useNodesStore = defineStore('nodes', {
       console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
       const node = this.nodes.get(perm.node_id);
       if (!node) throw 'Node not found in store, cannot update permission';
-      const request = await makeRequest(`permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
+      const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
       if (request.status === 'success') {
         const index = node.permissions.findIndex(p => p.id === perm.id);
         if (index !== -1) node.permissions[index]!.permission = perm.permission;
@@ -273,7 +293,7 @@ export const useNodesStore = defineStore('nodes', {
       if (!node) throw 'Node not found in store, cannot remove permission';
       const perm = node.permissions.find(p => p.user_id === userId);
       if (!perm) throw 'Permission not found in store, cannot remove permission';
-      const request = await makeRequest(`permissions/${perm.id}`, 'DELETE', {});
+      const request = await makeRequest(`nodes/${nodeId}/permissions/${perm.id}`, 'DELETE', {});
       if (request.status === 'success') {
         node.permissions = node.permissions.filter(p => p.id !== perm.id);
       } else throw request.message;
@@ -355,27 +375,6 @@ export const useNodesStore = defineStore('nodes', {
         allChildrens.forEach(childId => this.nodes.delete(childId));
       });
       return { deletedIds, failedIds };
-    },
-    /**
-     * Performs a fulltext search on the server using MySQL FULLTEXT index
-     * This is optimized for searching in document content (body)
-     * @param query - Search query (min 2 characters)
-     * @param includeContent - Whether to search in document body content
-     * @param limit - Max results to return
-     */
-    async searchFulltext(query: string, includeContent = true, limit = 20): Promise<NodeSearchResult[]> {
-      if (query.length < 2) return [];
-      const params = new URLSearchParams({
-        q: query,
-        content: includeContent.toString(),
-        limit: limit.toString(),
-      });
-      const request = await makeRequest(`nodes/search?${params.toString()}`, 'GET', {});
-      if (request.status === 'success') {
-        return request.result as NodeSearchResult[];
-      }
-      console.error('[store/nodes] Fulltext search failed:', request.message);
-      return [];
     },
     clear() {
       this.nodes.clear();

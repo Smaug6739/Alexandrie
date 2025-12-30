@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 const userStore = useUserStore();
-const ressourcesStore = useRessourcesStore();
+const resourcesStore = useResourcesStore();
 
 const api = useApi();
 const { shortDate } = useDateFormatters();
@@ -51,7 +51,7 @@ const uploadAvatar = async () => {
   if (!file) return;
   const body = new FormData();
   body.append('file', file);
-  const r = await ressourcesStore.postAvatar(body);
+  const r = await resourcesStore.postAvatar(body);
   return r.content_compiled || r.original_path;
 };
 const previewAvatar = (event: Event) => {

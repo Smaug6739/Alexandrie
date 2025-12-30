@@ -2,7 +2,7 @@ import { EditorView } from '@codemirror/view';
 import type { Node } from '~/stores';
 
 interface UploadHandlersParams {
-  resourcesStore: ReturnType<typeof import('~/stores').useRessourcesStore>;
+  resourcesStore: ReturnType<typeof import('~/stores').useResourcesStore>;
   CDN: string;
   insertText: (text: string) => void;
 }

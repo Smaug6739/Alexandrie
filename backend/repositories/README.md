@@ -216,7 +216,7 @@ class nodes {
    varchar(50) name
    varchar(255) description
    varchar(200) tags
-   tinyint role  /* 1=workspace, 2=category, 3=document, 4=ressource */
+   tinyint role  /* 1=workspace, 2=category, 3=document, 4=resource */
    int color
    text icon
    text thumbnail

@@ -3,7 +3,7 @@
     <header>
       <h1>File manager</h1>
       <div class="action-row">
-        <NodeFilter v-show="!device.isMobile" :nodes="nodes" @update:nodes="filteredRessources = $event" />
+        <NodeFilter v-show="!device.isMobile" :nodes="nodes" @update:nodes="filteredResources = $event" />
         <ViewSelection v-model="view" />
       </div>
     </header>
@@ -38,7 +38,7 @@
         <AppButton type="secondary" @click="fileLinks = []">Clear</AppButton>
       </div>
     </div>
-    <div v-if="filteredRessources.length" class="ressources-list">
+    <div v-if="filteredResources.length" class="resources-list">
       <DataTable v-if="view === 'table'" :headers="headers" :rows="rows">
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
@@ -50,38 +50,38 @@
         <template #action="{ cell }">
           <NuxtLink :href="`/dashboard/cdn/${(cell?.data as Node).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
           <NuxtLink :to="`/dashboard/cdn/${(cell?.data as Node).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
-          <span @click="() => deleteRessource((cell?.data as Node).id)"><Icon name="delete" /></span>
+          <span @click="() => deleteResource((cell?.data as Node).id)"><Icon name="delete" /></span>
         </template>
       </DataTable>
       <div v-else>
         <hr />
         <div class="images-grid">
-          <div v-for="image in filteredRessources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
+          <div v-for="image in filteredResources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
             <img :src="fileURL(image)" :alt="image.name" class="image-preview" />
             <div class="image-info">
               <span class="image-name">{{ image.name }}</span>
               <span class="image-size">{{ readableFileSize(image.size ?? 0) }}</span>
             </div>
           </div>
-          <div v-if="!filteredRessources.length" class="not-found">
+          <div v-if="!filteredResources.length" class="not-found">
             <p>No result found for "{{ filter }}"</p>
           </div>
         </div>
       </div>
     </div>
-    <NoContent v-else title="No ressource found"></NoContent>
+    <NoContent v-else title="No resource found"></NoContent>
   </div>
 </template>
 <script setup lang="ts">
-import DeleteRessourceModal from './_modals/DeleteRessourceModal.vue';
-import { readableFileSize } from '~/helpers/ressources';
+import DeleteResourceModal from './_modals/DeleteResourceModal.vue';
+import { readableFileSize } from '~/helpers/resources';
 import type { Field } from '~/components/DataTable.vue';
 import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: 'Upload' });
 
 const router = useRouter();
-const ressourcesStore = useRessourcesStore();
+const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
 
 const device = useDevice();
@@ -99,8 +99,8 @@ const { CDN } = useApi();
 
 const MAX_STORAGE = 1024 * 1024 * 1024; // 1 GB in bytes
 
-const nodes = computed(() => nodesStore.ressources.toArray());
-const filteredRessources = ref(nodes.value);
+const nodes = computed(() => nodesStore.resources.toArray());
+const filteredResources = ref(nodes.value);
 
 const totalUsedSpace = computed(() => nodes.value.reduce((acc, node) => acc + (node.size ?? 0), 0));
 const storagePercentage = computed(() => Math.min((totalUsedSpace.value / MAX_STORAGE) * 100, 100));
@@ -130,7 +130,7 @@ const submitFiles = async () => {
     const body = new FormData();
     body.append('file', file);
     try {
-      const r = await ressourcesStore.post(body);
+      const r = await resourcesStore.post(body);
       fileLinks.value.push(`${CDN}/${(r as Node).user_id}/${(r as Node).metadata?.transformed_path as string}`);
     } catch (e) {
       useNotifications().add({ type: 'error', title: 'Error', message: `Failed to upload ${file.name}: ${e}` });
@@ -144,8 +144,8 @@ const submitFiles = async () => {
   }
 };
 
-const fileURL = (ressource: Node) => {
-  if ((ressource.metadata?.filetype as string)?.includes('image/')) return `${CDN}/${ressource.user_id}/${ressource.metadata?.transformed_path as string}`;
+const fileURL = (resource: Node) => {
+  if ((resource.metadata?.filetype as string)?.includes('image/')) return `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path as string}`;
   return '/file_placeholder.png';
 };
 const headers = [
@@ -159,26 +159,26 @@ const headers = [
 
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
 const rows: ComputedRef<Field[]> = computed(() =>
-  filteredRessources.value.map(res => {
+  filteredResources.value.map(res => {
     const parent = res.parent_id ? nodesStore.getById(res.parent_id) : null;
     const category = parent ? nodesStore.getById(parent.parent_id || '') : null;
     return {
       name: { content: res.name, type: 'text' },
       size: { content: readableFileSize(res.size ?? 0), type: 'text' },
       type: { content: `<tag class="${color(res.metadata?.filetype as string)}">${res.metadata?.filetype as string}</tag>`, type: 'html' },
-      parent: { content: category ? `<tag class="${appColors.getAppColor(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
+      parent: { content: category ? `<tag class="${appColors.getAppAccent(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
       date: { content: numericDate(res.created_timestamp), type: 'text' },
       action: { type: 'slot', data: res },
     };
   }),
 );
 
-const deleteRessource = async (id: string) => {
-  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressources: [id] }, size: 'small' }));
+const deleteResource = async (id: string) => {
+  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: [id] }, size: 'small' }));
 };
 const bulkDelete = async (lines: Field[]) => {
-  const ressourcesIds = lines.map(line => (line.action?.data as Node | undefined)?.id).filter((id): id is string => !!id);
-  useModal().add(new Modal(shallowRef(DeleteRessourceModal), { props: { ressources: ressourcesIds }, size: 'small' }));
+  const resourcesIds = lines.map(line => (line.action?.data as Node | undefined)?.id).filter((id): id is string => !!id);
+  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: resourcesIds }, size: 'small' }));
 };
 </script>
 
@@ -312,7 +312,7 @@ const bulkDelete = async (lines: Field[]) => {
   justify-content: center;
 }
 
-.ressources-list {
+.resources-list {
   width: 100%;
 }
 

@@ -11,32 +11,40 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RessourceController interface {
+type ResourceController interface {
 	GetBackup(c *gin.Context) (int, any)
 	UploadFile(c *gin.Context) (int, any)
 	UploadAvatar(c *gin.Context) (int, any)
 }
 
-func NewRessourceController(app *app.App) RessourceController {
+func NewResourceController(app *app.App) ResourceController {
 	return &Controller{
 		app:        app,
 		authorizer: permissions.NewAuthorizer(app.Repos.Permission),
 	}
 }
 
+// GetBackup generates a backup link for the user's data
+// @Method GET
+// @Description Generate a backup link for the user's data.
+// @Router /resources/backup [get]
 func (ctr *Controller) GetBackup(c *gin.Context) (int, any) {
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	link, err := ctr.app.Services.Ressource.CreateBackup(userId, ctr.app.MinioClient)
+	link, err := ctr.app.Services.Resource.CreateBackup(userId, ctr.app.MinioClient)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
 	return http.StatusCreated, gin.H{"link": link}
 }
 
+// UploadFile handles file upload and stores it in the CDN
+// @Method POST
+// @Description Upload a file to the CDN.
+// @Router /resources/upload [post]
 func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 
 	// Limit request body size
@@ -62,7 +70,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	}
 
 	mimeType := header.Header.Get("Content-Type")
-	node, err := ctr.app.Services.Ressource.UploadFile(
+	node, err := ctr.app.Services.Resource.UploadFile(
 		header.Filename,
 		header.Size,
 		fileContent,
@@ -79,6 +87,10 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 	return http.StatusOK, node
 }
 
+// UploadAvatar handles avatar upload and stores it in the CDN
+// @Method POST
+// @Description Upload a user avatar to the CDN.
+// @Router /resources/avatar [post]
 func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 
 	// Limit request body size
@@ -104,7 +116,7 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 	}
 
 	mimeType := header.Header.Get("Content-Type")
-	err = ctr.app.Services.Ressource.UploadAvatar(
+	err = ctr.app.Services.Resource.UploadAvatar(
 		header.Filename,
 		header.Size,
 		fileContent,

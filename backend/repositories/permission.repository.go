@@ -106,9 +106,6 @@ func (r *PermissionRepositoryImpl) GetByID(permissionId types.Snowflake) (*model
 		&perm.CreatedTimestamp,
 	)
 
-	if err == sql.ErrNoRows {
-		return nil, nil
-	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to get permission: %w", err)
 	}
@@ -168,9 +165,6 @@ func (r *PermissionRepositoryImpl) GetByNodeAndUser(nodeId types.Snowflake, user
 		&perm.CreatedTimestamp,
 	)
 
-	if err == sql.ErrNoRows {
-		return nil, nil
-	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to get permission: %w", err)
 	}

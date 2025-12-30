@@ -18,7 +18,7 @@ type ServiceManager struct {
 	Log         LogService
 	Session     SessionService
 	Minio       MinioService
-	Ressource   RessourceService
+	Resource   ResourceService
 	initialized bool
 }
 
@@ -58,8 +58,8 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 	// Initialize Session Service
 	sm.Session = NewSessionService(repos.Session)
 
-	// Initialize Ressource Service
-	sm.Ressource = NewRessourceService(repos.Node, snowflake)
+	// Initialize Resource Service
+	sm.Resource = NewResourceService(repos.Node, snowflake)
 
 	return nil
 }

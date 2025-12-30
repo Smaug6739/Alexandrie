@@ -7,7 +7,7 @@ const { isMobile } = useDevice();
 
 const isOpened = ref(false);
 const hasSidebar = ref(false);
-const paneWidth = ref(isMobile.value ? 350 : 390);
+const paneWidth = computed(() => (isMobile.value ? 340 : 390));
 const isResizing = ref(false);
 const workspaceId = ref<string | undefined>(undefined);
 const active_id = ref<string | null>(null);
@@ -21,7 +21,7 @@ const filtered = computed(() => {
 
   if (found) return found.childrens || [];
   if (workspaceId.value === 'shared') return tree.value.filter(i => i.data && i.data.shared);
-  if (!usePreferences().get('displayUncategorizedRessources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
+  if (!usePreferences().get('displayUncategorizedResources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
   return tree.value;
 });
 

@@ -1,7 +1,7 @@
 import { appColors } from '~/helpers/constants';
 
 /** Get theme color name by index (-2 = primary, -1 = none, 0+ = color index) */
-function getAppColor(index: number = 0, defaultPrimary?: boolean): string {
+function getAppAccent(index: number = 0, defaultPrimary?: boolean): string {
   if ((defaultPrimary && index < 0) || index == -2) return 'primary';
   if (index == -1) return '';
   return appColors[index % appColors.length] || 'primary';
@@ -10,7 +10,7 @@ function getAppColor(index: number = 0, defaultPrimary?: boolean): string {
 /** Apply a theme color to CSS custom properties */
 function setAppColor(color: string | number) {
   if (typeof color === 'number') {
-    color = getAppColor(color);
+    color = getAppAccent(color);
   }
   if (color === 'primary') color = 'default';
   document.documentElement.style.setProperty('--primary', `var(--${color})`);
@@ -25,7 +25,7 @@ function setAppColor(color: string | number) {
 
 export const useAppColors = () => {
   return {
-    getAppColor,
+    getAppAccent,
     setAppColor,
   };
 };

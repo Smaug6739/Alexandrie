@@ -100,7 +100,7 @@ const hue = ref(0),
 const selectedWheelColor = ref('#FF0000');
 const cursorPosition = ref({ x: 150, y: 75 });
 
-const availableColors = ['primary', ...Array.from({ length: 8 }, (_, i) => getAppColor(i))];
+const availableColors = ['primary', ...Array.from({ length: 8 }, (_, i) => getAppAccent(i))];
 
 const selectColor = (color: string) => {
   props.onColorSelect(color);

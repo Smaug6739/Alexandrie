@@ -14,11 +14,11 @@
       <div class="list">
         <div v-for="(file, index) in selectedFiles" :key="index" class="item">
           <div class="icon">
-            <Icon :name="getFileIcon(file.type)" size="20px" />
+            <Icon :name="resolveFileIcon(file.type)" />
           </div>
           <div class="details">
             <span class="name">{{ file.name }}</span>
-            <span class="meta">{{ readableFileSize(file.size) }} • {{ getFileType(file.type) }}</span>
+            <span class="meta">{{ readableFileSize(file.size) }} • {{ resolveFileType(file.type) }}</span>
           </div>
           <button class="remove" title="Remove file" @click.stop="removeFile(index)">
             <Icon name="close" size="16px" />
@@ -40,7 +40,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { readableFileSize } from '~/helpers/ressources';
+import { readableFileSize, resolveFileIcon, resolveFileType } from '~/helpers/resources';
 
 const props = withDefaults(
   defineProps<{
@@ -58,24 +58,6 @@ const isDragOver = ref(false);
 const fileInput = ref<HTMLInputElement | null>(null);
 
 const totalSize = computed(() => selectedFiles.value.reduce((acc, file) => acc + file.size, 0));
-
-const getFileIcon = (mimeType: string) => {
-  if (mimeType.startsWith('image/')) return 'image';
-  if (mimeType.startsWith('video/')) return 'video';
-  if (mimeType.startsWith('audio/')) return 'music';
-  if (mimeType.includes('pdf')) return 'file-pdf';
-  if (mimeType.includes('zip') || mimeType.includes('archive')) return 'file-zip';
-  return 'file';
-};
-
-const getFileType = (mimeType: string) => {
-  if (mimeType.startsWith('image/')) return 'Image';
-  if (mimeType.startsWith('video/')) return 'Video';
-  if (mimeType.startsWith('audio/')) return 'Audio';
-  if (mimeType.includes('pdf')) return 'PDF';
-  if (mimeType.includes('zip') || mimeType.includes('archive')) return 'Archive';
-  return 'File';
-};
 
 const emit = defineEmits<{
   select: [files: File | File[] | null];
@@ -256,7 +238,6 @@ defineExpose({ reset });
   height: 36px;
   border-radius: $radius-sm;
   color: var(--primary);
-  background: var(--bg-ui);
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
