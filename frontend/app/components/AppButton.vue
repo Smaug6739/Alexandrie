@@ -13,7 +13,6 @@ const onClick = () => emit('click');
 <style scoped lang="scss">
 button {
   width: fit-content;
-  margin: 3px 3px 0 0;
   padding: 10px;
   border-radius: 6px;
   font-size: 0.9rem;
