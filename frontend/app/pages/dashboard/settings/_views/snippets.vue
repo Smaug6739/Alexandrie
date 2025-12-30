@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="header">
-      <h2 class="ctitle">Snippets</h2>
-      <p class="csubtitle">Manage your markdown snippets for quick insertion. Use shortcuts like !blue to quickly insert pre-defined content.</p>
+      <h2 class="app-title">Snippets</h2>
+      <p class="app-subtitle">Manage your markdown snippets for quick insertion. Use shortcuts like !blue to quickly insert pre-defined content.</p>
     </div>
     <!-- Search and Actions -->
     <div class="toolbar">

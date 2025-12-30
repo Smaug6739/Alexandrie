@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="ctitle">Security</h2>
-    <p class="csubtitle">Manage your security settings and monitor your account activity.</p>
+    <h2 class="app-title">Security</h2>
+    <p class="app-subtitle">Manage your security settings and monitor your account activity.</p>
     <h3>Last connection</h3>
     <div v-if="store.last_connection" class="last-connection">
       <div style="display: flex">

@@ -144,24 +144,15 @@ tag {
 // ===========================
 // TYPOGRAPHY HELPERS
 // ===========================
-.title {
+.app-title {
 	font-size: 1.7rem;
 	font-weight: bold;
 }
 
-.subtitle {
+.app-subtitle {
 	margin: 0 0 1rem;
 	font-size: 1rem;
 	color: var(--font-color-sub);
-}
-
-// Legacy aliases
-.ctitle {
-	@extend .title;
-}
-
-.csubtitle {
-	@extend .subtitle;
 }
 
 // ===========================

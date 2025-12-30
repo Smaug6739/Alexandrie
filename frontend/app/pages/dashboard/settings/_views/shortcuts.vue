@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="ctitle">Shortcuts</h2>
-    <p class="csubtitle">Here you can see the shortcuts for the different pages of the dashboard.</p>
+    <h2 class="app-title">Shortcuts</h2>
+    <p class="app-subtitle">Here you can see the shortcuts for the different pages of the dashboard.</p>
     <p>General</p>
     <div class="shortcuts">
       <div class="shortcut">

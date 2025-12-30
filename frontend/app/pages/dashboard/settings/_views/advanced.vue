@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="ctitle">Advanced</h2>
-    <p class="csubtitle">Manage advanced settings for the application.</p>
+    <h2 class="app-title">Advanced</h2>
+    <p class="app-subtitle">Manage advanced settings for the application.</p>
     <p>Be careful with these settings, they can seriously affect the application.</p>
 
     <div class="settings-section">

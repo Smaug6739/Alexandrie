@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="ctitle">Backups</h2>
+    <h2 class="app-title">Backups</h2>
     <div class="main">
       <p>Click the button below to create a backup of your data.</p>
       <AppButton type="primary" @click="submitFile">Create Backup</AppButton>
