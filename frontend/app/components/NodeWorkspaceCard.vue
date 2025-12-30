@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="getAppColor(workspace.color as number, true)">
+  <div class="wp-card" :class="getAppColor(workspace.color as number, true)">
     <div class="header">
       <span class="title">
         <Icon :name="workspace.icon || 'workspace'" class="icon" />
@@ -40,7 +40,7 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 </script>
 
 <style scoped lang="scss">
-.card {
+.wp-card {
   display: flex;
   height: 100%;
   padding: 1.25rem;

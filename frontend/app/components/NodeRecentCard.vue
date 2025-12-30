@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="n-card">
     <div class="header">
       <Icon :name="icon" display="xl" :class="`node-icon ${getAppColor(node.color || category?.color as number, true)}`" />
       <span class="time">{{ relativeTime(node.updated_timestamp) }}</span>
@@ -33,7 +33,7 @@ const icon = resolveIcon(props.node);
 </script>
 
 <style scoped lang="scss">
-.card {
+.n-card {
   display: flex;
   height: 100%;
   padding: 1rem;
