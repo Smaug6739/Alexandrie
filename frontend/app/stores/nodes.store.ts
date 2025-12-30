@@ -31,7 +31,7 @@ export const useNodesStore = defineStore('nodes', {
     getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),
     categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
     documents: state => state.nodes.filter(d => d.role === 3),
-    ressources: state => state.nodes.filter(d => d.role === 4),
+    resources: state => state.nodes.filter(d => d.role === 4),
     isDescendant:
       state =>
       (node: Node, descendantId: string): boolean => {

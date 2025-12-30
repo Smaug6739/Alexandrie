@@ -149,12 +149,12 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
         key: 'normalizeFileIcons',
       },
       {
-        label: 'Display uncategorized ressources',
+        label: 'Display uncategorized resources',
         description: 'Show resources (uploads from CDN) that are not categorized at the top of the sidebar.',
         type: 'toggle',
-        key: 'displayUncategorizedRessources',
+        key: 'displayUncategorizedResources',
       },
-      { label: 'Hide ressources', type: 'toggle', key: 'hideSidebarRessources' },
+      { label: 'Hide resources', type: 'toggle', key: 'hideSidebarResources' },
       {
         label: 'Show items in Sidebar',
         type: 'groupCheckbox',

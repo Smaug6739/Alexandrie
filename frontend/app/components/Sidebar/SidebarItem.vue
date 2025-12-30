@@ -88,9 +88,9 @@ const drop = async (event: DragEvent) => {
   if (!draggedItem) return;
 
   if (draggedItem.role === -1) return; // Prevent dropping nav items
-  if (props.item.data.role === 4) return; // Prevent dropping on ressource items
+  if (props.item.data.role === 4) return; // Prevent dropping on resource items
   if (draggedItem.id === props.item.id) return; // Prevent dropping on itself
-  if (draggedItem.role <= 2 && props.item.data.role > 2) return; // Prevent dropping categories / workspaces on ressources / documents
+  if (draggedItem.role <= 2 && props.item.data.role > 2) return; // Prevent dropping categories / workspaces on resources / documents
   // Move item to root
   if (props.item.data.role === -1) {
     return nodesStore.update({ ...(draggedItem as Node), parent_id: workspaceId.value });

@@ -19,25 +19,25 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
-type RessourceService interface {
+type ResourceService interface {
 	CreateBackup(userId types.Snowflake, minioClient *minio.Client) (string, error)
 	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
 	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error
 }
 
-type ressourceService struct {
+type resourceService struct {
 	nodeRepo  repositories.NodeRepository
 	snowflake *snowflake.Snowflake
 }
 
-func NewRessourceService(nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake) RessourceService {
-	return &ressourceService{
+func NewResourceService(nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake) ResourceService {
+	return &resourceService{
 		nodeRepo:  nodeRepo,
 		snowflake: snowflake,
 	}
 }
 
-func (s *ressourceService) CreateBackup(userId types.Snowflake, minioClient *minio.Client) (string, error) {
+func (s *resourceService) CreateBackup(userId types.Snowflake, minioClient *minio.Client) (string, error) {
 	if minioClient == nil {
 		return "", errors.New("minio client not initialized")
 	}
@@ -64,7 +64,7 @@ func (s *ressourceService) CreateBackup(userId types.Snowflake, minioClient *min
 	return objectName, nil
 }
 
-func (s *ressourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
+func (s *resourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
 	if minioClient == nil {
 		return nil, errors.New("minio client not initialized")
 	}
@@ -125,7 +125,7 @@ func (s *ressourceService) UploadFile(filename string, fileSize int64, fileConte
 	return node, nil
 }
 
-func (s *ressourceService) UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error {
+func (s *resourceService) UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error {
 	if minioClient == nil {
 		return errors.New("minio client not initialized")
 	}

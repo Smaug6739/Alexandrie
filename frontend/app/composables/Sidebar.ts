@@ -21,7 +21,7 @@ const filtered = computed(() => {
 
   if (found) return found.childrens || [];
   if (workspaceId.value === 'shared') return tree.value.filter(i => i.data && i.data.shared);
-  if (!usePreferences().get('displayUncategorizedRessources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
+  if (!usePreferences().get('displayUncategorizedResources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
   return tree.value;
 });
 

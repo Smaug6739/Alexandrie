@@ -49,7 +49,7 @@ if err != nil {
 - **`session.service.go`** - User session lifecycle management
 - **`log.service.go`** - Activity and connection logging
 - **`minio.service.go`** - Object storage operations
-- **`ressource.service.go`** - File and media management
+- **`resource.service.go`** - File and media management
 
 ## Usage Example
 

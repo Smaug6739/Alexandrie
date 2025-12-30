@@ -27,10 +27,10 @@
 
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
-import { readableFileSize, isImageFile, resolvePreviewUrl } from '~/helpers/ressources';
+import { readableFileSize, isImageFile, resolvePreviewUrl } from '~/helpers/resources';
 import type { Node } from '~/stores';
 
-const ressourcesStore = useRessourcesStore();
+const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
 
 const props = defineProps<{ onImageSelect: (imageUrl: string, altText: string) => void }>();
@@ -48,7 +48,7 @@ const submitFile = (selectedFile: File) => {
   const body = new FormData();
   body.append('file', selectedFile);
   dropComponent.value.reset(); // Reset drop component
-  ressourcesStore
+  resourcesStore
     .post(body)
     .catch(e => (uploadError.value = e || 'An error occurred during upload.'))
     .finally(() => (isLoading.value = false));
@@ -56,9 +56,9 @@ const submitFile = (selectedFile: File) => {
 
 const filteredImages = computed(() => {
   if (!searchQuery.value.trim()) {
-    return nodesStore.ressources.filter(img => isImageFile(img.metadata?.filetype as string));
+    return nodesStore.resources.filter(img => isImageFile(img.metadata?.filetype as string));
   }
-  return nodesStore.ressources.filter(img => isImageFile(img.metadata?.filetype as string) && img.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
+  return nodesStore.resources.filter(img => isImageFile(img.metadata?.filetype as string) && img.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
 });
 
 const handleImageError = (event: Event) => {

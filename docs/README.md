@@ -35,20 +35,20 @@ Alexandrie is a modern, full-featured note-taking application designed for stude
 
 ### 1.3 Technology Stack
 
-| Layer | Technology | Version | Purpose |
-|-------|-----------|---------|---------|
-| **Backend** | Go (Golang) | 1.24.0 | High-performance API server |
-| **Web Framework** | Gin | 1.11.0 | HTTP routing and middleware |
-| **Frontend** | Nuxt | 4.2.1 | Vue.js meta-framework with SSR/SPA |
-| **UI Framework** | Vue.js | 3.5.24 | Reactive UI components |
-| **State Management** | Pinia | 3.0.4 | Centralized state management |
-| **Database** | MySQL | 8.0+ | Relational data storage |
-| **Object Storage** | MinIO/RustFS | - | S3-compatible file storage |
-| **Code Editor** | CodeMirror | 6.x | Markdown editing experience |
-| **Authentication** | JWT | golang-jwt/v5 | Stateless authentication |
-| **Email** | go-mail | 0.7.2 | SMTP email sending |
-| **Build Tool** | Bun | Latest | Fast package manager for frontend |
-| **Containerization** | Docker | - | Development and deployment |
+| Layer                | Technology   | Version       | Purpose                            |
+| -------------------- | ------------ | ------------- | ---------------------------------- |
+| **Backend**          | Go (Golang)  | 1.24.0        | High-performance API server        |
+| **Web Framework**    | Gin          | 1.11.0        | HTTP routing and middleware        |
+| **Frontend**         | Nuxt         | 4.2.1         | Vue.js meta-framework with SSR/SPA |
+| **UI Framework**     | Vue.js       | 3.5.24        | Reactive UI components             |
+| **State Management** | Pinia        | 3.0.4         | Centralized state management       |
+| **Database**         | MySQL        | 8.0+          | Relational data storage            |
+| **Object Storage**   | MinIO/RustFS | -             | S3-compatible file storage         |
+| **Code Editor**      | CodeMirror   | 6.x           | Markdown editing experience        |
+| **Authentication**   | JWT          | golang-jwt/v5 | Stateless authentication           |
+| **Email**            | go-mail      | 0.7.2         | SMTP email sending                 |
+| **Build Tool**       | Bun          | Latest        | Fast package manager for frontend  |
+| **Containerization** | Docker       | -             | Development and deployment         |
 
 ---
 
@@ -151,7 +151,7 @@ backend/
 │   ├── users.controller.go          # User CRUD operations
 │   ├── nodes.controller.go          # Nodes (document/category/wp) CRUD operations
 │   ├── permissions.controller.go    # Permission management (for nodes, will be moved soon on /nodes/permissions and nodes.permissions.controller.go)
-│   ├── ressources.controller.go     # File upload/download (ressources)
+│   ├── resources.controller.go     # File upload/download (resources)
 │   └── index.go                     # Not implemented yey but healtcheck
 │
 ├── services/                        # Business logic layer
@@ -197,7 +197,7 @@ backend/
 │   ├── 000002_change_ids_to_bigints.up.sql
 │   ├── 000003_add_ip_indx.up.sql
 │   ├── 000004_add_category_color.up.sql
-│   ├── 000005_ressource_parent.up.sql
+│   ├── 000005_resource_parent.up.sql
 │   ├── 000006_file_parent_id_constraint_rmdoc.up.sql
 │   ├── 000007_pin_doc.up.sql
 │   ├── 000008_reset_pass.up.sql
@@ -249,55 +249,55 @@ backend/
 
 #### Authentication Endpoints
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/auth/register` | Create new user account | No |
-| POST | `/api/auth/login` | Login and get JWT tokens | No |
-| POST | `/api/auth/logout` | Logout and invalidate session | Yes |
-| POST | `/api/auth/refresh` | Refresh access token | Yes (Refresh Token) |
-| POST | `/api/auth/forgot-password` | Request password reset email | No |
-| POST | `/api/auth/reset-password` | Reset password with token | No |
+| Method | Endpoint                    | Description                   | Auth Required       |
+| ------ | --------------------------- | ----------------------------- | ------------------- |
+| POST   | `/api/auth/register`        | Create new user account       | No                  |
+| POST   | `/api/auth/login`           | Login and get JWT tokens      | No                  |
+| POST   | `/api/auth/logout`          | Logout and invalidate session | Yes                 |
+| POST   | `/api/auth/refresh`         | Refresh access token          | Yes (Refresh Token) |
+| POST   | `/api/auth/forgot-password` | Request password reset email  | No                  |
+| POST   | `/api/auth/reset-password`  | Reset password with token     | No                  |
 
 #### User Endpoints
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/users/@me` | Get current user profile | Yes |
-| PATCH | `/api/users/@me` | Update current user | Yes |
-| DELETE | `/api/users/@me` | Delete current user account | Yes |
-| GET | `/api/users/:id` | Get user by ID (admin) | Yes (Admin) |
-| GET | `/api/users` | List all users (admin) | Yes (Admin) |
-| DELETE | `/api/users/:id` | Delete user (admin) | Yes (Admin) |
+| Method | Endpoint         | Description                 | Auth Required |
+| ------ | ---------------- | --------------------------- | ------------- |
+| GET    | `/api/users/@me` | Get current user profile    | Yes           |
+| PATCH  | `/api/users/@me` | Update current user         | Yes           |
+| DELETE | `/api/users/@me` | Delete current user account | Yes           |
+| GET    | `/api/users/:id` | Get user by ID (admin)      | Yes (Admin)   |
+| GET    | `/api/users`     | List all users (admin)      | Yes (Admin)   |
+| DELETE | `/api/users/:id` | Delete user (admin)         | Yes (Admin)   |
 
 #### Node Endpoints (Documents & Categories)
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/nodes` | List user's nodes (with filters) | Yes |
-| GET | `/api/nodes/:id` | Get single node details | Yes (Permission) |
-| POST | `/api/nodes` | Create new node | Yes |
-| PATCH | `/api/nodes/:id` | Update node | Yes (Write Permission) |
-| DELETE | `/api/nodes/:id` | Delete node | Yes (Admin Permission) |
-| GET | `/api/nodes/:id/children` | Get child nodes | Yes (Permission) |
-| POST | `/api/nodes/:id/pin` | Pin/unpin node | Yes (Write Permission) |
+| Method | Endpoint                  | Description                      | Auth Required          |
+| ------ | ------------------------- | -------------------------------- | ---------------------- |
+| GET    | `/api/nodes`              | List user's nodes (with filters) | Yes                    |
+| GET    | `/api/nodes/:id`          | Get single node details          | Yes (Permission)       |
+| POST   | `/api/nodes`              | Create new node                  | Yes                    |
+| PATCH  | `/api/nodes/:id`          | Update node                      | Yes (Write Permission) |
+| DELETE | `/api/nodes/:id`          | Delete node                      | Yes (Admin Permission) |
+| GET    | `/api/nodes/:id/children` | Get child nodes                  | Yes (Permission)       |
+| POST   | `/api/nodes/:id/pin`      | Pin/unpin node                   | Yes (Write Permission) |
 
 #### Permission Endpoints
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/permissions/node/:nodeId` | Get node permissions | Yes (Owner) |
-| POST | `/api/permissions/node/:nodeId` | Grant permission to user | Yes (Owner) |
-| PATCH | `/api/permissions/:id` | Update permission level | Yes (Owner) |
-| DELETE | `/api/permissions/:id` | Revoke permission | Yes (Owner) |
+| Method | Endpoint                        | Description              | Auth Required |
+| ------ | ------------------------------- | ------------------------ | ------------- |
+| GET    | `/api/permissions/node/:nodeId` | Get node permissions     | Yes (Owner)   |
+| POST   | `/api/permissions/node/:nodeId` | Grant permission to user | Yes (Owner)   |
+| PATCH  | `/api/permissions/:id`          | Update permission level  | Yes (Owner)   |
+| DELETE | `/api/permissions/:id`          | Revoke permission        | Yes (Owner)   |
 
 #### File Upload Endpoints
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/uploads` | Upload file to CDN | Yes |
-| GET | `/api/uploads` | List user's uploads | Yes |
-| GET | `/api/uploads/:id` | Get file metadata | Yes |
-| DELETE | `/api/uploads/:id` | Delete uploaded file | Yes |
+| Method | Endpoint           | Description          | Auth Required |
+| ------ | ------------------ | -------------------- | ------------- |
+| POST   | `/api/uploads`     | Upload file to CDN   | Yes           |
+| GET    | `/api/uploads`     | List user's uploads  | Yes           |
+| GET    | `/api/uploads/:id` | Get file metadata    | Yes           |
+| DELETE | `/api/uploads/:id` | Delete uploaded file | Yes           |
 
 ### 3.4 Service Layer Architecture
 
@@ -316,6 +316,7 @@ type NodeService interface {
 ```
 
 **Service Layer Benefits:**
+
 - Reusability across different controllers
 - Easier unit testing (mock dependencies)
 - Clear separation of concerns
@@ -478,7 +479,7 @@ frontend/
 │   │   ├── importations.ts          # Decoder for JSON Nodes format
 │   │   ├── paginator.ts             # Pagniation helper for datatable
 │   │   ├── navigation.ts            # Navigation constants
-│   │   ├── ressources.ts            # Files management (file size, filetype, resolveUrl)
+│   │   ├── resources.ts            # Files management (file size, filetype, resolveUrl)
 │   │   └── utils.ts                 # General helpers
 │   │
 │   ├── styles/                      # Global styles
@@ -497,7 +498,6 @@ frontend/
     ├── screenshots/                  # App screenshots & mocks
     └── Logo/                         # Brand assets
 ```
-
 
 ### 4.2 State Management (Pinia Stores)
 
@@ -546,7 +546,7 @@ Getters:
 - workspaces                         // Filter nodes with role=1
 - categories                         // Filter nodes with role=2
 - documents                          // Filter nodes with role=3
-- ressources                         // Filter nodes with role=4
+- resources                         // Filter nodes with role=4
 ```
 
 #### Resources Store (`resources.store.ts`)
@@ -588,21 +588,21 @@ pages/dashboard/docs/edit/[id].vue → /dashboard/docs/edit/:id (dynamic)
 ```typescript
 // auth.ts - Protect authenticated routes
 export default defineNuxtRouteMiddleware((to, from) => {
-  const userStore = useUserStore()
-  
+  const userStore = useUserStore();
+
   if (!userStore.isAuthenticated) {
-    return navigateTo('/auth/login')
+    return navigateTo('/auth/login');
   }
-})
+});
 
 // admin.ts - Protect admin routes
 export default defineNuxtRouteMiddleware((to, from) => {
-  const userStore = useUserStore()
-  
+  const userStore = useUserStore();
+
   if (!userStore.isAdmin) {
-    return navigateTo('/dashboard')
+    return navigateTo('/dashboard');
   }
-})
+});
 ```
 
 ### 4.4 Markdown Editor Implementation
@@ -612,29 +612,29 @@ Alexandrie uses **CodeMirror 6** for the Markdown editor:
 ```typescript
 // Key CodeMirror extensions used:
 
-import { EditorView } from '@codemirror/view'
-import { EditorState } from '@codemirror/state'
-import { markdown } from '@codemirror/lang-markdown'
-import { autocompletion } from '@codemirror/autocomplete'
-import { search } from '@codemirror/search'
-import { highlightSelectionMatches } from '@codemirror/search'
+import { EditorView } from '@codemirror/view';
+import { EditorState } from '@codemirror/state';
+import { markdown } from '@codemirror/lang-markdown';
+import { autocompletion } from '@codemirror/autocomplete';
+import { search } from '@codemirror/search';
+import { highlightSelectionMatches } from '@codemirror/search';
 
 // Editor configuration
 const editorView = new EditorView({
   state: EditorState.create({
     doc: initialContent,
     extensions: [
-      markdown(),                    // Markdown syntax
-      autocompletion(),              // Autocomplete
-      search(),                      // Search & replace
-      highlightSelectionMatches(),   // Highlight matches
+      markdown(), // Markdown syntax
+      autocompletion(), // Autocomplete
+      search(), // Search & replace
+      highlightSelectionMatches(), // Highlight matches
       // Custom theme
       // Keybindings
       // Event handlers
-    ]
+    ],
   }),
-  parent: editorElement
-})
+  parent: editorElement,
+});
 ```
 
 #### Markdown Rendering
@@ -642,28 +642,30 @@ const editorView = new EditorView({
 ```typescript
 // markdown-it configuration for rendering
 
-import MarkdownIt from 'markdown-it'
-import markdownItAnchor from 'markdown-it-anchor'
-import markdownItContainer from 'markdown-it-container'
-import markdownItHighlightjs from 'markdown-it-highlightjs'
-import markdownItMark from 'markdown-it-mark'
-import markdownItUnderline from 'markdown-it-underline'
+import MarkdownIt from 'markdown-it';
+import markdownItAnchor from 'markdown-it-anchor';
+import markdownItContainer from 'markdown-it-container';
+import markdownItHighlightjs from 'markdown-it-highlightjs';
+import markdownItMark from 'markdown-it-mark';
+import markdownItUnderline from 'markdown-it-underline';
 
 const md = new MarkdownIt({
-  html: true,           // Enable HTML tags
-  linkify: true,        // Auto-convert URLs to links
-  typographer: true,    // Smart quotes, dashes
-  breaks: false         // Convert \n to <br>
+  html: true, // Enable HTML tags
+  linkify: true, // Auto-convert URLs to links
+  typographer: true, // Smart quotes, dashes
+  breaks: false, // Convert \n to <br>
 })
-  .use(markdownItAnchor, { /* heading anchors */ })
-  .use(markdownItContainer, 'warning')  // ::: warning blocks
-  .use(markdownItContainer, 'info')     // ::: info blocks
-  .use(markdownItHighlightjs)           // Code syntax highlighting
-  .use(markdownItMark)                  // ==marked text==
-  .use(markdownItUnderline)             // ++underlined text++
+  .use(markdownItAnchor, {
+    /* heading anchors */
+  })
+  .use(markdownItContainer, 'warning') // ::: warning blocks
+  .use(markdownItContainer, 'info') // ::: info blocks
+  .use(markdownItHighlightjs) // Code syntax highlighting
+  .use(markdownItMark) // ==marked text==
+  .use(markdownItUnderline); // ++underlined text++
 
 // Render markdown to HTML
-const html = md.render(markdownContent)
+const html = md.render(markdownContent);
 ```
 
 #### KaTeX Math Rendering
@@ -671,7 +673,7 @@ const html = md.render(markdownContent)
 ```typescript
 // Math formula rendering with KaTeX
 
-import katex from 'katex'
+import katex from 'katex';
 
 // Inline math: $formula$
 // Block math: $$formula$$
@@ -679,8 +681,8 @@ import katex from 'katex'
 // Custom markdown-it plugin for math
 md.use(markdownItMath, {
   engine: katex,
-  delimiters: 'dollars'
-})
+  delimiters: 'dollars',
+});
 ```
 
 ### 4.6 Component Architecture
@@ -694,12 +696,12 @@ md.use(markdownItMath, {
       <Icon :name="node.icon" />
       <h3>{{ node.name }}</h3>
     </div>
-    
+
     <div class="document-meta">
       <span>{{ formatDate(node.updated_timestamp) }}</span>
       <Badge v-if="node.tags">{{ node.tags }}</Badge>
     </div>
-    
+
     <div class="document-actions">
       <AppButton @click.stop="shareDocument">Share</AppButton>
     </div>
@@ -708,9 +710,7 @@ md.use(markdownItMath, {
 
 <script setup lang="ts">
 // NOTHING :) Nuxt automaticly import components from "app/components" folder
-import type { Node } from '~/stores'
-
-
+import type { Node } from '~/stores';
 </script>
 
 <style scoped lang="scss">
@@ -780,6 +780,7 @@ type User struct {
 ```
 
 **Database Schema:**
+
 ```sql
 CREATE TABLE `users` (
   `id` varchar(50) NOT NULL PRIMARY KEY,
@@ -806,44 +807,46 @@ type Node struct {
     Name             string      `json:"name"`            // Display name (max 50 chars)
     Description      *string     `json:"description"`     // Optional description (max 250)
     Tags             *string     `json:"tags"`            // Comma-separated tags
-    
+
     // Node type and appearance
     Role             int         `json:"role"`            // 1: workspace, 2: category, 3: document
     Color            *int        `json:"color"`           // Color code for UI
     Icon             *string     `json:"icon"`            // Icon identifier
     Thumbnail        *string     `json:"thumbnail"`       // Thumbnail URL
     Theme            *string     `json:"theme"`           // Custom theme settings
-    
+
     // Access control
     Accessibility    *int        `json:"accessibility"`   // 0: Public, 1: Private, 2: Unlisted
     Access           int         `json:"access"`          // Bit field: 1=view, 2=edit
-    
+
     // Display and ordering
     Display          *int        `json:"display"`         // Display mode
     Order            *int        `json:"order"`           // Sort order (-1: pinned, -2: bookmark)
-    
+
     // Content (for document nodes)
     Content          *string     `json:"content"`         // Markdown content
     ContentCompiled  *string     `json:"content_compiled"` // Rendered HTML
     Size             *int64      `json:"size"`            // Content size in bytes
-    
+
     // Metadata
     Metadata         *JSONB      `json:"metadata"`        // Additional JSON data
     CreatedTimestamp int64       `json:"created_timestamp"`
     UpdatedTimestamp int64       `json:"updated_timestamp"`
-    
+
     // Relations
     Permissions      []*Permission `json:"permissions"`   // Access permissions
 }
 ```
 
 **Node Roles:**
+
 - `1` - Workspace: Top-level container
 - `2` - Category: Organizational folder
 - `3` - Document: Actual note/content
-- `4` - Ressource: An uploaded file
+- `4` - Resource: An uploaded file
 
 **Accessibility Levels:**
+
 - `0` - Public: Anyone can view
 - `1` - Private: Only owner and permitted users
 - `2` - Unlisted: Accessible via direct link
@@ -863,6 +866,7 @@ type Permission struct {
 ```
 
 **Permission Levels:**
+
 ```go
 const (
     PermNone  = 0  // No access
@@ -874,6 +878,7 @@ const (
 ```
 
 **Permission Actions:**
+
 ```go
 const (
     ActionRead              = 1  // Requires: PermRead
@@ -1083,27 +1088,27 @@ Workspace (role=1)
 func (s *NodeService) GetNode(nodeId, userId Snowflake) (*Node, error) {
     // 1. Load node from database
     node := loadNodeFromDB(nodeId)
-    
+
     // 2. Check if user is owner
     if node.UserId == userId {
         return node, nil  // Owner has full access
     }
-    
+
     // 3. Load permissions for this node
     permissions := loadPermissions(nodeId)
-    
+
     // 4. Check if user has permission
     for _, perm := range permissions {
         if perm.UserId == userId && perm.Level >= PermRead {
             return node, nil
         }
     }
-    
+
     // 5. Check accessibility
     if node.Accessibility == Public {
         return node, nil  // Public nodes are visible to all
     }
-    
+
     return nil, ErrForbidden
 }
 ```
@@ -1136,18 +1141,18 @@ Node owner shares document
 func CanPerform(userId, nodeId Snowflake, action NodeAction) bool {
     // 1. Load node
     node := getNode(nodeId)
-    
+
     // 2. Owner always has full access
     if node.UserId == userId {
         return true
     }
-    
+
     // 3. Get required permission level for action
     requiredLevel := action.RequiredLevel()
-    
+
     // 4. Load user's permission for this node
     permission := getPermission(nodeId, userId)
-    
+
     // 5. Compare levels
     return permission.Level >= requiredLevel
 }
@@ -1219,23 +1224,23 @@ To access the file, the request must be on the S3 server directly (minio, rustfs
 ```typescript
 // Debounced search composable
 
-const searchQuery = ref('')
-const searchResults = ref<Node[]>([])
+const searchQuery = ref('');
+const searchResults = ref<Node[]>([]);
 
 // Debounce to avoid excessive API calls
 const debouncedSearch = useDebounceFn(async (query: string) => {
   if (query.length < 2) {
-    searchResults.value = []
-    return
+    searchResults.value = [];
+    return;
   }
-  
-  const results = await api(`/api/nodes?search=${query}`)
-  searchResults.value = results
-}, 300)
 
-watch(searchQuery, (newQuery) => {
-  debouncedSearch(newQuery)
-})
+  const results = await api(`/api/nodes?search=${query}`);
+  searchResults.value = results;
+}, 300);
+
+watch(searchQuery, newQuery => {
+  debouncedSearch(newQuery);
+});
 ```
 
 ### 6.6 Export Functionality
@@ -1246,17 +1251,17 @@ watch(searchQuery, (newQuery) => {
 // Generate .md file from node content
 
 const exportMarkdown = (node: Node) => {
-  const content = `# ${node.name}\n\n${node.content}`
-  const blob = new Blob([content], { type: 'text/markdown' })
-  const url = URL.createObjectURL(blob)
-  
-  const link = document.createElement('a')
-  link.href = url
-  link.download = `${node.name}.md`
-  link.click()
-  
-  URL.revokeObjectURL(url)
-}
+  const content = `# ${node.name}\n\n${node.content}`;
+  const blob = new Blob([content], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `${node.name}.md`;
+  link.click();
+
+  URL.revokeObjectURL(url);
+};
 ```
 
 #### PDF Export
@@ -1266,7 +1271,7 @@ const exportMarkdown = (node: Node) => {
 
 const exportPDF = (node: Node) => {
   // Render node content in printable format
-  const printWindow = window.open('', '_blank')
+  const printWindow = window.open('', '_blank');
   printWindow.document.write(`
     <!DOCTYPE html>
     <html>
@@ -1283,11 +1288,11 @@ const exportPDF = (node: Node) => {
         ${node.content_compiled}
       </body>
     </html>
-  `)
-  
-  printWindow.document.close()
-  printWindow.print()
-}
+  `);
+
+  printWindow.document.close();
+  printWindow.print();
+};
 ```
 
 ## 7. External Services Integration
@@ -1326,13 +1331,13 @@ db.SetConnMaxLifetime(5 * time.Minute)
 // Run migrations on application start
 func Migrate(config *Config) {
     driver, _ := mysql.WithInstance(db, &mysql.Config{})
-    
+
     m, _ := migrate.NewWithDatabaseInstance(
         "file://migrations",
         "mysql",
         driver,
     )
-    
+
     // Apply all pending migrations
     m.Up()
 }
@@ -1351,16 +1356,16 @@ func CreateNodeWithPermissions(node *Node, permissions []*Permission) error {
     if err != nil {
         return err
     }
-    
+
     // Defer rollback (no-op if commit succeeds)
     defer tx.Rollback()
-    
+
     // Insert node
     _, err = tx.Exec("INSERT INTO nodes (...) VALUES (...)", node)
     if err != nil {
         return err  // Automatic rollback
     }
-    
+
     // Insert permissions
     for _, perm := range permissions {
         _, err = tx.Exec("INSERT INTO permissions (...) VALUES (...)", perm)
@@ -1368,7 +1373,7 @@ func CreateNodeWithPermissions(node *Node, permissions []*Permission) error {
             return err  // Automatic rollback
         }
     }
-    
+
     // Commit transaction
     return tx.Commit()
 }
@@ -1409,7 +1414,7 @@ if !exists {
 func (s *MinioService) UploadFile(file multipart.File, filename string) (string, error) {
     // Generate object path
     objectPath := fmt.Sprintf("uploads/%s/%s", userId, filename)
-    
+
     // Upload to MinIO
     info, err := s.client.PutObject(
         context.Background(),
@@ -1421,7 +1426,7 @@ func (s *MinioService) UploadFile(file multipart.File, filename string) (string,
             ContentType: contentType,
         },
     )
-    
+
     return objectPath, err
 }
 
@@ -1435,7 +1440,7 @@ func (s *MinioService) GetPresignedURL(objectPath string) (string, error) {
         time.Hour,  // Valid for 1 hour
         nil,
     )
-    
+
     return url.String(), err
 }
 
@@ -1500,28 +1505,29 @@ mailClient, err := mail.NewClient(
 
 func SendPasswordResetEmail(email, resetToken string) error {
     m := mail.NewMsg()
-    
+
     m.From(smtpMail)
     m.To(email)
     m.Subject("Password Reset - Alexandrie")
-    
-    resetURL := fmt.Sprintf("%s/auth/reset-password?token=%s", 
+
+    resetURL := fmt.Sprintf("%s/auth/reset-password?token=%s",
         frontendURL, resetToken)
-    
+
     body := fmt.Sprintf(`
         <h2>Password Reset Request</h2>
         <p>Click the link below to reset your password:</p>
         <a href="%s">Reset Password</a>
         <p>This link expires in 1 hour.</p>
     `, resetURL)
-    
+
     m.SetBodyString(mail.TypeTextHTML, body)
-    
+
     return mailClient.DialAndSend(m)
 }
 ```
 
 **Email Use Cases:**
+
 - Password reset requests
 - Collaboration invites (future)
 
@@ -1545,35 +1551,36 @@ city_ipv6_complete         -- IPv6 address ranges
 func GetLocationFromIP(ipAddress string) string {
     // Parse IP
     ip := net.ParseIP(ipAddress)
-    
+
     // Query appropriate table based on IP version
     var geonameId int
     if ip.To4() != nil {
         // IPv4 query
         query := `
-            SELECT geoname_id 
-            FROM city_ipv4_complete 
+            SELECT geoname_id
+            FROM city_ipv4_complete
             WHERE INET_ATON(?) BETWEEN network_start_integer AND network_last_integer
         `
         db.QueryRow(query, ipAddress).Scan(&geonameId)
     } else {
         // IPv6 query (similar logic)
     }
-    
+
     // Get city information
     var city, country string
     query := `
-        SELECT city_name, country_name 
-        FROM city_locations_fr 
+        SELECT city_name, country_name
+        FROM city_locations_fr
         WHERE geoname_id = ?
     `
     db.QueryRow(query, geonameId).Scan(&city, &country)
-    
+
     return fmt.Sprintf("%s, %s", city, country)
 }
 ```
 
 **Usage:**
+
 - Log user login locations
 - Security monitoring
 - Suspicious activity detection (not implemented yet)
@@ -1601,6 +1608,7 @@ func CheckPassword(password, hash string) bool {
 ```
 
 **Security Features:**
+
 - Bcrypt with cost factor 12 (secure against brute force)
 - Salted hashing (built into bcrypt)
 - Passwords never stored in plain text
@@ -1621,7 +1629,7 @@ func GenerateToken(userId Snowflake, role int, duration time.Duration) string {
         "exp":      time.Now().Add(duration).Unix(),
         "iat":      time.Now().Unix(),
     }
-    
+
     token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
     signedToken, _ := token.SignedString([]byte(jwtSecret))
     return signedToken
@@ -1640,6 +1648,7 @@ func ValidateToken(tokenString string) (*jwt.Token, error) {
 ```
 
 **Token Expiration:**
+
 - Access Token: 15 minutes (short-lived)
 - Refresh Token: 7 days (stored in database)
 
@@ -1683,13 +1692,13 @@ const (
 // Admin middleware
 func AdminOnly(c *gin.Context) {
     user := c.MustGet("user").(User)
-    
+
     if user.Role != RoleAdmin {
         c.JSON(403, gin.H{"error": "Admin access required"})
         c.Abort()
         return
     }
-    
+
     c.Next()
 }
 
@@ -1711,23 +1720,23 @@ func RequireNodePermission(action NodeAction) gin.HandlerFunc {
     return func(c *gin.Context) {
         nodeId := c.Param("id")
         user := c.MustGet("user").(User)
-        
+
         // Check if user can perform action
         can := permissions.CanPerform(user.Id, nodeId, action)
-        
+
         if !can {
             c.JSON(403, gin.H{"error": "Permission denied"})
             c.Abort()
             return
         }
-        
+
         c.Next()
     }
 }
 
 // Apply to routes
-router.PATCH("/api/nodes/:id", 
-    AuthMiddleware, 
+router.PATCH("/api/nodes/:id",
+    AuthMiddleware,
     RequireNodePermission(ActionUpdate),
     controllers.UpdateNode)
 ```
@@ -1749,17 +1758,18 @@ type CreateNodeInput struct {
 // Validate in controller
 func CreateNode(c *gin.Context) {
     var input CreateNodeInput
-    
+
     if err := c.ShouldBindJSON(&input); err != nil {
         c.JSON(400, gin.H{"error": err.Error()})
         return
     }
-    
+
     // Input is valid, proceed...
 }
 ```
 
 **Validation Rules:**
+
 - Required fields checked
 - String length limits enforced
 - Email format validation
@@ -1773,28 +1783,28 @@ func CreateNode(c *gin.Context) {
 
 const validateNodeName = (name: string): boolean => {
   if (!name || name.trim().length === 0) {
-    return false
+    return false;
   }
   if (name.length > 50) {
-    return false
+    return false;
   }
-  return true
-}
+  return true;
+};
 
 // Usage in form
-const errors = ref<Record<string, string>>({})
+const errors = ref<Record<string, string>>({});
 
 const submitForm = () => {
-  errors.value = {}
-  
+  errors.value = {};
+
   if (!validateNodeName(form.name)) {
-    errors.value.name = 'Name must be 1-50 characters'
-    return
+    errors.value.name = 'Name must be 1-50 characters';
+    return;
   }
-  
+
   // Submit if valid
-  api.createNode(form)
-}
+  api.createNode(form);
+};
 ```
 
 ### 8.4 XSS Prevention
@@ -1815,9 +1825,11 @@ node.Content = SanitizeHTML(userInput)
 ```
 
 **Frontend XSS Protection:**
+
 ```vue
 <!-- Vue automatically escapes content -->
-<div>{{ userContent }}</div>  <!-- Safe: content escaped -->
+<div>{{ userContent }}</div>
+<!-- Safe: content escaped -->
 
 <!-- For rendering HTML, use v-html with sanitized content -->
 <div v-html="sanitizedHTML"></div>
@@ -1841,6 +1853,7 @@ router.Use(cors.New(cors.Config{
 ```
 
 **Production CORS:**
+
 - Only allow specific frontend domain
 - No wildcards in production
 - Credentials enabled for cookies
@@ -1872,20 +1885,20 @@ var limiters = make(map[string]*rate.Limiter)
 func RateLimitMiddleware() gin.HandlerFunc {
     return func(c *gin.Context) {
         ip := c.ClientIP()
-        
+
         limiter, exists := limiters[ip]
         if !exists {
             // 100 requests per minute
             limiter = rate.NewLimiter(rate.Every(time.Minute/100), 100)
             limiters[ip] = limiter
         }
-        
+
         if !limiter.Allow() {
             c.JSON(429, gin.H{"error": "Rate limit exceeded"})
             c.Abort()
             return
         }
-        
+
         c.Next()
     }
 }
@@ -1910,6 +1923,7 @@ func HTTPSRedirect() gin.HandlerFunc {
 ```
 
 **Production Security Checklist:**
+
 - ✅ HTTPS enforced (TLS 1.2+)
 - ✅ HSTS header enabled
 - ✅ Secure cookie flags (httpOnly, secure, sameSite)
@@ -1928,6 +1942,7 @@ func HTTPSRedirect() gin.HandlerFunc {
 ### 9.1 Prerequisites
 
 **Required Software:**
+
 - [Bun](https://bun.sh/) v1.0+ - Fast JavaScript runtime & package manager
 - [Go](https://go.dev/) v1.24+ - Backend language
 - [MySQL](https://www.mysql.com/) 8.0+ - Database server
@@ -2112,7 +2127,7 @@ migrate create -ext sql -dir . -seq migration_name
 # - 000012_migration_name.down.sql
 ```
 
-*Note: This tool is optional you can create manually the file but please follow the naming conventions*
+_Note: This tool is optional you can create manually the file but please follow the naming conventions_
 
 #### Writing Migrations
 
@@ -2144,9 +2159,9 @@ migrate -database "..." -path migrations goto 10
 # Check current version
 migrate -database "..." -path migrations version
 ```
+
 > [!WARNING]
 > Migrations down are not fully implemented yet
-
 
 ### 9.5 Code Quality
 
@@ -2194,6 +2209,7 @@ git pull origin main
 ```
 
 **Commit Message Convention:**
+
 ```
 feat: Add new feature
 fix: Fix bug in authentication
@@ -2230,8 +2246,8 @@ dlv debug main.go
 
 ```typescript
 // Console logging
-console.log('Debug:', data)
-console.table(array)
+console.log('Debug:', data);
+console.table(array);
 
 // Vue DevTools (browser extension)
 // Inspect component state, Pinia stores, routing
@@ -2283,8 +2299,8 @@ go func() {
 
 ```typescript
 // Performance API
-const perfData = performance.getEntriesByType('navigation')[0]
-console.log('Load time:', perfData.loadEventEnd - perfData.fetchStart)
+const perfData = performance.getEntriesByType('navigation')[0];
+console.log('Load time:', perfData.loadEventEnd - perfData.fetchStart);
 
 // Lighthouse (Chrome DevTools)
 // Run audit for performance, accessibility, SEO
@@ -2303,7 +2319,6 @@ For details please see [setup guide.md](./setup.md)
 
 ### 10.2 Performance Tuning
 
-
 #### Caching Strategy
 
 ```go
@@ -2318,13 +2333,13 @@ func GetNodeWithCache(nodeId Snowflake) (*Node, error) {
     if err == nil {
         return unmarshalNode(cached), nil
     }
-    
+
     // Cache miss, query database
     node := getNodeFromDB(nodeId)
-    
+
     // Store in cache (expire in 5 minutes)
     redis.Set(ctx, "node:"+nodeId, marshal(node), 5*time.Minute)
-    
+
     return node, nil
 }
 ```
@@ -2333,7 +2348,7 @@ func GetNodeWithCache(nodeId Snowflake) (*Node, error) {
 
 ### A. Glossary
 
-- **Node**: Unified entity representing workspace, category, document or ressource
+- **Node**: Unified entity representing workspace, category, document or resource
 - **Snowflake**: Distributed unique ID generation algorithm (inspired from https://discord.com/developers/docs/reference#snowflakes)
 - **Permission Level**: Numeric access level (0-4) determining user capabilities
 - **S3**: Simple Storage Service, object storage protocol

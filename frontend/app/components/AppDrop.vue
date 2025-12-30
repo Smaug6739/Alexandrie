@@ -40,7 +40,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { readableFileSize } from '~/helpers/ressources';
+import { readableFileSize } from '~/helpers/resources';
 
 const props = withDefaults(
   defineProps<{

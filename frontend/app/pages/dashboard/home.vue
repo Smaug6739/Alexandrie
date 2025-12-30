@@ -162,7 +162,7 @@ const userName = computed(() => userStore.user?.firstname || userStore.user?.use
 const documentsCount = computed(() => nodesStore.documents.size);
 const workspacesCount = computed(() => nodesStore.getAll.filter(n => n.role === 1).size);
 const tagsCount = computed(() => nodesStore.getAllTags.length);
-const resourcesCount = computed(() => nodesStore.ressources.size);
+const resourcesCount = computed(() => nodesStore.resources.size);
 
 // Recently edited documents (last 5, sorted by update time)
 const recentlyEdited = computed(() => {

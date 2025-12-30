@@ -48,7 +48,7 @@ const rows = computed(() =>
         badges = '<tag class="green">Document</tag>';
         break;
       case 4:
-        badges = '<tag class="yellow">Ressource</tag>';
+        badges = '<tag class="yellow">Resource</tag>';
         break;
     }
     if (doc.parent_id) badges += '<tag class="yellow">Child</tag>';

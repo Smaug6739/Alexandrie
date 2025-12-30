@@ -43,7 +43,7 @@ import Toolbar from './Toolbar.vue';
 import compile from '~/helpers/markdown';
 import type { Node } from '~/stores';
 
-const resourcesStore = useRessourcesStore();
+const resourcesStore = useResourcesStore();
 const preferences = usePreferences();
 
 const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();

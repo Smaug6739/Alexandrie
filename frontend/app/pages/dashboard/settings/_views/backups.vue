@@ -30,7 +30,7 @@ const fileName = () => `backup-${new Date().toISOString().split('T')[0]}.json`;
 
 async function submitFile() {
   isLoading.value = true;
-  const result = await makeRequest<{ link: string }>('ressources/backup', 'GET', {});
+  const result = await makeRequest<{ link: string }>('resources/backup', 'GET', {});
   isLoading.value = false;
   if (result.status != 'success') return useNotifications().add({ type: 'error', title: 'Error', message: result.message });
   downloadLink.value = `${CDN}/${result.result?.link || ''}`;
