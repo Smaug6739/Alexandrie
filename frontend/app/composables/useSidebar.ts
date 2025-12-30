@@ -7,7 +7,7 @@ const { isMobile } = useDevice();
 
 const isOpened = ref(false);
 const hasSidebar = ref(false);
-const paneWidth = ref(isMobile.value ? 350 : 390);
+const paneWidth = computed(() => (isMobile.value ? 340 : 390));
 const isResizing = ref(false);
 const workspaceId = ref<string | undefined>(undefined);
 const active_id = ref<string | null>(null);
