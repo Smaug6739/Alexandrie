@@ -17,6 +17,7 @@ button {
   padding: 10px;
   border-radius: 6px;
   font-size: 0.9rem;
+  white-space: nowrap;
 
   &:disabled {
     opacity: 0.8;
