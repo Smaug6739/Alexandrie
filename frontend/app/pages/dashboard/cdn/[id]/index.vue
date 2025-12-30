@@ -31,7 +31,7 @@
           `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`
         }}</a>
       </p>
-      <div style="display: flex; justify-content: flex-end">
+      <div class="actions">
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
         <AppButton type="danger" @click="showDeleteModal">Delete</AppButton>
       </div>
@@ -113,7 +113,11 @@ a {
   color: var(--primary);
   text-decoration: underline;
 }
-
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
 .preview {
   display: flex;
   width: 100%;
