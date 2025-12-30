@@ -10,12 +10,8 @@
         </div>
       </header>
       <div class="preview">
-        <img v-if="isImageFile(mimeType)" :src="`${CDN}/${resource!.user_id}/${resource!.metadata?.transformed_path || resource!.content}`" alt="Preview" />
-        <LazyPDFViewer
-          v-else-if="isPdfFile(mimeType)"
-          :src="`${CDN}/${resource!.user_id}/${resource!.metadata?.transformed_path || resource!.content}`"
-          :scale="scale"
-        />
+        <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
+        <LazyPDFViewer v-else-if="isPdfFile(mimeType)" :src="resourceURL(resource)" :scale="scale" />
         <p v-else>Preview not available for this file type.</p>
       </div>
     </template>
@@ -28,7 +24,7 @@ import { isImageFile, isPdfFile } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Preview' });
 
-const { CDN } = useApi();
+const { resourceURL } = useApi();
 const { isMobile } = useDevice();
 
 const scale = ref(isMobile.value ? DEFAULT_PDF_SCALE.mobile : DEFAULT_PDF_SCALE.desktop);
@@ -37,7 +33,7 @@ const resource = computed(() => useNodesStore().getById(useRoute().params.id as 
 const mimeType = computed(() => resource.value?.metadata?.filetype || '');
 
 const copyLink = () => {
-  const link = `${CDN}/${resource.value?.user_id}/${resource.value?.metadata?.transformed_path || resource.value?.content}`;
+  const link = resourceURL(resource.value!);
   navigator.clipboard.writeText(link);
 };
 </script>

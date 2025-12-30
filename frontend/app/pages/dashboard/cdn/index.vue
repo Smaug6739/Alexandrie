@@ -56,8 +56,14 @@
       <div v-else>
         <hr />
         <div class="images-grid">
-          <div v-for="image in filteredResources" :key="image.id" class="image-item" @click="router.push(`/dashboard/cdn/${image.id}/preview`)">
-            <img :src="fileURL(image)" :alt="image.name" class="image-preview" />
+          <div
+            v-for="image in filteredResources"
+            :key="image.id"
+            class="image-item"
+            @click="router.push(`/dashboard/cdn/${image.id}/preview`)"
+            @contextmenu="event => showContextMenu(event, image)"
+          >
+            <img :src="previewURL(image)" :alt="image.name" class="image-preview" />
             <div class="image-info">
               <span class="image-name">{{ image.name }}</span>
               <span class="image-size">{{ readableFileSize(image.size ?? 0) }}</span>
@@ -74,6 +80,7 @@
 </template>
 <script setup lang="ts">
 import DeleteResourceModal from './_modals/DeleteResourceModal.vue';
+import ResourceContextMenu from '~/components/Node/ResourceContextMenu.vue';
 import { readableFileSize } from '~/helpers/resources';
 import type { Field } from '~/components/DataTable.vue';
 import type { Node } from '~/stores';
@@ -87,6 +94,8 @@ const nodesStore = useNodesStore();
 const device = useDevice();
 const appColors = useAppColors();
 const { numericDate } = useDateFormatters();
+const contextMenu = useContextMenu();
+const { resourceURL } = useApi();
 
 const view = ref<'table' | 'list'>('list');
 const selectedFiles = ref<File[]>([]);
@@ -95,7 +104,6 @@ const isLoading = ref(false);
 const uploadProgress = ref({ current: 0, total: 0 });
 const dropComponent = ref();
 const filter = ref('');
-const { CDN } = useApi();
 
 const MAX_STORAGE = 1024 * 1024 * 1024; // 1 GB in bytes
 
@@ -105,6 +113,12 @@ const filteredResources = ref(nodes.value);
 const totalUsedSpace = computed(() => nodes.value.reduce((acc, node) => acc + (node.size ?? 0), 0));
 const storagePercentage = computed(() => Math.min((totalUsedSpace.value / MAX_STORAGE) * 100, 100));
 const linksText = computed(() => fileLinks.value.join('\n'));
+
+function showContextMenu(event: MouseEvent, node: Node) {
+  contextMenu.open(shallowRef(ResourceContextMenu), event, {
+    props: { node: node },
+  });
+}
 
 const selectFiles = (files: File | File[] | null) => {
   if (!files) {
@@ -131,7 +145,7 @@ const submitFiles = async () => {
     body.append('file', file);
     try {
       const r = await resourcesStore.post(body);
-      fileLinks.value.push(`${CDN}/${(r as Node).user_id}/${(r as Node).metadata?.transformed_path as string}`);
+      fileLinks.value.push(resourceURL(r));
     } catch (e) {
       useNotifications().add({ type: 'error', title: 'Error', message: `Failed to upload ${file.name}: ${e}` });
     }
@@ -144,8 +158,8 @@ const submitFiles = async () => {
   }
 };
 
-const fileURL = (resource: Node) => {
-  if ((resource.metadata?.filetype as string)?.includes('image/')) return `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path as string}`;
+const previewURL = (resource: Node) => {
+  if ((resource.metadata?.filetype as string)?.includes('image/')) return resourceURL(resource);
   return '/file_placeholder.png';
 };
 const headers = [

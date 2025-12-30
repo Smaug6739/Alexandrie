@@ -1,5 +1,5 @@
 <template>
-  <div class="context-menu" :class="{ 'is-context-menu': props.contextMenu }">
+  <div class="context-menu">
     <div class="menu-header">
       <img :src="avatarURL(user)" alt="" class="avatar" />
       <div class="header-info">
@@ -9,16 +9,13 @@
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" @click="action('open')"><Icon name="file_open" />Open<kbd>Enter</kbd></button>
-      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />Edit<kbd>E</kbd></button>
+      <button class="menu-item" @click="action('open')"><Icon name="file_open" />Open</button>
+      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />Edit meta</button>
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" @click="action('duplicate')"><Icon name="duplicate" />Duplicate<kbd>Ctrl+D</kbd></button>
-      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />Copy link<kbd>Ctrl+L</kbd></button>
-      <button class="menu-item" @click="action('pin')">
-        <Icon :name="node.order === -1 ? 'pin_off' : 'pin'" />{{ node.order === -1 ? 'Unpin' : 'Pin to top' }}<kbd>P</kbd>
-      </button>
+      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />Copy link</button>
+      <button class="menu-item" @click="action('copyMd')"><Icon name="link" />Copy as markdown</button>
     </div>
 
     <div v-if="nodeStore.hasPermissions(node, 4)" class="menu-group">
@@ -26,7 +23,7 @@
     </div>
 
     <div class="menu-group">
-      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />Move to trash<kbd>Del</kbd></button>
+      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />Move to trash</button>
     </div>
 
     <div v-if="preferences.get('developerMode').value" class="menu-group">
@@ -40,7 +37,7 @@ import NodePermissions from './NodePermissions.modal.vue';
 import NodeDeleteModal from './DeleteNodeModal.vue';
 import type { Node } from '~/stores';
 
-const props = defineProps<{ node: Node; contextMenu?: boolean }>();
+const props = defineProps<{ node: Node }>();
 const emit = defineEmits(['close']);
 
 const nodeStore = useNodesStore();
@@ -48,7 +45,7 @@ const userStore = useUserStore();
 
 const preferences = usePreferences();
 const { shortDate } = useDateFormatters();
-const { avatarURL } = useApi();
+const { avatarURL, resourceURL } = useApi();
 
 const dotMenu = ref();
 
@@ -61,20 +58,19 @@ async function action(name: string) {
       useRouter().push(`/dashboard/docs/${props.node.id}`);
       break;
     case 'edit':
-      useRouter().push(`/dashboard/docs/edit/${props.node.id}`);
-      break;
-    case 'duplicate':
-      nodeStore.duplicate(props.node);
+      useRouter().push(`/dashboard/cdn/${props.node.id}`);
       break;
     case 'delete':
       dotMenu.value?.close();
       useModal().add(new Modal(shallowRef(NodeDeleteModal), { props: { node: props.node }, size: 'small' }));
       break;
     case 'copyLink':
-      navigator.clipboard.writeText(`${window.location.origin}/dashboard/docs/${props.node.id}`);
+      navigator.clipboard.writeText(resourceURL(props.node));
+      useNotifications().add({ type: 'success', title: 'Link copied to clipboard' });
       break;
-    case 'pin':
-      await nodeStore.update({ ...props.node, order: props.node.order === -1 ? 0 : -1 });
+    case 'copyMd':
+      navigator.clipboard.writeText(`![${props.node.name}](${resourceURL(props.node)})`);
+      useNotifications().add({ type: 'success', title: 'Markdown link copied to clipboard' });
       break;
     case 'manageAccess':
       useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.node }, size: 'small' }));
@@ -159,32 +155,17 @@ async function action(name: string) {
     background: var(--bg-contrast);
   }
 
-  kbd {
-    padding: 2px 5px;
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 10px;
-    color: var(--font-color-light);
-    background: var(--bg-contrast);
-    margin-left: auto;
-  }
-
   &.delete {
     color: var(--red);
 
     :deep(svg) {
       fill: var(--red);
     }
-
-    kbd {
-      color: var(--red);
-      background: var(--red-bg);
-    }
   }
 }
 
 @media screen and (width <= 768px) {
-  .context-menu.is-context-menu {
+  .context-menu {
     width: 100%;
     border: none;
     box-shadow: none;
