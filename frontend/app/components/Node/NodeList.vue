@@ -2,7 +2,7 @@
   <div class="card-component node-list">
     <header>
       <h1 v-if="parent">
-        <Icon :name="parent.icon || 'files'" display="xl" :class="`parent-icon ${getAppColor(parent.color as number, true)}`" />
+        <Icon :name="parent.icon || 'files'" display="xl" :class="`parent-icon ${getAppAccent(parent.color as number, true)}`" />
         {{ parent.name }}
       </h1>
       <h1 v-else-if="parentId === 'shared'">
@@ -85,7 +85,7 @@ const nodesStore = useNodesStore();
 const router = useRouter();
 const userStore = useUserStore();
 const { isMobile } = useDevice();
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 
 const connectedId = userStore.user?.id;
 const view = ref<ViewMode>();

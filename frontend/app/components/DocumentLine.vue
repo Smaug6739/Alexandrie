@@ -5,7 +5,7 @@
         <Icon
           :name="document.icon || category?.icon || 'files'"
           display="xl"
-          :class="['icon', getAppColor(document.color || category?.color as number, true)]"
+          :class="['icon', getAppAccent(document.color || category?.color as number, true)]"
         />
         <NuxtLink :to="`/dashboard/docs/${document.id}`" class="name">{{ document.name }}</NuxtLink>
       </div>
@@ -37,7 +37,7 @@ const categoriesStore = useNodesStore();
 const userStore = useUserStore();
 
 const { shortDate } = useDateFormatters();
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 
 const category = computed(() => categoriesStore.getById(props.document.parent_id || ''));
 userStore.fetchPublicUser(props.document.user_id);

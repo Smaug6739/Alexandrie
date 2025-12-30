@@ -28,15 +28,15 @@
       :key="index"
       class="color-option"
       :style="{
-        backgroundColor: getAppColor(index) ? `var(--${getAppColor(index)})` : '#fff',
-        outline: modelValue === index ? `2px solid var(--${getAppColor(index)})` : 'none',
+        backgroundColor: getAppAccent(index) ? `var(--${getAppAccent(index)})` : '#fff',
+        outline: modelValue === index ? `2px solid var(--${getAppAccent(index)})` : 'none',
       }"
       :class="{ selected: modelValue === index }"
       @click="selectColor(index)"
     >
       <div class="hint-wrapper">
         <p class="hint-tooltip">
-          {{ getAppColor(index) }}
+          {{ getAppAccent(index) }}
         </p>
       </div>
     </div>
@@ -46,7 +46,7 @@
 <script setup lang="ts">
 import { appColors } from '~/helpers/constants';
 
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 
 const props = defineProps<{ modelValue?: number; nullable?: boolean }>();
 const emit = defineEmits<{ (e: 'update:modelValue', color: number): void }>();

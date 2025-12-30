@@ -2,7 +2,7 @@
   <div class="kanban-card" draggable="true" @dragstart="onDragStart" @dragend="onDragEnd">
     <div class="card-header">
       <div class="card-header-left">
-        <span class="card-icon" :class="getAppColor(node.color as number || props.parent.color as number, true)">
+        <span class="card-icon" :class="getAppAccent(node.color as number || props.parent.color as number, true)">
           <Icon :name="node.icon || 'file'" display="sm" />
         </span>
 
@@ -29,7 +29,7 @@ import type { Node } from '~/stores';
 const props = defineProps<{ node: Node; parent: Node }>();
 const emit = defineEmits<{ dragStart: [node: Node]; dragEnd: [] }>();
 
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 const { shortDate } = useDateFormatters();
 
 const parsedTags = computed(() => {

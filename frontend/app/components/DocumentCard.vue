@@ -3,7 +3,7 @@
     <div class="top">
       <div class="header">
         <span style="display: flex">
-          <Icon :name="category?.icon || 'files'" display="xl" :class="`category-icon ${getAppColor(document.color || category?.color as number, true)}`" />
+          <Icon :name="category?.icon || 'files'" display="xl" :class="`category-icon ${getAppAccent(document.color || category?.color as number, true)}`" />
           <NuxtLink :to="`/dashboard/docs/${document.id}`" class="document-title">{{ document.name }}</NuxtLink>
         </span>
         <NodeDotMenu :node="document" :user="user" @delete="deleteDoc" />
@@ -43,7 +43,7 @@ const nodesStore = useNodesStore();
 const userStore = useUserStore();
 
 const { shortDate } = useDateFormatters();
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 
 const category = computed(() => nodesStore.getById(props.document.parent_id || ''));
 userStore.fetchPublicUser(props.document.user_id);

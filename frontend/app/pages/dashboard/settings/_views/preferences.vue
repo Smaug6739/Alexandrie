@@ -91,7 +91,7 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
         },
       },
       {
-        label: 'Choose primary color',
+        label: 'Choose accent color',
         type: 'color',
         key: 'primaryColor',
         // @ts-expect-error -> specific type

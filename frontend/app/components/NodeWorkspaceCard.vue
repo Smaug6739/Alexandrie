@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="getAppColor(workspace.color as number, true)">
+  <div class="card" :class="getAppAccent(workspace.color as number, true)">
     <div class="header">
       <span class="title">
         <Icon :name="workspace.icon || 'workspace'" class="icon" />
@@ -25,7 +25,7 @@ defineProps<{ workspace: Node }>();
 
 const nodesStore = useNodesStore();
 
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 
 // Get workspace categories
 const getWorkspaceCategories = (workspaceId: string) => {

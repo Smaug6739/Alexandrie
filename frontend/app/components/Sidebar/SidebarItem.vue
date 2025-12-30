@@ -35,7 +35,7 @@ import type { Node } from '~/stores';
 
 const nodesStore = useNodesStore();
 const { isOpened, workspaceId } = useSidebar();
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 const { isMobile } = useDevice();
 
 const props = defineProps<{ item: Item | DefaultItem; level: number }>();
@@ -43,7 +43,7 @@ const isDragOver = ref<boolean>(false);
 
 const customClass = computed(() => {
   if ('color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
-    return `item-icon ${getAppColor(props.item.data.color as number)}`;
+    return `item-icon ${getAppAccent(props.item.data.color as number)}`;
   return 'default-icon';
 });
 const icon = computed(() => {

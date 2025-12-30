@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="header">
-      <Icon :name="icon" display="xl" :class="`node-icon ${getAppColor(node.color || category?.color as number, true)}`" />
+      <Icon :name="icon" display="xl" :class="`node-icon ${getAppAccent(node.color || category?.color as number, true)}`" />
       <span class="time">{{ relativeTime(node.updated_timestamp) }}</span>
     </div>
     <h3 class="title">{{ node.name }}</h3>
@@ -26,7 +26,7 @@ const props = defineProps<{ node: Node }>();
 const nodesStore = useNodesStore();
 
 const { relativeTime } = useDateFormatters();
-const { getAppColor } = useAppColors();
+const { getAppAccent } = useAppColors();
 
 const category = nodesStore.getById(props.node.parent_id || '');
 const icon = resolveIcon(props.node);
