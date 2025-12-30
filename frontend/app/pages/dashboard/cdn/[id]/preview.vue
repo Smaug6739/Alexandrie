@@ -1,29 +1,18 @@
 <template>
   <div class="card">
     <template v-if="ressource">
-      <header style="display: flex; align-items: center; justify-content: space-between">
+      <header>
         <h1>Preview <tag yellow>Beta</tag> • {{ ressource.name }}</h1>
         <div class="actions">
-          <AppSelect
-            v-if="(ressource?.metadata?.filetype as string)?.startsWith('application/pdf')"
-            v-model="scale"
-            :items="PDF_SCALES"
-            :searchable="false"
-            label="Scale"
-            style="margin-right: 12px"
-          />
+          <AppSelect v-if="isPdfFile(mimeType)" v-model="scale" :items="PDF_SCALES" :searchable="false" label="Scale" style="margin-right: 12px" />
           <NuxtLink :to="`/dashboard/cdn/${ressource.id}`"><AppButton type="primary">Edit</AppButton></NuxtLink>
           <AppButton type="secondary" @click="copyLink">Copy link</AppButton>
         </div>
       </header>
       <div class="preview">
-        <img
-          v-if="(ressource?.metadata?.filetype as string)?.startsWith('image/')"
-          :src="`${CDN}/${ressource!.user_id}/${ressource!.metadata?.transformed_path || ressource!.content}`"
-          alt="Preview"
-        />
+        <img v-if="isImageFile(mimeType)" :src="`${CDN}/${ressource!.user_id}/${ressource!.metadata?.transformed_path || ressource!.content}`" alt="Preview" />
         <LazyPDFViewer
-          v-else-if="(ressource?.metadata?.filetype as string)?.startsWith('application/pdf')"
+          v-else-if="isPdfFile(mimeType)"
           :src="`${CDN}/${ressource!.user_id}/${ressource!.metadata?.transformed_path || ressource!.content}`"
           :scale="scale"
         />
@@ -35,6 +24,7 @@
 
 <script setup lang="ts">
 import { PDF_SCALES, DEFAULT_PDF_SCALE } from '~/helpers/constants';
+import { isImageFile, isPdfFile } from '~/helpers/ressources';
 
 definePageMeta({ breadcrumb: 'Preview' });
 
@@ -44,6 +34,7 @@ const { isMobile } = useDevice();
 const scale = ref(isMobile.value ? DEFAULT_PDF_SCALE.mobile : DEFAULT_PDF_SCALE.desktop);
 
 const ressource = computed(() => useNodesStore().getById(useRoute().params.id as string));
+const mimeType = computed(() => ressource.value?.metadata?.filetype || '');
 
 const copyLink = () => {
   const link = `${CDN}/${ressource.value?.user_id}/${ressource.value?.metadata?.transformed_path || ressource.value?.content}`;
@@ -55,6 +46,12 @@ const copyLink = () => {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .actions {
