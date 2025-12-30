@@ -67,7 +67,6 @@
 </template>
 
 <script setup lang="ts">
-import KanbanCard from './KanbanCard.vue';
 import DeleteColumnModal from './DeleteColumn.modal.vue';
 import { appColors } from '~/helpers/constants';
 import type { Node } from '~/stores';

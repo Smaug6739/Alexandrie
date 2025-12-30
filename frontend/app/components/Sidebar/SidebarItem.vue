@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import NodeContextMenu from '../Node/NodeContextMenu.vue';
+import NodeContextMenu from '../Node/ContextMenu.vue';
 import { navigationItems, type DefaultItem } from './helpers';
 import type { Node } from '~/stores';
 

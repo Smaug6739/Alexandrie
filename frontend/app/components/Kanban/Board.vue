@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import KanbanColumn, { type KanbanColumnData } from './KanbanColumn.vue';
+import type { KanbanColumnData } from './Column.vue';
 import type { Node } from '~/stores';
 
 export interface KanbanMetadata {

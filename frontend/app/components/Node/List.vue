@@ -71,8 +71,7 @@
 <script setup lang="ts">
 import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
-import NodeFilter from '~/components/Node/Filter.vue';
-import KanbanBoard, { type KanbanMetadata } from '~/components/Kanban/KanbanBoard.vue';
+import KanbanBoard, { type KanbanMetadata } from '~/components/Kanban/Board.vue';
 import NodeMetadataModal from './NodeMetadata.modal.vue';
 import ResetBoardModal from '../Kanban/ResetBoard.modal.vue';
 import type { ViewMode } from '~/components/ViewSelection.vue';

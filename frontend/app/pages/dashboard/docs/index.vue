@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import NodeList from '~/components/Node/NodeList.vue';
 import type { Node } from '~/stores';
 
 const nodesStore = useNodesStore();

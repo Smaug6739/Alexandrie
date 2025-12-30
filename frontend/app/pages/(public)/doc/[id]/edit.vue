@@ -2,7 +2,6 @@
   <MarkdownEditor v-if="document && !error" :doc="document" @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
-import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 import type { Node } from '~/stores';
 
 const store = useNodesStore();

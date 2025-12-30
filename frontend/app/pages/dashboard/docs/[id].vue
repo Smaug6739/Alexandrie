@@ -36,8 +36,8 @@ import TableOfContent from './_components/table-of-content/TableOfContents.vue';
 import DocumentCardHeader from './_components/DocumentCardHeader.vue';
 import DocumentCardFooter from './_components/DocumentCardFooter.vue';
 import DocumentSkeleton from './_components/DocumentSkeleton.vue';
+import NodeContextMenu from '~/components/Node/ContextMenu.vue';
 import type { Node } from '~/stores';
-import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
 
 const route = useRoute();
 const documentsStore = useNodesStore();

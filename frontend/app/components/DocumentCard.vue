@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import DeleteDocumentModal from '~/components/Node/DeleteNodeModal.vue';
-import NodeContextMenu from '~/components/Node/NodeContextMenu.vue';
+import NodeContextMenu from '~/components/Node/ContextMenu.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ document: Node }>();

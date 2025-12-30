@@ -13,7 +13,6 @@
 </template>
 <script setup lang="ts">
 definePageMeta({ breadcrumb: 'Home' });
-useNodesStore().fetch();
-useNodesStore().fetchShared();
+useNodesStore().init();
 useUserStore().fetch();
 </script>

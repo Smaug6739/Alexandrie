@@ -181,6 +181,12 @@ export const useNodesStore = defineStore('nodes', {
     },
   },
   actions: {
+    init() {
+      console.log('[store/nodes] Initializing store');
+      this.clear();
+      this.fetch();
+      this.fetchShared();
+    },
     recomputeTags() {
       const tags = new Set<string>();
       this.nodes.forEach(node => {

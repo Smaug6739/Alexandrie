@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-import NodeList from '~/components/Node/NodeList.vue';
 import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: () => useNodesStore().getById(useRoute().params.id as string)?.name || '' });

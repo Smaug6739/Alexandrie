@@ -3,7 +3,6 @@
 </template>
 <script lang="ts" setup>
 import type { Node } from '~/stores';
-import MarkdownEditor from '~/components/MarkdownEditor/LazyMarkdownEditor.vue';
 
 const store = useNodesStore();
 const route = useRoute();
