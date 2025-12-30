@@ -25,4 +25,23 @@ const resolvePreviewUrl = (node: Node): string => {
   return '/file_placeholder.png';
 };
 
-export { readableFileSize, resolvePreviewUrl, isImageFile };
+/** Resolve the appropriate icon for a file based on its role and properties */
+const resolveFileIcon = (mimeType: string) => {
+  if (mimeType.startsWith('image/')) return 'image';
+  if (mimeType.startsWith('video/')) return 'video';
+  if (mimeType.startsWith('audio/')) return 'music';
+  if (mimeType.includes('pdf')) return 'pdf';
+  return 'file';
+};
+
+/** Get human-readable type name for a file based on its MIME type */
+const resolveFileType = (mimeType: string) => {
+  if (mimeType.startsWith('image/')) return 'Image';
+  if (mimeType.startsWith('video/')) return 'Video';
+  if (mimeType.startsWith('audio/')) return 'Audio';
+  if (mimeType.includes('pdf')) return 'PDF';
+  if (mimeType.includes('zip') || mimeType.includes('archive')) return 'Archive';
+  return 'File';
+};
+
+export { readableFileSize, resolvePreviewUrl, isImageFile, resolveFileIcon, resolveFileType };
