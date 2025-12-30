@@ -417,9 +417,7 @@ func (r *NodeRepositoryImpl) GetByID(nodeId types.Snowflake) (*models.Node, erro
 	}
 
 	node, err := r.scanNode(stmt.QueryRow(nodeId))
-	if err == sql.ErrNoRows {
-		return nil, nil
-	}
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to get node by id: %w", err)
 	}
@@ -435,9 +433,7 @@ func (r *NodeRepositoryImpl) GetPublic(nodeId types.Snowflake) (*models.Node, er
 	}
 
 	node, err := r.scanNode(stmt.QueryRow(nodeId))
-	if err == sql.ErrNoRows {
-		return nil, nil
-	}
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to get public node: %w", err)
 	}
