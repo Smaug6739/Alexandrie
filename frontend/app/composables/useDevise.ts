@@ -1,15 +1,23 @@
-const width = ref(window.innerWidth);
+/**
+ * Device detection composable
+ * SSR-compatible with client-side hydration
+ */
 
-const updateWidth = () => {
-  width.value = window.innerWidth;
-};
+const width = ref(1024); // Default value for SSR
+const isInitialized = ref(false);
 
-let isListening = false;
+function updateWidth() {
+  if (import.meta.client) {
+    width.value = window.innerWidth;
+  }
+}
 
 export function useDevice() {
-  if (!isListening) {
+  // Initialize on client-side only, once
+  if (import.meta.client && !isInitialized.value) {
+    width.value = window.innerWidth;
     window.addEventListener('resize', updateWidth);
-    isListening = true;
+    isInitialized.value = true;
   }
 
   const isMobile = computed(() => width.value < 768);

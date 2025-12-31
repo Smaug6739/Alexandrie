@@ -49,6 +49,7 @@ import FeaturesFAQ from './_components/features/FeaturesFAQ.vue';
 import AppCTA from './_components/AppCTA.vue';
 
 definePageMeta({
+  ssr: true,
   middleware: [
     function redirectLandingDisabled() {
       const config = useRuntimeConfig();

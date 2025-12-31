@@ -5,7 +5,7 @@
       v-if="!error"
       class="reader"
       :style="{
-        marginRight: !devise.isTablet.value && preferencesStore.get('hideTOC').value && sidebar.isOpened.value ? '200px' : '0px',
+        marginRight: !isTablet && preferencesStore.get('hideTOC').value && isOpened ? '200px' : '0px',
         transition: 'margin 0.3s',
       }"
     >
@@ -22,7 +22,7 @@
         <DocumentSkeleton v-else />
       </div>
 
-      <div v-if="!devise.isTablet.value && !preferencesStore.get('hideTOC').value" class="toc">
+      <div v-if="!isTablet && !preferencesStore.get('hideTOC').value" class="toc">
         <TableOfContent :doc="article" :element="element" />
       </div>
     </div>
@@ -37,45 +37,78 @@ import DocumentSkeleton from '~/pages/dashboard/docs/_components/DocumentSkeleto
 import DocumentCardHeader from '~/pages/dashboard/docs/_components/DocumentCardHeader.vue';
 import type { Node } from '~/stores';
 
+definePageMeta({
+  ssr: true,
+});
+
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
 
 const route = useRoute();
-const sidebar = useSidebar();
-const devise = useDevice();
+const runtimeConfig = useRuntimeConfig();
+const { isOpened } = useSidebar();
+const { isTablet } = useDevice();
 
-const element = ref<HTMLElement>();
+const element = ref<HTMLElement | undefined>();
 
-const article = ref<Node | undefined>();
-const error: Ref<false | string> = ref(false);
+const article = ref<Node | undefined>(undefined);
+const error = ref<string | undefined>(undefined);
 
-watchEffect(async () => {
-  article.value = undefined;
-  const document_id = route.params.id as string;
-  const doc = await documentsStore.fetchPublic(document_id);
-  if (doc) article.value = doc;
-  else error.value = 'Document not found';
-  const title = article.value?.name || 'Unknown Document';
-  const description = article.value?.description;
-  useHead({
-    title: title,
-    meta: [
+watch(
+  () => route.params.id,
+  async documentId => {
+    if (!documentId || typeof documentId !== 'string') return;
+
+    article.value = undefined;
+    error.value = undefined;
+
+    const doc = await documentsStore.fetchPublic(documentId);
+
+    if (!doc) {
+      error.value = 'Document not found';
+      return;
+    }
+
+    article.value = doc;
+
+    /**
+     * SEO
+     */
+    const title = doc.name;
+    const description = doc.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.';
+
+    const baseUrl = runtimeConfig.public.baseUrl || 'https://alexandrie-hub.fr';
+
+    const canonicalUrl = `${baseUrl}/doc/${documentId}`;
+
+    const ogImage = doc.thumbnail ? `${baseUrl}${doc.thumbnail}` : `${baseUrl}/og/default-article.png`;
+
+    useSeoMeta({
       // Basic
-      { name: 'description', content: description },
+      title,
+      description,
+      keywords: doc.tags,
 
-      // OpenGraph
-      { property: 'og:title', content: title },
-      { property: 'og:description', content: description },
-      { property: 'og:type', content: 'article' },
-      { property: 'og:url', content: `${window.location.origin}/doc/${document_id}` },
+      // Open Graph
+      ogTitle: title,
+      ogDescription: description,
+      ogType: 'article',
+      ogUrl: canonicalUrl,
+      ogImage,
 
-      // Twitter card
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: title },
-      { name: 'twitter:description', content: description },
-    ],
-  });
-});
+      // Article metadata
+      articlePublishedTime: new Date(doc.created_timestamp).toISOString(),
+      articleModifiedTime: new Date(doc.updated_timestamp).toISOString(),
+
+      // Twitter
+      twitterCard: 'summary_large_image',
+      twitterTitle: title,
+      twitterDescription: description,
+      twitterImage: ogImage,
+    });
+  },
+  { immediate: true },
+);
 </script>
 
 <style scoped lang="scss">
