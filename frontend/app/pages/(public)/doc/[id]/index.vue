@@ -1,7 +1,6 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <div style="width: 100%; padding: 1rem 0">
-    <!-- ⬇️ Remplace le wrapper inline flex par une classe .reader + style dynamique -->
     <div
       v-if="!error"
       class="reader"
@@ -23,7 +22,6 @@
         <DocumentSkeleton v-else />
       </div>
 
-      <!-- ⬇️ retire le style inline (width/margin-left), on gère en CSS -->
       <div v-if="!devise.isTablet.value && !preferencesStore.get('hideTOC').value" class="toc">
         <TableOfContent :doc="article" :element="element" />
       </div>
