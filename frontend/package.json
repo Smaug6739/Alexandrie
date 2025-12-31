@@ -1,6 +1,6 @@
 {
   "name": "alexandrie",
-  "version": "8.4.0-dev",
+  "version": "8.4.0-preview.1",
   "devDependencies": {
     "vite-plugin-svg-icons": "^2.0.1"
   },
