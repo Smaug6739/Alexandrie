@@ -1,4 +1,4 @@
-import type { PublicUser, User } from '~/stores';
+import type { Node, PublicUser, User } from '~/stores';
 
 export function useApi() {
   const config = useRuntimeConfig();
@@ -9,5 +9,11 @@ export function useApi() {
     return user?.avatar ? CDN + '/' + user.id + `/avatar?v=${user.avatar}` : '/default_avatar.avif';
   }
 
-  return { CDN, API, avatarURL };
+  function resourceURL(resource?: Node): string {
+    console.log(resource);
+    if (!resource) return '';
+    return `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`;
+  }
+
+  return { CDN, API, avatarURL, resourceURL };
 }
