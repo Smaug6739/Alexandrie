@@ -181,11 +181,11 @@ export const useNodesStore = defineStore('nodes', {
     },
   },
   actions: {
-    init() {
+    async init() {
       console.log('[store/nodes] Initializing store');
       this.clear();
-      this.fetch();
-      this.fetchShared();
+      // Fetch both in parallel for better performance
+      await Promise.all([this.fetch(), this.fetchShared()]);
     },
     recomputeTags() {
       const tags = new Set<string>();
@@ -239,7 +239,6 @@ export const useNodesStore = defineStore('nodes', {
     },
     async fetchShared(): Promise<Collection<string, Node>> {
       console.log(`[store/nodes] Fetching shared nodes`);
-      if (this.nodes.size) return this.nodes;
       const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
       if (request.status === 'success') {
         for (const node of request.result as DB_Node[]) {

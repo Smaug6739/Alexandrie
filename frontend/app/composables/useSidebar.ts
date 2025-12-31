@@ -14,14 +14,18 @@ const active_id = ref<string | null>(null);
 
 const toggleSidebar = () => (isOpened.value = !isOpened.value);
 
+// Cache sidebar tree reference outside of computed to avoid recreating on each evaluation
+const sidebarTreeRef = useSidebarTree();
+const preferencesRef = usePreferences();
+
 /** Filter tree items based on selected workspace and preferences */
 const filtered = computed(() => {
-  const { tree } = useSidebarTree();
+  const tree = sidebarTreeRef.tree;
   const found = tree.value.find(i => i.id === workspaceId.value);
 
   if (found) return found.childrens || [];
   if (workspaceId.value === 'shared') return tree.value.filter(i => i.data && i.data.shared);
-  if (!usePreferences().get('displayUncategorizedResources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
+  if (!preferencesRef.get('displayUncategorizedResources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
   return tree.value;
 });
 

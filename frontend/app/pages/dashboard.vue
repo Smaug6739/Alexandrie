@@ -13,6 +13,11 @@
 </template>
 <script setup lang="ts">
 definePageMeta({ breadcrumb: 'Home' });
-useNodesStore().init();
-useUserStore().fetch();
+
+// Initialize stores in parallel - don't block rendering but ensure they start immediately
+const nodesStore = useNodesStore();
+const userStore = useUserStore();
+
+nodesStore.init();
+userStore.fetch();
 </script>
