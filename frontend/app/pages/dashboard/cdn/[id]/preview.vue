@@ -12,7 +12,14 @@
       <div class="preview">
         <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
         <LazyPDFViewer v-else-if="isPdfFile(mimeType)" :src="resourceURL(resource)" :scale="scale" />
-        <p v-else>Preview not available for this file type.</p>
+        <div v-else class="no-preview">
+          <p>Preview not available for this file type.</p>
+          <p>
+            <NuxtLink :href="resourceURL(resource)" target="_blank" rel="noopener">
+              <AppButton type="primary">Download file</AppButton>
+            </NuxtLink>
+          </p>
+        </div>
       </div>
     </template>
   </div>
@@ -65,5 +72,11 @@ header {
     max-height: 100%;
     object-fit: contain;
   }
+}
+
+.no-preview {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 </style>

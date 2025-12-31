@@ -10,7 +10,6 @@ export function useApi() {
   }
 
   function resourceURL(resource?: Node): string {
-    console.log(resource);
     if (!resource) return '';
     return `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`;
   }
