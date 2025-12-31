@@ -27,10 +27,9 @@
       </div>
     </div>
 
-    <Error v-else :error="error" />
+    <Error v-else :error="error?.message" />
   </div>
 </template>
-
 <script setup lang="ts">
 import TableOfContent from '~/pages/dashboard/docs/_components/table-of-content/TableOfContents.vue';
 import DocumentSkeleton from '~/pages/dashboard/docs/_components/DocumentSkeleton.vue';
@@ -49,66 +48,50 @@ const runtimeConfig = useRuntimeConfig();
 const { isOpened } = useSidebar();
 const { isTablet } = useDevice();
 
-const element = ref<HTMLElement | undefined>();
+const element = ref<HTMLElement>();
 
-const article = ref<Node | undefined>(undefined);
-const error = ref<string | undefined>(undefined);
+/**
+ * SSR-aware fetch
+ */
+const { data: article, error } = await useAsyncData(`public-doc-${route.params.id}`, async (): Promise<Node | undefined> => {
+  const documentId = route.params.id;
+  if (!documentId || typeof documentId !== 'string') return undefined;
+  return (await documentsStore.fetchPublic(documentId)) ?? undefined;
+});
 
-watch(
-  () => route.params.id,
-  async documentId => {
-    if (!documentId || typeof documentId !== 'string') return;
+/**
+ * SEO (SSR-safe)
+ */
+const title = computed(() => article.value?.name || 'Unknown document');
 
-    article.value = undefined;
-    error.value = undefined;
+const description = computed(() => article.value?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.');
 
-    const doc = await documentsStore.fetchPublic(documentId);
+const baseUrl = runtimeConfig.public.baseUrl || 'https://alexandrie-hub.fr';
 
-    if (!doc) {
-      error.value = 'Document not found';
-      return;
-    }
+const canonicalUrl = computed(() => `${baseUrl}/doc/${route.params.id}`);
 
-    article.value = doc;
+const ogImage = computed(() => (article.value?.thumbnail ? `${baseUrl}${article.value.thumbnail}` : `${baseUrl}/og/default-article.png`));
 
-    /**
-     * SEO
-     */
-    const title = doc.name;
-    const description = doc.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.';
+useSeoMeta({
+  title,
+  description,
+  keywords: () => article.value?.tags,
 
-    const baseUrl = runtimeConfig.public.baseUrl || 'https://alexandrie-hub.fr';
+  ogTitle: title,
+  ogDescription: description,
+  ogType: 'article',
+  ogUrl: canonicalUrl,
+  ogImage,
 
-    const canonicalUrl = `${baseUrl}/doc/${documentId}`;
+  articlePublishedTime: () => (article.value ? new Date(article.value.created_timestamp).toISOString() : undefined),
 
-    const ogImage = doc.thumbnail ? `${baseUrl}${doc.thumbnail}` : `${baseUrl}/og/default-article.png`;
+  articleModifiedTime: () => (article.value ? new Date(article.value.updated_timestamp).toISOString() : undefined),
 
-    useSeoMeta({
-      // Basic
-      title,
-      description,
-      keywords: doc.tags,
-
-      // Open Graph
-      ogTitle: title,
-      ogDescription: description,
-      ogType: 'article',
-      ogUrl: canonicalUrl,
-      ogImage,
-
-      // Article metadata
-      articlePublishedTime: new Date(doc.created_timestamp).toISOString(),
-      articleModifiedTime: new Date(doc.updated_timestamp).toISOString(),
-
-      // Twitter
-      twitterCard: 'summary_large_image',
-      twitterTitle: title,
-      twitterDescription: description,
-      twitterImage: ogImage,
-    });
-  },
-  { immediate: true },
-);
+  twitterCard: 'summary_large_image',
+  twitterTitle: title,
+  twitterDescription: description,
+  twitterImage: ogImage,
+});
 </script>
 
 <style scoped lang="scss">
