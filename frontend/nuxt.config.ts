@@ -214,18 +214,18 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#3956e7' },
 
         // Open Graph
-        { name: 'og:type', content: 'website' },
-        { name: 'og:site_name', content: 'Alexandrie' },
-        { name: 'og:title', content: 'Alexandrie – Modern Markdown Note-Taking & Knowledge Base App' },
-        { name: 'og:description', content: 'A modern note-taking and knowledge base app for developers, built around extended Markdown.' },
-        { name: 'og:url', content: 'https://alexandrie-hub.fr' },
-        { name: 'og:image', content: '/android-chrome-192x192.png' },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:site_name', content: 'Alexandrie' },
+        { property: 'og:title', content: 'Alexandrie – Modern Markdown Note-Taking & Knowledge Base App' },
+        { property: 'og:description', content: 'A modern note-taking and knowledge base app for developers, built around extended Markdown.' },
+        { property: 'og:url', content: 'https://alexandrie-hub.fr' },
+        { property: 'og:image', content: '/icons/icon-192.png' },
 
         // Twitter Card
         { name: 'twitter:title', content: 'Alexandrie – Modern Markdown Note-Taking App' },
         { name: 'twitter:description', content: 'Write and organize beautiful notes with extended Markdown. Fast, clean and developer-friendly.' },
         { name: 'twitter:card', content: 'summary' },
-        { name: 'twitter:image', content: '/android-chrome-192x192.png' },
+        { name: 'twitter:image', content: '/icons/icon-192.png' },
         { name: 'twitter:image:alt', content: 'Alexandrie' },
       ],
       link: [
