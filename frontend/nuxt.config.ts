@@ -192,36 +192,70 @@ export default defineNuxtConfig({
         lang: 'en',
       },
       meta: [
-        { name: 'author', content: 'Smaug6739' },
-        { name: 'description', content: 'A website for taking beautiful notes in extended Markdown format.' },
-        { name: 'mobile-web-app-capable" content', content: 'yes' },
-        { name: 'apple-mobile-web-app-title', content: 'Alexandrie' },
+        // SEO
+        {
+          name: 'description',
+          content:
+            'Alexandrie is a modern note-taking and knowledge base application built for developers and power users. Write, organize and render beautiful notes using extended Markdown in a fast, clean and distraction-free interface.',
+        },
+        {
+          name: 'keywords',
+          content: 'markdown notes, note taking app, knowledge base, developer notes, markdown editor, personal wiki, technical documentation, pwa notes',
+        },
+        { name: 'author', content: 'Alexandrie Team' },
+        { name: 'robots', content: 'index, follow' },
+        { name: 'referrer', content: 'strict-origin-when-cross-origin' },
+
+        // PWA / Mobile
         { name: 'application-name', content: 'Alexandrie' },
+        { name: 'apple-mobile-web-app-title', content: 'Alexandrie' },
+        { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
         { name: 'theme-color', content: '#3956e7' },
-        { name: 'twitter:card', content: 'summary' },
-        { name: 'twitter:title', content: 'Alexandrie' },
-        { name: 'twitter:description', content: 'A website for taking beautiful notes in extended Markdown format.' },
-        { name: 'twitter:image', content: '/android-chrome-192x192.png' },
-        { name: 'twitter:image:alt', content: 'Alexandrie' },
-        { name: 'og:type', content: 'website' },
-        { name: 'og:site_name', content: 'Alexandrie' },
-        { name: 'og:title', content: 'Alexandrie' },
-        { name: 'og:description', content: 'A website for taking beautiful notes in extended Markdown format.' },
-        { name: 'og:image', content: '/android-chrome-192x192.png' },
-        { name: 'og:image:alt', content: 'Alexandrie' },
-        { name: 'og:url', content: 'https://alexandrie-hub.fr' },
+
+        // Open Graph
+        { property: 'og:type', content: 'website' },
+        { property: 'og:site_name', content: 'Alexandrie' },
+        {
+          property: 'og:title',
+          content: 'Alexandrie – Modern Markdown Note-Taking & Knowledge Base App',
+        },
+        {
+          property: 'og:description',
+          content: 'A modern note-taking and knowledge base app for developers, built around extended Markdown.',
+        },
+        { property: 'og:url', content: 'https://alexandrie-hub.fr' },
+        {
+          property: 'og:image',
+          content: 'https://alexandrie-hub.fr/android-chrome-192x192.png',
+        },
+        { property: 'og:image:width', content: '192' },
+        { property: 'og:image:height', content: '192' },
+
+        // Twitter
+        { name: 'twitter:card', content: 'summary_large_image' },
+        {
+          name: 'twitter:title',
+          content: 'Alexandrie – Modern Markdown Note-Taking App',
+        },
+        {
+          name: 'twitter:description',
+          content: 'Write and organize beautiful notes with extended Markdown. Fast, clean and developer-friendly.',
+        },
+        {
+          name: 'twitter:image',
+          content: 'https://alexandrie-hub.fr/android-chrome-192x192.png',
+        },
       ],
       link: [
-        /*{
-          rel: 'manifest',
-          crossorigin: 'use-credentials',
-          href: '/manifest.json',
-        },*/
+        {
+          rel: 'canonical',
+          href: 'https://alexandrie-hub.fr',
+        },
         {
           rel: 'manifest',
           href: '/manifest.webmanifest',
         },
-        // favicon for dark theme
         {
           rel: 'icon',
           type: 'image/x-icon',
@@ -234,18 +268,9 @@ export default defineNuxtConfig({
           href: '/favicon.ico',
           media: '(prefers-color-scheme: light), (prefers-color-scheme: no-preference)',
         },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://api.alexandrie-hub.fr',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://cdn.alexandrie-hub.fr',
-        },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
+        { rel: 'preconnect', href: 'https://api.alexandrie-hub.fr' },
+        { rel: 'preconnect', href: 'https://cdn.alexandrie-hub.fr' },
       ],
     },
   },
