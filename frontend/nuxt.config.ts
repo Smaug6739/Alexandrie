@@ -229,11 +229,7 @@ export default defineNuxtConfig({
           property: 'og:image',
           content: 'https://alexandrie-hub.fr/android-chrome-192x192.png',
         },
-        { property: 'og:image:width', content: '192' },
-        { property: 'og:image:height', content: '192' },
 
-        // Twitter
-        { name: 'twitter:card', content: 'summary_large_image' },
         {
           name: 'twitter:title',
           content: 'Alexandrie – Modern Markdown Note-Taking App',
