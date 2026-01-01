@@ -15,7 +15,7 @@
         <div v-else class="no-preview">
           <p>Preview not available for this file type.</p>
           <p>
-            <NuxtLink :href="resourceURL(resource)" target="_blank" rel="noopener">
+            <NuxtLink :href="resourceURL(resource)" download rel="noopener">
               <AppButton type="primary">Download file</AppButton>
             </NuxtLink>
           </p>
