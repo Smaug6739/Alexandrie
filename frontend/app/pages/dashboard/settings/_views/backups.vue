@@ -8,7 +8,7 @@
       <div v-if="downloadLink" class="link-section">
         <p>Your backup is ready. You can copy the link to share it or download it.</p>
         <input v-model="downloadLink" type="text" readonly placeholder="Backup Link" />
-        <div style="display: flex">
+        <div class="actions">
           <AppButton type="secondary" @click="copyLink">Copy Link</AppButton>
           <a :href="downloadLink + '?response-content-disposition=attachment%3B%20filename%3D%22' + fileName()" download
             ><AppButton type="primary">Download Backup</AppButton></a
@@ -41,5 +41,11 @@ async function submitFile() {
 .main {
   margin: auto;
   text-align: center;
+}
+
+.actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
 }
 </style>
