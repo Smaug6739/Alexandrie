@@ -39,9 +39,10 @@
           </div>
         </div>
       </div>
-
-      <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
-      <AppButton type="primary" @click="router.push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
+      <div class="actions">
+        <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
+        <AppButton type="primary" @click="router.push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
+      </div>
     </div>
     <div v-else>No user found.</div>
   </div>
@@ -95,7 +96,9 @@ label {
   font-weight: bold;
 }
 
-button {
+.actions {
   margin-top: 1rem;
+  display: flex;
+  gap: 4px;
 }
 </style>
