@@ -51,8 +51,8 @@ const uploadAvatar = async () => {
   if (!file) return;
   const body = new FormData();
   body.append('file', file);
-  const r = await resourcesStore.postAvatar(body);
-  return r.content_compiled || r.original_path;
+  await resourcesStore.postAvatar(body);
+  userStore.user.avatar = Date.now().toString();
 };
 const previewAvatar = (event: Event) => {
   if (!userStore.user) return;
@@ -68,7 +68,6 @@ const updateUser = async () => {
   if (!userStore.user) return;
   try {
     await uploadAvatar();
-    userStore.user.avatar = Date.now().toString();
     await userStore.update(userStore.user);
     useNotifications().add({ type: 'success', title: 'User updated' });
   } catch (e) {
