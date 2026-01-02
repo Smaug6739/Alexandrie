@@ -1,6 +1,10 @@
 <template>
   <div :class="['component', isModal ? 'modal' : '']">
-    <nav>
+    <button class="menu-toggle" @click="menuOpen = !menuOpen">
+      <Icon :name="menuOpen ? 'close' : 'menu'" />
+      {{ menuOpen ? 'Close menu' : 'Menu' }}
+    </button>
+    <nav :class="{ open: menuOpen }">
       <span v-if="isModal">Account settings</span>
       <div v-if="isModal && store.user" class="user">
         <img :src="api.avatarURL(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
@@ -63,10 +67,12 @@ const store = useUserStore();
 const api = useApi();
 
 const currentPage = ref(route.query.p || 'profile');
+const menuOpen = ref(false);
 
 const setPage = (p: string) => {
   router.push({ query: { ...route.query, p: '' } });
   currentPage.value = p;
+  menuOpen.value = false;
 };
 watchEffect(() => {
   if (route.query.p && typeof route.query.p === 'string') currentPage.value = route.query.p;
@@ -86,7 +92,7 @@ const close = () => emit('close');
   background-color: var(--bg-color);
 
   nav {
-    width: 270px;
+    width: 300px;
     padding: 1rem;
     border-right: 1px solid var(--border-color);
     gap: 1rem;
@@ -138,8 +144,13 @@ const close = () => emit('close');
   overflow-y: auto;
 }
 
+.menu-toggle {
+  display: none;
+}
+
 .modal {
   nav {
+    width: 270px;
     border: none;
     background-color: var(--bg-contrast);
   }
@@ -152,11 +163,53 @@ const close = () => emit('close');
 
 @media screen and (width <= 920px) {
   .component {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    box-shadow: none;
+    flex-direction: column;
+    position: relative;
+
+    .menu-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-contrast);
+      color: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    nav {
+      position: absolute;
+      top: 45px;
+      left: 0;
+      width: 100%;
+      max-height: 0;
+      padding: 0;
+      overflow: hidden;
+      border-right: none;
+      background-color: var(--bg-color);
+      z-index: 10;
+      transition: max-height 0.25s ease, padding 0.25s ease;
+
+      &.open {
+        max-height: 70vh;
+        padding: 1rem;
+        overflow-y: auto;
+        border-radius: $radius-lg;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+      }
+    }
+
+    .content {
+      padding: 1rem;
+      margin: 0;
+    }
+  }
+
+  .modal nav.open {
+    background-color: var(--bg-contrast);
   }
 }
 </style>
