@@ -41,8 +41,7 @@ const skipExisting = defineModel<boolean>('skipExisting');
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: var(--card-bg);
-  border-radius: $radius-md;
+  border-top: 1px solid var(--border-color);
 
   .import-options {
     display: flex;

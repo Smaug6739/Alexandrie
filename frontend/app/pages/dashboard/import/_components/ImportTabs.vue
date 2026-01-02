@@ -18,7 +18,6 @@
         <div class="list-header">
           <AppCheck v-model="selectAllCreate" @update:model-value="toggleSelectAllCreate"> Select all </AppCheck>
           <AppButton type="primary" size="sm" :disabled="selectedCreate.length === 0 || isImporting" @click="importSelected('create')">
-            <LoaderSpinner v-if="isImporting" :size="14" />
             Import selected ({{ selectedCreate.length }})
           </AppButton>
         </div>
@@ -184,9 +183,9 @@ function importLocalSettings() {
   display: flex;
   gap: 0;
   border-bottom: 1px solid var(--border-color);
-  margin: -1.5rem -1.5rem 1rem;
   padding: 0 1.5rem;
-
+  margin-bottom: 2rem;
+  width: 100%;
   button {
     padding: 1rem 1.5rem;
     background: none;
@@ -195,7 +194,7 @@ function importLocalSettings() {
     cursor: pointer;
     border-bottom: 2px solid transparent;
     transition: all 0.2s;
-
+    flex: 1;
     &:hover {
       color: var(--font-color);
     }
