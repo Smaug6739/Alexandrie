@@ -13,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 	"path/filepath"
 	"sync"
@@ -368,12 +369,18 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 
 	// Generate presigned URL for download (valid for 24 hours)
 	// This is the ONLY way to access the backup since the bucket is private
+	reqParams := make(url.Values)
+	reqParams.Set(
+		"response-content-disposition",
+		`attachment; filename="alexandrie-backup-`+time.Now().Format("2006-01-02 15:04:05")+`.zip"`,
+	)
+
 	presignedURL, err := minioClient.PresignedGetObject(
 		context.Background(),
 		backupBucket,
 		objectName,
 		time.Duration(backupExpiryHours)*time.Hour,
-		nil,
+		reqParams,
 	)
 	if err != nil {
 		s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to generate download URL: %v", err))
@@ -438,6 +445,7 @@ func (s *backupService) prepareDocumentsData(documents []*models.Node, includeMe
 				"content":           doc.Content,
 				"content_compiled":  doc.ContentCompiled,
 				"created_timestamp": doc.CreatedTimestamp,
+				"updated_timestamp": doc.UpdatedTimestamp,
 			}
 		}
 		return stripped, nil
