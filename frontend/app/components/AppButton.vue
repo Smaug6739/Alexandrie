@@ -70,4 +70,11 @@ button {
     background: var(--red-dark);
   }
 }
+
+@media screen and (width <= 768px) {
+  button {
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+}
 </style>

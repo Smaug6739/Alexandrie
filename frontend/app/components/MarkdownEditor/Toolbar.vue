@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <!-- Formatting Group -->
-    <div class="toolbar-group">
+    <div class="toolbar-group no-mobile">
       <div class="group-buttons">
         <button v-for="item in formattingTools" :key="item.name" class="toolbar-btn" :aria-label="item.name" @click="emitAction(item.action)">
           <!-- eslint-disable-next-line vue/no-v-html -->
@@ -16,7 +16,7 @@
     <div class="toolbar-divider" />
 
     <!-- Insert Group -->
-    <div class="toolbar-group">
+    <div class="toolbar-group no-mobile">
       <div class="group-buttons">
         <button v-for="item in insertTools" :key="item.name" class="toolbar-btn" :aria-label="item.name" @click="emitAction(item.action)">
           <!-- eslint-disable-next-line vue/no-v-html -->
@@ -31,7 +31,7 @@
     <div class="toolbar-divider" />
 
     <!-- Structure Group -->
-    <div class="toolbar-group">
+    <div class="toolbar-group no-mobile">
       <div class="group-buttons">
         <button v-for="item in structureTools" :key="item.name" class="toolbar-btn" :aria-label="item.name" @click="emitAction(item.action)">
           <!-- eslint-disable-next-line vue/no-v-html -->
@@ -46,8 +46,8 @@
     <div class="toolbar-divider" />
 
     <!-- Voice & Category -->
-    <div class="toolbar-group" style=" flex: 1;flex-direction: row">
-      <VoiceRecognition @transcription="handleTranscription" />
+    <div class="toolbar-group" style="flex: 1; flex-direction: row">
+      <VoiceRecognition class="no-mobile" @transcription="handleTranscription" />
       <AppSelect v-if="!minimal" v-model="localValue.parent_id" :items="categories" placeholder="Category" class="category-select" />
     </div>
 

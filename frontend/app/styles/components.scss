@@ -73,7 +73,7 @@
 // ===========================
 // CARD COMPONENT
 // ===========================
-.card {
+.card-component {
 	display: block;
 	margin: 12px 6px;
 	padding: 24px;
@@ -87,6 +87,7 @@
 		align-items: center;
 		border-bottom: 1px solid var(--border-color);
 		justify-content: space-between;
+		padding-bottom: 4px;
 		margin-bottom: 10px;
 
 		h1 {
@@ -97,9 +98,11 @@
 	}
 }
 
-// Legacy alias
-.card-component {
-	@extend .card;
+@media screen and (width <=768px) {
+	.card-component {
+		margin: 8px 0;
+		padding: 16px;
+	}
 }
 
 // ===========================
