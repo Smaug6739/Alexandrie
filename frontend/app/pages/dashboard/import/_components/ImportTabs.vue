@@ -323,9 +323,5 @@ function importLocalSettings() {
 
 .warning {
   color: var(--red);
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 </style>
