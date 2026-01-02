@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 'sm' | 'md' | 'lg' | 'xl' | 'xll'; size?: string }>(), {
+const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 'sm' | 'md' | 'lg' | 'xl' | 'xll'; size?: number | string }>(), {
   display: 'md',
   fill: 'var(--font-color)',
   size: undefined,

@@ -31,6 +31,9 @@ button {
   &:hover {
     background: var(--primary-dark);
   }
+  * {
+    fill: white !important;
+  }
 }
 
 .secondary {

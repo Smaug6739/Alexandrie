@@ -14,7 +14,16 @@ func Uploads(app *app.App, router *gin.RouterGroup) {
 	resourcesCtrl := controllers.NewResourceController(app)
 
 	resources.Use(middlewares.Auth())
-	resources.GET(("/backup"), utils.WP(resourcesCtrl.GetBackup))
 	resources.POST("", utils.WP(resourcesCtrl.UploadFile))
 	resources.POST("/avatar", utils.WP(resourcesCtrl.UploadAvatar))
+}
+
+func Backup(app *app.App, router *gin.RouterGroup) {
+	backup := router.Group("/backup")
+	backupCtrl := controllers.NewBackupController(app)
+
+	backup.Use(middlewares.Auth())
+	backup.POST("", utils.WP(backupCtrl.CreateBackup))
+	backup.GET("/:jobId", utils.WP(backupCtrl.GetBackupStatus))
+	backup.DELETE("/:jobId", utils.WP(backupCtrl.CancelBackup))
 }

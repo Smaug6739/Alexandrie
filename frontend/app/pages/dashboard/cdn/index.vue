@@ -159,7 +159,7 @@ const submitFiles = async () => {
 };
 
 const previewURL = (resource: Node) => {
-  if ((resource.metadata?.filetype as string)?.includes('image/')) return resourceURL(resource);
+  if ((resource.metadata?.filetype || '')?.includes('image/')) return resourceURL(resource);
   return '/file_placeholder.png';
 };
 const headers = [
@@ -179,7 +179,7 @@ const rows: ComputedRef<Field[]> = computed(() =>
     return {
       name: { content: res.name, type: 'text' },
       size: { content: readableFileSize(res.size ?? 0), type: 'text' },
-      type: { content: `<tag class="${color(res.metadata?.filetype as string)}">${res.metadata?.filetype as string}</tag>`, type: 'html' },
+      type: { content: `<tag class="${color(res.metadata?.filetype || '')}">${res.metadata?.filetype || ''}</tag>`, type: 'html' },
       parent: { content: category ? `<tag class="${appColors.getAppAccent(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
       date: { content: numericDate(res.created_timestamp), type: 'text' },
       action: { type: 'slot', data: res },

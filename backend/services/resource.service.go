@@ -8,7 +8,6 @@ import (
 	"alexandrie/utils"
 	"bytes"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -20,7 +19,6 @@ import (
 )
 
 type ResourceService interface {
-	CreateBackup(userId types.Snowflake, minioClient *minio.Client) (string, error)
 	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
 	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error
 }
@@ -35,33 +33,6 @@ func NewResourceService(nodeRepo repositories.NodeRepository, snowflake *snowfla
 		nodeRepo:  nodeRepo,
 		snowflake: snowflake,
 	}
-}
-
-func (s *resourceService) CreateBackup(userId types.Snowflake, minioClient *minio.Client) (string, error) {
-	if minioClient == nil {
-		return "", errors.New("minio client not initialized")
-	}
-
-	nodes, err := s.nodeRepo.GetAllForBackup(userId)
-	if err != nil {
-		return "", err
-	}
-
-	backup := map[string]interface{}{
-		"nodes": nodes,
-	}
-	jsonString, err := json.Marshal(backup)
-	if err != nil {
-		return "", err
-	}
-
-	objectName := fmt.Sprintf("%d/backups/backup.json", userId)
-	_, err = minioClient.PutObject(context.Background(), os.Getenv("MINIO_BUCKET"), objectName, bytes.NewReader(jsonString), int64(len(jsonString)), minio.PutObjectOptions{ContentType: "application/json"})
-	if err != nil {
-		return "", err
-	}
-
-	return objectName, nil
 }
 
 func (s *resourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {

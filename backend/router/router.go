@@ -68,6 +68,7 @@ func InitRouter(app *app.App) *gin.Engine {
 	routes.Users(app, mainGroup)
 	routes.Auth(app, mainGroup)
 	routes.Uploads(app, mainGroup)
+	routes.Backup(app, mainGroup)
 	routes.Nodes(app, mainGroup)
 	return router
 }

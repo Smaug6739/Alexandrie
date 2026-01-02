@@ -7,7 +7,7 @@ function shortDate(timestamp: number | undefined): string {
 }
 
 /** Format a timestamp to a numeric date string (e.g., "12/15/2024") */
-function numericDate(timestamp: number): string {
+function numericDate(timestamp: number | string): string {
   return new Date(timestamp).toLocaleDateString(locale, {
     year: 'numeric',
     month: '2-digit',
