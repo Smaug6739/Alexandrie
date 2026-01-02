@@ -288,6 +288,22 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 		}
 	}
 
+	// Check for cancellation
+	select {
+	case <-ctx.Done():
+		return
+	default:
+	}
+
+	if job.Options.LocalData != nil {
+		s.updateJobStatus(job, types.BackupStatusProcessing, 80, "Adding local data...", "")
+		if err := s.addJSONToZip(zipWriter, "local_data.json", job.Options.LocalData); err != nil {
+			s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to add local data: %v", err))
+			return
+		}
+	}
+
+	// Check for cancellation
 	select {
 	case <-ctx.Done():
 		return
@@ -298,10 +314,14 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 
 	// Create and add manifest
 	manifest := types.BackupManifest{
-		Version:    backupVersion,
-		CreatedAt:  time.Now(),
-		UserID:     job.UserID,
-		Options:    job.Options,
+		Version:   backupVersion,
+		CreatedAt: time.Now(),
+		UserID:    job.UserID,
+		Options: types.BackupOptions{
+			IncludeDocuments: job.Options.IncludeDocuments,
+			IncludeFiles:     job.Options.IncludeFiles,
+			IncludeMetadata:  job.Options.IncludeMetadata,
+		},
 		Statistics: stats,
 	}
 
@@ -414,12 +434,10 @@ func (s *backupService) prepareDocumentsData(documents []*models.Node, includeMe
 				"theme":             doc.Theme,
 				"accessibility":     doc.Accessibility,
 				"access":            doc.Access,
-				"display":           doc.Display,
 				"order":             doc.Order,
 				"content":           doc.Content,
 				"content_compiled":  doc.ContentCompiled,
 				"created_timestamp": doc.CreatedTimestamp,
-				"updated_timestamp": doc.UpdatedTimestamp,
 			}
 		}
 		return stripped, nil

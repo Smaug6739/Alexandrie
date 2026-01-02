@@ -28,8 +28,8 @@ func NewBackupController(app *app.App) BackupController {
 type CreateBackupRequest struct {
 	IncludeDocuments *bool `json:"include_documents"` // Include documents/notes content
 	IncludeFiles     *bool `json:"include_files"`     // Include uploaded files
-	IncludeSettings  *bool `json:"include_settings"`  // Include user settings
 	IncludeMetadata  *bool `json:"include_metadata"`  // Include node metadata
+	LocalData        any   `json:"local_data"`        // Include data stored by the client to the archive
 }
 
 // CreateBackup starts an asynchronous backup job
@@ -53,8 +53,8 @@ func (ctr *Controller) CreateBackup(c *gin.Context) (int, any) {
 	options := types.BackupOptions{
 		IncludeDocuments: req.IncludeDocuments == nil || *req.IncludeDocuments,
 		IncludeFiles:     req.IncludeFiles == nil || *req.IncludeFiles,
-		IncludeSettings:  req.IncludeSettings == nil || *req.IncludeSettings,
 		IncludeMetadata:  req.IncludeMetadata == nil || *req.IncludeMetadata,
+		LocalData:        req.LocalData,
 	}
 
 	// Start async backup

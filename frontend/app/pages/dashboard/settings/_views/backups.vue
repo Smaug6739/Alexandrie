@@ -110,7 +110,8 @@ interface BackupJob {
 interface BackupOptions {
   include_documents: boolean;
   include_files: boolean;
-  include_settings: boolean;
+  local_data?: object;
+  include_settings?: boolean;
   include_metadata: boolean;
 }
 
@@ -123,6 +124,7 @@ const options = reactive({
 
 const { numericDate } = useDateFormatters();
 const notifications = useNotifications();
+const pref = usePreferences();
 
 const currentJob = ref<BackupJob | null>(null);
 const pollingInterval = ref<ReturnType<typeof setInterval> | null>(null);
@@ -161,7 +163,7 @@ async function startBackup() {
   const result = await makeRequest<{ job_id: string; message: string }>('backup', 'POST', {
     include_documents: options.includeDocuments,
     include_files: options.includeFiles,
-    include_settings: options.includeSettings,
+    local_data: options.includeSettings ? pref.all : null,
     include_metadata: options.includeMetadata,
   });
 
@@ -235,7 +237,7 @@ function error(message?: string, error?: string) {
     status: 'failed',
     id: '',
     user_id: '',
-    options: { include_documents: false, include_files: false, include_settings: false, include_metadata: false },
+    options: { include_documents: false, include_files: false, include_metadata: false },
     progress: 0,
     message: message || 'An error occurred while fetching the backup status. Please try again later.',
     error: error,
