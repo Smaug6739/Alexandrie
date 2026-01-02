@@ -3,6 +3,8 @@ import type MarkdownIt from 'markdown-it';
 import container from 'markdown-it-container';
 import { svg_info, svg_warning, containerOpen } from './constants';
 
+const containerPlugin = container as any;
+
 export const containerSvg = (md: MarkdownIt) => {
   const containers = [
     { name: 'definition', color: 'red', icon: svg_info },
@@ -15,7 +17,7 @@ export const containerSvg = (md: MarkdownIt) => {
   ];
 
   containers.forEach(({ name, color, icon }) => {
-    md.use(container, name, {
+    md.use(containerPlugin, name, {
       validate(params: string) {
         // Autorise le pattern `nom + titre`
         return params.trim().match(new RegExp(`^${name}\\s+(.*)$`));

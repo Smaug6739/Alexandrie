@@ -10,27 +10,22 @@ const isResizing = ref(false);
 const workspaceId = ref<string | undefined>(undefined);
 const active_id = ref<string | null>(null);
 
+const { isMobile } = useDevice();
+
 const toggleSidebar = () => (isOpened.value = !isOpened.value);
 
 // Lazy-initialized references (only set once when useSidebar is first called)
 let _sidebarTreeRef: ReturnType<typeof useSidebarTree> | null = null;
-let _preferencesRef: ReturnType<typeof usePreferences> | null = null;
+const preferences = usePreferences();
 let _filtered: ComputedRef<Item[]> | null = null;
-let _paneWidth: ComputedRef<number> | null = null;
+const paneWidth = ref(isMobile.value ? 340 : 390);
 
 export function useSidebar() {
-  const { isMobile } = useDevice();
-
   // Lazy init: only create these once
   if (!_sidebarTreeRef) {
     _sidebarTreeRef = useSidebarTree();
   }
-  if (!_preferencesRef) {
-    _preferencesRef = usePreferences();
-  }
-  if (!_paneWidth) {
-    _paneWidth = computed(() => (isMobile.value ? 340 : 390));
-  }
+
   if (!_filtered) {
     /** Filter tree items based on selected workspace and preferences */
     _filtered = computed(() => {
@@ -39,7 +34,7 @@ export function useSidebar() {
 
       if (found) return found.childrens || [];
       if (workspaceId.value === 'shared') return tree.value.filter(i => i.data && i.data.shared);
-      if (!_preferencesRef!.get('displayUncategorizedResources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
+      if (!preferences.get('displayUncategorizedResources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
       return tree.value;
     });
   }
@@ -49,7 +44,7 @@ export function useSidebar() {
     toggleSidebar,
     isOpened,
     hasSidebar,
-    paneWidth: _paneWidth,
+    paneWidth,
     isResizing,
     workspaceId,
     active_id,

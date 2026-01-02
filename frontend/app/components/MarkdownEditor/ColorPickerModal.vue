@@ -7,7 +7,7 @@
         <h4 class="section-title">Quick Colors</h4>
         <div class="swatches">
           <button
-            v-for="color in availableColors"
+            v-for="color in appColors"
             :key="color"
             class="swatch"
             :class="{ 'primary-color': color === 'primary' }"
@@ -86,6 +86,7 @@
 
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
+import { appColors } from '~/helpers/constants';
 import { hsvToHex } from '~/helpers/colors';
 const props = defineProps<{ onColorSelect: (color: string) => void }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
@@ -99,8 +100,6 @@ const hue = ref(0),
   brightness = ref(100);
 const selectedWheelColor = ref('#FF0000');
 const cursorPosition = ref({ x: 150, y: 75 });
-
-const availableColors = ['primary', ...Array.from({ length: 8 }, (_, i) => getAppAccent(i))];
 
 const selectColor = (color: string) => {
   props.onColorSelect(color);

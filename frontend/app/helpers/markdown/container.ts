@@ -2,6 +2,9 @@ import type MarkdownIt from 'markdown-it';
 import container from 'markdown-it-container';
 import type { RenderRule } from 'markdown-it/lib/renderer.mjs';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const containerPlugin_ = container as any;
+
 export const containerPlugin = (md: MarkdownIt) => {
   md.use(...createContainer('green', 'TIP', md))
     .use(...createContainer('grey', 'INFO', md))
@@ -16,11 +19,11 @@ export const containerPlugin = (md: MarkdownIt) => {
     .use(...createInvisibleContainer('column'));
 };
 
-type ContainerArgs = [typeof container, string, { render: RenderRule }];
+type ContainerArgs = [typeof containerPlugin_, string, { render: RenderRule }];
 
 function createContainer(klass: string, defaultTitle: string, md: MarkdownIt): ContainerArgs {
   return [
-    container,
+    containerPlugin_,
     klass,
     {
       render(tokens, idx) {
@@ -42,7 +45,7 @@ function createContainer(klass: string, defaultTitle: string, md: MarkdownIt): C
 
 function createInvisibleContainer(klass: string): ContainerArgs {
   return [
-    container,
+    containerPlugin_,
     klass,
     {
       render(tokens, idx) {

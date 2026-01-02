@@ -7,7 +7,7 @@
       You can import documents from a previous export. If you don't have export, you can create a new one from the
       <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">settings</NuxtLink> page.
     </p>
-    <AppDrop ref="dropComponent" @select="handleFileSelect" />
+    <AppDrop ref="dropComponent" @select="handleFileSelect as (file: File) => void" />
     <div class="submit">
       <AppButton type="primary" :disabled="!selectedFile" @click="submit">Analyse file</AppButton>
     </div>
