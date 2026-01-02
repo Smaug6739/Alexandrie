@@ -2,7 +2,7 @@
   <div class="modal-ctn">
     <EditorAppHeader icon="image" title="Select Image" subtitle="Choose an image to insert into your document." />
     <div class="modal-content">
-      <AppDrop ref="dropComponent" @select="submitFile" />
+      <AppDrop ref="dropComponent" @select="submitFile as (file: File) => void" />
       <Loader v-if="isLoading" style="margin: 12px auto" />
       <p v-if="uploadError" class="error">{{ uploadError }}</p>
       <div class="search-bar">
