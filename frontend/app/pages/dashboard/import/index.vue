@@ -12,7 +12,7 @@
       <AppDrop ref="dropComponent" @select="handleFileSelect as (file: File) => void" />
       <div class="submit">
         <AppButton type="primary" :disabled="!selectedFile || isAnalyzing" @click="analyzeFile">
-          {{ isAnalyzing ? 'Analyzing...' : 'Analyze file' }}
+          {{ isAnalyzing ? 'Analyzing...' : 'Start Import' }}
         </AppButton>
       </div>
       <p v-if="analyzeError" class="error-text">{{ analyzeError }}</p>
