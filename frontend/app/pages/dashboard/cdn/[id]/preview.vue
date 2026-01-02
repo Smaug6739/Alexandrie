@@ -4,14 +4,14 @@
       <header>
         <h1>Preview <tag yellow>Beta</tag> • {{ resource.name }}</h1>
         <div class="actions">
-          <AppSelect v-if="isPdfFile(mimeType)" v-model="scale" :items="PDF_SCALES" :searchable="false" label="Scale" style="margin-right: 12px" />
+          <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
           <NuxtLink :to="`/dashboard/cdn/${resource.id}`"><AppButton type="primary">Edit</AppButton></NuxtLink>
-          <AppButton type="secondary" @click="copyLink">Copy link</AppButton>
+          <AppButton type="secondary" class="no-mobile" @click="copyLink">Copy link</AppButton>
         </div>
       </header>
       <div class="preview">
         <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
-        <LazyPDFViewer v-else-if="isPdfFile(mimeType)" :src="resourceURL(resource)" :scale="scale" />
+        <LazyPDFViewer v-else-if="isPdfFile(mimeType)" :src="resourceURL(resource)" :zoom="zoom" />
         <div v-else class="no-preview">
           <p>Preview not available for this file type.</p>
           <p>
@@ -26,15 +26,14 @@
 </template>
 
 <script setup lang="ts">
-import { PDF_SCALES, DEFAULT_PDF_SCALE } from '~/helpers/constants';
+import { PDF_SCALES } from '~/helpers/constants';
 import { isImageFile, isPdfFile } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Preview' });
 
 const { resourceURL } = useApi();
-const { isMobile } = useDevice();
 
-const scale = ref(isMobile.value ? DEFAULT_PDF_SCALE.mobile : DEFAULT_PDF_SCALE.desktop);
+const zoom = ref<(typeof PDF_SCALES)[number]['id']>('automatic_zoom');
 
 const resource = computed(() => useNodesStore().getById(useRoute().params.id as string));
 const mimeType = computed(() => resource.value?.metadata?.filetype || '');
@@ -55,11 +54,13 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 .preview {

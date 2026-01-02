@@ -36,7 +36,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 interface Props {
   src: string;
-  scale?: number;
+  zoom?: number | 'automatic_zoom' | 'actual_size' | 'page_fit' | 'page_width';
 }
 
 interface PageInfo {
@@ -47,7 +47,7 @@ interface PageInfo {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  scale: 1,
+  zoom: 'automatic_zoom',
 });
 
 const containerRef = ref<HTMLElement | null>(null);
@@ -62,10 +62,38 @@ const renderingPages = new Set<number>();
 const renderedPages = new Set<number>();
 
 const setPageRef = (el: HTMLElement | null, pageNum: number) => {
-  if (el) {
-    pageRefs.set(pageNum, el);
-  } else {
-    pageRefs.delete(pageNum);
+  if (el) pageRefs.set(pageNum, el);
+  else pageRefs.delete(pageNum);
+};
+
+const computeScale = (page: PDFPageProxy) => {
+  const container = containerRef.value;
+  if (!container) return 1;
+
+  switch (props.zoom) {
+    case 'actual_size':
+      return 1;
+    case 'page_fit': {
+      const viewport = page.getViewport({ scale: 1 });
+      const scaleX = container.clientWidth / viewport.width;
+      const scaleY = container.clientHeight / viewport.height;
+      return Math.min(scaleX, scaleY);
+    }
+    case 'page_width': {
+      const viewport = page.getViewport({ scale: 1 });
+      return container.clientWidth / viewport.width;
+    }
+    case 'automatic_zoom': {
+      const viewport = page.getViewport({ scale: 1 });
+      const containerWidth = container.clientWidth;
+
+      const scaleWidth = containerWidth / viewport.width;
+
+      return Math.min(scaleWidth * 0.9, 1.5); // Limit max zoom to 150%
+    }
+    default:
+      if (typeof props.zoom === 'number') return props.zoom;
+      return 1;
   }
 };
 
@@ -81,8 +109,9 @@ const renderPage = async (pageNum: number) => {
   renderingPages.add(pageNum);
 
   try {
-    const page: PDFPageProxy = await pdf.getPage(pageNum);
-    const viewport = page.getViewport({ scale: props.scale });
+    const page = await pdf.getPage(pageNum);
+    const scale = computeScale(page);
+    const viewport = page.getViewport({ scale });
 
     // Set canvas dimensions
     const dpr = window.devicePixelRatio || 1;
@@ -102,11 +131,9 @@ const renderPage = async (pageNum: number) => {
       viewport,
     }).promise;
 
-    // Mark the page as rendered
     const pageInfo = pages.value.find(p => p.num === pageNum);
-    if (pageInfo) {
-      pageInfo.rendered = true;
-    }
+    if (pageInfo) pageInfo.rendered = true;
+
     renderedPages.add(pageNum);
   } catch (err) {
     console.error(`Erreur rendu page ${pageNum}:`, err);
@@ -121,20 +148,17 @@ const setupObserver = () => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
           const pageNum = Number(entry.target.getAttribute('data-page'));
-          if (pageNum) {
-            renderPage(pageNum);
-          }
+          if (pageNum) renderPage(pageNum);
         }
       }
     },
     {
       root: containerRef.value,
-      rootMargin: '200px 0px', // Pre-render nearby pages
+      rootMargin: '200px 0px',
       threshold: 0,
     },
   );
 
-  // Observe all page wrappers
   nextTick(() => {
     for (const [pageNum, el] of pageRefs) {
       el.setAttribute('data-page', String(pageNum));
@@ -146,7 +170,6 @@ const setupObserver = () => {
 const loadPdf = async () => {
   if (!props.src) return;
 
-  // Reset state
   loading.value = true;
   error.value = null;
   pages.value = [];
@@ -154,7 +177,6 @@ const loadPdf = async () => {
   renderingPages.clear();
   pageRefs.clear();
 
-  // Cleanup previous
   if (observer) {
     observer.disconnect();
     observer = null;
@@ -173,11 +195,11 @@ const loadPdf = async () => {
 
     pdf = await loadingTask.promise;
 
-    // Calculate dimensions for each page
     const pagesInfo: PageInfo[] = [];
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
-      const viewport = page.getViewport({ scale: props.scale });
+      const scale = computeScale(page);
+      const viewport = page.getViewport({ scale });
       pagesInfo.push({
         num: i,
         width: viewport.width,
@@ -189,7 +211,6 @@ const loadPdf = async () => {
     pages.value = pagesInfo;
     loading.value = false;
 
-    // Setup intersection observer after DOM rendering
     await nextTick();
     setupObserver();
   } catch {
@@ -203,23 +224,22 @@ onMounted(loadPdf);
 watch(() => props.src, loadPdf);
 
 watch(
-  () => props.scale,
+  () => props.zoom,
   async () => {
     if (!pdf) return;
 
-    // Recalculer les dimensions et re-render
     renderedPages.clear();
     renderingPages.clear();
 
     for (const page of pages.value) {
       const pdfPage = await pdf.getPage(page.num);
-      const viewport = pdfPage.getViewport({ scale: props.scale });
+      const scale = computeScale(pdfPage);
+      const viewport = pdfPage.getViewport({ scale });
       page.width = viewport.width;
       page.height = viewport.height;
       page.rendered = false;
     }
 
-    // Re-trigger observer
     await nextTick();
     if (observer) {
       observer.disconnect();
@@ -237,6 +257,7 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .pdf-container {
   height: 100%;
+  width: 100%;
   overflow-y: auto;
 }
 

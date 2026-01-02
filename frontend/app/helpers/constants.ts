@@ -57,16 +57,14 @@ export const NODE_PERMISSIONS = [
 ];
 
 export const PDF_SCALES = [
+  { label: 'Automatic Zoom', id: 'automatic_zoom' },
+  { label: 'Actual Size', id: 'actual_size' },
+  { label: 'Page fit', id: 'page_fit' },
+  { label: 'Page width', id: 'page_width' },
   { label: '50%', id: 0.5 },
   { label: '75%', id: 0.75 },
-  { label: '85%', id: 0.85 },
   { label: '100%', id: 1.0 },
   { label: '125%', id: 1.25 },
   { label: '150%', id: 1.5 },
   { label: '200%', id: 2.0 },
-];
-
-export const DEFAULT_PDF_SCALE = {
-  desktop: 1.5,
-  mobile: 0.85,
-};
+] as const;
