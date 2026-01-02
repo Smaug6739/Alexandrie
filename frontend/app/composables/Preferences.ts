@@ -93,12 +93,18 @@ export function usePreferences() {
     savePreferences();
   }
 
+  function importPreferences(newPreferences: Partial<Preferences>) {
+    Object.assign(preferences, newPreferences);
+    savePreferences();
+  }
+
   const all = preferences;
 
   return {
     get,
     set,
     reset,
+    importPreferences,
     all,
   };
 }

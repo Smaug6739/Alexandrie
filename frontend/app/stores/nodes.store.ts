@@ -381,6 +381,22 @@ export const useNodesStore = defineStore('nodes', {
       });
       return { deletedIds, failedIds };
     },
+    prepareImport(nodes: DB_Node[]): { toCreate: DB_Node[]; toUpdate: DB_Node[] } {
+      const toCreate: DB_Node[] = [];
+      const toUpdate: DB_Node[] = [];
+      for (const backupNode of nodes) {
+        const existingNode = this.nodes.get(backupNode.id);
+        if (!existingNode) {
+          toCreate.push(backupNode);
+        } else {
+          // Check if any field is different
+          if (backupNode.updated_timestamp !== existingNode.updated_timestamp) {
+            toUpdate.push(backupNode);
+          }
+        }
+      }
+      return { toCreate, toUpdate };
+    },
     clear() {
       this.nodes.clear();
       this.public_nodes.clear();

@@ -1,8 +1,8 @@
 <template>
   <label class="checkbox">
-    <input type="checkbox" :checked="!!modelValue" @change="toggle" />
+    <input type="checkbox" :checked="!!modelValue || checked" @change="toggle" />
     <span class="mark">
-      <svg v-if="modelValue" viewBox="0 0 24 24">
+      <svg v-if="modelValue || checked" viewBox="0 0 24 24">
         <path d="M20 6L9 17l-5-5" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </span>
@@ -11,11 +11,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ modelValue?: boolean }>();
-const emit = defineEmits(['update:modelValue']);
+const props = defineProps<{ modelValue?: boolean; checked?: boolean }>();
+const emit = defineEmits(['update:modelValue', 'change']);
 
 function toggle() {
   emit('update:modelValue', !props.modelValue);
+  emit('change', !props.checked);
 }
 </script>
 

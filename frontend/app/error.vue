@@ -31,7 +31,7 @@ const props = defineProps({
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .error-container {
   display: flex;
   min-height: 100vh;

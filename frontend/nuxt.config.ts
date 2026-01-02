@@ -159,14 +159,12 @@ export default defineNuxtConfig({
         },
         {
           // Api cache: match /api calls
-          urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+          urlPattern: ({ url }) => {
+            return url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/backup/');
+          },
           handler: 'NetworkFirst',
           options: {
             cacheName: 'api-cache',
-            expiration: {
-              maxEntries: 50,
-              maxAgeSeconds: 86400,
-            },
           },
         },
       ],

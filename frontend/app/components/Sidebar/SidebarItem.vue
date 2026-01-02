@@ -37,6 +37,7 @@ const nodesStore = useNodesStore();
 const { isOpened, workspaceId } = useSidebar();
 const { getAppAccent } = useAppColors();
 const { isMobile } = useDevice();
+const preferences = usePreferences();
 
 const props = defineProps<{ item: Item | DefaultItem; level: number }>();
 const isDragOver = ref<boolean>(false);
@@ -46,8 +47,9 @@ const customClass = computed(() => {
     return `item-icon ${getAppAccent(props.item.data.color as number)}`;
   return 'default-icon';
 });
+const iconsNormalized = computed(() => preferences.get('normalizeFileIcons').value);
 const icon = computed(() => {
-  if (props.item.icon === 'sidebar/file' && props.item.childrens?.some(child => child.data.role != 4)) return 'file_parent';
+  if (!iconsNormalized.value && props.item.icon === 'sidebar/file' && props.item.childrens?.some(child => child.data.role != 4)) return 'file_parent';
   return props.item.icon || '';
 });
 
