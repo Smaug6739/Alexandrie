@@ -36,9 +36,6 @@
               </div>
             </div>
             <div class="doc-actions">
-              <AppButton type="ghost" size="sm">
-                <Icon name="eye" :size="14" />
-              </AppButton>
               <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'create')"> Import </AppButton>
             </div>
           </div>
@@ -84,11 +81,7 @@
               </div>
             </div>
             <div class="doc-actions">
-              <AppButton type="ghost" size="sm">
-                <Icon name="diff" :size="14" />
-                Compare
-              </AppButton>
-              <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'update')"> Update </AppButton>
+              <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'update')"> Imprort from backup </AppButton>
             </div>
           </div>
         </div>
