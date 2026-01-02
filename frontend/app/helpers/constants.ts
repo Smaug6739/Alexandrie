@@ -67,4 +67,4 @@ export const PDF_SCALES = [
   { label: '125%', id: 1.25 },
   { label: '150%', id: 1.5 },
   { label: '200%', id: 2.0 },
-] as const;
+] as Array<{ label: string; id: 'automatic_zoom' | 'actual_size' | 'page_fit' | 'page_width' | number }>;
