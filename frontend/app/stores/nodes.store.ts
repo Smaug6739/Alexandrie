@@ -319,6 +319,7 @@ export const useNodesStore = defineStore('nodes', {
       }
       const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
       if (request.status == 'success') {
+        node.updated_timestamp = Date.now(); // approximate update time for better UX & backups import
         this.nodes.set(node.id, node);
         return this.nodes;
       } else throw request.message;
