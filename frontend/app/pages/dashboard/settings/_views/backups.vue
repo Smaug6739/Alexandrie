@@ -366,7 +366,6 @@ onUnmounted(() => {
 }
 
 .link-section {
-  margin-top: 1.5rem;
   padding: 1rem;
   background: var(--bg-color-2);
   border-radius: $radius-sm;

@@ -11,9 +11,17 @@
 // @ts-expect-error ignore missing types
 import 'virtual:svg-icons-register';
 
-const color = usePreferences().get('primaryColor').value;
-const { setAppColor } = useAppColors();
 useFavicon();
+const preferences = usePreferences();
+const { setAppColor } = useAppColors();
 
-setAppColor(Number(color));
+const primaryColor = computed(() => preferences.get('primaryColor').value);
+
+watch(
+  primaryColor,
+  color => {
+    setAppColor(Number(color));
+  },
+  { immediate: true },
+);
 </script>
