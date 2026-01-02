@@ -260,10 +260,7 @@ onUnmounted(() => {
 }
 
 .options-section {
-  margin: 1.5rem 0;
   padding: 1rem;
-  background: var(--bg-color-2);
-  border-radius: $radius-sm;
   text-align: left;
 
   h3 {
@@ -287,7 +284,6 @@ onUnmounted(() => {
 
 .progress-section {
   padding: 1rem;
-  background: var(--bg-color-2);
   border-radius: $radius-sm;
 }
 
@@ -367,8 +363,6 @@ onUnmounted(() => {
 
 .link-section {
   padding: 1rem;
-  background: var(--bg-color-2);
-  border-radius: $radius-sm;
 }
 
 .expiry-notice {
@@ -382,13 +376,7 @@ onUnmounted(() => {
 }
 
 input[type='text'] {
-  width: 100%;
   padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: $radius-sm;
-  background: var(--bg-color);
-  color: var(--font-color);
-  font-size: 0.875rem;
 }
 
 .actions {
