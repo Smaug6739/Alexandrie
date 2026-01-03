@@ -109,13 +109,12 @@
 
 <script setup lang="ts">
 import { getRoleName, resolveIcon } from '~/helpers/node';
-import type { DB_Node } from '~/stores';
+import type { DB_Node, ImportJob } from '~/stores';
 import type { ManifestExtended } from '~/helpers/backups/types';
 
-const props = defineProps<{ manifest: ManifestExtended; toCreate: DB_Node[]; toUpdate: DB_Node[]; isImporting: boolean }>();
+const props = defineProps<{ manifest: ManifestExtended; toCreate: DB_Node[]; toUpdate: DB_Node[]; importJob: ImportJob }>();
 const emit = defineEmits<{
-  (e: 'importSingle', doc: DB_Node, type: 'create' | 'update'): void;
-  (e: 'importSelected', type: 'create' | 'update', ids: string[]): void;
+  (e: 'import', type: 'create' | 'update', nodeIds: string[]): void;
   (e: 'importLocalSettings'): void;
 }>();
 
@@ -129,6 +128,8 @@ const selectedCreate = ref<string[]>([]);
 const selectedUpdate = ref<string[]>([]);
 const selectAllCreate = ref(false);
 const selectAllUpdate = ref(false);
+
+const isImporting = computed(() => props.importJob.status === 'in_progress');
 
 function toggleSelectAllCreate(value: boolean) {
   if (value) {
@@ -159,11 +160,11 @@ function getExistingNode(id: string): DB_Node | undefined {
   return store.getById(id);
 }
 function importSingle(doc: DB_Node, type: 'create' | 'update') {
-  emit('importSingle', doc, type);
+  emit('import', type, [doc.id]);
 }
 function importSelected(type: 'create' | 'update') {
   const ids = type === 'create' ? selectedCreate.value : selectedUpdate.value;
-  emit('importSelected', type, ids);
+  emit('import', type, ids);
 }
 function importLocalSettings() {
   emit('importLocalSettings');
@@ -186,8 +187,10 @@ function importLocalSettings() {
     color: var(--font-color-dark);
     cursor: pointer;
     border-bottom: 2px solid transparent;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     flex: 1;
+    font-size: 15px;
+
     &:hover {
       color: var(--font-color);
     }

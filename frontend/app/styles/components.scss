@@ -81,6 +81,8 @@
 	border-radius: $radius-md;
 	box-shadow: 0 2px 6px var(--shadow);
 	gap: 16px;
+	max-height: 100%;
+	overflow: auto;
 
 	header {
 		display: flex;

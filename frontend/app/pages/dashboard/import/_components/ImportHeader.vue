@@ -1,7 +1,7 @@
 <template>
-  <div class="info-card">
+  <div>
     <header>
-      <h2>Backup Information</h2>
+      <h2>Backup Information <tag yellow>Beta</tag></h2>
       <AppButton type="secondary" size="sm" class="btn-close" @click="resetImport">
         <Icon name="close" :size="14" />
         Change file
@@ -61,56 +61,55 @@ const { numericDate } = useDateFormatters();
 h2 {
   border-bottom: none;
 }
+
 .btn-close {
   display: flex;
   align-items: center;
 }
-.info-card {
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    margin-bottom: 1rem;
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .label {
+    font-size: 0.75rem;
+    color: var(--font-color-dark);
+    text-transform: uppercase;
   }
 
-  .info-item {
-    display: flex;
-    flex-direction: column;
+  .value {
+    font-weight: 600;
+    color: var(--font-color);
+  }
+}
+
+.backup-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
     gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: $radius-sm;
+    font-size: 0.75rem;
+    background: var(--bg-color-2);
+    color: var(--font-color-dark);
+    opacity: 0.5;
 
-    .label {
-      font-size: 0.75rem;
-      color: var(--font-color-dark);
-      text-transform: uppercase;
-    }
-
-    .value {
-      font-weight: 600;
-      color: var(--font-color);
-    }
-  }
-
-  .backup-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.25rem 0.5rem;
-      border-radius: $radius-sm;
-      font-size: 0.75rem;
-      background: var(--bg-color-2);
-      color: var(--font-color-dark);
-      opacity: 0.5;
-
-      &.active {
-        opacity: 1;
-        background: var(--primary-bg);
-        color: var(--primary);
-      }
+    &.active {
+      opacity: 1;
+      background: var(--primary-bg);
+      color: var(--primary);
     }
   }
 }

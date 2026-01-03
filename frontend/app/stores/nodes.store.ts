@@ -1,6 +1,6 @@
 import { makeRequest, type FetchOptions } from './_utils';
 import { Collection } from './collection';
-import type { DB_Node, Node, NodeSearchResult, Permission } from './db_strustures';
+import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission } from './db_strustures';
 
 export interface SearchOptions {
   query?: string;
@@ -382,6 +382,11 @@ export const useNodesStore = defineStore('nodes', {
       });
       return { deletedIds, failedIds };
     },
+
+    /* Backup import helpers */
+
+    // Prepare nodes for import by checking which nodes need to be created or updated
+    // Based on node id and updated_timestamp
     prepareImport(nodes: DB_Node[]): { toCreate: DB_Node[]; toUpdate: DB_Node[] } {
       const toCreate: DB_Node[] = [];
       const toUpdate: DB_Node[] = [];
@@ -398,6 +403,68 @@ export const useNodesStore = defineStore('nodes', {
       }
       return { toCreate, toUpdate };
     },
+    async importMultipleNodes(nodes: { toCreate: DB_Node[]; toUpdate: DB_Node[] }, job: Ref<ImportJob>) {
+      job.value.status = 'in_progress';
+      try {
+        await this.importAllNodes(nodes.toCreate, job);
+        await this.updateAllNodes(nodes.toUpdate, job);
+        job.value.status = 'completed';
+      } catch (error) {
+        job.value.status = 'failed';
+        job.value.error_message = (error as Error).message;
+      }
+    },
+    async importAllNodes(nodes: DB_Node[], job?: Ref<ImportJob>) {
+      const nodesById = new Map(nodes.map(n => [n.id, n]));
+      const corresponding: Record<string, string> = {};
+
+      for (const node of nodes) {
+        await this.importNode(node, nodesById, corresponding, job);
+      }
+    },
+    async importNode(node: DB_Node, nodesById: Map<string, DB_Node>, corresponding: Record<string, string>, job?: Ref<ImportJob>): Promise<void> {
+      // Already imported
+      if (corresponding[node.id]) return;
+
+      // Handle the parent
+
+      if (node.parent_id && !this.getById(node.parent_id)) {
+        const newParentId = corresponding[node.parent_id];
+
+        if (!newParentId) {
+          const parent = nodesById.get(node.parent_id); // Parent from the backup (future import)
+
+          if (parent) {
+            // Import the parent first
+            await this.importNode(parent, nodesById, corresponding);
+          } else {
+            // Parent not found → detach
+            delete node.parent_id;
+          }
+        }
+
+        // Update parent_id after import
+        if (corresponding[node.parent_id!]) {
+          node.parent_id = corresponding[node.parent_id!];
+        }
+      }
+
+      // Import of the node
+      const res = await this.post(node);
+      if (job) job.value.created.push(node.id);
+      await new Promise(resolve => setTimeout(resolve, 75)); // slight delay to avoid overwhelming the server
+      corresponding[node.id] = res.id;
+    },
+
+    async updateAllNodes(nodes: DB_Node[], job?: Ref<ImportJob>) {
+      for (const node of nodes) {
+        if (!this.getById(node.id)) continue;
+        await this.update({ ...(node as Node), partial: false, shared: false, permissions: [] });
+        if (job) job.value.updated.push(node.id);
+        await new Promise(resolve => setTimeout(resolve, 75)); // slight delay to avoid overwhelming the server
+      }
+    },
+
     clear() {
       this.nodes.clear();
       this.public_nodes.clear();

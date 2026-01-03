@@ -11,28 +11,27 @@
         Cancel
       </AppButton>
       <AppButton type="primary" :disabled="isImporting || (toCreate.length === 0 && toUpdate.length === 0)" @click="importAll">
-        <LoaderSpinner v-if="isImporting" :size="16" />
-        <Icon v-else name="download" :size="16" />
-        {{ isImporting ? `Importing... (${importProgress}/${importTotal})` : 'Import All' }}
+        <Icon name="download" :size="16" />
+        {{ isImporting ? 'Importing...' : 'Import All' }}
       </AppButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { DB_Node } from '~/stores';
+import type { DB_Node, ImportJob } from '~/stores';
 
-defineProps<{
+const props = defineProps<{
   toCreate: DB_Node[];
   toUpdate: DB_Node[];
-  isImporting: boolean;
-  importProgress: number;
-  importTotal: number;
+  importJob: ImportJob;
   resetImport: () => void;
   importAll: () => void;
 }>();
 const preserveTimestamps = defineModel<boolean>('preserveTimestamps');
 const skipExisting = defineModel<boolean>('skipExisting');
+
+const isImporting = computed(() => props.importJob.status === 'in_progress');
 </script>
 
 <style scoped lang="scss">

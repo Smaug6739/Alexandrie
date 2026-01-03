@@ -24,16 +24,15 @@
       <ImportHeader :manifest="manifest" :reset-import="resetImport" />
 
       <!-- Import Summary -->
-      <SummaryCard :to-create="toCreate.length" :to-update="toUpdate.length" :unchanged-count="unchangedCount" />
+      <SummaryCard :to-create="toCreate.length" :to-update="toUpdate.length" :unchanged-count="unchangedCount" :import-job="importJob" />
 
       <!-- Tabs for New / Updates -->
       <ImportTabs
         :manifest="manifest"
         :to-create="toCreate"
         :to-update="toUpdate"
-        :is-importing="isImporting"
-        @import-single="importSingle"
-        @import-selected="importSelected"
+        :import-job="importJob"
+        @import="importNodes"
         @import-local-settings="importLocalSettings"
       />
 
@@ -43,11 +42,9 @@
         v-model:skip-existing="importOptions.skipExisting"
         :to-create="toCreate"
         :to-update="toUpdate"
-        :is-importing="isImporting"
-        :import-progress="importProgress"
-        :import-total="importTotal"
         :reset-import="resetImport"
         :import-all="importAll"
+        :import-job="importJob"
       />
     </template>
   </div>
@@ -60,7 +57,7 @@ import ImportTabs from './_components/ImportTabs.vue';
 import ImportActions from './_components/ImportActions.vue';
 import { handleBackupFile } from '~/helpers/backups';
 import type { Manifest } from '~/helpers/backups/types';
-import type { DB_Node, Node } from '~/stores/db_strustures';
+import type { DB_Node, ImportJob } from '~/stores/db_strustures';
 
 definePageMeta({ breadcrumb: 'Importations' });
 
@@ -81,9 +78,14 @@ const toUpdate = ref<DB_Node[]>([]);
 const localData = ref<object | null>(null);
 
 // Import state
-const isImporting = ref(false);
-const importProgress = ref(0);
-const importTotal = ref(0);
+const importJob = ref<ImportJob>({
+  status: 'pending',
+  toCreate: 0,
+  toUpdate: 0,
+  created: [],
+  updated: [],
+  failures: 0,
+});
 
 // Options
 const importOptions = reactive({
@@ -140,63 +142,35 @@ function resetImport() {
   backupDocuments.value = [];
   toCreate.value = [];
   toUpdate.value = [];
+
+  importJob.value = {
+    status: 'pending',
+    toCreate: 0,
+    toUpdate: 0,
+    created: [],
+    updated: [],
+    failures: 0,
+  };
 }
 
-function getExistingNode(id: string): Node | undefined {
-  return nodesStore.nodes.get(id);
-}
+async function importNodes(type: 'create' | 'update', ids: string[]) {
+  const nodes: DB_Node[] = type === 'create' ? toCreate.value.filter(d => ids.includes(d.id)) : toUpdate.value.filter(d => ids.includes(d.id));
 
-async function importSingle(doc: DB_Node, type: 'create' | 'update') {
-  isImporting.value = true;
-
-  try {
-    if (type === 'create') {
-      await nodesStore.post(prepareNodeForImport(doc));
-      toCreate.value = toCreate.value.filter(d => d.id !== doc.id);
-      notifications.add({ type: 'success', title: 'Imported', message: `"${doc.name}" has been imported` });
-    } else {
-      const nodeToUpdate = prepareNodeForUpdate(doc);
-      await nodesStore.update(nodeToUpdate as Node);
-      toUpdate.value = toUpdate.value.filter(d => d.id !== doc.id);
-      notifications.add({ type: 'success', title: 'Updated', message: `"${doc.name}" has been updated` });
-    }
-  } catch {
-    notifications.add({ type: 'error', title: 'Error', message: `Failed to ${type} "${doc.name}"` });
-  } finally {
-    isImporting.value = false;
-  }
-}
-
-async function importSelected(type: 'create' | 'update', ids: string[]) {
-  const docs = type === 'create' ? toCreate.value.filter(d => ids.includes(d.id)) : toUpdate.value.filter(d => ids.includes(d.id));
-
-  isImporting.value = true;
-  importProgress.value = 0;
-  importTotal.value = docs.length;
-
-  for (const doc of docs) {
-    try {
-      if (type === 'create') {
-        await nodesStore.post(prepareNodeForImport(doc));
-        toCreate.value = toCreate.value.filter(d => d.id !== doc.id);
-      } else {
-        const nodeToUpdate = prepareNodeForUpdate(doc);
-        await nodesStore.update(nodeToUpdate as Node);
-        toUpdate.value = toUpdate.value.filter(d => d.id !== doc.id);
-      }
-      importProgress.value++;
-    } catch (e) {
-      console.error(`Failed to ${type} ${doc.name}:`, e);
-    }
+  if (type === 'create') {
+    importJob.value.toCreate = nodes.length;
+    await nodesStore.importMultipleNodes({ toCreate: nodes, toUpdate: [] }, importJob);
+    toCreate.value = toCreate.value.filter(d => !importJob.value.created.includes(d.id));
+  } else if (type == 'update') {
+    importJob.value.toUpdate = nodes.length;
+    await nodesStore.importMultipleNodes({ toCreate: [], toUpdate: nodes }, importJob);
+    toUpdate.value = toUpdate.value.filter(d => !importJob.value.updated.includes(d.id));
   }
 
   notifications.add({
     type: 'success',
     title: 'Import complete',
-    message: `${importProgress.value} documents ${type === 'create' ? 'imported' : 'updated'}`,
+    message: `${importJob.value.created.length + importJob.value.updated.length} documents ${type === 'create' ? 'imported' : 'updated'}`,
   });
-
-  isImporting.value = false;
 }
 
 function importLocalSettings() {
@@ -212,93 +186,21 @@ function importLocalSettings() {
 }
 
 async function importAll() {
-  const createDocs = importOptions.skipExisting ? toCreate.value : toCreate.value;
+  const createDocs = toCreate.value;
   const updateDocs = importOptions.skipExisting ? [] : toUpdate.value;
-  const allDocs = [...createDocs, ...updateDocs];
 
-  isImporting.value = true;
-  importProgress.value = 0;
-  importTotal.value = allDocs.length;
+  importJob.value.toCreate = createDocs.length;
+  importJob.value.toUpdate = updateDocs.length;
 
-  let successCount = 0;
-
-  // Import new documents
-  for (const doc of createDocs) {
-    try {
-      await nodesStore.post(prepareNodeForImport(doc));
-      toCreate.value = toCreate.value.filter(d => d.id !== doc.id);
-      successCount++;
-      importProgress.value++;
-    } catch (e) {
-      console.error(`Failed to create ${doc.name}:`, e);
-    }
-  }
-
-  // Update existing documents
-  if (!importOptions.skipExisting) {
-    for (const doc of updateDocs) {
-      try {
-        const nodeToUpdate = prepareNodeForUpdate(doc);
-        await nodesStore.update(nodeToUpdate as Node);
-        toUpdate.value = toUpdate.value.filter(d => d.id !== doc.id);
-        successCount++;
-        importProgress.value++;
-      } catch (e) {
-        console.error(`Failed to update ${doc.name}:`, e);
-      }
-    }
-  }
+  await nodesStore.importMultipleNodes({ toCreate: createDocs, toUpdate: updateDocs }, importJob);
+  toCreate.value = toCreate.value.filter(d => !importJob.value.created.includes(d.id));
+  toUpdate.value = toUpdate.value.filter(d => !importJob.value.updated.includes(d.id));
 
   notifications.add({
     type: 'success',
     title: 'Import complete',
-    message: `${successCount} documents imported successfully`,
+    message: `Documents imported successfully`,
   });
-
-  // Reset selection
-  isImporting.value = false;
-}
-
-function prepareNodeForImport(doc: DB_Node): Partial<Node> {
-  const prepared: Partial<Node> = {
-    name: doc.name,
-    description: doc.description,
-    role: doc.role,
-    parent_id: doc.parent_id,
-    tags: doc.tags,
-    color: doc.color,
-    icon: doc.icon,
-    accessibility: doc.accessibility,
-    access: doc.access,
-    content: doc.content,
-    content_compiled: doc.content_compiled,
-  };
-
-  return prepared;
-}
-
-function prepareNodeForUpdate(doc: DB_Node): Partial<Node> {
-  const existing = getExistingNode(doc.id);
-  if (!existing) throw new Error('Node not found');
-
-  const updated: Node = {
-    ...existing,
-    name: doc.name,
-    description: doc.description,
-    tags: doc.tags,
-    color: doc.color,
-    icon: doc.icon,
-    accessibility: doc.accessibility,
-    access: doc.access,
-    content: doc.content,
-    content_compiled: doc.content_compiled,
-  };
-
-  if (importOptions.preserveTimestamps) {
-    updated.updated_timestamp = doc.updated_timestamp;
-  }
-
-  return updated;
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ctn">
     <h2>Import Summary</h2>
     <div class="stats">
       <div class="stat new">
@@ -18,18 +18,31 @@
         <span class="label">Unchanged</span>
       </div>
     </div>
+    <div class="progess">
+      <ImportProgress :import-job="importJob" :to-create="toCreate" :to-update="toUpdate" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import ImportProgress from './ImportProgress.vue';
+
+import type { ImportJob } from '~/stores';
 defineProps<{
   toCreate: number;
   toUpdate: number;
   unchangedCount: number;
+  importJob: ImportJob;
 }>();
 </script>
 
 <style scoped lang="scss">
+.ctn {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .stats {
   display: flex;
   justify-content: space-around;
@@ -70,5 +83,9 @@ defineProps<{
     background: var(--grey-bg);
     color: var(--font-color-dark);
   }
+}
+
+.progess {
+  margin-top: 1rem;
 }
 </style>
