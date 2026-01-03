@@ -24,7 +24,7 @@ func MinioConnection() (*minio.Client, error) {
 	// Initialize minio client object.
 	minioClient, errInit := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
-		Secure: false,
+		Secure: true,
 	})
 	if errInit != nil {
 		log.Fatalln(errInit)
