@@ -194,11 +194,12 @@ export default defineNuxtConfig({
         {
           name: 'description',
           content:
-            'Alexandrie is a modern note-taking and knowledge base application built for developers and power users. Write, organize and render beautiful notes using extended Markdown in a fast, clean and distraction-free interface.',
+            'Alexandrie is a modern note-taking and knowledge base application built for developers and power users. Write, organize and render beautiful notes using extended Markdown in a fast, clean and distraction-free interface. Self-hostable with Docker.',
         },
         {
           name: 'keywords',
-          content: 'markdown notes, note taking app, knowledge base, developer notes, markdown editor, personal wiki, technical documentation, pwa notes',
+          content:
+            'markdown notes, note taking app, knowledge base, developer notes, markdown editor, personal wiki, technical documentation, pwa notes, docker, self-hosted',
         },
         { name: 'author', content: 'Alexandrie Team' },
         { name: 'robots', content: 'index, follow' },
@@ -215,13 +216,19 @@ export default defineNuxtConfig({
         { property: 'og:type', content: 'website' },
         { property: 'og:site_name', content: 'Alexandrie' },
         { property: 'og:title', content: 'Alexandrie – Modern Markdown Note-Taking & Knowledge Base App' },
-        { property: 'og:description', content: 'A modern note-taking and knowledge base app for developers, built around extended Markdown.' },
+        {
+          property: 'og:description',
+          content: 'A modern note-taking and knowledge base app for developers, built around extended Markdown and self-hostable with Docker.',
+        },
         { property: 'og:url', content: 'https://alexandrie-hub.fr' },
         { property: 'og:image', content: '/icons/icon-192.png' },
 
         // Twitter Card
         { name: 'twitter:title', content: 'Alexandrie – Modern Markdown Note-Taking App' },
-        { name: 'twitter:description', content: 'Write and organize beautiful notes with extended Markdown. Fast, clean and developer-friendly.' },
+        {
+          name: 'twitter:description',
+          content: 'Write and organize beautiful notes with extended Markdown. Fast, clean and developer-friendly. Self-hostable with Docker.',
+        },
         { name: 'twitter:card', content: 'summary' },
         { name: 'twitter:image', content: '/icons/icon-192.png' },
         { name: 'twitter:image:alt', content: 'Alexandrie' },
