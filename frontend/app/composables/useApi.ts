@@ -6,7 +6,7 @@ export function useApi() {
   const API = `${config.public.baseApi}/api`;
 
   function avatarURL(user?: User | PublicUser | null): string {
-    return user?.avatar ? CDN + '/' + user.id + `/avatar?v=${user.avatar}` : '/default_avatar.avif';
+    return user?.avatar ? CDN + '/alexandrie/' + user.id + `/avatar?v=${user.avatar}` : '/default_avatar.avif';
   }
 
   function resourceURL(resource?: Node): string {
