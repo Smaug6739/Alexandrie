@@ -66,24 +66,6 @@ safe := utils.EscapeHTML(input)
 // Result: "&lt;script&gt;alert('xss')&lt;/script&gt;"
 ```
 
-### Domain Utilities (`domains.go`)
-
-Manage application domains and environment variables.
-
-SetDomainEnv initializes DOMAIN_CLIENT and COOKIE_DOMAIN environment variables
-based on FRONTEND_URL (if defined).
-If FRONTEND_URL is not set, the function does nothing.
-
-**Examples:**
-
-FRONTEND_URL=https://alexandrie-hub.fr
--> DOMAIN_CLIENT=https://alexandrie-hub.fr
--> COOKIE_DOMAIN=alexandrie-hub.fr
-
-FRONTEND_URL=http://localhost:8200
--> DOMAIN_CLIENT=http://localhost:8200
--> COOKIE_DOMAIN=localhost
-
 ### Pointer Helpers (`pointers.go`)
 
 Safely handle pointer conversions.

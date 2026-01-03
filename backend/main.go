@@ -3,7 +3,6 @@ package main
 import (
 	"alexandrie/pkg/logger"
 	"alexandrie/server"
-	"alexandrie/utils"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -14,7 +13,6 @@ func main() {
 	logger.Info("Initializing Alexandrie backend...")
 	godotenv.Load() // Load .env file if present
 
-	utils.SetDomainEnv() // Set DOMAIN_CLIENT and DOMAIN_COOKIE from "FRONTEND_URL" if needed
 	port := os.Getenv("BACKEND_PORT")
 	if port == "" {
 		logger.Error("BACKEND_PORT environment variable not set")
