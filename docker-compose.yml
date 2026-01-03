@@ -70,7 +70,8 @@ services:
 
       # Object storage configuration (S3 compatible like RustFS, MinIO, etc.)
       # OPTIONAL: If you don't want to use the CDN feature you can leave these variables empty
-      MINIO_ENDPOINT: rustfs:9000
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-rustfs:9000}
+      MINIO_SECURE: '${MINIO_SECURE:-false}' # Set to 'true' if your S3 endpoint uses HTTPS
       MINIO_ACCESSKEY: ${RUSTFS_ACCESS_KEY:-alexandrie-key}
       MINIO_SECRETKEY: ${RUSTFS_SECRET_KEY:-alexandrie-secret}
       MINIO_BUCKET: ${MINIO_BUCKET:-alexandrie}

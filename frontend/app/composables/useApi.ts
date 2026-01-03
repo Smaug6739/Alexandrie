@@ -11,7 +11,7 @@ export function useApi() {
 
   function resourceURL(resource?: Node): string {
     if (!resource) return '';
-    return `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`;
+    return `${CDN}/alexandrie/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`;
   }
 
   return { CDN, API, avatarURL, resourceURL };

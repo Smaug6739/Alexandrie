@@ -21,10 +21,22 @@ func MinioConnection() (*minio.Client, error) {
 	if endpoint == "" || accessKeyID == "" || secretAccessKey == "" {
 		return nil, fmt.Errorf("MINIO NOT CONFIGURED")
 	}
+
+	isSecure := os.Getenv("MINIO_SECURE") == "true"
+	// Override: if MINIO_SECURE is not set, infer from endpoint
+	if os.Getenv("MINIO_SECURE") == "" {
+
+		isSecure = true
+		// If localhost is used (start with localhost), disable SSL
+		if len(endpoint) >= 9 && endpoint[:9] == "localhost" {
+			isSecure = false
+		}
+	}
+
 	// Initialize minio client object.
 	minioClient, errInit := minio.New(endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
-		Secure: true,
+		Secure: isSecure,
 	})
 	if errInit != nil {
 		log.Fatalln(errInit)
