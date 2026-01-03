@@ -2,7 +2,7 @@
   <div class="card-component">
     <header>
       <h1>Workspaces & Categories</h1>
-      <div style="display: flex; gap: 8px">
+      <div class="actions-row">
         <AppButton type="primary" @click="createWorkspace">+ Workspace</AppButton>
         <AppButton type="primary" @click="createCategory">+ Category</AppButton>
         <NuxtLink to="/dashboard/import"><AppButton type="secondary" variant="outline">Import</AppButton></NuxtLink>

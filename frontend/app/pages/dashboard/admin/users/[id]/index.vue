@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="actions">
+      <div class="actions-row">
         <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
         <AppButton type="primary" @click="router.push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
       </div>
@@ -94,11 +94,5 @@ const saveChanges = async () => {
 
 label {
   font-weight: bold;
-}
-
-.actions {
-  margin-top: 1rem;
-  display: flex;
-  gap: 4px;
 }
 </style>

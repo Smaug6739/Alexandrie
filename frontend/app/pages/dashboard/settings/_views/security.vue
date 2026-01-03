@@ -35,8 +35,10 @@
       You can log out from all devices or log out from this device. <br />
       Be careful, if you log out from all devices, you will be redirected to the login page. Please save your work before.
     </div>
-    <AppButton type="danger" @click="logout">Log out</AppButton>
-    <AppButton type="danger" @click="logoutAll">Log out from all devices</AppButton>
+    <div class="actions-row">
+      <AppButton type="danger" @click="logout">Log out</AppButton>
+      <AppButton type="danger" @click="logoutAll">Log out from all devices</AppButton>
+    </div>
     <h2>Delete account</h2>
     <div>
       You can delete your account. <br />

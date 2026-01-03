@@ -5,7 +5,7 @@
       <AppCheck v-model="preserveTimestamps"> Preserve original timestamps </AppCheck>
       <AppCheck v-model="skipExisting"> Skip documents that already exist (import new only) </AppCheck>
     </div>
-    <div class="actions-buttons">
+    <div class="actions-row">
       <AppButton type="secondary" @click="resetImport">
         <Icon name="close" :size="16" />
         Cancel
@@ -45,16 +45,6 @@ const isImporting = computed(() => props.importJob.status === 'in_progress');
   .import-options {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-  }
-}
-.actions-buttons {
-  display: flex;
-  gap: 0.5rem;
-
-  button {
-    display: flex;
-    align-items: center;
     gap: 0.5rem;
   }
 }

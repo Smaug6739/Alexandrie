@@ -12,10 +12,10 @@
         </div>
         <div class="filter-section"><AppSelect v-model="sortBy" :items="sortOptions" placeholder="Sort by..." size="200px" :searchable="false" /></div>
       </div>
-      <div class="actions">
+      <div class="actions-row">
         <AppButton v-if="selectedSnippets.length > 0" type="danger" @click="deleteSelected"> Delete Selected ({{ selectedSnippets.length }}) </AppButton>
-        <AppButton type="secondary" class="flex-btn" @click="exportSnippets"><Icon name="backup" /> Export </AppButton>
-        <AppButton type="secondary" class="flex-btn" @click="importSnippets"><Icon name="import" /> Import </AppButton>
+        <AppButton type="secondary" @click="exportSnippets"><Icon name="backup" /> Export </AppButton>
+        <AppButton type="secondary" @click="importSnippets"><Icon name="import" /> Import </AppButton>
         <AppButton type="secondary" @click="restoreDefaults"> ↺ Restore defaults</AppButton>
         <AppButton type="primary" @click="addSnippet"> ＋ Add Snippet </AppButton>
       </div>
@@ -353,20 +353,6 @@ watch(searchQuery, () => {
 
 .filter-section {
   display: flex;
-  gap: 0.5rem;
-}
-
-.flex-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.actions {
-  display: flex;
-  padding: 0.5rem 0;
-  align-items: center;
-  flex-wrap: wrap;
   gap: 0.5rem;
 }
 

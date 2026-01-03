@@ -55,6 +55,13 @@
 
 }
 
+.actions-row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
 
 body {
 	font-family: $external-font;
@@ -94,6 +101,7 @@ form {
 }
 
 @media print {
+
 	header,
 	footer,
 	nav,

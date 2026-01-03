@@ -75,7 +75,7 @@
           This link expires on {{ numericDate(currentJob.expires_at || '') }}
         </p>
         <input v-model="currentJob.download_url" type="text" readonly placeholder="Backup Link" />
-        <div class="actions">
+        <div class="actions-row">
           <AppButton type="secondary" @click="copyLink">
             <Icon name="copy" display="sm" />
             Copy Link
@@ -379,20 +379,11 @@ input[type='text'] {
   padding: 0.75rem;
 }
 
-.actions {
-  display: flex;
-  gap: 0.5rem;
+.actions-row {
   margin-top: 0.75rem;
   justify-content: center;
-
   a {
     text-decoration: none;
   }
-}
-
-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 </style>

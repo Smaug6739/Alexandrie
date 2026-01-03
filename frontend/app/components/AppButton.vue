@@ -12,6 +12,9 @@ const onClick = () => emit('click');
 
 <style scoped lang="scss">
 button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   width: fit-content;
   padding: 10px;
   border-radius: 6px;

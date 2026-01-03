@@ -3,7 +3,7 @@
     <template v-if="resource">
       <header>
         <h1>Preview <tag yellow>Beta</tag> • {{ resource.name }}</h1>
-        <div class="actions">
+        <div class="actions-row">
           <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
           <NuxtLink :to="`/dashboard/cdn/${resource.id}`"><AppButton type="primary">Edit</AppButton></NuxtLink>
           <AppButton type="secondary" class="no-mobile" @click="copyLink">Copy link</AppButton>
@@ -57,12 +57,6 @@ header {
   flex-wrap: wrap;
 }
 
-.actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
 .preview {
   display: flex;
   flex: 1;
