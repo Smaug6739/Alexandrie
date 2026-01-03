@@ -47,15 +47,15 @@ services:
 
   # Alexandrie Backend
   backend:
-    image: ghcr.io/smaug6739/alexandrie-backend:latest
+    build: ./backend
     container_name: alexandrie-backend
     environment:
       # General configuration
       BACKEND_PORT: 8201
-      GIN_MODE: ${GIN_MODE:-release}
+      GIN_MODE: release
       JWT_SECRET: ${JWT_SECRET:-your-secure-jwt-secret-key-change-this-in-production}
       COOKIE_DOMAIN: ${COOKIE_DOMAIN:-localhost:8200} # Common domain for cookies (e.g., yourdomain.com if you have frontend.yourdomain.com and api.yourdomain.com)
-      DOMAIN_CLIENT: ${FRONTEND_URL:-http://localhost:8200} # URL where the frontend is hosted (for CORS policy and url generation in emails)
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8200} # URL where the frontend is hosted (for CORS policy and url generation in emails)
       ALLOW_UNSECURE: '${ALLOW_UNSECURE:-true}' # Set to 'true' if you run without HTTPS (e.g., local dev);
 
       # Flags
@@ -70,7 +70,8 @@ services:
 
       # Object storage configuration (S3 compatible like RustFS, MinIO, etc.)
       # OPTIONAL: If you don't want to use the CDN feature you can leave these variables empty
-      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-rustfs:9000}
+      MINIO_ENDPOINT: rustfs:9000
+      MINIO_PUBLIC_URL: ${CDN_URL:-http://localhost:${RUSTFS_EXTERNAL_PORT:-9000}}
       MINIO_SECURE: '${MINIO_SECURE:-false}' # Set to 'true' if your S3 endpoint uses HTTPS
       MINIO_ACCESSKEY: ${RUSTFS_ACCESS_KEY:-alexandrie-key}
       MINIO_SECRETKEY: ${RUSTFS_SECRET_KEY:-alexandrie-secret}
@@ -84,6 +85,8 @@ services:
 
     ports:
       - '${BACKEND_EXTERNAL_PORT:-8201}:8201'
+    extra_hosts:
+      - 'localhost:host-gateway'
     depends_on:
       mysql:
         condition: service_healthy
@@ -106,7 +109,7 @@ services:
 
       # Runtime configuration - builds with these values at startup
       NUXT_PUBLIC_BASE_API: ${API_URL:-http://localhost:8201}
-      NUXT_PUBLIC_BASE_CDN: ${CDN_URL:-http://localhost:9000/alexandrie}
+      NUXT_PUBLIC_BASE_CDN: ${CDN_URL:-http://localhost:9000}
       NUXT_PUBLIC_BASE_URL: ${FRONTEND_URL:-http://localhost:8200}
 
     ports:

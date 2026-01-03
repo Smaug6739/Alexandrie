@@ -5,41 +5,61 @@ import (
 	"alexandrie/utils"
 	"context"
 	"fmt"
-	"log"
+	"net/url"
 	"os"
+	"strings"
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/minio/minio-go/v7/pkg/lifecycle"
 )
 
-func MinioConnection() (*minio.Client, error) {
+func MinioConnection() (*minio.Client, *minio.Client, error) {
 	ctx := context.Background()
-	endpoint := os.Getenv("MINIO_ENDPOINT")
+
+	internalEndpoint := os.Getenv("MINIO_ENDPOINT")
+	publicEndpoint := os.Getenv("MINIO_PUBLIC_URL")
+
 	accessKeyID := os.Getenv("MINIO_ACCESSKEY")
 	secretAccessKey := os.Getenv("MINIO_SECRETKEY")
-	if endpoint == "" || accessKeyID == "" || secretAccessKey == "" {
-		return nil, fmt.Errorf("MINIO NOT CONFIGURED")
+
+	if internalEndpoint == "" || accessKeyID == "" || secretAccessKey == "" {
+		return nil, nil, fmt.Errorf("MINIO NOT CONFIGURED")
 	}
 
-	isSecure := os.Getenv("MINIO_SECURE") == "true"
-	// Override: if MINIO_SECURE is not set, infer from endpoint
-	if os.Getenv("MINIO_SECURE") == "" {
-
-		isSecure = true
-		// If localhost is used (start with localhost), disable SSL
-		if len(endpoint) >= 9 && endpoint[:9] == "localhost" {
-			isSecure = false
-		}
+	// HTTPS detection
+	isSecure := true
+	if os.Getenv("MINIO_SECURE") != "" && os.Getenv("MINIO_SECURE") != "true" {
+		isSecure = false
+	} else if strings.HasPrefix(internalEndpoint, "localhost") || strings.HasPrefix(internalEndpoint, "127.") {
+		isSecure = false
 	}
 
 	// Initialize minio client object.
-	minioClient, errInit := minio.New(endpoint, &minio.Options{
+	minioClient, errInit := minio.New(internalEndpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
 		Secure: isSecure,
 	})
 	if errInit != nil {
-		log.Fatalln(errInit)
+		logger.Error(fmt.Sprintf("Failed to initialize MinIO client: %v", errInit))
+		os.Exit(1)
+	}
+
+	// Signer client for public URLs
+	publicURL, err := url.Parse(publicEndpoint)
+	if err != nil {
+		logger.Error("CONFIG: MINIO_PUBLIC_URL is not a valid URL")
+		os.Exit(1)
+	}
+	isPublicSecure := publicURL.Scheme == "https"
+	signerClient, err := minio.New(publicURL.Host, &minio.Options{
+		Creds:        credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
+		Secure:       isPublicSecure,
+		BucketLookup: minio.BucketLookupPath,
+	})
+	if err != nil {
+		logger.Error(fmt.Sprintf("Failed to create signer client: %v", err))
+		os.Exit(1)
 	}
 
 	// Setup main public bucket for user files (avatars, uploads, etc.)
@@ -50,7 +70,7 @@ func MinioConnection() (*minio.Client, error) {
 	backupBucket := utils.GetBackupBucketName()
 	setupPrivateBackupBucket(ctx, minioClient, backupBucket)
 
-	return minioClient, errInit
+	return minioClient, signerClient, errInit
 }
 
 // setupPublicBucket creates and configures the main public bucket
@@ -61,7 +81,8 @@ func setupPublicBucket(ctx context.Context, minioClient *minio.Client, bucketNam
 		if errBucketExists == nil && exists {
 			logger.Info(fmt.Sprintf("We already own %s", bucketName))
 		} else {
-			log.Fatalln(err)
+			logger.Error(fmt.Sprintf("Failed to create bucket %s: %v", bucketName, err))
+			os.Exit(1)
 		}
 	} else {
 		logger.Success("Successfully created " + bucketName)
@@ -82,7 +103,8 @@ func setupPublicBucket(ctx context.Context, minioClient *minio.Client, bucketNam
 
 	err = minioClient.SetBucketPolicy(ctx, bucketName, policy)
 	if err != nil {
-		log.Fatalf("Failed to set bucket policy: %v", err)
+		logger.Error(fmt.Sprintf("Failed to set bucket policy: %v", err))
+		os.Exit(1)
 	}
 	logger.Success("Successfully set public bucket policy for " + bucketName)
 }
@@ -95,7 +117,8 @@ func setupPrivateBackupBucket(ctx context.Context, minioClient *minio.Client, bu
 		if errBucketExists == nil && exists {
 			logger.Info(fmt.Sprintf("We already own %s", bucketName))
 		} else {
-			log.Fatalln(err)
+			logger.Error(fmt.Sprintf("Failed to create private backup bucket %s: %v", bucketName, err))
+			os.Exit(1)
 		}
 	} else {
 		logger.Success("Successfully created private backup bucket: " + bucketName)

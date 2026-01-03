@@ -27,7 +27,7 @@ func InitRouter(app *app.App) *gin.Engine {
 	router.Use(cors.New(cors.Config{
 		AllowOriginFunc: func(origin string) bool {
 			// Main domain from environment variable
-			domain := os.Getenv("DOMAIN_CLIENT")
+			domain := os.Getenv("FRONTEND_URL")
 
 			if origin == domain {
 				return true

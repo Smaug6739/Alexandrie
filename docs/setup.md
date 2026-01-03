@@ -92,12 +92,12 @@ The port on which the backend API listens.
 FRONTEND_URL: https://example.com
 ```
 
-When `FRONTEND_URL` is defined, `DOMAIN_CLIENT` and `COOKIE_DOMAIN` will be automatically derived at startup.
+When `FRONTEND_URL` is defined, `FRONTEND_URL` and `COOKIE_DOMAIN` will be automatically derived at startup.
 
 **Legacy variables (still supported, but not recommended):**
 
 ```yml
-DOMAIN_CLIENT: http://localhost:8200
+FRONTEND_URL: http://localhost:8200
 COOKIE_DOMAIN: localhost
 ```
 

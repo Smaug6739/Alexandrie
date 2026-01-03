@@ -151,7 +151,7 @@ func (s *authService) RequestPasswordReset(username string, mailClient *mail.Cli
 	message.FromFormat("Alexandrie Team", os.Getenv("SMTP_MAIL"))
 	message.To(user.Email)
 	message.Subject("Alexandrie: Password Reset")
-	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Your password reset link is: %s", os.Getenv("DOMAIN_CLIENT")+"/login/reset?token="+resetToken))
+	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Your password reset link is: %s", os.Getenv("FRONTEND_URL")+"/login/reset?token="+resetToken))
 
 	if err := mailClient.DialAndSend(message); err != nil {
 		return nil // Don't reveal errors

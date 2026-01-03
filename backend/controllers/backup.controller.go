@@ -58,7 +58,7 @@ func (ctr *Controller) CreateBackup(c *gin.Context) (int, any) {
 	}
 
 	// Start async backup
-	jobId, err := ctr.app.Services.Backup.CreateBackupAsync(userId, options, ctr.app.MinioClient)
+	jobId, err := ctr.app.Services.Backup.CreateBackupAsync(userId, options, ctr.app.MinioClient, ctr.app.SignerClient)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}

@@ -30,7 +30,7 @@ const (
 // BackupService handles backup creation and management
 type BackupService interface {
 	// CreateBackupAsync starts an async backup job and returns the job ID
-	CreateBackupAsync(userId types.Snowflake, options types.BackupOptions, minioClient *minio.Client) (string, error)
+	CreateBackupAsync(userId types.Snowflake, options types.BackupOptions, minioClient *minio.Client, signerClient *minio.Client) (string, error)
 	// GetBackupStatus returns the current status of a backup job
 	GetBackupStatus(userId types.Snowflake, jobId string) (*types.BackupJob, error)
 	// CancelBackup cancels an ongoing backup job
@@ -58,7 +58,7 @@ func NewBackupService(nodeRepo repositories.NodeRepository) BackupService {
 }
 
 // CreateBackupAsync starts an asynchronous backup job
-func (s *backupService) CreateBackupAsync(userId types.Snowflake, options types.BackupOptions, minioClient *minio.Client) (string, error) {
+func (s *backupService) CreateBackupAsync(userId types.Snowflake, options types.BackupOptions, minioClient *minio.Client, signerClient *minio.Client) (string, error) {
 	if minioClient == nil {
 		return "", errors.New("minio client not initialized")
 	}
@@ -94,7 +94,7 @@ func (s *backupService) CreateBackupAsync(userId types.Snowflake, options types.
 	s.jobMutex.Unlock()
 
 	// Start async processing
-	go s.processBackup(ctx, job, minioClient)
+	go s.processBackup(ctx, job, minioClient, signerClient)
 
 	return jobId, nil
 }
@@ -205,7 +205,7 @@ func (s *backupService) CleanupExpiredBackups(minioClient *minio.Client) error {
 }
 
 // processBackup is the main backup processing goroutine
-func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob, minioClient *minio.Client) {
+func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob, minioClient *minio.Client, signerClient *minio.Client) {
 	defer func() {
 		if r := recover(); r != nil {
 			s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Backup failed: %v", r))
@@ -374,13 +374,15 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 		`attachment; filename="alexandrie-backup-`+time.Now().Format("2006-01-02 15:04:05")+`.zip"`,
 	)
 
-	presignedURL, err := minioClient.PresignedGetObject(
+	// Sign the URL using the public endpoint
+	presignedURL, err := signerClient.PresignedGetObject(
 		context.Background(),
 		backupBucket,
 		objectName,
 		time.Duration(backupExpiryHours)*time.Hour,
 		reqParams,
 	)
+
 	if err != nil {
 		s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to generate download URL: %v", err))
 		return

@@ -6,13 +6,20 @@ module.exports = {
       cwd: './backend',
       env: {
         PORT: 8201,
-        DOMAIN_CLIENT: 'https://alexandrie-hub.fr',
+        FRONTEND_URL: 'https://alexandrie-hub.fr',
+        COOKIE_DOMAIN: 'alexandrie-hub.fr',
+
         MINIO_ENDPOINT: 'cdn.alexandrie-hub.fr',
+        MINIO_PUBLIC_URL: 'https://cdn.alexandrie-hub.fr',
         MINIO_BUCKET: 'alexandrie',
         MINIO_SECURE: 'true',
+
+        DATABASE_HOST: 'mysql',
+        DATABASE_PORT: 3306,
+        DATABASE_NAME: 'alexandrie',
+
         CPWD: './backend/',
         CONFIG_CPWD: '',
-        COOKIE_DOMAIN: 'alexandrie-hub.fr',
         GIN_MODE: 'release',
       },
     },

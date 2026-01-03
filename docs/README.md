@@ -333,7 +333,7 @@ Request
   ├─> gin.Recovery()              # Panic recovery
   │
   ├─> CORS Middleware             # Cross-origin handling
-  │     ├─> Origin: DOMAIN_CLIENT
+  │     ├─> Origin: FRONTEND_URL
   │     ├─> Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS
   │     ├─> Credentials: true
   │     └─> Headers: Authorization, Content-Type, etc.
@@ -1843,7 +1843,7 @@ node.Content = SanitizeHTML(userInput)
 // CORS middleware configuration
 
 router.Use(cors.New(cors.Config{
-    AllowOrigins:     []string{os.Getenv("DOMAIN_CLIENT")},
+    AllowOrigins:     []string{os.Getenv("FRONTEND_URL")},
     AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
     AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
     ExposeHeaders:    []string{"Content-Length"},

@@ -63,8 +63,6 @@ jobs:
           NODE_ENV=production
           GIN_MODE=release
           BACKEND_PORT=8201
-          DOMAIN_CLIENT=https://alexandrie-hub.fr
-          COOKIE_DOMAIN=alexandrie-hub.fr
           DATABASE_USER=${{ secrets.DATABASE_USER }}
           DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}"
           JWT_SECRET=${{ secrets.JWT_SECRET }}

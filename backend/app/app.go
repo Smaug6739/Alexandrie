@@ -33,19 +33,20 @@ type Config struct {
 }
 
 type App struct {
-	DB          *sql.DB
-	Snowflake   *snowflake.Snowflake
-	Config      Config
-	MinioClient *minio.Client
-	MailClient  *mail.Client
-	Services    *services.ServiceManager
-	Repos       *repositories.RepositoryManager
+	DB           *sql.DB
+	Snowflake    *snowflake.Snowflake
+	Config       Config
+	MinioClient  *minio.Client
+	SignerClient *minio.Client
+	MailClient   *mail.Client
+	Services     *services.ServiceManager
+	Repos        *repositories.RepositoryManager
 }
 
 func InitApp(config Config) *App {
 	var app App
 	app.DB = DBConnection(config, false)
-	app.MinioClient, _ = MinioConnection()
+	app.MinioClient, app.SignerClient, _ = MinioConnection()
 	app.MailClient = GetMailClient()
 	app.Snowflake = snowflake.NewSnowflake(1609459200000)
 	app.Config = config
