@@ -414,7 +414,7 @@ export const useNodesStore = defineStore('nodes', {
         job.value.error_message = (error as Error).message;
       }
     },
-    async importAllNodes(nodes: DB_Node[], job?: Ref<ImportJob>) {
+    async importAllNodes(nodes: DB_Node[], job: Ref<ImportJob>) {
       const nodesById = new Map(nodes.map(n => [n.id, n]));
       const corresponding: Record<string, string> = {};
 
@@ -422,7 +422,7 @@ export const useNodesStore = defineStore('nodes', {
         await this.importNode(node, nodesById, corresponding, job);
       }
     },
-    async importNode(node: DB_Node, nodesById: Map<string, DB_Node>, corresponding: Record<string, string>, job?: Ref<ImportJob>): Promise<void> {
+    async importNode(node: DB_Node, nodesById: Map<string, DB_Node>, corresponding: Record<string, string>, job: Ref<ImportJob>): Promise<void> {
       // Already imported
       if (corresponding[node.id]) return;
 
@@ -436,7 +436,7 @@ export const useNodesStore = defineStore('nodes', {
 
           if (parent) {
             // Import the parent first
-            await this.importNode(parent, nodesById, corresponding);
+            await this.importNode(parent, nodesById, corresponding, job);
           } else {
             // Parent not found → detach
             delete node.parent_id;
@@ -451,7 +451,7 @@ export const useNodesStore = defineStore('nodes', {
 
       // Import of the node
       const res = await this.post(node);
-      if (job) job.value.created.push(node.id);
+      job.value.created.push(node.id);
       await new Promise(resolve => setTimeout(resolve, 75)); // slight delay to avoid overwhelming the server
       corresponding[node.id] = res.id;
     },
