@@ -14,7 +14,7 @@ module.exports = {
         MINIO_BUCKET: 'alexandrie',
         MINIO_SECURE: 'true',
 
-        DATABASE_HOST: 'mysql',
+        DATABASE_HOST: 'localhost',
         DATABASE_PORT: 3306,
         DATABASE_NAME: 'alexandrie',
 
