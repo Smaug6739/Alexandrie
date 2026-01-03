@@ -47,7 +47,7 @@ services:
 
   # Alexandrie Backend
   backend:
-    build: ./backend
+    image: ghcr.io/smaug6739/alexandrie-backend:latest
     container_name: alexandrie-backend
     environment:
       # General configuration
