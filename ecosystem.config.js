@@ -7,7 +7,7 @@ module.exports = {
       env: {
         PORT: 8201,
         DOMAIN_CLIENT: 'https://alexandrie-hub.fr',
-        MINIO_ENDPOINT: 'localhost:9000',
+        MINIO_ENDPOINT: 'cdn.alexandrie-hub.fr',
         MINIO_BUCKET: 'alexandrie',
         CPWD: './backend/',
         CONFIG_CPWD: '',
