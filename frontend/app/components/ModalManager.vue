@@ -12,7 +12,7 @@
           v-bind="modal.options.props"
           class="modal"
           :class="modal.options.size"
-          @close="modalManager.close(modal)"
+          @close="(r?:string) => modalManager.close(modal, r)"
         />
       </div>
     </div>

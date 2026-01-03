@@ -5,11 +5,12 @@
 <script setup lang="ts">
 import type { Node } from '~/stores';
 
+definePageMeta({ breadcrumb: 'All' });
+
 const nodesStore = useNodesStore();
 const { filtered, workspaceId } = useSidebar();
 
 const parent = computed(() => nodesStore.getById(workspaceId.value || ''));
-definePageMeta({ breadcrumb: () => 'All' });
 
 const nodes = computed(() => {
   const result: Node[] = [];

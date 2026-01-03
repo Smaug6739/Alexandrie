@@ -29,6 +29,8 @@
 </template>
 
 <script setup lang="ts">
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
+
 const route = useRoute();
 const router = useRouter();
 const preferences = usePreferences();
@@ -44,26 +46,33 @@ const goForward = () => router.go(1);
 
 declare module 'vue-router' {
   interface RouteMeta {
-    breadcrumb?: string | (() => string);
+    breadcrumb?: string | ((route: RouteLocationNormalizedLoaded) => string);
   }
 }
 
 watchEffect(() => {
   canGoBack.value = window.history.state?.back !== null;
   canGoForward.value = window.history.state?.forward !== null;
+
   breadcrumbs.value = [];
+
   route.matched.forEach(match => {
-    if (!match.meta?.breadcrumb) return;
+    const meta = match.meta?.breadcrumb;
+    if (!meta) return;
 
     let name = '';
-    if (typeof match.meta.breadcrumb === 'function') name = match.meta.breadcrumb();
-    else if (typeof match.meta.breadcrumb === 'string') name = match.meta.breadcrumb;
+
+    if (typeof meta === 'function') {
+      name = meta(route);
+    } else {
+      name = meta;
+    }
 
     if (!name) return;
-    const r = router.resolve(match);
+
     breadcrumbs.value.push({
       name,
-      path: r.path,
+      path: router.resolve(match).path,
     });
   });
 });

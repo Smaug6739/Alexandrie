@@ -34,12 +34,14 @@ import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
 import type { Node } from '~/stores';
 
-const nodeStore = useNodesStore();
-
 const props = defineProps<{ doc: Node }>();
 
+const nodeStore = useNodesStore();
+const router = useRouter();
+
 const print = () => window.print();
-const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { node: props.doc } }));
+const openDeleteModal = () =>
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { node: props.doc }, onClose: () => router.push('/dashboard'), size: 'small' }));
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
 const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.doc }, size: 'small' }));
 const openRemoveShareModal = () => useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.doc.id }, size: 'small' }));

@@ -3,9 +3,10 @@
 </template>
 
 <script setup lang="ts">
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: () => useNodesStore().getById(useRoute().params.id as string)?.name || '' });
+definePageMeta({ breadcrumb: (route: RouteLocationNormalizedLoaded) => useNodesStore().getById(route.params.id as string)?.name || '' });
 
 const route = useRoute();
 const nodesStore = useNodesStore();

@@ -38,13 +38,17 @@ import DocumentCardFooter from './_components/DocumentCardFooter.vue';
 import DocumentSkeleton from './_components/DocumentSkeleton.vue';
 import NodeContextMenu from '~/components/Node/ContextMenu.vue';
 import type { Node } from '~/stores';
+import DeleteNodeModal from '~/components/Node/DeleteNodeModal.vue';
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
-const route = useRoute();
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
 
 const devise = useDevice();
 const sidebar = useSidebar();
+const tree = useSidebarTree();
+const route = useRoute();
+const router = useRouter();
 
 const element = ref<HTMLElement>();
 const node = ref<Node | undefined>();
@@ -70,14 +74,14 @@ watchEffect(async () => {
 });
 
 definePageMeta({
-  breadcrumb: () => {
-    const doc = useNodesStore().getById(useRoute().params.id as string);
+  breadcrumb: (route: RouteLocationNormalizedLoaded) => {
+    const doc = useNodesStore().getById(route.params.id as string);
     return doc?.name || '';
   },
 });
 
-const next = computed(() => useSidebarTree().structure.value.next(node.value?.id)?.data);
-const previous = computed(() => useSidebarTree().structure.value.previous(node.value?.id)?.data);
+const next = computed(() => tree.structure.value.next(node.value?.id)?.data);
+const previous = computed(() => tree.structure.value.previous(node.value?.id)?.data);
 const width = computed(() => {
   if (preferencesStore.get('docSize').value == 2) return '980px';
   if (preferencesStore.get('docSize').value == 1) return '800px';
@@ -98,19 +102,39 @@ onMounted(() => {
   const handleDocumentKeydown = (e: KeyboardEvent) => {
     if (e.ctrlKey && e.key === 'e') {
       // Go to the edit page of the current document
-      if (!node.value?.id) return;
+      if (!node.value) return;
       e.preventDefault();
-      useRouter().push(`/dashboard/docs/edit/${node.value.id}`);
-    } else if (e.key === 'ArrowRight') {
-      e.preventDefault();
+      router.push(`/dashboard/docs/edit/${node.value.id}`);
+    }
+    if (e.key === 'ArrowRight') {
       // Go to the next document page
+      e.preventDefault();
       if (!next.value?.id) return;
       e.preventDefault();
-      useRouter().push(`/dashboard/docs/${next.value.id}`);
-    } else if (e.key === 'ArrowLeft') {
+      router.push(`/dashboard/docs/${next.value.id}`);
+    }
+    if (e.key === 'ArrowLeft') {
       if (!previous.value?.id) return;
       e.preventDefault();
-      useRouter().push(`/dashboard/docs/${previous.value.id}`);
+      router.push(`/dashboard/docs/${previous.value.id}`);
+    }
+    if (e.key === 'Escape') {
+      // Close context menu on Escape
+      contextMenu.close();
+    }
+    if (e.key === 'Delete') {
+      // Open delete modal on Delete
+      if (!node.value) return;
+      e.preventDefault();
+      useModal().add(
+        new Modal(shallowRef(DeleteNodeModal), {
+          size: 'small',
+          props: { node: node.value },
+          onClose: r => {
+            if (r === 'success') router.push('/dashboard');
+          },
+        }),
+      );
     }
   };
 

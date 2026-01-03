@@ -4,8 +4,9 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
-const store = useNodesStore();
 definePageMeta({ breadcrumb: 'New' });
+
+const store = useNodesStore();
 
 const defaultParent = (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined;
 

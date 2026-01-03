@@ -36,10 +36,6 @@ import DocumentSkeleton from '~/pages/dashboard/docs/_components/DocumentSkeleto
 import DocumentCardHeader from '~/pages/dashboard/docs/_components/DocumentCardHeader.vue';
 import type { Node } from '~/stores';
 
-definePageMeta({
-  ssr: true,
-});
-
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
 

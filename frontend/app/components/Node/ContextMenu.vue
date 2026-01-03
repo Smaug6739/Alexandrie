@@ -46,6 +46,8 @@ const emit = defineEmits(['close']);
 const nodeStore = useNodesStore();
 const userStore = useUserStore();
 
+const router = useRouter();
+const route = useRoute();
 const preferences = usePreferences();
 const { shortDate } = useDateFormatters();
 const { avatarURL } = useApi();
@@ -58,17 +60,27 @@ const user = computed(() => userStore.getById(props.node.user_id || ''));
 async function action(name: string) {
   switch (name) {
     case 'open':
-      useRouter().push(`/dashboard/docs/${props.node.id}`);
+      router.push(`/dashboard/docs/${props.node.id}`);
       break;
     case 'edit':
-      useRouter().push(`/dashboard/docs/edit/${props.node.id}`);
+      router.push(`/dashboard/docs/edit/${props.node.id}`);
       break;
     case 'duplicate':
       nodeStore.duplicate(props.node);
       break;
     case 'delete':
       dotMenu.value?.close();
-      useModal().add(new Modal(shallowRef(NodeDeleteModal), { props: { node: props.node }, size: 'small' }));
+      useModal().add(
+        new Modal(shallowRef(NodeDeleteModal), {
+          props: { node: props.node },
+          size: 'small',
+          onClose: r => {
+            console.log('Delete modal closed with reason:', r);
+            console.log('Current route params:', route.params);
+            if (r === 'success' && route.params?.id === props.node.id) navigateTo('/dashboard');
+          },
+        }),
+      );
       break;
     case 'copyLink':
       navigator.clipboard.writeText(`${window.location.origin}/dashboard/docs/${props.node.id}`);

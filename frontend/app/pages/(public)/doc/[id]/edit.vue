@@ -4,6 +4,8 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
+definePageMeta({ breadcrumb: 'Edit' });
+
 const store = useNodesStore();
 
 const route = useRoute();
@@ -29,8 +31,6 @@ watchEffect(async () => {
     }
   } else document.value = storedNode;
 });
-
-definePageMeta({ breadcrumb: 'Edit' });
 
 function save(doc: Node) {
   store

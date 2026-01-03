@@ -1,6 +1,6 @@
 <template>
   <div class="modal">
-    <h3>Delete {{ nodeType }}</h3>
+    <h3>Delete {{ nodeType }} • {{ props.node.name }}</h3>
     <p>Are you sure you want to delete this {{ nodeType }} ?</p>
     <p class="description">This action is irreversible</p>
     <p v-if="allChildren.length > 0" class="warn">This {{ nodeType }} has {{ allChildren.length }} child documents. They will be deleted too.</p>
@@ -17,7 +17,11 @@ import type { Node } from '~/stores';
 const props = defineProps<{ node: Node }>();
 const emit = defineEmits(['close']);
 
-const allChildren = useSidebarTree().getSubTreeById(props.node.id);
+const store = useNodesStore();
+
+const tree = useSidebarTree();
+
+const allChildren = tree.getSubTreeById(props.node.id);
 const nodeType = computed(() => {
   switch (props.node.role) {
     case 1:
@@ -33,13 +37,8 @@ const nodeType = computed(() => {
   }
 });
 const deleteDoc = () => {
-  useNodesStore()
-    .delete(props.node.id)
-    .then(() => {
-      emit('close');
-      useRouter().push('/dashboard');
-    })
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+  emit('close', 'success');
+  store.delete(props.node.id).catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 </script>
 
