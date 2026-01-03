@@ -2,7 +2,6 @@ package services
 
 import (
 	"alexandrie/models"
-	"alexandrie/pkg/logger"
 	"alexandrie/types"
 	"context"
 	"fmt"
@@ -70,7 +69,7 @@ func (s *minioService) DeleteNodeFiles(resources []*models.NodeResourceInfo) err
 	for _, res := range resources {
 		if err := s.DeleteSingleResource(res.UserId, res.Id, res.Metadata); err != nil {
 			// Log error but continue deleting other files
-			logger.Warn(fmt.Sprintf("Failed to delete MinIO file for node %d: %v", res.Id, err))
+			// logger.Warn(fmt.Sprintf("Failed to delete MinIO file for node %d: %v", res.Id, err))
 			lastErr = err
 		}
 	}
@@ -85,11 +84,11 @@ func (s *minioService) DeleteNodeFiles(resources []*models.NodeResourceInfo) err
 
 		for object := range objectCh {
 			if object.Err != nil {
-				logger.Warn(fmt.Sprintf("Error listing objects with prefix %s: %v", prefix, object.Err))
+				// logger.Warn(fmt.Sprintf("Error listing objects with prefix %s: %v", prefix, object.Err))
 				continue
 			}
 			if err := s.minioClient.RemoveObject(ctx, bucket, object.Key, minio.RemoveObjectOptions{}); err != nil {
-				logger.Warn(fmt.Sprintf("Failed to delete object %s: %v", object.Key, err))
+				// logger.Warn(fmt.Sprintf("Failed to delete object %s: %v", object.Key, err))
 				lastErr = err
 			}
 		}

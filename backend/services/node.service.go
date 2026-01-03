@@ -3,13 +3,11 @@ package services
 import (
 	"alexandrie/models"
 	"alexandrie/permissions"
-	"alexandrie/pkg/logger"
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
 	"errors"
-	"fmt"
 	"time"
 )
 
@@ -207,7 +205,7 @@ func (s *nodeService) DeleteNode(nodeId types.Snowflake, connectedUserId types.S
 	// but we need to clean up their files in MinIO first
 	resources, err := s.nodeRepo.GetDescendantResources(nodeId)
 	if err != nil {
-		logger.Warn(fmt.Sprintf("Failed to get descendant resources for node %d: %v", nodeId, err))
+		// logger.Warn(fmt.Sprintf("Failed to get descendant resources for node %d: %v", nodeId, err))
 		// Continue with deletion even if we can't get resources
 		// This prevents blocking deletion due to MinIO issues
 	}
@@ -217,7 +215,7 @@ func (s *nodeService) DeleteNode(nodeId types.Snowflake, connectedUserId types.S
 		if err := s.minioService.DeleteNodeFiles(resources); err != nil {
 			// Log the error but continue with DB deletion
 			// Orphaned files can be cleaned up by a background job later
-			logger.Warn(fmt.Sprintf("Failed to delete some MinIO files for node %d: %v", nodeId, err))
+			// logger.Warn(fmt.Sprintf("Failed to delete some MinIO files for node %d: %v", nodeId, err))
 		}
 	}
 

@@ -2,7 +2,6 @@ package services
 
 import (
 	"alexandrie/models"
-	"alexandrie/pkg/logger"
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
@@ -558,7 +557,7 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 					Reason: fmt.Sprintf("failed to read content: %v", err),
 				})
 				mu.Unlock()
-				logger.Warn(fmt.Sprintf("Skipping file %d: failed to read %s: %v", f.Id, objectPath, err))
+				// logger.Warn(fmt.Sprintf("Skipping file %d: failed to read %s: %v", f.Id, objectPath, err))
 				return
 			}
 
@@ -580,7 +579,7 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 					Reason: fmt.Sprintf("failed to create zip entry: %v", err),
 				})
 				mu.Unlock()
-				logger.Warn(fmt.Sprintf("Skipping file %d: failed to create zip entry: %v", f.Id, err))
+				// logger.Warn(fmt.Sprintf("Skipping file %d: failed to create zip entry: %v", f.Id, err))
 				return
 			}
 
@@ -592,7 +591,7 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 					Reason: fmt.Sprintf("failed to write to zip: %v", err),
 				})
 				mu.Unlock()
-				logger.Warn(fmt.Sprintf("Skipping file %d: failed to write to zip: %v", f.Id, err))
+				// logger.Warn(fmt.Sprintf("Skipping file %d: failed to write to zip: %v", f.Id, err))
 				return
 			}
 
