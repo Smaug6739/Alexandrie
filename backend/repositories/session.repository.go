@@ -107,9 +107,6 @@ func (r *SessionRepositoryImpl) GetByRefreshToken(refreshToken string) (*models.
 		&session.LogoutTimestamp,
 	)
 
-	if err == sql.ErrNoRows {
-		return nil, nil
-	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to get session by refresh token: %w", err)
 	}
