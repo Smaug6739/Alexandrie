@@ -27,9 +27,7 @@
       <input id="path" type="text" :value="resource.metadata?.transformed_path" disabled />
       <p style="overflow-wrap: break-word">
         Resource:
-        <a :href="`${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`" target="_blank">{{
-          `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`
-        }}</a>
+        <a :href="resourceURL(resource)" target="_blank">{{ resourceURL(resource) }}</a>
       </p>
       <div class="actions-row">
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
@@ -37,11 +35,7 @@
       </div>
       <h4>Preview</h4>
       <div class="preview">
-        <img
-          v-if="(resource.metadata?.filetype as string)?.startsWith('image/')"
-          :src="`${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`"
-          alt="Preview"
-        />
+        <img v-if="(resource.metadata?.filetype as string)?.startsWith('image/')" :src="resourceURL(resource)" alt="Preview" />
         <p v-else>Preview not available for this file type.</p>
       </div>
     </form>
@@ -56,7 +50,7 @@ definePageMeta({ breadcrumb: 'Edit' });
 
 const nodeStore = useNodesStore();
 const route = useRoute();
-const { CDN } = useApi();
+const { resourceURL } = useApi();
 
 const resource = computed(() => nodeStore.getById(route.params.id as string));
 

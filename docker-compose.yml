@@ -110,6 +110,7 @@ services:
       # Runtime configuration - builds with these values at startup
       NUXT_PUBLIC_BASE_API: ${API_URL:-http://localhost:8201}
       NUXT_PUBLIC_BASE_CDN: ${CDN_URL:-http://localhost:9000}
+      NUXT_PUBLIC_CDN_ENDPOINT: ${CDN_ENDPOINT:-/alexandrie/}
       NUXT_PUBLIC_BASE_URL: ${FRONTEND_URL:-http://localhost:8200}
 
     ports:

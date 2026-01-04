@@ -9,6 +9,7 @@ export default defineNuxtConfig({
       // Base URLs
       baseApi: '',
       baseCdn: '',
+      cdnEndpoint: '/alexandrie/',
       // Feature flags
       configDisableSignupPage: '',
       configDisableLandingPage: '',
