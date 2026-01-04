@@ -41,7 +41,15 @@ const router = useRouter();
 
 const print = () => window.print();
 const openDeleteModal = () =>
-  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { node: props.doc }, onClose: () => router.push('/dashboard'), size: 'small' }));
+  useModal().add(
+    new Modal(shallowRef(DeleteNodeModal), {
+      props: { node: props.doc },
+      size: 'small',
+      onClose: r => {
+        if (r === 'success') router.push('/dashboard');
+      },
+    }),
+  );
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
 const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.doc }, size: 'small' }));
 const openRemoveShareModal = () => useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.doc.id }, size: 'small' }));
