@@ -108,28 +108,28 @@
     <!-- Quick stats -->
     <section class="section stats-section">
       <div class="stat-card">
-        <Icon name="files" display="xll" class="stat-icon" fill="var(--primary)" />
+        <Icon name="files" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ documentsCount }}</span>
           <span class="stat-label">Documents</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="categories" display="xll" class="stat-icon" fill="var(--primary)" />
+        <Icon name="categories" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ workspacesCount }}</span>
           <span class="stat-label">Workspaces</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="advanced" display="xll" class="stat-icon" fill="var(--primary)" />
+        <Icon name="advanced" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ tagsCount }}</span>
           <span class="stat-label">Tags</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="import" display="xll" class="stat-icon" fill="var(--primary)" />
+        <Icon name="import" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ resourcesCount }}</span>
           <span class="stat-label">CDN Files</span>
