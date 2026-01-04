@@ -56,7 +56,7 @@ docker compose up
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
 
-For complete setup instructions, please refer to the [Setup Documentation](./docs/setup.md).
+For complete setup instructions, please refer to the [Setup Documentation](./docs/README.md).
 
 **Access points:**
 
