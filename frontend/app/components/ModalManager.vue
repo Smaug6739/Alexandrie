@@ -89,11 +89,12 @@ const modals = modalManager.modals;
 
 @media screen and (max-width: 600px) {
   .modal-container {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 12px 0;
   }
-
   .close-btn {
     top: 0.5rem;
     right: 0.5rem;
