@@ -7,7 +7,7 @@
     <CommandCenter />
     <MediumView>
       <Navbar />
-      <NuxtPage />
+      <div style="width: 100%; height: calc(100% - 65px)"><NuxtPage /></div>
     </MediumView>
   </div>
 </template>
