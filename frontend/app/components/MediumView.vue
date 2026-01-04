@@ -1,5 +1,5 @@
 <template>
-  <main class="medium-view" :style="{ paddingLeft: marginLeft, transition }">
+  <main :style="{ paddingLeft: marginLeft, transition }">
     <slot />
   </main>
 </template>
@@ -13,21 +13,23 @@ const transition = computed(() => (isResizing.value ? 'none' : 'padding-left 0.3
 </script>
 
 <style scoped>
-.medium-view {
+main {
   width: 100%;
   height: 100%;
-  padding: 0 20px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 @media print {
-  .medium-view {
+  main {
     margin: 0 !important;
     padding: 0 !important;
   }
 }
 
 @media screen and (width <= 719px) {
-  .medium-view {
+  main {
     padding: 0 0.5rem;
   }
 }

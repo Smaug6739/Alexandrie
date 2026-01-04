@@ -41,7 +41,6 @@ header {
   align-items: center;
   border-bottom: 1px solid var(--border-color);
   justify-content: space-between;
-  margin-bottom: 10px;
 
   div {
     display: flex;
