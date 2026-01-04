@@ -42,7 +42,6 @@ func MinioConnection() (*minio.Client, *minio.Client, error) {
 	})
 	if errInit != nil {
 		logger.Error(fmt.Sprintf("Failed to initialize MinIO client: %v", errInit))
-		logger.Error("Please check your MINIO_PUBLIC_URL is set correctly.")
 		os.Exit(1)
 	}
 
@@ -60,6 +59,7 @@ func MinioConnection() (*minio.Client, *minio.Client, error) {
 	})
 	if err != nil {
 		logger.Error(fmt.Sprintf("Failed to create signer client: %v", err))
+		logger.Error("Please check your MINIO_PUBLIC_URL is set correctly.")
 		os.Exit(1)
 	}
 
