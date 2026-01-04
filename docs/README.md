@@ -222,6 +222,23 @@ This is usually caused by a misconfiguration of the `CDN_URL` and/or `CDN_ENDPOI
 
 Test the right url in your browser by combining `CDN_URL`, `CDN_ENDPOINT` and the object path (you can get the object path from the frontend interface, for example in the cdn page with devtools or by copying the link).
 
+## I have errors with backup system or minio client
+
+**Symptoms**
+
+- Backup creation fails with errors related to link generation with S3 or MinIO (example: Failed to generate download URL: XML syntax error on line 1: attribute name without = in element)
+
+**Cause**
+This is usually caused if you have an incorrect value for endpoint of public signer with minio client in the backend service.
+
+**Correct configuration examples**
+
+- If your RustFS S3 server is accessible at `http://cdn.yourdomain.com`, then set: `CDN_URL=http://cdn.yourdomain.com`
+
+Note: According to S3 specification, the URL used to sign must not contain path or query parameters. So make sure your `CDN_URL` variable does not contain path or query parameters.  
+Example of **incorrect** value: `http://yourdomain.com/files/` (contains path)  
+Example of **correct** value: `http://cdn.yourdomain.com` (no path or query parameters)
+
 ## Additional Resources
 
 - [Official Alexandrie GitHub Repository](https://github.com/Smaug6739/alexandrie)
