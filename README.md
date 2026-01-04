@@ -62,7 +62,7 @@ For complete setup instructions, please refer to the [Setup Documentation](./doc
 
 - **Frontend**: http://localhost:8200
 - **Backend API**: http://localhost:8201
-- **Object Storage Console**: http://localhost:9001
+- **Object Storage Console**: http://localhost:9000
 - **MySQL**: localhost:3307 (user: `alexandrie`, password: `password`)
 
 **To stop:**
