@@ -75,8 +75,6 @@ async function action(name: string) {
           props: { node: props.node },
           size: 'small',
           onClose: r => {
-            console.log('Delete modal closed with reason:', r);
-            console.log('Current route params:', route.params);
             if (r === 'success' && route.params?.id === props.node.id) navigateTo('/dashboard');
           },
         }),
