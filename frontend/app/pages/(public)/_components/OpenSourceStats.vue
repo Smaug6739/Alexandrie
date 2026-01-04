@@ -43,29 +43,32 @@
 
       <div class="stats-grid">
         <div class="stat">
-          <div class="stat-icon">⭐</div>
+          <div class="stat-icon"><Icon name="star" display="xl" /></div>
           <div class="stat-value">{{ starsDisplay }}</div>
           <div class="stat-label">GitHub stars</div>
         </div>
         <div class="stat">
-          <div class="stat-icon">👥</div>
+          <div class="stat-icon"><Icon name="users" display="xl" /></div>
           <div class="stat-value">{{ contributorsDisplay }}</div>
           <div class="stat-label">Contributors</div>
         </div>
         <div class="stat">
-          <div class="stat-icon">🏷️</div>
+          <div class="stat-icon"><Icon name="release" display="xl" /></div>
           <div class="stat-value">{{ latestRelease || 'v1.0' }}</div>
           <div class="stat-label">Latest release</div>
         </div>
       </div>
 
       <div class="actions-row">
-        <a :href="`https://github.com/${owner}/${repo}`" target="_blank" class="btn primary">
+        <NuxtLink :to="`https://github.com/${owner}/${repo}`" target="_blank" class="btn primary">
           <svg width="16" height="16" viewBox="0 0 24 24">
-            <polygon style="fill: white" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            <polygon
+              style="fill: white !important"
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+            ></polygon>
           </svg>
           Star on GitHub
-        </a>
+        </NuxtLink>
         <NuxtLink :prefetch="false" to="/dashboard" class="btn secondary">Try the app</NuxtLink>
         <a :href="`https://github.com/${owner}/${repo}/contribute`" target="_blank" class="btn tertiary">Contribute</a>
       </div>
@@ -261,8 +264,10 @@ onMounted(() => {
 }
 
 .stat-icon {
-  font-size: 24px;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .stat-value {

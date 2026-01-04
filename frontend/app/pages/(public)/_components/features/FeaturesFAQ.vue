@@ -25,7 +25,7 @@
 
       <div class="faq-cta">
         <div class="cta-content">
-          <div class="cta-icon">💬</div>
+          <div class="cta-icon"><Icon name="help" display="xll" /></div>
           <h3>Still have questions?</h3>
           <p>Can't find what you're looking for? Join our community!</p>
           <a href="https://discord.gg/UPsEg6egPj" target="_blank" class="cta-btn">
@@ -199,7 +199,8 @@ h2 {
 }
 
 .cta-icon {
-  font-size: 3rem;
+  display: flex;
+  justify-content: center;
   margin-bottom: 1rem;
 }
 
