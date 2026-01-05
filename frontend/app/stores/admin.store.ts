@@ -36,14 +36,14 @@ export const useAdminStore = defineStore('admin', {
     async fetchUserDocuments(userId: string): Promise<Node[] | undefined> {
       const cachedUser = this.users?.find(user => user.id === userId);
       if (cachedUser && cachedUser.nodes) return cachedUser.nodes;
-      const responce = await makeRequest<Node[]>(`nodes/${userId}`, 'GET', {});
+      const responce = await makeRequest<Node[]>(`nodes/user/${userId}`, 'GET', {});
       if (responce.status === 'success') {
         if (cachedUser) cachedUser.nodes = responce.result;
         return responce.result;
       } else throw responce.message;
     },
     async fetchUserDocument(userId: string, docId: string): Promise<Node | undefined> {
-      const responce = await makeRequest<{ node: Node; permissions: [] }>(`nodes/${userId}/${docId}`, 'GET', {});
+      const responce = await makeRequest<{ node: Node; permissions: [] }>(`nodes/${docId}`, 'GET', {});
       if (responce.status === 'success') {
         return responce.result?.node;
       } else throw responce.message;
