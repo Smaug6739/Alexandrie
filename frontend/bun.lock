@@ -21,7 +21,7 @@
         "@types/markdown-it-container": "^2.0.11",
         "@types/node": "^25.0.3",
         "@vite-pwa/nuxt": "^1.1.0",
-        "@zip.js/zip.js": "^2.8.13",
+        "@zip.js/zip.js": "^2.8.14",
         "eslint": "^9.39.2",
         "eslint-config-prettier": "^10.1.8",
         "katex": "^0.16.27",
@@ -838,7 +838,7 @@
 
     "@vue/shared": ["@vue/shared@3.5.26", "", {}, "sha512-7Z6/y3uFI5PRoKeorTOSXKcDj0MSasfNNltcslbFrPpcw6aXRUALq4IfJlaTRspiWIUOEZbrpM+iQGmCOiWe4A=="],
 
-    "@zip.js/zip.js": ["@zip.js/zip.js@2.8.13", "", {}, "sha512-UcWZ5i9Hlspgo+8q8PUPd9TmDYM62eqfb/0iZ5SF3bqfX/uFUmV660MC9Lsvon7/sidzesXLQlIf8/mbDUf6gQ=="],
+    "@zip.js/zip.js": ["@zip.js/zip.js@2.8.14", "", {}, "sha512-BZ7OyJLA5cjYwf2jVjvZCK10swzIc6sDOLpkPjJXfXgx/IHF5y61PyL3Ko5/q3bUU5GvIhk6tzKDUcDJ7rhzbg=="],
 
     "abbrev": ["abbrev@3.0.1", "", {}, "sha512-AO2ac6pjRB3SJmGJo+v5/aK6Omggp6fsLrs6wN9bd35ulu4cCwaAU9+7ZhXjeqHVkaHThLuzH0nZr0YpCDhygg=="],
 
