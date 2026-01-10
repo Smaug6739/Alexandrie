@@ -172,10 +172,10 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
     ],
   },
   {
-    label: 'Nabvar',
+    label: 'Navbar',
     options: [
       {
-        label: 'Show items in navbar',
+        label: 'Which items to display in the navbar',
         type: 'groupCheckbox',
         key: 'navbarItems',
         items: {
