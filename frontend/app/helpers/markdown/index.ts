@@ -126,9 +126,7 @@ function markdownItCheckbox(md: any) {
 
 function imageVideoHandler(md: any) {
   const oldImageRenderer = md.renderer.rules.image;
-//debugger; // This is triggered
   md.renderer.rules['image'] = function (tokens, idx, options, env, self) {
-//debugger; // This never triggers
 
     const validAudioExtensions = ['aac', 'm4a', 'mp3', 'oga', 'ogg', 'wav'];
     const validVideoExtensions = ['mp4', 'm4v', 'ogv', 'webm', 'mpg', 'mpeg'];
@@ -160,14 +158,13 @@ function imageVideoHandler(md: any) {
       const title = token.attrIndex('title') != -1 ?
         ` title="${md.utils.escapeHtml(token.attrs[token.attrIndex('title')][1])}"` :
         '';
-
-      const description = token.content ? md.utils.escapeHtml(token.content) : '';
-
+        
       return `<${type} src="${url}"${title}${attrs}>\n` +
-        `${description}\n` +
         `</${type}>`;
     }
 
+    const token = tokens[idx];
+    const href = token.attrs[token.attrIndex('src')][1];
     const mediaType = guessMediaType(href);
     if (mediaType == 'video' || mediaType == 'audio')
     {
