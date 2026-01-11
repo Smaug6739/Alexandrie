@@ -51,4 +51,3 @@ const resolveFileType = (mimeType: string) => {
 };
 
 export { readableFileSize, resolvePreviewUrl, isImageFile, resolveFileIcon, resolveFileType, isPdfFile, isVideoFile };
->>
