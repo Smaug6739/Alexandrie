@@ -1,4 +1,4 @@
-<</**
+/**
  * Resource/File utilities
  * Helpers for working with uploaded files and CDN resources
  */
