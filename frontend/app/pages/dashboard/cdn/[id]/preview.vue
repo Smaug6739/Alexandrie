@@ -12,6 +12,7 @@
       <div class="preview">
         <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
         <LazyPDFViewer v-else-if="isPdfFile(mimeType)" :src="resourceURL(resource)" :zoom="zoom" />
+        <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls />
         <div v-else class="no-preview">
           <p>Preview not available for this file type.</p>
           <p>
