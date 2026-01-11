@@ -10,9 +10,11 @@ export function useApi() {
     return user?.avatar ? CDN + cdnEndpoint + user.id + `/avatar?v=${user.avatar}` : '/default_avatar.avif';
   }
 
-  function resourceURL(resource?: Node): string {
+  function resourceURL(resource?: Node, download = false): string {
     if (!resource) return '';
-    return `${CDN}${cdnEndpoint}${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`;
+    return `${CDN}${cdnEndpoint}${resource.user_id}/${resource.metadata?.transformed_path || resource.content}${
+      download ? '?response-content-disposition=attachment' : ''
+    }`;
   }
 
   return { CDN, API, avatarURL, resourceURL };
