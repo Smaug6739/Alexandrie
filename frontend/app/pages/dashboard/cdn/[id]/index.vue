@@ -35,7 +35,8 @@
       </div>
       <h4>Preview</h4>
       <div class="preview">
-        <img v-if="(resource.metadata?.filetype as string)?.startsWith('image/')" :src="resourceURL(resource)" alt="Preview" />
+        <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
+        <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls  />
         <p v-else>Preview not available for this file type.</p>
       </div>
     </form>
@@ -44,7 +45,7 @@
 
 <script lang="ts" setup>
 import DeleteResourceModal from '../_modals/DeleteResourceModal.vue';
-import { readableFileSize } from '~/helpers/resources';
+import { readableFileSize, isImageFile, isVideoFile } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Edit' });
 
@@ -53,6 +54,7 @@ const route = useRoute();
 const { resourceURL } = useApi();
 
 const resource = computed(() => nodeStore.getById(route.params.id as string));
+const mimeType = computed(() => resource.value?.metadata?.filetype || '');
 
 const defaultItem: ANode = {
   id: '',
