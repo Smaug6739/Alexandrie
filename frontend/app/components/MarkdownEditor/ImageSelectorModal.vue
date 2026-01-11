@@ -40,7 +40,7 @@ const searchQuery = ref('');
 const isLoading = ref(false);
 const uploadError = ref<string | null>(null);
 const dropComponent = ref();
-const { CDN } = useApi();
+const { resourceURL } = useApi();
 
 const submitFile = (selectedFile: File) => {
   if (!selectedFile) return;
@@ -67,9 +67,8 @@ const handleImageError = (event: Event) => {
 };
 
 const selectImage = (image: Node) => {
-  const imageUrl = (CDN + `/${useUserStore().user?.id}/` + image.metadata?.transformed_path) as string;
   const altText = image.name.replace(/\.[^/.]+$/, '');
-  props.onImageSelect(imageUrl, altText);
+  props.onImageSelect(resourceURL(image), altText);
   emit('close');
 };
 </script>
