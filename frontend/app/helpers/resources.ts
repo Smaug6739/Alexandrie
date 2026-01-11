@@ -1,4 +1,4 @@
-/**
+<</**
  * Resource/File utilities
  * Helpers for working with uploaded files and CDN resources
  */
@@ -50,4 +50,5 @@ const resolveFileType = (mimeType: string) => {
   return 'File';
 };
 
-export { readableFileSize, resolvePreviewUrl, isImageFile, resolveFileIcon, resolveFileType, isPdfFile };
+export { readableFileSize, resolvePreviewUrl, isImageFile, resolveFileIcon, resolveFileType, isPdfFile, isVideoFile };
+>>
