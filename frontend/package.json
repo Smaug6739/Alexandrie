@@ -44,6 +44,7 @@
     "markdown-it-highlightjs": "^4.2.0",
     "markdown-it-mark": "^4.0.0",
     "markdown-it-underline": "^1.0.1",
+    "markdown-it-html5-media": "^0.8.0",
     "nuxt": "^4.2.2",
     "pdfjs-dist": "^5.4.530",
     "pinia": "^3.0.4",

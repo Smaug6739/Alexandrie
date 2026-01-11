@@ -8,6 +8,7 @@ import { advancedBlocks } from './cards';
 // @ts-expect-error no types provided
 import underline from 'markdown-it-underline';
 import highlight from 'markdown-it-highlightjs';
+//import html5Media from 'markdown-it-html5-media'; // Doesn't work, always not found
 // @ts-expect-error no types provided
 import mark from 'markdown-it-mark';
 import katex from 'katex';
@@ -29,6 +30,8 @@ md.use(colorPlugin, {
   allowHex: true, // allow #rgb and #rrggbb
   allowedNamedColors: ['red', 'crimson', 'rebeccapurple'], // restrict named colors (null = all standard names)
 });
+//md.use(html5Media);
+md.use(imageVideoHandler);
 
 function markdownItKatexPlugin(md: any) {
   md.inline.ruler.after('escape', 'katex', (state: any, silent: any) => {
@@ -120,8 +123,63 @@ function markdownItCheckbox(md: any) {
     }
   });
 }
-// Définir une règle de rendu pour injecter les cases à cocher
 
+function imageVideoHandler(md: any) {
+  const oldImageRenderer = md.renderer.rules.image;
+//debugger; // This is triggered
+  md.renderer.rules['image'] = function (tokens, idx, options, env, self) {
+//debugger; // This never triggers
+
+    const validAudioExtensions = ['aac', 'm4a', 'mp3', 'oga', 'ogg', 'wav'];
+    const validVideoExtensions = ['mp4', 'm4v', 'ogv', 'webm', 'mpg', 'mpeg'];
+
+    const guessMediaType = (url) => {
+      const extensionMatch = url.match(/\.([^/.]+)$/);
+      if (extensionMatch === null)
+        return 'image';
+      const extension = extensionMatch[1];
+      if (validAudioExtensions.indexOf(extension.toLowerCase()) != -1)
+        return 'audio';
+      else if (validVideoExtensions.indexOf(extension.toLowerCase()) != -1)
+        return 'video';
+      else
+        return 'image';
+    }
+
+    const renderMedia = (tokens, idx, options, env, md) => {
+      const token = tokens[idx];
+      const type = token.type;
+      if (type !== 'video' && type !== 'audio')
+        return '';
+      let attrs = ' controls'; // Enforce showing controls
+
+      // We'll always have a URL for non-image media: they are detected by URL
+      const url = token.attrs[token.attrIndex('src')][1];
+
+      // Title is set like this: ![descriptive text](video.mp4 "title")
+      const title = token.attrIndex('title') != -1 ?
+        ` title="${md.utils.escapeHtml(token.attrs[token.attrIndex('title')][1])}"` :
+        '';
+
+      const description = token.content ? md.utils.escapeHtml(token.content) : '';
+
+      return `<${type} src="${url}"${title}${attrs}>\n` +
+        `${description}\n` +
+        `</${type}>`;
+    }
+
+    const mediaType = guessMediaType(href);
+    if (mediaType == 'video' || mediaType == 'audio')
+    {
+      tokens[idx].type = mediaType;
+      return renderMedia(tokens, idx, options, env, self);
+    };
+
+    return oldImageRenderer(tokens, idx, options, env, self);
+  }
+}
+
+// Définir une règle de rendu pour injecter les cases à cocher
 export default function compile(str: string = ''): string {
   // Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)
   str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');

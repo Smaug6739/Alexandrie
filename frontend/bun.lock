@@ -31,6 +31,7 @@
         "markdown-it-highlightjs": "^4.2.0",
         "markdown-it-mark": "^4.0.0",
         "markdown-it-underline": "^1.0.1",
+        "markdown-it-html5-media": "^0.8.0",
         "nuxt": "^4.2.2",
         "pdfjs-dist": "^5.4.530",
         "pinia": "^3.0.4",
@@ -1659,6 +1660,8 @@
     "markdown-it-mark": ["markdown-it-mark@4.0.0", "", {}, "sha512-YLhzaOsU9THO/cal0lUjfMjrqSMPjjyjChYM7oyj4DnyaXEzA8gnW6cVJeyCrCVeyesrY2PlEdUYJSPFYL4Nkg=="],
 
     "markdown-it-underline": ["markdown-it-underline@1.0.1", "", {}, "sha512-J597ni39vPHIH1ONVZoDvQKUUXkOqoB93bm6Fc/5Deu6XaWMXrT0xf2m2r9qZCA8dncWJ5V8d5PyGkpmQuy/vg=="],
+
+    "markdown-it-html5-media": ["markdown-it-html5-media@0.8.0", "", {}, "sha512-D3jTRc9LWLuivVn5+U13eT2ErSVB05v46ETukSheREnt+SLaK6aWh6w2y4HsYv3MmN5smDHlb+5P6WG+3ArbKw=="],
 
     "math-intrinsics": ["math-intrinsics@1.1.0", "", {}, "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g=="],
 
