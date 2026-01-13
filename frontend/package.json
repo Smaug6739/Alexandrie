@@ -21,7 +21,7 @@
     "@codemirror/autocomplete": "^6.20.0",
     "@codemirror/commands": "^6.10.1",
     "@codemirror/lang-markdown": "^6.5.0",
-    "@codemirror/search": "6.5.11",
+    "@codemirror/search": "6.6.0",
     "@codemirror/state": "^6.5.3",
     "@codemirror/view": "^6.39.10",
     "@lezer/highlight": "^1.2.3",
