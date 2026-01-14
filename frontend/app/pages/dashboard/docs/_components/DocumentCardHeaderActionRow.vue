@@ -39,6 +39,7 @@ import DeleteNodeModal from '~/components/Node/DeleteNodeModal.vue';
 import DocumentMeta from '~/components/Node/NodeMetadata.modal.vue';
 import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
+import { generateMarkdownWithMetadata } from '~/helpers/node';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ doc: Node }>();
@@ -62,7 +63,7 @@ const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermi
 const openRemoveShareModal = () => useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.doc.id }, size: 'small' }));
 
 function exportMarkdown() {
-  const blob = new Blob([props.doc.content || ''], { type: 'text/markdown' });
+  const blob = new Blob([generateMarkdownWithMetadata(props.doc)], { type: 'text/markdown' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
