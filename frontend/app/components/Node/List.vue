@@ -16,19 +16,24 @@
       <div class="header-actions">
         <NuxtLink v-if="view == 'kanban'" class="btn-icon no-mobile" @click="resetKanban">
           <Icon name="reset" display="lg" />
+          <p class="hint-tooltip">Reset board</p>
         </NuxtLink>
         <NodeFilter v-show="!isMobile" :nodes="nodes" @update:nodes="filteredNodes = $event" />
         <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon no-mobile" @click="openRemoveShareModal">
           <Icon name="group_off" display="lg" />
+          <p class="hint-tooltip">Remove from shared</p>
         </NuxtLink>
         <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon no-mobile" @click="openPermissionsModal">
           <Icon name="manage_access" display="lg" />
+          <p class="hint-tooltip">Manage permissions</p>
         </NuxtLink>
         <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" class="btn-icon" @click="openEditModal">
           <Icon name="settings" display="lg" />
+          <p class="hint-tooltip">Edit metadata</p>
         </NuxtLink>
         <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon" @click="openDeleteModal">
           <Icon name="delete" display="lg" />
+          <p class="hint-tooltip">Delete</p>
         </NuxtLink>
         <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }}</span>
         <ViewSelection v-model="view" :show-kanban="true" />
@@ -186,6 +191,14 @@ h1 {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+a {
+  position: relative;
+}
+a:hover > .hint-tooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 .parent-icon {

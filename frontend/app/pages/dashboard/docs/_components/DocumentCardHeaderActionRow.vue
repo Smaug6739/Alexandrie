@@ -84,7 +84,8 @@ a {
   position: relative;
   margin: 0 5px;
   &:hover .hint-tooltip {
-    display: block;
+    opacity: 1;
+    visibility: visible;
   }
 }
 </style>

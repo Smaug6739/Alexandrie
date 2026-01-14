@@ -148,7 +148,8 @@ onBeforeUnmount(() => {
 }
 
 .nav-item:hover .hint-tooltip {
-  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 .icons {
