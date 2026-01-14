@@ -163,13 +163,6 @@ onBeforeUnmount(() => {
     &:hover {
       background: var(--selection-color);
     }
-
-    svg {
-      width: 20px;
-      height: 20px;
-      margin: 0;
-      fill: var(--font-color);
-    }
   }
 }
 
