@@ -16,6 +16,9 @@ const readableFileSize = (bytes: number): string => {
 /** Check if a filetype MIME string represents an image */
 const isImageFile = (filetype: string): boolean => filetype.startsWith('image/');
 
+/** Check if a filetype MIME string represents a video */
+const isVideoFile = (filetype: string): boolean => filetype.startsWith('video/');
+
 /** Check if a filetype MIME string represents a PDF */
 const isPdfFile = (filetype: string): boolean => filetype.startsWith('application/pdf');
 
@@ -47,4 +50,4 @@ const resolveFileType = (mimeType: string) => {
   return 'File';
 };
 
-export { readableFileSize, resolvePreviewUrl, isImageFile, resolveFileIcon, resolveFileType, isPdfFile };
+export { readableFileSize, resolvePreviewUrl, isImageFile, resolveFileIcon, resolveFileType, isPdfFile, isVideoFile };
