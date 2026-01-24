@@ -23,8 +23,14 @@ function close(modal: Modal, reason?: string) {
   }
 }
 
+function closeLast(reason?: string) {
+  if (modals.value.length === 0) return;
+  const lastModal = modals.value[modals.value.length - 1]!;
+  close(lastModal, reason);
+}
+
 export function useModal() {
-  return { add, close, modals };
+  return { add, close, closeLast, modals };
 }
 
 interface ModalOptions {
@@ -35,5 +41,8 @@ interface ModalOptions {
 }
 
 export class Modal {
-  constructor(public component: object, public options: ModalOptions = { size: 'medium' }) {}
+  constructor(
+    public component: object,
+    public options: ModalOptions = { size: 'medium' },
+  ) {}
 }
