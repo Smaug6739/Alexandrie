@@ -5,10 +5,6 @@
     <p>General</p>
     <div class="shortcuts">
       <div class="shortcut">
-        <span>Open quick search</span>
-        <span><kbd>Ctrl</kbd> <kbd>Q</kbd></span>
-      </div>
-      <div class="shortcut">
         <span>Open command center and navigate</span>
         <span><kbd>Ctrl</kbd> <kbd>K</kbd> or <kbd>/</kbd></span>
       </div>
