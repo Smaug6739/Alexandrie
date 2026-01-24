@@ -32,6 +32,10 @@
         <span>Print the page</span>
         <span><kbd>Ctrl</kbd> <kbd>P</kbd></span>
       </div>
+      <div class="shortcut">
+        <span>Close the current modal</span>
+        <span><kbd>Esc</kbd></span>
+      </div>
     </div>
     <p>Document page</p>
     <div class="shortcuts">
@@ -63,12 +67,28 @@
         <span><kbd>Esc</kbd></span>
       </div>
       <div class="shortcut">
+        <span>Open the find dialog</span>
+        <span><kbd>Ctrl</kbd> <kbd>F</kbd></span>
+      </div>
+      <div class="shortcut">
         <span>Undo the last action</span>
         <span><kbd>Ctrl</kbd> <kbd>Z</kbd></span>
       </div>
       <div class="shortcut">
         <span>Redo the last action</span>
         <span><kbd>Ctrl</kbd> <kbd>Y</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>Copy the selected text or line if no selection</span>
+        <span><kbd>Ctrl</kbd> <kbd>C</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>Cut the selected text or line if no selection</span>
+        <span><kbd>Ctrl</kbd> <kbd>X</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>Paste from clipboard</span>
+        <span><kbd>Ctrl</kbd> <kbd>V</kbd></span>
       </div>
       <div class="shortcut">
         <span>Bold text</span>
