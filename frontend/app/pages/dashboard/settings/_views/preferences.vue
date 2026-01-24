@@ -287,9 +287,10 @@ label {
 }
 
 .description {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--font-color-light);
   margin-top: 0.25rem;
+  margin-left: 2px;
 }
 
 h3 {
