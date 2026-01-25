@@ -148,7 +148,8 @@ onBeforeUnmount(() => {
 }
 
 .nav-item:hover .hint-tooltip {
-  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 .icons {
@@ -162,13 +163,6 @@ onBeforeUnmount(() => {
 
     &:hover {
       background: var(--selection-color);
-    }
-
-    svg {
-      width: 20px;
-      height: 20px;
-      margin: 0;
-      fill: var(--font-color);
     }
   }
 }

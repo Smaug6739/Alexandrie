@@ -21,9 +21,9 @@ const isPdfFile = (filetype: string): boolean => filetype.startsWith('applicatio
 
 /** Get the CDN preview URL for a resource node */
 const resolvePreviewUrl = (node: Node): string => {
-  const { CDN } = useApi();
+  const { resourceURL } = useApi();
   if (isImageFile((node.metadata?.filetype as string) || '')) {
-    return `${CDN}/${node.user_id}/${node.metadata?.transformed_path}`;
+    return resourceURL(node);
   }
   return '/file_placeholder.png';
 };

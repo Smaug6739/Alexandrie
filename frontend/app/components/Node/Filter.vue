@@ -2,6 +2,7 @@
   <div ref="root" class="filter-component">
     <div class="btn-icon" @click="toggle" @keydown.enter.prevent="toggle">
       <Icon name="filter" display="lg" />
+      <p class="hint-tooltip">Filter nodes</p>
       <span v-if="filtered.length != nodes?.length" class="bubble"></span>
     </div>
 
@@ -112,6 +113,14 @@ onBeforeUnmount(() => {
 .filter-component {
   position: relative;
   display: inline-block;
+}
+
+.btn-icon {
+  position: relative;
+  &:hover > .hint-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .bubble {

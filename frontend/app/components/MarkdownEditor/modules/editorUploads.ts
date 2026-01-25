@@ -3,11 +3,11 @@ import type { Node } from '~/stores';
 
 interface UploadHandlersParams {
   resourcesStore: ReturnType<typeof import('~/stores').useResourcesStore>;
-  CDN: string;
   insertText: (text: string) => void;
 }
 
-export function createUploadsHandlers({ resourcesStore, CDN, insertText }: UploadHandlersParams) {
+export function createUploadsHandlers({ resourcesStore, insertText }: UploadHandlersParams) {
+  const { resourceURL } = useApi();
   return EditorView.domEventHandlers({
     paste: event => {
       const items = event.clipboardData?.items;
@@ -19,8 +19,7 @@ export function createUploadsHandlers({ resourcesStore, CDN, insertText }: Uploa
           const body = new FormData();
           body.append('file', file);
           resourcesStore.post(body).then((result: Node) => {
-            const url = `${CDN}/${(result as Node).user_id}/${(result as Node).content_compiled}`;
-            insertText(`![${file.name}](${url})\n`);
+            insertText(`![${file.name}](${resourceURL(result)})\n`);
           });
         }
       }
@@ -35,8 +34,7 @@ export function createUploadsHandlers({ resourcesStore, CDN, insertText }: Uploa
           const body = new FormData();
           body.append('file', file);
           resourcesStore.post(body).then((result: Node) => {
-            const url = `${CDN}/${(result as Node).user_id}/${(result as Node).content_compiled}`;
-            insertText(`![${file.name}](${url})\n`);
+            insertText(`![${file.name}](${resourceURL(result)})\n`);
           });
         }
       }

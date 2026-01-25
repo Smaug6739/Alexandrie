@@ -5,24 +5,31 @@
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" :to="`/dashboard/docs/edit/${doc.id}`" :prefetch="false">
       <Icon name="edit" display="lg" />
+      <p class="hint-tooltip">Edit</p>
     </NuxtLink>
     <NuxtLink @click="exportMarkdown">
       <Icon name="markdown" display="lg" />
+      <p class="hint-tooltip">Export as Markdown</p>
     </NuxtLink>
     <NuxtLink @click="print">
       <Icon name="print" display="lg" />
+      <p class="hint-tooltip">Print</p>
     </NuxtLink>
     <NuxtLink v-if="doc.shared" @click="openRemoveShareModal">
       <Icon name="group_off" display="lg" />
+      <p class="hint-tooltip">Remove from shared</p>
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" @click="openEditModal">
       <Icon name="settings" display="lg" />
+      <p class="hint-tooltip">Edit metadata</p>
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 4)" @click="openPermissionsModal">
       <Icon name="manage_access" display="lg" />
+      <p class="hint-tooltip">Manage permissions</p>
     </NuxtLink>
     <NuxtLink v-if="nodeStore.hasPermissions(doc, 3)" @click="openDeleteModal">
       <Icon name="delete" display="lg" />
+      <p class="hint-tooltip">Delete</p>
     </NuxtLink>
   </span>
 </template>
@@ -32,6 +39,7 @@ import DeleteNodeModal from '~/components/Node/DeleteNodeModal.vue';
 import DocumentMeta from '~/components/Node/NodeMetadata.modal.vue';
 import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
 import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
+import { generateMarkdownWithMetadata } from '~/helpers/node';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ doc: Node }>();
@@ -55,7 +63,7 @@ const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermi
 const openRemoveShareModal = () => useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.doc.id }, size: 'small' }));
 
 function exportMarkdown() {
-  const blob = new Blob([props.doc.content || ''], { type: 'text/markdown' });
+  const blob = new Blob([generateMarkdownWithMetadata(props.doc)], { type: 'text/markdown' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
@@ -73,20 +81,12 @@ function exportMarkdown() {
   margin: 0 0.5rem 6px 0;
 }
 
-.row svg {
-  cursor: pointer;
-}
-
 a {
+  position: relative;
   margin: 0 5px;
-}
-
-.row svg path {
-  fill: var(--font-color);
-}
-
-button {
-  font-size: medium;
-  font-weight: 600;
+  &:hover .hint-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 </style>

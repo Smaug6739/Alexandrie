@@ -7,6 +7,9 @@
           <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
           <NuxtLink :to="`/dashboard/cdn/${resource.id}`"><AppButton type="primary">Edit</AppButton></NuxtLink>
           <AppButton type="secondary" class="no-mobile" @click="copyLink">Copy link</AppButton>
+          <NuxtLink :href="resourceURL(resource, true)" download rel="noopener" class="btn-icon">
+            <Icon name="download" display="lg" />
+          </NuxtLink>
         </div>
       </header>
       <div class="preview">
@@ -15,7 +18,7 @@
         <div v-else class="no-preview">
           <p>Preview not available for this file type.</p>
           <p>
-            <NuxtLink :href="resourceURL(resource)" download rel="noopener">
+            <NuxtLink :href="resourceURL(resource, true)" download rel="noopener">
               <AppButton type="primary">Download file</AppButton>
             </NuxtLink>
           </p>

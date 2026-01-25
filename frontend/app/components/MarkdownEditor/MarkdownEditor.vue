@@ -48,7 +48,6 @@ const preferences = usePreferences();
 
 const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
-const { CDN } = useApi();
 
 const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
@@ -68,7 +67,7 @@ const commands = createCommands({
   save: () => save(),
 });
 
-const uploadsHandlers = createUploadsHandlers({ resourcesStore, CDN, insertText: (t: string) => commands.exec('insertText', t) });
+const uploadsHandlers = createUploadsHandlers({ resourcesStore, insertText: (t: string) => commands.exec('insertText', t) });
 
 const state = createEditorState({
   initialDoc: document.value.content || '',
