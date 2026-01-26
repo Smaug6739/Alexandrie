@@ -37,7 +37,7 @@
     "@zip.js/zip.js": "^2.8.15",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
-    "katex": "^0.16.27",
+    "katex": "^0.16.28",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-container": "^4.0.0",
