@@ -33,6 +33,9 @@
         <button type="submit" class="btn">Login</button>
         <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
         <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
+
+        <!-- OIDC Providers -->
+        <OIDCProviders />
       </form>
     </div>
     <AppFooter />
@@ -43,11 +46,37 @@
 import AppHeader from '../_components/AppHeader.vue';
 import AppFooter from '../_components/AppFooter.vue';
 
+const router = useRouter();
+const route = useRoute();
 const username = ref('');
 const password = ref('');
 const errors = ref({ username: '', password: '', general: '' });
 const { showPassword, togglePassword } = usePasswordField();
 const userStore = useUserStore();
+
+// Check for OIDC error redirect
+onMounted(() => {
+  const errorParam = route.query.error as string | undefined;
+  if (errorParam) {
+    errors.value.general = formatOIDCError(errorParam);
+  }
+});
+
+function formatOIDCError(error: string): string {
+  const errorMessages: Record<string, string> = {
+    invalid_state: 'Session invalide ou expirée. Veuillez réessayer.',
+    expired_state: 'Votre session a expiré. Veuillez réessayer.',
+    exchange_failed: "Échec de l'authentification. Veuillez réessayer.",
+    token_failed: 'Échec de création de session. Veuillez réessayer.',
+    access_denied: 'Accès refusé.',
+    user_not_found: 'Aucun compte associé à cet email.',
+    email_not_verified: "L'email n'est pas vérifié.",
+    email_conflict: 'Un compte existe déjà avec cet email.',
+    provider_error: "Erreur du fournisseur d'authentification.",
+  };
+  return errorMessages[error] || `Erreur: ${error}`;
+}
+
 function login() {
   errors.value.username = !username.value ? 'Username is required' : '';
   errors.value.password = !password.value ? 'Password is required' : '';
@@ -63,7 +92,7 @@ watch([username, password], () => {
 
 async function connect(username: string, password: string) {
   const result = await userStore.login(username, password);
-  if (result === true) useRouter().push('/dashboard');
+  if (result === true) router.push('/dashboard');
   else errors.value.general = String(result);
 }
 </script>

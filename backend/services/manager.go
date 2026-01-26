@@ -20,6 +20,7 @@ type ServiceManager struct {
 	Minio       MinioService
 	Resource    ResourceService
 	Backup      BackupService
+	OIDC        OIDCService
 	initialized bool
 }
 
@@ -64,6 +65,9 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 
 	// Initialize Backup Service
 	sm.Backup = NewBackupService(repos.Node)
+
+	// Initialize OIDC Service
+	sm.OIDC = NewOIDCService(repos.OIDCProvider, repos.User, sm.User, repos.Session, repos.Log, snowflake)
 
 	return nil
 }

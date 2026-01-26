@@ -9,15 +9,16 @@ import (
 
 // RepositoryManager manages all repositories and their prepared statements
 type RepositoryManager struct {
-	db          *sql.DB
-	User        UserRepository
-	Node        NodeRepository
-	Session     SessionRepository
-	Permission  PermissionRepository
-	Log         LogRepository
-	statements  map[string]*sql.Stmt
-	stmtMutex   sync.RWMutex
-	initialized bool
+	db           *sql.DB
+	User         UserRepository
+	Node         NodeRepository
+	Session      SessionRepository
+	Permission   PermissionRepository
+	Log          LogRepository
+	OIDCProvider OIDCProviderRepository
+	statements   map[string]*sql.Stmt
+	stmtMutex    sync.RWMutex
+	initialized  bool
 }
 
 // NewRepositoryManager creates a new repository manager and initializes all repositories
@@ -68,6 +69,12 @@ func (rm *RepositoryManager) initializeRepositories() error {
 	rm.Log, err = NewLogRepository(rm.db, rm)
 	if err != nil {
 		return fmt.Errorf("failed to initialize log repository: %w", err)
+	}
+
+	// Initialize OIDC Provider Repository
+	rm.OIDCProvider, err = NewOIDCProviderRepository(rm.db, rm)
+	if err != nil {
+		return fmt.Errorf("failed to initialize OIDC provider repository: %w", err)
 	}
 
 	return nil

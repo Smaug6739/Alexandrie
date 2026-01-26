@@ -18,6 +18,8 @@ type UserRepository interface {
 	GetAll() ([]*models.User, error)
 	GetByID(id types.Snowflake) (*models.User, error)
 	GetByUsername(username string) (*models.User, error)
+	GetByEmail(email string) (*models.User, error)
+	HasPassword(id types.Snowflake) (bool, error)
 	SearchPublic(query string) ([]*models.User, error)
 	CheckUsernameExists(username string) (bool, error)
 	Create(user *models.User) (*models.User, error)
@@ -32,6 +34,8 @@ const (
 	stmtUserGetAll                   = "user_get_all"
 	stmtUserGetByID                  = "user_get_by_id"
 	stmtUserGetByUsername            = "user_get_by_username"
+	stmtUserGetByEmail               = "user_get_by_email"
+	stmtUserHasPassword              = "user_has_password"
 	stmtUserSearchPublic             = "user_search_public"
 	stmtUserCheckUsernameExists      = "user_check_username_exists"
 	stmtUserCreate                   = "user_create"
@@ -73,6 +77,15 @@ func (r *UserRepositoryImpl) prepareStatements() error {
 			FROM users 
 			WHERE username = ?`,
 
+		stmtUserGetByEmail: `
+			SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp 
+			FROM users 
+			WHERE email = ?`,
+
+		stmtUserHasPassword: `
+			SELECT COUNT(*) 
+			FROM users 
+			WHERE id = ? AND password IS NOT NULL`,
 		stmtUserSearchPublic: `
 			SELECT id, username, avatar, created_timestamp, updated_timestamp 
 			FROM users 
@@ -217,6 +230,52 @@ func (r *UserRepositoryImpl) GetByUsername(username string) (*models.User, error
 	}
 
 	return &user, nil
+}
+
+// GetByEmail retrieves a user by email
+func (r *UserRepositoryImpl) GetByEmail(email string) (*models.User, error) {
+	stmt, err := r.manager.GetStatement(stmtUserGetByEmail)
+	if err != nil {
+		return nil, err
+	}
+
+	var user models.User
+	err = stmt.QueryRow(email).Scan(
+		&user.Id,
+		&user.Username,
+		&user.Firstname,
+		&user.Lastname,
+		&user.Role,
+		&user.Avatar,
+		&user.Email,
+		&user.CreatedTimestamp,
+		&user.UpdatedTimestamp,
+	)
+
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to get user by email: %w", err)
+	}
+
+	return &user, nil
+}
+
+// HasPassword checks if a user has a password set
+func (r *UserRepositoryImpl) HasPassword(id types.Snowflake) (bool, error) {
+	stmt, err := r.manager.GetStatement(stmtUserHasPassword)
+	if err != nil {
+		return false, err
+	}
+
+	var count int
+	err = stmt.QueryRow(id).Scan(&count)
+	if err != nil {
+		return false, fmt.Errorf("failed to check if user has password: %w", err)
+	}
+
+	return count > 0, nil
 }
 
 // SearchPublic searches for public user profiles

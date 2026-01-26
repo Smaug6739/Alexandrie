@@ -56,7 +56,11 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 		return nil, nil, errors.New("invalid credentials")
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+	if user.Password == nil {
+		return nil, nil, errors.New("please login with OIDC provider")
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(*user.Password), []byte(password)); err != nil {
 		return nil, nil, errors.New("invalid credentials")
 	}
 
@@ -87,7 +91,7 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 		})
 	}()
 
-	user.Password = ""
+	user.Password = nil
 	return user, session, nil
 }
 
@@ -113,7 +117,7 @@ func (s *authService) RefreshSession(refreshToken string) (*models.User, *models
 		return nil, nil, errors.New("failed to update session")
 	}
 
-	user.Password = ""
+	user.Password = nil
 	return user, session, nil
 }
 
@@ -142,6 +146,10 @@ func (s *authService) RequestPasswordReset(username string, mailClient *mail.Cli
 		return nil // Don't reveal if user exists
 	}
 
+	if user.Email == nil {
+		return nil
+	}
+
 	resetToken := signResetToken(user.Id)
 	if err := s.userRepo.UpdatePasswordResetToken(user.Id, resetToken); err != nil {
 		return nil // Don't reveal errors
@@ -149,7 +157,7 @@ func (s *authService) RequestPasswordReset(username string, mailClient *mail.Cli
 
 	message := mail.NewMsg()
 	message.FromFormat("Alexandrie Team", os.Getenv("SMTP_MAIL"))
-	message.To(user.Email)
+	message.To(*user.Email)
 	message.Subject("Alexandrie: Password Reset")
 	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Your password reset link is: %s", os.Getenv("FRONTEND_URL")+"/login/reset?token="+resetToken))
 

@@ -11,3 +11,13 @@ CREATE TABLE IF NOT EXISTS `user_oidc_providers` (
     KEY `idx_provider_name` (`provider_name`),
     CONSTRAINT `fk_oidc_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Update fields in users table to allow NULL values or extend length
+
+ALTER TABLE `users` MODIFY `avatar` VARCHAR(150) NULL; -- Increase avatar field length to accommodate OIDC URLs
+
+ALTER TABLE `users` MODIFY `email` VARCHAR(50) NULL;
+
+ALTER TABLE `users` MODIFY `password` VARCHAR(255) NULL;
+
+ALTER TABLE `users` MODIFY `username` VARCHAR(75) NOT NULL;
