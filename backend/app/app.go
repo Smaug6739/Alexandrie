@@ -4,10 +4,10 @@ import (
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/services"
-	"database/sql"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 	"github.com/minio/minio-go/v7"
 	"github.com/wneessen/go-mail"
 )
@@ -33,7 +33,7 @@ type Config struct {
 }
 
 type App struct {
-	DB           *sql.DB
+	DB           *sqlx.DB
 	Snowflake    *snowflake.Snowflake
 	Config       Config
 	MinioClient  *minio.Client

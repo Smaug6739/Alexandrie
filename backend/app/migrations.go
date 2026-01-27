@@ -23,7 +23,7 @@ func Migrate(config *Config) {
 		panic(fmt.Sprintf("failed to ping database: %v", err))
 	}
 
-	driver, err := mysql.WithInstance(db, &mysql.Config{
+	driver, err := mysql.WithInstance(db.DB, &mysql.Config{
 		MigrationsTable: "schema_migrations",
 	})
 	if err != nil {

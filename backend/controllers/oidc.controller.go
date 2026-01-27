@@ -19,7 +19,6 @@ type OIDCController interface {
 	GetUserProviders(c *gin.Context) (int, any)
 }
 
-// NewOIDCController creates a new OIDC controller
 func NewOIDCController(app *app.App) OIDCController {
 	return &Controller{
 		app: app,
