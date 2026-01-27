@@ -2,10 +2,7 @@
   <div class="session-card" :class="{ 'current-session': isCurrent, inactive: !session.active }">
     <div class="session-header">
       <div class="device-icon" :class="deviceType">
-        <svg v-if="deviceType === 'mobile'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
-          <line x1="12" y1="18" x2="12" y2="18" />
-        </svg>
+        <Icon v-if="deviceType == 'mobile'" name="mobile" fill="var(--purple)" />
         <Icon v-else name="computer" fill="var(--blue)" />
       </div>
       <div class="session-info">
@@ -32,15 +29,15 @@
       <div class="detail-row">
         <div class="detail-item">
           <span class="detail-label">Login</span>
-          <span class="detail-value">{{ formatDate(session.login_timestamp) }}</span>
+          <span class="detail-value">{{ numericDate(session.login_timestamp) }}</span>
         </div>
         <div class="detail-item">
           <span class="detail-label">Last activity</span>
-          <span class="detail-value">{{ formatRelativeDateValue(session.last_refresh_timestamp) }}</span>
+          <span class="detail-value">{{ formatRelativeDate(session.last_refresh_timestamp) }}</span>
         </div>
         <div v-if="session.logout_timestamp" class="detail-item">
           <span class="detail-label">Logged out</span>
-          <span class="detail-value">{{ formatDate(session.logout_timestamp) }}</span>
+          <span class="detail-value">{{ numericDate(session.logout_timestamp) }}</span>
         </div>
       </div>
     </div>
@@ -92,14 +89,6 @@ const deviceType = computed(() => {
   }
   return 'desktop';
 });
-
-function formatDate(timestamp: number): string {
-  return numericDate(timestamp);
-}
-
-function formatRelativeDateValue(timestamp: number): string {
-  return formatRelativeDate(timestamp);
-}
 </script>
 
 <style scoped lang="scss">

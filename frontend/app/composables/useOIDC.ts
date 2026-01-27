@@ -82,29 +82,25 @@ export function useOIDC() {
    * Initiate OIDC login flow for a provider
    * Gets auth URL from backend, stores state, and redirects
    */
-  async function loginWithProvider(providerName: string): Promise<Error | undefined> {
-    try {
-      const response = await makeRequest<AuthorizeResponse>(
-        `auth/oidc/${providerName.toLowerCase()}/authorize?redirect_uri=${encodeURIComponent(window.location.origin + '/login/oidc/callback')}`,
-        'GET',
-        {},
-      );
+  async function loginWithProvider(providerName: string) {
+    const response = await makeRequest<AuthorizeResponse>(
+      `auth/oidc/${providerName.toLowerCase()}/authorize?redirect_uri=${encodeURIComponent(window.location.origin + '/login/oidc/callback')}`,
+      'GET',
+      {},
+    );
 
-      if (response.status === 'success' && response.result) {
-        // Store state and redirect_uri in sessionStorage for callback validation
-        if (import.meta.client) {
-          sessionStorage.setItem(OIDC_STATE_KEY, response.result.state);
-          sessionStorage.setItem(OIDC_PROVIDER_KEY, providerName.toLowerCase());
-          sessionStorage.setItem(OIDC_REDIRECT_URI_KEY, response.result.redirect_uri);
-          sessionStorage.setItem(OIDC_FLOW_KEY, 'login');
-        }
-        // Redirect to the provider's authorization page
-        window.location.href = response.result.auth_url;
-      } else {
-        throw new Error(response.message || 'Failed to get authorization URL');
+    if (response.status === 'success' && response.result) {
+      // Store state and redirect_uri in sessionStorage for callback validation
+      if (import.meta.client) {
+        sessionStorage.setItem(OIDC_STATE_KEY, response.result.state);
+        sessionStorage.setItem(OIDC_PROVIDER_KEY, providerName.toLowerCase());
+        sessionStorage.setItem(OIDC_REDIRECT_URI_KEY, response.result.redirect_uri);
+        sessionStorage.setItem(OIDC_FLOW_KEY, 'login');
       }
-    } catch (e) {
-      return e as Error;
+      // Redirect to the provider's authorization page
+      window.location.href = response.result.auth_url;
+    } else {
+      throw new Error(response.message || 'Failed to get authorization URL');
     }
   }
 
@@ -196,30 +192,26 @@ export function useOIDC() {
    * Link a new OIDC provider to the current user
    * Returns auth URL for redirect
    */
-  async function linkProvider(providerName: string): Promise<Error | undefined> {
-    try {
-      const response = await makeRequest<AuthorizeResponse>(
-        `auth/oidc/${providerName.toLowerCase()}/link?redirect_uri=${encodeURIComponent(window.location.origin + '/login/oidc/callback')}`,
-        'POST',
-        {},
-      );
+  async function linkProvider(providerName: string) {
+    const response = await makeRequest<AuthorizeResponse>(
+      `auth/oidc/${providerName.toLowerCase()}/link?redirect_uri=${encodeURIComponent(window.location.origin + '/login/oidc/callback')}`,
+      'POST',
+      {},
+    );
 
-      if (response.status === 'success' && response.result) {
-        // Store state for callback
-        if (import.meta.client) {
-          sessionStorage.setItem(OIDC_STATE_KEY, response.result.state);
-          sessionStorage.setItem(OIDC_PROVIDER_KEY, providerName.toLowerCase());
-          sessionStorage.setItem(OIDC_REDIRECT_URI_KEY, response.result.redirect_uri);
-          sessionStorage.setItem(OIDC_FLOW_KEY, 'link');
-        }
-
-        // Redirect to provider
-        window.location.href = response.result.auth_url;
-      } else {
-        throw new Error(response.message || 'Failed to initiate link');
+    if (response.status === 'success' && response.result) {
+      // Store state for callback
+      if (import.meta.client) {
+        sessionStorage.setItem(OIDC_STATE_KEY, response.result.state);
+        sessionStorage.setItem(OIDC_PROVIDER_KEY, providerName.toLowerCase());
+        sessionStorage.setItem(OIDC_REDIRECT_URI_KEY, response.result.redirect_uri);
+        sessionStorage.setItem(OIDC_FLOW_KEY, 'link');
       }
-    } catch (e) {
-      return e as Error;
+
+      // Redirect to provider
+      window.location.href = response.result.auth_url;
+    } else {
+      throw new Error(response.message || 'Failed to initiate link');
     }
   }
 
@@ -227,15 +219,12 @@ export function useOIDC() {
    * Unlink an OIDC provider from the current user
    */
   async function unlinkProvider(providerName: string): Promise<Error | undefined> {
-    try {
-      const response = await makeRequest(`auth/oidc/${providerName.toLowerCase()}/unlink`, 'DELETE', {});
-      if (response.status === 'success') {
-        linkedProviders.value = linkedProviders.value.filter(p => p.provider_name.toLowerCase() !== providerName.toLowerCase());
-      }
-      throw new Error(response.message || 'Failed to unlink provider');
-    } catch (e) {
-      return e as Error;
+    const response = await makeRequest(`auth/oidc/${providerName.toLowerCase()}/unlink`, 'DELETE', {});
+    if (response.status === 'success') {
+      linkedProviders.value = linkedProviders.value.filter(p => p.provider_name.toLowerCase() !== providerName.toLowerCase());
+      return;
     }
+    throw new Error(response.message || 'Failed to unlink provider');
   }
 
   /**

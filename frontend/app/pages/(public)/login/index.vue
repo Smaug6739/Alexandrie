@@ -4,39 +4,37 @@
     <div class="body-container">
       <IconApp style="width: 120px" />
       <h1>Connection</h1>
-      <form @submit.prevent="login">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
-          <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
+        <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input">
+          <input
+            id="password"
+            :key="`password-${showPassword}`"
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            :class="{ 'is-invalid': errors.password }"
+          />
+          <button type="button" class="password-toggle" @click="togglePassword">
+            <div class="eye-icon" :class="{ show: showPassword }">
+              <Icon v-if="showPassword" name="eye" />
+              <Icon v-else name="eye_off" />
+            </div>
+          </button>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="password-input">
-            <input
-              id="password"
-              :key="`password-${showPassword}`"
-              v-model="password"
-              :type="showPassword ? 'text' : 'password'"
-              :class="{ 'is-invalid': errors.password }"
-            />
-            <button type="button" class="password-toggle" @click="togglePassword">
-              <div class="eye-icon" :class="{ show: showPassword }">
-                <Icon v-if="showPassword" name="eye" />
-                <Icon v-else name="eye_off" />
-              </div>
-            </button>
-          </div>
-          <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
-        </div>
-        <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-        <button type="submit" class="btn">Login</button>
-        <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-        <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
+        <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
+      </div>
+      <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
+      <button class="btn" @click="login">Login</button>
+      <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
+      <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
 
-        <!-- OIDC Providers -->
-        <OIDCProviders />
-      </form>
+      <!-- OIDC Providers -->
+      <OIDCProviders />
     </div>
     <AppFooter />
   </div>
@@ -64,17 +62,17 @@ onMounted(() => {
 
 function formatOIDCError(error: string): string {
   const errorMessages: Record<string, string> = {
-    invalid_state: 'Session invalide ou expirée. Veuillez réessayer.',
-    expired_state: 'Votre session a expiré. Veuillez réessayer.',
-    exchange_failed: "Échec de l'authentification. Veuillez réessayer.",
-    token_failed: 'Échec de création de session. Veuillez réessayer.',
-    access_denied: 'Accès refusé.',
-    user_not_found: 'Aucun compte associé à cet email.',
-    email_not_verified: "L'email n'est pas vérifié.",
-    email_conflict: 'Un compte existe déjà avec cet email.',
-    provider_error: "Erreur du fournisseur d'authentification.",
+    invalid_state: 'Invalid or expired session. Please try again.',
+    expired_state: 'Your session has expired. Please try again.',
+    exchange_failed: 'Authentication failed. Please try again.',
+    token_failed: 'Session creation failed. Please try again.',
+    access_denied: 'Access denied.',
+    user_not_found: 'No account associated with this email.',
+    email_not_verified: 'Email is not verified.',
+    email_conflict: 'An account already exists with this email.',
+    provider_error: 'Authentication provider error.',
   };
-  return errorMessages[error] || `Erreur: ${error}`;
+  return errorMessages[error] || `Error: ${error}`;
 }
 
 function login() {
@@ -88,6 +86,8 @@ function login() {
 
 watch([username, password], () => {
   errors.value.general = '';
+  errors.value.username = '';
+  errors.value.password = '';
 });
 
 async function connect(username: string, password: string) {
@@ -121,10 +121,6 @@ h1 {
 }
 
 /* ===== Form ===== */
-form {
-  width: 100%;
-}
-
 .form-group {
   display: flex;
   width: 100%;

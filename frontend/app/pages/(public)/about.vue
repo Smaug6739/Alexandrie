@@ -178,11 +178,15 @@ main {
 }
 
 .btn.glow {
-  box-shadow: 0 10px 30px rgb(0 0 0 / 20%), 0 0 0 rgb(255 255 255 / 60%);
+  box-shadow:
+    0 10px 30px rgb(0 0 0 / 20%),
+    0 0 0 rgb(255 255 255 / 60%);
 }
 
 .btn.glow:hover {
-  box-shadow: 0 14px 36px rgb(0 0 0 / 24%), 0 0 30px rgb(255 255 255 / 35%);
+  box-shadow:
+    0 14px 36px rgb(0 0 0 / 24%),
+    0 0 30px rgb(255 255 255 / 35%);
 }
 
 .about-section {
@@ -206,7 +210,7 @@ main {
 .section-text {
   font-size: 1.05rem;
   line-height: 1.7;
-  color: var(--text-secondary);
+  color: var(--font-color-light);
 }
 
 .feature-list {
@@ -242,7 +246,9 @@ main {
 
 .reveal {
   opacity: 0;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
   transform: translateY(24px);
 }
 

@@ -28,6 +28,7 @@
         <template v-else>
           <div v-for="provider in availableProviders" :key="provider.name" class="oidc-account">
             <div class="oidc-account-info">
+              <!-- eslint-disable-next-line vue/no-v-html -->
               <span class="oidc-icon" v-html="getProviderIcon(provider.name)"></span>
               <span class="oidc-name">{{ getProviderLabel(provider.name) }}</span>
             </div>
@@ -143,9 +144,7 @@ async function unlinkAccount(providerName: string) {
 // Load OIDC data on mount
 onMounted(async () => {
   await fetchProviders();
-  if (oidcEnabled.value) {
-    await fetchLinkedProviders();
-  }
+  if (oidcEnabled.value) await fetchLinkedProviders();
   loadingOIDC.value = false;
 });
 
@@ -239,7 +238,7 @@ p {
 
 /* OIDC Accounts Section */
 .section-description {
-  color: var(--text-secondary);
+  color: var(--font-color-light);
   margin-bottom: 1rem;
 }
 
@@ -255,7 +254,7 @@ p {
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  color: var(--text-secondary);
+  color: var(--font-color-light);
 }
 
 .oidc-account {
@@ -300,7 +299,7 @@ p {
 
 .oidc-status {
   font-size: 0.85rem;
-  color: var(--text-secondary);
+  color: var(--font-color-light);
 
   &.linked {
     color: var(--green);

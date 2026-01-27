@@ -46,34 +46,41 @@ onMounted(() => {
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--border-color, #e5e7eb);
+    background: var(--border-color);
   }
 
   span {
     font-size: 0.85rem;
-    color: var(--text-secondary, #6b7280);
+    color: var(--font-color-light);
     white-space: nowrap;
   }
 }
 
 .providers-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 0.75rem;
-  justify-content: center;
+  max-width: 400px;
+  margin: 0 auto;
+
+  // When only 1 provider, center it with max-width
+  &:has(.provider-btn:only-child) {
+    max-width: 500px;
+  }
 }
 
 .provider-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  border: 1px solid var(--border-color, #e5e7eb);
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
   border-radius: 10px;
-  background: var(--bg-secondary, #fff);
-  font-size: 0.95rem;
+  background: var(--bg-color);
+  font-size: 0.9rem;
   font-weight: 500;
-  color: var(--text-primary, #1f2937);
+  color: var(--font-color);
   cursor: pointer;
   transition: all 0.2s ease;
 
@@ -81,7 +88,7 @@ onMounted(() => {
     border-color: var(--provider-color);
     background: color-mix(in srgb, var(--provider-color) 8%, transparent);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 10%);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
   }
 
   &:active:not(:disabled) {
@@ -100,6 +107,7 @@ onMounted(() => {
   justify-content: center;
   width: 20px;
   height: 20px;
+  flex-shrink: 0;
 
   :deep(svg) {
     width: 100%;
@@ -108,19 +116,8 @@ onMounted(() => {
 }
 
 .provider-label {
-  color: inherit;
-}
-
-/* Single provider - full width */
-.providers-grid:has(.provider-btn:only-child) .provider-btn {
-  width: 100%;
-  justify-content: center;
-}
-
-/* Dark mode support */
-:root.dark .provider-btn {
-  background: var(--bg-secondary, #1f2937);
-  border-color: var(--border-color, #374151);
-  color: var(--text-primary, #f9fafb);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
