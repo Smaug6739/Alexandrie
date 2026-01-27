@@ -62,34 +62,58 @@
       </div>
       <AppButton type="primary">Change password</AppButton>
     </form>
-    <h2>Danger</h2>
-    <div>
-      You can log out from all devices or log out from this device. <br />
-      Be careful, if you log out from all devices, you will be redirected to the login page. Please save your work before.
-    </div>
-    <div class="actions-row">
-      <AppButton type="danger" @click="logout">Log out</AppButton>
-      <AppButton type="danger" @click="logoutAll">Log out from all devices</AppButton>
-    </div>
-    <h3>Delete account</h3>
-    <div>
-      You can delete your account. <br />
-      Be careful, if you delete your account, you will lose all your data and you will not be able to recover it.
-      <br />
-      <strong>By deleting your account you will remove:</strong>
-      <ul>
-        <li>All your files and folders</li>
-        <li>All your uploads</li>
-        <li>All your shares</li>
-        <li>All your account data (preferences, profile...)</li>
-      </ul>
-      <p>
-        You can <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary); text-decoration: underline">export your data</NuxtLink> before
-        deleting your account.
-      </p>
-    </div>
-    <div class="actions-row">
-      <AppButton type="danger" @click="openDeleteModal">Delete account</AppButton>
+    <h2>Danger zone</h2>
+    <p class="app-subtitle">Irreversible actions. Please proceed with caution.</p>
+
+    <div class="danger-section">
+      <div class="danger-card">
+        <div class="danger-card-content">
+          <div class="danger-card-icon">
+            <Icon name="logout" display="sm" />
+          </div>
+          <div class="danger-card-info">
+            <h4>Log out</h4>
+            <p>End your current session on this device. You will need to sign in again to access your account.</p>
+          </div>
+        </div>
+        <AppButton type="secondary" @click="logout">Log out</AppButton>
+      </div>
+
+      <div class="danger-card">
+        <div class="danger-card-content">
+          <div class="danger-card-icon warning">
+            <Icon name="devices" display="sm" />
+          </div>
+          <div class="danger-card-info">
+            <h4>Log out from all devices</h4>
+            <p>End all active sessions across all devices. You will be redirected to the login page. Make sure to save your work first.</p>
+          </div>
+        </div>
+        <AppButton type="danger" @click="logoutAll">Log out from all devices</AppButton>
+      </div>
+
+      <div class="danger-card destructive">
+        <div class="danger-card-content">
+          <div class="danger-card-icon destructive">
+            <Icon name="delete" display="sm" />
+          </div>
+          <div class="danger-card-info">
+            <h4>Delete account</h4>
+            <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+            <details class="delete-details">
+              <summary>What will be deleted?</summary>
+              <ul>
+                <li>All your files and folders</li>
+                <li>All your uploads</li>
+                <li>All your shares</li>
+                <li>All your account data (preferences, profile...)</li>
+              </ul>
+              <p class="backup-hint"><NuxtLink to="/dashboard/settings?p=backup">Export your data</NuxtLink> before deleting your account.</p>
+            </details>
+          </div>
+        </div>
+        <AppButton type="danger" @click="openDeleteModal">Delete account</AppButton>
+      </div>
     </div>
   </div>
 </template>
@@ -307,7 +331,135 @@ p {
   }
 }
 
-.actions-row {
-  margin: 0.7rem 0;
+/* Danger Section */
+.danger-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.danger-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-color);
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--border-color-accent);
+  }
+
+  &.destructive {
+    border-color: var(--red-border);
+    background: var(--red-bg-light);
+
+    &:hover {
+      border-color: var(--red);
+    }
+  }
+}
+
+.danger-card-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.danger-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--bg-contrast-2);
+  color: var(--font-color);
+  flex-shrink: 0;
+
+  &.warning {
+    background: var(--yellow-bg);
+    color: var(--yellow-dark);
+  }
+
+  &.destructive {
+    background: var(--red-bg);
+    color: var(--red);
+  }
+}
+
+.danger-card-info {
+  flex: 1;
+  min-width: 0;
+
+  h4 {
+    margin: 0 0 0.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--font-color-dark);
+  }
+
+  > p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--font-color-light);
+    line-height: 1.4;
+  }
+}
+
+.delete-details {
+  margin-top: 0.75rem;
+
+  summary {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--red-dark);
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  ul {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+    font-size: 0.8rem;
+    color: var(--font-color-light);
+
+    li {
+      margin: 0.2rem 0;
+    }
+  }
+
+  .backup-hint {
+    font-size: 0.8rem;
+    color: var(--font-color-light);
+
+    a {
+      color: var(--primary);
+      text-decoration: underline;
+      font-weight: 500;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .danger-card {
+    flex-direction: column;
+    align-items: stretch;
+
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
 }
 </style>
