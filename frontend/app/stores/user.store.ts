@@ -1,11 +1,11 @@
 import { makeRequest } from './_utils';
-import type { User, PublicUser, ConnectionLog } from './db_strustures';
+import type { User, PublicUser, Session } from './db_strustures';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: undefined as User | undefined,
     users: {} as Record<string, PublicUser>,
-    last_connection: null as ConnectionLog | null,
+    sessions: [] as Session[],
     current_fetching: [] as string[], // List of curently fetching user ids to avoid duplicate requests
   }),
   getters: {
@@ -35,15 +35,26 @@ export const useUserStore = defineStore('user', {
       if (request.status === 'success') return true;
       throw request.message;
     },
+
     async fetch(): Promise<User | undefined> {
       if (this.user) return this.user;
-      const responce = await makeRequest<{ user: User; last_connection: ConnectionLog }>(`users/@me`, 'GET', {});
+      const responce = await makeRequest<User>(`users/@me`, 'GET', {});
       if (responce.status === 'success') {
-        if (responce.result) this.user = responce.result.user as User;
-        if (responce.result?.last_connection) this.last_connection = responce.result.last_connection as ConnectionLog;
+        if (responce.result) this.user = responce.result as User;
         return this.user;
       } else throw responce.message;
     },
+
+    async fetchSessions(): Promise<Session[]> {
+      if (this.sessions.length) return this.sessions;
+      const response = await makeRequest<Session[]>(`auth/sessions`, 'GET', {});
+      if (response.status === 'success') {
+        this.sessions = response.result as Session[];
+        return this.sessions;
+      }
+      throw response.message;
+    },
+
     async fetchPublicUser(id: string): Promise<PublicUser | null> {
       if (this.users[id]) return this.users[id];
       if (this.current_fetching.includes(id)) return null;
@@ -69,11 +80,13 @@ export const useUserStore = defineStore('user', {
       }
       throw response.message;
     },
+
     async fetchById(id: string): Promise<User | undefined> {
       const responce = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});
       if (responce.status === 'success') return responce.result?.user as User;
       throw responce.message;
     },
+
     async update(user: User) {
       if (!this.user) return;
       const request = await makeRequest(`users/${user.id}`, 'PATCH', user);
@@ -82,6 +95,7 @@ export const useUserStore = defineStore('user', {
         return this.user;
       } else throw request.message;
     },
+
     async updatePassword(newPassword: string) {
       if (!this.user) return;
       const request = await makeRequest(`users/${this.user.id}/password`, 'PATCH', { password: newPassword });
@@ -89,16 +103,19 @@ export const useUserStore = defineStore('user', {
         return true;
       } else throw request.message;
     },
+
     async requestReset(username: string) {
       const request = await makeRequest(`auth/request-reset`, 'POST', { username });
       if (request.status === 'success') return true;
       throw request.message;
     },
+
     async resetPassword(token: string, newPassword: string) {
       const request = await makeRequest(`auth/reset-password`, 'POST', { token, password: newPassword });
       if (request.status === 'success') return true;
       throw request.message;
     },
+
     async logout() {
       if (!this.user) return;
       const request = await makeRequest(`auth/logout`, 'POST', {});
@@ -106,6 +123,7 @@ export const useUserStore = defineStore('user', {
         return true;
       } else throw request.message;
     },
+
     async logout_all() {
       if (!this.user) return;
       const request = await makeRequest(`auth/logout/all`, 'POST', {});
@@ -113,6 +131,7 @@ export const useUserStore = defineStore('user', {
         return true;
       } else throw request.message;
     },
+
     async deleteAccount() {
       if (!this.user) return;
       const request = await makeRequest(`users/${this.user.id}`, 'DELETE', {});
@@ -121,16 +140,18 @@ export const useUserStore = defineStore('user', {
         return true;
       } else throw request.message;
     },
+
     async post_logout() {
       this.user = undefined;
       useNodesStore().clear();
       useUserStore().clear();
       if (import.meta.client) localStorage.removeItem('isLoggedIn');
     },
+
     clear() {
       this.user = undefined;
       this.users = {};
-      this.last_connection = null;
+      this.sessions = [];
       this.current_fetching = [];
     },
   },
