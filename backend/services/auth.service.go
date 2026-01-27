@@ -5,6 +5,7 @@ import (
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
+	"alexandrie/utils"
 	"crypto/rand"
 	"errors"
 	"fmt"
@@ -71,6 +72,10 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 		ExpireToken:          time.Now().Add(time.Duration(30 * 24 * time.Hour)).UnixMilli(),
 		LastRefreshTimestamp: time.Now().UnixMilli(),
 		Active:               1,
+		IpAddr:               &ip,
+		UserAgent:            &userAgent,
+		Location:             utils.PtrString(s.logRepo.GetLocationFromIP(ip)),
+		Type:                 utils.PtrString("login"),
 		LoginTimestamp:       time.Now().UnixMilli(),
 		LogoutTimestamp:      0,
 	}
@@ -78,18 +83,6 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 	if _, err := s.sessionRepo.Create(session); err != nil {
 		return nil, nil, errors.New("failed to create session")
 	}
-
-	go func() {
-		s.logRepo.Create(&models.Log{
-			Id:        s.snowflake.Generate(),
-			UserId:    user.Id,
-			IpAddr:    ip,
-			Timestamp: time.Now().UnixMilli(),
-			Type:      "login",
-			Location:  s.logRepo.GetLocationFromIP(ip),
-			UserAgent: userAgent,
-		})
-	}()
 
 	user.Password = nil
 	return user, session, nil

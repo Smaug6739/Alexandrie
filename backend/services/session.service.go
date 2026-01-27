@@ -1,10 +1,13 @@
 package services
 
 import (
+	"alexandrie/models"
 	"alexandrie/repositories"
+	"alexandrie/types"
 )
 
 type SessionService interface {
+	GetSessionsByUserId(userId types.Snowflake) ([]models.Session, error)
 	DeleteOldSessions() error
 }
 
@@ -16,6 +19,10 @@ func NewSessionService(sessionRepo repositories.SessionRepository) SessionServic
 	return &sessionService{
 		sessionRepo: sessionRepo,
 	}
+}
+
+func (s *sessionService) GetSessionsByUserId(userId types.Snowflake) ([]models.Session, error) {
+	return s.sessionRepo.GetByUserId(userId)
 }
 
 func (s *sessionService) DeleteOldSessions() error {

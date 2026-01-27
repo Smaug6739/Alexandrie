@@ -24,3 +24,7 @@ func GetBackupBucketName() string {
 	baseBucket := os.Getenv("MINIO_BUCKET")
 	return baseBucket + "-backups"
 }
+
+func PtrString(s string) *string {
+	return &s
+}

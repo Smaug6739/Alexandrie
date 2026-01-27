@@ -6,6 +6,7 @@ import (
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
+	"alexandrie/utils"
 	"context"
 	"crypto/rand"
 	"encoding/base64"
@@ -20,7 +21,6 @@ import (
 	"time"
 )
 
-// StateData contains information about an OIDC flow state
 type StateData struct {
 	Expiry time.Time
 	IsLink bool            // true if this is a link flow, false if login flow
@@ -315,6 +315,7 @@ func (s *oidcService) LoginOrCreate(providerName string, userInfo *oidc.UserInfo
 
 // createSession creates a new session for a user
 func (s *oidcService) createSession(user *models.User, ip, userAgent string) (*models.Session, error) {
+
 	session := &models.Session{
 		Id:                   s.snowflake.Generate(),
 		UserId:               user.Id,
@@ -322,6 +323,10 @@ func (s *oidcService) createSession(user *models.User, ip, userAgent string) (*m
 		ExpireToken:          time.Now().Add(30 * 24 * time.Hour).UnixMilli(),
 		LastRefreshTimestamp: time.Now().UnixMilli(),
 		Active:               1,
+		IpAddr:               &ip,
+		UserAgent:            &userAgent,
+		Location:             utils.PtrString(s.logRepo.GetLocationFromIP(ip)),
+		Type:                 utils.PtrString("login_oidc"),
 		LoginTimestamp:       time.Now().UnixMilli(),
 		LogoutTimestamp:      0,
 	}
@@ -329,19 +334,6 @@ func (s *oidcService) createSession(user *models.User, ip, userAgent string) (*m
 	if _, err := s.sessionRepo.Create(session); err != nil {
 		return nil, fmt.Errorf("failed to create session: %w", err)
 	}
-
-	// Log the login asynchronously
-	go func() {
-		s.logRepo.Create(&models.Log{
-			Id:        s.snowflake.Generate(),
-			UserId:    user.Id,
-			IpAddr:    ip,
-			Timestamp: time.Now().UnixMilli(),
-			Type:      "login_oidc",
-			Location:  s.logRepo.GetLocationFromIP(ip),
-			UserAgent: userAgent,
-		})
-	}()
 
 	return session, nil
 }
@@ -360,19 +352,16 @@ func (s *oidcService) createUserFromOIDC(userInfo *oidc.UserInfo) (*models.User,
 		CreatedTimestamp: now,
 		UpdatedTimestamp: now,
 	}
-	fmt.Println("Generated username:", username)
 	// Set optional fields
 	if userInfo.GivenName != nil && *userInfo.GivenName != "" {
 		user.Firstname = userInfo.GivenName
 	}
-	fmt.Println("ok")
 	if userInfo.FamilyName != nil && *userInfo.FamilyName != "" {
 		user.Lastname = userInfo.FamilyName
 	}
 	if userInfo.Picture != nil && *userInfo.Picture != "" {
 		user.Avatar = userInfo.Picture
 	}
-	fmt.Println("ok2")
 	createdUser, err := s.userRepo.Create(user)
 
 	if err != nil {

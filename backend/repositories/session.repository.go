@@ -14,6 +14,7 @@ type SessionRepositoryImpl struct {
 }
 
 type SessionRepository interface {
+	GetByUserId(userId types.Snowflake) ([]models.Session, error)
 	GetByRefreshToken(refreshToken string) (*models.Session, error)
 	Create(session *models.Session) (*models.Session, error)
 	Update(session *models.Session) (*models.Session, error)
@@ -26,11 +27,26 @@ func NewSessionRepository(db *sqlx.DB) SessionRepository {
 	return &SessionRepositoryImpl{db: db}
 }
 
+// GetByUserId retrieves all sessions for a given user ID
+func (r *SessionRepositoryImpl) GetByUserId(userId types.Snowflake) ([]models.Session, error) {
+	var sessions []models.Session
+	err := r.db.Select(&sessions, `
+			SELECT id, user_id, refresh_token, expire_token, last_refresh_timestamp, active, ip_adress, user_agent, location, type, login_timestamp, logout_timestamp
+			FROM sessions
+			WHERE user_id = ?`, userId)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get sessions by user ID: %w", err)
+	}
+
+	return sessions, nil
+}
+
 // GetByRefreshToken retrieves a session by refresh token
 func (r *SessionRepositoryImpl) GetByRefreshToken(refreshToken string) (*models.Session, error) {
 	var session models.Session
 	err := r.db.Get(&session, `
-			SELECT id, user_id, refresh_token, expire_token, last_refresh_timestamp, active, login_timestamp, logout_timestamp
+			SELECT id, user_id, expire_token, last_refresh_timestamp, active, ip_adress, user_agent, location, type, login_timestamp, logout_timestamp
 			FROM sessions
 			WHERE refresh_token = ? AND active = 1`, refreshToken)
 
@@ -44,8 +60,8 @@ func (r *SessionRepositoryImpl) GetByRefreshToken(refreshToken string) (*models.
 // Create creates a new session
 func (r *SessionRepositoryImpl) Create(session *models.Session) (*models.Session, error) {
 	_, err := r.db.NamedExec(`
-		INSERT INTO sessions (id, user_id, refresh_token, expire_token, last_refresh_timestamp, active, login_timestamp, logout_timestamp)
-		VALUES (:id, :user_id, :refresh_token, :expire_token, :last_refresh_timestamp, :active, :login_timestamp, :logout_timestamp)`, session)
+		INSERT INTO sessions (id, user_id, refresh_token, expire_token, last_refresh_timestamp, active, ip_adress, user_agent, location, type, login_timestamp, logout_timestamp)
+		VALUES (:id, :user_id, :refresh_token, :expire_token, :last_refresh_timestamp, :active, :ip_adress, :user_agent, :location, :type, :login_timestamp, :logout_timestamp)`, session)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to create session: %w", err)
@@ -54,7 +70,7 @@ func (r *SessionRepositoryImpl) Create(session *models.Session) (*models.Session
 	return session, nil
 }
 
-// Update updates an existing session
+// Update updates an existing session (only refresh token and expiry)
 func (r *SessionRepositoryImpl) Update(session *models.Session) (*models.Session, error) {
 	_, err := r.db.Exec(`
 			UPDATE sessions

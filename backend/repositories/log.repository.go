@@ -1,15 +1,10 @@
 package repositories
 
 import (
-	"alexandrie/models"
-	"alexandrie/types"
-	"database/sql"
 	"errors"
-	"fmt"
 	"math/big"
 	"net"
 	"strings"
-	"time"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -19,70 +14,12 @@ type LogRepositoryImpl struct {
 }
 
 type LogRepository interface {
-	GetByUserID(userId types.Snowflake) ([]*models.Log, error)
-	GetLastByUserID(userId types.Snowflake) (*models.Log, error)
-	Create(log *models.Log) error
-	DeleteOld() error
 	GetLocationFromIP(ip string) string
 	getLocationIdFromIP(ip string) (int64, error)
 }
 
 func NewLogRepository(db *sqlx.DB) LogRepository {
 	return &LogRepositoryImpl{db: db}
-}
-
-// GetByUserID retrieves all logs for a user
-func (r *LogRepositoryImpl) GetByUserID(userId types.Snowflake) ([]*models.Log, error) {
-	var logs []*models.Log
-	err := r.db.Select(&logs, `
-		SELECT id, user_id, ip_adress, timestamp, type, location, user_agent
-		FROM connections_logs
-		WHERE user_id = ?
-		ORDER BY timestamp DESC`, userId)
-	if err != nil {
-		return nil, fmt.Errorf("failed to query logs: %w", err)
-	}
-	return logs, nil
-}
-
-// GetLastByUserID retrieves the last login connection for a user
-func (r *LogRepositoryImpl) GetLastByUserID(userId types.Snowflake) (*models.Log, error) {
-	var log models.Log
-	err := r.db.Get(&log, `
-		SELECT id, user_id, ip_adress, timestamp, type, location, user_agent
-		FROM connections_logs
-		WHERE user_id = ?
-		ORDER BY timestamp DESC
-		LIMIT 1`, userId)
-	if err == sql.ErrNoRows {
-		return nil, nil
-	}
-	if err != nil {
-		return nil, fmt.Errorf("failed to get last connection: %w", err)
-	}
-	return &log, nil
-}
-
-// Create creates a new connection log
-func (r *LogRepositoryImpl) Create(log *models.Log) error {
-	_, err := r.db.Exec(`
-		INSERT INTO connections_logs (id, user_id, ip_adress, timestamp, type, location, user_agent)
-		VALUES (?, ?, ?, ?, ?, ?, ?)`,
-		log.Id, log.UserId, log.IpAddr, log.Timestamp, log.Type, log.Location, log.UserAgent)
-	if err != nil {
-		return fmt.Errorf("failed to create connection log: %w", err)
-	}
-	return nil
-}
-
-// DeleteOld deletes logs older than 90 days
-func (r *LogRepositoryImpl) DeleteOld() error {
-	ninetyDaysAgo := time.Now().AddDate(0, 0, -90).UnixMilli()
-	_, err := r.db.Exec(`DELETE FROM connections_logs WHERE timestamp < ?`, ninetyDaysAgo)
-	if err != nil {
-		return fmt.Errorf("failed to delete old logs: %w", err)
-	}
-	return nil
 }
 
 // GetLocationFromIP returns the location string from an IP address

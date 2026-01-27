@@ -15,7 +15,6 @@ type ServiceManager struct {
 	User        UserService
 	Node        NodeService
 	Permission  PermissionService
-	Log         LogService
 	Session     SessionService
 	Minio       MinioService
 	Resource    ResourceService
@@ -53,9 +52,6 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 
 	// Initialize Permission Service
 	sm.Permission = NewPermissionService(repos.Permission, repos.Node, snowflake)
-
-	// Initialize Log Service
-	sm.Log = NewLogService(repos.Log, snowflake)
 
 	// Initialize Session Service
 	sm.Session = NewSessionService(repos.Session)

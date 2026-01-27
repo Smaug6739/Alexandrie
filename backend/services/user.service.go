@@ -18,7 +18,7 @@ import (
 
 type UserService interface {
 	GetAllUsers() ([]*models.User, error)
-	GetUserById(id types.Snowflake) (map[string]interface{}, error)
+	GetUserById(id types.Snowflake) (*models.User, error)
 	GetUserByUsername(username string) (*models.User, error)
 	SearchPublicUsers(query string) ([]*models.User, error)
 	CreateUser(username string, firstname, lastname, avatar, email string, password *string) (*models.User, error)
@@ -46,7 +46,7 @@ func (s *userService) GetAllUsers() ([]*models.User, error) {
 	return s.userRepo.GetAll()
 }
 
-func (s *userService) GetUserById(id types.Snowflake) (map[string]interface{}, error) {
+func (s *userService) GetUserById(id types.Snowflake) (*models.User, error) {
 	user, err := s.userRepo.GetByID(id)
 	if err != nil {
 		return nil, err
@@ -55,12 +55,7 @@ func (s *userService) GetUserById(id types.Snowflake) (map[string]interface{}, e
 		return nil, errors.New("user not found")
 	}
 
-	lastConnection, _ := s.logRepo.GetLastByUserID(id)
-
-	return map[string]interface{}{
-		"user":            user,
-		"last_connection": lastConnection,
-	}, nil
+	return user, nil
 }
 
 func (s *userService) GetUserByUsername(username string) (*models.User, error) {

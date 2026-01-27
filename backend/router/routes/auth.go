@@ -20,6 +20,9 @@ func Auth(app *app.App, router *gin.RouterGroup) {
 	auth.POST("/logout", utils.WP(authCtrl.Logout))
 	auth.POST("/logout/all", middlewares.Auth(), utils.WP(authCtrl.LogoutAllDevices))
 
+	// Sessions route
+	auth.GET("/sessions", middlewares.Auth(), utils.WP(authCtrl.GetSessions))
+
 	// OIDC routes
 	oidcCtrl := controllers.NewOIDCController(app)
 	// Public routes
