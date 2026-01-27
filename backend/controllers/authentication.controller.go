@@ -2,12 +2,10 @@ package controllers
 
 import (
 	"alexandrie/app"
-	"alexandrie/pkg/logger"
 	"alexandrie/utils"
 	"errors"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,12 +21,7 @@ type AuthController interface {
 }
 
 func NewAuthController(app *app.App) AuthController {
-	go func() {
-		for {
-			deleteOldSessions(app)
-			time.Sleep(1 * time.Hour) // Sleep for 1 hour
-		}
-	}()
+
 	return &Controller{app: app}
 }
 
@@ -207,15 +200,6 @@ func (ctr *Controller) ResetPassword(c *gin.Context) (int, any) {
 	}
 
 	return http.StatusOK, "Password reset successfully."
-}
-
-func deleteOldSessions(app *app.App) {
-	err := app.Services.Session.DeleteOldSessions()
-	if err != nil {
-		logger.Error("Sessions: Error during automatic deletion: " + err.Error())
-	} else {
-		logger.Success("Sessions: Old sessions deleted successfully.")
-	}
 }
 
 // Cookies security helpers

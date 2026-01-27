@@ -32,7 +32,7 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowfla
 	}
 
 	sm.initialized = true
-	logger.Success("Service manager initialized successfully")
+	logger.Success("Service manager", "Initialized successfully")
 	return sm, nil
 }
 

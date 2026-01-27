@@ -118,15 +118,15 @@ func (m *Manager) loadFromEnv() {
 			provider.Name = fmt.Sprintf("provider_%d", i)
 		}
 		if err := m.AddProvider(provider); err != nil {
-			logger.Error(fmt.Sprintf("Failed to add OIDC provider '%s': %v", provider.Name, err))
+			logger.Error("OIDC", fmt.Sprintf("Failed to add OIDC provider '%s': %v", provider.Name, err))
 		}
 	}
 
 	count := len(m.providers)
 	if count > 0 {
-		logger.Success(fmt.Sprintf("OIDC: Loaded %d provider(s)", count))
+		logger.Success("OIDC", fmt.Sprintf("Loaded %d provider(s)", count))
 	} else {
-		logger.Info("OIDC: No providers configured")
+		logger.Info("OIDC", "No providers configured")
 	}
 }
 
@@ -170,7 +170,7 @@ func (m *Manager) AddProvider(provider *Provider) error {
 	m.providers[providerName] = provider
 	m.mu.Unlock()
 
-	logger.Info(fmt.Sprintf("OIDC: Added provider '%s' (issuer: %s)", providerName, provider.Issuer))
+	logger.Info("OIDC", fmt.Sprintf("Added provider '%s' (issuer: %s)", providerName, provider.Issuer))
 	return nil
 }
 

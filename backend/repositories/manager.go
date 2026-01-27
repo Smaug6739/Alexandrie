@@ -24,7 +24,7 @@ func NewRepositoryManager(db *sqlx.DB) (*RepositoryManager, error) {
 
 	rm.initializeRepositories()
 	rm.initialized = true
-	logger.Success("Repository manager initialized successfully")
+	logger.Success("Repository manager", "Initialized successfully")
 	return rm, nil
 }
 
@@ -39,7 +39,7 @@ func (rm *RepositoryManager) initializeRepositories() {
 
 func (rm *RepositoryManager) Close() error {
 	rm.initialized = false
-	logger.Success("Repository manager closed successfully")
+	logger.Success("Repository manager", "Closed successfully")
 	return rm.db.Close()
 }
 
