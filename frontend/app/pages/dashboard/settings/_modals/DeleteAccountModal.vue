@@ -32,7 +32,7 @@ function deleteAccount() {
     .deleteAccount()
     .then(() => {
       useNotifications().add({ type: 'success', title: 'Account deleted' });
-      emit('close');
+      useModal().closeAll();
       setTimeout(() => {
         useUserStore().post_logout();
         useRouter().push('/');

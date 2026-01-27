@@ -29,8 +29,17 @@ function closeLast(reason?: string) {
   close(lastModal, reason);
 }
 
+/** Close all modals in the stack */
+function closeAll(reason?: string) {
+  while (modals.value.length > 0) {
+    const modal = modals.value.pop()!;
+    modal.options.onClose?.(reason);
+  }
+  document.body.classList.remove('modal-open');
+}
+
 export function useModal() {
-  return { add, close, closeLast, modals };
+  return { add, close, closeLast, closeAll, modals };
 }
 
 interface ModalOptions {
