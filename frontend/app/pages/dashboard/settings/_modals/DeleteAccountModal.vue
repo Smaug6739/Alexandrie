@@ -12,8 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from 'vue';
-
 const time = ref(15);
 const emit = defineEmits(['close']);
 
