@@ -74,7 +74,7 @@
       </div>
       <div class="workspaces-grid">
         <NuxtLink v-for="workspace in workspaces" :key="workspace.id" :to="`/dashboard/categories/${workspace.id}`">
-          <NodeWorkspaceCard :workspace="workspace" />
+          <NodeCardWorkspace :workspace="workspace" />
         </NuxtLink>
         <button class="add-workspace" @click="openCreateWorkspace">New workspace</button>
       </div>
@@ -93,7 +93,7 @@
               <Icon
                 :name="resolveIcon(item)"
                 display="md"
-                :class="`activity-icon ${getAppAccent(item.color || getCategory(item.parent_id)?.color as number, true)}`"
+                :class="`activity-icon ${getAppAccent(item.color || (getCategory(item.parent_id)?.color as number), true)}`"
               />
               <div class="activity-content">
                 <span class="activity-name">{{ item.name }}</span>
