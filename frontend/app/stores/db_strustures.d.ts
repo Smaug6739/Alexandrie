@@ -79,14 +79,19 @@ export interface NodeSearchResult {
   updated_timestamp: number;
 }
 
-export interface ConnectionLog {
+export interface Session {
   id: string;
   user_id: string;
+  //refresh_token: string; // Excluded for security reasons
+  expire_token: number;
+  last_refresh_timestamp: number;
+  active: boolean;
   ip_adress?: string;
   user_agent?: string;
   location?: string;
   type: string;
-  timestamp: number;
+  login_timestamp: number;
+  logout_timestamp?: number;
 }
 
 // Internal structures

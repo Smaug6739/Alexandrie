@@ -1,13 +1,14 @@
 package app
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 	"time"
+
+	"github.com/jmoiron/sqlx"
 )
 
-func DBConnection(config Config, multiStatements bool) (conecction *sql.DB) {
+func DBConnection(config Config, multiStatements bool) *sqlx.DB {
 	Driver := config.Database.Driver
 	User := os.Getenv("DATABASE_USER")
 	Password := os.Getenv("DATABASE_PASSWORD")
@@ -33,13 +34,14 @@ func DBConnection(config Config, multiStatements bool) (conecction *sql.DB) {
 		multiStatementsConfig = "?multiStatements=true"
 	}
 
-	conection, err := sql.Open(Driver, User+":"+Password+"@tcp("+Host+":"+Port+")/"+Database+multiStatementsConfig)
-
+	dsn := User + ":" + Password + "@tcp(" + Host + ":" + Port + ")/" + Database + multiStatementsConfig
+	db, err := sqlx.Connect(Driver, dsn)
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect to database: %v", err))
 	}
-	conection.SetConnMaxLifetime(time.Minute * 3)
-	conection.SetMaxOpenConns(10)
-	conection.SetMaxIdleConns(10)
-	return conection
+
+	db.SetConnMaxLifetime(time.Minute * 3)
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(10)
+	return db
 }

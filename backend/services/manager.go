@@ -15,11 +15,11 @@ type ServiceManager struct {
 	User        UserService
 	Node        NodeService
 	Permission  PermissionService
-	Log         LogService
 	Session     SessionService
 	Minio       MinioService
 	Resource    ResourceService
 	Backup      BackupService
+	OIDC        OIDCService
 	initialized bool
 }
 
@@ -32,7 +32,7 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowfla
 	}
 
 	sm.initialized = true
-	logger.Success("Service manager initialized successfully")
+	logger.Success("Service manager", "Initialized successfully")
 	return sm, nil
 }
 
@@ -53,9 +53,6 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 	// Initialize Permission Service
 	sm.Permission = NewPermissionService(repos.Permission, repos.Node, snowflake)
 
-	// Initialize Log Service
-	sm.Log = NewLogService(repos.Log, snowflake)
-
 	// Initialize Session Service
 	sm.Session = NewSessionService(repos.Session)
 
@@ -64,6 +61,9 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 
 	// Initialize Backup Service
 	sm.Backup = NewBackupService(repos.Node)
+
+	// Initialize OIDC Service
+	sm.OIDC = NewOIDCService(repos.OIDCProvider, repos.User, sm.User, repos.Session, repos.Log, snowflake)
 
 	return nil
 }

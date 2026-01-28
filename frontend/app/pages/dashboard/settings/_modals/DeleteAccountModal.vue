@@ -12,8 +12,6 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from 'vue';
-
 const time = ref(15);
 const emit = defineEmits(['close']);
 
@@ -34,7 +32,7 @@ function deleteAccount() {
     .deleteAccount()
     .then(() => {
       useNotifications().add({ type: 'success', title: 'Account deleted' });
-      emit('close');
+      useModal().closeAll();
       setTimeout(() => {
         useUserStore().post_logout();
         useRouter().push('/');

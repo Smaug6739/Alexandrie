@@ -184,7 +184,6 @@ export const useNodesStore = defineStore('nodes', {
     async init() {
       console.log('[store/nodes] Initializing store');
       this.clear();
-      // Fetch both in parallel for better performance
       await Promise.all([this.fetch(), this.fetchShared()]);
     },
     recomputeTags() {
@@ -216,6 +215,7 @@ export const useNodesStore = defineStore('nodes', {
           else this.nodes.set(opts.id, updatedNode);
           return updatedNode as 'id' extends keyof T ? Node : Collection<string, Node>;
         } else {
+          if (!request.result) return this.nodes as 'id' extends keyof T ? Node : Collection<string, Node>;
           for (const node of request.result as DB_Node[]) {
             const n = this.nodes.get(node.id);
             if (!n) this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
@@ -227,7 +227,7 @@ export const useNodesStore = defineStore('nodes', {
       } else throw request;
     },
     async fetchPublic(id: string): Promise<Node | undefined> {
-      console.log(`[store/nodes] Fetching public nodeument with id: ${id}`);
+      console.log(`[store/nodes] Fetching public node with id: ${id}`);
       const existingDoc = this.public_nodes.get(id);
       if (existingDoc) return existingDoc;
       const request = await makeRequest(`nodes/public/${id}`, 'GET', {});
@@ -241,6 +241,7 @@ export const useNodesStore = defineStore('nodes', {
       console.log(`[store/nodes] Fetching shared nodes`);
       const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
       if (request.status === 'success') {
+        if (!request.result) return this.nodes;
         for (const node of request.result as DB_Node[]) {
           if (!this.nodes.has(node.id)) this.nodes.set(node.id, { ...node, partial: true, shared: true, permissions: node.permissions || [] });
           else {

@@ -3,6 +3,7 @@ module alexandrie
 go 1.24.0
 
 require (
+	github.com/jmoiron/sqlx v1.4.0
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/wneessen/go-mail v0.7.2
 )

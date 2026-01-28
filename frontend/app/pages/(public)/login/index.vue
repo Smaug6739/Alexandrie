@@ -4,36 +4,37 @@
     <div class="body-container">
       <IconApp style="width: 120px" />
       <h1>Connection</h1>
-      <form @submit.prevent="login">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
-          <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
+        <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input">
+          <input
+            id="password"
+            :key="`password-${showPassword}`"
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            :class="{ 'is-invalid': errors.password }"
+          />
+          <button type="button" class="password-toggle" @click="togglePassword">
+            <div class="eye-icon" :class="{ show: showPassword }">
+              <Icon v-if="showPassword" name="eye" />
+              <Icon v-else name="eye_off" />
+            </div>
+          </button>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="password-input">
-            <input
-              id="password"
-              :key="`password-${showPassword}`"
-              v-model="password"
-              :type="showPassword ? 'text' : 'password'"
-              :class="{ 'is-invalid': errors.password }"
-            />
-            <button type="button" class="password-toggle" @click="togglePassword">
-              <div class="eye-icon" :class="{ show: showPassword }">
-                <Icon v-if="showPassword" name="eye" />
-                <Icon v-else name="eye_off" />
-              </div>
-            </button>
-          </div>
-          <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
-        </div>
-        <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-        <button type="submit" class="btn">Login</button>
-        <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-        <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
-      </form>
+        <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
+      </div>
+      <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
+      <button class="btn" @click="login">Login</button>
+      <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
+      <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
+
+      <!-- OIDC Providers -->
+      <OIDCProviders />
     </div>
     <AppFooter />
   </div>
@@ -43,11 +44,37 @@
 import AppHeader from '../_components/AppHeader.vue';
 import AppFooter from '../_components/AppFooter.vue';
 
+const router = useRouter();
+const route = useRoute();
 const username = ref('');
 const password = ref('');
 const errors = ref({ username: '', password: '', general: '' });
 const { showPassword, togglePassword } = usePasswordField();
 const userStore = useUserStore();
+
+// Check for OIDC error redirect
+onMounted(() => {
+  const errorParam = route.query.error as string | undefined;
+  if (errorParam) {
+    errors.value.general = formatOIDCError(errorParam);
+  }
+});
+
+function formatOIDCError(error: string): string {
+  const errorMessages: Record<string, string> = {
+    invalid_state: 'Invalid or expired session. Please try again.',
+    expired_state: 'Your session has expired. Please try again.',
+    exchange_failed: 'Authentication failed. Please try again.',
+    token_failed: 'Session creation failed. Please try again.',
+    access_denied: 'Access denied.',
+    user_not_found: 'No account associated with this email.',
+    email_not_verified: 'Email is not verified.',
+    email_conflict: 'An account already exists with this email.',
+    provider_error: 'Authentication provider error.',
+  };
+  return errorMessages[error] || `Error: ${error}`;
+}
+
 function login() {
   errors.value.username = !username.value ? 'Username is required' : '';
   errors.value.password = !password.value ? 'Password is required' : '';
@@ -59,11 +86,13 @@ function login() {
 
 watch([username, password], () => {
   errors.value.general = '';
+  errors.value.username = '';
+  errors.value.password = '';
 });
 
 async function connect(username: string, password: string) {
   const result = await userStore.login(username, password);
-  if (result === true) useRouter().push('/dashboard');
+  if (result === true) router.push('/dashboard');
   else errors.value.general = String(result);
 }
 </script>
@@ -92,10 +121,6 @@ h1 {
 }
 
 /* ===== Form ===== */
-form {
-  width: 100%;
-}
-
 .form-group {
   display: flex;
   width: 100%;

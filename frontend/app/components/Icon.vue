@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl'; size?: number | string }>(), {
+const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 'xsm' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'; size?: number | string }>(), {
   display: 'md',
   fill: 'var(--font-color)',
   size: undefined,
@@ -35,6 +35,10 @@ const isUnicode = (str: string) => {
   }
 
   /* Custom sizes */
+  &.xsm {
+    width: 15px;
+    height: 15px;
+  }
   &.sm {
     width: 18px;
     height: 18px;

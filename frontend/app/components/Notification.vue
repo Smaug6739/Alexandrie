@@ -31,14 +31,15 @@
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
-      <div class="progress-bar" :style="{ animationDuration: (notification.timeout || 3000) + 'ms' }" />
+      <div class="progress-bar" :style="{ animationDuration: notification.timeout + 'ms' }" />
     </div>
   </TransitionGroup>
 </template>
 
 <script setup lang="ts">
-const notifications = computed(() => [...useNotifications().notifications.value].reverse());
-const close = (id: number) => useNotifications().remove(id);
+const manager = useNotifications();
+const notifications = computed(() => [...manager.notifications.value].reverse());
+const close = (id: number) => manager.remove(id);
 </script>
 
 <style scoped lang="scss">
@@ -60,7 +61,9 @@ const close = (id: number) => useNotifications().remove(id);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   background: var(--bg-color);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
   align-items: flex-start;
   gap: 12px;
   overflow: hidden;
@@ -221,6 +224,8 @@ const close = (id: number) => useNotifications().remove(id);
 
 /* Dark mode adjustments */
 :global(.dark-mode) .notification {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 30%), 0 2px 4px -2px rgb(0 0 0 / 20%);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 30%),
+    0 2px 4px -2px rgb(0 0 0 / 20%);
 }
 </style>

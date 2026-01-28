@@ -606,7 +606,7 @@ defineExpose({ flattenedItems });
 .filter-hint {
   margin: 2px 0 0;
   font-size: 10px;
-  color: var(--text-secondary);
+  color: var(--font-color-light);
 }
 
 .tag {
