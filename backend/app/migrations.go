@@ -40,7 +40,7 @@ func Migrate(config *Config) {
 	m, err := migrate.NewWithInstance(
 		"iofs",
 		source,
-		"alexandrie",
+		config.Database.Driver,
 		driver,
 	)
 	if err != nil {
