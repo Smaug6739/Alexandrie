@@ -2,28 +2,40 @@
 <template>
   <div style="width: 100%; padding: 1rem 0">
     <div
-      v-if="!error"
+      v-if="!error && article"
       class="reader"
       :style="{
-        marginRight: !isTablet && preferencesStore.get('hideTOC').value && isOpened ? '200px' : '0px',
+        marginRight: !isTablet && preferencesStore.get('hideTOC').value && isOpened && hasContent ? '200px' : '0px',
         transition: 'margin 0.3s',
       }"
     >
       <div class="doc-container">
+        <!-- Header for all node types -->
         <DocumentCardHeader :doc="article" :public="true" style="margin: 20px 0" />
-        <!-- eslint-disable-next-line vue/no-v-html -->
+
+        <!-- Document content if available -->
         <article
-          v-if="article"
+          v-if="hasContent"
           ref="element"
           :class="`${article.theme || preferencesStore.get('theme').value}-theme`"
           style="max-width: 100%"
           v-html="article.content_compiled"
         />
-        <DocumentSkeleton v-else />
+
+        <!-- Hierarchical children tree -->
+        <HierarchyTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />
       </div>
 
-      <div v-if="!isTablet && !preferencesStore.get('hideTOC').value" class="toc">
+      <!-- Table of contents only for documents with content -->
+      <div v-if="!isTablet && !preferencesStore.get('hideTOC').value && hasContent" class="toc">
         <TableOfContent :doc="article" :element="element" />
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div v-else-if="!error" class="reader">
+      <div class="doc-container">
+        <DocumentSkeleton />
       </div>
     </div>
 
@@ -34,6 +46,7 @@
 import TableOfContent from '~/pages/dashboard/docs/_components/table-of-content/TableOfContents.vue';
 import DocumentSkeleton from '~/pages/dashboard/docs/_components/DocumentSkeleton.vue';
 import DocumentCardHeader from '~/pages/dashboard/docs/_components/DocumentCardHeader.vue';
+import HierarchyTree from '~/pages/(public)/doc/_components/HierarchyTree.vue';
 import type { Node } from '~/stores';
 
 const documentsStore = useNodesStore();
@@ -45,6 +58,7 @@ const { isOpened } = useSidebar();
 const { isTablet } = useDevice();
 
 const element = ref<HTMLElement>();
+const children = ref<Node[]>([]);
 
 /**
  * SSR-aware fetch
@@ -52,8 +66,16 @@ const element = ref<HTMLElement>();
 const { data: article, error } = await useAsyncData(`public-doc-${route.params.id}`, async (): Promise<Node | undefined> => {
   const documentId = route.params.id;
   if (!documentId || typeof documentId !== 'string') return undefined;
-  return (await documentsStore.fetchPublic(documentId)) ?? undefined;
+  const result = await documentsStore.fetchPublic(documentId);
+  if (result) {
+    children.value = result.children || [];
+    return result.node;
+  }
+  return undefined;
 });
+
+/** Check if node has displayable content */
+const hasContent = computed(() => article.value?.content_compiled && article.value.content_compiled.trim().length > 0);
 
 /**
  * SEO (SSR-safe)

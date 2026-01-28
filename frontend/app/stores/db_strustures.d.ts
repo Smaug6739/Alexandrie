@@ -79,6 +79,12 @@ export interface NodeSearchResult {
   updated_timestamp: number;
 }
 
+// Response from public node endpoint including children
+export interface PublicNodeResponse {
+  node: DB_Node;
+  children: DB_Node[];
+}
+
 export interface Session {
   id: string;
   user_id: string;
