@@ -141,7 +141,7 @@
 
 <script setup lang="ts">
 import { resolveIcon, resolveNodeLink, resolveNodeType } from '~/helpers/node';
-import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import type { Node } from '~/stores';
 
 const router = useRouter();
