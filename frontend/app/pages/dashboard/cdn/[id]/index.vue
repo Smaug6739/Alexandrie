@@ -18,7 +18,7 @@
       <label>Name</label>
       <input id="name" v-model="resource.name" type="text" required />
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
-      <AppSelect v-model="resource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.role !== 3" placeholder="Select a resource parent" />
+      <AppSelect v-model="resource.parent_id" :items="tree" :disabled="i => (i as Item).data?.role !== 3" placeholder="Select a resource parent" />
       <label>Type</label>
       <input id="id" type="text" :value="resource.metadata?.filetype" disabled />
       <label>Original path</label>
@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import DeleteResourceModal from '../_modals/DeleteResourceModal.vue';
+import DeleteResourceModal from '~/components/Node/Modals/DeleteResource.vue';
 import { readableFileSize } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Edit' });

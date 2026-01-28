@@ -36,10 +36,10 @@
 </template>
 
 <script setup lang="ts">
-import DeleteNodeModal from '~/components/Node/DeleteNodeModal.vue';
-import DocumentMeta from '~/components/Node/NodeMetadata.modal.vue';
-import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
-import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
+import DocumentMeta from '~/components/Node/Modals/Metadata.vue';
+import NodePermissions from '~/components/Node/Modals/Permissions.vue';
+import RemoveSharedNode from '~/components/Node/Modals/RemoveShared.vue';
 import { generateMarkdownWithMetadata } from '~/helpers/node';
 import type { Node } from '~/stores';
 

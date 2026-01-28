@@ -1,5 +1,5 @@
 <template>
-  <div class="context-menu">
+  <div class="context-menu" :class="{ 'is-context-menu': props.contextMenu }">
     <div class="menu-header">
       <img :src="avatarURL(user)" alt="" class="avatar" />
       <div class="header-info">
@@ -9,13 +9,16 @@
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" @click="action('open')"><Icon name="file_open" />Open</button>
-      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />Edit meta</button>
+      <button class="menu-item" @click="action('open')"><Icon name="file_open" />Open<kbd>Enter</kbd></button>
+      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />Edit<kbd>E</kbd></button>
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />Copy link</button>
-      <button class="menu-item" @click="action('copyMd')"><Icon name="link" />Copy as markdown</button>
+      <button class="menu-item" @click="action('duplicate')"><Icon name="duplicate" />Duplicate<kbd>Ctrl+D</kbd></button>
+      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />Copy link<kbd>Ctrl+L</kbd></button>
+      <button class="menu-item" @click="action('pin')">
+        <Icon :name="node.order === -1 ? 'pin_off' : 'pin'" />{{ node.order === -1 ? 'Unpin' : 'Pin to top' }}<kbd>P</kbd>
+      </button>
     </div>
 
     <div v-if="nodeStore.hasPermissions(node, 4)" class="menu-group">
@@ -23,7 +26,7 @@
     </div>
 
     <div class="menu-group">
-      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />Move to trash</button>
+      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />Move to trash<kbd>Del</kbd></button>
     </div>
 
     <div v-if="preferences.get('developerMode').value" class="menu-group">
@@ -33,19 +36,21 @@
 </template>
 
 <script setup lang="ts">
-import NodePermissions from './NodePermissions.modal.vue';
-import NodeDeleteModal from './DeleteNodeModal.vue';
+import NodePermissions from '../Modals/Permissions.vue';
+import NodeDeleteModal from '../Modals/Delete.vue';
 import type { Node } from '~/stores';
 
-const props = defineProps<{ node: Node }>();
+const props = defineProps<{ node: Node; contextMenu?: boolean }>();
 const emit = defineEmits(['close']);
 
 const nodeStore = useNodesStore();
 const userStore = useUserStore();
 
+const router = useRouter();
+const route = useRoute();
 const preferences = usePreferences();
 const { shortDate } = useDateFormatters();
-const { avatarURL, resourceURL } = useApi();
+const { avatarURL } = useApi();
 
 const dotMenu = ref();
 
@@ -55,22 +60,31 @@ const user = computed(() => userStore.getById(props.node.user_id || ''));
 async function action(name: string) {
   switch (name) {
     case 'open':
-      useRouter().push(`/dashboard/docs/${props.node.id}`);
+      router.push(`/dashboard/docs/${props.node.id}`);
       break;
     case 'edit':
-      useRouter().push(`/dashboard/cdn/${props.node.id}`);
+      router.push(`/dashboard/docs/edit/${props.node.id}`);
+      break;
+    case 'duplicate':
+      nodeStore.duplicate(props.node);
       break;
     case 'delete':
       dotMenu.value?.close();
-      useModal().add(new Modal(shallowRef(NodeDeleteModal), { props: { node: props.node }, size: 'small' }));
+      useModal().add(
+        new Modal(shallowRef(NodeDeleteModal), {
+          props: { node: props.node },
+          size: 'small',
+          onClose: r => {
+            if (r === 'success' && route.params?.id === props.node.id) navigateTo('/dashboard');
+          },
+        }),
+      );
       break;
     case 'copyLink':
-      navigator.clipboard.writeText(resourceURL(props.node));
-      useNotifications().add({ type: 'success', title: 'Link copied to clipboard' });
+      navigator.clipboard.writeText(`${window.location.origin}/dashboard/docs/${props.node.id}`);
       break;
-    case 'copyMd':
-      navigator.clipboard.writeText(`![${props.node.name}](${resourceURL(props.node)})`);
-      useNotifications().add({ type: 'success', title: 'Markdown link copied to clipboard' });
+    case 'pin':
+      await nodeStore.update({ ...props.node, order: props.node.order === -1 ? 0 : -1 });
       break;
     case 'manageAccess':
       useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.node }, size: 'small' }));
@@ -155,17 +169,32 @@ async function action(name: string) {
     background: var(--bg-contrast);
   }
 
+  kbd {
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 10px;
+    color: var(--font-color-light);
+    background: var(--bg-contrast);
+    margin-left: auto;
+  }
+
   &.delete {
     color: var(--red);
 
     :deep(svg) {
       fill: var(--red);
     }
+
+    kbd {
+      color: var(--red);
+      background: var(--red-bg);
+    }
   }
 }
 
 @media screen and (width <= 768px) {
-  .context-menu {
+  .context-menu.is-context-menu {
     width: 100%;
     border: none;
     box-shadow: none;

@@ -2,7 +2,7 @@
   <div class="header" :class="{ 'print-style': preferences.get('printMode').value }">
     <div class="text">
       <!-- Skeleton when doc is undefined -->
-      <DocumentCardHeaderSkeleton v-if="!doc" />
+      <Skeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
         <p class="top-row">
@@ -10,10 +10,10 @@
             ><img v-if="user" :src="api.avatarURL(user)" class="avatar" />
             <span style="font-size: 16px; color: var(--font-color-light)">{{ user?.username }}</span>
           </span>
-          <DocumentCardHeaderActionRow :doc="doc" :is-public="public" class="no-print" />
+          <HeaderActionRow :doc="doc" :is-public="public" class="no-print" />
         </p>
         <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
-        <h1 class="title" :class="{ public: public }">{{ doc?.name }}</h1>
+        <h1 :class="{ public: public }">{{ doc?.name }}</h1>
         <p class="description">{{ doc?.description }}</p>
         <div v-if="doc.tags" class="tags">
           <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
@@ -21,16 +21,16 @@
       </template>
     </div>
     <div class="thumbnail">
-      <DocumentHeaderIllustration :document="doc" />
+      <Thumbnail :document="doc" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import DocumentCardHeaderActionRow from './DocumentCardHeaderActionRow.vue';
-import DocumentHeaderIllustration from './DocumentHeaderIllustration.vue';
-import DocumentCardHeaderSkeleton from './DocumentCardHeaderSkeleton.vue';
 import type { Node, PublicUser } from '~/stores';
+import Thumbnail from './Thumbnail.vue';
+import Skeleton from './Skeleton.vue';
+import HeaderActionRow from './HeaderActionRow.vue';
 
 const preferences = usePreferences();
 const api = useApi();
@@ -78,7 +78,7 @@ p {
     margin-top: 30px;
   }
 
-  .title {
+  h1 {
     margin: 4px 0;
     padding: 0;
     font-size: 22px;
@@ -137,7 +137,7 @@ p {
       display: none;
     }
 
-    .title {
+    h1 {
       font-size: 27px;
       font-weight: 700;
       text-align: center;

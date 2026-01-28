@@ -20,7 +20,7 @@
             v-model="category.parent_id"
             :items="categoriesItem"
             placeholder="Select a category parent"
-            :disabled="(i) => i.id == category!.id || nodesStore.isDescendant(category!, (i as Item).id)"
+            :disabled="i => i.id == category!.id || nodesStore.isDescendant(category!, (i as Item).id)"
           />
         </div>
         <div class="form-column">
@@ -44,7 +44,7 @@
 
 <script lang="ts" setup>
 import { CATEGORY_ROLES } from '~/helpers/constants';
-import DeleteModal from '../_modals/DeleteCategoryModal.vue';
+import DeleteModal from '~/components/Node/Modals/Delete.vue';
 
 definePageMeta({ breadcrumb: 'Edit' });
 

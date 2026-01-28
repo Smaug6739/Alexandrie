@@ -79,8 +79,8 @@
   </div>
 </template>
 <script setup lang="ts">
-import DeleteResourceModal from './_modals/DeleteResourceModal.vue';
-import ResourceContextMenu from '~/components/Node/ResourceContextMenu.vue';
+import DeleteResourceModal from '~/components/Node/Modals/DeleteResource.vue';
+import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
 import { readableFileSize } from '~/helpers/resources';
 import type { Field } from '~/components/DataTable.vue';
 import type { Node } from '~/stores';

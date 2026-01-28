@@ -1,5 +1,5 @@
 <template>
-  <div class="hierarchy-tree">
+  <div class="tree">
     <div class="tree-header">
       <h2>
         <Icon name="categories" display="lg" />
@@ -9,7 +9,7 @@
     </div>
 
     <div class="tree-content">
-      <NodeHierarchyItem v-for="node in rootNodes" :key="node.id" :node="node" :all-nodes="allNodes" :depth="0" />
+      <NodeTreeItem v-for="node in rootNodes" :key="node.id" :node="node" :all-nodes="allNodes" :depth="0" />
     </div>
 
     <div v-if="!rootNodes.length" class="empty-state">
@@ -51,7 +51,7 @@ const totalCount = computed(() => props.nodes.length);
 </script>
 
 <style scoped lang="scss">
-.hierarchy-tree {
+.tree {
   margin-top: 2rem;
   border: 1px solid var(--border-color);
   border-radius: 12px;

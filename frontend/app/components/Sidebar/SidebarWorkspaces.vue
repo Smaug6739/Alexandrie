@@ -28,7 +28,7 @@
 </template>
 <script setup lang="ts">
 import SidebarWorkspace from './SidebarWorkspace.vue';
-import NewCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 
 import type { Workspace } from './helpers';
 
@@ -122,7 +122,9 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   border-radius: 10px;
   color: var(--font-color);
   background-color: var(--bg-color);
-  box-shadow: 0 8px 24px var(--shadow), 0 2px 8px var(--shadow);
+  box-shadow:
+    0 8px 24px var(--shadow),
+    0 2px 8px var(--shadow);
   animation: slideDown 0.15s ease-out;
   list-style: none;
   overflow-y: auto;
