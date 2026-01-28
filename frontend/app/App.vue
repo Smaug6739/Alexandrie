@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vh">
+  <div class="app">
     <ModalManager />
     <ContextMenuManager />
     <NuxtPage />
@@ -25,3 +25,10 @@ watch(
   { immediate: true },
 );
 </script>
+
+<style lang="scss">
+.app {
+  height: 100vh;
+  overflow-y: auto;
+}
+</style>

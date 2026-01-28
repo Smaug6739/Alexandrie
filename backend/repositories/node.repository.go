@@ -20,6 +20,7 @@ type NodeRepository interface {
 	GetAllForBackup(userId types.Snowflake) ([]*models.Node, error)
 	GetByID(nodeId types.Snowflake) (*models.Node, error)
 	GetPublic(nodeId types.Snowflake) (*models.Node, error)
+	GetPublicDescendants(nodeId types.Snowflake) ([]*models.Node, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
 	GetDescendantResources(nodeId types.Snowflake) ([]*models.NodeResourceInfo, error)
 	SearchFulltext(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error)
@@ -172,15 +173,31 @@ func (r *NodeRepositoryImpl) GetByID(nodeId types.Snowflake) (*models.Node, erro
 	return &node, nil
 }
 
-// GetPublic retrieves a public node by ID
+// GetPublic retrieves a node if it or any of its ancestors is public
+// This allows accessing child nodes of a public parent through hierarchical inheritance
 func (r *NodeRepositoryImpl) GetPublic(nodeId types.Snowflake) (*models.Node, error) {
 	var node models.Node
 	err := r.db.Get(&node, `
-		SELECT id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
-		       accessibility, access, display, `+"`order`"+`, content, content_compiled, size, metadata, 
-		       created_timestamp, updated_timestamp 
-		FROM nodes 
-		WHERE id = ? AND accessibility = 3`, nodeId)
+		WITH RECURSIVE ancestors AS (
+			-- Start with the requested node
+			SELECT id, parent_id, accessibility
+			FROM nodes
+			WHERE id = ?
+			
+			UNION ALL
+			
+			-- Recursively get parent nodes
+			SELECT n.id, n.parent_id, n.accessibility
+			FROM nodes n
+			JOIN ancestors a ON n.id = a.parent_id
+		)
+		SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.thumbnail, n.theme, 
+		       n.accessibility, n.access, n.display, n.`+"`order`"+`, n.content, n.content_compiled, n.size, n.metadata, 
+		       n.created_timestamp, n.updated_timestamp 
+		FROM nodes n
+		WHERE n.id = ? AND EXISTS (
+			SELECT 1 FROM ancestors WHERE accessibility = 3
+		)`, nodeId, nodeId)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}
@@ -188,6 +205,37 @@ func (r *NodeRepositoryImpl) GetPublic(nodeId types.Snowflake) (*models.Node, er
 		return nil, fmt.Errorf("failed to get public node: %w", err)
 	}
 	return &node, nil
+}
+
+// GetPublicDescendants retrieves ALL descendants of a node recursively (role 1, 2, 3 only)
+// Children inherit public access from their parent
+func (r *NodeRepositoryImpl) GetPublicDescendants(nodeId types.Snowflake) ([]*models.Node, error) {
+	var descendants []*models.Node
+	err := r.db.Select(&descendants, `
+		WITH RECURSIVE descendant_nodes AS (
+			-- Direct children of the public node
+			SELECT id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme,
+			       accessibility, access, display, `+"`order`"+`, size, metadata, 
+			       created_timestamp, updated_timestamp
+			FROM nodes
+			WHERE parent_id = ? AND role IN (1, 2, 3)
+			
+			UNION ALL
+			
+			-- Recursively get all descendants
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.thumbnail, n.theme,
+			       n.accessibility, n.access, n.display, n.`+"`order`"+`, n.size, n.metadata, 
+			       n.created_timestamp, n.updated_timestamp
+			FROM nodes n
+			JOIN descendant_nodes d ON n.parent_id = d.id
+			WHERE n.role IN (1, 2, 3)
+		)
+		SELECT * FROM descendant_nodes
+		ORDER BY role ASC, `+"`order`"+` DESC, name ASC`, nodeId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get public descendants: %w", err)
+	}
+	return descendants, nil
 }
 
 // GetUserUploadsSize calculates total upload size for a user

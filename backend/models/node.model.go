@@ -52,3 +52,9 @@ type NodeResourceInfo struct {
 	UserId   types.Snowflake `json:"user_id" db:"user_id"`
 	Metadata *types.JSONB    `json:"metadata" db:"metadata"`
 }
+
+// PublicNodeResponse represents the full response for a public node including its children
+type PublicNodeResponse struct {
+	Node     *Node   `json:"node"`
+	Children []*Node `json:"children"`
+}

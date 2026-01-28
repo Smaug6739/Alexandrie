@@ -10,7 +10,7 @@
             ><img v-if="user" :src="api.avatarURL(user)" class="avatar" />
             <span style="font-size: 16px; color: var(--font-color-light)">{{ user?.username }}</span>
           </span>
-          <DocumentCardHeaderActionRow :doc="doc" class="no-print" />
+          <DocumentCardHeaderActionRow :doc="doc" :is-public="public" class="no-print" />
         </p>
         <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
         <h1 class="title" :class="{ public: public }">{{ doc?.name }}</h1>

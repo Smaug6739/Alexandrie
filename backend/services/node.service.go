@@ -16,7 +16,7 @@ type NodeService interface {
 	GetSharedNodes(userId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole) ([]*models.Node, error)
 	GetAllNodeBackup(userId types.Snowflake) ([]*models.Node, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
-	GetPublicNode(nodeId types.Snowflake) (*models.Node, error)
+	GetPublicNode(nodeId types.Snowflake) (*models.PublicNodeResponse, error)
 	GetNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (map[string]interface{}, error)
 	CreateNode(node *models.Node, userId types.Snowflake) (*models.Node, error)
 	UpdateNode(nodeId types.Snowflake, node *models.Node, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (*models.Node, error)
@@ -62,8 +62,30 @@ func (s *nodeService) GetUserUploadsSize(userId types.Snowflake) (int64, error) 
 	return s.nodeRepo.GetUserUploadsSize(userId)
 }
 
-func (s *nodeService) GetPublicNode(nodeId types.Snowflake) (*models.Node, error) {
-	return s.nodeRepo.GetPublic(nodeId)
+func (s *nodeService) GetPublicNode(nodeId types.Snowflake) (*models.PublicNodeResponse, error) {
+	// Get the node if it or any ancestor is public
+	node, err := s.nodeRepo.GetPublic(nodeId)
+	if err != nil {
+		return nil, err
+	}
+	if node == nil {
+		return nil, nil
+	}
+
+	// For workspaces (role=1), categories (role=2), and documents with subdocs (role=3)
+	// fetch ALL descendants recursively - they inherit public access
+	var children []*models.Node
+	if node.Role == 1 || node.Role == 2 || node.Role == 3 {
+		children, err = s.nodeRepo.GetPublicDescendants(nodeId)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return &models.PublicNodeResponse{
+		Node:     node,
+		Children: children,
+	}, nil
 }
 
 func (s *nodeService) GetNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (map[string]interface{}, error) {

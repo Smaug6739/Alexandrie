@@ -40,6 +40,8 @@ export interface Node extends DB_Node {
   partial?: boolean;
   shared: boolean;
   permissions: Permission[];
+
+  _children?: Node[];
 }
 
 export interface User {
@@ -77,6 +79,12 @@ export interface NodeSearchResult {
   content_snippet?: string;
   created_timestamp: number;
   updated_timestamp: number;
+}
+
+// Response from public node endpoint including children
+export interface PublicNodeResponse {
+  node: DB_Node;
+  children: DB_Node[];
 }
 
 export interface Session {
