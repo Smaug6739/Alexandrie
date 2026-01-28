@@ -49,7 +49,7 @@
       </div>
       <div class="continue-working">
         <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
-          <NodeRecentCard :node="doc" />
+          <NodeCardRecent :node="doc" />
         </NuxtLink>
       </div>
     </section>
@@ -61,7 +61,7 @@
       </div>
       <div class="pinned-grid">
         <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
-          <NodeRecentCard :node="doc" />
+          <NodeCardRecent :node="doc" />
         </NuxtLink>
       </div>
     </section>
