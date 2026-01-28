@@ -1,0 +1,64 @@
+[Database]
+Driver = "mysql"
+Host = "localhost"
+Name = "alexandrie"
+Port = 3306
+
+[Cdn]
+MaxSize = 2e+7 				# 20MB
+MaxUploadsSize = 1073741824 # 1GB
+SupportedTypesImages = [
+	"image/png",
+	"image/jpeg",
+	"image/gif",
+	"image/bmp",
+	"image/webp",
+	"image/avif",
+	"image/svg+xml",
+	"image/vnd.microsoft.icon",
+]
+SupportedTypes = [
+	# image formats
+	"image/png",
+	"image/jpeg",
+	"image/gif",
+	"image/bmp",
+	"image/webp",
+	"image/avif",
+	"image/svg+xml",
+	"image/vnd.microsoft.icon",
+	# video formats
+	"video/mp4",
+	"video/x-msvideo",  # .avi
+	"video/quicktime",  # .mov
+	"video/x-ms-wmv",   # .wmv
+	"video/x-flv",      # .flv
+	"video/x-matroska", # .mkv
+	"video/webm",       # .webm
+	# document formats
+	"application/pdf",    # .pdf
+	"application/msword", # .doc
+	"application/vnd.openxmlformats-officedocument.wordprocessingml.document", # .docx
+	"application/vnd.ms-excel", # .xls
+	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",         # .xlsx
+	"application/vnd.ms-powerpoint",                                             # .ppt
+	"application/vnd.openxmlformats-officedocument.presentationml.presentation", # .pptx
+	"text/plain", # .txt
+	"text/csv",   # .csv
+	"application/json", # .json
+	# all other classic formats
+	"application/xml",  # .xml
+	"application/xhtml+xml", # .xhtml
+	
+	# archive formats
+	"application/zip",              # .zip
+	"application/x-rar-compressed", # .rar
+	"application/x-tar",            # .tar
+	"application/gzip",             # .gz
+	"application/x-bzip2",          # .bz2
+]
+
+[Auth]
+AccessTokenExpiry = 1800 		# 30 minutes
+RefreshTokenExpiry = 604800 # 7 days
+

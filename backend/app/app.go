@@ -59,6 +59,7 @@ func InitApp(config Config) *App {
 	if err != nil {
 		log.Fatalf("Failed to initialize repository manager: %v", err)
 	}
+
 	app.Repos = repoManager
 
 	// Initialize service manager

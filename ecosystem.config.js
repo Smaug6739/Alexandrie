@@ -19,7 +19,6 @@ module.exports = {
         DATABASE_NAME: 'alexandrie',
 
         CPWD: './backend/',
-        CONFIG_CPWD: '',
         GIN_MODE: 'release',
       },
     },
