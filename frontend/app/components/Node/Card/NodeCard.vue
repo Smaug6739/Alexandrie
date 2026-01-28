@@ -6,7 +6,7 @@
           <Icon :name="category?.icon || 'files'" display="xl" :class="`category-icon ${getAppAccent(node.color || category?.color, true)}`" />
           <NuxtLink :to="`/dashboard/docs/${node.id}`" class="document-title">{{ node.name }}</NuxtLink>
         </span>
-        <NodeDotMenu :node="node" :user="user" @delete="deleteDoc" />
+        <NodeActionDotMenu :node="node" :user="user" @delete="deleteDoc" />
       </div>
       <div class="body">
         <div class="category">{{ category?.name }}</div>
@@ -74,7 +74,6 @@ function showContextMenu(event: MouseEvent) {
   &:hover {
     border-color: var(--border-color-accent);
     box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
-    transform: translateY(-2px);
   }
 }
 

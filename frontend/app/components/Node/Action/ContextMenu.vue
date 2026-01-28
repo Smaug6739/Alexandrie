@@ -52,8 +52,6 @@ const preferences = usePreferences();
 const { shortDate } = useDateFormatters();
 const { avatarURL } = useApi();
 
-const dotMenu = ref();
-
 userStore.fetchPublicUser(props.node.user_id);
 const user = computed(() => userStore.getById(props.node.user_id || ''));
 
@@ -69,7 +67,6 @@ async function action(name: string) {
       nodeStore.duplicate(props.node);
       break;
     case 'delete':
-      dotMenu.value?.close();
       useModal().add(
         new Modal(shallowRef(NodeDeleteModal), {
           props: { node: props.node },

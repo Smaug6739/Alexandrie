@@ -47,8 +47,6 @@ const preferences = usePreferences();
 const { shortDate } = useDateFormatters();
 const { avatarURL, resourceURL } = useApi();
 
-const dotMenu = ref();
-
 userStore.fetchPublicUser(props.node.user_id);
 const user = computed(() => userStore.getById(props.node.user_id || ''));
 
@@ -61,7 +59,6 @@ async function action(name: string) {
       useRouter().push(`/dashboard/cdn/${props.node.id}`);
       break;
     case 'delete':
-      dotMenu.value?.close();
       useModal().add(new Modal(shallowRef(NodeDeleteModal), { props: { node: props.node }, size: 'small' }));
       break;
     case 'copyLink':

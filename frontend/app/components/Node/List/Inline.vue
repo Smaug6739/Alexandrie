@@ -9,7 +9,7 @@
         />
         <NuxtLink :to="`/dashboard/docs/${document.id}`" class="name">{{ document.name }}</NuxtLink>
       </div>
-      <NodeDotMenu :node="document" :user="user" @delete="deleteDoc" />
+      <NodeActionDotMenu :node="document" :user="user" @delete="deleteDoc" />
     </header>
     <div v-if="document.tags" class="tags">
       <tag v-for="tag in document.tags?.split(', ')" :key="tag" class="primary">{{ tag }}</tag>
