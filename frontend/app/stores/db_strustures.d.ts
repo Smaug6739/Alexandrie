@@ -40,6 +40,8 @@ export interface Node extends DB_Node {
   partial?: boolean;
   shared: boolean;
   permissions: Permission[];
+
+  _children?: Node[];
 }
 
 export interface User {
