@@ -23,7 +23,7 @@
         />
 
         <!-- Hierarchical children tree -->
-        <HierarchyTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />
+        <NodeHierarchyTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />
       </div>
 
       <!-- Table of contents only for documents with content -->
@@ -46,7 +46,6 @@
 import TableOfContent from '~/pages/dashboard/docs/_components/table-of-content/TableOfContents.vue';
 import DocumentSkeleton from '~/pages/dashboard/docs/_components/DocumentSkeleton.vue';
 import DocumentCardHeader from '~/pages/dashboard/docs/_components/DocumentCardHeader.vue';
-import HierarchyTree from '~/pages/(public)/doc/_components/HierarchyTree.vue';
 import type { Node } from '~/stores';
 
 const documentsStore = useNodesStore();

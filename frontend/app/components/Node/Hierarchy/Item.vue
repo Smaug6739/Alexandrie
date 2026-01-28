@@ -9,7 +9,7 @@
 
       <!-- Node icon -->
       <span class="node-icon" :class="getAccentClass">
-        <Icon :name="node.icon || getDefaultIcon" display="md" />
+        <Icon :name="node.icon || resolveIcon(props.node)" display="md" />
       </span>
 
       <!-- Node content -->
@@ -20,7 +20,7 @@
 
       <!-- Node metadata -->
       <div class="node-meta">
-        <span class="node-type">{{ getRoleLabel }}</span>
+        <span class="node-type">{{ getRoleName(props.node.role) }}</span>
         <span v-if="hasChildren" class="children-count">{{ childrenCount }}</span>
       </div>
     </div>
@@ -28,13 +28,14 @@
     <!-- Children (collapsible) -->
     <Transition name="expand">
       <div v-if="isExpanded && hasChildren" class="node-children">
-        <HierarchyNode v-for="child in children" :key="child.id" :node="child" :all-nodes="allNodes" :depth="depth + 1" />
+        <NodeHierarchyItem v-for="child in children" :key="child.id" :node="child" :all-nodes="allNodes" :depth="depth + 1" />
       </div>
     </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
+import { resolveIcon, getRoleName } from '~/helpers/node';
 import type { Node } from '~/stores';
 
 const props = defineProps<{
@@ -65,32 +66,6 @@ const children = computed(() => {
 
 const hasChildren = computed(() => children.value.length > 0);
 const childrenCount = computed(() => children.value.length);
-
-const getDefaultIcon = computed(() => {
-  switch (props.node.role) {
-    case 1:
-      return 'workspace';
-    case 2:
-      return 'files';
-    case 3:
-      return 'file';
-    default:
-      return 'file';
-  }
-});
-
-const getRoleLabel = computed(() => {
-  switch (props.node.role) {
-    case 1:
-      return 'Workspace';
-    case 2:
-      return 'Category';
-    case 3:
-      return 'Document';
-    default:
-      return '';
-  }
-});
 
 const getAccentClass = computed(() => {
   return getAppAccent(props.node.color as number, true);

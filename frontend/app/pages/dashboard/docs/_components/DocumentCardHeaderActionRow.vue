@@ -1,9 +1,10 @@
 <template>
   <span class="row">
-    <NuxtLink v-if="doc.accessibility == 3" :to="`/doc/${doc.id}`" :prefetch="false" target="_blank">
+    <NuxtLink v-if="doc.accessibility == 3 && !isPublic" :to="`/doc/${doc.id}`" :prefetch="false" target="_blank">
       <Icon name="link" display="lg" />
+      <p class="hint-tooltip">Public link</p>
     </NuxtLink>
-    <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" :to="`/dashboard/docs/edit/${doc.id}`" :prefetch="false">
+    <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" :to="isPublic ? `/doc/${doc.id}/edit` : `/dashboard/docs/edit/${doc.id}`" :prefetch="false">
       <Icon name="edit" display="lg" />
       <p class="hint-tooltip">Edit</p>
     </NuxtLink>
@@ -42,7 +43,7 @@ import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
 import { generateMarkdownWithMetadata } from '~/helpers/node';
 import type { Node } from '~/stores';
 
-const props = defineProps<{ doc: Node }>();
+const props = defineProps<{ doc: Node; isPublic?: boolean }>();
 
 const nodeStore = useNodesStore();
 const router = useRouter();

@@ -9,7 +9,7 @@
     </div>
 
     <div class="tree-content">
-      <HierarchyNode v-for="node in rootNodes" :key="node.id" :node="node" :all-nodes="allNodes" :depth="0" />
+      <NodeHierarchyItem v-for="node in rootNodes" :key="node.id" :node="node" :all-nodes="allNodes" :depth="0" />
     </div>
 
     <div v-if="!rootNodes.length" class="empty-state">
@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import HierarchyNode from './HierarchyNode.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{
