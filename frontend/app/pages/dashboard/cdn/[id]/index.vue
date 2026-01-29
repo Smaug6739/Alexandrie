@@ -43,7 +43,7 @@
 </template>
 
 <script lang="ts" setup>
-import DeleteResourceModal from '~/components/Node/Modals/DeleteResource.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Edit' });
@@ -73,7 +73,7 @@ const updateCategory = async () => {
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const showDeleteModal = () => {
-  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: [resource.value?.id] } }));
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 </script>
 

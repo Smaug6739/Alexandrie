@@ -46,17 +46,13 @@ import type { Node } from '~/stores';
 const props = defineProps<{ doc: Node; isPublic?: boolean }>();
 
 const nodeStore = useNodesStore();
-const router = useRouter();
 
 const print = () => window.print();
 const openDeleteModal = () =>
   useModal().add(
     new Modal(shallowRef(DeleteNodeModal), {
-      props: { node: props.doc },
+      props: { node: props.doc, redirectTo: '/dashboard' },
       size: 'small',
-      onClose: r => {
-        if (r === 'success') router.push('/dashboard');
-      },
     }),
   );
 const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));

@@ -69,11 +69,8 @@ async function action(name: string) {
     case 'delete':
       useModal().add(
         new Modal(shallowRef(NodeDeleteModal), {
-          props: { node: props.node },
+          props: { node: props.node, redirectTo: route.params?.id === props.node.id ? '/dashboard' : undefined },
           size: 'small',
-          onClose: r => {
-            if (r === 'success' && route.params?.id === props.node.id) navigateTo('/dashboard');
-          },
         }),
       );
       break;

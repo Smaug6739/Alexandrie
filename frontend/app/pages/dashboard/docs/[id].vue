@@ -125,10 +125,7 @@ onMounted(() => {
       useModal().add(
         new Modal(shallowRef(DeleteNodeModal), {
           size: 'small',
-          props: { node: node.value },
-          onClose: r => {
-            if (r === 'success') router.push('/dashboard');
-          },
+          props: { node: node.value, redirectTo: '/dashboard' },
         }),
       );
     }

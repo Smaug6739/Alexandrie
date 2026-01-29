@@ -50,7 +50,7 @@
         <template #action="{ cell }">
           <NuxtLink :href="`/dashboard/cdn/${(cell?.data as Node).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
           <NuxtLink :to="`/dashboard/cdn/${(cell?.data as Node).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
-          <span @click="() => deleteResource((cell?.data as Node).id)"><Icon name="delete" /></span>
+          <span @click="() => deleteResource(cell?.data as Node)"><Icon name="delete" /></span>
         </template>
       </DataTable>
       <div v-else>
@@ -79,7 +79,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import DeleteResourceModal from '~/components/Node/Modals/DeleteResource.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
 import { readableFileSize } from '~/helpers/resources';
 import type { Field } from '~/components/DataTable.vue';
@@ -187,12 +187,12 @@ const rows: ComputedRef<Field[]> = computed(() =>
   }),
 );
 
-const deleteResource = async (id: string) => {
-  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: [id] }, size: 'small' }));
+const deleteResource = async (node: Node) => {
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { node: node, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 const bulkDelete = async (lines: Field[]) => {
-  const resourcesIds = lines.map(line => (line.action?.data as Node | undefined)?.id).filter((id): id is string => !!id);
-  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: resourcesIds }, size: 'small' }));
+  const resources = lines.map(line => line.action?.data as Node);
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: resources, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 </script>
 

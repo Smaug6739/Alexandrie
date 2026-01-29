@@ -136,9 +136,7 @@ const openDeleteModal = () => {
         size: 'small',
         props: {
           node: props.parent,
-          onClose: (r: string) => {
-            if (r === 'success') router.push('/dashboard');
-          },
+          redirect: '/dashboard',
         },
       }),
     );
