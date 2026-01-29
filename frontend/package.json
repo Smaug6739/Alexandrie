@@ -34,7 +34,7 @@
     "@types/markdown-it-container": "^4.0.0",
     "@types/node": "^25.0.10",
     "@vite-pwa/nuxt": "^1.1.0",
-    "@zip.js/zip.js": "^2.8.15",
+    "@zip.js/zip.js": "^2.8.16",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "katex": "^0.16.28",
