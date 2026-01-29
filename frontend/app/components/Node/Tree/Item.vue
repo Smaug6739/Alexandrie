@@ -28,7 +28,7 @@
     <!-- Children (collapsible) -->
     <Transition name="expand">
       <div v-if="isExpanded && hasChildren" class="node-children">
-        <NodeHierarchyItem v-for="child in children" :key="child.id" :node="child" :all-nodes="allNodes" :depth="depth + 1" />
+        <NodeTreeItem v-for="child in children" :key="child.id" :node="child" :all-nodes="allNodes" :depth="depth + 1" />
       </div>
     </Transition>
   </div>

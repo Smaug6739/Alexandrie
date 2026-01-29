@@ -370,19 +370,19 @@ export const useNodesStore = defineStore('nodes', {
     // Loop through ids and delete them one by one
     // Only update the store after all deletions are successful
     // Return the list of deleted ids and failed ids
-    async bulkDelete(ids: string[]) {
+    async bulkDelete(nodes: Node[]) {
       const deletedIds: string[] = [];
       const failedIds: { id: string; message: string }[] = [];
-      for (const id of ids) {
+      for (const node of nodes) {
         try {
-          const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
+          const request = await makeRequest(`nodes/${node.id}`, 'DELETE', {});
           if (request.status === 'success') {
-            deletedIds.push(id);
+            deletedIds.push(node.id);
           } else {
-            failedIds.push({ id, message: request.message || 'Unknown error' });
+            failedIds.push({ id: node.id, message: request.message || 'Unknown error' });
           }
         } catch (error) {
-          failedIds.push({ id, message: (error as Error).message });
+          failedIds.push({ id: node.id, message: (error as Error).message });
         }
       }
       // Update store

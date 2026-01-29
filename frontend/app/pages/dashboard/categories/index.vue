@@ -26,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import CreateCategoryModal from './_modals/CreateCategoryModal.vue';
-import DeleteCategoryModal from './_modals/DeleteCategoryModal.vue';
+import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
+import DeleteCategoryModal from '~/components/Node/Modals/Delete.vue';
 import WorkspaceTree from './_components/WorkspaceTree.vue';
 import type { Node } from '~/stores';
 

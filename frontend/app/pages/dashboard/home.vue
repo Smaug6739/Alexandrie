@@ -49,7 +49,7 @@
       </div>
       <div class="continue-working">
         <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
-          <NodeRecentCard :node="doc" />
+          <NodeCardRecent :node="doc" />
         </NuxtLink>
       </div>
     </section>
@@ -61,7 +61,7 @@
       </div>
       <div class="pinned-grid">
         <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
-          <NodeRecentCard :node="doc" />
+          <NodeCardRecent :node="doc" />
         </NuxtLink>
       </div>
     </section>
@@ -74,7 +74,7 @@
       </div>
       <div class="workspaces-grid">
         <NuxtLink v-for="workspace in workspaces" :key="workspace.id" :to="`/dashboard/categories/${workspace.id}`">
-          <NodeWorkspaceCard :workspace="workspace" />
+          <NodeCardWorkspace :workspace="workspace" />
         </NuxtLink>
         <button class="add-workspace" @click="openCreateWorkspace">New workspace</button>
       </div>
@@ -93,7 +93,7 @@
               <Icon
                 :name="resolveIcon(item)"
                 display="md"
-                :class="`activity-icon ${getAppAccent(item.color || getCategory(item.parent_id)?.color as number, true)}`"
+                :class="`activity-icon ${getAppAccent(item.color || (getCategory(item.parent_id)?.color as number), true)}`"
               />
               <div class="activity-content">
                 <span class="activity-name">{{ item.name }}</span>
@@ -141,7 +141,7 @@
 
 <script setup lang="ts">
 import { resolveIcon, resolveNodeLink, resolveNodeType } from '~/helpers/node';
-import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import type { Node } from '~/stores';
 
 const router = useRouter();

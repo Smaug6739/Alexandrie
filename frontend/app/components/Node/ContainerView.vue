@@ -44,12 +44,12 @@
     <div v-if="filteredNodes.length" class="node-content">
       <!-- Table/List View -->
       <div v-if="view === 'table'" class="line-container">
-        <DocumentLine v-for="document of filteredNodes" :key="document.id" :document="document" class="line-item" />
+        <NodeListInline v-for="document of filteredNodes" :key="document.id" :document="document" class="line-item" />
       </div>
 
       <!-- Grid View -->
-      <div v-else-if="view === 'list'" class="document-list">
-        <DocumentsGrid :documents="filteredNodes" />
+      <div v-else-if="view === 'list'" class="document-grid">
+        <NodeCard v-for="document in filteredNodes" :key="document.id" :node="document" />
       </div>
 
       <!-- Kanban View -->
@@ -77,11 +77,11 @@
 </template>
 
 <script setup lang="ts">
-import NodePermissions from '~/components/Node/NodePermissions.modal.vue';
-import NodeDeleteModal from '~/components/Node/DeleteNodeModal.vue';
-import RemoveSharedNode from '~/components/Node/RemoveSharedNode.modal.vue';
+import NodePermissions from '~/components/Node/Modals/Permissions.vue';
+import NodeDeleteModal from '~/components/Node/Modals/Delete.vue';
+import RemoveSharedNode from '~/components/Node/Modals/RemoveShared.vue';
+import NodeMetadataModal from '~/components/Node/Modals/Metadata.vue';
 import KanbanBoard, { type KanbanMetadata } from '~/components/Kanban/Board.vue';
-import NodeMetadataModal from './NodeMetadata.modal.vue';
 import ResetBoardModal from '../Kanban/ResetBoard.modal.vue';
 import type { ViewMode } from '~/components/ViewSelection.vue';
 import type { Node } from '~/stores';
@@ -136,9 +136,7 @@ const openDeleteModal = () => {
         size: 'small',
         props: {
           node: props.parent,
-          onClose: (r: string) => {
-            if (r === 'success') router.push('/dashboard');
-          },
+          redirect: '/dashboard',
         },
       }),
     );
@@ -223,6 +221,13 @@ a:hover > .hint-tooltip {
 .line-container {
   display: flex;
   flex-direction: column;
+}
+
+.document-grid {
+  display: grid;
+  width: 100%;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .line-item:first-child {

@@ -8,7 +8,7 @@
       <div v-if="headers.length" ref="marker" class="marker" />
       <h4>Table of contents</h4>
       <div v-if="headers.length">
-        <NodeTree v-for="header of headers_tree" :key="header.link" :node="header" style="padding-left: 10px" />
+        <NodeTOCLevel v-for="header of headers_tree" :key="header.link" :node="header" style="padding-left: 10px" />
       </div>
       <p v-else>Nothing to display</p>
     </ul>
@@ -21,7 +21,6 @@
 
 <script lang="ts" setup>
 import type { Node } from '~/stores';
-import NodeTree from './NodeTree.vue';
 
 const props = defineProps<{ element?: HTMLElement; doc?: Node }>();
 const list = ref<HTMLElement>();
@@ -139,7 +138,9 @@ aside {
   height: 15px;
   border-radius: 2px;
   background-color: var(--primary);
-  transition: top 0.25s ease, height 0.25s ease;
+  transition:
+    top 0.25s ease,
+    height 0.25s ease;
 }
 
 ul {

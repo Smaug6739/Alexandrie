@@ -1,6 +1,6 @@
 <template>
   <AppDotMenu>
-    <NodeContextMenu :node="node" />
+    <NodeActionContextMenu :node="node" />
   </AppDotMenu>
 </template>
 

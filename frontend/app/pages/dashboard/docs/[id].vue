@@ -3,7 +3,7 @@
   <div style="width: 100%; padding: 1rem 0" @contextmenu.prevent="showContextMenu">
     <div v-if="!error" style="display: flex; justify-content: space-between">
       <div :style="{ maxWidth: width }" class="doc-container">
-        <DocumentCardHeader :doc="node" style="margin-bottom: 20px" />
+        <NodeDocumentHeader :doc="node" style="margin-bottom: 20px" />
 
         <article
           v-if="node"
@@ -12,12 +12,12 @@
           style="max-width: 100%"
           v-html="node.content_compiled"
         />
-        <DocumentSkeleton v-else />
-        <DocumentCardFooter :document="node" :next="next" :previous="previous" />
+        <NodeDocumentSkeleton v-else />
+        <NodeDocumentFooter :document="node" :next="next" :previous="previous" />
       </div>
 
       <div v-if="!devise.isTablet.value && !preferencesStore.get('hideTOC').value" class="toc">
-        <TableOfContent :doc="node" :element="element" style="width: 320px; margin-left: 20px" />
+        <NodeTOC :doc="node" :element="element" style="width: 320px; margin-left: 20px" />
       </div>
 
       <div
@@ -32,13 +32,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import TableOfContent from './_components/table-of-content/TableOfContents.vue';
-import DocumentCardHeader from './_components/DocumentCardHeader.vue';
-import DocumentCardFooter from './_components/DocumentCardFooter.vue';
-import DocumentSkeleton from './_components/DocumentSkeleton.vue';
-import NodeContextMenu from '~/components/Node/ContextMenu.vue';
+import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import type { Node } from '~/stores';
-import DeleteNodeModal from '~/components/Node/DeleteNodeModal.vue';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
 const documentsStore = useNodesStore();
@@ -129,10 +125,7 @@ onMounted(() => {
       useModal().add(
         new Modal(shallowRef(DeleteNodeModal), {
           size: 'small',
-          props: { node: node.value },
-          onClose: r => {
-            if (r === 'success') router.push('/dashboard');
-          },
+          props: { node: node.value, redirectTo: '/dashboard' },
         }),
       );
     }

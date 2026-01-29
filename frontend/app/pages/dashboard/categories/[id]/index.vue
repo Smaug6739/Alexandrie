@@ -1,5 +1,5 @@
 <template>
-  <NodeList :parent="parent" :nodes="nodes" />
+  <NodeContainerView :parent="parent" :nodes="nodes" />
 </template>
 
 <script setup lang="ts">

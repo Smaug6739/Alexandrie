@@ -5,11 +5,11 @@
         <Icon
           :name="document.icon || category?.icon || 'files'"
           display="xl"
-          :class="['icon', getAppAccent(document.color || category?.color as number, true)]"
+          :class="['icon', getAppAccent(document.color || (category?.color as number), true)]"
         />
         <NuxtLink :to="`/dashboard/docs/${document.id}`" class="name">{{ document.name }}</NuxtLink>
       </div>
-      <NodeDotMenu :node="document" :user="user" @delete="deleteDoc" />
+      <NodeActionDotMenu :node="document" :user="user" @delete="deleteDoc" />
     </header>
     <div v-if="document.tags" class="tags">
       <tag v-for="tag in document.tags?.split(', ')" :key="tag" class="primary">{{ tag }}</tag>
@@ -27,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
-import DeleteDocumentModal from '~/components/Node/DeleteNodeModal.vue';
-import NodeContextMenu from '~/components/Node/ContextMenu.vue';
+import DeleteDocumentModal from '~/components/Node/Modals/Delete.vue';
+import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ document: Node }>();

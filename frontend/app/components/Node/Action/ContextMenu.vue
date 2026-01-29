@@ -36,8 +36,8 @@
 </template>
 
 <script setup lang="ts">
-import NodePermissions from './NodePermissions.modal.vue';
-import NodeDeleteModal from './DeleteNodeModal.vue';
+import NodePermissions from '../Modals/Permissions.vue';
+import NodeDeleteModal from '../Modals/Delete.vue';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ node: Node; contextMenu?: boolean }>();
@@ -51,8 +51,6 @@ const route = useRoute();
 const preferences = usePreferences();
 const { shortDate } = useDateFormatters();
 const { avatarURL } = useApi();
-
-const dotMenu = ref();
 
 userStore.fetchPublicUser(props.node.user_id);
 const user = computed(() => userStore.getById(props.node.user_id || ''));
@@ -69,14 +67,10 @@ async function action(name: string) {
       nodeStore.duplicate(props.node);
       break;
     case 'delete':
-      dotMenu.value?.close();
       useModal().add(
         new Modal(shallowRef(NodeDeleteModal), {
-          props: { node: props.node },
+          props: { node: props.node, redirectTo: route.params?.id === props.node.id ? '/dashboard' : undefined },
           size: 'small',
-          onClose: r => {
-            if (r === 'success' && route.params?.id === props.node.id) navigateTo('/dashboard');
-          },
         }),
       );
       break;
