@@ -1,7 +1,7 @@
 <template>
   <div class="n-card">
     <div class="header">
-      <Icon :name="icon" display="xl" :class="`node-icon ${getAppAccent(node.color || category?.color as number, true)}`" />
+      <Icon :name="icon" display="xl" :class="['node-icon', getAppAccent(node.color || (category?.color as number), true)]" />
       <span class="time">{{ relativeTime(node.updated_timestamp) }}</span>
     </div>
     <h3 class="title">{{ node.name }}</h3>

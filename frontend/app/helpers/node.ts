@@ -22,7 +22,8 @@ export const resolveNodeLink = (node: Node): string => {
   return '/dashboard';
 };
 
-export const getRoleName = (role: number): string => {
+export const getRoleName = (role?: number): string => {
+  if (role === undefined) return 'Node';
   const roles: Record<number, string> = { 1: 'Workspace', 2: 'Category', 3: 'Document', 4: 'Resource' };
   return roles[role] || 'Unknown';
 };

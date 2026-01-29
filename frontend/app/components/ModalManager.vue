@@ -12,7 +12,7 @@
           v-bind="modal.options.props"
           class="modal"
           :class="modal.options.size"
-          @close="(r?: string) => modalManager.close(modal, r)"
+          @close="() => modalManager.close(modal)"
         />
       </div>
     </div>
@@ -26,7 +26,7 @@ const modals = modalManager.modals;
 
 const handleKeydown = (e: KeyboardEvent) => {
   if (e.key === 'Escape' && modals.value.length > 0) {
-    modalManager.closeLast('cancel');
+    modalManager.closeLast();
   }
 };
 

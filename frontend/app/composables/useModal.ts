@@ -11,30 +11,26 @@ function add(modal: Modal) {
   modals.value.push(modal);
 }
 
-/** Close a modal and trigger its onClose callback */
-function close(modal: Modal, reason?: string) {
+/** Close a modal  */
+function close(modal: Modal) {
   const index = modals.value.indexOf(modal);
   if (index !== -1) {
     modals.value.splice(index, 1);
-    modal.options.onClose?.(reason);
   }
   if (modals.value.length === 0) {
     document.body.classList.remove('modal-open');
   }
 }
 
-function closeLast(reason?: string) {
+function closeLast() {
   if (modals.value.length === 0) return;
   const lastModal = modals.value[modals.value.length - 1]!;
-  close(lastModal, reason);
+  close(lastModal);
 }
 
 /** Close all modals in the stack */
-function closeAll(reason?: string) {
-  while (modals.value.length > 0) {
-    const modal = modals.value.pop()!;
-    modal.options.onClose?.(reason);
-  }
+function closeAll() {
+  modals.value = [];
   document.body.classList.remove('modal-open');
 }
 
@@ -43,7 +39,6 @@ export function useModal() {
 }
 
 interface ModalOptions {
-  onClose?: (reason?: string) => void;
   size?: 'small' | 'medium' | 'large';
   noPadding?: boolean;
   props?: object;

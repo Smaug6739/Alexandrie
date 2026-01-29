@@ -1,6 +1,6 @@
 import { makeRequest, type FetchOptions } from './_utils';
 import { Collection } from './collection';
-import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission } from './db_strustures';
+import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_strustures';
 
 export interface SearchOptions {
   query?: string;
@@ -226,15 +226,25 @@ export const useNodesStore = defineStore('nodes', {
         }
       } else throw request;
     },
-    async fetchPublic(id: string): Promise<Node | undefined> {
+    async fetchPublic(id: string): Promise<{ node: Node; children: Node[] } | undefined> {
       console.log(`[store/nodes] Fetching public node with id: ${id}`);
       const existingDoc = this.public_nodes.get(id);
-      if (existingDoc) return existingDoc;
+      if (existingDoc && existingDoc._children !== undefined) {
+        return { node: existingDoc, children: existingDoc._children };
+      }
       const request = await makeRequest(`nodes/public/${id}`, 'GET', {});
       if (request.status === 'success') {
-        const fetchedDoc: Node = { ...(request.result as DB_Node), partial: false, shared: false, permissions: [] };
+        const response = request.result as PublicNodeResponse;
+        const children: Node[] = (response.children || []).map(c => ({ ...c, partial: true, shared: false, permissions: [] }));
+        const fetchedDoc: Node & { _children?: Node[] } = {
+          ...response.node,
+          partial: false,
+          shared: false,
+          permissions: [],
+          _children: children,
+        };
         this.public_nodes.set(fetchedDoc.id, fetchedDoc);
-        return fetchedDoc;
+        return { node: fetchedDoc, children };
       } else return undefined;
     },
     async fetchShared(): Promise<Collection<string, Node>> {
@@ -360,19 +370,19 @@ export const useNodesStore = defineStore('nodes', {
     // Loop through ids and delete them one by one
     // Only update the store after all deletions are successful
     // Return the list of deleted ids and failed ids
-    async bulkDelete(ids: string[]) {
+    async bulkDelete(nodes: Node[]) {
       const deletedIds: string[] = [];
       const failedIds: { id: string; message: string }[] = [];
-      for (const id of ids) {
+      for (const node of nodes) {
         try {
-          const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
+          const request = await makeRequest(`nodes/${node.id}`, 'DELETE', {});
           if (request.status === 'success') {
-            deletedIds.push(id);
+            deletedIds.push(node.id);
           } else {
-            failedIds.push({ id, message: request.message || 'Unknown error' });
+            failedIds.push({ id: node.id, message: request.message || 'Unknown error' });
           }
         } catch (error) {
-          failedIds.push({ id, message: (error as Error).message });
+          failedIds.push({ id: node.id, message: (error as Error).message });
         }
       }
       // Update store
