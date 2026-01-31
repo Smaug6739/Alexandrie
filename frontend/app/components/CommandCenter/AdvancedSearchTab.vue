@@ -45,46 +45,7 @@
 
         <div class="filter-group">
           <label class="filter-label">Tags</label>
-          <div class="tags-filter">
-            <div class="tags-input-wrapper">
-              <div class="tags-input">
-                <input
-                  v-model="tagInput"
-                  type="text"
-                  placeholder="Add tag..."
-                  class="tag-input"
-                  @keydown.enter="handleEnter"
-                  @keydown.arrow-up="tagHandleArrowUp"
-                  @keydown.arrow-down="tagHandleArrowDown"
-                  @keydown.escape="hideSuggestions"
-                  @input="handleTagInput"
-                  @focus="showSuggestions = true"
-                  @blur="hideSuggestions"
-                />
-                <button class="add-tag-btn" @click="addTag">
-                  <Icon name="plus" fill="#fff" />
-                </button>
-              </div>
-              <div v-if="showSuggestions && filteredTagSuggestions.length > 0" class="tag-suggestions">
-                <div
-                  v-for="(tag, index) in filteredTagSuggestions"
-                  :key="tag"
-                  class="tag-suggestion"
-                  :class="{ selected: selectedSuggestionIndex === index }"
-                  @mousedown="selectTag(tag)"
-                  @mouseenter="selectedSuggestionIndex = index"
-                >
-                  {{ tag }}
-                </div>
-              </div>
-            </div>
-            <div v-if="selectedTags?.length" class="selected-tags">
-              <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
-                {{ tag }}
-                <button class="remove-tag" @click.stop="removeTag(tag)">×</button>
-              </span>
-            </div>
-          </div>
+          <AppTagInput v-model="selectedTags" @update:model-value="tagInput = $event" />
         </div>
 
         <div class="filter-group full-width">
@@ -118,8 +79,6 @@ const categoriesTree = new TreeStructure(useSidebarTree().nodes.value.filter(n =
 
 // UI State
 const showFilters = ref(true);
-const showSuggestions = ref(false);
-const selectedSuggestionIndex = ref(0);
 
 // Search State
 const searchInContent = ref(true);
@@ -128,7 +87,7 @@ const dateFrom = ref('');
 const dateTo = ref('');
 const dateType = ref<'created' | 'modified'>('modified');
 const tagInput = ref('');
-const selectedTags = ref<string[]>([]);
+const selectedTags = ref<string>('');
 const selectedCategory = ref('');
 
 /**
@@ -156,7 +115,10 @@ async function localSearch() {
     dateType: dateType.value,
     fromDate: dateFrom.value ? new Date(dateFrom.value) : undefined,
     toDate: dateTo.value ? new Date(dateTo.value) : undefined,
-    tags: selectedTags.value,
+    tags: selectedTags.value
+      .split(',')
+      .map(t => t.trim())
+      .filter(t => t.length > 0),
     role: 3,
   });
 }
@@ -177,7 +139,10 @@ function applyFilters(results: (NodeSearchResult | Node)[]): (NodeSearchResult |
     filtered = filtered.filter(d => {
       if (!d.tags) return false;
       const nodeTags = d.tags.split(',').map(t => t.trim());
-      return selectedTags.value.some(tag => nodeTags.includes(tag));
+      return selectedTags.value
+        .split(',')
+        .map(t => t.trim())
+        .some(tag => nodeTags.includes(tag));
     });
   }
 
@@ -208,12 +173,6 @@ watch(
   },
   { immediate: true, deep: true },
 );
-
-const filteredTagSuggestions = computed(() => {
-  if (!tagInput.value) return [];
-  const input = tagInput.value.toLowerCase();
-  return nodesStore.allTags.filter(tag => tag.toLowerCase().includes(input) && !tagInput.value.includes(tag)).slice(0, 5);
-});
 
 const flattenedItems = computed(() => {
   return searchResults.value.map((doc, idx) => ({
@@ -271,66 +230,12 @@ function escapeHtml(text: string): string {
   return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function addTag() {
-  const tag = tagInput.value.trim();
-  if (tag && !selectedTags.value.includes(tag)) {
-    selectedTags.value.push(tag);
-    tagInput.value = '';
-    showSuggestions.value = false;
-  }
-}
-
-function selectTag(tag?: string) {
-  if (!tag) return;
-  selectedTags.value.push(tag);
-  tagInput.value = '';
-  showSuggestions.value = false;
-}
-
-function handleTagInput() {
-  selectedSuggestionIndex.value = 0;
-  showSuggestions.value = filteredTagSuggestions.value.length > 0;
-}
-
-function hideSuggestions() {
-  setTimeout(() => {
-    showSuggestions.value = false;
-  }, 200);
-}
-
-function handleEnter(event: KeyboardEvent) {
-  event.preventDefault();
-  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
-    selectTag(filteredTagSuggestions.value[selectedSuggestionIndex.value]);
-  } else {
-    addTag();
-  }
-}
-
-function tagHandleArrowUp(event: KeyboardEvent) {
-  event.preventDefault();
-  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
-    selectedSuggestionIndex.value = selectedSuggestionIndex.value > 0 ? selectedSuggestionIndex.value - 1 : filteredTagSuggestions.value.length - 1;
-  }
-}
-
-function tagHandleArrowDown(event: KeyboardEvent) {
-  event.preventDefault();
-  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
-    selectedSuggestionIndex.value = selectedSuggestionIndex.value < filteredTagSuggestions.value.length - 1 ? selectedSuggestionIndex.value + 1 : 0;
-  }
-}
-
 function toggleFilters() {
   showFilters.value = !showFilters.value;
 }
 
-function removeTag(tag: string) {
-  selectedTags.value = selectedTags.value.filter(t => t !== tag);
-}
-
 function clearFilters() {
-  selectedTags.value = [];
+  selectedTags.value = '';
   tagInput.value = '';
   selectedCategory.value = '';
   dateFrom.value = '';
@@ -445,10 +350,6 @@ defineExpose({ flattenedItems });
 
 .date-picker {
   width: 100%;
-  padding: 6px 8px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-size: 13px;
   background: var(--bg-color);
   outline: none;
 
@@ -471,105 +372,6 @@ defineExpose({ flattenedItems });
 
   input[type='radio'] {
     accent-color: var(--primary);
-  }
-}
-
-.tags-filter {
-  .tags-input-wrapper {
-    position: relative;
-  }
-
-  .tags-input {
-    display: flex;
-    gap: 6px;
-  }
-
-  .tag-input {
-    border: 1px solid var(--border-color);
-    font-size: 13px;
-    background: var(--bg-color);
-    flex: 1;
-    outline: none;
-
-    &:focus {
-      border-color: var(--primary);
-    }
-  }
-
-  .add-tag-btn {
-    display: flex;
-    padding: 6px 10px;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    background: var(--primary);
-    align-items: center;
-    cursor: pointer;
-    justify-content: center;
-
-    &:hover {
-      background: var(--primary-dark);
-    }
-  }
-}
-
-.tag-suggestions {
-  position: absolute;
-  top: 100%;
-  right: 40px;
-  left: 0;
-  z-index: 10;
-  max-height: 150px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background: var(--bg-color);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
-  margin-top: 2px;
-  overflow-y: auto;
-}
-
-.tag-suggestion {
-  padding: 6px 10px;
-  font-size: 12px;
-  cursor: pointer;
-
-  &:hover,
-  &.selected {
-    background: var(--border-color);
-  }
-}
-
-.selected-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-}
-
-.tag-chip {
-  display: inline-flex;
-  padding: 2px 6px;
-  border-radius: 10px;
-  font-size: 11px;
-  background: var(--border-color);
-  align-items: center;
-  gap: 4px;
-
-  .remove-tag {
-    display: flex;
-    width: 14px;
-    height: 14px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background: none;
-    align-items: center;
-    cursor: pointer;
-    justify-content: center;
-
-    &:hover {
-      color: var(--opposite-color);
-    }
   }
 }
 
@@ -607,13 +409,5 @@ defineExpose({ flattenedItems });
   margin: 2px 0 0;
   font-size: 10px;
   color: var(--font-color-light);
-}
-
-.tag {
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 10px;
-  color: white;
-  background: var(--primary);
 }
 </style>

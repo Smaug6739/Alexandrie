@@ -7,11 +7,12 @@
 
       <!-- Compact Document Metadata -->
       <div v-if="!minimal" class="document-meta">
-        <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
-        <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
-        <AppTagInput v-model="document.tags" class="meta-tags" @update:model-value="autoSaveConditional" />
+        <div class="line">
+          <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
+          <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
+        </div>
+        <AppTagInput v-model="document.tags" display="row" minimal @update:modelValue="autoSaveConditional" />
       </div>
-      <AppTagInput v-else v-model="document.tags" style="margin: 4px 0" @update:model-value="autoSaveConditional" />
 
       <!-- Editor Content Section -->
       <div ref="container" class="editor-content">
@@ -161,13 +162,16 @@ const autoSave = debounceDelayed(() => {
 
 // Compact Document Metadata - Single line
 .document-meta {
-  display: flex;
+  .line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
   padding: 6px 12px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   background: var(--bg-color);
-  align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
 }
 
