@@ -85,6 +85,13 @@ func InitBluemonday() {
 	// Disable automatic rel="nofollow"
 	policy.RequireNoFollowOnLinks(false)
 
+	// Images videos audio
+	policy.AllowAttrs("src", "alt", "title", "width", "height").OnElements("img")
+	policy.AllowAttrs("src", "controls", "alt").OnElements("audio", "video")
+
+	// Iframe (use with caution)
+	policy.AllowAttrs("src", "width", "height", "allow", "allowfullscreen", "frameborder").OnElements("iframe")
+
 	// -------------------------------
 	// ELEMENTS THAT MUST HAVE NO ATTRIBUTES
 	// -------------------------------

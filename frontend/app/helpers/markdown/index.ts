@@ -10,7 +10,7 @@ import highlight from 'markdown-it-highlightjs';
 // @ts-expect-error no types provided
 import mark from 'markdown-it-mark';
 import colorPlugin from './colors';
-import { subscriptPlugin, superscriptPlugin, footNotePlugin } from './other';
+import { subscriptPlugin, superscriptPlugin, footNotePlugin, html5MediaPlugin } from './other';
 import { markdownItCheckbox } from './checkbox';
 import { markdownItKatexPlugin } from './katex';
 
@@ -32,6 +32,7 @@ md.use(colorPlugin, {
   enableBracketSyntax: true, // also parse [text]{color=value}
   allowHex: true, // allow #rgb and #rrggbb
 });
+md.use(html5MediaPlugin);
 
 export default function compile(str: string = ''): string {
   // Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)

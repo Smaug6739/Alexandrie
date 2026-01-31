@@ -101,6 +101,22 @@ img {
 	margin-bottom: 5px;
 }
 
+audio,
+video {
+	display: block;
+	width: 100%;
+	margin: 10px 0;
+	border-radius: 6px;
+	background: var(--bg-ui);
+}
+
+iframe {
+	max-width: 100%;
+	border: none;
+	border-radius: 6px;
+	margin: 10px 0;
+}
+
 input,
 select,
 textarea {
