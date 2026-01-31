@@ -35,6 +35,13 @@ SupportedTypes = [
 	"video/x-flv",      # .flv
 	"video/x-matroska", # .mkv
 	"video/webm",       # .webm
+	# audio formats
+	"audio/mpeg",       # .mp3
+	"audio/wav",        # .wav
+	"audio/ogg",        # .ogg
+	"audio/flac",       # .flac
+	"audio/aac",        # .aac
+	"audio/webm",       # .webm
 	# document formats
 	"application/pdf",    # .pdf
 	"application/msword", # .doc

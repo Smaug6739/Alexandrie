@@ -1,7 +1,10 @@
 <template>
   <div class="card-component">
     <header>
-      <h3>Update resource</h3>
+      <h1>Update resource</h1>
+      <NuxtLink :to="`/dashboard/cdn/${resource?.id}/preview`" class="btn-icon">
+        <AppButton type="secondary">Preview</AppButton>
+      </NuxtLink>
     </header>
     <p>Manage resources and files on the server. You can edit metadata and delete file from the server.</p>
     <form v-if="resource" @submit.prevent>
@@ -32,11 +35,6 @@
       <div class="actions-row">
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
         <AppButton type="danger" @click="showDeleteModal">Delete</AppButton>
-      </div>
-      <h4>Preview</h4>
-      <div class="preview">
-        <img v-if="(resource.metadata?.filetype as string)?.startsWith('image/')" :src="resourceURL(resource)" alt="Preview" />
-        <p v-else>Preview not available for this file type.</p>
       </div>
     </form>
   </div>
@@ -109,11 +107,5 @@ a {
 }
 .actions-row {
   justify-content: flex-end;
-}
-.preview {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
 }
 </style>

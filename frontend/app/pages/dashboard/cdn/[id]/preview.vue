@@ -15,6 +15,8 @@
       <div class="preview">
         <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
         <LazyPDFViewer v-else-if="isPdfFile(mimeType)" :src="resourceURL(resource)" :zoom="zoom" />
+        <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls />
+        <audio v-else-if="isAudioFile(mimeType)" :src="resourceURL(resource)" controls />
         <div v-else class="no-preview">
           <p>Preview not available for this file type.</p>
           <p>
@@ -30,7 +32,7 @@
 
 <script setup lang="ts">
 import { PDF_SCALES } from '~/helpers/constants';
-import { isImageFile, isPdfFile } from '~/helpers/resources';
+import { isImageFile, isPdfFile, isVideoFile, isAudioFile } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Preview' });
 
