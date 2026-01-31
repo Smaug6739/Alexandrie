@@ -54,7 +54,7 @@ const handleDelete = async () => {
     } else if (props.node) {
       await store.delete(props.node.id);
     }
-    emit('close', 'success');
+    emit('close');
     if (props.redirectTo) {
       useRouter().push(props.redirectTo);
     }

@@ -36,7 +36,6 @@ export const DEFAULT_PREFERENCES = {
     { id: ':::grey', label: ':::grey\n${0}\n:::' },
     { id: ':::details', label: ':::details\n${0}\n:::' },
     { id: ':::center', label: ':::center\n${0}\n:::' },
-    { id: ':::m', label: '${0}$' },
     { id: ':::property', label: ':::property ${0}\n\n:::' },
     { id: ':::warning', label: ':::warning ${0}\n\n:::' },
   ] as ANode<string>[],
