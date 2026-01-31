@@ -45,6 +45,7 @@ export const DEFAULT_PREFERENCES = {
   editorSpellCheck: true as boolean,
   editorDisplayStats: false as boolean,
   editorSnippetsEnabled: true as boolean,
+  editorSimplifiedViewOnMobile: true as boolean,
   developerMode: false as boolean,
 };
 

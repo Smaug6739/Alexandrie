@@ -224,10 +224,16 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
       },
       {
         label: 'Enable Snippets',
-        tag: 'New',
         description: 'Enable or disable editor snippets functionality.',
         type: 'toggle',
         key: 'editorSnippetsEnabled',
+      },
+      {
+        label: 'Simplified view for mobile',
+        tag: 'New',
+        description: 'Enable a simplified editor view on mobile devices for better usability.',
+        type: 'toggle',
+        key: 'editorSimplifiedViewOnMobile',
       },
     ],
   },

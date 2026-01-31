@@ -25,19 +25,7 @@
           <span v-else>Hover to see table size</span>
         </div>
       </div>
-
-      <div class="quick-presets">
-        <div class="presets-grid">
-          <div v-for="preset in gridPresets" :key="preset.name" class="preset-item" @click="selectPreset(preset)">
-            <div class="preset-visual" :style="getPresetStyle(preset)">
-              <div v-for="cell in preset.cells" :key="cell.id" class="preset-cell" :style="getCellStyle(cell)"></div>
-            </div>
-            <span class="preset-name">{{ preset.name }}</span>
-          </div>
-        </div>
-      </div>
     </div>
-
     <div class="modal-footer">
       <button class="cancel-btn" @click="closeModal">Cancel</button>
     </div>
@@ -56,111 +44,6 @@ const emit = defineEmits<{
 
 const hoveredSize = ref<{ rows: number; columns: number } | null>(null);
 const selectedSize = ref<{ rows: number; columns: number } | null>(null);
-
-interface GridCell {
-  id: string;
-  col: number;
-  row: number;
-  colspan?: number;
-  rowspan?: number;
-}
-
-interface GridPreset {
-  name: string;
-  columns: number;
-  rows: number;
-  cells: GridCell[];
-}
-
-const gridPresets: GridPreset[] = [
-  {
-    name: '2x2 Grid',
-    columns: 2,
-    rows: 2,
-    cells: [
-      { id: '1', col: 1, row: 1 },
-      { id: '2', col: 2, row: 1 },
-      { id: '3', col: 1, row: 2 },
-      { id: '4', col: 2, row: 2 },
-    ],
-  },
-  {
-    name: '3x2 Grid',
-    columns: 3,
-    rows: 2,
-    cells: [
-      { id: '1', col: 1, row: 1 },
-      { id: '2', col: 2, row: 1 },
-      { id: '3', col: 3, row: 1 },
-      { id: '4', col: 1, row: 2 },
-      { id: '5', col: 2, row: 2 },
-      { id: '6', col: 3, row: 2 },
-    ],
-  },
-  {
-    name: '2x3 Grid',
-    columns: 2,
-    rows: 3,
-    cells: [
-      { id: '1', col: 1, row: 1 },
-      { id: '2', col: 2, row: 1 },
-      { id: '3', col: 1, row: 2 },
-      { id: '4', col: 2, row: 2 },
-      { id: '5', col: 1, row: 3 },
-      { id: '6', col: 2, row: 3 },
-    ],
-  },
-  {
-    name: '3x3 Grid',
-    columns: 3,
-    rows: 3,
-    cells: [
-      { id: '1', col: 1, row: 1 },
-      { id: '2', col: 2, row: 1 },
-      { id: '3', col: 3, row: 1 },
-      { id: '4', col: 1, row: 2 },
-      { id: '5', col: 2, row: 2 },
-      { id: '6', col: 3, row: 2 },
-      { id: '7', col: 1, row: 3 },
-      { id: '8', col: 2, row: 3 },
-      { id: '9', col: 3, row: 3 },
-    ],
-  },
-
-  {
-    name: 'Two Column',
-    columns: 2,
-    rows: 3,
-    cells: [
-      { id: '1', col: 1, row: 1 },
-      { id: '2', col: 2, row: 1 },
-      { id: '3', col: 1, row: 2 },
-      { id: '4', col: 2, row: 2 },
-      { id: '5', col: 1, row: 3 },
-      { id: '6', col: 2, row: 3 },
-    ],
-  },
-];
-
-const getPresetStyle = (preset: GridPreset) => {
-  return {
-    display: 'grid',
-    gridTemplateColumns: `repeat(${preset.columns}, 1fr)`,
-    gridTemplateRows: `repeat(${preset.rows}, 1fr)`,
-    gap: '2px',
-    width: '100%',
-    height: '60px',
-  };
-};
-
-const getCellStyle = (cell: GridCell) => {
-  return {
-    gridColumn: cell.colspan ? `span ${cell.colspan}` : `span 1`,
-    gridRow: cell.rowspan ? `span ${cell.rowspan}` : `span 1`,
-    backgroundColor: 'var(--primary)',
-    borderRadius: '2px',
-  };
-};
 
 const isHovered = (row: number, col: number): boolean => {
   if (!hoveredSize.value) return false;
@@ -183,12 +66,6 @@ const handleHoverLeave = () => {
 const selectTableSize = (row: number, col: number) => {
   selectedSize.value = { rows: row, columns: col };
   const gridMarkdown = generateGridMarkdown(col, row);
-  props.onGridSelect(gridMarkdown);
-  emit('close');
-};
-
-const selectPreset = (preset: GridPreset) => {
-  const gridMarkdown = generateGridMarkdown(preset.columns, preset.rows);
   props.onGridSelect(gridMarkdown);
   emit('close');
 };
@@ -314,83 +191,6 @@ const closeModal = () => {
   margin-right: auto;
 }
 
-.presets-grid {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  margin-bottom: 16px;
-}
-
-.preset-item {
-  position: relative;
-  padding: 12px;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  text-align: center;
-  background: var(--bg-color-secondary);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  overflow: hidden;
-
-  &::before {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light, var(--primary)));
-    transition: transform 0.3s ease;
-    content: '';
-    transform: scaleX(0);
-  }
-
-  &:hover {
-    border-color: var(--primary);
-    background: var(--bg-color);
-    box-shadow: 0 12px 32px rgb(0 0 0 / 15%);
-    transform: translateY(-4px);
-
-    &::before {
-      transform: scaleX(1);
-    }
-
-    .preset-visual {
-      border-color: var(--primary);
-      box-shadow: 0 4px 16px rgb(var(--primary-rgb), 0.2);
-    }
-  }
-
-  .preset-visual {
-    position: relative;
-    height: 50px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    background: var(--bg-color);
-    transition: all 0.3s ease;
-    margin-bottom: 8px;
-
-    &::after {
-      position: absolute;
-      border-radius: 4px;
-      background: linear-gradient(135deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 5%));
-      content: '';
-      inset: 0;
-      pointer-events: none;
-    }
-  }
-
-  .preset-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--font-color-dark);
-    transition: color 0.3s ease;
-  }
-
-  &:hover .preset-name {
-    color: var(--primary);
-  }
-}
-
 .modal-footer {
   display: flex;
   padding: 24px 0;
@@ -432,11 +232,6 @@ const closeModal = () => {
       width: 14px;
       height: 14px;
     }
-  }
-
-  .presets-grid {
-    gap: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 
   .table-info {

@@ -3,15 +3,15 @@
   <div class="editor-wrapper">
     <div class="editor-container">
       <!-- Toolbar Section -->
-      <Toolbar v-model="document" :minimal="minimal" @execute-action="commands.exec" />
+      <Toolbar v-model="document" @execute-action="commands.exec" />
 
       <!-- Compact Document Metadata -->
-      <div v-if="!minimal" class="document-meta">
+      <div class="document-meta">
         <div class="line">
           <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
           <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
         </div>
-        <AppTagInput v-model="document.tags" display="row" minimal @update:modelValue="autoSaveConditional" />
+        <AppTagInput v-model="document.tags" display="row" minimal @update:model-value="autoSaveConditional" />
       </div>
 
       <!-- Editor Content Section -->
@@ -47,7 +47,7 @@ import type { Node } from '~/stores';
 const resourcesStore = useResourcesStore();
 const preferences = usePreferences();
 
-const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();
+const props = defineProps<{ doc?: Partial<Node> }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
 
 const editorContainer = ref<HTMLDivElement>();
@@ -157,7 +157,7 @@ const autoSave = debounceDelayed(() => {
   width: 100%;
   height: 100%;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 // Compact Document Metadata - Single line
@@ -168,7 +168,7 @@ const autoSave = debounceDelayed(() => {
     flex-wrap: wrap;
   }
 
-  padding: 6px 12px;
+  padding: 6px 10px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   background: var(--bg-color);
@@ -221,11 +221,6 @@ const autoSave = debounceDelayed(() => {
     color: var(--font-color-light);
     opacity: 0.7;
   }
-}
-
-.meta-tags {
-  min-width: 150px;
-  flex: 0 1 auto;
 }
 
 // Editor Content Section
@@ -329,10 +324,6 @@ const autoSave = debounceDelayed(() => {
   .meta-description {
     width: 100%;
     max-width: 100%;
-  }
-
-  .meta-tags {
-    width: 100%;
   }
 }
 </style>
