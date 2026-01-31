@@ -17,6 +17,12 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
     });
   }
 
+  // Allow OIDC callback page to work regardless of auth state
+  // This is needed for the link flow when user is already logged in
+  if (to.fullPath.startsWith('/login/oidc/callback')) {
+    return;
+  }
+
   if (to.fullPath.startsWith('/login') || to.fullPath.startsWith('/signup')) {
     if (user_auth)
       return navigateTo({

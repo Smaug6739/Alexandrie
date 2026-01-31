@@ -18,7 +18,7 @@
       <label>Name</label>
       <input id="name" v-model="resource.name" type="text" required />
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
-      <AppSelect v-model="resource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.role !== 3" placeholder="Select a resource parent" />
+      <AppSelect v-model="resource.parent_id" :items="tree" :disabled="i => (i as Item).data?.role !== 3" placeholder="Select a resource parent" />
       <label>Type</label>
       <input id="id" type="text" :value="resource.metadata?.filetype" disabled />
       <label>Original path</label>
@@ -36,7 +36,7 @@
       <h4>Preview</h4>
       <div class="preview">
         <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
-        <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls  />
+        <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls></video>
         <p v-else>Preview not available for this file type.</p>
       </div>
     </form>
@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import DeleteResourceModal from '../_modals/DeleteResourceModal.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize, isImageFile, isVideoFile } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Edit' });
@@ -75,7 +75,7 @@ const updateCategory = async () => {
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const showDeleteModal = () => {
-  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: [resource.value?.id] } }));
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 </script>
 

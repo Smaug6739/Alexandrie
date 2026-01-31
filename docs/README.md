@@ -168,6 +168,16 @@ In production, you should:
 - Use a reverse proxy (Nginx, Traefik, Caddy)
 - Terminate HTTPS at the proxy
 
+## Additional Configuration & Advanced Setup
+
+For advanced configuration options for backend you can create your own `config.toml` file with the same structure as the default one (in `backend/config.toml`) and add the following environment variable to your `.env` file:
+
+```env
+CONFIG_PATH=./config.toml # Path to your custom config.toml file
+```
+
+This allows you to customize advanced settings not covered by environment variables (such as default values, logging levels, supported files etc).
+
 ## FAQ — Common Issues & Troubleshooting
 
 ### I am instantly logged out after logging in (login loop)

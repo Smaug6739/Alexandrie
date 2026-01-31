@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import TabNavigation from './TabNavigation.vue';
 import QuickSearchTab from './QuickSearchTab.vue';
 import AdvancedSearchTab from './AdvancedSearchTab.vue';
@@ -214,7 +214,9 @@ watch(searchQuery, () => (selectedIndex.value = 0));
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .modal-enter-from,

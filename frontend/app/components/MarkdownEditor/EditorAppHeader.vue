@@ -1,7 +1,7 @@
 <template>
   <div class="modal-header">
     <div class="header-icon">
-      <Icon :name="icon" style="width: 30px; height: 30px" fill="var(--bg-color)" />
+      <Icon :name="icon" display="xxl" fill="var(--bg-color)" />
     </div>
     <h3>{{ title }}</h3>
     <p class="header-subtitle">{{ subtitle }}</p>
@@ -31,11 +31,6 @@ defineProps<{ icon: string; title: string; subtitle: string }>();
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
   }
 
   h3 {

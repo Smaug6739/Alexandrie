@@ -6,21 +6,21 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+
+	"github.com/jmoiron/sqlx"
 )
 
-// NodeRepositoryImpl implements the NodeRepository interface with prepared statements
 type NodeRepositoryImpl struct {
-	db      *sql.DB
-	manager *RepositoryManager
+	db *sqlx.DB
 }
 
-// NodeRepository defines the interface for node data access operations
 type NodeRepository interface {
 	GetAll(userId types.Snowflake) ([]*models.Node, error)
 	GetShared(userId types.Snowflake) ([]*models.Node, error)
 	GetAllForBackup(userId types.Snowflake) ([]*models.Node, error)
 	GetByID(nodeId types.Snowflake) (*models.Node, error)
 	GetPublic(nodeId types.Snowflake) (*models.Node, error)
+	GetPublicDescendants(nodeId types.Snowflake) ([]*models.Node, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
 	GetDescendantResources(nodeId types.Snowflake) ([]*models.NodeResourceInfo, error)
 	SearchFulltext(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error)
@@ -29,297 +29,64 @@ type NodeRepository interface {
 	Delete(nodeId types.Snowflake) error
 }
 
-// Prepared statement keys
-const (
-	stmNodeGetAll                  = "node_get_all"
-	stmNodeGetShared               = "node_get_shared"
-	stmNodeGetAllForBackup         = "node_get_all_backup"
-	stmtNodeGetByID                = "node_get_by_id"
-	stmtNodeGetPublic              = "node_get_public"
-	stmtNodeGetUserUploadsSize     = "node_get_user_uploads_size"
-	stmtNodeGetDescendantResources = "node_get_descendant_resources"
-	stmtNodeCreate                 = "node_create"
-	stmtNodeUpdate                 = "node_update"
-	stmtNodeDelete                 = "node_delete"
-	stmtNodeSearchFulltext         = "node_search_fulltext"
-	stmtNodeSearchContent          = "node_search_content"
-	// Note: GetAll and GetShared use complex recursive CTEs, prepared separately
-)
-
-// NewNodeRepository creates a new node repository with prepared statements
-func NewNodeRepository(db *sql.DB, manager *RepositoryManager) (NodeRepository, error) {
-	repo := &NodeRepositoryImpl{
-		db:      db,
-		manager: manager,
-	}
-
-	if err := repo.prepareStatements(); err != nil {
-		return nil, fmt.Errorf("failed to prepare node statements: %w", err)
-	}
-
-	return repo, nil
-}
-
-// prepareStatements prepares all SQL statements for the node repository
-func (r *NodeRepositoryImpl) prepareStatements() error {
-	statements := map[string]string{
-
-		stmNodeGetAll: `
-		WITH RECURSIVE user_nodes AS (
-		-- 1. Every node owned by the user
-		SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
-				   n.accessibility, n.access, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
-		FROM nodes n
-		WHERE n.user_id = ?
-
-		UNION
-
-		-- 2. Child nodes of owned nodes (even if not owned by the user)
-		SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
-				   c.accessibility, c.access, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
-		FROM nodes c
-		JOIN user_nodes un ON un.id = c.parent_id)
-		SELECT * FROM user_nodes ORDER BY role, 'order' DESC, name;`,
-
-		stmNodeGetShared: `
-		WITH RECURSIVE shared_nodes AS (
-		    SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
-		           n.accessibility, n.access, n.display, n.order, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
-		    FROM nodes n
-		    JOIN permissions p ON p.node_id = n.id
-		    WHERE p.user_id = ?
-
-		    UNION
-
-		    SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
-		           c.accessibility, c.access, c.display, c.order, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
-		    FROM nodes c
-		    JOIN shared_nodes an ON an.id = c.parent_id
-		)
-		SELECT * FROM shared_nodes;`,
-
-		stmNodeGetAllForBackup: `
-		SELECT id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
-		       accessibility, access, display, ` + "`order`" + `, content, content_compiled, size, metadata, 
-		       created_timestamp, updated_timestamp 
-		FROM nodes 
-		WHERE user_id = ?`,
-
-		stmtNodeGetByID: `
-			SELECT id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
-			       accessibility, access, display, ` + "`order`" + `, content, content_compiled, size, metadata, 
-			       created_timestamp, updated_timestamp 
-			FROM nodes 
-			WHERE id = ?`,
-
-		stmtNodeGetPublic: `
-			SELECT id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
-			       accessibility, access, display, ` + "`order`" + `, content, content_compiled, size, metadata, 
-			       created_timestamp, updated_timestamp 
-			FROM nodes 
-			WHERE id = ? AND accessibility = 3`,
-
-		stmtNodeGetUserUploadsSize: `
-			SELECT COALESCE(SUM(size), 0) 
-			FROM nodes 
-			WHERE user_id = ?`,
-
-		// Get all descendant resource nodes (role=4) for cleanup before deletion
-		// This includes the node itself if it's a resource, plus all descendant resources
-		stmtNodeGetDescendantResources: `
-			WITH RECURSIVE descendants AS (
-				SELECT id, user_id, role, metadata
-				FROM nodes
-				WHERE id = ?
-				
-				UNION ALL
-				
-				SELECT n.id, n.user_id, n.role, n.metadata
-				FROM nodes n
-				JOIN descendants d ON n.parent_id = d.id
-			)
-			SELECT id, user_id, metadata
-			FROM descendants
-			WHERE role = 4`,
-
-		// FULLTEXT search including content body (for content search)
-		stmtNodeSearchContent: `
-			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
-			       MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
-			       SUBSTRING(n.content, 
-			           GREATEST(1, LOCATE(?, LOWER(n.content)) - 50), 
-			           200) AS content_snippet,
-						 n.created_timestamp,
-			       n.updated_timestamp
-			FROM nodes n
-			WHERE n.user_id = ? AND n.role = 3
-			  AND MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
-			ORDER BY relevance DESC
-			LIMIT ?`,
-
-		stmtNodeCreate: `
-			INSERT INTO nodes (id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
-			                   accessibility, access, display, ` + "`order`" + `, content, content_compiled, size, metadata, 
-			                   created_timestamp, updated_timestamp) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-
-		stmtNodeUpdate: `
-			UPDATE nodes 
-			SET parent_id = ?, user_id = ?, name = ?, description = ?, tags = ?, role = ?, color = ?, 
-			    icon = ?, thumbnail = ?, theme = ?, accessibility = ?, access = ?, display = ?, ` + "`order`" + ` = ?, 
-			    content = ?, content_compiled = ?, metadata = ?, updated_timestamp = ? 
-			WHERE id = ?`,
-
-		stmtNodeDelete: `
-			DELETE FROM nodes 
-			WHERE id = ?`,
-
-		// FULLTEXT search on name, description, tags only (faster, for quick search)
-		stmtNodeSearchFulltext: `
-			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
-			       MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
-			       NULL AS content_snippet,
-						 n.created_timestamp,
-			       n.updated_timestamp
-			FROM nodes n
-			WHERE n.user_id = ? AND n.role = 3
-			  AND MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
-			ORDER BY relevance DESC
-			LIMIT ?`,
-	}
-
-	// Prepare all statements
-	for key, query := range statements {
-		if _, err := r.manager.PrepareStatement(key, query); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-// scanNode scans a node from a database row
-func (r *NodeRepositoryImpl) scanNode(scanner interface {
-	Scan(dest ...interface{}) error
-}) (*models.Node, error) {
-	var node models.Node
-	err := scanner.Scan(
-		&node.Id,
-		&node.UserId,
-		&node.ParentId,
-		&node.Name,
-		&node.Description,
-		&node.Tags,
-		&node.Role,
-		&node.Color,
-		&node.Icon,
-		&node.Thumbnail,
-		&node.Theme,
-		&node.Accessibility,
-		&node.Access,
-		&node.Display,
-		&node.Order,
-		&node.Content,
-		&node.ContentCompiled,
-		&node.Size,
-		&node.Metadata,
-		&node.CreatedTimestamp,
-		&node.UpdatedTimestamp,
-	)
-	if err != nil {
-		return nil, err
-	}
-	return &node, nil
-}
-
-// scanNodePartial scans a node with partial fields from a database row
-func (r *NodeRepositoryImpl) scanNodePartial(scanner interface {
-	Scan(dest ...interface{}) error
-}) (*models.Node, error) {
-	var node models.Node
-	err := scanner.Scan(
-		&node.Id,
-		&node.UserId,
-		&node.ParentId,
-		&node.Name,
-		&node.Description,
-		&node.Tags,
-		&node.Role,
-		&node.Color,
-		&node.Icon,
-		&node.Theme,
-		&node.Accessibility,
-		&node.Access,
-		&node.Display,
-		&node.Order,
-		&node.Size,
-		&node.Metadata,
-		&node.CreatedTimestamp,
-		&node.UpdatedTimestamp,
-	)
-	if err != nil {
-		return nil, err
-	}
-	return &node, nil
+func NewNodeRepository(db *sqlx.DB) NodeRepository {
+	return &NodeRepositoryImpl{db: db}
 }
 
 // GetAll retrieves all nodes for a user using recursive CTE
 func (r *NodeRepositoryImpl) GetAll(userId types.Snowflake) ([]*models.Node, error) {
-	stmt, err := r.manager.GetStatement("node_get_all")
-	if err != nil {
-		return nil, err
-	}
+	var nodes []*models.Node
+	err := r.db.Select(&nodes, `
+		WITH RECURSIVE user_nodes AS (
+			-- 1. Every node owned by the user
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
+				   n.accessibility, n.access, n.display, n.`+"`order`"+`, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
+			FROM nodes n
+			WHERE n.user_id = ?
 
-	rows, err := stmt.Query(userId)
+			UNION
+
+			-- 2. Child nodes of owned nodes (even if not owned by the user)
+			SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
+				   c.accessibility, c.access, c.display, c.`+"`order`"+`, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
+			FROM nodes c
+			JOIN user_nodes un ON un.id = c.parent_id
+		)
+		SELECT * FROM user_nodes ORDER BY role, 'order' DESC, name`, userId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query user nodes: %w", err)
 	}
-	defer rows.Close()
-
-	nodes := make([]*models.Node, 0)
-	for rows.Next() {
-		node, err := r.scanNodePartial(rows)
-		if err != nil {
-			return nil, fmt.Errorf("failed to scan node: %w", err)
-		}
-		nodes = append(nodes, node)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("error iterating nodes: %w", err)
-	}
-
 	return nodes, nil
 }
 
 // GetShared retrieves all shared nodes for a user with optimized query
 func (r *NodeRepositoryImpl) GetShared(userId types.Snowflake) ([]*models.Node, error) {
-	stmt, err := r.manager.GetStatement("node_get_shared")
-	if err != nil {
-		return nil, err
-	}
+	var nodes []*models.Node
+	err := r.db.Select(&nodes, `
+		WITH RECURSIVE shared_nodes AS (
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
+				   n.accessibility, n.access, n.display, n.`+"`order`"+`, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
+			FROM nodes n
+			JOIN permissions p ON p.node_id = n.id
+			WHERE p.user_id = ?
 
-	rows, err := stmt.Query(userId)
+			UNION
+
+			SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
+				   c.accessibility, c.access, c.display, c.`+"`order`"+`, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
+			FROM nodes c
+			JOIN shared_nodes an ON an.id = c.parent_id
+		)
+		SELECT * FROM shared_nodes`, userId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query shared nodes: %w", err)
 	}
-	defer rows.Close()
 
+	// Build node map for permission loading
 	nodeMap := make(map[types.Snowflake]*models.Node)
-	nodes := make([]*models.Node, 0)
-
-	for rows.Next() {
-		node, err := r.scanNodePartial(rows)
-		if err != nil {
-			return nil, fmt.Errorf("failed to scan node: %w", err)
-		}
+	for _, node := range nodes {
 		node.Permissions = []*models.Permission{}
-		nodes = append(nodes, node)
 		nodeMap[node.Id] = node
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("error iterating nodes: %w", err)
 	}
 
 	// Batch fetch permissions for all nodes
@@ -352,15 +119,8 @@ func (r *NodeRepositoryImpl) loadPermissionsForNodes(userId types.Snowflake, nod
 		WHERE user_id = ? AND node_id IN (%s)`,
 		strings.Join(placeholders, ","))
 
-	// Prepare this query (it's dynamic so we prepare it on-the-fly)
-	stmt, err := r.db.Prepare(query)
-	if err != nil {
-		return fmt.Errorf("failed to prepare permissions query: %w", err)
-	}
-	defer stmt.Close()
-
 	args := append([]interface{}{userId}, nodeIDs...)
-	rows, err := stmt.Query(args...)
+	rows, err := r.db.Query(query, args...)
 	if err != nil {
 		return fmt.Errorf("failed to query permissions: %w", err)
 	}
@@ -382,108 +142,134 @@ func (r *NodeRepositoryImpl) loadPermissionsForNodes(userId types.Snowflake, nod
 
 // GetAllForBackup retrieves all nodes for backup (includes full content)
 func (r *NodeRepositoryImpl) GetAllForBackup(userId types.Snowflake) ([]*models.Node, error) {
-	stmt, err := r.manager.GetStatement("node_get_all_backup")
-	if err != nil {
-		return nil, err
-	}
-
-	rows, err := stmt.Query(userId)
+	var nodes []*models.Node
+	err := r.db.Select(&nodes, `
+		SELECT id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
+		       accessibility, access, display, `+"`order`"+`, content, content_compiled, size, metadata, 
+		       created_timestamp, updated_timestamp 
+		FROM nodes 
+		WHERE user_id = ?`, userId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query nodes for backup: %w", err)
 	}
-	defer rows.Close()
-
-	nodes := make([]*models.Node, 0)
-	for rows.Next() {
-		node, err := r.scanNode(rows)
-		if err != nil {
-			return nil, fmt.Errorf("failed to scan node: %w", err)
-		}
-		nodes = append(nodes, node)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("error iterating nodes: %w", err)
-	}
-
 	return nodes, nil
 }
 
 // GetByID retrieves a single node by ID
 func (r *NodeRepositoryImpl) GetByID(nodeId types.Snowflake) (*models.Node, error) {
-	stmt, err := r.manager.GetStatement(stmtNodeGetByID)
-	if err != nil {
-		return nil, err
+	var node models.Node
+	err := r.db.Get(&node, `
+		SELECT id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
+		       accessibility, access, display, `+"`order`"+`, content, content_compiled, size, metadata, 
+		       created_timestamp, updated_timestamp 
+		FROM nodes 
+		WHERE id = ?`, nodeId)
+	if err == sql.ErrNoRows {
+		return nil, nil
 	}
-
-	node, err := r.scanNode(stmt.QueryRow(nodeId))
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to get node by id: %w", err)
 	}
-
-	return node, nil
+	return &node, nil
 }
 
-// GetPublic retrieves a public node by ID
+// GetPublic retrieves a node if it or any of its ancestors is public
+// This allows accessing child nodes of a public parent through hierarchical inheritance
 func (r *NodeRepositoryImpl) GetPublic(nodeId types.Snowflake) (*models.Node, error) {
-	stmt, err := r.manager.GetStatement(stmtNodeGetPublic)
-	if err != nil {
-		return nil, err
+	var node models.Node
+	err := r.db.Get(&node, `
+		WITH RECURSIVE ancestors AS (
+			-- Start with the requested node
+			SELECT id, parent_id, accessibility
+			FROM nodes
+			WHERE id = ?
+			
+			UNION ALL
+			
+			-- Recursively get parent nodes
+			SELECT n.id, n.parent_id, n.accessibility
+			FROM nodes n
+			JOIN ancestors a ON n.id = a.parent_id
+		)
+		SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.thumbnail, n.theme, 
+		       n.accessibility, n.access, n.display, n.`+"`order`"+`, n.content, n.content_compiled, n.size, n.metadata, 
+		       n.created_timestamp, n.updated_timestamp 
+		FROM nodes n
+		WHERE n.id = ? AND EXISTS (
+			SELECT 1 FROM ancestors WHERE accessibility = 3
+		)`, nodeId, nodeId)
+	if err == sql.ErrNoRows {
+		return nil, nil
 	}
-
-	node, err := r.scanNode(stmt.QueryRow(nodeId))
-
 	if err != nil {
 		return nil, fmt.Errorf("failed to get public node: %w", err)
 	}
+	return &node, nil
+}
 
-	return node, nil
+// GetPublicDescendants retrieves ALL descendants of a node recursively (role 1, 2, 3 only)
+// Children inherit public access from their parent
+func (r *NodeRepositoryImpl) GetPublicDescendants(nodeId types.Snowflake) ([]*models.Node, error) {
+	var descendants []*models.Node
+	err := r.db.Select(&descendants, `
+		WITH RECURSIVE descendant_nodes AS (
+			-- Direct children of the public node
+			SELECT id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme,
+			       accessibility, access, display, `+"`order`"+`, size, metadata, 
+			       created_timestamp, updated_timestamp
+			FROM nodes
+			WHERE parent_id = ? AND role IN (1, 2, 3)
+			
+			UNION ALL
+			
+			-- Recursively get all descendants
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.thumbnail, n.theme,
+			       n.accessibility, n.access, n.display, n.`+"`order`"+`, n.size, n.metadata, 
+			       n.created_timestamp, n.updated_timestamp
+			FROM nodes n
+			JOIN descendant_nodes d ON n.parent_id = d.id
+			WHERE n.role IN (1, 2, 3)
+		)
+		SELECT * FROM descendant_nodes
+		ORDER BY role ASC, `+"`order`"+` DESC, name ASC`, nodeId)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get public descendants: %w", err)
+	}
+	return descendants, nil
 }
 
 // GetUserUploadsSize calculates total upload size for a user
 func (r *NodeRepositoryImpl) GetUserUploadsSize(userId types.Snowflake) (int64, error) {
-	stmt, err := r.manager.GetStatement(stmtNodeGetUserUploadsSize)
-	if err != nil {
-		return 0, err
-	}
-
 	var totalSize int64
-	err = stmt.QueryRow(userId).Scan(&totalSize)
+	err := r.db.Get(&totalSize, `SELECT COALESCE(SUM(size), 0) FROM nodes WHERE user_id = ?`, userId)
 	if err != nil {
 		return 0, fmt.Errorf("failed to get user uploads size: %w", err)
 	}
-
 	return totalSize, nil
 }
 
 // GetDescendantResources retrieves all descendant nodes with role=4 (resources)
 // This is used to clean up MinIO files before deleting a node and its children
 func (r *NodeRepositoryImpl) GetDescendantResources(nodeId types.Snowflake) ([]*models.NodeResourceInfo, error) {
-	stmt, err := r.manager.GetStatement(stmtNodeGetDescendantResources)
-	if err != nil {
-		return nil, err
-	}
-
-	rows, err := stmt.Query(nodeId)
+	var resources []*models.NodeResourceInfo
+	err := r.db.Select(&resources, `
+		WITH RECURSIVE descendants AS (
+			SELECT id, user_id, role, metadata
+			FROM nodes
+			WHERE id = ?
+			
+			UNION ALL
+			
+			SELECT n.id, n.user_id, n.role, n.metadata
+			FROM nodes n
+			JOIN descendants d ON n.parent_id = d.id
+		)
+		SELECT id, user_id, metadata
+		FROM descendants
+		WHERE role = 4`, nodeId)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query descendant resources: %w", err)
 	}
-	defer rows.Close()
-
-	resources := make([]*models.NodeResourceInfo, 0)
-	for rows.Next() {
-		var res models.NodeResourceInfo
-		if err := rows.Scan(&res.Id, &res.UserId, &res.Metadata); err != nil {
-			return nil, fmt.Errorf("failed to scan resource info: %w", err)
-		}
-		resources = append(resources, &res)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("error iterating descendant resources: %w", err)
-	}
-
 	return resources, nil
 }
 
@@ -497,64 +283,47 @@ func (r *NodeRepositoryImpl) SearchFulltext(userId types.Snowflake, query string
 		limit = 100
 	}
 
-	// Prepare the search query for MySQL FULLTEXT
 	// Clean the query for safety
 	cleanQuery := strings.TrimSpace(query)
 	if len(cleanQuery) < 2 {
 		return []*models.NodeSearchResult{}, nil
 	}
 
-	var stmtKey string
-	if includeContent {
-		stmtKey = stmtNodeSearchContent
-	} else {
-		stmtKey = stmtNodeSearchFulltext
-	}
+	var results []*models.NodeSearchResult
+	var err error
 
-	stmt, err := r.manager.GetStatement(stmtKey)
-	if err != nil {
-		return nil, err
-	}
-
-	var rows *sql.Rows
 	if includeContent {
-		// For content search, we need the query for MATCH, for LOCATE (snippet), userId, and limit
-		rows, err = stmt.Query(cleanQuery, strings.ToLower(cleanQuery), userId, cleanQuery, limit)
+		// FULLTEXT search including content body
+		err = r.db.Select(&results, `
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
+			       MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
+			       SUBSTRING(n.content, 
+			           GREATEST(1, LOCATE(?, LOWER(n.content)) - 50), 
+			           200) AS content_snippet,
+			       n.created_timestamp,
+			       n.updated_timestamp
+			FROM nodes n
+			WHERE n.user_id = ? AND n.role = 3
+			  AND MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
+			ORDER BY relevance DESC
+			LIMIT ?`, cleanQuery, strings.ToLower(cleanQuery), userId, cleanQuery, limit)
 	} else {
-		// For fulltext search: query for MATCH, userId, query for MATCH again, and limit
-		rows, err = stmt.Query(cleanQuery, userId, cleanQuery, limit)
+		// FULLTEXT search on name, description, tags only (faster)
+		err = r.db.Select(&results, `
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
+			       MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
+			       NULL AS content_snippet,
+			       n.created_timestamp,
+			       n.updated_timestamp
+			FROM nodes n
+			WHERE n.user_id = ? AND n.role = 3
+			  AND MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE)
+			ORDER BY relevance DESC
+			LIMIT ?`, cleanQuery, userId, cleanQuery, limit)
 	}
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to execute fulltext search: %w", err)
-	}
-	defer rows.Close()
-
-	results := make([]*models.NodeSearchResult, 0)
-	for rows.Next() {
-		var result models.NodeSearchResult
-		err := rows.Scan(
-			&result.Id,
-			&result.UserId,
-			&result.ParentId,
-			&result.Name,
-			&result.Description,
-			&result.Tags,
-			&result.Role,
-			&result.Icon,
-			&result.Relevance,
-			&result.ContentSnippet,
-			&result.CreatedTimestamp,
-			&result.UpdatedTimestamp,
-		)
-		if err != nil {
-			return nil, fmt.Errorf("failed to scan search result: %w", err)
-		}
-		results = append(results, &result)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("error iterating search results: %w", err)
 	}
 
 	return results, nil
@@ -562,89 +331,42 @@ func (r *NodeRepositoryImpl) SearchFulltext(userId types.Snowflake, query string
 
 // Create a new node
 func (r *NodeRepositoryImpl) Create(node *models.Node) error {
-	stmt, err := r.manager.GetStatement(stmtNodeCreate)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(
-		node.Id,
-		node.UserId,
-		node.ParentId,
-		node.Name,
-		node.Description,
-		node.Tags,
-		node.Role,
-		node.Color,
-		node.Icon,
-		node.Thumbnail,
-		node.Theme,
-		node.Accessibility,
-		node.Access,
-		node.Display,
-		node.Order,
-		node.Content,
-		node.ContentCompiled,
-		node.Size,
-		node.Metadata,
-		node.CreatedTimestamp,
-		node.UpdatedTimestamp,
-	)
-
+	_, err := r.db.Exec(`
+		INSERT INTO nodes (id, user_id, parent_id, name, description, tags, role, color, icon, thumbnail, theme, 
+		                   accessibility, access, display, `+"`order`"+`, content, content_compiled, size, metadata, 
+		                   created_timestamp, updated_timestamp) 
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		node.Id, node.UserId, node.ParentId, node.Name, node.Description, node.Tags, node.Role, node.Color,
+		node.Icon, node.Thumbnail, node.Theme, node.Accessibility, node.Access, node.Display, node.Order,
+		node.Content, node.ContentCompiled, node.Size, node.Metadata, node.CreatedTimestamp, node.UpdatedTimestamp)
 	if err != nil {
 		return fmt.Errorf("failed to create node: %w", err)
 	}
-
 	return nil
 }
 
 // Update an existing node
 func (r *NodeRepositoryImpl) Update(node *models.Node) error {
-	stmt, err := r.manager.GetStatement(stmtNodeUpdate)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(
-		node.ParentId,
-		node.UserId,
-		node.Name,
-		node.Description,
-		node.Tags,
-		node.Role,
-		node.Color,
-		node.Icon,
-		node.Thumbnail,
-		node.Theme,
-		node.Accessibility,
-		node.Access,
-		node.Display,
-		node.Order,
-		node.Content,
-		node.ContentCompiled,
-		node.Metadata,
-		node.UpdatedTimestamp,
-		node.Id,
-	)
-
+	_, err := r.db.Exec(`
+		UPDATE nodes 
+		SET parent_id = ?, user_id = ?, name = ?, description = ?, tags = ?, role = ?, color = ?, 
+		    icon = ?, thumbnail = ?, theme = ?, accessibility = ?, access = ?, display = ?, `+"`order`"+` = ?, 
+		    content = ?, content_compiled = ?, metadata = ?, updated_timestamp = ? 
+		WHERE id = ?`,
+		node.ParentId, node.UserId, node.Name, node.Description, node.Tags, node.Role, node.Color,
+		node.Icon, node.Thumbnail, node.Theme, node.Accessibility, node.Access, node.Display, node.Order,
+		node.Content, node.ContentCompiled, node.Metadata, node.UpdatedTimestamp, node.Id)
 	if err != nil {
 		return fmt.Errorf("failed to update node: %w", err)
 	}
-
 	return nil
 }
 
 // Delete a node
 func (r *NodeRepositoryImpl) Delete(nodeId types.Snowflake) error {
-	stmt, err := r.manager.GetStatement(stmtNodeDelete)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(nodeId)
+	_, err := r.db.Exec(`DELETE FROM nodes WHERE id = ?`, nodeId)
 	if err != nil {
 		return fmt.Errorf("failed to delete node: %w", err)
 	}
-
 	return nil
 }

@@ -2,17 +2,16 @@ package controllers
 
 import (
 	"alexandrie/app"
-	"alexandrie/pkg/logger"
 	"alexandrie/utils"
 	"errors"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 type AuthController interface {
+	GetSessions(c *gin.Context) (int, any)
 	Login(c *gin.Context) (int, any)
 	RefreshSession(c *gin.Context) (int, any)
 	RequestResetPassword(c *gin.Context) (int, any)
@@ -22,13 +21,29 @@ type AuthController interface {
 }
 
 func NewAuthController(app *app.App) AuthController {
-	go func() {
-		for {
-			deleteOldSessionsAndLogs(app)
-			time.Sleep(1 * time.Hour) // Sleep for 1 hour
-		}
-	}()
+
 	return &Controller{app: app}
+}
+
+// GetSessions
+// @Summary Get sessions of the logged-in user
+// @Method GET
+// @Router /auth/sessions [get]
+// @Security Session validation
+// @Success 200 {object} Success([]models.Session)
+// @Failure 400 {object} Error
+func (ctr *Controller) GetSessions(c *gin.Context) (int, any) {
+	userId, err := utils.GetUserIdCtx(c)
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	sessions, err := ctr.app.Services.Session.GetSessionsByUserId(userId)
+	if err != nil {
+		return http.StatusInternalServerError, errors.New("failed to retrieve sessions")
+	}
+
+	return http.StatusOK, sessions
 }
 
 // Login
@@ -108,14 +123,8 @@ func (ctr *Controller) RefreshSession(c *gin.Context) (int, any) {
 // @Success 200 {object} Success(string)
 // @Failure 400 {object} Error
 func (ctr *Controller) Logout(c *gin.Context) (int, any) {
-	refreshToken, err := c.Cookie("RefreshToken")
-	if err != nil {
-		return http.StatusUnauthorized, errors.New("no refresh token provided")
-	}
-
-	if err := ctr.app.Services.Auth.Logout(refreshToken); err != nil {
-		return http.StatusUnauthorized, err
-	}
+	refreshToken, _ := c.Cookie("RefreshToken")
+	ctr.app.Services.Auth.Logout(refreshToken)
 
 	secure := shouldUseSecureCookies()
 	domain := getCookieDomain()
@@ -191,21 +200,6 @@ func (ctr *Controller) ResetPassword(c *gin.Context) (int, any) {
 	}
 
 	return http.StatusOK, "Password reset successfully."
-}
-
-func deleteOldSessionsAndLogs(app *app.App) {
-	err := app.Services.Log.DeleteOldLogs()
-	if err != nil {
-		logger.Error("Error deleting old logs: " + err.Error())
-	} else {
-		logger.Success("Old logs deleted successfully.")
-	}
-	err = app.Services.Session.DeleteOldSessions()
-	if err != nil {
-		logger.Error("Error deleting old sessions: " + err.Error())
-	} else {
-		logger.Success("Old sessions deleted successfully.")
-	}
 }
 
 // Cookies security helpers

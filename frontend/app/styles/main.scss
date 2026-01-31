@@ -81,14 +81,6 @@ body.modal-open {
 	--padding: calc((100vw - 1700px) / 2);
 }
 
-
-
-@media screen and (width >=768px) {
-	.card-component {
-		padding: 2rem;
-	}
-}
-
 form {
 	display: flex;
 	flex-direction: column;

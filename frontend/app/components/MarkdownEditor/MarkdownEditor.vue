@@ -3,15 +3,16 @@
   <div class="editor-wrapper">
     <div class="editor-container">
       <!-- Toolbar Section -->
-      <Toolbar v-model="document" :minimal="minimal" @execute-action="commands.exec" />
+      <Toolbar v-model="document" @execute-action="commands.exec" />
 
       <!-- Compact Document Metadata -->
-      <div v-if="!minimal" class="document-meta">
-        <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
-        <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
-        <AppTagInput v-model="document.tags" class="meta-tags" @update:model-value="autoSaveConditional" />
+      <div class="document-meta">
+        <div class="line">
+          <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
+          <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
+        </div>
+        <AppTagInput v-model="document.tags" display="row" minimal @update:model-value="autoSaveConditional" />
       </div>
-      <AppTagInput v-else v-model="document.tags" style="margin: 4px 0" @update:model-value="autoSaveConditional" />
 
       <!-- Editor Content Section -->
       <div ref="container" class="editor-content">
@@ -46,9 +47,8 @@ import type { Node } from '~/stores';
 const resourcesStore = useResourcesStore();
 const preferences = usePreferences();
 
-const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();
+const props = defineProps<{ doc?: Partial<Node> }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
-const { CDN } = useApi();
 
 const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
@@ -68,7 +68,7 @@ const commands = createCommands({
   save: () => save(),
 });
 
-const uploadsHandlers = createUploadsHandlers({ resourcesStore, CDN, insertText: (t: string) => commands.exec('insertText', t) });
+const uploadsHandlers = createUploadsHandlers({ resourcesStore, insertText: (t: string) => commands.exec('insertText', t) });
 
 const state = createEditorState({
   initialDoc: document.value.content || '',
@@ -157,18 +157,21 @@ const autoSave = debounceDelayed(() => {
   width: 100%;
   height: 100%;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 // Compact Document Metadata - Single line
 .document-meta {
-  display: flex;
-  padding: 6px 12px;
+  .line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  padding: 6px 10px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   background: var(--bg-color);
-  align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -218,11 +221,6 @@ const autoSave = debounceDelayed(() => {
     color: var(--font-color-light);
     opacity: 0.7;
   }
-}
-
-.meta-tags {
-  min-width: 150px;
-  flex: 0 1 auto;
 }
 
 // Editor Content Section
@@ -326,10 +324,6 @@ const autoSave = debounceDelayed(() => {
   .meta-description {
     width: 100%;
     max-width: 100%;
-  }
-
-  .meta-tags {
-    width: 100%;
   }
 }
 </style>

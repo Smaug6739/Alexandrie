@@ -165,7 +165,9 @@ const pos = computed(() => {
   min-width: 240px;
   border-radius: 12px;
   background: var(--bg-color);
-  box-shadow: 0 8px 30px rgb(0 0 0 / 12%), 0 2px 8px rgb(0 0 0 / 6%);
+  box-shadow:
+    0 8px 30px rgb(0 0 0 / 12%),
+    0 2px 8px rgb(0 0 0 / 6%);
   overflow: hidden;
 }
 
@@ -182,7 +184,9 @@ const pos = computed(() => {
 }
 
 :root.dark .context-menu {
-  box-shadow: 0 8px 30px rgb(0 0 0 / 40%), 0 0 1px rgb(255 255 255 / 10%);
+  box-shadow:
+    0 8px 30px rgb(0 0 0 / 40%),
+    0 0 1px rgb(255 255 255 / 10%);
 }
 
 /* ========================
@@ -239,11 +243,13 @@ const pos = computed(() => {
   height: 4px;
   border-radius: 2px;
   background: var(--border-color);
-  transition: background 0.2s, width 0.2s;
+  transition:
+    background 0.2s,
+    width 0.2s;
 
   .mobile-sheet-header:active & {
     width: 48px;
-    background: var(--font-color-light, #888);
+    background: var(--font-color-light);
   }
 }
 

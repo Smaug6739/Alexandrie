@@ -7,12 +7,18 @@ export function useApi() {
   const cdnEndpoint = config.public.cdnEndpoint || '';
 
   function avatarURL(user?: User | PublicUser | null): string {
-    return user?.avatar ? CDN + cdnEndpoint + user.id + `/avatar?v=${user.avatar}` : '/default_avatar.avif';
+    if (!user?.avatar) return '/default_avatar.avif';
+    if (user.avatar.startsWith('http://') || user.avatar.startsWith('https://')) {
+      return user.avatar;
+    }
+    return CDN + cdnEndpoint + user.id + `/avatar?v=${user.avatar}`;
   }
 
-  function resourceURL(resource?: Node): string {
+  function resourceURL(resource?: Node, download = false): string {
     if (!resource) return '';
-    return `${CDN}${cdnEndpoint}${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`;
+    return `${CDN}${cdnEndpoint}${resource.user_id}/${resource.metadata?.transformed_path || resource.content}${
+      download ? '?response-content-disposition=attachment' : ''
+    }`;
   }
 
   return { CDN, API, avatarURL, resourceURL };

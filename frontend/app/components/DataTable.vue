@@ -14,7 +14,7 @@
             <th>
               <input type="checkbox" style="width: 20px" :checked="selectedRows.length > 0" @change="toggleSelectAll" />
             </th>
-            <th v-for="header in headers" :key="header.key">
+            <th v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
               {{ header.label }}
             </th>
           </tr>
@@ -25,7 +25,7 @@
             <td>
               <input v-model="selectedRows" type="checkbox" :value="row" style="width: 20px" />
             </td>
-            <td v-for="header in headers" :key="header.key">
+            <td v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
               <!-- eslint-disable-next-line vue/no-v-html -->
               <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content" />
               <span v-else-if="row[header.key]?.type === 'slot'">
@@ -128,6 +128,7 @@ const shouldShowEllipsisBefore = computed(() => {
 interface Header {
   key: string;
   label: string;
+  align?: 'left' | 'center' | 'right';
 }
 export interface Field<V = unknown> {
   [key: string]: {
@@ -178,11 +179,36 @@ th {
   font-size: 13px;
   color: var(--font-color-dark);
   background: var(--bg-ui);
+
+  &.align-right {
+    text-align: right;
+    padding-right: 30px;
+  }
+
+  &.align-center {
+    text-align: center;
+  }
   text-transform: uppercase;
 }
 
 td {
   color: var(--font-color-light);
+
+  &.align-right {
+    text-align: right;
+    padding-right: 10px;
+    > span {
+      justify-content: flex-end;
+    }
+  }
+
+  &.align-center {
+    text-align: center;
+
+    > span {
+      justify-content: center;
+    }
+  }
 
   > span {
     display: flex;

@@ -1,5 +1,5 @@
 <template>
-  <NodeList :parent="parent" :nodes="nodes" :parent-id="workspaceId" />
+  <NodeContainerView :parent="parent" :nodes="nodes" :parent-id="workspaceId" />
 </template>
 
 <script setup lang="ts">

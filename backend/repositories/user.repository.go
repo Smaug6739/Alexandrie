@@ -5,19 +5,20 @@ import (
 	"alexandrie/types"
 	"database/sql"
 	"fmt"
+
+	"github.com/jmoiron/sqlx"
 )
 
-// UserRepositoryImpl implements the UserRepository interface with prepared statements
 type UserRepositoryImpl struct {
-	db      *sql.DB
-	manager *RepositoryManager
+	db *sqlx.DB
 }
 
-// UserRepository defines the interface for user repository operations
 type UserRepository interface {
 	GetAll() ([]*models.User, error)
 	GetByID(id types.Snowflake) (*models.User, error)
 	GetByUsername(username string) (*models.User, error)
+	GetByEmail(email string) (*models.User, error)
+	HasPassword(id types.Snowflake) (bool, error)
 	SearchPublic(query string) ([]*models.User, error)
 	CheckUsernameExists(username string) (bool, error)
 	Create(user *models.User) (*models.User, error)
@@ -27,342 +28,153 @@ type UserRepository interface {
 	Delete(id types.Snowflake) error
 }
 
-// Prepared statement keys
-const (
-	stmtUserGetAll                   = "user_get_all"
-	stmtUserGetByID                  = "user_get_by_id"
-	stmtUserGetByUsername            = "user_get_by_username"
-	stmtUserSearchPublic             = "user_search_public"
-	stmtUserCheckUsernameExists      = "user_check_username_exists"
-	stmtUserCreate                   = "user_create"
-	stmtUserUpdate                   = "user_update"
-	stmtUserUpdatePassword           = "user_update_password"
-	stmtUserUpdatePasswordResetToken = "user_update_password_reset_token"
-	stmtUserDelete                   = "user_delete"
-)
-
-// NewUserRepository creates a new user repository with prepared statements
-func NewUserRepository(db *sql.DB, manager *RepositoryManager) (UserRepository, error) {
-	repo := &UserRepositoryImpl{
-		db:      db,
-		manager: manager,
-	}
-
-	if err := repo.prepareStatements(); err != nil {
-		return nil, fmt.Errorf("failed to prepare user statements: %w", err)
-	}
-
-	return repo, nil
-}
-
-// prepareStatements prepares all SQL statements for the user repository
-func (r *UserRepositoryImpl) prepareStatements() error {
-	statements := map[string]string{
-		stmtUserGetAll: `
-			SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp 
-			FROM users 
-			ORDER BY created_timestamp DESC`,
-
-		stmtUserGetByID: `
-			SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp 
-			FROM users 
-			WHERE id = ?`,
-
-		stmtUserGetByUsername: `
-			SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp 
-			FROM users 
-			WHERE username = ?`,
-
-		stmtUserSearchPublic: `
-			SELECT id, username, avatar, created_timestamp, updated_timestamp 
-			FROM users 
-			WHERE username = ? OR email = ? OR id = ? 
-			LIMIT 10`,
-
-		stmtUserCheckUsernameExists: `
-			SELECT COUNT(*) 
-			FROM users 
-			WHERE username = ?`,
-
-		stmtUserCreate: `
-			INSERT INTO users (id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp) 
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-
-		stmtUserUpdate: `
-			UPDATE users 
-			SET username=?, firstname=?, lastname=?, avatar=?, email=?, updated_timestamp=? 
-			WHERE id=?`,
-
-		stmtUserUpdatePassword: `
-			UPDATE users 
-			SET password=?, password_reset_token=NULL 
-			WHERE id=?`,
-
-		stmtUserUpdatePasswordResetToken: `
-			UPDATE users 
-			SET password_reset_token=? 
-			WHERE id=?`,
-
-		stmtUserDelete: `
-			DELETE FROM users 
-			WHERE id=?`,
-	}
-
-	// Prepare all statements
-	for key, query := range statements {
-		if _, err := r.manager.PrepareStatement(key, query); err != nil {
-			return err
-		}
-	}
-
-	return nil
+func NewUserRepository(db *sqlx.DB) UserRepository {
+	return &UserRepositoryImpl{db: db}
 }
 
 // GetAll retrieves all users
 func (r *UserRepositoryImpl) GetAll() ([]*models.User, error) {
-	stmt, err := r.manager.GetStatement(stmtUserGetAll)
-	if err != nil {
-		return nil, err
-	}
-
-	rows, err := stmt.Query()
+	var users []*models.User
+	err := r.db.Select(&users, `
+		SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp 
+		FROM users 
+		ORDER BY created_timestamp DESC`)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query users: %w", err)
 	}
-	defer rows.Close()
-
-	users := make([]*models.User, 0)
-	for rows.Next() {
-		var user models.User
-		err := rows.Scan(
-			&user.Id,
-			&user.Username,
-			&user.Firstname,
-			&user.Lastname,
-			&user.Role,
-			&user.Avatar,
-			&user.Email,
-			&user.CreatedTimestamp,
-			&user.UpdatedTimestamp,
-		)
-		if err != nil {
-			return nil, fmt.Errorf("failed to scan user: %w", err)
-		}
-		users = append(users, &user)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("error iterating users: %w", err)
-	}
-
 	return users, nil
 }
 
 // GetByID retrieves a user by ID
 func (r *UserRepositoryImpl) GetByID(id types.Snowflake) (*models.User, error) {
-	stmt, err := r.manager.GetStatement(stmtUserGetByID)
-	if err != nil {
-		return nil, err
-	}
-
 	var user models.User
-	err = stmt.QueryRow(id).Scan(
-		&user.Id,
-		&user.Username,
-		&user.Firstname,
-		&user.Lastname,
-		&user.Role,
-		&user.Avatar,
-		&user.Email,
-		&user.CreatedTimestamp,
-		&user.UpdatedTimestamp,
-	)
-
+	err := r.db.Get(&user, `
+		SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp 
+		FROM users 
+		WHERE id = ?`, id)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user by id: %w", err)
 	}
-
 	return &user, nil
 }
 
-// GetByUsername retrieves a user by username (includes password)
+// GetByUsername retrieves a user by username (includes password for authentication)
 func (r *UserRepositoryImpl) GetByUsername(username string) (*models.User, error) {
-	stmt, err := r.manager.GetStatement(stmtUserGetByUsername)
-	if err != nil {
-		return nil, err
-	}
-
 	var user models.User
-	err = stmt.QueryRow(username).Scan(
-		&user.Id,
-		&user.Username,
-		&user.Firstname,
-		&user.Lastname,
-		&user.Role,
-		&user.Avatar,
-		&user.Email,
-		&user.Password,
-		&user.CreatedTimestamp,
-		&user.UpdatedTimestamp,
-	)
-
+	err := r.db.Get(&user, `
+		SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp 
+		FROM users 
+		WHERE username = ?`, username)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user by username: %w", err)
 	}
-
 	return &user, nil
+}
+
+// GetByEmail retrieves a user by email
+func (r *UserRepositoryImpl) GetByEmail(email string) (*models.User, error) {
+	var user models.User
+	err := r.db.Get(&user, `
+		SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp 
+		FROM users 
+		WHERE email = ?`, email)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, fmt.Errorf("failed to get user by email: %w", err)
+	}
+	return &user, nil
+}
+
+// HasPassword checks if a user has a password set
+func (r *UserRepositoryImpl) HasPassword(id types.Snowflake) (bool, error) {
+	var count int
+	err := r.db.Get(&count, `SELECT COUNT(*) FROM users WHERE id = ? AND password IS NOT NULL`, id)
+	if err != nil {
+		return false, fmt.Errorf("failed to check if user has password: %w", err)
+	}
+	return count > 0, nil
 }
 
 // SearchPublic searches for public user profiles
 func (r *UserRepositoryImpl) SearchPublic(query string) ([]*models.User, error) {
-	stmt, err := r.manager.GetStatement(stmtUserSearchPublic)
-	if err != nil {
-		return nil, err
-	}
-
-	rows, err := stmt.Query(query, query, query)
+	var users []*models.User
+	err := r.db.Select(&users, `
+		SELECT id, username, avatar, created_timestamp, updated_timestamp 
+		FROM users 
+		WHERE username = ? OR email = ? OR id = ? 
+		LIMIT 10`, query, query, query)
 	if err != nil {
 		return nil, fmt.Errorf("failed to search public users: %w", err)
 	}
-	defer rows.Close()
-
-	users := make([]*models.User, 0)
-	for rows.Next() {
-		var user models.User
-		err := rows.Scan(
-			&user.Id,
-			&user.Username,
-			&user.Avatar,
-			&user.CreatedTimestamp,
-			&user.UpdatedTimestamp,
-		)
-		if err != nil {
-			return nil, fmt.Errorf("failed to scan user: %w", err)
-		}
-		users = append(users, &user)
-	}
-
-	if err = rows.Err(); err != nil {
-		return nil, fmt.Errorf("error iterating users: %w", err)
-	}
-
 	return users, nil
 }
 
 // CheckUsernameExists checks if a username already exists
 func (r *UserRepositoryImpl) CheckUsernameExists(username string) (bool, error) {
-	stmt, err := r.manager.GetStatement(stmtUserCheckUsernameExists)
-	if err != nil {
-		return false, err
-	}
-
 	var count int
-	err = stmt.QueryRow(username).Scan(&count)
+	err := r.db.Get(&count, `SELECT COUNT(*) FROM users WHERE username = ?`, username)
 	if err != nil {
 		return false, fmt.Errorf("failed to check username exists: %w", err)
 	}
-
 	return count > 0, nil
 }
 
 // Create creates a new user
 func (r *UserRepositoryImpl) Create(user *models.User) (*models.User, error) {
-	stmt, err := r.manager.GetStatement(stmtUserCreate)
-	if err != nil {
-		return nil, err
-	}
-
-	_, err = stmt.Exec(
-		user.Id,
-		user.Username,
-		user.Firstname,
-		user.Lastname,
-		user.Role,
-		user.Avatar,
-		user.Email,
-		user.Password,
-		user.CreatedTimestamp,
-		user.UpdatedTimestamp,
-	)
-
+	_, err := r.db.NamedExec(`
+		INSERT INTO users (id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp) 
+		VALUES (:id, :username, :firstname, :lastname, :role, :avatar, :email, :password, :created_timestamp, :updated_timestamp)`,
+		user)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create user: %w", err)
 	}
-
 	return user, nil
 }
 
 // Update updates an existing user
 func (r *UserRepositoryImpl) Update(id types.Snowflake, user *models.User) (*models.User, error) {
-	stmt, err := r.manager.GetStatement(stmtUserUpdate)
-	if err != nil {
-		return nil, err
-	}
-
-	_, err = stmt.Exec(
-		user.Username,
-		user.Firstname,
-		user.Lastname,
-		user.Avatar,
-		user.Email,
-		user.UpdatedTimestamp,
-		id,
-	)
-
+	_, err := r.db.Exec(`
+		UPDATE users 
+		SET username=?, firstname=?, lastname=?, avatar=?, email=?, updated_timestamp=? 
+		WHERE id=?`,
+		user.Username, user.Firstname, user.Lastname, user.Avatar, user.Email, user.UpdatedTimestamp, id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update user: %w", err)
 	}
-
 	return user, nil
 }
 
 // UpdatePassword updates a user's password
 func (r *UserRepositoryImpl) UpdatePassword(id types.Snowflake, password string) error {
-	stmt, err := r.manager.GetStatement(stmtUserUpdatePassword)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(password, id)
+	_, err := r.db.Exec(`UPDATE users SET password=?, password_reset_token=NULL WHERE id=?`, password, id)
 	if err != nil {
 		return fmt.Errorf("failed to update password: %w", err)
 	}
-
 	return nil
 }
 
 // UpdatePasswordResetToken updates a user's password reset token
 func (r *UserRepositoryImpl) UpdatePasswordResetToken(id types.Snowflake, resetToken string) error {
-	stmt, err := r.manager.GetStatement(stmtUserUpdatePasswordResetToken)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(resetToken, id)
+	_, err := r.db.Exec(`UPDATE users SET password_reset_token=? WHERE id=?`, resetToken, id)
 	if err != nil {
 		return fmt.Errorf("failed to update password reset token: %w", err)
 	}
-
 	return nil
 }
 
 // Delete deletes a user
 func (r *UserRepositoryImpl) Delete(id types.Snowflake) error {
-	stmt, err := r.manager.GetStatement(stmtUserDelete)
-	if err != nil {
-		return err
-	}
-
-	_, err = stmt.Exec(id)
+	_, err := r.db.Exec(`DELETE FROM users WHERE id=?`, id)
 	if err != nil {
 		return fmt.Errorf("failed to delete user: %w", err)
 	}
-
 	return nil
 }

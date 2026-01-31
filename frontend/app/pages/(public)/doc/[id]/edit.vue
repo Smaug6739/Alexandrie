@@ -19,7 +19,8 @@ watchEffect(async () => {
   const storedNode = store.getById(nodeId);
   if (!storedNode) {
     try {
-      document.value = await store.fetchPublic(nodeId);
+      const result = await store.fetchPublic(nodeId);
+      document.value = result?.node;
     } catch {
       error.value = 'Document not found';
     }

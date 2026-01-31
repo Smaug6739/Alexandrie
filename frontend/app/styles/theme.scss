@@ -101,13 +101,29 @@ img {
 	margin-bottom: 5px;
 }
 
+audio,
+video {
+	display: block;
+	width: 100%;
+	margin: 10px 0;
+	border-radius: 6px;
+	background: var(--bg-ui);
+}
+
+iframe {
+	max-width: 100%;
+	border: none;
+	border-radius: 6px;
+	margin: 10px 0;
+}
+
 input,
 select,
 textarea {
 	margin: 0;
 	padding: 8px 10px;
 	border: 1px solid var(--border-color);
-	border-radius: 8px;
+	border-radius: 6px;
 	font-family: Inter;
 	font-size: 14px;
 	color: var(--font-color);
@@ -119,8 +135,10 @@ textarea {
 	}
 
 	&:focus {
-		outline: 1px solid var(--primary);
+		border-color: var(--primary);
+		outline: none;
 	}
+
 }
 
 input {

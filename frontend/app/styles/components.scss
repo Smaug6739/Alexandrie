@@ -82,6 +82,7 @@
 	box-shadow: 0 2px 6px var(--shadow);
 	gap: 16px;
 	max-height: 100%;
+	height: 100%;
 	overflow: auto;
 
 	header {
@@ -174,17 +175,37 @@ tag {
 	top: 100%;
 	left: 50%;
 	z-index: 100;
-	display: none;
-	padding: 0.4rem 0.6rem;
+	padding: 0.4rem;
 	border-radius: $radius-sm;
-	font-size: 0.75rem;
+	font-size: 0.7rem;
 	color: white;
 	background-color: #1f2937;
 	box-shadow: 0 2px 8px var(--shadow);
-	margin-top: 0.4rem;
+	margin-top: 0.2rem;
 	text-transform: capitalize;
 	transform: translateX(-50%);
 	white-space: nowrap;
+
+	// Initial state (hidden)
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+
+	/* Transition */
+	transition:
+		opacity 0.2s ease,
+		visibility 0s linear 0.4s; // Delay hiding to match opacity transition
+
+	/*&::after {
+		content: '';
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		border-width: 5px;
+		border-style: solid;
+		border-color: transparent transparent #1f2937 transparent;
+	}*/
 }
 
 // ===========================

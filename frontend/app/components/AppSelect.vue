@@ -1,5 +1,5 @@
 <template>
-  <div ref="trigger" class="select" :style="{ width: size || '100%' }">
+  <div ref="trigger" class="select" :style="{ width: size || '100%', borderColor: open ? 'var(--primary)' : 'var(--border-color)' }">
     <!-- Desktop: inline search input -->
     <input
       v-if="open && searchable && !isMobile"
@@ -237,10 +237,6 @@ onBeforeUnmount(() => {
   border: 1px solid var(--border-color);
   border-radius: $radius-sm;
   background: var(--bg-color);
-
-  &:focus {
-    outline: 1px solid var(--primary);
-  }
 }
 
 .trigger {
@@ -360,16 +356,7 @@ button,
   input {
     height: 40px;
     padding: 8px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: $radius-sm;
-    font-size: 1rem;
-    background: var(--bg-color);
     flex: 1;
-
-    &:focus {
-      border-color: var(--primary);
-      outline: none;
-    }
   }
 }
 

@@ -22,7 +22,8 @@ export const resolveNodeLink = (node: Node): string => {
   return '/dashboard';
 };
 
-export const getRoleName = (role: number): string => {
+export const getRoleName = (role?: number): string => {
+  if (role === undefined) return 'Node';
   const roles: Record<number, string> = { 1: 'Workspace', 2: 'Category', 3: 'Document', 4: 'Resource' };
   return roles[role] || 'Unknown';
 };
@@ -31,4 +32,14 @@ export const getRoleName = (role: number): string => {
 export const resolveNodeType = (node: Node): string => {
   const types: Record<number, string> = { 1: 'Workspace', 2: 'Category', 3: 'Document', 4: 'Resource' };
   return types[node.role] || '';
+};
+
+/* Generate markdown file with metadata from a node */
+export const generateMarkdownWithMetadata = (node: Node): string => {
+  const metadataLines = ['---', `title: "${node.name}"`];
+
+  if (node.description) metadataLines.push(`description: "${node.description}"`);
+  if (node.tags && node.tags.length > 0) metadataLines.push(`tags: ${node.tags}`);
+  metadataLines.push('---', '', '');
+  return metadataLines.join('\n') + (node.content || '');
 };

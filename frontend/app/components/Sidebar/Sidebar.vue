@@ -60,7 +60,7 @@ import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
 import SidebarSkeleton from './SidebarSkeleton.vue';
 import { navigationItems } from './helpers';
-import NewCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import Dock from './Dock.vue';
 
 const nodesStore = useNodesStore();
@@ -148,7 +148,8 @@ onBeforeUnmount(() => {
 }
 
 .nav-item:hover .hint-tooltip {
-  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 .icons {
@@ -162,13 +163,6 @@ onBeforeUnmount(() => {
 
     &:hover {
       background: var(--selection-color);
-    }
-
-    svg {
-      width: 20px;
-      height: 20px;
-      margin: 0;
-      fill: var(--font-color);
     }
   }
 }
