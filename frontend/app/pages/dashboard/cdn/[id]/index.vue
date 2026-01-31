@@ -37,6 +37,7 @@
       <div class="preview">
         <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
         <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls></video>
+        <audio v-else-if="isAudioFile(mimeType)" :src="resourceURL(resource)" controls></audio>
         <p v-else>Preview not available for this file type.</p>
       </div>
     </form>
@@ -45,7 +46,7 @@
 
 <script lang="ts" setup>
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
-import { readableFileSize, isImageFile, isVideoFile } from '~/helpers/resources';
+import { readableFileSize, isImageFile, isVideoFile, isAudioFile } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Edit' });
 
