@@ -107,7 +107,7 @@ textarea {
 	margin: 0;
 	padding: 8px 10px;
 	border: 1px solid var(--border-color);
-	border-radius: 8px;
+	border-radius: 6px;
 	font-family: Inter;
 	font-size: 14px;
 	color: var(--font-color);
@@ -119,8 +119,10 @@ textarea {
 	}
 
 	&:focus {
-		outline: 1px solid var(--primary);
+		border-color: var(--primary);
+		outline: none;
 	}
+
 }
 
 input {
