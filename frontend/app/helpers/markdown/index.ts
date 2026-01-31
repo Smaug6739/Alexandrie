@@ -7,11 +7,10 @@ import { advancedBlocks } from './cards';
 // @ts-expect-error no types provided
 import underline from 'markdown-it-underline';
 import highlight from 'markdown-it-highlightjs';
-//import html5Media from 'markdown-it-html5-media'; // Doesn't work, always not found
 // @ts-expect-error no types provided
 import mark from 'markdown-it-mark';
 import colorPlugin from './colors';
-import { subscriptPlugin, superscriptPlugin, footNotePlugin } from './other';
+import { subscriptPlugin, superscriptPlugin, footNotePlugin, html5MediaPlugin } from './other';
 import { markdownItCheckbox } from './checkbox';
 import { markdownItKatexPlugin } from './katex';
 
@@ -33,8 +32,8 @@ md.use(colorPlugin, {
   enableBracketSyntax: true, // also parse [text]{color=value}
   allowHex: true, // allow #rgb and #rrggbb
 });
+md.use(html5MediaPlugin);
 
-// Définir une règle de rendu pour injecter les cases à cocher
 export default function compile(str: string = ''): string {
   // Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)
   str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
