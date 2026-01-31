@@ -71,7 +71,7 @@ const modalManager = useModal();
 const headers = [
   { label: 'Shortcut', key: 'shortcut' },
   { label: 'Content', key: 'content' },
-  { label: 'Actions', key: 'action', align: 'right' },
+  { label: 'Actions', key: 'action', align: 'right' as const },
 ];
 
 const truncate = (str: string, len: number) => {
