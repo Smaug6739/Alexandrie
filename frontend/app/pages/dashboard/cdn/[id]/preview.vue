@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { PDF_SCALES } from '~/helpers/constants';
-import { isImageFile, isPdfFile } from '~/helpers/resources';
+import { isImageFile, isPdfFile, isVideoFile } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Preview' });
 
