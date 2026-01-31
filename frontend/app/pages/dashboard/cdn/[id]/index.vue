@@ -1,7 +1,10 @@
 <template>
   <div class="card-component">
     <header>
-      <h3>Update resource</h3>
+      <h1>Update resource</h1>
+      <NuxtLink :to="`/dashboard/cdn/${resource?.id}/preview`" class="btn-icon">
+        <AppButton type="secondary">Preview</AppButton>
+      </NuxtLink>
     </header>
     <p>Manage resources and files on the server. You can edit metadata and delete file from the server.</p>
     <form v-if="resource" @submit.prevent>
@@ -33,20 +36,13 @@
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
         <AppButton type="danger" @click="showDeleteModal">Delete</AppButton>
       </div>
-      <h4>Preview</h4>
-      <div class="preview">
-        <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
-        <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls></video>
-        <audio v-else-if="isAudioFile(mimeType)" :src="resourceURL(resource)" controls></audio>
-        <p v-else>Preview not available for this file type.</p>
-      </div>
     </form>
   </div>
 </template>
 
 <script lang="ts" setup>
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
-import { readableFileSize, isImageFile, isVideoFile, isAudioFile } from '~/helpers/resources';
+import { readableFileSize } from '~/helpers/resources';
 
 definePageMeta({ breadcrumb: 'Edit' });
 
@@ -55,7 +51,6 @@ const route = useRoute();
 const { resourceURL } = useApi();
 
 const resource = computed(() => nodeStore.getById(route.params.id as string));
-const mimeType = computed(() => resource.value?.metadata?.filetype || '');
 
 const defaultItem: ANode = {
   id: '',
@@ -112,11 +107,5 @@ a {
 }
 .actions-row {
   justify-content: flex-end;
-}
-.preview {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
 }
 </style>
