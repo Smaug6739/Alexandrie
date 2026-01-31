@@ -48,10 +48,11 @@ export function createSnippetSource(preferences: ReturnType<typeof import('~/com
     if (!preferences.get('editorSnippetsEnabled').value) return null;
     const allSnippets = preferences.get('snippets').value;
 
-    const word = context.matchBefore(/[\w!:]+/);
-    if (!word && !context.explicit) return null;
-
     const inMath = isInsideMath(context);
+
+    // Include backslash in the match when in math mode for KaTeX commands
+    const word = inMath ? context.matchBefore(/\\?[\w!:*]+/) : context.matchBefore(/[\w!:]+/);
+    if (!word && !context.explicit) return null;
 
     return {
       from: word ? word.from : context.pos,
