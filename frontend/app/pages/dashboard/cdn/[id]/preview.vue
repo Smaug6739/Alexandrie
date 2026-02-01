@@ -17,7 +17,7 @@
             <Icon name="download" display="lg" />
             <p class="hint-tooltip">Download</p>
           </NuxtLink>
-          <NuxtLink @click="showDeleteModal" class="btn-icon">
+          <NuxtLink class="btn-icon" @click="showDeleteModal">
             <Icon name="delete" display="lg" />
             <p class="hint-tooltip">Delete</p>
           </NuxtLink>

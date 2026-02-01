@@ -43,6 +43,7 @@
 <script lang="ts" setup>
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize } from '~/helpers/resources';
+import type { TreeItem } from '~/helpers/TreeBuilder';
 import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: 'Edit' });

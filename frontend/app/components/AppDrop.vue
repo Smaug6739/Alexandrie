@@ -136,8 +136,11 @@ const handlePaste = (event: ClipboardEvent) => {
       selectedFiles.value = limitedFiles;
       emit('select', limitedFiles);
     } else {
-      selectedFiles.value = [pastedFiles[0]];
-      emit('select', pastedFiles[0]);
+      const file = pastedFiles[0];
+      if (file) {
+        selectedFiles.value = [file];
+        emit('select', file);
+      }
     }
   }
 };
