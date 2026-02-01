@@ -68,6 +68,10 @@ jobs:
           JWT_SECRET=${{ secrets.JWT_SECRET }}
           MINIO_ACCESSKEY=${{ secrets.MINIO_ACCESSKEY }}
           MINIO_SECRETKEY=${{ secrets.MINIO_SECRETKEY }}
+          OIDC_1_CONFIG_URL=${{ secrets.OIDC_GOOGLE_CONFIG }}
+          OIDC_1_CLIENT_ID=${{ secrets.OIDC_GOOGLE_ID }}
+          OIDC_1_CLIENT_SECRET=${{ secrets.OIDC_GOOGLE_SECRET }}
+          OIDC_1_PROVIDER_NAME=Google
           SMTP_HOST=${{ secrets.SMTP_HOST }}
           SMTP_MAIL=${{ secrets.SMTP_MAIL }}
           SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}
