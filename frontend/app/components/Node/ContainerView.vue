@@ -206,7 +206,7 @@ a:hover > .hint-tooltip {
 }
 
 .doc-count {
-  padding: 6px 10px;
+  padding: 8px 10px;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
