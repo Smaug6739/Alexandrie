@@ -12,9 +12,7 @@ export const useUserStore = defineStore('user', {
     getById: state => (id: string) => state.users[id],
     search: state => (query: string) => {
       const lowerQuery = query.toLowerCase();
-      return Object.values(state.users).filter(
-        u => u.username?.toLowerCase().includes(lowerQuery) || u.email?.toLowerCase().includes(lowerQuery) || u.id === query,
-      );
+      return Object.values(state.users).filter(u => u.username?.toLowerCase().includes(lowerQuery));
     },
   },
   actions: {

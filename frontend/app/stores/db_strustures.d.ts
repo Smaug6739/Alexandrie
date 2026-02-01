@@ -52,7 +52,7 @@ export interface User {
   role: number; // 0: User; 1: Admin;
   avatar?: string;
   password?: string;
-  email: string;
+  email?: string;
   created_timestamp: number;
   updated_timestamp: number;
 }
@@ -61,7 +61,6 @@ export interface PublicUser {
   id: string;
   username: string;
   avatar?: string;
-  email: string;
   created_timestamp: number;
   updated_timestamp: number;
 }

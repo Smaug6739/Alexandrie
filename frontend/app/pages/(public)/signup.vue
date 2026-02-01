@@ -6,17 +6,17 @@
       <h1>Account creation</h1>
       <form @submit.prevent="register">
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">Username <span class="required">*</span></label>
           <input id="username" v-model="username" type="text" :class="{ 'is-invalid': errors.username }" />
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" v-model="email" type="email" :class="{ 'is-invalid': errors.email }" />
-          <p v-if="errors.email" class="invalid-feedback">{{ errors.email }}</p>
+          <label for="email">Email </label>
+          <input id="email" v-model="email" type="email" />
+          <small>Email is only used for account recovery. It will not be shared publicly.</small>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">Password <span class="required">*</span></label>
           <div class="password-input">
             <input
               id="password"
@@ -35,7 +35,7 @@
           <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
         </div>
         <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
+          <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
           <div class="password-input">
             <input
               id="confirmPassword"
@@ -85,7 +85,7 @@ const username = ref('');
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
-const errors = ref({ username: '', email: '', password: '', confirmPassword: '', general: '' });
+const errors = ref({ username: '', password: '', confirmPassword: '', general: '' });
 
 // Reusable password visibility toggles
 const { showPassword, togglePassword } = usePasswordField();
@@ -94,13 +94,12 @@ const { showPassword: showConfirmPassword, togglePassword: toggleConfirmPassword
 function register() {
   // Validate all fields
   errors.value.username = !username.value ? 'Username is required' : '';
-  errors.value.email = !email.value ? 'Email is required' : '';
   errors.value.password = !password.value ? 'Password is required' : '';
   errors.value.confirmPassword = !confirmPassword.value
     ? 'Password confirmation is required'
     : password.value !== confirmPassword.value
-    ? 'Passwords do not match'
-    : '';
+      ? 'Passwords do not match'
+      : '';
 
   const valid = !Object.values(errors.value).some(e => e);
   if (valid) createAccount(username.value, email.value, password.value);
@@ -112,7 +111,7 @@ watch([username, email, password, confirmPassword], () => {
 
 async function createAccount(username: string, email: string, password: string) {
   userStore
-    .register({ username, email, password, role: 1 })
+    .register({ username, email: email || undefined, password, role: 1 })
     .then(() => {
       router.push('/login');
     })
@@ -136,7 +135,7 @@ async function createAccount(username: string, email: string, password: string) 
   display: flex;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto 10%;
+  margin: 0 auto;
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -146,7 +145,7 @@ h1 {
   font-size: 2.5em;
 }
 
-/* ===== Formulaire ===== */
+/* ===== Form ===== */
 form {
   width: 100%;
 }
@@ -180,7 +179,12 @@ input {
   }
 }
 
-/* ===== Mot de passe ===== */
+.required {
+  color: var(--red);
+  font-size: larger;
+}
+
+/* ===== Password ===== */
 .password-input {
   position: relative;
 }
@@ -228,7 +232,7 @@ input {
   }
 }
 
-/* ===== Liens ===== */
+/* ===== Links ===== */
 .login-link {
   display: block;
   margin: 1.5rem 0;
@@ -244,7 +248,7 @@ input {
   }
 }
 
-/* ===== Boutons ===== */
+/* ===== Buttons ===== */
 .btn {
   width: 100%;
   padding: 0.9rem;
@@ -270,7 +274,7 @@ input {
   }
 }
 
-/* ===== États et messages ===== */
+/* ===== States and messages ===== */
 .is-invalid {
   border-color: var(--red) !important;
 }

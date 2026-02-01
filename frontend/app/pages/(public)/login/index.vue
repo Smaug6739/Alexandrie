@@ -110,7 +110,7 @@ async function connect(username: string, password: string) {
   display: flex;
   width: 100%;
   max-width: 600px;
-  margin: 0 auto 10%;
+  margin: 0 auto;
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -187,7 +187,7 @@ input {
   }
 }
 
-/* ===== Liens ===== */
+/* ===== Links ===== */
 .signup-link {
   display: block;
   font-weight: 500;
@@ -222,7 +222,7 @@ input {
   }
 }
 
-/* ===== Boutons ===== */
+/* ===== Buttons ===== */
 .btn {
   width: 100%;
   padding: 0.9rem;
@@ -246,7 +246,7 @@ input {
   }
 }
 
-/* ===== États et messages ===== */
+/* ===== States and messages ===== */
 .is-invalid {
   border-color: var(--red) !important;
 }
