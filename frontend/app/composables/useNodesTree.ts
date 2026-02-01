@@ -108,6 +108,7 @@ export function useNodesTree() {
       return tree.value.filter(item => item.data?.shared);
     }
     const workspace = tree.value.find(item => item.id === workspaceId);
+    if (!workspace) return tree.value;
     return (workspace?.children as TreeItem<Node>[]) ?? [];
   };
 
