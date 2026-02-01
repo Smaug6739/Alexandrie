@@ -13,9 +13,9 @@
       <p v-else>Nothing to display</p>
     </ul>
     <h4 v-if="childs.length">Child documents</h4>
-    <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link"
-      ><Icon name="file_shortcut" />{{ child.data.name as string }}</NuxtLink
-    >
+    <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link">
+      <Icon name="file_shortcut" fill="var(--primary)" />{{ child.data.name as string }}
+    </NuxtLink>
   </aside>
 </template>
 
@@ -116,6 +116,7 @@ const childs = computed(() => nodesTree.getChildren(props.doc?.id).filter(c => c
 <style lang="scss" scoped>
 h4 {
   color: var(--font-color-light);
+  font-size: 14px;
 }
 
 aside {
@@ -154,7 +155,7 @@ li:deep(a).active {
 .child-link {
   display: flex;
   margin: 5px 0;
-  font-weight: bold;
+  font-weight: 450;
   color: var(--font-color);
   transition: color 0.25s;
   align-items: flex-start;

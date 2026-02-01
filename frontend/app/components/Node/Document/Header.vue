@@ -10,7 +10,7 @@
             <img v-if="user" :src="api.avatarURL(user)" class="avatar" />
             <span style="font-size: 16px; color: var(--font-color-light)">{{ user?.username }}</span>
           </p>
-          <HeaderActionRow :doc="doc" :is-public="public" class="no-print" />
+          <HeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
         </div>
         <div class="content">
           <div class="infos">
@@ -70,13 +70,14 @@ p {
 
 .top-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-top: 6px;
   .user {
     display: flex;
     align-items: center;
     gap: 12px;
+    min-width: 120px;
   }
 }
 .content {
@@ -106,7 +107,6 @@ h1 {
 .description {
   font-size: 14px;
   color: var(--font-color-light);
-  margin-bottom: 8px;
 }
 
 .category {
@@ -119,7 +119,7 @@ h1 {
 .tags {
   display: flex;
   flex-wrap: wrap;
-  padding-top: 5px;
+  padding: 8px 0;
 }
 
 @media print, screen and (width >= 1024px) {

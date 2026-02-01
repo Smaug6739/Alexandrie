@@ -85,4 +85,7 @@ a {
     visibility: visible;
   }
 }
+.actions-row {
+  flex-wrap: wrap;
+}
 </style>
