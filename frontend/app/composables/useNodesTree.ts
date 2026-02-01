@@ -34,7 +34,12 @@ function createCollapseStore() {
   return {
     isExpanded: (id: string) => {
       init();
-      return states.value[id] ?? true;
+      const state = states.value[id];
+      if (state === undefined) {
+        states.value[id] = true;
+        return true;
+      }
+      return state ?? true;
     },
     setExpanded: (id: string, value: boolean) => {
       init();
@@ -87,7 +92,10 @@ export function useNodesTree() {
   const builder = computed(() => new TreeBuilder(sortedNodes.value, transformNode));
 
   // Full tree
-  const tree = computed(() => builder.value.buildTree(node => node?.role === 1));
+  const tree = computed(() => {
+    const tree = builder.value.buildTree(node => node?.role === 1);
+    return tree;
+  });
 
   // Categories only tree (roles 1 and 2)
   const categoriesTree = computed(() => {

@@ -24,22 +24,22 @@
               <Icon name="add_file" />
               <p class="hint-tooltip">New doc</p>
             </NuxtLink>
-            <NuxtLink class="nav-item" @click="newCategory"
-              ><Icon name="add_folder" />
-              <p class="hint-tooltip">New category</p></NuxtLink
-            >
-            <NuxtLink v-if="!nodesTree.isAllCollapsed()" class="nav-item" @click="nodesTree.collapseAll"
-              ><Icon name="collapse" />
-              <p class="hint-tooltip">Close all</p></NuxtLink
-            >
-            <NuxtLink v-else class="nav-item" @click="nodesTree.expandAll"
-              ><Icon name="arrow-expand" />
-              <p class="hint-tooltip">Open all</p></NuxtLink
-            >
-            <NuxtLink class="nav-item" @click="toggleDock"
-              ><Icon name="dock" />
-              <p class="hint-tooltip">Toggle dock</p></NuxtLink
-            >
+            <NuxtLink class="nav-item" @click="newCategory">
+              <Icon name="add_folder" />
+              <p class="hint-tooltip">New category</p>
+            </NuxtLink>
+            <NuxtLink v-if="!nodesTree.isAllCollapsed()" class="nav-item" @click.stop="nodesTree.collapseAll">
+              <Icon name="collapse" />
+              <p class="hint-tooltip">Close all</p>
+            </NuxtLink>
+            <NuxtLink v-else class="nav-item" @click.stop="nodesTree.expandAll">
+              <Icon name="arrow-expand" />
+              <p class="hint-tooltip">Open all</p>
+            </NuxtLink>
+            <NuxtLink class="nav-item" @click="toggleDock">
+              <Icon name="dock" />
+              <p class="hint-tooltip">Toggle dock</p>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -92,7 +92,6 @@ const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
 };
 const newCategory = () => {
-  onClick();
   useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 2 } }));
 };
 const onClick = () => {
