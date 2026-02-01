@@ -18,7 +18,7 @@ defineProps<{ document?: Node }>();
 .illustration {
   display: block;
   width: 100%;
-  height: 170px;
+  height: 160px;
   padding: 10px 0;
 }
 
