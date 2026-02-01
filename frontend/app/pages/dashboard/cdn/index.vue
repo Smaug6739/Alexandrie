@@ -63,7 +63,7 @@
             @click="router.push(`/dashboard/cdn/${image.id}/preview`)"
             @contextmenu="event => showContextMenu(event, image)"
           >
-            <img :src="previewURL(image)" :alt="image.name" class="image-preview" />
+            <img :src="resolvePreviewUrl(image)" :alt="image.name" class="image-preview" />
             <div class="image-info">
               <span class="image-name">{{ image.name }}</span>
               <span class="image-size">{{ readableFileSize(image.size ?? 0) }}</span>
@@ -81,7 +81,7 @@
 <script setup lang="ts">
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
-import { readableFileSize } from '~/helpers/resources';
+import { readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
 import type { Field } from '~/components/DataTable.vue';
 import type { Node } from '~/stores';
 
@@ -158,10 +158,6 @@ const submitFiles = async () => {
   }
 };
 
-const previewURL = (resource: Node) => {
-  if ((resource.metadata?.filetype || '')?.includes('image/')) return resourceURL(resource);
-  return '/file_placeholder.png';
-};
 const headers = [
   { label: 'Name', key: 'name' },
   { label: 'Size', key: 'size' },
@@ -341,7 +337,7 @@ const bulkDelete = async (lines: Field[]) => {
   padding: 16px 0;
   flex: 1;
   gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
 .image-item {

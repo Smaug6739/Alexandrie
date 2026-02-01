@@ -31,7 +31,10 @@ const resolvePreviewUrl = (node: Node): string => {
   if (isImageFile((node.metadata?.filetype as string) || '')) {
     return resourceURL(node);
   }
-  return '/file_placeholder.png';
+  if (isPdfFile((node.metadata?.filetype as string) || '')) {
+    return '/placeholder/pdf.webp';
+  }
+  return '/placeholder/file.webp';
 };
 
 /** Resolve the appropriate icon for a file based on its role and properties */

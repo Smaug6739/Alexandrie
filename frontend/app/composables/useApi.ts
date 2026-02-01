@@ -7,7 +7,7 @@ export function useApi() {
   const cdnEndpoint = config.public.cdnEndpoint || '';
 
   function avatarURL(user?: User | PublicUser | null): string {
-    if (!user?.avatar) return '/default_avatar.avif';
+    if (!user?.avatar) return '/placeholder/avatar.avif';
     if (user.avatar.startsWith('http://') || user.avatar.startsWith('https://')) {
       return user.avatar;
     }
