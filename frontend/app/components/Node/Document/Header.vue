@@ -1,27 +1,31 @@
 <template>
   <div class="header" :class="{ 'print-style': preferences.get('printMode').value }">
-    <div class="text">
+    <div class="container">
       <!-- Skeleton when doc is undefined -->
       <Skeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
-        <p class="top-row">
-          <span style="display: flex; align-items: center; gap: 12px"
-            ><img v-if="user" :src="api.avatarURL(user)" class="avatar" />
+        <div class="top-row">
+          <p class="user">
+            <img v-if="user" :src="api.avatarURL(user)" class="avatar" />
             <span style="font-size: 16px; color: var(--font-color-light)">{{ user?.username }}</span>
-          </span>
+          </p>
           <HeaderActionRow :doc="doc" :is-public="public" class="no-print" />
-        </p>
-        <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
-        <h1 :class="{ public: public }">{{ doc?.name }}</h1>
-        <p class="description">{{ doc?.description }}</p>
-        <div v-if="doc.tags" class="tags">
-          <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
+        </div>
+        <div class="content">
+          <div class="infos">
+            <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
+            <h1 :class="{ public: public }">{{ doc?.name }}</h1>
+            <p class="description">{{ doc?.description }}</p>
+            <div v-if="doc.tags" class="tags">
+              <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
+            </div>
+          </div>
+          <div class="thumbnail">
+            <Thumbnail :document="doc" />
+          </div>
         </div>
       </template>
-    </div>
-    <div class="thumbnail">
-      <Thumbnail :document="doc" />
     </div>
   </div>
 </template>
@@ -48,7 +52,7 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .header {
   display: flex;
-  padding: 1rem 1.2rem;
+  padding: 1.2rem 1.2rem 0 1.2rem;
   border: 1px solid var(--border-color-light);
   border-radius: 0.625rem;
   background-color: var(--bg-contrast);
@@ -59,47 +63,57 @@ p {
   margin: 0;
 }
 
+.container {
+  flex: 2;
+  padding-right: 10px;
+}
+
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+}
+.content {
+  display: flex;
+  justify-content: space-between;
+  .infos {
+    flex: 1;
+    margin-top: 10px;
+  }
+}
 .thumbnail {
   display: none;
   max-width: 30%;
 }
+.public {
+  margin-top: 30px;
+}
 
-.text {
-  flex: 2;
-  padding-right: 10px;
+h1 {
+  margin: 10px 0;
+  padding: 0;
+  font-size: 22px;
+  font-weight: 550;
+  color: var(--font-color-dark);
+}
 
-  .top-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 6px;
-  }
+.description {
+  font-size: 14px;
+  color: var(--font-color-light);
+  margin-bottom: 8px;
+}
 
-  .public {
-    margin-top: 30px;
-  }
-
-  h1 {
-    margin: 4px 0;
-    padding: 0;
-    font-size: 22px;
-    font-weight: 550;
-    color: var(--font-color-dark);
-  }
-
-  .description {
-    font-size: 14px;
-    color: var(--font-color-light);
-    margin-bottom: 8px;
-  }
-
-  .category {
-    display: block;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--font-color-light);
-    padding-top: 8px;
-  }
+.category {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--font-color-light);
 }
 
 .tags {
