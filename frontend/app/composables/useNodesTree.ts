@@ -11,7 +11,15 @@ const tree = computed(() => {
   return structure.value.generateTree();
 });
 
+/* Collapse operations */
 const collapseAll = collapse.collapseAllStates;
+
+const expandAll = collapse.expandAllStates;
+
+const isCollapsed = collapse.isAllCollapsed;
+
+/* Get subtree by id as a flat array */
+
 const getSubTreeById = (id: string) => {
   return structure.value.treeToArray(structure.value.getSubTreeById(id)?.childrens || []);
 };
@@ -86,6 +94,8 @@ function useSidebarTree() {
     structure,
     nodes,
     collapseAll,
+    expandAll,
+    isCollapsed,
     getSubTreeById,
     groupedByWorkspace,
     getCategoryFromNode,

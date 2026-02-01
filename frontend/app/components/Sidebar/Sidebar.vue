@@ -28,9 +28,13 @@
               ><Icon name="add_folder" />
               <p class="hint-tooltip">New category</p></NuxtLink
             >
-            <NuxtLink class="nav-item" @click="sidebarTree.collapseAll"
+            <NuxtLink v-if="!sidebarTree.isCollapsed()" class="nav-item" @click="sidebarTree.collapseAll"
               ><Icon name="collapse" />
               <p class="hint-tooltip">Close all</p></NuxtLink
+            >
+            <NuxtLink v-else class="nav-item" @click="sidebarTree.expandAll"
+              ><Icon name="arrow-expand" />
+              <p class="hint-tooltip">Open all</p></NuxtLink
             >
             <NuxtLink class="nav-item" @click="toggleDock"
               ><Icon name="dock" />

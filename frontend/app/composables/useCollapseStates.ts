@@ -45,6 +45,17 @@ function collapseAllStates() {
   saveStates();
 }
 
+/** Expand all items */
+function expandAllStates() {
+  Object.keys(states).forEach(key => (states[key] = true));
+  saveStates();
+}
+
+/* Is all collapsed */
+function isAllCollapsed() {
+  return Object.values(states).every(state => state === false);
+}
+
 /** Access the raw reactive states object */
 export function useCollapseStates() {
   return {
@@ -52,5 +63,7 @@ export function useCollapseStates() {
     setCollapseState,
     toggleCollapseState,
     collapseAllStates,
+    expandAllStates,
+    isAllCollapsed,
   };
 }
