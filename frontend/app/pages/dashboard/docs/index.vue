@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+import type { TreeItem } from '~/helpers/TreeBuilder';
 import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: 'All' });
@@ -14,10 +15,10 @@ const parent = computed(() => nodesStore.getById(workspaceId.value || ''));
 
 const nodes = computed(() => {
   const result: Node[] = [];
-  const getNodes = (items: Item[]) => {
+  const getNodes = (items: TreeItem<Node>[]) => {
     for (const item of items) {
       if (item.data.role == 3) result.push(item.data);
-      if (item.childrens) getNodes(item.childrens);
+      if (item.children) getNodes(item.children);
     }
   };
   getNodes(filtered.value);
