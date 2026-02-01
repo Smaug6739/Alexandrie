@@ -14,7 +14,7 @@ export function useSidebar() {
   const isOpen = useState('sidebar-open', () => false);
   const hasSidebar = useState('sidebar-has', () => false);
   const isResizing = useState('sidebar-resizing', () => false);
-  const paneWidth = useState('sidebar-width', () => (isMobile.value ? 340 : 390));
+  const paneWidth: Ref<number> = useState('sidebar-width', () => (isMobile.value ? 340 : 390));
   const activeNodeId = useState<string | null>('sidebar-active', () => null);
   const workspaceId = useState<string | undefined>('sidebar-workspace', () => undefined);
 
