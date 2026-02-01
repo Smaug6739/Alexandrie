@@ -37,11 +37,22 @@ const sidebar = useSidebar();
 
 const categoriesItem = nodesTree.categoriesTree;
 
+function getDefaultParentId() {
+  const activeId = sidebar.active_id.value;
+  if (activeId) {
+    const activeNode = nodesTree.getAncestorCategory(activeId);
+    if (activeNode) return activeNode.id;
+  }
+  const workspaceId = sidebar.workspaceId.value;
+  if (workspaceId == 'shared') return undefined;
+  return workspaceId;
+}
+
 const category = ref<Partial<Node>>({
   name: '',
   role: props.role,
   accessibility: 1,
-  parent_id: nodesTree.getAncestorCategory(sidebar.active_id.value)?.id || sidebar.workspaceId.value,
+  parent_id: getDefaultParentId(),
 });
 
 const createCategory = () => {
