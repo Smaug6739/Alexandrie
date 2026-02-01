@@ -2,7 +2,7 @@
   <div class="header" :class="{ 'print-style': preferences.get('printMode').value }">
     <div class="container">
       <!-- Skeleton when doc is undefined -->
-      <Skeleton v-if="!doc" />
+      <HeaderSkeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
         <div class="top-row">
@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import type { Node, PublicUser } from '~/stores';
 import Thumbnail from './Thumbnail.vue';
-import Skeleton from './Skeleton.vue';
+import HeaderSkeleton from './HeaderSkeleton.vue';
 import HeaderActionRow from './HeaderActionRow.vue';
 
 const preferences = usePreferences();
