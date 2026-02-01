@@ -10,8 +10,14 @@ export const resolveIcon = (item: Node | DB_Node): string => {
   if (item.role === 1) return 'workspace';
   if (item.role === 2 && 'shared' in item) return item.shared ? 'shared_folder' : 'folder';
   if (item.role === 3) return item.accessibility == 1 ? 'sidebar/file' : item.accessibility == 2 ? 'draft' : 'shared_doc';
-  if (item.role === 4) return item.metadata?.filetype == 'application/pdf' ? 'pdf' : 'sidebar/image';
-  return 'sidebar/file';
+  if (item.role === 4) {
+    if (item.metadata?.filetype == 'application/pdf') return 'sidebar/pdf';
+    if (item.metadata?.filetype?.startsWith('video/')) return 'sidebar/video';
+    if (item.metadata?.filetype?.startsWith('audio/')) return 'sidebar/audio';
+    if (item.metadata?.filetype?.startsWith('image/')) return 'sidebar/image';
+    return 'sidebar/attachment';
+  }
+  return 'sidebar/default';
 };
 
 /** Get the dashboard route for a node */
