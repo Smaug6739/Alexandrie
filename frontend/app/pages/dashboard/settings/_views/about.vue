@@ -15,19 +15,19 @@
       If you have any questions, suggestions or if you found a bug, please feel free to reach out to us! You can create an issue on the
       <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" style="font-weight: bold; color: var(--primary)">GitHub repository</NuxtLink>.
     </p>
-    <h3>Changelog v8.3.0</h3>
+    <h3>Changelog v8.5.0</h3>
     <ul>
-      <li>Improved search functionality with body search (open command center -> advanced tab)</li>
-      <li>New dashboard home page to enhance user experience and continue working on your documents</li>
-      <li>New modern interface and mobile experience improved</li>
-      <li>New Kanban view for categories and workspaces</li>
-      <li>Fixed various bugs and improved overall stability</li>
-      <li>New snippets system to enhance note-taking and organization</li>
+      <li>Support open id connect (OIDC)</li>
+      <li>New security page interface</li>
+      <li>Improved markdown editor options and syntax</li>
+      <li>New snippets system</li>
+      <li>Allow public sharing of categories and workspaces</li>
+      <li>Many bugs fixed and performance improvements</li>
     </ul>
     <p style="display: flex; gap: 5px">
       See the full changelog on
       <span style="display: flex; align-items: center">
-        <NuxtLink to="https://github.com/Smaug6739/Alexandrie/releases/tag/v8.3.0" target="_blank" style="font-weight: bold; color: var(--primary)"
+        <NuxtLink to="https://github.com/Smaug6739/Alexandrie/releases/tag/v8.5.0" target="_blank" style="font-weight: bold; color: var(--primary)">
           >GitHub</NuxtLink
         ><Icon name="new_tab" display="sm" /></span
       >.
