@@ -15,7 +15,8 @@
 const props = defineProps<{ nodeId: string }>();
 const emit = defineEmits(['close']);
 
-const allChildren = useSidebarTree().getSubTreeById(props.nodeId);
+const nodesTree = useNodesTree();
+const allChildren = nodesTree.getSubtreeAsArray(props.nodeId);
 
 const removeDoc = () => {
   useNodesStore()

@@ -41,9 +41,9 @@ const props = defineProps<{
 const emit = defineEmits(['close']);
 
 const store = useNodesStore();
-const tree = useSidebarTree();
+const nodesTree = useNodesTree();
 
-const allChildren = computed(() => (props.node ? tree.getSubTreeById(props.node.id) : []));
+const allChildren = computed(() => (props.node ? nodesTree.getSubtreeAsArray(props.node.id) : []));
 
 const nodeType = computed(() => getRoleName(props.node?.role).toLowerCase());
 

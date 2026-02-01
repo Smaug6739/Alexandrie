@@ -32,16 +32,16 @@ const emit = defineEmits(['close']);
 
 const categoriesStore = useNodesStore();
 
-const sidebarTree = useSidebarTree();
+const nodesTree = useNodesTree();
 const sidebar = useSidebar();
 
-const categoriesItem = computed(() => new TreeStructure(sidebarTree.nodes.value.filter(c => c.data.role == 1 || c.data.role == 2)).generateTree());
+const categoriesItem = nodesTree.categoriesTree;
 
 const category = ref<Partial<Node>>({
   name: '',
   role: props.role,
   accessibility: 1,
-  parent_id: sidebarTree.getCategoryFromNode(sidebar.active_id.value)?.id || sidebar.workspaceId.value,
+  parent_id: nodesTree.getAncestorCategory(sidebar.active_id.value)?.id || sidebar.workspaceId.value,
 });
 
 const createCategory = () => {

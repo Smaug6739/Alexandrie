@@ -23,14 +23,14 @@
     <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
       <Icon name="plus" />
     </NuxtLink>
-    <Icon v-if="item.data.role < 4 && item.data.order === -1" name="pin" fill="var(--font-color-light)" class="ni" />
+    <Icon v-if="item.data.order === -1" name="pin" fill="var(--font-color-light)" />
     <slot />
   </span>
 </template>
 
 <script setup lang="ts">
 import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
-import { navigationItems, type DefaultItem } from './helpers';
+import { navigationItems, type SidebarItem, getItemChildren } from './helpers';
 import type { Node } from '~/stores';
 
 const nodesStore = useNodesStore();
@@ -38,18 +38,20 @@ const { isOpened, workspaceId } = useSidebar();
 const { getAppAccent } = useAppColors();
 const { isMobile } = useDevice();
 const preferences = usePreferences();
+const contextMenu = useContextMenu();
 
-const props = defineProps<{ item: Item | DefaultItem; level: number }>();
+const props = defineProps<{ item: SidebarItem; level: number }>();
 const isDragOver = ref<boolean>(false);
 
 const customClass = computed(() => {
-  if ('color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
+  if (props.item?.data && 'color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
     return `item-icon ${getAppAccent(props.item.data.color as number)}`;
   return 'default-icon';
 });
-const iconsNormalized = computed(() => preferences.get('normalizeFileIcons').value);
+const iconsNormalized = preferences.get('normalizeFileIcons');
 const icon = computed(() => {
-  if (!iconsNormalized.value && props.item.icon === 'sidebar/file' && props.item.childrens?.some(child => child.data.role != 4)) return 'file_parent';
+  const children = getItemChildren(props.item);
+  if (!iconsNormalized.value && props.item.icon === 'sidebar/file' && children?.some(child => child.data?.role != 4)) return 'file_parent';
   return props.item.icon || '';
 });
 
@@ -59,7 +61,7 @@ const onClick = (m: MouseEvent) => {
   if (isMobile.value && (props.item.route || props.item.onClick)) isOpened.value = false;
 };
 
-const contextMenu = useContextMenu();
+/* Context menu */
 
 function showContextMenu(event: MouseEvent) {
   if (props.item.data.role === -1) return; // Prevent context menu on nav items
@@ -67,18 +69,18 @@ function showContextMenu(event: MouseEvent) {
     props: { node: props.item.data as Node, contextMenu: true },
   });
 }
+
+/* Drag and drop handlers */
+
 const dragStart = (event: DragEvent) => {
-  // Stocke l'ID de l'élément en cours de glissement
   event.dataTransfer!.setData('text/plain', props.item.id.toString());
 };
 
 const dragOver = () => {
-  // Indique que l'élément est survolé lors du glisser-déposer
   isDragOver.value = true;
 };
 
 const dragLeave = () => {
-  // Réinitialise l'état de survol lorsque l'élément quitte la zone de dépôt
   isDragOver.value = false;
 };
 const drop = async (event: DragEvent) => {
@@ -92,11 +94,14 @@ const drop = async (event: DragEvent) => {
   if (draggedItem.role === -1) return; // Prevent dropping nav items
   if (props.item.data.role === 4) return; // Prevent dropping on resource items
   if (draggedItem.id === props.item.id) return; // Prevent dropping on itself
-  if (draggedItem.role <= 2 && props.item.data.role > 2) return; // Prevent dropping categories / workspaces on resources / documents
+  if (draggedItem.role <= 2 && props.item.data.role !== undefined && props.item.data.role > 2) return; // Prevent dropping categories / workspaces on resources / documents
   // Move item to root
   if (props.item.data.role === -1) {
     return nodesStore.update({ ...(draggedItem as Node), parent_id: workspaceId.value });
   }
+
+  // Prevent dropping on its own descendants
+  if (nodesStore.isDescendant(draggedItem as Node, props.item.id.toString())) return;
 
   nodesStore.update({ ...(draggedItem as Node), parent_id: props.item.id });
 };

@@ -42,7 +42,7 @@ const preferencesStore = usePreferences();
 
 const devise = useDevice();
 const sidebar = useSidebar();
-const tree = useSidebarTree();
+const nodesTree = useNodesTree();
 const route = useRoute();
 const router = useRouter();
 
@@ -76,8 +76,8 @@ definePageMeta({
   },
 });
 
-const next = computed(() => tree.structure.value.next(node.value?.id)?.data);
-const previous = computed(() => tree.structure.value.previous(node.value?.id)?.data);
+const next = computed(() => nodesTree.nextDocument(node.value?.id));
+const previous = computed(() => nodesTree.prevDocument(node.value?.id));
 const width = computed(() => {
   if (preferencesStore.get('docSize').value == 2) return '980px';
   if (preferencesStore.get('docSize').value == 1) return '800px';

@@ -5,10 +5,21 @@
         <h1>Preview <tag yellow>Beta</tag> • {{ resource.name }}</h1>
         <div class="actions-row">
           <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
-          <NuxtLink :to="`/dashboard/cdn/${resource.id}`"><AppButton type="primary">Edit</AppButton></NuxtLink>
-          <AppButton type="secondary" class="no-mobile" @click="copyLink">Copy link</AppButton>
+          <NuxtLink :to="`/dashboard/cdn/${resource.id}`" class="btn-icon">
+            <Icon name="edit" display="lg" />
+            <p class="hint-tooltip">Edit</p>
+          </NuxtLink>
+          <span class="btn-icon" @click="copyLink">
+            <Icon name="copy" display="lg" />
+            <p class="hint-tooltip">Copy link</p>
+          </span>
           <NuxtLink :href="resourceURL(resource, true)" download rel="noopener" class="btn-icon">
             <Icon name="download" display="lg" />
+            <p class="hint-tooltip">Download</p>
+          </NuxtLink>
+          <NuxtLink @click="showDeleteModal" class="btn-icon">
+            <Icon name="delete" display="lg" />
+            <p class="hint-tooltip">Delete</p>
           </NuxtLink>
         </div>
       </header>
@@ -31,6 +42,7 @@
 </template>
 
 <script setup lang="ts">
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { PDF_SCALES } from '~/helpers/constants';
 import { isImageFile, isPdfFile, isVideoFile, isAudioFile } from '~/helpers/resources';
 
@@ -47,12 +59,19 @@ const copyLink = () => {
   const link = resourceURL(resource.value!);
   navigator.clipboard.writeText(link);
 };
+
+const showDeleteModal = () => {
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
+};
 </script>
 <style scoped lang="scss">
-.card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+.btn-icon {
+  position: relative;
+  margin: 0 1px;
+  &:hover .hint-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 header {

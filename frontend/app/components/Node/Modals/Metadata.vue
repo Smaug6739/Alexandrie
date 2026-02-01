@@ -31,7 +31,7 @@
         :items="parentsTree"
         placeholder="Select a parent"
         :nullable="true"
-        :disabled="(i) => i.id == node.id || nodeStore.isDescendant(node, (i as Item).id)"
+        :disabled="i => i.id == node.id || nodeStore.isDescendant(node, i.id as string)"
       />
       <div class="inline-input">
         <label for="accessibility">Color</label>
@@ -48,10 +48,11 @@ import type { Node } from '~/stores';
 const props = defineProps<{ doc: Node }>();
 
 const nodeStore = useNodesStore();
+const nodesTree = useNodesTree();
 
 const node = ref<Node>(props.doc);
 const pinnedToggle = ref(node.value.order == -1);
-const parentsTree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= node.value.role)).generateTree());
+const parentsTree = computed(() => nodesTree.getTreeByMaxRole(node.value.role));
 
 watch(pinnedToggle, val => (node.value.order = val ? -1 : 0));
 watch(

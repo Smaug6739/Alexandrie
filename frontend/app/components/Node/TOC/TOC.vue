@@ -21,6 +21,7 @@
 
 <script lang="ts" setup>
 import type { Node } from '~/stores';
+import type { TreeItem as NodeTreeItem } from '~/helpers/TreeBuilder';
 
 const props = defineProps<{ element?: HTMLElement; doc?: Node }>();
 const list = ref<HTMLElement>();
@@ -107,12 +108,9 @@ function updateActiveHeader() {
   }
 }
 
-const childs = computed(
-  () =>
-    useSidebarTree()
-      .structure.value.childrenMap.get(props.doc?.id || '')
-      ?.filter(c => c.data.role === 3) || [],
-) as Ref<Item<Node>[]>;
+const nodesTree = useNodesTree();
+
+const childs = computed(() => nodesTree.getChildren(props.doc?.id).filter(c => c.data.role === 3)) as Ref<NodeTreeItem<Node>[]>;
 </script>
 
 <style lang="scss" scoped>

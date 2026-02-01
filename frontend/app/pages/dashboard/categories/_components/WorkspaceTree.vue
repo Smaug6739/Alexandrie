@@ -11,16 +11,17 @@
       </div>
     </div>
 
-    <div v-if="node.childrens && node.childrens.length" class="tree-children">
-      <WorkspaceTree v-for="child in node.childrens" :key="child.id" :node="child" @edit="$emit('edit', $event)" @delete="$emit('delete', $event)" />
+    <div v-if="node.children && node.children.length" class="tree-children">
+      <WorkspaceTree v-for="child in node.children" :key="child.id" :node="child" @edit="$emit('edit', $event)" @delete="$emit('delete', $event)" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import type { TreeItem } from '~/helpers/TreeBuilder';
 import type { Node } from '~/stores';
 
-defineProps<{ node: Item<Node> }>();
+defineProps<{ node: TreeItem<Node> }>();
 defineEmits(['edit', 'delete']);
 </script>
 

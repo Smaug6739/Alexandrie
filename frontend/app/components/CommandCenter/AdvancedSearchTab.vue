@@ -75,7 +75,8 @@ const props = defineProps<{ query: string; selectedIndex: number }>();
 defineEmits<{ updateSelectedIndex: [index: number] }>();
 
 const nodesStore = useNodesStore();
-const categoriesTree = new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 2)).generateTree();
+const nodesTree = useNodesTree();
+const categoriesTree = nodesTree.categoriesTree;
 
 // UI State
 const showFilters = ref(true);

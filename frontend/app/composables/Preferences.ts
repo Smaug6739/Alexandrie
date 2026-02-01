@@ -1,4 +1,7 @@
-import type { ANode } from './TreeStructure';
+import type { TreeNode } from '../helpers/TreeBuilder';
+
+// Alias pour compatibilité
+export type ANode<ID = string | number> = Omit<TreeNode<unknown, ID>, 'data'>;
 
 export const DEFAULT_PREFERENCES = {
   printMode: false as boolean,

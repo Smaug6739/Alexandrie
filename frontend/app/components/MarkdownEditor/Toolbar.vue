@@ -163,7 +163,8 @@ const emitAction = (action: string) => emit('execute-action', action);
 const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'large' }));
 const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'medium' }));
 
-const categories = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 2)).generateTree());
+const nodesTree = useNodesTree();
+const categories = nodesTree.categoriesTree;
 
 // Tool type with optional shortcut
 interface ToolItem {

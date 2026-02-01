@@ -28,11 +28,11 @@
               ><Icon name="add_folder" />
               <p class="hint-tooltip">New category</p></NuxtLink
             >
-            <NuxtLink v-if="!sidebarTree.isCollapsed()" class="nav-item" @click="sidebarTree.collapseAll"
+            <NuxtLink v-if="!nodesTree.isAllCollapsed()" class="nav-item" @click="nodesTree.collapseAll"
               ><Icon name="collapse" />
               <p class="hint-tooltip">Close all</p></NuxtLink
             >
-            <NuxtLink v-else class="nav-item" @click="sidebarTree.expandAll"
+            <NuxtLink v-else class="nav-item" @click="nodesTree.expandAll"
               ><Icon name="arrow-expand" />
               <p class="hint-tooltip">Open all</p></NuxtLink
             >
@@ -66,12 +66,13 @@ import SidebarSkeleton from './SidebarSkeleton.vue';
 import { navigationItems } from './helpers';
 import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import Dock from './Dock.vue';
+import { filterTreeByLabel } from '~/helpers/TreeBuilder';
 
 const nodesStore = useNodesStore();
 const preferences = usePreferences();
 const userStore = useUserStore();
 
-const sidebarTree = useSidebarTree();
+const nodesTree = useNodesTree();
 const { isOpened, hasSidebar, filtered } = useSidebar();
 const { isMobile } = useDevice();
 const { avatarURL } = useApi();
@@ -81,12 +82,11 @@ const workspaces = computed(() => [...nodesStore.getAll.filter(c => c.role === 1
 const isLoading = computed(() => nodesStore.isFetching);
 
 const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock').value);
-const filterItems = (items: Item[]): Item[] => {
-  if (!filter.value.trim()) return items;
-  return filterRecursive(items, filter);
-};
 
-const tree = computed(() => filterItems(filtered.value));
+const tree = computed(() => {
+  if (!filter.value.trim()) return filtered.value;
+  return filterTreeByLabel(filtered.value, filter.value);
+});
 
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;

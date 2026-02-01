@@ -20,7 +20,7 @@
             v-model="category.parent_id"
             :items="categoriesItem"
             placeholder="Select a category parent"
-            :disabled="i => i.id == category!.id || nodesStore.isDescendant(category!, (i as Item).id)"
+            :disabled="i => i.id == category!.id || nodesStore.isDescendant(category!, i.id as string)"
           />
         </div>
         <div class="form-column">
@@ -50,9 +50,10 @@ definePageMeta({ breadcrumb: 'Edit' });
 
 const nodesStore = useNodesStore();
 const route = useRoute();
+const nodesTree = useNodesTree();
 
 const category = computed(() => nodesStore.getById(route.params.id as string));
-const categoriesItem = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(i => i.data.role <= 2)).generateTree());
+const categoriesItem = nodesTree.categoriesTree;
 
 const updateCategory = async () => {
   if (category.value)

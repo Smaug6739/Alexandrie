@@ -119,8 +119,8 @@ const selected = computed(() => {
   const findSelected = (items: ANode[]): ANode | null => {
     for (const item of items) {
       if (item.id === selectedId.value) return item;
-      if (item.childrens) {
-        const found = findSelected(item.childrens);
+      if (item.children) {
+        const found = findSelected(item.children);
         if (found) return found;
       }
     }
@@ -227,6 +227,19 @@ onBeforeUnmount(() => {
   // Ensure body scroll is restored
   document.body.style.overflow = '';
 });
+
+const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] => {
+  return items
+    .map(item => {
+      const matches = item.label.toLowerCase().includes(filter.value.toLowerCase());
+      const filteredChildren = item.children ? filterRecursive(item.children, filter) : [];
+      if (matches || filteredChildren.length > 0) {
+        return { ...item, children: filteredChildren };
+      }
+      return null;
+    })
+    .filter(Boolean) as T[];
+};
 </script>
 
 <style scoped lang="scss">

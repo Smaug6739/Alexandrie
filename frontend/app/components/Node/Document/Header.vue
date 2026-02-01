@@ -34,9 +34,10 @@ import HeaderActionRow from './HeaderActionRow.vue';
 
 const preferences = usePreferences();
 const api = useApi();
+const nodesTree = useNodesTree();
 
 const props = defineProps<{ doc?: Node; public?: boolean }>();
-const category = computed(() => useSidebarTree().getCategoryFromNode(props.doc?.parent_id)?.data);
+const category = computed(() => nodesTree.getAncestorCategory(props.doc?.parent_id)?.data);
 const store = useUserStore();
 const user = ref<PublicUser | null>(null);
 watchEffect(() => {
