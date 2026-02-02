@@ -170,6 +170,8 @@ In production, you should:
 
 ## Additional Configuration & Advanced Setup
 
+### Custom configuations - config.toml
+
 For advanced configuration options for backend you can create your own `config.toml` file with the same structure as the default one (in `backend/config.toml`) and add the following environment variable to your `.env` file:
 
 ```env
@@ -177,6 +179,33 @@ CONFIG_PATH=./config.toml # Path to your custom config.toml file
 ```
 
 This allows you to customize advanced settings not covered by environment variables (such as default values, logging levels, supported files etc).
+
+### OIDC Integration
+
+Open ID Connect (OIDC) is supported since version 8.5.0. You can setup up to 10 providers using environment variables to the backend.
+
+First you have to generate client ID and client secret from your provider (refer to their doc or ask questions in discussions / discord)
+
+Then you have to configure the redirect URI (in the provider interface with this value): `https://your-alexandrie-frontend/login/oidc/callback`
+
+To config a provider you have to fill 4 variables:
+
+```env
+OIDC_{i}_CONFIG_URL=https://yourdomain.com/.well-known/openid-configuration
+OIDC_{i}_CLIENT_ID=
+OIDC_{i}_CLIENT_SECRET=
+OIDC_{i}_PROVIDER_NAME= # e.g. Google, Discord, Microsoft...
+```
+*Replace `{i}` with a number between 1 to 10*
+
+To setup these variables to your configuration you have to edit the `docker-compose.yml` and add variables to the backend config (direct values or a reference to your env file) like this for example:
+
+```yml
+OIDC_1_CONFIG_URL: ${OIDC_1_CONFIG_URL}
+OIDC_1_CLIENT_ID: ${OIDC_1_CLIENT_ID}
+OIDC_1_CLIENT_SECRET: ${OIDC_1_CLIENT_SECRET}
+OIDC_1_PROVIDER_NAME: ${OIDC_1_PROVIDER_NAME}
+```
 
 ## FAQ — Common Issues & Troubleshooting
 
