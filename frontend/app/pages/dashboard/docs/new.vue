@@ -1,5 +1,5 @@
 <template>
-  <MarkdownEditor :doc="document" @save="data => save(data)" @exit="exit" />
+  <LazyMarkdownEditor :doc="document" @save="data => save(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import type { Node } from '~/stores';

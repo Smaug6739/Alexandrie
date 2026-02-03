@@ -1,3 +1,3 @@
 <template>
-  <MarkdownSyntax />
+  <LazyMarkdownSyntax />
 </template>

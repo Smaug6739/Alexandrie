@@ -1,8 +1,9 @@
-import { ZipReader, BlobReader, BlobWriter, type FileEntry } from '@zip.js/zip.js';
+import type { FileEntry } from '@zip.js/zip.js';
 import type { Manifest, ManifestExtended } from './types';
 import type { DB_Node } from '~/stores';
 
 export async function readZipFile(file: File): Promise<FileEntry[]> {
+  const { ZipReader, BlobReader } = await import('@zip.js/zip.js');
   const entries: FileEntry[] = [];
   const zipReader = new ZipReader(new BlobReader(file));
   const zipEntries = await zipReader.getEntries();
@@ -16,6 +17,7 @@ export async function readZipFile(file: File): Promise<FileEntry[]> {
 }
 
 async function _readJSONFile(fileEntry: FileEntry): Promise<object> {
+  const { BlobWriter } = await import('@zip.js/zip.js');
   const blob = await fileEntry.getData!(new BlobWriter('application/json'));
   const text = await blob.text();
   const data = JSON.parse(text);
