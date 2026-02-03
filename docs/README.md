@@ -196,7 +196,8 @@ OIDC_{i}_CLIENT_ID=
 OIDC_{i}_CLIENT_SECRET=
 OIDC_{i}_PROVIDER_NAME= # e.g. Google, Discord, Microsoft...
 ```
-*Replace `{i}` with a number between 1 to 10*
+
+_Replace `{i}` with a number between 1 to 10_
 
 To setup these variables to your configuration you have to edit the `docker-compose.yml` and add variables to the backend config (direct values or a reference to your env file) like this for example:
 
@@ -207,78 +208,52 @@ OIDC_1_CLIENT_SECRET: ${OIDC_1_CLIENT_SECRET}
 OIDC_1_PROVIDER_NAME: ${OIDC_1_PROVIDER_NAME}
 ```
 
-## FAQ — Common Issues & Troubleshooting
+### S3 / Minio — TLS, HTTPS and Custom Certificate Authorities
 
-### I am instantly logged out after logging in (login loop)
+Alexandrie connects to the S3-compatible storage (RustFS / MinIO...) using an internal backend client.
+This client supports HTTPS, custom certificate authorities (CA), and explicit TLS configuration.
 
-**Symptoms**
+This section explains how TLS is handled and how to configure it correctly.
 
-- Login succeeds (no error message).
-- You are redirected correctly.
-- You are immediately logged out or returned to the login page.
-- Refreshing the page shows you as unauthenticated.
+#### HTTPS vs HTTP (MINIO_SECURE)
 
-**Cause**
+```env
+MINIO_SECURE=true|false
+```
 
-This is usually caused by a misconfiguration of the `COOKIE_DOMAIN` environment variable in the backend service.
+This variable controls whether HTTPS (TLS) is used at all when the backend connects to the S3 endpoint. It must explicitly match how your S3 server is exposed.
 
-**Common mistakes**
+- `true` → HTTPS is used (default)
+- `false` → HTTP is used (no TLS)
 
-- Including protocol (http:// or https://) in `COOKIE_DOMAIN`.
-- Setting `COOKIE_DOMAIN` to a subdomain that does not match both frontend and backend domains.
-- Setting `COOKIE_DOMAIN` to a domain that does not match the actual domain used to access the services.
+#### Custom Certificate Authorities (MINIO_CA_PATH)
 
-**Correct configuration examples**
+If your S3 endpoint uses a certificate signed by an internal or private certificate authority, you must explicitly provide this CA to the backend.
 
-- If your frontend is at `frontend.yourdomain.com` and your backend API is at `api.yourdomain.com`, then set `COOKIE_DOMAIN=yourdomain.com`.
-- If your frontend is at `frontend.subdomain.yourdomain.com` and your backend API is at `api.subdomain.yourdomain.com`, then set `COOKIE_DOMAIN=subdomain.yourdomain.com`.
-- If your frontend is at `yourdomain.com` and your backend API is at `api.yourdomain.com`, then set `COOKIE_DOMAIN=yourdomain.com`.
+```env
+MINIO_CA_PATH=/path/to/ca-certificate.pem
+```
 
-### Files are uploaded but cannot be accessed
+- The file must contain the CA certificate (root or intermediate), in PEM format
+- This CA will be added to the system trust store used by the S3 client
+- This is the recommended and secure way to handle internal PKI
 
-**Symptoms**
+_Note: if you are using docker containers, you must mount this file into the backend container using a volume in `docker-compose.yml`._
 
-- File uploads succeed without errors.
-- You show files as uploaded in the frontend (for example on the cdn page, in the datatable or in cards)
-- When trying to access the files, you get 404 errors or broken links.
+_TLS Verification Bypass (Not Recommended)_
 
-**Cause**
-This is usually caused by a misconfiguration of the `CDN_URL` and/or `CDN_ENDPOINT` environment variables in the backend service.
+```env
+MINIO_INSECURE_TLS=true|false
+```
 
-**Common mistakes**
+This option disables TLS certificate verification while still using HTTPS.
 
-- `CDN_URL` not matching the actual URL used to access to your S3 server storage (for example when using a reverse proxy with a different domain or path)
-- `CDN_ENDPOINT` not matching the bucket name or the path used in the reverse proxy.
+- The connection remains encrypted
+- Certificate validation (CA + hostname) is skipped
 
-**Correct configuration examples**
+⚠️ Security warning  
+This option should only be used for:
 
-- If your RustFS S3 server is accessible at `http://cdn.yourdomain.com`, then set:
-  - `CDN_URL=http://cdn.yourdomain.com`
-  - `CDN_ENDPOINT=/alexandrie/` (/alexandrie/ is the default bucket name, change it only if you changed the bucket name or if your reverse proxy uses a different path)
-- If your RustFS S3 server is accessible at `http://yourdomain.com/files/`, then set:
-  - `CDN_URL=http://yourdomain.com`
-  - `CDN_ENDPOINT=/files/` (change /files/ to match the path used in your reverse proxy or the bucket name)
-
-Test the right url in your browser by combining `CDN_URL`, `CDN_ENDPOINT` and the object path (you can get the object path from the frontend interface, for example in the cdn page with devtools or by copying the link).
-
-## I have errors with backup system or minio client
-
-**Symptoms**
-
-- Backup creation fails with errors related to link generation with S3 or MinIO (example: Failed to generate download URL: XML syntax error on line 1: attribute name without = in element)
-
-**Cause**
-This is usually caused if you have an incorrect value for endpoint of public signer with minio client in the backend service.
-
-**Correct configuration examples**
-
-- If your RustFS S3 server is accessible at `http://cdn.yourdomain.com`, then set: `CDN_URL=http://cdn.yourdomain.com`
-
-Note: According to S3 specification, the URL used to sign must not contain path or query parameters. So make sure your `CDN_URL` variable does not contain path or query parameters.  
-Example of **incorrect** value: `http://yourdomain.com/files/` (contains path)  
-Example of **correct** value: `http://cdn.yourdomain.com` (no path or query parameters)
-
-## Additional Resources
-
-- [Official Alexandrie GitHub Repository](https://github.com/Smaug6739/alexandrie)
-- [Discord Community](https://discord.gg/UPsEg6egPj)
+- temporary debugging
+- local testing environments
+- It is not recommended for production use.
