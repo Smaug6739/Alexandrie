@@ -16,7 +16,7 @@ services:
     networks:
       - alexandrie-network
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p${MYSQL_ROOT_PASSWORD:-rootpassword}']
+      test: ['CMD-SHELL', "mysql -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} -e 'SELECT 1' $${MYSQL_DATABASE}"]
       timeout: 10s
       retries: 5
       interval: 30s
