@@ -263,6 +263,7 @@ import compile from '~/helpers/markdown';
 .markdown-guide {
   margin: auto;
   line-height: 1.7;
+  max-width: 100%;
 }
 
 .content {
@@ -327,6 +328,9 @@ code {
 }
 
 @media screen and (width <= 800px) {
+  .content {
+    margin: 0.75rem 0.25rem;
+  }
   .block-grid {
     grid-template-columns: 1fr;
   }
