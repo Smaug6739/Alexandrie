@@ -188,6 +188,9 @@ func setupPrivateBackupBucket(ctx context.Context, minioClient *minio.Client, bu
 		{
 			ID:     "auto-delete-backups",
 			Status: "Enabled",
+			RuleFilter: lifecycle.Filter{
+				Prefix: "", // Apply to all objects in the bucket
+			},
 			Expiration: lifecycle.Expiration{
 				Days: 1,
 			},
