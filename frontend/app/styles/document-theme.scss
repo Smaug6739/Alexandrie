@@ -262,6 +262,7 @@
 	padding: 0 0.5rem;
 	font-family: Inter, Roboto, sans-serif;
 	color: var(--font-color);
+	font-size: 16px;
 
 	.header-anchor {
 		display: none;
@@ -272,15 +273,18 @@
 	}
 
 	h2 {
+		margin-top: 2rem;
 		font-size: 1.5rem;
 	}
 
 	h3 {
 		font-size: 1.25rem;
+		margin-top: 1rem;
 	}
 
 	p {
 		width: 100%;
+		padding: 0.2em 0;
 	}
 
 	a {
@@ -297,16 +301,13 @@
 
 	code,
 	pre {
-		padding: 0.25em 0.5em;
 		border-radius: 6px;
 		font-family: 'Roboto Mono', monospace;
 		font-size: 0.95em;
 		color: var(--font-color);
-		background-color: var(--bg-contrast);
 	}
 
 	pre {
-		padding: 1rem;
 		overflow-x: auto;
 	}
 
@@ -323,6 +324,10 @@
 	ol {
 		margin: 0.5em 0;
 		padding-left: 1.5rem;
+
+		li {
+			margin: 0.3em 0;
+		}
 	}
 
 	img {
@@ -348,7 +353,6 @@
 		th {
 			font-weight: 600;
 			text-align: left;
-			background-color: var(--bg-contrast);
 		}
 	}
 
