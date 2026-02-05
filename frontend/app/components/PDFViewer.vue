@@ -256,20 +256,21 @@ onBeforeUnmount(() => {
 
 <style scoped lang="scss">
 .pdf-container {
-  height: 100%;
   width: 100%;
+  height: 100%;
   overflow-y: auto;
 }
 
 .pdf-error {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 100%;
-  gap: 12px;
   color: var(--red-dark);
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
 }
+
 .pdf-page-wrapper {
   position: relative;
   margin: 0 auto 16px;
@@ -283,12 +284,12 @@ onBeforeUnmount(() => {
 
 .pdf-page-placeholder {
   position: absolute;
-  inset: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
   font-size: 14px;
+  color: #999;
   background: #f5f5f5;
+  align-items: center;
+  inset: 0;
+  justify-content: center;
 }
 </style>

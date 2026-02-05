@@ -264,10 +264,10 @@ onMounted(() => {
 }
 
 .stat-icon {
-  margin: 0.5rem;
   display: flex;
-  justify-content: center;
+  margin: 0.5rem;
   align-items: center;
+  justify-content: center;
 }
 
 .stat-value {

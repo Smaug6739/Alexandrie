@@ -163,48 +163,48 @@ const close = () => emit('close');
 
 @media screen and (width <= 920px) {
   .component {
-    flex-direction: column;
     position: relative;
+    flex-direction: column;
 
     .menu-toggle {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
       padding: 0.75rem 1rem;
       border: none;
-      border-bottom: 1px solid var(--border-color);
-      background-color: var(--bg-contrast);
-      color: inherit;
       font-size: 0.9rem;
+      color: inherit;
+      background-color: var(--bg-contrast);
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
       cursor: pointer;
+      gap: 0.5rem;
     }
 
     nav {
       position: absolute;
       top: 45px;
       left: 0;
+      z-index: 10;
       width: 100%;
       max-height: 0;
       padding: 0;
-      overflow: hidden;
-      border-right: none;
       background-color: var(--bg-color);
-      z-index: 10;
       transition: max-height 0.25s ease, padding 0.25s ease;
+      border-right: none;
+      overflow: hidden;
 
       &.open {
         max-height: 70vh;
         padding: 1rem;
-        overflow-y: auto;
         border-radius: $radius-lg;
-        border-bottom: 1px solid var(--border-color);
         box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+        border-bottom: 1px solid var(--border-color);
+        overflow-y: auto;
       }
     }
 
     .content {
-      padding: 1rem;
       margin: 0;
+      padding: 1rem;
     }
   }
 

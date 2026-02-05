@@ -16,6 +16,7 @@ const show = ref(false);
   display: inline-block;
   margin-left: 0.25rem;
 }
+
 .icon {
   display: flex;
   width: 1rem;

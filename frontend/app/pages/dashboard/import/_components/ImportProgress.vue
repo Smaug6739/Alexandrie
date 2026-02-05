@@ -56,23 +56,23 @@ const statusLabel = computed(() => {
   font-weight: 500;
 
   &.pending {
-    background: var(--yellow-bg);
     color: var(--yellow);
+    background: var(--yellow-bg);
   }
 
   &.in_progress {
-    background: var(--primary-bg);
     color: var(--primary);
+    background: var(--primary-bg);
   }
 
   &.completed {
-    background: var(--green-bg);
     color: var(--green);
+    background: var(--green-bg);
   }
 
   &.failed {
-    background: var(--red-bg);
     color: var(--red);
+    background: var(--red-bg);
   }
 }
 
@@ -84,16 +84,16 @@ const statusLabel = computed(() => {
 .progress-bar-container {
   width: 100%;
   height: 8px;
-  background: var(--border-color);
   border-radius: 4px;
-  overflow: hidden;
+  background: var(--border-color);
   margin-bottom: 0.75rem;
+  overflow: hidden;
 }
 
 .progress-bar {
   height: 100%;
-  background: var(--primary);
   border-radius: 4px;
+  background: var(--primary);
   transition: width 0.3s ease;
 }
 </style>

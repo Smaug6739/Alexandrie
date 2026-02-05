@@ -117,6 +117,7 @@ onBeforeUnmount(() => {
 
 .btn-icon {
   position: relative;
+
   &:hover > .hint-tooltip {
     opacity: 1;
     visibility: visible;

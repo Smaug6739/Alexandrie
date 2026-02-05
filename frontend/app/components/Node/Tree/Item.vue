@@ -91,11 +91,11 @@ function toggleExpand() {
 
 .node-row {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
   padding: 0.625rem 1rem;
   transition: background-color 0.15s;
+  align-items: center;
   border-left: 2px solid transparent;
+  gap: 0.5rem;
 
   &:hover {
     border-left-color: var(--primary);
@@ -104,17 +104,17 @@ function toggleExpand() {
 
 .expand-btn {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 20px;
   height: 20px;
   padding: 0;
   border: none;
-  background: none;
   color: var(--font-color-light);
-  cursor: pointer;
+  background: none;
   transition: transform 0.2s;
+  align-items: center;
+  cursor: pointer;
   flex-shrink: 0;
+  justify-content: center;
 
   &.rotated {
     transform: rotate(90deg);
@@ -132,21 +132,21 @@ function toggleExpand() {
 
 .node-icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 32px;
   height: 32px;
   border-radius: 8px;
+  align-items: center;
   flex-shrink: 0;
+  justify-content: center;
 }
 
 .node-link {
   display: flex;
-  flex-direction: column;
-  flex: 1;
   min-width: 0;
-  text-decoration: none;
+  flex: 1;
+  flex-direction: column;
   gap: 2px;
+  text-decoration: none;
 
   &:hover .node-name {
     color: var(--primary);
@@ -157,50 +157,50 @@ function toggleExpand() {
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--font-color-dark);
-  white-space: nowrap;
+  transition: color 0.15s;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: color 0.15s;
+  white-space: nowrap;
 }
 
 .node-description {
   font-size: 0.8125rem;
   color: var(--font-color-light);
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .node-meta {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   flex-shrink: 0;
+  gap: 0.5rem;
 }
 
 .node-type {
+  padding: 2px 8px;
+  border-radius: 4px;
   font-size: 0.6875rem;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   color: var(--font-color-light);
-  padding: 2px 8px;
   background: var(--bg-contrast);
-  border-radius: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .children-count {
   display: flex;
-  align-items: center;
-  justify-content: center;
   min-width: 20px;
   height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
   font-size: 0.6875rem;
   font-weight: 600;
   color: var(--font-color);
   background: var(--bg-contrast);
-  border-radius: 10px;
-  padding: 0 6px;
+  align-items: center;
+  justify-content: center;
 }
 
 .node-children {
@@ -217,17 +217,17 @@ function toggleExpand() {
 
 .expand-enter-from,
 .expand-leave-to {
-  opacity: 0;
   max-height: 0;
+  opacity: 0;
 }
 
 .expand-enter-to,
 .expand-leave-from {
-  opacity: 1;
   max-height: 1000px;
+  opacity: 1;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (width <= 600px) {
   .node-description,
   .node-type {
     display: none;

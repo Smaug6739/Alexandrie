@@ -68,6 +68,7 @@ const showDeleteModal = () => {
 .btn-icon {
   position: relative;
   margin: 0 1px;
+
   &:hover .hint-tooltip {
     opacity: 1;
     visibility: visible;
@@ -77,15 +78,16 @@ const showDeleteModal = () => {
 header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .preview {
   display: flex;
   flex: 1;
-  overflow: hidden;
   justify-content: center;
+  overflow: hidden;
+
   img {
     max-width: 100%;
     max-height: 100%;
@@ -95,7 +97,7 @@ header {
 
 .no-preview {
   display: flex;
-  flex-direction: column;
   text-align: center;
+  flex-direction: column;
 }
 </style>

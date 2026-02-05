@@ -180,8 +180,8 @@ input {
 }
 
 .required {
-  color: var(--red);
   font-size: larger;
+  color: var(--red);
 }
 
 /* ===== Password ===== */

@@ -112,9 +112,9 @@ video {
 
 iframe {
 	max-width: 100%;
+	margin: 10px 0;
 	border: none;
 	border-radius: 6px;
-	margin: 10px 0;
 }
 
 input,
@@ -193,24 +193,24 @@ p {
 table {
 	max-width: 100%;
 	margin: 1.5rem 0;
-	border-collapse: collapse;
-	font-size: 0.95rem;
 	border-radius: 12px;
+	font-size: 0.95rem;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
+	border-collapse: collapse;
 	overflow: hidden;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 /* Header */
 thead th {
 	padding: 0.9rem 1rem;
-	text-align: left;
-	font-weight: 500;
 	font-size: 0.8rem;
-	letter-spacing: 0.03em;
-	text-transform: uppercase;
+	font-weight: 500;
 	color: var(--font-color-light);
+	text-align: left;
 	background-color: var(--border-color-light);
 	border-bottom: 1px solid var(--border-color);
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
 }
 
 /* Cells */

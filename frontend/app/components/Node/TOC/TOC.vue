@@ -115,8 +115,8 @@ const childs = computed(() => nodesTree.getChildren(props.doc?.id).filter(c => c
 
 <style lang="scss" scoped>
 h4 {
-  color: var(--font-color-light);
   font-size: 14px;
+  color: var(--font-color-light);
 }
 
 aside {

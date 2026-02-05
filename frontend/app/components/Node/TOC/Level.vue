@@ -24,9 +24,9 @@ a {
 
 li {
   padding: 0;
+  font-size: 12px;
   list-style: none;
   margin-top: 2px;
-  font-size: 12px;
 }
 
 ul {

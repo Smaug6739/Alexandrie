@@ -194,6 +194,7 @@ h1 {
 a {
   position: relative;
 }
+
 a:hover > .hint-tooltip {
   opacity: 1;
   visibility: visible;

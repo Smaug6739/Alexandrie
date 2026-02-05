@@ -14,10 +14,10 @@ const transition = computed(() => (isResizing.value ? 'none' : 'padding-left 0.3
 
 <style scoped>
 main {
+  display: flex;
   width: 100%;
   height: 100%;
   padding: 0 10px;
-  display: flex;
   flex-direction: column;
 }
 

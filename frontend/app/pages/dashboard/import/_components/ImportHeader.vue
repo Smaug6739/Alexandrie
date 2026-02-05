@@ -66,10 +66,11 @@ h2 {
   display: flex;
   align-items: center;
 }
+
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   margin-bottom: 1rem;
 }
 
@@ -97,19 +98,19 @@ h2 {
 
   .badge {
     display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
     padding: 0.25rem 0.5rem;
     border-radius: $radius-sm;
     font-size: 0.75rem;
-    background: var(--bg-color-2);
     color: var(--font-color-dark);
+    background: var(--bg-color-2);
     opacity: 0.5;
+    align-items: center;
+    gap: 0.25rem;
 
     &.active {
-      opacity: 1;
-      background: var(--primary-bg);
       color: var(--primary);
+      background: var(--primary-bg);
+      opacity: 1;
     }
   }
 }

@@ -264,9 +264,9 @@ onUnmounted(() => {
   text-align: left;
 
   h3 {
-    margin-bottom: 1rem;
     font-size: 1rem;
     color: var(--font-color);
+    margin-bottom: 1rem;
   }
 }
 
@@ -301,23 +301,23 @@ onUnmounted(() => {
   font-weight: 500;
 
   &.pending {
-    background: var(--yellow-bg);
     color: var(--yellow);
+    background: var(--yellow-bg);
   }
 
   &.processing {
-    background: var(--primary-bg);
     color: var(--primary);
+    background: var(--primary-bg);
   }
 
   &.completed {
-    background: var(--green-bg);
     color: var(--green);
+    background: var(--green-bg);
   }
 
   &.failed {
-    background: var(--red-bg);
     color: var(--red);
+    background: var(--red-bg);
   }
 }
 
@@ -329,36 +329,36 @@ onUnmounted(() => {
 .progress-bar-container {
   width: 100%;
   height: 8px;
-  background: var(--border-color);
   border-radius: 4px;
-  overflow: hidden;
+  background: var(--border-color);
   margin-bottom: 0.75rem;
+  overflow: hidden;
 }
 
 .progress-bar {
   height: 100%;
-  background: var(--primary);
   border-radius: 4px;
+  background: var(--primary);
   transition: width 0.3s ease;
 }
 
 .progress-message {
-  color: var(--font-color-dark);
   font-size: 1rem;
   font-weight: bold;
+  color: var(--font-color-dark);
   margin-bottom: 0.75rem;
 }
 
 .error-message {
   display: flex;
+  padding: 0.75rem;
+  border-radius: $radius-sm;
+  color: var(--error);
+  text-align: left;
+  background: var(--error-bg);
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem;
-  background: var(--error-bg);
-  color: var(--error);
-  border-radius: $radius-sm;
   margin-top: 0.75rem;
-  text-align: left;
 }
 
 .link-section {
@@ -367,11 +367,11 @@ onUnmounted(() => {
 
 .expiry-notice {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
   font-size: 0.75rem;
   color: var(--font-color-dark);
+  align-items: center;
+  gap: 0.25rem;
+  justify-content: center;
   margin-bottom: 1rem;
 }
 
@@ -380,8 +380,9 @@ input[type='text'] {
 }
 
 .actions-row {
-  margin-top: 0.75rem;
   justify-content: center;
+  margin-top: 0.75rem;
+
   a {
     text-decoration: none;
   }

@@ -188,6 +188,7 @@ th {
   &.align-center {
     text-align: center;
   }
+
   text-transform: uppercase;
 }
 
@@ -197,6 +198,7 @@ td {
   &.align-right {
     text-align: right;
     padding-right: 10px;
+
     > span {
       justify-content: flex-end;
     }

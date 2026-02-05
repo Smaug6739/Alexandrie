@@ -96,14 +96,15 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   inset: 0;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (width <= 600px) {
   .modal-container {
-    width: 95%;
     display: flex;
+    width: 95%;
+    padding: 12px 0;
     flex-direction: column;
     justify-content: center;
-    padding: 12px 0;
   }
+
   .close-btn {
     top: 0.5rem;
     right: 0.5rem;

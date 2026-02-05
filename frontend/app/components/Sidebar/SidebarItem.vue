@@ -144,8 +144,8 @@ const drop = async (event: DragEvent) => {
 
 .content {
   flex: 1;
-  text-overflow: ellipsis;
   overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 

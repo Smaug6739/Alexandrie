@@ -52,7 +52,7 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .header {
   display: flex;
-  padding: 1.2rem 1.2rem 0 1.2rem;
+  padding: 1.2rem 1.2rem 0;
   border: 1px solid var(--border-color-light);
   border-radius: 0.625rem;
   background-color: var(--bg-contrast);
@@ -73,25 +73,30 @@ p {
   align-items: flex-start;
   justify-content: space-between;
   margin-top: 6px;
+
   .user {
     display: flex;
+    min-width: 120px;
     align-items: center;
     gap: 12px;
-    min-width: 120px;
   }
 }
+
 .content {
   display: flex;
   justify-content: space-between;
+
   .infos {
     flex: 1;
     margin-top: 10px;
   }
 }
+
 .thumbnail {
   display: none;
   max-width: 30%;
 }
+
 .public {
   margin-top: 30px;
 }
@@ -118,8 +123,8 @@ h1 {
 
 .tags {
   display: flex;
-  flex-wrap: wrap;
   padding: 8px 0;
+  flex-wrap: wrap;
 }
 
 @media print, screen and (width >= 1024px) {

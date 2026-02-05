@@ -80,11 +80,13 @@ function exportMarkdown() {
 <style lang="scss" scoped>
 a {
   position: relative;
+
   &:hover .hint-tooltip {
     opacity: 1;
     visibility: visible;
   }
 }
+
 .actions-row {
   flex-wrap: wrap;
 }

@@ -53,6 +53,7 @@ const save = () => {
 textarea {
   width: 100%;
 }
+
 .actions-row {
   justify-content: flex-end;
 }

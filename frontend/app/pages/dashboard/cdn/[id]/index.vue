@@ -108,6 +108,7 @@ a {
   color: var(--primary);
   text-decoration: underline;
 }
+
 .actions-row {
   justify-content: flex-end;
 }

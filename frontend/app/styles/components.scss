@@ -75,14 +75,14 @@
 // ===========================
 .card-component {
 	display: block;
+	height: 100%;
+	max-height: 100%;
 	margin: 8px 4px;
 	padding: 20px;
 	border: 1px solid var(--border-color);
 	border-radius: $radius-md;
 	box-shadow: 0 2px 6px var(--shadow);
 	gap: 16px;
-	max-height: 100%;
-	height: 100%;
 	overflow: auto;
 
 	header {
@@ -90,8 +90,8 @@
 		align-items: center;
 		border-bottom: 1px solid var(--border-color);
 		justify-content: space-between;
-		padding-bottom: 4px;
 		margin-bottom: 10px;
+		padding-bottom: 4px;
 
 		h1 {
 			margin: 10px 0;
@@ -181,22 +181,23 @@ tag {
 	color: white;
 	background-color: #1f2937;
 	box-shadow: 0 2px 8px var(--shadow);
-	margin-top: 0.2rem;
-	text-transform: capitalize;
-	transform: translateX(-50%);
-	white-space: nowrap;
 
 	// Initial state (hidden)
 	opacity: 0;
-	visibility: hidden;
-	pointer-events: none;
 
 	/* Transition */
 	transition:
 		opacity 0.2s ease,
 		visibility 0s linear 0.4s; // Delay hiding to match opacity transition
 
-	/*&::after {
+	margin-top: 0.2rem;
+	pointer-events: none;
+	text-transform: capitalize;
+	transform: translateX(-50%);
+	visibility: hidden;
+	white-space: nowrap;
+
+	/* &::after {
 		content: '';
 		position: absolute;
 		bottom: 100%;
@@ -205,7 +206,7 @@ tag {
 		border-width: 5px;
 		border-style: solid;
 		border-color: transparent transparent #1f2937 transparent;
-	}*/
+	} */
 }
 
 // ===========================

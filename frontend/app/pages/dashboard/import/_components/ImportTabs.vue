@@ -175,21 +175,22 @@ function importLocalSettings() {
 // Documents Card
 .tabs {
   display: flex;
-  gap: 0;
-  border-bottom: 1px solid var(--border-color);
-  padding: 0 1.5rem;
-  margin-bottom: 2rem;
   width: 100%;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  gap: 0;
+  margin-bottom: 2rem;
+
   button {
     padding: 1rem 1.5rem;
-    background: none;
     border: none;
-    color: var(--font-color-dark);
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
-    flex: 1;
     font-size: 15px;
+    color: var(--font-color-dark);
+    background: none;
+    transition: all 0.2s ease;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    flex: 1;
 
     &:hover {
       color: var(--font-color);
@@ -208,11 +209,11 @@ function importLocalSettings() {
 
 .empty-state {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 3rem;
   color: var(--font-color-dark);
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 
   p {
     margin-top: 0.5rem;
@@ -222,28 +223,28 @@ function importLocalSettings() {
 .list-header {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid var(--border-color);
   justify-content: space-between;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .documents-list {
   display: flex;
+  max-height: 400px;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 400px;
   overflow-y: auto;
 }
 
 .document-item {
   display: flex;
+  padding: 0.75rem;
+  border-radius: $radius-sm;
+  background: var(--bg-color-2);
+  transition: background 0.2s;
   align-items: center;
   gap: 1rem;
-  padding: 0.75rem;
-  background: var(--bg-color-2);
-  border-radius: $radius-sm;
-  transition: background 0.2s;
 
   &:hover {
     background: var(--bg-color-3);
@@ -251,23 +252,23 @@ function importLocalSettings() {
 
   .doc-info {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex: 1;
     min-width: 0;
+    align-items: center;
+    flex: 1;
+    gap: 0.75rem;
   }
 
   .doc-details {
     display: flex;
-    flex-direction: column;
     min-width: 0;
+    flex-direction: column;
   }
 
   .doc-name {
     font-weight: 500;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .doc-meta {
@@ -281,8 +282,8 @@ function importLocalSettings() {
 
   .doc-actions {
     display: flex;
-    gap: 0.5rem;
     flex-shrink: 0;
+    gap: 0.5rem;
   }
 
   &.update-item {
@@ -290,21 +291,21 @@ function importLocalSettings() {
 
     .comparison {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
       padding: 0.25rem 0.5rem;
-      background: var(--bg-color);
       border-radius: $radius-sm;
       font-size: 0.75rem;
+      background: var(--bg-color);
+      align-items: center;
+      gap: 0.5rem;
 
       .version {
         display: flex;
-        flex-direction: column;
         align-items: center;
+        flex-direction: column;
 
         .version-label {
-          font-weight: 500;
           font-size: 0.65rem;
+          font-weight: 500;
           text-transform: uppercase;
         }
 

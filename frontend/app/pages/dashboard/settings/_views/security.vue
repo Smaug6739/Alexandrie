@@ -211,12 +211,12 @@ const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountM
 }
 
 .no-sessions {
-  color: var(--font-color-light);
-  font-style: italic;
   padding: 1rem;
+  border-radius: 10px;
+  color: var(--font-color-light);
   text-align: center;
   background: var(--bg-contrast);
-  border-radius: 10px;
+  font-style: italic;
 }
 
 p {
@@ -226,11 +226,11 @@ p {
 
 .warning-box {
   display: flex;
-  gap: 1rem;
   padding: 1rem 1.25rem;
+  border: 1px solid var(--yellow-border);
   border-radius: 10px;
   background: var(--yellow-bg);
-  border: 1px solid var(--yellow-border);
+  gap: 1rem;
   margin-bottom: 1.5rem;
 
   svg {
@@ -242,8 +242,8 @@ p {
   }
 
   strong {
-    color: var(--yellow-dark);
     display: block;
+    color: var(--yellow-dark);
     margin-bottom: 0.25rem;
   }
 
@@ -275,21 +275,21 @@ p {
 
 .oidc-loading {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
   padding: 1rem;
   color: var(--font-color-light);
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .oidc-account {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   background: var(--bg-secondary);
+  align-items: center;
   gap: 1rem;
+  justify-content: space-between;
 }
 
 .oidc-account-info {
@@ -300,10 +300,10 @@ p {
 
 .oidc-icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 24px;
   height: 24px;
+  align-items: center;
+  justify-content: center;
 
   :deep(svg) {
     width: 100%;
@@ -326,8 +326,8 @@ p {
   color: var(--font-color-light);
 
   &.linked {
-    color: var(--green);
     font-weight: 500;
+    color: var(--green);
   }
 }
 
@@ -341,14 +341,14 @@ p {
 
 .danger-card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
   padding: 1rem 1.25rem;
   border: 1px solid var(--border-color);
   border-radius: 12px;
   background: var(--bg-color);
   transition: all 0.2s ease;
+  align-items: center;
+  gap: 1rem;
+  justify-content: space-between;
 
   &:hover {
     border-color: var(--border-color-accent);
@@ -366,37 +366,37 @@ p {
 
 .danger-card-content {
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  flex: 1;
   min-width: 0;
+  align-items: flex-start;
+  flex: 1;
+  gap: 1rem;
 }
 
 .danger-card-icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: var(--bg-contrast-2);
   color: var(--font-color);
+  background: var(--bg-contrast-2);
+  align-items: center;
   flex-shrink: 0;
+  justify-content: center;
 
   &.warning {
-    background: var(--yellow-bg);
     color: var(--yellow-dark);
+    background: var(--yellow-bg);
   }
 
   &.destructive {
-    background: var(--red-bg);
     color: var(--red);
+    background: var(--red-bg);
   }
 }
 
 .danger-card-info {
-  flex: 1;
   min-width: 0;
+  flex: 1;
 
   h4 {
     margin: 0 0 0.25rem;
@@ -408,8 +408,8 @@ p {
   > p {
     margin: 0;
     font-size: 0.85rem;
-    color: var(--font-color-light);
     line-height: 1.4;
+    color: var(--font-color-light);
   }
 }
 
@@ -430,9 +430,9 @@ p {
 
   ul {
     margin: 0.5rem 0;
-    padding-left: 1.25rem;
     font-size: 0.8rem;
     color: var(--font-color-light);
+    padding-left: 1.25rem;
 
     li {
       margin: 0.2rem 0;
@@ -444,17 +444,17 @@ p {
     color: var(--font-color-light);
 
     a {
+      font-weight: 500;
       color: var(--primary);
       text-decoration: underline;
-      font-weight: 500;
     }
   }
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .danger-card {
-    flex-direction: column;
     align-items: stretch;
+    flex-direction: column;
 
     button {
       width: 100%;

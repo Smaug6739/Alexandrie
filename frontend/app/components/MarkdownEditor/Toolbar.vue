@@ -57,7 +57,7 @@
     <div :class="['toolbar-divider', { 'no-mobile': mobileSimplifiedView }]" />
 
     <!-- Voice & Category -->
-    <div class="toolbar-group" style="flex: 1; flex-direction: row; align-items: center; gap: 4px">
+    <div class="toolbar-group" style=" align-items: center;flex: 1; flex-direction: row; gap: 4px">
       <div class="group-buttons">
         <VoiceRecognition :class="{ 'no-mobile': mobileSimplifiedView }" @transcription="handleTranscription" />
       </div>
@@ -218,7 +218,6 @@ const actionTools: ToolItem[] = [
   display: flex;
   width: 100%;
   padding: 6px 10px;
-  margin-top: 8px;
   border: 1px solid var(--border-color);
   border-radius: 10px;
   background: var(--bg-color);
@@ -227,6 +226,7 @@ const actionTools: ToolItem[] = [
   align-items: center;
   flex-wrap: wrap;
   gap: 4px 6px;
+  margin-top: 8px;
   overflow-x: clip;
   user-select: none;
 
@@ -416,9 +416,9 @@ const actionTools: ToolItem[] = [
 }
 
 .category-select {
+  min-width: 110px;
   border-radius: 6px;
   background: var(--bg-color);
-  min-width: 110px;
 }
 
 // Responsive adjustments

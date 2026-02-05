@@ -134,12 +134,14 @@ function removeTag(tag: string) {
   flex-direction: column;
   gap: 6px;
 }
+
 .row {
   display: flex;
+  align-items: baseline;
   flex-direction: row;
   gap: 12px;
-  align-items: baseline;
 }
+
 .tags-input-wrapper {
   position: relative;
 }
@@ -150,16 +152,18 @@ function removeTag(tag: string) {
 }
 
 input {
-  flex: 1;
   min-width: 150px;
+  flex: 1;
 
   &:focus {
     border-color: var(--primary);
   }
+
   &.minimal {
-    font-size: 12px;
     padding: 6px 8px;
     border: none;
+    font-size: 12px;
+
     &:hover,
     &:focus {
       background: var(--bg-ui);

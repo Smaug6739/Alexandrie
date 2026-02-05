@@ -98,37 +98,39 @@ onMounted(async () => {
 h1 {
   font-size: 2em;
 }
+
 .body-container {
   display: flex;
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
   align-items: center;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
-  flex: 1;
 }
 
 .status-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   text-align: center;
+  align-items: center;
+  flex-direction: column;
 
   p {
-    font-size: 1rem;
     margin: 0.25rem 0;
+    font-size: 1rem;
   }
 }
+
 .error-message {
-  color: var(--red) !important;
-  font-weight: 500;
   max-width: 400px;
+  font-weight: 500;
+  color: var(--red) !important;
 }
 
 .redirect-notice {
-  margin-top: 1rem !important;
   opacity: 0.8;
+  margin-top: 1rem !important;
 }
 
 .actions-row {

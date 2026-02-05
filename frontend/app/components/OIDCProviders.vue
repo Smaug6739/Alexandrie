@@ -38,15 +38,15 @@ onMounted(() => {
 .divider {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
   gap: 1rem;
+  margin-bottom: 1rem;
 
   &::before,
   &::after {
-    content: '';
-    flex: 1;
     height: 1px;
     background: var(--border-color);
+    content: '';
+    flex: 1;
   }
 
   span {
@@ -58,10 +58,10 @@ onMounted(() => {
 
 .providers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 0.75rem;
   max-width: 400px;
   margin: 0 auto;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 
   // When only 1 provider, center it with max-width
   &:has(.provider-btn:only-child) {
@@ -71,24 +71,24 @@ onMounted(() => {
 
 .provider-btn {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  background: var(--bg-color);
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--font-color);
-  cursor: pointer;
+  background: var(--bg-color);
   transition: all 0.2s ease;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.6rem;
+  justify-content: center;
 
   &:hover:not(:disabled) {
     border-color: var(--provider-color);
     background: color-mix(in srgb, var(--provider-color) 8%, transparent);
-    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+    transform: translateY(-1px);
   }
 
   &:active:not(:disabled) {
@@ -103,11 +103,11 @@ onMounted(() => {
 
 .provider-icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 20px;
   height: 20px;
+  align-items: center;
   flex-shrink: 0;
+  justify-content: center;
 
   :deep(svg) {
     width: 100%;
@@ -116,8 +116,8 @@ onMounted(() => {
 }
 
 .provider-label {
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

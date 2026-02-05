@@ -194,12 +194,12 @@ const handleDictImport = async (e: Event) => {
   }
 
   .count {
-    margin-left: 0.5rem;
     padding: 0.15rem 0.5rem;
     border-radius: 999px;
     font-size: 0.75rem;
     color: var(--font-color-light);
     background: var(--bg-ui);
+    margin-left: 0.5rem;
   }
 
   code {
@@ -224,10 +224,7 @@ const handleDictImport = async (e: Event) => {
 
 .dropdown-backdrop {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: 99;
 }
 
@@ -237,26 +234,26 @@ const handleDictImport = async (e: Event) => {
   left: 0;
   z-index: 100;
   min-width: 160px;
-  margin-top: 0.25rem;
   padding: 0.25rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   background: var(--bg-color);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  margin-top: 0.25rem;
 
   button {
     display: flex;
     width: 100%;
-    gap: 0.5rem;
     padding: 0.5rem 0.75rem;
     border: none;
     border-radius: 6px;
     font-size: 0.85rem;
-    text-align: left;
     color: var(--font-color);
+    text-align: left;
     background: none;
     align-items: center;
     cursor: pointer;
+    gap: 0.5rem;
 
     &:hover {
       background: var(--bg-ui);
@@ -287,13 +284,13 @@ const handleDictImport = async (e: Event) => {
 
 .separator {
   height: 32px;
-  margin-left: 4px;
   border-left: 1px solid var(--border-color);
+  margin-left: 4px;
 }
 
 .action-btn {
-  margin-right: 10px;
   cursor: pointer;
+  margin-right: 10px;
 
   &:hover {
     opacity: 0.7;

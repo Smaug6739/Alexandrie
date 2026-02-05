@@ -94,13 +94,13 @@ const deviceType = computed(() => {
 <style scoped lang="scss">
 .session-card {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
   padding: 1rem 1.25rem;
   border: 1px solid var(--border-color);
   border-radius: 12px;
   background: var(--bg-color);
   transition: all 0.2s ease;
+  flex-direction: column;
+  gap: 1rem;
 
   &:hover {
     border-color: var(--border-color-accent);
@@ -117,8 +117,8 @@ const deviceType = computed(() => {
   }
 
   &.inactive {
-    opacity: 0.7;
     background: var(--bg-contrast);
+    opacity: 0.7;
   }
 }
 
@@ -130,14 +130,14 @@ const deviceType = computed(() => {
 
 .device-icon {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  background: var(--bg-contrast-2);
   color: var(--font-color);
+  background: var(--bg-contrast-2);
+  align-items: center;
   flex-shrink: 0;
+  justify-content: center;
 
   svg {
     width: 22px;
@@ -145,30 +145,30 @@ const deviceType = computed(() => {
   }
 
   &.mobile {
-    background: var(--purple-bg);
     color: var(--purple);
+    background: var(--purple-bg);
   }
 
   &.desktop {
-    background: var(--blue-bg);
     color: var(--blue);
+    background: var(--blue-bg);
   }
 }
 
 .session-info {
   display: flex;
+  min-width: 0;
+  flex: 1;
   flex-direction: column;
   gap: 0.35rem;
-  flex: 1;
-  min-width: 0;
 }
 
 .session-title {
   display: flex;
+  font-size: 0.95rem;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-  font-size: 0.95rem;
 
   .browser {
     font-weight: 600;
@@ -182,22 +182,22 @@ const deviceType = computed(() => {
 
 .badge {
   display: inline-flex;
-  align-items: center;
   padding: 0.15rem 0.5rem;
   border-radius: 20px;
   font-size: 0.7rem;
   font-weight: 600;
-  text-transform: uppercase;
+  align-items: center;
   letter-spacing: 0.03em;
+  text-transform: uppercase;
 
   &.current {
-    background: var(--green-bg);
     color: var(--green-dark);
+    background: var(--green-bg);
   }
 
   &.inactive {
-    background: var(--grey-bg);
     color: var(--grey-dark);
+    background: var(--grey-bg);
   }
 }
 
@@ -209,10 +209,10 @@ const deviceType = computed(() => {
 
 .meta-item {
   display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
   font-size: 0.8rem;
   color: var(--font-color-light);
+  align-items: center;
+  gap: 0.35rem;
 
   svg {
     width: 14px;
@@ -222,8 +222,8 @@ const deviceType = computed(() => {
 }
 
 .session-details {
-  padding-top: 0.75rem;
   border-top: 1px solid var(--border-color-light);
+  padding-top: 0.75rem;
 }
 
 .detail-row {
@@ -241,9 +241,9 @@ const deviceType = computed(() => {
 .detail-label {
   font-size: 0.7rem;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--font-color-light);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .detail-value {
@@ -253,28 +253,28 @@ const deviceType = computed(() => {
 
 .session-user-agent {
   display: flex;
+  border-top: 1px solid var(--border-color-light);
   flex-direction: column;
   gap: 0.35rem;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--border-color-light);
 }
 
 .user-agent-label {
   font-size: 0.7rem;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--font-color-light);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .user-agent-value {
-  font-family: var(--monospace-font, 'JetBrains Mono', monospace);
-  font-size: 0.75rem;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  word-break: break-all;
+  font-family: var(--monospace-font, 'JetBrains Mono', monospace);
+  font-size: 0.75rem;
   line-height: 1.4;
+  color: var(--font-color-light);
+  background: var(--bg-contrast);
+  word-break: break-all;
 }
 </style>
