@@ -1,6 +1,4 @@
-@forward "./font.scss";
-
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bentham&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 $external-font: 'Inter', sans-serif;
 $monospace-font: 'JetBrains Mono', monospace;
 
@@ -20,6 +18,7 @@ $radius-lg: 14px;
 	--bg-contrast: #F1F6FD;
 	--bg-contrast-2: #e2ebfd;
 	--bg-ui: rgb(8 8 8 / 3%);
+	--bg-ui-light: rgb(8 8 8 / 2%);
 	--selection-color: #cbd4dd;
 	--font-color: #3c4450;
 	--font-color-dark: #3c3b3d;
@@ -85,6 +84,7 @@ $radius-lg: 14px;
 	--bg-contrast: #262c36;
 	--bg-contrast-2: #2d3443;
 	--bg-ui: rgb(255 255 255 / 4%);
+	--bg-ui-light: rgb(255 255 255 / 2%);
 	--selection-color: #3b4252;
 	--font-color: #d1d2d5; // Texte principal lisible
 	--font-color-dark: #d1d5db;
