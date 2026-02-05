@@ -112,6 +112,7 @@ h1 {
 .description {
   font-size: 14px;
   color: var(--font-color-light);
+  margin-bottom: 12px;
 }
 
 .category {
