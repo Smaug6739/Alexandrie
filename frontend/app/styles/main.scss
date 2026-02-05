@@ -4,7 +4,7 @@
 @forward "./document-theme.scss";
 @forward "./code.scss";
 @forward "./components.scss";
-@forward "./lmroman.scss";
+@forward "./font.scss";
 
 /* only needed once */
 * {
@@ -93,6 +93,7 @@ form {
 }
 
 @media print {
+
 	header,
 	footer,
 	nav,

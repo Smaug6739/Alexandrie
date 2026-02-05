@@ -244,18 +244,8 @@ export default defineNuxtConfig({
           href: '/favicon.ico',
           media: '(prefers-color-scheme: light), (prefers-color-scheme: no-preference)',
         },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         { rel: 'preconnect', href: 'https://api.alexandrie-hub.fr' },
         { rel: 'preconnect', href: 'https://cdn.alexandrie-hub.fr' },
-        {
-          rel: 'stylesheet',
-          href:
-            'https://fonts.googleapis.com/css2?' +
-            'family=Inter:wght@400;500;600&' +
-            'family=Poppins:wght@400;500;600&' +
-            'family=JetBrains+Mono:wght@400;500;600&' +
-            'display=swap',
-        },
       ],
     },
   },
