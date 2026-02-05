@@ -43,18 +43,7 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
     minify: true,
   },
-  $production: {
-    ignore: [
-      '**/*.stories.{js,cts,mts,ts,jsx,tsx}',
-      '**/*.{spec,test}.{js,cts,mts,ts,jsx,tsx}',
-      '**/*.d.{cts,mts,ts}',
-      '**/.{pnpm-store,vercel,netlify,output,git,cache,data}',
-      '.nuxt/analyze',
-      '.nuxt',
-      '**/-*.*', //
-      'pages/**/_*',
-    ],
-  },
+
   ssr: false,
   css: ['~/styles/main.scss', '~/styles/katex/katex.min.css'],
   modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt', '@nuxt/eslint'],
@@ -258,6 +247,15 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         { rel: 'preconnect', href: 'https://api.alexandrie-hub.fr' },
         { rel: 'preconnect', href: 'https://cdn.alexandrie-hub.fr' },
+        {
+          rel: 'stylesheet',
+          href:
+            'https://fonts.googleapis.com/css2?' +
+            'family=Inter:wght@400;500;600&' +
+            'family=Poppins:wght@400;500;600&' +
+            'family=JetBrains+Mono:wght@400;500;600&' +
+            'display=swap',
+        },
       ],
     },
   },
