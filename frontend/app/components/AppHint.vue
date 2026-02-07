@@ -40,7 +40,7 @@ const show = ref(false);
   font-size: 0.65rem;
   color: white;
   background-color: #1f2937;
-  box-shadow: 0 2px 8px var(--shadow);
+  box-shadow: 0 2px 8px var(--shadow-sm);
   margin-top: 0.4rem;
   transform: translateX(-50%);
   white-space: nowrap;

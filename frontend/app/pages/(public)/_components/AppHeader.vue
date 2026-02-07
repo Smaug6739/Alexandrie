@@ -18,17 +18,17 @@ nav {
 }
 
 .sign-up {
-  border: 1px solid var(--border-color);
-  background: var(--bg-color);
+  border: 1px solid var(--border);
+  background: var(--surface-base);
 
   &:hover {
-    outline: 2px solid var(--border-color);
+    outline: 2px solid var(--border);
     outline-offset: 2px;
   }
 }
 
 .login {
-  color: var(--bg-color);
+  color: var(--surface-base);
   background: var(--primary);
 
   &:hover {

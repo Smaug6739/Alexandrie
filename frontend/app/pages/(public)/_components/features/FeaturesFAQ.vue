@@ -103,7 +103,7 @@ h2 {
 
 .subtitle {
   font-size: 1.1rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .faq-container {
@@ -120,9 +120,9 @@ h2 {
 }
 
 .faq-item {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.3s ease;
   overflow: hidden;
 
@@ -143,7 +143,7 @@ h2 {
   border: none;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--font-color);
+  color: var(--text-body);
   text-align: left;
   background: none;
   transition: all 0.2s ease;
@@ -159,7 +159,7 @@ h2 {
   height: 28px;
   border-radius: 8px;
   color: var(--primary);
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   transition: all 0.3s ease;
   align-items: center;
   flex-shrink: 0;
@@ -180,7 +180,7 @@ h2 {
     padding: 0 1.5rem 1.25rem;
     font-size: 0.95rem;
     line-height: 1.7;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -192,10 +192,10 @@ h2 {
 
 .cta-content {
   padding: 2.5rem 2rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 24px;
   text-align: center;
-  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
 }
 
 .cta-icon {
@@ -212,7 +212,7 @@ h2 {
 
 .cta-content p {
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 

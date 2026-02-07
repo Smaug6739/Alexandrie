@@ -92,7 +92,7 @@ nav {
     border-radius: 50%;
     transition: all 0.3s ease;
     cursor: pointer;
-    fill: var(--font-color);
+    fill: var(--text-body);
     margin-right: 8px;
 
     &:hover:not(.disabled) {
@@ -124,13 +124,13 @@ nav {
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--font-color);
+    color: var(--text-body);
     text-decoration: none;
   }
 
   &:not(:last-child)::after {
     margin: 0 8px;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     content: '/';
   }
 }

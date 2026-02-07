@@ -1,7 +1,7 @@
 .markdown-container {
 	padding: 10px;
 	border-radius: 4px;
-	background-color: var(--bg-contrast);
+	background-color: var(--surface-raised);
 	margin-top: 10px;
 
 	&:has(.blue) {
@@ -18,7 +18,7 @@
 	}
 
 	&:has(.teal) {
-		background-color: var(--bg-contrast);
+		background-color: var(--surface-raised);
 		border-left: 4px solid var(--teal);
 	}
 
@@ -362,7 +362,7 @@
 	display: flex;
 	margin: 0.5rem 0;
 	padding: 0.5rem;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--border);
 	flex-direction: column;
 }
 
@@ -384,8 +384,8 @@
 		margin: 0 -0.5rem;
 		padding: .5rem 1rem;
 		font-weight: 600;
-		background: var(--bg-contrast);
-		border-bottom: 1px solid var(--border-color);
+		background: var(--surface-raised);
+		border-bottom: 1px solid var(--border);
 	}
 }
 
@@ -403,7 +403,7 @@
 }
 
 .bordered {
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--border);
 }
 
 .gap-sm {

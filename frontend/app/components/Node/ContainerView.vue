@@ -211,8 +211,8 @@ a:hover > .hint-tooltip {
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
 }
 
 .node-content {

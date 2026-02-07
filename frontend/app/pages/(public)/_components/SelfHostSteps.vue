@@ -134,7 +134,7 @@ h2 {
 
 .subtitle {
   font-size: 1.125rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .steps-container {
@@ -154,9 +154,9 @@ h2 {
 .step {
   position: relative;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.3s ease;
 
   &:hover {
@@ -193,7 +193,7 @@ h2 {
 
 .step-content p {
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 0.75rem;
 }
 
@@ -205,11 +205,11 @@ h2 {
 
 .code {
   padding: 10px 14px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  font-family: $monospace-font;
+  font-family: $font-mono;
   font-size: 13px;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   flex: 1;
   overflow: auto;
   white-space: nowrap;
@@ -220,10 +220,10 @@ h2 {
   width: 36px;
   height: 36px;
   padding: 0;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  color: var(--font-color-light);
-  background: var(--bg-color);
+  color: var(--text-secondary);
+  background: var(--surface-base);
   transition: all 0.2s ease;
   align-items: center;
   cursor: pointer;
@@ -341,11 +341,11 @@ h2 {
 .pill {
   display: inline-flex;
   padding: 8px 14px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 13px;
   font-weight: 500;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.2s ease;
   align-items: center;
   gap: 8px;

@@ -232,9 +232,9 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   width: 92%;
   max-width: 720px;
   max-height: 85vh;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
   flex-direction: column;
   overflow: auto;
@@ -244,7 +244,7 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   display: flex;
   padding: 20px;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
   gap: 12px;
 }
@@ -282,7 +282,7 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   cursor: pointer;
 
   &:hover {
-    background: var(--border-color);
+    background: var(--border);
   }
 }
 
@@ -295,7 +295,7 @@ watch(searchQuery, () => (selectedIndex.value = 0));
 
 .search-footer {
   padding: 16px 20px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   flex-shrink: 0;
 }
 

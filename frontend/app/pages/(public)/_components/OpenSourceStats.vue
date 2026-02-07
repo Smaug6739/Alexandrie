@@ -148,7 +148,7 @@ onMounted(() => {
 .visual-bg {
   position: absolute;
   border-radius: 24px;
-  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
   inset: 0;
   overflow: hidden;
 }
@@ -166,7 +166,7 @@ onMounted(() => {
   width: var(--width);
   height: 12px;
   border-radius: 6px;
-  background: var(--border-color);
+  background: var(--border);
   opacity: 0.4;
 }
 
@@ -174,9 +174,9 @@ onMounted(() => {
   position: relative;
   margin: 2rem;
   padding: 2rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 20px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
 }
 
@@ -191,7 +191,7 @@ onMounted(() => {
 .card-desc {
   font-size: 0.9rem;
   line-height: 1.6;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 
@@ -203,7 +203,7 @@ onMounted(() => {
 .mini-stat {
   display: flex;
   font-size: 14px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   gap: 6px;
 
@@ -237,7 +237,7 @@ onMounted(() => {
   .subtitle {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     margin-bottom: 2rem;
   }
 }
@@ -251,10 +251,10 @@ onMounted(() => {
 
 .stat {
   padding: 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
   text-align: center;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   transition: all 0.3s ease;
 
   &:hover {
@@ -280,14 +280,14 @@ onMounted(() => {
 
 .stat-label {
   font-size: 13px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
 .btn {
   display: inline-flex;
   padding: 12px 20px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
@@ -308,8 +308,8 @@ onMounted(() => {
   }
 
   &.secondary {
-    color: var(--font-color);
-    background: var(--bg-color);
+    color: var(--text-body);
+    background: var(--surface-base);
 
     &:hover {
       border-color: var(--primary);
@@ -318,8 +318,8 @@ onMounted(() => {
   }
 
   &.tertiary {
-    color: var(--font-color);
-    background: var(--bg-contrast);
+    color: var(--text-body);
+    background: var(--surface-raised);
 
     &:hover {
       border-color: var(--primary);

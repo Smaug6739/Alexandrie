@@ -2,7 +2,7 @@
   <div class="kanban-card" draggable="true" @dragstart="onDragStart" @dragend="onDragEnd">
     <div class="card-header">
       <div class="card-header-left">
-        <span class="card-icon" :class="getAppAccent(node.color as number || props.parent.color as number, true)">
+        <span class="card-icon" :class="getAppAccent((node.color as number) || (props.parent.color as number), true)">
           <Icon :name="node.icon || 'file'" display="sm" />
         </span>
 
@@ -53,19 +53,19 @@ const onDragEnd = () => {
 <style scoped lang="scss">
 .kanban-card {
   padding: 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   cursor: grab;
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-sm-md);
     transform: translateY(-2px);
   }
 
   &:active {
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm-sm);
     cursor: grabbing;
     transform: scale(0.98);
   }
@@ -106,7 +106,7 @@ const onDragEnd = () => {
   :deep(svg) {
     width: 14px;
     height: 14px;
-    fill: var(--font-color-light);
+    fill: var(--text-secondary);
   }
 }
 
@@ -115,8 +115,8 @@ const onDragEnd = () => {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--font-color-dark);
-  transition: color $transition-duration;
+  color: var(--text-color-primary);
+  transition: color $transition-base;
   margin-bottom: 4px;
   text-decoration: none;
 
@@ -130,7 +130,7 @@ const onDragEnd = () => {
   margin: 0 0 10px;
   font-size: 12px;
   line-height: 1.4;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -158,8 +158,8 @@ const onDragEnd = () => {
   border-radius: 6px;
   font-size: 10px;
   font-weight: 500;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -167,7 +167,7 @@ const onDragEnd = () => {
 
 .card-date {
   font-size: 10px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   white-space: nowrap;
 }
 </style>

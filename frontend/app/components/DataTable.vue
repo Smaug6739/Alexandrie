@@ -142,7 +142,7 @@ export interface Field<V = unknown> {
 <style lang="scss" scoped>
 .table {
   width: 100%;
-  border: 1.5px solid var(--border-color);
+  border: 1.5px solid var(--border);
   border-radius: $radius-md;
 }
 
@@ -154,7 +154,7 @@ header {
 
 .wrapper {
   width: 100%;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   overflow-x: auto;
 }
 
@@ -179,8 +179,8 @@ td {
 
 th {
   font-size: 13px;
-  color: var(--font-color-dark);
-  background: var(--bg-ui);
+  color: var(--text-color-primary);
+  background: var(--surface-transparent);
 
   &.align-right {
     text-align: right;
@@ -195,7 +195,7 @@ th {
 }
 
 td {
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 
   &.align-right {
     text-align: right;
@@ -233,7 +233,7 @@ td {
 button {
   margin: 0 5px;
   padding: 8px 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: $radius-sm;
   font-size: 1rem;
 
@@ -268,13 +268,13 @@ input {
   max-width: 300px;
   margin: 8px 5px;
   padding: 0.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 5px;
 }
 
 .ellipsis {
   margin: 0 5px;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
 }
 
 @media screen and (width <= 768px) {

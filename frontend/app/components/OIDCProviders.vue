@@ -44,14 +44,14 @@ onMounted(() => {
   &::before,
   &::after {
     height: 1px;
-    background: var(--border-color);
+    background: var(--border);
     content: '';
     flex: 1;
   }
 
   span {
     font-size: 0.85rem;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     white-space: nowrap;
   }
 }
@@ -72,12 +72,12 @@ onMounted(() => {
 .provider-btn {
   display: flex;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--font-color);
-  background: var(--bg-color);
+  color: var(--text-body);
+  background: var(--surface-base);
   transition: all 0.2s ease;
   align-items: center;
   cursor: pointer;

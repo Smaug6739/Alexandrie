@@ -4,7 +4,7 @@
 @use "./_variables.scss" as *;
 
 a {
-	color: var(--font-color);
+	color: var(--text-body);
 	text-decoration: none;
 
 	&:hover {
@@ -30,7 +30,7 @@ button {
 	padding: 8px 16px;
 	border: none;
 	border-radius: 6px;
-	color: var(--font-color);
+	color: var(--text-body);
 	background: transparent;
 	cursor: pointer;
 }
@@ -65,7 +65,7 @@ h1 {
 h2 {
 	margin: 25px 0 15px;
 	font-size: 1.5em;
-	border-bottom: 1px solid var(--border-color);
+	border-bottom: 1px solid var(--border);
 }
 
 h3 {
@@ -89,8 +89,8 @@ hr {
 	height: 1px;
 	margin: 2px auto;
 	border: none;
-	color: var(--border-color);
-	background-color: var(--border-color);
+	color: var(--border);
+	background-color: var(--border);
 }
 
 img {
@@ -107,7 +107,7 @@ video {
 	width: 100%;
 	margin: 10px 0;
 	border-radius: 6px;
-	background: var(--bg-ui);
+	background: var(--surface-transparent);
 }
 
 iframe {
@@ -122,12 +122,12 @@ select,
 textarea {
 	margin: 0;
 	padding: 8px 10px;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--border);
 	border-radius: 6px;
 	font-family: Inter;
 	font-size: 14px;
-	color: var(--font-color);
-	background: var(--bg-color);
+	color: var(--text-body);
+	background: var(--surface-base);
 
 	&:disabled {
 		opacity: 0.8;
@@ -154,20 +154,20 @@ input[type="radio"]:focus {
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-	background: var(--border-color);
-	box-shadow: 0 0 0 1000px var(--border-color) inset !important;
+	background: var(--border);
+	box-shadow: 0 0 0 1000px var(--border) inset !important;
 }
 
 kbd {
 	display: inline-block;
 	padding: 4px 6px;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--border);
 	border-radius: 6px;
 	font-family: Inter;
 	font-size: 13px;
 	font-weight: 400;
-	color: var(--font-color-dark);
-	background-color: var(--bg-color);
+	color: var(--text-color-primary);
+	background-color: var(--surface-base);
 }
 
 label {
@@ -205,10 +205,10 @@ thead th {
 	padding: 0.9rem 1rem;
 	font-size: 0.8rem;
 	font-weight: 500;
-	color: var(--font-color-light);
+	color: var(--text-secondary);
 	text-align: left;
-	background-color: var(--border-color-light);
-	border-bottom: 1px solid var(--border-color);
+	background-color: var(--border-subtle);
+	border-bottom: 1px solid var(--border);
 	letter-spacing: 0.03em;
 	text-transform: uppercase;
 }
@@ -216,8 +216,8 @@ thead th {
 /* Cells */
 tbody td {
 	padding: 0.5rem 1rem;
-	color: var(--font-color-dark);
-	border-bottom: 1px solid var(--border-color);
+	color: var(--text-color-primary);
+	border-bottom: 1px solid var(--border);
 }
 
 /* Last row without separation */
@@ -227,7 +227,7 @@ tbody tr:last-child td {
 
 /* Color background of 1 row of 2 */
 tbody tr:nth-child(odd) {
-	background-color: var(--bg-ui-light);
+	background-color: var(--surface-transparent-light);
 }
 
 /* Subtle hover */
@@ -236,7 +236,7 @@ tbody tr {
 }
 
 textarea {
-	font-family: $monospace-font;
+	font-family: $font-mono;
 	resize: none;
 }
 

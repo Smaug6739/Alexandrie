@@ -52,9 +52,9 @@ const totalCount = computed(() => props.nodes.length);
 
 <style scoped lang="scss">
 .tree {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   margin-top: 2rem;
   overflow: hidden;
 }
@@ -62,9 +62,9 @@ const totalCount = computed(() => props.nodes.length);
 .tree-header {
   display: flex;
   padding: 1rem 1.25rem;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   justify-content: space-between;
 
   h2 {
@@ -73,7 +73,7 @@ const totalCount = computed(() => props.nodes.length);
     border: none;
     font-size: 1rem;
     font-weight: 600;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
     align-items: center;
     gap: 0.5rem;
   }
@@ -81,11 +81,11 @@ const totalCount = computed(() => props.nodes.length);
 
 .item-count {
   padding: 4px 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 20px;
   font-size: 0.75rem;
-  color: var(--font-color-light);
-  background: var(--bg-color);
+  color: var(--text-secondary);
+  background: var(--surface-base);
 }
 
 .tree-content {
@@ -95,7 +95,7 @@ const totalCount = computed(() => props.nodes.length);
 .empty-state {
   display: flex;
   padding: 3rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   flex-direction: column;
   justify-content: center;

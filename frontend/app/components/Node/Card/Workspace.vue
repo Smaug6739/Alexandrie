@@ -44,10 +44,10 @@ const getWorkspaceDocCount = (workspaceId: string) => {
   display: flex;
   height: 100%;
   padding: 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  color: var(--font-color);
-  background: var(--bg-color);
+  color: var(--text-body);
+  background: var(--surface-base);
   transition: all 0.2s;
   flex-direction: column;
   text-decoration: none;
@@ -87,8 +87,8 @@ const getWorkspaceDocCount = (workspaceId: string) => {
   padding: 0.2rem 0.6rem;
   border-radius: 12px;
   font-size: 0.8rem;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
 }
 
 .name {
@@ -100,7 +100,7 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 .desc {
   display: -webkit-box;
   font-size: 0.85rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -119,12 +119,12 @@ const getWorkspaceDocCount = (workspaceId: string) => {
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   font-size: 0.75rem;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
 }
 
 .child-more {
   font-size: 0.75rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 </style>

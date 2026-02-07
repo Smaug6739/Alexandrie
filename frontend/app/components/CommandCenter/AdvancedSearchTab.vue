@@ -261,7 +261,7 @@ defineExpose({ flattenedItems });
 }
 
 .search-filters {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 }
 
@@ -269,7 +269,7 @@ defineExpose({ flattenedItems });
   display: flex;
   padding: 10px 16px;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   justify-content: space-between;
 }
 
@@ -298,7 +298,7 @@ defineExpose({ flattenedItems });
   justify-content: center;
 
   &:hover {
-    background: var(--border-color);
+    background: var(--border);
   }
 
   &.collapsed {
@@ -351,7 +351,7 @@ defineExpose({ flattenedItems });
 
 .date-picker {
   width: 100%;
-  background: var(--bg-color);
+  background: var(--surface-base);
   outline: none;
 
   &:focus {
@@ -392,7 +392,7 @@ defineExpose({ flattenedItems });
 }
 
 .clear-filters-btn {
-  background: var(--border-color);
+  background: var(--border);
 
   &:hover {
     background: var(--selection-color);
@@ -409,6 +409,6 @@ defineExpose({ flattenedItems });
 .filter-hint {
   margin: 2px 0 0;
   font-size: 10px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 </style>

@@ -213,9 +213,9 @@ const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountM
 .no-sessions {
   padding: 1rem;
   border-radius: 10px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-align: center;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   font-style: italic;
 }
 
@@ -250,7 +250,7 @@ p {
   p {
     margin: 0;
     font-size: 0.85rem;
-    color: var(--font-color);
+    color: var(--text-body);
   }
 }
 
@@ -262,7 +262,7 @@ p {
 
 /* OIDC Accounts Section */
 .section-description {
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 1rem;
 }
 
@@ -276,7 +276,7 @@ p {
 .oidc-loading {
   display: flex;
   padding: 1rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   gap: 0.75rem;
 }
@@ -284,7 +284,7 @@ p {
 .oidc-account {
   display: flex;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--bg-secondary);
   align-items: center;
@@ -323,7 +323,7 @@ p {
 
 .oidc-status {
   font-size: 0.85rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 
   &.linked {
     font-weight: 500;
@@ -342,16 +342,16 @@ p {
 .danger-card {
   display: flex;
   padding: 1rem 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.2s ease;
   align-items: center;
   gap: 1rem;
   justify-content: space-between;
 
   &:hover {
-    border-color: var(--border-color-accent);
+    border-color: var(--border-strong);
   }
 
   &.destructive {
@@ -377,8 +377,8 @@ p {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  color: var(--font-color);
-  background: var(--bg-contrast-2);
+  color: var(--text-body);
+  background: var(--surface-overlay);
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
@@ -402,14 +402,14 @@ p {
     margin: 0 0 0.25rem;
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
   }
 
   > p {
     margin: 0;
     font-size: 0.85rem;
     line-height: 1.4;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -431,7 +431,7 @@ p {
   ul {
     margin: 0.5rem 0;
     font-size: 0.8rem;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     padding-left: 1.25rem;
 
     li {
@@ -441,7 +441,7 @@ p {
 
   .backup-hint {
     font-size: 0.8rem;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
 
     a {
       font-weight: 500;

@@ -1,136 +1,214 @@
-$external-font: 'Inter', sans-serif;
-$monospace-font: 'JetBrains Mono', monospace;
+// --- Typography ---
+$font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
 
 // Transitions
-$transition-duration: 0.3s;
+$transition-fast: 0.15s;
+$transition-base: 0.25s;
+$transition-slow: 0.4s;
 
+// Border radius
+$radius-xs: 4px;
 $radius-sm: 6px;
 $radius-md: 10px;
 $radius-lg: 14px;
+$radius-xl: 20px;
 
 :root {
-	--default: #3956e7;
-	--default-dark: #2c3eb9;
-	--default-bg: #dde1f8;
-	--default-border: #dde1f8;
-	--bg-color: #fff;
-	--bg-contrast: #F1F6FD;
-	--bg-contrast-2: #e2ebfd;
-	--bg-ui: rgb(8 8 8 / 3%);
-	--bg-ui-light: rgb(8 8 8 / 2%);
+	// ACCENT / PRIMARY COLOR
+	--accent: #3956e7;
+	--accent-dark: #2c3eb9;
+	--accent-bg: #dde1f8;
+	--accent-border: #dde1f8;
+
+	// -------------------------------------------------------------------------
+	// SURFACES (Backgrounds)
+	// Layered system: base → raised → overlay
+	// -------------------------------------------------------------------------
+	--surface-base: #fff;
+	--surface-raised: #F1F6FD;
+	--surface-overlay: #e2ebfd;
+	--surface-transparent: rgb(8 8 8 / 3%);
+	--surface-transparent-light: rgb(8 8 8 / 2%);
+
+	// -------------------------------------------------------------------------
+	// TEXT
+	// -------------------------------------------------------------------------
+	--text-body: #3c4450;
+	--text-color-primary: #3c3b3d;
+	--text-color-secondary: #5b5967;
+	--text-color-muted: #666;
+	--text-inverse: #111;
+
+	// -------------------------------------------------------------------------
+	// BORDERS
+	// -------------------------------------------------------------------------
+	--border: #dfe0e5;
+	--border-subtle: #dfe0e585;
+	--border-strong: #c4c6d0;
+	--border-focus: var(--accent);
+
+	// -------------------------------------------------------------------------
+	// SHADOWS
+	// -------------------------------------------------------------------------
+	--shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+	--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+	--shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+	--shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+	--shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.16);
+
+	// -------------------------------------------------------------------------
+	// INTERACTIVE STATES
+	// -------------------------------------------------------------------------
 	--selection-color: #cbd4dd;
-	--font-color: #3c4450;
-	--font-color-dark: #3c3b3d;
-	--font-color-light: #5b5967;
-	--font-color-sub: #666;
-	--opposite-color: #111;
-	--border-color: #dfe0e5;
-	--border-color-light: #dfe0e585;
-	--border-color-accent: #c4c6d0;
-	--shadow: rgb(0 0 0 / 15%);
 
-
-	// COLORS \\
+	// -------------------------------------------------------------------------
+	// COLORS (semantic: color-["", "dark", "bg", "bg-light", "border"])
+	// -------------------------------------------------------------------------
+	// GRAYS
 	--grey: #666;
 	--grey-dark: #444;
 	--grey-bg: #EFEEEA;
 	--grey-bg-light: #FAFAFA;
 	--grey-border: #CCC;
+	// BLUES
 	--blue: #007aff;
 	--blue-dark: #0056b3;
 	--blue-bg: #cce0ff;
 	--blue-bg-light: #f3f5fc;
 	--blue-border: rgb(0 123 255 / 30%);
+	// GREENS
 	--green: #1c8f59;
 	--green-dark: #007a63;
 	--green-bg: rgb(40 167 69 / 15%);
 	--green-bg-light: rgb(40 167 69 / 5%);
 	--green-border: rgb(40 167 69 / 30%);
+	// REDS
 	--red: #dd2046;
 	--red-dark: #a70b1b;
 	--red-bg: rgb(220 53 69 / 15%);
 	--red-bg-light: rgb(220 53 69 / 5%);
 	--red-border: rgb(220 53 69 / 30%);
+	// YELLOWS
 	--yellow: #F97300;
 	--yellow-dark: #c46200;
 	--yellow-bg: rgb(255 193 7 / 15%);
 	--yellow-bg-light: rgb(255 193 7 / 5%);
 	--yellow-border: rgb(255 193 7 / 30%);
+	// TEALS
 	--teal: #00ADB5;
 	--teal-dark: #008f93;
 	--teal-bg: rgb(23 162 184 / 20%);
 	--teal-bg-light: rgb(23 162 184 / 5%);
 	--teal-border: rgb(23 162 184 / 25%);
+	// PURPLES
 	--purple: #6024ec;
 	--purple-dark: #5a1fdb;
 	--purple-bg: rgb(111 66 193 / 20%);
 	--purple-bg-light: rgb(111 66 193 / 5%);
 	--purple-border: rgb(111 66 193 / 25%);
+	// PINKS
 	--pink: #FF204E;
 	--pink-dark: #e00b58;
 	--pink-bg: rgb(255 14 106 / 20%);
 	--pink-bg-light: rgb(255 14 106 / 5%);
 	--pink-border: rgb(255 14 106 / 25%);
-	--info-border: #2573cf;
 }
 
 .dark-mode {
-	--default: #4a7aff;
-	--default-dark: #3754b1;
-	--default-bg: #2c334a;
-	--default-border: #4a4f5c;
-	--bg-color: #212830;
-	--bg-contrast: #262c36;
-	--bg-contrast-2: #2d3443;
-	--bg-ui: rgb(255 255 255 / 4%);
-	--bg-ui-light: rgb(255 255 255 / 2%);
-	--selection-color: #3b4252;
-	--font-color: #d1d2d5; // Texte principal lisible
-	--font-color-dark: #d1d5db;
-	--font-color-light: #aab0b8;
-	--font-color-sub: #8a9099;
-	--border-color: rgb(255 255 255 / 10%);
-	--border-color-light: rgb(255 255 255 / 5%);
-	--border-color-accent: #4a4f5c;
-	--opposite-color: #f4f4f4;
-	--shadow: rgb(0 0 0 / 30%);
 
-	// COLORS \\
+	// ACCENT / PRIMARY COLOR
+	--accent: #4a7aff;
+	--accent-dark: #3754b1;
+	--accent-bg: #2c334a;
+	--accent-border: #4a4f5c;
+
+	// -------------------------------------------------------------------------
+	// SURFACES (Backgrounds)
+	// Layered system: base → raised → overlay
+	// -------------------------------------------------------------------------
+	--bg-color: #212830;
+	--surface-raised: #262c36;
+	--surface-overlay: #2d3443;
+	--surface-transparent: rgb(255 255 255 / 4%);
+	--surface-transparent-light: rgb(255 255 255 / 2%);
+
+	// -------------------------------------------------------------------------
+	// TEXT
+	// -------------------------------------------------------------------------
+	--text-body: #d1d2d5;
+	--text-color-primary: #d1d5db;
+	--text-color-secondary: #8a9099;
+	--text-color-muted: #8a9099;
+	--text-inverse: #f4f4f4;
+
+	// -------------------------------------------------------------------------
+	// BORDERS
+	// -------------------------------------------------------------------------
+	--border: rgb(255 255 255 / 10%);
+	--border-subtle: rgb(255 255 255 / 5%);
+	--border-strong: #4a4f5c;
+
+	// -------------------------------------------------------------------------
+	// SHADOWS
+	// -------------------------------------------------------------------------
+	--shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+	--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+	--shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+	--shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+	--shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.16);
+
+	// -------------------------------------------------------------------------
+	// INTERACTIVE STATES
+	// -------------------------------------------------------------------------
+	--selection-color: #3b4252;
+
+	// -------------------------------------------------------------------------
+	// COLORS (semantic: color-["", "dark", "bg", "bg-light", "border"])
+	// -------------------------------------------------------------------------
+	// GRAYS
 	--grey: #bbb;
 	--grey-dark: #888;
 	--grey-bg: #2c2c2c;
 	--grey-bg-light: #FAFAFA;
 	--grey-border: #CCC;
+	// BLUES
 	--blue: #339CFF;
 	--blue-dark: #0056b3;
 	--blue-bg: rgb(51 156 255 / 12%);
 	--blue-bg-light: rgb(51 156 255 / 5%);
 	--blue-border: rgb(51 156 255 / 25%);
+	// GREENS
 	--green: #00c194;
 	--green-dark: #007a63;
 	--green-bg: rgb(0 193 154 / 12%);
 	--green-bg-light: rgb(0 193 154 / 5%);
 	--green-border: rgb(0 193 154 / 25%);
+	// REDS
 	--red: #fe3938;
 	--red-dark: #c82333;
 	--red-bg: rgb(58 37 53);
 	--red-bg-light: rgb(255 76 91 / 5%);
 	--red-border: rgb(255 76 91 / 25%);
+	// YELLOWS
 	--yellow: #ff7c19;
 	--yellow-dark: #c46200;
 	--yellow-bg: rgb(59 44 49);
 	--yellow-bg-light: rgb(255 174 0 / 5%);
 	--yellow-border: rgb(255 174 0 / 25%);
-	--purple: #8e5fff;
-	--purple-dark: #5a1fdb;
-	--purple-bg: rgb(142 95 255 / 12%);
-	--purple-bg-light: rgb(142 95 255 / 5%);
-	--purple-border: rgb(142 95 255 / 25%);
+	// TEALS
 	--teal: #1cd4d4;
 	--teal-dark: #008f93;
 	--teal-bg: rgb(28 212 212 / 12%);
 	--teal-bg-light: rgb(28 212 212 / 5%);
 	--teal-border: rgb(28 212 212 / 25%);
+	// PURPLES
+	--purple: #8e5fff;
+	--purple-dark: #5a1fdb;
+	--purple-bg: rgb(142 95 255 / 12%);
+	--purple-bg-light: rgb(142 95 255 / 5%);
+	--purple-border: rgb(142 95 255 / 25%);
+	// PINKS
 	--pink: #fe3938;
 	--pink-dark: #e00b58;
 	--pink-bg: rgb(255 77 166 / 12%);
@@ -143,13 +221,13 @@ $radius-lg: 14px;
 	// THEME \\
 	:root {
 		--bg-color: #fff;
-		--bg-contrast: #F1F6FD;
-		--bg-contrast-2: #ECF2FF;
+		--surface-raised: #F1F6FD;
+		--surface-overlay: #ECF2FF;
 		--selection-color: #e1f2ff;
-		--font-color: #1f2937;
-		--font-color-dark: #374151;
-		--font-color-light: #6b7280;
-		--border-color: rgb(0 0 0 / 10%);
+		--text-body: #1f2937;
+		--text-color-primary: #374151;
+		--text-color-muted: #6b7280;
+		--border: rgb(0 0 0 / 10%);
 		// COLORS \\
 		--grey: #666;
 		--grey-bg: rgb(240 240 240);

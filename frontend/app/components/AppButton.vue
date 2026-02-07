@@ -47,7 +47,7 @@ button {
 
 .secondary {
   border: 1px solid var(--primary);
-  color: var(--font-color);
+  color: var(--text-body);
 
   &:hover {
     background: var(--selection-color);

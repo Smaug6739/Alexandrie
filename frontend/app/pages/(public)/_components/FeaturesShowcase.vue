@@ -126,7 +126,7 @@ onUnmounted(() => {
   max-width: 500px;
   margin: 0 auto;
   font-size: 1.125rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .showcase-container {
@@ -148,10 +148,10 @@ onUnmounted(() => {
   position: relative;
   display: flex;
   padding: 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
   text-align: left;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.3s ease;
   align-items: flex-start;
   cursor: pointer;
@@ -165,7 +165,7 @@ onUnmounted(() => {
 
   &.active {
     border-color: var(--primary);
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
     box-shadow: 0 10px 40px rgb(99 102 241 / 15%);
 
     .nav-number {
@@ -182,8 +182,8 @@ onUnmounted(() => {
   border-radius: 8px;
   font-size: 12px;
   font-weight: 700;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
   transition: all 0.3s ease;
   align-items: center;
   justify-content: center;
@@ -202,7 +202,7 @@ onUnmounted(() => {
 
 .nav-desc {
   font-size: 0.8rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .nav-progress {
@@ -211,7 +211,7 @@ onUnmounted(() => {
   bottom: 0;
   left: 0;
   height: 3px;
-  background: var(--border-color);
+  background: var(--border);
   overflow: hidden;
 }
 
@@ -250,7 +250,7 @@ onUnmounted(() => {
   p {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     margin-bottom: 1.5rem;
   }
 }
@@ -279,9 +279,9 @@ onUnmounted(() => {
 }
 
 .visual-frame {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
   overflow: hidden;
 
@@ -321,7 +321,7 @@ onUnmounted(() => {
 
     &::-webkit-scrollbar-thumb {
       border-radius: 4px;
-      background: var(--border-color);
+      background: var(--border);
     }
   }
 

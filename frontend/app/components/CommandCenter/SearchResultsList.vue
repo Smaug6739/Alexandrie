@@ -38,10 +38,13 @@ const props = defineProps<{ items: ItemCommand[]; selectedIndex: number; query: 
 defineEmits<{ updateSelectedIndex: [index: number] }>();
 
 const groupedItems = computed(() => {
-  return props.items.reduce((acc, item) => {
-    (acc[item.section || ''] ||= []).push(item);
-    return acc;
-  }, {} as Record<string, typeof props.items>);
+  return props.items.reduce(
+    (acc, item) => {
+      (acc[item.section || ''] ||= []).push(item);
+      return acc;
+    },
+    {} as Record<string, typeof props.items>,
+  );
 });
 </script>
 
@@ -65,7 +68,7 @@ const groupedItems = computed(() => {
 
   &:hover,
   &.selected {
-    background: var(--border-color);
+    background: var(--border);
   }
 }
 
@@ -121,7 +124,7 @@ const groupedItems = computed(() => {
   z-index: 1;
   padding: 6px 20px;
   font-size: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   text-transform: uppercase;
 }
 

@@ -39,7 +39,7 @@ header {
   height: 50px;
   padding: 10px 0;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   justify-content: space-between;
 
   div {
@@ -50,7 +50,7 @@ header {
 }
 
 svg {
-  fill: var(--font-color);
+  fill: var(--text-body);
 }
 
 button {
@@ -64,7 +64,7 @@ button {
   padding: 8px 12px;
   border: none;
   border-radius: $radius-sm;
-  background: var(--border-color);
+  background: var(--border);
   transition: all 0.2s ease;
   align-items: center;
   cursor: pointer;
@@ -88,11 +88,11 @@ button {
 
 kbd {
   padding: 0 4px;
-  border: 1px solid var(--font-color-light);
+  border: 1px solid var(--text-secondary);
   border-radius: 4px;
   font-family: monospace;
   font-size: 14px;
   font-weight: 600;
-  background: var(--border-color);
+  background: var(--border);
 }
 </style>

@@ -166,10 +166,10 @@ form {
 input {
   width: 100%;
   padding: 0.6rem;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--border);
   border-radius: 8px;
   font-size: 1rem;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.2s ease;
 
   &:focus {

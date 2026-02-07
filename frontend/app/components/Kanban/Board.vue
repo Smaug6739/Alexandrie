@@ -201,7 +201,7 @@ defineExpose({ resetKanbanData });
   }
 
   &:hover::-webkit-scrollbar-thumb {
-    background: var(--border-color);
+    background: var(--border);
   }
 }
 
@@ -215,11 +215,11 @@ defineExpose({ resetKanbanData });
   min-width: 200px;
   height: stretch;
   padding: 20px;
-  border: 2px dashed var(--border-color);
+  border: 2px dashed var(--border);
   border-radius: 12px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background: transparent;
   align-items: center;
   cursor: pointer;

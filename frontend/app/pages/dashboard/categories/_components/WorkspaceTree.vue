@@ -28,7 +28,7 @@ defineEmits(['edit', 'delete']);
 <style scoped lang="scss">
 .tree-node {
   position: relative;
-  border-left: 1px solid var(--border-color);
+  border-left: 1px solid var(--border);
   margin-left: 20px;
   padding-left: 12px;
 }
@@ -46,7 +46,7 @@ defineEmits(['edit', 'delete']);
   left: -12px;
   width: 12px;
   height: 1px;
-  background-color: var(--border-color);
+  background-color: var(--border);
   content: '';
 }
 

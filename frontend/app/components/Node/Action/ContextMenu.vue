@@ -100,7 +100,7 @@ async function action(name: string) {
   display: flex;
   padding: 8px 10px 12px;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   gap: 10px;
   margin-bottom: 6px;
 
@@ -122,7 +122,7 @@ async function action(name: string) {
 .header-name {
   font-size: 13px;
   font-weight: 600;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -130,14 +130,14 @@ async function action(name: string) {
 
 .header-meta {
   font-size: 11px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .menu-group {
   padding: 2px 0;
 
   & + & {
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--border);
     margin-top: 2px;
     padding-top: 4px;
   }
@@ -151,7 +151,7 @@ async function action(name: string) {
   border-radius: $radius-sm;
   font: inherit;
   font-size: 13px;
-  color: var(--font-color);
+  color: var(--text-body);
   text-align: left;
   background: none;
   transition: background 0.1s;
@@ -160,7 +160,7 @@ async function action(name: string) {
   gap: 10px;
 
   &:hover {
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
   }
 
   kbd {
@@ -168,8 +168,8 @@ async function action(name: string) {
     border-radius: 4px;
     font-family: inherit;
     font-size: 10px;
-    color: var(--font-color-light);
-    background: var(--bg-contrast);
+    color: var(--text-secondary);
+    background: var(--surface-raised);
     margin-left: auto;
   }
 

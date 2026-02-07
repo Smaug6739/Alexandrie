@@ -11,7 +11,7 @@
         Share this link to allow anyone to view the document without needing an account:
         <br />
         <a :href="link" target="_blank" rel="noopener noreferrer" class="public-link">
-          <Icon name="new_tab" display="sm" fill="var(--font-color-light)" /><span>{{ link }}</span>
+          <Icon name="new_tab" display="sm" fill="var(--text-secondary)" /><span>{{ link }}</span>
         </a>
       </p>
       <div class="access">
@@ -168,7 +168,7 @@ form {
   display: flex;
   padding: 6px 10px;
   border-radius: 8px;
-  background-color: var(--bg-ui);
+  background-color: var(--surface-transparent);
   flex-direction: column;
   gap: 8px;
 }
@@ -200,7 +200,7 @@ form {
 .info-secondary {
   margin: 0;
   font-size: 14px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-align: center;
 }
 
@@ -212,7 +212,7 @@ form {
   .info-text {
     margin: 5px 0;
     font-size: 14px;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 
   .public-link {
@@ -253,6 +253,6 @@ button:hover {
 
 .permission-item {
   padding: 8px;
-  border-bottom: 1px solid var(--border-color, #ddd);
+  border-bottom: 1px solid var(--border, #ddd);
 }
 </style>

@@ -8,7 +8,7 @@
         <div class="top-row">
           <p class="user">
             <img v-if="user" :src="api.avatarURL(user)" class="avatar" />
-            <span style="font-size: 16px; color: var(--font-color-light)">{{ user?.username }}</span>
+            <span style="font-size: 16px; color: var(--text-secondary)">{{ user?.username }}</span>
           </p>
           <HeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
         </div>
@@ -53,10 +53,10 @@ watchEffect(() => {
 .header {
   display: flex;
   padding: 1.2rem 1.2rem 0;
-  border: 1px solid var(--border-color-light);
+  border: 1px solid var(--border-subtle);
   border-radius: 0.625rem;
-  background-color: var(--bg-contrast);
-  transition: background-color $transition-duration;
+  background-color: var(--surface-raised);
+  transition: background-color $transition-base;
 }
 
 p {
@@ -106,12 +106,12 @@ h1 {
   padding: 0;
   font-size: 22px;
   font-weight: 550;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
 }
 
 .description {
   font-size: 14px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 12px;
 }
 
@@ -119,7 +119,7 @@ h1 {
   display: block;
   font-size: 16px;
   font-weight: 500;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .tags {
@@ -162,7 +162,7 @@ h1 {
       font-size: 27px;
       font-weight: 700;
       text-align: center;
-      border-bottom: 1px solid var(--font-color);
+      border-bottom: 1px solid var(--text-body);
     }
   }
 }

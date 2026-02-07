@@ -72,6 +72,6 @@ label {
 }
 
 .entry {
-  background: var(--bg-color);
+  background: var(--surface-base);
 }
 </style>

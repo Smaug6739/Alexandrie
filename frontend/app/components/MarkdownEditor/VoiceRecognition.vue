@@ -119,7 +119,7 @@ button {
   justify-content: center;
 
   &:hover {
-    background-color: var(--bg-contrast-2);
+    background-color: var(--surface-overlay);
   }
 
   &.recording {

@@ -1,5 +1,5 @@
 <template>
-  <div ref="trigger" class="select" :style="{ width: size || '100%', borderColor: open ? 'var(--primary)' : 'var(--border-color)' }">
+  <div ref="trigger" class="select" :style="{ width: size || '100%', borderColor: open ? 'var(--primary)' : 'var(--border)' }">
     <!-- Desktop: inline search input -->
     <input
       v-if="open && searchable && !isMobile"
@@ -13,7 +13,7 @@
     />
     <div v-else class="trigger" @click.stop="toggleDropdown">
       <button class="value">{{ selected?.label || placeholder }}</button>
-      <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--font-color)">
+      <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--text-body)">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
     </div>
@@ -22,7 +22,7 @@
     <Teleport to="body">
       <ul v-if="open && !isMobile" ref="portalList" class="dropdown" :style="dropdownStyle">
         <li v-if="nullable && selected" class="clear" @click="clearSelection">
-          <Icon name="close" display="sm" fill="var(--font-color-light)" />
+          <Icon name="close" display="sm" fill="var(--text-secondary)" />
           <span>Clear selection</span>
         </li>
         <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
@@ -38,18 +38,18 @@
             <header>
               <span class="sheet-title">{{ placeholder }}</span>
               <button class="close-btn" @click="toggleDropdown">
-                <Icon name="close" display="md" fill="var(--font-color)" />
+                <Icon name="close" display="md" fill="var(--text-body)" />
               </button>
             </header>
 
             <div v-if="searchable" class="sheet-search">
-              <Icon name="search" display="md" fill="var(--font-color-light)" />
+              <Icon name="search" display="md" fill="var(--text-secondary)" />
               <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." @keydown="handleKeyDown" />
             </div>
 
             <ul class="sheet-list">
               <li v-if="nullable && selected" class="clear" @click="clearSelection">
-                <Icon name="close" display="sm" fill="var(--font-color-light)" />
+                <Icon name="close" display="sm" fill="var(--text-secondary)" />
                 <span>Clear selection</span>
               </li>
               <AppSelectNode
@@ -247,9 +247,9 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
   position: relative;
   width: 100%;
   margin: 0;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: $radius-sm;
-  background: var(--bg-color);
+  background: var(--surface-base);
 }
 
 .trigger {
@@ -284,9 +284,9 @@ button,
   max-height: 300px;
   margin: 0;
   padding: 2px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: $radius-sm;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   list-style: none;
   overflow-y: auto;
@@ -310,7 +310,7 @@ button,
   width: 100%;
   max-height: 85vh;
   border-radius: 16px 16px 0 0;
-  background: var(--bg-color);
+  background: var(--surface-base);
   animation: slide-up 0.3s ease-out;
   flex-direction: column;
 
@@ -318,7 +318,7 @@ button,
     display: flex;
     padding: 16px;
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border);
     flex-shrink: 0;
     justify-content: space-between;
   }
@@ -346,7 +346,7 @@ button,
   padding: 0;
   border: none;
   border-radius: 50%;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   transition: background 0.2s;
   align-items: center;
   cursor: pointer;
@@ -360,9 +360,9 @@ button,
 .sheet-search {
   display: flex;
   padding: 12px 16px;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
   gap: 8px;
 
@@ -401,7 +401,7 @@ button,
 
 .empty {
   padding: 24px 16px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-align: center;
 }
 
@@ -411,10 +411,10 @@ button,
   padding: 6px 12px;
   border-radius: 4px;
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   transition: all 0.15s ease;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   cursor: pointer;
   gap: 8px;
 

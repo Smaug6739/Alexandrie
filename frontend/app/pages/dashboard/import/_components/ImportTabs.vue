@@ -177,7 +177,7 @@ function importLocalSettings() {
   display: flex;
   width: 100%;
   padding: 0 1.5rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   gap: 0;
   margin-bottom: 2rem;
 
@@ -185,7 +185,7 @@ function importLocalSettings() {
     padding: 1rem 1.5rem;
     border: none;
     font-size: 15px;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
     background: none;
     transition: all 0.2s ease;
     border-bottom: 2px solid transparent;
@@ -193,7 +193,7 @@ function importLocalSettings() {
     flex: 1;
 
     &:hover {
-      color: var(--font-color);
+      color: var(--text-body);
     }
 
     &.active {
@@ -210,7 +210,7 @@ function importLocalSettings() {
 .empty-state {
   display: flex;
   padding: 3rem;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -223,7 +223,7 @@ function importLocalSettings() {
 .list-header {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   justify-content: space-between;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
@@ -273,7 +273,7 @@ function importLocalSettings() {
 
   .doc-meta {
     font-size: 0.75rem;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
 
     .separator {
       margin: 0 0.25rem;
@@ -294,7 +294,7 @@ function importLocalSettings() {
       padding: 0.25rem 0.5rem;
       border-radius: $radius-sm;
       font-size: 0.75rem;
-      background: var(--bg-color);
+      background: var(--surface-base);
       align-items: center;
       gap: 0.5rem;
 
@@ -310,7 +310,7 @@ function importLocalSettings() {
         }
 
         .version-date {
-          color: var(--font-color-dark);
+          color: var(--text-color-primary);
         }
 
         &.backup .version-date {
@@ -319,7 +319,7 @@ function importLocalSettings() {
       }
 
       .arrow {
-        color: var(--font-color-dark);
+        color: var(--text-color-primary);
       }
     }
   }

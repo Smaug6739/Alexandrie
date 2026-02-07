@@ -131,9 +131,9 @@ const closeModal = () => {
   display: grid;
   max-width: 400px;
   padding: 4px;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--border);
   border-radius: 8px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   gap: 2px;
   grid-template-columns: repeat(12, 1fr);
   margin-bottom: 16px;
@@ -149,7 +149,7 @@ const closeModal = () => {
   position: relative;
   width: 16px;
   height: 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   background: var(--bg-color-secondary);
   transition: all 0.2s ease;
   cursor: pointer;
@@ -179,11 +179,11 @@ const closeModal = () => {
   max-width: 400px;
   min-height: 20px;
   padding: 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   text-align: center;
   background: var(--bg-color-secondary);
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
@@ -200,11 +200,11 @@ const closeModal = () => {
 
   .cancel-btn {
     padding: 12px 24px;
-    border: 2px solid var(--border-color);
+    border: 2px solid var(--border);
     border-radius: 10px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
     background: var(--bg-color-secondary);
     transition: all 0.3s ease;
     cursor: pointer;
@@ -212,7 +212,7 @@ const closeModal = () => {
     &:hover {
       border-color: var(--primary);
       color: var(--primary);
-      background: var(--border-color);
+      background: var(--border);
       transform: translateY(-1px);
     }
 

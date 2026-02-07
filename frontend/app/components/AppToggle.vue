@@ -25,10 +25,12 @@ const toggle = () => {
   display: flex;
   height: 24px;
   padding: 2px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 15px;
-  background: var(--bg-contrast-2);
-  transition: background-color 0.3s, border-color 0.3s;
+  background: var(--surface-overlay);
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
   align-items: center;
   cursor: pointer;
   flex: 0 0 44px;
@@ -38,8 +40,11 @@ const toggle = () => {
     height: 20px;
     border: 1px solid transparent;
     border-radius: 50%;
-    background: var(--bg-color);
-    transition: transform 0.25s, background-color 0.25s, border-color 0.25s;
+    background: var(--surface-base);
+    transition:
+      transform 0.25s,
+      background-color 0.25s,
+      border-color 0.25s;
     transform: translateX(0);
   }
 

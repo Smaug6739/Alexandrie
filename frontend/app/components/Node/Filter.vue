@@ -142,9 +142,9 @@ onBeforeUnmount(() => {
   z-index: 200;
   width: 320px;
   padding: 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 10px 30px rgb(2 6 23 / 20%);
 }
 
@@ -169,7 +169,7 @@ label {
 
 .btn {
   padding: 8px 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
   background: transparent;
   cursor: pointer;
@@ -189,7 +189,9 @@ label {
 /* small pop animation */
 .pop-enter-active,
 .pop-leave-active {
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
 }
 
 .pop-enter-from {

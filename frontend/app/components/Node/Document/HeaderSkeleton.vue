@@ -13,7 +13,7 @@
 .skeleton {
   margin: 8px 0;
   border-radius: 6px;
-  background: linear-gradient(90deg, var(--border-color) 25%, var(--bg-contrast) 37%, var(--border-color) 63%);
+  background: linear-gradient(90deg, var(--border) 25%, var(--surface-raised) 37%, var(--border) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;
 }
@@ -79,7 +79,7 @@
       font-size: 27px;
       font-weight: 700;
       text-align: center;
-      border-bottom: 1px solid var(--font-color);
+      border-bottom: 1px solid var(--text-body);
     }
   }
 }

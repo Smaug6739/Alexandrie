@@ -81,7 +81,7 @@ const updateUser = async () => {
 .avatar {
   width: 100px;
   height: 100px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 50%;
   cursor: pointer;
   object-fit: cover;

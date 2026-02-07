@@ -39,7 +39,7 @@ const isImporting = computed(() => props.importJob.status === 'in_progress');
   display: flex;
   padding: 1rem;
   align-items: center;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   justify-content: space-between;
 
   .import-options {

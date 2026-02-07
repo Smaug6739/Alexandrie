@@ -85,7 +85,7 @@ const statusLabel = computed(() => {
   width: 100%;
   height: 8px;
   border-radius: 4px;
-  background: var(--border-color);
+  background: var(--border);
   margin-bottom: 0.75rem;
   overflow: hidden;
 }

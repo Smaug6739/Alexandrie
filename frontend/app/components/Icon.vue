@@ -10,7 +10,7 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 'xsm' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'; size?: number | string }>(), {
   display: 'md',
-  fill: 'var(--font-color)',
+  fill: 'var(--text-body)',
   size: undefined,
 });
 

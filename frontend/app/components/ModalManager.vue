@@ -55,8 +55,8 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   margin: auto;
   border-radius: 10px;
   font-size: initial;
-  background-color: var(--bg-color);
-  box-shadow: 0 2px 10px var(--shadow);
+  background-color: var(--surface-base);
+  box-shadow: 0 2px 10px var(--shadow-sm);
 }
 
 .modal-container:has(> .large) {
@@ -86,7 +86,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 
 .modal {
   border-radius: 8px;
-  background-color: var(--bg-color);
+  background-color: var(--surface-base);
 }
 
 .modal-mask {

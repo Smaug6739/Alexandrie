@@ -164,7 +164,7 @@ const pos = computed(() => {
   z-index: 6000;
   min-width: 240px;
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow:
     0 8px 30px rgb(0 0 0 / 12%),
     0 2px 8px rgb(0 0 0 / 6%);
@@ -208,7 +208,7 @@ const pos = computed(() => {
   min-height: 60vh;
   max-height: 85vh;
   border-radius: 16px 16px 0 0;
-  background: var(--bg-color);
+  background: var(--surface-base);
   animation: slide-up 0.3s ease-out;
   flex-direction: column;
 }
@@ -242,14 +242,14 @@ const pos = computed(() => {
   width: 36px;
   height: 4px;
   border-radius: 2px;
-  background: var(--border-color);
+  background: var(--border);
   transition:
     background 0.2s,
     width 0.2s;
 
   .mobile-sheet-header:active & {
     width: 48px;
-    background: var(--font-color-light);
+    background: var(--text-secondary);
   }
 }
 

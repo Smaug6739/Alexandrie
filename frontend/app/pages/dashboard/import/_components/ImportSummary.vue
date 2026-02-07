@@ -66,7 +66,7 @@ defineProps<{
 
   .label {
     font-size: 0.8rem;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
   }
 
   &.new {
@@ -80,7 +80,7 @@ defineProps<{
   }
 
   &.unchanged {
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
     background: var(--grey-bg);
   }
 }

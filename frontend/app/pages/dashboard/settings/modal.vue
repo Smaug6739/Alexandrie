@@ -17,7 +17,7 @@ import IndexSettings from './index.vue';
 
   nav {
     padding: 1rem;
-    background-color: var(--bg-contrast) !important;
+    background-color: var(--surface-raised) !important;
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
     gap: 1rem;
@@ -26,7 +26,7 @@ import IndexSettings from './index.vue';
     span {
       font-size: 0.9rem;
       font-weight: 500;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
 
     a {
@@ -40,7 +40,7 @@ import IndexSettings from './index.vue';
       text-decoration: none;
 
       &:hover {
-        background-color: var(--bg-contrast-2);
+        background-color: var(--surface-overlay);
       }
     }
 
@@ -58,7 +58,7 @@ import IndexSettings from './index.vue';
 
         .email {
           font-size: 0.7rem;
-          color: var(--font-color-light);
+          color: var(--text-secondary);
         }
       }
     }

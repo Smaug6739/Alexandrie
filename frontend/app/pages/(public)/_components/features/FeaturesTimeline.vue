@@ -109,7 +109,7 @@ section {
 .section-title {
   font-size: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
   font-weight: 800;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   text-align: center;
   margin-bottom: 1rem;
 }
@@ -118,7 +118,7 @@ section {
   max-width: 600px;
   margin: 0 auto 4rem;
   line-height: 1.6;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-align: center;
 }
 
@@ -193,7 +193,9 @@ section {
           border-radius: 16px;
           background: white;
           box-shadow: 0 10px 30px rgb(0 0 0 / 7%);
-          transition: transform 0.5s ease, box-shadow 0.5s ease;
+          transition:
+            transform 0.5s ease,
+            box-shadow 0.5s ease;
           cursor: zoom-in;
 
           &:hover {

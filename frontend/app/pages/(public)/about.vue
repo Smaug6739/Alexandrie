@@ -210,7 +210,7 @@ main {
 .section-text {
   font-size: 1.05rem;
   line-height: 1.7;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .feature-list {

@@ -274,7 +274,7 @@ onBeforeUnmount(() => {
 .pdf-page-wrapper {
   position: relative;
   margin: 0 auto 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
 }
 
 .pdf-canvas {

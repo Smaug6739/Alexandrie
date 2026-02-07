@@ -136,7 +136,7 @@ function drawColorWheel(colorWheel: Ref<HTMLCanvasElement | undefined>) {
         ctx.fillRect(x, y, 1, 1);
       }
     }
-  ctx.strokeStyle = 'var(--border-color)';
+  ctx.strokeStyle = 'var(--border)';
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.arc(cx, cy, r, 0, 2 * Math.PI);
@@ -216,7 +216,7 @@ onMounted(() => {
 
   &::-webkit-scrollbar-thumb {
     border-radius: 3px;
-    background: var(--border-color);
+    background: var(--border);
 
     &:hover {
       background: var(--primary);
@@ -227,7 +227,7 @@ onMounted(() => {
 .section-title {
   font-size: 16px;
   font-weight: 700;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   padding-left: 16px;
   text-transform: uppercase;
 }
@@ -298,7 +298,7 @@ onMounted(() => {
 }
 
 .color-wheel {
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--border);
   border-radius: 12px;
   cursor: crosshair;
 }
@@ -365,7 +365,7 @@ onMounted(() => {
   z-index: 1;
   height: 6px;
   border-radius: 3px;
-  background: var(--border-color);
+  background: var(--border);
   transform: translateY(-50%);
 }
 
@@ -379,9 +379,9 @@ onMounted(() => {
 .selected-color-preview {
   display: flex;
   padding: 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   align-items: center;
   gap: 12px;
 }
@@ -389,7 +389,7 @@ onMounted(() => {
 .preview-circle {
   width: 40px;
   height: 40px;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--border);
   border-radius: 50%;
   box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
   flex-shrink: 0;
@@ -403,13 +403,13 @@ onMounted(() => {
   .hex-value {
     font-size: 14px;
     font-weight: 600;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
   }
 
   .hsv-values {
     font-size: 11px;
     font-weight: 500;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -461,7 +461,7 @@ onMounted(() => {
   font-family: Monaco, Menlo, 'Ubuntu Mono', monospace;
   font-size: 14px;
   font-weight: 600;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   background: transparent;
   flex: 1;
   letter-spacing: 1px;
@@ -472,7 +472,7 @@ onMounted(() => {
 
   &::placeholder {
     font-weight: 400;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 

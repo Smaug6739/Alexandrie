@@ -43,8 +43,8 @@
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
-            <span style="height: 32px; border-left: 1px solid var(--border-color); margin-left: 4px"></span>
-            <span @click="bulkDelete(selected)"><Icon name="delete" fill="var(--font-color-light)" class="action-btn" /></span>
+            <span style="height: 32px; border-left: 1px solid var(--border); margin-left: 4px"></span>
+            <span @click="bulkDelete(selected)"><Icon name="delete" fill="var(--text-secondary)" class="action-btn" /></span>
           </div>
         </template>
         <template #action="{ cell }">
@@ -211,20 +211,20 @@ const bulkDelete = async (lines: Field[]) => {
 
     .storage-label {
       font-size: 12px;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
 
     .storage-values {
       font-size: 14px;
       font-weight: 600;
-      color: var(--font-color-dark);
+      color: var(--text-color-primary);
     }
   }
 
   .progress-bar {
     height: 8px;
     border-radius: 4px;
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
     flex: 1;
     overflow: hidden;
 
@@ -248,7 +248,7 @@ const bulkDelete = async (lines: Field[]) => {
     min-width: 50px;
     font-size: 13px;
     font-weight: 500;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     text-align: right;
   }
 }
@@ -261,7 +261,7 @@ const bulkDelete = async (lines: Field[]) => {
 .upload-progress {
   display: flex;
   font-size: 14px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   gap: 10px;
 }
@@ -276,11 +276,11 @@ const bulkDelete = async (lines: Field[]) => {
   .links-text {
     width: 100%;
     padding: 10px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: 6px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
     background: var(--bg-color-secondary);
     white-space: pre-wrap;
     word-break: break-all;
@@ -303,7 +303,7 @@ const bulkDelete = async (lines: Field[]) => {
   cursor: pointer;
 
   &:hover {
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
   }
 }
 
@@ -312,12 +312,12 @@ const bulkDelete = async (lines: Field[]) => {
   width: 32px;
   height: 36px;
   padding: 6px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
   font-family: Inter, sans-serif;
   font-size: 13px;
   font-weight: bold;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   justify-content: center;
 }
@@ -327,7 +327,7 @@ const bulkDelete = async (lines: Field[]) => {
 }
 
 .not-found {
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-align: center;
   grid-column: 1 / -1;
 }
@@ -367,7 +367,7 @@ const bulkDelete = async (lines: Field[]) => {
       display: block;
       font-size: 14px;
       font-weight: 500;
-      color: var(--font-color-dark);
+      color: var(--text-color-primary);
       margin-bottom: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -377,7 +377,7 @@ const bulkDelete = async (lines: Field[]) => {
     .image-size {
       display: block;
       font-size: 12px;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
   }
 }

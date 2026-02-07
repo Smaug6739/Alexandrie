@@ -18,7 +18,7 @@
     </div>
     <footer>
       <div class="footer-item">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--font-color)">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--text-body)">
           <path
             d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"
           />
@@ -63,16 +63,16 @@ function showContextMenu(event: MouseEvent) {
   display: flex;
   max-width: 380px;
   min-height: 250px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 1px 3px rgb(0 0 0 / 4%);
   transition: all 0.2s ease;
   flex-direction: column;
   justify-content: space-between;
 
   &:hover {
-    border-color: var(--border-color-accent);
+    border-color: var(--border-strong);
     box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
   }
 }
@@ -94,7 +94,7 @@ function showContextMenu(event: MouseEvent) {
   font-size: 17px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   transition: color 0.15s;
 
   &:hover {
@@ -110,7 +110,7 @@ function showContextMenu(event: MouseEvent) {
 .category {
   font-size: 13px;
   font-weight: 500;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   padding-bottom: 8px;
 }
 
@@ -119,7 +119,7 @@ function showContextMenu(event: MouseEvent) {
   margin: 0;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -136,10 +136,10 @@ footer {
   padding: 10px 14px;
   border-radius: 0 0 11px 11px;
   font-size: 12px;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
   align-items: center;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   justify-content: space-between;
 }
 

@@ -64,7 +64,7 @@
 		margin: 6px 0;
 		padding: 6px 0 0;
 		align-items: center;
-		border-top: 1px solid var(--border-color);
+		border-top: 1px solid var(--border);
 		gap: 8px;
 		justify-content: flex-end;
 	}
@@ -79,16 +79,16 @@
 	max-height: 100%;
 	margin: 8px 4px;
 	padding: 20px;
-	border: 1px solid var(--border-color);
+	border: 1px solid var(--border);
 	border-radius: $radius-md;
-	box-shadow: 0 2px 6px var(--shadow);
+	box-shadow: 0 2px 6px var(--shadow-sm);
 	gap: 16px;
 	overflow: auto;
 
 	header {
 		display: flex;
 		align-items: center;
-		border-bottom: 1px solid var(--border-color);
+		border-bottom: 1px solid var(--border);
 		justify-content: space-between;
 		margin-bottom: 10px;
 		padding-bottom: 4px;
@@ -118,7 +118,7 @@
 	cursor: pointer;
 
 	&:hover {
-		background: var(--bg-ui);
+		background: var(--surface-transparent);
 	}
 }
 
@@ -133,7 +133,7 @@ tag {
 
 	&.primary {
 		color: var(--primary);
-		background: var(--default-bg);
+		background: var(--accent-bg);
 	}
 }
 
@@ -158,7 +158,7 @@ tag {
 .app-subtitle {
 	margin: 0 0 1rem;
 	font-size: 1rem;
-	color: var(--font-color-sub);
+	color: var(--text-color-muted);
 }
 
 // ===========================
@@ -180,7 +180,7 @@ tag {
 	font-size: 0.7rem;
 	color: white;
 	background-color: #1f2937;
-	box-shadow: 0 2px 8px var(--shadow);
+	box-shadow: 0 2px 8px var(--shadow-sm);
 
 	// Initial state (hidden)
 	opacity: 0;

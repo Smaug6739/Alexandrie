@@ -58,9 +58,9 @@ const close = (id: number) => manager.remove(id);
   display: flex;
   width: 380px;
   padding: 14px 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow:
     0 4px 6px -1px rgb(0 0 0 / 10%),
     0 2px 4px -2px rgb(0 0 0 / 10%);
@@ -96,14 +96,14 @@ const close = (id: number) => manager.remove(id);
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
 }
 
 .message {
   margin: 4px 0 0;
   font-size: 13px;
   line-height: 1.4;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .close-btn {
@@ -113,7 +113,7 @@ const close = (id: number) => manager.remove(id);
   padding: 0;
   border: none;
   border-radius: 8px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background: transparent;
   transition: all 0.15s ease;
   align-items: center;
@@ -127,8 +127,8 @@ const close = (id: number) => manager.remove(id);
   }
 
   &:hover {
-    color: var(--font-color);
-    background: var(--bg-contrast);
+    color: var(--text-body);
+    background: var(--surface-raised);
   }
 }
 

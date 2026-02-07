@@ -186,7 +186,7 @@ function handleClickOutside(e: MouseEvent) {
   max-width: 320px;
   padding: 12px;
   border-radius: 12px;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   flex-direction: column;
 
   &.drag-over {
@@ -213,7 +213,7 @@ function handleClickOutside(e: MouseEvent) {
   padding: 0;
   border: none;
   border-radius: 50%;
-  transition: transform $transition-duration;
+  transition: transform $transition-base;
   cursor: pointer;
   flex-shrink: 0;
 
@@ -228,8 +228,8 @@ function handleClickOutside(e: MouseEvent) {
   border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--font-color-dark);
-  transition: color $transition-duration;
+  color: var(--text-color-primary);
+  transition: color $transition-base;
   cursor: pointer;
   flex: 1;
 
@@ -244,8 +244,8 @@ function handleClickOutside(e: MouseEvent) {
   border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--font-color-dark);
-  background: var(--bg-color);
+  color: var(--text-color-primary);
+  background: var(--surface-base);
   box-shadow: 0 0 0 3px rgb(57 86 231 / 10%);
   flex: 1;
   outline: none;
@@ -257,8 +257,8 @@ function handleClickOutside(e: MouseEvent) {
   border-radius: 16px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--font-color-light);
-  background: var(--bg-color);
+  color: var(--text-secondary);
+  background: var(--surface-base);
 }
 
 .column-actions {
@@ -273,15 +273,15 @@ function handleClickOutside(e: MouseEvent) {
   padding: 0;
   border: none;
   border-radius: 6px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background: transparent;
   align-items: center;
   cursor: pointer;
   justify-content: center;
 
   &:hover {
-    color: var(--font-color);
-    background: var(--bg-color);
+    color: var(--text-body);
+    background: var(--surface-base);
   }
 
   &.danger:hover {
@@ -304,10 +304,10 @@ function handleClickOutside(e: MouseEvent) {
   display: flex;
   max-width: 180px;
   padding: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--bg-color);
-  box-shadow: var(--shadow-md);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-sm-md);
   flex-wrap: wrap;
   gap: 6px;
 }
@@ -325,8 +325,8 @@ function handleClickOutside(e: MouseEvent) {
   }
 
   &.active {
-    border-color: var(--font-color-dark);
-    box-shadow: 0 0 0 2px var(--bg-color);
+    border-color: var(--text-color-primary);
+    box-shadow: 0 0 0 2px var(--surface-base);
   }
 }
 
@@ -351,16 +351,16 @@ function handleClickOutside(e: MouseEvent) {
   }
 
   &:hover::-webkit-scrollbar-thumb {
-    background: var(--border-color);
+    background: var(--border);
   }
 }
 
 .empty-state {
   display: flex;
   padding: 32px 16px;
-  border: 2px dashed var(--border-color);
+  border: 2px dashed var(--border);
   border-radius: 8px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-align: center;
   background: rgb(0 0 0 / 2%);
   align-items: center;
@@ -395,8 +395,8 @@ function handleClickOutside(e: MouseEvent) {
   border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--font-color-light);
-  background: var(--bg-color);
+  color: var(--text-secondary);
+  background: var(--surface-base);
   align-items: center;
   cursor: pointer;
   gap: 6px;

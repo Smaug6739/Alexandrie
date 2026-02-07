@@ -74,7 +74,7 @@ onMounted(fetchContributors);
 
   p {
     font-size: 1rem;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -93,9 +93,9 @@ onMounted(fetchContributors);
 .contributor {
   display: flex;
   padding: 12px 16px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 14px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.3s ease;
   align-items: center;
   flex-shrink: 0;
@@ -128,12 +128,12 @@ onMounted(fetchContributors);
   .name {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--font-color);
+    color: var(--text-body);
   }
 
   .contributions {
     font-size: 0.75rem;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -144,12 +144,12 @@ onMounted(fetchContributors);
 .cta-btn {
   display: inline-flex;
   padding: 12px 24px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--font-color);
-  background: var(--bg-contrast);
+  color: var(--text-body);
+  background: var(--surface-raised);
   transition: all 0.3s ease;
   align-items: center;
   gap: 8px;

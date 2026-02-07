@@ -84,7 +84,7 @@ function toggleExpand() {
     cursor: pointer;
 
     &:hover {
-      background: var(--bg-contrast);
+      background: var(--surface-raised);
     }
   }
 }
@@ -108,7 +108,7 @@ function toggleExpand() {
   height: 20px;
   padding: 0;
   border: none;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background: none;
   transition: transform 0.2s;
   align-items: center;
@@ -156,7 +156,7 @@ function toggleExpand() {
 .node-name {
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   transition: color 0.15s;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -165,7 +165,7 @@ function toggleExpand() {
 
 .node-description {
   font-size: 0.8125rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -183,8 +183,8 @@ function toggleExpand() {
   border-radius: 4px;
   font-size: 0.6875rem;
   font-weight: 500;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -197,14 +197,14 @@ function toggleExpand() {
   border-radius: 10px;
   font-size: 0.6875rem;
   font-weight: 600;
-  color: var(--font-color);
-  background: var(--bg-contrast);
+  color: var(--text-body);
+  background: var(--surface-raised);
   align-items: center;
   justify-content: center;
 }
 
 .node-children {
-  border-left: 1px dashed var(--border-color);
+  border-left: 1px dashed var(--border);
   margin-left: 1.75rem;
 }
 

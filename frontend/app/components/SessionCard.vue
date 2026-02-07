@@ -95,15 +95,15 @@ const deviceType = computed(() => {
 .session-card {
   display: flex;
   padding: 1rem 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.2s ease;
   flex-direction: column;
   gap: 1rem;
 
   &:hover {
-    border-color: var(--border-color-accent);
+    border-color: var(--border-strong);
     box-shadow: 0 4px 12px rgb(0 0 0 / 6%);
   }
 
@@ -117,7 +117,7 @@ const deviceType = computed(() => {
   }
 
   &.inactive {
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
     opacity: 0.7;
   }
 }
@@ -133,8 +133,8 @@ const deviceType = computed(() => {
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  color: var(--font-color);
-  background: var(--bg-contrast-2);
+  color: var(--text-body);
+  background: var(--surface-overlay);
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
@@ -172,11 +172,11 @@ const deviceType = computed(() => {
 
   .browser {
     font-weight: 600;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
   }
 
   .os {
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -210,7 +210,7 @@ const deviceType = computed(() => {
 .meta-item {
   display: inline-flex;
   font-size: 0.8rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   gap: 0.35rem;
 
@@ -222,7 +222,7 @@ const deviceType = computed(() => {
 }
 
 .session-details {
-  border-top: 1px solid var(--border-color-light);
+  border-top: 1px solid var(--border-subtle);
   padding-top: 0.75rem;
 }
 
@@ -241,19 +241,19 @@ const deviceType = computed(() => {
 .detail-label {
   font-size: 0.7rem;
   font-weight: 500;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .detail-value {
   font-size: 0.85rem;
-  color: var(--font-color);
+  color: var(--text-body);
 }
 
 .session-user-agent {
   display: flex;
-  border-top: 1px solid var(--border-color-light);
+  border-top: 1px solid var(--border-subtle);
   flex-direction: column;
   gap: 0.35rem;
   padding-top: 0.75rem;
@@ -262,7 +262,7 @@ const deviceType = computed(() => {
 .user-agent-label {
   font-size: 0.7rem;
   font-weight: 500;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -273,8 +273,8 @@ const deviceType = computed(() => {
   font-family: var(--monospace-font, 'JetBrains Mono', monospace);
   font-size: 0.75rem;
   line-height: 1.4;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
   word-break: break-all;
 }
 </style>

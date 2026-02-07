@@ -15,7 +15,7 @@
     <NuxtLink v-if="item.onClick" class="close content" @click="item.onClick">{{ item.label }}</NuxtLink>
     <NuxtLink v-else :to="item.route" class="close content">{{ item.label }}</NuxtLink>
 
-    <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--font-color-light)" />
+    <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--text-secondary)" />
 
     <NuxtLink v-if="item.data.role === 2 && nodesStore.hasPermissions(item.data as Node, 2)" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" />
@@ -23,7 +23,7 @@
     <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
       <Icon name="plus" />
     </NuxtLink>
-    <Icon v-if="item.data.order === -1" name="pin" fill="var(--font-color-light)" />
+    <Icon v-if="item.data.order === -1" name="pin" fill="var(--text-secondary)" />
     <slot />
   </span>
 </template>
@@ -122,11 +122,11 @@ const drop = async (event: DragEvent) => {
   letter-spacing: -0.4px;
 
   &:hover {
-    background: var(--bg-contrast-2);
+    background: var(--surface-overlay);
   }
 
   &:has(.router-link-exact-active:not(.nav)) {
-    background: var(--default-bg);
+    background: var(--accent-bg);
   }
 
   .default-icon,
@@ -150,7 +150,7 @@ const drop = async (event: DragEvent) => {
 }
 
 .dragging {
-  box-shadow: 0 2px 10px var(--shadow);
+  box-shadow: 0 2px 10px var(--shadow-sm);
   border-bottom: 2px solid var(--primary);
 }
 

@@ -57,7 +57,7 @@
     <div :class="['toolbar-divider', { 'no-mobile': mobileSimplifiedView }]" />
 
     <!-- Voice & Category -->
-    <div class="toolbar-group" style=" align-items: center;flex: 1; flex-direction: row; gap: 4px">
+    <div class="toolbar-group" style="align-items: center; flex: 1; flex-direction: row; gap: 4px">
       <div class="group-buttons">
         <VoiceRecognition :class="{ 'no-mobile': mobileSimplifiedView }" @transcription="handleTranscription" />
       </div>
@@ -218,9 +218,9 @@ const actionTools: ToolItem[] = [
   display: flex;
   width: 100%;
   padding: 6px 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
   transition: box-shadow 0.2s ease;
   align-items: center;
@@ -245,7 +245,7 @@ const actionTools: ToolItem[] = [
   display: flex;
   padding: 3px;
   border-radius: 6px;
-  background: var(--bg-ui);
+  background: var(--surface-transparent);
   gap: 1px;
 }
 
@@ -265,7 +265,7 @@ const actionTools: ToolItem[] = [
   justify-content: center;
 
   &:hover {
-    background: var(--bg-contrast-2);
+    background: var(--surface-overlay);
 
     .tooltip {
       opacity: 1;
@@ -276,7 +276,7 @@ const actionTools: ToolItem[] = [
 }
 
 .btn-primary {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   background: var(--primary-bg);
 
   &:hover {
@@ -286,8 +286,8 @@ const actionTools: ToolItem[] = [
 }
 
 .btn-accent {
-  border: 1px solid var(--border-color);
-  background: var(--bg-contrast);
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
 
   &:hover {
     border-color: var(--primary);
@@ -299,7 +299,7 @@ const actionTools: ToolItem[] = [
   opacity: 0.9;
 
   &:hover {
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
     opacity: 1;
   }
 }
@@ -314,8 +314,8 @@ const actionTools: ToolItem[] = [
   border-radius: 6px;
   font-size: 11px;
   font-weight: 500;
-  color: var(--bg-color);
-  background: var(--opposite-color);
+  color: var(--surface-base);
+  background: var(--text-inverse);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   opacity: 0;
   transition: all 0.2s ease;
@@ -330,7 +330,7 @@ const actionTools: ToolItem[] = [
     position: absolute;
     top: -4px;
     left: 50%;
-    border-bottom: 5px solid var(--opposite-color);
+    border-bottom: 5px solid var(--text-inverse);
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     content: '';
@@ -349,7 +349,7 @@ const actionTools: ToolItem[] = [
   width: 1px;
   height: 24px;
   margin: 0 2px;
-  background: var(--border-color);
+  background: var(--border);
   opacity: 0.4;
 }
 
@@ -363,9 +363,9 @@ const actionTools: ToolItem[] = [
 .stats-badge {
   display: flex;
   padding: 3px 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 6px;
-  background: linear-gradient(135deg, var(--bg-contrast) 0%, var(--bg-contrast-2) 100%);
+  background: linear-gradient(135deg, var(--surface-raised) 0%, var(--surface-overlay) 100%);
   align-items: center;
   gap: 6px;
 }
@@ -381,13 +381,13 @@ const actionTools: ToolItem[] = [
 .stat-value {
   font-size: 13px;
   font-weight: 600;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   font-variant-numeric: tabular-nums;
 }
 
 .stat-label {
   font-size: 9px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   letter-spacing: 0.3px;
   text-transform: uppercase;
 }
@@ -395,14 +395,14 @@ const actionTools: ToolItem[] = [
 .stat-divider {
   width: 1px;
   height: 20px;
-  background: var(--border-color);
+  background: var(--border);
 }
 
 .action-buttons {
   display: flex;
   padding: 3px;
   border-radius: 6px;
-  background: var(--bg-ui);
+  background: var(--surface-transparent);
   gap: 3px;
 }
 
@@ -410,7 +410,7 @@ const actionTools: ToolItem[] = [
   width: 1px;
   height: 18px;
   margin: 0 2px;
-  background: var(--border-color);
+  background: var(--border);
   opacity: 0.5;
   align-self: center;
 }
@@ -418,7 +418,7 @@ const actionTools: ToolItem[] = [
 .category-select {
   min-width: 110px;
   border-radius: 6px;
-  background: var(--bg-color);
+  background: var(--surface-base);
 }
 
 // Responsive adjustments

@@ -136,7 +136,7 @@
   font-family: Inter;
   font-size: 16px;
   font-weight: 400;
-  background-color: var(--bg-ui);
+  background-color: var(--surface-transparent);
   flex-direction: column;
   gap: 8px;
   text-size-adjust: 100%;
@@ -156,7 +156,7 @@ p {
   justify-content: space-between;
 
   &:hover {
-    background-color: var(--bg-ui);
+    background-color: var(--surface-transparent);
   }
 }
 </style>

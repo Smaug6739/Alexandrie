@@ -265,7 +265,7 @@ onUnmounted(() => {
 
   h3 {
     font-size: 1rem;
-    color: var(--font-color);
+    color: var(--text-body);
     margin-bottom: 1rem;
   }
 }
@@ -330,7 +330,7 @@ onUnmounted(() => {
   width: 100%;
   height: 8px;
   border-radius: 4px;
-  background: var(--border-color);
+  background: var(--border);
   margin-bottom: 0.75rem;
   overflow: hidden;
 }
@@ -345,7 +345,7 @@ onUnmounted(() => {
 .progress-message {
   font-size: 1rem;
   font-weight: bold;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   margin-bottom: 0.75rem;
 }
 
@@ -368,7 +368,7 @@ onUnmounted(() => {
 .expiry-notice {
   display: flex;
   font-size: 0.75rem;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   align-items: center;
   gap: 0.25rem;
   justify-content: center;

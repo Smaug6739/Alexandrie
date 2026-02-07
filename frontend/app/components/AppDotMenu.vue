@@ -3,7 +3,7 @@
     <span class="menu-button" aria-label="Menu" @click="toggleMenu">
       <svg class="menu-icon" viewBox="0 9 20 2" xmlns="http://www.w3.org/2000/svg">
         <path
-          style="fill: var(--font-color)"
+          style="fill: var(--text-body)"
           d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
         />
       </svg>
@@ -69,10 +69,10 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   right: 0;
   z-index: 2;
   min-width: 270px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 6px;
-  background: var(--bg-color);
-  box-shadow: 0 2px 6px var(--shadow);
+  background: var(--surface-base);
+  box-shadow: 0 2px 6px var(--shadow-sm);
   margin-top: 4px;
   overflow: hidden;
 }

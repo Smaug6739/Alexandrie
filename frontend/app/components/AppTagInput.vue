@@ -166,7 +166,7 @@ input {
 
     &:hover,
     &:focus {
-      background: var(--bg-ui);
+      background: var(--surface-transparent);
     }
   }
 }
@@ -194,9 +194,9 @@ input {
   left: 0;
   z-index: 10;
   max-height: 150px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   margin-top: 2px;
   overflow-y: auto;
@@ -209,7 +209,7 @@ input {
 
   &:hover,
   &.selected {
-    background: var(--border-color);
+    background: var(--border);
   }
 }
 
@@ -225,7 +225,7 @@ input {
   padding: 3px 6px;
   border-radius: 10px;
   font-size: 12px;
-  background: var(--border-color);
+  background: var(--border);
   align-items: center;
   gap: 4px;
 
@@ -242,7 +242,7 @@ input {
     justify-content: center;
 
     &:hover {
-      color: var(--opposite-color);
+      color: var(--text-inverse);
     }
   }
 }

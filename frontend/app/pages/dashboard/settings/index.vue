@@ -89,19 +89,19 @@ const close = () => emit('close');
   display: flex;
   width: 100%;
   height: 100%;
-  background-color: var(--bg-color);
+  background-color: var(--surface-base);
 
   nav {
     width: 300px;
     padding: 1rem;
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid var(--border);
     gap: 1rem;
     overflow-y: auto;
 
     span {
       font-size: 0.9rem;
       font-weight: 500;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
 
     a {
@@ -115,7 +115,7 @@ const close = () => emit('close');
       text-decoration: none;
 
       &:hover {
-        background-color: var(--bg-contrast-2);
+        background-color: var(--surface-overlay);
       }
     }
 
@@ -129,7 +129,7 @@ const close = () => emit('close');
 
         .email {
           font-size: 0.7rem;
-          color: var(--font-color-light);
+          color: var(--text-secondary);
         }
       }
     }
@@ -152,7 +152,7 @@ const close = () => emit('close');
   nav {
     width: 270px;
     border: none;
-    background-color: var(--bg-contrast);
+    background-color: var(--surface-raised);
   }
 
   .content {
@@ -172,9 +172,9 @@ const close = () => emit('close');
       border: none;
       font-size: 0.9rem;
       color: inherit;
-      background-color: var(--bg-contrast);
+      background-color: var(--surface-raised);
       align-items: center;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border);
       cursor: pointer;
       gap: 0.5rem;
     }
@@ -187,8 +187,10 @@ const close = () => emit('close');
       width: 100%;
       max-height: 0;
       padding: 0;
-      background-color: var(--bg-color);
-      transition: max-height 0.25s ease, padding 0.25s ease;
+      background-color: var(--surface-base);
+      transition:
+        max-height 0.25s ease,
+        padding 0.25s ease;
       border-right: none;
       overflow: hidden;
 
@@ -197,7 +199,7 @@ const close = () => emit('close');
         padding: 1rem;
         border-radius: $radius-lg;
         box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border);
         overflow-y: auto;
       }
     }
@@ -209,7 +211,7 @@ const close = () => emit('close');
   }
 
   .modal nav.open {
-    background-color: var(--bg-contrast);
+    background-color: var(--surface-raised);
   }
 }
 </style>

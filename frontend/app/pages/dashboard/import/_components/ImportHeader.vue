@@ -81,13 +81,13 @@ h2 {
 
   .label {
     font-size: 0.75rem;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
     text-transform: uppercase;
   }
 
   .value {
     font-weight: 600;
-    color: var(--font-color);
+    color: var(--text-body);
   }
 }
 
@@ -101,7 +101,7 @@ h2 {
     padding: 0.25rem 0.5rem;
     border-radius: $radius-sm;
     font-size: 0.75rem;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
     background: var(--bg-color-2);
     opacity: 0.5;
     align-items: center;

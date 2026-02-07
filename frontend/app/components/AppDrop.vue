@@ -154,10 +154,10 @@ defineExpose({ reset });
   display: flex;
   width: 100%;
   min-height: 150px;
-  border: 2px dashed var(--border-color);
+  border: 2px dashed var(--border);
   border-radius: $radius-md;
   font-size: 14px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background-color: transparent;
   transition: all 0.2s ease;
   align-items: center;
@@ -165,8 +165,8 @@ defineExpose({ reset });
   justify-content: center;
 
   &:hover {
-    border-color: var(--border-color-accent);
-    background-color: var(--bg-contrast);
+    border-color: var(--border-strong);
+    background-color: var(--surface-raised);
   }
 
   &.has-files {
@@ -176,7 +176,7 @@ defineExpose({ reset });
 
   &.dragging {
     border-color: var(--primary);
-    background-color: var(--bg-contrast);
+    background-color: var(--surface-raised);
   }
 
   input[type='file'] {
@@ -196,7 +196,7 @@ defineExpose({ reset });
 
   .hint {
     font-size: 12px;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -218,16 +218,16 @@ defineExpose({ reset });
 .item {
   display: flex;
   padding: 10px 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: $radius-sm;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.15s ease;
   align-items: center;
   gap: 12px;
 
   &:hover {
-    border-color: var(--border-color-accent);
-    background: var(--bg-contrast);
+    border-color: var(--border-strong);
+    background: var(--surface-raised);
 
     .remove {
       opacity: 1;
@@ -257,7 +257,7 @@ defineExpose({ reset });
 .name {
   font-size: 14px;
   font-weight: 500;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -265,7 +265,7 @@ defineExpose({ reset });
 
 .meta {
   font-size: 12px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .remove {
@@ -275,7 +275,7 @@ defineExpose({ reset });
   padding: 0;
   border: none;
   border-radius: 4px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background: transparent;
   opacity: 0.6;
   transition: all 0.15s ease;
@@ -286,7 +286,7 @@ defineExpose({ reset });
 
   &:hover {
     color: var(--red);
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
     opacity: 1;
   }
 }
@@ -294,7 +294,7 @@ defineExpose({ reset });
 footer {
   display: flex;
   align-items: center;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   justify-content: space-between;
   padding-top: 8px;
 }
@@ -302,7 +302,7 @@ footer {
 .total {
   font-size: 13px;
   font-weight: 500;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
 }
 
 .link {

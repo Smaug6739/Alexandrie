@@ -169,9 +169,9 @@ const autoSave = debounceDelayed(() => {
   }
 
   padding: 6px 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   gap: 8px;
 }
 
@@ -183,7 +183,7 @@ const autoSave = debounceDelayed(() => {
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
   background: transparent;
   transition: background 0.15s ease;
   flex: 0 1 auto;
@@ -191,12 +191,12 @@ const autoSave = debounceDelayed(() => {
 
   &:hover,
   &:focus {
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
   }
 
   &::placeholder {
     font-weight: 500;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -206,7 +206,7 @@ const autoSave = debounceDelayed(() => {
   border: none;
   border-radius: 6px;
   font-size: 0.85rem;
-  color: var(--font-color);
+  color: var(--text-body);
   background: transparent;
   transition: background 0.15s ease;
   flex: 1 1 150px;
@@ -214,11 +214,11 @@ const autoSave = debounceDelayed(() => {
 
   &:hover,
   &:focus {
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
   }
 
   &::placeholder {
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     opacity: 0.7;
   }
 }
@@ -236,9 +236,9 @@ const autoSave = debounceDelayed(() => {
   position: relative;
   display: flex;
   min-width: 0;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   flex: 1;
   flex-direction: column;
   overflow: hidden;
@@ -251,15 +251,15 @@ const autoSave = debounceDelayed(() => {
 .panel-header {
   display: flex;
   padding: 6px 12px;
-  background: var(--bg-ui);
+  background: var(--surface-transparent);
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
 }
 
 .panel-label {
   font-size: 10px;
   font-weight: 600;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -287,7 +287,7 @@ const autoSave = debounceDelayed(() => {
 
 .markdown-preview {
   padding: 12px 16px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   flex: 1;
   overflow: auto;
 }

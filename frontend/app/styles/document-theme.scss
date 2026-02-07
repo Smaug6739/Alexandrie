@@ -50,7 +50,7 @@
 		margin: 0.5em 0;
 		padding: 0;
 		border: none;
-		color: var(--font-color);
+		color: var(--text-body);
 		background-color: transparent;
 		gap: 1rem;
 
@@ -59,8 +59,8 @@
 			max-width: 170px;
 			padding: 5px 12px;
 			font-size: 15px;
-			color: var(--font-color-dark);
-			border-right: 1px solid var(--font-color);
+			color: var(--text-color-primary);
+			border-right: 1px solid var(--text-body);
 
 			svg {
 				display: none;
@@ -78,7 +78,7 @@
 		padding: 0;
 		border: none;
 		font-size: 16px;
-		color: var(--font-color);
+		color: var(--text-body);
 		background-color: transparent;
 
 		.custom-block-title {
@@ -86,8 +86,8 @@
 			max-width: 170px;
 			padding: 5px 12px;
 			font-weight: bold;
-			color: var(--font-color-dark);
-			border-right: 1px solid var(--font-color);
+			color: var(--text-color-primary);
+			border-right: 1px solid var(--text-body);
 		}
 
 
@@ -146,7 +146,7 @@
 		margin: 0.5em 0;
 		padding: 0;
 		border-radius: 4px;
-		color: var(--font-color);
+		color: var(--text-body);
 		background-color: transparent;
 		gap: 1rem;
 
@@ -155,7 +155,7 @@
 			max-width: 170px;
 			padding: 5px 12px;
 			font-size: 15px;
-			border-right: 1px solid var(--font-color);
+			border-right: 1px solid var(--text-body);
 
 			svg {
 				display: none;
@@ -174,7 +174,7 @@
 		border: none;
 		border-radius: 4px;
 		font-size: 16px;
-		color: var(--font-color);
+		color: var(--text-body);
 
 		.grey {
 			color: var(--grey);
@@ -231,7 +231,7 @@
 			max-width: 170px;
 			padding: 5px 12px;
 			font-weight: bold;
-			border-right: 1px solid var(--border-color);
+			border-right: 1px solid var(--border);
 		}
 
 
@@ -262,7 +262,7 @@
 	padding: 0 0.5rem;
 	font-family: Inter, Roboto, sans-serif;
 	font-size: 16px;
-	color: var(--font-color);
+	color: var(--text-body);
 
 	.header-anchor {
 		display: none;
@@ -304,7 +304,7 @@
 		border-radius: 6px;
 		font-family: 'Roboto Mono', monospace;
 		font-size: 0.95em;
-		color: var(--font-color);
+		color: var(--text-body);
 	}
 
 	pre {
@@ -314,8 +314,8 @@
 	blockquote {
 		margin: 1.5rem 0;
 		border-radius: 0 6px 6px 0;
-		color: var(--font-color);
-		background-color: var(--bg-contrast);
+		color: var(--text-body);
+		background-color: var(--surface-raised);
 		border-left: 4px solid var(--blue);
 		padding-left: 1rem;
 	}
@@ -347,7 +347,7 @@
 		th,
 		td {
 			padding: 0.75em 1em;
-			border-bottom: 1px solid var(--border-color);
+			border-bottom: 1px solid var(--border);
 		}
 
 		th {
@@ -359,7 +359,7 @@
 	.custom-block {
 		border-radius: 4px;
 		font-size: 15px;
-		color: var(--font-color);
+		color: var(--text-body);
 
 		&.info,
 		&.blue {

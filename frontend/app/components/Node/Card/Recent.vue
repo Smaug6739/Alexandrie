@@ -37,9 +37,9 @@ const icon = resolveIcon(props.node);
   display: flex;
   height: 100%;
   padding: 1rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  color: var(--font-color);
+  color: var(--text-body);
   transition: all 0.2s;
   flex-direction: column;
   text-decoration: none;
@@ -60,7 +60,7 @@ const icon = resolveIcon(props.node);
 
 .time {
   font-size: 0.75rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .title {
@@ -75,7 +75,7 @@ const icon = resolveIcon(props.node);
 .desc {
   display: -webkit-box;
   font-size: 0.85rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -92,7 +92,7 @@ const icon = resolveIcon(props.node);
 
 .category {
   font-size: 0.75rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .tags {

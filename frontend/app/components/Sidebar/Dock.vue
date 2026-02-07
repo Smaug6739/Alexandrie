@@ -47,8 +47,8 @@ function closeDock() {
 .dock {
   display: flex;
   padding: 1rem 0.3rem;
-  background-color: var(--bg-color);
-  border-right: 1px solid var(--border-color);
+  background-color: var(--surface-base);
+  border-right: 1px solid var(--border);
   flex-direction: column;
   gap: 10px;
 }
@@ -64,7 +64,7 @@ a {
 
   &:hover {
     svg {
-      color: var(--opposite-color) !important;
+      color: var(--text-inverse) !important;
     }
   }
 }

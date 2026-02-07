@@ -44,8 +44,8 @@ footer {
   border-radius: 8px;
   font-size: 13px;
   font-weight: 450;
-  color: var(--font-color);
-  background: var(--bg-ui);
+  color: var(--text-body);
+  background: var(--surface-transparent);
   transition: all 0.2s ease;
   align-items: center;
   gap: 6px;
@@ -53,7 +53,7 @@ footer {
   :deep(svg) {
     width: 16px;
     height: 16px;
-    fill: var(--font-color-light);
+    fill: var(--text-secondary);
   }
 
   &:hover {
@@ -79,14 +79,14 @@ b {
 .meta-item {
   display: flex;
   font-size: 13px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   gap: 6px;
 
   :deep(svg) {
     width: 14px;
     height: 14px;
-    fill: var(--font-color-light);
+    fill: var(--text-secondary);
   }
 }
 
@@ -104,7 +104,7 @@ b {
   max-width: 400px;
   margin: 5px 0;
   padding: 10px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 7px;
   font-size: 15px;
   font-weight: 450;
@@ -136,7 +136,7 @@ b {
 }
 
 svg {
-  fill: var(--font-color);
+  fill: var(--text-body);
 }
 
 .infos {
@@ -144,7 +144,7 @@ svg {
   padding: 10px 0;
   font-weight: 450;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   justify-content: space-between;
 
   a {

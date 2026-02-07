@@ -36,8 +36,8 @@ const tabs: Tab[] = [
 <style scoped lang="scss">
 .tab-navigation {
   display: flex;
-  background: var(--bg-color);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--surface-base);
+  border-bottom: 1px solid var(--border);
 }
 
 .tab-button {

@@ -61,14 +61,14 @@ function loadTheme() {
   };
 
   // Base colors
-  const base00 = 'var(--bg-color)',
-    base01 = 'var(--bg-contrast-2)',
-    base02 = 'var(--font-color)',
-    base03 = 'var(--font-color-light)',
-    base04 = 'var(--border-color)',
+  const base00 = 'var(--surface-base)',
+    base01 = 'var(--surface-overlay)',
+    base02 = 'var(--text-body)',
+    base03 = 'var(--text-secondary)',
+    base04 = 'var(--border)',
     base05 = '#424242',
     base06 = '#eeeeee',
-    base07 = 'var(--bg-color)',
+    base07 = 'var(--surface-base)',
     // Accent colors - using standard Material Design palette
     base08 = 'var(--red)',
     base09 = '#ff3e00',
@@ -165,7 +165,7 @@ function loadTheme() {
         },
       },
       '.cm-search': {
-        backgroundColor: 'var(--bg-contrast)',
+        backgroundColor: 'var(--surface-raised)',
       },
       '.cm-search input': {
         padding: '6px 8px',
@@ -181,7 +181,7 @@ function loadTheme() {
       },
       '.cm-textfield': {
         color: base02,
-        backgroundColor: 'var(--bg-contrast)',
+        backgroundColor: 'var(--surface-raised)',
         borderRadius: generalSearchField.borderRadius,
         padding: generalSearchField.padding,
       },

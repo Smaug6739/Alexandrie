@@ -103,7 +103,7 @@ const selectImage = (image: Node) => {
 
   &::-webkit-scrollbar-thumb {
     border-radius: 3px;
-    background: var(--border-color);
+    background: var(--border);
 
     &:hover {
       background: var(--primary);
@@ -113,16 +113,16 @@ const selectImage = (image: Node) => {
 
 .search-bar {
   padding: 16px 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
 
   .search-input {
     width: 100%;
     padding: 12px 16px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 14px;
-    color: var(--font-color-dark);
+    color: var(--text-color-primary);
     background: var(--bg-color-secondary);
 
     &:focus {
@@ -132,7 +132,7 @@ const selectImage = (image: Node) => {
     }
 
     &::placeholder {
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
   }
 }
@@ -172,7 +172,7 @@ const selectImage = (image: Node) => {
       display: block;
       font-size: 14px;
       font-weight: 500;
-      color: var(--font-color-dark);
+      color: var(--text-color-primary);
       margin-bottom: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -182,7 +182,7 @@ const selectImage = (image: Node) => {
     .image-size {
       display: block;
       font-size: 12px;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
   }
 }
@@ -191,7 +191,7 @@ const selectImage = (image: Node) => {
   display: flex;
   height: 200px;
   font-size: 16px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   justify-content: center;
 }

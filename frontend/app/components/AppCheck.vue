@@ -38,9 +38,9 @@ function toggle() {
     display: flex;
     width: 20px;
     height: 20px;
-    border: 2px solid var(--border-color);
+    border: 2px solid var(--border);
     border-radius: $radius-sm;
-    background: var(--bg-color);
+    background: var(--surface-base);
     transition: all 0.2s ease;
     align-items: center;
     justify-content: center;
@@ -58,7 +58,7 @@ function toggle() {
 
   .label {
     font-size: 1rem;
-    color: var(--font-color);
+    color: var(--text-body);
   }
 }
 </style>

@@ -243,7 +243,7 @@ This is a text with a note[^1] and another[^ref].
               ><a href="#fn-ref" title="Second footnote with text identifier">[ref]</a></sup
             >.
           </p>
-          <section class="footnotes" style=" font-size: 0.9rem; border-top: 1px solid var(--border-color);margin-top: 1rem; padding-top: 0.5rem">
+          <section class="footnotes" style="font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 1rem; padding-top: 0.5rem">
             <ol style="margin: 0; padding-left: 1.5rem">
               <li>First footnote <a href="#fnref-1" class="footnote-backref">↩</a></li>
               <li>Second footnote with text identifier <a href="#fnref-ref" class="footnote-backref">↩</a></li>

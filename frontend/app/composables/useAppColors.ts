@@ -12,7 +12,7 @@ function setAppColor(color: string | number) {
   if (typeof color === 'number') {
     color = getAppAccent(color);
   }
-  if (color === 'primary') color = 'default';
+  if (color === 'primary') color = 'accent';
   document.documentElement.style.setProperty('--primary', `var(--${color})`);
   document.documentElement.style.setProperty('--primary-dark', `var(--${color}-dark)`);
   document.documentElement.style.setProperty('--primary-bg', `var(--${color}-bg)`);

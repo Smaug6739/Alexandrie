@@ -51,18 +51,18 @@ const props = defineProps({
   margin: 0;
   font-size: 96px;
   font-weight: bold;
-  color: var(--font-color);
+  color: var(--text-body);
 }
 
 .error-message {
   margin: 10px 0;
   font-size: 24px;
-  color: var(--font-color-dark);
+  color: var(--text-color-primary);
 }
 
 .error-description {
   font-size: 16px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 20px;
 }
 

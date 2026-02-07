@@ -116,7 +116,7 @@ const childs = computed(() => nodesTree.getChildren(props.doc?.id).filter(c => c
 <style lang="scss" scoped>
 h4 {
   font-size: 14px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 aside {
@@ -125,7 +125,7 @@ aside {
   width: 350px;
   padding: 0 15px;
   font-size: 0.8rem;
-  border-left: 1px solid var(--border-color);
+  border-left: 1px solid var(--border);
 }
 
 .marker {
@@ -156,7 +156,7 @@ li:deep(a).active {
   display: flex;
   margin: 5px 0;
   font-weight: 450;
-  color: var(--font-color);
+  color: var(--text-body);
   transition: color 0.25s;
   align-items: flex-start;
   gap: 5px;

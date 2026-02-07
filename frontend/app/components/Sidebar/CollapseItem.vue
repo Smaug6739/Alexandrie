@@ -33,7 +33,7 @@ const toggleShow = () => nodesTree.toggleExpand(props.item.id);
 <style lang="scss" scoped>
 .collapse-header {
   svg {
-    fill: var(--font-color);
+    fill: var(--text-body);
 
     &.rotated {
       transform: rotate(-90deg);

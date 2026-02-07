@@ -265,7 +265,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .subtitle {
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .quick-actions {
@@ -282,9 +282,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .search-wrapper {
   display: flex;
   padding: 0.75rem 1rem;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--border);
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.2s;
   align-items: center;
 
@@ -295,20 +295,20 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .search-icon {
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-right: 0.75rem;
 }
 
 .search-input {
   border: none;
   font-size: 1rem;
-  color: var(--font-color);
+  color: var(--text-body);
   background: transparent;
   flex: 1;
   outline: none;
 
   &::placeholder {
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -318,7 +318,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   cursor: pointer;
 
   &:hover {
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
   }
 }
 
@@ -330,9 +330,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   z-index: 100;
   max-height: 400px;
   padding: 2px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 8px 32px rgb(0 0 0 / 12%);
   overflow-y: auto;
 }
@@ -341,14 +341,14 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   display: flex;
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  color: var(--font-color);
+  color: var(--text-body);
   transition: background 0.15s;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
 
   &:hover {
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
   }
 
   &:first-child {
@@ -382,15 +382,15 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .result-path {
   display: block;
   font-size: 0.8rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .result-type {
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
   font-size: 0.75rem;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
 }
 
 // Sections
@@ -447,10 +447,10 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .add-workspace {
   display: flex;
   min-height: 150px;
-  border: 2px dashed var(--border-color);
+  border: 2px dashed var(--border);
   border-radius: 12px;
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background: transparent;
   transition: all 0.2s;
   align-items: center;
@@ -482,13 +482,13 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .activity-date {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-transform: capitalize;
 }
 
 .activity-items {
   display: flex;
-  border-left: 2px solid var(--border-color);
+  border-left: 2px solid var(--border);
   flex-direction: column;
   gap: 0.25rem;
   padding-left: 1rem;
@@ -498,14 +498,14 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   display: flex;
   padding: 0.5rem;
   border-radius: 8px;
-  color: var(--font-color);
+  color: var(--text-body);
   transition: background 0.15s;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
 
   &:hover {
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
   }
 }
 
@@ -527,7 +527,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .activity-time {
   font-size: 0.8rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 // Stats
@@ -540,9 +540,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .stat-card {
   display: flex;
   padding: 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   align-items: center;
   gap: 1rem;
 }
@@ -565,7 +565,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .stat-label {
   font-size: 0.85rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 // Transitions

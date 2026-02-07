@@ -63,13 +63,13 @@ nav {
 
   &:hover {
     .separator {
-      background-color: var(--bg-contrast);
+      background-color: var(--surface-raised);
     }
   }
 }
 
 .open {
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--border);
   transform: translate(0);
 }
 

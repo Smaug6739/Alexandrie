@@ -19,9 +19,9 @@
       </li>
       <div v-if="!options.length" class="placeholder">No workspaces found</div>
       <hr />
-      <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--font-color-light)" /> New Workspace</div>
+      <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--text-secondary)" /> New Workspace</div>
       <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace"
-        ><Icon name="settings" fill="var(--font-color-light)" /> Edit Workspace</NuxtLink
+        ><Icon name="settings" fill="var(--text-secondary)" /> Edit Workspace</NuxtLink
       >
     </ul>
   </div>
@@ -74,17 +74,17 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   display: flex;
   margin: 4px 0;
   padding: 4px 10px 4px 4px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   transition: all 0.2s ease;
   align-items: center;
   cursor: pointer;
   justify-content: space-between;
 
   &:hover {
-    border-color: var(--border-color-accent);
-    box-shadow: 0 4px 8px var(--shadow);
+    border-color: var(--border-strong);
+    box-shadow: 0 4px 8px var(--shadow-sm);
   }
 
   svg {
@@ -99,13 +99,13 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 .placeholder {
   padding: 6px;
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
 .dropdown-selected.open {
-  border-color: var(--default);
-  box-shadow: 0 4px 16px var(--shadow);
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px var(--shadow-sm);
 
   svg {
     transform: rotate(180deg);
@@ -118,13 +118,13 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   width: 100%;
   margin: 0;
   padding: 4px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  color: var(--font-color);
-  background-color: var(--bg-color);
+  color: var(--text-body);
+  background-color: var(--surface-base);
   box-shadow:
-    0 8px 24px var(--shadow),
-    0 2px 8px var(--shadow);
+    0 8px 24px var(--shadow-sm),
+    0 2px 8px var(--shadow-sm);
   animation: slideDown 0.15s ease-out;
   list-style: none;
   overflow-y: auto;
@@ -152,11 +152,11 @@ li {
 
 li.selected {
   font-weight: 500;
-  background: var(--default-bg);
+  background: var(--accent-bg);
 }
 
 li:hover:not(.selected) {
-  background-color: var(--bg-contrast-2);
+  background-color: var(--surface-overlay);
 }
 
 li:active {
@@ -166,7 +166,7 @@ li:active {
 hr {
   margin: 6px 0;
   border: none;
-  border-top: 1px solid var(--border-color-light);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .workspaces-label {
@@ -174,7 +174,7 @@ hr {
   margin: 4px 6px;
   font-size: small;
   font-weight: 600;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .new-workspace {
@@ -184,18 +184,18 @@ hr {
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   transition: all 0.15s ease;
   align-items: center;
   cursor: pointer;
   gap: 6px;
 
   &:hover {
-    color: var(--font-color);
-    background-color: var(--bg-contrast-2);
+    color: var(--text-body);
+    background-color: var(--surface-overlay);
 
     svg {
-      fill: var(--default) !important;
+      fill: var(--accent) !important;
     }
   }
 }

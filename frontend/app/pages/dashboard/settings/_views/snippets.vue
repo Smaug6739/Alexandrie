@@ -34,7 +34,7 @@
         <div class="bulk-actions">
           <span class="selected-count">{{ selected.length }}</span>
           <span class="separator"></span>
-          <span class="action-btn" @click="bulkDelete(selected)"><Icon name="delete" fill="var(--font-color-light)" /></span>
+          <span class="action-btn" @click="bulkDelete(selected)"><Icon name="delete" fill="var(--text-secondary)" /></span>
         </div>
       </template>
       <template #action="{ cell }">
@@ -197,8 +197,8 @@ const handleDictImport = async (e: Event) => {
     padding: 0.15rem 0.5rem;
     border-radius: 999px;
     font-size: 0.75rem;
-    color: var(--font-color-light);
-    background: var(--bg-ui);
+    color: var(--text-secondary);
+    background: var(--surface-transparent);
     margin-left: 0.5rem;
   }
 
@@ -235,9 +235,9 @@ const handleDictImport = async (e: Event) => {
   z-index: 100;
   min-width: 160px;
   padding: 0.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   margin-top: 0.25rem;
 
@@ -248,7 +248,7 @@ const handleDictImport = async (e: Event) => {
     border: none;
     border-radius: 6px;
     font-size: 0.85rem;
-    color: var(--font-color);
+    color: var(--text-body);
     text-align: left;
     background: none;
     align-items: center;
@@ -256,7 +256,7 @@ const handleDictImport = async (e: Event) => {
     gap: 0.5rem;
 
     &:hover {
-      background: var(--bg-ui);
+      background: var(--surface-transparent);
     }
   }
 }
@@ -273,18 +273,18 @@ const handleDictImport = async (e: Event) => {
   width: 32px;
   height: 36px;
   padding: 6px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 4px;
   font-size: 13px;
   font-weight: bold;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   justify-content: center;
 }
 
 .separator {
   height: 32px;
-  border-left: 1px solid var(--border-color);
+  border-left: 1px solid var(--border);
   margin-left: 4px;
 }
 
@@ -301,7 +301,7 @@ const handleDictImport = async (e: Event) => {
 :deep(.snippet-code) {
   padding: 0.2rem 0.5rem;
   border-radius: 4px;
-  font-family: $monospace-font;
+  font-family: $font-mono;
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--primary);
