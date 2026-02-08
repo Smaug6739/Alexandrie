@@ -1,135 +1,83 @@
 <template>
-  <Teleport to="body">
-    <Transition name="modal" class="command-center-overlay">
-      <div v-if="isOpen" @click="closeSearch">
-        <div class="command-center-modal">
-          <!-- Header -->
-          <div class="search-header">
-            <div class="search-input-wrapper">
-              <Icon name="search" class="search-icon" />
-              <input
-                ref="searchInput"
-                v-model="searchQuery"
-                type="text"
-                placeholder="Search for a page, action, or document..."
-                class="search-input"
-                @keydown="handleSearchKeydown"
-              /><tag yellow style="height: fit-content">Beta</tag>
-            </div>
-            <button class="close-btn" @click="closeSearch">
-              <Icon name="close" />
-            </button>
-          </div>
-
-          <!-- Tab Navigation -->
-          <TabNavigation :active-tab="activeTab" @change-tab="changeTab" />
-
-          <!-- Tab Content -->
-          <div class="tab-content">
-            <QuickSearchTab
-              v-if="activeTab === 'quick'"
-              ref="quickSearchTab"
-              :search-query="searchQuery"
-              :selected-index="selectedIndex"
-              @select-item="handleQuickSelect"
-              @update-selected-index="updateSelectedIndex"
-            />
-
-            <AdvancedSearchTab
-              v-else-if="activeTab === 'advanced'"
-              ref="advancedSearchTab"
-              :query="searchQuery"
-              :selected-index="selectedIndex"
-              @select-document="handleDocumentSelect"
-              @update-selected-index="updateSelectedIndex"
-            />
-          </div>
-
-          <!-- Footer -->
-          <div class="search-footer">
-            <div class="shortcuts"><kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close</div>
-          </div>
-        </div>
+  <div class="command-center-modal" @click="handleOverlayClick">
+    <!-- Header -->
+    <div class="search-header">
+      <div class="search-input-wrapper">
+        <Icon name="search" class="search-icon" />
+        <input
+          ref="searchInput"
+          :value="searchQuery"
+          type="text"
+          placeholder="Search for a page, action, or document..."
+          class="search-input"
+          @input="handleSearchInput"
+          @keydown="handleSearchKeydown"
+        /><tag yellow class="tag">Beta</tag>
       </div>
-    </Transition>
-  </Teleport>
+    </div>
+
+    <!-- Tab Navigation -->
+    <TabNavigation @change-tab="handleTabChange" />
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+      <QuickSearchTab
+        v-if="activeTab === 'quick'"
+        ref="quickSearchTab"
+        :search-query="searchQuery"
+        :selected-index="selectedIndex"
+        @select-item="handleQuickSelect"
+        @update-selected-index="setSelectedIndex"
+      />
+
+      <AdvancedSearchTab
+        v-else-if="activeTab === 'advanced'"
+        ref="advancedSearchTab"
+        :query="searchQuery"
+        :selected-index="selectedIndex"
+        @select-document="handleDocumentSelect"
+        @update-selected-index="setSelectedIndex"
+      />
+    </div>
+
+    <!-- Footer -->
+    <div class="search-footer">
+      <div class="shortcuts"><kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close</div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import TabNavigation from './TabNavigation.vue';
 import QuickSearchTab from './QuickSearchTab.vue';
 import AdvancedSearchTab from './AdvancedSearchTab.vue';
 import type { Node } from '~/stores';
 
-const router = useRouter();
-const isOpen = ref(false);
-const searchQuery = ref('');
-const selectedIndex = ref(0);
-const activeTab = ref('quick');
+const { searchQuery, selectedIndex, activeTab, close, changeTab, setSearchQuery, setSelectedIndex } = useCommandCenter();
+
 const searchInput = ref<HTMLInputElement>();
 const quickSearchTab = ref();
 const advancedSearchTab = ref();
 
-const handleGlobalKeydown = (e: KeyboardEvent) => {
-  if (e.key === '/') {
-    const target = e.target as HTMLElement;
-    const isTyping = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
-    if (isTyping) return;
-    e.preventDefault();
-    return openSearch();
-  }
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    e.preventDefault();
-    return openSearch();
-  }
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'u') {
-    e.preventDefault();
-    return router.push('/dashboard/cdn');
-  }
-  if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'c') {
-    e.preventDefault();
-    return router.push('/dashboard/docs/new');
-  }
-  if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
-    e.preventDefault();
-    return useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
-  }
-  if (e.key === 'Escape' && isOpen.value) {
-    return closeSearch();
-  }
-  if ((e.key === 'ArrowRight' || e.key === 'ArrowLeft') && isOpen.value) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    return changeTab(activeTab.value === 'quick' ? 'advanced' : 'quick');
-  }
-};
-const openListener = () => openSearch();
-
-// *********** Lifecycle ***********
+// Focus input when opening
 onMounted(() => {
-  document.addEventListener('keydown', handleGlobalKeydown);
-  window.addEventListener('command-center-open', openListener as EventListener);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener('keydown', handleGlobalKeydown);
-  window.removeEventListener('command-center-open', openListener as EventListener);
+  nextTick(() => searchInput.value?.focus());
 });
 
 // --- Methods ---
-function openSearch() {
-  isOpen.value = true;
-  selectedIndex.value = 0;
-  searchQuery.value = '';
-  activeTab.value = 'quick';
-  nextTick(() => searchInput.value?.focus());
-  document.body.classList.add('modal-open');
+function handleSearchInput(e: Event) {
+  setSearchQuery((e.target as HTMLInputElement).value);
 }
 
-function closeSearch(e?: MouseEvent) {
+function handleTabChange(tabId: string) {
+  changeTab(tabId as 'quick' | 'advanced');
+  if (tabId === 'quick') {
+    nextTick(() => searchInput.value?.focus());
+  }
+}
+
+function handleOverlayClick(e: MouseEvent) {
   if (
-    e &&
     e.target &&
     (e.target as Element).closest('.command-center-modal') &&
     !(e.target as Element).closest('.close-btn') &&
@@ -137,35 +85,20 @@ function closeSearch(e?: MouseEvent) {
   )
     return;
 
-  isOpen.value = false;
-  searchQuery.value = '';
-  selectedIndex.value = 0;
-  document.body.classList.remove('modal-open');
-}
-
-function changeTab(tabId: string) {
-  activeTab.value = tabId;
-  selectedIndex.value = 0;
-  if (tabId === 'quick') {
-    nextTick(() => searchInput.value?.focus());
-  }
-}
-
-function updateSelectedIndex(index: number) {
-  selectedIndex.value = index;
+  close();
 }
 
 function handleQuickSelect() {
-  const selectedItem = quickSearchTab.value.flattenedItems[selectedIndex.value];
+  const selectedItem = quickSearchTab.value?.flattenedItems?.[selectedIndex.value];
   if (selectedItem) {
     navigateTo(selectedItem.path);
-    closeSearch();
+    close();
   }
 }
 
 function handleDocumentSelect(document: Node) {
   navigateTo(`/dashboard/docs/${document.id}`);
-  closeSearch();
+  close();
 }
 
 function handleSearchKeydown(e: KeyboardEvent) {
@@ -178,10 +111,10 @@ function handleSearchKeydown(e: KeyboardEvent) {
   const maxIndex = items.length - 1;
   if ((e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) && selectedIndex.value < maxIndex) {
     e.preventDefault();
-    selectedIndex.value = (selectedIndex.value + 1) % Math.max(maxIndex + 1, 1);
+    setSelectedIndex((selectedIndex.value + 1) % Math.max(maxIndex + 1, 1));
   } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey && selectedIndex.value > 0)) {
     e.preventDefault();
-    selectedIndex.value = (selectedIndex.value - 1 + Math.max(maxIndex + 1, 1)) % Math.max(maxIndex + 1, 1);
+    setSelectedIndex((selectedIndex.value - 1 + Math.max(maxIndex + 1, 1)) % Math.max(maxIndex + 1, 1));
   } else if (e.key === 'Enter' && items.length > 0) {
     e.preventDefault();
     if (activeTab.value === 'quick') {
@@ -194,48 +127,12 @@ function handleSearchKeydown(e: KeyboardEvent) {
     }
   }
 }
-
-defineExpose({ openSearch, closeSearch });
-
-watch(searchQuery, () => (selectedIndex.value = 0));
 </script>
 
 <style scoped lang="scss">
-.command-center-overlay {
-  position: fixed;
-  z-index: 500;
-  display: flex;
-  background: rgb(0 0 0 / 50%);
-  align-items: flex-start;
-  inset: 0;
-  justify-content: center;
-  padding-top: 8vh;
-}
-
-.modal-enter-active,
-.modal-leave-active {
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-  transform: scale(1.1);
-}
-
 .command-center-modal {
-  position: relative;
-  z-index: 1000;
   display: flex;
-  width: 92%;
-  max-width: 720px;
-  max-height: 85vh;
-  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--surface-base);
-  box-shadow: 0 20px 60px rgb(0 0 0 / 30%);
   flex-direction: column;
   overflow: auto;
 }
@@ -274,16 +171,9 @@ watch(searchQuery, () => (selectedIndex.value = 0));
   outline: none;
 }
 
-.close-btn {
-  padding: 8px;
-  border: none;
-  border-radius: var(--radius-md);
-  background: transparent;
-  cursor: pointer;
-
-  &:hover {
-    background: var(--border);
-  }
+.tag {
+  height: fit-content;
+  margin-right: 20px;
 }
 
 .tab-content {
@@ -301,6 +191,7 @@ watch(searchQuery, () => (selectedIndex.value = 0));
 
 .shortcuts {
   display: flex;
+  align-items: center;
   font-size: 13px;
   font-weight: 500;
   flex-wrap: wrap;

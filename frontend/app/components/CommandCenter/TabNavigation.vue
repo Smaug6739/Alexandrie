@@ -8,10 +8,10 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{ activeTab: string }>();
 const emit = defineEmits<{ 'change-tab': [tabId: string] }>();
 
 const handleClick = (tabId: string) => emit('change-tab', tabId);
+const { changeTab, activeTab } = useCommandCenter();
 
 interface Tab {
   id: string;
@@ -31,6 +31,22 @@ const tabs: Tab[] = [
     icon: 'layers',
   },
 ];
+
+const handleKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    changeTab(activeTab.value === 'quick' ? 'advanced' : 'quick');
+  }
+};
+
+// Add global keydown listener for tab switching (priority capture to override other handlers)
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown, { capture: true });
+});
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown, { capture: true });
+});
 </script>
 
 <style scoped lang="scss">

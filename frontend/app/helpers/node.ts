@@ -2,10 +2,10 @@
  * Node utilities - centralized helpers for working with nodes (documents, categories, workspaces, resources)
  * Roles: 1 = Workspace, 2 = Category, 3 = Document, 4 = Resource
  */
-import type { DB_Node, Node } from '~/stores';
+import type { DB_Node, Node, NodeSearchResult } from '~/stores';
 
 /** Resolve the appropriate icon for a node based on its role and properties */
-export const resolveIcon = (item: Node | DB_Node): string => {
+export const resolveIcon = (item: Node | DB_Node | NodeSearchResult): string => {
   if (item.icon) return item.icon;
   if (item.role === 1) return 'workspace';
   if (item.role === 2 && 'shared' in item) return item.shared ? 'shared_folder' : 'folder';

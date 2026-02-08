@@ -68,6 +68,7 @@
 
 <script setup lang="ts">
 import SearchResultsList from './SearchResultsList.vue';
+import { resolveIcon } from '~/helpers/node';
 import type { Node, NodeSearchResult } from '~/stores';
 
 const props = defineProps<{ query: string; selectedIndex: number }>();
@@ -178,7 +179,7 @@ watch(
 const flattenedItems = computed(() => {
   return searchResults.value.map((doc, idx) => ({
     id: doc.id,
-    icon: getDocumentIcon(doc),
+    icon: resolveIcon(doc),
     title: doc.name,
     description: buildDescription(doc),
     path: `/dashboard/docs/${doc.id}`,
@@ -243,11 +244,6 @@ function clearFilters() {
   dateTo.value = '';
   dateType.value = 'modified';
   searchInContent.value = true;
-}
-
-function getDocumentIcon(doc: NodeSearchResult | Node): string {
-  if ('order' in doc && doc.order == -1) return 'pin';
-  return 'files';
 }
 
 defineExpose({ flattenedItems });

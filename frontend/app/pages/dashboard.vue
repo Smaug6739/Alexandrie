@@ -4,7 +4,6 @@
       <BackToTop />
     </ClientOnly>
     <Sidebar />
-    <CommandCenter />
     <MediumView>
       <Navbar />
       <div class="content">
@@ -21,6 +20,15 @@ const userStore = useUserStore();
 
 nodesStore.init();
 userStore.fetch();
+
+const { initGlobalListeners, destroyGlobalListeners } = useCommandCenter();
+
+onMounted(() => {
+  initGlobalListeners();
+});
+onBeforeUnmount(() => {
+  destroyGlobalListeners();
+});
 </script>
 
 <style lang="scss">

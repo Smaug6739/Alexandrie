@@ -16,6 +16,7 @@ function close(modal: Modal) {
   const index = modals.value.indexOf(modal);
   if (index !== -1) {
     modals.value.splice(index, 1);
+    if (modal.options.onClose) modal.options.onClose();
   }
   if (modals.value.length === 0) {
     document.body.classList.remove('modal-open');
@@ -30,6 +31,9 @@ function closeLast() {
 
 /** Close all modals in the stack */
 function closeAll() {
+  modals.value.forEach(modal => {
+    if (modal.options.onClose) modal.options.onClose();
+  });
   modals.value = [];
   document.body.classList.remove('modal-open');
 }
@@ -42,6 +46,7 @@ interface ModalOptions {
   size?: 'small' | 'medium' | 'large';
   noPadding?: boolean;
   props?: object;
+  onClose?: () => void;
 }
 
 export class Modal {
