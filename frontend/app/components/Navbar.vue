@@ -28,7 +28,7 @@
 const { toggleSidebar, isOpened } = useSidebar();
 const preferences = usePreferences();
 
-const openCommandCenter = () => window.dispatchEvent(new CustomEvent('command-center-open'));
+const openCommandCenter = () => useCommandCenter().open();
 </script>
 
 <style lang="scss" scoped>

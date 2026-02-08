@@ -1,6 +1,5 @@
 <template>
-  <div class="command-center-modal" @click="handleOverlayClick">
-    <!-- Header -->
+  <div class="command-center">
     <div class="search-header">
       <div class="search-input-wrapper">
         <Icon name="search" class="search-icon" />
@@ -11,38 +10,26 @@
           placeholder="Search for a page, action, or document..."
           class="search-input"
           @input="handleSearchInput"
-          @keydown="handleSearchKeydown"
+          @keydown="handleKeydown"
         /><tag yellow class="tag">Beta</tag>
       </div>
     </div>
 
-    <!-- Tab Navigation -->
-    <TabNavigation @change-tab="handleTabChange" />
+    <TabNavigation />
 
-    <!-- Tab Content -->
     <div class="tab-content">
       <QuickSearchTab
         v-if="activeTab === 'quick'"
         ref="quickSearchTab"
         :search-query="searchQuery"
         :selected-index="selectedIndex"
-        @select-item="handleQuickSelect"
         @update-selected-index="setSelectedIndex"
       />
-
-      <AdvancedSearchTab
-        v-else-if="activeTab === 'advanced'"
-        ref="advancedSearchTab"
-        :query="searchQuery"
-        :selected-index="selectedIndex"
-        @select-document="handleDocumentSelect"
-        @update-selected-index="setSelectedIndex"
-      />
+      <AdvancedSearchTab v-else ref="advancedSearchTab" :query="searchQuery" :selected-index="selectedIndex" @update-selected-index="setSelectedIndex" />
     </div>
 
-    <!-- Footer -->
     <div class="search-footer">
-      <div class="shortcuts"><kbd>↑↓</kbd> or <kbd>Tab</kbd>Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Escape</kbd> Close</div>
+      <div class="shortcuts"><kbd>↑↓</kbd> Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Esc</kbd> Close</div>
     </div>
   </div>
 </template>
@@ -51,86 +38,46 @@
 import TabNavigation from './TabNavigation.vue';
 import QuickSearchTab from './QuickSearchTab.vue';
 import AdvancedSearchTab from './AdvancedSearchTab.vue';
-import type { Node } from '~/stores';
 
-const { searchQuery, selectedIndex, activeTab, close, changeTab, setSearchQuery, setSelectedIndex } = useCommandCenter();
+const { searchQuery, selectedIndex, activeTab, close, setSearchQuery, setSelectedIndex } = useCommandCenter();
 
 const searchInput = ref<HTMLInputElement>();
-const quickSearchTab = ref();
-const advancedSearchTab = ref();
+const quickSearchTab = ref<InstanceType<typeof QuickSearchTab>>();
+const advancedSearchTab = ref<InstanceType<typeof AdvancedSearchTab>>();
 
-// Focus input when opening
-onMounted(() => {
-  nextTick(() => searchInput.value?.focus());
-});
+onMounted(() => nextTick(() => searchInput.value?.focus()));
 
-// --- Methods ---
+function getItems() {
+  return activeTab.value === 'quick' ? quickSearchTab.value?.flattenedItems || [] : advancedSearchTab.value?.flattenedItems || [];
+}
+
 function handleSearchInput(e: Event) {
   setSearchQuery((e.target as HTMLInputElement).value);
 }
 
-function handleTabChange(tabId: string) {
-  changeTab(tabId as 'quick' | 'advanced');
-  if (tabId === 'quick') {
-    nextTick(() => searchInput.value?.focus());
-  }
-}
+function handleKeydown(e: KeyboardEvent) {
+  const items = getItems();
+  const max = items.length - 1;
 
-function handleOverlayClick(e: MouseEvent) {
-  if (
-    e.target &&
-    (e.target as Element).closest('.command-center-modal') &&
-    !(e.target as Element).closest('.close-btn') &&
-    !(e.target as Element).closest('.search-results-list')
-  )
-    return;
-
-  close();
-}
-
-function handleQuickSelect() {
-  const selectedItem = quickSearchTab.value?.flattenedItems?.[selectedIndex.value];
-  if (selectedItem) {
-    navigateTo(selectedItem.path);
-    close();
-  }
-}
-
-function handleDocumentSelect(document: Node) {
-  navigateTo(`/dashboard/docs/${document.id}`);
-  close();
-}
-
-function handleSearchKeydown(e: KeyboardEvent) {
-  let items = [];
-  if (activeTab.value === 'quick') {
-    items = quickSearchTab.value?.flattenedItems || [];
-  } else if (activeTab.value === 'advanced') {
-    items = advancedSearchTab.value?.flattenedItems || [];
-  }
-  const maxIndex = items.length - 1;
-  if ((e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) && selectedIndex.value < maxIndex) {
+  if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
     e.preventDefault();
-    setSelectedIndex((selectedIndex.value + 1) % Math.max(maxIndex + 1, 1));
-  } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey && selectedIndex.value > 0)) {
+    setSelectedIndex(selectedIndex.value < max ? selectedIndex.value + 1 : 0);
+  } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
     e.preventDefault();
-    setSelectedIndex((selectedIndex.value - 1 + Math.max(maxIndex + 1, 1)) % Math.max(maxIndex + 1, 1));
-  } else if (e.key === 'Enter' && items.length > 0) {
+    setSelectedIndex(selectedIndex.value > 0 ? selectedIndex.value - 1 : max);
+  } else if (e.key === 'Enter' && items.length) {
     e.preventDefault();
-    if (activeTab.value === 'quick') {
-      handleQuickSelect();
-    } else if (activeTab.value === 'advanced') {
-      const selectedItem = items[selectedIndex.value];
-      if (selectedItem) {
-        handleDocumentSelect(selectedItem);
-      }
+    const item = items[selectedIndex.value];
+    if (item?.path) {
+      close();
+      navigateTo(item.path);
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.command-center-modal {
+.command-center {
   display: flex;
   border-radius: 16px;
   flex-direction: column;
@@ -142,7 +89,6 @@ function handleSearchKeydown(e: KeyboardEvent) {
   padding: 20px;
   align-items: center;
   border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
   gap: 12px;
 }
 
@@ -163,21 +109,19 @@ function handleSearchKeydown(e: KeyboardEvent) {
 }
 
 .search-input {
+  width: 100%;
   padding: 12px 12px 12px 44px;
   border: none;
   font-size: 16px;
   background: transparent;
-  flex: 1;
   outline: none;
 }
 
 .tag {
-  height: fit-content;
-  margin-right: 20px;
+  margin-right: 25px;
 }
 
 .tab-content {
-  position: relative;
   min-height: 0;
   flex: 1;
   overflow: auto;
@@ -186,7 +130,6 @@ function handleSearchKeydown(e: KeyboardEvent) {
 .search-footer {
   padding: 16px 20px;
   border-top: 1px solid var(--border);
-  flex-shrink: 0;
 }
 
 .shortcuts {
@@ -196,17 +139,5 @@ function handleSearchKeydown(e: KeyboardEvent) {
   font-weight: 500;
   flex-wrap: wrap;
   gap: 10px;
-}
-
-@media (width <= 768px) {
-  .command-center-modal {
-    width: 95%;
-    max-height: 80vh;
-    margin: 20px;
-  }
-
-  .shortcuts {
-    gap: 8px;
-  }
 }
 </style>

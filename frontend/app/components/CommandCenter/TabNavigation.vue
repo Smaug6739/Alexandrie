@@ -1,6 +1,6 @@
 <template>
   <div class="tab-navigation">
-    <button v-for="tab in tabs" :key="tab.id" class="tab-button" :class="{ active: activeTab === tab.id }" @click="handleClick(tab.id)">
+    <button v-for="tab in tabs" :key="tab.id" class="tab-button" :class="{ active: activeTab === tab.id }" @click="changeTab(tab.id as 'quick' | 'advanced')">
       <Icon :name="tab.icon" class="tab-icon" />
       <span class="tab-label">{{ tab.label }}</span>
     </button>
@@ -8,57 +8,34 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{ 'change-tab': [tabId: string] }>();
-
-const handleClick = (tabId: string) => emit('change-tab', tabId);
 const { changeTab, activeTab } = useCommandCenter();
 
-interface Tab {
-  id: string;
-  label: string;
-  icon: string;
-}
+const tabs = [
+  { id: 'quick', label: 'Quick Search', icon: 'search' },
+  { id: 'advanced', label: 'Advanced Search', icon: 'layers' },
+] as const;
 
-const tabs: Tab[] = [
-  {
-    id: 'quick',
-    label: 'Quick Search',
-    icon: 'search',
-  },
-  {
-    id: 'advanced',
-    label: 'Advanced Search',
-    icon: 'layers',
-  },
-];
-
-const handleKeydown = (e: KeyboardEvent) => {
+function handleKeydown(e: KeyboardEvent) {
   if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
     e.stopImmediatePropagation();
     e.preventDefault();
     changeTab(activeTab.value === 'quick' ? 'advanced' : 'quick');
   }
-};
+}
 
-// Add global keydown listener for tab switching (priority capture to override other handlers)
-onMounted(() => {
-  window.addEventListener('keydown', handleKeydown, { capture: true });
-});
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeydown, { capture: true });
-});
+onMounted(() => window.addEventListener('keydown', handleKeydown, { capture: true }));
+onUnmounted(() => window.removeEventListener('keydown', handleKeydown, { capture: true }));
 </script>
 
 <style scoped lang="scss">
 .tab-navigation {
   display: flex;
-  background: var(--surface-base);
   border-bottom: 1px solid var(--border);
 }
 
 .tab-button {
   display: flex;
-  padding: 16px 20px;
+  padding: 14px 20px;
   border: none;
   border-radius: 0;
   font-size: 14px;
@@ -80,9 +57,5 @@ onUnmounted(() => {
 .tab-icon {
   width: 16px;
   height: 16px;
-}
-
-.tab-label {
-  white-space: nowrap;
 }
 </style>

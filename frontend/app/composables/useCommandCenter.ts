@@ -7,37 +7,49 @@ interface CommandCenterState {
   searchQuery: string;
   selectedIndex: number;
   activeTab: TabType;
+  isOpen: boolean;
 }
 
-// Singleton state shared across all component instances
 const state = reactive<CommandCenterState>({
   searchQuery: '',
   selectedIndex: 0,
   activeTab: 'quick',
+  isOpen: false,
 });
 
 let isInitialized = false;
 
+// Singleton modal instance
+let modal: Modal | null = null;
+
+function reset() {
+  state.searchQuery = '';
+  state.selectedIndex = 0;
+  state.activeTab = 'quick';
+  state.isOpen = false;
+}
+
+function getModal() {
+  if (!modal) {
+    modal = new Modal(shallowRef(CommandCenter), { noPadding: true, onClose: reset });
+  }
+  return modal;
+}
+
 export function useCommandCenter() {
   const router = useRouter();
   const modalManager = useModal();
-  const modal = new Modal(shallowRef(CommandCenter), { noPadding: true, onClose: afterClose });
 
-  // --- Methods ---
   function open() {
-    state.selectedIndex = 0;
-    state.searchQuery = '';
-    state.activeTab = 'quick';
-    modalManager.add(modal);
+    if (state.isOpen) return;
+    reset();
+    state.isOpen = true;
+    modalManager.add(getModal());
   }
 
   function close() {
-    modalManager.close(modal);
-  }
-
-  function afterClose() {
-    state.searchQuery = '';
-    state.selectedIndex = 0;
+    if (!state.isOpen) return;
+    modalManager.close(getModal());
   }
 
   function changeTab(tabId: TabType) {
@@ -54,12 +66,12 @@ export function useCommandCenter() {
     state.selectedIndex = index;
   }
 
-  // --- Global keyboard shortcuts handler ---
+  // --- Global keyboard shortcuts ---
   function handleGlobalKeydown(e: KeyboardEvent) {
-    if (e.key === '/') {
-      const target = e.target as HTMLElement;
-      const isTyping = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
-      if (isTyping) return;
+    const target = e.target as HTMLElement;
+    const isTyping = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable;
+
+    if (e.key === '/' && !isTyping) {
       e.preventDefault();
       return open();
     }
@@ -77,24 +89,22 @@ export function useCommandCenter() {
     }
     if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
       e.preventDefault();
-      return useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+      return modalManager.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
     }
   }
 
-  // --- Initialize global listeners (called once) ---
   function initGlobalListeners() {
     if (isInitialized) return;
     isInitialized = true;
 
     document.addEventListener('keydown', handleGlobalKeydown);
-    window.addEventListener('command-center-open', open as EventListener);
   }
 
-  // --- Cleanup global listeners ---
   function destroyGlobalListeners() {
+    if (!isInitialized) return;
     isInitialized = false;
+
     document.removeEventListener('keydown', handleGlobalKeydown);
-    window.removeEventListener('command-center-open', open as EventListener);
   }
 
   return {
