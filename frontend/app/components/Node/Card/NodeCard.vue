@@ -94,7 +94,7 @@ function showContextMenu(event: MouseEvent) {
   font-size: 17px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   transition: color 0.15s;
 
   &:hover {

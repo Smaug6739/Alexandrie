@@ -156,7 +156,7 @@ function toggleExpand() {
 .node-name {
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   transition: color 0.15s;
   overflow: hidden;
   text-overflow: ellipsis;

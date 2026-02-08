@@ -57,7 +57,7 @@ const props = defineProps({
 .error-message {
   margin: 10px 0;
   font-size: 24px;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
 }
 
 .error-description {

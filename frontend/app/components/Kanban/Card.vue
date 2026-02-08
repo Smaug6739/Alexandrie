@@ -115,7 +115,7 @@ const onDragEnd = () => {
   font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   transition: color $transition-base;
   margin-bottom: 4px;
   text-decoration: none;

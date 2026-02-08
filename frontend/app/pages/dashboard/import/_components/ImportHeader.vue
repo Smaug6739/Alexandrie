@@ -81,7 +81,7 @@ h2 {
 
   .label {
     font-size: 0.75rem;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
     text-transform: uppercase;
   }
 
@@ -101,7 +101,7 @@ h2 {
     padding: 0.25rem 0.5rem;
     border-radius: $radius-sm;
     font-size: 0.75rem;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
     background: var(--bg-color-2);
     opacity: 0.5;
     align-items: center;

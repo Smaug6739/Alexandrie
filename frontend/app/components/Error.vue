@@ -52,7 +52,7 @@ const handleError = computed(() => {
   margin: 10px 0;
   font-size: 24px;
   font-weight: bold;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
 }
 
 .error-description {

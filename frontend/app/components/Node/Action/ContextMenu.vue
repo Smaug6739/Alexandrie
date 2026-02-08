@@ -122,7 +122,7 @@ async function action(name: string) {
 .header-name {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

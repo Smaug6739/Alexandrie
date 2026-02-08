@@ -257,7 +257,7 @@ defineExpose({ reset });
 .name {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -302,7 +302,7 @@ footer {
 .total {
   font-size: 13px;
   font-weight: 500;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
 }
 
 .link {

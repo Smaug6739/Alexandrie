@@ -96,7 +96,7 @@ const close = (id: number) => manager.remove(id);
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
 }
 
 .message {

@@ -183,7 +183,7 @@ const closeModal = () => {
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   text-align: center;
   background: var(--bg-color-secondary);
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
@@ -204,7 +204,7 @@ const closeModal = () => {
     border-radius: 10px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
     background: var(--bg-color-secondary);
     transition: all 0.3s ease;
     cursor: pointer;

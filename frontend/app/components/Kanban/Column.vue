@@ -228,7 +228,7 @@ function handleClickOutside(e: MouseEvent) {
   border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   transition: color $transition-base;
   cursor: pointer;
   flex: 1;
@@ -244,7 +244,7 @@ function handleClickOutside(e: MouseEvent) {
   border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   background: var(--surface-base);
   box-shadow: 0 0 0 3px rgb(57 86 231 / 10%);
   flex: 1;
@@ -325,7 +325,7 @@ function handleClickOutside(e: MouseEvent) {
   }
 
   &.active {
-    border-color: var(--text-color-primary);
+    border-color: var(--text-primary);
     box-shadow: 0 0 0 2px var(--surface-base);
   }
 }

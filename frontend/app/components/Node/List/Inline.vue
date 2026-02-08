@@ -102,7 +102,7 @@ header {
 .name {
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   transition: color 0.15s;
   text-decoration: none;
 

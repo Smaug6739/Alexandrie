@@ -345,7 +345,7 @@ onUnmounted(() => {
 .progress-message {
   font-size: 1rem;
   font-weight: bold;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   margin-bottom: 0.75rem;
 }
 
@@ -368,7 +368,7 @@ onUnmounted(() => {
 .expiry-notice {
   display: flex;
   font-size: 0.75rem;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   align-items: center;
   gap: 0.25rem;
   justify-content: center;

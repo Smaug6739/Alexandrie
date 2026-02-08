@@ -227,7 +227,7 @@ onMounted(() => {
 .section-title {
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   padding-left: 16px;
   text-transform: uppercase;
 }
@@ -403,7 +403,7 @@ onMounted(() => {
   .hex-value {
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
   }
 
   .hsv-values {
@@ -461,7 +461,7 @@ onMounted(() => {
   font-family: Monaco, Menlo, 'Ubuntu Mono', monospace;
   font-size: 14px;
   font-weight: 600;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   background: transparent;
   flex: 1;
   letter-spacing: 1px;

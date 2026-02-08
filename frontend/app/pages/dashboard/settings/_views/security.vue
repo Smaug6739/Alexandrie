@@ -402,7 +402,7 @@ p {
     margin: 0 0 0.25rem;
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
   }
 
   > p {

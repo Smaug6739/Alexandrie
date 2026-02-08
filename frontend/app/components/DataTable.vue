@@ -179,7 +179,7 @@ td {
 
 th {
   font-size: 13px;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   background: var(--surface-transparent);
 
   &.align-right {
@@ -274,7 +274,7 @@ input {
 
 .ellipsis {
   margin: 0 5px;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
 }
 
 @media screen and (width <= 768px) {

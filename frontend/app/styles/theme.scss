@@ -166,7 +166,7 @@ kbd {
 	font-family: Inter;
 	font-size: 13px;
 	font-weight: 400;
-	color: var(--text-color-primary);
+	color: var(--text-primary);
 	background-color: var(--surface-base);
 }
 
@@ -216,7 +216,7 @@ thead th {
 /* Cells */
 tbody td {
 	padding: 0.5rem 1rem;
-	color: var(--text-color-primary);
+	color: var(--text-primary);
 	border-bottom: 1px solid var(--border);
 }
 

@@ -73,7 +73,7 @@ const totalCount = computed(() => props.nodes.length);
     border: none;
     font-size: 1rem;
     font-weight: 600;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
     align-items: center;
     gap: 0.5rem;
   }

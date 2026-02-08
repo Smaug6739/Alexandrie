@@ -122,7 +122,7 @@ const selectImage = (image: Node) => {
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 14px;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
     background: var(--bg-color-secondary);
 
     &:focus {
@@ -172,7 +172,7 @@ const selectImage = (image: Node) => {
       display: block;
       font-size: 14px;
       font-weight: 500;
-      color: var(--text-color-primary);
+      color: var(--text-primary);
       margin-bottom: 4px;
       overflow: hidden;
       text-overflow: ellipsis;

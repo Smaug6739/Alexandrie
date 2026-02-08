@@ -35,9 +35,9 @@ $radius-xl: 20px;
 	// TEXT
 	// -------------------------------------------------------------------------
 	--text-body: #3c4450;
-	--text-color-primary: #3c3b3d;
-	--text-color-secondary: #5b5967;
-	--text-color-muted: #666;
+	--text-primary: #3c3b3d;
+	--text-secondary: #5b5967;
+	--text-muted: #666;
 	--text-inverse: #111;
 
 	// -------------------------------------------------------------------------
@@ -137,9 +137,9 @@ $radius-xl: 20px;
 	// TEXT
 	// -------------------------------------------------------------------------
 	--text-body: #d1d2d5;
-	--text-color-primary: #d1d5db;
-	--text-color-secondary: #8a9099;
-	--text-color-muted: #8a9099;
+	--text-primary: #d1d5db;
+	--text-secondary: #8a9099;
+	--text-muted: #8a9099;
 	--text-inverse: #f4f4f4;
 
 	// -------------------------------------------------------------------------
@@ -225,8 +225,8 @@ $radius-xl: 20px;
 		--surface-overlay: #ECF2FF;
 		--selection-color: #e1f2ff;
 		--text-body: #1f2937;
-		--text-color-primary: #374151;
-		--text-color-muted: #6b7280;
+		--text-primary: #374151;
+		--text-muted: #6b7280;
 		--border: rgb(0 0 0 / 10%);
 		// COLORS \\
 		--grey: #666;

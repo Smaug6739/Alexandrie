@@ -217,7 +217,7 @@ const bulkDelete = async (lines: Field[]) => {
     .storage-values {
       font-size: 14px;
       font-weight: 600;
-      color: var(--text-color-primary);
+      color: var(--text-primary);
     }
   }
 
@@ -280,7 +280,7 @@ const bulkDelete = async (lines: Field[]) => {
     border-radius: 6px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
     background: var(--bg-color-secondary);
     white-space: pre-wrap;
     word-break: break-all;
@@ -367,7 +367,7 @@ const bulkDelete = async (lines: Field[]) => {
       display: block;
       font-size: 14px;
       font-weight: 500;
-      color: var(--text-color-primary);
+      color: var(--text-primary);
       margin-bottom: 4px;
       overflow: hidden;
       text-overflow: ellipsis;

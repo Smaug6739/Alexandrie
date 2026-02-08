@@ -183,7 +183,7 @@ const autoSave = debounceDelayed(() => {
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   background: transparent;
   transition: background 0.15s ease;
   flex: 0 1 auto;

@@ -106,7 +106,7 @@ h1 {
   padding: 0;
   font-size: 22px;
   font-weight: 550;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
 }
 
 .description {

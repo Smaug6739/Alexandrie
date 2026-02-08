@@ -109,7 +109,7 @@ section {
 .section-title {
   font-size: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
   font-weight: 800;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   text-align: center;
   margin-bottom: 1rem;
 }

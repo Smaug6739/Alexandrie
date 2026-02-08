@@ -172,7 +172,7 @@ const deviceType = computed(() => {
 
   .browser {
     font-weight: 600;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
   }
 
   .os {

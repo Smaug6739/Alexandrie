@@ -185,7 +185,7 @@ function importLocalSettings() {
     padding: 1rem 1.5rem;
     border: none;
     font-size: 15px;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
     background: none;
     transition: all 0.2s ease;
     border-bottom: 2px solid transparent;
@@ -210,7 +210,7 @@ function importLocalSettings() {
 .empty-state {
   display: flex;
   padding: 3rem;
-  color: var(--text-color-primary);
+  color: var(--text-primary);
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -273,7 +273,7 @@ function importLocalSettings() {
 
   .doc-meta {
     font-size: 0.75rem;
-    color: var(--text-color-primary);
+    color: var(--text-primary);
 
     .separator {
       margin: 0 0.25rem;
@@ -310,7 +310,7 @@ function importLocalSettings() {
         }
 
         .version-date {
-          color: var(--text-color-primary);
+          color: var(--text-primary);
         }
 
         &.backup .version-date {
@@ -319,7 +319,7 @@ function importLocalSettings() {
       }
 
       .arrow {
-        color: var(--text-color-primary);
+        color: var(--text-primary);
       }
     }
   }
