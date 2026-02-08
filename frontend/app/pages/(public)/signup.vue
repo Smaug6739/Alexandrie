@@ -170,7 +170,9 @@ input {
   border-radius: var(--radius-md);
   font-size: 1rem;
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition:
+    border-color $transition-fast ease,
+    box-shadow $transition-fast ease;
 
   &:focus {
     border-color: var(--primary);
@@ -198,7 +200,9 @@ input {
   border: none;
   border-radius: 50%;
   background: transparent;
-  transition: all 0.2s ease;
+  transition:
+    background-color $transition-fast ease,
+    transform $transition-fast ease;
   align-items: center;
   cursor: pointer;
   justify-content: center;
@@ -217,7 +221,7 @@ input {
   display: flex;
   width: 20px;
   height: 20px;
-  transition: all 0.3s ease;
+  transition: transform $transition-medium ease;
   align-items: center;
   justify-content: center;
 
@@ -228,7 +232,7 @@ input {
   svg {
     width: 18px;
     height: 18px;
-    transition: all 0.3s ease;
+    transition: transform $transition-medium ease;
   }
 }
 
@@ -239,7 +243,7 @@ input {
   font-weight: 500;
   color: var(--primary);
   text-align: center;
-  transition: all 0.2s ease;
+  transition: color $transition-fast ease;
   text-decoration: none;
 
   &:hover {
@@ -258,7 +262,10 @@ input {
   font-weight: 600;
   color: white;
   background-color: var(--primary);
-  transition: all 0.2s ease;
+  transition:
+    background-color $transition-fast ease,
+    box-shadow $transition-fast ease,
+    transform $transition-fast ease;
   cursor: pointer;
   margin-top: 1rem;
 

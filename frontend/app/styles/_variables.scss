@@ -5,11 +5,15 @@ $font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
 // Transitions
 $transition-fast: 0.15s;
 $transition-base: 0.25s;
+$transition-medium: 0.3s;
 $transition-slow: 0.4s;
 
 
 // Global variables
 :root {
+	// Transitions (CSS custom properties for inline styles)
+	--transition-medium: #{$transition-medium};
+
 	// Border radius
 	--radius-xs: 4px;
 	--radius-sm: 6px;

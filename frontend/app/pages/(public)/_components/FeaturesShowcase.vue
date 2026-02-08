@@ -21,7 +21,7 @@
 
       <div class="showcase-display">
         <div class="display-wrapper">
-          <TransitionGroup name="showcase">
+          <TransitionGroup name="fade">
             <div v-for="(item, index) in features" v-show="activeIndex === index" :key="index" class="display-item">
               <div class="display-content">
                 <h3>{{ item.title }}</h3>
@@ -152,7 +152,11 @@ onUnmounted(() => {
   border-radius: 16px;
   text-align: left;
   background: var(--surface-base);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    transform $transition-medium ease,
+    background-color $transition-medium ease,
+    box-shadow $transition-medium ease;
   align-items: flex-start;
   cursor: pointer;
   gap: 1rem;
@@ -184,7 +188,9 @@ onUnmounted(() => {
   font-weight: 700;
   color: var(--text-secondary);
   background: var(--surface-raised);
-  transition: all 0.3s ease;
+  transition:
+    color $transition-medium ease,
+    background-color $transition-medium ease;
   align-items: center;
   justify-content: center;
 }
@@ -289,17 +295,6 @@ onUnmounted(() => {
     display: block;
     width: 100%;
   }
-}
-
-// Transitions - simple opacity fade to avoid layout shifts
-.showcase-enter-active,
-.showcase-leave-active {
-  transition: opacity 0.4s ease;
-}
-
-.showcase-enter-from,
-.showcase-leave-to {
-  opacity: 0;
 }
 
 @media screen and (width <= 1024px) {

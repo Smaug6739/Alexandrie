@@ -144,7 +144,9 @@ section {
     position: relative;
     display: flex;
     opacity: 0;
-    transition: all 0.8s ease;
+    transition:
+      opacity 0.8s ease,
+      transform 0.8s ease;
     align-items: center;
     margin-bottom: 5rem;
     transform: translateY(40px);

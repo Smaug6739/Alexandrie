@@ -292,7 +292,7 @@ defineExpose({ flattenedItems });
   border: none;
   border-radius: 4px;
   background: transparent;
-  transition: transform 0.2s ease;
+  transition: transform $transition-fast ease;
   align-items: center;
   cursor: pointer;
   justify-content: center;

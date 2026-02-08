@@ -65,7 +65,9 @@ button {
   border: none;
   border-radius: var(--radius-sm);
   background: var(--border);
-  transition: all 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
   align-items: center;
   cursor: pointer;
   gap: 8px;

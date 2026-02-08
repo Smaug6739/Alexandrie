@@ -230,7 +230,10 @@ onMounted(() => {
   border: 3px solid transparent;
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
 
@@ -407,7 +410,10 @@ onMounted(() => {
   font-weight: 600;
   color: white;
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   cursor: pointer;
   gap: 8px;
@@ -428,7 +434,7 @@ onMounted(() => {
     width: 14px;
     height: 14px;
     color: white;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
   }
 
   .btn-text {

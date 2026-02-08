@@ -98,7 +98,9 @@ const deviceType = computed(() => {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   flex-direction: column;
   gap: 1rem;
 

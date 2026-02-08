@@ -285,7 +285,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   border: 2px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition: all 0.2s;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
   align-items: center;
 
   &.focused {
@@ -342,7 +344,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
   color: var(--text-body);
-  transition: background 0.15s;
+  transition: background $transition-fast;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
@@ -452,7 +454,11 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   font-size: 0.9rem;
   color: var(--text-secondary);
   background: transparent;
-  transition: all 0.2s;
+  transition:
+    border-color $transition-fast,
+    background $transition-fast,
+    box-shadow $transition-fast,
+    transform $transition-fast;
   align-items: center;
   cursor: pointer;
   flex-direction: column;
@@ -499,7 +505,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   padding: 0.5rem;
   border-radius: var(--radius-md);
   color: var(--text-body);
-  transition: background 0.15s;
+  transition: background $transition-fast;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
@@ -571,7 +577,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 // Transitions
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: all 0.2s ease;
+  transition:
+    opacity $transition-fast ease,
+    transform $transition-fast ease;
 }
 
 .dropdown-enter-from,

@@ -259,7 +259,7 @@ const actionTools: ToolItem[] = [
   border: none;
   border-radius: 5px;
   background: transparent;
-  transition: all 0.15s ease;
+  transition: background-color 0.15s ease;
   align-items: center;
   cursor: pointer;
   justify-content: center;
@@ -318,7 +318,10 @@ const actionTools: ToolItem[] = [
   background: var(--text-inverse);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   opacity: 0;
-  transition: all 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
   align-items: center;
   gap: 6px;
   pointer-events: none;

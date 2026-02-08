@@ -41,8 +41,8 @@ function toggle() {
     border-radius: var(--radius-sm);
     background: var(--surface-base);
     transition:
-      border-color 0.2s,
-      background-color 0.2s;
+      border-color $transition-fast,
+      background-color $transition-fast;
     align-items: center;
     justify-content: center;
 

@@ -38,7 +38,9 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 /* Transition group classes */
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.3s ease;
+  transition:
+    opacity $transition-medium ease,
+    transform $transition-medium ease;
 }
 
 .modal-enter-from,

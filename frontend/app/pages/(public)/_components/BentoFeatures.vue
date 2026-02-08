@@ -250,7 +250,10 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background: var(--surface-base);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    border-color $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    transform $transition-slow cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 
   &:hover {

@@ -96,7 +96,10 @@ onMounted(fetchContributors);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   flex-shrink: 0;
   gap: 12px;
@@ -150,7 +153,10 @@ onMounted(fetchContributors);
   font-weight: 600;
   color: var(--text-body);
   background: var(--surface-raised);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    color $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;

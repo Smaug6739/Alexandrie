@@ -58,7 +58,7 @@ a {
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
-  transition: background-color 0.3s ease;
+  transition: background-color $transition-medium ease;
   align-items: center;
   justify-content: center;
 

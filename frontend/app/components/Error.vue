@@ -67,7 +67,7 @@ const handleError = computed(() => {
   border-radius: 5px;
   color: white;
   background-color: var(--primary);
-  transition: background-color 0.3s;
+  transition: background-color $transition-medium;
   text-decoration: none;
 }
 

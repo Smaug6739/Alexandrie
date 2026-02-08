@@ -90,7 +90,9 @@ nav {
     width: 27px;
     height: 27px;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      opacity 0.3s ease;
     cursor: pointer;
     fill: var(--text-body);
     margin-right: 8px;

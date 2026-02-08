@@ -418,7 +418,9 @@ function handleClickOutside(e: MouseEvent) {
 // Transitions
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: all 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 .dropdown-enter-from,
@@ -429,7 +431,9 @@ function handleClickOutside(e: MouseEvent) {
 
 .card-list-enter-active,
 .card-list-leave-active {
-  transition: all 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .card-list-enter-from,

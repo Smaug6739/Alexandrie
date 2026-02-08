@@ -64,8 +64,8 @@ button {
   color: var(--text-secondary);
   background: transparent;
   transition:
-    color 0.2s,
-    background 0.2s;
+    color $transition-fast,
+    background $transition-fast;
   align-items: center;
   cursor: pointer;
   justify-content: center;

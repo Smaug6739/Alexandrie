@@ -187,7 +187,9 @@ function importLocalSettings() {
     font-size: 15px;
     color: var(--text-primary);
     background: none;
-    transition: all 0.2s ease;
+    transition:
+      color $transition-fast ease,
+      border-bottom-color $transition-fast ease;
     border-bottom: 2px solid transparent;
     cursor: pointer;
     flex: 1;

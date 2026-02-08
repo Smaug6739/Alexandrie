@@ -1,3 +1,5 @@
+@use "./_variables.scss" as *;
+
 .markdown-container {
 	padding: 10px;
 	border-radius: 4px;
@@ -338,7 +340,7 @@
 	display: flex;
 	padding: 4px;
 	opacity: 0;
-	transition: opacity .15s ease, background-color .15s ease, border-color .15s ease;
+	transition: opacity $transition-fast ease, background-color $transition-fast ease, border-color $transition-fast ease;
 	align-items: center;
 	cursor: pointer;
 	fill: #e3e4e6;

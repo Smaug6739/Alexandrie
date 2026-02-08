@@ -159,7 +159,9 @@ defineExpose({ reset });
   font-size: 14px;
   color: var(--text-secondary);
   background-color: transparent;
-  transition: all 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -221,7 +223,9 @@ defineExpose({ reset });
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-base);
-  transition: all 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   gap: 12px;
 
@@ -278,7 +282,10 @@ defineExpose({ reset });
   color: var(--text-secondary);
   background: transparent;
   opacity: 0.6;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    opacity 0.15s ease;
   align-items: center;
   cursor: pointer;
   flex-shrink: 0;

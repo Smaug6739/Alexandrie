@@ -157,7 +157,9 @@ h2 {
   border: 1px solid var(--border);
   border-radius: 16px;
   background: var(--surface-base);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    transform $transition-medium ease;
 
   &:hover {
     border-color: var(--primary);
@@ -224,7 +226,9 @@ h2 {
   border-radius: var(--radius-lg);
   color: var(--text-secondary);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition:
+    border-color $transition-fast ease,
+    color $transition-fast ease;
   align-items: center;
   cursor: pointer;
   justify-content: center;
@@ -346,7 +350,7 @@ h2 {
   font-size: 13px;
   font-weight: 500;
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition: border-color $transition-fast ease;
   align-items: center;
   gap: 8px;
 

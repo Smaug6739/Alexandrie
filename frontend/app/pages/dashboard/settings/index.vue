@@ -189,8 +189,8 @@ const close = () => emit('close');
       padding: 0;
       background-color: var(--surface-base);
       transition:
-        max-height 0.25s ease,
-        padding 0.25s ease;
+        max-height $transition-base ease,
+        padding $transition-base ease;
       border-right: none;
       overflow: hidden;
 

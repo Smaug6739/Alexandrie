@@ -190,8 +190,8 @@ label {
 .pop-enter-active,
 .pop-leave-active {
   transition:
-    transform 0.15s ease,
-    opacity 0.15s ease;
+    transform $transition-fast ease,
+    opacity $transition-fast ease;
 }
 
 .pop-enter-from {

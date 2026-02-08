@@ -77,7 +77,9 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   align-items: center;
   cursor: pointer;
   justify-content: space-between;
@@ -146,7 +148,9 @@ li {
   margin: 4px 0;
   padding: 2px 4px;
   border-radius: var(--radius-sm);
-  transition: all 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
   cursor: pointer;
 }
 
@@ -185,7 +189,9 @@ hr {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   cursor: pointer;
   gap: 6px;

@@ -24,7 +24,7 @@
         class="no-print"
         :style="{
           marginRight: !devise.isTablet.value && preferencesStore.get('hideTOC').value && sidebar.isOpened.value ? '200px' : '0px',
-          transition: 'margin 0.3s',
+          transition: 'margin var(--transition-medium)',
         }"
       />
     </div>

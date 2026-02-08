@@ -38,7 +38,7 @@ onMounted(() => document.addEventListener('mousedown', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside));
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   position: relative;
   display: inline-block;
@@ -77,20 +77,20 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   overflow: hidden;
 }
 
-/* Animation */
+/* Fade-scale transition */
 .fade-scale-enter-active {
-  transition: all 120ms ease-out;
+  transition:
+    opacity $transition-fast ease-out,
+    transform $transition-fast ease-out;
 }
 
 .fade-scale-leave-active {
-  transition: all 100ms ease-in;
+  transition:
+    opacity $transition-fast ease-in,
+    transform $transition-fast ease-in;
 }
 
-.fade-scale-enter-from {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
+.fade-scale-enter-from,
 .fade-scale-leave-to {
   opacity: 0;
   transform: scale(0.95);

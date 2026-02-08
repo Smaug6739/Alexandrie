@@ -230,7 +230,7 @@ tbody tr:nth-child(odd) {
 
 /* Subtle hover */
 tbody tr {
-	transition: background-color 0.15s ease;
+	transition: background-color $transition-fast ease;
 }
 
 textarea {

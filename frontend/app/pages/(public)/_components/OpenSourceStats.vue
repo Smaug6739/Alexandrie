@@ -255,7 +255,9 @@ onMounted(() => {
   border-radius: 16px;
   text-align: center;
   background: var(--surface-raised);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    transform $transition-medium ease;
 
   &:hover {
     border-color: var(--primary);
@@ -291,7 +293,11 @@ onMounted(() => {
   border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease,
+    border-color $transition-medium ease,
+    color $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;

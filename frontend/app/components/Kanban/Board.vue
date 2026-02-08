@@ -245,7 +245,9 @@ defineExpose({ resetKanbanData });
 // Transitions
 .column-list-enter-active,
 .column-list-leave-active {
-  transition: all 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .column-list-enter-from,

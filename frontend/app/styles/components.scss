@@ -114,7 +114,7 @@
 .btn-icon {
 	padding: 4px;
 	border-radius: var(--radius-sm);
-	transition: background 0.15s;
+	transition: background $transition-fast;
 	cursor: pointer;
 
 	&:hover {
@@ -187,8 +187,8 @@ tag {
 
 	/* Transition */
 	transition:
-		opacity 0.2s ease,
-		visibility 0s linear 0.4s; // Delay hiding to match opacity transition
+		opacity $transition-fast ease,
+		visibility 0s linear $transition-slow; // Delay hiding to match opacity transition
 
 	margin-top: 0.2rem;
 	pointer-events: none;

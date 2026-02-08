@@ -206,7 +206,9 @@
   font-weight: 600;
   color: var(--primary);
   background: white;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;
@@ -234,7 +236,9 @@
   font-weight: 600;
   color: white;
   background: rgb(255 255 255 / 15%);
-  transition: all 0.3s ease;
+  transition:
+    background-color $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   backdrop-filter: blur(10px);
   gap: 8px;
@@ -314,7 +318,9 @@
   font-weight: 600;
   color: #5865f2;
   background: white;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease;
   text-decoration: none;
   white-space: nowrap;
 

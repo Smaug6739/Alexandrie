@@ -32,41 +32,39 @@
 
     <!-- Mobile: Bottom Sheet Modal -->
     <Teleport to="body">
-      <Transition name="sheet">
-        <div v-if="open && isMobile" class="overlay" @click.self="toggleDropdown">
-          <div class="sheet">
-            <header>
-              <span class="sheet-title">{{ placeholder }}</span>
-              <button class="close-btn" @click="toggleDropdown">
-                <Icon name="close" display="md" fill="var(--text-body)" />
-              </button>
-            </header>
+      <div v-if="open && isMobile" class="overlay" @click.self="toggleDropdown">
+        <div class="sheet">
+          <header>
+            <span class="sheet-title">{{ placeholder }}</span>
+            <button class="close-btn" @click="toggleDropdown">
+              <Icon name="close" display="md" fill="var(--text-body)" />
+            </button>
+          </header>
 
-            <div v-if="searchable" class="sheet-search">
-              <Icon name="search" display="md" fill="var(--text-secondary)" />
-              <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." @keydown="handleKeyDown" />
-            </div>
-
-            <ul class="sheet-list">
-              <li v-if="nullable && selected" class="clear" @click="clearSelection">
-                <Icon name="close" display="sm" fill="var(--text-secondary)" />
-                <span>Clear selection</span>
-              </li>
-              <AppSelectNode
-                v-for="item in filteredItems"
-                :key="item.id"
-                :node="item"
-                :level="0"
-                :disabled="disabled"
-                :selected-id="selectedId"
-                @select="handleSelect"
-              />
-              <li v-if="filteredItems.length === 0" class="empty">No results found</li>
-              <slot name="list-footer"></slot>
-            </ul>
+          <div v-if="searchable" class="sheet-search">
+            <Icon name="search" display="md" fill="var(--text-secondary)" />
+            <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." @keydown="handleKeyDown" />
           </div>
+
+          <ul class="sheet-list">
+            <li v-if="nullable && selected" class="clear" @click="clearSelection">
+              <Icon name="close" display="sm" fill="var(--text-secondary)" />
+              <span>Clear selection</span>
+            </li>
+            <AppSelectNode
+              v-for="item in filteredItems"
+              :key="item.id"
+              :node="item"
+              :level="0"
+              :disabled="disabled"
+              :selected-id="selectedId"
+              @select="handleSelect"
+            />
+            <li v-if="filteredItems.length === 0" class="empty">No results found</li>
+            <slot name="list-footer"></slot>
+          </ul>
         </div>
-      </Transition>
+      </div>
     </Teleport>
   </div>
 </template>
@@ -412,7 +410,9 @@ button,
   border-radius: 4px;
   font-size: 0.9rem;
   color: var(--text-secondary);
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   border-bottom: 1px solid var(--border);
   cursor: pointer;

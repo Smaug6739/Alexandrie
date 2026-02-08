@@ -290,7 +290,7 @@
 	a {
 		font-weight: 500;
 		color: var(--blue);
-		transition: all 0.2s ease-in-out;
+		transition: color $transition-fast ease, opacity $transition-fast ease;
 		text-decoration: none;
 
 		&:hover {

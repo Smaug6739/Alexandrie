@@ -106,9 +106,9 @@ const selectImage = (image: Node) => {
   border-radius: var(--radius-md);
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    border-color $transition-fast ease,
+    box-shadow $transition-fast ease,
+    transform $transition-fast ease;
 
   &:hover {
     border-color: var(--primary);

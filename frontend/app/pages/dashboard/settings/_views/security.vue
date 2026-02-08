@@ -345,7 +345,7 @@ p {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition: border-color $transition-fast ease;
   align-items: center;
   gap: 1rem;
   justify-content: space-between;

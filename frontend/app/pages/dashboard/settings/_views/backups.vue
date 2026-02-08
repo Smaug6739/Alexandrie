@@ -339,7 +339,7 @@ onUnmounted(() => {
   height: 100%;
   border-radius: 4px;
   background: var(--primary);
-  transition: width 0.3s ease;
+  transition: width $transition-medium ease;
 }
 
 .progress-message {

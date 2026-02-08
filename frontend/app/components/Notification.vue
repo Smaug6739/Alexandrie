@@ -115,7 +115,9 @@ const close = (id: number) => manager.remove(id);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   background: transparent;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   cursor: pointer;
   flex-shrink: 0;
@@ -201,11 +203,15 @@ const close = (id: number) => manager.remove(id);
 
 /* Transitions */
 .notification-slide-enter-active {
-  transition: all 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+  transition:
+    opacity 0.3s cubic-bezier(0.21, 1.02, 0.73, 1),
+    transform 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
 .notification-slide-leave-active {
-  transition: all 0.2s cubic-bezier(0.06, 0.71, 0.55, 1);
+  transition:
+    opacity 0.2s cubic-bezier(0.06, 0.71, 0.55, 1),
+    transform 0.2s cubic-bezier(0.06, 0.71, 0.55, 1);
 }
 
 .notification-slide-enter-from {
