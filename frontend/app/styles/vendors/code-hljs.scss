@@ -1,22 +1,4 @@
-@use "./_variables.scss" as *;
-
-pre {
-	display: inline-block;
-	width: 100%;
-	margin: 12px 0;
-	border-radius: var(--radius-md);
-	background: #292d3e;
-	word-break: break-all;
-}
-
-/* Inline code */
-code {
-	margin: 2px;
-	padding: 3px 6px;
-	border-radius: 5px;
-	color: var(--text-body);
-	background: var(--surface-transparent);
-}
+@use "../abstract/static.scss" as *;
 
 /* Block code */
 pre code.hljs {

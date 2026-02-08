@@ -3,8 +3,8 @@
     <!-- Header -->
     <header class="page-header">
       <div class="header-content">
-        <h2 class="app-title">Snippets</h2>
-        <p class="app-subtitle">
+        <h2 class="page-title">Snippets</h2>
+        <p class="page-subtitle">
           Manage markdown shortcuts. Type <code>!shortcut</code> in the editor to expand.
           <span class="count">{{ allSnippets.length }} snippets</span>
         </p>

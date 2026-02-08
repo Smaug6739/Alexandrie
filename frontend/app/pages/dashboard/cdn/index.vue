@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <header>
       <h1>File manager</h1>
       <div class="action-row">

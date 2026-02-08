@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="app-title">Security</h2>
-    <p class="app-subtitle">Manage your security settings and monitor your account activity.</p>
+    <h2 class="page-title">Security</h2>
+    <p class="page-subtitle">Manage your security settings and monitor your account activity.</p>
     <h3>Active sessions</h3>
     <p class="section-description">These are the devices that are currently logged into your account.</p>
     <div class="sessions-list">
@@ -63,7 +63,7 @@
       <AppButton type="primary">Change password</AppButton>
     </form>
     <h2>Danger zone</h2>
-    <p class="app-subtitle">Irreversible actions. Please proceed with caution.</p>
+    <p class="page-subtitle">Irreversible actions. Please proceed with caution.</p>
 
     <div class="danger-section">
       <div class="danger-card">

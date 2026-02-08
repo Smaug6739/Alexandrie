@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <header>
       <h1>Update resource</h1>
       <NuxtLink :to="`/dashboard/cdn/${resource?.id}/preview`" class="btn-icon">

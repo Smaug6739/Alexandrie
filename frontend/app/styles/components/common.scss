@@ -1,0 +1,31 @@
+@use "../abstract/static.scss" as *;
+
+.modal {
+	height: 100%;
+	max-height: 715px;
+	overflow-y: auto;
+
+	.footer {
+		display: flex;
+		margin: 6px 0;
+		padding: 6px 0 0;
+		align-items: center;
+		border-top: 1px solid var(--border);
+		gap: 8px;
+		justify-content: flex-end;
+	}
+}
+
+// ===========================
+// BUTTONS
+// ===========================
+.btn-icon {
+	padding: 4px;
+	border-radius: var(--radius-sm);
+	transition: background $transition-fast;
+	cursor: pointer;
+
+	&:hover {
+		background: var(--surface-transparent);
+	}
+}

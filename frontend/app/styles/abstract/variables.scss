@@ -1,0 +1,15 @@
+@use "./static.scss" as *;
+
+// Global variables
+:root {
+	// Transitions (CSS custom properties for inline styles)
+	--transition-medium: #{$transition-medium};
+
+	// Border radius
+	--radius-xs: 4px;
+	--radius-sm: 6px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+	--radius-xl: 20px;
+	--radius-xxl: 24px;
+}

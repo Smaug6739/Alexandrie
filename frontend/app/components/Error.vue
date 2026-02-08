@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <div class="error-content">
       <h1 class="error-code">Oops !</h1>
       <p class="error-message">{{ handleError }}</p>
@@ -28,7 +28,7 @@ const handleError = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.card-component {
+.page-card {
   display: flex;
   text-align: center;
   align-items: center;

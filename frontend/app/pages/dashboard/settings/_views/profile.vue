@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="app-title">My Profile</h2>
-    <p class="app-subtitle">Manage your profile settings and preferences.</p>
+    <h2 class="page-title">My Profile</h2>
+    <p class="page-subtitle">Manage your profile settings and preferences.</p>
     <form v-if="userStore.user" @submit.prevent="updateUser">
       <div class="form-group">
         <label for="username">Username</label>

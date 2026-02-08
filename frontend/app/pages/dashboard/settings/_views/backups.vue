@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="app-title">Backups <tag yellow>Beta</tag></h2>
+    <h2 class="page-title">Backups <tag yellow>Beta</tag></h2>
     <div class="main">
       <p>Create a backup of your data with customizable options.</p>
 

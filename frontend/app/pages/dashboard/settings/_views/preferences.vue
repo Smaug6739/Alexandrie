@@ -1,7 +1,7 @@
 <template>
   <div class="preferences">
-    <h2 class="app-title">Preferences</h2>
-    <p class="app-subtitle">Manage your preferences and settings.</p>
+    <h2 class="page-title">Preferences</h2>
+    <p class="page-subtitle">Manage your preferences and settings.</p>
 
     <div v-for="(section, i) in options" :key="i" class="section">
       <h3>{{ section.label }}</h3>

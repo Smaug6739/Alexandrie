@@ -98,6 +98,15 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   inset: 0;
 }
 
+.modal-pos {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
 @media screen and (width <= 600px) {
   .modal-container {
     display: flex;

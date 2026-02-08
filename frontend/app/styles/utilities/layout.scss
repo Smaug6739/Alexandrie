@@ -1,0 +1,54 @@
+.actions-row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.center {
+	display: flex;
+	text-align: center;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-col {
+	flex-direction: column;
+}
+
+.flex-wrap {
+	flex-wrap: wrap;
+}
+
+.items-center {
+	align-items: center;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.gap-xs {
+	gap: 4px;
+}
+
+.gap-sm {
+	gap: 8px;
+}
+
+.gap-md {
+	gap: 16px;
+}
+
+.gap-lg {
+	gap: 24px;
+}

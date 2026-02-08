@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component node-list">
+  <div class="page-card node-list">
     <header>
       <h1 v-if="parent">
         <Icon :name="parent.icon || 'files'" display="xl" :class="`parent-icon ${getAppAccent(parent.color as number, true)}`" />

@@ -1,0 +1,31 @@
+// TABLET \\
+@media screen and (width <=1023px) {
+	.no-tablet {
+		display: none;
+	}
+}
+
+// MOBILE \\
+@media screen and (width <=719px) {
+	.no-mobile {
+		display: none !important;
+	}
+}
+
+.no-mobile {
+	@media (width <=768px) {
+		display: none !important;
+	}
+}
+
+.no-tablet {
+	@media (width <=1024px) {
+		display: none !important;
+	}
+}
+
+.mobile-only {
+	@media (width > 768px) {
+		display: none !important;
+	}
+}

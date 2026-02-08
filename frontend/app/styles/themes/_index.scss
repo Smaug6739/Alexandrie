@@ -1,0 +1,18 @@
+@use "dark" as *;
+@use "print" as *;
+@use "white" as *;
+@forward "colors";
+
+:root {
+	@include white-theme;
+}
+
+.dark-mode {
+	@include dark-theme;
+}
+
+@media print {
+	:root {
+		@include print-theme;
+	}
+}

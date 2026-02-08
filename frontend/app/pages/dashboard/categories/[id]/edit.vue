@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <h1 style="font-size: 24px">Category & workspace</h1>
     <form v-if="category" @submit.prevent>
       <div class="form-row">

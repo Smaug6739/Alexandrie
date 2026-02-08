@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <header>
       <h1>Workspaces & Categories</h1>
       <div class="actions-row">

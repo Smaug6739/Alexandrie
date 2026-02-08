@@ -1,5 +1,5 @@
 <template>
-  <div class="import-page card-component">
+  <div class="import-page page-card">
     <!-- Step 1: File Selection -->
     <div v-if="step === 'select'">
       <header>
