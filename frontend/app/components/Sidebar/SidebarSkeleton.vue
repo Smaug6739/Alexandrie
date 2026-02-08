@@ -43,7 +43,7 @@ defineProps<{ isLoading: boolean }>();
 
 .skeleton-line {
   height: 20px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: linear-gradient(90deg, var(--border) 25%, var(--surface-raised) 37%, var(--border) 63%);
   background-size: 400% 100%;
   animation: shimmer 1.4s ease infinite;

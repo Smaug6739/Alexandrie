@@ -157,7 +157,7 @@ h2 {
   display: flex;
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--primary);
   background: var(--surface-raised);
   transition: all 0.3s ease;
@@ -193,7 +193,7 @@ h2 {
 .cta-content {
   padding: 2.5rem 2rem;
   border: 1px solid var(--border);
-  border-radius: 24px;
+  border-radius: var(--radius-xxl);
   text-align: center;
   background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
 }
@@ -219,7 +219,7 @@ h2 {
 .cta-btn {
   display: inline-flex;
   padding: 12px 24px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
   color: white;

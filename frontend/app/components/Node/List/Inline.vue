@@ -63,16 +63,16 @@ function showContextMenu(event: MouseEvent) {
   flex-direction: column;
 
   &:first-child {
-    border-radius: $radius-md $radius-md 0 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
   &:last-child {
-    border-radius: 0 0 $radius-md $radius-md;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
     border-bottom: 1px solid var(--border);
   }
 
   &:only-child {
-    border-radius: $radius-md;
+    border-radius: var(--radius-md);
     border-bottom: 1px solid var(--border);
   }
 
@@ -95,7 +95,7 @@ header {
 
 .icon {
   padding: 6px;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   margin-right: 8px;
 }
 

@@ -29,7 +29,7 @@ blockquote {
 button {
 	padding: 8px 16px;
 	border: none;
-	border-radius: 6px;
+	border-radius: var(--radius-sm);
 	color: var(--text-body);
 	background: transparent;
 	cursor: pointer;
@@ -106,7 +106,7 @@ video {
 	display: block;
 	width: 100%;
 	margin: 10px 0;
-	border-radius: 6px;
+	border-radius: var(--radius-sm);
 	background: var(--surface-transparent);
 }
 
@@ -114,7 +114,7 @@ iframe {
 	max-width: 100%;
 	margin: 10px 0;
 	border: none;
-	border-radius: 6px;
+	border-radius: var(--radius-sm);
 }
 
 input,
@@ -123,8 +123,7 @@ textarea {
 	margin: 0;
 	padding: 8px 10px;
 	border: 1px solid var(--border);
-	border-radius: 6px;
-	font-family: Inter;
+	border-radius: var(--radius-sm);
 	font-size: 14px;
 	color: var(--text-body);
 	background: var(--surface-base);
@@ -162,8 +161,7 @@ kbd {
 	display: inline-block;
 	padding: 4px 6px;
 	border: 1px solid var(--border);
-	border-radius: 6px;
-	font-family: Inter;
+	border-radius: var(--radius-sm);
 	font-size: 13px;
 	font-weight: 400;
 	color: var(--text-primary);
@@ -193,7 +191,7 @@ p {
 table {
 	max-width: 100%;
 	margin: 1.5rem 0;
-	border-radius: 12px;
+	border-radius: var(--radius-lg);
 	font-size: 0.95rem;
 	box-shadow: 0 1px 2px rgb(0 0 0 / 4%);
 	border-collapse: collapse;

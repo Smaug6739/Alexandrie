@@ -24,7 +24,6 @@ function toggle() {
 .checkbox {
   display: inline-flex;
   width: fit-content;
-  font-family: Inter, sans-serif;
   align-items: center;
   cursor: pointer;
   gap: 0.25rem;
@@ -39,9 +38,11 @@ function toggle() {
     width: 20px;
     height: 20px;
     border: 2px solid var(--border);
-    border-radius: $radius-sm;
+    border-radius: var(--radius-sm);
     background: var(--surface-base);
-    transition: all 0.2s ease;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
     align-items: center;
     justify-content: center;
 
@@ -53,7 +54,7 @@ function toggle() {
 
   input:checked + .mark {
     border-color: var(--primary);
-    background: var(--primary);
+    background-color: var(--primary);
   }
 
   .label {

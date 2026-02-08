@@ -70,7 +70,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   z-index: 2;
   min-width: 270px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--surface-base);
   box-shadow: 0 2px 6px var(--shadow-sm);
   margin-top: 4px;

@@ -53,7 +53,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   width: 90%;
   max-width: 750px;
   margin: auto;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: initial;
   background-color: var(--surface-base);
   box-shadow: 0 2px 10px var(--shadow-sm);
@@ -70,7 +70,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 .modal-overlay {
   position: absolute;
   z-index: 1;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background-color: rgb(0 0 0 / 20%);
   inset: 0;
   pointer-events: none;
@@ -85,7 +85,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 }
 
 .modal {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--surface-base);
 }
 

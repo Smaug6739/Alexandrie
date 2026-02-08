@@ -59,7 +59,7 @@ const close = (id: number) => manager.remove(id);
   width: 380px;
   padding: 14px 16px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   box-shadow:
     0 4px 6px -1px rgb(0 0 0 / 10%),
@@ -74,7 +74,7 @@ const close = (id: number) => manager.remove(id);
   width: 36px;
   min-width: 36px;
   height: 36px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   align-items: center;
   justify-content: center;
 
@@ -112,7 +112,7 @@ const close = (id: number) => manager.remove(id);
   height: 28px;
   padding: 0;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--text-secondary);
   background: transparent;
   transition: all 0.15s ease;

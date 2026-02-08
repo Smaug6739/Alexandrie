@@ -54,7 +54,7 @@ const onDragEnd = () => {
 .kanban-card {
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
   cursor: grab;
 
@@ -88,7 +88,7 @@ const onDragEnd = () => {
   display: flex;
   width: 22px;
   height: 22px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   align-items: center;
   justify-content: center;
 
@@ -155,7 +155,7 @@ const onDragEnd = () => {
 .tag {
   max-width: 80px;
   padding: 2px 6px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 10px;
   font-weight: 500;
   color: var(--text-secondary);

@@ -73,7 +73,7 @@ onMounted(() => {
   display: flex;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-body);

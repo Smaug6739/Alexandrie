@@ -1,8 +1,10 @@
+@use "./_variables.scss" as *;
+
 pre {
 	display: inline-block;
 	width: 100%;
 	margin: 12px 0;
-	border-radius: 8px;
+	border-radius: var(--radius-md);
 	background: #292d3e;
 	word-break: break-all;
 }
@@ -20,7 +22,7 @@ code {
 pre code.hljs {
 	display: block;
 	padding: 1em;
-	font-family: 'JetBrains Mono', monospace;
+	font-family: $font-mono;
 	font-size: 14px;
 	color: #abb2bf;
 	background: #292d3e;

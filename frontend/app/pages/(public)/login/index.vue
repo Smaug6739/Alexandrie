@@ -227,7 +227,7 @@ input {
   width: 100%;
   padding: 0.9rem;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 1.1rem;
   font-weight: 600;
   color: white;

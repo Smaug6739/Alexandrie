@@ -107,7 +107,7 @@ async function action(name: string) {
   .avatar {
     width: 32px;
     height: 32px;
-    border-radius: $radius-sm;
+    border-radius: var(--radius-sm);
     object-fit: cover;
   }
 }
@@ -148,7 +148,7 @@ async function action(name: string) {
   width: 100%;
   padding: 4px 10px;
   border: none;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font: inherit;
   font-size: 13px;
   color: var(--text-body);

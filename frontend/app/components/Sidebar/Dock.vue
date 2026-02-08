@@ -57,7 +57,7 @@ a {
   display: flex;
   width: 40px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   transition: background-color 0.3s ease;
   align-items: center;
   justify-content: center;

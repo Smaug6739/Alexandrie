@@ -38,7 +38,7 @@ const icon = resolveIcon(props.node);
   height: 100%;
   padding: 1rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   color: var(--text-body);
   transition: all 0.2s;
   flex-direction: column;
@@ -101,6 +101,6 @@ const icon = resolveIcon(props.node);
 
 .node-icon {
   padding: 0.4rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 </style>

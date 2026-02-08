@@ -248,7 +248,7 @@
   position: relative;
   padding: 1.5rem;
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
   background: var(--surface-base);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
@@ -263,7 +263,7 @@
     display: flex;
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     color: var(--primary);
     background: var(--surface-raised);
     align-items: center;
@@ -349,7 +349,7 @@
     width: 100%;
     padding: 1rem;
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 13px;
     line-height: 1.8;
@@ -415,7 +415,7 @@
   .folder-item {
     display: flex;
     padding: 6px 10px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     transition: background 0.2s;
     align-items: center;
     gap: 8px;
@@ -496,7 +496,7 @@
 
   .search-demo {
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     background: var(--surface-raised);
     overflow: hidden;
   }
@@ -513,7 +513,7 @@
     .kbd {
       padding: 4px 8px;
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       font-size: 11px;
       font-weight: 600;
       background: var(--surface-base);
@@ -528,7 +528,7 @@
   .search-result {
     display: flex;
     padding: 10px 12px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     transition: background 0.2s;
     align-items: center;
     cursor: pointer;
@@ -570,7 +570,7 @@
     display: flex;
     padding: 12px 14px;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     font-size: 13px;
     background: var(--surface-raised);
     align-items: center;

@@ -63,7 +63,7 @@ button {
   width: 200px;
   padding: 8px 12px;
   border: none;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   background: var(--border);
   transition: all 0.2s ease;
   align-items: center;

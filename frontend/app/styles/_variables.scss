@@ -7,12 +7,17 @@ $transition-fast: 0.15s;
 $transition-base: 0.25s;
 $transition-slow: 0.4s;
 
-// Border radius
-$radius-xs: 4px;
-$radius-sm: 6px;
-$radius-md: 10px;
-$radius-lg: 14px;
-$radius-xl: 20px;
+
+// Global variables
+:root {
+	// Border radius
+	--radius-xs: 4px;
+	--radius-sm: 6px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+	--radius-xl: 20px;
+	--radius-xxl: 24px;
+}
 
 :root {
 	// ACCENT / PRIMARY COLOR
@@ -127,7 +132,7 @@ $radius-xl: 20px;
 	// SURFACES (Backgrounds)
 	// Layered system: base → raised → overlay
 	// -------------------------------------------------------------------------
-	--bg-color: #212830;
+	--surface-base: #212830;
 	--surface-raised: #262c36;
 	--surface-overlay: #2d3443;
 	--surface-transparent: rgb(255 255 255 / 4%);
@@ -220,7 +225,7 @@ $radius-xl: 20px;
 
 	// THEME \\
 	:root {
-		--bg-color: #fff;
+		--surface-base: #fff;
 		--surface-raised: #F1F6FD;
 		--surface-overlay: #ECF2FF;
 		--selection-color: #e1f2ff;

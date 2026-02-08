@@ -54,7 +54,7 @@ defineProps<{
   display: flex;
   width: 200px;
   padding: 1rem;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   align-items: center;
   flex-direction: column;
   gap: 0.25rem;

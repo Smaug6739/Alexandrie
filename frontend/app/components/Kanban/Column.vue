@@ -185,7 +185,7 @@ function handleClickOutside(e: MouseEvent) {
   min-width: 300px;
   max-width: 320px;
   padding: 12px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-raised);
   flex-direction: column;
 
@@ -225,7 +225,7 @@ function handleClickOutside(e: MouseEvent) {
 .column-title {
   margin: 0;
   padding: 2px 0;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
@@ -241,7 +241,7 @@ function handleClickOutside(e: MouseEvent) {
 .column-title-input {
   padding: 4px 8px;
   border: 1px solid var(--primary);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
@@ -272,7 +272,7 @@ function handleClickOutside(e: MouseEvent) {
   height: 28px;
   padding: 0;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   color: var(--text-secondary);
   background: transparent;
   align-items: center;
@@ -305,7 +305,7 @@ function handleClickOutside(e: MouseEvent) {
   max-width: 180px;
   padding: 10px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
   box-shadow: var(--shadow-sm-md);
   flex-wrap: wrap;
@@ -359,7 +359,7 @@ function handleClickOutside(e: MouseEvent) {
   display: flex;
   padding: 32px 16px;
   border: 2px dashed var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--text-secondary);
   text-align: center;
   background: rgb(0 0 0 / 2%);
@@ -392,7 +392,7 @@ function handleClickOutside(e: MouseEvent) {
   width: 100%;
   padding: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);

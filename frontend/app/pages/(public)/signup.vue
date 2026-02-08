@@ -167,7 +167,7 @@ input {
   width: 100%;
   padding: 0.6rem;
   border: 2px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 1rem;
   background: var(--surface-base);
   transition: all 0.2s ease;
@@ -253,7 +253,7 @@ input {
   width: 100%;
   padding: 0.9rem;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 1.1rem;
   font-weight: 600;
   color: white;

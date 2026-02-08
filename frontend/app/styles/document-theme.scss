@@ -260,7 +260,7 @@
 .modern-theme {
 	max-width: 100%;
 	padding: 0 0.5rem;
-	font-family: Inter, Roboto, sans-serif;
+	font-family: $font-sans;
 	font-size: 16px;
 	color: var(--text-body);
 
@@ -301,7 +301,7 @@
 
 	code,
 	pre {
-		border-radius: 6px;
+		border-radius: var(--radius-sm);
 		font-family: 'Roboto Mono', monospace;
 		font-size: 0.95em;
 		color: var(--text-body);
@@ -333,13 +333,13 @@
 	img {
 		max-width: 100%;
 		margin: 1rem 0;
-		border-radius: 8px;
+		border-radius: var(--radius-md);
 	}
 
 	table {
 		width: 100%;
 		margin: 1.5em 0;
-		border-radius: 8px;
+		border-radius: var(--radius-md);
 		font-size: 0.95em;
 		border-collapse: collapse;
 		overflow: hidden;

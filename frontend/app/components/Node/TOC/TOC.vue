@@ -135,7 +135,7 @@ aside {
   z-index: 1;
   width: 3px;
   height: 15px;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
   background-color: var(--primary);
   transition:
     top 0.25s ease,

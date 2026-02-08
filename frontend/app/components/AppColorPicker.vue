@@ -63,7 +63,7 @@ function selectColor(color: number) {
 .color-picker {
   display: flex;
   padding: 6px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -71,7 +71,7 @@ function selectColor(color: number) {
 .color-option {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   cursor: pointer;
 }
 

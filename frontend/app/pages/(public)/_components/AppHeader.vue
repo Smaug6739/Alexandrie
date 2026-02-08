@@ -13,7 +13,7 @@ nav {
   a {
     margin: 0 8px;
     padding: 4px 15px;
-    border-radius: 25px;
+    border-radius: var(--radius-xxl);
   }
 }
 

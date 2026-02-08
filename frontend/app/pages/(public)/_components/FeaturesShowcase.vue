@@ -179,7 +179,7 @@ onUnmounted(() => {
   display: flex;
   min-width: 32px;
   height: 32px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 12px;
   font-weight: 700;
   color: var(--text-secondary);

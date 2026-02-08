@@ -55,7 +55,7 @@ function deleteNode(node: TreeItem<Node>) {
   width: 100%;
   padding: 5px 15px;
   border: var(--border) 1px solid;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   flex-direction: column;
   margin-bottom: 16px;
 }

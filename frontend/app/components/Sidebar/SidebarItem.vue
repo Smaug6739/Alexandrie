@@ -113,7 +113,7 @@ const drop = async (event: DragEvent) => {
   width: 100%;
   margin: 2.5px 0;
   padding: 1px 4px;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font-size: 15px;
   font-weight: 450;
   align-items: center;

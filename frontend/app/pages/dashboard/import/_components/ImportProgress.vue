@@ -51,7 +51,7 @@ const statusLabel = computed(() => {
 
 .status-badge {
   padding: 0.25rem 0.75rem;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 500;
 
