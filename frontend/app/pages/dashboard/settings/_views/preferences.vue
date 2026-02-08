@@ -99,6 +99,15 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
           appColors.setAppColor(option);
         },
       },
+      {
+        label: 'Interface style',
+        type: 'radio',
+        key: 'style',
+        choices: [
+          { label: 'Default', id: 'default' },
+          { label: 'Glassmorphism', id: 'glassmorphism' },
+        ],
+      },
     ],
   },
   {
