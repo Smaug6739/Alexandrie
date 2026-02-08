@@ -41,7 +41,7 @@ footer {
 .edit-link {
   display: flex;
   padding: 8px 14px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 450;
   color: var(--text-body);
@@ -105,7 +105,7 @@ b {
   margin: 5px 0;
   padding: 10px;
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: var(--radius-md);
   font-size: 15px;
   font-weight: 450;
   transition: color 0.25s;

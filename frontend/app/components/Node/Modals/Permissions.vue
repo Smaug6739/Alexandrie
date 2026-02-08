@@ -167,7 +167,7 @@ form {
 .user-card {
   display: flex;
   padding: 6px 10px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--surface-transparent);
   flex-direction: column;
   gap: 8px;
@@ -206,7 +206,7 @@ form {
 
 .public-info {
   padding: 0 5px;
-  border-radius: 7px;
+  border-radius: var(--radius-md);
   margin-bottom: 10px;
 
   .info-text {
@@ -235,7 +235,7 @@ form {
 button {
   padding: 4px 8px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   color: white;
   background: var(--primary-color, #444);
   cursor: pointer;

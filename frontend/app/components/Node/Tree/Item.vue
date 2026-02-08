@@ -134,7 +134,7 @@ function toggleExpand() {
   display: flex;
   width: 32px;
   height: 32px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
@@ -194,7 +194,7 @@ function toggleExpand() {
   min-width: 20px;
   height: 20px;
   padding: 0 6px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 0.6875rem;
   font-weight: 600;
   color: var(--text-body);

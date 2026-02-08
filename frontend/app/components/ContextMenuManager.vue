@@ -163,7 +163,7 @@ const pos = computed(() => {
   position: fixed;
   z-index: 6000;
   min-width: 240px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   box-shadow:
     0 8px 30px rgb(0 0 0 / 12%),
@@ -241,7 +241,7 @@ const pos = computed(() => {
 .mobile-sheet-handle {
   width: 36px;
   height: 4px;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
   background: var(--border);
   transition:
     background 0.2s,

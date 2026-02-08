@@ -75,7 +75,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   margin: 4px 0;
   padding: 4px 10px 4px 4px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
   transition: all 0.2s ease;
   align-items: center;
@@ -119,7 +119,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   margin: 0;
   padding: 4px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   color: var(--text-body);
   background-color: var(--surface-base);
   box-shadow:
@@ -145,7 +145,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 li {
   margin: 4px 0;
   padding: 2px 4px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   transition: all 0.15s ease;
   cursor: pointer;
 }
@@ -181,7 +181,7 @@ hr {
   display: flex;
   margin: 2px 0;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);

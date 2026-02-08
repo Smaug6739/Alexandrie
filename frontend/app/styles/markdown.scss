@@ -83,7 +83,7 @@
 .custom-block {
 	padding: 10px 10px 8px;
 	border: 1px solid transparent;
-	border-radius: 8px;
+	border-radius: var(--radius-md);
 	font-size: 14px;
 	line-height: 24px;
 	color: rgb(235 235 235 / 100%);
@@ -368,7 +368,7 @@
 
 
 .block.card {
-	border-radius: 6px;
+	border-radius: var(--radius-sm);
 }
 
 .block-title {
@@ -391,7 +391,7 @@
 
 /* Modifiers */
 .rounded {
-	border-radius: 12px;
+	border-radius: var(--radius-lg);
 
 	.block-title {
 		border-radius: 12px 12px 0 0;

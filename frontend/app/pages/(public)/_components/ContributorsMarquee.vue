@@ -94,7 +94,7 @@ onMounted(fetchContributors);
   display: flex;
   padding: 12px 16px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   transition: all 0.3s ease;
   align-items: center;
@@ -115,7 +115,7 @@ onMounted(fetchContributors);
   img {
     width: 44px;
     height: 44px;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     transition: transform 0.3s ease;
   }
 }
@@ -145,7 +145,7 @@ onMounted(fetchContributors);
   display: inline-flex;
   padding: 12px 24px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
   color: var(--text-body);

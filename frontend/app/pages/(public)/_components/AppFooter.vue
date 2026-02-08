@@ -153,7 +153,7 @@
     width: 40px;
     height: 40px;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     color: var(--text-secondary);
     background: var(--surface-raised);
     transition: all 0.3s ease;

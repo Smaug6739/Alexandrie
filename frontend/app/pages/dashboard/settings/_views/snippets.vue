@@ -236,7 +236,7 @@ const handleDictImport = async (e: Event) => {
   min-width: 160px;
   padding: 0.25rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   margin-top: 0.25rem;
@@ -246,7 +246,7 @@ const handleDictImport = async (e: Event) => {
     width: 100%;
     padding: 0.5rem 0.75rem;
     border: none;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     font-size: 0.85rem;
     color: var(--text-body);
     text-align: left;

@@ -201,7 +201,7 @@
 .btn-primary {
   display: inline-flex;
   padding: 16px 28px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 15px;
   font-weight: 600;
   color: var(--primary);
@@ -229,7 +229,7 @@
   display: inline-flex;
   padding: 16px 28px;
   border: 1px solid rgb(255 255 255 / 30%);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 15px;
   font-weight: 600;
   color: white;
@@ -284,7 +284,7 @@
   display: flex;
   width: 48px;
   height: 48px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: #5865f2;
   align-items: center;
   flex-shrink: 0;
@@ -309,7 +309,7 @@
 
 .discord-btn {
   padding: 10px 18px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 13px;
   font-weight: 600;
   color: #5865f2;
@@ -331,7 +331,7 @@
 
   .cta-container {
     padding: 3rem 1.5rem;
-    border-radius: 24px;
+    border-radius: var(--radius-xxl);
   }
 
   .cta-actions {

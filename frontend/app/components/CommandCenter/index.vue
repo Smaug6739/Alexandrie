@@ -277,7 +277,7 @@ watch(searchQuery, () => (selectedIndex.value = 0));
 .close-btn {
   padding: 8px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: transparent;
   cursor: pointer;
 

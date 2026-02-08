@@ -248,7 +248,7 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
   width: 100%;
   margin: 0;
   border: 1px solid var(--border);
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   background: var(--surface-base);
 }
 
@@ -268,7 +268,7 @@ button,
   width: 100%;
   height: 34px;
   padding: 6px 10px;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font-size: 0.95rem;
   text-align: left;
   cursor: pointer;
@@ -285,7 +285,7 @@ button,
   margin: 0;
   padding: 2px;
   border: 1px solid var(--border);
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   background: var(--surface-base);
   box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
   list-style: none;
@@ -383,7 +383,7 @@ button,
 
   :deep(.tree-node) {
     padding: 14px 16px;
-    border-radius: $radius-sm;
+    border-radius: var(--radius-sm);
     font-size: 1rem;
     transition: background 0.15s;
 

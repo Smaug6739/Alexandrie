@@ -219,7 +219,7 @@ const actionTools: ToolItem[] = [
   width: 100%;
   padding: 6px 10px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
   transition: box-shadow 0.2s ease;
@@ -244,7 +244,7 @@ const actionTools: ToolItem[] = [
 .group-buttons {
   display: flex;
   padding: 3px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--surface-transparent);
   gap: 1px;
 }
@@ -311,7 +311,7 @@ const actionTools: ToolItem[] = [
   z-index: 1000;
   display: flex;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 11px;
   font-weight: 500;
   color: var(--surface-base);
@@ -364,7 +364,7 @@ const actionTools: ToolItem[] = [
   display: flex;
   padding: 3px 10px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--surface-raised) 0%, var(--surface-overlay) 100%);
   align-items: center;
   gap: 6px;
@@ -401,7 +401,7 @@ const actionTools: ToolItem[] = [
 .action-buttons {
   display: flex;
   padding: 3px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--surface-transparent);
   gap: 3px;
 }
@@ -417,7 +417,7 @@ const actionTools: ToolItem[] = [
 
 .category-select {
   min-width: 110px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--surface-base);
 }
 

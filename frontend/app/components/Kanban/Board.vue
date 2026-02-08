@@ -216,7 +216,7 @@ defineExpose({ resetKanbanData });
   height: stretch;
   padding: 20px;
   border: 2px dashed var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);

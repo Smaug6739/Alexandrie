@@ -283,7 +283,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   display: flex;
   padding: 0.75rem 1rem;
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   transition: all 0.2s;
   align-items: center;
@@ -331,7 +331,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   max-height: 400px;
   padding: 2px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   box-shadow: 0 8px 32px rgb(0 0 0 / 12%);
   overflow-y: auto;
@@ -340,7 +340,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .search-result {
   display: flex;
   padding: 0.75rem 1rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--text-body);
   transition: background 0.15s;
   align-items: center;
@@ -362,7 +362,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .node-icon {
   padding: 3px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin-right: 10px;
 }
 
@@ -448,7 +448,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   display: flex;
   min-height: 150px;
   border: 2px dashed var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 0.9rem;
   color: var(--text-secondary);
   background: transparent;
@@ -497,7 +497,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .activity-item {
   display: flex;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--text-body);
   transition: background 0.15s;
   align-items: center;
@@ -541,7 +541,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   display: flex;
   padding: 1.25rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   align-items: center;
   gap: 1rem;
@@ -549,7 +549,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .stat-icon {
   padding: 0.4rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--primary-bg);
 }
 

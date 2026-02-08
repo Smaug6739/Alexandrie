@@ -223,7 +223,7 @@ input {
 .tag-chip {
   display: inline-flex;
   padding: 3px 6px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 12px;
   background: var(--border);
   align-items: center;

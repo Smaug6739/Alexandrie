@@ -15,19 +15,29 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar-button {
+	display: none;
+}
+
 ::-webkit-scrollbar {
-	width: 2px;
+	width: 4px;
 	height: 98%;
 	background: transparent;
 }
 
-::-webkit-scrollbar-thumb {
-	background: var(--border);
+::-webkit-scrollbar-track {
+	border-radius: var(--radius-sm);
 }
 
-/* set button(top and bottom of the scrollbar) */
-::-webkit-scrollbar-button {
-	display: none;
+::-webkit-scrollbar-thumb {
+	border-radius: var(--radius-sm);
+	background: var(--border);
+
+	&:hover {
+		background: var(--border-strong);
+	}
 }
 
 ::selection {

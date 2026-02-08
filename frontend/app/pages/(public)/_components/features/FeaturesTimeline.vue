@@ -231,7 +231,7 @@ section {
     position: relative;
     max-width: min(1100px, 92vw);
     max-height: 85vh;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     animation: zoomIn 0.25s ease;
     overflow: hidden;
 

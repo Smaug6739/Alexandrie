@@ -45,7 +45,7 @@ const getWorkspaceDocCount = (workspaceId: string) => {
   height: 100%;
   padding: 1.25rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   color: var(--text-body);
   background: var(--surface-base);
   transition: all 0.2s;
@@ -85,7 +85,7 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 
 .count {
   padding: 0.2rem 0.6rem;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 0.8rem;
   color: var(--text-secondary);
   background: var(--surface-raised);

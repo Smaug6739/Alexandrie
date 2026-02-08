@@ -204,24 +204,6 @@ onMounted(() => {
   gap: 24px;
   overflow-y: auto;
   padding-right: 8px;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 3px;
-    background: var(--bg-color-secondary);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background: var(--border);
-
-    &:hover {
-      background: var(--primary);
-    }
-  }
 }
 
 .section-title {
@@ -246,7 +228,7 @@ onMounted(() => {
   width: 48px;
   height: 48px;
   border: 3px solid transparent;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
@@ -299,7 +281,7 @@ onMounted(() => {
 
 .color-wheel {
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   cursor: crosshair;
 }
 
@@ -380,7 +362,7 @@ onMounted(() => {
   display: flex;
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   align-items: center;
   gap: 12px;
@@ -420,7 +402,7 @@ onMounted(() => {
   width: 100%;
   min-height: 40px;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 600;
   color: white;

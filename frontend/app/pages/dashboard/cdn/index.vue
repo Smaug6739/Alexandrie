@@ -198,8 +198,7 @@ const bulkDelete = async (lines: Field[]) => {
   width: 100%;
   margin: 12px 0;
   padding: 12px 16px;
-  border-radius: 8px;
-  background: var(--bg-color-secondary);
+  border-radius: var(--radius-md);
   align-items: center;
   gap: 12px;
 
@@ -277,11 +276,10 @@ const bulkDelete = async (lines: Field[]) => {
     width: 100%;
     padding: 10px;
     border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: 'JetBrains Mono', monospace;
+    border-radius: var(--radius-sm);
+    font-family: $font-mono;
     font-size: 13px;
     color: var(--text-primary);
-    background: var(--bg-color-secondary);
     white-space: pre-wrap;
     word-break: break-all;
   }
@@ -310,12 +308,11 @@ const bulkDelete = async (lines: Field[]) => {
 .selected-count {
   display: flex;
   width: 32px;
-  height: 36px;
-  padding: 6px;
+  height: 34px;
+  padding: 4px;
   border: 1px solid var(--border);
   border-radius: 4px;
-  font-family: Inter, sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: bold;
   color: var(--text-secondary);
   align-items: center;
@@ -342,26 +339,24 @@ const bulkDelete = async (lines: Field[]) => {
 
 .image-item {
   border: 2px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   cursor: pointer;
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
   }
 
   .image-preview {
     width: 100%;
     height: 150px;
-    border-radius: 6px;
-    background: var(--bg-color-secondary);
+    border-radius: var(--radius-sm);
     object-fit: cover;
   }
 
   .image-info {
     padding: 12px;
-    background: var(--bg-color-secondary);
 
     .image-name {
       display: block;

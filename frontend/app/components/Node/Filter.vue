@@ -143,7 +143,7 @@ onBeforeUnmount(() => {
   width: 320px;
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
   box-shadow: 0 10px 30px rgb(2 6 23 / 20%);
 }
@@ -170,7 +170,7 @@ label {
 .btn {
   padding: 8px 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: transparent;
   cursor: pointer;
 }

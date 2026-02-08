@@ -240,15 +240,9 @@ function importLocalSettings() {
 .document-item {
   display: flex;
   padding: 0.75rem;
-  border-radius: $radius-sm;
-  background: var(--bg-color-2);
-  transition: background 0.2s;
+  border-radius: var(--radius-sm);
   align-items: center;
   gap: 1rem;
-
-  &:hover {
-    background: var(--bg-color-3);
-  }
 
   .doc-info {
     display: flex;
@@ -292,7 +286,7 @@ function importLocalSettings() {
     .comparison {
       display: flex;
       padding: 0.25rem 0.5rem;
-      border-radius: $radius-sm;
+      border-radius: var(--radius-sm);
       font-size: 0.75rem;
       background: var(--surface-base);
       align-items: center;
