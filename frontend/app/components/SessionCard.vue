@@ -99,8 +99,8 @@ const deviceType = computed(() => {
   border-radius: var(--radius-lg);
   background: var(--surface-base);
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color $transition-base ease,
+    box-shadow $transition-base ease;
   flex-direction: column;
   gap: 1rem;
 

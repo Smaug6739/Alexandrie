@@ -68,8 +68,8 @@ function showContextMenu(event: MouseEvent) {
   background: var(--surface-base);
   box-shadow: 0 1px 3px rgb(0 0 0 / 4%);
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color $transition-base ease,
+    box-shadow $transition-base ease;
   flex-direction: column;
   justify-content: space-between;
 

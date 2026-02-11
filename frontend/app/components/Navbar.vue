@@ -66,8 +66,8 @@ button {
   border-radius: var(--radius-sm);
   background: var(--border);
   transition:
-    background-color 0.2s ease,
-    transform 0.2s ease;
+    background-color $transition-base ease,
+    transform $transition-base ease;
   align-items: center;
   cursor: pointer;
   gap: 8px;

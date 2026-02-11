@@ -222,7 +222,7 @@ const actionTools: ToolItem[] = [
   border-radius: var(--radius-lg);
   background: var(--surface-base);
   box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
-  transition: box-shadow 0.2s ease;
+  transition: box-shadow $transition-base ease;
   align-items: center;
   flex-wrap: wrap;
   gap: 4px 6px;
@@ -319,9 +319,9 @@ const actionTools: ToolItem[] = [
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   opacity: 0;
   transition:
-    opacity 0.2s ease,
-    transform 0.2s ease,
-    visibility 0.2s ease;
+    opacity $transition-base ease,
+    transform $transition-base ease,
+    visibility $transition-base ease;
   align-items: center;
   gap: 6px;
   pointer-events: none;

@@ -41,9 +41,9 @@ const icon = resolveIcon(props.node);
   border-radius: var(--radius-lg);
   color: var(--text-body);
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    border-color $transition-base ease,
+    box-shadow $transition-base ease,
+    transform $transition-base ease;
   flex-direction: column;
   text-decoration: none;
 

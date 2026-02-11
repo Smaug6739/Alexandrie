@@ -29,5 +29,8 @@ watch(
 <style lang="scss">
 .app {
   height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 </style>

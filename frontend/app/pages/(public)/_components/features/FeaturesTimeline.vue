@@ -260,7 +260,7 @@ section {
       line-height: 1;
       color: white;
       background: transparent;
-      transition: transform 0.2s ease;
+      transition: transform $transition-base ease;
       cursor: pointer;
 
       &:hover {

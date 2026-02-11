@@ -160,8 +160,8 @@ defineExpose({ reset });
   color: var(--text-secondary);
   background-color: transparent;
   transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease;
+    border-color $transition-base ease,
+    background-color $transition-base ease;
   align-items: center;
   flex-direction: column;
   justify-content: center;

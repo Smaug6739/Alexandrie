@@ -432,8 +432,8 @@ function handleClickOutside(e: MouseEvent) {
 .card-list-enter-active,
 .card-list-leave-active {
   transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+    opacity $transition-base ease,
+    transform $transition-base ease;
 }
 
 .card-list-enter-from,
@@ -443,6 +443,6 @@ function handleClickOutside(e: MouseEvent) {
 }
 
 .card-list-move {
-  transition: transform 0.2s ease;
+  transition: transform $transition-base ease;
 }
 </style>

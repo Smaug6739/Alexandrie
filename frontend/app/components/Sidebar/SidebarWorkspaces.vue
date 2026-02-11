@@ -78,8 +78,8 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   border-radius: var(--radius-md);
   background: var(--surface-base);
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color $transition-base ease,
+    box-shadow $transition-base ease;
   align-items: center;
   cursor: pointer;
   justify-content: space-between;
@@ -90,7 +90,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   }
 
   svg {
-    transition: transform 0.2s ease;
+    transition: transform $transition-base ease;
   }
 }
 

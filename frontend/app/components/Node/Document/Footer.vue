@@ -47,8 +47,8 @@ footer {
   color: var(--text-body);
   background: var(--surface-transparent);
   transition:
-    color 0.2s ease,
-    background-color 0.2s ease;
+    color $transition-base ease,
+    background-color $transition-base ease;
   align-items: center;
   gap: 6px;
 

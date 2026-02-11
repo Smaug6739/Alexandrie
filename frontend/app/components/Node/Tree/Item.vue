@@ -212,8 +212,8 @@ function toggleExpand() {
 .expand-enter-active,
 .expand-leave-active {
   transition:
-    max-height 0.2s ease,
-    opacity 0.2s ease;
+    max-height $transition-base ease,
+    opacity $transition-base ease;
   overflow: hidden;
 }
 

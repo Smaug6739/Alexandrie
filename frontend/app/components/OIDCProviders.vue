@@ -79,10 +79,10 @@ onMounted(() => {
   color: var(--text-body);
   background: var(--surface-base);
   transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    border-color $transition-base ease,
+    background-color $transition-base ease,
+    box-shadow $transition-base ease,
+    transform $transition-base ease;
   align-items: center;
   cursor: pointer;
   gap: 0.6rem;
