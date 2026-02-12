@@ -178,15 +178,11 @@ main {
 }
 
 .btn.glow {
-  box-shadow:
-    0 10px 30px rgb(0 0 0 / 20%),
-    0 0 0 rgb(255 255 255 / 60%);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn.glow:hover {
-  box-shadow:
-    0 14px 36px rgb(0 0 0 / 24%),
-    0 0 30px rgb(255 255 255 / 35%);
+  box-shadow: var(--shadow-xl);
 }
 
 .about-section {

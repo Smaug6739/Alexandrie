@@ -231,9 +231,9 @@ onMounted(() => {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   transition:
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    border-color $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow $transition-slow cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
 

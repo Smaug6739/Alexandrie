@@ -61,9 +61,7 @@ const close = (id: number) => manager.remove(id);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 10%),
-    0 2px 4px -2px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-md);
   align-items: flex-start;
   gap: 12px;
   overflow: hidden;
@@ -230,8 +228,6 @@ const close = (id: number) => manager.remove(id);
 
 /* Dark mode adjustments */
 :global(.dark-mode) .notification {
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 30%),
-    0 2px 4px -2px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow-md);
 }
 </style>

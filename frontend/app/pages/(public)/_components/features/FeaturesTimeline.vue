@@ -225,7 +225,7 @@ section {
   display: flex;
   background: rgb(0 0 0 / 85%);
   align-items: center;
-  animation: fadeIn 0.25s ease;
+  animation: fadeIn $transition-base ease;
   inset: 0;
   justify-content: center;
 
@@ -234,7 +234,7 @@ section {
     max-width: min(1100px, 92vw);
     max-height: 85vh;
     border-radius: var(--radius-lg);
-    animation: zoomIn 0.25s ease;
+    animation: zoomIn $transition-base ease;
     overflow: hidden;
 
     img {

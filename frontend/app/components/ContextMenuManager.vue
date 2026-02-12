@@ -165,9 +165,7 @@ const pos = computed(() => {
   min-width: 240px;
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  box-shadow:
-    0 8px 30px rgb(0 0 0 / 12%),
-    0 2px 8px rgb(0 0 0 / 6%);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 
@@ -184,9 +182,7 @@ const pos = computed(() => {
 }
 
 :root.dark .context-menu {
-  box-shadow:
-    0 8px 30px rgb(0 0 0 / 40%),
-    0 0 1px rgb(255 255 255 / 10%);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ========================

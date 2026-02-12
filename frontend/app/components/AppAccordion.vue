@@ -91,10 +91,7 @@ function onLeave(el: Element) {
   border-radius: var(--radius-lg);
   background: #fff;
   box-shadow: var(--shadow-sm);
-  transition:
-    box-shadow 0.25s ease,
-    border-color 0.25s ease,
-    background 0.25s ease;
+  transition: border-color $transition-base ease;
   overflow: hidden;
 
   &.open {
@@ -163,7 +160,7 @@ function onLeave(el: Element) {
 .accordion-expand-leave-active {
   transition:
     max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.25s ease;
+    opacity $transition-base ease;
 }
 
 .accordion-expand-enter-from,
