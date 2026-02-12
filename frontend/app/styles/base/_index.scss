@@ -24,7 +24,7 @@ body {
 	font-family: $font-sans;
 	line-height: 1.5;
 	color: var(--text-body);
-	background: var(--surface-base);
+	background: var(--body-fixed);
 	transition: background-color $transition-base;
 }
 
