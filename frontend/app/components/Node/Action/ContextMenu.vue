@@ -165,8 +165,6 @@ async function action(name: string) {
 
   kbd {
     padding: 2px 5px;
-    border-radius: 4px;
-    font-family: inherit;
     font-size: 10px;
     color: var(--text-secondary);
     background: var(--surface-raised);

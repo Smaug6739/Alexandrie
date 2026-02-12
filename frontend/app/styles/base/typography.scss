@@ -1,3 +1,5 @@
+@use "../abstract/static.scss" as *;
+
 a {
 	color: var(--text-body);
 	text-decoration: none;
@@ -106,6 +108,7 @@ kbd {
 	border: 1px solid var(--border);
 	border-radius: var(--radius-sm);
 	font-size: 13px;
+	font-family: $font-sans;
 	font-weight: 400;
 	color: var(--text-primary);
 	background-color: var(--surface-base);

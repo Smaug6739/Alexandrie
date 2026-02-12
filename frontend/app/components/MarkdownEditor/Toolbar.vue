@@ -343,7 +343,6 @@ const actionTools: ToolItem[] = [
   kbd {
     padding: 2px 5px;
     border-radius: 3px;
-    font-family: inherit;
     font-size: 10px;
   }
 }
