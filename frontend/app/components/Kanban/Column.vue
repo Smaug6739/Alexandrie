@@ -362,7 +362,6 @@ function handleClickOutside(e: MouseEvent) {
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   text-align: center;
-  background: rgb(0 0 0 / 2%);
   align-items: center;
   flex-direction: column;
   justify-content: center;

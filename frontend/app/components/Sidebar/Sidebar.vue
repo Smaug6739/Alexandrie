@@ -222,6 +222,6 @@ input {
   display: flex;
   width: 100vw;
   height: 100vh;
-  background-color: rgb(0 0 0 / 50%);
+  background-color: var(--overlay-backdrop);
 }
 </style>

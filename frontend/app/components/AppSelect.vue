@@ -297,7 +297,7 @@ button,
   position: fixed;
   z-index: 1000;
   display: flex;
-  background: rgb(0 0 0 / 50%);
+  background: var(--overlay-backdrop);
   align-items: flex-end;
   inset: 0;
   justify-content: center;
@@ -307,7 +307,7 @@ button,
   display: flex;
   width: 100%;
   max-height: 85vh;
-  border-radius: 16px 16px 0 0;
+  border-radius: var(--surface-sheet-radius);
   background: var(--surface-base);
   animation: slide-up 0.3s ease-out;
   flex-direction: column;

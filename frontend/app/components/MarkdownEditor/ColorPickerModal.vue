@@ -253,7 +253,6 @@ onMounted(() => {
 
   .swatch-check {
     color: white;
-    filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
 
     svg {
       width: 18px;

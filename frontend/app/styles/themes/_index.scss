@@ -1,13 +1,16 @@
 @use "dark" as *;
+@use "material" as *;
 @use "print" as *;
 @use "white" as *;
 @forward "colors";
 
 :root {
+	@include material-theme;
 	@include white-theme;
 }
 
 .dark-mode {
+	@include material-theme;
 	@include dark-theme;
 }
 

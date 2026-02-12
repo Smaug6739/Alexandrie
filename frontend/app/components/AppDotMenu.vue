@@ -53,10 +53,6 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   cursor: pointer;
 }
 
-.menu-button:hover {
-  background-color: rgb(0 0 0 / 8%);
-}
-
 .menu-icon {
   display: block;
   width: 20px;

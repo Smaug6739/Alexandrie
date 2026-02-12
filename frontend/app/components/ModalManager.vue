@@ -73,7 +73,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   position: absolute;
   z-index: 1;
   border-radius: var(--radius-lg);
-  background-color: rgb(0 0 0 / 20%);
+  background-color: var(--overlay-light);
   inset: 0;
   pointer-events: none;
 }
@@ -94,7 +94,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 .modal-mask {
   position: fixed;
   display: flex;
-  background-color: rgb(0 0 0 / 50%);
+  background-color: var(--overlay-backdrop);
   inset: 0;
 }
 

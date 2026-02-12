@@ -223,7 +223,6 @@ section {
   position: fixed;
   z-index: 2000;
   display: flex;
-  background: rgb(0 0 0 / 85%);
   align-items: center;
   animation: fadeIn $transition-base ease;
   inset: 0;

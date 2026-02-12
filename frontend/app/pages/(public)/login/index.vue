@@ -162,7 +162,7 @@ input {
   transform: translateY(-50%);
 
   &:hover {
-    background: rgb(0 0 0 / 5%);
+    background: var(--surface-transparent);
   }
 
   &:active {

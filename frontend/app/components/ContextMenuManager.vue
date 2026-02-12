@@ -192,7 +192,7 @@ const pos = computed(() => {
   position: fixed;
   z-index: 6000;
   display: flex;
-  background: rgb(0 0 0 / 50%);
+  background: var(--overlay-backdrop);
   align-items: flex-end;
   inset: 0;
   justify-content: center;
@@ -203,7 +203,7 @@ const pos = computed(() => {
   width: 100%;
   min-height: 60vh;
   max-height: 85vh;
-  border-radius: 16px 16px 0 0;
+  border-radius: var(--surface-sheet-radius);
   background: var(--surface-base);
   animation: slide-up 0.3s ease-out;
   flex-direction: column;
