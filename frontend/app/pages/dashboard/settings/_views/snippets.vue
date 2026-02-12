@@ -204,7 +204,7 @@ const handleDictImport = async (e: Event) => {
 
   code {
     padding: 0.1rem 0.4rem;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
     font-size: 0.85em;
     background: var(--code-bg);
   }
@@ -274,7 +274,7 @@ const handleDictImport = async (e: Event) => {
   height: 36px;
   padding: 6px;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 13px;
   font-weight: bold;
   color: var(--text-secondary);
@@ -300,7 +300,7 @@ const handleDictImport = async (e: Event) => {
 // Code styling for table
 :deep(.snippet-code) {
   padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-family: $font-mono;
   font-size: 0.85rem;
   font-weight: 500;

@@ -180,7 +180,7 @@ function toggleExpand() {
 
 .node-type {
   padding: 2px 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.6875rem;
   font-weight: 500;
   color: var(--text-secondary);

@@ -329,7 +329,7 @@ onUnmounted(() => {
 .progress-bar-container {
   width: 100%;
   height: 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: var(--border);
   margin-bottom: 0.75rem;
   overflow: hidden;
@@ -337,7 +337,7 @@ onUnmounted(() => {
 
 .progress-bar {
   height: 100%;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: var(--primary);
   transition: width $transition-medium ease;
 }

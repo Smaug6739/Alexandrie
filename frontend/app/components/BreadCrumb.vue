@@ -123,7 +123,7 @@ nav {
 
   a {
     padding: 4px 8px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
     font-size: 14px;
     font-weight: 500;
     color: var(--text-body);

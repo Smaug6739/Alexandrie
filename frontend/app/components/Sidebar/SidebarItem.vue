@@ -138,7 +138,7 @@ const drop = async (event: DragEvent) => {
 
   .item-icon {
     padding: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
   }
 }
 

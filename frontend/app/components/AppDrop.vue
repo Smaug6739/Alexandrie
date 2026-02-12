@@ -278,7 +278,7 @@ defineExpose({ reset });
   height: 28px;
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   color: var(--text-secondary);
   background: transparent;
   opacity: 0.6;

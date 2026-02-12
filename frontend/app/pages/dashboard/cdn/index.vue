@@ -222,14 +222,14 @@ const bulkDelete = async (lines: Field[]) => {
 
   .progress-bar {
     height: 8px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
     background: var(--surface-transparent);
     flex: 1;
     overflow: hidden;
 
     .progress-fill {
       height: 100%;
-      border-radius: 4px;
+      border-radius: var(--radius-xs);
       background: var(--primary);
       transition: width $transition-medium ease;
 
@@ -311,7 +311,7 @@ const bulkDelete = async (lines: Field[]) => {
   height: 34px;
   padding: 4px;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 12px;
   font-weight: bold;
   color: var(--text-secondary);

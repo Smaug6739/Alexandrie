@@ -175,7 +175,7 @@ input {
   display: flex;
   padding: 6px 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   color: white;
   background: var(--primary);
   align-items: center;
@@ -195,7 +195,7 @@ input {
   z-index: 10;
   max-height: 150px;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: var(--surface-base);
   box-shadow: var(--shadow-md);
   margin-top: 2px;

@@ -287,7 +287,7 @@ h2 {
 
 code {
   padding: 0.2rem 0.4rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-family: $font-mono;
   font-size: 0.8rem;
 }

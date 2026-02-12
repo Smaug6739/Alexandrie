@@ -315,7 +315,7 @@ onUnmounted(() => {
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 4px;
+      border-radius: var(--radius-xs);
       background: var(--border);
     }
   }

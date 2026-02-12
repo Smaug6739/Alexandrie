@@ -286,7 +286,7 @@ defineExpose({ flattenedItems });
   display: flex;
   padding: 4px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: transparent;
   transition: transform $transition-fast ease;
   align-items: center;
@@ -381,7 +381,7 @@ defineExpose({ flattenedItems });
 .clear-filters-btn {
   padding: 6px 12px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;

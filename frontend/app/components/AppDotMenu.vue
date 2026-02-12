@@ -47,7 +47,7 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
 .menu-button {
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   line-height: 1;
   background: none;
   cursor: pointer;

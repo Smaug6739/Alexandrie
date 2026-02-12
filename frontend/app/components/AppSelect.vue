@@ -407,7 +407,7 @@ button,
   display: flex;
   margin: 2px 0 6px;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.9rem;
   color: var(--text-secondary);
   transition:

@@ -2,7 +2,7 @@
 
 .markdown-container {
 	padding: 10px;
-	border-radius: 4px;
+	border-radius: var(--radius-xs);
 	background-color: var(--surface-raised);
 	margin-top: 10px;
 

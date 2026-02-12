@@ -316,7 +316,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .search-clear {
   padding: 0.25rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
 
   &:hover {
@@ -389,7 +389,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .result-type {
   padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.75rem;
   color: var(--text-secondary);
   background: var(--surface-raised);
@@ -517,7 +517,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .activity-icon {
   padding: 0.3rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
 }
 
 .activity-content {

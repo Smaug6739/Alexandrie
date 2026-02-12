@@ -119,7 +119,7 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 
 .child-badge {
   padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.75rem;
   color: var(--text-secondary);
   background: var(--surface-raised);

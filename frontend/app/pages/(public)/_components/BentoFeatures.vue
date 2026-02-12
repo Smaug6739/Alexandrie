@@ -380,7 +380,7 @@
 
   .syntax-code {
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
     color: var(--green);
     background: var(--green-bg);
   }
