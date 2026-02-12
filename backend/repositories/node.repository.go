@@ -295,7 +295,7 @@ func (r *NodeRepositoryImpl) SearchFulltext(userId types.Snowflake, query string
 	if includeContent {
 		// FULLTEXT search including content body
 		err = r.db.Select(&results, `
-			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.accessibility, n.icon,
 			       MATCH(n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
 			       SUBSTRING(n.content, 
 			           GREATEST(1, LOCATE(?, LOWER(n.content)) - 50), 
@@ -310,7 +310,7 @@ func (r *NodeRepositoryImpl) SearchFulltext(userId types.Snowflake, query string
 	} else {
 		// FULLTEXT search on name, description, tags only (faster)
 		err = r.db.Select(&results, `
-			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.icon,
+			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.accessibility, n.icon,
 			       MATCH(n.name, n.description, n.tags, n.content) AGAINST(? IN NATURAL LANGUAGE MODE) AS relevance,
 			       NULL AS content_snippet,
 			       n.created_timestamp,

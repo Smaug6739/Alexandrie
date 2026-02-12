@@ -13,6 +13,7 @@
           class="search-result-item"
           :to="item.path"
           :class="{ selected: selectedIndex === item.globalIndex }"
+          @click="close"
           @mouseenter="$emit('updateSelectedIndex', item.globalIndex)"
         >
           <Icon :name="item.icon" class="result-icon" />
@@ -36,6 +37,8 @@ import type { ItemCommand } from './types';
 
 const props = defineProps<{ items: ItemCommand[]; selectedIndex: number; query: string }>();
 defineEmits<{ updateSelectedIndex: [index: number] }>();
+
+const { close } = useCommandCenter();
 
 const groupedItems = computed(() => {
   return props.items.reduce(

@@ -4,7 +4,6 @@
       <BackToTop />
     </ClientOnly>
     <Sidebar />
-    <CommandCenter />
     <MediumView>
       <Navbar />
       <div style="width: 100%; height: calc(100% - 65px)"><NuxtPage /></div>
@@ -20,4 +19,13 @@ const userStore = useUserStore();
 
 nodesStore.init();
 userStore.fetch();
+
+const { initGlobalListeners, destroyGlobalListeners } = useCommandCenter();
+
+onMounted(() => {
+  initGlobalListeners();
+});
+onBeforeUnmount(() => {
+  destroyGlobalListeners();
+});
 </script>

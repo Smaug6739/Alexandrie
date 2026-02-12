@@ -73,8 +73,10 @@ export interface NodeSearchResult {
   description?: string;
   tags?: string;
   role: number;
+  accessibility: number;
   icon?: string;
   relevance: number;
+  metadata?: undefined;
   content_snippet?: string;
   created_timestamp: number;
   updated_timestamp: number;

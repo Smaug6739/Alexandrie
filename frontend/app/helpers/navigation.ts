@@ -88,7 +88,7 @@ export const quickActions: QuickAction[] = [
     title: 'Search in docs',
     description: 'Search in your documents',
     icon: 'search',
-    shortcut: 'Ctrl+q',
+    shortcut: 'Ctrl+K or / ',
     path: '/dashboard/docs',
   },
   {

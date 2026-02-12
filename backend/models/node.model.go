@@ -39,6 +39,7 @@ type NodeSearchResult struct {
 	Description      *string          `json:"description" db:"description"`
 	Tags             *string          `json:"tags" db:"tags"`
 	Role             int              `json:"role" db:"role"`
+	Accessibility    *int             `json:"accessibility" db:"accessibility"`
 	Icon             *string          `json:"icon" db:"icon"`
 	Relevance        float64          `json:"relevance" db:"relevance"`
 	ContentSnippet   *string          `json:"content_snippet,omitempty" db:"content_snippet"`
