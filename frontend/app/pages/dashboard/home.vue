@@ -335,7 +335,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  box-shadow: 0 8px 32px rgb(0 0 0 / 12%);
+  box-shadow: var(--shadow-lg);
   overflow-y: auto;
 }
 
@@ -467,7 +467,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   &:hover {
     border-color: var(--primary);
     background: var(--primary-bg);
-    box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 }

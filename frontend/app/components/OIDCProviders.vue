@@ -91,7 +91,7 @@ onMounted(() => {
   &:hover:not(:disabled) {
     border-color: var(--provider-color);
     background: color-mix(in srgb, var(--provider-color) 8%, transparent);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
   }
 

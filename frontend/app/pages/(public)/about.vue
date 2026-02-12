@@ -143,7 +143,7 @@ main {
 .hero-image {
   width: 600px;
   border-radius: 1rem;
-  box-shadow: 0 10px 40px rgb(0 0 0 / 30%);
+  box-shadow: var(--shadow-xl);
   margin-top: 10px;
 }
 
@@ -236,7 +236,7 @@ main {
 .demo-gallery img {
   width: 280px;
   border-radius: 0.8rem;
-  box-shadow: 0 6px 20px rgb(0 0 0 / 25%);
+  box-shadow: var(--shadow-lg);
   transition: transform 0.3s ease;
 }
 

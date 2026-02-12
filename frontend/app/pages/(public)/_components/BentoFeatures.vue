@@ -258,7 +258,7 @@
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 20px 60px rgb(0 0 0 / 12%);
+    box-shadow: var(--shadow-xl);
     transform: translateY(-4px);
   }
 

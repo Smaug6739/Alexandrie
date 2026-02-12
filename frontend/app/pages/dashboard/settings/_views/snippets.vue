@@ -238,7 +238,7 @@ const handleDictImport = async (e: Event) => {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-base);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  box-shadow: var(--shadow-md);
   margin-top: 0.25rem;
 
   button {

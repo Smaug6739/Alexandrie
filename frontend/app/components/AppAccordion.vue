@@ -90,7 +90,7 @@ function onLeave(el: Element) {
   border: 1px solid #e5e7eb;
   border-radius: var(--radius-lg);
   background: #fff;
-  box-shadow: 0 2px 10px rgb(0 0 0 / 4%);
+  box-shadow: var(--shadow-sm);
   transition:
     box-shadow 0.25s ease,
     border-color 0.25s ease,

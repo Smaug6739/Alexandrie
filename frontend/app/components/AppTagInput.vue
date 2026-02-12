@@ -197,7 +197,7 @@ input {
   border: 1px solid var(--border);
   border-radius: 4px;
   background: var(--surface-base);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  box-shadow: var(--shadow-md);
   margin-top: 2px;
   overflow-y: auto;
 }

@@ -285,7 +285,7 @@ button,
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-base);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-sm);
   list-style: none;
   overflow-y: auto;
 }

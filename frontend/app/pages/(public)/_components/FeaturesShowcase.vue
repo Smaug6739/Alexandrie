@@ -288,7 +288,7 @@ onUnmounted(() => {
   border: 1px solid var(--border);
   border-radius: 16px;
   background: var(--surface-raised);
-  box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-xl);
   overflow: hidden;
 
   img {

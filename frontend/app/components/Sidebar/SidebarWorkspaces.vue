@@ -86,7 +86,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 
   &:hover {
     border-color: var(--border-strong);
-    box-shadow: 0 4px 8px var(--shadow-sm);
+    box-shadow: var(--shadow-sm);
   }
 
   svg {
@@ -107,7 +107,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 
 .dropdown-selected.open {
   border-color: var(--accent);
-  box-shadow: 0 4px 16px var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 
   svg {
     transform: rotate(180deg);
@@ -124,9 +124,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   border-radius: var(--radius-lg);
   color: var(--text-body);
   background-color: var(--surface-base);
-  box-shadow:
-    0 8px 24px var(--shadow-sm),
-    0 2px 8px var(--shadow-sm);
+  box-shadow: var(--shadow-lg);
   animation: slideDown 0.15s ease-out;
   list-style: none;
   overflow-y: auto;

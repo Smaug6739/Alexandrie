@@ -58,7 +58,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   border-radius: var(--radius-lg);
   font-size: initial;
   background-color: var(--surface-base);
-  box-shadow: 0 2px 10px var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 .modal-container:has(> .large) {

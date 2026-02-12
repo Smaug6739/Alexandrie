@@ -214,7 +214,7 @@
   text-decoration: none;
 
   &:hover {
-    box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-3px);
 
     svg {
@@ -325,7 +325,7 @@
   white-space: nowrap;
 
   &:hover {
-    box-shadow: 0 6px 20px rgb(0 0 0 / 15%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
   }
 }

@@ -194,14 +194,14 @@ section {
           border: 1px solid #e5e7eb;
           border-radius: 16px;
           background: white;
-          box-shadow: 0 10px 30px rgb(0 0 0 / 7%);
+          box-shadow: var(--shadow-lg);
           transition:
             transform 0.5s ease,
             box-shadow 0.5s ease;
           cursor: zoom-in;
 
           &:hover {
-            box-shadow: 0 14px 40px rgb(0 0 0 / 10%);
+            box-shadow: var(--shadow-xl);
             transform: translateY(-5px);
           }
         }

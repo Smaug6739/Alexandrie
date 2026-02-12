@@ -49,7 +49,7 @@ const icon = resolveIcon(props.node);
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 }

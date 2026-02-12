@@ -221,7 +221,7 @@ const actionTools: ToolItem[] = [
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 4%);
+  box-shadow: var(--shadow-sm);
   transition: box-shadow $transition-base ease;
   align-items: center;
   flex-wrap: wrap;
@@ -231,7 +231,7 @@ const actionTools: ToolItem[] = [
   user-select: none;
 
   &:hover {
-    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+    box-shadow: var(--shadow-md);
   }
 }
 
@@ -316,7 +316,7 @@ const actionTools: ToolItem[] = [
   font-weight: 500;
   color: var(--surface-base);
   background: var(--text-inverse);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  box-shadow: var(--shadow-md);
   opacity: 0;
   transition:
     opacity $transition-base ease,

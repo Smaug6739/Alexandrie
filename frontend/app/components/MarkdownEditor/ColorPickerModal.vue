@@ -229,7 +229,7 @@ onMounted(() => {
   height: 48px;
   border: 3px solid transparent;
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-md);
   transition:
     transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -295,7 +295,7 @@ onMounted(() => {
   height: 16px;
   border: 3px solid white;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+  box-shadow: var(--shadow-sm);
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
@@ -337,7 +337,7 @@ onMounted(() => {
     border: none;
     border-radius: 50%;
     background: var(--primary);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+    box-shadow: var(--shadow-sm);
     cursor: pointer;
   }
 }
@@ -376,7 +376,7 @@ onMounted(() => {
   height: 40px;
   border: 2px solid var(--border);
   border-radius: 50%;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-md);
   flex-shrink: 0;
 }
 

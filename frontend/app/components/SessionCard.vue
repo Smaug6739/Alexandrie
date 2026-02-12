@@ -106,7 +106,7 @@ const deviceType = computed(() => {
 
   &:hover {
     border-color: var(--border-strong);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 6%);
+    box-shadow: var(--shadow-md);
   }
 
   &.current-session {

@@ -150,7 +150,7 @@ const drop = async (event: DragEvent) => {
 }
 
 .dragging {
-  box-shadow: 0 2px 10px var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
   border-bottom: 2px solid var(--primary);
 }
 

@@ -177,7 +177,7 @@ onMounted(() => {
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background: var(--surface-base);
-  box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-xl);
 }
 
 .card-header {

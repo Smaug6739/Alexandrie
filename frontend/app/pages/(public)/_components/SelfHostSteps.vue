@@ -250,7 +250,7 @@ h2 {
   max-width: 500px;
   border-radius: 16px;
   background: #1e1e2e;
-  box-shadow: 0 25px 80px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow-xl);
   overflow: hidden;
 }
 

@@ -66,7 +66,7 @@ function showContextMenu(event: MouseEvent) {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 4%);
+  box-shadow: var(--shadow-xs);
   transition:
     border-color $transition-base ease,
     box-shadow $transition-base ease;
@@ -75,7 +75,7 @@ function showContextMenu(event: MouseEvent) {
 
   &:hover {
     border-color: var(--border-strong);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+    box-shadow: var(--shadow-md);
   }
 }
 

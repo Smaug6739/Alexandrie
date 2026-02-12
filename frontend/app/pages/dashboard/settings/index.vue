@@ -198,7 +198,7 @@ const close = () => emit('close');
         max-height: 70vh;
         padding: 1rem;
         border-radius: var(--radius-lg);
-        box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+        box-shadow: var(--shadow-md);
         border-bottom: 1px solid var(--border);
         overflow-y: auto;
       }

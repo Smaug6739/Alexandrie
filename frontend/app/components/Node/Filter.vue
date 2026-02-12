@@ -145,7 +145,7 @@ onBeforeUnmount(() => {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-base);
-  box-shadow: 0 10px 30px rgb(2 6 23 / 20%);
+  box-shadow: var(--shadow-lg);
 }
 
 .row {

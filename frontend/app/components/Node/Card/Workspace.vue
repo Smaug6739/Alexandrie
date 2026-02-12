@@ -55,7 +55,7 @@ const getWorkspaceDocCount = (workspaceId: string) => {
   text-decoration: none;
 
   &:hover {
-    box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 

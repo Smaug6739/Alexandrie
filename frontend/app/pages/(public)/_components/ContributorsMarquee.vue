@@ -107,7 +107,7 @@ onMounted(fetchContributors);
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 10px 30px rgb(0 0 0 / 10%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-4px);
 
     img {
