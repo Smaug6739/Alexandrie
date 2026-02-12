@@ -101,8 +101,10 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
       },
       {
         label: 'Interface style',
+        description: 'Glassmorphism adds transparent surfaces with blur effects for a modern glass look.',
         type: 'radio',
         key: 'style',
+        tag: 'New',
         choices: [
           { label: 'Default', id: 'default' },
           { label: 'Glassmorphism', id: 'glassmorphism' },

@@ -31,7 +31,7 @@ const selectItem = (id: number | string) => {
   button {
     padding: 0.6rem;
     border: 1px solid var(--border);
-    border-radius: 0.5rem;
+    border-radius: var(--radius-md);
     background: var(--surface-raised);
     cursor: pointer;
     flex: 1;

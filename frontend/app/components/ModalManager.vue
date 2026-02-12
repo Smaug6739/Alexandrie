@@ -59,6 +59,8 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   font-size: initial;
   background-color: var(--surface-base);
   box-shadow: var(--shadow-sm);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
 }
 
 .modal-container:has(> .large) {
@@ -95,6 +97,8 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   position: fixed;
   display: flex;
   background-color: var(--overlay-backdrop);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   inset: 0;
 }
 
