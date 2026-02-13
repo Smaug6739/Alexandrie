@@ -233,8 +233,8 @@ defineExpose({ resetKanbanData });
 .column-list-enter-active,
 .column-list-leave-active {
   transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+    opacity $transition-medium ease,
+    transform $transition-medium ease;
 }
 
 .column-list-enter-from,
@@ -244,6 +244,6 @@ defineExpose({ resetKanbanData });
 }
 
 .column-list-move {
-  transition: transform 0.3s ease;
+  transition: transform $transition-medium ease;
 }
 </style>

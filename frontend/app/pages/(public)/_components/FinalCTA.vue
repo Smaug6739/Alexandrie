@@ -223,7 +223,7 @@
   }
 
   svg {
-    transition: transform 0.3s ease;
+    transition: transform $transition-medium ease;
   }
 }
 

@@ -132,8 +132,8 @@ function onLeave(el: Element) {
   width: 20px;
   height: 20px;
   transition:
-    transform 0.3s ease,
-    stroke 0.3s ease;
+    transform $transition-medium ease,
+    stroke $transition-medium ease;
   fill: none;
   stroke: #444;
   stroke-width: 2;

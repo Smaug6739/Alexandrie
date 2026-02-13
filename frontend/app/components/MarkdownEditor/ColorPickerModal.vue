@@ -410,9 +410,9 @@ onMounted(() => {
   color: white;
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   transition:
-    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-color $transition-medium cubic-bezier(0.4, 0, 0.2, 1),
+    background $transition-medium cubic-bezier(0.4, 0, 0.2, 1),
+    transform $transition-medium cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   cursor: pointer;
   gap: 8px;
@@ -433,7 +433,7 @@ onMounted(() => {
     width: 14px;
     height: 14px;
     color: white;
-    transition: transform 0.3s ease;
+    transition: transform $transition-medium ease;
   }
 
   .btn-text {

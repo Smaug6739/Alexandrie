@@ -233,7 +233,7 @@ main {
   width: 280px;
   border-radius: 0.8rem;
   box-shadow: var(--shadow-lg);
-  transition: transform 0.3s ease;
+  transition: transform $transition-medium ease;
 }
 
 .demo-gallery img:hover {

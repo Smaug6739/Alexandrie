@@ -202,8 +202,8 @@ const close = (id: number) => manager.remove(id);
 /* Transitions */
 .notification-slide-enter-active {
   transition:
-    opacity 0.3s cubic-bezier(0.21, 1.02, 0.73, 1),
-    transform 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+    opacity $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1),
+    transform $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
 .notification-slide-leave-active {
@@ -223,7 +223,7 @@ const close = (id: number) => manager.remove(id);
 }
 
 .notification-slide-move {
-  transition: transform 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+  transition: transform $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
 /* Dark mode adjustments */

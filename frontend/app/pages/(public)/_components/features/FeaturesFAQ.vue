@@ -177,7 +177,7 @@ h2 {
 
 .faq-answer {
   max-height: 0;
-  transition: max-height 0.3s ease;
+  transition: max-height $transition-medium ease;
   overflow: hidden;
 
   p {

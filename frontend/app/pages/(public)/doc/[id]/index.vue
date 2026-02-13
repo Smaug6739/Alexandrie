@@ -6,7 +6,7 @@
       class="reader"
       :style="{
         marginRight: !isTablet && preferencesStore.get('hideTOC').value && isOpened && hasContent ? '200px' : '0px',
-        transition: 'margin 0.3s',
+        transition: 'margin $transition-medium',
       }"
     >
       <div class="doc-container">

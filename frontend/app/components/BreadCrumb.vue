@@ -91,8 +91,8 @@ nav {
     height: 27px;
     border-radius: 50%;
     transition:
-      background-color 0.3s ease,
-      opacity 0.3s ease;
+      background-color $transition-medium ease,
+      opacity $transition-medium ease;
     cursor: pointer;
     fill: var(--text-body);
     margin-right: 8px;

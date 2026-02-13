@@ -72,7 +72,7 @@ const props = defineProps({
   border-radius: var(--radius-sm);
   color: white;
   background-color: var(--primary);
-  transition: background-color 0.3s;
+  transition: background-color $transition-medium;
   text-decoration: none;
 }
 

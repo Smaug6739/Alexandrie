@@ -50,7 +50,7 @@ const sheetStyle = computed(() => {
   if (sheetTranslateY.value > 0) {
     return {
       transform: `translateY(${sheetTranslateY.value}px)`,
-      transition: isDragging.value ? 'none' : 'transform 0.3s ease-out',
+      transition: isDragging.value ? 'none' : 'transform $transition-medium ease-out',
     };
   }
   return {};
@@ -205,7 +205,7 @@ const pos = computed(() => {
   max-height: 85vh;
   border-radius: var(--surface-sheet-radius);
   background: var(--surface-base);
-  animation: slide-up 0.3s ease-out;
+  animation: slide-up $transition-medium ease-out;
   flex-direction: column;
 }
 
@@ -258,12 +258,12 @@ const pos = computed(() => {
 /* Transitions */
 .mobile-sheet-enter-active,
 .mobile-sheet-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity $transition-medium ease;
 }
 
 .mobile-sheet-enter-active .mobile-sheet,
 .mobile-sheet-leave-active .mobile-sheet {
-  transition: transform 0.3s ease;
+  transition: transform $transition-medium ease;
 }
 
 .mobile-sheet-enter-from,

@@ -9,7 +9,7 @@ const { isOpened, paneWidth, isResizing } = useSidebar();
 const { isMobile } = useDevice();
 
 const marginLeft = computed(() => (isMobile.value || !isOpened.value ? '10px' : `${paneWidth.value + 20}px`));
-const transition = computed(() => (isResizing.value ? 'none' : 'padding-left 0.3s'));
+const transition = computed(() => (isResizing.value ? 'none' : 'padding-left $transition-medium'));
 </script>
 
 <style scoped>

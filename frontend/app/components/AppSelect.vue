@@ -309,7 +309,7 @@ button,
   max-height: 85vh;
   border-radius: var(--surface-sheet-radius);
   background: var(--surface-base);
-  animation: slide-up 0.3s ease-out;
+  animation: slide-up $transition-medium ease-out;
   flex-direction: column;
 
   header {
@@ -435,10 +435,10 @@ button,
 // Transitions
 .sheet-enter-active,
 .sheet-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity $transition-medium ease;
 
   .sheet {
-    transition: transform 0.3s ease;
+    transition: transform $transition-medium ease;
   }
 }
 
