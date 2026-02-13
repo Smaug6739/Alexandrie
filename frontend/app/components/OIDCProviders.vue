@@ -73,12 +73,16 @@ onMounted(() => {
   display: flex;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-body);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition:
+    border-color $transition-base ease,
+    background-color $transition-base ease,
+    box-shadow $transition-base ease,
+    transform $transition-base ease;
   align-items: center;
   cursor: pointer;
   gap: 0.6rem;
@@ -87,7 +91,7 @@ onMounted(() => {
   &:hover:not(:disabled) {
     border-color: var(--provider-color);
     background: color-mix(in srgb, var(--provider-color) 8%, transparent);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
   }
 

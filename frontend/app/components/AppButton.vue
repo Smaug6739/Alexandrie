@@ -15,7 +15,7 @@ button {
   display: inline-flex;
   width: fit-content;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
   align-items: center;
   gap: 0.5rem;

@@ -69,10 +69,10 @@ const props = defineProps({
 .error-button {
   display: inline-block;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   color: white;
   background-color: var(--primary);
-  transition: background-color 0.3s;
+  transition: background-color $transition-medium;
   text-decoration: none;
 }
 

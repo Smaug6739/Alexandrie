@@ -16,6 +16,7 @@ const preferences = usePreferences();
 const { setAppColor } = useAppColors();
 
 const primaryColor = computed(() => preferences.get('primaryColor').value);
+const interfaceStyle = computed(() => preferences.get('style').value);
 
 watch(
   primaryColor,
@@ -24,10 +25,21 @@ watch(
   },
   { immediate: true },
 );
+
+watch(
+  interfaceStyle,
+  style => {
+    document.documentElement.classList.toggle('glassmorphism', style === 'glassmorphism');
+  },
+  { immediate: true },
+);
 </script>
 
 <style lang="scss">
 .app {
   height: 100vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 </style>

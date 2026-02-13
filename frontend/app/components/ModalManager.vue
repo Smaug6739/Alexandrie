@@ -38,7 +38,9 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 /* Transition group classes */
 .modal-enter-active,
 .modal-leave-active {
-  transition: all 0.3s ease;
+  transition:
+    opacity $transition-medium ease,
+    transform $transition-medium ease;
 }
 
 .modal-enter-from,
@@ -53,10 +55,12 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   width: 90%;
   max-width: 750px;
   margin: auto;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: initial;
   background-color: var(--surface-base);
-  box-shadow: 0 2px 10px var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
 }
 
 .modal-container:has(> .large) {
@@ -70,8 +74,8 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 .modal-overlay {
   position: absolute;
   z-index: 1;
-  border-radius: 10px;
-  background-color: rgb(0 0 0 / 20%);
+  border-radius: var(--radius-lg);
+  background-color: var(--overlay-light);
   inset: 0;
   pointer-events: none;
 }
@@ -85,15 +89,26 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 }
 
 .modal {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--surface-base);
 }
 
 .modal-mask {
   position: fixed;
   display: flex;
-  background-color: rgb(0 0 0 / 50%);
+  background-color: var(--overlay-backdrop);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   inset: 0;
+}
+
+.modal-pos {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
 }
 
 @media screen and (width <= 600px) {

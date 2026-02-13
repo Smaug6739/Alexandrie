@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="app-title">Backups <tag yellow>Beta</tag></h2>
+    <h2 class="page-title">Backups <tag yellow>Beta</tag></h2>
     <div class="main">
       <p>Create a backup of your data with customizable options.</p>
 
@@ -284,7 +284,7 @@ onUnmounted(() => {
 
 .progress-section {
   padding: 1rem;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
 }
 
 .progress-header {
@@ -296,7 +296,7 @@ onUnmounted(() => {
 
 .status-badge {
   padding: 0.25rem 0.75rem;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 500;
 
@@ -329,7 +329,7 @@ onUnmounted(() => {
 .progress-bar-container {
   width: 100%;
   height: 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: var(--border);
   margin-bottom: 0.75rem;
   overflow: hidden;
@@ -337,9 +337,9 @@ onUnmounted(() => {
 
 .progress-bar {
   height: 100%;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: var(--primary);
-  transition: width 0.3s ease;
+  transition: width $transition-medium ease;
 }
 
 .progress-message {
@@ -352,7 +352,7 @@ onUnmounted(() => {
 .error-message {
   display: flex;
   padding: 0.75rem;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   color: var(--error);
   text-align: left;
   background: var(--error-bg);

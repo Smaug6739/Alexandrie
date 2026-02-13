@@ -13,7 +13,7 @@ import IndexSettings from './index.vue';
   max-width: 1150px;
   height: 715px;
   max-height: 90vh;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 
   nav {
     padding: 1rem;
@@ -33,7 +33,7 @@ import IndexSettings from './index.vue';
       display: flex;
       margin: 0.2rem;
       padding: 0.2rem 0.4rem;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       color: inherit;
       align-items: center;
       gap: 0.5rem;

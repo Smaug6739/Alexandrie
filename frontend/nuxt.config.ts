@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: "@use '~/styles/_variables.scss' as *;",
+          additionalData: "@use '~/styles/abstract/static.scss' as *;",
         },
       },
     },
@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   },
 
   ssr: false,
-  css: ['~/styles/main.scss', '~/styles/katex/katex.min.css'],
+  css: ['~/styles/main.scss', '~/styles/vendors/katex/katex.min.css'],
   modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt', '@nuxt/eslint'],
 
   colorMode: {

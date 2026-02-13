@@ -63,9 +63,11 @@ button {
   width: 200px;
   padding: 8px 12px;
   border: none;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   background: var(--border);
-  transition: all 0.2s ease;
+  transition:
+    background-color $transition-base ease,
+    transform $transition-base ease;
   align-items: center;
   cursor: pointer;
   gap: 8px;
@@ -87,9 +89,9 @@ button {
 }
 
 kbd {
-  padding: 0 4px;
+  padding: 0 5px;
   border: 1px solid var(--text-secondary);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-family: monospace;
   font-size: 14px;
   font-weight: 600;

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2 class="app-title">About Alexandrie</h2>
+    <h2 class="page-title">About Alexandrie</h2>
     <IconApp width="150px" height="150px" style="float: right" />
-    <p class="app-subtitle">Information about the application.</p>
+    <p class="page-subtitle">Information about the application.</p>
     <p>
       <strong>Alexandrie version: {{ version }}</strong>
     </p>

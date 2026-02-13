@@ -143,9 +143,9 @@ onBeforeUnmount(() => {
   width: 320px;
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
-  box-shadow: 0 10px 30px rgb(2 6 23 / 20%);
+  box-shadow: var(--shadow-lg);
 }
 
 .row {
@@ -170,7 +170,7 @@ label {
 .btn {
   padding: 8px 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: transparent;
   cursor: pointer;
 }
@@ -190,8 +190,8 @@ label {
 .pop-enter-active,
 .pop-leave-active {
   transition:
-    transform 0.15s ease,
-    opacity 0.15s ease;
+    transform $transition-fast ease,
+    opacity $transition-fast ease;
 }
 
 .pop-enter-from {

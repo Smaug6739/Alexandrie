@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component node-list">
+  <div class="page-card node-list">
     <header>
       <h1 v-if="parent">
         <Icon :name="parent.icon || 'files'" display="xl" :class="`parent-icon ${getAppAccent(parent.color as number, true)}`" />
@@ -202,13 +202,13 @@ a:hover > .hint-tooltip {
 
 .parent-icon {
   padding: 6px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin-right: 10px;
 }
 
 .doc-count {
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 600;
   color: var(--text-secondary);

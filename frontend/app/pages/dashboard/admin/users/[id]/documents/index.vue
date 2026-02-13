@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <h2 style="text-align: center">Search documents</h2>
     <DataTable :headers="headers" :rows="rows">
       <template #actions="{ cell }">

@@ -283,9 +283,11 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   display: flex;
   padding: 0.75rem 1rem;
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition: all 0.2s;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
   align-items: center;
 
   &.focused {
@@ -314,7 +316,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .search-clear {
   padding: 0.25rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
 
   &:hover {
@@ -331,18 +333,18 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   max-height: 400px;
   padding: 2px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
-  box-shadow: 0 8px 32px rgb(0 0 0 / 12%);
+  box-shadow: var(--shadow-lg);
   overflow-y: auto;
 }
 
 .search-result {
   display: flex;
   padding: 0.75rem 1rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--text-body);
-  transition: background 0.15s;
+  transition: background $transition-fast;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
@@ -362,7 +364,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .node-icon {
   padding: 3px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin-right: 10px;
 }
 
@@ -387,7 +389,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .result-type {
   padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.75rem;
   color: var(--text-secondary);
   background: var(--surface-raised);
@@ -448,11 +450,15 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   display: flex;
   min-height: 150px;
   border: 2px dashed var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 0.9rem;
   color: var(--text-secondary);
   background: transparent;
-  transition: all 0.2s;
+  transition:
+    border-color $transition-fast,
+    background $transition-fast,
+    box-shadow $transition-fast,
+    transform $transition-fast;
   align-items: center;
   cursor: pointer;
   flex-direction: column;
@@ -461,7 +467,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   &:hover {
     border-color: var(--primary);
     background: var(--primary-bg);
-    box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 }
@@ -497,9 +503,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .activity-item {
   display: flex;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--text-body);
-  transition: background 0.15s;
+  transition: background $transition-fast;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
@@ -511,7 +517,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .activity-icon {
   padding: 0.3rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
 }
 
 .activity-content {
@@ -541,7 +547,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   display: flex;
   padding: 1.25rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   align-items: center;
   gap: 1rem;
@@ -549,7 +555,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .stat-icon {
   padding: 0.4rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--primary-bg);
 }
 
@@ -571,7 +577,9 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 // Transitions
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: all 0.2s ease;
+  transition:
+    opacity $transition-fast ease,
+    transform $transition-fast ease;
 }
 
 .dropdown-enter-from,

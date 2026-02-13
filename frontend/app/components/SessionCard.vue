@@ -96,15 +96,17 @@ const deviceType = computed(() => {
   display: flex;
   padding: 1rem 1.25rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition:
+    border-color $transition-base ease,
+    box-shadow $transition-base ease;
   flex-direction: column;
   gap: 1rem;
 
   &:hover {
     border-color: var(--border-strong);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 6%);
+    box-shadow: var(--shadow-md);
   }
 
   &.current-session {
@@ -132,7 +134,7 @@ const deviceType = computed(() => {
   display: flex;
   width: 44px;
   height: 44px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   color: var(--text-body);
   background: var(--surface-overlay);
   align-items: center;
@@ -183,7 +185,7 @@ const deviceType = computed(() => {
 .badge {
   display: inline-flex;
   padding: 0.15rem 0.5rem;
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
   font-size: 0.7rem;
   font-weight: 600;
   align-items: center;
@@ -269,8 +271,8 @@ const deviceType = computed(() => {
 
 .user-agent-value {
   padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  font-family: var(--monospace-font, 'JetBrains Mono', monospace);
+  border-radius: var(--radius-sm);
+  font-family: $font-mono;
   font-size: 0.75rem;
   line-height: 1.4;
   color: var(--text-secondary);

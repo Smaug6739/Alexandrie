@@ -1,0 +1,169 @@
+.grey,
+[grey] {
+	border-color: var(--grey-border);
+	color: var(--grey);
+	background-color: var(--grey-bg);
+
+	* {
+		fill: var(--grey) !important;
+
+		path {
+			fill: var(--grey) !important;
+		}
+	}
+}
+
+.border-grey {
+	border-color: var(--grey) !important;
+}
+
+.blue,
+[blue] {
+	border-color: var(--blue-border);
+	color: var(--blue);
+	background-color: var(--blue-bg);
+
+	* {
+		fill: var(--blue) !important;
+
+		path {
+			fill: var(--blue) !important;
+		}
+	}
+}
+
+.border-blue {
+	border-color: var(--blue) !important;
+}
+
+.green,
+[green] {
+	border-color: var(--green-border);
+	color: var(--green);
+	background-color: var(--green-bg);
+
+	* {
+		fill: var(--green) !important;
+
+		path {
+			fill: var(--green) !important;
+		}
+	}
+}
+
+.border-green {
+	border-color: var(--green) !important;
+}
+
+.teal,
+[teal] {
+	border-color: var(--teal-border);
+	color: var(--teal);
+	background-color: var(--teal-bg);
+
+	* {
+		fill: var(--teal) !important;
+
+		path {
+			fill: var(--teal) !important;
+		}
+	}
+}
+
+.border-teal {
+	border-color: var(--teal) !important;
+}
+
+.yellow,
+[yellow] {
+	border-color: var(--yellow-border);
+	color: var(--yellow);
+	background-color: var(--yellow-bg);
+
+	* {
+		fill: var(--yellow) !important;
+
+		path {
+			fill: var(--yellow) !important;
+		}
+	}
+}
+
+.border-yellow {
+	border-color: var(--yellow) !important;
+}
+
+.red,
+[red] {
+	border-color: var(--red-border);
+	color: var(--red);
+	background-color: var(--red-bg);
+
+	* {
+		fill: var(--red) !important;
+
+		path {
+			fill: var(--red) !important;
+		}
+	}
+}
+
+.border-red {
+	border-color: var(--red) !important;
+}
+
+.purple,
+[purple] {
+	border-color: var(--purple-border);
+	color: var(--purple);
+	background-color: var(--purple-bg);
+
+	* {
+		fill: var(--purple) !important;
+
+		path {
+			fill: var(--purple) !important;
+		}
+	}
+}
+
+.border-pink {
+	border-color: var(--pink) !important;
+}
+
+.pink,
+[pink] {
+	border-color: var(--pink-border);
+	color: var(--pink);
+	background-color: var(--pink-bg);
+
+	* {
+		fill: var(--pink) !important;
+
+		path {
+			fill: var(--pink) !important;
+		}
+	}
+}
+
+.border-pink {
+	border-color: var(--pink) !important
+}
+
+.primary {
+	border-color: var(--primary-border);
+	color: var(--primary);
+	background-color: var(--primary-bg);
+
+	* {
+		fill: var(--primary) !important;
+
+		path {
+			fill: var(--primary) !important;
+		}
+	}
+}
+
+.border-primary {
+	border-color: var(--primary) !important;
+}

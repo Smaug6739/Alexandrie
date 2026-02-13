@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <h2 style="display: flex; align-items: center; justify-content: space-between">
       User Details <img v-if="user" style="width: 40px; height: 40px; border-radius: 50%" :src="avatarURL(user)" />
     </h2>

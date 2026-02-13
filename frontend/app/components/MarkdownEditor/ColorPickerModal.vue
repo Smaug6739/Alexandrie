@@ -204,24 +204,6 @@ onMounted(() => {
   gap: 24px;
   overflow-y: auto;
   padding-right: 8px;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 3px;
-    background: var(--bg-color-secondary);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background: var(--border);
-
-    &:hover {
-      background: var(--primary);
-    }
-  }
 }
 
 .section-title {
@@ -246,9 +228,12 @@ onMounted(() => {
   width: 48px;
   height: 48px;
   border: 3px solid transparent;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    border-color $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow $transition-slow cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
 
@@ -268,7 +253,6 @@ onMounted(() => {
 
   .swatch-check {
     color: white;
-    filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
 
     svg {
       width: 18px;
@@ -299,7 +283,7 @@ onMounted(() => {
 
 .color-wheel {
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   cursor: crosshair;
 }
 
@@ -310,7 +294,7 @@ onMounted(() => {
   height: 16px;
   border: 3px solid white;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+  box-shadow: var(--shadow-sm);
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
@@ -352,7 +336,7 @@ onMounted(() => {
     border: none;
     border-radius: 50%;
     background: var(--primary);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+    box-shadow: var(--shadow-sm);
     cursor: pointer;
   }
 }
@@ -380,7 +364,7 @@ onMounted(() => {
   display: flex;
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   align-items: center;
   gap: 12px;
@@ -391,7 +375,7 @@ onMounted(() => {
   height: 40px;
   border: 2px solid var(--border);
   border-radius: 50%;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-md);
   flex-shrink: 0;
 }
 
@@ -420,12 +404,15 @@ onMounted(() => {
   width: 100%;
   min-height: 40px;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 600;
   color: white;
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    border-color $transition-medium cubic-bezier(0.4, 0, 0.2, 1),
+    background $transition-medium cubic-bezier(0.4, 0, 0.2, 1),
+    transform $transition-medium cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   cursor: pointer;
   gap: 8px;
@@ -446,7 +433,7 @@ onMounted(() => {
     width: 14px;
     height: 14px;
     color: white;
-    transition: all 0.3s ease;
+    transition: transform $transition-medium ease;
   }
 
   .btn-text {

@@ -29,8 +29,8 @@ const toggle = () => {
   border-radius: 15px;
   background: var(--surface-overlay);
   transition:
-    background-color 0.3s,
-    border-color 0.3s;
+    background-color $transition-medium,
+    border-color $transition-medium;
   align-items: center;
   cursor: pointer;
   flex: 0 0 44px;
@@ -42,9 +42,9 @@ const toggle = () => {
     border-radius: 50%;
     background: var(--surface-base);
     transition:
-      transform 0.25s,
-      background-color 0.25s,
-      border-color 0.25s;
+      transform $transition-base,
+      background-color $transition-base,
+      border-color $transition-base;
     transform: translateX(0);
   }
 

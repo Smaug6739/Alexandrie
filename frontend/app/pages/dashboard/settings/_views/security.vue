@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="app-title">Security</h2>
-    <p class="app-subtitle">Manage your security settings and monitor your account activity.</p>
+    <h2 class="page-title">Security</h2>
+    <p class="page-subtitle">Manage your security settings and monitor your account activity.</p>
     <h3>Active sessions</h3>
     <p class="section-description">These are the devices that are currently logged into your account.</p>
     <div class="sessions-list">
@@ -63,7 +63,7 @@
       <AppButton type="primary">Change password</AppButton>
     </form>
     <h2>Danger zone</h2>
-    <p class="app-subtitle">Irreversible actions. Please proceed with caution.</p>
+    <p class="page-subtitle">Irreversible actions. Please proceed with caution.</p>
 
     <div class="danger-section">
       <div class="danger-card">
@@ -212,7 +212,7 @@ const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountM
 
 .no-sessions {
   padding: 1rem;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   color: var(--text-secondary);
   text-align: center;
   background: var(--surface-raised);
@@ -228,7 +228,7 @@ p {
   display: flex;
   padding: 1rem 1.25rem;
   border: 1px solid var(--yellow-border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--yellow-bg);
   gap: 1rem;
   margin-bottom: 1.5rem;
@@ -285,7 +285,7 @@ p {
   display: flex;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--bg-secondary);
   align-items: center;
   gap: 1rem;
@@ -343,9 +343,9 @@ p {
   display: flex;
   padding: 1rem 1.25rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition: border-color $transition-fast ease;
   align-items: center;
   gap: 1rem;
   justify-content: space-between;
@@ -376,7 +376,7 @@ p {
   display: flex;
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   color: var(--text-body);
   background: var(--surface-overlay);
   align-items: center;

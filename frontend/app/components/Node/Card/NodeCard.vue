@@ -64,16 +64,18 @@ function showContextMenu(event: MouseEvent) {
   max-width: 380px;
   min-height: 250px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
-  box-shadow: 0 1px 3px rgb(0 0 0 / 4%);
-  transition: all 0.2s ease;
+  box-shadow: var(--shadow-xs);
+  transition:
+    border-color $transition-base ease,
+    box-shadow $transition-base ease;
   flex-direction: column;
   justify-content: space-between;
 
   &:hover {
     border-color: var(--border-strong);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+    box-shadow: var(--shadow-md);
   }
 }
 
@@ -86,7 +88,7 @@ function showContextMenu(event: MouseEvent) {
 
 .category-icon {
   padding: 8px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   margin-right: 10px;
 }
 

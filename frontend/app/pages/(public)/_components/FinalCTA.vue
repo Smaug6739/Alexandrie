@@ -201,18 +201,20 @@
 .btn-primary {
   display: inline-flex;
   padding: 16px 28px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 15px;
   font-weight: 600;
   color: var(--primary);
   background: white;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;
 
   &:hover {
-    box-shadow: 0 10px 30px rgb(0 0 0 / 20%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-3px);
 
     svg {
@@ -221,7 +223,7 @@
   }
 
   svg {
-    transition: transform 0.3s ease;
+    transition: transform $transition-medium ease;
   }
 }
 
@@ -229,12 +231,14 @@
   display: inline-flex;
   padding: 16px 28px;
   border: 1px solid rgb(255 255 255 / 30%);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 15px;
   font-weight: 600;
   color: white;
   background: rgb(255 255 255 / 15%);
-  transition: all 0.3s ease;
+  transition:
+    background-color $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   backdrop-filter: blur(10px);
   gap: 8px;
@@ -284,7 +288,7 @@
   display: flex;
   width: 48px;
   height: 48px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: #5865f2;
   align-items: center;
   flex-shrink: 0;
@@ -309,17 +313,19 @@
 
 .discord-btn {
   padding: 10px 18px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 13px;
   font-weight: 600;
   color: #5865f2;
   background: white;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease;
   text-decoration: none;
   white-space: nowrap;
 
   &:hover {
-    box-shadow: 0 6px 20px rgb(0 0 0 / 15%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
   }
 }
@@ -331,7 +337,7 @@
 
   .cta-container {
     padding: 3rem 1.5rem;
-    border-radius: 24px;
+    border-radius: var(--radius-xxl);
   }
 
   .cta-actions {

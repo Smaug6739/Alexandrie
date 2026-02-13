@@ -38,15 +38,18 @@ const icon = resolveIcon(props.node);
   height: 100%;
   padding: 1rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   color: var(--text-body);
-  transition: all 0.2s;
+  transition:
+    border-color $transition-base ease,
+    box-shadow $transition-base ease,
+    transform $transition-base ease;
   flex-direction: column;
   text-decoration: none;
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 }
@@ -101,6 +104,6 @@ const icon = resolveIcon(props.node);
 
 .node-icon {
   padding: 0.4rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 </style>

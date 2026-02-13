@@ -53,7 +53,7 @@ const totalCount = computed(() => props.nodes.length);
 <style scoped lang="scss">
 .tree {
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   margin-top: 2rem;
   overflow: hidden;
@@ -82,7 +82,7 @@ const totalCount = computed(() => props.nodes.length);
 .item-count {
   padding: 4px 10px;
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
   font-size: 0.75rem;
   color: var(--text-secondary);
   background: var(--surface-base);

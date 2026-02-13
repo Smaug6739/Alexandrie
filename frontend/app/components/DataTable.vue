@@ -143,7 +143,7 @@ export interface Field<V = unknown> {
 .table {
   width: 100%;
   border: 1.5px solid var(--border);
-  border-radius: $radius-md;
+  border-radius: var(--radius-md);
 }
 
 header {
@@ -220,7 +220,7 @@ td {
   }
 
   &:has(footer) {
-    border-radius: 0 0 $radius-md $radius-md;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
   }
 }
 
@@ -234,7 +234,7 @@ button {
   margin: 0 5px;
   padding: 8px 12px;
   border: 1px solid var(--border);
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font-size: 1rem;
 
   &:hover {

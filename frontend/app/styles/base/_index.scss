@@ -1,0 +1,41 @@
+@use "../abstract/static.scss" as *;
+
+@forward "application.scss";
+@forward "forms.scss";
+@forward "lists.scss";
+@forward "media.scss";
+@forward "scrollbar.scss";
+@forward "tables.scss";
+@forward "typography.scss";
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+	background-color: var(--selection-color);
+}
+
+body {
+	font-family: $font-sans;
+	line-height: 1.5;
+	color: var(--text-body);
+	background: var(--body-fixed);
+	transition: background-color $transition-base;
+}
+
+body.modal-open {
+	overflow: hidden;
+	touch-action: none;
+}
+
+.error {
+	margin: 8px 0 4px;
+	font-size: 0.95rem;
+	color: var(--red);
+	text-align: center;
+}

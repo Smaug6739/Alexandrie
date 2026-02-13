@@ -45,15 +45,17 @@ const getWorkspaceDocCount = (workspaceId: string) => {
   height: 100%;
   padding: 1.25rem;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   color: var(--text-body);
   background: var(--surface-base);
-  transition: all 0.2s;
+  transition:
+    box-shadow $transition-base ease,
+    transform $transition-base ease;
   flex-direction: column;
   text-decoration: none;
 
   &:hover {
-    box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 
@@ -85,7 +87,7 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 
 .count {
   padding: 0.2rem 0.6rem;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 0.8rem;
   color: var(--text-secondary);
   background: var(--surface-raised);
@@ -117,7 +119,7 @@ const getWorkspaceDocCount = (workspaceId: string) => {
 
 .child-badge {
   padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.75rem;
   color: var(--text-secondary);
   background: var(--surface-raised);

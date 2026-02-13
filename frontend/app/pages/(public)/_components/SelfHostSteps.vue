@@ -157,7 +157,9 @@ h2 {
   border: 1px solid var(--border);
   border-radius: 16px;
   background: var(--surface-base);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    transform $transition-medium ease;
 
   &:hover {
     border-color: var(--primary);
@@ -176,7 +178,7 @@ h2 {
   display: flex;
   width: 32px;
   height: 32px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 700;
   color: white;
@@ -206,7 +208,7 @@ h2 {
 .code {
   padding: 10px 14px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-family: $font-mono;
   font-size: 13px;
   background: var(--surface-raised);
@@ -221,10 +223,12 @@ h2 {
   height: 36px;
   padding: 0;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   color: var(--text-secondary);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition:
+    border-color $transition-fast ease,
+    color $transition-fast ease;
   align-items: center;
   cursor: pointer;
   justify-content: center;
@@ -246,7 +250,7 @@ h2 {
   max-width: 500px;
   border-radius: 16px;
   background: #1e1e2e;
-  box-shadow: 0 25px 80px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow-xl);
   overflow: hidden;
 }
 
@@ -346,7 +350,7 @@ h2 {
   font-size: 13px;
   font-weight: 500;
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition: border-color $transition-fast ease;
   align-items: center;
   gap: 8px;
 

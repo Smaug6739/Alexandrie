@@ -217,7 +217,7 @@ Useful for side content or notes.
         <li><strong>Task lists:</strong> <code>- [ ] Todo</code>, <code>- [x] Done</code></li>
         <li>
           <strong>Tables:</strong><br />
-          <pre style="margin: 10px 0; padding: 0.75rem; border-radius: 6px; color: white; overflow-x: auto">
+          <pre style="margin: 10px 0; padding: 0.75rem; border-radius: var(--radius-sm); color: white; overflow-x: auto">
 | Column 1 | Column 2 |
 |-----------|-----------|
 | Cell 1    | Cell 2    |</pre
@@ -287,8 +287,8 @@ h2 {
 
 code {
   padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
+  border-radius: var(--radius-xs);
+  font-family: $font-mono;
   font-size: 0.8rem;
 }
 
@@ -302,7 +302,7 @@ code {
   pre {
     margin: 10px 0;
     padding: 0.75rem;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     color: white;
     overflow-x: auto;
   }
@@ -314,8 +314,8 @@ code {
 
 .custom-block pre {
   padding: 0.5rem;
-  border-radius: 6px;
-  font-family: 'JetBrains Mono', monospace;
+  border-radius: var(--radius-sm);
+  font-family: $font-mono;
   font-size: 0.85rem;
   background: rgb(255 255 255 / 30%);
   margin-top: 0.5rem;

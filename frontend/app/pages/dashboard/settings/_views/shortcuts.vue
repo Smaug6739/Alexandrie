@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="app-title">Shortcuts</h2>
-    <p class="app-subtitle">Here you can see the shortcuts for the different pages of the dashboard.</p>
+    <h2 class="page-title">Shortcuts</h2>
+    <p class="page-subtitle">Here you can see the shortcuts for the different pages of the dashboard.</p>
     <p>General</p>
     <div class="shortcuts">
       <div class="shortcut">
@@ -132,8 +132,7 @@
 <style scoped lang="scss">
 .shortcuts {
   display: flex;
-  border-radius: 12px;
-  font-family: Inter;
+  border-radius: var(--radius-lg);
   font-size: 16px;
   font-weight: 400;
   background-color: var(--surface-transparent);
@@ -149,7 +148,7 @@ p {
 .shortcut {
   display: flex;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   text-align: left;
   align-items: center;
   gap: 1rem;

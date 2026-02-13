@@ -48,7 +48,7 @@ onMounted(() => {
 .view-selection {
   display: flex;
   padding: 3px;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   background: var(--surface-raised);
   align-items: center;
   gap: 2px;
@@ -60,12 +60,12 @@ button {
   height: 32px;
   padding: 0;
   border: none;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   color: var(--text-secondary);
   background: transparent;
   transition:
-    color 0.2s,
-    background 0.2s;
+    color $transition-fast,
+    background $transition-fast;
   align-items: center;
   cursor: pointer;
   justify-content: center;

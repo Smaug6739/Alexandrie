@@ -32,41 +32,39 @@
 
     <!-- Mobile: Bottom Sheet Modal -->
     <Teleport to="body">
-      <Transition name="sheet">
-        <div v-if="open && isMobile" class="overlay" @click.self="toggleDropdown">
-          <div class="sheet">
-            <header>
-              <span class="sheet-title">{{ placeholder }}</span>
-              <button class="close-btn" @click="toggleDropdown">
-                <Icon name="close" display="md" fill="var(--text-body)" />
-              </button>
-            </header>
+      <div v-if="open && isMobile" class="overlay" @click.self="toggleDropdown">
+        <div class="sheet">
+          <header>
+            <span class="sheet-title">{{ placeholder }}</span>
+            <button class="close-btn" @click="toggleDropdown">
+              <Icon name="close" display="md" fill="var(--text-body)" />
+            </button>
+          </header>
 
-            <div v-if="searchable" class="sheet-search">
-              <Icon name="search" display="md" fill="var(--text-secondary)" />
-              <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." @keydown="handleKeyDown" />
-            </div>
-
-            <ul class="sheet-list">
-              <li v-if="nullable && selected" class="clear" @click="clearSelection">
-                <Icon name="close" display="sm" fill="var(--text-secondary)" />
-                <span>Clear selection</span>
-              </li>
-              <AppSelectNode
-                v-for="item in filteredItems"
-                :key="item.id"
-                :node="item"
-                :level="0"
-                :disabled="disabled"
-                :selected-id="selectedId"
-                @select="handleSelect"
-              />
-              <li v-if="filteredItems.length === 0" class="empty">No results found</li>
-              <slot name="list-footer"></slot>
-            </ul>
+          <div v-if="searchable" class="sheet-search">
+            <Icon name="search" display="md" fill="var(--text-secondary)" />
+            <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." @keydown="handleKeyDown" />
           </div>
+
+          <ul class="sheet-list">
+            <li v-if="nullable && selected" class="clear" @click="clearSelection">
+              <Icon name="close" display="sm" fill="var(--text-secondary)" />
+              <span>Clear selection</span>
+            </li>
+            <AppSelectNode
+              v-for="item in filteredItems"
+              :key="item.id"
+              :node="item"
+              :level="0"
+              :disabled="disabled"
+              :selected-id="selectedId"
+              @select="handleSelect"
+            />
+            <li v-if="filteredItems.length === 0" class="empty">No results found</li>
+            <slot name="list-footer"></slot>
+          </ul>
         </div>
-      </Transition>
+      </div>
     </Teleport>
   </div>
 </template>
@@ -248,7 +246,7 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
   width: 100%;
   margin: 0;
   border: 1px solid var(--border);
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   background: var(--surface-base);
 }
 
@@ -268,7 +266,7 @@ button,
   width: 100%;
   height: 34px;
   padding: 6px 10px;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font-size: 0.95rem;
   text-align: left;
   cursor: pointer;
@@ -285,9 +283,9 @@ button,
   margin: 0;
   padding: 2px;
   border: 1px solid var(--border);
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   background: var(--surface-base);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-sm);
   list-style: none;
   overflow-y: auto;
 }
@@ -299,7 +297,7 @@ button,
   position: fixed;
   z-index: 1000;
   display: flex;
-  background: rgb(0 0 0 / 50%);
+  background: var(--overlay-backdrop);
   align-items: flex-end;
   inset: 0;
   justify-content: center;
@@ -309,9 +307,9 @@ button,
   display: flex;
   width: 100%;
   max-height: 85vh;
-  border-radius: 16px 16px 0 0;
+  border-radius: var(--surface-sheet-radius);
   background: var(--surface-base);
-  animation: slide-up 0.3s ease-out;
+  animation: slide-up $transition-medium ease-out;
   flex-direction: column;
 
   header {
@@ -383,7 +381,7 @@ button,
 
   :deep(.tree-node) {
     padding: 14px 16px;
-    border-radius: $radius-sm;
+    border-radius: var(--radius-sm);
     font-size: 1rem;
     transition: background 0.15s;
 
@@ -409,10 +407,12 @@ button,
   display: flex;
   margin: 2px 0 6px;
   padding: 6px 12px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.9rem;
   color: var(--text-secondary);
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
@@ -435,10 +435,10 @@ button,
 // Transitions
 .sheet-enter-active,
 .sheet-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity $transition-medium ease;
 
   .sheet {
-    transition: transform 0.3s ease;
+    transition: transform $transition-medium ease;
   }
 }
 

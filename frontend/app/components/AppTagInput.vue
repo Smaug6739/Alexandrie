@@ -175,7 +175,7 @@ input {
   display: flex;
   padding: 6px 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   color: white;
   background: var(--primary);
   align-items: center;
@@ -195,9 +195,9 @@ input {
   z-index: 10;
   max-height: 150px;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: var(--surface-base);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  box-shadow: var(--shadow-md);
   margin-top: 2px;
   overflow-y: auto;
 }
@@ -223,7 +223,7 @@ input {
 .tag-chip {
   display: inline-flex;
   padding: 3px 6px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 12px;
   background: var(--border);
   align-items: center;

@@ -135,11 +135,11 @@ aside {
   z-index: 1;
   width: 3px;
   height: 15px;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
   background-color: var(--primary);
   transition:
-    top 0.25s ease,
-    height 0.25s ease;
+    top $transition-base ease,
+    height $transition-base ease;
 }
 
 ul {
@@ -157,7 +157,7 @@ li:deep(a).active {
   margin: 5px 0;
   font-weight: 450;
   color: var(--text-body);
-  transition: color 0.25s;
+  transition: color $transition-base;
   align-items: flex-start;
   gap: 5px;
   text-decoration: none;

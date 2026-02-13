@@ -99,10 +99,9 @@ h2 {
   .badge {
     display: inline-flex;
     padding: 0.25rem 0.5rem;
-    border-radius: $radius-sm;
+    border-radius: var(--radius-sm);
     font-size: 0.75rem;
     color: var(--text-primary);
-    background: var(--bg-color-2);
     opacity: 0.5;
     align-items: center;
     gap: 0.25rem;

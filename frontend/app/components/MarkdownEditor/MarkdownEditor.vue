@@ -170,7 +170,7 @@ const autoSave = debounceDelayed(() => {
 
   padding: 6px 10px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   gap: 8px;
 }
@@ -180,12 +180,12 @@ const autoSave = debounceDelayed(() => {
   max-width: 280px;
   padding: 4px 8px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
   background: transparent;
-  transition: background 0.15s ease;
+  transition: background $transition-fast ease;
   flex: 0 1 auto;
   outline: none;
 
@@ -204,11 +204,11 @@ const autoSave = debounceDelayed(() => {
   min-width: 100px;
   padding: 4px 8px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 0.85rem;
   color: var(--text-body);
   background: transparent;
-  transition: background 0.15s ease;
+  transition: background $transition-fast ease;
   flex: 1 1 150px;
   outline: none;
 
@@ -237,7 +237,7 @@ const autoSave = debounceDelayed(() => {
   display: flex;
   min-width: 0;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
   flex: 1;
   flex-direction: column;
@@ -282,7 +282,7 @@ const autoSave = debounceDelayed(() => {
 }
 
 .editor-container:deep(.cm-content) {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: $font-mono;
 }
 
 .markdown-preview {

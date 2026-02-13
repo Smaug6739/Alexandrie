@@ -34,7 +34,7 @@ function select() {
   display: block;
   margin: 0 auto;
   padding: 4px 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.85rem;
   text-align: left;
   cursor: pointer;

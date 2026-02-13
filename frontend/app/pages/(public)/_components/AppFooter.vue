@@ -153,10 +153,14 @@
     width: 40px;
     height: 40px;
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     color: var(--text-secondary);
     background: var(--surface-raised);
-    transition: all 0.3s ease;
+    transition:
+      border-color $transition-medium ease,
+      color $transition-medium ease,
+      background-color $transition-medium ease,
+      transform $transition-medium ease;
     align-items: center;
     justify-content: center;
 
@@ -199,7 +203,9 @@
       display: inline-block;
       font-size: 0.9rem;
       color: var(--text-secondary);
-      transition: all 0.2s ease;
+      transition:
+        color $transition-fast ease,
+        transform $transition-fast ease;
       text-decoration: none;
 
       &:hover {

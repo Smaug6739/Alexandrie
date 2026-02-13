@@ -1,0 +1,70 @@
+// =============================================================================
+// GLASSMORPHISM THEME
+// Transparent surfaces with backdrop blur for a modern glass effect.
+// Overrides surface, border, shadow and backdrop variables.
+// =============================================================================
+
+@mixin glassmorphism-theme {
+	// Border radius
+	--radius-xs: 80px;
+	--radius-sm: 12px;
+	--radius-md: 18px;
+	--radius-lg: 24px;
+	--radius-xl: 24px;
+	--radius-xxl: 28px;
+
+	// Overlay backdrop
+	--overlay-backdrop: rgb(0 0 0 / 50%);
+	--overlay-light: rgb(0 0 0 / 20%);
+
+	// Backdrop effects for glassmorphism
+	--backdrop-blur: blur(2px);
+	--backdrop-saturate: saturate(1);
+}
+
+@mixin glassmorphism-theme-white {
+
+	--accent-bg: rgb(221 225 248 / 65%);
+	--accent-border: rgb(221 225 248 / 65%);
+
+	// Surfaces become translucent
+	--surface-base: rgb(255 255 255 / 60%);
+	--surface-raised: rgb(241 246 253 / 70%);
+	--surface-overlay: rgb(226 235 253 / 60%);
+
+
+	// Softer borders
+	--border: rgb(223 224 229 / 100%);
+	--border-subtle: rgb(223 225 230 / 20%);
+	--border-strong: rgb(0 0 0 / 10%);
+
+	// Elevated shadows with slight spread
+	--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+	--shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+	--shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10);
+
+	--surface-tooltip: rgb(30 30 40 / 80%);
+}
+
+@mixin glassmorphism-dark-theme {
+
+	--accent-bg: rgb(44 51 74 / 65%);
+	--accent-border: rgb(74 79 92 / 65%);
+
+	--surface-base: rgb(33 40 48 / 65%);
+	--surface-raised: rgb(38 44 54 / 55%);
+	--surface-overlay: rgb(45 52 67 / 50%);
+
+	--border: rgb(255 255 255 / 12%);
+	--border-subtle: rgb(255 255 255 / 6%);
+	--border-strong: rgb(255 255 255 / 18%);
+
+	--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+	--shadow-md: 0 4px 16px rgba(0, 0, 0, 0.20);
+	--shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
+
+	--overlay-backdrop: rgb(0 0 0 / 40%);
+	--overlay-light: rgb(0 0 0 / 20%);
+
+	--surface-tooltip: rgb(15 18 25 / 85%);
+}

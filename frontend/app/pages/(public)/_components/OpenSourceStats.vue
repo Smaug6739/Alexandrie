@@ -147,7 +147,7 @@ onMounted(() => {
 
 .visual-bg {
   position: absolute;
-  border-radius: 24px;
+  border-radius: var(--radius-xxl);
   background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
   inset: 0;
   overflow: hidden;
@@ -165,7 +165,7 @@ onMounted(() => {
 .code-line {
   width: var(--width);
   height: 12px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--border);
   opacity: 0.4;
 }
@@ -175,9 +175,9 @@ onMounted(() => {
   margin: 2rem;
   padding: 2rem;
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
   background: var(--surface-base);
-  box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-xl);
 }
 
 .card-header {
@@ -255,7 +255,9 @@ onMounted(() => {
   border-radius: 16px;
   text-align: center;
   background: var(--surface-raised);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    transform $transition-medium ease;
 
   &:hover {
     border-color: var(--primary);
@@ -288,10 +290,14 @@ onMounted(() => {
   display: inline-flex;
   padding: 12px 20px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease,
+    border-color $transition-medium ease,
+    color $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;

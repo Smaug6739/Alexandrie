@@ -57,8 +57,8 @@ a {
   display: flex;
   width: 40px;
   height: 40px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
+  border-radius: var(--radius-md);
+  transition: background-color $transition-medium ease;
   align-items: center;
   justify-content: center;
 

@@ -3,8 +3,8 @@
     <!-- Header -->
     <header class="page-header">
       <div class="header-content">
-        <h2 class="app-title">Snippets</h2>
-        <p class="app-subtitle">
+        <h2 class="page-title">Snippets</h2>
+        <p class="page-subtitle">
           Manage markdown shortcuts. Type <code>!shortcut</code> in the editor to expand.
           <span class="count">{{ allSnippets.length }} snippets</span>
         </p>
@@ -204,7 +204,7 @@ const handleDictImport = async (e: Event) => {
 
   code {
     padding: 0.1rem 0.4rem;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
     font-size: 0.85em;
     background: var(--code-bg);
   }
@@ -236,9 +236,9 @@ const handleDictImport = async (e: Event) => {
   min-width: 160px;
   padding: 0.25rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
-  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  box-shadow: var(--shadow-md);
   margin-top: 0.25rem;
 
   button {
@@ -246,7 +246,7 @@ const handleDictImport = async (e: Event) => {
     width: 100%;
     padding: 0.5rem 0.75rem;
     border: none;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     font-size: 0.85rem;
     color: var(--text-body);
     text-align: left;
@@ -274,7 +274,7 @@ const handleDictImport = async (e: Event) => {
   height: 36px;
   padding: 6px;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 13px;
   font-weight: bold;
   color: var(--text-secondary);
@@ -300,22 +300,11 @@ const handleDictImport = async (e: Event) => {
 // Code styling for table
 :deep(.snippet-code) {
   padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-family: $font-mono;
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--primary);
   background: var(--code-bg);
-}
-
-// Transitions
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.15s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

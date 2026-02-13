@@ -1,0 +1,80 @@
+@use "../abstract/static.scss" as *;
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+label {
+	display: block;
+	padding: 4px 2px;
+	font-size: 0.95rem;
+	font-weight: 500;
+}
+
+textarea {
+	font-family: $font-mono;
+	resize: none;
+}
+
+input,
+select,
+textarea {
+	margin: 0;
+	padding: 8px 10px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-sm);
+	font-size: 14px;
+	color: var(--text-body);
+	background: var(--surface-base);
+
+	&:disabled {
+		opacity: 0.8;
+		cursor: not-allowed;
+	}
+
+	&:focus {
+		border-color: var(--primary);
+		outline: none;
+	}
+
+}
+
+input {
+	display: block;
+	width: 100%;
+}
+
+input[type="radio"]:focus {
+	box-shadow: none;
+	outline: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+	background: var(--border);
+	box-shadow: 0 0 0 1000px var(--border) inset !important;
+}
+
+button {
+	padding: 8px 16px;
+	border: none;
+	border-radius: var(--radius-sm);
+	color: var(--text-body);
+	background: transparent;
+	cursor: pointer;
+}
+
+
+fieldset {
+	margin: auto;
+	padding: 10px;
+	margin-top: 3% !important;
+}

@@ -94,9 +94,12 @@ onMounted(fetchContributors);
   display: flex;
   padding: 12px 16px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   flex-shrink: 0;
   gap: 12px;
@@ -104,7 +107,7 @@ onMounted(fetchContributors);
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 10px 30px rgb(0 0 0 / 10%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-4px);
 
     img {
@@ -115,8 +118,8 @@ onMounted(fetchContributors);
   img {
     width: 44px;
     height: 44px;
-    border-radius: 12px;
-    transition: transform 0.3s ease;
+    border-radius: var(--radius-lg);
+    transition: transform $transition-medium ease;
   }
 }
 
@@ -145,12 +148,15 @@ onMounted(fetchContributors);
   display: inline-flex;
   padding: 12px 24px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
   color: var(--text-body);
   background: var(--surface-raised);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    color $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;

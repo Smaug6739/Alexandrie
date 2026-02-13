@@ -134,7 +134,7 @@ function toggleExpand() {
   display: flex;
   width: 32px;
   height: 32px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
@@ -180,7 +180,7 @@ function toggleExpand() {
 
 .node-type {
   padding: 2px 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.6875rem;
   font-weight: 500;
   color: var(--text-secondary);
@@ -194,7 +194,7 @@ function toggleExpand() {
   min-width: 20px;
   height: 20px;
   padding: 0 6px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 0.6875rem;
   font-weight: 600;
   color: var(--text-body);
@@ -211,7 +211,9 @@ function toggleExpand() {
 // Expand transition
 .expand-enter-active,
 .expand-leave-active {
-  transition: all 0.2s ease;
+  transition:
+    max-height $transition-base ease,
+    opacity $transition-base ease;
   overflow: hidden;
 }
 

@@ -1,33 +1,28 @@
 <template>
-  <div class="grid-organization-modal">
+  <div>
     <EditorAppHeader icon="grid" title="Insert Grid" subtitle="Select a grid layout or customize your own by selecting the number of rows and columns." />
 
-    <div class="modal-content">
-      <div class="table-selector">
-        <div class="table-grid">
-          <div v-for="row in 12" :key="`row-${row}`" class="table-row">
-            <div
-              v-for="col in 12"
-              :key="`col-${col}`"
-              class="table-cell"
-              :class="{
-                hovered: isHovered(row, col),
-                selected: isSelected(row, col),
-              }"
-              @mouseenter="handleHover(row, col)"
-              @mouseleave="handleHoverLeave()"
-              @click="selectTableSize(row, col)"
-            ></div>
-          </div>
-        </div>
-        <div class="table-info">
-          <span v-if="hoveredSize">{{ hoveredSize.rows }} × {{ hoveredSize.columns }} table</span>
-          <span v-else>Hover to see table size</span>
+    <div>
+      <div class="table-grid">
+        <div v-for="row in 12" :key="`row-${row}`" class="table-row">
+          <div
+            v-for="col in 12"
+            :key="`col-${col}`"
+            class="table-cell"
+            :class="{
+              hovered: isHovered(row, col),
+              selected: isSelected(row, col),
+            }"
+            @mouseenter="handleHover(row, col)"
+            @mouseleave="handleHoverLeave()"
+            @click="selectTableSize(row, col)"
+          ></div>
         </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button class="cancel-btn" @click="closeModal">Cancel</button>
+      <div class="table-info">
+        <span v-if="hoveredSize">{{ hoveredSize.rows }} × {{ hoveredSize.columns }} table</span>
+        <span v-else>Hover to see table size</span>
+      </div>
     </div>
   </div>
 </template>
@@ -96,45 +91,17 @@ const generateGridMarkdown = (columns: number, rows: number): string => {
   markdown += '\n';
   return markdown;
 };
-
-const closeModal = () => {
-  emit('close');
-};
 </script>
 
 <style scoped lang="scss">
-.grid-organization-modal {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 0 16px;
-  background: transparent;
-  flex-direction: column;
-  overflow: auto;
-}
-
-.modal-content {
-  display: flex;
-  padding: 0;
-  flex: 1;
-  flex-direction: column;
-  gap: 32px;
-  overflow: auto;
-}
-
-.table-selector,
-.quick-presets {
-  margin-top: 8px;
-}
-
 .table-grid {
   display: grid;
-  max-width: 400px;
+  max-width: 350px;
   padding: 4px;
   border: 2px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
-  gap: 2px;
+  gap: 4px;
   grid-template-columns: repeat(12, 1fr);
   margin-bottom: 16px;
   margin-left: auto;
@@ -150,8 +117,10 @@ const closeModal = () => {
   width: 16px;
   height: 16px;
   border: 1px solid var(--border);
-  background: var(--bg-color-secondary);
-  transition: all 0.2s ease;
+  transition:
+    border-color $transition-base ease,
+    background-color $transition-base ease,
+    opacity $transition-base ease;
   cursor: pointer;
 
   &:hover {
@@ -170,7 +139,7 @@ const closeModal = () => {
   &.selected {
     border-color: var(--primary);
     background: var(--primary);
-    box-shadow: 0 0 0 2px rgb(var(--primary-rgb), 0.3);
+    box-shadow: var(--shadow-md);
     opacity: 1;
   }
 }
@@ -180,46 +149,13 @@ const closeModal = () => {
   min-height: 20px;
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-primary);
   text-align: center;
-  background: var(--bg-color-secondary);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-md);
   margin-left: auto;
   margin-right: auto;
-}
-
-.modal-footer {
-  display: flex;
-  padding: 24px 0;
-  flex-shrink: 0;
-  gap: 16px;
-  justify-content: flex-end;
-
-  .cancel-btn {
-    padding: 12px 24px;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-    background: var(--bg-color-secondary);
-    transition: all 0.3s ease;
-    cursor: pointer;
-
-    &:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: var(--border);
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
 }
 
 @media (width <= 768px) {

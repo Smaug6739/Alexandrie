@@ -51,7 +51,7 @@ const statusLabel = computed(() => {
 
 .status-badge {
   padding: 0.25rem 0.75rem;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 500;
 
@@ -84,7 +84,7 @@ const statusLabel = computed(() => {
 .progress-bar-container {
   width: 100%;
   height: 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: var(--border);
   margin-bottom: 0.75rem;
   overflow: hidden;
@@ -92,8 +92,8 @@ const statusLabel = computed(() => {
 
 .progress-bar {
   height: 100%;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background: var(--primary);
-  transition: width 0.3s ease;
+  transition: width $transition-medium ease;
 }
 </style>

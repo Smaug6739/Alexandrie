@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <template v-if="resource">
       <header>
         <h1>Preview <tag yellow>Beta</tag> • {{ resource.name }}</h1>

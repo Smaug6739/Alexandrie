@@ -113,7 +113,7 @@ const drop = async (event: DragEvent) => {
   width: 100%;
   margin: 2.5px 0;
   padding: 1px 4px;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   font-size: 15px;
   font-weight: 450;
   align-items: center;
@@ -138,7 +138,7 @@ const drop = async (event: DragEvent) => {
 
   .item-icon {
     padding: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
   }
 }
 
@@ -150,7 +150,7 @@ const drop = async (event: DragEvent) => {
 }
 
 .dragging {
-  box-shadow: 0 2px 10px var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
   border-bottom: 2px solid var(--primary);
 }
 

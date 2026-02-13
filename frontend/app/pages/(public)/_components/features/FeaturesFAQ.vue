@@ -123,7 +123,9 @@ h2 {
   border: 1px solid var(--border);
   border-radius: 16px;
   background: var(--surface-base);
-  transition: all 0.3s ease;
+  transition:
+    border-color $transition-medium ease,
+    box-shadow $transition-medium ease;
   overflow: hidden;
 
   &:hover {
@@ -146,7 +148,7 @@ h2 {
   color: var(--text-body);
   text-align: left;
   background: none;
-  transition: all 0.2s ease;
+  transition: color $transition-fast ease;
   align-items: center;
   cursor: pointer;
   gap: 1rem;
@@ -157,10 +159,12 @@ h2 {
   display: flex;
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--primary);
   background: var(--surface-raised);
-  transition: all 0.3s ease;
+  transition:
+    color $transition-medium ease,
+    background-color $transition-medium ease;
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
@@ -173,7 +177,7 @@ h2 {
 
 .faq-answer {
   max-height: 0;
-  transition: max-height 0.3s ease;
+  transition: max-height $transition-medium ease;
   overflow: hidden;
 
   p {
@@ -193,7 +197,7 @@ h2 {
 .cta-content {
   padding: 2.5rem 2rem;
   border: 1px solid var(--border);
-  border-radius: 24px;
+  border-radius: var(--radius-xxl);
   text-align: center;
   background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
 }
@@ -219,12 +223,14 @@ h2 {
 .cta-btn {
   display: inline-flex;
   padding: 12px 24px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
   color: white;
   background: #5865f2;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;

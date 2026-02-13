@@ -59,11 +59,9 @@ const close = (id: number) => manager.remove(id);
   width: 380px;
   padding: 14px 16px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 10%),
-    0 2px 4px -2px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-md);
   align-items: flex-start;
   gap: 12px;
   overflow: hidden;
@@ -74,7 +72,7 @@ const close = (id: number) => manager.remove(id);
   width: 36px;
   min-width: 36px;
   height: 36px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   align-items: center;
   justify-content: center;
 
@@ -112,10 +110,12 @@ const close = (id: number) => manager.remove(id);
   height: 28px;
   padding: 0;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--text-secondary);
   background: transparent;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   cursor: pointer;
   flex-shrink: 0;
@@ -201,11 +201,15 @@ const close = (id: number) => manager.remove(id);
 
 /* Transitions */
 .notification-slide-enter-active {
-  transition: all 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+  transition:
+    opacity $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1),
+    transform $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
 .notification-slide-leave-active {
-  transition: all 0.2s cubic-bezier(0.06, 0.71, 0.55, 1);
+  transition:
+    opacity 0.2s cubic-bezier(0.06, 0.71, 0.55, 1),
+    transform 0.2s cubic-bezier(0.06, 0.71, 0.55, 1);
 }
 
 .notification-slide-enter-from {
@@ -219,13 +223,11 @@ const close = (id: number) => manager.remove(id);
 }
 
 .notification-slide-move {
-  transition: transform 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+  transition: transform $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
 /* Dark mode adjustments */
 :global(.dark-mode) .notification {
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 30%),
-    0 2px 4px -2px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow-md);
 }
 </style>

@@ -67,7 +67,7 @@ defineEmits(['edit', 'delete']);
 
 .tree-actions span {
   margin: 0 2.5px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
 }
 

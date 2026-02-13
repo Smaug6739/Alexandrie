@@ -58,21 +58,21 @@ function showContextMenu(event: MouseEvent) {
   padding: 14px 16px;
   border: 1px solid var(--border);
   background: var(--surface-base);
-  transition: background 0.15s ease;
+  transition: background $transition-fast ease;
   border-bottom: none;
   flex-direction: column;
 
   &:first-child {
-    border-radius: $radius-md $radius-md 0 0;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
   &:last-child {
-    border-radius: 0 0 $radius-md $radius-md;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
     border-bottom: 1px solid var(--border);
   }
 
   &:only-child {
-    border-radius: $radius-md;
+    border-radius: var(--radius-md);
     border-bottom: 1px solid var(--border);
   }
 
@@ -95,7 +95,7 @@ header {
 
 .icon {
   padding: 6px;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   margin-right: 8px;
 }
 
@@ -103,7 +103,7 @@ header {
   font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
-  transition: color 0.15s;
+  transition: color $transition-fast;
   text-decoration: none;
 
   &:hover {

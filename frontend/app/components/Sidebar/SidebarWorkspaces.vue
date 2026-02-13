@@ -75,20 +75,22 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   margin: 4px 0;
   padding: 4px 10px 4px 4px;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--surface-base);
-  transition: all 0.2s ease;
+  transition:
+    border-color $transition-base ease,
+    box-shadow $transition-base ease;
   align-items: center;
   cursor: pointer;
   justify-content: space-between;
 
   &:hover {
     border-color: var(--border-strong);
-    box-shadow: 0 4px 8px var(--shadow-sm);
+    box-shadow: var(--shadow-sm);
   }
 
   svg {
-    transition: transform 0.2s ease;
+    transition: transform $transition-base ease;
   }
 }
 
@@ -105,7 +107,7 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 
 .dropdown-selected.open {
   border-color: var(--accent);
-  box-shadow: 0 4px 16px var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 
   svg {
     transform: rotate(180deg);
@@ -119,12 +121,10 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
   margin: 0;
   padding: 4px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   color: var(--text-body);
   background-color: var(--surface-base);
-  box-shadow:
-    0 8px 24px var(--shadow-sm),
-    0 2px 8px var(--shadow-sm);
+  box-shadow: var(--shadow-lg);
   animation: slideDown 0.15s ease-out;
   list-style: none;
   overflow-y: auto;
@@ -145,8 +145,10 @@ const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(
 li {
   margin: 4px 0;
   padding: 2px 4px;
-  border-radius: 6px;
-  transition: all 0.15s ease;
+  border-radius: var(--radius-sm);
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
   cursor: pointer;
 }
 
@@ -181,11 +183,13 @@ hr {
   display: flex;
   margin: 2px 0;
   padding: 8px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   cursor: pointer;
   gap: 6px;

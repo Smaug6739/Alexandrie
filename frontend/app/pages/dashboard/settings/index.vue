@@ -108,7 +108,7 @@ const close = () => emit('close');
       display: flex;
       margin: 0.4rem 0.2rem;
       padding: 0.05rem 0.4rem;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       color: inherit;
       align-items: center;
       gap: 0.5rem;
@@ -189,16 +189,16 @@ const close = () => emit('close');
       padding: 0;
       background-color: var(--surface-base);
       transition:
-        max-height 0.25s ease,
-        padding 0.25s ease;
+        max-height $transition-base ease,
+        padding $transition-base ease;
       border-right: none;
       overflow: hidden;
 
       &.open {
         max-height: 70vh;
         padding: 1rem;
-        border-radius: $radius-lg;
-        box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
         border-bottom: 1px solid var(--border);
         overflow-y: auto;
       }

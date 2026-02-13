@@ -155,11 +155,13 @@ defineExpose({ reset });
   width: 100%;
   min-height: 150px;
   border: 2px dashed var(--border);
-  border-radius: $radius-md;
+  border-radius: var(--radius-md);
   font-size: 14px;
   color: var(--text-secondary);
   background-color: transparent;
-  transition: all 0.2s ease;
+  transition:
+    border-color $transition-base ease,
+    background-color $transition-base ease;
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -219,9 +221,11 @@ defineExpose({ reset });
   display: flex;
   padding: 10px 12px;
   border: 1px solid var(--border);
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   background: var(--surface-base);
-  transition: all 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   gap: 12px;
 
@@ -239,7 +243,7 @@ defineExpose({ reset });
   display: flex;
   width: 36px;
   height: 36px;
-  border-radius: $radius-sm;
+  border-radius: var(--radius-sm);
   color: var(--primary);
   align-items: center;
   flex-shrink: 0;
@@ -274,11 +278,14 @@ defineExpose({ reset });
   height: 28px;
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   color: var(--text-secondary);
   background: transparent;
   opacity: 0.6;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    opacity 0.15s ease;
   align-items: center;
   cursor: pointer;
   flex-shrink: 0;

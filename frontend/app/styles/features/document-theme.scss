@@ -1,4 +1,4 @@
-@use "./_variables.scss" as *;
+@use "../abstract/static.scss" as *;
 
 .alexandrie-theme {
 	max-width: 100%;
@@ -145,7 +145,7 @@
 		display: flex;
 		margin: 0.5em 0;
 		padding: 0;
-		border-radius: 4px;
+		border-radius: var(--radius-xs);
 		color: var(--text-body);
 		background-color: transparent;
 		gap: 1rem;
@@ -172,7 +172,7 @@
 		margin: 2em 0;
 		padding: 4px;
 		border: none;
-		border-radius: 4px;
+		border-radius: var(--radius-xs);
 		font-size: 16px;
 		color: var(--text-body);
 
@@ -260,7 +260,7 @@
 .modern-theme {
 	max-width: 100%;
 	padding: 0 0.5rem;
-	font-family: Inter, Roboto, sans-serif;
+	font-family: $font-sans;
 	font-size: 16px;
 	color: var(--text-body);
 
@@ -290,7 +290,7 @@
 	a {
 		font-weight: 500;
 		color: var(--blue);
-		transition: all 0.2s ease-in-out;
+		transition: color $transition-fast ease, opacity $transition-fast ease;
 		text-decoration: none;
 
 		&:hover {
@@ -301,7 +301,7 @@
 
 	code,
 	pre {
-		border-radius: 6px;
+		border-radius: var(--radius-sm);
 		font-family: 'Roboto Mono', monospace;
 		font-size: 0.95em;
 		color: var(--text-body);
@@ -333,13 +333,13 @@
 	img {
 		max-width: 100%;
 		margin: 1rem 0;
-		border-radius: 8px;
+		border-radius: var(--radius-md);
 	}
 
 	table {
 		width: 100%;
 		margin: 1.5em 0;
-		border-radius: 8px;
+		border-radius: var(--radius-md);
 		font-size: 0.95em;
 		border-collapse: collapse;
 		overflow: hidden;
@@ -357,7 +357,7 @@
 	}
 
 	.custom-block {
-		border-radius: 4px;
+		border-radius: var(--radius-xs);
 		font-size: 15px;
 		color: var(--text-body);
 

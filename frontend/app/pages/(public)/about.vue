@@ -143,7 +143,7 @@ main {
 .hero-image {
   width: 600px;
   border-radius: 1rem;
-  box-shadow: 0 10px 40px rgb(0 0 0 / 30%);
+  box-shadow: var(--shadow-xl);
   margin-top: 10px;
 }
 
@@ -178,15 +178,11 @@ main {
 }
 
 .btn.glow {
-  box-shadow:
-    0 10px 30px rgb(0 0 0 / 20%),
-    0 0 0 rgb(255 255 255 / 60%);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn.glow:hover {
-  box-shadow:
-    0 14px 36px rgb(0 0 0 / 24%),
-    0 0 30px rgb(255 255 255 / 35%);
+  box-shadow: var(--shadow-xl);
 }
 
 .about-section {
@@ -236,8 +232,8 @@ main {
 .demo-gallery img {
   width: 280px;
   border-radius: 0.8rem;
-  box-shadow: 0 6px 20px rgb(0 0 0 / 25%);
-  transition: transform 0.3s ease;
+  box-shadow: var(--shadow-lg);
+  transition: transform $transition-medium ease;
 }
 
 .demo-gallery img:hover {

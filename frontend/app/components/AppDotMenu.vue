@@ -38,7 +38,7 @@ onMounted(() => document.addEventListener('mousedown', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside));
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   position: relative;
   display: inline-block;
@@ -47,14 +47,10 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
 .menu-button {
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   line-height: 1;
   background: none;
   cursor: pointer;
-}
-
-.menu-button:hover {
-  background-color: rgb(0 0 0 / 8%);
 }
 
 .menu-icon {
@@ -70,27 +66,27 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   z-index: 2;
   min-width: 270px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background: var(--surface-base);
-  box-shadow: 0 2px 6px var(--shadow-sm);
+  box-shadow: var(--shadow-sm);
   margin-top: 4px;
   overflow: hidden;
 }
 
-/* Animation */
+/* Fade-scale transition */
 .fade-scale-enter-active {
-  transition: all 120ms ease-out;
+  transition:
+    opacity $transition-fast ease-out,
+    transform $transition-fast ease-out;
 }
 
 .fade-scale-leave-active {
-  transition: all 100ms ease-in;
+  transition:
+    opacity $transition-fast ease-in,
+    transform $transition-fast ease-in;
 }
 
-.fade-scale-enter-from {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
+.fade-scale-enter-from,
 .fade-scale-leave-to {
   opacity: 0;
   transform: scale(0.95);

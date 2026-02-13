@@ -1,0 +1,34 @@
+// =============================================================================
+// MATERIAL THEME - Common variables for Material design style
+// These variables are shared between light and dark themes
+// =============================================================================
+
+@mixin material-theme {
+	// -------------------------------------------------------------------------
+	// BACKDROP EFFECTS
+	// Material: no blur effects
+	// -------------------------------------------------------------------------
+	--backdrop-blur: none;
+	--backdrop-saturate: none;
+
+	// -------------------------------------------------------------------------
+	// OVERLAY BACKGROUNDS
+	// Used for modals, sheets, and backdrop masks
+	// -------------------------------------------------------------------------
+	--overlay-backdrop: rgb(0 0 0 / 50%);
+	--overlay-light: rgb(0 0 0 / 20%);
+
+	// Border radius
+	--radius-xs: 4px;
+	--radius-sm: 6px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+	--radius-xl: 20px;
+	--radius-xxl: 24px;
+
+	// -------------------------------------------------------------------------
+	// SPECIAL SURFACES
+	// -------------------------------------------------------------------------
+	--surface-tooltip: #1f2937;
+	--surface-sheet-radius: 16px 16px 0 0;
+}

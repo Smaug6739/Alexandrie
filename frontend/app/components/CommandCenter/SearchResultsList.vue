@@ -62,7 +62,7 @@ const groupedItems = computed(() => {
   display: flex;
   margin: 0 5px;
   padding: 8px 20px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: inherit;
   align-items: center;
   cursor: pointer;
