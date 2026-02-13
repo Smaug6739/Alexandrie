@@ -190,19 +190,6 @@ defineExpose({ resetKanbanData });
   flex: 1;
   gap: 16px;
   overflow: auto hidden;
-
-  &::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background: transparent;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    background: var(--border);
-  }
 }
 
 .columns-wrapper {

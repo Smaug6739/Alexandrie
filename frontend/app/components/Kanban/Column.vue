@@ -340,19 +340,6 @@ function handleClickOutside(e: MouseEvent) {
   flex-direction: column;
   gap: 8px;
   overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: var(--radius-xs);
-    background: transparent;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    background: var(--border);
-  }
 }
 
 .empty-state {

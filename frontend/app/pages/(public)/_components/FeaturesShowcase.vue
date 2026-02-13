@@ -309,15 +309,6 @@ onUnmounted(() => {
     gap: 0.75rem;
     overflow-x: auto;
     padding-bottom: 0.5rem;
-
-    &::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: var(--radius-xs);
-      background: var(--border);
-    }
   }
 
   .nav-item {
