@@ -15,14 +15,14 @@
       </div>
       <span>General</span>
       <NuxtLink @click="setPage('profile')"><Icon name="profil" />My profile</NuxtLink>
-      <NuxtLink @click="setPage('preferences')"><Icon name="settings" />Preferences</NuxtLink>
+      <NuxtLink @click="setPage('preferences')"><Icon name="brush" />Apparence</NuxtLink>
       <NuxtLink @click="setPage('security')"><Icon name="security" />Security</NuxtLink>
       <NuxtLink @click="setPage('backup')"><Icon name="backup" />Backup</NuxtLink>
-      <span>Workspaces</span>
+      <span>Preferences</span>
       <NuxtLink to="/dashboard/categories" @click="close"><Icon name="categories" />Manage categories</NuxtLink>
       <NuxtLink to="/dashboard/docs" @click="close"><Icon name="draft" />Manage documents</NuxtLink>
       <NuxtLink to="/dashboard/import" style="display: flex; align-items: center" @click="close"><Icon name="import" />Manage importations</NuxtLink>
-      <span>Utils <tag blue>New</tag></span>
+      <span>Tools</span>
       <NuxtLink @click="setPage('shortcuts')"><Icon name="shortcuts" />Shortcuts</NuxtLink>
       <NuxtLink @click="setPage('snippets')"><Icon name="snippets" />Snippets</NuxtLink>
       <NuxtLink @click="setPage('markdown')"><Icon name="markdown" />Markdown</NuxtLink>
