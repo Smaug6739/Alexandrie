@@ -2,19 +2,18 @@
   <div>
     <h2 class="page-title">Advanced</h2>
     <p class="page-subtitle">Manage advanced settings for the application.</p>
-    <p>Be careful with these settings, they can seriously affect the application.</p>
 
-    <div class="settings-section">
-      <div class="setting">
-        <h4>Reset all preferences</h4>
-        <p>This will reset all your preferences to their default values. This action cannot be undone.</p>
-        <AppButton type="danger" @click="preferences.reset">Reset preferences</AppButton>
-      </div>
-      <div class="setting">
-        <h4>Reset local storage</h4>
-        <p>This will reset all your local storage data. This action cannot be undone. This action will also reset preferences.</p>
-        <AppButton type="danger" @click="deleteLocalStorage">Delete local storage</AppButton>
-      </div>
+    <AppPreferenceInputSection :options="options" />
+    <hr />
+    <div>
+      <h3>Reset all preferences</h3>
+      <p>This will reset all your preferences to their default values. This action cannot be undone.</p>
+      <AppButton type="danger" @click="preferences.reset">Reset preferences</AppButton>
+    </div>
+    <div>
+      <h3>Reset local storage</h3>
+      <p>This will reset all your local storage data. This action cannot be undone. This action will also reset preferences.</p>
+      <AppButton type="danger" @click="deleteLocalStorage">Delete local storage</AppButton>
     </div>
   </div>
 </template>
@@ -26,4 +25,45 @@ const deleteLocalStorage = () => {
   localStorage.clear();
   location.reload();
 };
+type InterfaceOption = Option & {
+  tag?: string;
+};
+
+const options: Array<{ label: string; options: InterfaceOption[] }> = [
+  {
+    label: 'Datatable',
+    options: [
+      {
+        label: 'Default datatable items count',
+        type: 'select',
+        key: 'datatableItemsCount',
+        choices: [
+          { label: '10', id: 10 },
+          { label: '30', id: 30 },
+          { label: '50', id: 50 },
+          { label: '100', id: 100 },
+          { label: '250', id: 250 },
+        ],
+      },
+    ],
+  },
+  {
+    label: 'Other',
+    options: [
+      {
+        label: 'Developer Mode',
+        description: 'Enable additional debugging features and options like "Copy ID" in context menus.',
+        type: 'toggle',
+        key: 'developerMode',
+      },
+    ],
+  },
+];
 </script>
+
+<style scoped lang="scss">
+h3 {
+  margin: 3rem 0 0.5rem;
+  font-weight: 500;
+}
+</style>
