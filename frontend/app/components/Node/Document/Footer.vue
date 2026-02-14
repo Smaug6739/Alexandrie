@@ -1,24 +1,22 @@
 <template>
   <footer v-if="document">
-    <div class="infos">
+    <div class="footer-top-row">
       <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" :prefetch="false" class="edit-link">
-        <Icon name="edit_page" />
+        <Icon name="edit_page" display="sm" />
         <span>Edit this page</span>
       </NuxtLink>
-      <div class="footer-meta">
-        <span class="meta-item">
-          <Icon name="update" />
-          Last updated {{ formatRelativeDate(document.updated_timestamp) }}
-        </span>
+      <div class="last-updated">
+        <Icon name="update" />
+        Last updated {{ formatRelativeDate(document.updated_timestamp) }}
       </div>
     </div>
     <div class="items">
       <NuxtLink v-if="previous" :to="`/dashboard/docs/${previous.id}`" class="item left">
-        <b class="min">Previous page</b>
+        <b>Previous page</b>
         {{ previous.name }}
       </NuxtLink>
       <NuxtLink v-if="next" :to="`/dashboard/docs/${next.id}`" class="item right">
-        <b class="min">Next page</b>
+        <b>Next page</b>
         {{ next.name }}
       </NuxtLink>
     </div>
@@ -43,8 +41,7 @@ footer {
   padding: 8px 14px;
   border-radius: var(--radius-md);
   font-size: 13px;
-  font-weight: 450;
-  color: var(--text-body);
+  font-weight: 500;
   background: var(--surface-transparent);
   transition:
     color $transition-base ease,
@@ -52,44 +49,18 @@ footer {
   align-items: center;
   gap: 6px;
 
-  :deep(svg) {
-    width: 16px;
-    height: 16px;
-    fill: var(--text-secondary);
-  }
-
   &:hover {
     color: var(--primary);
     background: var(--primary-bg);
-
-    :deep(svg) {
-      fill: var(--primary);
-    }
   }
 }
 
-.footer-meta {
+.last-updated {
   display: flex;
   align-items: center;
-  gap: 16px;
-}
-
-b {
-  font-weight: 600;
-}
-
-.meta-item {
-  display: flex;
   font-size: 13px;
   color: var(--text-secondary);
-  align-items: center;
   gap: 6px;
-
-  :deep(svg) {
-    width: 14px;
-    height: 14px;
-    fill: var(--text-secondary);
-  }
 }
 
 .items {
@@ -113,13 +84,16 @@ b {
   transition: color 0.25s;
   flex: 1;
 
-  b {
-    display: block;
-  }
-
   &:hover {
     border: 1px solid var(--primary);
     color: var(--primary);
+  }
+  b {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    font-weight: 600;
   }
 }
 
@@ -133,28 +107,12 @@ b {
   margin-right: auto;
 }
 
-.min {
-  font-size: small;
-}
-
-svg {
-  fill: var(--text-body);
-}
-
-.infos {
+.footer-top-row {
   display: flex;
   padding: 10px 0;
   font-weight: 450;
   align-items: center;
   border-bottom: 1px solid var(--border);
   justify-content: space-between;
-
-  a {
-    display: flex;
-
-    svg {
-      margin-right: 5px;
-    }
-  }
 }
 </style>
