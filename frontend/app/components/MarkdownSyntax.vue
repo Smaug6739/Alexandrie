@@ -9,7 +9,7 @@
       <ul>
         <li><strong>Bold</strong>: <code>**bold**</code> or <code>__bold__</code></li>
         <li><em>Italic</em>: <code>*italic*</code> or <code>_italic_</code></li>
-        <li><u>Underline</u>: <code>_underline_</code></li>
+        <li><u>Underline</u>: <code>__underline__</code></li>
         <li><del>Strikethrough</del>: <code>~~strikethrough~~</code></li>
         <li><mark>Highlight</mark>: <code>==highlight==</code></li>
         <li>Superscript: <sup>text</sup> <code>^text^</code></li>

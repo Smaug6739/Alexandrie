@@ -43,7 +43,6 @@
     "markdown-it-container": "^4.0.0",
     "markdown-it-highlightjs": "^4.3.0",
     "markdown-it-mark": "^4.0.0",
-    "markdown-it-underline": "^1.0.1",
     "nuxt": "^4.3.1",
     "pdfjs-dist": "^5.4.624",
     "pinia": "^3.0.4",

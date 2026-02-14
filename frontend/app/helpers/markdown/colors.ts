@@ -29,16 +29,6 @@ function isValidColor(value: string, opts: Required<ColorPluginOptions>): boolea
   return false;
 }
 
-function createSpanTokens(state: StateInline, color: string, content: string) {
-  const open = state.push('span_open', 'span', 1);
-  open.attrSet('style', `color:${color}`);
-
-  const text = state.push('text', '', 0);
-  text.content = content;
-
-  state.push('span_close', 'span', -1);
-}
-
 /** Try to parse {color:VALUE}(TEXT) starting at state.pos. */
 function parseFunctionSyntax(state: StateInline, opts: Required<ColorPluginOptions>): boolean {
   const start = state.pos;
@@ -69,14 +59,21 @@ function parseFunctionSyntax(state: StateInline, opts: Required<ColorPluginOptio
   }
   if (depth !== 0) return false;
 
-  const content = src.slice(endBrace + 2, i - 1);
+  const contentStart = endBrace + 2;
+  const contentEnd = i - 1;
 
   // Injecter les tokens
   const open = state.push('span_open', 'span', 1);
   open.attrs = [['style', `color:${color}`]];
 
-  const text = state.push('text', '', 0);
-  text.content = content;
+  // Tokenize le contenu interne pour supporter le formatage (bold, italic, etc.)
+  const oldPos = state.pos;
+  const oldMax = state.posMax;
+  state.pos = contentStart;
+  state.posMax = contentEnd;
+  state.md.inline.tokenize(state);
+  state.pos = oldPos;
+  state.posMax = oldMax;
 
   state.push('span_close', 'span', -1);
 
@@ -109,10 +106,22 @@ function parseBracketSyntax(state: StateInline, opts: Required<ColorPluginOption
   const colorValue = spec.slice(prefix.length).trim();
   if (!isValidColor(colorValue, opts)) return false;
 
-  const inner = src.slice(start + 1, endBracket);
+  const innerStart = start + 1;
+  const innerEnd = endBracket;
 
-  state.pos = start;
-  createSpanTokens(state, colorValue, inner);
+  const openToken = state.push('span_open', 'span', 1);
+  openToken.attrSet('style', `color:${colorValue}`);
+
+  // Tokenize le contenu interne pour supporter le formatage (bold, italic, etc.)
+  const oldPos = state.pos;
+  const oldMax = state.posMax;
+  state.pos = innerStart;
+  state.posMax = innerEnd;
+  state.md.inline.tokenize(state);
+  state.pos = oldPos;
+  state.posMax = oldMax;
+
+  state.push('span_close', 'span', -1);
   state.pos = specEnd + 1; // advance past closing '}'
   return true;
 }

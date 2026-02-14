@@ -183,9 +183,9 @@ const formattingTools: ToolItem[] = [
 ];
 
 const extendedFormattingTools: ToolItem[] = [
-  { name: 'Superscript', icon: 'format/superscript', action: 'superscript' },
-  { name: 'Subscript', icon: 'format/subscript', action: 'subscript' },
-  { name: 'Color', icon: 'format/color', action: 'openColorPicker' },
+  { name: 'Superscript', icon: 'format/superscript', action: 'superscript', shortcut: 'Ctrl+↑' },
+  { name: 'Subscript', icon: 'format/subscript', action: 'subscript', shortcut: 'Ctrl+↓' },
+  { name: 'Math', icon: 'maths', action: 'mathInline', shortcut: 'Ctrl+M' },
 ];
 
 const insertTools: ToolItem[] = [
@@ -193,7 +193,7 @@ const insertTools: ToolItem[] = [
   { name: 'Image', icon: 'format/image', action: 'image', shortcut: 'Ctrl+Shift+I' },
   { name: 'Inline Code', icon: 'format/code', action: 'code', shortcut: 'Ctrl+E' },
   { name: 'Code Block', icon: 'format/code-block', action: 'codeBlock', shortcut: 'Ctrl+Shift+C' },
-  { name: 'Math', icon: 'maths', action: 'mathInline', shortcut: 'Ctrl+M' },
+  { name: 'Color', icon: 'format/color', action: 'openColorPicker' },
   { name: 'Footnote', icon: 'format/footnote', action: 'footnote' },
 ];
 

@@ -4,8 +4,7 @@ import { anchorPlugin } from './anchor';
 import { containerSvg } from './containers-svg';
 import { copyCodePlugin } from './code-block';
 import { advancedBlocks } from './cards';
-// @ts-expect-error no types provided
-import underline from 'markdown-it-underline';
+import underline from './underline';
 import highlight from 'markdown-it-highlightjs';
 // @ts-expect-error no types provided
 import mark from 'markdown-it-mark';

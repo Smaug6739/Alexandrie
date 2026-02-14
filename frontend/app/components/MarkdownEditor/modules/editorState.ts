@@ -30,7 +30,7 @@ export function createEditorState(params: CreateEditorStateParams) {
       history(),
       drawSelection(),
       autocompletion(),
-      keymap.of([...defaultKeymap, ...historyKeymap, indentWithTab, ...searchKeymap, ...params.keymaps]),
+      keymap.of([...params.keymaps, ...defaultKeymap, ...historyKeymap, indentWithTab, ...searchKeymap]),
       markdown({ base: markdownLanguage }),
       markdownLanguage.data.of({
         autocomplete: params.snippetSource,

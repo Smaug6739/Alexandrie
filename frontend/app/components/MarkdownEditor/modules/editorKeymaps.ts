@@ -5,6 +5,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     // Text formatting
     {
       key: 'Mod-b',
+      stopPropagation: true,
       run: () => {
         commands.exec('bold');
         return true;
@@ -12,6 +13,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-i',
+      stopPropagation: true,
       run: () => {
         commands.exec('italic');
         return true;
@@ -19,6 +21,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-u',
+      stopPropagation: true,
       run: () => {
         commands.exec('underline');
         return true;
@@ -26,6 +29,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Shift-s',
+      stopPropagation: true,
       run: () => {
         commands.exec('strike');
         return true;
@@ -33,15 +37,41 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Shift-h',
+      stopPropagation: true,
       run: () => {
         commands.exec('mark');
         return true;
       },
     },
-
+    // Maths
+    {
+      key: 'Mod-ArrowUp',
+      stopPropagation: true,
+      run: () => {
+        commands.exec('superscript');
+        return true;
+      },
+    },
+    {
+      key: 'Mod-ArrowDown',
+      stopPropagation: true,
+      run: () => {
+        commands.exec('subscript');
+        return true;
+      },
+    },
+    {
+      key: 'Mod-m',
+      stopPropagation: true,
+      run: () => {
+        commands.exec('mathInline');
+        return true;
+      },
+    },
     // Links and media
     {
       key: 'Mod-k',
+      stopPropagation: true,
       run: () => {
         commands.exec('link');
         return true;
@@ -49,6 +79,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Shift-i',
+      stopPropagation: true,
       run: () => {
         commands.exec('image');
         return true;
@@ -58,6 +89,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     // Code
     {
       key: 'Mod-e',
+      stopPropagation: true,
       run: () => {
         commands.exec('code');
         return true;
@@ -65,6 +97,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Shift-c',
+      stopPropagation: true,
       run: () => {
         commands.exec('codeBlock');
         return true;
@@ -74,6 +107,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     // Structure
     {
       key: 'Mod-Shift-.',
+      stopPropagation: true,
       run: () => {
         commands.exec('quote');
         return true;
@@ -81,6 +115,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Shift-7',
+      stopPropagation: true,
       run: () => {
         commands.exec('orderedList');
         return true;
@@ -88,6 +123,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Shift-8',
+      stopPropagation: true,
       run: () => {
         commands.exec('list');
         return true;
@@ -95,6 +131,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Shift-9',
+      stopPropagation: true,
       run: () => {
         commands.exec('taskList');
         return true;
@@ -102,6 +139,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Enter',
+      stopPropagation: true,
       run: () => {
         commands.exec('toggleCheckbox');
         return true;
@@ -111,6 +149,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     // Headers
     {
       key: 'Mod-1',
+      stopPropagation: true,
       run: () => {
         commands.exec('h1');
         return true;
@@ -118,6 +157,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-2',
+      stopPropagation: true,
       run: () => {
         commands.exec('h2');
         return true;
@@ -125,6 +165,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-3',
+      stopPropagation: true,
       run: () => {
         commands.exec('h3');
         return true;
@@ -132,6 +173,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-4',
+      stopPropagation: true,
       run: () => {
         commands.exec('h4');
         return true;
@@ -139,6 +181,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-5',
+      stopPropagation: true,
       run: () => {
         commands.exec('h5');
         return true;
@@ -146,22 +189,16 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-6',
+      stopPropagation: true,
       run: () => {
         commands.exec('h6');
         return true;
       },
     },
 
-    // Math
-    {
-      key: 'Mod-m',
-      run: () => {
-        commands.exec('mathInline');
-        return true;
-      },
-    },
     {
       key: 'Mod-Shift-m',
+      stopPropagation: true,
       run: () => {
         commands.exec('mathBlock');
         return true;
@@ -171,6 +208,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     // Other
     {
       key: 'Mod-Shift-x',
+      stopPropagation: true,
       run: () => {
         commands.exec('clearFormatting');
         return true;
@@ -178,6 +216,7 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     },
     {
       key: 'Mod-Shift-r',
+      stopPropagation: true,
       run: () => {
         commands.exec('horizontalRule');
         return true;
