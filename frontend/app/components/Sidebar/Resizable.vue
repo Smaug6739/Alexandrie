@@ -52,7 +52,7 @@ nav {
   left: 0;
   z-index: 100;
   height: 100%;
-  transition: transform 0.3s;
+  transition: transform $transition-medium;
   transform: translate(-100%);
 }
 
@@ -63,13 +63,13 @@ nav {
 
   &:hover {
     .separator {
-      background-color: var(--bg-contrast);
+      background-color: var(--surface-raised);
     }
   }
 }
 
 .open {
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--border);
   transform: translate(0);
 }
 

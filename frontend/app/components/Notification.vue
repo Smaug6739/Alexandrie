@@ -31,14 +31,15 @@
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
-      <div class="progress-bar" :style="{ animationDuration: (notification.timeout || 3000) + 'ms' }" />
+      <div class="progress-bar" :style="{ animationDuration: notification.timeout + 'ms' }" />
     </div>
   </TransitionGroup>
 </template>
 
 <script setup lang="ts">
-const notifications = computed(() => [...useNotifications().notifications.value].reverse());
-const close = (id: number) => useNotifications().remove(id);
+const manager = useNotifications();
+const notifications = computed(() => [...manager.notifications.value].reverse());
+const close = (id: number) => manager.remove(id);
 </script>
 
 <style scoped lang="scss">
@@ -57,10 +58,10 @@ const close = (id: number) => useNotifications().remove(id);
   display: flex;
   width: 380px;
   padding: 14px 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--bg-color);
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -2px rgb(0 0 0 / 10%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-md);
   align-items: flex-start;
   gap: 12px;
   overflow: hidden;
@@ -71,7 +72,7 @@ const close = (id: number) => useNotifications().remove(id);
   width: 36px;
   min-width: 36px;
   height: 36px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   align-items: center;
   justify-content: center;
 
@@ -93,14 +94,14 @@ const close = (id: number) => useNotifications().remove(id);
   font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
-  color: var(--font-color-dark);
+  color: var(--text-primary);
 }
 
 .message {
   margin: 4px 0 0;
   font-size: 13px;
   line-height: 1.4;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .close-btn {
@@ -109,10 +110,12 @@ const close = (id: number) => useNotifications().remove(id);
   height: 28px;
   padding: 0;
   border: none;
-  border-radius: 8px;
-  color: var(--font-color-light);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
   background: transparent;
-  transition: all 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
   align-items: center;
   cursor: pointer;
   flex-shrink: 0;
@@ -124,8 +127,8 @@ const close = (id: number) => useNotifications().remove(id);
   }
 
   &:hover {
-    color: var(--font-color);
-    background: var(--bg-contrast);
+    color: var(--text-body);
+    background: var(--surface-raised);
   }
 }
 
@@ -198,11 +201,15 @@ const close = (id: number) => useNotifications().remove(id);
 
 /* Transitions */
 .notification-slide-enter-active {
-  transition: all 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+  transition:
+    opacity $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1),
+    transform $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
 .notification-slide-leave-active {
-  transition: all 0.2s cubic-bezier(0.06, 0.71, 0.55, 1);
+  transition:
+    opacity 0.2s cubic-bezier(0.06, 0.71, 0.55, 1),
+    transform 0.2s cubic-bezier(0.06, 0.71, 0.55, 1);
 }
 
 .notification-slide-enter-from {
@@ -216,11 +223,11 @@ const close = (id: number) => useNotifications().remove(id);
 }
 
 .notification-slide-move {
-  transition: transform 0.3s cubic-bezier(0.21, 1.02, 0.73, 1);
+  transition: transform $transition-medium cubic-bezier(0.21, 1.02, 0.73, 1);
 }
 
 /* Dark mode adjustments */
 :global(.dark-mode) .notification {
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 30%), 0 2px 4px -2px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow-md);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <header>
       <h1>File manager</h1>
       <div class="action-row">
@@ -43,14 +43,14 @@
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
-            <span style="height: 32px; border-left: 1px solid var(--border-color); margin-left: 4px"></span>
-            <span @click="bulkDelete(selected)"><Icon name="delete" fill="var(--font-color-light)" class="action-btn" /></span>
+            <span style="height: 32px; border-left: 1px solid var(--border); margin-left: 4px"></span>
+            <span @click="bulkDelete(selected)"><Icon name="delete" fill="var(--text-secondary)" class="action-btn" /></span>
           </div>
         </template>
         <template #action="{ cell }">
           <NuxtLink :href="`/dashboard/cdn/${(cell?.data as Node).id}/preview`" style="margin-right: 10px"><Icon name="view" /> </NuxtLink>
           <NuxtLink :to="`/dashboard/cdn/${(cell?.data as Node).id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
-          <span @click="() => deleteResource((cell?.data as Node).id)"><Icon name="delete" /></span>
+          <span @click="() => deleteResource(cell?.data as Node)"><Icon name="delete" /></span>
         </template>
       </DataTable>
       <div v-else>
@@ -63,7 +63,7 @@
             @click="router.push(`/dashboard/cdn/${image.id}/preview`)"
             @contextmenu="event => showContextMenu(event, image)"
           >
-            <img :src="previewURL(image)" :alt="image.name" class="image-preview" />
+            <img :src="resolvePreviewUrl(image)" :alt="image.name" class="image-preview" />
             <div class="image-info">
               <span class="image-name">{{ image.name }}</span>
               <span class="image-size">{{ readableFileSize(image.size ?? 0) }}</span>
@@ -79,9 +79,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import DeleteResourceModal from './_modals/DeleteResourceModal.vue';
-import ResourceContextMenu from '~/components/Node/ResourceContextMenu.vue';
-import { readableFileSize } from '~/helpers/resources';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
+import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
+import { readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
 import type { Field } from '~/components/DataTable.vue';
 import type { Node } from '~/stores';
 
@@ -158,10 +158,6 @@ const submitFiles = async () => {
   }
 };
 
-const previewURL = (resource: Node) => {
-  if ((resource.metadata?.filetype || '')?.includes('image/')) return resourceURL(resource);
-  return '/file_placeholder.png';
-};
 const headers = [
   { label: 'Name', key: 'name' },
   { label: 'Size', key: 'size' },
@@ -187,12 +183,12 @@ const rows: ComputedRef<Field[]> = computed(() =>
   }),
 );
 
-const deleteResource = async (id: string) => {
-  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: [id] }, size: 'small' }));
+const deleteResource = async (node: Node) => {
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { node: node, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 const bulkDelete = async (lines: Field[]) => {
-  const resourcesIds = lines.map(line => (line.action?.data as Node | undefined)?.id).filter((id): id is string => !!id);
-  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: resourcesIds }, size: 'small' }));
+  const resources = lines.map(line => line.action?.data as Node);
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: resources, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 </script>
 
@@ -202,8 +198,7 @@ const bulkDelete = async (lines: Field[]) => {
   width: 100%;
   margin: 12px 0;
   padding: 12px 16px;
-  border-radius: 8px;
-  background: var(--bg-color-secondary);
+  border-radius: var(--radius-md);
   align-items: center;
   gap: 12px;
 
@@ -215,28 +210,28 @@ const bulkDelete = async (lines: Field[]) => {
 
     .storage-label {
       font-size: 12px;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
 
     .storage-values {
       font-size: 14px;
       font-weight: 600;
-      color: var(--font-color-dark);
+      color: var(--text-primary);
     }
   }
 
   .progress-bar {
     height: 8px;
-    border-radius: 4px;
-    background: var(--bg-ui);
+    border-radius: var(--radius-xs);
+    background: var(--surface-transparent);
     flex: 1;
     overflow: hidden;
 
     .progress-fill {
       height: 100%;
-      border-radius: 4px;
+      border-radius: var(--radius-xs);
       background: var(--primary);
-      transition: width 0.3s ease;
+      transition: width $transition-medium ease;
 
       &.warning {
         background: #f59e0b;
@@ -252,7 +247,7 @@ const bulkDelete = async (lines: Field[]) => {
     min-width: 50px;
     font-size: 13px;
     font-weight: 500;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     text-align: right;
   }
 }
@@ -265,7 +260,7 @@ const bulkDelete = async (lines: Field[]) => {
 .upload-progress {
   display: flex;
   font-size: 14px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   gap: 10px;
 }
@@ -280,12 +275,11 @@ const bulkDelete = async (lines: Field[]) => {
   .links-text {
     width: 100%;
     padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: $font-mono;
     font-size: 13px;
-    color: var(--font-color-dark);
-    background: var(--bg-color-secondary);
+    color: var(--text-primary);
     white-space: pre-wrap;
     word-break: break-all;
   }
@@ -307,21 +301,20 @@ const bulkDelete = async (lines: Field[]) => {
   cursor: pointer;
 
   &:hover {
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
   }
 }
 
 .selected-count {
   display: flex;
   width: 32px;
-  height: 36px;
-  padding: 6px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  font-family: Inter, sans-serif;
-  font-size: 13px;
+  height: 34px;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  font-size: 12px;
   font-weight: bold;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   justify-content: center;
 }
@@ -331,7 +324,7 @@ const bulkDelete = async (lines: Field[]) => {
 }
 
 .not-found {
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-align: center;
   grid-column: 1 / -1;
 }
@@ -341,37 +334,35 @@ const bulkDelete = async (lines: Field[]) => {
   padding: 16px 0;
   flex: 1;
   gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
 .image-item {
   border: 2px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   cursor: pointer;
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
   }
 
   .image-preview {
     width: 100%;
     height: 150px;
-    border-radius: 6px;
-    background: var(--bg-color-secondary);
+    border-radius: var(--radius-sm);
     object-fit: cover;
   }
 
   .image-info {
     padding: 12px;
-    background: var(--bg-color-secondary);
 
     .image-name {
       display: block;
       font-size: 14px;
       font-weight: 500;
-      color: var(--font-color-dark);
+      color: var(--text-primary);
       margin-bottom: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -381,7 +372,7 @@ const bulkDelete = async (lines: Field[]) => {
     .image-size {
       display: block;
       font-size: 12px;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
   }
 }

@@ -50,7 +50,7 @@ const sheetStyle = computed(() => {
   if (sheetTranslateY.value > 0) {
     return {
       transform: `translateY(${sheetTranslateY.value}px)`,
-      transition: isDragging.value ? 'none' : 'transform 0.3s ease-out',
+      transition: isDragging.value ? 'none' : 'transform $transition-medium ease-out',
     };
   }
   return {};
@@ -163,9 +163,9 @@ const pos = computed(() => {
   position: fixed;
   z-index: 6000;
   min-width: 240px;
-  border-radius: 12px;
-  background: var(--bg-color);
-  box-shadow: 0 8px 30px rgb(0 0 0 / 12%), 0 2px 8px rgb(0 0 0 / 6%);
+  border-radius: var(--radius-lg);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 
@@ -182,7 +182,7 @@ const pos = computed(() => {
 }
 
 :root.dark .context-menu {
-  box-shadow: 0 8px 30px rgb(0 0 0 / 40%), 0 0 1px rgb(255 255 255 / 10%);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ========================
@@ -192,7 +192,7 @@ const pos = computed(() => {
   position: fixed;
   z-index: 6000;
   display: flex;
-  background: rgb(0 0 0 / 50%);
+  background: var(--overlay-backdrop);
   align-items: flex-end;
   inset: 0;
   justify-content: center;
@@ -203,9 +203,9 @@ const pos = computed(() => {
   width: 100%;
   min-height: 60vh;
   max-height: 85vh;
-  border-radius: 16px 16px 0 0;
-  background: var(--bg-color);
-  animation: slide-up 0.3s ease-out;
+  border-radius: var(--surface-sheet-radius);
+  background: var(--surface-base);
+  animation: slide-up $transition-medium ease-out;
   flex-direction: column;
 }
 
@@ -237,13 +237,15 @@ const pos = computed(() => {
 .mobile-sheet-handle {
   width: 36px;
   height: 4px;
-  border-radius: 2px;
-  background: var(--border-color);
-  transition: background 0.2s, width 0.2s;
+  border-radius: var(--radius-xs);
+  background: var(--border);
+  transition:
+    background 0.2s,
+    width 0.2s;
 
   .mobile-sheet-header:active & {
     width: 48px;
-    background: var(--font-color-light, #888);
+    background: var(--text-secondary);
   }
 }
 
@@ -256,12 +258,12 @@ const pos = computed(() => {
 /* Transitions */
 .mobile-sheet-enter-active,
 .mobile-sheet-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity $transition-medium ease;
 }
 
 .mobile-sheet-enter-active .mobile-sheet,
 .mobile-sheet-leave-active .mobile-sheet {
-  transition: transform 0.3s ease;
+  transition: transform $transition-medium ease;
 }
 
 .mobile-sheet-enter-from,

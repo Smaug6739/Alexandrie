@@ -1,0 +1,32 @@
+@use "dark" as *;
+@use "glassmorphism" as *;
+@use "material" as *;
+@use "print" as *;
+@use "white" as *;
+@forward "colors";
+
+:root {
+	@include material-theme;
+	@include white-theme;
+}
+
+.dark-mode {
+	@include material-theme;
+	@include dark-theme;
+}
+
+// Glassmorphism style override
+.glassmorphism {
+	@include glassmorphism-theme;
+	@include glassmorphism-theme-white;
+
+	&.dark-mode {
+		@include glassmorphism-dark-theme;
+	}
+}
+
+@media print {
+	:root {
+		@include print-theme;
+	}
+}

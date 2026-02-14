@@ -48,8 +48,8 @@ onMounted(() => {
 .view-selection {
   display: flex;
   padding: 3px;
-  border-radius: $radius-sm;
-  background: var(--bg-contrast);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
   align-items: center;
   gap: 2px;
 }
@@ -60,17 +60,19 @@ button {
   height: 32px;
   padding: 0;
   border: none;
-  border-radius: $radius-sm;
-  color: var(--font-color-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
   background: transparent;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color $transition-fast,
+    background $transition-fast;
   align-items: center;
   cursor: pointer;
   justify-content: center;
 
   &:hover {
-    color: var(--font-color);
-    background: var(--bg-color);
+    color: var(--text-body);
+    background: var(--surface-base);
   }
 
   &.active > svg {

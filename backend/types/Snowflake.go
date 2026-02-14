@@ -23,3 +23,8 @@ func (s *Snowflake) UnmarshalJSON(b []byte) error {
 	*s = Snowflake(val)
 	return nil
 }
+
+// String returns the string representation of the Snowflake
+func (s Snowflake) String() string {
+	return strconv.FormatUint(uint64(s), 10)
+}

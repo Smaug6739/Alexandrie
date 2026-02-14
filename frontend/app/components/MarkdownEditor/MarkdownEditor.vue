@@ -3,15 +3,16 @@
   <div class="editor-wrapper">
     <div class="editor-container">
       <!-- Toolbar Section -->
-      <Toolbar v-model="document" :minimal="minimal" @execute-action="commands.exec" />
+      <Toolbar v-model="document" @execute-action="commands.exec" />
 
       <!-- Compact Document Metadata -->
-      <div v-if="!minimal" class="document-meta">
-        <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
-        <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
-        <AppTagInput v-model="document.tags" class="meta-tags" @update:model-value="autoSaveConditional" />
+      <div class="document-meta">
+        <div class="line">
+          <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
+          <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
+        </div>
+        <AppTagInput v-model="document.tags" display="row" minimal @update:model-value="autoSaveConditional" />
       </div>
-      <AppTagInput v-else v-model="document.tags" style="margin: 4px 0" @update:model-value="autoSaveConditional" />
 
       <!-- Editor Content Section -->
       <div ref="container" class="editor-content">
@@ -46,9 +47,8 @@ import type { Node } from '~/stores';
 const resourcesStore = useResourcesStore();
 const preferences = usePreferences();
 
-const props = defineProps<{ doc?: Partial<Node>; minimal?: boolean }>();
+const props = defineProps<{ doc?: Partial<Node> }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
-const { CDN } = useApi();
 
 const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
@@ -68,7 +68,7 @@ const commands = createCommands({
   save: () => save(),
 });
 
-const uploadsHandlers = createUploadsHandlers({ resourcesStore, CDN, insertText: (t: string) => commands.exec('insertText', t) });
+const uploadsHandlers = createUploadsHandlers({ resourcesStore, insertText: (t: string) => commands.exec('insertText', t) });
 
 const state = createEditorState({
   initialDoc: document.value.content || '',
@@ -157,18 +157,21 @@ const autoSave = debounceDelayed(() => {
   width: 100%;
   height: 100%;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 // Compact Document Metadata - Single line
 .document-meta {
-  display: flex;
-  padding: 6px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  background: var(--bg-color);
-  align-items: center;
-  flex-wrap: wrap;
+  .line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-base);
   gap: 8px;
 }
 
@@ -177,23 +180,23 @@ const autoSave = debounceDelayed(() => {
   max-width: 280px;
   padding: 4px 8px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 1rem;
   font-weight: 600;
-  color: var(--font-color-dark);
+  color: var(--text-primary);
   background: transparent;
-  transition: background 0.15s ease;
+  transition: background $transition-fast ease;
   flex: 0 1 auto;
   outline: none;
 
   &:hover,
   &:focus {
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
   }
 
   &::placeholder {
     font-weight: 500;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -201,28 +204,23 @@ const autoSave = debounceDelayed(() => {
   min-width: 100px;
   padding: 4px 8px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 0.85rem;
-  color: var(--font-color);
+  color: var(--text-body);
   background: transparent;
-  transition: background 0.15s ease;
+  transition: background $transition-fast ease;
   flex: 1 1 150px;
   outline: none;
 
   &:hover,
   &:focus {
-    background: var(--bg-ui);
+    background: var(--surface-transparent);
   }
 
   &::placeholder {
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     opacity: 0.7;
   }
-}
-
-.meta-tags {
-  min-width: 150px;
-  flex: 0 1 auto;
 }
 
 // Editor Content Section
@@ -238,9 +236,9 @@ const autoSave = debounceDelayed(() => {
   position: relative;
   display: flex;
   min-width: 0;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  background: var(--bg-color);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-base);
   flex: 1;
   flex-direction: column;
   overflow: hidden;
@@ -253,15 +251,15 @@ const autoSave = debounceDelayed(() => {
 .panel-header {
   display: flex;
   padding: 6px 12px;
-  background: var(--bg-ui);
+  background: var(--surface-transparent);
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
 }
 
 .panel-label {
   font-size: 10px;
   font-weight: 600;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
@@ -284,12 +282,12 @@ const autoSave = debounceDelayed(() => {
 }
 
 .editor-container:deep(.cm-content) {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: $font-mono;
 }
 
 .markdown-preview {
   padding: 12px 16px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   flex: 1;
   overflow: auto;
 }
@@ -326,10 +324,6 @@ const autoSave = debounceDelayed(() => {
   .meta-description {
     width: 100%;
     max-width: 100%;
-  }
-
-  .meta-tags {
-    width: 100%;
   }
 }
 </style>

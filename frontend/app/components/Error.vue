@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <div class="error-content">
       <h1 class="error-code">Oops !</h1>
       <p class="error-message">{{ handleError }}</p>
@@ -28,7 +28,7 @@ const handleError = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.card-component {
+.page-card {
   display: flex;
   text-align: center;
   align-items: center;
@@ -45,19 +45,19 @@ const handleError = computed(() => {
   margin: 0;
   font-size: 96px;
   font-weight: bold;
-  color: var(--font-color);
+  color: var(--text-body);
 }
 
 .error-message {
   margin: 10px 0;
   font-size: 24px;
   font-weight: bold;
-  color: var(--font-color-dark);
+  color: var(--text-primary);
 }
 
 .error-description {
   font-size: 16px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 20px;
 }
 
@@ -67,7 +67,7 @@ const handleError = computed(() => {
   border-radius: 5px;
   color: white;
   background-color: var(--primary);
-  transition: background-color 0.3s;
+  transition: background-color $transition-medium;
   text-decoration: none;
 }
 

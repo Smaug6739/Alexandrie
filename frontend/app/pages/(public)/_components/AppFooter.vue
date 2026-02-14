@@ -115,7 +115,7 @@
 .footer-main {
   display: grid;
   padding: 4rem 0;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   gap: 4rem;
   grid-template-columns: 1.5fr 2.5fr;
 }
@@ -140,7 +140,7 @@
 .brand-desc {
   font-size: 0.9rem;
   line-height: 1.7;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 
@@ -152,11 +152,15 @@
     display: flex;
     width: 40px;
     height: 40px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    color: var(--font-color-light);
-    background: var(--bg-contrast);
-    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    background: var(--surface-raised);
+    transition:
+      border-color $transition-medium ease,
+      color $transition-medium ease,
+      background-color $transition-medium ease,
+      transform $transition-medium ease;
     align-items: center;
     justify-content: center;
 
@@ -180,7 +184,7 @@
   h4 {
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--font-color);
+    color: var(--text-body);
     letter-spacing: 0.5px;
     margin-bottom: 1rem;
     text-transform: uppercase;
@@ -198,8 +202,10 @@
     a {
       display: inline-block;
       font-size: 0.9rem;
-      color: var(--font-color-light);
-      transition: all 0.2s ease;
+      color: var(--text-secondary);
+      transition:
+        color $transition-fast ease,
+        transform $transition-fast ease;
       text-decoration: none;
 
       &:hover {
@@ -215,14 +221,14 @@
   display: flex;
   padding: 1.5rem 0;
   align-items: center;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   justify-content: space-between;
 }
 
 .footer-bottom-left {
   display: flex;
   font-size: 0.85rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   gap: 12px;
 

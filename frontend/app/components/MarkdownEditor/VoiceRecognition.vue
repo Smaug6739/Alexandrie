@@ -1,43 +1,8 @@
 <template>
-  <div class="voice-recognition">
-    <button :class="['btn', { recording: isRecording }]" :title="isRecording ? 'Stop recording' : 'Start voice recognition'" @click="toggleRecording">
-      <svg
-        v-if="!isRecording"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <rect x="9" y="2" width="6" height="12" rx="3" />
-        <path d="M5 10v2a7 7 0 0 0 14 0v-2" />
-        <path d="M12 19v3" />
-        <path d="M8 22h8" />
-      </svg>
-      <svg
-        v-else
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <rect x="9" y="2" width="6" height="12" rx="3" />
-        <path d="M5 10v2a7 7 0 0 0 14 0v-2" />
-        <path d="M12 19v3" />
-        <path d="M8 22h8" />
-        <line x1="2" y1="2" x2="22" y2="22" />
-      </svg>
-    </button>
-  </div>
+  <button :class="{ recording: isRecording }" :title="isRecording ? 'Stop recording' : 'Start voice recognition'" @click="toggleRecording">
+    <Icon v-if="!isRecording" name="voice/default" />
+    <Icon v-else name="voice/recording" />
+  </button>
 </template>
 
 <script setup lang="ts">
@@ -140,43 +105,25 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-.voice-recognition {
-  display: inline-block;
-}
-
-.btn {
+button {
   display: flex;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   margin: 0;
-  padding: 4px;
+  padding: 0;
   border: none;
-  border-radius: 50%;
-  background: none;
-  transition: all 0.2s;
+  border-radius: 5px;
+  background: transparent;
   align-items: center;
   cursor: pointer;
   justify-content: center;
-  transform: none;
 
   &:hover {
-    background-color: var(--primary-bg);
+    background-color: var(--surface-overlay);
   }
 
   &.recording {
     animation: pulse 2s infinite;
-  }
-
-  svg {
-    display: block;
-    width: 24px;
-    height: 24px;
-    fill: none;
-    stroke: var(--font-color-dark);
-  }
-
-  &.recording svg {
-    stroke: var(--font-color);
   }
 }
 

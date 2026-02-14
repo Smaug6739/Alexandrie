@@ -2,6 +2,7 @@
   <div ref="root" class="filter-component">
     <div class="btn-icon" @click="toggle" @keydown.enter.prevent="toggle">
       <Icon name="filter" display="lg" />
+      <p class="hint-tooltip">Filter nodes</p>
       <span v-if="filtered.length != nodes?.length" class="bubble"></span>
     </div>
 
@@ -114,6 +115,15 @@ onBeforeUnmount(() => {
   display: inline-block;
 }
 
+.btn-icon {
+  position: relative;
+
+  &:hover > .hint-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 .bubble {
   position: absolute;
   top: 2px;
@@ -132,10 +142,10 @@ onBeforeUnmount(() => {
   z-index: 200;
   width: 320px;
   padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-color);
-  box-shadow: 0 10px 30px rgb(2 6 23 / 20%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-lg);
 }
 
 .row {
@@ -159,8 +169,8 @@ label {
 
 .btn {
   padding: 8px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   background: transparent;
   cursor: pointer;
 }
@@ -179,7 +189,9 @@ label {
 /* small pop animation */
 .pop-enter-active,
 .pop-leave-active {
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform $transition-fast ease,
+    opacity $transition-fast ease;
 }
 
 .pop-enter-from {

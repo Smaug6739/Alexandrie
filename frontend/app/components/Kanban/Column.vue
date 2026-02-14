@@ -185,8 +185,8 @@ function handleClickOutside(e: MouseEvent) {
   min-width: 300px;
   max-width: 320px;
   padding: 12px;
-  border-radius: 12px;
-  background: var(--bg-contrast);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
   flex-direction: column;
 
   &.drag-over {
@@ -213,7 +213,7 @@ function handleClickOutside(e: MouseEvent) {
   padding: 0;
   border: none;
   border-radius: 50%;
-  transition: transform $transition-duration;
+  transition: transform $transition-base;
   cursor: pointer;
   flex-shrink: 0;
 
@@ -225,11 +225,11 @@ function handleClickOutside(e: MouseEvent) {
 .column-title {
   margin: 0;
   padding: 2px 0;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
-  color: var(--font-color-dark);
-  transition: color $transition-duration;
+  color: var(--text-primary);
+  transition: color $transition-base;
   cursor: pointer;
   flex: 1;
 
@@ -241,11 +241,11 @@ function handleClickOutside(e: MouseEvent) {
 .column-title-input {
   padding: 4px 8px;
   border: 1px solid var(--primary);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
-  color: var(--font-color-dark);
-  background: var(--bg-color);
+  color: var(--text-primary);
+  background: var(--surface-base);
   box-shadow: 0 0 0 3px rgb(57 86 231 / 10%);
   flex: 1;
   outline: none;
@@ -257,8 +257,8 @@ function handleClickOutside(e: MouseEvent) {
   border-radius: 16px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--font-color-light);
-  background: var(--bg-color);
+  color: var(--text-secondary);
+  background: var(--surface-base);
 }
 
 .column-actions {
@@ -272,16 +272,16 @@ function handleClickOutside(e: MouseEvent) {
   height: 28px;
   padding: 0;
   border: none;
-  border-radius: 6px;
-  color: var(--font-color-light);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
   background: transparent;
   align-items: center;
   cursor: pointer;
   justify-content: center;
 
   &:hover {
-    color: var(--font-color);
-    background: var(--bg-color);
+    color: var(--text-body);
+    background: var(--surface-base);
   }
 
   &.danger:hover {
@@ -304,10 +304,10 @@ function handleClickOutside(e: MouseEvent) {
   display: flex;
   max-width: 180px;
   padding: 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-color);
-  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-sm-md);
   flex-wrap: wrap;
   gap: 6px;
 }
@@ -325,8 +325,8 @@ function handleClickOutside(e: MouseEvent) {
   }
 
   &.active {
-    border-color: var(--font-color-dark);
-    box-shadow: 0 0 0 2px var(--bg-color);
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 2px var(--surface-base);
   }
 }
 
@@ -340,29 +340,15 @@ function handleClickOutside(e: MouseEvent) {
   flex-direction: column;
   gap: 8px;
   overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background: transparent;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-  }
 }
 
 .empty-state {
   display: flex;
   padding: 32px 16px;
-  border: 2px dashed var(--border-color);
-  border-radius: 8px;
-  color: var(--font-color-light);
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
   text-align: center;
-  background: rgb(0 0 0 / 2%);
   align-items: center;
   flex-direction: column;
   justify-content: center;
@@ -392,11 +378,11 @@ function handleClickOutside(e: MouseEvent) {
   width: 100%;
   padding: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 500;
-  color: var(--font-color-light);
-  background: var(--bg-color);
+  color: var(--text-secondary);
+  background: var(--surface-base);
   align-items: center;
   cursor: pointer;
   gap: 6px;
@@ -418,7 +404,9 @@ function handleClickOutside(e: MouseEvent) {
 // Transitions
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: all 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 .dropdown-enter-from,
@@ -429,7 +417,9 @@ function handleClickOutside(e: MouseEvent) {
 
 .card-list-enter-active,
 .card-list-leave-active {
-  transition: all 0.2s ease;
+  transition:
+    opacity $transition-base ease,
+    transform $transition-base ease;
 }
 
 .card-list-enter-from,
@@ -439,6 +429,6 @@ function handleClickOutside(e: MouseEvent) {
 }
 
 .card-list-move {
-  transition: transform 0.2s ease;
+  transition: transform $transition-base ease;
 }
 </style>

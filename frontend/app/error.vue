@@ -51,28 +51,28 @@ const props = defineProps({
   margin: 0;
   font-size: 96px;
   font-weight: bold;
-  color: var(--font-color);
+  color: var(--text-body);
 }
 
 .error-message {
   margin: 10px 0;
   font-size: 24px;
-  color: var(--font-color-dark);
+  color: var(--text-primary);
 }
 
 .error-description {
   font-size: 16px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 20px;
 }
 
 .error-button {
   display: inline-block;
   padding: 10px 20px;
-  border-radius: 5px;
+  border-radius: var(--radius-sm);
   color: white;
   background-color: var(--primary);
-  transition: background-color 0.3s;
+  transition: background-color $transition-medium;
   text-decoration: none;
 }
 

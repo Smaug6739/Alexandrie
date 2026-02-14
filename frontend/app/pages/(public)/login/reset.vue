@@ -145,7 +145,7 @@ form {
 }
 
 input {
-  background: var(--bg-contrast-2);
+  background: var(--surface-overlay);
   outline: none;
 }
 

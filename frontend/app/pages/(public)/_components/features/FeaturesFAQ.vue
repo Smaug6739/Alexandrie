@@ -25,7 +25,7 @@
 
       <div class="faq-cta">
         <div class="cta-content">
-          <div class="cta-icon">💬</div>
+          <div class="cta-icon"><Icon name="help" display="xxl" /></div>
           <h3>Still have questions?</h3>
           <p>Can't find what you're looking for? Join our community!</p>
           <a href="https://discord.gg/UPsEg6egPj" target="_blank" class="cta-btn">
@@ -103,7 +103,7 @@ h2 {
 
 .subtitle {
   font-size: 1.1rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .faq-container {
@@ -120,10 +120,12 @@ h2 {
 }
 
 .faq-item {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--bg-color);
-  transition: all 0.3s ease;
+  background: var(--surface-base);
+  transition:
+    border-color $transition-medium ease,
+    box-shadow $transition-medium ease;
   overflow: hidden;
 
   &:hover {
@@ -143,10 +145,10 @@ h2 {
   border: none;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--font-color);
+  color: var(--text-body);
   text-align: left;
   background: none;
-  transition: all 0.2s ease;
+  transition: color $transition-fast ease;
   align-items: center;
   cursor: pointer;
   gap: 1rem;
@@ -157,10 +159,12 @@ h2 {
   display: flex;
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: var(--primary);
-  background: var(--bg-contrast);
-  transition: all 0.3s ease;
+  background: var(--surface-raised);
+  transition:
+    color $transition-medium ease,
+    background-color $transition-medium ease;
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
@@ -173,14 +177,14 @@ h2 {
 
 .faq-answer {
   max-height: 0;
-  transition: max-height 0.3s ease;
+  transition: max-height $transition-medium ease;
   overflow: hidden;
 
   p {
     padding: 0 1.5rem 1.25rem;
     font-size: 0.95rem;
     line-height: 1.7;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -192,14 +196,15 @@ h2 {
 
 .cta-content {
   padding: 2.5rem 2rem;
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xxl);
   text-align: center;
-  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
 }
 
 .cta-icon {
-  font-size: 3rem;
+  display: flex;
+  justify-content: center;
   margin-bottom: 1rem;
 }
 
@@ -211,19 +216,21 @@ h2 {
 
 .cta-content p {
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 
 .cta-btn {
   display: inline-flex;
   padding: 12px 24px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
   color: white;
   background: #5865f2;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;

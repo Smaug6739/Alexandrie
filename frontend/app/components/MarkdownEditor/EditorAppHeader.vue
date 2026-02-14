@@ -1,7 +1,7 @@
 <template>
   <div class="modal-header">
     <div class="header-icon">
-      <Icon :name="icon" style="width: 30px; height: 30px" fill="var(--bg-color)" />
+      <Icon :name="icon" display="xxl" fill="var(--surface-base)" />
     </div>
     <h3>{{ title }}</h3>
     <p class="header-subtitle">{{ subtitle }}</p>
@@ -31,19 +31,14 @@ defineProps<{ icon: string; title: string; subtitle: string }>();
     align-items: center;
     justify-content: center;
     margin-bottom: 16px;
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
   }
 
   h3 {
     margin: 0 0 8px;
     font-size: 24px;
     font-weight: 800;
-    color: var(--font-color-dark);
-    background: linear-gradient(135deg, var(--font-color-dark), var(--primary));
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--text-primary), var(--primary));
     background-clip: text;
     letter-spacing: -0.8px;
     -webkit-text-fill-color: transparent;
@@ -55,7 +50,7 @@ defineProps<{ icon: string; title: string; subtitle: string }>();
     font-size: 14px;
     font-weight: 500;
     line-height: 1.4;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 </style>

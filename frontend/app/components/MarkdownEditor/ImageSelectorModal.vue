@@ -1,12 +1,12 @@
 <template>
-  <div class="modal-ctn">
+  <div class="container">
     <EditorAppHeader icon="image" title="Select Image" subtitle="Choose an image to insert into your document." />
-    <div class="modal-content">
+    <div class="content">
       <AppDrop ref="dropComponent" @select="submitFile as (file: File) => void" />
       <Loader v-if="isLoading" style="margin: 12px auto" />
       <p v-if="uploadError" class="error">{{ uploadError }}</p>
       <div class="search-bar">
-        <input v-model="searchQuery" placeholder="Search images..." class="search-input" />
+        <input v-model="searchQuery" placeholder="Search images..." />
       </div>
       <div class="images-grid">
         <div v-for="image in filteredImages.values()" :key="image.id" class="image-item" @click="selectImage(image)">
@@ -40,7 +40,7 @@ const searchQuery = ref('');
 const isLoading = ref(false);
 const uploadError = ref<string | null>(null);
 const dropComponent = ref();
-const { CDN } = useApi();
+const { resourceURL } = useApi();
 
 const submitFile = (selectedFile: File) => {
   if (!selectedFile) return;
@@ -67,75 +67,30 @@ const handleImageError = (event: Event) => {
 };
 
 const selectImage = (image: Node) => {
-  const imageUrl = (CDN + `/${useUserStore().user?.id}/` + image.metadata?.transformed_path) as string;
   const altText = image.name.replace(/\.[^/.]+$/, '');
-  props.onImageSelect(imageUrl, altText);
+  props.onImageSelect(resourceURL(image), altText);
   emit('close');
 };
 </script>
 
 <style scoped lang="scss">
-.modal-ctn {
+.container {
   display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 0 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: transparent;
   flex-direction: column;
-  overflow: hidden;
 }
 
-.modal-content {
+.content {
   min-height: 0;
   padding: 0;
   gap: 24px;
   overflow-y: auto;
   padding-right: 8px;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 3px;
-    background: var(--bg-color-secondary);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background: var(--border-color);
-
-    &:hover {
-      background: var(--primary);
-    }
-  }
 }
 
 .search-bar {
   padding: 16px 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
-
-  .search-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--font-color-dark);
-    background: var(--bg-color-secondary);
-
-    &:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgb(var(--primary-rgb), 0.1);
-      outline: none;
-    }
-
-    &::placeholder {
-      color: var(--font-color-light);
-    }
-  }
 }
 
 .images-grid {
@@ -148,32 +103,33 @@ const selectImage = (image: Node) => {
 
 .image-item {
   border: 2px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  transition:
+    border-color $transition-fast ease,
+    box-shadow $transition-fast ease,
+    transform $transition-fast ease;
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 8px 24px rgb(0 0 0 / 15%);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
   }
 
   .image-preview {
     width: 100%;
     height: 150px;
-    border-radius: 6px;
-    background: var(--bg-color-secondary);
-    object-fit: cover;
+    border-radius: var(--radius-sm);
   }
 
   .image-info {
     padding: 12px;
-    background: var(--bg-color-secondary);
 
     .image-name {
       display: block;
       font-size: 14px;
       font-weight: 500;
-      color: var(--font-color-dark);
+      color: var(--text-primary);
       margin-bottom: 4px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -183,7 +139,7 @@ const selectImage = (image: Node) => {
     .image-size {
       display: block;
       font-size: 12px;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
   }
 }
@@ -192,7 +148,7 @@ const selectImage = (image: Node) => {
   display: flex;
   height: 200px;
   font-size: 16px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   justify-content: center;
 }

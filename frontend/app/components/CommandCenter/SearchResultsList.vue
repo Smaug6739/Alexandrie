@@ -13,6 +13,7 @@
           class="search-result-item"
           :to="item.path"
           :class="{ selected: selectedIndex === item.globalIndex }"
+          @click="close"
           @mouseenter="$emit('updateSelectedIndex', item.globalIndex)"
         >
           <Icon :name="item.icon" class="result-icon" />
@@ -37,11 +38,16 @@ import type { ItemCommand } from './types';
 const props = defineProps<{ items: ItemCommand[]; selectedIndex: number; query: string }>();
 defineEmits<{ updateSelectedIndex: [index: number] }>();
 
+const { close } = useCommandCenter();
+
 const groupedItems = computed(() => {
-  return props.items.reduce((acc, item) => {
-    (acc[item.section || ''] ||= []).push(item);
-    return acc;
-  }, {} as Record<string, typeof props.items>);
+  return props.items.reduce(
+    (acc, item) => {
+      (acc[item.section || ''] ||= []).push(item);
+      return acc;
+    },
+    {} as Record<string, typeof props.items>,
+  );
 });
 </script>
 
@@ -56,7 +62,7 @@ const groupedItems = computed(() => {
   display: flex;
   margin: 0 5px;
   padding: 8px 20px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   color: inherit;
   align-items: center;
   cursor: pointer;
@@ -65,7 +71,7 @@ const groupedItems = computed(() => {
 
   &:hover,
   &.selected {
-    background: var(--border-color);
+    background: var(--border);
   }
 }
 
@@ -121,7 +127,7 @@ const groupedItems = computed(() => {
   z-index: 1;
   padding: 6px 20px;
   font-size: 12px;
-  background: var(--bg-color);
+  background: var(--surface-base);
   text-transform: uppercase;
 }
 

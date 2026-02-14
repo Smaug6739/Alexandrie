@@ -18,7 +18,7 @@ const tips = [
 .pro-tip {
   display: flex;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   align-items: center;
   gap: 6px;
 }

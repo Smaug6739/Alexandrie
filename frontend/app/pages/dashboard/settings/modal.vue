@@ -13,11 +13,11 @@ import IndexSettings from './index.vue';
   max-width: 1150px;
   height: 715px;
   max-height: 90vh;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 
   nav {
     padding: 1rem;
-    background-color: var(--bg-contrast) !important;
+    background-color: var(--surface-raised) !important;
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
     gap: 1rem;
@@ -26,21 +26,21 @@ import IndexSettings from './index.vue';
     span {
       font-size: 0.9rem;
       font-weight: 500;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
 
     a {
       display: flex;
       margin: 0.2rem;
       padding: 0.2rem 0.4rem;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       color: inherit;
       align-items: center;
       gap: 0.5rem;
       text-decoration: none;
 
       &:hover {
-        background-color: var(--bg-contrast-2);
+        background-color: var(--surface-overlay);
       }
     }
 
@@ -58,7 +58,7 @@ import IndexSettings from './index.vue';
 
         .email {
           font-size: 0.7rem;
-          color: var(--font-color-light);
+          color: var(--text-secondary);
         }
       }
     }

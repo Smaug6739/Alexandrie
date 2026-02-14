@@ -1,5 +1,5 @@
 <template>
-  <MarkdownEditor v-if="document && !error" :doc="document" @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
+  <LazyMarkdownEditor v-if="document && !error" :doc="document" @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import type { Node } from '~/stores';
@@ -19,7 +19,8 @@ watchEffect(async () => {
   const storedNode = store.getById(nodeId);
   if (!storedNode) {
     try {
-      document.value = await store.fetchPublic(nodeId);
+      const result = await store.fetchPublic(nodeId);
+      document.value = result?.node;
     } catch {
       error.value = 'Document not found';
     }

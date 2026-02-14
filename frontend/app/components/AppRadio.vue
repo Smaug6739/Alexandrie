@@ -30,9 +30,9 @@ const selectItem = (id: number | string) => {
 
   button {
     padding: 0.6rem;
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-    background: var(--bg-contrast);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
     cursor: pointer;
     flex: 1;
 

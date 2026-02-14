@@ -1,52 +1,47 @@
 /**
- * Sidebar state management
- * Controls sidebar visibility, width, and content filtering
+ * Sidebar UI State
+ * Controls visibility, width, and active selection
  */
-
-// Module-level state (safe - these don't depend on Pinia)
-const isOpened = ref(false);
-const hasSidebar = ref(false);
-const isResizing = ref(false);
-const workspaceId = ref<string | undefined>(undefined);
-const active_id = ref<string | null>(null);
-
-const { isMobile } = useDevice();
-
-const toggleSidebar = () => (isOpened.value = !isOpened.value);
-
-// Lazy-initialized references (only set once when useSidebar is first called)
-let _sidebarTreeRef: ReturnType<typeof useSidebarTree> | null = null;
-const preferences = usePreferences();
-let _filtered: ComputedRef<Item[]> | null = null;
-const paneWidth = ref(isMobile.value ? 340 : 390);
+import type { TreeItem } from '../helpers/TreeBuilder';
+import type { Node } from '~/stores';
 
 export function useSidebar() {
-  // Lazy init: only create these once
-  if (!_sidebarTreeRef) {
-    _sidebarTreeRef = useSidebarTree();
-  }
+  const { isMobile } = useDevice();
+  const nodesTree = useNodesTree();
+  const preferences = usePreferences();
 
-  if (!_filtered) {
-    /** Filter tree items based on selected workspace and preferences */
-    _filtered = computed(() => {
-      const tree = _sidebarTreeRef!.tree;
-      const found = tree.value.find(i => i.id === workspaceId.value);
+  // UI State - using useState for SSR safety
+  const isOpen = useState('sidebar-open', () => false);
+  const hasSidebar = useState('sidebar-has', () => false);
+  const isResizing = useState('sidebar-resizing', () => false);
+  const paneWidth: Ref<number> = useState('sidebar-width', () => (isMobile.value ? 340 : 390));
+  const activeNodeId = useState<string | null>('sidebar-active', () => null);
+  const workspaceId = useState<string | undefined>('sidebar-workspace', () => undefined);
 
-      if (found) return found.childrens || [];
-      if (workspaceId.value === 'shared') return tree.value.filter(i => i.data && i.data.shared);
-      if (!preferences.get('displayUncategorizedResources').value) return tree.value.filter(i => i.data && i.data.role != 4); // hide uncategorized
-      return tree.value;
-    });
-  }
+  // Filtered tree based on current workspace and preferences
+  const filtered = computed((): TreeItem<Node>[] => {
+    const items = nodesTree.workspaceTree(workspaceId.value);
+    if (!preferences.get('displayUncategorizedResources').value) {
+      return items.filter(item => item.data.role !== 4);
+    }
+    return items;
+  });
+
+  const toggle = () => (isOpen.value = !isOpen.value);
 
   return {
-    filtered: _filtered,
-    toggleSidebar,
-    isOpened,
+    // UI State
+    isOpened: isOpen,
     hasSidebar,
     paneWidth,
     isResizing,
+    toggleSidebar: toggle,
+
+    // Selection
+    active_id: activeNodeId,
     workspaceId,
-    active_id,
+
+    // Filtered content
+    filtered,
   };
 }

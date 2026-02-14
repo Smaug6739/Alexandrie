@@ -4,6 +4,12 @@ on:
   release:
     types: [published]
 
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag Git to build"
+        required: true
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -13,8 +19,19 @@ jobs:
       packages: write
 
     steps:
+      - name: Resolve tag
+        id: tag
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.tag.outputs.tag }}
 
       - name: Set lowercase repository name
         id: repo
@@ -40,7 +57,7 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:latest
-            ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:${{ github.event.release.tag_name }}
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}-backend:${{ steps.tag.outputs.tag }}
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
@@ -52,4 +69,5 @@ jobs:
           cache-to: type=gha,mode=max
           tags: |
             ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:latest
-            ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:${{ github.event.release.tag_name }}
+            ghcr.io/${{ steps.repo.outputs.repo_lc }}-frontend:${{ steps.tag.outputs.tag }}
+            

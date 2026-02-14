@@ -109,7 +109,7 @@ section {
 .section-title {
   font-size: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
   font-weight: 800;
-  color: var(--font-color-dark);
+  color: var(--text-primary);
   text-align: center;
   margin-bottom: 1rem;
 }
@@ -118,7 +118,7 @@ section {
   max-width: 600px;
   margin: 0 auto 4rem;
   line-height: 1.6;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-align: center;
 }
 
@@ -144,7 +144,9 @@ section {
     position: relative;
     display: flex;
     opacity: 0;
-    transition: all 0.8s ease;
+    transition:
+      opacity 0.8s ease,
+      transform 0.8s ease;
     align-items: center;
     margin-bottom: 5rem;
     transform: translateY(40px);
@@ -192,12 +194,14 @@ section {
           border: 1px solid #e5e7eb;
           border-radius: 16px;
           background: white;
-          box-shadow: 0 10px 30px rgb(0 0 0 / 7%);
-          transition: transform 0.5s ease, box-shadow 0.5s ease;
+          box-shadow: var(--shadow-lg);
+          transition:
+            transform 0.5s ease,
+            box-shadow 0.5s ease;
           cursor: zoom-in;
 
           &:hover {
-            box-shadow: 0 14px 40px rgb(0 0 0 / 10%);
+            box-shadow: var(--shadow-xl);
             transform: translateY(-5px);
           }
         }
@@ -219,9 +223,8 @@ section {
   position: fixed;
   z-index: 2000;
   display: flex;
-  background: rgb(0 0 0 / 85%);
   align-items: center;
-  animation: fadeIn 0.25s ease;
+  animation: fadeIn $transition-base ease;
   inset: 0;
   justify-content: center;
 
@@ -229,8 +232,8 @@ section {
     position: relative;
     max-width: min(1100px, 92vw);
     max-height: 85vh;
-    border-radius: 12px;
-    animation: zoomIn 0.25s ease;
+    border-radius: var(--radius-lg);
+    animation: zoomIn $transition-base ease;
     overflow: hidden;
 
     img {
@@ -256,7 +259,7 @@ section {
       line-height: 1;
       color: white;
       background: transparent;
-      transition: transform 0.2s ease;
+      transition: transform $transition-base ease;
       cursor: pointer;
 
       &:hover {

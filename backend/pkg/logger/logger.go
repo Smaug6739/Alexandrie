@@ -27,20 +27,20 @@ func format(level string, color string, msg string) string {
 	return fmt.Sprintf("%s %s", level, msg)
 }
 
-func Info(msg string) {
-	baseLogger.Println(format("info |", blue, msg))
+func Info(title, msg string) {
+	baseLogger.Println(format(title+" |", blue, msg))
 }
 
-func Warn(msg string) {
-	baseLogger.Println(format("warn |", yellow, msg))
+func Warn(title, msg string) {
+	baseLogger.Println(format(title+" |", yellow, msg))
 }
 
-func Error(msg string) {
-	baseLogger.Println(format("error|", red, msg))
+func Error(title, msg string) {
+	baseLogger.Println(format(title+" |", red, msg))
 }
 
-func Success(msg string) {
-	baseLogger.Println(format("success|", green, msg))
+func Success(title, msg string) {
+	baseLogger.Println(format(title+" |", green, msg))
 }
 
 // Optionnel : activer/désactiver les couleurs globalement

@@ -19,6 +19,7 @@ services:
       test: ['CMD-SHELL', "mysql -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} -e 'SELECT 1' $${MYSQL_DATABASE}"]
       timeout: 10s
       retries: 5
+      interval: 30s
       start_period: 30s
 
   # Object Storage (RustFS, S3 compatible)
@@ -110,6 +111,7 @@ services:
       # Runtime configuration - builds with these values at startup
       NUXT_PUBLIC_BASE_API: ${API_URL:-http://localhost:8201}
       NUXT_PUBLIC_BASE_CDN: ${CDN_URL:-http://localhost:9000}
+      NUXT_PUBLIC_CDN_ENDPOINT: ${CDN_ENDPOINT:-/alexandrie/}
       NUXT_PUBLIC_BASE_URL: ${FRONTEND_URL:-http://localhost:8200}
 
     ports:

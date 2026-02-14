@@ -19,6 +19,10 @@
         <label for="category">Enable snippets</label>
         <AppToggle v-model="store.get('editorSnippetsEnabled').value" />
       </div>
+      <div class="row">
+        <label for="category">Simplified view on mobile</label>
+        <AppToggle v-model="store.get('editorSimplifiedViewOnMobile').value" />
+      </div>
     </form>
   </div>
 </template>

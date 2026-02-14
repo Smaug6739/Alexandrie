@@ -1,7 +1,10 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <header>
-      <h3>Update resource</h3>
+      <h1>Update resource</h1>
+      <NuxtLink :to="`/dashboard/cdn/${resource?.id}/preview`" class="btn-icon">
+        <AppButton type="secondary">Preview</AppButton>
+      </NuxtLink>
     </header>
     <p>Manage resources and files on the server. You can edit metadata and delete file from the server.</p>
     <form v-if="resource" @submit.prevent>
@@ -18,7 +21,7 @@
       <label>Name</label>
       <input id="name" v-model="resource.name" type="text" required />
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
-      <AppSelect v-model="resource.parent_id" :items="tree" :disabled="(i) => (i as Item).data?.role !== 3" placeholder="Select a resource parent" />
+      <AppSelect v-model="resource.parent_id" :items="tree" :disabled="i => (i as TreeItem<Node>).data?.role !== 3" placeholder="Select a resource parent" />
       <label>Type</label>
       <input id="id" type="text" :value="resource.metadata?.filetype" disabled />
       <label>Original path</label>
@@ -27,46 +30,38 @@
       <input id="path" type="text" :value="resource.metadata?.transformed_path" disabled />
       <p style="overflow-wrap: break-word">
         Resource:
-        <a :href="`${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`" target="_blank">{{
-          `${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`
-        }}</a>
+        <a :href="resourceURL(resource)" target="_blank">{{ resourceURL(resource) }}</a>
       </p>
       <div class="actions-row">
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
         <AppButton type="danger" @click="showDeleteModal">Delete</AppButton>
-      </div>
-      <h4>Preview</h4>
-      <div class="preview">
-        <img
-          v-if="(resource.metadata?.filetype as string)?.startsWith('image/')"
-          :src="`${CDN}/${resource.user_id}/${resource.metadata?.transformed_path || resource.content}`"
-          alt="Preview"
-        />
-        <p v-else>Preview not available for this file type.</p>
       </div>
     </form>
   </div>
 </template>
 
 <script lang="ts" setup>
-import DeleteResourceModal from '../_modals/DeleteResourceModal.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize } from '~/helpers/resources';
+import type { TreeItem } from '~/helpers/TreeBuilder';
+import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: 'Edit' });
 
 const nodeStore = useNodesStore();
 const route = useRoute();
-const { CDN } = useApi();
+const { resourceURL } = useApi();
 
 const resource = computed(() => nodeStore.getById(route.params.id as string));
 
 const defaultItem: ANode = {
   id: '',
   label: 'None',
-  parent_id: '',
-  childrens: [],
+  parentId: '',
+  children: [],
 };
-const tree = computed(() => [defaultItem, ...useSidebarTree().tree.value]);
+const nodesTree = useNodesTree();
+const tree = computed(() => [defaultItem, ...nodesTree.tree.value]);
 
 const updateCategory = async () => {
   if (resource.value)
@@ -79,7 +74,7 @@ const updateCategory = async () => {
       .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
 };
 const showDeleteModal = () => {
-  useModal().add(new Modal(shallowRef(DeleteResourceModal), { props: { resources: [resource.value?.id] } }));
+  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 </script>
 
@@ -113,13 +108,8 @@ a {
   color: var(--primary);
   text-decoration: underline;
 }
+
 .actions-row {
   justify-content: flex-end;
-}
-.preview {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
 }
 </style>

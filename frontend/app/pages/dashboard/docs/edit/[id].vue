@@ -1,5 +1,5 @@
 <template>
-  <MarkdownEditor v-if="node" :doc="node" @save="data => save(data)" @auto-save="autoSave" @exit="exit" />
+  <LazyMarkdownEditor v-if="node" :doc="node" @save="data => save(data)" @auto-save="autoSave" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import type { Node } from '~/stores';

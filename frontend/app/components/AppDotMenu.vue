@@ -3,7 +3,7 @@
     <span class="menu-button" aria-label="Menu" @click="toggleMenu">
       <svg class="menu-icon" viewBox="0 9 20 2" xmlns="http://www.w3.org/2000/svg">
         <path
-          style="fill: var(--font-color)"
+          style="fill: var(--text-body)"
           d="M3 10a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm5 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z"
         />
       </svg>
@@ -38,7 +38,7 @@ onMounted(() => document.addEventListener('mousedown', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutside));
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
   position: relative;
   display: inline-block;
@@ -47,14 +47,10 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
 .menu-button {
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   line-height: 1;
   background: none;
   cursor: pointer;
-}
-
-.menu-button:hover {
-  background-color: rgb(0 0 0 / 8%);
 }
 
 .menu-icon {
@@ -69,28 +65,28 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   right: 0;
   z-index: 2;
   min-width: 270px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  background: var(--bg-color);
-  box-shadow: 0 2px 6px var(--shadow);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-sm);
   margin-top: 4px;
   overflow: hidden;
 }
 
-/* Animation */
+/* Fade-scale transition */
 .fade-scale-enter-active {
-  transition: all 120ms ease-out;
+  transition:
+    opacity $transition-fast ease-out,
+    transform $transition-fast ease-out;
 }
 
 .fade-scale-leave-active {
-  transition: all 100ms ease-in;
+  transition:
+    opacity $transition-fast ease-in,
+    transform $transition-fast ease-in;
 }
 
-.fade-scale-enter-from {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
+.fade-scale-enter-from,
 .fade-scale-leave-to {
   opacity: 0;
   transform: scale(0.95);

@@ -1,0 +1,23 @@
+img {
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	max-height: 400px;
+	margin-bottom: 5px;
+}
+
+audio,
+video {
+	display: block;
+	width: 100%;
+	margin: 10px 0;
+	border-radius: var(--radius-sm);
+	background: var(--surface-transparent);
+}
+
+iframe {
+	max-width: 100%;
+	margin: 10px 0;
+	border: none;
+	border-radius: var(--radius-sm);
+}

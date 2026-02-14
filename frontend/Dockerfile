@@ -20,7 +20,6 @@ RUN bun run build
 FROM node:22-alpine AS runtime
 
 WORKDIR /app
-ENV PORT=${PORT}
 
 COPY --from=builder /app/.output /app/.output
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh

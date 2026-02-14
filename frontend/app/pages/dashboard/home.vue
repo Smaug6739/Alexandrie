@@ -49,7 +49,7 @@
       </div>
       <div class="continue-working">
         <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
-          <NodeRecentCard :node="doc" />
+          <NodeCardRecent :node="doc" />
         </NuxtLink>
       </div>
     </section>
@@ -61,7 +61,7 @@
       </div>
       <div class="pinned-grid">
         <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
-          <NodeRecentCard :node="doc" />
+          <NodeCardRecent :node="doc" />
         </NuxtLink>
       </div>
     </section>
@@ -74,7 +74,7 @@
       </div>
       <div class="workspaces-grid">
         <NuxtLink v-for="workspace in workspaces" :key="workspace.id" :to="`/dashboard/categories/${workspace.id}`">
-          <NodeWorkspaceCard :workspace="workspace" />
+          <NodeCardWorkspace :workspace="workspace" />
         </NuxtLink>
         <button class="add-workspace" @click="openCreateWorkspace">New workspace</button>
       </div>
@@ -93,7 +93,7 @@
               <Icon
                 :name="resolveIcon(item)"
                 display="md"
-                :class="`activity-icon ${getAppAccent(item.color || getCategory(item.parent_id)?.color as number, true)}`"
+                :class="`activity-icon ${getAppAccent(item.color || (getCategory(item.parent_id)?.color as number), true)}`"
               />
               <div class="activity-content">
                 <span class="activity-name">{{ item.name }}</span>
@@ -108,28 +108,28 @@
     <!-- Quick stats -->
     <section class="section stats-section">
       <div class="stat-card">
-        <Icon name="files" display="xll" class="stat-icon" fill="var(--primary)" />
+        <Icon name="files" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ documentsCount }}</span>
           <span class="stat-label">Documents</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="categories" display="xll" class="stat-icon" fill="var(--primary)" />
+        <Icon name="categories" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ workspacesCount }}</span>
           <span class="stat-label">Workspaces</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="advanced" display="xll" class="stat-icon" fill="var(--primary)" />
+        <Icon name="advanced" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ tagsCount }}</span>
           <span class="stat-label">Tags</span>
         </div>
       </div>
       <div class="stat-card">
-        <Icon name="import" display="xll" class="stat-icon" fill="var(--primary)" />
+        <Icon name="import" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ resourcesCount }}</span>
           <span class="stat-label">CDN Files</span>
@@ -141,7 +141,7 @@
 
 <script setup lang="ts">
 import { resolveIcon, resolveNodeLink, resolveNodeType } from '~/helpers/node';
-import CreateCategoryModal from '~/pages/dashboard/categories/_modals/CreateCategoryModal.vue';
+import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import type { Node } from '~/stores';
 
 const router = useRouter();
@@ -265,7 +265,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .subtitle {
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .quick-actions {
@@ -282,10 +282,12 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .search-wrapper {
   display: flex;
   padding: 0.75rem 1rem;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--bg-color);
-  transition: all 0.2s;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-base);
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
   align-items: center;
 
   &.focused {
@@ -295,30 +297,30 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 }
 
 .search-icon {
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-right: 0.75rem;
 }
 
 .search-input {
   border: none;
   font-size: 1rem;
-  color: var(--font-color);
+  color: var(--text-body);
   background: transparent;
   flex: 1;
   outline: none;
 
   &::placeholder {
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
 .search-clear {
   padding: 0.25rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
 
   &:hover {
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
   }
 }
 
@@ -330,25 +332,25 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   z-index: 100;
   max-height: 400px;
   padding: 2px;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--bg-color);
-  box-shadow: 0 8px 32px rgb(0 0 0 / 12%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-lg);
   overflow-y: auto;
 }
 
 .search-result {
   display: flex;
   padding: 0.75rem 1rem;
-  border-radius: 8px;
-  color: var(--font-color);
-  transition: background 0.15s;
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  transition: background $transition-fast;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
 
   &:hover {
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
   }
 
   &:first-child {
@@ -362,7 +364,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .node-icon {
   padding: 3px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin-right: 10px;
 }
 
@@ -382,15 +384,15 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .result-path {
   display: block;
   font-size: 0.8rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .result-type {
   padding: 0.2rem 0.5rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   font-size: 0.75rem;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
+  color: var(--text-secondary);
+  background: var(--surface-raised);
 }
 
 // Sections
@@ -447,12 +449,16 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .add-workspace {
   display: flex;
   min-height: 150px;
-  border: 2px dashed var(--border-color);
-  border-radius: 12px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg);
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background: transparent;
-  transition: all 0.2s;
+  transition:
+    border-color $transition-fast,
+    background $transition-fast,
+    box-shadow $transition-fast,
+    transform $transition-fast;
   align-items: center;
   cursor: pointer;
   flex-direction: column;
@@ -461,7 +467,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   &:hover {
     border-color: var(--primary);
     background: var(--primary-bg);
-    box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
 }
@@ -482,13 +488,13 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .activity-date {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   text-transform: capitalize;
 }
 
 .activity-items {
   display: flex;
-  border-left: 2px solid var(--border-color);
+  border-left: 2px solid var(--border);
   flex-direction: column;
   gap: 0.25rem;
   padding-left: 1rem;
@@ -497,21 +503,21 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .activity-item {
   display: flex;
   padding: 0.5rem;
-  border-radius: 8px;
-  color: var(--font-color);
-  transition: background 0.15s;
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  transition: background $transition-fast;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
 
   &:hover {
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
   }
 }
 
 .activity-icon {
   padding: 0.3rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
 }
 
 .activity-content {
@@ -527,7 +533,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .activity-time {
   font-size: 0.8rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 // Stats
@@ -540,16 +546,16 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .stat-card {
   display: flex;
   padding: 1.25rem;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  background: var(--bg-color);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-base);
   align-items: center;
   gap: 1rem;
 }
 
 .stat-icon {
   padding: 0.4rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background: var(--primary-bg);
 }
 
@@ -565,13 +571,15 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 .stat-label {
   font-size: 0.85rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 // Transitions
 .dropdown-enter-active,
 .dropdown-leave-active {
-  transition: all 0.2s ease;
+  transition:
+    opacity $transition-fast ease,
+    transform $transition-fast ease;
 }
 
 .dropdown-enter-from,

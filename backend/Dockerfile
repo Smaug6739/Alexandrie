@@ -22,8 +22,6 @@ WORKDIR /app
 
 # Copy built application
 COPY --from=builder --chown=nonroot:nonroot /app/backend_app ./
-COPY --chown=nonroot:nonroot config.toml ./
-COPY --chown=nonroot:nonroot migrations ./migrations/
 
 # Expose port
 EXPOSE 8201

@@ -1,0 +1,43 @@
+.page-card {
+	display: block;
+	max-height: 100%;
+	margin: 8px 4px;
+	padding: 20px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-sm);
+	gap: 16px;
+
+	header {
+		display: flex;
+		align-items: center;
+		border-bottom: 1px solid var(--border);
+		justify-content: space-between;
+		margin-bottom: 10px;
+		padding-bottom: 4px;
+
+		h1 {
+			margin: 10px 0;
+			padding: 6px 4px;
+			font-size: 20px;
+		}
+	}
+}
+
+@media screen and (width <=768px) {
+	.page-card {
+		margin: 8px 0;
+		padding: 16px;
+	}
+}
+
+.page-title {
+	font-size: 1.7rem;
+	font-weight: bold;
+}
+
+.page-subtitle {
+	margin: 0 0 1rem;
+	font-size: 1rem;
+	color: var(--text-muted);
+}

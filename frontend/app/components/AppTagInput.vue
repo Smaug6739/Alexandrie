@@ -1,96 +1,249 @@
 <template>
-  <div class="tags">
-    <tag v-for="(tag, index) in tagsArray" :key="index" class="primary">
-      {{ tag }}<button type="button" class="remove" @click="removeTag(index)">×</button>
-    </tag>
-    <input v-model="input" placeholder="Add a tag (enter to add)" @keydown.enter.prevent="addTag" @keydown.delete="removeLastTag" />
+  <div :class="[display === 'row' ? 'row' : 'column']">
+    <div class="tags-input-wrapper">
+      <div class="tags-input">
+        <input
+          v-model="tagInput"
+          type="text"
+          placeholder="Enter to add tag"
+          :class="{ minimal: minimal }"
+          @keydown.enter="handleEnter"
+          @keydown.arrow-up="tagHandleArrowUp"
+          @keydown.arrow-down="tagHandleArrowDown"
+          @keydown.escape="hideSuggestions"
+          @input="handleTagInput"
+          @focus="showSuggestions = true"
+          @blur="hideSuggestions"
+        />
+        <button v-if="!minimal" class="add-tag-btn" @click="addTag()">
+          <Icon name="plus" fill="#fff" />
+        </button>
+      </div>
+      <div v-if="showSuggestions && filteredTagSuggestions.length > 0" class="tag-suggestions">
+        <div
+          v-for="(tag, index) in filteredTagSuggestions"
+          :key="tag"
+          class="tag-suggestion"
+          :class="{ selected: selectedSuggestionIndex === index }"
+          @mousedown="addTag(tag)"
+          @mouseenter="selectedSuggestionIndex = index"
+        >
+          {{ tag }}
+        </div>
+      </div>
+    </div>
+    <div v-if="selectedTags?.length" :class="`selected-tags `">
+      <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
+        {{ tag }}
+        <button class="remove-tag" @click.stop="removeTag(tag)">×</button>
+      </span>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ modelValue?: string }>(); // Separated by commas
-const emit = defineEmits<{ (e: 'update:modelValue', value: string): void }>();
-const input = ref('');
+const props = defineProps<{
+  display?: 'column' | 'row';
+  minimal?: boolean;
+  modelValue?: string; // separate tags with commas
+}>();
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string): void;
+}>();
 
-const tagsArray = computed(() =>
-  props.modelValue
-    ? props.modelValue
-        .split(',')
-        .map(t => t?.trim())
-        .filter(Boolean)
-    : [],
+const selectedTags = ref<string[]>(stringToTags(props.modelValue || ''));
+const tagInput = ref('');
+const showSuggestions = ref(false);
+const selectedSuggestionIndex = ref(-1);
+
+const nodesStore = useNodesStore();
+
+watch(
+  () => props.modelValue,
+  newVal => {
+    selectedTags.value = stringToTags(newVal || '');
+  },
 );
 
-function updateModel(newTags: string[]) {
-  emit('update:modelValue', newTags.join(', '));
+function stringToTags(str: string): string[] {
+  return str
+    .split(',')
+    .map(tag => tag.trim())
+    .filter(tag => tag.length > 0);
 }
 
-function addTag() {
-  const value = input.value?.trim();
-  if (value && !tagsArray.value.includes(value)) {
-    updateModel([...tagsArray.value, value]);
+const filteredTagSuggestions = computed(() => {
+  if (!tagInput.value) return [];
+  const input = tagInput.value.toLowerCase();
+  return nodesStore.allTags.filter(tag => tag.toLowerCase().includes(input) && !tagInput.value.includes(tag)).slice(0, 5);
+});
+
+function addTag(tag?: string) {
+  const newTag = tag?.trim() || tagInput.value.trim();
+  if (newTag && !selectedTags.value.includes(newTag)) {
+    selectedTags.value.push(newTag);
+    tagInput.value = '';
+    showSuggestions.value = false;
+    emit('update:modelValue', selectedTags.value.join(','));
   }
-  input.value = '';
 }
 
-function removeTag(index: number) {
-  updateModel(tagsArray.value.filter((_, i) => i !== index));
+function handleTagInput() {
+  selectedSuggestionIndex.value = 0;
+  showSuggestions.value = filteredTagSuggestions.value.length > 0;
 }
 
-function removeLastTag() {
-  if (!input.value && tagsArray.value.length) {
-    updateModel(tagsArray.value.slice(0, -1));
+function hideSuggestions() {
+  setTimeout(() => {
+    showSuggestions.value = false;
+  }, 200);
+}
+
+function handleEnter(event: KeyboardEvent) {
+  event.preventDefault();
+  let tagToAdd: string | undefined = '';
+  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
+    tagToAdd = filteredTagSuggestions.value[selectedSuggestionIndex.value];
   }
+  addTag(tagToAdd);
+}
+
+function tagHandleArrowUp(event: KeyboardEvent) {
+  event.preventDefault();
+  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
+    selectedSuggestionIndex.value = selectedSuggestionIndex.value > 0 ? selectedSuggestionIndex.value - 1 : filteredTagSuggestions.value.length - 1;
+  }
+}
+
+function tagHandleArrowDown(event: KeyboardEvent) {
+  event.preventDefault();
+  if (showSuggestions.value && filteredTagSuggestions.value.length > 0) {
+    selectedSuggestionIndex.value = selectedSuggestionIndex.value < filteredTagSuggestions.value.length - 1 ? selectedSuggestionIndex.value + 1 : 0;
+  }
+}
+
+function removeTag(tag: string) {
+  selectedTags.value = selectedTags.value.filter(t => t !== tag);
+  emit('update:modelValue', selectedTags.value.join(','));
 }
 </script>
 
 <style scoped lang="scss">
-.tags {
+.column {
   display: flex;
-  width: 100%;
-  padding: 0 7px;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 6px;
 }
 
-tag {
-  padding: 5px 6px;
+.row {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  gap: 12px;
 }
 
-button {
-  margin: 0;
-  padding: 0;
+.tags-input-wrapper {
+  position: relative;
 }
 
-.remove {
-  border: none;
-  font-weight: bold;
-  color: inherit;
-  background: none;
-  cursor: pointer;
-  margin-left: 4px;
+.tags-input {
+  display: flex;
+  gap: 6px;
 }
 
 input {
-  min-width: 100px;
-  padding: 4px 8px;
-  border: none;
-  border-radius: $radius-sm;
-  font-size: 0.85rem;
-  color: var(--font-color);
-  background: transparent;
-  transition: background 0.15s ease;
-  flex: 1 1 150px;
-  outline: none;
+  min-width: 150px;
+  flex: 1;
 
-  &:hover,
   &:focus {
-    background: var(--bg-ui);
+    border-color: var(--primary);
   }
 
-  &::placeholder {
-    color: var(--font-color-light);
-    opacity: 0.7;
+  &.minimal {
+    padding: 6px 8px;
+    border: none;
+    font-size: 12px;
+
+    &:hover,
+    &:focus {
+      background: var(--surface-transparent);
+    }
+  }
+}
+
+.add-tag-btn {
+  display: flex;
+  padding: 6px 10px;
+  border: none;
+  border-radius: var(--radius-xs);
+  color: white;
+  background: var(--primary);
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+
+  &:hover {
+    background: var(--primary-dark);
+  }
+}
+
+.tag-suggestions {
+  position: absolute;
+  top: 100%;
+  right: 40px;
+  left: 0;
+  z-index: 10;
+  max-height: 150px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-md);
+  margin-top: 2px;
+  overflow-y: auto;
+}
+
+.tag-suggestion {
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover,
+  &.selected {
+    background: var(--border);
+  }
+}
+
+.selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.tag-chip {
+  display: inline-flex;
+  padding: 3px 6px;
+  border-radius: var(--radius-lg);
+  font-size: 12px;
+  background: var(--border);
+  align-items: center;
+  gap: 4px;
+
+  .remove-tag {
+    display: flex;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+
+    &:hover {
+      color: var(--text-inverse);
+    }
   }
 }
 </style>

@@ -37,7 +37,7 @@ const confirmDelete = () => {
 }
 
 .info {
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   font-style: italic;
 }
 </style>

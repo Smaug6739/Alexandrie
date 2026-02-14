@@ -88,10 +88,10 @@ function onLeave(el: Element) {
 <style scoped lang="scss">
 .accordion-item {
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   background: #fff;
-  box-shadow: 0 2px 10px rgb(0 0 0 / 4%);
-  transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  box-shadow: var(--shadow-sm);
+  transition: border-color $transition-base ease;
   overflow: hidden;
 
   &.open {
@@ -117,7 +117,7 @@ function onLeave(el: Element) {
   justify-content: space-between;
 
   &:focus-visible {
-    border-radius: 10px;
+    border-radius: var(--radius-lg);
     outline: 2px solid var(--primary);
     outline-offset: 2px;
   }
@@ -131,7 +131,9 @@ function onLeave(el: Element) {
 .chevron {
   width: 20px;
   height: 20px;
-  transition: transform 0.3s ease, stroke 0.3s ease;
+  transition:
+    transform $transition-medium ease,
+    stroke $transition-medium ease;
   fill: none;
   stroke: #444;
   stroke-width: 2;
@@ -156,7 +158,9 @@ function onLeave(el: Element) {
 
 .accordion-expand-enter-active,
 .accordion-expand-leave-active {
-  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+  transition:
+    max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity $transition-base ease;
 }
 
 .accordion-expand-enter-from,

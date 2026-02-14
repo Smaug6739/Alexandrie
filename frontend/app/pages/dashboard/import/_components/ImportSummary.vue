@@ -45,19 +45,19 @@ defineProps<{
 
 .stats {
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
   gap: 1rem;
+  justify-content: space-around;
 }
 
 .stat {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 1rem;
   width: 200px;
-  border-radius: $radius-sm;
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  align-items: center;
+  flex-direction: column;
+  gap: 0.25rem;
 
   .count {
     font-size: 1.75rem;
@@ -66,22 +66,22 @@ defineProps<{
 
   .label {
     font-size: 0.8rem;
-    color: var(--font-color-dark);
+    color: var(--text-primary);
   }
 
   &.new {
-    background: var(--green-bg);
     color: var(--green);
+    background: var(--green-bg);
   }
 
   &.update {
-    background: var(--primary-bg);
     color: var(--primary);
+    background: var(--primary-bg);
   }
 
   &.unchanged {
+    color: var(--text-primary);
     background: var(--grey-bg);
-    color: var(--font-color-dark);
   }
 }
 

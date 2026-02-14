@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <header>
       <h1>Workspaces & Categories</h1>
       <div class="actions-row">
@@ -9,44 +9,42 @@
       </div>
     </header>
     <div style="padding-bottom: 10px">
-      <input
-        v-model="filter"
-        placeholder="Search for workspace..."
-        style="width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px"
-      />
+      <input v-model="filter" placeholder="Search for workspace..." style="width: 50%; padding: 8px; border: 1px solid var(--border); border-radius: 4px" />
     </div>
     <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
       <h3 class="wp-name">
         <NuxtLink :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
       </h3>
-      <WorkspaceTree v-for="node in workspace.childrens" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
+      <WorkspaceTree v-for="node in workspace.children" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
     <div v-if="!filteredItems.length" style="color: #6c757d; font-style: italic">No workspaces or category found</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import CreateCategoryModal from './_modals/CreateCategoryModal.vue';
-import DeleteCategoryModal from './_modals/DeleteCategoryModal.vue';
+import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
+import DeleteCategoryModal from '~/components/Node/Modals/Delete.vue';
 import WorkspaceTree from './_components/WorkspaceTree.vue';
 import type { Node } from '~/stores';
+import { filterTreeByLabel, type TreeItem } from '~/helpers/TreeBuilder';
 
 const filter = ref('');
-const tree = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(n => n.data.role <= 2)).generateTree());
+const nodesTree = useNodesTree();
 
 const filteredItems = computed(() => {
-  if (!filter.value.trim()) return tree.value;
-  return filterRecursive<Item<Node>>(tree.value, filter);
+  const items = nodesTree.categoriesTree.value;
+  if (!filter.value.trim()) return items;
+  return filterTreeByLabel(items, filter.value);
 });
 
 const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
 const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2 } }));
 
-function editNode(node: Item) {
+function editNode(node: TreeItem<Node>) {
   useRouter().push('/dashboard/categories/' + node.id + '/edit');
 }
 
-function deleteNode(node: Item) {
+function deleteNode(node: TreeItem<Node>) {
   useModal().add(new Modal(shallowRef(DeleteCategoryModal), { props: { categoryId: node.id } }));
 }
 </script>
@@ -56,8 +54,8 @@ function deleteNode(node: Item) {
   display: block;
   width: 100%;
   padding: 5px 15px;
-  border: var(--border-color) 1px solid;
-  border-radius: 10px;
+  border: var(--border) 1px solid;
+  border-radius: var(--radius-lg);
   flex-direction: column;
   margin-bottom: 16px;
 }

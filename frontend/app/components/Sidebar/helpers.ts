@@ -1,7 +1,43 @@
 import SettingsModal from '~/pages/dashboard/settings/modal.vue';
 import type { Node } from '~/stores';
+import type { TreeItem } from '~/helpers/TreeBuilder';
 
-export type DefaultItem = Item<Omit<Node, 'user_id' | 'data' | 'show' | 'access' | 'accessibility' | 'created_timestamp' | 'updated_timestamp'>>;
+export interface NavigationItem {
+  id: string;
+  parent_id?: string;
+  label: string;
+  route: string;
+  icon: string;
+  onClick?: () => void;
+  data: {
+    id: string;
+    role: number;
+    name: string;
+    icon: string;
+    permissions: unknown[];
+    shared: boolean;
+    order?: number;
+  };
+  show: Ref<boolean>;
+}
+
+export type DefaultItem = NavigationItem;
+
+// Type union for sidebar items
+export type SidebarItem = TreeItem<Node> | NavigationItem;
+
+// Helper to get children of a sidebar item with type safety
+export function getItemChildren(item: SidebarItem): SidebarItem[] | undefined {
+  if ('children' in item) return item.children as SidebarItem[];
+  return undefined;
+}
+
+// Helper to check if a sidebar item is visible
+export function isItemVisible(item: SidebarItem): boolean {
+  if ('show' in item && item.show) return item.show.value;
+  return true;
+}
+
 export interface Workspace {
   text: string;
   value?: string;

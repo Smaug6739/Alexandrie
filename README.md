@@ -12,7 +12,7 @@ Organize, search, and export your notes with an intuitive interface designed for
 [![GitHub license](https://img.shields.io/github/license/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/pulls)
 [![GitHub release](https://img.shields.io/github/v/release/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/releases)
-[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white)](<[https://github.com/Smaug6739/Alexandrie/pulls](https://discord.gg/UPsEg6egPj)>)
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white)](https://discord.gg/UPsEg6egPj)
 
 </p>
 
@@ -56,13 +56,13 @@ docker compose up
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
 
-For complete setup instructions, please refer to the [Setup Documentation](./docs/setup.md).
+For complete setup instructions, please refer to the [Setup Documentation](./docs/README.md).
 
 **Access points:**
 
 - **Frontend**: http://localhost:8200
 - **Backend API**: http://localhost:8201
-- **Object Storage Console**: http://localhost:9001
+- **Object Storage Console**: http://localhost:9000
 - **MySQL**: localhost:3307 (user: `alexandrie`, password: `password`)
 
 **To stop:**

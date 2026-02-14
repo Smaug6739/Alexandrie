@@ -1,13 +1,9 @@
 <template>
   <div>
-    <h2 class="app-title">Shortcuts</h2>
-    <p class="app-subtitle">Here you can see the shortcuts for the different pages of the dashboard.</p>
+    <h2 class="page-title">Shortcuts</h2>
+    <p class="page-subtitle">Here you can see the shortcuts for the different pages of the dashboard.</p>
     <p>General</p>
     <div class="shortcuts">
-      <div class="shortcut">
-        <span>Open quick search</span>
-        <span><kbd>Ctrl</kbd> <kbd>Q</kbd></span>
-      </div>
       <div class="shortcut">
         <span>Open command center and navigate</span>
         <span><kbd>Ctrl</kbd> <kbd>K</kbd> or <kbd>/</kbd></span>
@@ -35,6 +31,10 @@
       <div class="shortcut">
         <span>Print the page</span>
         <span><kbd>Ctrl</kbd> <kbd>P</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>Close the current modal</span>
+        <span><kbd>Esc</kbd></span>
       </div>
     </div>
     <p>Document page</p>
@@ -67,12 +67,28 @@
         <span><kbd>Esc</kbd></span>
       </div>
       <div class="shortcut">
+        <span>Open the find dialog</span>
+        <span><kbd>Ctrl</kbd> <kbd>F</kbd></span>
+      </div>
+      <div class="shortcut">
         <span>Undo the last action</span>
         <span><kbd>Ctrl</kbd> <kbd>Z</kbd></span>
       </div>
       <div class="shortcut">
         <span>Redo the last action</span>
         <span><kbd>Ctrl</kbd> <kbd>Y</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>Copy the selected text or line if no selection</span>
+        <span><kbd>Ctrl</kbd> <kbd>C</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>Cut the selected text or line if no selection</span>
+        <span><kbd>Ctrl</kbd> <kbd>X</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>Paste from clipboard</span>
+        <span><kbd>Ctrl</kbd> <kbd>V</kbd></span>
       </div>
       <div class="shortcut">
         <span>Bold text</span>
@@ -116,11 +132,10 @@
 <style scoped lang="scss">
 .shortcuts {
   display: flex;
-  border-radius: 12px;
-  font-family: Inter;
+  border-radius: var(--radius-lg);
   font-size: 16px;
   font-weight: 400;
-  background-color: var(--bg-ui);
+  background-color: var(--surface-transparent);
   flex-direction: column;
   gap: 8px;
   text-size-adjust: 100%;
@@ -133,14 +148,14 @@ p {
 .shortcut {
   display: flex;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   text-align: left;
   align-items: center;
   gap: 1rem;
   justify-content: space-between;
 
   &:hover {
-    background-color: var(--bg-ui);
+    background-color: var(--surface-transparent);
   }
 }
 </style>

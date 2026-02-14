@@ -1,0 +1,52 @@
+@mixin print-theme {
+	--surface-base: #fff;
+	--surface-raised: #F1F6FD;
+	--surface-overlay: #ECF2FF;
+	--selection-color: #e1f2ff;
+	--text-body: #1f2937;
+	--text-primary: #374151;
+	--text-muted: #6b7280;
+	--border: rgb(0 0 0 / 10%);
+	// COLORS \\
+	--grey: #666;
+	--grey-bg: rgb(240 240 240);
+	--blue: #007aff;
+	--blue-bg: #cce0ff;
+	--blue-border: rgb(0 123 255 / 30%);
+	--green: #009879;
+	--green-bg: rgb(40 167 69 / 15%);
+	--green-border: rgb(40 167 69 / 30%);
+	--red: #FF204E;
+	--red-bg: rgb(220 53 69 / 15%);
+	--red-border: rgb(220 53 69 / 30%);
+	--yellow: #F97300;
+	--yellow-bg: rgb(255 193 7 / 15%);
+	--yellow-border: rgb(255 193 7 / 30%);
+	--teal: #00ADB5;
+	--teal-bg: rgb(23 162 184 / 20%);
+	--teal-border: rgb(23 162 184 / 25%);
+
+
+	header,
+	footer,
+	nav,
+	aside {
+		display: none !important;
+	}
+
+
+	.markdown-container,
+	.custom-block {
+		border-width: 2px;
+		background-color: none !important;
+		break-inside: avoid;
+
+		/** :not(.custom-block-title) {
+				color: black !important;
+			} */
+	}
+
+	.no-print {
+		display: none !important;
+	}
+}

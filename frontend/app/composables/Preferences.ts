@@ -1,4 +1,7 @@
-import type { ANode } from './TreeStructure';
+import type { TreeNode } from '../helpers/TreeBuilder';
+
+// Alias pour compatibilité
+export type ANode<ID = string | number> = Omit<TreeNode<unknown, ID>, 'data'>;
 
 export const DEFAULT_PREFERENCES = {
   printMode: false as boolean,
@@ -12,6 +15,7 @@ export const DEFAULT_PREFERENCES = {
   view_dock: true as boolean,
   primaryColor: -2 as number, // -2 default primary; -1 unset; >= 0 app color index
   docSize: 1 as number, // 0 = small, 1 = large
+  style: 'default' as 'default' | 'glassmorphism',
   theme: 'alexandrie' as string,
   documentAutoSave: true as boolean, // Enable automatic saving of documents
   sidebarItems: {
@@ -36,7 +40,6 @@ export const DEFAULT_PREFERENCES = {
     { id: ':::grey', label: ':::grey\n${0}\n:::' },
     { id: ':::details', label: ':::details\n${0}\n:::' },
     { id: ':::center', label: ':::center\n${0}\n:::' },
-    { id: ':::m', label: '${0}$' },
     { id: ':::property', label: ':::property ${0}\n\n:::' },
     { id: ':::warning', label: ':::warning ${0}\n\n:::' },
   ] as ANode<string>[],
@@ -45,6 +48,7 @@ export const DEFAULT_PREFERENCES = {
   editorSpellCheck: true as boolean,
   editorDisplayStats: false as boolean,
   editorSnippetsEnabled: true as boolean,
+  editorSimplifiedViewOnMobile: true as boolean,
   developerMode: false as boolean,
 };
 

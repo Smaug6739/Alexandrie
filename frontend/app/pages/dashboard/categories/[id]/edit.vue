@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component">
+  <div class="page-card">
     <h1 style="font-size: 24px">Category & workspace</h1>
     <form v-if="category" @submit.prevent>
       <div class="form-row">
@@ -20,7 +20,7 @@
             v-model="category.parent_id"
             :items="categoriesItem"
             placeholder="Select a category parent"
-            :disabled="(i) => i.id == category!.id || nodesStore.isDescendant(category!, (i as Item).id)"
+            :disabled="i => i.id == category!.id || nodesStore.isDescendant(category!, i.id as string)"
           />
         </div>
         <div class="form-column">
@@ -44,15 +44,16 @@
 
 <script lang="ts" setup>
 import { CATEGORY_ROLES } from '~/helpers/constants';
-import DeleteModal from '../_modals/DeleteCategoryModal.vue';
+import DeleteModal from '~/components/Node/Modals/Delete.vue';
 
 definePageMeta({ breadcrumb: 'Edit' });
 
 const nodesStore = useNodesStore();
 const route = useRoute();
+const nodesTree = useNodesTree();
 
 const category = computed(() => nodesStore.getById(route.params.id as string));
-const categoriesItem = computed(() => new TreeStructure(useSidebarTree().nodes.value.filter(i => i.data.role <= 2)).generateTree());
+const categoriesItem = nodesTree.categoriesTree;
 
 const updateCategory = async () => {
   if (category.value)

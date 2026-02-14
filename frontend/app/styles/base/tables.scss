@@ -1,0 +1,39 @@
+table {
+	max-width: 100%;
+	margin: 1.5rem 0;
+	border-radius: var(--radius-lg);
+	font-size: 0.95rem;
+	box-shadow: var(--shadow-xs);
+	border-collapse: collapse;
+	overflow: hidden;
+}
+
+/* Header */
+thead th {
+	padding: 0.9rem 1rem;
+	font-size: 0.8rem;
+	font-weight: 500;
+	color: var(--text-secondary);
+	text-align: left;
+	background-color: var(--border-subtle);
+	border-bottom: 1px solid var(--border);
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+}
+
+/* Cells */
+tbody td {
+	padding: 0.5rem 1rem;
+	color: var(--text-primary);
+	border-bottom: 1px solid var(--border);
+}
+
+/* Last row without separation */
+tbody tr:last-child td {
+	border-bottom: none;
+}
+
+/* Color background of 1 row of 2 */
+tbody tr:nth-child(odd) {
+	background-color: var(--surface-transparent-light);
+}

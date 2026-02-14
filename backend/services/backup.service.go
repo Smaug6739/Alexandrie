@@ -371,7 +371,7 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 	reqParams := make(url.Values)
 	reqParams.Set(
 		"response-content-disposition",
-		`attachment; filename="alexandrie-backup-`+time.Now().Format("2006-01-02 15:04:05")+`.zip"`,
+		`attachment; filename="alexandrie-backup-`+time.Now().Format("2006-01-02_15-04-05")+`.zip"`,
 	)
 
 	// Sign the URL using the public endpoint

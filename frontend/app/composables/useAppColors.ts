@@ -12,7 +12,8 @@ function setAppColor(color: string | number) {
   if (typeof color === 'number') {
     color = getAppAccent(color);
   }
-  if (color === 'primary') color = 'default';
+  setThemeColor(`--${color}`);
+  if (color === 'primary') color = 'accent';
   document.documentElement.style.setProperty('--primary', `var(--${color})`);
   document.documentElement.style.setProperty('--primary-dark', `var(--${color}-dark)`);
   document.documentElement.style.setProperty('--primary-bg', `var(--${color}-bg)`);
@@ -21,6 +22,17 @@ function setAppColor(color: string | number) {
   const colorMode = useColorMode();
   usePreferences().set('darkMode', colorMode.value === 'dark');
   document.body.style.colorScheme = colorMode.preference;
+}
+
+function setThemeColor(cssVar: string) {
+  let meta = document.querySelector('meta[name="theme-color"]');
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute('name', 'theme-color');
+    document.head.appendChild(meta);
+  }
+  const computedColor = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
+  meta.setAttribute('content', computedColor);
 }
 
 export const useAppColors = () => {

@@ -117,7 +117,7 @@ main {
 .hero-image {
   width: 600px;
   border-radius: 1rem;
-  box-shadow: 0 10px 40px rgb(0 0 0 / 30%);
+  box-shadow: var(--shadow-xl);
   margin-top: 10px;
 }
 
@@ -171,11 +171,11 @@ main {
 }
 
 .btn.glow {
-  box-shadow: 0 10px 30px rgb(0 0 0 / 20%), 0 0 0 rgb(255 255 255 / 60%);
+  box-shadow: var(--shadow-lg);
 }
 
 .btn.glow:hover {
-  box-shadow: 0 14px 36px rgb(0 0 0 / 24%), 0 0 30px rgb(255 255 255 / 35%);
+  box-shadow: var(--shadow-xl);
 }
 
 .hero-bg {
@@ -229,7 +229,9 @@ main {
 
 .reveal {
   opacity: 0;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
   transform: translateY(24px);
 }
 

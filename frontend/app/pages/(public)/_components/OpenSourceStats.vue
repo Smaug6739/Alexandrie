@@ -43,29 +43,32 @@
 
       <div class="stats-grid">
         <div class="stat">
-          <div class="stat-icon">⭐</div>
+          <div class="stat-icon"><Icon name="star" display="xl" /></div>
           <div class="stat-value">{{ starsDisplay }}</div>
           <div class="stat-label">GitHub stars</div>
         </div>
         <div class="stat">
-          <div class="stat-icon">👥</div>
+          <div class="stat-icon"><Icon name="users" display="xl" /></div>
           <div class="stat-value">{{ contributorsDisplay }}</div>
           <div class="stat-label">Contributors</div>
         </div>
         <div class="stat">
-          <div class="stat-icon">🏷️</div>
+          <div class="stat-icon"><Icon name="release" display="xl" /></div>
           <div class="stat-value">{{ latestRelease || 'v1.0' }}</div>
           <div class="stat-label">Latest release</div>
         </div>
       </div>
 
       <div class="actions-row">
-        <a :href="`https://github.com/${owner}/${repo}`" target="_blank" class="btn primary">
+        <NuxtLink :to="`https://github.com/${owner}/${repo}`" target="_blank" class="btn primary">
           <svg width="16" height="16" viewBox="0 0 24 24">
-            <polygon style="fill: white" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            <polygon
+              style="fill: white !important"
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+            ></polygon>
           </svg>
           Star on GitHub
-        </a>
+        </NuxtLink>
         <NuxtLink :prefetch="false" to="/dashboard" class="btn secondary">Try the app</NuxtLink>
         <a :href="`https://github.com/${owner}/${repo}/contribute`" target="_blank" class="btn tertiary">Contribute</a>
       </div>
@@ -144,8 +147,8 @@ onMounted(() => {
 
 .visual-bg {
   position: absolute;
-  border-radius: 24px;
-  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
+  border-radius: var(--radius-xxl);
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
   inset: 0;
   overflow: hidden;
 }
@@ -162,8 +165,8 @@ onMounted(() => {
 .code-line {
   width: var(--width);
   height: 12px;
-  border-radius: 6px;
-  background: var(--border-color);
+  border-radius: var(--radius-sm);
+  background: var(--border);
   opacity: 0.4;
 }
 
@@ -171,10 +174,10 @@ onMounted(() => {
   position: relative;
   margin: 2rem;
   padding: 2rem;
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  background: var(--bg-color);
-  box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface-base);
+  box-shadow: var(--shadow-xl);
 }
 
 .card-header {
@@ -188,7 +191,7 @@ onMounted(() => {
 .card-desc {
   font-size: 0.9rem;
   line-height: 1.6;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 
@@ -200,7 +203,7 @@ onMounted(() => {
 .mini-stat {
   display: flex;
   font-size: 14px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   align-items: center;
   gap: 6px;
 
@@ -234,7 +237,7 @@ onMounted(() => {
   .subtitle {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     margin-bottom: 2rem;
   }
 }
@@ -248,11 +251,13 @@ onMounted(() => {
 
 .stat {
   padding: 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
   text-align: center;
-  background: var(--bg-contrast);
-  transition: all 0.3s ease;
+  background: var(--surface-raised);
+  transition:
+    border-color $transition-medium ease,
+    transform $transition-medium ease;
 
   &:hover {
     border-color: var(--primary);
@@ -261,8 +266,10 @@ onMounted(() => {
 }
 
 .stat-icon {
-  font-size: 24px;
-  margin-bottom: 0.5rem;
+  display: flex;
+  margin: 0.5rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .stat-value {
@@ -275,18 +282,22 @@ onMounted(() => {
 
 .stat-label {
   font-size: 13px;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
 .btn {
   display: inline-flex;
   padding: 12px 20px;
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition:
+    box-shadow $transition-medium ease,
+    transform $transition-medium ease,
+    border-color $transition-medium ease,
+    color $transition-medium ease;
   align-items: center;
   gap: 8px;
   text-decoration: none;
@@ -303,8 +314,8 @@ onMounted(() => {
   }
 
   &.secondary {
-    color: var(--font-color);
-    background: var(--bg-color);
+    color: var(--text-body);
+    background: var(--surface-base);
 
     &:hover {
       border-color: var(--primary);
@@ -313,8 +324,8 @@ onMounted(() => {
   }
 
   &.tertiary {
-    color: var(--font-color);
-    background: var(--bg-contrast);
+    color: var(--text-body);
+    background: var(--surface-raised);
 
     &:hover {
       border-color: var(--primary);

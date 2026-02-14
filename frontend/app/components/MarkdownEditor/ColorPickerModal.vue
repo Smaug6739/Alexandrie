@@ -136,7 +136,7 @@ function drawColorWheel(colorWheel: Ref<HTMLCanvasElement | undefined>) {
         ctx.fillRect(x, y, 1, 1);
       }
     }
-  ctx.strokeStyle = 'var(--border-color)';
+  ctx.strokeStyle = 'var(--border)';
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.arc(cx, cy, r, 0, 2 * Math.PI);
@@ -204,30 +204,12 @@ onMounted(() => {
   gap: 24px;
   overflow-y: auto;
   padding-right: 8px;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    border-radius: 3px;
-    background: var(--bg-color-secondary);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background: var(--border-color);
-
-    &:hover {
-      background: var(--primary);
-    }
-  }
 }
 
 .section-title {
   font-size: 16px;
   font-weight: 700;
-  color: var(--font-color-dark);
+  color: var(--text-primary);
   padding-left: 16px;
   text-transform: uppercase;
 }
@@ -246,9 +228,12 @@ onMounted(() => {
   width: 48px;
   height: 48px;
   border: 3px solid transparent;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition:
+    transform $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    border-color $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow $transition-slow cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
 
@@ -268,7 +253,6 @@ onMounted(() => {
 
   .swatch-check {
     color: white;
-    filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
 
     svg {
       width: 18px;
@@ -298,8 +282,8 @@ onMounted(() => {
 }
 
 .color-wheel {
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
   cursor: crosshair;
 }
 
@@ -310,7 +294,7 @@ onMounted(() => {
   height: 16px;
   border: 3px solid white;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 30%);
+  box-shadow: var(--shadow-sm);
   pointer-events: none;
   transform: translate(-50%, -50%);
 }
@@ -352,7 +336,7 @@ onMounted(() => {
     border: none;
     border-radius: 50%;
     background: var(--primary);
-    box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+    box-shadow: var(--shadow-sm);
     cursor: pointer;
   }
 }
@@ -365,7 +349,7 @@ onMounted(() => {
   z-index: 1;
   height: 6px;
   border-radius: 3px;
-  background: var(--border-color);
+  background: var(--border);
   transform: translateY(-50%);
 }
 
@@ -379,9 +363,9 @@ onMounted(() => {
 .selected-color-preview {
   display: flex;
   padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  background: var(--bg-color);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-base);
   align-items: center;
   gap: 12px;
 }
@@ -389,9 +373,9 @@ onMounted(() => {
 .preview-circle {
   width: 40px;
   height: 40px;
-  border: 2px solid var(--border-color);
+  border: 2px solid var(--border);
   border-radius: 50%;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-md);
   flex-shrink: 0;
 }
 
@@ -403,13 +387,13 @@ onMounted(() => {
   .hex-value {
     font-size: 14px;
     font-weight: 600;
-    color: var(--font-color-dark);
+    color: var(--text-primary);
   }
 
   .hsv-values {
     font-size: 11px;
     font-weight: 500;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -420,12 +404,15 @@ onMounted(() => {
   width: 100%;
   min-height: 40px;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 600;
   color: white;
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    border-color $transition-medium cubic-bezier(0.4, 0, 0.2, 1),
+    background $transition-medium cubic-bezier(0.4, 0, 0.2, 1),
+    transform $transition-medium cubic-bezier(0.4, 0, 0.2, 1);
   align-items: center;
   cursor: pointer;
   gap: 8px;
@@ -446,7 +433,7 @@ onMounted(() => {
     width: 14px;
     height: 14px;
     color: white;
-    transition: all 0.3s ease;
+    transition: transform $transition-medium ease;
   }
 
   .btn-text {
@@ -461,7 +448,7 @@ onMounted(() => {
   font-family: Monaco, Menlo, 'Ubuntu Mono', monospace;
   font-size: 14px;
   font-weight: 600;
-  color: var(--font-color-dark);
+  color: var(--text-primary);
   background: transparent;
   flex: 1;
   letter-spacing: 1px;
@@ -472,7 +459,7 @@ onMounted(() => {
 
   &::placeholder {
     font-weight: 400;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 

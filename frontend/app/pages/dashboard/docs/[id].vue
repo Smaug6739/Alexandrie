@@ -3,7 +3,7 @@
   <div style="width: 100%; padding: 1rem 0" @contextmenu.prevent="showContextMenu">
     <div v-if="!error" style="display: flex; justify-content: space-between">
       <div :style="{ maxWidth: width }" class="doc-container">
-        <DocumentCardHeader :doc="node" style="margin-bottom: 20px" />
+        <NodeDocumentHeader :doc="node" style="margin-bottom: 20px" />
 
         <article
           v-if="node"
@@ -12,19 +12,19 @@
           style="max-width: 100%"
           v-html="node.content_compiled"
         />
-        <DocumentSkeleton v-else />
-        <DocumentCardFooter :document="node" :next="next" :previous="previous" />
+        <NodeDocumentSkeleton v-else />
+        <NodeDocumentFooter :document="node" :next="next" :previous="previous" />
       </div>
 
       <div v-if="!devise.isTablet.value && !preferencesStore.get('hideTOC').value" class="toc">
-        <TableOfContent :doc="node" :element="element" style="width: 320px; margin-left: 20px" />
+        <NodeTOC :doc="node" :element="element" style="width: 320px; margin-left: 20px" />
       </div>
 
       <div
         class="no-print"
         :style="{
           marginRight: !devise.isTablet.value && preferencesStore.get('hideTOC').value && sidebar.isOpened.value ? '200px' : '0px',
-          transition: 'margin 0.3s',
+          transition: 'margin var(--transition-medium)',
         }"
       />
     </div>
@@ -32,13 +32,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import TableOfContent from './_components/table-of-content/TableOfContents.vue';
-import DocumentCardHeader from './_components/DocumentCardHeader.vue';
-import DocumentCardFooter from './_components/DocumentCardFooter.vue';
-import DocumentSkeleton from './_components/DocumentSkeleton.vue';
-import NodeContextMenu from '~/components/Node/ContextMenu.vue';
+import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import type { Node } from '~/stores';
-import DeleteNodeModal from '~/components/Node/DeleteNodeModal.vue';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
 const documentsStore = useNodesStore();
@@ -46,7 +42,7 @@ const preferencesStore = usePreferences();
 
 const devise = useDevice();
 const sidebar = useSidebar();
-const tree = useSidebarTree();
+const nodesTree = useNodesTree();
 const route = useRoute();
 const router = useRouter();
 
@@ -80,8 +76,8 @@ definePageMeta({
   },
 });
 
-const next = computed(() => tree.structure.value.next(node.value?.id)?.data);
-const previous = computed(() => tree.structure.value.previous(node.value?.id)?.data);
+const next = computed(() => nodesTree.nextDocument(node.value?.id));
+const previous = computed(() => nodesTree.prevDocument(node.value?.id));
 const width = computed(() => {
   if (preferencesStore.get('docSize').value == 2) return '980px';
   if (preferencesStore.get('docSize').value == 1) return '800px';
@@ -129,10 +125,7 @@ onMounted(() => {
       useModal().add(
         new Modal(shallowRef(DeleteNodeModal), {
           size: 'small',
-          props: { node: node.value },
-          onClose: r => {
-            if (r === 'success') router.push('/dashboard');
-          },
+          props: { node: node.value, redirectTo: '/dashboard' },
         }),
       );
     }

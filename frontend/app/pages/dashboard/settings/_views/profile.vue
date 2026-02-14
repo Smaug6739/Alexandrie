@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="app-title">My Profile</h2>
-    <p class="app-subtitle">Manage your profile settings and preferences.</p>
+    <h2 class="page-title">My Profile</h2>
+    <p class="page-subtitle">Manage your profile settings and preferences.</p>
     <form v-if="userStore.user" @submit.prevent="updateUser">
       <div class="form-group">
         <label for="username">Username</label>
@@ -81,7 +81,7 @@ const updateUser = async () => {
 .avatar {
   width: 100px;
   height: 100px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 50%;
   cursor: pointer;
   object-fit: cover;

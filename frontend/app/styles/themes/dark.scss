@@ -1,0 +1,101 @@
+@mixin dark-theme {
+	// ACCENT / PRIMARY COLOR
+	--accent: #4a7aff;
+	--accent-dark: #3754b1;
+	--accent-bg: #2c334a;
+	--accent-border: #4a4f5c;
+
+	// -------------------------------------------------------------------------
+	// SURFACES (Backgrounds)
+	// Layered system: base → raised → overlay
+	// -------------------------------------------------------------------------
+	--surface-base: #212830;
+	--surface-raised: #262c36;
+	--surface-overlay: #2d3443;
+	--surface-transparent: rgb(255 255 255 / 4%);
+	--surface-transparent-light: rgb(255 255 255 / 2%);
+
+	--body-fixed: #212830;
+	// -------------------------------------------------------------------------
+	// TEXT
+	// -------------------------------------------------------------------------
+	--text-body: #d1d2d5;
+	--text-primary: #d1d5db;
+	--text-secondary: #8a9099;
+	--text-muted: #8a9099;
+	--text-inverse: #f4f4f4;
+
+	// -------------------------------------------------------------------------
+	// BORDERS
+	// -------------------------------------------------------------------------
+	--border: rgb(255 255 255 / 10%);
+	--border-subtle: rgb(255 255 255 / 5%);
+	--border-strong: #4a4f5c;
+	--border-focus: var(--accent);
+
+	// -------------------------------------------------------------------------
+	// SHADOWS
+	// -------------------------------------------------------------------------
+	--shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+	--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+	--shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+	--shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+	--shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.16);
+
+	// -------------------------------------------------------------------------
+	// INTERACTIVE STATES
+	// -------------------------------------------------------------------------
+	--selection-color: #3b4252;
+
+	// -------------------------------------------------------------------------
+	// COLORS (semantic: color-["", "dark", "bg", "bg-light", "border"])
+	// -------------------------------------------------------------------------
+	// GRAYS
+	--grey: #bbb;
+	--grey-dark: #888;
+	--grey-bg: #2c2c2c;
+	--grey-bg-light: #FAFAFA;
+	--grey-border: #CCC;
+	// BLUES
+	--blue: #339CFF;
+	--blue-dark: #0056b3;
+	--blue-bg: rgb(51 156 255 / 12%);
+	--blue-bg-light: rgb(51 156 255 / 5%);
+	--blue-border: rgb(51 156 255 / 25%);
+	// GREENS
+	--green: #00c194;
+	--green-dark: #007a63;
+	--green-bg: rgb(0 193 154 / 12%);
+	--green-bg-light: rgb(0 193 154 / 5%);
+	--green-border: rgb(0 193 154 / 25%);
+	// REDS
+	--red: #fe3938;
+	--red-dark: #c82333;
+	--red-bg: rgb(58 37 53);
+	--red-bg-light: rgb(255 76 91 / 5%);
+	--red-border: rgb(255 76 91 / 25%);
+	// YELLOWS
+	--yellow: #ff7c19;
+	--yellow-dark: #c46200;
+	--yellow-bg: rgb(59 44 49);
+	--yellow-bg-light: rgb(255 174 0 / 5%);
+	--yellow-border: rgb(255 174 0 / 25%);
+	// TEALS
+	--teal: #1cd4d4;
+	--teal-dark: #008f93;
+	--teal-bg: rgb(28 212 212 / 12%);
+	--teal-bg-light: rgb(28 212 212 / 5%);
+	--teal-border: rgb(28 212 212 / 25%);
+	// PURPLES
+	--purple: #8e5fff;
+	--purple-dark: #5a1fdb;
+	--purple-bg: rgb(142 95 255 / 12%);
+	--purple-bg-light: rgb(142 95 255 / 5%);
+	--purple-border: rgb(142 95 255 / 25%);
+	// PINKS
+	--pink: #fe3938;
+	--pink-dark: #e00b58;
+	--pink-bg: rgb(255 77 166 / 12%);
+	--pink-bg-light: rgb(255 77 166 / 5%);
+	--pink-border: rgb(255 77 166 / 25%);
+}

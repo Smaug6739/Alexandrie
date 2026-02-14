@@ -1,5 +1,5 @@
 <template>
-  <div class="import-page card-component">
+  <div class="import-page page-card">
     <!-- Step 1: File Selection -->
     <div v-if="step === 'select'">
       <header>
@@ -209,7 +209,6 @@ async function importAll() {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin: 0 auto;
 }
 
 .submit {
@@ -219,9 +218,9 @@ async function importAll() {
 }
 
 .error-text {
+  font-size: 0.9rem;
   color: var(--red);
   text-align: center;
   margin-top: 0.5rem;
-  font-size: 0.9rem;
 }
 </style>

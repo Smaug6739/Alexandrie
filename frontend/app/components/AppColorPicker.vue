@@ -3,8 +3,8 @@
     <div
       v-if="nullable"
       class="color-option"
-      style="border: 1px solid var(--border-color); background-color: white"
-      :style="{ outline: modelValue == -1 ? '2px solid var(--font-color-light)' : '' }"
+      style="border: 1px solid var(--border); background-color: white"
+      :style="{ outline: modelValue == -1 ? '2px solid var(--text-secondary)' : '' }"
       :class="{ selected: modelValue === -1 }"
       @click="selectColor(-1)"
     >
@@ -14,8 +14,8 @@
     </div>
     <div
       class="color-option"
-      style="background-color: var(--default)"
-      :style="{ outline: modelValue == -2 ? '2px solid var(--default)' : '' }"
+      style="background-color: var(--accent)"
+      :style="{ outline: modelValue == -2 ? '2px solid var(--accent)' : '' }"
       :class="{ selected: modelValue === -2 }"
       @click="selectColor(-2)"
     >
@@ -63,7 +63,7 @@ function selectColor(color: number) {
 .color-picker {
   display: flex;
   padding: 6px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -71,7 +71,7 @@ function selectColor(color: number) {
 .color-option {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   cursor: pointer;
 }
 

@@ -234,7 +234,7 @@
   max-width: 500px;
   margin: 0 auto;
   font-size: 1.125rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .bento-grid {
@@ -247,15 +247,18 @@
 .bento-card {
   position: relative;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  background: var(--bg-color);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--surface-base);
+  transition:
+    border-color $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
+    transform $transition-slow cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 
   &:hover {
     border-color: var(--primary);
-    box-shadow: 0 20px 60px rgb(0 0 0 / 12%);
+    box-shadow: var(--shadow-xl);
     transform: translateY(-4px);
   }
 
@@ -263,9 +266,9 @@
     display: flex;
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     color: var(--primary);
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
@@ -280,7 +283,7 @@
   p {
     font-size: 0.9rem;
     line-height: 1.6;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -337,7 +340,7 @@
 
 // Editor Card Visual
 .card-editor {
-  background: linear-gradient(135deg, var(--bg-color), var(--bg-contrast));
+  background: linear-gradient(135deg, var(--surface-base), var(--surface-raised));
 
   .card-visual {
     display: flex;
@@ -348,12 +351,12 @@
   .editor-preview {
     width: 100%;
     padding: 1rem;
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 13px;
     line-height: 1.8;
-    background: var(--bg-color);
+    background: var(--surface-base);
   }
 
   .editor-line {
@@ -367,7 +370,7 @@
   }
 
   .syntax-text {
-    color: var(--font-color);
+    color: var(--text-body);
   }
 
   .syntax-bold {
@@ -377,7 +380,7 @@
 
   .syntax-code {
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
     color: var(--green);
     background: var(--green-bg);
   }
@@ -415,13 +418,13 @@
   .folder-item {
     display: flex;
     padding: 6px 10px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     transition: background 0.2s;
     align-items: center;
     gap: 8px;
 
     &:hover {
-      background: var(--bg-contrast);
+      background: var(--surface-raised);
     }
 
     &.nested {
@@ -457,7 +460,7 @@
     img {
       width: 32px;
       height: 32px;
-      border: 2px solid var(--bg-color);
+      border: 2px solid var(--surface-base);
       border-radius: 50%;
       margin-left: -8px;
 
@@ -470,7 +473,7 @@
       display: flex;
       width: 32px;
       height: 32px;
-      border: 2px solid var(--bg-color);
+      border: 2px solid var(--surface-base);
       border-radius: 50%;
       font-size: 11px;
       font-weight: 600;
@@ -484,7 +487,7 @@
 
   .editing-text {
     font-size: 12px;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
   }
 }
 
@@ -495,9 +498,9 @@
   }
 
   .search-demo {
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    background: var(--bg-contrast);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-raised);
     overflow: hidden;
   }
 
@@ -505,18 +508,18 @@
     display: flex;
     padding: 12px 14px;
     font-size: 14px;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border);
     gap: 10px;
 
     .kbd {
       padding: 4px 8px;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
       font-size: 11px;
       font-weight: 600;
-      background: var(--bg-color);
+      background: var(--surface-base);
       margin-left: auto;
     }
   }
@@ -528,14 +531,14 @@
   .search-result {
     display: flex;
     padding: 10px 12px;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     transition: background 0.2s;
     align-items: center;
     cursor: pointer;
     gap: 10px;
 
     &:hover {
-      background: var(--bg-color);
+      background: var(--surface-base);
     }
 
     .result-icon {
@@ -554,7 +557,7 @@
 
     .result-path {
       font-size: 11px;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
   }
 }
@@ -569,17 +572,17 @@
   .publish-preview {
     display: flex;
     padding: 12px 14px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     font-size: 13px;
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
     align-items: center;
     justify-content: space-between;
   }
 
   .url-bar {
     display: flex;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     align-items: center;
     gap: 6px;
   }
@@ -609,7 +612,7 @@
 
 // Themes Card
 .card-themes {
-  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
 
   .card-icon {
     color: var(--purple);
@@ -619,7 +622,7 @@
 
 // CDN Card
 .card-cdn {
-  background: linear-gradient(135deg, var(--bg-contrast), var(--bg-color));
+  background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
 
   .card-icon {
     color: var(--purple);

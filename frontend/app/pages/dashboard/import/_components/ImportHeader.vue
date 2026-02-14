@@ -66,10 +66,11 @@ h2 {
   display: flex;
   align-items: center;
 }
+
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   margin-bottom: 1rem;
 }
 
@@ -80,13 +81,13 @@ h2 {
 
   .label {
     font-size: 0.75rem;
-    color: var(--font-color-dark);
+    color: var(--text-primary);
     text-transform: uppercase;
   }
 
   .value {
     font-weight: 600;
-    color: var(--font-color);
+    color: var(--text-body);
   }
 }
 
@@ -97,19 +98,18 @@ h2 {
 
   .badge {
     display: inline-flex;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    opacity: 0.5;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: $radius-sm;
-    font-size: 0.75rem;
-    background: var(--bg-color-2);
-    color: var(--font-color-dark);
-    opacity: 0.5;
 
     &.active {
-      opacity: 1;
-      background: var(--primary-bg);
       color: var(--primary);
+      background: var(--primary-bg);
+      opacity: 1;
     }
   }
 }

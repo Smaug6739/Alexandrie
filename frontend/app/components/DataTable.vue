@@ -14,7 +14,7 @@
             <th>
               <input type="checkbox" style="width: 20px" :checked="selectedRows.length > 0" @change="toggleSelectAll" />
             </th>
-            <th v-for="header in headers" :key="header.key">
+            <th v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
               {{ header.label }}
             </th>
           </tr>
@@ -25,7 +25,7 @@
             <td>
               <input v-model="selectedRows" type="checkbox" :value="row" style="width: 20px" />
             </td>
-            <td v-for="header in headers" :key="header.key">
+            <td v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
               <!-- eslint-disable-next-line vue/no-v-html -->
               <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content" />
               <span v-else-if="row[header.key]?.type === 'slot'">
@@ -128,6 +128,7 @@ const shouldShowEllipsisBefore = computed(() => {
 interface Header {
   key: string;
   label: string;
+  align?: 'left' | 'center' | 'right';
 }
 export interface Field<V = unknown> {
   [key: string]: {
@@ -141,8 +142,8 @@ export interface Field<V = unknown> {
 <style lang="scss" scoped>
 .table {
   width: 100%;
-  border: 1.5px solid var(--border-color);
-  border-radius: $radius-md;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
 }
 
 header {
@@ -153,13 +154,15 @@ header {
 
 .wrapper {
   width: 100%;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border);
   overflow-x: auto;
 }
 
 table {
   display: table;
   width: 100%;
+  margin: 0;
+  border-radius: 0;
   border-color: inherit;
   border-collapse: collapse;
   table-layout: auto;
@@ -176,13 +179,40 @@ td {
 
 th {
   font-size: 13px;
-  color: var(--font-color-dark);
-  background: var(--bg-ui);
+  color: var(--text-primary);
+  background: var(--surface-transparent);
+
+  &.align-right {
+    text-align: right;
+    padding-right: 30px;
+  }
+
+  &.align-center {
+    text-align: center;
+  }
+
   text-transform: uppercase;
 }
 
 td {
-  color: var(--font-color-light);
+  color: var(--text-secondary);
+
+  &.align-right {
+    text-align: right;
+    padding-right: 10px;
+
+    > span {
+      justify-content: flex-end;
+    }
+  }
+
+  &.align-center {
+    text-align: center;
+
+    > span {
+      justify-content: center;
+    }
+  }
 
   > span {
     display: flex;
@@ -190,7 +220,7 @@ td {
   }
 
   &:has(footer) {
-    border-radius: 0 0 $radius-md $radius-md;
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
   }
 }
 
@@ -203,8 +233,8 @@ td {
 button {
   margin: 0 5px;
   padding: 8px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: $radius-sm;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   font-size: 1rem;
 
   &:hover {
@@ -238,13 +268,13 @@ input {
   max-width: 300px;
   margin: 8px 5px;
   padding: 0.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 5px;
 }
 
 .ellipsis {
   margin: 0 5px;
-  color: var(--font-color-dark);
+  color: var(--text-primary);
 }
 
 @media screen and (width <= 768px) {

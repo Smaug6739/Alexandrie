@@ -1,0 +1,101 @@
+@mixin white-theme {
+	// ACCENT / PRIMARY COLOR
+	--accent: #3956e7;
+	--accent-dark: #2c3eb9;
+	--accent-bg: #dde1f8;
+	--accent-border: #dde1f8;
+
+	// -------------------------------------------------------------------------
+	// SURFACES (Backgrounds)
+	// Layered system: base → raised → overlay
+	// -------------------------------------------------------------------------
+	--surface-base: #fff;
+	--surface-raised: #F1F6FD;
+	--surface-overlay: #e2ebfd;
+	--surface-transparent: rgb(8 8 8 / 3%);
+	--surface-transparent-light: rgb(8 8 8 / 2%);
+
+	--body-fixed: #fff;
+	// -------------------------------------------------------------------------
+	// TEXT
+	// -------------------------------------------------------------------------
+	--text-body: #3c4450;
+	--text-primary: #3c3b3d;
+	--text-secondary: #5b5967;
+	--text-muted: #666;
+	--text-inverse: #111;
+
+	// -------------------------------------------------------------------------
+	// BORDERS
+	// -------------------------------------------------------------------------
+	--border: #dfe0e5;
+	--border-subtle: #dfe0e585;
+	--border-strong: #c4c6d0;
+	--border-focus: var(--accent);
+
+	// -------------------------------------------------------------------------
+	// SHADOWS
+	// -------------------------------------------------------------------------
+	--shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+	--shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+	--shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+	--shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+	--shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.16);
+
+	// -------------------------------------------------------------------------
+	// INTERACTIVE STATES
+	// -------------------------------------------------------------------------
+	--selection-color: #cbd4dd;
+
+	// -------------------------------------------------------------------------
+	// COLORS (semantic: color-["", "dark", "bg", "bg-light", "border"])
+	// -------------------------------------------------------------------------
+	// GRAYS
+	--grey: #666;
+	--grey-dark: #444;
+	--grey-bg: #EFEEEA;
+	--grey-bg-light: #FAFAFA;
+	--grey-border: #CCC;
+	// BLUES
+	--blue: #007aff;
+	--blue-dark: #0056b3;
+	--blue-bg: #cce0ff;
+	--blue-bg-light: #f3f5fc;
+	--blue-border: rgb(0 123 255 / 30%);
+	// GREENS
+	--green: #1c8f59;
+	--green-dark: #007a63;
+	--green-bg: rgb(40 167 69 / 15%);
+	--green-bg-light: rgb(40 167 69 / 5%);
+	--green-border: rgb(40 167 69 / 30%);
+	// REDS
+	--red: #dd2046;
+	--red-dark: #a70b1b;
+	--red-bg: rgb(220 53 69 / 15%);
+	--red-bg-light: rgb(220 53 69 / 5%);
+	--red-border: rgb(220 53 69 / 30%);
+	// YELLOWS
+	--yellow: #F97300;
+	--yellow-dark: #c46200;
+	--yellow-bg: rgb(255 193 7 / 15%);
+	--yellow-bg-light: rgb(255 193 7 / 5%);
+	--yellow-border: rgb(255 193 7 / 30%);
+	// TEALS
+	--teal: #00ADB5;
+	--teal-dark: #008f93;
+	--teal-bg: rgb(23 162 184 / 20%);
+	--teal-bg-light: rgb(23 162 184 / 5%);
+	--teal-border: rgb(23 162 184 / 25%);
+	// PURPLES
+	--purple: #6024ec;
+	--purple-dark: #5a1fdb;
+	--purple-bg: rgb(111 66 193 / 20%);
+	--purple-bg-light: rgb(111 66 193 / 5%);
+	--purple-border: rgb(111 66 193 / 25%);
+	// PINKS
+	--pink: #FF204E;
+	--pink-dark: #e00b58;
+	--pink-bg: rgb(255 14 106 / 20%);
+	--pink-bg-light: rgb(255 14 106 / 5%);
+	--pink-border: rgb(255 14 106 / 25%);
+}

@@ -21,7 +21,7 @@
 
       <div class="showcase-display">
         <div class="display-wrapper">
-          <TransitionGroup name="showcase">
+          <TransitionGroup name="fade">
             <div v-for="(item, index) in features" v-show="activeIndex === index" :key="index" class="display-item">
               <div class="display-content">
                 <h3>{{ item.title }}</h3>
@@ -126,7 +126,7 @@ onUnmounted(() => {
   max-width: 500px;
   margin: 0 auto;
   font-size: 1.125rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .showcase-container {
@@ -148,11 +148,15 @@ onUnmounted(() => {
   position: relative;
   display: flex;
   padding: 1.25rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
   text-align: left;
-  background: var(--bg-color);
-  transition: all 0.3s ease;
+  background: var(--surface-base);
+  transition:
+    border-color $transition-medium ease,
+    transform $transition-medium ease,
+    background-color $transition-medium ease,
+    box-shadow $transition-medium ease;
   align-items: flex-start;
   cursor: pointer;
   gap: 1rem;
@@ -165,7 +169,7 @@ onUnmounted(() => {
 
   &.active {
     border-color: var(--primary);
-    background: var(--bg-contrast);
+    background: var(--surface-raised);
     box-shadow: 0 10px 40px rgb(99 102 241 / 15%);
 
     .nav-number {
@@ -179,12 +183,14 @@ onUnmounted(() => {
   display: flex;
   min-width: 32px;
   height: 32px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 12px;
   font-weight: 700;
-  color: var(--font-color-light);
-  background: var(--bg-contrast);
-  transition: all 0.3s ease;
+  color: var(--text-secondary);
+  background: var(--surface-raised);
+  transition:
+    color $transition-medium ease,
+    background-color $transition-medium ease;
   align-items: center;
   justify-content: center;
 }
@@ -202,7 +208,7 @@ onUnmounted(() => {
 
 .nav-desc {
   font-size: 0.8rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .nav-progress {
@@ -211,7 +217,7 @@ onUnmounted(() => {
   bottom: 0;
   left: 0;
   height: 3px;
-  background: var(--border-color);
+  background: var(--border);
   overflow: hidden;
 }
 
@@ -250,7 +256,7 @@ onUnmounted(() => {
   p {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: var(--font-color-light);
+    color: var(--text-secondary);
     margin-bottom: 1.5rem;
   }
 }
@@ -279,27 +285,16 @@ onUnmounted(() => {
 }
 
 .visual-frame {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--bg-contrast);
-  box-shadow: 0 25px 80px rgb(0 0 0 / 10%);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-xl);
   overflow: hidden;
 
   img {
     display: block;
     width: 100%;
   }
-}
-
-// Transitions - simple opacity fade to avoid layout shifts
-.showcase-enter-active,
-.showcase-leave-active {
-  transition: opacity 0.4s ease;
-}
-
-.showcase-enter-from,
-.showcase-leave-to {
-  opacity: 0;
 }
 
 @media screen and (width <= 1024px) {
@@ -314,15 +309,6 @@ onUnmounted(() => {
     gap: 0.75rem;
     overflow-x: auto;
     padding-bottom: 0.5rem;
-
-    &::-webkit-scrollbar {
-      height: 4px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      border-radius: 4px;
-      background: var(--border-color);
-    }
   }
 
   .nav-item {

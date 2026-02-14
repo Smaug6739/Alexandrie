@@ -9,6 +9,7 @@ export default defineNuxtConfig({
       // Base URLs
       baseApi: '',
       baseCdn: '',
+      cdnEndpoint: '/alexandrie/',
       // Feature flags
       configDisableSignupPage: '',
       configDisableLandingPage: '',
@@ -18,7 +19,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: "@use '~/styles/_variables.scss' as *;",
+          additionalData: "@use '~/styles/abstract/static.scss' as *;",
         },
       },
     },
@@ -42,20 +43,9 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
     minify: true,
   },
-  $production: {
-    ignore: [
-      '**/*.stories.{js,cts,mts,ts,jsx,tsx}',
-      '**/*.{spec,test}.{js,cts,mts,ts,jsx,tsx}',
-      '**/*.d.{cts,mts,ts}',
-      '**/.{pnpm-store,vercel,netlify,output,git,cache,data}',
-      '.nuxt/analyze',
-      '.nuxt',
-      '**/-*.*', //
-      'pages/**/_*',
-    ],
-  },
+
   ssr: false,
-  css: ['~/styles/main.scss', '~/styles/katex/katex.min.css'],
+  css: ['~/styles/main.scss', '~/styles/vendors/katex/katex.min.css'],
   modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt', '@nuxt/eslint'],
 
   colorMode: {
@@ -254,7 +244,6 @@ export default defineNuxtConfig({
           href: '/favicon.ico',
           media: '(prefers-color-scheme: light), (prefers-color-scheme: no-preference)',
         },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         { rel: 'preconnect', href: 'https://api.alexandrie-hub.fr' },
         { rel: 'preconnect', href: 'https://cdn.alexandrie-hub.fr' },
       ],

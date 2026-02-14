@@ -12,6 +12,8 @@
         <li><u>Underline</u>: <code>_underline_</code></li>
         <li><del>Strikethrough</del>: <code>~~strikethrough~~</code></li>
         <li><mark>Highlight</mark>: <code>==highlight==</code></li>
+        <li>Superscript: <sup>text</sup> <code>^text^</code></li>
+        <li>Subscript: <sub>text</sub> <code>~text~</code></li>
       </ul>
 
       <!-- TAGS -->
@@ -215,7 +217,7 @@ Useful for side content or notes.
         <li><strong>Task lists:</strong> <code>- [ ] Todo</code>, <code>- [x] Done</code></li>
         <li>
           <strong>Tables:</strong><br />
-          <pre style=" margin: 10px 0;padding: 0.75rem; border-radius: 6px; color: white; overflow-x: auto">
+          <pre style="margin: 10px 0; padding: 0.75rem; border-radius: var(--radius-sm); color: white; overflow-x: auto">
 | Column 1 | Column 2 |
 |-----------|-----------|
 | Cell 1    | Cell 2    |</pre
@@ -224,6 +226,31 @@ Useful for side content or notes.
         <li><strong>Footnotes:</strong> <code>Text[^1]</code> with <code>[^1]: footnote text</code></li>
         <li><strong>Inline HTML:</strong> <code>&lt;span style="color:red"&gt;text&lt;/span&gt;</code></li>
       </ul>
+
+      <!-- FOOTNOTES -->
+      <h2><Icon name="format/footnote" fill="var(--primary)" /> Footnotes</h2>
+      <p>Add footnotes to your text for references or additional information.</p>
+      <div class="demo">
+        <pre>
+This is a text with a note[^1] and another[^ref].
+
+[^1]: First footnote
+[^ref]: Second footnote with text identifier</pre
+        >
+        <div>
+          <p>
+            This is a text with a note<sup class="footnote-ref"><a href="#fn-1" title="First footnote">[1]</a></sup> and another<sup class="footnote-ref"
+              ><a href="#fn-ref" title="Second footnote with text identifier">[ref]</a></sup
+            >.
+          </p>
+          <section class="footnotes" style="font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 1rem; padding-top: 0.5rem">
+            <ol style="margin: 0; padding-left: 1.5rem">
+              <li>First footnote <a href="#fnref-1" class="footnote-backref">↩</a></li>
+              <li>Second footnote with text identifier <a href="#fnref-ref" class="footnote-backref">↩</a></li>
+            </ol>
+          </section>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -234,6 +261,7 @@ import compile from '~/helpers/markdown';
 
 <style scoped lang="scss">
 .markdown-guide {
+  max-width: 100%;
   margin: auto;
   line-height: 1.7;
 }
@@ -259,8 +287,8 @@ h2 {
 
 code {
   padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
+  border-radius: var(--radius-xs);
+  font-family: $font-mono;
   font-size: 0.8rem;
 }
 
@@ -274,7 +302,7 @@ code {
   pre {
     margin: 10px 0;
     padding: 0.75rem;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     color: white;
     overflow-x: auto;
   }
@@ -286,8 +314,8 @@ code {
 
 .custom-block pre {
   padding: 0.5rem;
-  border-radius: 6px;
-  font-family: 'JetBrains Mono', monospace;
+  border-radius: var(--radius-sm);
+  font-family: $font-mono;
   font-size: 0.85rem;
   background: rgb(255 255 255 / 30%);
   margin-top: 0.5rem;
@@ -299,14 +327,11 @@ code {
   grid-template-columns: repeat(3, 1fr);
 }
 
-.external-link {
-  display: inline-flex;
-  color: var(--primary);
-  align-items: center;
-  gap: 4px;
-}
-
 @media screen and (width <= 800px) {
+  .content {
+    margin: 0.75rem 0.25rem;
+  }
+
   .block-grid {
     grid-template-columns: 1fr;
   }

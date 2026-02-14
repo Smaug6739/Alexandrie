@@ -28,7 +28,7 @@
 const { toggleSidebar, isOpened } = useSidebar();
 const preferences = usePreferences();
 
-const openCommandCenter = () => window.dispatchEvent(new CustomEvent('command-center-open'));
+const openCommandCenter = () => useCommandCenter().open();
 </script>
 
 <style lang="scss" scoped>
@@ -39,9 +39,8 @@ header {
   height: 50px;
   padding: 10px 0;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border);
   justify-content: space-between;
-  margin-bottom: 10px;
 
   div {
     display: flex;
@@ -51,7 +50,7 @@ header {
 }
 
 svg {
-  fill: var(--font-color);
+  fill: var(--text-body);
 }
 
 button {
@@ -64,9 +63,11 @@ button {
   width: 200px;
   padding: 8px 12px;
   border: none;
-  border-radius: $radius-sm;
-  background: var(--border-color);
-  transition: all 0.2s ease;
+  border-radius: var(--radius-sm);
+  background: var(--border);
+  transition:
+    background-color $transition-base ease,
+    transform $transition-base ease;
   align-items: center;
   cursor: pointer;
   gap: 8px;
@@ -88,12 +89,12 @@ button {
 }
 
 kbd {
-  padding: 0 4px;
-  border: 1px solid var(--font-color-light);
-  border-radius: 4px;
+  padding: 0 5px;
+  border: 1px solid var(--text-secondary);
+  border-radius: var(--radius-xs);
   font-family: monospace;
   font-size: 14px;
   font-weight: 600;
-  background: var(--border-color);
+  background: var(--border);
 }
 </style>

@@ -190,19 +190,6 @@ defineExpose({ resetKanbanData });
   flex: 1;
   gap: 16px;
   overflow: auto hidden;
-
-  &::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background: transparent;
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-  }
 }
 
 .columns-wrapper {
@@ -215,11 +202,11 @@ defineExpose({ resetKanbanData });
   min-width: 200px;
   height: stretch;
   padding: 20px;
-  border: 2px dashed var(--border-color);
-  border-radius: 12px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg);
   font-size: 13px;
   font-weight: 500;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   background: transparent;
   align-items: center;
   cursor: pointer;
@@ -245,7 +232,9 @@ defineExpose({ resetKanbanData });
 // Transitions
 .column-list-enter-active,
 .column-list-leave-active {
-  transition: all 0.3s ease;
+  transition:
+    opacity $transition-medium ease,
+    transform $transition-medium ease;
 }
 
 .column-list-enter-from,
@@ -255,6 +244,6 @@ defineExpose({ resetKanbanData });
 }
 
 .column-list-move {
-  transition: transform 0.3s ease;
+  transition: transform $transition-medium ease;
 }
 </style>

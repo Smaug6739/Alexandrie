@@ -134,7 +134,7 @@ h2 {
 
 .subtitle {
   font-size: 1.125rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
 }
 
 .steps-container {
@@ -154,10 +154,12 @@ h2 {
 .step {
   position: relative;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--bg-color);
-  transition: all 0.3s ease;
+  background: var(--surface-base);
+  transition:
+    border-color $transition-medium ease,
+    transform $transition-medium ease;
 
   &:hover {
     border-color: var(--primary);
@@ -176,7 +178,7 @@ h2 {
   display: flex;
   width: 32px;
   height: 32px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 700;
   color: white;
@@ -193,7 +195,7 @@ h2 {
 
 .step-content p {
   font-size: 0.9rem;
-  color: var(--font-color-light);
+  color: var(--text-secondary);
   margin-bottom: 0.75rem;
 }
 
@@ -205,11 +207,11 @@ h2 {
 
 .code {
   padding: 10px 14px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  font-family: $monospace-font;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  font-family: $font-mono;
   font-size: 13px;
-  background: var(--bg-contrast);
+  background: var(--surface-raised);
   flex: 1;
   overflow: auto;
   white-space: nowrap;
@@ -220,11 +222,13 @@ h2 {
   width: 36px;
   height: 36px;
   padding: 0;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  color: var(--font-color-light);
-  background: var(--bg-color);
-  transition: all 0.2s ease;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  background: var(--surface-base);
+  transition:
+    border-color $transition-fast ease,
+    color $transition-fast ease;
   align-items: center;
   cursor: pointer;
   justify-content: center;
@@ -246,7 +250,7 @@ h2 {
   max-width: 500px;
   border-radius: 16px;
   background: #1e1e2e;
-  box-shadow: 0 25px 80px rgb(0 0 0 / 20%);
+  box-shadow: var(--shadow-xl);
   overflow: hidden;
 }
 
@@ -341,12 +345,12 @@ h2 {
 .pill {
   display: inline-flex;
   padding: 8px 14px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 13px;
   font-weight: 500;
-  background: var(--bg-color);
-  transition: all 0.2s ease;
+  background: var(--surface-base);
+  transition: border-color $transition-fast ease;
   align-items: center;
   gap: 8px;
 

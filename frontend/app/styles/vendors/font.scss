@@ -1,0 +1,255 @@
+// ****************************************************************************************** */
+// 	Font name: Poppins
+// ******************************************************************************************* */
+
+/* poppins-300 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 300;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-300.woff2') format('woff2');
+}
+
+/* poppins-regular - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 400;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-regular.woff2') format('woff2');
+}
+
+/* poppins-italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: italic;
+	font-weight: 400;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-italic.woff2') format('woff2');
+}
+
+/* poppins-500 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 500;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-500.woff2') format('woff2');
+}
+
+/* poppins-500italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: italic;
+	font-weight: 500;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-500italic.woff2') format('woff2');
+}
+
+/* poppins-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 600;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-600.woff2') format('woff2');
+}
+
+/* poppins-600italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: italic;
+	font-weight: 600;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-600italic.woff2') format('woff2');
+}
+
+/* poppins-700 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 700;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-700.woff2') format('woff2');
+}
+
+/* poppins-700italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: italic;
+	font-weight: 700;
+	src: url('~/assets/fonts/Poppins/poppins-v24-latin-700italic.woff2') format('woff2');
+}
+
+// ****************************************************************************************** */
+// 	Font name: Latin Modern Roman
+// ******************************************************************************************* */
+
+@font-face {
+	font-family: 'LMRoman10';
+	src: url('~/assets/fonts/LMRoman/LMRoman10-Regular.eot');
+	src: local('LMRoman10-Regular'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Regular.eot?#iefix') format('embedded-opentype'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Regular.woff2') format('woff2'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Regular.woff') format('woff'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'LMRoman10';
+	src: url('~/assets/fonts/LMRoman/LMRoman10-Italic.eot');
+	src: local('LMRoman10-Italic'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Italic.eot?#iefix') format('embedded-opentype'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Italic.woff2') format('woff2'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Italic.woff') format('woff'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Italic.ttf') format('truetype');
+	font-weight: normal;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'LMRoman10';
+	src: url('~/assets/fonts/LMRoman/LMRoman10-BoldItalic.eot');
+	src: local('LMRoman10-BoldItalic'),
+		url('~/assets/fonts/LMRoman/LMRoman10-BoldItalic.eot?#iefix') format('embedded-opentype'),
+		url('~/assets/fonts/LMRoman/LMRoman10-BoldItalic.woff2') format('woff2'),
+		url('~/assets/fonts/LMRoman/LMRoman10-BoldItalic.woff') format('woff'),
+		url('~/assets/fonts/LMRoman/LMRoman10-BoldItalic.ttf') format('truetype');
+	font-weight: bold;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'LMRoman10';
+	src: url('~/assets/fonts/LMRoman/LMRoman10-Bold.eot');
+	src: local('LMRoman10-Bold'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Bold.eot?#iefix') format('embedded-opentype'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Bold.woff2') format('woff2'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Bold.woff') format('woff'),
+		url('~/assets/fonts/LMRoman/LMRoman10-Bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+	font-display: swap;
+}
+
+// ****************************************************************************************** */
+// 	Font name: JetBrains Mono
+// ******************************************************************************************* */
+
+/* jetbrains-mono-regular - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'JetBrains Mono';
+	font-style: normal;
+	font-weight: 400;
+	src: url('~/assets/fonts/JetBrainsMono/jetbrains-mono-v24-latin-regular.woff2') format('woff2');
+}
+
+/* jetbrains-mono-italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'JetBrains Mono';
+	font-style: italic;
+	font-weight: 400;
+	src: url('~/assets/fonts/JetBrainsMono/jetbrains-mono-v24-latin-italic.woff2') format('woff2');
+}
+
+/* jetbrains-mono-500 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'JetBrains Mono';
+	font-style: normal;
+	font-weight: 500;
+	src: url('~/assets/fonts/JetBrainsMono/jetbrains-mono-v24-latin-500.woff2') format('woff2');
+}
+
+/* jetbrains-mono-500italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'JetBrains Mono';
+	font-style: italic;
+	font-weight: 500;
+	src: url('~/assets/fonts/JetBrainsMono/jetbrains-mono-v24-latin-500italic.woff2') format('woff2');
+}
+
+/* jetbrains-mono-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'JetBrains Mono';
+	font-style: normal;
+	font-weight: 600;
+	src: url('~/assets/fonts/JetBrainsMono/jetbrains-mono-v24-latin-600.woff2') format('woff2');
+}
+
+/* jetbrains-mono-600italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'JetBrains Mono';
+	font-style: italic;
+	font-weight: 600;
+	src: url('~/assets/fonts/JetBrainsMono/jetbrains-mono-v24-latin-600italic.woff2') format('woff2');
+}
+
+// ****************************************************************************************** */
+// 	Font name: Inter
+// ******************************************************************************************* */
+/* inter-regular - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400;
+	src: url('~/assets/fonts/Inter/inter-v20-latin-regular.woff2') format('woff2');
+}
+
+/* inter-italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 400;
+	src: url('~/assets/fonts/Inter/inter-v20-latin-italic.woff2') format('woff2');
+}
+
+/* inter-500 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 500;
+	src: url('~/assets/fonts/Inter/inter-v20-latin-500.woff2') format('woff2');
+}
+
+/* inter-500italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 500;
+	src: url('~/assets/fonts/Inter/inter-v20-latin-500italic.woff2') format('woff2');
+}
+
+/* inter-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 600;
+	src: url('~/assets/fonts/Inter/inter-v20-latin-600.woff2') format('woff2');
+}
+
+/* inter-600italic - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Inter';
+	font-style: italic;
+	font-weight: 600;
+	src: url('~/assets/fonts/Inter/inter-v20-latin-600italic.woff2') format('woff2');
+}

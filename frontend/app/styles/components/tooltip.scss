@@ -1,0 +1,46 @@
+@use "../abstract/static.scss" as *;
+
+.hint-wrapper {
+	position: relative;
+	display: inline-block;
+	margin-left: 0.25rem;
+}
+
+.hint-tooltip {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	z-index: 100;
+	padding: 0.4rem;
+	border-radius: var(--radius-sm);
+	font-size: 0.7rem;
+	color: white;
+	background-color: var(--surface-tooltip);
+	box-shadow: var(--shadow-sm);
+
+	// Initial state (hidden)
+	opacity: 0;
+
+	/* Transition */
+	transition:
+		opacity $transition-fast ease,
+		visibility 0s linear $transition-slow; // Delay hiding to match opacity transition
+
+	margin-top: 0.2rem;
+	pointer-events: none;
+	text-transform: capitalize;
+	transform: translateX(-50%);
+	visibility: hidden;
+	white-space: nowrap;
+
+	/* &::after {
+		content: '';
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		border-width: 5px;
+		border-style: solid;
+		border-color: transparent transparent var(--surface-tooltip) transparent;
+	} */
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="card-component" style="height: 100%; padding: 35px 25px; overflow: auto">
+  <div class="page-card" style="height: 100%; padding: 35px 25px; overflow: auto">
     <h1>Node advanced view</h1>
     <div v-if="document" style="display: flex; height: 100%; min-height: 0; flex-direction: column">
       <label for="id">ID</label>

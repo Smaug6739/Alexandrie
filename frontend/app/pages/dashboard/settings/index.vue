@@ -89,33 +89,33 @@ const close = () => emit('close');
   display: flex;
   width: 100%;
   height: 100%;
-  background-color: var(--bg-color);
+  background-color: var(--surface-base);
 
   nav {
     width: 300px;
     padding: 1rem;
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid var(--border);
     gap: 1rem;
     overflow-y: auto;
 
     span {
       font-size: 0.9rem;
       font-weight: 500;
-      color: var(--font-color-light);
+      color: var(--text-secondary);
     }
 
     a {
       display: flex;
       margin: 0.4rem 0.2rem;
       padding: 0.05rem 0.4rem;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       color: inherit;
       align-items: center;
       gap: 0.5rem;
       text-decoration: none;
 
       &:hover {
-        background-color: var(--bg-contrast-2);
+        background-color: var(--surface-overlay);
       }
     }
 
@@ -129,7 +129,7 @@ const close = () => emit('close');
 
         .email {
           font-size: 0.7rem;
-          color: var(--font-color-light);
+          color: var(--text-secondary);
         }
       }
     }
@@ -152,7 +152,7 @@ const close = () => emit('close');
   nav {
     width: 270px;
     border: none;
-    background-color: var(--bg-contrast);
+    background-color: var(--surface-raised);
   }
 
   .content {
@@ -163,53 +163,55 @@ const close = () => emit('close');
 
 @media screen and (width <= 920px) {
   .component {
-    flex-direction: column;
     position: relative;
+    flex-direction: column;
 
     .menu-toggle {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
       padding: 0.75rem 1rem;
       border: none;
-      border-bottom: 1px solid var(--border-color);
-      background-color: var(--bg-contrast);
-      color: inherit;
       font-size: 0.9rem;
+      color: inherit;
+      background-color: var(--surface-raised);
+      align-items: center;
+      border-bottom: 1px solid var(--border);
       cursor: pointer;
+      gap: 0.5rem;
     }
 
     nav {
       position: absolute;
       top: 45px;
       left: 0;
+      z-index: 10;
       width: 100%;
       max-height: 0;
       padding: 0;
-      overflow: hidden;
+      background-color: var(--surface-base);
+      transition:
+        max-height $transition-base ease,
+        padding $transition-base ease;
       border-right: none;
-      background-color: var(--bg-color);
-      z-index: 10;
-      transition: max-height 0.25s ease, padding 0.25s ease;
+      overflow: hidden;
 
       &.open {
         max-height: 70vh;
         padding: 1rem;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        border-bottom: 1px solid var(--border);
         overflow-y: auto;
-        border-radius: $radius-lg;
-        border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
       }
     }
 
     .content {
-      padding: 1rem;
       margin: 0;
+      padding: 1rem;
     }
   }
 
   .modal nav.open {
-    background-color: var(--bg-contrast);
+    background-color: var(--surface-raised);
   }
 }
 </style>

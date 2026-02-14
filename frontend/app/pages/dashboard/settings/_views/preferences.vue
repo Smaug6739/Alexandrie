@@ -1,7 +1,7 @@
 <template>
   <div class="preferences">
-    <h2 class="app-title">Preferences</h2>
-    <p class="app-subtitle">Manage your preferences and settings.</p>
+    <h2 class="page-title">Preferences</h2>
+    <p class="page-subtitle">Manage your preferences and settings.</p>
 
     <div v-for="(section, i) in options" :key="i" class="section">
       <h3>{{ section.label }}</h3>
@@ -99,6 +99,17 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
           appColors.setAppColor(option);
         },
       },
+      {
+        label: 'Interface style',
+        description: 'Glassmorphism adds transparent surfaces with blur effects for a modern glass look.',
+        type: 'radio',
+        key: 'style',
+        tag: 'New',
+        choices: [
+          { label: 'Default', id: 'default' },
+          { label: 'Glassmorphism', id: 'glassmorphism' },
+        ],
+      },
     ],
   },
   {
@@ -172,10 +183,10 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
     ],
   },
   {
-    label: 'Nabvar',
+    label: 'Navbar',
     options: [
       {
-        label: 'Show items in navbar',
+        label: 'Which items to display in the navbar',
         type: 'groupCheckbox',
         key: 'navbarItems',
         items: {
@@ -224,10 +235,16 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
       },
       {
         label: 'Enable Snippets',
-        tag: 'New',
         description: 'Enable or disable editor snippets functionality.',
         type: 'toggle',
         key: 'editorSnippetsEnabled',
+      },
+      {
+        label: 'Simplified view for mobile',
+        tag: 'New',
+        description: 'Enable a simplified editor view on mobile devices for better usability.',
+        type: 'toggle',
+        key: 'editorSimplifiedViewOnMobile',
       },
     ],
   },
@@ -287,8 +304,9 @@ label {
 }
 
 .description {
-  font-size: 0.9rem;
-  color: var(--font-color-light);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-left: 2px;
   margin-top: 0.25rem;
 }
 

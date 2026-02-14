@@ -1,11 +1,11 @@
 <template>
-  <button :class="type" @click="onClick">
+  <button :class="[type, { large }]" @click="onClick">
     <slot />
   </button>
 </template>
 
 <script setup lang="ts">
-defineProps<{ type: string }>();
+defineProps<{ type: string; large?: boolean }>();
 const emit = defineEmits(['click']);
 const onClick = () => emit('click');
 </script>
@@ -13,18 +13,23 @@ const onClick = () => emit('click');
 <style scoped lang="scss">
 button {
   display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
   width: fit-content;
   padding: 10px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
+  align-items: center;
+  gap: 0.5rem;
   white-space: nowrap;
 
   &:disabled {
     opacity: 0.8;
     cursor: not-allowed;
   }
+}
+
+.large {
+  padding: 10px 14px;
+  font-size: 1rem;
 }
 
 .primary {
@@ -34,6 +39,7 @@ button {
   &:hover {
     background: var(--primary-dark);
   }
+
   * {
     fill: white !important;
   }
@@ -41,7 +47,7 @@ button {
 
 .secondary {
   border: 1px solid var(--primary);
-  color: var(--font-color);
+  color: var(--text-body);
 
   &:hover {
     background: var(--selection-color);
