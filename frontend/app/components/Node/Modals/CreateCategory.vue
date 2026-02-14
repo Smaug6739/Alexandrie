@@ -35,7 +35,7 @@ const categoriesStore = useNodesStore();
 const nodesTree = useNodesTree();
 const sidebar = useSidebar();
 
-const categoriesItem = nodesTree.categoriesTree;
+const categoriesItem = nodesTree.treeUpToRole(2);
 
 function getDefaultParentId() {
   const activeId = sidebar.active_id.value;

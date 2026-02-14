@@ -32,7 +32,7 @@ const filter = ref('');
 const nodesTree = useNodesTree();
 
 const filteredItems = computed(() => {
-  const items = nodesTree.categoriesTree.value;
+  const items = nodesTree.treeUpToRole(2).value;
   if (!filter.value.trim()) return items;
   return filterTreeByLabel(items, filter.value);
 });

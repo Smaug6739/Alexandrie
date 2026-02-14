@@ -97,17 +97,11 @@ export function useNodesTree() {
     return tree;
   });
 
-  // Categories only tree (roles 1 and 2)
-  const categoriesTree = computed(() => {
-    const filtered = sortedNodes.value.filter(n => n.role <= 2);
-    return new TreeBuilder(filtered, transformNode).buildTree(node => node?.role === 1);
-  });
-
-  // Get filtered tree by max role
-  const getTreeByMaxRole = (maxRole: number) => {
-    const filtered = sortedNodes.value.filter(n => n.role <= maxRole);
-    return new TreeBuilder(filtered, transformNode).buildTree(node => node?.role === 1);
-  };
+  const treeUpToRole = (maxRole: number) =>
+    computed(() => {
+      const filtered = sortedNodes.value.filter(n => n.role <= maxRole);
+      return new TreeBuilder(filtered, transformNode).buildTree(node => node?.role === 1);
+    });
 
   // === Filtered views ===
   const workspaceTree = (workspaceId?: string): TreeItem<Node>[] => {
@@ -151,8 +145,7 @@ export function useNodesTree() {
   return {
     // Tree data
     tree,
-    categoriesTree,
-    getTreeByMaxRole,
+    treeUpToRole,
     workspaceTree,
     getSubtreeAsArray,
     getAncestorCategory,

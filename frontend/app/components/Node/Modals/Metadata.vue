@@ -52,7 +52,7 @@ const nodesTree = useNodesTree();
 
 const node = ref<Node>(props.doc);
 const pinnedToggle = ref(node.value.order == -1);
-const parentsTree = computed(() => nodesTree.getTreeByMaxRole(node.value.role));
+const parentsTree = nodesTree.treeUpToRole(node.value.role);
 
 watch(pinnedToggle, val => (node.value.order = val ? -1 : 0));
 watch(
