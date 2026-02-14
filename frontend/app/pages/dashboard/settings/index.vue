@@ -40,6 +40,7 @@ import SnippetsView from './_views/snippets.vue';
 import MarkdownView from './_views/markdown.vue';
 import AboutView from './_views/about.vue';
 import AdvancedView from './_views/advanced.vue';
+import OtherView from './_views/other.vue';
 import StylesView from './_views/styles.vue';
 
 type PageKey = keyof typeof pages;
@@ -70,6 +71,7 @@ const pages = {
   markdown: MarkdownView,
   about: AboutView,
   advanced: AdvancedView,
+  other: OtherView,
   styles: StylesView,
 } as const;
 
@@ -106,7 +108,7 @@ const navSections: NavSection[] = [
       { key: 'documents', label: 'Documents settings', icon: 'bookmark-stack' },
       { key: 'editor', label: 'Editor settings', icon: 'editor' },
       { key: 'styles', label: 'Styles injection', icon: 'styles' },
-      { key: 'advanced', label: 'Advanced', icon: 'advanced' },
+      { key: 'other', label: 'Other', icon: 'advanced' },
     ],
   },
   {
@@ -114,6 +116,7 @@ const navSections: NavSection[] = [
     items: [
       { key: 'snippets', label: 'Snippets', icon: 'snippets' },
       { key: 'backup', label: 'Backup', icon: 'backup' },
+      { key: 'advanced', label: 'Advanced', icon: 'build' },
     ],
   },
   {

@@ -53,6 +53,7 @@ export const DEFAULT_PREFERENCES = {
   stylesInjectionEnabled: false as boolean,
   stylesInjection: '' as string,
   stylesDocumentsInjection: '' as string,
+  defaultUploadFolder: null as string | null,
 };
 
 // Crée un type mapping automatique : chaque clé => type exact

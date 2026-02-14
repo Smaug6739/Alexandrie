@@ -19,7 +19,7 @@ import (
 )
 
 type ResourceService interface {
-	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
+	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, parentId *types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
 	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error
 }
 
@@ -35,7 +35,7 @@ func NewResourceService(nodeRepo repositories.NodeRepository, snowflake *snowfla
 	}
 }
 
-func (s *resourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
+func (s *resourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, parentId *types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
 	if minioClient == nil {
 		return nil, errors.New("minio client not initialized")
 	}
@@ -70,7 +70,7 @@ func (s *resourceService) UploadFile(filename string, fileSize int64, fileConten
 	node := &models.Node{
 		Id:               id,
 		UserId:           userId,
-		ParentId:         nil,
+		ParentId:         parentId,
 		Name:             name,
 		Role:             4,
 		Accessibility:    accessibility,
