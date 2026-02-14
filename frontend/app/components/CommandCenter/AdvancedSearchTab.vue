@@ -40,7 +40,7 @@
 
         <div class="filter-group">
           <label class="filter-label">Category</label>
-          <AppSelect v-model="selectedCategory" :items="categoriesTree" :nullable="true" placeholder="All categories" />
+          <AppSelect v-model="selectedCategory" :items="categoriesTree" nullable placeholder="All categories" />
         </div>
 
         <div class="filter-group">
