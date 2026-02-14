@@ -21,6 +21,7 @@ const userStore = useUserStore();
 nodesStore.init();
 userStore.fetch();
 
+useStyleInjection(); // Custom styles for the app and documents
 const { initGlobalListeners, destroyGlobalListeners } = useCommandCenter();
 
 onMounted(() => {

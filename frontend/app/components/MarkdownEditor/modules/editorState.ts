@@ -7,7 +7,7 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 
 export interface CreateEditorStateParams {
   initialDoc: string;
-  preferences: ReturnType<typeof import('~/composables/Preferences').usePreferences>;
+  preferences: ReturnType<typeof import('~/composables/usePreferences').usePreferences>;
   themeExtension: Extension;
   keymaps: readonly KeyBinding[];
   snippetSource: object;

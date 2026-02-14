@@ -5,7 +5,13 @@
       <div :style="{ maxWidth: width }" class="doc-container">
         <NodeDocumentHeader :doc="node" style="margin-bottom: 20px" />
 
-        <article v-if="node" ref="element" :class="`${node.theme || theme}-theme`" style="max-width: 100%" v-html="node.content_compiled" />
+        <article
+          v-if="node"
+          ref="element"
+          :class="[`${node.theme || theme}-theme`, 'document-content']"
+          style="max-width: 100%"
+          v-html="node.content_compiled"
+        />
         <NodeDocumentSkeleton v-else />
         <NodeDocumentFooter :document="node" :next="next" :previous="previous" />
       </div>

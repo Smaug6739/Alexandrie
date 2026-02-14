@@ -14,7 +14,13 @@
         <NodeDocumentHeader :doc="article" :public="true" style="margin: 20px 0" />
 
         <!-- Document content if available -->
-        <article v-if="hasContent" ref="element" :class="`${article.theme || theme}-theme`" style="max-width: 100%" v-html="article.content_compiled" />
+        <article
+          v-if="hasContent"
+          ref="element"
+          :class="[`${article.theme || theme}-theme`, 'document-content']"
+          style="max-width: 100%"
+          v-html="article.content_compiled"
+        />
 
         <!-- Hierarchical children tree -->
         <NodeTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />

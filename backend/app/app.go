@@ -63,7 +63,12 @@ func InitApp(config Config) *App {
 	app.Repos = repoManager
 
 	// Initialize service manager
-	serviceManager, err := services.NewServiceManager(repoManager, app.Snowflake, app.MinioClient)
+	resourceConfig := services.ResourceConfig{
+		MaxUploadsSize:       config.Cdn.MaxUploadsSize,
+		SupportedTypes:       config.Cdn.SupportedTypes,
+		SupportedTypesImages: config.Cdn.SupportedTypesImages,
+	}
+	serviceManager, err := services.NewServiceManager(repoManager, app.Snowflake, app.MinioClient, resourceConfig)
 	if err != nil {
 		log.Fatalf("Failed to initialize service manager: %v", err)
 	}

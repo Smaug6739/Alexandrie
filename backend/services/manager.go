@@ -24,10 +24,10 @@ type ServiceManager struct {
 }
 
 // NewServiceManager creates a new service manager and initializes all services
-func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client) (*ServiceManager, error) {
+func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, resourceConfig ResourceConfig) (*ServiceManager, error) {
 	sm := &ServiceManager{}
 
-	if err := sm.initializeServices(repos, snowflake, minioClient); err != nil {
+	if err := sm.initializeServices(repos, snowflake, minioClient, resourceConfig); err != nil {
 		return nil, fmt.Errorf("failed to initialize services: %w", err)
 	}
 
@@ -37,7 +37,7 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowfla
 }
 
 // initializeServices creates and initializes all service instances
-func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client) error {
+func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, resourceConfig ResourceConfig) error {
 	// Initialize Auth Service
 	sm.Auth = NewAuthService(repos.User, repos.Session, repos.Log, snowflake)
 
@@ -57,7 +57,7 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 	sm.Session = NewSessionService(repos.Session)
 
 	// Initialize Resource Service
-	sm.Resource = NewResourceService(repos.Node, snowflake)
+	sm.Resource = NewResourceService(repos.Node, snowflake, minioClient, resourceConfig)
 
 	// Initialize Backup Service
 	sm.Backup = NewBackupService(repos.Node)

@@ -3,6 +3,7 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/permissions"
+	"alexandrie/types"
 	"alexandrie/utils"
 	"errors"
 	"io"
@@ -36,8 +37,11 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		int64(ctr.app.Config.Cdn.MaxSize),
 	)
 	file, header, err := c.Request.FormFile("file")
-	if err != nil {
-		return http.StatusBadRequest, errors.New("file too large or failed to get file")
+	parentIdStr := c.Request.FormValue("parent_id")
+
+	var parentId *types.Snowflake = nil
+	if parentIdStr != "" {
+		parentId, err = types.SnowflakeFromString(parentIdStr)
 	}
 	defer file.Close()
 
@@ -57,10 +61,8 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		header.Size,
 		fileContent,
 		mimeType,
+		parentId,
 		userId,
-		ctr.app.Config.Cdn.MaxUploadsSize,
-		ctr.app.Config.Cdn.SupportedTypes,
-		ctr.app.MinioClient,
 	)
 	if err != nil {
 		return http.StatusBadRequest, err
@@ -104,8 +106,6 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 		fileContent,
 		mimeType,
 		userId,
-		ctr.app.Config.Cdn.SupportedTypesImages,
-		ctr.app.MinioClient,
 	)
 	if err != nil {
 		return http.StatusBadRequest, err

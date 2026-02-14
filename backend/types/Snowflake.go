@@ -8,6 +8,16 @@ import (
 
 type Snowflake uint64
 
+// Convert string to Snowflake
+func SnowflakeFromString(s string) (*Snowflake, error) {
+	val, err := strconv.ParseUint(s, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	sf := Snowflake(val)
+	return &sf, nil
+}
+
 func (s Snowflake) MarshalJSON() ([]byte, error) {
 	// Renvoie l'ID entre guillemets, pour JSON
 	return json.Marshal(strconv.FormatUint(uint64(s), 10))

@@ -24,7 +24,7 @@
           <div class="panel-header">
             <span class="panel-label">Preview</span>
           </div>
-          <div ref="markdownPreview" :class="['markdown-preview', `${theme}-theme`]" v-html="document.content_compiled" />
+          <div ref="markdownPreview" :class="['markdown-preview', `${theme}-theme`, `document-content`]" v-html="document.content_compiled" />
         </div>
       </div>
     </div>

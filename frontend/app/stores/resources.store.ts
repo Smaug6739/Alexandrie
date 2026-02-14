@@ -4,9 +4,14 @@ export const useResourcesStore = defineStore('resources', {
   state: () => ({}),
   actions: {
     async post(resource: FormData): Promise<Node> {
+      const defaultUploadFolder = usePreferences().get('defaultUploadFolder').value;
+      const nodesStore = useNodesStore();
+      if (defaultUploadFolder && nodesStore.nodes.has(defaultUploadFolder)) {
+        resource.append('parent_id', defaultUploadFolder);
+      }
       const request = await makeRequest(`resources`, 'POST', resource);
       if (request.status == 'success') {
-        useNodesStore().nodes.set((request.result as Node).id, request.result as Node);
+        nodesStore.nodes.set((request.result as Node).id, request.result as Node);
         return request.result as Node;
       } else throw request.message;
     },
