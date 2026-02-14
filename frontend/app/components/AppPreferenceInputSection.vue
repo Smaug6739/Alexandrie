@@ -2,7 +2,7 @@
   <div v-for="(section, i) in options" :key="i" class="section">
     <h3>{{ section.label }}</h3>
 
-    <div v-for="opt in section.options" :key="opt.key" class="form-group">
+    <div v-for="opt in section.options" :key="opt.key" :class="['form-group', opt.type === 'textarea' ? 'form-group--vertical' : '']">
       <div>
         <label>{{ opt.label }}</label>
 
@@ -42,6 +42,17 @@
           </label>
         </div>
       </div>
+
+      <!-- Textarea -->
+      <textarea
+        v-else-if="opt.type === 'textarea'"
+        v-model="p(opt.key).value"
+        class="entry textarea-entry"
+        :placeholder="opt.placeholder || ''"
+        :rows="opt.rows || 6"
+        spellcheck="false"
+        @input="opt.onChange?.(p(opt.key).value)"
+      />
     </div>
   </div>
 </template>
@@ -73,6 +84,10 @@ defineProps<{
   gap: 1rem;
   justify-content: space-between;
   margin-bottom: 1rem;
+
+  &--vertical {
+    flex-direction: column;
+  }
 }
 
 label {
@@ -102,6 +117,20 @@ h3 {
     display: grid;
     gap: 0.5rem 3rem;
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.textarea-entry {
+  width: 100%;
+  max-width: 100%;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  resize: vertical;
+  tab-size: 2;
+
+  &::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
   }
 }
 </style>

@@ -50,6 +50,9 @@ export const DEFAULT_PREFERENCES = {
   editorSnippetsEnabled: true as boolean,
   editorSimplifiedViewOnMobile: true as boolean,
   developerMode: false as boolean,
+  stylesInjectionEnabled: false as boolean,
+  stylesInjection: '' as string,
+  stylesDocumentsInjection: '' as string,
 };
 
 // Crée un type mapping automatique : chaque clé => type exact
@@ -113,7 +116,7 @@ export function usePreferences() {
   };
 }
 
-type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode';
+type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode' | 'textarea';
 interface BaseOption<K extends PreferenceKey = PreferenceKey> {
   label: string;
   description?: string;
@@ -152,5 +155,13 @@ interface AnodeOption<K extends PreferenceKey = PreferenceKey> extends BaseOptio
   onChange?: (value: Preferences[K]) => void;
 }
 
-export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption | AnodeOption;
-export type { ColorOption, SelectOption, RadioOption, ToggleOption, GroupCheckboxOption, AnodeOption };
+interface TextareaOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
+  type: 'textarea';
+  placeholder?: string;
+  rows?: number;
+  language?: string;
+  onChange?: (value: Preferences[K]) => void;
+}
+
+export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption | AnodeOption | TextareaOption;
+export type { ColorOption, SelectOption, RadioOption, ToggleOption, GroupCheckboxOption, AnodeOption, TextareaOption };
