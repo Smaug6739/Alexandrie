@@ -6,49 +6,7 @@
     <div v-for="(section, i) in options" :key="i" class="section">
       <h3>{{ section.label }}</h3>
 
-      <div v-for="opt in section.options" :key="opt.key" class="form-group">
-        <div>
-          <label
-            >{{ opt.label }} <tag v-if="opt.tag" class="blue">{{ opt.tag }}</tag></label
-          >
-
-          <p class="description">{{ opt.description }}</p>
-        </div>
-        <!-- Toggle -->
-        <AppToggle v-if="opt.type === 'toggle'" v-model="p(opt.key).value" class="entry" @update:model-value="opt.onChange?.(p(opt.key).value)" />
-
-        <!-- Select -->
-        <AppSelect
-          v-else-if="opt.type === 'select'"
-          v-model="p(opt.key).value"
-          :items="opt.choices!"
-          size="40%"
-          class="entry"
-          :searchable="false"
-          @update:model-value="opt.onChange?.(p(opt.key).value)"
-        />
-
-        <!-- Radio -->
-        <AppRadio
-          v-else-if="opt.type === 'radio'"
-          v-model="p(opt.key).value"
-          :items="opt.choices!"
-          class="entry"
-          @update:model-value="opt.onChange?.(p(opt.key).value)"
-        />
-
-        <!-- Color -->
-        <AppColorPicker v-else-if="opt.type === 'color'" v-model="p(opt.key).value" class="entry" @update:model-value="opt.onChange?.(p(opt.key).value)" />
-
-        <!-- Group Checkbox -->
-        <div v-else-if="opt.type === 'groupCheckbox'" class="group-checkbox">
-          <div class="checkbox-grid">
-            <label v-for="[key, label] of Object.entries(opt.items)" :key="key">
-              <AppCheck v-model="p(opt.key).value[key]" @change="opt.onChange?.(p(opt.key).value)">{{ label }}</AppCheck>
-            </label>
-          </div>
-        </div>
-      </div>
+      <AppPreferenceInput v-for="opt in section.options" :key="opt.key" :opt="opt" />
     </div>
 
     <hr />
@@ -65,11 +23,7 @@
 <script setup lang="ts">
 import { DOCUMENT_SIZES, DOCUMENT_THEMES, EDITOR_FONTS } from '~/helpers/constants';
 
-const preferencesStore = usePreferences();
 const appColors = useAppColors();
-
-// @ts-expect-error unknown type
-const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnType<unknown>;
 
 type InterfaceOption = Option & {
   tag?: string;
@@ -287,15 +241,6 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
 .section {
   width: 100%;
   margin-bottom: 2rem;
-}
-
-.form-group {
-  display: flex;
-  width: 100%;
-  align-items: flex-start;
-  gap: 1rem;
-  justify-content: space-between;
-  margin-bottom: 1rem;
 }
 
 label {
