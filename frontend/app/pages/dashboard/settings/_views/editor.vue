@@ -38,6 +38,7 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
           { label: '24', id: 24 },
         ],
       },
+      { label: 'Enable document auto-save', type: 'toggle', key: 'documentAutoSave' },
       {
         label: 'Enable Spell Check',
         description: 'Enable spell check of browser in the editor. Changes may require a page reload to take effect.',

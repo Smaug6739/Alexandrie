@@ -25,7 +25,6 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
         key: 'printMode',
       },
       { label: 'Hide Table of Content', type: 'toggle', key: 'hideTOC' },
-      { label: 'Enable Document auto-save', type: 'toggle', key: 'documentAutoSave' },
       {
         label: 'Document size',
         type: 'radio',
