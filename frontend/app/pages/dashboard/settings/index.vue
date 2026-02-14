@@ -96,7 +96,6 @@ const navSections: NavSection[] = [
       { key: 'profile', label: 'My profile', icon: 'profil' },
       { key: 'apparence', label: 'Apparence', icon: 'brush' },
       { key: 'security', label: 'Security', icon: 'security' },
-      { key: 'backup', label: 'Backup', icon: 'backup' },
     ],
   },
   {
@@ -110,8 +109,14 @@ const navSections: NavSection[] = [
   {
     title: 'Tools',
     items: [
-      { key: 'shortcuts', label: 'Shortcuts', icon: 'shortcuts' },
       { key: 'snippets', label: 'Snippets', icon: 'snippets' },
+      { key: 'backup', label: 'Backup', icon: 'backup' },
+    ],
+  },
+  {
+    title: 'Guides & Infos',
+    items: [
+      { key: 'shortcuts', label: 'Shortcuts', icon: 'shortcuts' },
       { key: 'markdown', label: 'Markdown', icon: 'markdown' },
     ],
   },
