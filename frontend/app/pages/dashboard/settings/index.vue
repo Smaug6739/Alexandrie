@@ -1,5 +1,5 @@
 <template>
-  <div :class="['component', isModal ? 'modal' : '']">
+  <div :class="['component', isModal ? 'modal' : '']" @keydown.stop>
     <button class="menu-toggle" @click="menuOpen = !menuOpen">
       <Icon :name="menuOpen ? 'close' : 'menu'" />
       {{ menuOpen ? 'Close menu' : 'Menu' }}
