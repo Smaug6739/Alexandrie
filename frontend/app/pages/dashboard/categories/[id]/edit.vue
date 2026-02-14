@@ -34,7 +34,7 @@
       <label for="color">Color</label>
       <AppColorPicker v-model="category.color" name="color" :nullable="true" />
 
-      <div style="display: flex; justify-content: flex-end">
+      <div class="actions-row">
         <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
       </div>
@@ -75,12 +75,6 @@ label {
   margin-top: 10px;
 }
 
-input,
-textarea,
-select {
-  width: 100%;
-}
-
 .form-row {
   display: flex;
   flex-wrap: wrap;
@@ -90,5 +84,9 @@ select {
 .form-column {
   min-width: 200px;
   flex: 1;
+}
+
+.actions-row {
+  justify-content: flex-end;
 }
 </style>
