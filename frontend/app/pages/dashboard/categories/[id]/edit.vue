@@ -20,6 +20,7 @@
             v-model="category.parent_id"
             :items="categoriesItem"
             placeholder="Select a category parent"
+            nullable
             :disabled="i => i.id == category!.id || nodesStore.isDescendant(category!, i.id as string)"
           />
         </div>
