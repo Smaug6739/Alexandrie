@@ -61,7 +61,7 @@
       <div class="group-buttons">
         <VoiceRecognition :class="{ 'no-mobile': mobileSimplifiedView }" @transcription="handleTranscription" />
       </div>
-      <AppSelect v-model="localValue.parent_id" :items="categories" placeholder="Category" class="category-select" />
+      <AppSelect v-model="localValue.parent_id" :items="categories" nullable placeholder="Category" class="category-select" />
     </div>
 
     <!-- Right Section -->
@@ -165,7 +165,7 @@ const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size:
 const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'medium' }));
 
 const nodesTree = useNodesTree();
-const categories = nodesTree.categoriesTree;
+const categories = nodesTree.treeUpToRole(2);
 
 // Tool type with optional shortcut
 interface ToolItem {

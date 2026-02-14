@@ -40,7 +40,7 @@
 
         <div class="filter-group">
           <label class="filter-label">Category</label>
-          <AppSelect v-model="selectedCategory" :items="categoriesTree" :nullable="true" placeholder="All categories" />
+          <AppSelect v-model="selectedCategory" :items="categoriesTree" nullable placeholder="All categories" />
         </div>
 
         <div class="filter-group">
@@ -77,7 +77,7 @@ defineEmits<{ updateSelectedIndex: [index: number] }>();
 
 const nodesStore = useNodesStore();
 const nodesTree = useNodesTree();
-const categoriesTree = nodesTree.categoriesTree;
+const categoriesTree = nodesTree.treeUpToRole(2);
 
 // UI State
 const showFilters = ref(true);

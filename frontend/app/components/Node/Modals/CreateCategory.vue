@@ -5,7 +5,7 @@
     <input id="name" v-model="category.name" class="entry" type="text" required placeholder="Display name" />
     <label>Parent</label>
     <div>
-      <AppSelect v-model="category.parent_id" :nullable="true" class="entry" :items="categoriesItem" placeholder="Select a category parent" />
+      <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" nullable placeholder="Select a category parent" />
     </div>
     <div style="display: flex; flex-wrap: wrap">
       <div style="min-width: 200px; flex: 1; margin-right: 10px">
@@ -14,7 +14,7 @@
       </div>
       <div style="min-width: 200px; flex: 1; margin-left: 10px">
         <label for="color">Color</label>
-        <AppColorPicker id="color" v-model="category.color" class="entry" :nullable="true" />
+        <AppColorPicker id="color" v-model="category.color" class="entry" nullable />
       </div>
     </div>
     <div class="footer">
@@ -35,7 +35,7 @@ const categoriesStore = useNodesStore();
 const nodesTree = useNodesTree();
 const sidebar = useSidebar();
 
-const categoriesItem = nodesTree.categoriesTree;
+const categoriesItem = nodesTree.treeUpToRole(2);
 
 function getDefaultParentId() {
   const activeId = sidebar.active_id.value;
