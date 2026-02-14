@@ -5,7 +5,7 @@
     <input id="name" v-model="category.name" class="entry" type="text" required placeholder="Display name" />
     <label>Parent</label>
     <div>
-      <AppSelect v-model="category.parent_id" nullable class="entry" :items="categoriesItem" placeholder="Select a category parent" />
+      <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" nullable placeholder="Select a category parent" />
     </div>
     <div style="display: flex; flex-wrap: wrap">
       <div style="min-width: 200px; flex: 1; margin-right: 10px">
