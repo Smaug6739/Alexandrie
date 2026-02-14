@@ -18,29 +18,39 @@ import (
 	"github.com/minio/minio-go/v7"
 )
 
+type ResourceConfig struct {
+	MaxUploadsSize       float64
+	SupportedTypes       []string
+	SupportedTypesImages []string
+}
+
 type ResourceService interface {
-	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, parentId *types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error)
-	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error
+	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, parentId *types.Snowflake, userId types.Snowflake) (*models.Node, error)
+	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake) error
 }
 
 type resourceService struct {
-	nodeRepo  repositories.NodeRepository
-	snowflake *snowflake.Snowflake
+	nodeRepo    repositories.NodeRepository
+	snowflake   *snowflake.Snowflake
+	minioClient *minio.Client
+	config      ResourceConfig
 }
 
-func NewResourceService(nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake) ResourceService {
+func NewResourceService(nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake, minioClient *minio.Client, config ResourceConfig) ResourceService {
 	return &resourceService{
-		nodeRepo:  nodeRepo,
-		snowflake: snowflake,
+		nodeRepo:    nodeRepo,
+		snowflake:   snowflake,
+		minioClient: minioClient,
+		config:      config,
 	}
 }
 
-func (s *resourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, parentId *types.Snowflake, maxUploadsSize float64, supportedTypes []string, minioClient *minio.Client) (*models.Node, error) {
-	if minioClient == nil {
+func (s *resourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, parentId *types.Snowflake, userId types.Snowflake) (*models.Node, error) {
+	if s.minioClient == nil {
 		return nil, errors.New("minio client not initialized")
 	}
 
-	if !slices.Contains(supportedTypes, mimeType) {
+	if !slices.Contains(s.config.SupportedTypes, mimeType) {
 		return nil, errors.New("file type not supported")
 	}
 
@@ -48,7 +58,7 @@ func (s *resourceService) UploadFile(filename string, fileSize int64, fileConten
 	if err != nil {
 		return nil, err
 	}
-	if totalSize+fileSize > int64(maxUploadsSize) {
+	if totalSize+fileSize > int64(s.config.MaxUploadsSize) {
 		return nil, errors.New("total size of uploads exceeds the limit")
 	}
 
@@ -88,7 +98,7 @@ func (s *resourceService) UploadFile(filename string, fileSize int64, fileConten
 	}
 
 	objectName := fmt.Sprintf("%d/%d%s", userId, id, ext)
-	_, err = minioClient.PutObject(context.Background(), os.Getenv("MINIO_BUCKET"), objectName, bytes.NewReader(fileContent), fileSize, minio.PutObjectOptions{ContentType: mimeType})
+	_, err = s.minioClient.PutObject(context.Background(), os.Getenv("MINIO_BUCKET"), objectName, bytes.NewReader(fileContent), fileSize, minio.PutObjectOptions{ContentType: mimeType})
 	if err != nil {
 		return nil, err
 	}
@@ -96,16 +106,16 @@ func (s *resourceService) UploadFile(filename string, fileSize int64, fileConten
 	return node, nil
 }
 
-func (s *resourceService) UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake, supportedTypes []string, minioClient *minio.Client) error {
-	if minioClient == nil {
+func (s *resourceService) UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake) error {
+	if s.minioClient == nil {
 		return errors.New("minio client not initialized")
 	}
 
-	if !slices.Contains(supportedTypes, mimeType) {
+	if !slices.Contains(s.config.SupportedTypesImages, mimeType) {
 		return errors.New("file type not supported")
 	}
 
 	objectName := fmt.Sprintf("%d/avatar", userId)
-	_, err := minioClient.PutObject(context.Background(), os.Getenv("MINIO_BUCKET"), objectName, bytes.NewReader(fileContent), fileSize, minio.PutObjectOptions{ContentType: mimeType})
+	_, err := s.minioClient.PutObject(context.Background(), os.Getenv("MINIO_BUCKET"), objectName, bytes.NewReader(fileContent), fileSize, minio.PutObjectOptions{ContentType: mimeType})
 	return err
 }
