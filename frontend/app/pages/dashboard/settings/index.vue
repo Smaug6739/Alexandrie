@@ -7,7 +7,7 @@
     <nav :class="{ open: menuOpen }">
       <span v-if="isModal">Account settings</span>
       <div v-if="isModal && store.user" class="user">
-        <img :src="api.avatarURL(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+        <img :src="avatarURL(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
         <div>
           <div class="username">{{ store.user.username }}</div>
           <div class="email">{{ store.user.email }}</div>
@@ -84,7 +84,7 @@ const emit = defineEmits<{ (e: 'close'): void }>();
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const api = useApi();
+const { avatarURL } = useApi();
 
 const currentPage = ref<PageKey>((route.query.p as PageKey) || 'profile');
 const currentComponent = computed(() => pages[currentPage.value]);

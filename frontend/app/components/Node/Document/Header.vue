@@ -7,7 +7,7 @@
       <template v-else>
         <div class="top-row">
           <p class="user">
-            <img v-if="user" :src="api.avatarURL(user)" class="avatar" />
+            <img v-if="user" :src="avatarURL(user)" class="avatar" />
             <span style="font-size: 16px; color: var(--text-secondary)">{{ user?.username }}</span>
           </p>
           <HeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
@@ -41,7 +41,7 @@ const props = defineProps<{ doc?: Node; public?: boolean }>();
 const store = useUserStore();
 
 const preferences = usePreferences();
-const api = useApi();
+const { avatarURL } = useApi();
 const nodesTree = useNodesTree();
 
 const category = computed(() => nodesTree.getAncestorCategory(props.doc?.parent_id)?.data);
