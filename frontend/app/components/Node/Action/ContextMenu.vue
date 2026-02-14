@@ -29,7 +29,7 @@
       <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />Move to trash<kbd>Del</kbd></button>
     </div>
 
-    <div v-if="preferences.get('developerMode').value" class="menu-group">
+    <div v-if="developerMode" class="menu-group">
       <button class="menu-item" @click="action('copyId')"><Icon name="snippets" />Copy ID</button>
     </div>
   </div>
@@ -54,6 +54,7 @@ const { avatarURL } = useApi();
 
 userStore.fetchPublicUser(props.node.user_id);
 const user = computed(() => userStore.getById(props.node.user_id || ''));
+const developerMode = preferences.get('developerMode');
 
 async function action(name: string) {
   switch (name) {

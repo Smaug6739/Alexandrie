@@ -24,7 +24,7 @@
           <div class="panel-header">
             <span class="panel-label">Preview</span>
           </div>
-          <div ref="markdownPreview" :class="['markdown-preview', `${preferences.get('theme').value}-theme`]" v-html="document.content_compiled" />
+          <div ref="markdownPreview" :class="['markdown-preview', `${theme}-theme`]" v-html="document.content_compiled" />
         </div>
       </div>
     </div>
@@ -54,6 +54,9 @@ const editorContainer = ref<HTMLDivElement>();
 const markdownPreview = ref<HTMLDivElement>();
 const editorView = ref<EditorView | null>(null);
 const showPreview = ref(false);
+
+const theme = preferences.get('theme');
+const autoSaveEnabled = preferences.get('documentAutoSave');
 
 const document = ref<Partial<Node>>({
   ...props.doc,
@@ -94,7 +97,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  if (preferences.get('documentAutoSave').value) {
+  if (autoSaveEnabled.value) {
     updateDocumentContent();
     emit('autoSave', document.value);
   }
@@ -124,7 +127,7 @@ function syncScroll() {
 }
 
 function autoSaveConditional() {
-  if (preferences.get('documentAutoSave').value) {
+  if (autoSaveEnabled.value) {
     autoSave();
   }
 }

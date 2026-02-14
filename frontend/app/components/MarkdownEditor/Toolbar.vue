@@ -67,7 +67,7 @@
     <!-- Right Section -->
     <div class="toolbar-right">
       <!-- Stats Badge -->
-      <div v-if="preferences.get('editorDisplayStats').value" class="stats-badge no-tablet">
+      <div v-if="displayStats" class="stats-badge no-tablet">
         <div class="stat-item">
           <span class="stat-value">{{ stats.words }}</span>
           <span class="stat-label">words</span>
@@ -130,6 +130,7 @@ const props = defineProps<{
 const preferences = usePreferences();
 
 const mobileSimplifiedView = preferences.get('editorSimplifiedViewOnMobile');
+const displayStats = preferences.get('editorDisplayStats');
 
 const stats = computed(() => {
   const content = props.modelValue.content || '';

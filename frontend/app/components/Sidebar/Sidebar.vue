@@ -1,8 +1,8 @@
 <template>
   <div :class="{ 'sidebar-mask': isMobile && isOpened }" />
   <Resizable>
-    <Dock v-if="!isMobile && preferences.get('view_dock').value" />
-    <div class="sidebar" :class="{ compact: preferences.get('compactMode').value }">
+    <Dock v-if="!isMobile && viewDock" />
+    <div class="sidebar" :class="{ compact: compactMode }">
       <section class="header">
         <span class="name">
           <IconApp />
@@ -76,6 +76,9 @@ const nodesTree = useNodesTree();
 const { isOpened, hasSidebar, filtered } = useSidebar();
 const { isMobile } = useDevice();
 const { avatarURL } = useApi();
+
+const viewDock = preferences.get('view_dock');
+const compactMode = preferences.get('compactMode');
 
 const filter = ref<string>('');
 const workspaces = computed(() => [...nodesStore.getAll.filter(c => c.role === 1).map(c => ({ text: c.name, value: c.id, meta: c }))]);

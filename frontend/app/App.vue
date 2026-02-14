@@ -15,8 +15,8 @@ useFavicon();
 const preferences = usePreferences();
 const { setAppColor } = useAppColors();
 
-const primaryColor = computed(() => preferences.get('primaryColor').value);
-const interfaceStyle = computed(() => preferences.get('style').value);
+const primaryColor = preferences.get('primaryColor');
+const interfaceStyle = preferences.get('style');
 
 watch(
   primaryColor,

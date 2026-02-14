@@ -6,20 +6,14 @@
           <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
         </svg>
       </button>
-      <BreadCrumb v-if="preferences.get('navbarItems').value.breadcrumb" />
+      <BreadCrumb v-if="navbarItems.breadcrumb" />
     </div>
     <div>
-      <button
-        v-if="preferences.get('navbarItems').value.search"
-        class="search-btn"
-        title="Command center (Ctrl+K)"
-        aria-label="Command center"
-        @click="openCommandCenter"
-      >
+      <button v-if="navbarItems.search" class="search-btn" title="Command center (Ctrl+K)" aria-label="Command center" @click="openCommandCenter">
         <Icon name="search" />
         <span class="search-text">Type <kbd>/</kbd> to navigate</span>
       </button>
-      <ThemeToggle v-if="preferences.get('navbarItems').value.theme" aria-label="toggle theme" />
+      <ThemeToggle v-if="navbarItems.theme" aria-label="toggle theme" />
     </div>
   </header>
 </template>
@@ -28,6 +22,7 @@
 const { toggleSidebar, isOpened } = useSidebar();
 const preferences = usePreferences();
 
+const navbarItems = preferences.get('navbarItems');
 const openCommandCenter = () => useCommandCenter().open();
 </script>
 
