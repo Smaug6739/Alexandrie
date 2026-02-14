@@ -32,7 +32,7 @@
       <textarea v-model="category.icon" type="text" rows="5" />
 
       <label for="color">Color</label>
-      <AppColorPicker v-model="category.color" name="color" :nullable="true" />
+      <AppColorPicker v-model="category.color" name="color" nullable />
 
       <div class="actions-row">
         <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>

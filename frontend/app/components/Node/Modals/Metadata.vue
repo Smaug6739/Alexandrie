@@ -30,12 +30,12 @@
         v-model="node.parent_id"
         :items="parentsTree"
         placeholder="Select a parent"
-        :nullable="true"
+        nullable
         :disabled="i => i.id == node.id || nodeStore.isDescendant(node, i.id as string)"
       />
       <div class="inline-input">
         <label for="accessibility">Color</label>
-        <AppColorPicker v-model="node.color" :nullable="true" />
+        <AppColorPicker v-model="node.color" nullable />
       </div>
     </form>
   </div>
