@@ -5,25 +5,19 @@
       <div :style="{ maxWidth: width }" class="doc-container">
         <NodeDocumentHeader :doc="node" style="margin-bottom: 20px" />
 
-        <article
-          v-if="node"
-          ref="element"
-          :class="`${node.theme || preferencesStore.get('theme').value}-theme`"
-          style="max-width: 100%"
-          v-html="node.content_compiled"
-        />
+        <article v-if="node" ref="element" :class="`${node.theme || theme}-theme`" style="max-width: 100%" v-html="node.content_compiled" />
         <NodeDocumentSkeleton v-else />
         <NodeDocumentFooter :document="node" :next="next" :previous="previous" />
       </div>
 
-      <div v-if="!devise.isTablet.value && !preferencesStore.get('hideTOC').value" class="toc">
+      <div v-if="!devise.isTablet.value && !hideTOC" class="toc">
         <NodeTOC :doc="node" :element="element" style="width: 320px; margin-left: 20px" />
       </div>
 
       <div
         class="no-print"
         :style="{
-          marginRight: !devise.isTablet.value && preferencesStore.get('hideTOC').value && sidebar.isOpened.value ? '200px' : '0px',
+          marginRight: !devise.isTablet.value && hideTOC && sidebar.isOpened.value ? '200px' : '0px',
           transition: 'margin var(--transition-medium)',
         }"
       />
@@ -45,6 +39,10 @@ const sidebar = useSidebar();
 const nodesTree = useNodesTree();
 const route = useRoute();
 const router = useRouter();
+
+const hideTOC = preferencesStore.get('hideTOC');
+const theme = preferencesStore.get('theme');
+const docSize = preferencesStore.get('docSize');
 
 const element = ref<HTMLElement>();
 const node = ref<Node | undefined>();
@@ -79,8 +77,8 @@ definePageMeta({
 const next = computed(() => nodesTree.nextDocument(node.value?.id));
 const previous = computed(() => nodesTree.prevDocument(node.value?.id));
 const width = computed(() => {
-  if (preferencesStore.get('docSize').value == 2) return '980px';
-  if (preferencesStore.get('docSize').value == 1) return '800px';
+  if (docSize.value == 2) return '980px';
+  if (docSize.value == 1) return '800px';
   return '700px';
 });
 

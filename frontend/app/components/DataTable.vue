@@ -83,13 +83,13 @@
 import { Paginator } from '../helpers/paginator';
 
 const props = defineProps<{ headers: Header[]; rows: Field[] }>();
-const itemsPerPage = ref(usePreferences().get('datatableItemsCount').value || 10);
+const itemsPerPage = usePreferences().get('datatableItemsCount');
 const searchInput = ref('');
 
 // Pagination + filter
 const paginator = new Paginator<Field>(
   computed(() => props.rows),
-  itemsPerPage.value,
+  itemsPerPage.value || 10,
 );
 paginator.filter(row => {
   return Object.values(row).some(value => value.content?.toLowerCase().includes(searchInput.value.toLowerCase()));

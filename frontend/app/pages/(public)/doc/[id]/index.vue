@@ -5,7 +5,7 @@
       v-if="!error && article"
       class="reader"
       :style="{
-        marginRight: !isTablet && preferencesStore.get('hideTOC').value && isOpened && hasContent ? '200px' : '0px',
+        marginRight: !isTablet && hideTOC && isOpened && hasContent ? '200px' : '0px',
         transition: 'margin $transition-medium',
       }"
     >
@@ -14,20 +14,14 @@
         <NodeDocumentHeader :doc="article" :public="true" style="margin: 20px 0" />
 
         <!-- Document content if available -->
-        <article
-          v-if="hasContent"
-          ref="element"
-          :class="`${article.theme || preferencesStore.get('theme').value}-theme`"
-          style="max-width: 100%"
-          v-html="article.content_compiled"
-        />
+        <article v-if="hasContent" ref="element" :class="`${article.theme || theme}-theme`" style="max-width: 100%" v-html="article.content_compiled" />
 
         <!-- Hierarchical children tree -->
         <NodeTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />
       </div>
 
       <!-- Table of contents only for documents with content -->
-      <div v-if="!isTablet && !preferencesStore.get('hideTOC').value && hasContent" class="toc">
+      <div v-if="!isTablet && !hideTOC && hasContent" class="toc">
         <NodeTOC :doc="article" :element="element" />
       </div>
     </div>
@@ -52,6 +46,9 @@ const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const { isOpened } = useSidebar();
 const { isTablet } = useDevice();
+
+const hideTOC = preferencesStore.get('hideTOC');
+const theme = preferencesStore.get('theme');
 
 const element = ref<HTMLElement>();
 const children = ref<Node[]>([]);

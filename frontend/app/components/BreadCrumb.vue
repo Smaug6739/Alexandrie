@@ -1,7 +1,7 @@
 <template>
   <nav class="no-mobile" aria-label="Breadcrumb">
     <svg
-      v-if="preferences.get('navbarItems').value.navigation"
+      v-if="hasNavigation.navigation"
       :class="{ disabled: !canGoBack, 'no-tablet': true }"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 -960 960 960"
@@ -11,7 +11,7 @@
     </svg>
 
     <svg
-      v-if="preferences.get('navbarItems').value.navigation"
+      v-if="hasNavigation.navigation"
       :class="{ disabled: !canGoForward, 'no-tablet': true }"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 -960 960 960"
@@ -39,6 +39,7 @@ const breadcrumbs = ref<Array<{ name: string; path: string }>>([]);
 
 const canGoBack = ref(false);
 const canGoForward = ref(false);
+const hasNavigation = preferences.get('navbarItems');
 
 // Renamed for clarity
 const goBack = () => router.go(-1);
@@ -65,7 +66,7 @@ watchEffect(() => {
     if (typeof meta === 'function') {
       name = meta(route);
     } else {
-      name = meta;
+      name = meta as string;
     }
 
     if (!name) return;

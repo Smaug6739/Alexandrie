@@ -1,5 +1,5 @@
 <template>
-  <div class="header" :class="{ 'print-style': preferences.get('printMode').value }">
+  <div class="header" :class="{ 'print-style': printMode }">
     <div class="container">
       <!-- Skeleton when doc is undefined -->
       <HeaderSkeleton v-if="!doc" />
@@ -36,14 +36,18 @@ import Thumbnail from './Thumbnail.vue';
 import HeaderSkeleton from './HeaderSkeleton.vue';
 import HeaderActionRow from './HeaderActionRow.vue';
 
+const props = defineProps<{ doc?: Node; public?: boolean }>();
+
+const store = useUserStore();
+
 const preferences = usePreferences();
 const api = useApi();
 const nodesTree = useNodesTree();
 
-const props = defineProps<{ doc?: Node; public?: boolean }>();
 const category = computed(() => nodesTree.getAncestorCategory(props.doc?.parent_id)?.data);
-const store = useUserStore();
 const user = ref<PublicUser | null>(null);
+const printMode = preferences.get('printMode');
+
 watchEffect(() => {
   if (props.doc) store.fetchPublicUser(props.doc.user_id).then(u => (user.value = u));
 });
