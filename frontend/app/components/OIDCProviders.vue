@@ -1,6 +1,6 @@
 <template>
   <div v-if="isEnabled && providers.length > 0" class="oidc-providers">
-    <div class="divider">
+    <div v-if="!noDivider" class="divider">
       <span>or continue with</span>
     </div>
     <div class="providers-grid">
@@ -22,6 +22,11 @@
 
 <script setup lang="ts">
 import { getProviderConfig } from '~/helpers/oidc-providers';
+
+defineProps<{
+  noDivider?: boolean;
+}>();
+
 const { providers, isEnabled, isLoading, fetchProviders, loginWithProvider } = useOIDC();
 
 onMounted(() => {
@@ -112,11 +117,6 @@ onMounted(() => {
   align-items: center;
   flex-shrink: 0;
   justify-content: center;
-
-  :deep(svg) {
-    width: 100%;
-    height: 100%;
-  }
 }
 
 .provider-label {

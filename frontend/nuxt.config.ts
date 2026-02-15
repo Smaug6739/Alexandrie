@@ -13,6 +13,7 @@ export default defineNuxtConfig({
       // Feature flags
       configDisableSignupPage: '',
       configDisableLandingPage: '',
+      configDisableNativeLogin: false,
     },
   },
   vite: {
