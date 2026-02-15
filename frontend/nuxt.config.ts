@@ -102,6 +102,22 @@ export default defineNuxtConfig({
           purpose: 'any',
         },
       ],
+      share_target: {
+        action: '/dashboard/share-target',
+        method: 'POST',
+        enctype: 'multipart/form-data',
+        params: {
+          title: 'title',
+          text: 'text',
+          url: 'url',
+          files: [
+            {
+              name: 'files',
+              accept: ['image/*', 'application/pdf', 'text/*', 'application/json', '.md', '.txt', '.json', '.csv'],
+            },
+          ],
+        },
+      },
       screenshots: [
         {
           src: '/screenshots/mock/1.png',
@@ -133,31 +149,13 @@ export default defineNuxtConfig({
         },
       ],
     },
+    strategies: 'injectManifest',
+    srcDir: '.',
+    filename: 'sw.ts',
     base: '/',
-    workbox: {
+    injectManifest: {
       maximumFileSizeToCacheInBytes: 3000000,
-      navigateFallback: null,
       globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-      runtimeCaching: [
-        // Pages HTML (navigation)
-        {
-          urlPattern: ({ request }) => request.mode === 'navigate',
-          handler: 'NetworkFirst',
-          options: {
-            networkTimeoutSeconds: 3,
-          },
-        },
-        {
-          // Api cache: match /api calls
-          urlPattern: ({ url }) => {
-            return url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/backup/');
-          },
-          handler: 'NetworkFirst',
-          options: {
-            cacheName: 'api-cache',
-          },
-        },
-      ],
     },
   },
 

@@ -34,6 +34,9 @@
 .page-title {
 	font-size: 1.7rem;
 	font-weight: bold;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
 }
 
 .page-subtitle {
