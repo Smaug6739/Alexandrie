@@ -4,38 +4,35 @@
     <div class="body-container">
       <IconApp style="width: 120px" />
       <h1>Connection</h1>
-      <template v-if="!loginDisabled">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
-          <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" :disabled="loginDisabled" />
+        <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input">
+          <input
+            id="password"
+            :key="`password-${showPassword}`"
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            :class="{ 'is-invalid': errors.password }"
+            :disabled="loginDisabled"
+          />
+          <button type="button" class="password-toggle" @click="togglePassword">
+            <div class="eye-icon" :class="{ show: showPassword }">
+              <Icon v-if="showPassword" name="eye" />
+              <Icon v-else name="eye_off" />
+            </div>
+          </button>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <div class="password-input">
-            <input
-              id="password"
-              :key="`password-${showPassword}`"
-              v-model="password"
-              :type="showPassword ? 'text' : 'password'"
-              :class="{ 'is-invalid': errors.password }"
-            />
-            <button type="button" class="password-toggle" @click="togglePassword">
-              <div class="eye-icon" :class="{ show: showPassword }">
-                <Icon v-if="showPassword" name="eye" />
-                <Icon v-else name="eye_off" />
-              </div>
-            </button>
-          </div>
-          <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
-        </div>
-        <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-        <button class="btn" @click="login">Login</button>
-        <OIDCProviders :no-divider="loginDisabled" />
-      </template>
-      <template v-else>
-        <OIDCProviders :no-divider="loginDisabled" />
-      </template>
+        <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
+      </div>
+      <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
+      <button class="btn" :disabled="loginDisabled" @click="login">Login</button>
+      <p v-if="loginDisabled" class="disabled">Native login is currently disabled. Please use one of the available authentication providers below.</p>
+      <OIDCProviders />
 
       <p v-if="errors.general" class="invalid-feedback general">{{ errors.general }}</p>
       <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
@@ -146,6 +143,10 @@ h1 {
 input {
   width: 100%;
   padding: 0.6rem;
+  &:disabled {
+    background: var(--surface-transparent);
+    cursor: not-allowed;
+  }
 }
 
 /* ===== Password ===== */
@@ -178,7 +179,12 @@ input {
     transform: translateY(-50%) scale(0.95);
   }
 }
-
+.disabled {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+}
 .eye-icon {
   display: flex;
   width: 20px;
@@ -250,6 +256,10 @@ input {
 
   &:active {
     transform: translateY(0);
+  }
+  &:disabled {
+    cursor: not-allowed;
+    transform: none;
   }
 }
 

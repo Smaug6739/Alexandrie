@@ -1,6 +1,6 @@
 <template>
   <div v-if="isEnabled && providers.length > 0" class="oidc-providers">
-    <div v-if="!noDivider" class="divider">
+    <div class="divider">
       <span>or continue with</span>
     </div>
     <div class="providers-grid">
@@ -22,10 +22,6 @@
 
 <script setup lang="ts">
 import { getProviderConfig } from '~/helpers/oidc-providers';
-
-defineProps<{
-  noDivider?: boolean;
-}>();
 
 const { providers, isEnabled, isLoading, fetchProviders, loginWithProvider } = useOIDC();
 
