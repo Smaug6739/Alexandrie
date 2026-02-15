@@ -41,9 +41,9 @@ const resolvePreviewUrl = (node: Node): string => {
 const resolveFileIcon = (mimeType: string) => {
   if (mimeType.startsWith('image/')) return 'image';
   if (mimeType.startsWith('video/')) return 'video';
-  if (mimeType.startsWith('audio/')) return 'music';
-  if (mimeType.includes('pdf')) return 'pdf';
-  return 'file';
+  if (mimeType.startsWith('audio/')) return 'sidebar/music';
+  if (mimeType.includes('pdf')) return 'sidebar/pdf';
+  return 'sidebar/attachment';
 };
 
 /** Get human-readable type name for a file based on its MIME type */
