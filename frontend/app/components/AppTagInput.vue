@@ -15,8 +15,8 @@
           @focus="showSuggestions = true"
           @blur="hideSuggestions"
         />
-        <button v-if="!minimal" class="add-tag-btn" @click="addTag()">
-          <Icon name="plus" fill="#fff" />
+        <button :class="minimal ? 'add-tag-btn-min' : 'add-tag-btn'" @click="addTag()">
+          <Icon name="plus" fill="inherit" />
         </button>
       </div>
       <div v-if="showSuggestions && filteredTagSuggestions.length > 0" class="tag-suggestions">
@@ -152,7 +152,7 @@ function removeTag(tag: string) {
 }
 
 input {
-  min-width: 150px;
+  min-width: 200px;
   flex: 1;
 
   &:focus {
@@ -162,7 +162,7 @@ input {
   &.minimal {
     padding: 6px 8px;
     border: none;
-    font-size: 12px;
+    font-size: 13px;
 
     &:hover,
     &:focus {
@@ -184,6 +184,20 @@ input {
 
   &:hover {
     background: var(--primary-dark);
+  }
+}
+
+.add-tag-btn-min {
+  display: flex;
+  padding: 4px;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--text-body);
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  &:hover {
+    background: var(--surface-transparent);
   }
 }
 
