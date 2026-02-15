@@ -24,7 +24,7 @@
           <div class="panel-header">
             <span class="panel-label">Preview</span>
           </div>
-          <div ref="markdownPreview" :class="['markdown-preview', `${theme}-theme`]" v-html="document.content_compiled" />
+          <NodeDocumentContentCompiled ref="markdownPreviewComponent" :node="document" />
         </div>
       </div>
     </div>
@@ -40,6 +40,7 @@ import { createUploadsHandlers } from './modules/editorUploads';
 import { createSnippetSource } from './modules/editorUtils';
 import { createCommands } from './modules/editorCommands';
 import Toolbar from './Toolbar.vue';
+import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 
 import compile from '~/helpers/markdown';
 import type { Node } from '~/stores';
@@ -51,11 +52,11 @@ const props = defineProps<{ doc?: Partial<Node> }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
 
 const editorContainer = ref<HTMLDivElement>();
-const markdownPreview = ref<HTMLDivElement>();
+const markdownPreviewComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
+const markdownPreview = computed(() => markdownPreviewComponent.value?.rootElement as HTMLElement | undefined);
 const editorView = ref<EditorView | null>(null);
 const showPreview = ref(false);
 
-const theme = preferences.get('theme');
 const autoSaveEnabled = preferences.get('documentAutoSave');
 
 const document = ref<Partial<Node>>({

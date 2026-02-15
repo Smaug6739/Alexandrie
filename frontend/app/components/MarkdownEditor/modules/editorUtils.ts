@@ -43,7 +43,7 @@ function isInsideMath(context: CompletionContext): boolean {
   return singleCountBefore % 2 === 1;
 }
 
-export function createSnippetSource(preferences: ReturnType<typeof import('~/composables/Preferences').usePreferences>) {
+export function createSnippetSource(preferences: ReturnType<typeof import('~/composables/usePreferences').usePreferences>) {
   return function snippetSource(context: CompletionContext) {
     if (!preferences.get('editorSnippetsEnabled').value) return null;
     const allSnippets = preferences.get('snippets').value;

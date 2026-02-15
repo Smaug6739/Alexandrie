@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { DOCUMENT_SIZES, DOCUMENT_THEMES } from '~/helpers/constants';
+import { DOCUMENT_SIZES, DOCUMENT_THEMES, EDITOR_FONTS } from '~/helpers/constants';
 
 type InterfaceOption = Option & {
   tag?: string;
@@ -25,7 +25,6 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
         key: 'printMode',
       },
       { label: 'Hide Table of Content', type: 'toggle', key: 'hideTOC' },
-      { label: 'Enable Document auto-save', type: 'toggle', key: 'documentAutoSave' },
       {
         label: 'Document size',
         type: 'radio',
@@ -38,6 +37,25 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
         type: 'select',
         key: 'theme',
         choices: DOCUMENT_THEMES,
+      },
+      {
+        label: 'Default font size',
+        description: 'Set the default font size for all your documents.',
+        type: 'number',
+        key: 'documentFontSize',
+      },
+      {
+        label: 'Default font family',
+        description: 'Set the default font family for all your documents.',
+        type: 'select',
+        choices: EDITOR_FONTS,
+        key: 'documentFontFamily',
+      },
+      {
+        label: 'Default line height',
+        description: 'Set the default line height for all your documents.',
+        type: 'number',
+        key: 'documentLineHeight',
       },
     ],
   },

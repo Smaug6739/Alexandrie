@@ -18,6 +18,9 @@ export const DEFAULT_PREFERENCES = {
   style: 'default' as 'default' | 'glassmorphism',
   theme: 'alexandrie' as string,
   documentAutoSave: true as boolean, // Enable automatic saving of documents
+  documentFontSize: 16 as number,
+  documentFontFamily: 'Poppins' as string,
+  documentLineHeight: 1.5 as number,
   sidebarItems: {
     manageCategories: true as boolean,
     cdn: true as boolean,
@@ -50,6 +53,10 @@ export const DEFAULT_PREFERENCES = {
   editorSnippetsEnabled: true as boolean,
   editorSimplifiedViewOnMobile: true as boolean,
   developerMode: false as boolean,
+  stylesInjectionEnabled: false as boolean,
+  stylesInjection: '' as string,
+  stylesDocumentsInjection: '' as string,
+  defaultUploadFolder: null as string | null,
 };
 
 // Crée un type mapping automatique : chaque clé => type exact
@@ -113,7 +120,7 @@ export function usePreferences() {
   };
 }
 
-type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode';
+type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode' | 'textarea' | 'number';
 interface BaseOption<K extends PreferenceKey = PreferenceKey> {
   label: string;
   description?: string;
@@ -152,5 +159,21 @@ interface AnodeOption<K extends PreferenceKey = PreferenceKey> extends BaseOptio
   onChange?: (value: Preferences[K]) => void;
 }
 
-export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption | AnodeOption;
-export type { ColorOption, SelectOption, RadioOption, ToggleOption, GroupCheckboxOption, AnodeOption };
+interface TextareaOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
+  type: 'textarea';
+  placeholder?: string;
+  rows?: number;
+  language?: string;
+  onChange?: (value: Preferences[K]) => void;
+}
+
+interface NumberOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
+  type: 'number';
+  min?: number;
+  max?: number;
+  step?: number;
+  onChange?: (value: Preferences[K]) => void;
+}
+
+export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption | AnodeOption | TextareaOption | NumberOption;
+export type { ColorOption, SelectOption, RadioOption, ToggleOption, GroupCheckboxOption, AnodeOption, TextareaOption, NumberOption };

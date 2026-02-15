@@ -81,11 +81,18 @@ const headers_tree = computed(() => buildTree(getHeaders(headers.value)));
 
 const marker = ref<HTMLElement>();
 
-onMounted(() => document.addEventListener('scroll', updateActiveHeader, { passive: true }));
-onBeforeUnmount(() => document.removeEventListener('scroll', updateActiveHeader));
+const appElement = ref<HTMLElement | null>(null);
+
+onMounted(() => {
+  appElement.value = document.getElementById('app');
+  appElement.value?.addEventListener('scroll', updateActiveHeader, { passive: true });
+});
+onBeforeUnmount(() => appElement.value?.removeEventListener('scroll', updateActiveHeader));
 
 function updateActiveHeader() {
-  const scrollPosition = window.scrollY + window.innerHeight / 4; // quart de la hauteur écran
+  if (!appElement.value) return;
+  const scrollTop = appElement.value.scrollTop;
+  const scrollPosition = scrollTop + window.innerHeight / 4;
   let activeHeader: HTMLElement | null = null;
 
   for (const header of headers.value) {

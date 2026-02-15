@@ -1,5 +1,5 @@
 <template>
-  <div :class="['component', isModal ? 'modal' : '']">
+  <div :class="['component', isModal ? 'modal' : '']" @keydown.stop>
     <button class="menu-toggle" @click="menuOpen = !menuOpen">
       <Icon :name="menuOpen ? 'close' : 'menu'" />
       {{ menuOpen ? 'Close menu' : 'Menu' }}
@@ -14,7 +14,9 @@
         </div>
       </div>
       <template v-for="section in navSections" :key="section.title">
-        <span>{{ section.title }}</span>
+        <span
+          >{{ section.title }} <tag v-if="section.tag" blue>{{ section.tag }}</tag></span
+        >
         <template v-for="item in section.items" :key="item.label">
           <NuxtLink v-if="item.type === 'link'" :to="item.to" @click="close"> <Icon :name="item.icon" />{{ item.label }} </NuxtLink>
           <NuxtLink v-else-if="item.type === 'action'" @click="item.action?.()"> <Icon :name="item.icon" />{{ item.label }} </NuxtLink>
@@ -40,6 +42,8 @@ import SnippetsView from './_views/snippets.vue';
 import MarkdownView from './_views/markdown.vue';
 import AboutView from './_views/about.vue';
 import AdvancedView from './_views/advanced.vue';
+import OtherView from './_views/other.vue';
+import StylesView from './_views/styles.vue';
 
 type PageKey = keyof typeof pages;
 
@@ -54,6 +58,7 @@ interface NavItem {
 
 interface NavSection {
   title: string;
+  tag?: string;
   items: NavItem[];
 }
 
@@ -69,6 +74,8 @@ const pages = {
   markdown: MarkdownView,
   about: AboutView,
   advanced: AdvancedView,
+  other: OtherView,
+  styles: StylesView,
 } as const;
 
 defineProps<{ isModal?: boolean }>();
@@ -94,16 +101,18 @@ const navSections: NavSection[] = [
     title: 'General',
     items: [
       { key: 'profile', label: 'My profile', icon: 'profil' },
-      { key: 'apparence', label: 'Apparence', icon: 'brush' },
+      { key: 'apparence', label: 'Apparence', icon: 'brush', bubble: true },
       { key: 'security', label: 'Security', icon: 'security' },
     ],
   },
   {
     title: 'Preferences',
+    tag: 'New',
     items: [
       { key: 'documents', label: 'Documents settings', icon: 'bookmark-stack' },
       { key: 'editor', label: 'Editor settings', icon: 'editor' },
-      { key: 'advanced', label: 'Advanced', icon: 'advanced' },
+      { key: 'styles', label: 'Styles injection', icon: 'styles' },
+      { key: 'other', label: 'Other', icon: 'advanced' },
     ],
   },
   {
@@ -111,6 +120,7 @@ const navSections: NavSection[] = [
     items: [
       { key: 'snippets', label: 'Snippets', icon: 'snippets' },
       { key: 'backup', label: 'Backup', icon: 'backup' },
+      { key: 'advanced', label: 'Advanced', icon: 'build' },
     ],
   },
   {
