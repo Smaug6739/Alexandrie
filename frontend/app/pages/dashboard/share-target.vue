@@ -80,7 +80,7 @@ const sharedFiles = ref<{ name: string; file: File; preview?: string }[]>([]);
 const parentId = ref<string | undefined>(undefined);
 const processing = ref(false);
 
-const categories = nodesTree.categoriesTree;
+const categories = nodesTree.treeUpToRole(2);
 
 onMounted(async () => {
   await retrieveSharedData();

@@ -13,7 +13,7 @@ type InterfaceOption = Option & {
 };
 
 const nodesTree = useNodesTree();
-const categories = nodesTree.categoriesTree.value;
+const categories = nodesTree.treeUpToRole(2).value;
 
 const options: Array<{ label: string; options: InterfaceOption[] }> = [
   {
