@@ -53,6 +53,17 @@
         spellcheck="false"
         @input="opt.onChange?.(p(opt.key).value)"
       />
+
+      <!-- Number -->
+      <input
+        v-else-if="opt.type === 'number'"
+        v-model.number="p(opt.key).value"
+        type="number"
+        class="entry number-entry"
+        :min="opt.min"
+        :max="opt.max"
+        :step="opt.step"
+      />
     </div>
   </div>
 </template>
@@ -132,5 +143,8 @@ h3 {
     color: var(--text-secondary);
     opacity: 0.7;
   }
+}
+.number-entry {
+  width: 40%;
 }
 </style>

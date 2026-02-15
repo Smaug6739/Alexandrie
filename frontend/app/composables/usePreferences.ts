@@ -18,6 +18,9 @@ export const DEFAULT_PREFERENCES = {
   style: 'default' as 'default' | 'glassmorphism',
   theme: 'alexandrie' as string,
   documentAutoSave: true as boolean, // Enable automatic saving of documents
+  documentFontSize: 16 as number,
+  documentFontFamily: 'Poppins' as string,
+  documentLineHeight: 1.5 as number,
   sidebarItems: {
     manageCategories: true as boolean,
     cdn: true as boolean,
@@ -117,7 +120,7 @@ export function usePreferences() {
   };
 }
 
-type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode' | 'textarea';
+type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'anode' | 'textarea' | 'number';
 interface BaseOption<K extends PreferenceKey = PreferenceKey> {
   label: string;
   description?: string;
@@ -164,5 +167,13 @@ interface TextareaOption<K extends PreferenceKey = PreferenceKey> extends BaseOp
   onChange?: (value: Preferences[K]) => void;
 }
 
-export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption | AnodeOption | TextareaOption;
-export type { ColorOption, SelectOption, RadioOption, ToggleOption, GroupCheckboxOption, AnodeOption, TextareaOption };
+interface NumberOption<K extends PreferenceKey = PreferenceKey> extends BaseOption<K> {
+  type: 'number';
+  min?: number;
+  max?: number;
+  step?: number;
+  onChange?: (value: Preferences[K]) => void;
+}
+
+export type Option = ToggleOption | ColorOption | SelectOption | RadioOption | GroupCheckboxOption | AnodeOption | TextareaOption | NumberOption;
+export type { ColorOption, SelectOption, RadioOption, ToggleOption, GroupCheckboxOption, AnodeOption, TextareaOption, NumberOption };

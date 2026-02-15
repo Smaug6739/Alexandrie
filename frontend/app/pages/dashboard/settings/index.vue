@@ -14,7 +14,9 @@
         </div>
       </div>
       <template v-for="section in navSections" :key="section.title">
-        <span>{{ section.title }}</span>
+        <span
+          >{{ section.title }} <tag v-if="section.tag" blue>{{ section.tag }}</tag></span
+        >
         <template v-for="item in section.items" :key="item.label">
           <NuxtLink v-if="item.type === 'link'" :to="item.to" @click="close"> <Icon :name="item.icon" />{{ item.label }} </NuxtLink>
           <NuxtLink v-else-if="item.type === 'action'" @click="item.action?.()"> <Icon :name="item.icon" />{{ item.label }} </NuxtLink>
@@ -56,6 +58,7 @@ interface NavItem {
 
 interface NavSection {
   title: string;
+  tag?: string;
   items: NavItem[];
 }
 
@@ -98,12 +101,13 @@ const navSections: NavSection[] = [
     title: 'General',
     items: [
       { key: 'profile', label: 'My profile', icon: 'profil' },
-      { key: 'apparence', label: 'Apparence', icon: 'brush' },
+      { key: 'apparence', label: 'Apparence', icon: 'brush', bubble: true },
       { key: 'security', label: 'Security', icon: 'security' },
     ],
   },
   {
     title: 'Preferences',
+    tag: 'New',
     items: [
       { key: 'documents', label: 'Documents settings', icon: 'bookmark-stack' },
       { key: 'editor', label: 'Editor settings', icon: 'editor' },

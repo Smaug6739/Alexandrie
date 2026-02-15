@@ -19,7 +19,7 @@
 
 .latex-theme {
 	max-width: 100%;
-	font-family: "LMRoman10", serif;
+	font-family: "LMRoman10", serif !important;
 	font-size: 17px;
 
 	h1 {
@@ -106,7 +106,7 @@
 		font-size: 18px;
 
 		.text {
-			font-family: 'Libertinus Math', serif;
+			font-family: 'Libertinus Math', serif !important;
 			font-size: 14px;
 		}
 	}
@@ -115,7 +115,7 @@
 
 .latex-colored-theme {
 	max-width: 100%;
-	font-family: "LMRoman10", serif;
+	font-family: "LMRoman10", serif !important;
 	font-size: 17px;
 
 	h1 {
@@ -250,7 +250,7 @@
 		font-size: 18px;
 
 		.text {
-			font-family: 'Libertinus Math', serif;
+			font-family: 'Libertinus Math', serif !important;
 			font-size: 14px;
 		}
 	}
@@ -260,7 +260,7 @@
 .modern-theme {
 	max-width: 100%;
 	padding: 0 0.5rem;
-	font-family: $font-sans;
+	font-family: $font-sans !important;
 	font-size: 16px;
 	color: var(--text-body);
 
@@ -302,7 +302,6 @@
 	code,
 	pre {
 		border-radius: var(--radius-sm);
-		font-family: 'Roboto Mono', monospace;
 		font-size: 0.95em;
 		color: var(--text-body);
 	}
@@ -416,7 +415,7 @@
 		font-size: 18px;
 
 		.text {
-			font-family: 'Libertinus Math', serif;
+			font-family: 'Libertinus Math', serif !important;
 			font-size: 14px;
 		}
 	}

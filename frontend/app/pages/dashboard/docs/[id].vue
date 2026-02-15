@@ -5,13 +5,7 @@
       <div :style="{ maxWidth: width }" class="doc-container">
         <NodeDocumentHeader :doc="node" style="margin-bottom: 20px" />
 
-        <article
-          v-if="node"
-          ref="element"
-          :class="[`${node.theme || theme}-theme`, 'document-content']"
-          style="max-width: 100%"
-          v-html="node.content_compiled"
-        />
+        <NodeDocumentContentCompiled v-if="node" ref="elementComponent" :node="node" />
         <NodeDocumentSkeleton v-else />
         <NodeDocumentFooter :document="node" :next="next" :previous="previous" />
       </div>
@@ -34,6 +28,7 @@
 <script setup lang="ts">
 import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
+import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 import type { Node } from '~/stores';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
@@ -47,10 +42,11 @@ const route = useRoute();
 const router = useRouter();
 
 const hideTOC = preferencesStore.get('hideTOC');
-const theme = preferencesStore.get('theme');
 const docSize = preferencesStore.get('docSize');
 
-const element = ref<HTMLElement>();
+const elementComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
+const element = computed(() => elementComponent.value?.rootElement as HTMLElement | undefined);
+
 const node = ref<Node | undefined>();
 const error = ref<false | string>(false);
 

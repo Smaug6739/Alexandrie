@@ -14,13 +14,7 @@
         <NodeDocumentHeader :doc="article" :public="true" style="margin: 20px 0" />
 
         <!-- Document content if available -->
-        <article
-          v-if="hasContent"
-          ref="element"
-          :class="[`${article.theme || theme}-theme`, 'document-content']"
-          style="max-width: 100%"
-          v-html="article.content_compiled"
-        />
+        <NodeDocumentContentCompiled v-if="hasContent" :node="article" ref="elementComponent" />
 
         <!-- Hierarchical children tree -->
         <NodeTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />
@@ -43,6 +37,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 import type { Node } from '~/stores';
 
 const documentsStore = useNodesStore();
@@ -54,10 +49,10 @@ const { isOpened } = useSidebar();
 const { isTablet } = useDevice();
 
 const hideTOC = preferencesStore.get('hideTOC');
-const theme = preferencesStore.get('theme');
 
-const element = ref<HTMLElement>();
 const children = ref<Node[]>([]);
+const elementComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
+const element = computed(() => elementComponent.value?.rootElement as HTMLElement | undefined);
 
 const { data: article, error } = await useAsyncData(`public-doc-${route.params.id}`, async (): Promise<Node | undefined> => {
   const documentId = route.params.id;
