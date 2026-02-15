@@ -5,3 +5,6 @@ minio.exe
 main.exe
 data
 .env
+
+# Development (debug & test files)
+test.vue
