@@ -13,14 +13,6 @@
       <div v-if="!devise.isTablet.value && !hideTOC" class="toc">
         <NodeTOC :doc="node" :element="element" style="width: 320px; margin-left: 20px" />
       </div>
-
-      <div
-        class="no-print"
-        :style="{
-          marginRight: !devise.isTablet.value && hideTOC && sidebar.isOpened.value ? '200px' : '0px',
-          transition: 'margin var(--transition-medium)',
-        }"
-      />
     </div>
     <Error v-else :error="error" />
   </div>
@@ -36,7 +28,6 @@ const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
 
 const devise = useDevice();
-const sidebar = useSidebar();
 const nodesTree = useNodesTree();
 const route = useRoute();
 const router = useRouter();
