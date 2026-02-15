@@ -60,6 +60,11 @@ type AuthClaims struct {
 }
 
 func (ctr *Controller) Login(c *gin.Context) (int, any) {
+
+	if disabled := os.Getenv("CONFIG_DISABLE_NATIVE_LOGIN"); disabled == "true" {
+		return http.StatusForbidden, errors.New("native login is disabled")
+	}
+
 	var authClaims AuthClaims
 	if err := c.ShouldBind(&authClaims); err != nil {
 		return http.StatusBadRequest, err

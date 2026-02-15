@@ -6,7 +6,7 @@
       <h1>Connection</h1>
       <div class="form-group">
         <label for="username">Username</label>
-        <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
+        <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" :disabled="loginDisabled" />
         <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
       </div>
       <div class="form-group">
@@ -18,6 +18,7 @@
             v-model="password"
             :type="showPassword ? 'text' : 'password'"
             :class="{ 'is-invalid': errors.password }"
+            :disabled="loginDisabled"
           />
           <button type="button" class="password-toggle" @click="togglePassword">
             <div class="eye-icon" :class="{ show: showPassword }">
@@ -29,12 +30,12 @@
         <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
       </div>
       <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-      <button class="btn" @click="login">Login</button>
-      <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-      <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
-
-      <!-- OIDC Providers -->
+      <button class="btn" :disabled="loginDisabled" @click="login">Login</button>
+      <p v-if="loginDisabled" class="disabled">Native login is currently disabled. Please use one of the available authentication providers below.</p>
       <OIDCProviders />
+
+      <p v-if="errors.general" class="invalid-feedback general">{{ errors.general }}</p>
+      <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
     </div>
     <AppFooter />
   </div>
@@ -44,13 +45,18 @@
 import AppHeader from '../_components/AppHeader.vue';
 import AppFooter from '../_components/AppFooter.vue';
 
+const userStore = useUserStore();
+
 const router = useRouter();
 const route = useRoute();
+const config = useRuntimeConfig();
+
 const username = ref('');
 const password = ref('');
 const errors = ref({ username: '', password: '', general: '' });
 const { showPassword, togglePassword } = usePasswordField();
-const userStore = useUserStore();
+
+const loginDisabled = config.public.configDisableNativeLogin;
 
 // Check for OIDC error redirect
 onMounted(() => {
@@ -137,6 +143,10 @@ h1 {
 input {
   width: 100%;
   padding: 0.6rem;
+  &:disabled {
+    background: var(--surface-transparent);
+    cursor: not-allowed;
+  }
 }
 
 /* ===== Password ===== */
@@ -169,7 +179,12 @@ input {
     transform: translateY(-50%) scale(0.95);
   }
 }
-
+.disabled {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-align: center;
+}
 .eye-icon {
   display: flex;
   width: 20px;
@@ -180,12 +195,6 @@ input {
 
   &.show {
     transform: scale(1.1);
-  }
-
-  svg {
-    width: 18px;
-    height: 18px;
-    transition: transform $transition-medium ease;
   }
 }
 
@@ -248,6 +257,10 @@ input {
   &:active {
     transform: translateY(0);
   }
+  &:disabled {
+    cursor: not-allowed;
+    transform: none;
+  }
 }
 
 /* ===== States and messages ===== */
@@ -260,5 +273,9 @@ input {
   font-size: 0.8rem;
   color: var(--red);
   text-align: center;
+  &.general {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
 }
 </style>

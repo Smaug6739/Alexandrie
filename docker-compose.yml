@@ -54,6 +54,8 @@ services:
       # General configuration
       BACKEND_PORT: 8201
       GIN_MODE: release
+
+      # Security and authentication
       JWT_SECRET: ${JWT_SECRET:-your-secure-jwt-secret-key-change-this-in-production}
       COOKIE_DOMAIN: ${COOKIE_DOMAIN:-localhost:8200} # Common domain for cookies (e.g., yourdomain.com if you have frontend.yourdomain.com and api.yourdomain.com)
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8200} # URL where the frontend is hosted (for CORS policy and url generation in emails)
@@ -61,6 +63,7 @@ services:
 
       # Flags
       CONFIG_DISABLE_SIGNUP: '${CONFIG_DISABLE_SIGNUP:-false}' # Disable user signup if set to 'true'
+      CONFIG_DISABLE_NATIVE_LOGIN: '${CONFIG_DISABLE_NATIVE_LOGIN:-false}' # Disable native username/password login if set to 'true' (useful if you only want OAuth providers)
 
       # Database Configuration
       DATABASE_HOST: mysql
