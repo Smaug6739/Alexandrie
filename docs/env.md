@@ -19,10 +19,11 @@ Only variables documented here and in `.env.example` are officially supported.
 
 ## Application Feature Flags
 
-| Variable                 | Accepted Values  | Default | Description                                             |
-| ------------------------ | ---------------- | ------- | ------------------------------------------------------- |
-| `CONFIG_DISABLE_LANDING` | `true` / `false` | `false` | Disables the landing page and redirects users to login. |
-| `CONFIG_DISABLE_SIGNUP`  | `true` / `false` | `false` | Disables new user registrations (frontend + backend).   |
+| Variable                      | Accepted Values  | Default | Description                                             |
+| ----------------------------- | ---------------- | ------- | ------------------------------------------------------- |
+| `CONFIG_DISABLE_LANDING`      | `true` / `false` | `false` | Disables the landing page and redirects users to login. |
+| `CONFIG_DISABLE_SIGNUP`       | `true` / `false` | `false` | Disables new user registrations (frontend + backend).   |
+| `CONFIG_DISABLE_NATIVE_LOGIN` | `true` / `false` | `false` | Disables the native username/password login.            |
 
 ---
 

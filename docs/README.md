@@ -71,12 +71,14 @@ These variables define how clients (browsers) reach your services.
 ```env
 CONFIG_DISABLE_LANDING=false
 CONFIG_DISABLE_SIGNUP=false
+CONFIG_DISABLE_NATIVE_LOGIN=false
 ```
 
 These variables control specific features of the application (useful for private deployments, internal tools etc.).
 
 - `CONFIG_DISABLE_LANDING`: If set to `true`, the landing page is disabled, and users are redirected to the login page. The default is `false`.
 - `CONFIG_DISABLE_SIGNUP`: If set to `true`, new user registrations are disabled (in frontend + backend for security). The default is `false`.
+- `CONFIG_DISABLE_NATIVE_LOGIN`: If set to `true`, the native username/password login method is disabled. This is useful if you want to enforce OIDC or other external authentication methods. The default is `false`.
 
 ### 3. Backend API — Runtime & Security
 
