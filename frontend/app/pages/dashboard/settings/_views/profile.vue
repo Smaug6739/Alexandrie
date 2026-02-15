@@ -36,12 +36,12 @@
 const userStore = useUserStore();
 const resourcesStore = useResourcesStore();
 
-const api = useApi();
+const { avatarURL } = useApi();
 const { shortDate } = useDateFormatters();
 
 const avatarInput = ref<HTMLInputElement | null>(null);
 const avatarPreview = ref('');
-const avatarDisplayed = computed(() => avatarPreview.value || api.avatarURL(userStore.user));
+const avatarDisplayed = computed(() => avatarPreview.value || avatarURL(userStore.user));
 
 const selectAvatar = () => avatarInput.value?.click();
 

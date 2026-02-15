@@ -21,7 +21,7 @@
       <label>Name</label>
       <input id="name" v-model="resource.name" type="text" required />
       <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
-      <AppSelect v-model="resource.parent_id" :items="tree" :disabled="i => (i as TreeItem<Node>).data?.role !== 3" placeholder="Select a resource parent" />
+      <AppSelect v-model="resource.parent_id" nullable :items="nodesTree" placeholder="Select a resource parent" />
       <label>Type</label>
       <input id="id" type="text" :value="resource.metadata?.filetype" disabled />
       <label>Original path</label>
@@ -43,8 +43,6 @@
 <script lang="ts" setup>
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize } from '~/helpers/resources';
-import type { TreeItem } from '~/helpers/TreeBuilder';
-import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: 'Edit' });
 
@@ -54,14 +52,7 @@ const { resourceURL } = useApi();
 
 const resource = computed(() => nodeStore.getById(route.params.id as string));
 
-const defaultItem: ANode = {
-  id: '',
-  label: 'None',
-  parentId: '',
-  children: [],
-};
-const nodesTree = useNodesTree();
-const tree = computed(() => [defaultItem, ...nodesTree.tree.value]);
+const nodesTree = useNodesTree().treeUpToRole(3);
 
 const updateCategory = async () => {
   if (resource.value)

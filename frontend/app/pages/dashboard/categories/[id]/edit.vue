@@ -20,6 +20,7 @@
             v-model="category.parent_id"
             :items="categoriesItem"
             placeholder="Select a category parent"
+            nullable
             :disabled="i => i.id == category!.id || nodesStore.isDescendant(category!, i.id as string)"
           />
         </div>
@@ -32,9 +33,9 @@
       <textarea v-model="category.icon" type="text" rows="5" />
 
       <label for="color">Color</label>
-      <AppColorPicker v-model="category.color" name="color" :nullable="true" />
+      <AppColorPicker v-model="category.color" name="color" nullable />
 
-      <div style="display: flex; justify-content: flex-end">
+      <div class="actions-row">
         <AppButton type="danger" @click="deleteCategory()">Delete</AppButton>
         <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
       </div>
@@ -53,7 +54,7 @@ const route = useRoute();
 const nodesTree = useNodesTree();
 
 const category = computed(() => nodesStore.getById(route.params.id as string));
-const categoriesItem = nodesTree.categoriesTree;
+const categoriesItem = nodesTree.treeUpToRole(2);
 
 const updateCategory = async () => {
   if (category.value)
@@ -75,12 +76,6 @@ label {
   margin-top: 10px;
 }
 
-input,
-textarea,
-select {
-  width: 100%;
-}
-
 .form-row {
   display: flex;
   flex-wrap: wrap;
@@ -90,5 +85,9 @@ select {
 .form-column {
   min-width: 200px;
   flex: 1;
+}
+
+.actions-row {
+  justify-content: flex-end;
 }
 </style>

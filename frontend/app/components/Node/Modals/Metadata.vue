@@ -30,12 +30,12 @@
         v-model="node.parent_id"
         :items="parentsTree"
         placeholder="Select a parent"
-        :nullable="true"
+        nullable
         :disabled="i => i.id == node.id || nodeStore.isDescendant(node, i.id as string)"
       />
       <div class="inline-input">
         <label for="accessibility">Color</label>
-        <AppColorPicker v-model="node.color" :nullable="true" />
+        <AppColorPicker v-model="node.color" nullable />
       </div>
     </form>
   </div>
@@ -52,7 +52,7 @@ const nodesTree = useNodesTree();
 
 const node = ref<Node>(props.doc);
 const pinnedToggle = ref(node.value.order == -1);
-const parentsTree = computed(() => nodesTree.getTreeByMaxRole(node.value.role));
+const parentsTree = nodesTree.treeUpToRole(node.value.role);
 
 watch(pinnedToggle, val => (node.value.order = val ? -1 : 0));
 watch(
