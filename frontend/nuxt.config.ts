@@ -155,7 +155,7 @@ export default defineNuxtConfig({
     filename: 'sw.ts',
     base: '/',
     injectManifest: {
-      maximumFileSizeToCacheInBytes: 3000000,
+      maximumFileSizeToCacheInBytes: 30_000_000,
       globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
     },
   },
