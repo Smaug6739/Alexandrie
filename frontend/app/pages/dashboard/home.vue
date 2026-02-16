@@ -605,12 +605,6 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   .greeting h1 {
     font-size: 1.5rem;
   }
-
-  .continue-working,
-  .workspaces-grid {
-    grid-template-columns: 1fr;
-  }
-
   .stats-section {
     grid-template-columns: repeat(1, 1fr);
   }
