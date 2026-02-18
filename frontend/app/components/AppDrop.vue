@@ -12,18 +12,8 @@
 
     <div v-if="selectedFiles.length" class="files">
       <div class="list">
-        <div v-for="(file, index) in selectedFiles" :key="index" class="item">
-          <div class="icon">
-            <Icon :name="resolveFileIcon(file.type)" />
-          </div>
-          <div class="details">
-            <span class="name">{{ file.name }}</span>
-            <span class="meta">{{ readableFileSize(file.size) }} • {{ resolveFileType(file.type) }}</span>
-          </div>
-          <button class="remove" @click.stop="removeFile(index)">
-            <Icon name="close" size="16px" />
-            <p class="hint-tooltip">{{ t('cdn.appdrop.removeFile') }}</p>
-          </button>
+        <div v-for="(file, index) in selectedFiles" :key="file.name + '-' + file.size + '-' + file.lastModified" class="item">
+          <NodeResourceInline :file="file" :remove-file="() => removeFile(index)" class="file-card" />
         </div>
       </div>
       <footer>
@@ -53,7 +43,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { readableFileSize, resolveFileIcon, resolveFileType } from '~/helpers/resources';
+import { readableFileSize } from '~/helpers/resources';
 
 const props = withDefaults(
   defineProps<{
@@ -79,36 +69,50 @@ const emit = defineEmits<{
 
 const triggerFileSelect = () => fileInput.value!.click();
 
+const addFiles = (files?: FileList | File[] | null) => {
+  if (!files) return;
+  const fileArray = Array.from(files);
+  if (props.multiple) {
+    const newFiles = fileArray.slice(0, props.maxFiles - selectedFiles.value.length);
+    for (const file of newFiles) {
+      if (file && !selectedFiles.value.some(f => f.name === file.name && f.size === file.size && f.lastModified === file.lastModified)) {
+        selectedFiles.value.push(file);
+      }
+    }
+    emit('select', selectedFiles.value);
+  } else {
+    const file = fileArray[0];
+    if (!file) return;
+    selectedFiles.value = [file];
+    emit('select', file);
+  }
+};
+
 const handleFileSelect = (event: Event) => {
   const files = (event.target as HTMLInputElement | null)?.files;
-  if (!files) return;
-
-  if (props.multiple) {
-    const fileArray = Array.from(files).slice(0, props.maxFiles);
-    selectedFiles.value = fileArray;
-    emit('select', fileArray);
-  } else {
-    selectedFiles.value = files[0] ? [files[0]] : [];
-    emit('select', files[0] || null);
-  }
+  addFiles(files);
 };
 
 const handleFileDrop = (event: DragEvent) => {
   if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
     const files = event.dataTransfer.files;
-    if (props.multiple) {
-      const fileArray = Array.from(files).slice(0, props.maxFiles);
-      selectedFiles.value = fileArray;
-      emit('select', fileArray);
-    } else {
-      const file = files[0];
-      if (file) {
-        selectedFiles.value = [file];
-        emit('select', file);
-      }
-    }
+    addFiles(files);
     isDragOver.value = false;
   }
+};
+
+const handlePaste = (event: ClipboardEvent) => {
+  const items = event.clipboardData?.items;
+  if (!items) return;
+
+  const pastedFiles: File[] = [];
+  for (const item of items) {
+    const file = item.getAsFile();
+    if (!file) continue;
+    pastedFiles.push(file);
+    if (!props.multiple) break;
+  }
+  addFiles(pastedFiles);
 };
 
 const dragEnter = () => (isDragOver.value = true);
@@ -116,6 +120,7 @@ const dragLeave = () => (isDragOver.value = false);
 
 const removeFile = (index: number) => {
   selectedFiles.value.splice(index, 1);
+  if (fileInput.value) fileInput.value.value = '';
   if (props.multiple) {
     emit('select', selectedFiles.value.length ? selectedFiles.value : null);
   } else {
@@ -126,37 +131,6 @@ const removeFile = (index: number) => {
 const reset = () => {
   selectedFiles.value = [];
   if (fileInput.value) fileInput.value.value = '';
-};
-
-const handlePaste = (event: ClipboardEvent) => {
-  const items = event.clipboardData?.items;
-  if (!items) return;
-
-  const pastedFiles: File[] = [];
-  for (let i = 0; i < items.length; i++) {
-    const item = items[i];
-    if (item?.type.startsWith('image/')) {
-      const file = item.getAsFile();
-      if (file) {
-        pastedFiles.push(file);
-        if (!props.multiple) break;
-      }
-    }
-  }
-
-  if (pastedFiles.length) {
-    if (props.multiple) {
-      const limitedFiles = pastedFiles.slice(0, props.maxFiles);
-      selectedFiles.value = limitedFiles;
-      emit('select', limitedFiles);
-    } else {
-      const file = pastedFiles[0];
-      if (file) {
-        selectedFiles.value = [file];
-        emit('select', file);
-      }
-    }
-  }
 };
 
 defineExpose({ reset });
@@ -225,7 +199,7 @@ defineExpose({ reset });
 
 .list {
   display: flex;
-  max-height: 200px;
+  max-height: 300px;
   flex-direction: column;
   gap: 6px;
   overflow-y: auto;
@@ -304,16 +278,11 @@ defineExpose({ reset });
   cursor: pointer;
   flex-shrink: 0;
   justify-content: center;
-  position: relative;
 
   &:hover {
     color: var(--red);
     background: var(--surface-transparent);
     opacity: 1;
-    .hint-tooltip {
-      opacity: 1;
-      visibility: visible;
-    }
   }
 }
 

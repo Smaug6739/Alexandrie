@@ -1,10 +1,10 @@
 <template>
   <div class="file-card">
-    <img v-if="file.preview" :src="file.preview" :alt="file.name" class="file-preview" />
-    <Icon v-else :name="resolveFileIcon(file.file.type)" display="lg" />
+    <img v-if="preview" :src="preview" :alt="file.name" class="file-preview" />
+    <Icon v-else :name="resolveFileIcon(file.type)" display="lg" />
     <div class="file-info">
       <span class="file-name">{{ file.name }}</span>
-      <span class="file-size">{{ readableFileSize(file.file.size) }}</span>
+      <span class="file-size">{{ readableFileSize(file.size) }}</span>
     </div>
     <button class="file-remove" @click="removeFile">
       <Icon name="close" />
@@ -15,16 +15,24 @@
 <script setup lang="ts">
 import { readableFileSize, resolveFileIcon } from '~/helpers/resources';
 
-interface SharedFile {
-  name: string;
-  preview?: string;
-  file: File;
-}
 
-defineProps<{
-  file: SharedFile;
+const props = defineProps<{
+  file: File;
   removeFile: () => void;
 }>();
+
+const preview = ref<string | null>(null);
+
+onMounted(async () => {
+  if (props.file.type.startsWith('image/')) {
+    preview.value = URL.createObjectURL(props.file);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (preview.value) URL.revokeObjectURL(preview.value);
+});
+
 </script>
 
 <style scoped lang="scss">
@@ -32,25 +40,17 @@ defineProps<{
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem;
+  padding: 0.5rem 0.75rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
+  background-color: var(--surface-base);
+  width: 100%;
 
   .file-preview {
     width: 48px;
     height: 48px;
     border-radius: var(--radius-sm);
     object-fit: cover;
-  }
-
-  .file-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-sm);
-    color: var(--text-muted);
   }
 
   .file-info {
