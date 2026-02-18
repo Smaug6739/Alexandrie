@@ -4,38 +4,40 @@
     <div class="body-container">
       <IconApp style="width: 120px" />
       <h1>Connection</h1>
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" :disabled="loginDisabled" />
-        <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="password-input">
-          <input
-            id="password"
-            :key="`password-${showPassword}`"
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            :class="{ 'is-invalid': errors.password }"
-            :disabled="loginDisabled"
-          />
-          <button type="button" class="password-toggle" @click="togglePassword">
-            <div class="eye-icon" :class="{ show: showPassword }">
-              <Icon v-if="showPassword" name="eye" />
-              <Icon v-else name="eye_off" />
-            </div>
-          </button>
+      <form @submit.prevent="login">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" :disabled="loginDisabled" />
+          <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
-        <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
-      </div>
-      <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-      <button class="btn" :disabled="loginDisabled" @click="login">Login</button>
-      <p v-if="loginDisabled" class="disabled">Native login is currently disabled. Please use one of the available authentication providers below.</p>
-      <OIDCProviders />
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-input">
+            <input
+              id="password"
+              :key="`password-${showPassword}`"
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              :class="{ 'is-invalid': errors.password }"
+              :disabled="loginDisabled"
+            />
+            <button type="button" class="password-toggle" @click="togglePassword">
+              <div class="eye-icon" :class="{ show: showPassword }">
+                <Icon v-if="showPassword" name="eye" />
+                <Icon v-else name="eye_off" />
+              </div>
+            </button>
+          </div>
+          <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
+        </div>
+        <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
+        <button class="btn" :disabled="loginDisabled" @click="login">Login</button>
+        <p v-if="loginDisabled" class="disabled">Native login is currently disabled. Please use one of the available authentication providers below.</p>
+        <OIDCProviders />
 
-      <p v-if="errors.general" class="invalid-feedback general">{{ errors.general }}</p>
-      <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
+        <p v-if="errors.general" class="invalid-feedback general">{{ errors.general }}</p>
+        <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
+      </form>
     </div>
     <AppFooter />
   </div>
@@ -127,6 +129,10 @@ h1 {
 }
 
 /* ===== Form ===== */
+form {
+  width: 100%;
+}
+
 .form-group {
   display: flex;
   width: 100%;
