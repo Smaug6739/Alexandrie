@@ -24,7 +24,7 @@
         <img :src="avatarDisplayed" class="avatar" @click="selectAvatar" />
         <input ref="avatarInput" type="file" accept="image/*" style="display: none" @change="previewAvatar" />
       </div>
-      <AppButton type="primary">{{ t('settings.profile.updateBtn') }}</AppButton>
+      <AppButton type="primary">{{ t('common.actions.update') }}</AppButton>
     </form>
     <hr style="margin: 10px 0" />
     <p>

@@ -12,8 +12,8 @@
   >
     <Icon :fill="item.data.role == 3 ? 'var(--pink) !important' : undefined" :name="icon" :class="customClass" />&nbsp;
 
-    <NuxtLink v-if="item.onClick" class="close content" @click="item.onClick">{{ item.label }}</NuxtLink>
-    <NuxtLink v-else :to="item.route" class="close content">{{ item.label }}</NuxtLink>
+    <NuxtLink v-if="item.onClick" class="close content" @click="item.onClick">{{ t(item.label) }}</NuxtLink>
+    <NuxtLink v-else :to="item.route" class="close content">{{ t(item.label) }}</NuxtLink>
 
     <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--text-secondary)" />
 
@@ -33,6 +33,7 @@ import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 import { navigationItems, type SidebarItem, getItemChildren } from './helpers';
 import type { Node } from '~/stores';
 
+const { t } = useI18n();
 const nodesStore = useNodesStore();
 const { isOpened, workspaceId } = useSidebar();
 const { getAppAccent } = useAppColors();

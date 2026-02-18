@@ -20,6 +20,9 @@ export default {
     export: 'Exporter',
     preview: 'Aperçu',
     reset: 'Réinitialiser',
+    pin: 'Épingler en haut',
+    unpin: 'Détacher du haut',
+    print: 'Imprimer',
   },
 
   filter: {
@@ -51,6 +54,7 @@ export default {
 
   placeholder: {
     parent: 'Sélectionner un parent',
+    search: 'Rechercher...',
   },
 
   status: {

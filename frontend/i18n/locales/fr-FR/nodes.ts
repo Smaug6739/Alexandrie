@@ -40,6 +40,8 @@ export default {
     managePermissions: 'Gérer les permissions',
     editMeta: 'Modifier les métadonnées',
     newDocument: '+ Créer un nouveau document',
+    exportAsMarkdown: 'Exporter en Markdown',
+    publicLink: 'Lien public',
   },
 
   document: {
@@ -48,6 +50,7 @@ export default {
     editPage: 'Modifier la page',
     nextPage: 'Page suivante',
     prevPage: 'Page précédente',
+    lastUpdated: 'Dernière mise à jour',
   },
 
   modals: {

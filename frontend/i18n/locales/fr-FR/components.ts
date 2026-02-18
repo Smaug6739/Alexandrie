@@ -59,6 +59,15 @@ export default {
     noWorkspaces: 'Aucun espace de travail trouvé',
     newWorkspace: 'Nouvel espace de travail',
     editWorkspace: "Modifier l'espace de travail",
+    nav: {
+      home: 'Accueil',
+      manageCategories: 'Gérer les catégories',
+      cdn: 'CDN',
+      settings: 'Paramètres',
+      documents: 'Documents',
+      imports: 'Importations',
+      newPage: 'Nouvelle page',
+    },
   },
 
   sessionCard: {

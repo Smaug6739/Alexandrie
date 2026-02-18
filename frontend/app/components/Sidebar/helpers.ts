@@ -49,13 +49,13 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'home',
     parent_id: '',
-    label: 'Home',
+    label: 'components.sidebar.nav.home',
     route: '/dashboard/home',
     icon: 'dashboard',
     data: {
       id: 'home',
       role: -1,
-      name: 'Home',
+      name: 'components.sidebar.nav.home',
       icon: 'dashboard',
       permissions: [],
       shared: false,
@@ -65,13 +65,13 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'manage-categories',
     parent_id: '',
-    label: 'Manage categories',
+    label: 'components.sidebar.nav.manageCategories',
     route: '/dashboard/categories',
     icon: 'categories',
     data: {
       id: 'manage-categories',
       role: -1,
-      name: 'Manage categories',
+      name: 'components.sidebar.nav.manageCategories',
       icon: 'categories',
       permissions: [],
       shared: false,
@@ -81,13 +81,13 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'cdn',
     parent_id: '',
-    label: 'CDN',
+    label: 'components.sidebar.nav.cdn',
     route: '/dashboard/cdn',
     icon: 'cdn',
     data: {
       id: 'cdn',
       role: -1,
-      name: 'CDN',
+      name: 'components.sidebar.nav.cdn',
       icon: 'cdn',
       permissions: [],
       shared: false,
@@ -97,7 +97,7 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'settings',
     parent_id: '',
-    label: 'Settings',
+    label: 'components.sidebar.nav.settings',
     route: '',
     icon: 'user_settings',
     onClick: () => {
@@ -107,7 +107,7 @@ export const navigationItems: DefaultItem[] = [
     data: {
       id: 'settings',
       role: -1,
-      name: 'Settings',
+      name: 'components.sidebar.nav.settings',
       icon: 'user_settings',
       permissions: [],
       shared: false,
@@ -117,13 +117,13 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'documents',
     parent_id: '',
-    label: 'Documents',
+    label: 'components.sidebar.nav.documents',
     route: '/dashboard/docs',
     icon: 'files',
     data: {
       id: 'documents',
       role: -1,
-      name: 'Documents',
+      name: 'components.sidebar.nav.documents',
       icon: 'files',
       permissions: [],
       shared: false,
@@ -133,13 +133,13 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'importations',
     parent_id: '',
-    label: 'Importations',
+    label: 'components.sidebar.nav.imports',
     route: '/dashboard/import',
     icon: 'import',
     data: {
       id: 'import',
       role: -1,
-      name: 'Import',
+      name: 'components.sidebar.nav.imports',
       icon: 'import',
       permissions: [],
       shared: false,
@@ -149,13 +149,13 @@ export const navigationItems: DefaultItem[] = [
   {
     id: 'new-page',
     parent_id: '',
-    label: 'New Page',
+    label: 'components.sidebar.nav.newPage',
     route: '/dashboard/docs/new',
     icon: 'add_file',
     data: {
       id: 'new-page',
       role: -1,
-      name: 'New Page',
+      name: 'components.sidebar.nav.newPage',
       icon: 'add_file',
       permissions: [],
       shared: false,

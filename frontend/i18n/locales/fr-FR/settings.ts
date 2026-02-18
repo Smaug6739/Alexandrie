@@ -1,6 +1,5 @@
 export default {
   meta: {
-    title: 'Paramètres',
     accountSettings: 'Paramètres du compte',
   },
 
@@ -26,7 +25,6 @@ export default {
     lastname: 'Nom',
     email: 'Email',
     avatar: 'Avatar',
-    updateBtn: 'Mettre à jour le profil',
     accountCreation: 'Création du compte',
     lastUpdate: 'Dernière mise à jour',
     notifications: {
