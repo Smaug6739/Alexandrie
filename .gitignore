@@ -8,3 +8,5 @@ data
 
 # Development (debug & test files)
 test.vue
+
+.idea
