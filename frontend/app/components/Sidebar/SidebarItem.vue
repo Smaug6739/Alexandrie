@@ -12,9 +12,8 @@
   >
     <Icon :fill="item.data.role == 3 ? 'var(--pink) !important' : undefined" :name="icon" :class="customClass" />&nbsp;
 
-    <NuxtLink v-if="item.data.role === -1" :to="item.route" class="close content">{{ t(item.label) }}</NuxtLink>
-    <NuxtLink v-else-if="item.onClick" class="close content" @click="item.onClick">{{ item.label }}</NuxtLink>
-    <NuxtLink v-else :to="item.route" class="close content">{{ item.label }}</NuxtLink>
+    <NuxtLink v-if="item.onClick" class="close content" @click="item.onClick">{{ item.data.role == -1 ? t(item.label) : item.label }}</NuxtLink>
+    <NuxtLink v-else :to="item.route" class="close content">{{ item.data.role == -1 ? t(item.label) : item.label }}</NuxtLink>
 
     <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--text-secondary)" />
 

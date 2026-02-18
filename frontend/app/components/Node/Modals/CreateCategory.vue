@@ -3,17 +3,17 @@
     <h2>{{ role == 1 ? t('nodes.workspace.new') : t('nodes.category.new') }}</h2>
     <label for="name">{{ t('common.labels.name') }}</label>
     <input id="name" v-model="category.name" class="entry" type="text" required :placeholder="t('common.labels.name')" />
-    <label>{{ t('nodes.category.parent') }}</label>
+    <label>{{ t('common.labels.parent') }}</label>
     <div>
-      <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" nullable :placeholder="t('nodes.category.parent')" />
+      <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" nullable :placeholder="t('common.labels.parent')" />
     </div>
     <div style="display: flex; flex-wrap: wrap">
       <div style="min-width: 200px; flex: 1; margin-right: 10px">
-        <label for="order">{{ t('nodes.category.order') }} <AppHint :text="t('nodes.category.orderHint')" /></label>
+        <label for="order">{{ t('common.labels.order') }} <AppHint :text="t('nodes.category.orderHint')" /></label>
         <input id="order" v-model.number="category.order" class="entry" type="number" placeholder="0" />
       </div>
       <div style="min-width: 200px; flex: 1; margin-left: 10px">
-        <label for="color">{{ t('nodes.category.color') }}</label>
+        <label for="color">{{ t('common.labels.color') }}</label>
         <AppColorPicker id="color" v-model="category.color" class="entry" nullable />
       </div>
     </div>
@@ -50,20 +50,20 @@ function getDefaultParentId() {
 }
 
 const category = ref<Partial<Node>>({
-  name: '',
-  role: props.role,
   accessibility: 1,
+  name: '',
   parent_id: getDefaultParentId(),
+  role: props.role,
 });
 
 const createCategory = () => {
   categoriesStore
     .post(category.value)
     .then(() => {
-      useNotifications().add({ type: 'success', title: t('nodes.category.notifications.created') });
+      useNotifications().add({ title: t('nodes.category.notifications.created'), type: 'success' });
       emit('close');
     })
-    .catch(e => useNotifications().add({ type: 'error', title: t('nodes.category.notifications.creationError'), message: e }));
+    .catch(e => useNotifications().add({ message: e, title: t('nodes.category.notifications.creationError'), type: 'error' }));
 };
 </script>
 
