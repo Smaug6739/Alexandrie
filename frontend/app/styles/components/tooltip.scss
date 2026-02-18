@@ -24,7 +24,7 @@
 	/* Transition */
 	transition:
 		opacity $transition-fast ease,
-		visibility 0s linear $transition-slow; // Delay hiding to match opacity transition
+		visibility 0s linear $transition-wait; // Delay hiding to match opacity transition
 
 	margin-top: 0.2rem;
 	pointer-events: none;

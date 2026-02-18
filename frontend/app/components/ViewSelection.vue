@@ -1,13 +1,14 @@
 <template>
   <div class="view-selection">
-    <button v-for="option in viewOptions" :key="option.value" :class="{ active: view === option.value }" :title="option.label" @click="view = option.value">
+    <button v-for="option in viewOptions" :key="option.value" :class="{ active: view === option.value }" @click="view = option.value">
       <Icon :name="option.icon" />
+      <p class="hint-tooltip">{{ option.label }}</p>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
-export type ViewMode = 'list' | 'table' | 'kanban';
+export type ViewMode = 'kanban' | 'list' | 'table';
 
 const props = withDefaults(
   defineProps<{
@@ -23,11 +24,11 @@ const view = defineModel<ViewMode>();
 
 const viewOptions = computed(() => {
   const options = [
-    { value: 'list' as ViewMode, icon: 'table', label: t('components.viewSelection.list') },
-    { value: 'table' as ViewMode, icon: 'list', label: t('components.viewSelection.table') },
+    { icon: 'table', label: t('components.viewSelection.list'), value: 'list' as ViewMode },
+    { icon: 'list', label: t('components.viewSelection.table'), value: 'table' as ViewMode },
   ];
   if (props.showKanban) {
-    options.push({ value: 'kanban' as ViewMode, icon: 'kanban', label: t('components.viewSelection.kanban') });
+    options.push({ icon: 'kanban', label: t('components.viewSelection.kanban'), value: 'kanban' as ViewMode });
   }
   return options;
 });
@@ -70,10 +71,15 @@ button {
   align-items: center;
   cursor: pointer;
   justify-content: center;
+  position: relative;
 
   &:hover {
     color: var(--text-body);
     background: var(--surface-base);
+    .hint-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   &.active > svg {

@@ -20,8 +20,9 @@
             <span class="name">{{ file.name }}</span>
             <span class="meta">{{ readableFileSize(file.size) }} • {{ resolveFileType(file.type) }}</span>
           </div>
-          <button class="remove" :title="t('cdn.appdrop.removeFile')" @click.stop="removeFile(index)">
+          <button class="remove" @click.stop="removeFile(index)">
             <Icon name="close" size="16px" />
+            <p class="hint-tooltip">{{ t('cdn.appdrop.removeFile') }}</p>
           </button>
         </div>
       </div>
@@ -303,11 +304,16 @@ defineExpose({ reset });
   cursor: pointer;
   flex-shrink: 0;
   justify-content: center;
+  position: relative;
 
   &:hover {
     color: var(--red);
     background: var(--surface-transparent);
     opacity: 1;
+    .hint-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
 
