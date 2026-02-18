@@ -2,7 +2,8 @@
   <div class="container">
     <div class="progress-header">
       <span class="status">
-        <strong>Status</strong><span class="status-badge" :class="importJob.status"> {{ statusLabel }} </span>
+        <strong>{{ t('common.labels.status') }}</strong
+        ><span class="status-badge" :class="importJob.status"> {{ statusLabel }} </span>
       </span>
       <span v-if="importJob.status === 'in_progress'" class="progress-percent"> {{ progress }}% </span>
     </div>
@@ -18,19 +19,21 @@ import type { ImportJob } from '~/stores';
 
 const props = defineProps<{ importJob: ImportJob; toCreate: number; toUpdate: number }>();
 
+const { t } = useI18nT();
+
 const progress = computed(() => Math.floor(((props.importJob.created.length + props.importJob.updated.length) * 100) / (props.toCreate + props.toUpdate)));
 const statusLabel = computed(() => {
   switch (props.importJob.status) {
     case 'pending':
-      return 'Pending';
+      return t('common.status.pending');
     case 'in_progress':
-      return 'In Progress';
+      return t('common.status.processing');
     case 'completed':
-      return 'Completed';
+      return t('common.status.completed');
     case 'failed':
-      return 'Failed';
+      return t('common.status.failed');
     default:
-      return 'Unknown';
+      return t('common.status.unknown');
   }
 });
 </script>

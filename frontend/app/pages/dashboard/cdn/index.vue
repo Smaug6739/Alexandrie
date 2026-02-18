@@ -1,7 +1,7 @@
 <template>
   <div class="page-card">
     <header>
-      <h1>File manager</h1>
+      <h1>{{ t('cdn.meta.title') }}</h1>
       <div class="action-row">
         <NodeFilter v-show="!device.isMobile" :nodes="nodes" @update:nodes="filteredResources = $event" />
         <ViewSelection v-model="view" />
@@ -24,18 +24,18 @@
     <AppDrop ref="dropComponent" multiple :max-files="10" @select="selectFiles" />
     <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
       <AppButton type="primary" :disabled="!selectedFiles.length" @click="submitFiles">
-        Upload {{ selectedFiles.length ? `${selectedFiles.length} file(s)` : '' }} on server
+        {{ selectedFiles.length ? t('cdn.actions.upload.multiple', { n: selectedFiles.length }) : t('cdn.actions.upload.idle') }}
       </AppButton>
       <div v-if="isLoading" class="upload-progress">
         <LoaderSpinner />
-        <span>Uploading {{ uploadProgress.current }} / {{ uploadProgress.total }}</span>
+        <span>{{ t('cdn.actions.upload.progress', { n: uploadProgress.current, total: uploadProgress.total }) }}</span>
       </div>
     </div>
     <div v-if="fileLinks.length" class="link-section">
       <div class="links-text" v-text="linksText"></div>
       <div class="links-actions">
-        <AppButton type="primary" @click="copyLinks">Copy {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
-        <AppButton type="secondary" @click="fileLinks = []">Clear</AppButton>
+        <AppButton type="primary" @click="copyLinks">{{ t('common.actions.copy') }} {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
+        <AppButton type="secondary" @click="fileLinks = []">{{ t('common.actions.clear') }}</AppButton>
       </div>
     </div>
     <div v-if="filteredResources.length" class="resources-list">
@@ -70,12 +70,12 @@
             </div>
           </div>
           <div v-if="!filteredResources.length" class="not-found">
-            <p>No result found for "{{ filter }}"</p>
+            <p>{{ t('common.search.noResults', { filter: filter }) }}</p>
           </div>
         </div>
       </div>
     </div>
-    <NoContent v-else title="No resource found"></NoContent>
+    <NoContent v-else :title="t('cdn.page.empty')"></NoContent>
   </div>
 </template>
 <script setup lang="ts">
@@ -85,12 +85,10 @@ import { readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
 import type { Field } from '~/components/DataTable.vue';
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: 'Upload' });
-
 const router = useRouter();
 const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
-
+const { t } = useI18nT();
 const device = useDevice();
 const appColors = useAppColors();
 const { numericDate } = useDateFormatters();
@@ -147,24 +145,28 @@ const submitFiles = async () => {
       const r = await resourcesStore.post(body);
       fileLinks.value.push(resourceURL(r));
     } catch (e) {
-      useNotifications().add({ type: 'error', title: 'Error', message: `Failed to upload ${file.name}: ${e}` });
+      useNotifications().add({ type: 'error', title: 'Error', message: t('cdn.notifications.error', { file: file.name, error: e }) });
     }
     uploadProgress.value.current++;
   }
 
   isLoading.value = false;
   if (fileLinks.value.length) {
-    useNotifications().add({ type: 'success', title: 'Upload complete', message: `${fileLinks.value.length} file(s) uploaded successfully` });
+    useNotifications().add({
+      type: 'success',
+      title: t('cdn.notifications.successTitle'),
+      message: t('cdn.notifications.successMsg', { n: fileLinks.value.length }),
+    });
   }
 };
 
 const headers = [
-  { label: 'Name', key: 'name' },
-  { label: 'Size', key: 'size' },
-  { label: 'Type', key: 'type' },
-  { label: 'Parent doc', key: 'parent' },
-  { label: 'Date', key: 'date' },
-  { label: 'Action', key: 'action' },
+  { label: t('common.labels.name'), key: 'name' },
+  { label: t('common.labels.size'), key: 'size' },
+  { label: t('common.labels.type'), key: 'type' },
+  { label: t('common.labels.parent'), key: 'parent' },
+  { label: t('common.labels.date'), key: 'date' },
+  { label: t('common.labels.action'), key: 'action' },
 ];
 
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');

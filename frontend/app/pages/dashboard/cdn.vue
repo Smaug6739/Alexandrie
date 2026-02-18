@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ breadcrumb: 'CDN' });
+definePageMeta({ breadcrumb: { i18n: 'cdn.meta.shortTitle' } });
 </script>

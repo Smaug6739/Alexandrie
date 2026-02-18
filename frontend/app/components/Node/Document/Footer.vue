@@ -3,20 +3,20 @@
     <div class="footer-top-row">
       <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" :prefetch="false" class="edit-link">
         <Icon name="edit_page" display="sm" />
-        <span>Edit this page</span>
+        <span>{{ t('nodes.document.editPage') }}</span>
       </NuxtLink>
       <div class="last-updated">
         <Icon name="update" />
-        Last updated {{ formatRelativeDate(document.updated_timestamp) }}
+        {{ t('nodes.document.lastUpdated') }} {{ formatRelativeDate(document.updated_timestamp) }}
       </div>
     </div>
     <div class="items">
       <NuxtLink v-if="previous" :to="`/dashboard/docs/${previous.id}`" class="item left">
-        <b>Previous page</b>
+        <b>{{ t('nodes.document.prevPage') }}</b>
         {{ previous.name }}
       </NuxtLink>
       <NuxtLink v-if="next" :to="`/dashboard/docs/${next.id}`" class="item right">
-        <b>Next page</b>
+        <b>{{ t('nodes.document.nextPage') }}</b>
         {{ next.name }}
       </NuxtLink>
     </div>
@@ -28,6 +28,7 @@ import type { Node } from '~/stores';
 
 defineProps<{ document?: Node; next?: Node; previous?: Node }>();
 
+const { t } = useI18nT();
 const { formatRelativeDate } = useDateFormatters();
 </script>
 

@@ -10,7 +10,7 @@
         </span>
         <IconClose class="btn" />
       </section>
-      <input v-model="filter" type="text" placeholder="Search or ctrl + q" />
+      <input v-model="filter" type="text" :placeholder="t('components.sidebar.searchPlaceholder')" />
 
       <div v-if="userStore.user" class="user">
         <img :src="avatarURL(userStore.user)" alt="Avatar" class="avatar" />
@@ -22,23 +22,23 @@
           <div class="icons">
             <NuxtLink to="/dashboard/docs/new" class="nav-item" :prefetch="false" @click="onClick">
               <Icon name="add_file" />
-              <p class="hint-tooltip">New doc</p>
+              <p class="hint-tooltip">{{ t('components.sidebar.newDoc') }}</p>
             </NuxtLink>
             <NuxtLink class="nav-item" @click="newCategory">
               <Icon name="add_folder" />
-              <p class="hint-tooltip">New category</p>
+              <p class="hint-tooltip">{{ t('components.sidebar.newCategory') }}</p>
             </NuxtLink>
             <NuxtLink v-if="!nodesTree.isAllCollapsed()" class="nav-item" @click.stop="nodesTree.collapseAll">
               <Icon name="collapse" />
-              <p class="hint-tooltip">Close all</p>
+              <p class="hint-tooltip">{{ t('components.sidebar.closeAll') }}</p>
             </NuxtLink>
             <NuxtLink v-else class="nav-item" @click.stop="nodesTree.expandAll">
               <Icon name="arrow-expand" />
-              <p class="hint-tooltip">Open all</p>
+              <p class="hint-tooltip">{{ t('components.sidebar.openAll') }}</p>
             </NuxtLink>
             <NuxtLink class="nav-item" @click="toggleDock">
               <Icon name="dock" />
-              <p class="hint-tooltip">Toggle dock</p>
+              <p class="hint-tooltip">{{ t('components.sidebar.toggleDock') }}</p>
             </NuxtLink>
           </div>
         </div>
@@ -71,6 +71,7 @@ import { filterTreeByLabel } from '~/helpers/TreeBuilder';
 const nodesStore = useNodesStore();
 const preferences = usePreferences();
 const userStore = useUserStore();
+const { t } = useI18nT();
 
 const nodesTree = useNodesTree();
 const { isOpened, hasSidebar, filtered } = useSidebar();

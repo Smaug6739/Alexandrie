@@ -4,6 +4,7 @@ import type { TreeNode } from '../helpers/TreeBuilder';
 export type ANode<ID = string | number> = Omit<TreeNode<unknown, ID>, 'data'>;
 
 export const DEFAULT_PREFERENCES = {
+  locale: 'en' as 'en' | 'fr',
   printMode: false as boolean,
   darkMode: false as boolean,
   hideTOC: false as boolean,

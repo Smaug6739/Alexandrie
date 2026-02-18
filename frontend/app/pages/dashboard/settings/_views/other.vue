@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="page-title">Other</h2>
-    <p class="page-subtitle">Manage other general settings for the application.</p>
+    <h2 class="page-title">{{ t('settings.other.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.other.subtitle') }}</p>
 
     <AppPreferenceInputSection :options="options" />
   </div>
@@ -12,15 +12,16 @@ type InterfaceOption = Option & {
   tag?: string;
 };
 
+const { t } = useI18nT();
 const nodesTree = useNodesTree();
 const categories = nodesTree.treeUpToRole(2).value;
 
-const options: Array<{ label: string; options: InterfaceOption[] }> = [
+const options = computed<Array<{ label: string; options: InterfaceOption[] }>>(() => [
   {
-    label: 'Datatable',
+    label: t('settings.other.datatable'),
     options: [
       {
-        label: 'Default datatable items count',
+        label: t('settings.other.defaultItemsCount'),
         type: 'select',
         key: 'datatableItemsCount',
         choices: [
@@ -34,11 +35,11 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
     ],
   },
   {
-    label: 'Uploads',
+    label: t('settings.other.uploads'),
     options: [
       {
-        label: 'Default upload folder',
-        description: 'Choose the default folder where your uploads will be stored. You can change this for each upload.',
+        label: t('settings.other.defaultUploadFolder'),
+        description: t('settings.other.defaultUploadFolderDesc'),
         type: 'select',
         key: 'defaultUploadFolder',
         choices: categories,
@@ -46,15 +47,15 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
     ],
   },
   {
-    label: 'Other',
+    label: t('settings.other.otherSection'),
     options: [
       {
-        label: 'Developer Mode',
-        description: 'Enable additional debugging features and options like "Copy ID" in context menus.',
+        label: t('settings.other.developerMode'),
+        description: t('settings.other.developerModeDesc'),
         type: 'toggle',
         key: 'developerMode',
       },
     ],
   },
-];
+]);
 </script>

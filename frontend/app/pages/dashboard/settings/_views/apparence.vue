@@ -1,115 +1,126 @@
 <template>
   <div>
-    <h2 class="page-title">Preferences</h2>
-    <p class="page-subtitle">Manage your preferences and settings.</p>
+    <h2 class="page-title">{{ t('settings.appearance.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.appearance.subtitle') }}</p>
 
-    <AppPreferenceInputSection :options="options" />
+    <AppPreferenceInputSection :options="options as any" />
   </div>
 </template>
 
 <script setup lang="ts">
 const appColors = useAppColors();
-
-type InterfaceOption = Option & {
-  tag?: string;
-};
+const { t } = useI18nT();
 
 const colorMode = useColorMode();
-const options: Array<{ label: string; options: InterfaceOption[] }> = [
+const { setLocale } = useI18n();
+
+const options = computed(() => [
   {
-    label: 'General',
+    label: t('settings.appearance.general'),
     options: [
       {
-        label: 'Enable Dark Mode',
-        type: 'toggle',
-        key: 'darkMode',
-        // @ts-expect-error -> specific type
+        label: t('settings.appearance.enableDarkMode'),
+        type: 'toggle' as const,
+        key: 'darkMode' as const,
         onChange: (option: boolean) => {
           colorMode.preference = option ? 'dark' : 'light';
           document.body.style.colorScheme = colorMode.preference;
         },
       },
       {
-        label: 'Choose accent color',
-        type: 'color',
-        key: 'primaryColor',
-        // @ts-expect-error -> specific type
+        label: t('settings.appearance.setLanguage'),
+        description: t('settings.appearance.setLanguageDesc'),
+        type: 'select' as const,
+        key: 'locale' as const,
+        choices: [
+          { label: 'English', id: 'en' },
+          { label: 'Français', id: 'fr' },
+        ],
+        onChange: (option: unknown) => {
+          const localeCode = option as 'en' | 'fr';
+          setLocale(localeCode);
+        },
+      },
+      {
+        label: t('settings.appearance.chooseAccentColor'),
+        type: 'color' as const,
+        key: 'primaryColor' as const,
         onChange: (option: number) => {
           appColors.setAppColor(option);
         },
       },
       {
-        label: 'Interface style',
-        description: 'Glassmorphism adds transparent surfaces with blur effects for a modern glass look.',
-        type: 'radio',
-        key: 'style',
-        tag: 'New',
+        label: t('settings.appearance.interfaceStyle'),
+        description: t('settings.appearance.interfaceStyleDesc'),
+        type: 'radio' as const,
+        key: 'style' as const,
+        tag: t('settings.nav.new'),
         choices: [
-          { label: 'Default', id: 'default' },
-          { label: 'Glassmorphism', id: 'glassmorphism' },
+          { label: t('settings.appearance.styleDefault'), id: 'default' },
+          { label: t('settings.appearance.styleGlassmorphism'), id: 'glassmorphism' },
         ],
       },
     ],
   },
   {
-    label: 'Sidebar',
+    label: t('settings.appearance.sidebar'),
     options: [
       {
-        label: 'Enable Compact Mode',
-        description: 'Reduce the size of the sidebar items to show more content on the screen.',
-        type: 'toggle',
-        key: 'compactMode',
+        label: t('settings.appearance.enableCompactMode'),
+        description: t('settings.appearance.enableCompactModeDesc'),
+        type: 'toggle' as const,
+        key: 'compactMode' as const,
       },
       {
-        label: 'View dock',
-        description: 'Show the dock on the right side of the sidebar to access to the different apps quickly.',
-        type: 'toggle',
-        key: 'view_dock',
+        label: t('settings.appearance.viewDock'),
+        description: t('settings.appearance.viewDockDesc'),
+        type: 'toggle' as const,
+        key: 'view_dock' as const,
       },
       {
-        label: 'Normalize file icons',
-        description: 'Display file parents with the same icon as classic files (not in green)',
-        type: 'toggle',
-        key: 'normalizeFileIcons',
+        label: t('settings.appearance.normalizeFileIcons'),
+        description: t('settings.appearance.normalizeFileIconsDesc'),
+        type: 'toggle' as const,
+        key: 'normalizeFileIcons' as const,
       },
       {
-        label: 'Display uncategorized resources',
-        description: 'Show resources (uploads from CDN) that are not categorized at the top of the sidebar.',
-        type: 'toggle',
-        key: 'displayUncategorizedResources',
+        label: t('settings.appearance.displayUncategorizedResources'),
+        description: t('settings.appearance.displayUncategorizedResourcesDesc'),
+        type: 'toggle' as const,
+        key: 'displayUncategorizedResources' as const,
       },
-      { label: 'Hide resources', type: 'toggle', key: 'hideSidebarResources' },
+      { label: t('settings.appearance.hideResources'), type: 'toggle' as const, key: 'hideSidebarResources' as const },
       {
-        label: 'Show items in Sidebar',
-        type: 'groupCheckbox',
-        key: 'sidebarItems',
+        label: t('settings.appearance.showItemsInSidebar'),
+        type: 'groupCheckbox' as const,
+        key: 'sidebarItems' as const,
         items: {
-          manageCategories: 'Manage Categories',
-          importation: 'Importation',
-          cdn: 'CDN',
-          documents: 'Documents',
-          settings: 'Settings',
-          home: 'Home',
-          newPage: 'New Page',
+          manageCategories: t('settings.appearance.sidebarItems.manageCategories'),
+          importation: t('settings.appearance.sidebarItems.importation'),
+          cdn: t('settings.appearance.sidebarItems.cdn'),
+          documents: t('settings.appearance.sidebarItems.documents'),
+          settings: t('settings.appearance.sidebarItems.settings'),
+          home: t('settings.appearance.sidebarItems.home'),
+          newPage: t('settings.appearance.sidebarItems.newPage'),
         },
       },
     ],
   },
   {
-    label: 'Navbar',
+    label: t('settings.appearance.navbar'),
     options: [
       {
-        label: 'Which items to display in the navbar',
-        type: 'groupCheckbox',
-        key: 'navbarItems',
+        label: t('settings.appearance.navbarItemsToDisplay'),
+        type: 'groupCheckbox' as const,
+        key: 'navbarItems' as const,
         items: {
-          breadcrumb: 'Breadcrumb',
-          search: 'Search',
-          theme: 'Theme',
-          navigation: 'Navigation',
+          breadcrumb: t('settings.appearance.navbarItems.breadcrumb'),
+          search: t('settings.appearance.navbarItems.search'),
+          theme: t('settings.appearance.navbarItems.theme'),
+          navigation: t('settings.appearance.navbarItems.navigation'),
         },
       },
     ],
   },
-];
+]);
 </script>

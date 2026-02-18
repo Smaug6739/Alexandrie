@@ -18,15 +18,16 @@ const props = withDefaults(
   },
 );
 
+const { t } = useI18nT();
 const view = defineModel<ViewMode>();
 
 const viewOptions = computed(() => {
   const options = [
-    { value: 'list' as ViewMode, icon: 'table', label: 'Grid view' },
-    { value: 'table' as ViewMode, icon: 'list', label: 'List view' },
+    { value: 'list' as ViewMode, icon: 'table', label: t('components.viewSelection.list') },
+    { value: 'table' as ViewMode, icon: 'list', label: t('components.viewSelection.table') },
   ];
   if (props.showKanban) {
-    options.push({ value: 'kanban' as ViewMode, icon: 'kanban', label: 'Kanban view' });
+    options.push({ value: 'kanban' as ViewMode, icon: 'kanban', label: t('components.viewSelection.kanban') });
   }
   return options;
 });

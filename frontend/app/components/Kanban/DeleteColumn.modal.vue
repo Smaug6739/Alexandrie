@@ -1,14 +1,14 @@
 <template>
   <div class="modal">
-    <h3>Delete column</h3>
-    <p>Are you sure you want to delete the column "{{ columnTitle }}" ?</p>
+    <h3>{{ t('components.kanban.deleteColumnModal.title') }}</h3>
+    <p>{{ t('components.kanban.deleteColumnModal.confirm', { title: columnTitle }) }}</p>
     <p v-if="cardCount > 0" class="warn">
-      This column contains {{ cardCount }} document{{ cardCount > 1 ? 's' : '' }}. They will be moved to the first column.
+      {{ t('components.kanban.deleteColumnModal.hasDocuments', { count: cardCount }) }}
     </p>
-    <p v-else class="info">This column is empty.</p>
+    <p v-else class="info">{{ t('components.kanban.deleteColumnModal.emptyColumn') }}</p>
     <div class="footer">
-      <AppButton type="secondary" @click="emit('close')">Cancel</AppButton>
-      <AppButton type="danger" @click="confirmDelete">Delete</AppButton>
+      <AppButton type="secondary" @click="emit('close')">{{ t('common.actions.cancel') }}</AppButton>
+      <AppButton type="danger" @click="confirmDelete">{{ t('common.actions.delete') }}</AppButton>
     </div>
   </div>
 </template>
@@ -23,6 +23,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   close: [];
 }>();
+
+const { t } = useI18nT();
 
 const confirmDelete = () => {
   props.onConfirm();

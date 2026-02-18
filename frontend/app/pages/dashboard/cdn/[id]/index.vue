@@ -1,40 +1,40 @@
 <template>
   <div class="page-card">
     <header>
-      <h1>Update resource</h1>
+      <h1>{{ t('cdn.edit.title') }}</h1>
       <NuxtLink :to="`/dashboard/cdn/${resource?.id}/preview`" class="btn-icon">
         <AppButton type="secondary">Preview</AppButton>
       </NuxtLink>
     </header>
-    <p>Manage resources and files on the server. You can edit metadata and delete file from the server.</p>
+    <p>{{ t('cdn.edit.description') }}</p>
     <form v-if="resource" @submit.prevent>
       <div class="form-row">
         <div class="form-column">
-          <label>ID</label>
+          <label>{{ t('common.labels.id') }}</label>
           <input id="id" type="text" :value="resource.id" disabled />
         </div>
         <div class="form-column">
-          <label>Size</label>
+          <label>{{ t('common.labels.size') }}</label>
           <input id="size" type="text" :value="readableFileSize(resource.size ?? 0)" disabled />
         </div>
       </div>
-      <label>Name</label>
+      <label>{{ t('common.labels.name') }}</label>
       <input id="name" v-model="resource.name" type="text" required />
-      <label style="display: flex; align-items: center">Parent <AppHint text="To organize your uploads" /></label>
+      <label style="display: flex; align-items: center">{{ t('common.labels.parent') }} <AppHint text="To organize your uploads" /></label>
       <AppSelect v-model="resource.parent_id" nullable :items="nodesTree" placeholder="Select a resource parent" />
-      <label>Type</label>
+      <label>{{ t('common.labels.type') }}</label>
       <input id="id" type="text" :value="resource.metadata?.filetype" disabled />
-      <label>Original path</label>
+      <label>{{ t('cdn.labels.originalPath') }}</label>
       <input id="content" type="text" :value="resource.content" disabled />
-      <label>Path</label>
+      <label>{{ t('cdn.labels.path') }}</label>
       <input id="path" type="text" :value="resource.metadata?.transformed_path" disabled />
       <p style="overflow-wrap: break-word">
         Resource:
         <a :href="resourceURL(resource)" target="_blank">{{ resourceURL(resource) }}</a>
       </p>
       <div class="actions-row">
-        <AppButton type="primary" class="btn primary" @click="updateCategory">Update</AppButton>
-        <AppButton type="danger" @click="showDeleteModal">Delete</AppButton>
+        <AppButton type="primary" class="btn primary" @click="updateCategory">{{ t('common.actions.update') }}</AppButton>
+        <AppButton type="danger" @click="showDeleteModal">{{ t('common.actions.delete') }}</AppButton>
       </div>
     </form>
   </div>
@@ -47,6 +47,7 @@ import { readableFileSize } from '~/helpers/resources';
 definePageMeta({ breadcrumb: 'Edit' });
 
 const nodeStore = useNodesStore();
+const { t } = useI18nT();
 const route = useRoute();
 const { resourceURL } = useApi();
 

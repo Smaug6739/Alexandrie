@@ -1,19 +1,23 @@
 <template>
   <div class="modal">
-    <h2>{{ isEdit ? 'Edit Snippet' : 'New Snippet' }}</h2>
+    <h2>{{ isEdit ? t('settings.snippets.action.titleEdit') : t('settings.snippets.action.titleNew') }}</h2>
 
     <label>
-      <span>Shortcut</span>
+      <span>{{ t('settings.snippets.action.shortcut') }}</span>
       <input v-model="form.id" type="text" placeholder="!example" :class="{ error: formError }" @input="formError = ''" />
       <small v-if="formError" class="error-text">{{ formError }}</small>
-      <small v-else class="hint">Prefix with <code>!</code> for easy trigger in editor</small>
+      <small v-else class="hint">
+        <i18n-t keypath="settings.snippets.action.shortcutHint">
+          <template #code><code>!</code></template>
+        </i18n-t>
+      </small>
     </label>
 
     <label> Content </label>
-    <textarea v-model="form.label" rows="6" placeholder="Snippet content...&#10;Use ${0}, ${1} for tab stops" />
+    <textarea v-model="form.label" rows="6" :placeholder="t('settings.snippets.action.contentPlaceholder')" />
     <div class="actions-row">
-      <AppButton type="secondary" @click="$emit('close')">Cancel</AppButton>
-      <AppButton type="primary" @click="save">{{ isEdit ? 'Save' : 'Create' }}</AppButton>
+      <AppButton type="secondary" @click="$emit('close')">{{ t('common.actions.cancel') }}</AppButton>
+      <AppButton type="primary" @click="save">{{ isEdit ? t('common.actions.save') : t('common.actions.create') }}</AppButton>
     </div>
   </div>
 </template>
@@ -28,14 +32,17 @@ const props = defineProps<{
 
 const emit = defineEmits<{ close: [] }>();
 
-const isEdit = computed(() => !!props.snippet);
-const form = ref<Snippet>({ id: props.snippet?.id ?? '', label: props.snippet?.label ?? '' });
+const { t } = useI18nT();
+
 const formError = ref('');
+const form = ref<Snippet>({ id: props.snippet?.id ?? '', label: props.snippet?.label ?? '' });
+
+const isEdit = computed(() => !!props.snippet);
 
 const save = () => {
   const trimmedId = form.value.id.trim();
   if (!trimmedId) {
-    formError.value = 'Shortcut is required';
+    formError.value = t('settings.snippets.action.required');
     return;
   }
 
@@ -44,7 +51,7 @@ const save = () => {
   if (success) {
     emit('close');
   } else {
-    formError.value = 'This shortcut already exists';
+    formError.value = t('settings.snippets.action.alreadyExists');
   }
 };
 </script>

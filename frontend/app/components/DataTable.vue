@@ -1,7 +1,7 @@
 <template>
   <div class="table">
     <header>
-      <input v-model="searchInput" type="text" placeholder="Search..." />
+      <input v-model="searchInput" type="text" :placeholder="t('components.dataTable.searchPlaceholder')" />
       <!-- Actions groupées (slot) -->
       <slot v-if="selectedRows.length > 0" name="bulk-actions" :selected="selectedRows"> </slot>
     </header>
@@ -40,9 +40,12 @@
             <td colspan="100%">
               <footer>
                 <p>
-                  Showing {{ paginator.startIndex.value }} to {{ paginator.endIndex.value }} of {{ paginator.totalItems.value }} entries |
+                  {{
+                    t('components.dataTable.showing', { start: paginator.startIndex.value, end: paginator.endIndex.value, total: paginator.totalItems.value })
+                  }}
+                  |
                   <span>
-                    <span>Rows per page</span>
+                    <span>{{ t('components.dataTable.rowsPerPage') }}</span>
                     <!-- eslint-disable-next-line vue/no-parsing-error -->
                     <select @change="(e: Event) => paginator.setMaxPerPage(parseInt((<HTMLSelectElement>e.target)?.value) || 10)">
                       <option value="10">10</option>
@@ -82,6 +85,7 @@
 <script lang="ts" setup>
 import { Paginator } from '../helpers/paginator';
 
+const { t } = useI18nT();
 const props = defineProps<{ headers: Header[]; rows: Field[] }>();
 const itemsPerPage = usePreferences().get('datatableItemsCount');
 const searchInput = ref('');

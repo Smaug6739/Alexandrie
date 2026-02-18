@@ -1,28 +1,28 @@
 <template>
   <div>
     <header>
-      <h2>Backup Information <tag yellow>Beta</tag></h2>
+      <h2>{{ t('import.header.title') }} <tag yellow>Beta</tag></h2>
       <AppButton type="secondary" size="sm" class="btn-close" @click="resetImport">
         <Icon name="close" :size="14" />
-        Change file
+        {{ t('import.header.changeFile') }}
       </AppButton>
     </header>
 
     <div class="info-grid">
       <div class="info-item">
-        <span class="label">Created</span>
+        <span class="label">{{ t('import.header.created') }}</span>
         <span class="value">{{ numericDate(manifest.created_at) }}</span>
       </div>
       <div class="info-item">
-        <span class="label">Version</span>
+        <span class="label">{{ t('import.header.version') }}</span>
         <span class="value">{{ manifest.version }}</span>
       </div>
       <div class="info-item">
-        <span class="label">Total Documents</span>
+        <span class="label">{{ t('import.header.totalDocuments') }}</span>
         <span class="value">{{ manifest.statistics.total_documents }}</span>
       </div>
       <div class="info-item">
-        <span class="label">Total Size</span>
+        <span class="label">{{ t('import.header.totalSize') }}</span>
         <span class="value">{{ readableFileSize(manifest.statistics.total_size_bytes) }}</span>
       </div>
     </div>
@@ -31,19 +31,19 @@
     <div class="backup-options">
       <span class="badge" :class="{ active: manifest.options.include_documents }">
         <Icon name="folder" :size="14" />
-        Documents
+        {{ t('import.header.documents') }}
       </span>
       <span class="badge" :class="{ active: manifest.options.include_files }">
         <Icon name="image" :size="14" />
-        Files
+        {{ t('import.header.files') }}
       </span>
       <span class="badge" :class="{ active: manifest.options.include_metadata }">
         <Icon name="layers" :size="14" />
-        Metadata
+        {{ t('import.header.metadata') }}
       </span>
       <span class="badge" :class="{ active: manifest.includeSettings }">
         <Icon name="settings" :size="14" />
-        Settings
+        {{ t('import.header.settings') }}
       </span>
     </div>
   </div>
@@ -54,6 +54,7 @@ import type { ManifestExtended } from '~/helpers/backups/types';
 import { readableFileSize } from '~/helpers/resources';
 defineProps<{ manifest: ManifestExtended; resetImport: () => void }>();
 
+const { t } = useI18nT();
 const { numericDate } = useDateFormatters();
 </script>
 

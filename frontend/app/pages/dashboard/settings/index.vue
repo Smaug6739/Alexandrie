@@ -2,10 +2,10 @@
   <div :class="['component', isModal ? 'modal' : '']" @keydown.stop>
     <button class="menu-toggle" @click="menuOpen = !menuOpen">
       <Icon :name="menuOpen ? 'close' : 'menu'" />
-      {{ menuOpen ? 'Close menu' : 'Menu' }}
+      {{ menuOpen ? t('settings.menu.toggleClose') : t('settings.menu.toggleOpen') }}
     </button>
     <nav :class="{ open: menuOpen }">
-      <span v-if="isModal">Account settings</span>
+      <span v-if="isModal">{{ t('settings.meta.accountSettings') }}</span>
       <div v-if="isModal && store.user" class="user">
         <img :src="avatarURL(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
         <div>
@@ -85,6 +85,7 @@ const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
 const { avatarURL } = useApi();
+const { t } = useI18nT();
 
 const currentPage = ref<PageKey>((route.query.p as PageKey) || 'profile');
 const currentComponent = computed(() => pages[currentPage.value]);
@@ -96,48 +97,48 @@ const logout = () => {
   close();
 };
 
-const navSections: NavSection[] = [
+const navSections = computed<NavSection[]>(() => [
   {
-    title: 'General',
+    title: t('settings.nav.general'),
     items: [
-      { key: 'profile', label: 'My profile', icon: 'profil' },
-      { key: 'apparence', label: 'Apparence', icon: 'brush', bubble: true },
-      { key: 'security', label: 'Security', icon: 'security' },
+      { key: 'profile', label: t('settings.pages.profile'), icon: 'profil' },
+      { key: 'apparence', label: t('settings.pages.appearance'), icon: 'brush', bubble: true },
+      { key: 'security', label: t('settings.pages.security'), icon: 'security' },
     ],
   },
   {
-    title: 'Preferences',
-    tag: 'New',
+    title: t('settings.nav.preferences'),
+    tag: t('settings.nav.new'),
     items: [
-      { key: 'documents', label: 'Documents settings', icon: 'bookmark-stack' },
-      { key: 'editor', label: 'Editor settings', icon: 'editor' },
-      { key: 'styles', label: 'Styles injection', icon: 'styles' },
-      { key: 'other', label: 'Other', icon: 'advanced' },
+      { key: 'documents', label: t('settings.pages.documents'), icon: 'bookmark-stack' },
+      { key: 'editor', label: t('settings.pages.editor'), icon: 'editor' },
+      { key: 'styles', label: t('settings.pages.styles'), icon: 'styles' },
+      { key: 'other', label: t('settings.pages.other'), icon: 'advanced' },
     ],
   },
   {
-    title: 'Tools',
+    title: t('settings.nav.tools'),
     items: [
-      { key: 'snippets', label: 'Snippets', icon: 'snippets' },
-      { key: 'backup', label: 'Backup', icon: 'backup' },
-      { key: 'advanced', label: 'Advanced', icon: 'build' },
+      { key: 'snippets', label: t('settings.pages.snippets'), icon: 'snippets' },
+      { key: 'backup', label: t('settings.pages.backup'), icon: 'backup' },
+      { key: 'advanced', label: t('settings.pages.advanced'), icon: 'build' },
     ],
   },
   {
-    title: 'Guides & Infos',
+    title: t('settings.nav.guides'),
     items: [
-      { key: 'shortcuts', label: 'Shortcuts', icon: 'shortcuts' },
-      { key: 'markdown', label: 'Markdown', icon: 'markdown' },
+      { key: 'shortcuts', label: t('settings.pages.shortcuts'), icon: 'shortcuts' },
+      { key: 'markdown', label: t('settings.pages.markdown'), icon: 'markdown' },
     ],
   },
   {
-    title: 'Other',
+    title: t('settings.nav.other'),
     items: [
-      { key: 'about', label: 'About', icon: 'view' },
-      { type: 'action', label: 'Logout', icon: 'logout', action: () => logout() },
+      { key: 'about', label: t('settings.pages.about'), icon: 'view' },
+      { type: 'action', label: t('settings.pages.logout'), icon: 'logout', action: () => logout() },
     ],
   },
-];
+]);
 
 const setPage = (p: PageKey) => {
   router.push({ query: { ...route.query, p } });

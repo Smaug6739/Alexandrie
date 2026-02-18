@@ -1,29 +1,29 @@
 <template>
   <div v-if="node" class="modal-content">
-    <h2 class="title"><Icon name="manage_access" display="lg" /> Manage permissions</h2>
+    <h2 class="title"><Icon name="manage_access" display="lg" /> {{ t('nodes.modals.permissions.title') }}</h2>
 
-    <label for="accessibility">General access</label>
+    <label for="accessibility">{{ t('nodes.modals.permissions.generalAccess') }}</label>
     <AppRadio v-model="node.accessibility" :items="DOCUMENT_ACCESSIBILITIES" placeholder="Accessibility" />
     <!-- Accessibility 3: Public document -->
     <div v-if="node.accessibility === 3" class="public-info">
-      <p class="info-text">This document will be publicly accessible via a unique URL.</p>
+      <p class="info-text">{{ t('nodes.modals.permissions.publicInfo') }}</p>
       <p class="info-text">
-        Share this link to allow anyone to view the document without needing an account:
+        {{ t('nodes.modals.permissions.shareLink') }}
         <br />
         <a :href="link" target="_blank" rel="noopener noreferrer" class="public-link">
           <Icon name="new_tab" display="sm" fill="var(--text-secondary)" /><span>{{ link }}</span>
         </a>
       </p>
       <div class="access">
-        <p for="access">Default permission for new users</p>
+        <p for="access">{{ t('nodes.modals.permissions.defaultPermission') }}</p>
         <AppSelect v-model="node.access" :items="DOCUMENT_GENERAL_ACCESS" :searchable="false" size="150px" placeholder="Default" />
       </div>
     </div>
 
     <!-- Search + add -->
     <form @submit.prevent>
-      <label for="user">Search user</label>
-      <input id="user" v-model="query" placeholder="Username or email" autocomplete="off" />
+      <label for="user">{{ t('nodes.modals.permissions.searchUser') }}</label>
+      <input id="user" v-model="query" :placeholder="t('nodes.modals.permissions.searchPlaceholder')" autocomplete="off" />
 
       <div v-for="user in users" :key="user.id" class="user-card">
         <div class="user-info-row">
@@ -33,7 +33,7 @@
           </span>
           <div class="user-actions">
             <AppSelect v-model="selectedPermission" :items="NODE_PERMISSIONS" :searchable="false" size="200px" />
-            <button @click="addPermission(user)">Add</button>
+            <button @click="addPermission(user)">{{ t('nodes.modals.permissions.addPermission') }}</button>
           </div>
         </div>
       </div>
@@ -42,8 +42,8 @@
     </form>
 
     <!-- Current permissions -->
-    <label for="permissions">Manage permissions</label>
-    <p v-if="!node?.permissions.length" class="info-secondary">No permissions set</p>
+    <label for="permissions">{{ t('nodes.modals.permissions.managePermissions') }}</label>
+    <p v-if="!node?.permissions.length" class="info-secondary">{{ t('nodes.modals.permissions.noPermissions') }}</p>
     <ul id="permissions" class="permissions-list">
       <li v-for="perm in node.permissions" :key="perm.id" class="permission-item">
         <div class="user-info-row">
@@ -56,7 +56,11 @@
             <AppSelect v-model="perm.permission" :items="NODE_PERMISSIONS" :searchable="false" size="250px" @update:model-value="updatePermission(perm)">
               <template #list-footer>
                 <hr />
-                <AppSelectNode :level="0" :node="{ id: `$rm-${perm.id}`, label: 'Remove permission' }" @select="removePermission(perm)" />
+                <AppSelectNode
+                  :level="0"
+                  :node="{ id: `$rm-${perm.id}`, label: t('nodes.modals.permissions.removePermission') }"
+                  @select="removePermission(perm)"
+                />
               </template>
             </AppSelect>
           </div>
@@ -71,6 +75,7 @@ import { DOCUMENT_ACCESSIBILITIES, DOCUMENT_GENERAL_ACCESS, NODE_PERMISSIONS } f
 import type { Node, Permission, PublicUser } from '~/stores';
 
 const props = defineProps<{ node: Node }>();
+const { t } = useI18nT();
 
 const usersStore = useUserStore();
 const nodesStore = useNodesStore();
@@ -110,7 +115,7 @@ const searchUsers = debounce((query: unknown) => {
     })
     .catch(() => {
       users.value = [];
-      searchError.value = 'No results found';
+      searchError.value = t('nodes.modals.permissions.noResults');
     })
     .finally(() => (isLoading.value = false));
 }, 750);

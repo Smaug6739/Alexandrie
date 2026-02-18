@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="tabs">
-      <button :class="{ active: activeTab === 'create' }" @click="activeTab = 'create'">New Documents ({{ toCreate.length }})</button>
-      <button :class="{ active: activeTab === 'update' }" @click="activeTab = 'update'">Updates ({{ toUpdate.length }})</button>
+      <button :class="{ active: activeTab === 'create' }" @click="activeTab = 'create'">{{ t('import.tabs.newDocuments') }} ({{ toCreate.length }})</button>
+      <button :class="{ active: activeTab === 'update' }" @click="activeTab = 'update'">{{ t('import.tabs.updates') }} ({{ toUpdate.length }})</button>
       <button :class="{ active: activeTab === 'local' }" @click="activeTab = 'local'">
-        Local settings and preferences ({{ manifest?.includeSettings ? 1 : 0 }})
+        {{ t('import.tabs.localSettings') }} ({{ manifest?.includeSettings ? 1 : 0 }})
       </button>
     </div>
 
@@ -12,13 +12,13 @@
     <div v-if="activeTab === 'create'" class="tab-content">
       <div v-if="toCreate.length === 0" class="empty-state">
         <Icon name="folder" :size="32" />
-        <p>No new documents to import</p>
+        <p>{{ t('import.tabs.noNewDocuments') }}</p>
       </div>
       <template v-else>
         <div class="list-header">
-          <AppCheck v-model="selectAllCreate" @update:model-value="toggleSelectAllCreate"> Select all </AppCheck>
+          <AppCheck v-model="selectAllCreate" @update:model-value="toggleSelectAllCreate"> {{ t('import.tabs.selectAll') }} </AppCheck>
           <AppButton type="primary" size="sm" :disabled="selectedCreate.length === 0 || isImporting" @click="importSelected('create')">
-            Import selected ({{ selectedCreate.length }})
+            {{ t('import.tabs.importSelected', { count: selectedCreate.length }) }}
           </AppButton>
         </div>
         <div class="documents-list">
@@ -36,7 +36,7 @@
               </div>
             </div>
             <div class="doc-actions">
-              <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'create')"> Import </AppButton>
+              <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'create')"> {{ t('import.tabs.import') }} </AppButton>
             </div>
           </div>
         </div>
@@ -47,14 +47,14 @@
     <div v-if="activeTab === 'update'" class="tab-content">
       <div v-if="toUpdate.length === 0" class="empty-state">
         <Icon name="update" :size="32" />
-        <p>No documents to update</p>
+        <p>{{ t('import.tabs.noUpdates') }}</p>
       </div>
       <template v-else>
         <div class="list-header">
-          <AppCheck v-model="selectAllUpdate" @update:model-value="toggleSelectAllUpdate"> Select all </AppCheck>
+          <AppCheck v-model="selectAllUpdate" @update:model-value="toggleSelectAllUpdate"> {{ t('import.tabs.selectAll') }} </AppCheck>
           <AppButton type="primary" size="sm" :disabled="selectedUpdate.length === 0 || isImporting" @click="importSelected('update')">
             <LoaderSpinner v-if="isImporting" :size="14" />
-            Update selected ({{ selectedUpdate.length }})
+            {{ t('import.tabs.updateSelected', { count: selectedUpdate.length }) }}
           </AppButton>
         </div>
         <div class="documents-list">
@@ -71,17 +71,19 @@
             </div>
             <div class="comparison">
               <div class="version current">
-                <span class="version-label">Current</span>
+                <span class="version-label">{{ t('import.tabs.current') }}</span>
                 <span class="version-date">{{ numericDate(getExistingNode(doc.id)?.updated_timestamp) }}</span>
               </div>
               <Icon name="arrow-right" :size="14" class="arrow" />
               <div class="version backup">
-                <span class="version-label">Backup</span>
+                <span class="version-label">{{ t('import.tabs.backup') }}</span>
                 <span class="version-date">{{ numericDate(doc.updated_timestamp) }}</span>
               </div>
             </div>
             <div class="doc-actions">
-              <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'update')"> Imprort from backup </AppButton>
+              <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'update')">
+                {{ t('import.tabs.importFromBackup') }}
+              </AppButton>
             </div>
           </div>
         </div>
@@ -92,16 +94,14 @@
     <div v-if="activeTab === 'local'" class="tab-content">
       <div v-if="!manifest.includeSettings" class="empty-state">
         <Icon name="settings" :size="32" />
-        <p>No local settings and preferences found in the backup</p>
+        <p>{{ t('import.tabs.noLocalSettings') }}</p>
       </div>
       <div v-else class="empty-state">
         <Icon name="settings" :size="32" />
-        <p>Local settings and preferences can be imported</p>
-        <p>Do you want to replace your local settings and preferences with those from the backup?</p>
-        <p class="warning">
-          <Icon name="warning" :size="14" /> This will overwrite your current local settings and preferences including <strong>your snippets</strong>
-        </p>
-        <AppButton type="primary" size="md" :disabled="isImporting" @click="importLocalSettings"> Import Local Settings </AppButton>
+        <p>{{ t('import.tabs.localSettingsAvailable') }}</p>
+        <p>{{ t('import.tabs.replaceLocalSettings') }}</p>
+        <p class="warning"><Icon name="warning" :size="14" /> {{ t('import.tabs.localSettingsWarning') }}</p>
+        <AppButton type="primary" size="md" :disabled="isImporting" @click="importLocalSettings"> {{ t('import.tabs.importLocalSettings') }} </AppButton>
       </div>
     </div>
   </div>
@@ -112,6 +112,7 @@ import { getRoleName, resolveIcon } from '~/helpers/node';
 import type { DB_Node, ImportJob } from '~/stores';
 import type { ManifestExtended } from '~/helpers/backups/types';
 
+const { t } = useI18nT();
 const props = defineProps<{ manifest: ManifestExtended; toCreate: DB_Node[]; toUpdate: DB_Node[]; importJob: ImportJob }>();
 const emit = defineEmits<{
   (e: 'import', type: 'create' | 'update', nodeIds: string[]): void;

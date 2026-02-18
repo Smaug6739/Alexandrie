@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="page-title">Editor preferences</h2>
-    <p class="page-subtitle">Manage your editor preferences.</p>
+    <h2 class="page-title">{{ t('settings.editor.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.editor.subtitle') }}</p>
 
     <AppPreferenceInputSection :options="options" />
   </div>
@@ -14,18 +14,20 @@ type InterfaceOption = Option & {
   tag?: string;
 };
 
-const options: Array<{ label: string; options: InterfaceOption[] }> = [
+const { t } = useI18nT();
+
+const options = computed<Array<{ label: string; options: InterfaceOption[] }>>(() => [
   {
-    label: 'Editor',
+    label: t('settings.editor.section'),
     options: [
       {
-        label: 'Editor font family',
+        label: t('settings.editor.fontFamily'),
         type: 'select',
         key: 'editorFontFamily',
         choices: EDITOR_FONTS,
       },
       {
-        label: 'Editor font size',
+        label: t('settings.editor.fontSize'),
         type: 'select',
         key: 'editorFontSize',
         choices: [
@@ -38,33 +40,33 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
           { label: '24', id: 24 },
         ],
       },
-      { label: 'Enable document auto-save', type: 'toggle', key: 'documentAutoSave' },
+      { label: t('settings.editor.enableAutoSave'), type: 'toggle', key: 'documentAutoSave' },
       {
-        label: 'Enable Spell Check',
-        description: 'Enable spell check of browser in the editor. Changes may require a page reload to take effect.',
+        label: t('settings.editor.enableSpellCheck'),
+        description: t('settings.editor.enableSpellCheckDesc'),
         type: 'toggle',
         key: 'editorSpellCheck',
       },
       {
-        label: 'Display statistics bar',
-        description: 'Show a small statistics bar at the top of the editor with word count, characters, and lines.',
+        label: t('settings.editor.displayStatsBar'),
+        description: t('settings.editor.displayStatsBarDesc'),
         type: 'toggle',
         key: 'editorDisplayStats',
       },
       {
-        label: 'Enable Snippets',
-        description: 'Enable or disable editor snippets functionality.',
+        label: t('settings.editor.enableSnippets'),
+        description: t('settings.editor.enableSnippetsDesc'),
         type: 'toggle',
         key: 'editorSnippetsEnabled',
       },
       {
-        label: 'Simplified view for mobile',
-        tag: 'New',
-        description: 'Enable a simplified editor view on mobile devices for better usability.',
+        label: t('settings.editor.simplifiedMobileView'),
+        tag: t('settings.nav.new'),
+        description: t('settings.editor.simplifiedMobileViewDesc'),
         type: 'toggle',
         key: 'editorSimplifiedViewOnMobile',
       },
     ],
   },
-];
+]);
 </script>

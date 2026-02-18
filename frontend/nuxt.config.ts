@@ -47,12 +47,24 @@ export default defineNuxtConfig({
 
   ssr: false,
   css: ['~/styles/main.scss', '~/styles/vendors/katex/katex.min.css'],
-  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt', '@nuxt/eslint'],
+  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt', '@nuxt/eslint', '@nuxtjs/i18n'],
 
   colorMode: {
     preference: 'light', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
     classSuffix: '-mode',
+  },
+
+  i18n: {
+    strategy: 'no_prefix',
+    locales: [
+      { code: 'en', language: 'en-US' },
+      { code: 'fr', language: 'fr-FR' },
+    ],
+    defaultLocale: 'en',
+    experimental: {
+      typedOptionsAndMessages: 'default',
+    },
   },
 
   pwa: {

@@ -1,21 +1,21 @@
 <template>
   <div class="ctn">
-    <h2>Import Summary</h2>
+    <h2>{{ t('import.summary.title') }}</h2>
     <div class="stats">
       <div class="stat new">
         <Icon name="plus" :size="20" />
         <span class="count">{{ toCreate }}</span>
-        <span class="label">New documents</span>
+        <span class="label">{{ t('import.summary.newDocuments') }}</span>
       </div>
       <div class="stat update">
         <Icon name="update" :size="20" />
         <span class="count">{{ toUpdate }}</span>
-        <span class="label">Documents to update</span>
+        <span class="label">{{ t('import.summary.documentsToUpdate') }}</span>
       </div>
       <div class="stat unchanged">
         <Icon name="check" :size="20" />
         <span class="count">{{ unchangedCount }}</span>
-        <span class="label">Unchanged</span>
+        <span class="label">{{ t('import.summary.unchanged') }}</span>
       </div>
     </div>
     <div class="progess">
@@ -28,6 +28,8 @@
 import ImportProgress from './ImportProgress.vue';
 
 import type { ImportJob } from '~/stores';
+
+const { t } = useI18nT();
 defineProps<{
   toCreate: number;
   toUpdate: number;

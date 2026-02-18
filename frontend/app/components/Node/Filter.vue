@@ -2,15 +2,15 @@
   <div ref="root" class="filter-component">
     <div class="btn-icon" @click="toggle" @keydown.enter.prevent="toggle">
       <Icon name="filter" display="lg" />
-      <p class="hint-tooltip">Filter nodes</p>
+      <p class="hint-tooltip">{{ t('nodes.filter.title') }}</p>
       <span v-if="filtered.length != nodes?.length" class="bubble"></span>
     </div>
 
     <Transition name="pop">
-      <div v-if="opened" class="filter-panel" role="dialog" aria-label="Filter nodes" @keydown.esc.prevent="close">
+      <div v-if="opened" class="filter-panel" role="dialog" :aria-label="t('nodes.filter.title')" @keydown.esc.prevent="close">
         <!-- Search -->
         <div>
-          <label>Search</label>
+          <label>{{ t('common.actions.search') }}</label>
           <input ref="inputRef" v-model="options.query" />
         </div>
 
@@ -18,31 +18,32 @@
         <div class="row">
           <label class="row">
             <input v-model="options.sortType" type="radio" value="ascending" />
-            <span>Ascending</span>
+            <span>{{ t('common.filter.ascending') }}</span>
           </label>
           <label class="row">
             <input v-model="options.sortType" type="radio" value="descending" />
-            <span>Descending</span>
+            <span>{{ t('common.filter.descending') }}</span>
           </label>
         </div>
         <div class="row">
           <div style="flex: 1">
-            <label>Sort</label>
+            <label>{{ t('common.filter.sort') }}</label>
             <AppSelect v-model="options.sortBy" :items="SORT_OPTIONS" />
           </div>
 
           <div>
-            <label>Match</label>
+            <label>{{ t('common.filter.match') }}</label>
             <AppSelect v-model="options.matchMode" :items="MATCH_OPTIONS" size="125px" class="select" />
           </div>
         </div>
 
         <div class="panel-actions">
-          <button class="btn" type="button" @click="reset">Reset</button>
+          <button class="btn" type="button" @click="reset">{{ t('common.actions.reset') }}</button>
         </div>
 
         <div class="panel-footer">
-          <small>{{ filtered.length }} / {{ nodes?.length }} nodes match</small> <small>• <kbd>esc</kbd> to close</small>
+          <small>{{ t('nodes.filter.footer', { count: filtered.length, total: props.nodes.length }) }}</small>
+          <small>• <kbd>esc</kbd> {{ t('nodes.filter.toClose') }}</small>
         </div>
       </div>
     </Transition>
@@ -62,6 +63,7 @@ const defaultOptions: SearchOptions = {
   sortBy: 'created',
   matchMode: 'includes',
 };
+const { t } = useI18nT();
 const store = useNodesStore();
 const options = ref({ ...defaultOptions });
 const opened = ref<boolean>(false);
@@ -153,6 +155,10 @@ onBeforeUnmount(() => {
   margin: 4px 0;
   gap: 8px;
   justify-content: space-around;
+}
+
+kbd {
+  padding: 2px 4px;
 }
 
 label {

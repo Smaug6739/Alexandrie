@@ -1,34 +1,38 @@
 <template>
   <div>
-    <h2 class="page-title">My Profile</h2>
-    <p class="page-subtitle">Manage your profile settings and preferences.</p>
+    <h2 class="page-title">{{ t('settings.profile.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.profile.subtitle') }}</p>
     <form v-if="userStore.user" @submit.prevent="updateUser">
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="username">{{ t('settings.profile.username') }}</label>
         <input id="username" v-model="userStore.user.username" type="text" disabled required />
       </div>
       <div class="form-group">
-        <label for="firstname">First Name</label>
+        <label for="firstname">{{ t('settings.profile.firstname') }}</label>
         <input id="firstname" v-model="userStore.user.firstname" type="text" />
       </div>
       <div class="form-group">
-        <label for="lastname">Last Name</label>
+        <label for="lastname">{{ t('settings.profile.lastname') }}</label>
         <input id="lastname" v-model="userStore.user.lastname" type="text" />
       </div>
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ t('settings.profile.email') }}</label>
         <input id="email" v-model="userStore.user.email" type="email" required />
       </div>
       <div class="form-group">
-        <label>Avatar</label>
+        <label>{{ t('settings.profile.avatar') }}</label>
         <img :src="avatarDisplayed" class="avatar" @click="selectAvatar" />
         <input ref="avatarInput" type="file" accept="image/*" style="display: none" @change="previewAvatar" />
       </div>
-      <AppButton type="primary">Update profile</AppButton>
+      <AppButton type="primary">{{ t('settings.profile.updateBtn') }}</AppButton>
     </form>
     <hr style="margin: 10px 0" />
-    <p><strong>Account creation:</strong> {{ shortDate(userStore.user?.created_timestamp) }}</p>
-    <p><strong>Last update:</strong> {{ shortDate(userStore.user?.updated_timestamp) }}</p>
+    <p>
+      <strong>{{ t('settings.profile.accountCreation') }}:</strong> {{ shortDate(userStore.user?.created_timestamp) }}
+    </p>
+    <p>
+      <strong>{{ t('settings.profile.lastUpdate') }}:</strong> {{ shortDate(userStore.user?.updated_timestamp) }}
+    </p>
   </div>
 </template>
 
@@ -38,6 +42,7 @@ const resourcesStore = useResourcesStore();
 
 const { avatarURL } = useApi();
 const { shortDate } = useDateFormatters();
+const { t } = useI18nT();
 
 const avatarInput = ref<HTMLInputElement | null>(null);
 const avatarPreview = ref('');
@@ -69,10 +74,10 @@ const updateUser = async () => {
   try {
     await uploadAvatar();
     await userStore.update(userStore.user);
-    useNotifications().add({ type: 'success', title: 'User updated' });
+    useNotifications().add({ type: 'success', title: t('settings.profile.notifications.updated') });
   } catch (e) {
     avatarPreview.value = '';
-    useNotifications().add({ type: 'error', title: 'Error', message: e as string });
+    useNotifications().add({ type: 'error', title: t('settings.profile.notifications.error'), message: e as string });
   }
 };
 </script>

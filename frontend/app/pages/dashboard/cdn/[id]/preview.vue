@@ -2,24 +2,24 @@
   <div class="page-card">
     <template v-if="resource">
       <header>
-        <h1>Preview <tag yellow>Beta</tag> • {{ resource.name }}</h1>
+        <h1>{{ t('cdn.preview.title') }} <tag yellow>Beta</tag> • {{ resource.name }}</h1>
         <div class="actions-row">
           <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
           <NuxtLink :to="`/dashboard/cdn/${resource.id}`" class="btn-icon">
             <Icon name="edit" display="lg" />
-            <p class="hint-tooltip">Edit</p>
+            <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
           </NuxtLink>
           <span class="btn-icon" @click="copyLink">
             <Icon name="copy" display="lg" />
-            <p class="hint-tooltip">Copy link</p>
+            <p class="hint-tooltip">{{ t('common.actions.copyLink') }}</p>
           </span>
           <NuxtLink :href="resourceURL(resource, true)" download rel="noopener" class="btn-icon">
             <Icon name="download" display="lg" />
-            <p class="hint-tooltip">Download</p>
+            <p class="hint-tooltip">{{ t('common.actions.download') }}</p>
           </NuxtLink>
           <NuxtLink class="btn-icon" @click="showDeleteModal">
             <Icon name="delete" display="lg" />
-            <p class="hint-tooltip">Delete</p>
+            <p class="hint-tooltip">{{ t('common.actions.delete') }}</p>
           </NuxtLink>
         </div>
       </header>
@@ -29,10 +29,10 @@
         <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls />
         <audio v-else-if="isAudioFile(mimeType)" :src="resourceURL(resource)" controls />
         <div v-else class="no-preview">
-          <p>Preview not available for this file type.</p>
+          <p>{{ t('cdn.preview.unavailable') }}</p>
           <p>
             <NuxtLink :href="resourceURL(resource, true)" download rel="noopener">
-              <AppButton type="primary">Download file</AppButton>
+              <AppButton type="primary">{{ t('cdn.actions.download') }}</AppButton>
             </NuxtLink>
           </p>
         </div>
@@ -48,6 +48,7 @@ import { isImageFile, isPdfFile, isVideoFile, isAudioFile } from '~/helpers/reso
 
 definePageMeta({ breadcrumb: 'Preview' });
 
+const { t } = useI18nT();
 const { resourceURL } = useApi();
 
 const zoom = ref<(typeof PDF_SCALES)[number]['id']>('automatic_zoom');

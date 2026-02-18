@@ -9,17 +9,17 @@
         <div class="session-title">
           <span class="browser">{{ parsedUserAgent.browser }}</span>
           <span class="os">on {{ parsedUserAgent.os }}</span>
-          <span v-if="isCurrent" class="badge current">Current</span>
-          <span v-else-if="!session.active" class="badge inactive">Inactive</span>
+          <span v-if="isCurrent" class="badge current">{{ t('components.sessionCard.current') }}</span>
+          <span v-else-if="!session.active" class="badge inactive">{{ t('components.sessionCard.inactive') }}</span>
         </div>
         <div class="session-meta">
           <span class="meta-item">
             <Icon name="location" display="xsm" />
-            {{ session.location || 'Unknown location' }}
+            {{ session.location || t('components.sessionCard.unknownLocation') }}
           </span>
           <span class="meta-item">
             <Icon name="internet" display="xsm" />
-            {{ session.ip_adress || 'Unknown IP' }}
+            {{ session.ip_adress || t('components.sessionCard.unknownIP') }}
           </span>
         </div>
       </div>
@@ -28,22 +28,22 @@
     <div class="session-details">
       <div class="detail-row">
         <div class="detail-item">
-          <span class="detail-label">Login</span>
+          <span class="detail-label">{{ t('components.sessionCard.login') }}</span>
           <span class="detail-value">{{ numericDate(session.login_timestamp) }}</span>
         </div>
         <div class="detail-item">
-          <span class="detail-label">Last activity</span>
+          <span class="detail-label">{{ t('components.sessionCard.lastActivity') }}</span>
           <span class="detail-value">{{ formatRelativeDate(session.last_refresh_timestamp) }}</span>
         </div>
         <div v-if="session.logout_timestamp" class="detail-item">
-          <span class="detail-label">Logged out</span>
+          <span class="detail-label">{{ t('components.sessionCard.loggedOut') }}</span>
           <span class="detail-value">{{ numericDate(session.logout_timestamp) }}</span>
         </div>
       </div>
     </div>
 
     <div v-if="showUserAgent && session.user_agent" class="session-user-agent">
-      <span class="user-agent-label">User agent</span>
+      <span class="user-agent-label">{{ t('components.sessionCard.userAgent') }}</span>
       <code class="user-agent-value">{{ session.user_agent }}</code>
     </div>
   </div>
@@ -51,6 +51,8 @@
 
 <script setup lang="ts">
 import { parseUserAgent } from '~/helpers/utils';
+
+const { t } = useI18nT();
 
 export interface Session {
   id: string;

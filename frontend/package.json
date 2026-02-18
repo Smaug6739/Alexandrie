@@ -28,6 +28,7 @@
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "1.15.1",
     "@nuxtjs/color-mode": "^4.0.0",
+    "@nuxtjs/i18n": "10.2.3",
     "@pinia/nuxt": "^0.11.3",
     "@types/katex": "^0.16.8",
     "@types/markdown-it": "^14.1.2",

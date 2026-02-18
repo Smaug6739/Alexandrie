@@ -2,7 +2,7 @@
   <div>
     <div v-if="items.length === 0" class="no-results">
       <Icon name="search" class="no-results-icon" />
-      <p>No results found for "{{ query }}"</p>
+      <p>{{ t('components.commandCenter.noResults', { query }) }}</p>
     </div>
     <div v-else class="search-results-list">
       <div v-for="(group, section) in groupedItems" :key="section" class="section">
@@ -38,6 +38,7 @@ import type { ItemCommand } from './types';
 const props = defineProps<{ items: ItemCommand[]; selectedIndex: number; query: string }>();
 defineEmits<{ updateSelectedIndex: [index: number] }>();
 
+const { t } = useI18nT();
 const { close } = useCommandCenter();
 
 const groupedItems = computed(() => {

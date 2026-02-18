@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="page-title">Styles injection</h2>
-    <p class="page-subtitle">Inherit and customize the application and document styles.</p>
+    <h2 class="page-title">{{ t('settings.styles.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.styles.subtitle') }}</p>
 
     <AppPreferenceInputSection :options="options" />
   </div>
@@ -12,27 +12,29 @@ type InterfaceOption = Option & {
   tag?: string;
 };
 
-const options: Array<{ label: string; options: InterfaceOption[] }> = [
+const { t } = useI18nT();
+
+const options = computed<Array<{ label: string; options: InterfaceOption[] }>>(() => [
   {
-    label: 'Custom styles',
+    label: t('settings.styles.customStyles'),
     options: [
       {
-        label: 'Enable custom styles injection',
-        description: 'Inject your own CSS to customize the app and document themes. Changes are applied in real-time.',
+        label: t('settings.styles.enableInjection'),
+        description: t('settings.styles.enableInjectionDesc'),
         type: 'toggle',
         key: 'stylesInjectionEnabled',
       },
       {
-        label: 'Application styles',
-        description: 'CSS applied globally to the entire application (layout, sidebar, navbar, etc.)',
+        label: t('settings.styles.appStyles'),
+        description: t('settings.styles.appStylesDesc'),
         type: 'textarea',
         key: 'stylesInjection',
         placeholder: '/* e.g. */\n:root {\n  --surface-base: #1a1a2e;\n}',
         rows: 8,
       },
       {
-        label: 'Document styles',
-        description: 'CSS applied to document content (markdown preview, typography, code blocks, etc.)',
+        label: t('settings.styles.documentStyles'),
+        description: t('settings.styles.documentStylesDesc'),
         type: 'textarea',
         key: 'stylesDocumentsInjection',
         placeholder: '/* e.g. */\nh1 {\n  color: coral;\n}',
@@ -40,5 +42,5 @@ const options: Array<{ label: string; options: InterfaceOption[] }> = [
       },
     ],
   },
-];
+]);
 </script>
