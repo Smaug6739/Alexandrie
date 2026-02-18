@@ -4,7 +4,7 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: 'Edit' });
+definePageMeta({ breadcrumb: {i18n: 'common.actions.edit'} });
 
 const store = useNodesStore();
 const route = useRoute();
@@ -27,8 +27,8 @@ watchEffect(async () => {
 function save(doc: Node) {
   store
     .update(doc)
-    .then(() => notifications.add({ type: 'success', title: 'Document successfully updated' }))
-    .catch(e => notifications.add({ type: 'error', title: 'Error', message: e }));
+    .then(() => notifications.add({ title: 'Document successfully updated', type: 'success' }))
+    .catch(e => notifications.add({ message: e, title: 'Error', type: 'error' }));
 }
 
 function autoSave(doc: Node) {

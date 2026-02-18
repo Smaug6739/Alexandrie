@@ -44,7 +44,7 @@
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize } from '~/helpers/resources';
 
-definePageMeta({ breadcrumb: 'Edit' });
+definePageMeta({ breadcrumb: {i18n: 'common.actions.edit'} });
 
 const nodeStore = useNodesStore();
 const { t } = useI18nT();
@@ -60,10 +60,10 @@ const updateCategory = async () => {
     nodeStore
       .update(resource.value)
       .then(() => {
-        useNotifications().add({ type: 'success', title: 'Resource updated' });
+        useNotifications().add({ title: 'Resource updated', type: 'success' });
         useRouter().push('/dashboard/cdn');
       })
-      .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+      .catch(e => useNotifications().add({ message: e, title: 'Error', type: 'error' }));
 };
 const showDeleteModal = () => {
   useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));

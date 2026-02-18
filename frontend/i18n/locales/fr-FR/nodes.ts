@@ -106,8 +106,8 @@ export default {
   tags: 'Tags',
 
   types: {
-    category: 'Catégorie',
-    document: 'Document',
+    category: 'Catégorie | Catégories',
+    document: 'Document | Documents',
     resource: 'Ressource',
     workspace: 'Espace de travail',
   },

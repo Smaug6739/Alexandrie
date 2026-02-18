@@ -13,6 +13,7 @@ export default {
     edit: 'Modifier',
     export: 'Exporter',
     import: 'Importer',
+    new: 'Nouveau',
     open: 'Ouvrir',
     pin: 'Épingler en haut',
     preview: 'Aperçu',
@@ -20,9 +21,11 @@ export default {
     reset: 'Réinitialiser',
     save: 'Enregistrer',
     search: 'Rechercher',
+    share: 'Partager',
     unpin: 'Détacher du haut',
     update: 'Mettre à jour',
     upload: 'Téléverser',
+
   },
 
   confirm: {
@@ -44,6 +47,7 @@ export default {
 
   labels: {
     action: 'Action',
+    all: 'Tous',
     color: 'Couleur',
     content: 'Contenu',
     date: 'Date',

@@ -46,4 +46,6 @@ export default {
     title: 'Aperçu',
     unavailable: 'Aperçu non disponible pour ce type de fichier',
   },
+
+  storageUsed: 'Espace utilisé',
 } as const;

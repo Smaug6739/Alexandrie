@@ -1,12 +1,12 @@
-import fr from './locales/fr-FR';
 import en from './locales/en-US';
+import fr from './locales/fr-FR';
 
-export type MessageSchema = typeof fr;
+export type MessageSchema = typeof en;
 
 export default defineI18nConfig(() => ({
+  fallbackLocale: 'en',
   legacy: false,
   locale: 'en',
-  fallbackLocale: 'en',
   messages: {
     en: en,
     fr: fr,

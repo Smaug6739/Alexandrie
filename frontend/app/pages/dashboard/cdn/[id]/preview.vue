@@ -46,7 +46,7 @@ import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { PDF_SCALES } from '~/helpers/constants';
 import { isImageFile, isPdfFile, isVideoFile, isAudioFile } from '~/helpers/resources';
 
-definePageMeta({ breadcrumb: 'Preview' });
+definePageMeta({ breadcrumb: {i18n: 'common.actions.preview'} });
 
 const { t } = useI18nT();
 const { resourceURL } = useApi();

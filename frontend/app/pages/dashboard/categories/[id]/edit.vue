@@ -44,10 +44,10 @@
 </template>
 
 <script lang="ts" setup>
-import { CATEGORY_ROLES } from '~/helpers/constants';
 import DeleteModal from '~/components/Node/Modals/Delete.vue';
+import { CATEGORY_ROLES } from '~/helpers/constants';
 
-definePageMeta({ breadcrumb: 'Edit' });
+definePageMeta({ breadcrumb: {i18n: 'common.actions.edit'} });
 
 const { t } = useI18nT();
 const nodesStore = useNodesStore();
@@ -62,10 +62,10 @@ const updateCategory = async () => {
     nodesStore
       .update(category.value)
       .then(() => {
-        useNotifications().add({ type: 'success', title: t('nodes.category.notifications.updated') });
+        useNotifications().add({ title: t('nodes.category.notifications.updated'), type: 'success' });
         useRouter().push('/dashboard/categories');
       })
-      .catch(e => useNotifications().add({ type: 'error', title: t('common.status.error'), message: e }));
+      .catch(e => useNotifications().add({ message: e, title: t('common.status.error'), type: 'error' }));
 };
 const deleteCategory = async () => {
   useModal().add(new Modal(shallowRef(DeleteModal), { props: { categoryId: category.value?.id || '' } }));
