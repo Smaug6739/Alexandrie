@@ -63,7 +63,7 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: {i18n: 'common.actions.share'} });
+definePageMeta({ breadcrumb: { i18n: 'common.actions.share' } });
 
 const nodesStore = useNodesStore();
 const resourcesStore = useResourcesStore();
@@ -72,12 +72,13 @@ const { t } = useI18nT();
 const notifications = useNotifications();
 const router = useRouter();
 const nodesTree = useNodesTree();
+const route = useRoute();
 
 const loading = ref(true);
 const sharedTitle = ref('');
 const sharedText = ref('');
 const sharedUrl = ref('');
-const sharedFiles = ref<{ name: string; file: File; preview?: string }[]>([]);
+const sharedFiles = ref<File[]>([]);
 const parentId = ref<string | undefined>(undefined);
 const processing = ref(false);
 
@@ -105,13 +106,7 @@ async function retrieveSharedData() {
     sharedText.value = formData.get('text')?.toString() || '';
     sharedUrl.value = formData.get('url')?.toString() || '';
 
-    const files = formData.getAll('files') as File[];
-    for (const file of files) {
-      if (file && file.size > 0) {
-        const preview = file.type.startsWith('image/') ? URL.createObjectURL(file) : undefined;
-        sharedFiles.value.push({ file, name: file.name, preview });
-      }
-    }
+    sharedFiles.value = formData.getAll('files') as File[];
 
     // Clean up cache after reading
     await cache.delete('/share-target-data');
@@ -120,15 +115,12 @@ async function retrieveSharedData() {
   }
 
   // Fallback: URL query params (GET share, or simple text share)
-  const route = useRoute();
   if (!sharedTitle.value && route.query.title) sharedTitle.value = route.query.title as string;
   if (!sharedText.value && route.query.text) sharedText.value = route.query.text as string;
   if (!sharedUrl.value && route.query.url) sharedUrl.value = route.query.url as string;
 }
 
 function removeFile(index: number) {
-  const file = sharedFiles.value[index];
-  if (file?.preview) URL.revokeObjectURL(file.preview);
   sharedFiles.value.splice(index, 1);
 }
 
@@ -168,8 +160,8 @@ async function createNote() {
 
     // Append text file contents to the note
     for (const sharedFile of sharedFiles.value) {
-      if (sharedFile.file.type.startsWith('text/') || sharedFile.name.endsWith('.md') || sharedFile.name.endsWith('.txt')) {
-        const text = await readTextFile(sharedFile.file);
+      if (sharedFile.type.startsWith('text/') || sharedFile.name.endsWith('.md') || sharedFile.name.endsWith('.txt')) {
+        const text = await readTextFile(sharedFile);
         content += `\n\n---\n\n## ${sharedFile.name}\n\n${text}`;
       }
     }
@@ -186,12 +178,12 @@ async function createNote() {
     notifications.add({ title: 'Document created from shared content', type: 'success' });
 
     // Upload non-text files as resources linked to this note
-    const nonTextFiles = sharedFiles.value.filter(f => !f.file.type.startsWith('text/') && !f.name.endsWith('.md') && !f.name.endsWith('.txt'));
+    const nonTextFiles = sharedFiles.value.filter(f => !f.type.startsWith('text/') && !f.name.endsWith('.md') && !f.name.endsWith('.txt'));
 
     for (const sharedFile of nonTextFiles) {
       try {
         const formData = new FormData();
-        formData.append('file', sharedFile.file);
+        formData.append('file', sharedFile);
         formData.append('parent_id', created.id);
         await resourcesStore.post(formData);
       } catch (e) {
@@ -200,7 +192,6 @@ async function createNote() {
       }
     }
 
-    cleanupPreviews();
     router.push(`/dashboard/docs/edit/${created.id}`);
   } catch (e) {
     notifications.add({ message: String(e), title: 'Error creating document', type: 'error' });
@@ -217,13 +208,13 @@ async function uploadFiles() {
     let uploadedCount = 0;
     for (const sharedFile of sharedFiles.value) {
       const formData = new FormData();
-      formData.append('file', sharedFile.file);
+      formData.append('file', sharedFile);
       if (parentId.value) formData.append('parent_id', parentId.value);
       await resourcesStore.post(formData);
       uploadedCount++;
     }
 
-    notifications.add({ title: `${uploadedCount} file(s) uploaded successfully`, type: 'success' });
+    notifications.add({ type: 'success', title: `${uploadedCount} file(s) uploaded successfully` });
     cleanupPreviews();
     router.push('/dashboard/cdn');
   } catch (e) {
@@ -232,16 +223,6 @@ async function uploadFiles() {
     processing.value = false;
   }
 }
-
-function cleanupPreviews() {
-  sharedFiles.value.forEach(f => {
-    if (f.preview) URL.revokeObjectURL(f.preview);
-  });
-}
-
-onBeforeUnmount(() => {
-  cleanupPreviews();
-});
 </script>
 
 <style scoped lang="scss">
