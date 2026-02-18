@@ -10,7 +10,7 @@
         class="provider-btn"
         :style="{ '--provider-color': getProviderConfig(provider.name).color }"
         :disabled="isLoading"
-        @click="loginWithProvider(provider.name)"
+        @click.prevent="loginWithProvider(provider.name)"
       >
         <!-- eslint-disable-next-line vue/no-v-html | Safe: icons are statically defined, not user input -->
         <span class="provider-icon" v-html="getProviderConfig(provider.name).icon"></span>
