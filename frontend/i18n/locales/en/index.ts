@@ -11,17 +11,17 @@ import settings from './settings';
 import time from './time';
 import user from './user';
 
-export default  {
-    admin,
-    application,
-    cdn,
-    common,
-    components,
-    dashboard,
-    import: importPage,
-    markdown,
-    nodes,
-    settings,
-    time,
-    user,
-  };
+export default {
+  admin,
+  application,
+  cdn,
+  common,
+  components,
+  dashboard,
+  import: importPage,
+  markdown,
+  nodes,
+  settings,
+  time,
+  user,
+};
