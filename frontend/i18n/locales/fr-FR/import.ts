@@ -1,74 +1,74 @@
 export default {
-  meta: {
-    title: 'Importer des documents',
-    description:
-      "Vous pouvez importer des documents depuis une exportation précédente. Si vous n'avez pas d'exportation, vous pouvez en créer une depuis la page",
-    settingsLink: 'paramètres',
-    breadcrumb: 'Importations',
-  },
-
-  steps: {
-    select: {
-      startImport: "Démarrer l'importation",
-      analyzing: 'Analyse en cours...',
-    },
+  actions: {
+    cancel: 'Annuler',
+    importAll: 'Tout importer',
+    importing: 'Importation...',
+    optionsTitle: "Options d'importation",
+    preserveTimestamps: 'Conserver les horodatages originaux',
+    skipExisting: 'Ignorer les documents existants (importer uniquement les nouveaux)',
   },
 
   header: {
-    title: 'Informations de sauvegarde',
     changeFile: 'Changer de fichier',
     created: 'Créé',
-    version: 'Version',
-    totalDocuments: 'Total des documents',
-    totalSize: 'Taille totale',
     documents: 'Documents',
     files: 'Fichiers',
     metadata: 'Métadonnées',
     settings: 'Paramètres',
+    title: 'Informations de sauvegarde',
+    totalDocuments: 'Total des documents',
+    totalSize: 'Taille totale',
+    version: 'Version',
   },
 
-  summary: {
-    title: "Résumé de l'importation",
-    newDocuments: 'Nouveaux documents',
-    documentsToUpdate: 'Documents à mettre à jour',
-    unchanged: 'Inchangés',
-  },
-
-  actions: {
-    optionsTitle: "Options d'importation",
-    preserveTimestamps: 'Conserver les horodatages originaux',
-    skipExisting: 'Ignorer les documents existants (importer uniquement les nouveaux)',
-    cancel: 'Annuler',
-    importAll: 'Tout importer',
-    importing: 'Importation...',
-  },
-
-  tabs: {
-    newDocuments: 'Nouveaux documents',
-    updates: 'Mises à jour',
-    localSettings: 'Paramètres locaux et préférences',
-    noNewDocuments: 'Aucun nouveau document à importer',
-    noUpdates: 'Aucun document à mettre à jour',
-    selectAll: 'Tout sélectionner',
-    importSelected: 'Importer la sélection ({count})',
-    updateSelected: 'Mettre à jour la sélection ({count})',
-    import: 'Importer',
-    current: 'Actuel',
-    backup: 'Sauvegarde',
-    importFromBackup: 'Importer depuis la sauvegarde',
-    noLocalSettings: 'Aucun paramètre local trouvé dans la sauvegarde',
-    localSettingsAvailable: 'Les paramètres locaux et préférences peuvent être importés',
-    replaceLocalSettings: 'Voulez-vous remplacer vos paramètres locaux par ceux de la sauvegarde ?',
-    localSettingsWarning: 'Cela écrasera vos paramètres locaux actuels, y compris vos snippets',
-    importLocalSettings: 'Importer les paramètres locaux',
+  meta: {
+    breadcrumb: 'Importations',
+    description:
+      "Vous pouvez importer des documents depuis une exportation précédente. Si vous n'avez pas d'exportation, vous pouvez en créer une depuis la page",
+    settingsLink: 'paramètres',
+    title: 'Importer des documents',
   },
 
   notifications: {
-    localImportedTitle: 'Paramètres locaux importés',
-    localImportedMessage: 'Vos paramètres locaux ont été remplacés par ceux de la sauvegarde.',
-    importFailedTitle: "Échec de l'importation",
-    importFailedMessage: "Une erreur est survenue lors de l'importation. Veuillez réessayer.",
-    importCompleteTitle: 'Importation terminée',
     importCompleteMessage: 'Les documents ont été importés avec succès.',
+    importCompleteTitle: 'Importation terminée',
+    importFailedMessage: "Une erreur est survenue lors de l'importation. Veuillez réessayer.",
+    importFailedTitle: "Échec de l'importation",
+    localImportedMessage: 'Vos paramètres locaux ont été remplacés par ceux de la sauvegarde.',
+    localImportedTitle: 'Paramètres locaux importés',
+  },
+
+  steps: {
+    select: {
+      analyzing: 'Analyse en cours...',
+      startImport: "Démarrer l'importation",
+    },
+  },
+
+  summary: {
+    documentsToUpdate: 'Documents à mettre à jour',
+    newDocuments: 'Nouveaux documents',
+    title: "Résumé de l'importation",
+    unchanged: 'Inchangés',
+  },
+
+  tabs: {
+    backup: 'Sauvegarde',
+    current: 'Actuel',
+    import: 'Importer',
+    importFromBackup: 'Importer depuis la sauvegarde',
+    importLocalSettings: 'Importer les paramètres locaux',
+    importSelected: 'Importer la sélection ({count})',
+    localSettings: 'Paramètres locaux et préférences',
+    localSettingsAvailable: 'Les paramètres locaux et préférences peuvent être importés',
+    localSettingsWarning: 'Cela écrasera vos paramètres locaux actuels, y compris vos snippets',
+    newDocuments: 'Nouveaux documents',
+    noLocalSettings: 'Aucun paramètre local trouvé dans la sauvegarde',
+    noNewDocuments: 'Aucun nouveau document à importer',
+    noUpdates: 'Aucun document à mettre à jour',
+    replaceLocalSettings: 'Voulez-vous remplacer vos paramètres locaux par ceux de la sauvegarde ?',
+    selectAll: 'Tout sélectionner',
+    updates: 'Mises à jour',
+    updateSelected: 'Mettre à jour la sélection ({count})',
   },
 } as const;

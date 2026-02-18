@@ -1,55 +1,77 @@
 export default {
   actions: {
-    create: 'Créer',
-    update: 'Mettre à jour',
-    delete: 'Supprimer',
-    duplicate: 'Dupliquer',
     cancel: 'Annuler',
-    confirm: 'Confirmer',
-    save: 'Enregistrer',
-    edit: 'Modifier',
-    open: 'Ouvrir',
-    close: 'Fermer',
-    search: 'Rechercher',
     clear: 'Effacer',
+    close: 'Fermer',
+    confirm: 'Confirmer',
     copy: 'Copier',
     copyLink: 'Copier le lien',
+    create: 'Créer',
+    delete: 'Supprimer',
     download: 'Télécharger',
-    upload: 'Téléverser',
-    import: 'Importer',
+    duplicate: 'Dupliquer',
+    edit: 'Modifier',
     export: 'Exporter',
-    preview: 'Aperçu',
-    reset: 'Réinitialiser',
+    import: 'Importer',
+    open: 'Ouvrir',
     pin: 'Épingler en haut',
-    unpin: 'Détacher du haut',
+    preview: 'Aperçu',
     print: 'Imprimer',
+    reset: 'Réinitialiser',
+    save: 'Enregistrer',
+    search: 'Rechercher',
+    unpin: 'Détacher du haut',
+    update: 'Mettre à jour',
+    upload: 'Téléverser',
+  },
+
+  confirm: {
+    irreversible: 'Cette action est irréversible',
+  },
+
+  errors: {
+    generic: 'Une erreur est survenue',
+    notFound: 'Non trouvé',
+    unknown: 'Une erreur inconnue est survenue',
   },
 
   filter: {
     ascending: 'Ascendant',
     descending: 'Descendant',
-    sort: 'Trier par',
     match: 'Correspondance',
+    sort: 'Trier par',
   },
 
   labels: {
-    name: 'Nom',
-    email: 'Email',
-    content: 'Contenu',
-    role: 'Rôle',
-    description: 'Description',
-    tags: 'Tags',
+    action: 'Action',
     color: 'Couleur',
+    content: 'Contenu',
+    date: 'Date',
+    description: 'Description',
+    email: 'Email',
     icon: 'Icône',
+    id: 'ID',
+    name: 'Nom',
     order: 'Ordre',
     parent: 'Parent',
-    type: 'Type',
+    pinned: 'Épinglé',
+    role: 'Rôle',
     size: 'Taille',
     status: 'Statut',
-    date: 'Date',
-    action: 'Action',
-    id: 'ID',
-    pinned: 'Épinglé',
+    tags: 'Tags',
+    type: 'Type',
+  },
+
+  nothing: 'Rien à afficher',
+
+  notifications: {
+    copiedMessage: 'Le contenu a été copié avec succès.',
+    copiedTitle: 'Copié dans le presse-papiers',
+  },
+
+  pagination: {
+    rowsPerPage: 'Lignes par page',
+    showing: 'Affichage de {start} à {end} sur {total} entrées',
   },
 
   placeholder: {
@@ -57,41 +79,19 @@ export default {
     search: 'Rechercher...',
   },
 
-  status: {
-    loading: 'Chargement...',
-    success: 'Succès',
-    error: 'Erreur',
-    pending: 'En attente',
-    processing: 'Traitement en cours',
-    completed: 'Terminé',
-    failed: 'Échoué',
-    cancelled: 'Annulé',
-    unknown: 'Inconnu',
-  },
-
-  notifications: {
-    copiedTitle: 'Copié dans le presse-papiers',
-    copiedMessage: 'Le contenu a été copié avec succès.',
-  },
-
-  nothing: 'Rien à afficher',
-
   search: {
     noResults: 'Aucun résultat trouvé pour "{filter}"',
   },
 
-  errors: {
-    unknown: 'Une erreur inconnue est survenue',
-    notFound: 'Non trouvé',
-    generic: 'Une erreur est survenue',
-  },
-
-  confirm: {
-    irreversible: 'Cette action est irréversible',
-  },
-
-  pagination: {
-    showing: 'Affichage de {start} à {end} sur {total} entrées',
-    rowsPerPage: 'Lignes par page',
+  status: {
+    cancelled: 'Annulé',
+    completed: 'Terminé',
+    error: 'Erreur',
+    failed: 'Échoué',
+    loading: 'Chargement...',
+    pending: 'En attente',
+    processing: 'Traitement en cours',
+    success: 'Succès',
+    unknown: 'Inconnu',
   },
 };
