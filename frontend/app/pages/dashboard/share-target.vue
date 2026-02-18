@@ -1,12 +1,12 @@
 <template>
   <div class="page-card">
-    <h2 class="page-title"><Icon name="share" /> Shared Content</h2>
-    <p class="page-subtitle">Content received from another app.</p>
+    <h2 class="page-title"><Icon name="share" /> {{ t('nodes.share.title') }}</h2>
+    <p class="page-subtitle">{{ t('nodes.share.description') }}</p>
 
     <Loader v-if="loading" />
 
     <div v-else class="share-content">
-      <h2>Shared content</h2>
+      <h2>{{ t('nodes.share.sharedContent') }}</h2>
       <!-- Shared text / URL preview -->
       <section v-if="sharedText || sharedUrl" class="share-section">
         <div class="preview-card">
@@ -26,13 +26,13 @@
       </section>
 
       <section>
-        <label>Choose destination</label>
+        <label>{{ t('nodes.share.chooseDestination') }}</label>
         <AppSelect v-model="parentId" :items="categories" nullable placeholder="Select a workspace or category (optional)" />
       </section>
 
       <!-- Action: create note or upload files -->
       <section class="share-actions">
-        <h2>What would you like to do?</h2>
+        <h2>{{ t('nodes.share.actionChoose') }}</h2>
 
         <!-- Create note from shared content -->
         <div class="action-card" @click="createNote">
@@ -40,8 +40,8 @@
             <Icon name="document" />
           </div>
           <div class="action-info">
-            <h3>Create a new document</h3>
-            <p>Create a new Markdown document with the shared content</p>
+            <h3>{{ t('nodes.share.actionCreateDocument') }}</h3>
+            <p>{{ t('nodes.share.actionCreateDocumentDesc') }}</p>
           </div>
         </div>
 
@@ -51,8 +51,8 @@
             <Icon name="upload" />
           </div>
           <div class="action-info">
-            <h3>Upload as resources</h3>
-            <p>Upload the shared files to your resource library</p>
+            <h3>{{ t('nodes.share.actionUploadResource') }}</h3>
+            <p>{{ t('nodes.share.actionUploadResourceDesc') }}</p>
           </div>
         </div>
       </section>
@@ -68,6 +68,7 @@ definePageMeta({ breadcrumb: 'Share' });
 const nodesStore = useNodesStore();
 const resourcesStore = useResourcesStore();
 
+const { t } = useI18nT();
 const notifications = useNotifications();
 const router = useRouter();
 const nodesTree = useNodesTree();

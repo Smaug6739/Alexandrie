@@ -9,8 +9,10 @@ import admin from './admin';
 import importPage from './import';
 import markdown from './markdown';
 import user from './user';
+import application from './application';
 
 export default {
+  application,
   common,
   dashboard,
   components,

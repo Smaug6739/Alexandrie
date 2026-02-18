@@ -101,4 +101,17 @@ export default {
     newCategory: '+ Catégorie',
     import: 'Importer',
   },
+
+  // From the shared_target api (PWA)
+  share: {
+    title: 'Partage de contenu',
+    description: 'Contenu reçu depuis une autre application.',
+    sharedContent: 'Contenu partagé',
+    chooseDestination: 'Choisissez où vous voulez enregistrer ce contenu.',
+    actionChoose: 'Que voulez-vous faire ?',
+    actionCreateDocument: 'Créer un nouveau document',
+    actionCreateDocumentDesc: 'Créer un nouveau document Markdown avec le contenu partagé',
+    actionUploadResource: 'Téléverser en tant que ressource',
+    actionUploadResourceDesc: 'Téléverser le contenu partagé en tant que ressource (image, PDF, etc.) et obtenir un lien pour l’insérer dans vos documents',
+  },
 } as const;
