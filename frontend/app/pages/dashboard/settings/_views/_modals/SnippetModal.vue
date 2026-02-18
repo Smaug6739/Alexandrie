@@ -7,7 +7,7 @@
       <input v-model="form.id" type="text" placeholder="!example" :class="{ error: formError }" @input="formError = ''" />
       <small v-if="formError" class="error-text">{{ formError }}</small>
       <small v-else class="hint">
-        <i18n-t keypath="settings.snippets.action.shortcutHint">
+        <i18n-t scope="global" keypath="settings.snippets.action.shortcutHint">
           <template #code><code>!</code></template>
         </i18n-t>
       </small>

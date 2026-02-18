@@ -12,7 +12,7 @@
       <button v-if="navbarItems.search" class="search-btn" :title="t('components.navbar.commandCenter')" aria-label="Command center" @click="openCommandCenter">
         <Icon name="search" />
         <span class="search-text">
-          <i18n-t keypath="components.navbar.searchHint">
+          <i18n-t scope="global" keypath="components.navbar.searchHint">
             <template #key>
               <kbd>/</kbd>
             </template>
@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 const { t } = useI18nT();
-const { toggleSidebar, isOpened } = useSidebar();
+const { isOpened, toggleSidebar } = useSidebar();
 const preferences = usePreferences();
 
 const navbarItems = preferences.get('navbarItems');

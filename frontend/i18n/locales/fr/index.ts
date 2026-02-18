@@ -12,17 +12,16 @@ import time from './time';
 import user from './user';
 
 export default {
-  admin,
-  application,
-  cdn,
-  common,
-  components,
-  dashboard,
-  import: importPage,
-  markdown,
-  nodes,
-  settings,
-  time,
-  user,
-} as const;
-
+	admin,
+	application,
+	cdn,
+	common,
+	components,
+	dashboard,
+	import: importPage,
+	markdown,
+	nodes,
+	settings,
+	time,
+	user,
+};

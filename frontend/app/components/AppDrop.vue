@@ -34,14 +34,14 @@
     <div v-else class="empty">
       <Icon name="layers" size="40px" />
       <p v-if="multiple">
-        <i18n-t keypath="cdn.appdrop.promptPlural">
+        <i18n-t scope="global" keypath="cdn.appdrop.promptPlural">
           <template #link>
             <span class="link" @click="triggerFileSelect">{{ t('cdn.appdrop.link') }}</span>
           </template>
         </i18n-t>
       </p>
       <p v-else>
-        <i18n-t keypath="cdn.appdrop.prompt">
+        <i18n-t scope="global" keypath="cdn.appdrop.prompt">
           <template #link>
             <span class="link" @click="triggerFileSelect">{{ t('cdn.appdrop.link') }}</span>
           </template>
@@ -60,8 +60,8 @@ const props = withDefaults(
     maxFiles?: number;
   }>(),
   {
-    multiple: false,
     maxFiles: 10,
+    multiple: false,
   },
 );
 

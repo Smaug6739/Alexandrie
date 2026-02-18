@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/unified-signatures */
 import { useI18n as _useI18n } from 'vue-i18n';
+
 import type { MessageSchema } from '../../i18n/i18n.config';
 
 /**
