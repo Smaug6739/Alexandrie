@@ -162,8 +162,7 @@ export default {
 
   backups: {
     title: 'Sauvegardes',
-    beta: 'Beta',
-    description: 'Créez une sauvegarde de vos données avec des options personnalisables.',
+    subtitle: 'Créez une sauvegarde de vos données avec des options personnalisables.',
     options: 'Options de sauvegarde',
     includeDocuments: 'Documents & Catégories',
     includeFiles: 'Fichiers téléchargés (images, PDFs, etc.)',
@@ -171,16 +170,18 @@ export default {
     includeMetadata: 'Métadonnées',
     createBackup: 'Créer une sauvegarde',
     creatingBackup: 'Création de la sauvegarde...',
-    cancel: 'Annuler',
-    status: {
-      pending: 'En attente',
-      processing: 'En cours',
-      completed: 'Terminé',
-      failed: 'Échoué',
-    },
     expiryNotice: 'Ce lien expire le {date}',
-    copyLink: 'Copier le lien',
+    backupLink: 'Lien de la sauvegarde',
     downloadBackup: 'Télécharger la sauvegarde',
+    notifications: {
+      startedTitle: 'Commencé',
+      started: 'Création de la sauvegarde commencée',
+      completedTitle: 'Terminé',
+      completed: 'Sauvegarde créée avec succès',
+      failedToCancelBackup: "Échec de l'annulation de la sauvegarde",
+      canceled: 'Sauvegarde annulée',
+      errorFetching: 'Une erreur est survenue lors de la récupération du statut de sauvegarde. Veuillez réessayer.',
+    },
   },
 
   snippets: {

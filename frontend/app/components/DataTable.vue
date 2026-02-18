@@ -2,7 +2,6 @@
   <div class="table">
     <header>
       <input v-model="searchInput" type="text" :placeholder="t('components.dataTable.searchPlaceholder')" />
-      <!-- Actions groupées (slot) -->
       <slot v-if="selectedRows.length > 0" name="bulk-actions" :selected="selectedRows"> </slot>
     </header>
 
@@ -10,7 +9,6 @@
       <table>
         <thead>
           <tr>
-            <!-- Case "Select all" -->
             <th>
               <input type="checkbox" style="width: 20px" :checked="selectedRows.length > 0" @change="toggleSelectAll" />
             </th>
@@ -21,7 +19,6 @@
         </thead>
         <tbody>
           <tr v-for="(row, index) in data" :key="index">
-            <!-- Case à cocher -->
             <td>
               <input v-model="selectedRows" type="checkbox" :value="row" style="width: 20px" />
             </td>

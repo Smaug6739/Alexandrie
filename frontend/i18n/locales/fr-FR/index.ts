@@ -7,6 +7,8 @@ import nodes from './nodes';
 import settings from './settings';
 import admin from './admin';
 import importPage from './import';
+import markdown from './markdown';
+import user from './user';
 
 export default {
   common,
@@ -18,4 +20,6 @@ export default {
   settings,
   admin,
   import: importPage,
+  markdown,
+  user,
 };

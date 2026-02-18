@@ -99,4 +99,8 @@ export default {
       emptyColumn: 'Cette colonne est vide.',
     },
   },
+
+  tagInput: {
+    placeholder: 'Entrer pour ajouter un tag',
+  },
 } as const;

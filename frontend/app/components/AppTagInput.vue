@@ -5,7 +5,7 @@
         <input
           v-model="tagInput"
           type="text"
-          placeholder="Enter to add tag"
+          :placeholder="t('components.tagInput.placeholder')"
           :class="{ minimal: minimal }"
           @keydown.enter="handleEnter"
           @keydown.arrow-up="tagHandleArrowUp"
@@ -50,6 +50,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void;
 }>();
+
+const { t } = useI18nT();
 
 const selectedTags = ref<string[]>(stringToTags(props.modelValue || ''));
 const tagInput = ref('');

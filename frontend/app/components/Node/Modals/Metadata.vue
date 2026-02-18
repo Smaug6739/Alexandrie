@@ -4,9 +4,9 @@
     <h2>{{ t('nodes.modals.metadata.title') }}</h2>
     <form @submit.prevent>
       <template v-if="node.role == 1 || node.role == 2">
-        <label for="category">{{ t('nodes.modals.metadata.name') }}</label>
+        <label for="category">{{ t('common.labels.name') }}</label>
         <input id="category" v-model="node.name" />
-        <label>{{ t('nodes.modals.metadata.role') }}</label>
+        <label>{{ t('common.labels.role') }}</label>
         <AppRadio v-model="node.role" :items="CATEGORY_ROLES" />
       </template>
 
@@ -21,20 +21,20 @@
         <label for="thumbnail">{{ t('nodes.modals.metadata.thumbnail') }} <AppHint :text="t('nodes.modals.metadata.thumbnailHint')" /></label>
         <textarea id="thumbnail" v-model="node.thumbnail"></textarea>
         <div class="inline-input">
-          <label for="pinned">{{ t('nodes.modals.metadata.pinned') }}</label>
+          <label for="pinned">{{ t('common.labels.pinned') }}</label>
           <AppToggle id="pinned" v-model="pinnedToggle" />
         </div>
       </template>
-      <label for="parent">{{ t('nodes.modals.metadata.parent') }}</label>
+      <label for="parent">{{ t('common.labels.parent') }}</label>
       <AppSelect
         v-model="node.parent_id"
         :items="parentsTree"
-        :placeholder="t('nodes.modals.metadata.parent')"
+        :placeholder="t('common.labels.parent')"
         nullable
         :disabled="i => i.id == node.id || nodeStore.isDescendant(node, i.id as string)"
       />
       <div class="inline-input">
-        <label for="accessibility">{{ t('nodes.modals.metadata.color') }}</label>
+        <label for="accessibility">{{ t('common.labels.color') }}</label>
         <AppColorPicker v-model="node.color" nullable />
       </div>
     </form>

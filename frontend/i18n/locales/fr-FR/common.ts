@@ -3,6 +3,7 @@ export default {
     create: 'Créer',
     update: 'Mettre à jour',
     delete: 'Supprimer',
+    duplicate: 'Dupliquer',
     cancel: 'Annuler',
     confirm: 'Confirmer',
     save: 'Enregistrer',
@@ -45,6 +46,11 @@ export default {
     date: 'Date',
     action: 'Action',
     id: 'ID',
+    pinned: 'Épinglé',
+  },
+
+  placeholder: {
+    parent: 'Sélectionner un parent',
   },
 
   status: {
@@ -58,7 +64,14 @@ export default {
     cancelled: 'Annulé',
     unknown: 'Inconnu',
   },
+
+  notifications: {
+    copiedTitle: 'Copié dans le presse-papiers',
+    copiedMessage: 'Le contenu a été copié avec succès.',
+  },
+
   nothing: 'Rien à afficher',
+
   search: {
     noResults: 'Aucun résultat trouvé pour "{filter}"',
   },

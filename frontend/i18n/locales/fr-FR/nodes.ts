@@ -1,6 +1,5 @@
 export default {
   tags: 'Tags',
-  uncategorized: 'Non catégorisé',
 
   types: {
     workspace: 'Espace de travail',
@@ -12,18 +11,18 @@ export default {
   category: {
     name: 'Catégorie',
     new: 'Nouvelle catégorie',
-    parent: 'Parent',
-    order: 'Ordre de la catégorie',
     orderHint: 'Ordre de la catégorie dans la barre latérale',
-    color: 'Couleur',
+    iconHint: 'SVG supporté',
+    editTitle: 'Catégorie & espace de travail',
+    uncategorized: 'Non catégorisé',
     notifications: {
       created: 'Catégorie créée avec succès',
       creationError: 'Erreur lors de la création',
+      updated: 'Catégorie mise à jour',
     },
   },
 
   workspace: {
-    name: 'Espace de travail',
     new: 'Nouvel espace de travail',
     all: 'Tous les espaces de travail',
     shared: 'Partagés avec moi',
@@ -49,16 +48,6 @@ export default {
     editPage: 'Modifier la page',
     nextPage: 'Page suivante',
     prevPage: 'Page précédente',
-    lastUpdated: 'Dernière mise à jour',
-    notFound: 'Document non trouvé',
-    noDocuments: 'Aucun document trouvé',
-    noDocumentsDesc: "Il n'y a aucun document dans cette catégorie",
-    notifications: {
-      posted: 'Document publié avec succès',
-      updated: 'Document mis à jour avec succès',
-      deleted: 'Document supprimé avec succès',
-      error: 'Erreur',
-    },
   },
 
   modals: {
@@ -73,15 +62,10 @@ export default {
     },
     metadata: {
       title: 'Métadonnées',
-      name: 'Nom',
-      role: 'Rôle',
       emojiOrIcon: 'Emoji ou icône',
       emojiOrIconHint: 'SVG ou emojis supportés',
       thumbnail: 'Miniature',
       thumbnailHint: 'SVG supporté',
-      pinned: 'Épinglé',
-      parent: 'Parent',
-      color: 'Couleur',
     },
     permissions: {
       title: 'Gérer les permissions',
@@ -113,5 +97,8 @@ export default {
     noDocuments: 'Aucun document trouvé',
     noDocumentsDescription: "Il n'y a aucun document dans cette catégorie",
     createNewDocument: '+ Créer un nouveau document',
+    newWorkspace: '+ Espace de travail',
+    newCategory: '+ Catégorie',
+    import: 'Importer',
   },
 } as const;

@@ -181,9 +181,17 @@ function importLocalSettings() {
   const preferences = usePreferences();
   if (localData.value) {
     preferences.importPreferences(localData.value);
-    notifications.add({ type: 'success', title: 'Settings Imported', message: 'Local settings have been imported successfully.' });
+    notifications.add({
+      type: 'success',
+      title: t('import.notifications.localImportedTitle'),
+      message: t('import.notifications.localImportedMessage'),
+    });
   } else {
-    notifications.add({ type: 'error', title: 'Import Failed', message: 'No local settings found in the backup.' });
+    notifications.add({
+      type: 'error',
+      title: t('import.notifications.importFailedTitle'),
+      message: t('import.notifications.importFailedMessage'),
+    });
   }
 }
 
@@ -200,8 +208,8 @@ async function importAll() {
 
   notifications.add({
     type: 'success',
-    title: 'Import complete',
-    message: `Documents imported successfully`,
+    title: t('import.notifications.importCompleteTitle'),
+    message: t('import.notifications.importCompleteMessage'),
   });
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <EditorAppHeader icon="grid" title="Insert Grid" subtitle="Select a grid layout or customize your own by selecting the number of rows and columns." />
+    <EditorAppHeader icon="grid" :title="t('markdown.markdown.table.title')" :subtitle="t('markdown.markdown.table.subtitle')" />
 
     <div>
       <div class="table-grid">
@@ -20,8 +20,8 @@
         </div>
       </div>
       <div class="table-info">
-        <span v-if="hoveredSize">{{ hoveredSize.rows }} × {{ hoveredSize.columns }} table</span>
-        <span v-else>Hover to see table size</span>
+        <span v-if="hoveredSize">{{ t('markdown.markdown.table.tableSize', { rows: hoveredSize.rows, columns: hoveredSize.columns }) }}</span>
+        <span v-else>{{ t('markdown.markdown.table.hoverHint') }}</span>
       </div>
     </div>
   </div>
@@ -29,6 +29,8 @@
 
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
+
+const { t } = useI18nT();
 const props = defineProps<{
   onGridSelect: (gridMarkdown: string) => void;
 }>();

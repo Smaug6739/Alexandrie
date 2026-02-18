@@ -59,7 +59,16 @@ export default {
     noLocalSettings: 'Aucun paramètre local trouvé dans la sauvegarde',
     localSettingsAvailable: 'Les paramètres locaux et préférences peuvent être importés',
     replaceLocalSettings: 'Voulez-vous remplacer vos paramètres locaux par ceux de la sauvegarde ?',
-    localSettingsWarning: 'Cela écrasera vos paramètres locaux actuels, y compris <strong>vos snippets</strong>',
+    localSettingsWarning: 'Cela écrasera vos paramètres locaux actuels, y compris vos snippets',
     importLocalSettings: 'Importer les paramètres locaux',
+  },
+
+  notifications: {
+    localImportedTitle: 'Paramètres locaux importés',
+    localImportedMessage: 'Vos paramètres locaux ont été remplacés par ceux de la sauvegarde.',
+    importFailedTitle: "Échec de l'importation",
+    importFailedMessage: "Une erreur est survenue lors de l'importation. Veuillez réessayer.",
+    importCompleteTitle: 'Importation terminée',
+    importCompleteMessage: 'Les documents ont été importés avec succès.',
   },
 } as const;
