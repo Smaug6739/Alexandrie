@@ -21,10 +21,6 @@ interface StrictTranslateFunction {
   (key: I18nKey, defaultMsg: string): string;
 }
 
-/**
- * Typed wrapper around vue-i18n's `useI18n`.
- * The `t` function only accepts valid i18n keys — a typo will produce a compile error.
- */
 export const useI18nT = (...args: Parameters<typeof _useI18n>) => {
   const i18n = _useI18n(...args);
   return i18n as Omit<typeof i18n, 't'> & { t: StrictTranslateFunction };
