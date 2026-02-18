@@ -36,14 +36,14 @@ export default withNuxt(
           },
         ],
 
-        'perfectionist/sort-objects': [
+        /*'perfectionist/sort-objects': [
           'error',
           {
             ignoreCase: false,
             order: 'asc',
             type: 'alphabetical',
           },
-        ],
+        ],*/
 
         'perfectionist/sort-union-types': [
           'error',
