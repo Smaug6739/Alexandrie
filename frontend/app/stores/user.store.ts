@@ -1,9 +1,10 @@
-import { makeRequest } from './_utils';
 import type { User, PublicUser, Session } from './db_strustures';
+
+import { makeRequest } from './_utils';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: undefined as User | undefined,
+    user: undefined as undefined | User,
     users: {} as Record<string, PublicUser>,
     sessions: [] as Session[],
     current_fetching: [] as string[], // List of curently fetching user ids to avoid duplicate requests
@@ -28,13 +29,13 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    async register(user: Omit<User, 'id' | 'created_timestamp' | 'updated_timestamp'>): Promise<boolean> {
+    async register(user: Omit<User, 'created_timestamp' | 'id' | 'updated_timestamp'>): Promise<boolean> {
       const request = await makeRequest('users', 'POST', user);
       if (request.status === 'success') return true;
       throw request.message;
     },
 
-    async fetch(): Promise<User | undefined> {
+    async fetch(): Promise<undefined | User> {
       if (this.user) return this.user;
       const responce = await makeRequest<User>(`users/@me`, 'GET', {});
       if (responce.status === 'success') {
@@ -53,7 +54,7 @@ export const useUserStore = defineStore('user', {
       throw response.message;
     },
 
-    async fetchPublicUser(id: string): Promise<PublicUser | null> {
+    async fetchPublicUser(id: string): Promise<null | PublicUser> {
       if (this.users[id]) return this.users[id];
       if (this.current_fetching.includes(id)) return null;
       this.current_fetching.push(id);
@@ -79,7 +80,7 @@ export const useUserStore = defineStore('user', {
       throw response.message;
     },
 
-    async fetchById(id: string): Promise<User | undefined> {
+    async fetchById(id: string): Promise<undefined | User> {
       const responce = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});
       if (responce.status === 'success') return responce.result?.user as User;
       throw responce.message;

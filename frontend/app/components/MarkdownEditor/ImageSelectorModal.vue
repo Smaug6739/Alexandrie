@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <EditorAppHeader icon="image" :title="t('markdown.markdown.image.title')" :subtitle="t('markdown.markdown.image.subtitle')" />
+    <EditorAppHeader icon="image" :title="t('markdown.image.title')" :subtitle="t('markdown.image.subtitle')" />
     <div class="content">
       <AppDrop ref="dropComponent" @select="submitFile as (file: File) => void" />
       <Loader v-if="isLoading" style="margin: 12px auto" />
       <p v-if="uploadError" class="error">{{ uploadError }}</p>
       <div class="search-bar">
-        <input v-model="searchQuery" :placeholder="t('markdown.markdown.image.searchPlaceholder')" />
+        <input v-model="searchQuery" :placeholder="t('markdown.image.searchPlaceholder')" />
       </div>
       <div class="images-grid">
         <div v-for="image in filteredImages.values()" :key="image.id" class="image-item" @click="selectImage(image)">
@@ -19,7 +19,7 @@
       </div>
 
       <div v-if="filteredImages.size === 0" class="no-images">
-        <p>{{ t('markdown.markdown.image.noImages') }}</p>
+        <p>{{ t('markdown.image.noImages') }}</p>
       </div>
     </div>
   </div>
@@ -51,7 +51,7 @@ const submitFile = (selectedFile: File) => {
   dropComponent.value.reset(); // Reset drop component
   resourcesStore
     .post(body)
-    .catch(e => (uploadError.value = e || t('markdown.markdown.image.uploadError')))
+    .catch(e => (uploadError.value = e || t('markdown.image.uploadError')))
     .finally(() => (isLoading.value = false));
 };
 

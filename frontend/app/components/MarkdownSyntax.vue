@@ -1,11 +1,11 @@
 <template>
   <div class="markdown-guide">
     <div class="content">
-      <h1><IconApp style="width: 60px" /> {{ t('markdown.markdown.syntax.title') }}</h1>
-      <p style="margin: 0">{{ t('markdown.markdown.syntax.subtitle') }}</p>
+      <h1><IconApp style="width: 60px" /> {{ t('markdown.syntax.title') }}</h1>
+      <p style="margin: 0">{{ t('markdown.syntax.subtitle') }}</p>
 
       <!-- BASIC FORMATTING -->
-      <h2><Icon name="edit" fill="var(--primary)" /> {{ t('markdown.markdown.syntax.basicFormatting') }}</h2>
+      <h2><Icon name="edit" fill="var(--primary)" /> {{ t('markdown.syntax.basicFormatting') }}</h2>
       <ul>
         <li><strong>Bold</strong>: <code>**bold**</code> or <code>__bold__</code></li>
         <li><em>Italic</em>: <code>*italic*</code> or <code>_italic_</code></li>
@@ -18,14 +18,14 @@
 
       <!-- TAGS -->
       <p>
-        <strong>{{ t('markdown.markdown.syntax.tags') }}: </strong> <tag blue>Blue</tag> <tag green>Green</tag> <tag red>Red</tag> <tag yellow>Yellow</tag>
+        <strong>{{ t('markdown.syntax.tags') }}: </strong> <tag blue>Blue</tag> <tag green>Green</tag> <tag red>Red</tag> <tag yellow>Yellow</tag>
         <tag grey>Grey</tag> <tag teal>Teal</tag><br />
         Syntax: <code v-text="`<tag 'color'>Content</tag>`"></code> — example: <code v-text="`<tag blue>Blue</tag>`"></code>
       </p>
 
       <!-- COLORS -->
       <p>
-        <strong>{{ t('markdown.markdown.syntax.colors') }}: </strong>
+        <strong>{{ t('markdown.syntax.colors') }}: </strong>
         <strong>
           <span style="color: var(--blue)">blue</span> ; <span style="color: var(--red)">red</span> ; <span style="color: var(--green)">green</span> ;
           <span style="color: var(--yellow)">yellow</span> ; <span style="color: var(--primary)">primary</span> ;
@@ -36,17 +36,17 @@
       </p>
 
       <p>
-        <strong>{{ t('markdown.markdown.syntax.titles') }}:</strong>
+        <strong>{{ t('markdown.syntax.titles') }}:</strong>
         Syntax: <code v-text="`# H1`"></code> → <code v-text="`###### H6`"></code>
       </p>
 
       <p>
-        <strong>{{ t('markdown.markdown.syntax.linksAndImages') }}:</strong>
+        <strong>{{ t('markdown.syntax.linksAndImages') }}:</strong>
         Use <code>[links](https://example.com)</code> and <code>![images](image.png)</code>.
       </p>
 
       <!-- COLORED BLOCKS -->
-      <h2><Icon name="layers" fill="var(--primary)" /> {{ t('markdown.markdown.syntax.coloredBlocks') }}</h2>
+      <h2><Icon name="layers" fill="var(--primary)" /> {{ t('markdown.syntax.coloredBlocks') }}</h2>
       <p>Use colored blocks with the syntax <code>:::color TITLE</code>.</p>
       <div class="block-grid">
         <div class="custom-block blue">
@@ -76,7 +76,7 @@
       </div>
 
       <!-- ADVANCED BLOCKS -->
-      <h2><Icon name="layers" fill="var(--primary)" /> {{ t('markdown.markdown.syntax.advancedBlocks') }}</h2>
+      <h2><Icon name="layers" fill="var(--primary)" /> {{ t('markdown.syntax.advancedBlocks') }}</h2>
       <p>Use info blocks with the syntax <code>:::name TITLE Content :::</code>.</p>
 
       <div class="block-grid">
@@ -131,7 +131,7 @@
         </details>
       </div>
 
-      <h2><Icon name="layers" fill="var(--primary)" /> {{ t('markdown.markdown.syntax.cardsAndPanels') }}</h2>
+      <h2><Icon name="layers" fill="var(--primary)" /> {{ t('markdown.syntax.cardsAndPanels') }}</h2>
       <p>
         Use powerful block containers with a simplified syntax and <strong>modifiers</strong>. You can style your blocks using attributes like
         <code>border</code>, <code>rounded</code>, <code>bordered</code>, <code>shadow</code>, and even a custom <code>title="..."</code>.
@@ -198,7 +198,7 @@ Useful for side content or notes.
       </div>
 
       <!-- MATH -->
-      <h2><Icon name="maths" fill="var(--primary)" /> {{ t('markdown.markdown.syntax.mathSyntax') }}</h2>
+      <h2><Icon name="maths" fill="var(--primary)" /> {{ t('markdown.syntax.mathSyntax') }}</h2>
       <p>Use KaTeX for math expressions: <code>$...$</code> (inline) or <code>$$...$$</code> (block).</p>
       <div class="demo">
         <pre>$\int_{-\infty}^{+\infty} e^{-x^2} dx = \sqrt{\pi}$</pre>
@@ -207,7 +207,7 @@ Useful for side content or notes.
       </div>
 
       <!-- EXTENDED SYNTAX -->
-      <h2><Icon name="import" fill="var(--primary)" /> {{ t('markdown.markdown.syntax.extendedSyntax') }}</h2>
+      <h2><Icon name="import" fill="var(--primary)" /> {{ t('markdown.syntax.extendedSyntax') }}</h2>
       <ul>
         <li><strong>Code blocks:</strong> <code>```language ... ```</code></li>
         <li><strong>Blockquotes:</strong> <code>> Quoted text</code></li>
@@ -228,7 +228,7 @@ Useful for side content or notes.
       </ul>
 
       <!-- FOOTNOTES -->
-      <h2><Icon name="format/footnote" fill="var(--primary)" /> {{ t('markdown.markdown.syntax.footnotes') }}</h2>
+      <h2><Icon name="format/footnote" fill="var(--primary)" /> {{ t('markdown.syntax.footnotes') }}</h2>
       <p>Add footnotes to your text for references or additional information.</p>
       <div class="demo">
         <pre>

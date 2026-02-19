@@ -1,7 +1,8 @@
 import { makeRequest } from './_utils';
+
 import type { Node } from './db_strustures';
+
 export const useResourcesStore = defineStore('resources', {
-  state: () => ({}),
   actions: {
     async post(resource: FormData): Promise<Node> {
       const defaultUploadFolder = usePreferences().get('defaultUploadFolder').value;
@@ -15,6 +16,7 @@ export const useResourcesStore = defineStore('resources', {
         return request.result as Node;
       } else throw request.message;
     },
+
     async postAvatar(resource: FormData): Promise<{ original_path: string; content_compiled: string }> {
       const request = await makeRequest(`resources/avatar`, 'POST', resource);
       if (request.status == 'success') {

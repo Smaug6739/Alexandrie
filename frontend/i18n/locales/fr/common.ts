@@ -25,7 +25,6 @@ export default {
     unpin: 'Détacher du haut',
     update: 'Mettre à jour',
     upload: 'Téléverser',
-
   },
 
   confirm: {
@@ -36,13 +35,6 @@ export default {
     generic: 'Une erreur est survenue',
     notFound: 'Non trouvé',
     unknown: 'Une erreur inconnue est survenue',
-  },
-
-  filter: {
-    ascending: 'Ascendant',
-    descending: 'Descendant',
-    match: 'Correspondance',
-    sort: 'Trier par',
   },
 
   labels: {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <EditorAppHeader icon="grid" :title="t('markdown.markdown.table.title')" :subtitle="t('markdown.markdown.table.subtitle')" />
+    <EditorAppHeader icon="grid" :title="t('markdown.table.title')" :subtitle="t('markdown.table.subtitle')" />
 
     <div>
       <div class="table-grid">
@@ -20,8 +20,8 @@
         </div>
       </div>
       <div class="table-info">
-        <span v-if="hoveredSize">{{ t('markdown.markdown.table.tableSize', { rows: hoveredSize.rows, columns: hoveredSize.columns }) }}</span>
-        <span v-else>{{ t('markdown.markdown.table.hoverHint') }}</span>
+        <span v-if="hoveredSize">{{ t('markdown.table.tableSize', { rows: hoveredSize.rows, columns: hoveredSize.columns }) }}</span>
+        <span v-else>{{ t('markdown.table.hoverHint') }}</span>
       </div>
     </div>
   </div>

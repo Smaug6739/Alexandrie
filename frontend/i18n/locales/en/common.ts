@@ -37,13 +37,6 @@ export default {
     unknown: 'An unknown error occurred',
   },
 
-  filter: {
-    ascending: 'Ascending',
-    descending: 'Descending',
-    match: 'Match',
-    sort: 'Sort by',
-  },
-
   labels: {
     action: 'Action',
     all: 'All',

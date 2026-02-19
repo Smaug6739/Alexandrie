@@ -41,8 +41,19 @@ export default {
     placeholder: {
       title: 'Document title',
       description: 'Document description',
+    },
+  },
 
-    }
+  filter: {
+    ascending: 'Ascending',
+    descending: 'Descending',
+    match: 'Match',
+    sort: 'Sort by',
+    created: 'Created',
+    modified: 'Modified',
+    contains: 'Contains',
+    startsWith: 'Starts with',
+    exact: 'Exact match',
   },
 
   kanban: {

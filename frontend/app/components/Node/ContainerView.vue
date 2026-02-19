@@ -93,6 +93,7 @@ const nodesStore = useNodesStore();
 const router = useRouter();
 const userStore = useUserStore();
 const { isMobile } = useDevice();
+const modals = useModal();
 const { getAppAccent } = useAppColors();
 const { t } = useI18nT();
 
@@ -100,8 +101,8 @@ const connectedId = userStore.user?.id;
 const view = ref<ViewMode>();
 const filteredNodes = ref<Node[]>(props.nodes);
 
-// Kanban board reference
 const kanbanBoard = ref<InstanceType<typeof KanbanBoard> | null>(null);
+
 const resetKanban = () => {
   useModal().add(
     new Modal(shallowRef(ResetBoardModal), {
@@ -116,31 +117,20 @@ const resetKanban = () => {
 // Watch for nodes changes to update filtered nodes
 watch(
   () => props.nodes,
-  newNodes => {
-    filteredNodes.value = newNodes;
-  },
+  newNodes => (filteredNodes.value = newNodes),
   { immediate: true },
 );
 
 const openPermissionsModal = () => {
-  if (props.parent) useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.parent }, size: 'small' }));
+  if (props.parent) modals.add(new Modal(shallowRef(NodePermissions), { props: { node: props.parent }, size: 'small' }));
 };
 const openRemoveShareModal = () => {
-  if (props.parent) useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.parent.id }, size: 'small' }));
+  if (props.parent) modals.add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.parent.id }, size: 'small' }));
 };
-const openEditModal = () => useModal().add(new Modal(shallowRef(NodeMetadataModal), { props: { doc: props.parent }, size: 'small' }));
+const openEditModal = () => modals.add(new Modal(shallowRef(NodeMetadataModal), { props: { doc: props.parent }, size: 'small' }));
 
 const openDeleteModal = () => {
-  if (props.parent)
-    useModal().add(
-      new Modal(shallowRef(NodeDeleteModal), {
-        size: 'small',
-        props: {
-          node: props.parent,
-          redirect: '/dashboard',
-        },
-      }),
-    );
+  if (props.parent) modals.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: props.parent, redirect: '/dashboard' } }));
 };
 
 // Kanban functionality

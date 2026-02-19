@@ -1,7 +1,7 @@
 <template>
   <button
     :class="{ recording: isRecording }"
-    :title="isRecording ? t('markdown.markdown.voice.stopRecording') : t('markdown.markdown.voice.startRecording')"
+    :title="isRecording ? t('markdown.voice.stopRecording') : t('markdown.voice.startRecording')"
     @click="toggleRecording"
   >
     <Icon v-if="!isRecording" name="voice/default" />
@@ -34,7 +34,7 @@ const language = 'fr-FR';
 
 const startRecording = () => {
   if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    alert(t('markdown.markdown.voice.notSupported'));
+    alert(t('markdown.voice.notSupported'));
     return;
   }
 

@@ -31,18 +31,29 @@ export default {
     },
   },
 
-   editor: {
-    placeholder: {
-      title: 'Document title',
-      description: 'Document description',
-      
-    }
-  },
-
   dataTable: {
     rowsPerPage: 'Lignes par page',
     searchPlaceholder: 'Rechercher...',
     showing: 'Affichage de {start} à {end} sur {total} entrées',
+  },
+
+  editor: {
+    placeholder: {
+      title: 'Document title',
+      description: 'Document description',
+    },
+  },
+
+  filter: {
+    ascending: 'Ascendant',
+    descending: 'Descendant',
+    match: 'Correspondance',
+    sort: 'Trier par',
+    created: 'Créé',
+    modified: 'Modifié',
+    contains: 'Contient',
+    startsWith: 'Commence par',
+    exact: 'Correspondance exacte',
   },
 
   kanban: {

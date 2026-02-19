@@ -18,21 +18,21 @@
         <div class="row">
           <label class="row">
             <input v-model="options.sortType" type="radio" value="ascending" />
-            <span>{{ t('common.filter.ascending') }}</span>
+            <span>{{ t('components.filter.ascending') }}</span>
           </label>
           <label class="row">
             <input v-model="options.sortType" type="radio" value="descending" />
-            <span>{{ t('common.filter.descending') }}</span>
+            <span>{{ t('components.filter.descending') }}</span>
           </label>
         </div>
         <div class="row">
           <div style="flex: 1">
-            <label>{{ t('common.filter.sort') }}</label>
+            <label>{{ t('components.filter.sort') }}</label>
             <AppSelect v-model="options.sortBy" :items="SORT_OPTIONS" />
           </div>
 
           <div>
-            <label>{{ t('common.filter.match') }}</label>
+            <label>{{ t('components.filter.match') }}</label>
             <AppSelect v-model="options.matchMode" :items="MATCH_OPTIONS" size="125px" class="select" />
           </div>
         </div>
@@ -51,7 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import { useNodesStore } from '~/stores';
 import type { Node, SearchOptions } from '~/stores';
 
 const props = defineProps<{ nodes: Node[] }>();
@@ -63,6 +62,7 @@ const defaultOptions: SearchOptions = {
   sortBy: 'created',
   matchMode: 'includes',
 };
+
 const { t } = useI18nT();
 const store = useNodesStore();
 const options = ref({ ...defaultOptions });
@@ -71,25 +71,25 @@ const inputRef = ref<HTMLInputElement | null>(null);
 const root = ref<HTMLDivElement | null>(null);
 
 const SORT_OPTIONS = [
-  { id: 'created', label: 'Created' },
-  { id: 'modified', label: 'Modified' },
-  { id: 'name', label: 'Name' },
+  { id: 'created', label: t('components.filter.created') },
+  { id: 'modified', label: t('components.filter.modified') },
+  { id: 'name', label: t('common.labels.name') },
 ];
 
 const MATCH_OPTIONS = [
-  { id: 'includes', label: 'Contains' },
-  { id: 'starts', label: 'Starts with' },
-  { id: 'exact', label: 'Exact' },
+  { id: 'includes', label: t('components.filter.contains') },
+  { id: 'starts', label: t('components.filter.startsWith') },
+  { id: 'exact', label: t('components.filter.exact') },
 ];
 
 let outsideHandler: ((e: MouseEvent) => void) | null = null;
 
 const filtered = computed(() => store.search(options.value, props.nodes));
 
-function toggle() {
+const toggle = () => {
   opened.value = !opened.value;
   if (opened.value) focusInput();
-}
+};
 const close = () => (opened.value = false);
 const reset = () => (options.value = { ...defaultOptions });
 const focusInput = () => nextTick(() => inputRef.value?.focus());
