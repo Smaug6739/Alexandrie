@@ -1,22 +1,6 @@
 {
   "name": "alexandrie",
   "version": "8.6.0",
-  "devDependencies": {
-    "vite-plugin-svg-icons": "^2.0.1"
-  },
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "dev:host": "nuxt dev --host",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "lint:css": "stylelint \"**/*.{vue,scss}\"",
-    "lint:css:fix": "stylelint \"**/*.{vue,scss}\" --fix",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "type": "module",
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.0",
     "@codemirror/commands": "^6.10.2",
@@ -30,6 +14,8 @@
     "@nuxtjs/color-mode": "^4.0.0",
     "@nuxtjs/i18n": "10.2.3",
     "@pinia/nuxt": "^0.11.3",
+    "@types/etag": "^1.8.4",
+    "@types/fs-extra": "^11.0.4",
     "@types/katex": "^0.16.8",
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-container": "^4.0.0",
@@ -39,6 +25,9 @@
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-perfectionist": "^5.6.0",
+    "etag": "^1.8.1",
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.3.3",
     "katex": "^0.16.28",
     "markdown-it": "^14.1.1",
     "markdown-it-anchor": "^9.2.0",
@@ -46,6 +35,7 @@
     "markdown-it-highlightjs": "^4.3.0",
     "markdown-it-mark": "^4.0.0",
     "nuxt": "^4.3.1",
+    "pathe": "^2.0.3",
     "pdfjs-dist": "^5.4.624",
     "pinia": "^3.0.4",
     "postcss-scss": "^4.0.9",
@@ -55,7 +45,22 @@
     "stylelint-config-recommended-vue": "^1.6.1",
     "stylelint-config-standard": "^40.0.0",
     "stylelint-order": "^7.0.1",
+    "svg-baker": "^1.7.0",
+    "svgo": "^4.0.0",
     "vue": "^3.5.28",
     "vue-router": "^5.0.2"
-  }
+  },
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "dev:host": "nuxt dev --host",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:css": "stylelint \"**/*.{vue,scss}\"",
+    "lint:css:fix": "stylelint \"**/*.{vue,scss}\" --fix",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "type": "module"
 }

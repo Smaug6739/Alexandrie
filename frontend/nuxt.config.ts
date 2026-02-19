@@ -1,6 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config';
 import { resolve } from 'path';
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import { createSvgIconsPlugin } from './vite/plugins/svg-sprite';
 
 export default defineNuxtConfig({
   app: {
@@ -249,9 +249,11 @@ export default defineNuxtConfig({
       },
     },
     plugins: [
+      // @ts-expect-error Vite version incompatibility
       createSvgIconsPlugin({
         iconDirs: [resolve(process.cwd(), 'public/app-icons/')],
         symbolId: 'icon-[name]',
+        svgoOptions: true,
       }),
     ],
     vue: {
