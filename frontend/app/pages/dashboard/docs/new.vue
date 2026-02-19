@@ -4,18 +4,25 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
+interface NewDocumentQuery {
+  cat?: string;
+  parent_id?: string
+}
+
 definePageMeta({ breadcrumb: {i18n: 'common.actions.new'} });
 
 const store = useNodesStore();
-
-const defaultParent = (useRoute().query.cat as string | undefined) || useSidebar().workspaceId.value || undefined;
-
-const document = ref<Partial<Node>>({
-  accessibility: 1,
-  parent_id: ['root', 'shared'].includes(defaultParent || '') ? undefined : defaultParent,
-  role: 3,
-});
 const notifications = useNotifications();
+const route = useRoute();
+const sidebar = useSidebar();
+
+const routeQuery = computed<NewDocumentQuery>(() => route.query);
+const defaultParent = computed(() => routeQuery.value.parent_id || routeQuery.value.cat || sidebar.workspaceId.value || undefined);
+const document = computed<Partial<Node>>(() => ({
+  accessibility: 1,
+  parent_id: ['root', 'shared'].includes(defaultParent.value || '') ? undefined : defaultParent.value,
+  role: 3,
+}));
 
 function save(doc: Node) {
   store
