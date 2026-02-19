@@ -3,7 +3,7 @@
     <div class="top">
       <div class="header">
         <span style="display: flex">
-          <Icon :name="category?.icon || 'files'" display="xl" :class="`category-icon ${getAppAccent(node.color || category?.color, true)}`" />
+          <Icon :name="category?.icon || 'files'" display="xl" :class="['category-icon', getAppAccent(node.color || category?.color, true)]" />
           <NuxtLink :to="`/dashboard/docs/${node.id}`" class="document-title">{{ node.name }}</NuxtLink>
         </span>
         <NodeActionDotMenu :node="node" :user="user" @delete="deleteDoc" />

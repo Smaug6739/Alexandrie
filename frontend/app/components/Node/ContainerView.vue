@@ -2,7 +2,7 @@
   <div class="page-card node-list">
     <header>
       <h1 v-if="parent">
-        <Icon :name="parent.icon || 'files'" display="xl" :class="`parent-icon ${getAppAccent(parent.color as number, true)}`" />
+        <Icon :name="parent.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(parent.color as number, true)]" />
         {{ parent.name }}
       </h1>
       <h1 v-else-if="parentId === 'shared'">

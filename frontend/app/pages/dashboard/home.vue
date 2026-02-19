@@ -32,7 +32,7 @@
       <Transition name="dropdown">
         <div v-if="searchResults?.length" class="search-results">
           <NuxtLink v-for="result in searchResults" :key="result.id" class="search-result" :to="getNodeLink(result)">
-            <Icon :name="resolveIcon(result)" :class="`node-icon ${getAppAccent(result.color as number, true)}`" />
+            <Icon :name="resolveIcon(result)" :class="['node-icon', getAppAccent(result.color as number, true)]" />
             <div class="result-content">
               <span class="result-name">{{ result.name }}</span>
               <span class="result-path">{{ getNodePath(result) }}</span>
@@ -95,7 +95,7 @@
               <Icon
                 :name="resolveIcon(item)"
                 display="md"
-                :class="`activity-icon ${getAppAccent(item.color || (getCategory(item.parent_id)?.color as number), true)}`"
+                :class="['activity-icon', getAppAccent(item.color || (getCategory(item.parent_id)?.color as number), true)]"
               />
               <div class="activity-content">
                 <span class="activity-name">{{ item.name }}</span>
