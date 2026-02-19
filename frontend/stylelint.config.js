@@ -2,17 +2,15 @@ export default {
   extends: ['stylelint-config-standard', 'stylelint-config-recommended-vue'],
   plugins: ['stylelint-order'],
   overrides: [
-    // .vue => parser HTML
     { files: ['**/*.vue'], customSyntax: 'postcss-html' },
-    // .scss => parser SCSS
     { files: ['**/*.scss'], customSyntax: 'postcss-scss' },
   ],
   ignoreFiles: ['**/*.js', '**/*.ts', '**/*.json', '**/*.md', 'node_modules/**/*', 'dist/**/*'],
   rules: {
-    // Exemple d'ordre basé sur le box model
+    // Box Model
     'order/properties-order': [
       [
-        // Positionnement
+        // Positioning
         'position',
         'top',
         'right',
@@ -38,7 +36,7 @@ export default {
         'border-color',
         'border-radius',
 
-        // Typographie
+        // Typography
         'font',
         'font-family',
         'font-size',
@@ -47,7 +45,7 @@ export default {
         'color',
         'text-align',
 
-        // Background & effets
+        // Background & effects
         'background',
         'background-color',
         'background-image',
@@ -60,7 +58,6 @@ export default {
       { unspecified: 'bottomAlphabetical' },
     ],
 
-    // Bonnes pratiques générales
     'block-no-empty': true,
     'color-hex-length': 'short',
     'declaration-block-no-duplicate-properties': true,

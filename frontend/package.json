@@ -2,7 +2,6 @@
   "name": "alexandrie",
   "version": "8.6.0",
   "devDependencies": {
-    "eslint-plugin-perfectionist": "^5.6.0",
     "vite-plugin-svg-icons": "^2.0.1"
   },
   "scripts": {
@@ -39,6 +38,7 @@
     "@zip.js/zip.js": "^2.8.21",
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-perfectionist": "^5.6.0",
     "katex": "^0.16.28",
     "markdown-it": "^14.1.1",
     "markdown-it-anchor": "^9.2.0",

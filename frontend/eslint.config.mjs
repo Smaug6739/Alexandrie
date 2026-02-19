@@ -2,12 +2,12 @@ import prettier from 'eslint-config-prettier';
 import perfectionist from 'eslint-plugin-perfectionist';
 
 // @ts-check
-import withNuxt, { defineFlatConfigs } from './.nuxt/eslint.config.mjs';
+import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt(
-  defineFlatConfigs(
+    prettier,
     {
-      ignores: ['app/styles/katex/**'],
+      ignores: ['app/styles/vendors/katex/**'],
     },
 
     {
@@ -66,7 +66,4 @@ export default withNuxt(
         'vue/no-unused-properties': 'error',
       },
     },
-
-    prettier,
-  ),
 );

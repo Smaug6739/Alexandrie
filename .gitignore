@@ -1,10 +1,12 @@
-#Public dir
-minio
-uploads
-minio.exe
-main.exe
-data
+# General
 .env
+
+# File storage
+minio.exe
+minio
+
+# Backend
+main.exe
 
 # Development (debug & test files)
 test.vue
