@@ -336,4 +336,4 @@ export default {
     subtitle: "Héritez et personnalisez les styles de l'application et des documents.",
     title: 'Injection de styles',
   },
-} as const;
+};

@@ -48,4 +48,4 @@ export default {
   },
 
   storageUsed: 'Storage used',
-} as const;
+};

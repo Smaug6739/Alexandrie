@@ -335,4 +335,4 @@ export default {
     subtitle: 'Inherit and customize app and document styles.',
     title: 'Style injection',
   },
-} as const;
+};

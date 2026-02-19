@@ -4,4 +4,4 @@ export default {
     title: 'Supprimer le compte',
     waitModal: 'Veillez patienter {seconds} secondes avant de pouvoir supprimer votre compte.',
   },
-} as const;
+};

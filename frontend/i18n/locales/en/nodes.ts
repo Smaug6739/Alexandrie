@@ -117,4 +117,4 @@ export default {
     new: 'New workspace',
     shared: 'Shared with me',
   },
-} as const;
+};

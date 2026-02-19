@@ -31,4 +31,4 @@ export default {
     tags: 'Tags',
     workspaces: 'Espaces de travail',
   },
-} as const;
+};

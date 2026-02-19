@@ -22,4 +22,4 @@ export default {
     },
     title: 'User management',
   },
-} as const;
+};

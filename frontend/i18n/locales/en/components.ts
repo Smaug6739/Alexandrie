@@ -37,6 +37,14 @@ export default {
     showing: 'Showing {start} to {end} of {total} entries',
   },
 
+  editor: {
+    placeholder: {
+      title: 'Document title',
+      description: 'Document description',
+
+    }
+  },
+
   kanban: {
     addColumn: 'Add column',
     addDocument: 'Add document',
@@ -112,4 +120,4 @@ export default {
     list: 'List',
     table: 'Table',
   },
-} as const;
+};

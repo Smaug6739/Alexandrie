@@ -35,4 +35,4 @@ export default {
     underlineText: 'Underline text',
     undoAction: 'Undo last action',
   },
-} as const;
+};

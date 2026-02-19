@@ -71,4 +71,4 @@ export default {
     updates: 'Mises à jour',
     updateSelected: 'Mettre à jour la sélection ({count})',
   },
-} as const;
+};

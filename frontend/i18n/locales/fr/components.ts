@@ -31,6 +31,14 @@ export default {
     },
   },
 
+   editor: {
+    placeholder: {
+      title: 'Document title',
+      description: 'Document description',
+      
+    }
+  },
+
   dataTable: {
     rowsPerPage: 'Lignes par page',
     searchPlaceholder: 'Rechercher...',

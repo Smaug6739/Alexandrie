@@ -35,4 +35,4 @@ export default {
     underlineText: 'Souligner le texte',
     undoAction: 'Annuler la dernière action',
   },
-} as const;
+};
