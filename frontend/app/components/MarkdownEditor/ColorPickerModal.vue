@@ -1,84 +1,29 @@
 <template>
   <div class="modal-ctn">
-    <EditorAppHeader icon="color" :title="t('markdown.markdown.colors.title')" :subtitle="t('markdown.markdown.colors.subtitle')" />
+    <EditorAppHeader icon="color" :title="t('markdown.colors.title')" :subtitle="t('markdown.colors.subtitle')" />
 
     <div class="modal-content">
-      <div class="section">
-        <h4 class="section-title">{{ t('markdown.markdown.colors.quickColors') }}</h4>
-        <div class="swatches">
-          <button
-            v-for="color in appColors"
-            :key="color"
-            class="swatch"
-            :class="{ 'primary-color': color === 'primary' }"
-            :style="{ background: `var(--${color})` }"
-            :title="color"
-            @click="selectColor(color)"
-            @mouseenter="hoveredColor = color"
-            @mouseleave="hoveredColor = null"
-          >
-            <div class="swatch-inner">
-              <div v-if="hoveredColor === color" class="swatch-check">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                  <polyline points="20,6 9,17 4,12" />
-                </svg>
-              </div>
-            </div>
-          </button>
+      <h4 class="section-title">{{ t('markdown.colors.quickColors') }}</h4>
+
+      <div class="swatches">
+        <button v-for="name in appColors" :key="name" class="swatch" :style="{ background: `var(--${name})` }" @click="selectVarColor(name)">
+          <svg class="swatch-check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3">
+            <polyline points="20,6 9,17 4,12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="custom-row">
+        <label class="label">{{ t('markdown.colors.customColors') }}</label>
+        <div class="custom-inputs">
+          <input v-model="selectedColor" type="color" class="color-input" />
+          <input v-model="hex" placeholder="#rrggbb" @input="onHexInput" />
         </div>
       </div>
 
-      <div class="section">
-        <h4 class="section-title">{{ t('markdown.markdown.colors.customColors') }}</h4>
-        <div class="custom">
-          <div class="color-wheel-section">
-            <div class="color-wheel-container">
-              <canvas
-                ref="colorWheel"
-                class="color-wheel"
-                @mousedown="startColorSelection"
-                @mousemove="updateColorSelection"
-                @mouseup="stopColorSelection"
-                @click="selectColorFromWheel"
-              ></canvas>
-              <div
-                class="color-wheel-cursor"
-                :style="{
-                  left: `${cursorPosition.x}px`,
-                  top: `${cursorPosition.y}px`,
-                  background: selectedWheelColor,
-                }"
-              ></div>
-            </div>
-
-            <div class="color-controls">
-              <div class="control-group">
-                <label>{{ t('markdown.markdown.colors.brightness') }}</label>
-                <div class="slider-container">
-                  <input v-model="brightness" type="range" min="0" max="100" class="brightness-slider" @input="updateWheelColor" />
-                  <div class="slider-track">
-                    <div class="slider-fill" :style="{ width: `${brightness}%` }"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="selected-color-preview">
-                <div class="preview-circle" :style="{ background: selectedWheelColor }"></div>
-                <div class="color-info">
-                  <span class="hex-value">{{ selectedWheelColor }}</span>
-                  <span class="hsv-values">HSV({{ hue }}, {{ saturation }}%, {{ brightness }}%)</span>
-                </div>
-              </div>
-
-              <button class="validate-wheel-btn" @click="validateWheelColor">
-                <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 13l4 4L19 7" />
-                </svg>
-                <span class="btn-text">{{ t('markdown.markdown.colors.useColor') }}</span>
-              </button>
-            </div>
-          </div>
-        </div>
+      <div class="actions-row">
+        <AppButton type="secondary" @click="$emit('close')">{{ t('common.actions.cancel') }}</AppButton>
+        <AppButton type="primary" @click="applyPickedColor">{{ t('markdown.colors.useColor') }}</AppButton>
       </div>
     </div>
   </div>
@@ -87,484 +32,96 @@
 <script setup lang="ts">
 import EditorAppHeader from './EditorAppHeader.vue';
 import { appColors } from '~/helpers/constants';
-import { hsvToHex } from '~/helpers/colors';
 
 const props = defineProps<{ onColorSelect: (color: string) => void }>();
-const emit = defineEmits<{ (e: 'close'): void }>();
-
+const emit = defineEmits(['close']);
 const { t } = useI18nT();
 
-const hexColor = ref('');
-const hoveredColor = ref<string | null>(null);
-const colorWheel = ref<HTMLCanvasElement>();
-const isSelecting = ref(false);
-const hue = ref(0),
-  saturation = ref(100),
-  brightness = ref(100);
-const selectedWheelColor = ref('#FF0000');
-const cursorPosition = ref({ x: 150, y: 75 });
+const selectedColor = ref('#ff0000');
+const hex = ref(selectedColor.value);
 
-const selectColor = (color: string) => {
-  props.onColorSelect(color);
+const selectVarColor = (name: string) => {
+  props.onColorSelect(name);
   emit('close');
 };
 
-const startColorSelection = (e: MouseEvent) => {
-  isSelecting.value = true;
-  updateColorSelection(e);
-};
-const stopColorSelection = () => {
-  isSelecting.value = false;
-};
-
-function drawColorWheel(colorWheel: Ref<HTMLCanvasElement | undefined>) {
-  if (!colorWheel.value) return;
-  const canvas = colorWheel.value,
-    ctx = canvas.getContext('2d');
-  if (!ctx) return;
-  const w = canvas.width,
-    h = canvas.height,
-    cx = w / 2,
-    cy = h / 2,
-    r = Math.min(cx, cy) - 10;
-  ctx.clearRect(0, 0, w, h);
-  for (let y = 0; y < h; y++)
-    for (let x = 0; x < w; x++) {
-      const dx = x - cx,
-        dy = y - cy,
-        dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist <= r) {
-        const hue = ((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360;
-        ctx.fillStyle = hsvToHex(hue, (dist / r) * 100, 100);
-        ctx.fillRect(x, y, 1, 1);
-      }
-    }
-  ctx.strokeStyle = 'var(--border)';
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-  ctx.stroke();
-}
-
-const updateColorSelection = (e: MouseEvent) => {
-  if (!isSelecting.value || !colorWheel.value) return;
-  const rect = colorWheel.value.getBoundingClientRect();
-  const x = e.clientX - rect.left,
-    y = e.clientY - rect.top;
-  const centerX = rect.width / 2,
-    centerY = rect.height / 2;
-  const dx = x - centerX,
-    dy = y - centerY,
-    dist = Math.sqrt(dx * dx + dy * dy),
-    maxDist = Math.min(centerX, centerY);
-  if (dist <= maxDist) {
-    cursorPosition.value = { x, y };
-    hue.value = Math.round(((Math.atan2(dy, dx) * 180) / Math.PI + 360) % 360);
-    saturation.value = Math.round(Math.min(100, (dist / maxDist) * 100));
-    updateWheelColor();
-  }
-};
-
-const selectColorFromWheel = (e: MouseEvent) => {
-  updateColorSelection(e);
-  hexColor.value = selectedWheelColor.value.slice(1);
-};
-const validateWheelColor = () => {
-  props.onColorSelect(selectedWheelColor.value);
+const applyPickedColor = () => {
+  props.onColorSelect(selectedColor.value);
   emit('close');
 };
 
-const updateWheelColor = () => (selectedWheelColor.value = hsvToHex(hue.value, saturation.value, brightness.value));
+const onHexInput = () => {
+  let v = hex.value.trim();
+  if (!v) return;
+  if (!v.startsWith('#')) v = `#${v}`;
+  if (/^#[0-9A-Fa-f]{6}$/.test(v)) selectedColor.value = v;
+};
 
-onMounted(() => {
-  nextTick(() => {
-    if (!colorWheel.value) return;
-    colorWheel.value.width = 240;
-    colorWheel.value.height = 120;
-    drawColorWheel(colorWheel);
-  });
-});
+watch(selectedColor, val => (hex.value = val));
 </script>
 
 <style scoped lang="scss">
 .modal-ctn {
+  padding: 16px;
   display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 0 20px;
-  background: transparent;
   flex-direction: column;
-  overflow: hidden;
+  gap: 12px;
 }
-
 .modal-content {
   display: flex;
-  min-height: 0;
-  padding: 0;
-  flex: 1;
   flex-direction: column;
-  gap: 24px;
-  overflow-y: auto;
-  padding-right: 8px;
-}
-
-.section-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  padding-left: 16px;
-  text-transform: uppercase;
-}
-
-.swatches {
-  display: grid;
-  padding: 0 8px;
   gap: 12px;
-  grid-template-columns: repeat(9, 1fr);
-  justify-items: center;
-  margin-bottom: 8px;
 }
-
+.section-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+.swatches {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 .swatch {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border: 3px solid transparent;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  transition:
-    transform $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
-    border-color $transition-slow cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow $transition-slow cubic-bezier(0.4, 0, 0.2, 1);
+  width: 45px;
+  height: 45px;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  overflow: hidden;
+  transition: transform $transition-fast ease;
+  display: flex;
+  justify-content: center;
 
-  &.primary-color {
-    border-color: var(--primary);
-    box-shadow: 0 6px 20px rgb(var(--primary-rgb), 0.3);
-  }
+  &:hover {
+    transform: scale(1.1);
 
-  .swatch-inner {
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
+    .swatch-check {
+      opacity: 1;
+    }
   }
 
   .swatch-check {
-    color: white;
-
-    svg {
-      width: 18px;
-      height: 18px;
-    }
-  }
-
-  &:hover {
-    transform: translateY(-4px) scale(1.1);
+    opacity: 0;
+    transition: opacity $transition-fast ease;
+    width: 20px;
   }
 }
-
-.custom {
-  padding: 20px;
-  border-radius: 16px;
-  gap: 20px;
-}
-
-.color-wheel-section {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-}
-
-.color-wheel-container {
-  position: relative;
-}
-
-.color-wheel {
-  border: 2px solid var(--border);
-  border-radius: var(--radius-lg);
-  cursor: crosshair;
-}
-
-.color-wheel-cursor {
-  position: absolute;
-  z-index: 10;
-  width: 16px;
-  height: 16px;
-  border: 3px solid white;
-  border-radius: 50%;
-  box-shadow: var(--shadow-sm);
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-}
-
-.color-controls {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.slider-container {
-  position: relative;
-}
-
-.brightness-slider {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 6px;
-  background: transparent;
-  appearance: none;
-  cursor: pointer;
-  outline: none;
-
-  &::-webkit-slider-thumb {
-    width: 18px;
-    height: 18px;
-    border: 2px solid white;
-    border-radius: 50%;
-    background: var(--primary);
-    appearance: none;
-    cursor: pointer;
-  }
-
-  &::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border: none;
-    border-radius: 50%;
-    background: var(--primary);
-    box-shadow: var(--shadow-sm);
-    cursor: pointer;
-  }
-}
-
-.slider-track {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  left: 0;
-  z-index: 1;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--border);
-  transform: translateY(-50%);
-}
-
-.slider-fill {
-  height: 100%;
-  border-radius: 3px;
-  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-  transition: width 0.1s ease;
-}
-
-.selected-color-preview {
-  display: flex;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--surface-base);
-  align-items: center;
-  gap: 12px;
-}
-
-.preview-circle {
-  width: 40px;
-  height: 40px;
-  border: 2px solid var(--border);
-  border-radius: 50%;
-  box-shadow: var(--shadow-md);
-  flex-shrink: 0;
-}
-
-.color-info {
+.custom-row {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-
-  .hex-value {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  .hsv-values {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-}
-
-.validate-wheel-btn {
-  position: relative;
-  z-index: 100;
-  display: flex;
-  width: 100%;
-  min-height: 40px;
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  transition:
-    border-color $transition-medium cubic-bezier(0.4, 0, 0.2, 1),
-    background $transition-medium cubic-bezier(0.4, 0, 0.2, 1),
-    transform $transition-medium cubic-bezier(0.4, 0, 0.2, 1);
-  align-items: center;
-  cursor: pointer;
   gap: 8px;
-  justify-content: center;
-  margin-top: 4px;
-
-  &:hover {
-    border-color: #1e3a8a;
-    background: linear-gradient(135deg, #2563eb, #1e40af);
-    transform: translateY(-2px);
-
-    .btn-icon {
-      transform: scale(1.1);
-    }
-  }
-
-  .btn-icon {
-    width: 14px;
-    height: 14px;
-    color: white;
-    transition: transform $transition-medium ease;
-  }
-
-  .btn-text {
-    font-weight: 600;
-    color: white;
-  }
 }
-
-.hex {
-  padding: 10px 12px;
+.custom-inputs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.color-input {
+  width: 48px;
+  height: 34px;
+  padding: 0;
   border: none;
-  font-family: Monaco, Menlo, 'Ubuntu Mono', monospace;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  background: transparent;
-  flex: 1;
-  letter-spacing: 1px;
-
-  &:focus {
-    outline: none;
-  }
-
-  &::placeholder {
-    font-weight: 400;
-    color: var(--text-secondary);
-  }
 }
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@media (width <= 768px) {
-  .modal-ctn {
-    padding: 0 16px;
-  }
-
-  .modal-content {
-    gap: 24px;
-  }
-
-  .swatches {
-    padding: 0 4px;
-    gap: 20px;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .swatch {
-    width: 64px;
-    height: 64px;
-  }
-
-  .custom {
-    padding: 20px;
-  }
-
-  .color-wheel-section {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .color-wheel {
-    width: 250px !important;
-    height: 125px !important;
-  }
-
-  .validate-wheel-btn {
-    padding: 12px 18px;
-    font-size: 13px;
-
-    .btn-text {
-      font-size: 13px;
-    }
-  }
-
-  .modal-footer {
-    padding: 24px 0;
-
-    .cancel-btn {
-      padding: 12px 24px;
-      font-size: 14px;
-    }
-  }
-}
-
-@media (width <= 480px) {
-  .swatches {
-    gap: 16px;
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .swatch {
-    width: 56px;
-    height: 56px;
-  }
-
-  .custom {
-    padding: 16px;
-  }
-
-  .color-wheel {
-    width: 200px !important;
-    height: 100px !important;
-  }
-
-  .validate-wheel-btn {
-    padding: 10px 16px;
-    font-size: 12px;
-
-    .btn-text {
-      font-size: 12px;
-    }
-
-    .btn-icon {
-      width: 14px;
-      height: 14px;
-    }
-  }
-
-  .hex {
-    padding: 12px 14px;
-    font-size: 14px;
-  }
+.actions-row {
+  justify-content: flex-end;
 }
 </style>
