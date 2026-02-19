@@ -1,5 +1,4 @@
 services:
-  # Alexandrie Frontend
   frontend:
     build:
       context: ./frontend
@@ -7,11 +6,11 @@ services:
     container_name: alexandrie-frontend
     restart: unless-stopped
     volumes:
-      - ./frontend:/app # montage du code local
+      - ./frontend:/app
       - nuxt_build:/app/.nuxt
       - deps:/app/node_modules
     ports:
-      - '8200:8200'
+      - "8200:8200"
     environment:
       CHOKIDAR_USEPOLLING: true
       WATCHPACK_POLLING: true
