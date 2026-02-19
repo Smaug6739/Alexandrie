@@ -1,7 +1,5 @@
 import type { User, PublicUser, Session } from './db_strustures';
 
-import { makeRequest } from './_utils';
-
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: undefined as undefined | User,

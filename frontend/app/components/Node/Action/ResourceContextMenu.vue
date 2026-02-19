@@ -42,7 +42,7 @@ const emit = defineEmits(['close']);
 
 const nodeStore = useNodesStore();
 const userStore = useUserStore();
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 const { t } = useI18nT();
 const { shortDate } = useDateFormatters();
 const { avatarURL, resourceURL } = useApi();

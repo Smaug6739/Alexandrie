@@ -9,7 +9,7 @@ export interface Snippet {
 }
 
 export function useSnippets() {
-  const preferences = usePreferences();
+  const preferences = usePreferencesStore();
   const notifications = useNotifications();
   const snippets = preferences.get('snippets');
 

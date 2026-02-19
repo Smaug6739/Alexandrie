@@ -34,7 +34,7 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router';
 const { t } = useI18nT();
 const route = useRoute();
 const router = useRouter();
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 
 const breadcrumbs = ref<Array<{ name: string; path: string }>>([]);
 

@@ -84,7 +84,7 @@ import { Paginator } from '../helpers/paginator';
 
 const { t } = useI18nT();
 const props = defineProps<{ headers: Header[]; rows: Field[] }>();
-const itemsPerPage = usePreferences().get('datatableItemsCount');
+const itemsPerPage = usePreferencesStore().get('datatableItemsCount');
 const searchInput = ref('');
 
 // Pagination + filter

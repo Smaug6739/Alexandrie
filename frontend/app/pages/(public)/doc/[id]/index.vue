@@ -41,7 +41,7 @@ import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompi
 import type { Node } from '~/stores';
 
 const documentsStore = useNodesStore();
-const preferencesStore = usePreferences();
+const preferencesStore = usePreferencesStore();
 
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();

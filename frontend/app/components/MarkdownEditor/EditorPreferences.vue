@@ -31,7 +31,7 @@
 import { EDITOR_FONTS } from '~/helpers/constants';
 
 const { t } = useI18nT();
-const store = usePreferences();
+const store = usePreferencesStore();
 </script>
 
 <style scoped>

@@ -1,11 +1,9 @@
-import { makeRequest } from './_utils';
-
 import type { Node } from './db_strustures';
 
 export const useResourcesStore = defineStore('resources', {
   actions: {
     async post(resource: FormData): Promise<Node> {
-      const defaultUploadFolder = usePreferences().get('defaultUploadFolder').value;
+      const defaultUploadFolder = usePreferencesStore().get('defaultUploadFolder').value;
       const nodesStore = useNodesStore();
       if (defaultUploadFolder && nodesStore.nodes.has(defaultUploadFolder)) {
         resource.append('parent_id', defaultUploadFolder);

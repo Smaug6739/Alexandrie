@@ -12,12 +12,15 @@
 import 'virtual:svg-icons-register';
 
 useFavicon();
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 const { setAppColor } = useAppColors();
+const { setLocale } = useI18n();
 
 const primaryColor = preferences.get('primaryColor');
 const interfaceStyle = preferences.get('style');
+const locale = preferences.get('locale');
 
+/* Watchers to make sure app state reflects preferences */
 watch(
   primaryColor,
   color => {
@@ -30,6 +33,14 @@ watch(
   interfaceStyle,
   style => {
     document.documentElement.classList.toggle('glassmorphism', style === 'glassmorphism');
+  },
+  { immediate: true },
+);
+
+watch(
+  locale,
+  newLocale => {
+    if (newLocale) setLocale(newLocale);
   },
   { immediate: true },
 );

@@ -20,7 +20,7 @@ function setAppColor(color: string | number) {
   document.documentElement.style.setProperty('--primary-border', `var(--${color}-border)`);
 
   const colorMode = useColorMode();
-  usePreferences().set('darkMode', colorMode.value === 'dark');
+  usePreferencesStore().set('darkMode', colorMode.value === 'dark');
   document.body.style.colorScheme = colorMode.preference;
 }
 

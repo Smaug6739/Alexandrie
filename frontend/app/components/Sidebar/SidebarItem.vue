@@ -40,7 +40,7 @@ const nodesStore = useNodesStore();
 const { isOpened, workspaceId } = useSidebar();
 const { getAppAccent } = useAppColors();
 const { isMobile } = useDevice();
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 const contextMenu = useContextMenu();
 
 const props = defineProps<{ item: SidebarItem; level: number }>();
@@ -90,7 +90,7 @@ const drop = async (event: DragEvent) => {
   isDragOver.value = false;
   const draggedItemId = event.dataTransfer!.getData('text/plain');
 
-  const draggedItem = nodesStore.getById(draggedItemId) || navigationItems.find(item => item.id === draggedItemId)?.data;
+  const draggedItem = nodesStore.getById(draggedItemId) || navigationItems().find(item => item.id === draggedItemId)?.data;
 
   if (!draggedItem) return;
 

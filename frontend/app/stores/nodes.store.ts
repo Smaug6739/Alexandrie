@@ -1,4 +1,3 @@
-import { makeRequest, type FetchOptions } from './_utils';
 import { Collection } from './collection';
 import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_strustures';
 

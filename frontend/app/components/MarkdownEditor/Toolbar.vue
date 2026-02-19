@@ -129,7 +129,7 @@ const props = defineProps<{
   modelValue: Partial<Node>;
 }>();
 
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 
 const mobileSimplifiedView = preferences.get('editorSimplifiedViewOnMobile');
 const displayStats = preferences.get('editorDisplayStats');

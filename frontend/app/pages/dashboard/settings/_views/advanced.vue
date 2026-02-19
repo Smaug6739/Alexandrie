@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 const { t } = useI18nT();
 
 const deleteLocalStorage = () => {

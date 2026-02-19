@@ -8,7 +8,7 @@ import type { Node } from '~/stores';
 export function useSidebar() {
   const { isMobile } = useDevice();
   const nodesTree = useNodesTree();
-  const preferences = usePreferences();
+  const preferences = usePreferencesStore();
 
   // UI State - using useState for SSR safety
   const isOpen = useState('sidebar-open', () => false);

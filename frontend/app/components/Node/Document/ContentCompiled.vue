@@ -13,7 +13,7 @@ import type { Node } from '~/stores';
 
 const props = defineProps<{ node?: Partial<Node> }>();
 
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 
 const theme = computed(() => {
   if (props.node?.theme) return props.node.theme;

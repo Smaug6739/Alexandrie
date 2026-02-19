@@ -69,16 +69,13 @@
 </template>
 
 <script setup lang="ts">
-const preferencesStore = usePreferences();
+const preferencesStore = usePreferencesStore();
 
 // @ts-expect-error unknown type
 const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnType<unknown>;
-type InterfaceOption = Option & {
-  tag?: string;
-};
 
 defineProps<{
-  options: Array<{ label: string; options: InterfaceOption[] }>;
+  options: Array<{ label: string; options: Option[] }>;
 }>();
 </script>
 

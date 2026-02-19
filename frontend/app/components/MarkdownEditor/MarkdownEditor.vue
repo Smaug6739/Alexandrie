@@ -9,7 +9,12 @@
       <div class="document-meta">
         <div class="line">
           <input v-model="document.name" :placeholder="t('components.editor.placeholder.title')" class="meta-title" @input="autoSaveConditional" />
-          <input v-model="document.description" :placeholder="t('components.editor.placeholder.description')" class="meta-description" @input="autoSaveConditional" />
+          <input
+            v-model="document.description"
+            :placeholder="t('components.editor.placeholder.description')"
+            class="meta-description"
+            @input="autoSaveConditional"
+          />
         </div>
         <AppTagInput v-model="document.tags" display="row" minimal @update:model-value="autoSaveConditional" />
       </div>
@@ -47,7 +52,7 @@ import type { Node } from '~/stores';
 
 const { t } = useI18nT();
 const resourcesStore = useResourcesStore();
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 
 const props = defineProps<{ doc?: Partial<Node> }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);

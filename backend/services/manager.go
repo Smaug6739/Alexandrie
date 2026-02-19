@@ -11,16 +11,17 @@ import (
 
 // ServiceManager manages all services and their dependencies
 type ServiceManager struct {
-	Auth        AuthService
-	User        UserService
-	Node        NodeService
-	Permission  PermissionService
-	Session     SessionService
-	Minio       MinioService
-	Resource    ResourceService
-	Backup      BackupService
-	OIDC        OIDCService
-	initialized bool
+	Auth         AuthService
+	User         UserService
+	Node         NodeService
+	Permission   PermissionService
+	Session      SessionService
+	Minio        MinioService
+	Resource     ResourceService
+	Backup       BackupService
+	OIDC         OIDCService
+	UserSettings UserSettingsService
+	initialized  bool
 }
 
 // NewServiceManager creates a new service manager and initializes all services
@@ -64,6 +65,9 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 
 	// Initialize OIDC Service
 	sm.OIDC = NewOIDCService(repos.OIDCProvider, repos.User, sm.User, repos.Session, repos.Log, snowflake)
+
+	// Initialize UserSettings Service
+	sm.UserSettings = NewUserSettingsService(repos.UserSettings)
 
 	return nil
 }
