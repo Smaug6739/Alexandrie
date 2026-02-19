@@ -1,35 +1,35 @@
 <template>
   <div>
-    <h2 class="page-title">Backups <tag yellow>Beta</tag></h2>
-    <div class="main">
-      <p>Create a backup of your data with customizable options.</p>
+    <h2 class="page-title">{{ t('settings.backups.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.backups.subtitle') }}</p>
 
+    <div class="main">
       <!-- Backup Options -->
       <div class="options-section">
-        <h3>Backup Options</h3>
+        <h3>{{ t('settings.backups.options') }}</h3>
         <div class="options-grid">
           <AppCheck v-model="options.includeDocuments">
             <span class="option-label">
               <Icon name="folder" display="sm" />
-              Documents & Categories
+              {{ t('settings.backups.includeDocuments') }}
             </span>
           </AppCheck>
           <AppCheck v-model="options.includeFiles">
             <span class="option-label">
               <Icon name="image" display="sm" />
-              Uploaded Files (images, PDFs, etc.)
+              {{ t('settings.backups.includeFiles') }}
             </span>
           </AppCheck>
           <AppCheck v-model="options.includeSettings">
             <span class="option-label">
               <Icon name="settings" display="sm" />
-              Settings & Preferences
+              {{ t('settings.backups.includeSettings') }}
             </span>
           </AppCheck>
           <AppCheck v-model="options.includeMetadata">
             <span class="option-label">
               <Icon name="layers" display="sm" />
-              Metadata
+              {{ t('settings.backups.includeMetadata') }}
             </span>
           </AppCheck>
         </div>
@@ -38,7 +38,7 @@
       <!-- Start Backup Button -->
       <AppButton type="primary" :disabled="isProcessing || !hasAnyOption" @click="startBackup">
         <Icon v-if="!isProcessing" name="backup" display="sm" />
-        {{ isProcessing ? 'Creating Backup...' : 'Create Backup' }}
+        {{ isProcessing ? t('settings.backups.creatingBackup') : t('settings.backups.createBackup') }}
       </AppButton>
       <LoaderSpinner v-if="isProcessing" />
       <!-- Progress Section -->
@@ -59,7 +59,7 @@
         <!-- Cancel Button -->
         <AppButton v-if="currentJob.status === 'processing' || currentJob.status === 'pending'" type="secondary" @click="cancelBackup">
           <Icon name="close" display="sm" />
-          Cancel
+          {{ t('common.actions.cancel') }}
         </AppButton>
 
         <!-- Error Message -->
@@ -72,18 +72,18 @@
       <div v-if="currentJob?.status === 'completed' && currentJob.download_url" class="link-section">
         <p class="expiry-notice">
           <Icon name="clock" :size="14" />
-          This link expires on {{ numericDate(currentJob.expires_at || '') }}
+          {{ t('settings.backups.expiryNotice', { date: numericDate(currentJob.expires_at || '') }) }}
         </p>
-        <input v-model="currentJob.download_url" type="text" readonly placeholder="Backup Link" />
+        <input v-model="currentJob.download_url" type="text" readonly :placeholder="t('settings.backups.backupLink')" />
         <div class="actions-row">
           <AppButton type="secondary" @click="copyLink">
             <Icon name="copy" display="sm" />
-            Copy Link
+            {{ t('common.actions.copyLink') }}
           </AppButton>
           <a :href="currentJob.download_url" download>
             <AppButton type="primary">
               <Icon name="download" display="sm" />
-              Download Backup
+              {{ t('settings.backups.downloadBackup') }}
             </AppButton>
           </a>
         </div>
@@ -122,6 +122,7 @@ const options = reactive({
   includeMetadata: true,
 });
 
+const { t } = useI18nT();
 const { numericDate } = useDateFormatters();
 const notifications = useNotifications();
 const pref = usePreferences();
@@ -136,13 +137,13 @@ const hasAnyOption = computed(() => options.includeDocuments || options.includeF
 const statusLabel = computed(() => {
   switch (currentJob.value?.status) {
     case 'pending':
-      return 'Pending';
+      return t('common.status.pending');
     case 'processing':
-      return 'Processing';
+      return t('common.status.processing');
     case 'completed':
-      return 'Completed';
+      return t('common.status.completed');
     case 'failed':
-      return 'Failed';
+      return t('common.status.failed');
     default:
       return '';
   }
@@ -151,7 +152,7 @@ const statusLabel = computed(() => {
 const copyLink = () => {
   if (currentJob.value?.download_url) {
     navigator.clipboard.writeText(currentJob.value.download_url);
-    notifications.add({ type: 'success', title: 'Copied', message: 'Link copied to clipboard' });
+    notifications.add({ type: 'success', title: t('common.notifications.copiedTitle'), message: t('common.notifications.copiedMessage') });
   }
 };
 
@@ -172,7 +173,7 @@ async function startBackup() {
     return;
   }
 
-  notifications.add({ type: 'success', title: 'Backup Started', message: 'Your backup is being created...' });
+  notifications.add({ type: 'success', title: t('settings.backups.notifications.startedTitle'), message: t('settings.backups.notifications.started') });
   // Start polling for status
   startPolling(result.result.job_id);
 }
@@ -192,7 +193,7 @@ async function checkStatus(jobId: string) {
     stopPolling();
 
     if (result.result.status === 'completed') {
-      notifications.add({ type: 'success', title: 'Backup Complete', message: 'Your backup is ready for download!' });
+      notifications.add({ type: 'success', title: t('settings.backups.notifications.completedTitle'), message: t('settings.backups.notifications.completed') });
     } else if (result.result.status === 'failed') {
       error(result.result.message, result.result.error);
     }
@@ -222,24 +223,28 @@ async function cancelBackup() {
   const result = await makeRequest(`backup/${currentJob.value.id}`, 'DELETE', {});
 
   if (result.status !== 'success') {
-    notifications.add({ type: 'error', title: 'Error', message: result.message || 'Failed to cancel backup' });
+    notifications.add({
+      type: 'error',
+      title: t('common.errors.generic'),
+      message: result.message || t('settings.backups.notifications.failedToCancelBackup'),
+    });
     return;
   }
 
   stopPolling();
-  notifications.add({ type: 'info', title: 'Cancelled', message: 'Backup has been cancelled' });
+  notifications.add({ type: 'info', title: t('settings.backups.notifications.canceled') });
   currentJob.value = null;
 }
 
 function error(message?: string, error?: string) {
-  notifications.add({ type: 'error', title: 'Error', message: 'An unknown error occurred' });
+  notifications.add({ type: 'error', title: t('common.errors.generic'), message: message || t('common.errors.unknown') });
   currentJob.value = {
     status: 'failed',
     id: '',
     user_id: '',
     options: { include_documents: false, include_files: false, include_metadata: false },
     progress: 0,
-    message: message || 'An error occurred while fetching the backup status. Please try again later.',
+    message: message || t('settings.backups.notifications.errorFetching'),
     error: error,
     created_at: '',
     updated_at: '',

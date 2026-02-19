@@ -8,8 +8,8 @@
       <!-- Compact Document Metadata -->
       <div class="document-meta">
         <div class="line">
-          <input v-model="document.name" placeholder="Document title" class="meta-title" @input="autoSaveConditional" />
-          <input v-model="document.description" placeholder="Description" class="meta-description" @input="autoSaveConditional" />
+          <input v-model="document.name" :placeholder="t('components.editor.placeholder.title')" class="meta-title" @input="autoSaveConditional" />
+          <input v-model="document.description" :placeholder="t('components.editor.placeholder.description')" class="meta-description" @input="autoSaveConditional" />
         </div>
         <AppTagInput v-model="document.tags" display="row" minimal @update:model-value="autoSaveConditional" />
       </div>
@@ -22,7 +22,7 @@
 
         <div v-if="showPreview" class="preview-panel">
           <div class="panel-header">
-            <span class="panel-label">Preview</span>
+            <span class="panel-label">{{ t('common.actions.preview') }}</span>
           </div>
           <NodeDocumentContentCompiled ref="markdownPreviewComponent" :node="document" />
         </div>
@@ -45,6 +45,7 @@ import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompi
 import compile from '~/helpers/markdown';
 import type { Node } from '~/stores';
 
+const { t } = useI18nT();
 const resourcesStore = useResourcesStore();
 const preferences = usePreferences();
 

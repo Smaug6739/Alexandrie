@@ -2,9 +2,9 @@
   <div class="advanced-search-tab">
     <div class="search-filters">
       <div class="filters-header">
-        <h3 class="filters-title">Advanced Filters</h3>
+        <h3 class="filters-title">{{ t('components.commandCenter.advanced.title') }}</h3>
         <span class="filters-actions">
-          <button class="clear-filters-btn" @click="clearFilters">Clear</button>
+          <button class="clear-filters-btn" @click="clearFilters">{{ t('components.commandCenter.advanced.clear') }}</button>
           <button class="toggle-filters-btn" :class="{ collapsed: !showFilters }" @click="toggleFilters">
             <Icon :name="showFilters ? 'collapse' : 'expand'" />
           </button>
@@ -13,47 +13,47 @@
 
       <div v-show="showFilters" class="filters-content">
         <div class="filter-group full-width">
-          <label class="filter-label">Date Range</label>
+          <label class="filter-label">{{ t('components.commandCenter.advanced.dateRange') }}</label>
           <div class="date-row">
             <div class="date-filters">
               <div class="date-input">
-                <label>From</label>
+                <label>{{ t('components.commandCenter.advanced.from') }}</label>
                 <input v-model="dateFrom" type="date" class="date-picker" />
               </div>
               <div class="date-input">
-                <label>To</label>
+                <label>{{ t('components.commandCenter.advanced.to') }}</label>
                 <input v-model="dateTo" type="date" class="date-picker" />
               </div>
             </div>
             <div class="radio-group">
               <label class="radio-option">
                 <input v-model="dateType" type="radio" value="created" />
-                <span>Created</span>
+                <span>{{ t('components.commandCenter.advanced.created') }}</span>
               </label>
               <label class="radio-option">
                 <input v-model="dateType" type="radio" value="modified" />
-                <span>Modified</span>
+                <span>{{ t('components.commandCenter.advanced.modified') }}</span>
               </label>
             </div>
           </div>
         </div>
 
         <div class="filter-group">
-          <label class="filter-label">Category</label>
-          <AppSelect v-model="selectedCategory" :items="categoriesTree" nullable placeholder="All categories" />
+          <label class="filter-label">{{ t('components.commandCenter.advanced.category') }}</label>
+          <AppSelect v-model="selectedCategory" :items="categoriesTree" nullable :placeholder="t('components.commandCenter.advanced.allCategories')" />
         </div>
 
         <div class="filter-group">
-          <label class="filter-label">Tags</label>
+          <label class="filter-label">{{ t('components.commandCenter.advanced.tags') }}</label>
           <AppTagInput v-model="selectedTags" @update:model-value="tagInput = $event" />
         </div>
 
         <div class="filter-group full-width">
           <label class="filter-label inline">
             <AppCheck v-model="searchInContent" />
-            Search in document content
+            {{ t('components.commandCenter.advanced.searchInContent') }}
           </label>
-          <p class="filter-hint">Searches inside document body (requires complete words)</p>
+          <p class="filter-hint">{{ t('components.commandCenter.advanced.searchInContentHint') }}</p>
         </div>
 
         <div class="filter-actions"></div>
@@ -75,6 +75,7 @@ const props = defineProps<{ query: string; selectedIndex: number }>();
 
 defineEmits<{ updateSelectedIndex: [index: number] }>();
 
+const { t } = useI18nT();
 const nodesStore = useNodesStore();
 const nodesTree = useNodesTree();
 const categoriesTree = nodesTree.treeUpToRole(2);

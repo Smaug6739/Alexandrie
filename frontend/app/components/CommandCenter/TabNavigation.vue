@@ -9,11 +9,15 @@
 
 <script setup lang="ts">
 const { changeTab, activeTab } = useCommandCenter();
+const { t } = useI18nT();
 
-const tabs = [
-  { id: 'quick', label: 'Quick Search', icon: 'search' },
-  { id: 'advanced', label: 'Advanced Search', icon: 'layers' },
-] as const;
+const tabs = computed(
+  () =>
+    [
+      { id: 'quick', label: t('components.commandCenter.tabs.quick'), icon: 'search' },
+      { id: 'advanced', label: t('components.commandCenter.tabs.advanced'), icon: 'layers' },
+    ] as const,
+);
 
 function handleKeydown(e: KeyboardEvent) {
   if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {

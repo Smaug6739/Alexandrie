@@ -9,28 +9,28 @@
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" @click="action('open')"><Icon name="file_open" />Open<kbd>Enter</kbd></button>
-      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />Edit<kbd>E</kbd></button>
+      <button class="menu-item" @click="action('open')"><Icon name="file_open" />{{ t('common.actions.open') }}<kbd>Enter</kbd></button>
+      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />{{ t('common.actions.edit') }}<kbd>E</kbd></button>
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" @click="action('duplicate')"><Icon name="duplicate" />Duplicate<kbd>Ctrl+D</kbd></button>
-      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />Copy link<kbd>Ctrl+L</kbd></button>
+      <button class="menu-item" @click="action('duplicate')"><Icon name="duplicate" />{{ t('common.actions.duplicate') }}<kbd>Ctrl+D</kbd></button>
+      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />{{ t('common.actions.copyLink') }}<kbd>Ctrl+L</kbd></button>
       <button class="menu-item" @click="action('pin')">
-        <Icon :name="node.order === -1 ? 'pin_off' : 'pin'" />{{ node.order === -1 ? 'Unpin' : 'Pin to top' }}<kbd>P</kbd>
+        <Icon :name="node.order === -1 ? 'pin_off' : 'pin'" />{{ node.order === -1 ? t('common.actions.unpin') : t('common.actions.pin') }}<kbd>P</kbd>
       </button>
     </div>
 
     <div v-if="nodeStore.hasPermissions(node, 4)" class="menu-group">
-      <button class="menu-item" @click="action('manageAccess')"><Icon name="manage_access" />Manage access</button>
+      <button class="menu-item" @click="action('manageAccess')"><Icon name="manage_access" />{{ t('nodes.actions.managePermissions') }}</button>
     </div>
 
     <div class="menu-group">
-      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />Move to trash<kbd>Del</kbd></button>
+      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />{{ t('common.actions.delete') }}<kbd>Del</kbd></button>
     </div>
 
     <div v-if="developerMode" class="menu-group">
-      <button class="menu-item" @click="action('copyId')"><Icon name="snippets" />Copy ID</button>
+      <button class="menu-item" @click="action('copyId')"><Icon name="snippets" />{{ t('common.actions.copy') }} {{ t('common.labels.id') }}</button>
     </div>
   </div>
 </template>
@@ -49,6 +49,7 @@ const userStore = useUserStore();
 const router = useRouter();
 const route = useRoute();
 const preferences = usePreferences();
+const { t } = useI18nT();
 const { shortDate } = useDateFormatters();
 const { avatarURL } = useApi();
 

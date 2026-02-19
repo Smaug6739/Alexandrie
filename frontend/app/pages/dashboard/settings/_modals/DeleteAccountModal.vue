@@ -1,20 +1,22 @@
 <template>
   <div class="modal">
-    <h3>Delete account</h3>
-    <p>Are you sure you want to delete your account ?</p>
-    <p style="opacity: 0.7">This action is irreversible</p>
-    <p v-if="time > 0">Please wait {{ time }} seconds before confirming</p>
+    <h3>{{ t('user.accontDeletion.title') }}</h3>
+    <p>{{ t('user.accontDeletion.description') }}</p>
+    <p style="opacity: 0.7">{{ t('common.confirm.irreversible') }}</p>
+    <p v-if="time > 0">{{ t('user.accontDeletion.waitModal', { seconds: time }) }}</p>
     <div class="footer">
-      <AppButton type="secondary" @click="emit('close')">Cancel</AppButton>
-      <AppButton :disabled="time > 0" type="danger" @click="deleteAccount">Confirm</AppButton>
+      <AppButton type="secondary" @click="emit('close')">{{ t('common.actions.cancel') }}</AppButton>
+      <AppButton :disabled="time > 0" type="danger" @click="deleteAccount">{{ t('common.actions.confirm') }}</AppButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const time = ref(15);
 const emit = defineEmits(['close']);
 
+const { t } = useI18nT();
+
+const time = ref(15);
 let interval: NodeJS.Timeout;
 
 onMounted(() => {

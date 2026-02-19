@@ -13,15 +13,15 @@
         <SidebarWorkspace :option="shared_workspaces" />
       </li>
       <hr />
-      <span class="workspaces-label">Workspaces</span>
+      <span class="workspaces-label">{{ t('components.sidebar.workspaces') }}</span>
       <li v-for="option in options" :key="option.meta?.id" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
         <SidebarWorkspace :option="option" />
       </li>
-      <div v-if="!options.length" class="placeholder">No workspaces found</div>
+      <div v-if="!options.length" class="placeholder">{{ t('components.sidebar.noWorkspaces') }}</div>
       <hr />
-      <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--text-secondary)" /> New Workspace</div>
+      <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--text-secondary)" /> {{ t('components.sidebar.newWorkspace') }}</div>
       <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace"
-        ><Icon name="settings" fill="var(--text-secondary)" /> Edit Workspace</NuxtLink
+        ><Icon name="settings" fill="var(--text-secondary)" /> {{ t('components.sidebar.editWorkspace') }}</NuxtLink
       >
     </ul>
   </div>
@@ -32,10 +32,11 @@ import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 
 import type { Workspace } from './helpers';
 
+const { t } = useI18nT();
 const { workspaceId } = useSidebar();
 const props = defineProps<{ options: Workspace[] }>();
-const all_workspaces = ref({ text: 'All Workspaces', value: undefined, meta: { color: -1 } });
-const shared_workspaces = ref({ text: 'Shared with me', value: 'shared', meta: { color: -1, icon: 'users' } });
+const all_workspaces = computed(() => ({ text: t('components.sidebar.allWorkspaces'), value: undefined, meta: { color: -1 } }));
+const shared_workspaces = computed(() => ({ text: t('components.sidebar.sharedWithMe'), value: 'shared', meta: { color: -1, icon: 'users' } }));
 watch(
   () => props.options,
   opts => {

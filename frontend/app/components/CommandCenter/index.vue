@@ -7,7 +7,7 @@
           ref="searchInput"
           :value="searchQuery"
           type="text"
-          placeholder="Search for a page, action, or document..."
+          :placeholder="t('components.commandCenter.searchPlaceholder')"
           class="search-input"
           @input="handleSearchInput"
           @keydown="handleKeydown"
@@ -29,7 +29,10 @@
     </div>
 
     <div class="search-footer">
-      <div class="shortcuts"><kbd>↑↓</kbd> Navigate <kbd>Enter</kbd> Select <kbd>⇄</kbd> Switch tabs <kbd>Esc</kbd> Close</div>
+      <div class="shortcuts">
+        <kbd>↑↓</kbd> {{ t('components.commandCenter.navigate') }} <kbd>Enter</kbd> {{ t('components.commandCenter.select') }} <kbd>⇄</kbd>
+        {{ t('components.commandCenter.switchTabs') }} <kbd>Esc</kbd> {{ t('components.commandCenter.close') }}
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +42,7 @@ import TabNavigation from './TabNavigation.vue';
 import QuickSearchTab from './QuickSearchTab.vue';
 import AdvancedSearchTab from './AdvancedSearchTab.vue';
 
+const { t } = useI18nT();
 const { searchQuery, selectedIndex, activeTab, close, setSearchQuery, setSelectedIndex } = useCommandCenter();
 
 const searchInput = ref<HTMLInputElement>();

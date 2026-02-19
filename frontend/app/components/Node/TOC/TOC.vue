@@ -1,18 +1,18 @@
 <template>
   <aside>
-    <h4 v-if="doc?.tags">Tags</h4>
+    <h4 v-if="doc?.tags">{{ t('nodes.tags') }}</h4>
     <div v-if="doc?.tags" style="display: flex; font-size: 14px; flex-wrap: wrap">
       <tag v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
     </div>
     <ul ref="list" style="position: relative">
       <div v-if="headers.length" ref="marker" class="marker" />
-      <h4>Table of contents</h4>
+      <h4>{{ t('nodes.document.TOC') }}</h4>
       <div v-if="headers.length">
         <NodeTOCLevel v-for="header of headers_tree" :key="header.link" :node="header" style="padding-left: 10px" />
       </div>
-      <p v-else>Nothing to display</p>
+      <p v-else>{{ t('common.nothing') }}</p>
     </ul>
-    <h4 v-if="childs.length">Child documents</h4>
+    <h4 v-if="childs.length">{{ t('nodes.document.childs') }}</h4>
     <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link">
       <Icon name="file_shortcut" fill="var(--primary)" />{{ child.data.name as string }}
     </NuxtLink>
@@ -22,6 +22,8 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 import type { TreeItem as NodeTreeItem } from '~/helpers/TreeBuilder';
+
+const { t } = useI18nT();
 
 const props = defineProps<{ element?: HTMLElement; doc?: Node }>();
 const list = ref<HTMLElement>();

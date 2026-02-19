@@ -13,7 +13,7 @@
   </div>
 </template>
 <script setup lang="ts">
-definePageMeta({ breadcrumb: 'Home' });
+definePageMeta({ breadcrumb: { i18n: 'dashboard.pages.home' } });
 
 const nodesStore = useNodesStore();
 const userStore = useUserStore();

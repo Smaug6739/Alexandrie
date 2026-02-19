@@ -6,7 +6,7 @@
       ref="searchInput"
       v-model="search"
       type="text"
-      placeholder="Search..."
+      :placeholder="t('common.placeholder.search')"
       class="search"
       @keydown="handleKeyDown"
       @click.stop
@@ -43,13 +43,13 @@
 
           <div v-if="searchable" class="sheet-search">
             <Icon name="search" display="md" fill="var(--text-secondary)" />
-            <input ref="mobileSearchInput" v-model="search" type="text" placeholder="Search..." @keydown="handleKeyDown" />
+            <input ref="mobileSearchInput" v-model="search" type="text" :placeholder="t('common.placeholder.search')" @keydown="handleKeyDown" />
           </div>
 
           <ul class="sheet-list">
             <li v-if="nullable && selected" class="clear" @click="clearSelection">
               <Icon name="close" display="sm" fill="var(--text-secondary)" />
-              <span>Clear selection</span>
+              <span>{{ t('common.actions.clear') }}</span>
             </li>
             <AppSelectNode
               v-for="item in filteredItems"
@@ -60,7 +60,7 @@
               :selected-id="selectedId"
               @select="handleSelect"
             />
-            <li v-if="filteredItems.length === 0" class="empty">No results found</li>
+            <li v-if="filteredItems.length === 0" class="empty">{{ t('common.search.noResults', { filter: search }) }}</li>
             <slot name="list-footer"></slot>
           </ul>
         </div>
@@ -93,6 +93,7 @@ const props = withDefaults(
 const emit = defineEmits(['update:modelValue']);
 
 const { isMobile } = useDevice();
+const { t } = useI18nT();
 
 const selectedId = computed({
   get: () => props.modelValue ?? '',

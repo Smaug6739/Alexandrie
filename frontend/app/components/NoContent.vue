@@ -1,6 +1,6 @@
 <template>
   <div class="no-content">
-    <h1>{{ title || 'Nothing here' }}</h1>
+    <h1>{{ title || t('components.noContent.nothingHere') }}</h1>
     <img :src="`/empty-${colorMode.value}.png`" alt="" />
     <p>{{ description }}</p>
     <slot />
@@ -11,6 +11,7 @@
 defineProps<{ title?: string; description?: string }>();
 
 const colorMode = useColorMode();
+const { t } = useI18nT();
 </script>
 
 <style scoped lang="scss">

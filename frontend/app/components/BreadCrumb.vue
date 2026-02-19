@@ -31,6 +31,7 @@
 <script setup lang="ts">
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
+const { t } = useI18nT();
 const route = useRoute();
 const router = useRouter();
 const preferences = usePreferences();
@@ -45,9 +46,14 @@ const hasNavigation = preferences.get('navbarItems');
 const goBack = () => router.go(-1);
 const goForward = () => router.go(1);
 
+interface I18nBreadcrumb {
+  c?: number; // Optional count for pluralization
+  i18n: I18nKey;
+}
+
 declare module 'vue-router' {
   interface RouteMeta {
-    breadcrumb?: string | ((route: RouteLocationNormalizedLoaded) => string);
+    breadcrumb?: ((route: RouteLocationNormalizedLoaded) => string) | I18nBreadcrumb | string;
   }
 }
 
@@ -65,6 +71,9 @@ watchEffect(() => {
 
     if (typeof meta === 'function') {
       name = meta(route);
+    } else if (typeof meta === 'object' && (meta as I18nBreadcrumb)?.i18n) {
+      const { c, i18n } = meta as I18nBreadcrumb;
+      name = t(i18n, { count: c });
     } else {
       name = meta as string;
     }

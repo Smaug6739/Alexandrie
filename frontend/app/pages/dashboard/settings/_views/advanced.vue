@@ -1,23 +1,24 @@
 <template>
   <div>
-    <h2 class="page-title">Advanced</h2>
-    <p class="page-subtitle">Manage advanced settings for the application.</p>
+    <h2 class="page-title">{{ t('settings.advanced.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.advanced.subtitle') }}</p>
 
     <div>
-      <h3>Reset all preferences</h3>
-      <p>This will reset all your preferences to their default values. This action cannot be undone.</p>
-      <AppButton type="danger" @click="preferences.reset">Reset preferences</AppButton>
+      <h3>{{ t('settings.advanced.resetPreferences') }}</h3>
+      <p>{{ t('settings.advanced.resetPreferencesDesc') }}</p>
+      <AppButton type="danger" @click="preferences.reset">{{ t('settings.advanced.resetPreferencesBtn') }}</AppButton>
     </div>
     <div>
-      <h3>Reset local storage</h3>
-      <p>This will reset all your local storage data. This action cannot be undone. This action will also reset preferences.</p>
-      <AppButton type="danger" @click="deleteLocalStorage">Delete local storage</AppButton>
+      <h3>{{ t('settings.advanced.resetLocalStorage') }}</h3>
+      <p>{{ t('settings.advanced.resetLocalStorageDesc') }}</p>
+      <AppButton type="danger" @click="deleteLocalStorage">{{ t('settings.advanced.resetLocalStorageBtn') }}</AppButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 const preferences = usePreferences();
+const { t } = useI18nT();
 
 const deleteLocalStorage = () => {
   localStorage.clear();

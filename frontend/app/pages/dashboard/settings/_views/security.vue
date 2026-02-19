@@ -1,29 +1,29 @@
 <template>
   <div>
-    <h2 class="page-title">Security</h2>
-    <p class="page-subtitle">Manage your security settings and monitor your account activity.</p>
-    <h3>Active sessions</h3>
-    <p class="section-description">These are the devices that are currently logged into your account.</p>
+    <h2 class="page-title">{{ t('settings.security.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.security.subtitle') }}</p>
+    <h3>{{ t('settings.security.activeSessions') }}</h3>
+    <p class="section-description">{{ t('settings.security.activeSessionsDesc') }}</p>
     <div class="sessions-list">
       <SessionCard v-for="(session, index) in store.sessions" :key="session.id" :session="session" :is-current="index === 0" :show-user-agent="true" />
     </div>
-    <p v-if="store.sessions.length === 0" class="no-sessions">No active sessions found.</p>
+    <p v-if="store.sessions.length === 0" class="no-sessions">{{ t('settings.security.noSessions') }}</p>
     <div v-if="hasUnrecognizedSession" class="warning-box">
       <Icon name="warning" display="sm" />
       <div>
-        <strong>Don't recognize a session?</strong>
-        <p>If you see a session you don't recognize, change your password immediately and click "Log out from all devices" below.</p>
+        <strong>{{ t('settings.security.unrecognizedSession') }}</strong>
+        <p>{{ t('settings.security.unrecognizedSessionDesc') }}</p>
       </div>
     </div>
 
     <!-- OIDC Linked Accounts -->
     <template v-if="oidcEnabled">
-      <h3>Connected accounts</h3>
-      <p class="section-description">Link external accounts for easier sign-in.</p>
+      <h3>{{ t('settings.security.connectedAccounts') }}</h3>
+      <p class="section-description">{{ t('settings.security.connectedAccountsDesc') }}</p>
       <div class="oidc-accounts">
         <div v-if="loadingOIDC" class="oidc-loading">
           <LoaderSpinner :size="24" />
-          <span>Loading connected accounts...</span>
+          <span>{{ t('settings.security.loadingAccounts') }}</span>
         </div>
         <template v-else>
           <div v-for="provider in availableProviders" :key="provider.name" class="oidc-account">
@@ -34,36 +34,37 @@
             </div>
             <div class="oidc-account-actions">
               <template v-if="isLinked(provider.name)">
-                <span class="oidc-status linked">Connected</span>
-                <AppButton type="danger" size="sm" @click="unlinkAccount(provider.name)">Unlink</AppButton>
+                <span class="oidc-status linked">{{ t('settings.security.connected') }}</span>
+                <AppButton type="danger" size="sm" @click="unlinkAccount(provider.name)">{{ t('settings.security.unlink') }}</AppButton>
               </template>
               <template v-else>
-                <span class="oidc-status">Not connected</span>
-                <AppButton type="secondary" size="sm" @click="linkAccount(provider.name)">Link</AppButton>
+                <span class="oidc-status">{{ t('settings.security.notConnected') }}</span>
+                <AppButton type="secondary" size="sm" @click="linkAccount(provider.name)">{{ t('settings.security.link') }}</AppButton>
               </template>
             </div>
           </div>
-          <p v-if="availableProviders.length === 0" class="no-providers">No SSO providers are configured for this application.</p>
+          <p v-if="availableProviders.length === 0" class="no-providers">{{ t('settings.security.noProviders') }}</p>
         </template>
       </div>
     </template>
 
-    <h3>Password</h3>
+    <h3>{{ t('settings.security.password') }}</h3>
     <form @submit.prevent="changePassword">
       <div class="form-group">
-        <label for="password">New password</label>
+        <label for="password">{{ t('settings.security.newPassword') }}</label>
         <input id="password" v-model="passwordValue" type="password" required />
       </div>
       <div class="form-group">
         <span style="display: flex; align-items: center"
-          ><label for="password_confirm">Confirm password</label> <span v-if="errPasswordNotMatch" class="err"> Password do not match !</span></span
+          ><label for="password_confirm">{{ t('settings.security.confirmPassword') }}</label>
+          <span v-if="errPasswordNotMatch" class="err"> {{ t('settings.security.passwordNotMatch') }}</span></span
         >
         <input id="password_confirm" v-model="passwordConfirmValue" type="password" required />
       </div>
-      <AppButton type="primary">Change password</AppButton>
+      <AppButton type="primary">{{ t('settings.security.changePassword') }}</AppButton>
     </form>
-    <h2>Danger zone</h2>
-    <p class="page-subtitle">Irreversible actions. Please proceed with caution.</p>
+    <h2>{{ t('settings.security.dangerZone') }}</h2>
+    <p class="page-subtitle">{{ t('settings.security.dangerZoneDesc') }}</p>
 
     <div class="danger-section">
       <div class="danger-card">
@@ -72,11 +73,11 @@
             <Icon name="logout" display="sm" />
           </div>
           <div class="danger-card-info">
-            <h4>Log out</h4>
-            <p>End your current session on this device. You will need to sign in again to access your account.</p>
+            <h4>{{ t('settings.security.logout') }}</h4>
+            <p>{{ t('settings.security.logoutDesc') }}</p>
           </div>
         </div>
-        <AppButton type="secondary" @click="logout">Log out</AppButton>
+        <AppButton type="secondary" @click="logout">{{ t('settings.security.logout') }}</AppButton>
       </div>
 
       <div class="danger-card">
@@ -85,11 +86,11 @@
             <Icon name="devices" display="sm" />
           </div>
           <div class="danger-card-info">
-            <h4>Log out from all devices</h4>
-            <p>End all active sessions across all devices. You will be redirected to the login page. Make sure to save your work first.</p>
+            <h4>{{ t('settings.security.logoutAll') }}</h4>
+            <p>{{ t('settings.security.logoutAllDesc') }}</p>
           </div>
         </div>
-        <AppButton type="danger" @click="logoutAll">Log out from all devices</AppButton>
+        <AppButton type="danger" @click="logoutAll">{{ t('settings.security.logoutAll') }}</AppButton>
       </div>
 
       <div class="danger-card destructive">
@@ -98,21 +99,23 @@
             <Icon name="delete" display="sm" />
           </div>
           <div class="danger-card-info">
-            <h4>Delete account</h4>
-            <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
+            <h4>{{ t('settings.security.deleteAccount') }}</h4>
+            <p>{{ t('settings.security.deleteAccountDesc') }}</p>
             <details class="delete-details">
-              <summary>What will be deleted?</summary>
+              <summary>{{ t('settings.security.deleteAccountDetails') }}</summary>
               <ul>
-                <li>All your files and folders</li>
-                <li>All your uploads</li>
-                <li>All your shares</li>
-                <li>All your account data (preferences, profile...)</li>
+                <li>{{ t('settings.security.deleteAccountList.files') }}</li>
+                <li>{{ t('settings.security.deleteAccountList.uploads') }}</li>
+                <li>{{ t('settings.security.deleteAccountList.shares') }}</li>
+                <li>{{ t('settings.security.deleteAccountList.data') }}</li>
               </ul>
-              <p class="backup-hint"><NuxtLink to="/dashboard/settings?p=backup">Export your data</NuxtLink> before deleting your account.</p>
+              <p class="backup-hint">
+                <NuxtLink to="/dashboard/settings?p=backup">{{ t('settings.security.backupHint') }}</NuxtLink>
+              </p>
             </details>
           </div>
         </div>
-        <AppButton type="danger" @click="openDeleteModal">Delete account</AppButton>
+        <AppButton type="danger" @click="openDeleteModal">{{ t('settings.security.deleteAccount') }}</AppButton>
       </div>
     </div>
   </div>
@@ -123,6 +126,7 @@ import { getProviderIcon, getProviderLabel } from '~/helpers/oidc-providers';
 import DeleteAccountModal from '../_modals/DeleteAccountModal.vue';
 
 const emit = defineEmits(['close']);
+const { t } = useI18nT();
 
 const store = useUserStore();
 store.fetchSessions();
@@ -152,16 +156,16 @@ async function linkAccount(providerName: string) {
   try {
     await linkProvider(providerName);
   } catch (error) {
-    useNotifications().add({ type: 'error', title: (error as Error).message || 'Failed to initiate account linking' });
+    useNotifications().add({ type: 'error', title: (error as Error).message || t('settings.security.notifications.linkError') });
   }
 }
 
 async function unlinkAccount(providerName: string) {
   try {
     await unlinkProvider(providerName);
-    useNotifications().add({ type: 'success', title: `${getProviderLabel(providerName)} account unlinked` });
+    useNotifications().add({ type: 'success', title: t('settings.security.notifications.accountUnlinked', { provider: getProviderLabel(providerName) }) });
   } catch (error) {
-    useNotifications().add({ type: 'error', title: (error as Error).message || 'Failed to unlink account' });
+    useNotifications().add({ type: 'error', title: (error as Error).message || t('settings.security.notifications.unlinkError') });
   }
 }
 
@@ -185,9 +189,9 @@ const changePassword = async () => {
       passwordValue.value = '';
       passwordConfirmValue.value = '';
       errPasswordNotMatch.value = false;
-      useNotifications().add({ type: 'success', title: 'Password changed successfully' });
+      useNotifications().add({ type: 'success', title: t('settings.security.notifications.passwordChanged') });
     })
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error during password saving', message: e.message }));
+    .catch(e => useNotifications().add({ type: 'error', title: t('settings.security.notifications.passwordError'), message: e.message }));
 };
 
 const logout = () => {

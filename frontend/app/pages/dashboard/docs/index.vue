@@ -6,7 +6,7 @@
 import type { TreeItem } from '~/helpers/TreeBuilder';
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: 'All' });
+definePageMeta({ breadcrumb: {i18n: 'common.labels.all'} });
 
 const nodesStore = useNodesStore();
 const { filtered, workspaceId } = useSidebar();

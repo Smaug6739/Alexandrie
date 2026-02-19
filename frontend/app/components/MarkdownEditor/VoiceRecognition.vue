@@ -1,11 +1,16 @@
 <template>
-  <button :class="{ recording: isRecording }" :title="isRecording ? 'Stop recording' : 'Start voice recognition'" @click="toggleRecording">
+  <button
+    :class="{ recording: isRecording }"
+    :title="isRecording ? t('markdown.markdown.voice.stopRecording') : t('markdown.markdown.voice.startRecording')"
+    @click="toggleRecording"
+  >
     <Icon v-if="!isRecording" name="voice/default" />
     <Icon v-else name="voice/recording" />
   </button>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18nT();
 const emit = defineEmits<{ (e: 'transcription', text: string): void }>();
 
 declare global {
@@ -29,7 +34,7 @@ const language = 'fr-FR';
 
 const startRecording = () => {
   if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    alert('Speech recognition not supported in this browser');
+    alert(t('markdown.markdown.voice.notSupported'));
     return;
   }
 

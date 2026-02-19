@@ -3,11 +3,13 @@
     <!-- Header with greeting and quick actions -->
     <header class="home-header">
       <div class="greeting">
-        <h1>👋 Hey, {{ userName }}</h1>
-        <p class="subtitle">{{ todayFormatted }} · {{ documentsCount }} documents · {{ workspacesCount }} workspaces</p>
+        <h1>{{ t('dashboard.greeting', { userName }) }}</h1>
+        <p class="subtitle">
+          {{ todayFormatted }} · {{ documentsCount }} {{ t('dashboard.stats.documents') }} · {{ workspacesCount }} {{ t('dashboard.stats.workspaces') }}
+        </p>
       </div>
       <div class="quick-actions">
-        <AppButton type="primary" @click="createNewDocument">+ New document</AppButton>
+        <AppButton type="primary" @click="createNewDocument">{{ t('dashboard.actions.newDocument') }}</AppButton>
       </div>
     </header>
 
@@ -18,7 +20,7 @@
         <input
           v-model="searchQuery"
           type="text"
-          placeholder="Search documents, workspaces, categories..."
+          :placeholder="t('dashboard.search')"
           class="search-input"
           @focus="isSearchFocused = true"
           @blur="isSearchFocused = false"
@@ -44,8 +46,8 @@
     <!-- Section "Continue Working" -->
     <section v-if="recentlyEdited.length" class="section">
       <div class="section-header">
-        <h2><Icon name="work" />Continue Working</h2>
-        <NuxtLink to="/dashboard/docs" class="see-all">See all</NuxtLink>
+        <h2><Icon name="work" />{{ t('dashboard.sections.continueWorking') }}</h2>
+        <NuxtLink to="/dashboard/docs" class="see-all">{{ t('dashboard.links.seeAll') }}</NuxtLink>
       </div>
       <div class="continue-working">
         <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
@@ -57,7 +59,7 @@
     <!-- Section Pinned Documents -->
     <section v-if="pinnedDocuments.length" class="section">
       <div class="section-header">
-        <h2><Icon name="pin" /> Pinned Documents</h2>
+        <h2><Icon name="pin" /> {{ t('dashboard.sections.pinnedDocuments') }}</h2>
       </div>
       <div class="pinned-grid">
         <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
@@ -69,21 +71,21 @@
     <!-- Workspaces Section -->
     <section class="section">
       <div class="section-header">
-        <h2><Icon name="workspace" /> Your Workspaces</h2>
-        <NuxtLink to="/dashboard/categories" class="see-all">Manage</NuxtLink>
+        <h2><Icon name="workspace" /> {{ t('dashboard.sections.yourWorkspaces') }}</h2>
+        <NuxtLink to="/dashboard/categories" class="see-all">{{ t('dashboard.links.manage') }}</NuxtLink>
       </div>
       <div class="workspaces-grid">
         <NuxtLink v-for="workspace in workspaces" :key="workspace.id" :to="`/dashboard/categories/${workspace.id}`">
           <NodeCardWorkspace :workspace="workspace" />
         </NuxtLink>
-        <button class="add-workspace" @click="openCreateWorkspace">New workspace</button>
+        <button class="add-workspace" @click="openCreateWorkspace">{{ t('dashboard.actions.newWorkspace') }}</button>
       </div>
     </section>
 
     <!-- Recent Activity Section -->
     <section class="section">
       <div class="section-header">
-        <h2><Icon name="recent" /> Recent Activity</h2>
+        <h2><Icon name="recent" /> {{ t('dashboard.sections.recentActivity') }}</h2>
       </div>
       <div class="activity-timeline">
         <div v-for="(group, date) in activityByDate" :key="date" class="activity-group">
@@ -111,28 +113,28 @@
         <Icon name="files" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ documentsCount }}</span>
-          <span class="stat-label">Documents</span>
+          <span class="stat-label">{{ t('dashboard.stats.documents') }}</span>
         </div>
       </div>
       <div class="stat-card">
         <Icon name="categories" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ workspacesCount }}</span>
-          <span class="stat-label">Workspaces</span>
+          <span class="stat-label">{{ t('dashboard.stats.workspaces') }}</span>
         </div>
       </div>
       <div class="stat-card">
         <Icon name="advanced" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ tagsCount }}</span>
-          <span class="stat-label">Tags</span>
+          <span class="stat-label">{{ t('dashboard.stats.tags') }}</span>
         </div>
       </div>
       <div class="stat-card">
         <Icon name="import" display="xxl" class="stat-icon" fill="var(--primary)" />
         <div class="stat-content">
           <span class="stat-value">{{ resourcesCount }}</span>
-          <span class="stat-label">CDN Files</span>
+          <span class="stat-label">{{ t('dashboard.stats.cdnFiles') }}</span>
         </div>
       </div>
     </section>
@@ -148,6 +150,7 @@ const router = useRouter();
 const nodesStore = useNodesStore();
 const userStore = useUserStore();
 
+const { t } = useI18nT();
 const { todayFormatted, formatTime, shortDateLabel } = useDateFormatters();
 const { getAppAccent } = useAppColors();
 
@@ -266,6 +269,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 .subtitle {
   font-size: 0.9rem;
   color: var(--text-secondary);
+  text-transform: capitalize;
 }
 
 .quick-actions {

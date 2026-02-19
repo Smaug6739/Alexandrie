@@ -9,9 +9,15 @@
       <BreadCrumb v-if="navbarItems.breadcrumb" />
     </div>
     <div>
-      <button v-if="navbarItems.search" class="search-btn" title="Command center (Ctrl+K)" aria-label="Command center" @click="openCommandCenter">
+      <button v-if="navbarItems.search" class="search-btn" :title="t('components.navbar.commandCenter')" aria-label="Command center" @click="openCommandCenter">
         <Icon name="search" />
-        <span class="search-text">Type <kbd>/</kbd> to navigate</span>
+        <span class="search-text">
+          <i18n-t scope="global" keypath="components.navbar.searchHint">
+            <template #key>
+              <kbd>/</kbd>
+            </template>
+          </i18n-t>
+        </span>
       </button>
       <ThemeToggle v-if="navbarItems.theme" aria-label="toggle theme" />
     </div>
@@ -19,7 +25,8 @@
 </template>
 
 <script lang="ts" setup>
-const { toggleSidebar, isOpened } = useSidebar();
+const { t } = useI18nT();
+const { isOpened, toggleSidebar } = useSidebar();
 const preferences = usePreferences();
 
 const navbarItems = preferences.get('navbarItems');
@@ -65,8 +72,7 @@ button {
     transform $transition-base ease;
   align-items: center;
   cursor: pointer;
-  gap: 8px;
-  margin-left: 16px;
+  gap: 4px;
 
   &:hover {
     background: var(--selection-color);

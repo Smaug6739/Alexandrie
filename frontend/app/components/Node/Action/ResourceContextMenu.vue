@@ -9,25 +9,25 @@
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" @click="action('open')"><Icon name="file_open" />Open</button>
-      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />Edit meta</button>
+      <button class="menu-item" @click="action('open')"><Icon name="file_open" />{{ t('common.actions.open') }}</button>
+      <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />{{ t('common.actions.edit') }}</button>
     </div>
 
     <div class="menu-group">
-      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />Copy link</button>
-      <button class="menu-item" @click="action('copyMd')"><Icon name="link" />Copy as markdown</button>
+      <button class="menu-item" @click="action('copyLink')"><Icon name="link" />{{ t('common.actions.copyLink') }}</button>
+      <button class="menu-item" @click="action('copyMd')"><Icon name="link" />{{ t('common.actions.copy') }} {{ t('common.labels.content') }}</button>
     </div>
 
     <div v-if="nodeStore.hasPermissions(node, 4)" class="menu-group">
-      <button class="menu-item" @click="action('manageAccess')"><Icon name="manage_access" />Manage access</button>
+      <button class="menu-item" @click="action('manageAccess')"><Icon name="manage_access" />{{ t('nodes.actions.managePermissions') }}</button>
     </div>
 
     <div class="menu-group">
-      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />Move to trash</button>
+      <button class="menu-item delete" @click="action('delete')"><Icon name="delete" />{{ t('common.actions.delete') }}</button>
     </div>
 
     <div v-if="developerMode" class="menu-group">
-      <button class="menu-item" @click="action('copyId')"><Icon name="snippets" />Copy ID</button>
+      <button class="menu-item" @click="action('copyId')"><Icon name="snippets" />{{ t('common.actions.copy') }} {{ t('common.labels.id') }}</button>
     </div>
   </div>
 </template>
@@ -42,8 +42,8 @@ const emit = defineEmits(['close']);
 
 const nodeStore = useNodesStore();
 const userStore = useUserStore();
-
 const preferences = usePreferences();
+const { t } = useI18nT();
 const { shortDate } = useDateFormatters();
 const { avatarURL, resourceURL } = useApi();
 

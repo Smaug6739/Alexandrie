@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="page-title">Documents preferences</h2>
-    <p class="page-subtitle">Manage your document settings and editor preferences.</p>
+    <h2 class="page-title">{{ t('settings.documents.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.documents.subtitle') }}</p>
 
     <AppPreferenceInputSection :options="options" />
   </div>
@@ -14,50 +14,52 @@ type InterfaceOption = Option & {
   tag?: string;
 };
 
-const options: Array<{ label: string; options: InterfaceOption[] }> = [
+const { t } = useI18nT();
+
+const options = computed<Array<{ label: string; options: InterfaceOption[] }>>(() => [
   {
-    label: 'Documents',
+    label: t('settings.documents.section'),
     options: [
       {
-        label: 'Enable Print Mode',
-        description: 'Simplify the header of printed documents (remove the thumbnail, tags, description and keep only the title)',
+        label: t('settings.documents.enablePrintMode'),
+        description: t('settings.documents.enablePrintModeDesc'),
         type: 'toggle',
         key: 'printMode',
       },
-      { label: 'Hide Table of Content', type: 'toggle', key: 'hideTOC' },
+      { label: t('settings.documents.hideTOC'), type: 'toggle', key: 'hideTOC' },
       {
-        label: 'Document size',
+        label: t('settings.documents.documentSize'),
         type: 'radio',
         key: 'docSize',
         choices: DOCUMENT_SIZES,
       },
       {
-        label: 'Theme',
-        description: 'Default theme used for documents. You can override it for each document individually.',
+        label: t('settings.documents.theme'),
+        description: t('settings.documents.themeDesc'),
         type: 'select',
         key: 'theme',
         choices: DOCUMENT_THEMES,
       },
       {
-        label: 'Default font size',
-        description: 'Set the default font size for all your documents.',
+        label: t('settings.documents.defaultFontSize'),
+        description: t('settings.documents.defaultFontSizeDesc'),
         type: 'number',
         key: 'documentFontSize',
       },
       {
-        label: 'Default font family',
-        description: 'Set the default font family for all your documents.',
+        label: t('settings.documents.defaultFontFamily'),
+        description: t('settings.documents.defaultFontFamilyDesc'),
         type: 'select',
         choices: EDITOR_FONTS,
         key: 'documentFontFamily',
       },
       {
-        label: 'Default line height',
-        description: 'Set the default line height for all your documents.',
+        label: t('settings.documents.defaultLineHeight'),
+        description: t('settings.documents.defaultLineHeightDesc'),
         type: 'number',
         key: 'documentLineHeight',
       },
     ],
   },
-];
+]);
 </script>

@@ -20,7 +20,7 @@
       <!-- Add Column Button -->
       <button class="add-column-btn" @click="addColumn">
         <Icon name="plus" />
-        <span>Add column</span>
+        <span>{{ t('components.kanban.addColumn') }}</span>
       </button>
     </div>
   </div>
@@ -37,6 +37,7 @@ export interface KanbanMetadata {
   };
 }
 
+const { t } = useI18nT();
 const props = defineProps<{
   workspace: Node;
   documents: Node[];

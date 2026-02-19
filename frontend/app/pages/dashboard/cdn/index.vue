@@ -1,7 +1,7 @@
 <template>
   <div class="page-card">
     <header>
-      <h1>File manager</h1>
+      <h1>{{ t('cdn.meta.title') }}</h1>
       <div class="action-row">
         <NodeFilter v-show="!device.isMobile" :nodes="nodes" @update:nodes="filteredResources = $event" />
         <ViewSelection v-model="view" />
@@ -9,7 +9,7 @@
     </header>
     <div class="storage-indicator">
       <div class="storage-info">
-        <span class="storage-label">Storage used</span>
+        <span class="storage-label">{{ t('cdn.storageUsed') }}</span>
         <span class="storage-values">{{ readableFileSize(totalUsedSpace) }} / {{ readableFileSize(MAX_STORAGE) }}</span>
       </div>
       <div class="progress-bar">
@@ -24,18 +24,18 @@
     <AppDrop ref="dropComponent" multiple :max-files="10" @select="selectFiles" />
     <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
       <AppButton type="primary" :disabled="!selectedFiles.length" @click="submitFiles">
-        Upload {{ selectedFiles.length ? `${selectedFiles.length} file(s)` : '' }} on server
+        {{ selectedFiles.length ? t('cdn.actions.upload.multiple', { n: selectedFiles.length }) : t('cdn.actions.upload.idle') }}
       </AppButton>
       <div v-if="isLoading" class="upload-progress">
         <LoaderSpinner />
-        <span>Uploading {{ uploadProgress.current }} / {{ uploadProgress.total }}</span>
+        <span>{{ t('cdn.actions.upload.progress', { n: uploadProgress.current, total: uploadProgress.total }) }}</span>
       </div>
     </div>
     <div v-if="fileLinks.length" class="link-section">
       <div class="links-text" v-text="linksText"></div>
       <div class="links-actions">
-        <AppButton type="primary" @click="copyLinks">Copy {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
-        <AppButton type="secondary" @click="fileLinks = []">Clear</AppButton>
+        <AppButton type="primary" @click="copyLinks">{{ t('common.actions.copy') }} {{ fileLinks.length > 1 ? 'links' : 'link' }}</AppButton>
+        <AppButton type="secondary" @click="fileLinks = []">{{ t('common.actions.clear') }}</AppButton>
       </div>
     </div>
     <div v-if="filteredResources.length" class="resources-list">
@@ -70,34 +70,33 @@
             </div>
           </div>
           <div v-if="!filteredResources.length" class="not-found">
-            <p>No result found for "{{ filter }}"</p>
+            <p>{{ t('common.search.noResults', { filter: filter }) }}</p>
           </div>
         </div>
       </div>
     </div>
-    <NoContent v-else title="No resource found"></NoContent>
+    <NoContent v-else :title="t('cdn.page.empty')"></NoContent>
   </div>
 </template>
 <script setup lang="ts">
-import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
-import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
-import { readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
 import type { Field } from '~/components/DataTable.vue';
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: 'Upload' });
+import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
+import { readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
 
 const router = useRouter();
 const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
-
+const { t } = useI18nT();
 const device = useDevice();
 const appColors = useAppColors();
 const { numericDate } = useDateFormatters();
 const contextMenu = useContextMenu();
 const { resourceURL } = useApi();
 
-const view = ref<'table' | 'list'>('list');
+const view = ref<'list' | 'table'>('list');
 const selectedFiles = ref<File[]>([]);
 const fileLinks = ref<string[]>([]);
 const isLoading = ref(false);
@@ -147,24 +146,28 @@ const submitFiles = async () => {
       const r = await resourcesStore.post(body);
       fileLinks.value.push(resourceURL(r));
     } catch (e) {
-      useNotifications().add({ type: 'error', title: 'Error', message: `Failed to upload ${file.name}: ${e}` });
+      useNotifications().add({ message: t('cdn.notifications.error', { error: e, file: file.name }), title: 'Error', type: 'error' });
     }
     uploadProgress.value.current++;
   }
 
   isLoading.value = false;
   if (fileLinks.value.length) {
-    useNotifications().add({ type: 'success', title: 'Upload complete', message: `${fileLinks.value.length} file(s) uploaded successfully` });
+    useNotifications().add({
+      message: t('cdn.notifications.successMsg', { n: fileLinks.value.length }),
+      title: t('cdn.notifications.successTitle'),
+      type: 'success',
+    });
   }
 };
 
 const headers = [
-  { label: 'Name', key: 'name' },
-  { label: 'Size', key: 'size' },
-  { label: 'Type', key: 'type' },
-  { label: 'Parent doc', key: 'parent' },
-  { label: 'Date', key: 'date' },
-  { label: 'Action', key: 'action' },
+  { key: 'name', label: t('common.labels.name') },
+  { key: 'size', label: t('common.labels.size') },
+  { key: 'type', label: t('common.labels.type') },
+  { key: 'parent', label: t('common.labels.parent') },
+  { key: 'date', label: t('common.labels.date') },
+  { key: 'action', label: t('common.labels.action') },
 ];
 
 const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
@@ -173,12 +176,12 @@ const rows: ComputedRef<Field[]> = computed(() =>
     const parent = res.parent_id ? nodesStore.getById(res.parent_id) : null;
     const category = parent ? nodesStore.getById(parent.parent_id || '') : null;
     return {
+      action: { data: res, type: 'slot' },
+      date: { content: numericDate(res.created_timestamp), type: 'text' },
       name: { content: res.name, type: 'text' },
+      parent: { content: category ? `<tag class="${appColors.getAppAccent(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
       size: { content: readableFileSize(res.size ?? 0), type: 'text' },
       type: { content: `<tag class="${color(res.metadata?.filetype || '')}">${res.metadata?.filetype || ''}</tag>`, type: 'html' },
-      parent: { content: category ? `<tag class="${appColors.getAppAccent(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
-      date: { content: numericDate(res.created_timestamp), type: 'text' },
-      action: { type: 'slot', data: res },
     };
   }),
 );

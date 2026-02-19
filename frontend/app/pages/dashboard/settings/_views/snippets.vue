@@ -3,9 +3,9 @@
     <!-- Header -->
     <header class="page-header">
       <div class="header-content">
-        <h2 class="page-title">Snippets</h2>
+        <h2 class="page-title">{{ t('settings.snippets.title') }}</h2>
         <p class="page-subtitle">
-          Manage markdown shortcuts. Type <code>!shortcut</code> in the editor to expand.
+          {{ t('settings.snippets.subtitle') }}
           <span class="count">{{ allSnippets.length }} snippets</span>
         </p>
       </div>
@@ -23,9 +23,9 @@
         </Transition>
         <div v-if="showImportMenu" class="dropdown-backdrop" @click="showImportMenu = false" />
       </div>
-      <AppButton type="secondary" @click="exportJSON"><Icon name="backup" /> Export</AppButton>
-      <AppButton type="secondary" @click="openRestoreModal"><Icon name="refresh" />Restore</AppButton>
-      <AppButton type="primary" @click="openModal('create')"><Icon name="plus" />New</AppButton>
+      <AppButton type="secondary" @click="exportJSON"><Icon name="backup" /> {{ t('common.actions.export') }}</AppButton>
+      <AppButton type="secondary" @click="openRestoreModal"><Icon name="refresh" /> {{ t('common.actions.reset') }}</AppButton>
+      <AppButton type="primary" @click="openModal('create')"><Icon name="plus" />{{ t('common.actions.create') }}</AppButton>
     </div>
 
     <!-- Data Table -->
@@ -56,22 +56,22 @@
 </template>
 
 <script setup lang="ts">
-import type { Snippet } from '~/composables/useSnippets';
-import type { Field } from '~/components/DataTable.vue';
 import SnippetModal from './_modals/SnippetModal.vue';
 import { Modal } from '~/composables/useModal';
 import RestoreModal from './_modals/Restore.vue';
+import type { Snippet } from '~/composables/useSnippets';
+import type { Field } from '~/components/DataTable.vue';
 
-const { allSnippets, add, remove, update, exportJSON, importJSON, importDictionary, isDuplicate } = useSnippets();
-
+const { t } = useI18nT();
 const notifications = useNotifications();
 const modalManager = useModal();
+const { allSnippets, add, remove, update, exportJSON, importJSON, importDictionary, isDuplicate } = useSnippets();
 
 // Table config
 const headers = [
-  { label: 'Shortcut', key: 'shortcut' },
-  { label: 'Content', key: 'content' },
-  { label: 'Actions', key: 'action', align: 'right' as const },
+  { label: t('settings.snippets.shortcut'), key: 'shortcut' },
+  { label: t('common.labels.content'), key: 'content' },
+  { label: t('common.labels.action'), key: 'action', align: 'right' as const },
 ];
 
 const truncate = (str: string, len: number) => {

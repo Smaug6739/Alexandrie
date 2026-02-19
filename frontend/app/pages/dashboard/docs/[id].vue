@@ -18,11 +18,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
-import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
-import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
-import type { Node } from '~/stores';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
+
+import type { Node } from '~/stores';
+
+import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
+import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
+import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferences();
@@ -80,7 +82,7 @@ const contextMenu = useContextMenu();
 
 function showContextMenu(event: MouseEvent) {
   contextMenu.open(shallowRef(NodeContextMenu), event, {
-    props: { node: node.value, contextMenu: true },
+    props: { contextMenu: true, node: node.value },
   });
 }
 
@@ -115,8 +117,8 @@ onMounted(() => {
       e.preventDefault();
       useModal().add(
         new Modal(shallowRef(DeleteNodeModal), {
-          size: 'small',
           props: { node: node.value, redirectTo: '/dashboard' },
+          size: 'small',
         }),
       );
     }

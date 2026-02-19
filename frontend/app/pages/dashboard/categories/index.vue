@@ -1,15 +1,21 @@
 <template>
   <div class="page-card">
     <header>
-      <h1>Workspaces & Categories</h1>
+      <h1>{{ t('nodes.container.title') }}</h1>
       <div class="actions-row">
-        <AppButton type="primary" @click="createWorkspace">+ Workspace</AppButton>
-        <AppButton type="primary" @click="createCategory">+ Category</AppButton>
-        <NuxtLink to="/dashboard/import"><AppButton type="secondary" variant="outline">Import</AppButton></NuxtLink>
+        <AppButton type="primary" @click="createWorkspace">{{ t('nodes.container.newWorkspace') }}</AppButton>
+        <AppButton type="primary" @click="createCategory">{{ t('nodes.container.newCategory') }}</AppButton>
+        <NuxtLink to="/dashboard/import"
+          ><AppButton type="secondary" variant="outline">{{ t('nodes.container.import') }}</AppButton></NuxtLink
+        >
       </div>
     </header>
     <div style="padding-bottom: 10px">
-      <input v-model="filter" placeholder="Search for workspace..." style="width: 50%; padding: 8px; border: 1px solid var(--border); border-radius: 4px" />
+      <input
+        v-model="filter"
+        :placeholder="t('nodes.container.searchPlaceholder')"
+        style="width: 50%; padding: 8px; border: 1px solid var(--border); border-radius: 4px"
+      />
     </div>
     <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
       <h3 class="wp-name">
@@ -17,7 +23,7 @@
       </h3>
       <WorkspaceTree v-for="node in workspace.children" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
-    <div v-if="!filteredItems.length" style="color: #6c757d; font-style: italic">No workspaces or category found</div>
+    <div v-if="!filteredItems.length" style="color: #6c757d; font-style: italic">{{ t('nodes.container.noWorkspaces') }}</div>
   </div>
 </template>
 
@@ -27,6 +33,8 @@ import DeleteCategoryModal from '~/components/Node/Modals/Delete.vue';
 import WorkspaceTree from './_components/WorkspaceTree.vue';
 import type { Node } from '~/stores';
 import { filterTreeByLabel, type TreeItem } from '~/helpers/TreeBuilder';
+
+const { t } = useI18nT();
 
 const filter = ref('');
 const nodesTree = useNodesTree();

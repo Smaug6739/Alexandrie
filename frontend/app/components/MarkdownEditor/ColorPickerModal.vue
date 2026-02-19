@@ -1,10 +1,10 @@
 <template>
   <div class="modal-ctn">
-    <EditorAppHeader icon="color" title="Select Color" subtitle="Choose a color from the palette or create a custom one." />
+    <EditorAppHeader icon="color" :title="t('markdown.markdown.colors.title')" :subtitle="t('markdown.markdown.colors.subtitle')" />
 
     <div class="modal-content">
       <div class="section">
-        <h4 class="section-title">Quick Colors</h4>
+        <h4 class="section-title">{{ t('markdown.markdown.colors.quickColors') }}</h4>
         <div class="swatches">
           <button
             v-for="color in appColors"
@@ -29,7 +29,7 @@
       </div>
 
       <div class="section">
-        <h4 class="section-title">Custom Color</h4>
+        <h4 class="section-title">{{ t('markdown.markdown.colors.customColors') }}</h4>
         <div class="custom">
           <div class="color-wheel-section">
             <div class="color-wheel-container">
@@ -53,7 +53,7 @@
 
             <div class="color-controls">
               <div class="control-group">
-                <label>Brightness</label>
+                <label>{{ t('markdown.markdown.colors.brightness') }}</label>
                 <div class="slider-container">
                   <input v-model="brightness" type="range" min="0" max="100" class="brightness-slider" @input="updateWheelColor" />
                   <div class="slider-track">
@@ -74,7 +74,7 @@
                 <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M5 13l4 4L19 7" />
                 </svg>
-                <span class="btn-text">Use This Color</span>
+                <span class="btn-text">{{ t('markdown.markdown.colors.useColor') }}</span>
               </button>
             </div>
           </div>
@@ -88,8 +88,11 @@
 import EditorAppHeader from './EditorAppHeader.vue';
 import { appColors } from '~/helpers/constants';
 import { hsvToHex } from '~/helpers/colors';
+
 const props = defineProps<{ onColorSelect: (color: string) => void }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
+
+const { t } = useI18nT();
 
 const hexColor = ref('');
 const hoveredColor = ref<string | null>(null);
@@ -189,7 +192,6 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   padding: 0 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: transparent;
   flex-direction: column;
   overflow: hidden;

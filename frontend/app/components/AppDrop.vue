@@ -20,22 +20,35 @@
             <span class="name">{{ file.name }}</span>
             <span class="meta">{{ readableFileSize(file.size) }} • {{ resolveFileType(file.type) }}</span>
           </div>
-          <button class="remove" title="Remove file" @click.stop="removeFile(index)">
+          <button class="remove" @click.stop="removeFile(index)">
             <Icon name="close" size="16px" />
+            <p class="hint-tooltip">{{ t('cdn.appdrop.removeFile') }}</p>
           </button>
         </div>
       </div>
       <footer>
         <span class="total">{{ selectedFiles.length }} file{{ selectedFiles.length > 1 ? 's' : '' }} • {{ readableFileSize(totalSize) }}</span>
-        <span class="link" @click="triggerFileSelect">+ Add more</span>
+        <span class="link" @click="triggerFileSelect">+ {{ t('cdn.appdrop.addMore') }}</span>
       </footer>
     </div>
 
     <div v-else class="empty">
       <Icon name="layers" size="40px" />
-      <p v-if="multiple">Drop files here or <span class="link" @click="triggerFileSelect">click to select</span></p>
-      <p v-else>Drop file here or <span class="link" @click="triggerFileSelect">click to select</span></p>
-      <span v-if="multiple" class="hint">Maximum {{ maxFiles }} files</span>
+      <p v-if="multiple">
+        <i18n-t scope="global" keypath="cdn.appdrop.promptPlural">
+          <template #link>
+            <span class="link" @click="triggerFileSelect">{{ t('cdn.appdrop.link') }}</span>
+          </template>
+        </i18n-t>
+      </p>
+      <p v-else>
+        <i18n-t scope="global" keypath="cdn.appdrop.prompt">
+          <template #link>
+            <span class="link" @click="triggerFileSelect">{{ t('cdn.appdrop.link') }}</span>
+          </template>
+        </i18n-t>
+      </p>
+      <span v-if="multiple" class="hint">{{ t('cdn.appdrop.max', { n: props.maxFiles }) }}</span>
     </div>
   </div>
 </template>
@@ -48,11 +61,12 @@ const props = withDefaults(
     maxFiles?: number;
   }>(),
   {
-    multiple: false,
     maxFiles: 10,
+    multiple: false,
   },
 );
 
+const { t } = useI18nT();
 const selectedFiles = ref<File[]>([]);
 const isDragOver = ref(false);
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -290,11 +304,16 @@ defineExpose({ reset });
   cursor: pointer;
   flex-shrink: 0;
   justify-content: center;
+  position: relative;
 
   &:hover {
     color: var(--red);
     background: var(--surface-transparent);
     opacity: 1;
+    .hint-tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
 

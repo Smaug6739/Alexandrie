@@ -61,7 +61,7 @@
       <div class="group-buttons">
         <VoiceRecognition :class="{ 'no-mobile': mobileSimplifiedView }" @transcription="handleTranscription" />
       </div>
-      <AppSelect v-model="localValue.parent_id" :items="categories" nullable placeholder="Category" class="category-select" />
+      <AppSelect v-model="localValue.parent_id" :items="categories" nullable :placeholder="t('markdown.markdown.toolbar.category')" class="category-select" />
     </div>
 
     <!-- Right Section -->
@@ -70,25 +70,25 @@
       <div v-if="displayStats" class="stats-badge no-tablet">
         <div class="stat-item">
           <span class="stat-value">{{ stats.words }}</span>
-          <span class="stat-label">words</span>
+          <span class="stat-label">{{ t('markdown.markdown.stats.words') }}</span>
         </div>
         <div class="stat-divider" />
         <div class="stat-item">
           <span class="stat-value">{{ stats.characters }}</span>
-          <span class="stat-label">chars</span>
+          <span class="stat-label">{{ t('markdown.markdown.stats.chars') }}</span>
         </div>
         <div class="stat-divider" />
         <div class="stat-item">
           <span class="stat-value">{{ stats.lines }}</span>
-          <span class="stat-label">lines</span>
+          <span class="stat-label">{{ t('markdown.markdown.stats.lines') }}</span>
         </div>
       </div>
 
       <!-- Actions & Settings Group -->
       <div class="action-buttons">
-        <button class="toolbar-btn btn-ghost" aria-label="Clear Formatting" @click="emitAction('clearFormatting')">
+        <button class="toolbar-btn btn-ghost" :aria-label="t('markdown.markdown.toolbar.clearFormatting')" @click="emitAction('clearFormatting')">
           <Icon name="format/clear-formatting" />
-          <span class="tooltip">Clear Formatting<kbd>Ctrl+Shift+X</kbd></span>
+          <span class="tooltip">{{ t('markdown.markdown.toolbar.clearFormatting') }}<kbd>Ctrl+Shift+X</kbd></span>
         </button>
         <button
           v-for="item in actionTools"
@@ -106,11 +106,11 @@
         <div class="action-divider" />
         <button class="toolbar-btn btn-ghost" aria-label="Settings" @click="openSettings">
           <Icon name="settings" display="lg" />
-          <span class="tooltip">Editor Settings</span>
+          <span class="tooltip">{{ t('markdown.markdown.toolbar.editorSettings') }}</span>
         </button>
         <button class="toolbar-btn btn-ghost" aria-label="Help" @click="openHelp">
           <Icon name="help" display="lg" />
-          <span class="tooltip">Markdown Syntax</span>
+          <span class="tooltip">{{ t('markdown.markdown.toolbar.markdownSyntax') }}</span>
         </button>
       </div>
     </div>
@@ -122,6 +122,8 @@ import type { Node } from '~/stores';
 import ModalSyntax from './ModalSyntax.vue';
 import VoiceRecognition from './VoiceRecognition.vue';
 import EditorPreferences from './EditorPreferences.vue';
+
+const { t } = useI18nT();
 
 const props = defineProps<{
   modelValue: Partial<Node>;
@@ -175,44 +177,44 @@ interface ToolItem {
   shortcut?: string;
 }
 
-const formattingTools: ToolItem[] = [
-  { name: 'Bold', icon: 'format/bold', action: 'bold', shortcut: 'Ctrl+B' },
-  { name: 'Italic', icon: 'format/italic', action: 'italic', shortcut: 'Ctrl+I' },
-  { name: 'Underline', icon: 'format/underline', action: 'underline', shortcut: 'Ctrl+U' },
-  { name: 'Strikethrough', icon: 'format/strikethrough', action: 'strike', shortcut: 'Ctrl+Shift+S' },
-  { name: 'Highlight', icon: 'format/highlight', action: 'mark', shortcut: 'Ctrl+Shift+H' },
-];
+const formattingTools = computed<ToolItem[]>(() => [
+  { name: t('markdown.markdown.toolbar.bold'), icon: 'format/bold', action: 'bold', shortcut: 'Ctrl+B' },
+  { name: t('markdown.markdown.toolbar.italic'), icon: 'format/italic', action: 'italic', shortcut: 'Ctrl+I' },
+  { name: t('markdown.markdown.toolbar.underline'), icon: 'format/underline', action: 'underline', shortcut: 'Ctrl+U' },
+  { name: t('markdown.markdown.toolbar.strikethrough'), icon: 'format/strikethrough', action: 'strike', shortcut: 'Ctrl+Shift+S' },
+  { name: t('markdown.markdown.toolbar.highlight'), icon: 'format/highlight', action: 'mark', shortcut: 'Ctrl+Shift+H' },
+]);
 
-const extendedFormattingTools: ToolItem[] = [
-  { name: 'Superscript', icon: 'format/superscript', action: 'superscript', shortcut: 'Ctrl+↑' },
-  { name: 'Subscript', icon: 'format/subscript', action: 'subscript', shortcut: 'Ctrl+↓' },
-  { name: 'Math', icon: 'maths', action: 'mathInline', shortcut: 'Ctrl+M' },
-];
+const extendedFormattingTools = computed<ToolItem[]>(() => [
+  { name: t('markdown.markdown.toolbar.superscript'), icon: 'format/superscript', action: 'superscript', shortcut: 'Ctrl+↑' },
+  { name: t('markdown.markdown.toolbar.subscript'), icon: 'format/subscript', action: 'subscript', shortcut: 'Ctrl+↓' },
+  { name: t('markdown.markdown.toolbar.math'), icon: 'maths', action: 'mathInline', shortcut: 'Ctrl+M' },
+]);
 
-const insertTools: ToolItem[] = [
-  { name: 'Link', icon: 'format/link', action: 'link', shortcut: 'Ctrl+K' },
-  { name: 'Image', icon: 'format/image', action: 'image', shortcut: 'Ctrl+Shift+I' },
-  { name: 'Inline Code', icon: 'format/code', action: 'code', shortcut: 'Ctrl+E' },
-  { name: 'Code Block', icon: 'format/code-block', action: 'codeBlock', shortcut: 'Ctrl+Shift+C' },
-  { name: 'Color', icon: 'format/color', action: 'openColorPicker' },
-  { name: 'Footnote', icon: 'format/footnote', action: 'footnote' },
-];
+const insertTools = computed<ToolItem[]>(() => [
+  { name: t('markdown.markdown.toolbar.link'), icon: 'format/link', action: 'link', shortcut: 'Ctrl+K' },
+  { name: t('markdown.markdown.toolbar.image'), icon: 'format/image', action: 'image', shortcut: 'Ctrl+Shift+I' },
+  { name: t('markdown.markdown.toolbar.inlineCode'), icon: 'format/code', action: 'code', shortcut: 'Ctrl+E' },
+  { name: t('markdown.markdown.toolbar.codeBlock'), icon: 'format/code-block', action: 'codeBlock', shortcut: 'Ctrl+Shift+C' },
+  { name: t('markdown.markdown.toolbar.color'), icon: 'format/color', action: 'openColorPicker' },
+  { name: t('markdown.markdown.toolbar.footnote'), icon: 'format/footnote', action: 'footnote' },
+]);
 
-const structureTools: ToolItem[] = [
-  { name: 'Heading', icon: 'format/h1', action: 'h1', shortcut: 'Ctrl+[1-6]' },
-  { name: 'Quote', icon: 'format/quote', action: 'quote', shortcut: 'Ctrl+Shift+.' },
-  { name: 'Bullet List', icon: 'format/list-bulleted', action: 'list', shortcut: 'Ctrl+Shift+8' },
-  { name: 'Numbered List', icon: 'format/list-ordered', action: 'orderedList', shortcut: 'Ctrl+Shift+7' },
-  { name: 'Task List', icon: 'format/task-list', action: 'taskList', shortcut: 'Ctrl+Shift+9' },
-  { name: 'Table', icon: 'format/table', action: 'gridOrganization' },
-  { name: 'Horizontal Rule', icon: 'format/horizontal-rule', action: 'horizontalRule', shortcut: 'Ctrl+Shift+R' },
-];
+const structureTools = computed<ToolItem[]>(() => [
+  { name: t('markdown.markdown.toolbar.heading'), icon: 'format/h1', action: 'h1', shortcut: 'Ctrl+[1-6]' },
+  { name: t('markdown.markdown.toolbar.quote'), icon: 'format/quote', action: 'quote', shortcut: 'Ctrl+Shift+.' },
+  { name: t('markdown.markdown.toolbar.bulletList'), icon: 'format/list-bulleted', action: 'list', shortcut: 'Ctrl+Shift+8' },
+  { name: t('markdown.markdown.toolbar.numberedList'), icon: 'format/list-ordered', action: 'orderedList', shortcut: 'Ctrl+Shift+7' },
+  { name: t('markdown.markdown.toolbar.taskList'), icon: 'format/task-list', action: 'taskList', shortcut: 'Ctrl+Shift+9' },
+  { name: t('markdown.markdown.toolbar.table'), icon: 'format/table', action: 'gridOrganization' },
+  { name: t('markdown.markdown.toolbar.horizontalRule'), icon: 'format/horizontal-rule', action: 'horizontalRule', shortcut: 'Ctrl+Shift+R' },
+]);
 
-const actionTools: ToolItem[] = [
-  { name: 'Preview', icon: 'preview', action: 'preview', shortcut: 'Ctrl+P' },
-  { name: 'Save', icon: 'save', action: 'save', shortcut: 'Ctrl+S' },
-  { name: 'Go to Document', icon: 'file_shortcut', action: 'goto' },
-];
+const actionTools = computed<ToolItem[]>(() => [
+  { name: t('markdown.markdown.toolbar.preview'), icon: 'preview', action: 'preview', shortcut: 'Ctrl+P' },
+  { name: t('markdown.markdown.toolbar.save'), icon: 'save', action: 'save', shortcut: 'Ctrl+S' },
+  { name: t('markdown.markdown.toolbar.goToDocument'), icon: 'file_shortcut', action: 'goto' },
+]);
 </script>
 <style scoped lang="scss">
 .toolbar {

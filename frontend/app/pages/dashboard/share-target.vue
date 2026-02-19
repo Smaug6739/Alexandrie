@@ -1,12 +1,12 @@
 <template>
   <div class="page-card">
-    <h2 class="page-title"><Icon name="share" /> Shared Content</h2>
-    <p class="page-subtitle">Content received from another app.</p>
+    <h2 class="page-title"><Icon name="share" /> {{ t('nodes.share.title') }}</h2>
+    <p class="page-subtitle">{{ t('nodes.share.description') }}</p>
 
     <Loader v-if="loading" />
 
     <div v-else class="share-content">
-      <h2>Shared content</h2>
+      <h2>{{ t('nodes.share.sharedContent') }}</h2>
       <!-- Shared text / URL preview -->
       <section v-if="sharedText || sharedUrl" class="share-section">
         <div class="preview-card">
@@ -26,13 +26,13 @@
       </section>
 
       <section>
-        <label>Choose destination</label>
+        <label>{{ t('nodes.share.chooseDestination') }}</label>
         <AppSelect v-model="parentId" :items="categories" nullable placeholder="Select a workspace or category (optional)" />
       </section>
 
       <!-- Action: create note or upload files -->
       <section class="share-actions">
-        <h2>What would you like to do?</h2>
+        <h2>{{ t('nodes.share.actionChoose') }}</h2>
 
         <!-- Create note from shared content -->
         <div class="action-card" @click="createNote">
@@ -40,8 +40,8 @@
             <Icon name="document" />
           </div>
           <div class="action-info">
-            <h3>Create a new document</h3>
-            <p>Create a new Markdown document with the shared content</p>
+            <h3>{{ t('nodes.share.actionCreateDocument') }}</h3>
+            <p>{{ t('nodes.share.actionCreateDocumentDesc') }}</p>
           </div>
         </div>
 
@@ -51,8 +51,8 @@
             <Icon name="upload" />
           </div>
           <div class="action-info">
-            <h3>Upload as resources</h3>
-            <p>Upload the shared files to your resource library</p>
+            <h3>{{ t('nodes.share.actionUploadResource') }}</h3>
+            <p>{{ t('nodes.share.actionUploadResourceDesc') }}</p>
           </div>
         </div>
       </section>
@@ -63,11 +63,12 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: 'Share' });
+definePageMeta({ breadcrumb: {i18n: 'common.actions.share'} });
 
 const nodesStore = useNodesStore();
 const resourcesStore = useResourcesStore();
 
+const { t } = useI18nT();
 const notifications = useNotifications();
 const router = useRouter();
 const nodesTree = useNodesTree();
@@ -108,7 +109,7 @@ async function retrieveSharedData() {
     for (const file of files) {
       if (file && file.size > 0) {
         const preview = file.type.startsWith('image/') ? URL.createObjectURL(file) : undefined;
-        sharedFiles.value.push({ name: file.name, file, preview });
+        sharedFiles.value.push({ file, name: file.name, preview });
       }
     }
 
@@ -174,15 +175,15 @@ async function createNote() {
     }
 
     const doc: Partial<Node> = {
-      name: title,
-      content: content,
-      parent_id: parentId.value || undefined,
       accessibility: 1,
+      content: content,
+      name: title,
+      parent_id: parentId.value || undefined,
       role: 3,
     };
 
     const created = await nodesStore.post(doc);
-    notifications.add({ type: 'success', title: 'Document created from shared content' });
+    notifications.add({ title: 'Document created from shared content', type: 'success' });
 
     // Upload non-text files as resources linked to this note
     const nonTextFiles = sharedFiles.value.filter(f => !f.file.type.startsWith('text/') && !f.name.endsWith('.md') && !f.name.endsWith('.txt'));
@@ -195,14 +196,14 @@ async function createNote() {
         await resourcesStore.post(formData);
       } catch (e) {
         console.error('[share-target] Failed to upload file:', sharedFile.name, e);
-        notifications.add({ type: 'warning', title: `Failed to upload ${sharedFile.name}` });
+        notifications.add({ title: `Failed to upload ${sharedFile.name}`, type: 'warning' });
       }
     }
 
     cleanupPreviews();
     router.push(`/dashboard/docs/edit/${created.id}`);
   } catch (e) {
-    notifications.add({ type: 'error', title: 'Error creating document', message: String(e) });
+    notifications.add({ message: String(e), title: 'Error creating document', type: 'error' });
   } finally {
     processing.value = false;
   }
@@ -222,11 +223,11 @@ async function uploadFiles() {
       uploadedCount++;
     }
 
-    notifications.add({ type: 'success', title: `${uploadedCount} file(s) uploaded successfully` });
+    notifications.add({ title: `${uploadedCount} file(s) uploaded successfully`, type: 'success' });
     cleanupPreviews();
     router.push('/dashboard/cdn');
   } catch (e) {
-    notifications.add({ type: 'error', title: 'Error uploading files', message: String(e) });
+    notifications.add({ message: String(e), title: 'Error uploading files', type: 'error' });
   } finally {
     processing.value = false;
   }

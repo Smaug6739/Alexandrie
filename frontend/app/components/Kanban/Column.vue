@@ -4,7 +4,7 @@
       <div class="column-title-row">
         <button
           class="column-color-btn"
-          title="Change color"
+          :title="t('components.kanban.changeColor')"
           :style="{ background: `var(--${getAppAccent(column.color, true)})` }"
           @click="toggleColorPicker"
         />
@@ -20,10 +20,10 @@
         <h3 v-else class="column-title" @dblclick="startEdit">{{ column.title }}</h3>
 
         <div class="column-actions">
-          <button class="action-btn" title="Edit name" @click="startEdit">
+          <button class="action-btn" :title="t('components.kanban.editName')" @click="startEdit">
             <Icon name="edit" />
           </button>
-          <button class="action-btn danger" title="Delete column" @click="confirmDelete">
+          <button class="action-btn danger" :title="t('components.kanban.deleteColumn')" @click="confirmDelete">
             <Icon name="delete" />
           </button>
           <span class="column-count">{{ cards.length }}</span>
@@ -57,12 +57,12 @@
       </TransitionGroup>
       <div v-if="!cards.length" class="empty-state">
         <Icon name="file" />
-        <p>No documents</p>
-        <span>Drag documents here</span>
+        <p>{{ t('components.kanban.noDocuments') }}</p>
+        <span>{{ t('components.kanban.dragHere') }}</span>
       </div>
     </div>
 
-    <button class="add-card-btn" @click="$emit('addCard', column.id)"><Icon name="plus" /> Add document</button>
+    <button class="add-card-btn" @click="$emit('addCard', column.id)"><Icon name="plus" /> {{ t('components.kanban.addDocument') }}</button>
   </div>
 </template>
 
@@ -77,6 +77,8 @@ export interface KanbanColumnData {
   color: number;
   order: number;
 }
+
+const { t } = useI18nT();
 
 const props = defineProps<{
   column: KanbanColumnData;

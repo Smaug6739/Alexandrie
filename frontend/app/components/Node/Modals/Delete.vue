@@ -2,28 +2,28 @@
   <div class="modal">
     <!-- Single node deletion -->
     <template v-if="props.node">
-      <h3>Delete {{ nodeType }} • {{ props.node.name }}</h3>
-      <p>Are you sure you want to delete this {{ nodeType }}?</p>
-      <p v-if="allChildren.length > 0" class="warn">This {{ nodeType }} has {{ allChildren.length }} child documents. They will be deleted too.</p>
+      <h3>{{ t('nodes.modals.delete.title', { type: nodeType }) }} • {{ props.node.name }}</h3>
+      <p>{{ t('nodes.modals.delete.confirm', { type: nodeType }) }}</p>
+      <p v-if="allChildren.length > 0" class="warn">{{ t('nodes.modals.delete.hasChildren', { type: nodeType, count: allChildren.length }) }}</p>
     </template>
 
     <!-- Bulk deletion -->
     <template v-else-if="props.nodes">
-      <h3>Delete {{ props.nodes.length > 1 ? 'nodes' : 'node' }}</h3>
+      <h3>{{ t('nodes.modals.delete.titleBulk') }}</h3>
       <p>
-        Are you sure you want to delete the selected {{ props.nodes.length > 1 ? 'nodes' : 'node' }}?
+        {{ t('nodes.modals.delete.confirmBulk') }}
         <br />
         <span v-if="props.nodes.length > 1">
-          This action will delete <strong>{{ props.nodes.length }}</strong> nodes.
+          {{ t('nodes.modals.delete.bulkCount', { count: props.nodes.length }) }}
         </span>
       </p>
     </template>
 
-    <p class="description">This action is irreversible</p>
+    <p class="description">{{ t('nodes.modals.delete.irreversible') }}</p>
 
     <div class="footer">
-      <AppButton type="secondary" @click="emit('close')">Cancel</AppButton>
-      <AppButton type="danger" @click="handleDelete">Confirm</AppButton>
+      <AppButton type="secondary" @click="emit('close')">{{ t('common.actions.cancel') }}</AppButton>
+      <AppButton type="danger" @click="handleDelete">{{ t('common.actions.confirm') }}</AppButton>
     </div>
   </div>
 </template>
@@ -39,6 +39,7 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['close']);
+const { t } = useI18nT();
 
 const store = useNodesStore();
 const nodesTree = useNodesTree();

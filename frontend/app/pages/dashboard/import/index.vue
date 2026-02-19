@@ -3,16 +3,17 @@
     <!-- Step 1: File Selection -->
     <div v-if="step === 'select'">
       <header>
-        <h1 style="font-size: 20px">Import documents <tag class="yellow">Beta</tag></h1>
+        <h1 style="font-size: 20px">{{ t('import.meta.title') }} <tag class="yellow">Beta</tag></h1>
       </header>
       <p>
-        You can import documents from a previous export. If you don't have an export, you can create one from the
-        <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">settings</NuxtLink> page.
+        {{ t('import.meta.description') }}
+        <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">{{ t('import.meta.settingsLink') }}</NuxtLink
+        >.
       </p>
       <AppDrop ref="dropComponent" @select="handleFileSelect as (file: File) => void" />
       <div class="submit">
         <AppButton type="primary" :disabled="!selectedFile || isAnalyzing" @click="analyzeFile">
-          {{ isAnalyzing ? 'Analyzing...' : 'Start Import' }}
+          {{ isAnalyzing ? t('import.steps.select.analyzing') : t('import.steps.select.startImport') }}
         </AppButton>
       </div>
       <p v-if="analyzeError" class="error-text">{{ analyzeError }}</p>
@@ -59,8 +60,9 @@ import { handleBackupFile } from '~/helpers/backups';
 import type { Manifest } from '~/helpers/backups/types';
 import type { DB_Node, ImportJob } from '~/stores/db_strustures';
 
-definePageMeta({ breadcrumb: 'Importations' });
+definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
+const { t } = useI18nT();
 const nodesStore = useNodesStore();
 const notifications = useNotifications();
 
@@ -179,9 +181,17 @@ function importLocalSettings() {
   const preferences = usePreferences();
   if (localData.value) {
     preferences.importPreferences(localData.value);
-    notifications.add({ type: 'success', title: 'Settings Imported', message: 'Local settings have been imported successfully.' });
+    notifications.add({
+      type: 'success',
+      title: t('import.notifications.localImportedTitle'),
+      message: t('import.notifications.localImportedMessage'),
+    });
   } else {
-    notifications.add({ type: 'error', title: 'Import Failed', message: 'No local settings found in the backup.' });
+    notifications.add({
+      type: 'error',
+      title: t('import.notifications.importFailedTitle'),
+      message: t('import.notifications.importFailedMessage'),
+    });
   }
 }
 
@@ -198,8 +208,8 @@ async function importAll() {
 
   notifications.add({
     type: 'success',
-    title: 'Import complete',
-    message: `Documents imported successfully`,
+    title: t('import.notifications.importCompleteTitle'),
+    message: t('import.notifications.importCompleteMessage'),
   });
 }
 </script>
