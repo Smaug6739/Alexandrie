@@ -81,6 +81,9 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
     },
   },
+  imports: {
+    dirs: ['stores/**'],
+  },
   colorMode: {
     classSuffix: '-mode',
     fallback: 'light', // fallback value if not system preference found

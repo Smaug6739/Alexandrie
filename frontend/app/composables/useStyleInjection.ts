@@ -44,7 +44,7 @@ function unmountSheet(sheet: StyleSheet) {
 }
 
 export function useStyleInjection() {
-  const preferences = usePreferences();
+  const preferences = usePreferencesStore();
 
   const enabled = preferences.get('stylesInjectionEnabled');
   const appCss = preferences.get('stylesInjection');

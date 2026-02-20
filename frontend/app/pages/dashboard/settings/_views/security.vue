@@ -231,23 +231,23 @@ p {
 .warning-box {
   display: flex;
   padding: 1rem 1.25rem;
-  border: 1px solid var(--yellow-border);
+  border: 1px solid var(--orange-border);
   border-radius: var(--radius-lg);
-  background: var(--yellow-bg);
+  background: var(--orange-bg);
   gap: 1rem;
   margin-bottom: 1.5rem;
 
   svg {
     width: 24px;
     height: 24px;
-    color: var(--yellow);
+    color: var(--orange);
     flex-shrink: 0;
     margin-top: 0.15rem;
   }
 
   strong {
     display: block;
-    color: var(--yellow-dark);
+    color: var(--orange-dark);
     margin-bottom: 0.25rem;
   }
 
@@ -388,8 +388,8 @@ p {
   justify-content: center;
 
   &.warning {
-    color: var(--yellow-dark);
-    background: var(--yellow-bg);
+    color: var(--orange-dark);
+    background: var(--orange-bg);
   }
 
   &.destructive {

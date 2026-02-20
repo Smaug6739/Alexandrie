@@ -59,7 +59,7 @@
         <div class="card-visual">
           <div class="folder-tree">
             <div class="folder-item">
-              <span class="folder-icon"><Icon name="folder" fill="var(--yellow)" /></span>
+              <span class="folder-icon"><Icon name="folder" fill="var(--orange)" /></span>
               <span>Projects</span>
             </div>
             <div class="folder-item nested">
@@ -71,11 +71,11 @@
               <span>Ideas.md</span>
             </div>
             <div class="folder-item">
-              <span class="folder-icon"><Icon name="folder" fill="var(--yellow)" /></span>
+              <span class="folder-icon"><Icon name="folder" fill="var(--orange)" /></span>
               <span>Knowledge Base</span>
             </div>
             <div class="folder-item nested">
-              <span class="folder-icon"><Icon name="folder" fill="var(--yellow)" /></span>
+              <span class="folder-icon"><Icon name="folder" fill="var(--orange)" /></span>
               <span>Development</span>
             </div>
             <div class="folder-item nested-2">

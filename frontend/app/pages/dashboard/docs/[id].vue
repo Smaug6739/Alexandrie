@@ -27,7 +27,7 @@ import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompi
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 
 const documentsStore = useNodesStore();
-const preferencesStore = usePreferences();
+const preferencesStore = usePreferencesStore();
 
 const devise = useDevice();
 const nodesTree = useNodesTree();

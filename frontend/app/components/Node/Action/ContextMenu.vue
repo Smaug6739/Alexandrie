@@ -49,7 +49,7 @@ const userStore = useUserStore();
 
 const router = useRouter();
 const route = useRoute();
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 const { t } = useI18nT();
 const { shortDate } = useDateFormatters();
 const { avatarURL } = useApi();

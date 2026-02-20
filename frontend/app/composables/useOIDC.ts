@@ -3,8 +3,6 @@
  * Handles OpenID Connect authentication flows with frontend callback
  */
 
-import { makeRequest } from '~/stores/_utils';
-
 export interface OIDCProvider {
   name: string;
   authorization_endpoint: string;

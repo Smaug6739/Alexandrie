@@ -40,7 +40,7 @@ const props = defineProps<{ doc?: Node; public?: boolean }>();
 
 const store = useUserStore();
 
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 const { avatarURL } = useApi();
 const nodesTree = useNodesTree();
 

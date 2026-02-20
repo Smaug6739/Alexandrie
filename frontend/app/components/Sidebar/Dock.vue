@@ -39,7 +39,7 @@ const openSettings = () => {
   useModal().add(new Modal(shallowRef(SettingsModal), { props: {}, size: 'large', noPadding: true }));
 };
 function closeDock() {
-  usePreferences().set('view_dock', false);
+  usePreferencesStore().set('view_dock', false);
 }
 </script>
 

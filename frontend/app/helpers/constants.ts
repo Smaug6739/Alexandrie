@@ -4,7 +4,7 @@
  */
 
 // Theme color palette
-export const appColors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'grey'];
+export const appColors = ['blue', 'red', 'green', 'yellow', 'orange', 'purple', 'pink', 'teal', 'grey'];
 
 // Document display themes
 export const DOCUMENT_THEMES = [

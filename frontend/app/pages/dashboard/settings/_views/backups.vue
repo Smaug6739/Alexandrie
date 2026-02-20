@@ -125,7 +125,7 @@ const options = reactive({
 const { t } = useI18nT();
 const { numericDate } = useDateFormatters();
 const notifications = useNotifications();
-const pref = usePreferences();
+const pref = usePreferencesStore();
 
 const currentJob = ref<BackupJob | null>(null);
 const pollingInterval = ref<ReturnType<typeof setInterval> | null>(null);

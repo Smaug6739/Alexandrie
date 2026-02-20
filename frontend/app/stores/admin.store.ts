@@ -1,4 +1,3 @@
-import { makeRequest } from './_utils';
 import type { User, Node } from './db_strustures';
 
 interface UserData extends User {

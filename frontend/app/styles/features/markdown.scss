@@ -19,6 +19,10 @@
 		border-left: 4px solid var(--yellow);
 	}
 
+	&:has(.orange) {
+		border-left: 4px solid var(--orange);
+	}
+
 	&:has(.teal) {
 		background-color: var(--surface-raised);
 		border-left: 4px solid var(--teal);

@@ -89,6 +89,21 @@
 	}
 }
 
+.orange,
+[orange] {
+	border-color: var(--orange-border);
+	color: var(--orange);
+	background-color: var(--orange-bg);
+
+	* {
+		fill: var(--orange) !important;
+
+		path {
+			fill: var(--orange) !important;
+		}
+	}
+}
+
 .border-yellow {
 	border-color: var(--yellow) !important;
 }

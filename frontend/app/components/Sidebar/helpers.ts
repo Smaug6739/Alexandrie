@@ -45,8 +45,7 @@ export interface Workspace {
   value?: string;
 }
 const { isMobile } = useDevice();
-const sidebarItemsPrefs = usePreferences().get('sidebarItems');
-export const navigationItems: DefaultItem[] = [
+export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems']): DefaultItem[] => [
   {
     data: {
       icon: 'dashboard',
@@ -61,7 +60,7 @@ export const navigationItems: DefaultItem[] = [
     label: 'components.sidebar.nav.home',
     parent_id: '',
     route: '/dashboard/home',
-    show: computed(() => sidebarItemsPrefs.value.home!),
+    show: computed(() => sidebarItemsPrefs?.home ?? true),
   },
   {
     data: {
@@ -77,7 +76,7 @@ export const navigationItems: DefaultItem[] = [
     label: 'components.sidebar.nav.manageCategories',
     parent_id: '',
     route: '/dashboard/categories',
-    show: computed(() => sidebarItemsPrefs.value.manageCategories!),
+    show: computed(() => sidebarItemsPrefs?.manageCategories ?? true),
   },
   {
     data: {
@@ -93,7 +92,7 @@ export const navigationItems: DefaultItem[] = [
     label: 'components.sidebar.nav.cdn',
     parent_id: '',
     route: '/dashboard/cdn',
-    show: computed(() => sidebarItemsPrefs.value.cdn!),
+    show: computed(() => sidebarItemsPrefs?.cdn ?? true),
   },
   {
     data: {
@@ -113,7 +112,7 @@ export const navigationItems: DefaultItem[] = [
     },
     parent_id: '',
     route: '',
-    show: computed(() => sidebarItemsPrefs.value.settings!),
+    show: computed(() => sidebarItemsPrefs?.settings ?? true),
   },
   {
     data: {
@@ -129,7 +128,7 @@ export const navigationItems: DefaultItem[] = [
     label: 'components.sidebar.nav.documents',
     parent_id: '',
     route: '/dashboard/docs',
-    show: computed(() => sidebarItemsPrefs.value.documents!),
+    show: computed(() => sidebarItemsPrefs?.documents ?? true),
   },
   {
     data: {
@@ -145,7 +144,7 @@ export const navigationItems: DefaultItem[] = [
     label: 'components.sidebar.nav.imports',
     parent_id: '',
     route: '/dashboard/import',
-    show: computed(() => sidebarItemsPrefs.value.importation!),
+    show: computed(() => sidebarItemsPrefs?.importation ?? true),
   },
   {
     data: {
@@ -161,6 +160,6 @@ export const navigationItems: DefaultItem[] = [
     label: 'components.sidebar.nav.newPage',
     parent_id: '',
     route: '/dashboard/docs/new',
-    show: computed(() => sidebarItemsPrefs.value.newPage!),
+    show: computed(() => sidebarItemsPrefs?.newPage ?? true),
   },
 ];

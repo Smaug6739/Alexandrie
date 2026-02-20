@@ -178,7 +178,7 @@ async function importNodes(type: 'create' | 'update', ids: string[]) {
 function importLocalSettings() {
   if (!manifest.value) return;
 
-  const preferences = usePreferences();
+  const preferences = usePreferencesStore();
   if (localData.value) {
     preferences.importPreferences(localData.value);
     notifications.add({

@@ -2,7 +2,7 @@ import { EditorView } from '@codemirror/view';
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
 
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 // Helper module for styling options
 
 function loadTheme() {

@@ -11,11 +11,7 @@
       </div>
     </header>
     <div style="padding-bottom: 10px">
-      <input
-        v-model="filter"
-        :placeholder="t('nodes.container.searchPlaceholder')"
-        style="width: 50%; padding: 8px; border: 1px solid var(--border); border-radius: 4px"
-      />
+      <input v-model="filter" :placeholder="t('nodes.container.searchPlaceholder')" />
     </div>
     <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
       <h3 class="wp-name">
@@ -71,6 +67,10 @@ function deleteNode(node: TreeItem<Node>) {
 .wp-name {
   font-size: 15px;
   font-weight: bold;
+}
+
+input {
+  max-width: 500px;
 }
 
 @media screen and (width <= 768px) {

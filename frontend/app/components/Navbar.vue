@@ -27,7 +27,7 @@
 <script lang="ts" setup>
 const { t } = useI18nT();
 const { isOpened, toggleSidebar } = useSidebar();
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 
 const navbarItems = preferences.get('navbarItems');
 const openCommandCenter = () => useCommandCenter().open();

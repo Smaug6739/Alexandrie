@@ -44,7 +44,7 @@
         </div>
       </div>
       <SidebarWorkspaces :options="workspaces" />
-      <CollapseItem v-for="item in navigationItems" :key="item.id" :item="item" :root="true" />
+      <CollapseItem v-for="item in navigationItems(sidebarItemsPrefs)" :key="item.id" :item="item" :root="true" />
       <hr style="width: 100%; margin: 5px 0" />
 
       <template v-if="tree.length">
@@ -69,7 +69,7 @@ import Dock from './Dock.vue';
 import { filterTreeByLabel } from '~/helpers/TreeBuilder';
 
 const nodesStore = useNodesStore();
-const preferences = usePreferences();
+const preferences = usePreferencesStore();
 const userStore = useUserStore();
 const { t } = useI18nT();
 
@@ -80,6 +80,7 @@ const { avatarURL } = useApi();
 
 const viewDock = preferences.get('view_dock');
 const compactMode = preferences.get('compactMode');
+const sidebarItemsPrefs = preferences.get('sidebarItems');
 
 const filter = ref<string>('');
 const workspaces = computed(() => [...nodesStore.getAll.filter(c => c.role === 1).map(c => ({ text: c.name, value: c.id, meta: c }))]);
