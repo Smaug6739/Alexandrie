@@ -11,6 +11,7 @@
     <div class="menu-group">
       <button class="menu-item" @click="action('open')"><Icon name="file_open" />{{ t('common.actions.open') }}<kbd>Enter</kbd></button>
       <button class="menu-item" @click="action('edit')"><Icon name="edit_page" />{{ t('common.actions.edit') }}<kbd>E</kbd></button>
+      <button class="menu-item" @click="action('new')"><Icon name="add_file" />{{ t('common.actions.new') }}</button>
     </div>
 
     <div class="menu-group">
@@ -64,6 +65,9 @@ async function action(name: string) {
       break;
     case 'edit':
       router.push(`/dashboard/docs/edit/${props.node.id}`);
+      break;
+    case 'new':
+      router.push(`/dashboard/docs/new?parent_id=${props.node.id}`);
       break;
     case 'duplicate':
       nodeStore.duplicate(props.node);
