@@ -20,7 +20,7 @@
     <NuxtLink v-if="item.data.role === 2 && nodesStore.hasPermissions(item.data as Node, 2)" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" />
     </NuxtLink>
-    <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?cat=${item.id}`" :prefetch="false" class="nav close">
+    <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?parent_id=${item.id}`" :prefetch="false" class="nav close">
       <Icon name="plus" />
     </NuxtLink>
     <Icon v-if="item.data.order === -1" name="pin" fill="var(--text-secondary)" />

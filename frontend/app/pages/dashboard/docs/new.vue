@@ -5,7 +5,6 @@
 import type { Node } from '~/stores';
 
 interface NewDocumentQuery {
-  cat?: string;
   parent_id?: string
 }
 
@@ -17,7 +16,7 @@ const route = useRoute();
 const sidebar = useSidebar();
 
 const routeQuery = computed<NewDocumentQuery>(() => route.query);
-const defaultParent = computed(() => routeQuery.value.parent_id || routeQuery.value.cat || sidebar.workspaceId.value || undefined);
+const defaultParent = computed(() => routeQuery.value.parent_id || sidebar.workspaceId.value || undefined);
 const document = computed<Partial<Node>>(() => ({
   accessibility: 1,
   parent_id: ['root', 'shared'].includes(defaultParent.value || '') ? undefined : defaultParent.value,
