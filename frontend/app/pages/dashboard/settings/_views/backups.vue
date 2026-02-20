@@ -164,7 +164,7 @@ async function startBackup() {
   const result = await makeRequest<{ job_id: string; message: string }>('backup', 'POST', {
     include_documents: options.includeDocuments,
     include_files: options.includeFiles,
-    local_data: options.includeSettings ? pref.all : null,
+    local_data: options.includeSettings ? pref.preferences : null,
     include_metadata: options.includeMetadata,
   });
 

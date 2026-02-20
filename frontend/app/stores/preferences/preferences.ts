@@ -87,23 +87,22 @@ export const usePreferencesStore = defineStore('preferences', () => {
       console.warn('[Preferences] Failed to fetch from backend', e);
     }
   }
-
   const computedCache = new Map<PreferenceKey, WritableComputedRef<Preferences[PreferenceKey]>>();
-  function get<K extends PreferenceKey>(key: K) {
-    if (!computedCache.has(key)) {
-      computedCache.set(
-        key,
-        computed({
-          get: () => preferences[key] as Preferences[K],
-          set: (val: Preferences[K]) => {
-            preferences[key] = val;
-            savePreferences();
-          },
-        }),
-      );
-    }
+  function get<K extends PreferenceKey>(key: K): WritableComputedRef<Preferences[K]> {
+    let existing = computedCache.get(key) as WritableComputedRef<Preferences[K]> | undefined;
 
-    return computedCache.get(key);
+    if (!existing) {
+      existing = computed<Preferences[K]>({
+        get: () => preferences[key],
+        set: val => {
+          preferences[key] = val;
+          savePreferences();
+        },
+      });
+
+      computedCache.set(key, existing);
+    }
+    return existing;
   }
 
   function set<K extends PreferenceKey>(key: K, value: Preferences[K]) {

@@ -7,7 +7,7 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 
 export interface CreateEditorStateParams {
   initialDoc: string;
-  preferences: ReturnType<typeof import('~/composables/usePreferences').usePreferences>;
+  spellCheck: Ref<boolean>;
   themeExtension: Extension;
   keymaps: readonly KeyBinding[];
   snippetSource: object;
@@ -21,7 +21,6 @@ export function createEditorState(params: CreateEditorStateParams) {
   const updateListener = EditorView.updateListener.of(v => {
     if (v.docChanged) params.onDocChanged();
   });
-
   return EditorState.create({
     doc: params.initialDoc,
     extensions: [
@@ -42,7 +41,7 @@ export function createEditorState(params: CreateEditorStateParams) {
       EditorView.lineWrapping,
       EditorState.allowMultipleSelections.of(true),
       EditorView.contentAttributes.of({
-        spellcheck: params.preferences.get('editorSpellCheck').value ? 'true' : 'false',
+        spellcheck: params.spellCheck.value ? 'true' : 'false',
         autocorrect: 'on',
         autocapitalize: 'on',
       }),

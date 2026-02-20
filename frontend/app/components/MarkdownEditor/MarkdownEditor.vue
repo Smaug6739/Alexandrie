@@ -82,10 +82,10 @@ const uploadsHandlers = createUploadsHandlers({ resourcesStore, insertText: (t: 
 
 const state = createEditorState({
   initialDoc: document.value.content || '',
-  preferences,
+  spellCheck: preferences.get('editorSpellCheck'),
   themeExtension: loadTheme(),
   keymaps: createKeymaps(commands),
-  snippetSource: createSnippetSource(preferences),
+  snippetSource: createSnippetSource(preferences.get('editorSnippetsEnabled'), preferences.get('snippets')),
   onDocChanged: () => {
     updateDocumentContent();
     autoSaveConditional();
