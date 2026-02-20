@@ -18,6 +18,7 @@
         :style="{ height: `${page.height}px`, width: `${page.width}px` }"
       >
         <canvas v-show="page.rendered" class="pdf-canvas" />
+        <div class="textLayer" />
         <div v-if="!page.rendered" class="pdf-page-placeholder">
           <span>Page {{ page.num }}</span>
         </div>
@@ -27,12 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import * as pdfjsLib from 'pdfjs-dist';
+import { GlobalWorkerOptions, getDocument, TextLayer, type PDFDocumentProxy, type PDFPageProxy } from 'pdfjs-dist';
 import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
 
-import type { PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+GlobalWorkerOptions.workerSrc = pdfWorker;
 
 interface Props {
   src: string;
@@ -104,6 +103,7 @@ const renderPage = async (pageNum: number) => {
   if (!wrapper) return;
 
   const canvas = wrapper.querySelector('canvas');
+  const textLayerDiv = wrapper.querySelector('.textLayer') as HTMLElement;
   if (!canvas) return;
 
   renderingPages.add(pageNum);
@@ -111,6 +111,7 @@ const renderPage = async (pageNum: number) => {
   try {
     const page = await pdf.getPage(pageNum);
     const scale = computeScale(page);
+    textLayerDiv.style.setProperty('--text-scale-factor', scale.toString());
     const viewport = page.getViewport({ scale });
 
     // Set canvas dimensions
@@ -123,13 +124,24 @@ const renderPage = async (pageNum: number) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.scale(dpr, dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     await page.render({
       canvasContext: ctx,
       canvas,
       viewport,
     }).promise;
+
+    textLayerDiv.innerHTML = '';
+    textLayerDiv.style.width = `${viewport.width}px`;
+    textLayerDiv.style.height = `${viewport.height}px`;
+
+    const textLayer = new TextLayer({
+      textContentSource: page.streamTextContent(),
+      container: textLayerDiv,
+      viewport,
+    });
+    textLayer.render();
 
     const pageInfo = pages.value.find(p => p.num === pageNum);
     if (pageInfo) pageInfo.rendered = true;
@@ -187,7 +199,7 @@ const loadPdf = async () => {
   }
 
   try {
-    const loadingTask = pdfjsLib.getDocument({
+    const loadingTask = getDocument({
       url: props.src,
       cMapUrl: 'https://unpkg.com/pdfjs-dist@latest/cmaps/',
       cMapPacked: true,
@@ -282,6 +294,129 @@ onBeforeUnmount(() => {
   padding: 2px;
 }
 
+.textLayer {
+  --csstools-color-scheme--light: initial;
+  color-scheme: only light;
+
+  position: absolute;
+  text-align: initial;
+  inset: 0;
+  overflow: clip;
+  opacity: 1;
+  line-height: 1;
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+  z-index: 0;
+}
+
+.textLayer.highlighting {
+  touch-action: none;
+}
+
+.textLayer :is(span, br) {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  transform-origin: 0% 0%;
+}
+
+.textLayer :is(br) {
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.textLayer {
+  --min-font-size: 1;
+  --text-scale-factor: 1;
+  --min-font-size-inv: 1;
+}
+
+.textLayer > :not(.markedContent),
+.textLayer .markedContent span:not(.markedContent) {
+  z-index: 1;
+
+  --font-height: 0;
+  font-size: calc(var(--text-scale-factor) * var(--font-height));
+
+  --scale-x: 1;
+  --rotate: 0deg;
+  transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+}
+
+.textLayer .markedContent {
+  display: contents;
+}
+
+.textLayer span[role='img'] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+.textLayer .highlight {
+  --highlight-selected-bg-color: rgb(0 100 0 / 0.25);
+  --highlight-backdrop-filter: none;
+  --highlight-selected-backdrop-filter: none;
+}
+
+@media screen and (forced-colors: active) {
+  .textLayer .highlight {
+    --highlight-selected-bg-color: transparent;
+    --highlight-backdrop-filter: var(--hcm-highlight-filter);
+    --highlight-selected-backdrop-filter: var(--hcm-highlight-selected-filter);
+  }
+}
+
+.textLayer .highlight {
+  margin: -1px;
+  padding: 1px;
+  background-color: var(--selection-color);
+  -webkit-backdrop-filter: var(--highlight-backdrop-filter);
+  backdrop-filter: var(--highlight-backdrop-filter);
+  border-radius: 4px;
+}
+
+.textLayer ::-moz-selection {
+  background: rgba(0 0 255 / 0.25);
+  background: color-mix(in srgb, AccentColor, transparent 75%);
+}
+
+.textLayer ::selection {
+  background: rgba(0 0 255 / 0.25);
+  background: color-mix(in srgb, AccentColor, transparent 75%);
+}
+
+.textLayer br::-moz-selection {
+  background: transparent;
+}
+
+.textLayer br::selection {
+  background: transparent;
+}
+
+.textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  inset: 100% 0 0;
+  z-index: 0;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.textLayer.selecting .endOfContent {
+  top: 0;
+}
 .pdf-page-placeholder {
   position: absolute;
   display: flex;
