@@ -44,6 +44,7 @@ import { createKeymaps } from './modules/editorKeymaps';
 import { createUploadsHandlers } from './modules/editorUploads';
 import { createSnippetSource } from './modules/editorUtils';
 import { createCommands } from './modules/editorCommands';
+import { createScrollSync } from './modules/scrollSync';
 import Toolbar from './Toolbar.vue';
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 
@@ -64,6 +65,11 @@ const editorView = ref<EditorView | null>(null);
 const showPreview = ref(false);
 
 const autoSaveEnabled = preferences.get('documentAutoSave');
+
+const scrollSync = createScrollSync({
+  getView: () => editorView.value as EditorView | null,
+  getPreview: () => markdownPreview.value,
+});
 
 const document = ref<Partial<Node>>({
   ...props.doc,
@@ -99,7 +105,7 @@ onMounted(() => {
     state,
     parent: editorContainer.value,
   });
-  editorView.value.scrollDOM.addEventListener('scroll', syncScroll);
+  editorView.value.scrollDOM.addEventListener('scroll', scrollSync.syncEditorToPreview);
   window.addEventListener('keydown', handleGlobalKeys);
 });
 
@@ -109,7 +115,8 @@ onBeforeUnmount(() => {
     emit('autoSave', document.value);
   }
   if (editorView.value) editorView.value.destroy();
-  editorView.value?.scrollDOM.removeEventListener('scroll', syncScroll);
+  editorView.value?.scrollDOM.removeEventListener('scroll', scrollSync.syncEditorToPreview);
+  scrollSync.dispose();
   window.removeEventListener('keydown', handleGlobalKeys);
 });
 
@@ -127,11 +134,13 @@ function handleGlobalKeys(e: KeyboardEvent) {
   }
 }
 
-function syncScroll() {
-  if (!editorView.value?.scrollDOM || !markdownPreview.value) return;
-  const scrollPercentage = editorView.value.scrollDOM.scrollTop / (editorView.value.scrollDOM.scrollHeight - editorView.value.scrollDOM.clientHeight);
-  markdownPreview.value.scrollTop = scrollPercentage * (markdownPreview.value.scrollHeight - markdownPreview.value.clientHeight);
-}
+// Re-sync scroll after the preview DOM updates (e.g. after typing new content)
+watch(
+  () => document.value.content_compiled,
+  () => {
+    nextTick(() => scrollSync.syncEditorToPreview());
+  },
+);
 
 function autoSaveConditional() {
   if (autoSaveEnabled.value) {

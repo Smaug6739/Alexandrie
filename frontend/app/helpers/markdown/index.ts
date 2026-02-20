@@ -12,6 +12,7 @@ import colorPlugin from './colors';
 import { subscriptPlugin, superscriptPlugin, footNotePlugin, html5MediaPlugin } from './other';
 import { markdownItCheckbox } from './checkbox';
 import { markdownItKatexPlugin } from './katex';
+import { sourceMapPlugin } from './source-map';
 
 const md = new MarkdownIt({ html: true, linkify: true });
 md.use(containerPlugin);
@@ -32,6 +33,7 @@ md.use(colorPlugin, {
   allowHex: true, // allow #rgb and #rrggbb
 });
 md.use(html5MediaPlugin);
+md.use(sourceMapPlugin);
 
 export default function compile(str: string = ''): string {
   // Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)
