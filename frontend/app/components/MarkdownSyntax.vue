@@ -18,7 +18,7 @@
 
       <!-- TAGS -->
       <p>
-        <strong>{{ t('markdown.syntax.tags') }}: </strong> <tag blue>Blue</tag> <tag green>Green</tag> <tag red>Red</tag> <tag yellow>Yellow</tag>
+        <strong>{{ t('markdown.syntax.tags') }}: </strong> <tag blue>Blue</tag> <tag green>Green</tag> <tag red>Red</tag> <tag orange>Yellow</tag>
         <tag grey>Grey</tag> <tag teal>Teal</tag><br />
         Syntax: <code v-text="`<tag 'color'>Content</tag>`"></code> — example: <code v-text="`<tag blue>Blue</tag>`"></code>
       </p>

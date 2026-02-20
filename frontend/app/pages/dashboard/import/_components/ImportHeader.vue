@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <h2>{{ t('import.header.title') }} <tag yellow>Beta</tag></h2>
+      <h2>{{ t('import.header.title') }} <tag orange>Beta</tag></h2>
       <AppButton type="secondary" size="sm" class="btn-close" @click="resetImport">
         <Icon name="close" :size="14" />
         {{ t('import.header.changeFile') }}

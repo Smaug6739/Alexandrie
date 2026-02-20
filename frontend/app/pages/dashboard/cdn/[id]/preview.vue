@@ -2,7 +2,7 @@
   <div class="page-card">
     <template v-if="resource">
       <header>
-        <h1>{{ t('cdn.preview.title') }} <tag yellow>Beta</tag> • {{ resource.name }}</h1>
+        <h1>{{ t('cdn.preview.title') }} <tag orange>Beta</tag> • {{ resource.name }}</h1>
         <div class="actions-row">
           <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
           <NuxtLink :to="`/dashboard/cdn/${resource.id}`" class="btn-icon">
@@ -46,7 +46,7 @@ import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { PDF_SCALES } from '~/helpers/constants';
 import { isImageFile, isPdfFile, isVideoFile, isAudioFile } from '~/helpers/resources';
 
-definePageMeta({ breadcrumb: {i18n: 'common.actions.preview'} });
+definePageMeta({ breadcrumb: { i18n: 'common.actions.preview' } });
 
 const { t } = useI18nT();
 const { resourceURL } = useApi();
