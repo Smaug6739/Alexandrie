@@ -1,5 +1,10 @@
 <template>
   <footer v-if="document">
+    <div v-if="showAttachments" class="attachments">
+      <div v-for="attachment in attachments" :key="attachment.id" class="attachment">
+        <NodeResourceInline :node="attachment.data" />
+      </div>
+    </div>
     <div class="footer-top-row">
       <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" :prefetch="false" class="edit-link">
         <Icon name="edit_page" display="sm" />
@@ -26,15 +31,33 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
-defineProps<{ document?: Node; next?: Node; previous?: Node }>();
+const props = defineProps<{ document?: Node; next?: Node; previous?: Node }>();
+
+const preferences = usePreferencesStore();
 
 const { t } = useI18nT();
 const { formatRelativeDate } = useDateFormatters();
+const nodesTree = useNodesTree();
+
+const showAttachments = preferences.get('documentShowAttachments');
+const attachments = computed(() => {
+  const children = nodesTree.getChildren(props.document?.id);
+  return children.filter(child => child.data.role === 4);
+});
 </script>
 
 <style scoped lang="scss">
 footer {
   margin: 50px 0 40px;
+}
+
+.attachments {
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  .attachment {
+    margin: 5px 0;
+  }
 }
 
 .edit-link {

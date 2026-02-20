@@ -41,6 +41,12 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
         choices: DOCUMENT_THEMES,
       },
       {
+        label: t('settings.documents.documentShowAttachments'),
+        description: t('settings.documents.documentShowAttachmentsDesc'),
+        type: 'toggle',
+        key: 'documentShowAttachments',
+      },
+      {
         label: t('settings.documents.defaultFontSize'),
         description: t('settings.documents.defaultFontSizeDesc'),
         type: 'number',
