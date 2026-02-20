@@ -5,7 +5,7 @@ export interface Manifest {
     include_documents: boolean;
     include_files: boolean;
     include_metadata: boolean;
-    local_data: object | null;
+    include_settings: boolean;
   };
   statistics: {
     total_nodes: number;
@@ -13,8 +13,4 @@ export interface Manifest {
     total_files: number;
     total_size_bytes: number;
   };
-}
-
-export interface ManifestExtended extends Manifest {
-  includeSettings?: boolean;
 }

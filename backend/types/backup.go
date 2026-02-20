@@ -20,16 +20,7 @@ type BackupOptions struct {
 	IncludeDocuments bool `json:"include_documents"` // Include documents/notes content
 	IncludeFiles     bool `json:"include_files"`     // Include uploaded files (images, PDFs, etc.)
 	IncludeMetadata  bool `json:"include_metadata"`  // Include node metadata
-	LocalData        any  `json:"local_data"`        // Include data stored by the client to the archive
-}
-
-// DefaultBackupOptions returns the default backup options (everything included)
-func DefaultBackupOptions() BackupOptions {
-	return BackupOptions{
-		IncludeDocuments: true,
-		IncludeFiles:     true,
-		IncludeMetadata:  true,
-	}
+	IncludeSettings  bool `json:"include_settings"`  // Include user settings and preferences
 }
 
 // BackupJob represents an ongoing or completed backup job

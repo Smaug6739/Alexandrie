@@ -24,14 +24,6 @@ func NewBackupController(app *app.App) BackupController {
 	}
 }
 
-// CreateBackupRequest represents the request body for creating a backup
-type CreateBackupRequest struct {
-	IncludeDocuments *bool `json:"include_documents"` // Include documents/notes content
-	IncludeFiles     *bool `json:"include_files"`     // Include uploaded files
-	IncludeMetadata  *bool `json:"include_metadata"`  // Include node metadata
-	LocalData        any   `json:"local_data"`        // Include data stored by the client to the archive
-}
-
 // CreateBackup starts an asynchronous backup job
 // @Method POST
 // @Description Start a new backup job with specified options. Returns a job ID for tracking progress.
@@ -43,18 +35,17 @@ func (ctr *Controller) CreateBackup(c *gin.Context) (int, any) {
 	}
 
 	// Parse request body for options
-	var req CreateBackupRequest
+	var req types.BackupOptions
 	if err := c.ShouldBindJSON(&req); err != nil {
 		// If no body provided, use default options
-		req = CreateBackupRequest{}
+		req = types.BackupOptions{}
 	}
 
-	// Build options from request (default to true if not specified)
 	options := types.BackupOptions{
-		IncludeDocuments: req.IncludeDocuments == nil || *req.IncludeDocuments,
-		IncludeFiles:     req.IncludeFiles == nil || *req.IncludeFiles,
-		IncludeMetadata:  req.IncludeMetadata == nil || *req.IncludeMetadata,
-		LocalData:        req.LocalData,
+		IncludeDocuments: req.IncludeDocuments,
+		IncludeFiles:     req.IncludeFiles,
+		IncludeMetadata:  req.IncludeMetadata,
+		IncludeSettings:  req.IncludeSettings,
 	}
 
 	// Start async backup

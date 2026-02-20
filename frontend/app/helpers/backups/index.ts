@@ -1,5 +1,5 @@
 import type { FileEntry } from '@zip.js/zip.js';
-import type { Manifest, ManifestExtended } from './types';
+import type { Manifest } from './types';
 import type { DB_Node } from '~/stores';
 
 export async function readZipFile(file: File): Promise<FileEntry[]> {
@@ -60,7 +60,7 @@ export async function handleBackupFile(file: File): Promise<{
   localData: object | null;
 }> {
   const entries = await readZipFile(file);
-  let manifest: ManifestExtended | null = null;
+  let manifest: Manifest | null = null;
   let documents: DB_Node[] | null = null;
   let localData: object | null = null;
   for (const entry of entries) {
@@ -68,7 +68,7 @@ export async function handleBackupFile(file: File): Promise<{
       manifest = await readBackupManifest(entry);
     } else if (entry.filename === 'documents.json') {
       documents = await readBackupDocuments(entry);
-    } else if (entry.filename === 'local_data.json') {
+    } else if (entry.filename === 'user_settings.json') {
       localData = await readLocalData(entry);
     }
   }
@@ -76,9 +76,7 @@ export async function handleBackupFile(file: File): Promise<{
   if (!manifest) {
     throw new Error('Manifest file is missing in the backup');
   }
-  if (localData) {
-    manifest.includeSettings = true; // Indicate that settings are included in the backup
-  }
+
   return {
     manifest,
     documents,

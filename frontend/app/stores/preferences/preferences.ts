@@ -47,6 +47,15 @@ export const usePreferencesStore = defineStore('preferences', () => {
     };
   }
 
+  function groupFromBackend(settings: Partial<BackendSettings>): Preferences {
+    return {
+      ...DEFAULT_PREFERENCES,
+      ...settings.general,
+      ...settings.editor,
+      ...settings.advanced,
+    } as Preferences;
+  }
+
   function mergeFromBackend(settings: BackendSettings) {
     const remote: Partial<Preferences> = {
       ...settings.general,
@@ -115,8 +124,8 @@ export const usePreferencesStore = defineStore('preferences', () => {
     savePreferences();
   }
 
-  function importPreferences(newPreferences: Partial<Preferences>) {
-    Object.assign(preferences, newPreferences);
+  function importPreferences(newPreferences: Partial<BackendSettings>) {
+    Object.assign(preferences, groupFromBackend(newPreferences));
     savePreferences();
   }
 

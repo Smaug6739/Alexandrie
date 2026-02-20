@@ -22,7 +22,7 @@ import (
 )
 
 const (
-	backupVersion      = "1.0.0"
+	backupVersion      = "1.1.0"
 	backupExpiryHours  = 24 // Backup files expire after 24 hours
 	maxConcurrentFiles = 5  // Max concurrent file downloads for backup
 )
@@ -40,20 +40,22 @@ type BackupService interface {
 }
 
 type backupService struct {
-	nodeRepo repositories.NodeRepository
-	jobs     map[string]*types.BackupJob
-	userJobs map[types.Snowflake]string // Maps userId to current jobId
-	jobMutex sync.RWMutex
-	cancel   map[string]context.CancelFunc
+	nodeRepo         repositories.NodeRepository
+	userSettingsRepo repositories.UserSettingsRepository
+	jobs             map[string]*types.BackupJob
+	userJobs         map[types.Snowflake]string // Maps userId to current jobId
+	jobMutex         sync.RWMutex
+	cancel           map[string]context.CancelFunc
 }
 
 // NewBackupService creates a new backup service instance
-func NewBackupService(nodeRepo repositories.NodeRepository) BackupService {
+func NewBackupService(nodeRepo repositories.NodeRepository, userSettingsRepo repositories.UserSettingsRepository) BackupService {
 	return &backupService{
-		nodeRepo: nodeRepo,
-		jobs:     make(map[string]*types.BackupJob),
-		userJobs: make(map[types.Snowflake]string),
-		cancel:   make(map[string]context.CancelFunc),
+		nodeRepo:         nodeRepo,
+		userSettingsRepo: userSettingsRepo,
+		jobs:             make(map[string]*types.BackupJob),
+		userJobs:         make(map[types.Snowflake]string),
+		cancel:           make(map[string]context.CancelFunc),
 	}
 }
 
@@ -295,10 +297,18 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 	default:
 	}
 
-	if job.Options.LocalData != nil {
-		s.updateJobStatus(job, types.BackupStatusProcessing, 80, "Adding local data...", "")
-		if err := s.addJSONToZip(zipWriter, "local_data.json", job.Options.LocalData); err != nil {
-			s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to add local data: %v", err))
+	// Fetch user settings if requested
+	if job.Options.IncludeSettings {
+		s.updateJobStatus(job, types.BackupStatusProcessing, 75, "Fetching user settings...", "")
+
+		settings, err := s.userSettingsRepo.GetByUserID(job.UserID)
+		if err != nil {
+			s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to fetch user settings: %v", err))
+			return
+		}
+
+		if err := s.addJSONToZip(zipWriter, "user_settings.json", settings); err != nil {
+			s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to add user settings: %v", err))
 			return
 		}
 	}
@@ -321,6 +331,7 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 			IncludeDocuments: job.Options.IncludeDocuments,
 			IncludeFiles:     job.Options.IncludeFiles,
 			IncludeMetadata:  job.Options.IncludeMetadata,
+			IncludeSettings:  job.Options.IncludeSettings,
 		},
 		Statistics: stats,
 	}

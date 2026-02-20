@@ -125,7 +125,6 @@ const options = reactive({
 const { t } = useI18nT();
 const { numericDate } = useDateFormatters();
 const notifications = useNotifications();
-const pref = usePreferencesStore();
 
 const currentJob = ref<BackupJob | null>(null);
 const pollingInterval = ref<ReturnType<typeof setInterval> | null>(null);
@@ -164,7 +163,7 @@ async function startBackup() {
   const result = await makeRequest<{ job_id: string; message: string }>('backup', 'POST', {
     include_documents: options.includeDocuments,
     include_files: options.includeFiles,
-    local_data: options.includeSettings ? pref.preferences : null,
+    include_settings: options.includeSettings,
     include_metadata: options.includeMetadata,
   });
 
@@ -306,8 +305,8 @@ onUnmounted(() => {
   font-weight: 500;
 
   &.pending {
-    color: var(--yellow);
-    background: var(--yellow-bg);
+    color: var(--orange);
+    background: var(--orange-bg);
   }
 
   &.processing {

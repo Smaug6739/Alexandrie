@@ -61,7 +61,7 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 	sm.Resource = NewResourceService(repos.Node, snowflake, minioClient, resourceConfig)
 
 	// Initialize Backup Service
-	sm.Backup = NewBackupService(repos.Node)
+	sm.Backup = NewBackupService(repos.Node, repos.UserSettings)
 
 	// Initialize OIDC Service
 	sm.OIDC = NewOIDCService(repos.OIDCProvider, repos.User, sm.User, repos.Session, repos.Log, snowflake)

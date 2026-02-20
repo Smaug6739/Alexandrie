@@ -41,7 +41,7 @@
         <Icon name="layers" :size="14" />
         {{ t('import.header.metadata') }}
       </span>
-      <span class="badge" :class="{ active: manifest.includeSettings }">
+      <span class="badge" :class="{ active: manifest.options.include_settings }">
         <Icon name="settings" :size="14" />
         {{ t('import.header.settings') }}
       </span>
@@ -50,9 +50,9 @@
 </template>
 
 <script setup lang="ts">
-import type { ManifestExtended } from '~/helpers/backups/types';
+import type { Manifest } from '~/helpers/backups/types';
 import { readableFileSize } from '~/helpers/resources';
-defineProps<{ manifest: ManifestExtended; resetImport: () => void }>();
+defineProps<{ manifest: Manifest; resetImport: () => void }>();
 
 const { t } = useI18nT();
 const { numericDate } = useDateFormatters();

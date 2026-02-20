@@ -4,7 +4,7 @@
       <button :class="{ active: activeTab === 'create' }" @click="activeTab = 'create'">{{ t('import.tabs.newDocuments') }} ({{ toCreate.length }})</button>
       <button :class="{ active: activeTab === 'update' }" @click="activeTab = 'update'">{{ t('import.tabs.updates') }} ({{ toUpdate.length }})</button>
       <button :class="{ active: activeTab === 'local' }" @click="activeTab = 'local'">
-        {{ t('import.tabs.localSettings') }} ({{ manifest?.includeSettings ? 1 : 0 }})
+        {{ t('import.tabs.localSettings') }} ({{ manifest?.options.include_settings ? 1 : 0 }})
       </button>
     </div>
 
@@ -92,7 +92,7 @@
 
     <!-- Tab: Local Settings -->
     <div v-if="activeTab === 'local'" class="tab-content">
-      <div v-if="!manifest.includeSettings" class="empty-state">
+      <div v-if="!manifest.options.include_settings" class="empty-state">
         <Icon name="settings" :size="32" />
         <p>{{ t('import.tabs.noLocalSettings') }}</p>
       </div>
@@ -110,10 +110,10 @@
 <script setup lang="ts">
 import { getRoleName, resolveIcon } from '~/helpers/node';
 import type { DB_Node, ImportJob } from '~/stores';
-import type { ManifestExtended } from '~/helpers/backups/types';
+import type { Manifest } from '~/helpers/backups/types';
 
 const { t } = useI18nT();
-const props = defineProps<{ manifest: ManifestExtended; toCreate: DB_Node[]; toUpdate: DB_Node[]; importJob: ImportJob }>();
+const props = defineProps<{ manifest: Manifest; toCreate: DB_Node[]; toUpdate: DB_Node[]; importJob: ImportJob }>();
 const emit = defineEmits<{
   (e: 'import', type: 'create' | 'update', nodeIds: string[]): void;
   (e: 'importLocalSettings'): void;
@@ -323,6 +323,8 @@ function importLocalSettings() {
 }
 
 .warning {
+  display: flex;
+  align-items: center;
   color: var(--red);
 }
 </style>

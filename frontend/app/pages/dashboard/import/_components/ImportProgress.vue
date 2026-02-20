@@ -59,8 +59,8 @@ const statusLabel = computed(() => {
   font-weight: 500;
 
   &.pending {
-    color: var(--yellow);
-    background: var(--yellow-bg);
+    color: var(--orange);
+    background: var(--orange-bg);
   }
 
   &.in_progress {
