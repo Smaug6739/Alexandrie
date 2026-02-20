@@ -1,4 +1,4 @@
-import { DEFAULT_PREFERENCES, ADVANCED_KEYS, EDITOR_KEYS, GENERAL_KEYS } from './constants';
+import { DEFAULT_PREFERENCES, ADVANCED_KEYS, EDITOR_KEYS, GENERAL_KEYS, type Preferences } from './constants';
 
 interface BackendSettings {
   user_id: number;
@@ -88,14 +88,22 @@ export const usePreferencesStore = defineStore('preferences', () => {
     }
   }
 
+  const computedCache = new Map<PreferenceKey, WritableComputedRef<Preferences[PreferenceKey]>>();
   function get<K extends PreferenceKey>(key: K) {
-    return computed<Preferences[K]>({
-      get: () => preferences[key] as Preferences[K],
-      set: val => {
-        preferences[key] = val;
-        savePreferences();
-      },
-    });
+    if (!computedCache.has(key)) {
+      computedCache.set(
+        key,
+        computed({
+          get: () => preferences[key] as Preferences[K],
+          set: (val: Preferences[K]) => {
+            preferences[key] = val;
+            savePreferences();
+          },
+        }),
+      );
+    }
+
+    return computedCache.get(key);
   }
 
   function set<K extends PreferenceKey>(key: K, value: Preferences[K]) {
