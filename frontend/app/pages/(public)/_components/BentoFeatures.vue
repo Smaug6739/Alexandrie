@@ -391,7 +391,7 @@
   }
 
   .syntax-list {
-    color: var(--yellow);
+    color: var(--orange);
   }
 
   .cursor {
