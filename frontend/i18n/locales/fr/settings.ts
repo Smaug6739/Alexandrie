@@ -111,6 +111,8 @@ export default {
     defaultLineHeight: 'Hauteur de ligne par défaut',
     defaultLineHeightDesc: 'Définir la hauteur de ligne par défaut pour tous vos documents.',
     documentSize: 'Taille du document',
+    documentShowAttachments: 'Afficher les pièces jointes',
+    documentShowAttachmentsDesc: 'Afficher les ressources jointes (images, PDFs, etc.) à la fin du document.',
     enablePrintMode: 'Activer le mode impression',
     enablePrintModeDesc: "Simplifier l'en-tête des documents imprimés (supprimer la miniature, les tags, la description et garder uniquement le titre)",
     hideTOC: 'Masquer la table des matières',

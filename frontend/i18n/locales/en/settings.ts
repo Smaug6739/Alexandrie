@@ -2,7 +2,7 @@ export default {
   about: {
     changelog: 'Changelog',
     client: 'Client',
-    contact: "If you have questions, suggestions or found a bug, feel free to contact us! You can open an issue on the",
+    contact: 'If you have questions, suggestions or found a bug, feel free to contact us! You can open an issue on the',
     description: 'Alexandrie is a personal knowledge management tool designed to help you organize and retrieve notes efficiently.',
     features: 'It provides features like document organization, tagging and advanced search.',
     githubRepo: 'GitHub repo',
@@ -17,8 +17,7 @@ export default {
   advanced: {
     resetLocalStorage: 'Reset local storage',
     resetLocalStorageBtn: 'Clear local storage',
-    resetLocalStorageDesc:
-      'This will reset all your local storage data. This action cannot be undone. Preferences will also be reset.',
+    resetLocalStorageDesc: 'This will reset all your local storage data. This action cannot be undone. Preferences will also be reset.',
     resetPreferences: 'Reset all preferences',
     resetPreferencesBtn: 'Reset preferences',
     resetPreferencesDesc: 'This will restore all preferences to their default values. This action cannot be undone.',
@@ -111,6 +110,8 @@ export default {
     defaultLineHeight: 'Default line height',
     defaultLineHeightDesc: 'Set the default line height for all your documents.',
     documentSize: 'Document size',
+    documentShowAttachments: 'Show attachments',
+    documentShowAttachmentsDesc: 'Show attached resources (images, PDFs, etc.) at the end of the document.',
     enablePrintMode: 'Enable print mode',
     enablePrintModeDesc: 'Simplify document header when printing (remove thumbnail, tags and description)',
     hideTOC: 'Hide table of contents',
@@ -249,8 +250,7 @@ export default {
     title: 'Security',
     unlink: 'Unlink',
     unrecognizedSession: 'Unrecognized session?',
-    unrecognizedSessionDesc:
-      'If you see a session you do not recognize, change your password immediately and click "Sign out from all devices" below.',
+    unrecognizedSessionDesc: 'If you see a session you do not recognize, change your password immediately and click "Sign out from all devices" below.',
   },
 
   shortcuts: {

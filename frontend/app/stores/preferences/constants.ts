@@ -21,6 +21,7 @@ export const DEFAULT_PREFERENCES = {
   documentFontSize: 16 as number,
   documentFontFamily: 'Poppins' as string,
   documentLineHeight: 1.5 as number,
+  documentShowAttachments: false as boolean,
   sidebarItems: {
     manageCategories: true as boolean,
     cdn: true as boolean,
@@ -80,6 +81,8 @@ export const GENERAL_KEYS: PreferenceKey[] = [
   'docSize',
   'style',
   'theme',
+  'sidebarItems',
+  'navbarItems',
 ];
 
 export const EDITOR_KEYS: PreferenceKey[] = [
@@ -87,6 +90,7 @@ export const EDITOR_KEYS: PreferenceKey[] = [
   'documentFontSize',
   'documentFontFamily',
   'documentLineHeight',
+  'documentShowAttachments',
   'editorFontFamily',
   'editorFontSize',
   'editorSpellCheck',
@@ -96,8 +100,6 @@ export const EDITOR_KEYS: PreferenceKey[] = [
 ];
 
 export const ADVANCED_KEYS: PreferenceKey[] = [
-  'sidebarItems',
-  'navbarItems',
   'snippets',
   'developerMode',
   'stylesInjectionEnabled',

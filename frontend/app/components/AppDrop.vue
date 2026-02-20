@@ -13,7 +13,7 @@
     <div v-if="selectedFiles.length" class="files">
       <div class="list">
         <div v-for="(file, index) in selectedFiles" :key="file.name + '-' + file.size + '-' + file.lastModified" class="item">
-          <NodeResourceInline :file="file" :remove-file="() => removeFile(index)" class="file-card" />
+          <FileInline :file="file" :remove-file="() => removeFile(index)" class="file-card" />
         </div>
       </div>
       <footer>

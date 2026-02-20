@@ -21,7 +21,7 @@
       <!-- Shared files preview -->
       <section v-if="sharedFiles.length" class="share-section">
         <div class="files-grid">
-          <NodeResourceInline v-for="(file, index) in sharedFiles" :key="index" :file="file" :remove-file="() => removeFile(index)" class="file-card" />
+          <FileInline v-for="(file, index) in sharedFiles" :key="index" :file="file" :remove-file="() => removeFile(index)" class="file-card" />
         </div>
       </section>
 
@@ -215,7 +215,6 @@ async function uploadFiles() {
     }
 
     notifications.add({ type: 'success', title: `${uploadedCount} file(s) uploaded successfully` });
-    cleanupPreviews();
     router.push('/dashboard/cdn');
   } catch (e) {
     notifications.add({ message: String(e), title: 'Error uploading files', type: 'error' });

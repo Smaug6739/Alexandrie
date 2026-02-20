@@ -14,7 +14,7 @@ const readableFileSize = (bytes: number): string => {
 };
 
 /** Check if a filetype MIME string represents an image */
-const isImageFile = (filetype: string): boolean => filetype.startsWith('image/');
+const isImageFile = (filetype?: string): boolean => filetype?.startsWith('image/') ?? false;
 
 /** Check if a filetype MIME string represents a video */
 const isVideoFile = (filetype: string): boolean => filetype.startsWith('video/');
