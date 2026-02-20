@@ -74,7 +74,7 @@ function loadTheme() {
     base09 = '#ff3e00',
     base0A = '#FF00E9FF',
     yellowWhite = '#ffc107',
-    yellow = 'var(--yellow)',
+    yellow = 'var(--orange)',
     teal = 'var(--teal)',
     blue = 'var(--blue)',
     purple = 'var(--purple)',
