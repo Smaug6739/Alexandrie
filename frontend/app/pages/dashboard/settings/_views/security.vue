@@ -52,14 +52,14 @@
     <form @submit.prevent="changePassword">
       <div class="form-group">
         <label for="password">{{ t('settings.security.newPassword') }}</label>
-        <input id="password" v-model="passwordValue" type="password" required />
+        <input id="password" v-model="passwordValue" autocomplete="new-password" type="password" required />
       </div>
       <div class="form-group">
-        <span style="display: flex; align-items: center"
-          ><label for="password_confirm">{{ t('settings.security.confirmPassword') }}</label>
-          <span v-if="errPasswordNotMatch" class="err"> {{ t('settings.security.passwordNotMatch') }}</span></span
-        >
-        <input id="password_confirm" v-model="passwordConfirmValue" type="password" required />
+        <span style="display: flex; align-items: center">
+          <label for="password_confirm">{{ t('settings.security.confirmPassword') }}</label>
+          <span v-if="errPasswordNotMatch" class="err"> {{ t('settings.security.passwordNotMatch') }}</span>
+        </span>
+        <input id="password_confirm" v-model="passwordConfirmValue" autocomplete="new-password" type="password" required />
       </div>
       <AppButton type="primary">{{ t('settings.security.changePassword') }}</AppButton>
     </form>
