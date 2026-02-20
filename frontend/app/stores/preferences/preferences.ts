@@ -23,10 +23,12 @@ function loadLocalPreferences(): Preferences {
 export const usePreferencesStore = defineStore('preferences', () => {
   const preferences = reactive<Preferences>(loadLocalPreferences());
 
+  const debouncedSync = useDebounceFn(syncToBackend, 1500);
+
   function savePreferences() {
     if (!import.meta.client) return;
     localStorage.setItem('preferences', JSON.stringify(preferences));
-    useDebounceFn(syncToBackend, 1500)();
+    debouncedSync();
   }
 
   // ─── Backend sync helpers ───
@@ -113,7 +115,7 @@ export const usePreferencesStore = defineStore('preferences', () => {
 
   /** Force a full push to backend (e.g. after import) */
   function syncNow() {
-    useDebounceFn(syncToBackend, 1500)();
+    debouncedSync();
   }
 
   return {
