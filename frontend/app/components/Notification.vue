@@ -179,12 +179,12 @@ const close = (id: number) => manager.remove(id);
 
 .warning {
   .icon-wrapper {
-    color: var(--yellow);
-    background: var(--yellow-bg);
+    color: var(--orange);
+    background: var(--orange-bg);
   }
 
   .progress-bar {
-    background: var(--yellow);
+    background: var(--orange);
   }
 }
 

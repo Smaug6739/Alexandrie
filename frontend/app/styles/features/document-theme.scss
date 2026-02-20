@@ -206,6 +206,12 @@
 			border-left: 4px solid var(--yellow);
 		}
 
+		&.orange {
+			color: var(--orange);
+			background-color: var(--orange-bg-light);
+			border-left: 4px solid var(--orange);
+		}
+
 
 		&.red {
 			color: var(--red);
