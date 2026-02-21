@@ -74,10 +74,12 @@ function loadTheme() {
     base09 = '#ff3e00',
     base0A = '#FF00E9FF',
     yellowWhite = '#ffc107',
-    yellow = 'var(--orange)',
+    yellow = 'var(--yellow)',
+    orange = 'var(--orange)',
     teal = 'var(--teal)',
     blue = 'var(--blue)',
     purple = 'var(--purple)',
+    pink = 'var(--pink)',
     green = 'var(--green)',
     base11 = '#00897b', // Teal 600 (better contrast for light theme)
     base12 = '#1e88e5'; // Blue 600 (better contrast for light theme)
@@ -91,7 +93,7 @@ function loadTheme() {
     cursor = base04, // Cursor color
     activeBracketBg = '#DDEEFF80', // Active bracket background
     activeBracketBorder = teal, // Active bracket border
-    diagnosticWarning = yellow, // Warning color
+    diagnosticWarning = orange, // Warning color
     linkColor = base12, // Link color
     hoverHighlight = '#ECEFF180'; // Hover highlight
   // Diff/merge specific colors
@@ -411,8 +413,8 @@ function loadTheme() {
     { tag: [tags.variableName], color: base05 },
     { tag: [tags.propertyName], color: base11, fontStyle: 'normal' },
     // Classes and types
-    { tag: [tags.typeName], color: yellow },
-    { tag: [tags.className], color: yellow, fontStyle: 'italic' },
+    { tag: [tags.typeName], color: orange },
+    { tag: [tags.className], color: orange, fontStyle: 'italic' },
     { tag: [tags.namespace], color: blue, fontStyle: 'italic' },
     // Operators and punctuation
     { tag: [tags.operator, tags.operatorKeyword], color: blue },
@@ -425,14 +427,14 @@ function loadTheme() {
     { tag: [tags.definition(tags.function(tags.variableName))], color: base09 },
     { tag: [tags.definition(tags.variableName)], color: base0A },
     // Constants and literals
-    { tag: tags.number, color: yellow },
-    { tag: tags.changed, color: yellow },
+    { tag: tags.number, color: orange },
+    { tag: tags.changed, color: orange },
     { tag: tags.annotation, color: invalid, fontStyle: 'italic' },
-    { tag: tags.modifier, color: yellow, fontStyle: 'italic' },
-    { tag: tags.self, color: yellow },
+    { tag: tags.modifier, color: orange, fontStyle: 'italic' },
+    { tag: tags.self, color: orange },
     {
       tag: [tags.color, tags.constant(tags.name), tags.standard(tags.name)],
-      color: yellow,
+      color: orange,
     },
     { tag: [tags.atom, tags.bool], color: purple },
     // Strings and regex
@@ -457,8 +459,8 @@ function loadTheme() {
     { tag: tags.heading4, color: yellow },
     { tag: tags.heading5, color: purple },
     { tag: tags.heading6, color: green },
-    { tag: [tags.strong], fontWeight: 'bold', color: purple },
-    { tag: [tags.emphasis], fontStyle: 'italic', color: yellow },
+    { tag: [tags.strong], fontWeight: 'bold', color: orange },
+    { tag: [tags.emphasis], fontStyle: 'italic', color: pink },
     // Links and URLs
     {
       tag: [tags.link],
