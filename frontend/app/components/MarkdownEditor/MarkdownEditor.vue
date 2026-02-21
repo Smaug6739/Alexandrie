@@ -84,7 +84,11 @@ const commands = createCommands({
   save: () => save(),
 });
 
-const uploadsHandlers = createUploadsHandlers({ resourcesStore, insertText: (t: string) => commands.exec('insertText', t) });
+const uploadsHandlers = createUploadsHandlers({
+  resourcesStore,
+  nodeId: props.doc?.id,
+  insertText: (t: string) => commands.exec('insertText', t),
+});
 
 const state = createEditorState({
   initialDoc: document.value.content || '',

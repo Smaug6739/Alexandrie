@@ -520,7 +520,7 @@ export function createCommands(params: CreateCommandsParams) {
 
   function openImageSelector() {
     const modalManager = useModal();
-    modalManager.add(new Modal(shallowRef(ImageSelectorModal), { props: { onImageSelect: handleImageSelect }, size: 'large' }));
+    modalManager.add(new Modal(shallowRef(ImageSelectorModal), { props: { onImageSelect: handleImageSelect, nodeId: params.getDoc()?.id }, size: 'large' }));
   }
 
   function openGridOrganization() {
