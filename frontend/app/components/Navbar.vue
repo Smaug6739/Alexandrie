@@ -7,6 +7,7 @@
         </svg>
       </button>
       <BreadCrumb v-if="navbarItems.breadcrumb" />
+      <Navigation />
     </div>
     <div>
       <button v-if="navbarItems.search" class="search-btn" :title="t('components.navbar.commandCenter')" aria-label="Command center" @click="openCommandCenter">
@@ -25,6 +26,8 @@
 </template>
 
 <script lang="ts" setup>
+import Navigation from "~/components/Navigation/Navigation.vue";
+
 const { t } = useI18nT();
 const { isOpened, toggleSidebar } = useSidebar();
 const preferences = usePreferencesStore();
