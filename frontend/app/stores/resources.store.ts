@@ -5,7 +5,7 @@ export const useResourcesStore = defineStore('resources', {
     async post(resource: FormData): Promise<Node> {
       const defaultUploadFolder = usePreferencesStore().get('defaultUploadFolder').value;
       const nodesStore = useNodesStore();
-      if (defaultUploadFolder && nodesStore.nodes.has(defaultUploadFolder)) {
+      if (defaultUploadFolder && nodesStore.nodes.has(defaultUploadFolder) && !resource.has('parent_id')) {
         resource.append('parent_id', defaultUploadFolder);
       }
       const request = await makeRequest(`resources`, 'POST', resource);

@@ -34,7 +34,7 @@ const { t } = useI18nT();
 const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
 
-const props = defineProps<{ onImageSelect: (imageUrl: string, altText: string) => void }>();
+const props = defineProps<{ onImageSelect: (imageUrl: string, altText: string) => void; nodeId?: string }>();
 const emit = defineEmits<{ (e: 'close'): void }>();
 
 const searchQuery = ref('');
@@ -47,6 +47,7 @@ const submitFile = (selectedFile: File) => {
   if (!selectedFile) return;
   isLoading.value = true;
   const body = new FormData();
+  body.append('parent_id', props.nodeId || '');
   body.append('file', selectedFile);
   dropComponent.value.reset(); // Reset drop component
   resourcesStore
