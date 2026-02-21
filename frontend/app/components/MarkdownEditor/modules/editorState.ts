@@ -5,6 +5,7 @@ import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
 import { autocompletion, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { rainbowBrackets } from './bracketsRainbow';
+import { containerHighlight } from './customBlocks';
 
 export interface CreateEditorStateParams {
   initialDoc: string;
@@ -31,6 +32,7 @@ export function createEditorState(params: CreateEditorStateParams) {
       drawSelection(),
       autocompletion(),
       rainbowBrackets(),
+      containerHighlight(),
       closeBrackets(),
       keymap.of([...params.keymaps, ...defaultKeymap, ...historyKeymap, indentWithTab, ...searchKeymap, ...closeBracketsKeymap]),
       markdown({ base: markdownLanguage }),

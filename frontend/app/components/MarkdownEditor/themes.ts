@@ -3,7 +3,6 @@ import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags } from '@lezer/highlight';
 
 const preferences = usePreferencesStore();
-// Helper module for styling options
 
 function loadTheme() {
   const generalContent = {
@@ -18,7 +17,7 @@ function loadTheme() {
     insertedTextDecoration: 'none',
     deletedTextDecoration: 'line-through',
     insertedLinePadding: '1px 3px',
-    borderRadious: '3px',
+    borderRadius: '3px',
   };
   const generalGutter = {
     border: 'none',
@@ -29,8 +28,9 @@ function loadTheme() {
   const generalPanel = {
     border: '1px solid var(--primary)',
     borderRadius: '6px',
-    padding: '6px 10px',
-    fontSize: '13px',
+    padding: '6px 8px',
+    fontFamily: 'Poppins, sans-serif',
+    fontSize: '14px',
   };
   const generalLine = {
     borderRadius: '2px',
@@ -74,15 +74,12 @@ function loadTheme() {
     base09 = '#ff3e00',
     base0A = '#FF00E9FF',
     yellowWhite = '#ffc107',
-    yellow = 'var(--yellow)',
     orange = 'var(--orange)',
     teal = 'var(--teal)',
     blue = 'var(--blue)',
     purple = 'var(--purple)',
     pink = 'var(--pink)',
-    green = 'var(--green)',
-    base11 = '#00897b', // Teal 600 (better contrast for light theme)
-    base12 = '#1e88e5'; // Blue 600 (better contrast for light theme)
+    green = 'var(--green)';
   // UI specific colors
   const invalid = base08,
     highlightBackground = '#00000008', // Line highlight
@@ -94,7 +91,7 @@ function loadTheme() {
     activeBracketBg = '#DDEEFF80', // Active bracket background
     activeBracketBorder = teal, // Active bracket border
     diagnosticWarning = orange, // Warning color
-    linkColor = base12, // Link color
+    linkColor = blue, // Link color
     hoverHighlight = '#ECEFF180'; // Hover highlight
   // Diff/merge specific colors
   const addedBackground = '#e6ffed80', // Light green with transparency for insertions
@@ -104,7 +101,7 @@ function loadTheme() {
   /**
    * Enhanced editor theme styles for Material Light
    */
-  const materialLightTheme = EditorView.theme(
+  const materialTheme = EditorView.theme(
     {
       // Base editor styles
       '&': {
@@ -193,6 +190,7 @@ function loadTheme() {
         color: base02,
         borderRadius: '4px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+        fontFamily: generalPanel.fontFamily,
       },
       '.cm-panels.cm-panels-top': {
         borderBottom: `1px solid ${base04}`,
@@ -200,6 +198,7 @@ function loadTheme() {
       '.cm-panels.cm-panels-bottom': {
         borderTop: `1px solid ${base04}`,
       },
+
       '.cm-panel button': {
         backgroundColor: tooltipBackground,
         color: base02,
@@ -208,6 +207,11 @@ function loadTheme() {
         padding: generalPanel.padding,
         fontSize: generalPanel.fontSize,
         cursor: 'pointer',
+        textTransform: 'capitalize',
+      },
+      '.cm-panel label': {
+        fontSize: generalPanel.fontSize,
+        color: base02,
       },
       '.cm-panel button:hover': {
         backgroundColor: hoverHighlight,
@@ -255,14 +259,14 @@ function loadTheme() {
         backgroundColor: addedBackground,
         color: addedText,
         padding: generalDiff.insertedLinePadding,
-        borderRadius: generalDiff.borderRadious,
+        borderRadius: generalDiff.borderRadius,
       },
       'ins.cm-insertedLine, ins.cm-insertedLine:not(:has(.cm-changedText))': {
         textDecoration: generalDiff.insertedTextDecoration,
         backgroundColor: `${addedBackground} !important`,
         color: addedText,
         padding: generalDiff.insertedLinePadding,
-        borderRadius: generalDiff.borderRadious,
+        borderRadius: generalDiff.borderRadius,
         border: `1px solid ${addedText}30`,
       },
       'ins.cm-insertedLine .cm-changedText': {
@@ -274,14 +278,14 @@ function loadTheme() {
         backgroundColor: removedBackground,
         color: removedText,
         padding: generalDiff.insertedLinePadding,
-        borderRadius: generalDiff.borderRadious,
+        borderRadius: generalDiff.borderRadius,
       },
       'del.cm-deletedLine, del, del:not(:has(.cm-deletedText))': {
         textDecoration: generalDiff.deletedTextDecoration,
         backgroundColor: `${removedBackground} !important`,
         color: removedText,
         padding: generalDiff.insertedLinePadding,
-        borderRadius: generalDiff.borderRadious,
+        borderRadius: generalDiff.borderRadius,
         border: `1px solid ${removedText}30`,
       },
       'del .cm-deletedText, del .cm-changedText': {
@@ -403,7 +407,7 @@ function loadTheme() {
     { dark: false },
   );
 
-  const materialLightHighlightStyle = HighlightStyle.define([
+  const materialHighlightStyle = HighlightStyle.define([
     // Keywords and control flow
     { tag: tags.keyword, color: teal, fontWeight: 'bold' },
     { tag: tags.controlKeyword, color: teal, fontWeight: 'bold' },
@@ -411,7 +415,7 @@ function loadTheme() {
     // Names and variables
     { tag: [tags.name, tags.deleted, tags.character, tags.macroName], color: base05 },
     { tag: [tags.variableName], color: base05 },
-    { tag: [tags.propertyName], color: base11, fontStyle: 'normal' },
+    { tag: [tags.propertyName], color: green, fontStyle: 'normal' },
     // Classes and types
     { tag: [tags.typeName], color: orange },
     { tag: [tags.className], color: orange, fontStyle: 'italic' },
@@ -423,7 +427,7 @@ function loadTheme() {
     { tag: [tags.punctuation], color: base03 },
     // Functions and parameters
     { tag: [tags.function(tags.variableName)], color: base09 },
-    { tag: [tags.labelName], color: base12, fontStyle: 'italic' },
+    { tag: [tags.labelName], color: blue, fontStyle: 'italic' },
     { tag: [tags.definition(tags.function(tags.variableName))], color: base09 },
     { tag: [tags.definition(tags.variableName)], color: base0A },
     // Constants and literals
@@ -452,11 +456,11 @@ function loadTheme() {
     { tag: [tags.tagName], color: base09 },
     { tag: [tags.attributeName], color: base05 },
     // Markdown and text formatting
-    { tag: [tags.heading], fontWeight: 'bold', color: base11 },
-    { tag: tags.heading1, color: base12, fontSize: '1.2em', fontWeight: 'bold' },
+    { tag: [tags.heading], fontWeight: 'bold', color: green },
+    { tag: tags.heading1, color: blue, fontSize: '1.2em', fontWeight: 'bold' },
     { tag: tags.heading2, color: purple, fontSize: '1.1em', fontWeight: 'bold' },
     { tag: tags.heading3, color: teal, fontSize: '1em', fontWeight: 'bold' },
-    { tag: tags.heading4, color: yellow },
+    { tag: tags.heading4, color: pink },
     { tag: tags.heading5, color: purple },
     { tag: tags.heading6, color: green },
     { tag: [tags.strong], fontWeight: 'bold', color: orange },
@@ -492,10 +496,8 @@ function loadTheme() {
     { tag: [tags.contentSeparator], color: teal },
     { tag: tags.quote, color: green },
   ]);
-  /**
-   * Combined Material Light theme extension
-   */
-  const materialLight = [materialLightTheme, syntaxHighlighting(materialLightHighlightStyle)];
-  return materialLight;
+
+  const material = [materialTheme, syntaxHighlighting(materialHighlightStyle)];
+  return material;
 }
 export { loadTheme };
