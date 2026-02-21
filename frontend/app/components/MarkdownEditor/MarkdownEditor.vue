@@ -304,10 +304,6 @@ const autoSave = debounceDelayed(() => {
   padding: 8px 12px;
 }
 
-.editor-container:deep(.cm-content) {
-  font-family: $font-mono;
-}
-
 .markdown-preview {
   padding: 12px 16px;
   background: var(--surface-base);
