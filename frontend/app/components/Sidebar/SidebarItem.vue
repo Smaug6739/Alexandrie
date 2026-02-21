@@ -6,7 +6,7 @@
     @click="onClick"
     @dragstart="dragStart"
     @dragover.prevent="dragOver"
-    @drop="drop"
+    @drop.prevent="drop"
     @dragleave="dragLeave"
     @contextmenu.prevent="showContextMenu"
   >
@@ -35,12 +35,14 @@ import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 
 import { navigationItems, type SidebarItem, getItemChildren } from './helpers';
 
-const { t } = useI18n();
 const nodesStore = useNodesStore();
+const resourcesStore = useResourcesStore();
+const preferencesStore = usePreferencesStore();
+
+const { t } = useI18n();
 const { isOpened, workspaceId } = useSidebar();
 const { getAppAccent } = useAppColors();
 const { isMobile } = useDevice();
-const preferences = usePreferencesStore();
 const contextMenu = useContextMenu();
 
 const props = defineProps<{ item: SidebarItem; level: number }>();
@@ -51,7 +53,7 @@ const customClass = computed(() => {
     return `item-icon ${getAppAccent(props.item.data.color as number)}`;
   return 'default-icon';
 });
-const iconsNormalized = preferences.get('normalizeFileIcons');
+const iconsNormalized = preferencesStore.get('normalizeFileIcons');
 const icon = computed(() => {
   const children = getItemChildren(props.item);
   if (!iconsNormalized.value && props.item.icon === 'sidebar/file' && children?.some(child => child.data?.role != 4)) return 'file_parent';
@@ -75,19 +77,28 @@ function showContextMenu(event: MouseEvent) {
 
 /* Drag and drop handlers */
 
-const dragStart = (event: DragEvent) => {
-  event.dataTransfer!.setData('text/plain', props.item.id.toString());
-};
+const dragStart = (event: DragEvent) => event.dataTransfer!.setData('text/plain', props.item.id.toString());
 
-const dragOver = () => {
-  isDragOver.value = true;
-};
+const dragOver = () => (isDragOver.value = true);
 
-const dragLeave = () => {
-  isDragOver.value = false;
-};
+const dragLeave = () => (isDragOver.value = false);
+
 const drop = async (event: DragEvent) => {
   isDragOver.value = false;
+
+  // Handle file drop
+  if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+    const files = Array.from(event.dataTransfer.files);
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('parent_id', props.item.data.id);
+      await resourcesStore.post(formData);
+    }
+    return;
+  }
+
+  // Handle node drop
   const draggedItemId = event.dataTransfer!.getData('text/plain');
 
   const draggedItem = nodesStore.getById(draggedItemId) || navigationItems().find(item => item.id === draggedItemId)?.data;
