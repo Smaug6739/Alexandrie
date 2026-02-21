@@ -2,8 +2,9 @@ import { EditorView, keymap, highlightSpecialChars, drawSelection, lineNumbers, 
 import { EditorState, Compartment, type Extension } from '@codemirror/state';
 import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { highlightSelectionMatches, searchKeymap } from '@codemirror/search';
-import { autocompletion } from '@codemirror/autocomplete';
+import { autocompletion, closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { rainbowBrackets } from './bracketsRainbow';
 
 export interface CreateEditorStateParams {
   initialDoc: string;
@@ -29,7 +30,9 @@ export function createEditorState(params: CreateEditorStateParams) {
       history(),
       drawSelection(),
       autocompletion(),
-      keymap.of([...params.keymaps, ...defaultKeymap, ...historyKeymap, indentWithTab, ...searchKeymap]),
+      rainbowBrackets(),
+      closeBrackets(),
+      keymap.of([...params.keymaps, ...defaultKeymap, ...historyKeymap, indentWithTab, ...searchKeymap, ...closeBracketsKeymap]),
       markdown({ base: markdownLanguage }),
       markdownLanguage.data.of({
         autocomplete: params.snippetSource,
