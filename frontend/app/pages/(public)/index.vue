@@ -1,7 +1,5 @@
 <template>
   <main>
-    <!-- Hero -->
-
     <section ref="heroEl" class="hero">
       <div class="hero-bg">
         <span class="orb orb-1" />
@@ -39,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import AppFooter from './_components/AppFooter.vue';
 import BentoFeatures from './_components/BentoFeatures.vue';
 import FeaturesShowcase from './_components/FeaturesShowcase.vue';
 import OpenSourceStats from './_components/OpenSourceStats.vue';

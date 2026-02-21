@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <AppHeader />
     <div class="body-container">
       <IconApp style="width: 120px" />
       <h1>Password Reset</h1>
@@ -33,13 +32,10 @@
         <p class="sub"><NuxtLink to="/login">Return to login</NuxtLink></p>
       </form>
     </div>
-    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import AppHeader from '../_components/AppHeader.vue';
-import AppFooter from '../_components/AppFooter.vue';
 const password = ref('');
 const confirmPassword = ref('');
 const showPassword = ref(false);

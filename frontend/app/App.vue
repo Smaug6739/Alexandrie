@@ -2,7 +2,9 @@
   <div id="app">
     <ModalManager />
     <ContextMenuManager />
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
     <Notification />
   </div>
 </template>

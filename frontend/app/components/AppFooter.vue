@@ -25,11 +25,9 @@
                 />
               </svg>
             </a>
-            <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+            <a href="mailto:contact@alexandrie-hub.fr" target="_blank" aria-label="Email">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                />
+                <path d="M12 12.713l-11.99-7.713v13.999h23.98v-13.999l-11.99 7.713zm0-2.427l10.99-7.086h-21.98l10.99 7.086z" />
               </svg>
             </a>
           </div>
@@ -50,9 +48,9 @@
           <div class="links-column">
             <h4>Resources</h4>
             <ul>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/wiki" target="_blank">Documentation</a></li>
+              <li><NuxtLink to="/reference/documentation" no-prefetch>Documentation</NuxtLink></li>
               <li><a href="https://github.com/Smaug6739/Alexandrie/wiki" target="_blank">API Reference</a></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/wiki/Syntax" target="_blank">Guides</a></li>
+              <li><NuxtLink to="/about">About</NuxtLink></li>
             </ul>
           </div>
 
@@ -69,7 +67,7 @@
           <div class="links-column">
             <h4>Legal</h4>
             <ul>
-              <li><a href="#">Privacy Policy</a></li>
+              <li><NuxtLink to="/reference/privacy">Privacy Policy</NuxtLink></li>
               <li><a href="#">Terms of Service</a></li>
               <li><a href="https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE" target="_blank">MIT License</a></li>
             </ul>

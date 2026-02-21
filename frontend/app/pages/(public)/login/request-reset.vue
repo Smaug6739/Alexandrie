@@ -1,27 +1,21 @@
 <template>
-  <div class="container">
-    <AppHeader />
-    <div class="body-container">
-      <IconApp style="width: 120px" />
-      <h1>Reset password</h1>
-      <form @submit.prevent="reset">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
-          <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
-        </div>
-        <button type="submit" class="btn">Request Reset</button>
-        <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-        <p class="issue">Having issue ? <NuxtLink to="mailto:contact@alexandrie-hub.fr">Contact us !</NuxtLink></p>
-      </form>
-    </div>
-    <AppFooter />
+  <div class="body-container">
+    <IconApp style="width: 120px" />
+    <h1>Reset password</h1>
+    <form @submit.prevent="reset">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
+        <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+      </div>
+      <button type="submit" class="btn">Request Reset</button>
+      <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
+      <p class="issue">Having issue ? <NuxtLink to="mailto:contact@alexandrie-hub.fr">Contact us !</NuxtLink></p>
+    </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import AppHeader from '../_components/AppHeader.vue';
-import AppFooter from '../_components/AppFooter.vue';
 const username = ref('');
 const errors = ref({
   username: '',
@@ -39,16 +33,6 @@ async function reset() {
 }
 </script>
 <style scoped lang="scss">
-.container {
-  display: flex;
-  width: 95%;
-  height: 100%;
-  margin: 0 auto;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: 1.5rem;
-}
-
 .body-container {
   display: flex;
   width: 100%;
@@ -63,7 +47,6 @@ h1 {
   font-size: 2.5em;
 }
 
-/* ===== Formulaire ===== */
 form {
   width: 100%;
 }
