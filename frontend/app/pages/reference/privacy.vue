@@ -1,11 +1,5 @@
 <template>
-	<div class="container">
-	    <AppHeader />
-
-  <article
-    class="markdown-preview modern-theme document-content"
-    style="font-size: 16px; font-family: Poppins; line-height: 1.5"
-  >
+  <article class="markdown-preview modern-theme document-content" style="font-size: 16px; font-family: Poppins; line-height: 1.5">
     <h1 id="privacy-policy---alexandrie" tabindex="-1">
       <a class="header-anchor" href="#privacy-policy---alexandrie" aria-hidden="true">#</a> Privacy Policy - Alexandrie
     </h1>
@@ -53,30 +47,17 @@
     <p>If you have questions about the application you can contact us by email: <a href="mailto:contact@alexandrie-hub.fr">contact@alexandrie-hub.fr</a></p>
     <p>Code source of the application is available here: <a href="https://github.com/Smaug6739/Alexandrie">https://github.com/Smaug6739/Alexandrie</a>.</p>
   </article>
-	
-	<AppFooter />
-	</div>
 </template>
 
-
 <script setup lang="ts">
-import AppFooter from './_components/AppFooter.vue';
-import AppHeader from './_components/AppHeader.vue';
-
+definePageMeta({
+  layout: 'public',
+});
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  width: 95%;
-  margin: 0 auto;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: 1.5rem;
-}
-
 article {
-	max-width: 1000px;
-	margin: 2rem auto 0 auto;
+  max-width: 1000px;
+  margin: 2rem auto 0 auto;
 }
 </style>
