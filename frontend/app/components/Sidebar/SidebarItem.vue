@@ -17,7 +17,7 @@
 
     <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--text-secondary)" />
 
-    <NuxtLink v-if="item.data.role === 2 && nodesStore.hasPermissions(item.data as Node, 2)" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
+    <NuxtLink v-if="item.data.role === 2 && canEdit" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" />
     </NuxtLink>
     <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?parent_id=${item.id}`" :prefetch="false" class="nav close">
@@ -33,7 +33,7 @@ import type { Node } from '~/stores';
 
 import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 
-import { navigationItems, type SidebarItem, getItemChildren } from './helpers';
+import { type SidebarItem, getItemChildren } from './helpers';
 
 const nodesStore = useNodesStore();
 const resourcesStore = useResourcesStore();
@@ -54,11 +54,14 @@ const customClass = computed(() => {
   return 'default-icon';
 });
 const iconsNormalized = preferencesStore.get('normalizeFileIcons');
+
 const icon = computed(() => {
   const children = getItemChildren(props.item);
   if (!iconsNormalized.value && props.item.icon === 'sidebar/file' && children?.some(child => child.data?.role != 4)) return 'file_parent';
   return props.item.icon || '';
 });
+
+const canEdit = computed(() => nodesStore.hasPermissions(props.item.data as Node, 2));
 
 const onClick = (m: MouseEvent) => {
   // if element does not have the "close" class, don't close the sidebar
@@ -77,7 +80,9 @@ function showContextMenu(event: MouseEvent) {
 
 /* Drag and drop handlers */
 
-const dragStart = (event: DragEvent) => event.dataTransfer!.setData('text/plain', props.item.id.toString());
+const dragStart = (event: DragEvent) => {
+  event.dataTransfer!.setData('text/plain', props.item.id.toString());
+};
 
 const dragOver = () => (isDragOver.value = true);
 
@@ -101,7 +106,7 @@ const drop = async (event: DragEvent) => {
   // Handle node drop
   const draggedItemId = event.dataTransfer!.getData('text/plain');
 
-  const draggedItem = nodesStore.getById(draggedItemId) || navigationItems().find(item => item.id === draggedItemId)?.data;
+  const draggedItem = nodesStore.getById(draggedItemId);
 
   if (!draggedItem) return;
 
