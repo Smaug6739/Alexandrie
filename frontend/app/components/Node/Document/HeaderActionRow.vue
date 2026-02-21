@@ -1,42 +1,50 @@
 <template>
   <span class="actions-row">
-    <NuxtLink v-if="doc.accessibility == 3 && !isPublic" class="btn-icon" :to="`/doc/${doc.id}`" :prefetch="false" target="_blank">
+    <NuxtLink
+      v-if="doc.accessibility == 3 && !isPublic"
+      class="btn-icon"
+      :aria-label="t('nodes.actions.publicLink')"
+      :to="`/doc/${doc.id}`"
+      :prefetch="false"
+      target="_blank"
+    >
       <Icon name="link" display="lg" />
       <p class="hint-tooltip">{{ t('nodes.actions.publicLink') }}</p>
     </NuxtLink>
     <NuxtLink
       v-if="nodeStore.hasPermissions(doc, 2)"
       class="btn-icon"
+      :aria-label="t('common.actions.edit')"
       :to="isPublic ? `/doc/${doc.id}/edit` : `/dashboard/docs/edit/${doc.id}`"
       :prefetch="false"
     >
       <Icon name="edit" display="lg" />
       <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
     </NuxtLink>
-    <NuxtLink class="btn-icon" @click="exportMarkdown">
+    <button class="btn-icon" :aria-label="t('nodes.actions.exportAsMarkdown')" @click="exportMarkdown">
       <Icon name="markdown" display="lg" />
       <p class="hint-tooltip">{{ t('nodes.actions.exportAsMarkdown') }}</p>
-    </NuxtLink>
-    <NuxtLink class="btn-icon" @click="print">
+    </button>
+    <button class="btn-icon" :aria-label="t('common.actions.print')" @click="print">
       <Icon name="print" display="lg" />
       <p class="hint-tooltip">{{ t('common.actions.print') }}</p>
-    </NuxtLink>
-    <NuxtLink v-if="doc.shared" class="btn-icon" @click="openRemoveShareModal">
+    </button>
+    <button v-if="doc.shared" class="btn-icon" :aria-label="t('nodes.actions.removeFromShared')" @click="openRemoveShareModal">
       <Icon name="group_off" display="lg" />
       <p class="hint-tooltip">{{ t('nodes.actions.removeFromShared') }}</p>
-    </NuxtLink>
-    <NuxtLink v-if="nodeStore.hasPermissions(doc, 2)" class="btn-icon" @click="openEditModal">
+    </button>
+    <button v-if="nodeStore.hasPermissions(doc, 2)" class="btn-icon" :aria-label="t('nodes.actions.editMeta')" @click="openEditModal">
       <Icon name="settings" display="lg" />
       <p class="hint-tooltip">{{ t('nodes.actions.editMeta') }}</p>
-    </NuxtLink>
-    <NuxtLink v-if="nodeStore.hasPermissions(doc, 4)" class="btn-icon" @click="openPermissionsModal">
+    </button>
+    <button v-if="nodeStore.hasPermissions(doc, 4)" class="btn-icon" :aria-label="t('nodes.actions.managePermissions')" @click="openPermissionsModal">
       <Icon name="manage_access" display="lg" />
       <p class="hint-tooltip">{{ t('nodes.actions.managePermissions') }}</p>
-    </NuxtLink>
-    <NuxtLink v-if="nodeStore.hasPermissions(doc, 3)" class="btn-icon" @click="openDeleteModal">
+    </button>
+    <button v-if="nodeStore.hasPermissions(doc, 3)" class="btn-icon" :aria-label="t('common.actions.delete')" @click="openDeleteModal">
       <Icon name="delete" display="lg" />
       <p class="hint-tooltip">{{ t('common.actions.delete') }}</p>
-    </NuxtLink>
+    </button>
   </span>
 </template>
 
@@ -79,7 +87,7 @@ function exportMarkdown() {
 </script>
 
 <style lang="scss" scoped>
-a {
+.btn-icon {
   position: relative;
 
   &:hover .hint-tooltip {
