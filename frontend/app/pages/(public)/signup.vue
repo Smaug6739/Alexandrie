@@ -1,75 +1,66 @@
 <template>
-  <div class="container">
-    <AppHeader />
-    <div class="body-container">
-      <IconApp style="width: 120px" />
-      <h1>Account creation</h1>
-      <form @submit.prevent="register">
-        <div class="form-group">
-          <label for="username">Username <span class="required">*</span></label>
-          <input id="username" v-model="username" type="text" :class="{ 'is-invalid': errors.username }" />
-          <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+  <div class="body-container">
+    <IconApp style="width: 120px" />
+    <h1>Account creation</h1>
+    <form @submit.prevent="register">
+      <div class="form-group">
+        <label for="username">Username <span class="required">*</span></label>
+        <input id="username" v-model="username" type="text" :class="{ 'is-invalid': errors.username }" />
+        <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+      </div>
+      <div class="form-group">
+        <label for="email">Email </label>
+        <input id="email" v-model="email" type="email" />
+        <small>Email is only used for account recovery. It will not be shared publicly.</small>
+      </div>
+      <div class="form-group">
+        <label for="password">Password <span class="required">*</span></label>
+        <div class="password-input">
+          <input
+            id="password"
+            :key="`password-${showPassword}`"
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            :class="{ 'is-invalid': errors.password }"
+          />
+          <button type="button" class="password-toggle" @click="togglePassword">
+            <div class="eye-icon" :class="{ show: showPassword }">
+              <Icon v-if="showPassword" name="eye" />
+              <Icon v-else name="eye_off" />
+            </div>
+          </button>
         </div>
-        <div class="form-group">
-          <label for="email">Email </label>
-          <input id="email" v-model="email" type="email" />
-          <small>Email is only used for account recovery. It will not be shared publicly.</small>
+        <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+        <div class="password-input">
+          <input
+            id="confirmPassword"
+            :key="`confirmPassword-${showConfirmPassword}`"
+            v-model="confirmPassword"
+            :type="showConfirmPassword ? 'text' : 'password'"
+            :class="{ 'is-invalid': errors.confirmPassword }"
+          />
+          <button type="button" class="password-toggle" @click="toggleConfirmPassword">
+            <div class="eye-icon" :class="{ show: showConfirmPassword }">
+              <Icon v-if="showConfirmPassword" name="eye" />
+              <Icon v-else name="eye_off" />
+            </div>
+          </button>
         </div>
-        <div class="form-group">
-          <label for="password">Password <span class="required">*</span></label>
-          <div class="password-input">
-            <input
-              id="password"
-              :key="`password-${showPassword}`"
-              v-model="password"
-              :type="showPassword ? 'text' : 'password'"
-              :class="{ 'is-invalid': errors.password }"
-            />
-            <button type="button" class="password-toggle" @click="togglePassword">
-              <div class="eye-icon" :class="{ show: showPassword }">
-                <Icon v-if="showPassword" name="eye" />
-                <Icon v-else name="eye_off" />
-              </div>
-            </button>
-          </div>
-          <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
-        </div>
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
-          <div class="password-input">
-            <input
-              id="confirmPassword"
-              :key="`confirmPassword-${showConfirmPassword}`"
-              v-model="confirmPassword"
-              :type="showConfirmPassword ? 'text' : 'password'"
-              :class="{ 'is-invalid': errors.confirmPassword }"
-            />
-            <button type="button" class="password-toggle" @click="toggleConfirmPassword">
-              <div class="eye-icon" :class="{ show: showConfirmPassword }">
-                <Icon v-if="showConfirmPassword" name="eye" />
-                <Icon v-else name="eye_off" />
-              </div>
-            </button>
-          </div>
-          <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
-        </div>
-        <NuxtLink to="/login" class="login-link">Already have an account? Log in</NuxtLink>
-        <button type="submit" class="btn">Sign Up</button>
-        <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-      </form>
-    </div>
-    <AppFooter />
+        <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
+      </div>
+      <NuxtLink to="/login" class="login-link">Already have an account? Log in</NuxtLink>
+      <button type="submit" class="btn">Sign Up</button>
+      <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
+    </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import AppHeader from './_components/AppHeader.vue';
-import AppFooter from './_components/AppFooter.vue';
-
-const router = useRouter();
-const userStore = useUserStore();
-
 definePageMeta({
+  layout: 'public',
   middleware: [
     function redirectSignupDisabled() {
       const config = useRuntimeConfig();
@@ -79,6 +70,9 @@ definePageMeta({
     },
   ],
 });
+
+const router = useRouter();
+const userStore = useUserStore();
 
 // Form fields
 const username = ref('');
@@ -122,15 +116,6 @@ async function createAccount(username: string, email: string, password: string) 
 </script>
 
 <style scoped lang="scss">
-.container {
-  display: flex;
-  width: 95%;
-  margin: 0 auto;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: 1.5rem;
-}
-
 .body-container {
   display: flex;
   width: 100%;
@@ -145,29 +130,17 @@ h1 {
   font-size: 2.5em;
 }
 
-/* ===== Form ===== */
 form {
   width: 100%;
 }
 
 .form-group {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 6px;
   margin-bottom: 0.8rem;
-
-  label {
-    font-size: 0.95rem;
-    font-weight: 600;
-  }
 }
 
 input {
-  width: 100%;
   padding: 0.6rem;
   border: 2px solid var(--border);
-  border-radius: var(--radius-md);
   font-size: 1rem;
   background: var(--surface-base);
   transition:
@@ -177,7 +150,6 @@ input {
   &:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgb(var(--primary-rgb), 0.1);
-    outline: none;
   }
 }
 
@@ -236,15 +208,13 @@ input {
   }
 }
 
-/* ===== Links ===== */
 .login-link {
   display: block;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   font-weight: 500;
   color: var(--primary);
   text-align: center;
   transition: color $transition-fast ease;
-  text-decoration: none;
 
   &:hover {
     color: var(--primary-dark);
@@ -252,7 +222,6 @@ input {
   }
 }
 
-/* ===== Buttons ===== */
 .btn {
   width: 100%;
   padding: 0.9rem;
