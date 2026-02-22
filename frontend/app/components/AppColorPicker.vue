@@ -46,17 +46,17 @@
 <script setup lang="ts">
 import { appColors } from '~/helpers/constants';
 
-const { getAppAccent } = useAppColors();
-
 const props = defineProps<{ modelValue?: number; nullable?: boolean }>();
 const emit = defineEmits<{ (e: 'update:modelValue', color: number): void }>();
 
+const { getAppAccent } = useAppColors();
+
 const modelValue = ref<number | undefined>(props.modelValue ?? -1);
 
-function selectColor(color: number) {
+const selectColor = (color: number) => {
   modelValue.value = color;
   emit('update:modelValue', color);
-}
+};
 </script>
 
 <style scoped>
@@ -79,7 +79,11 @@ function selectColor(color: number) {
   outline-offset: 2px;
 }
 
+.hint-tooltip {
+  margin-top: 10px;
+}
 .color-option:hover .hint-tooltip {
-  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 </style>
