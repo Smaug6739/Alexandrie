@@ -74,6 +74,7 @@
 
 	.custom-block {
 		display: flex;
+		flex-wrap: wrap;
 		margin: 2em 0;
 		padding: 0;
 		border: none;
@@ -169,6 +170,7 @@
 
 	.custom-block {
 		display: flex;
+		flex-wrap: wrap;
 		margin: 2em 0;
 		padding: 4px;
 		border: none;
