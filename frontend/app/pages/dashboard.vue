@@ -6,9 +6,7 @@
     <Sidebar />
     <MediumView>
       <Navbar />
-      <div class="content">
-        <NuxtPage />
-      </div>
+      <NuxtPage />
     </MediumView>
   </div>
 </template>
@@ -38,10 +36,5 @@ onBeforeUnmount(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.content {
-  flex: 1;
-  min-height: 0;
 }
 </style>
