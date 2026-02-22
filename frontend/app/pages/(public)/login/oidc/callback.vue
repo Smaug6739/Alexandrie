@@ -1,42 +1,39 @@
 <template>
-  <div class="container">
-    <AppHeader />
-    <div class="body-container">
-      <IconApp style="width: 120px" />
+  <div class="body-container">
+    <IconApp style="width: 120px" />
 
-      <!-- Loading state -->
-      <div v-if="isProcessing" class="status-container">
-        <LoaderSpinner />
-        <h1>Authenticating...</h1>
-        <p>Please wait while we complete your sign-in.</p>
-      </div>
+    <!-- Loading state -->
+    <div v-if="isProcessing" class="status-container">
+      <LoaderSpinner />
+      <h1>Authenticating...</h1>
+      <p>Please wait while we complete your sign-in.</p>
+    </div>
 
-      <!-- Success state -->
-      <div v-else-if="isSuccess" class="status-container success">
-        <h1>{{ isLinkFlow ? 'Provider Linked!' : 'Welcome!' }}</h1>
-        <p v-if="isLinkFlow">Your {{ providerName }} account has been linked successfully.</p>
-        <p v-else-if="isNewLink">Your account has been created and linked successfully.</p>
-        <p v-else>You have been signed in successfully.</p>
-        <p class="redirect-notice">{{ isLinkFlow ? 'Redirecting to settings...' : 'Redirecting to dashboard...' }}</p>
-      </div>
+    <!-- Success state -->
+    <div v-else-if="isSuccess" class="status-container success">
+      <h1>{{ isLinkFlow ? 'Provider Linked!' : 'Welcome!' }}</h1>
+      <p v-if="isLinkFlow">Your {{ providerName }} account has been linked successfully.</p>
+      <p v-else-if="isNewLink">Your account has been created and linked successfully.</p>
+      <p v-else>You have been signed in successfully.</p>
+      <p class="redirect-notice">{{ isLinkFlow ? 'Redirecting to settings...' : 'Redirecting to dashboard...' }}</p>
+    </div>
 
-      <!-- Error state -->
-      <div v-else-if="errorMessage" class="status-container error">
-        <h1>Authentication Failed</h1>
-        <p class="error-message">{{ formatError(errorMessage) }}</p>
-        <div class="actions-row">
-          <NuxtLink to="/login"><AppButton large type="primary">Try Again</AppButton></NuxtLink>
-          <NuxtLink to="/signup"><AppButton large type="secondary">Create Account</AppButton></NuxtLink>
-        </div>
+    <!-- Error state -->
+    <div v-else-if="errorMessage" class="status-container error">
+      <h1>Authentication Failed</h1>
+      <p class="error-message">{{ formatError(errorMessage) }}</p>
+      <div class="actions-row">
+        <NuxtLink to="/login"><AppButton large type="primary">Try Again</AppButton></NuxtLink>
+        <NuxtLink to="/signup"><AppButton large type="secondary">Create Account</AppButton></NuxtLink>
       </div>
     </div>
-    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import AppHeader from '../../_components/AppHeader.vue';
-import AppFooter from '../../_components/AppFooter.vue';
+definePageMeta({
+  layout: 'public',
+});
 
 const router = useRouter();
 const { handleCallback } = useOIDC();
@@ -86,15 +83,6 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
-.container {
-  display: flex;
-  width: 95%;
-  margin: 0 auto;
-  flex-direction: column;
-  justify-content: space-between;
-  padding-top: 1.2rem;
-}
-
 h1 {
   font-size: 2em;
 }
