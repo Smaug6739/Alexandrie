@@ -63,12 +63,7 @@
       />
     </div>
 
-    <NoContent
-      v-else-if="!nodesStore.isFetching"
-      style="width: 100%; height: 100%"
-      :title="t('nodes.container.noDocuments')"
-      :description="t('nodes.container.noDocumentsDescription')"
-    >
+    <NoContent v-else-if="!nodesStore.isFetching" :title="t('nodes.container.noDocuments')" :description="t('nodes.container.noDocumentsDescription')">
       <NuxtLink to="/dashboard/docs/new">
         <AppButton type="link">{{ t('nodes.container.createNewDocument') }}</AppButton>
       </NuxtLink>

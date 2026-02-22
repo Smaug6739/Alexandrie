@@ -28,18 +28,11 @@
 </template>
 
 <script setup lang="ts">
+const { isMobile } = useDevice();
 const contextMenu = useContextMenu();
 const menu = contextMenu.menu;
 
-// Mobile detection
-const mobileBreakpoint = 768;
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
-const isMobile = computed(() => windowWidth.value < mobileBreakpoint);
-
-function updateWindowWidth() {
-  windowWidth.value = window.innerWidth;
-}
-
 // Drag/Swipe handling for mobile sheet
 const isDragging = ref(false);
 const dragStartY = ref(0);
@@ -56,12 +49,12 @@ const sheetStyle = computed(() => {
   return {};
 });
 
-function getClientY(e: TouchEvent | MouseEvent): number {
-  if ('touches' in e) {
-    return e.touches[0]?.clientY ?? 0;
-  }
+const updateWindowWidth = () => (windowWidth.value = window.innerWidth);
+
+const getClientY = (e: TouchEvent | MouseEvent): number => {
+  if ('touches' in e) return e.touches[0]?.clientY ?? 0;
   return e.clientY;
-}
+};
 
 function onDragStart(e: TouchEvent | MouseEvent) {
   isDragging.value = true;
@@ -69,7 +62,6 @@ function onDragStart(e: TouchEvent | MouseEvent) {
   dragCurrentY.value = dragStartY.value;
 
   if (!('touches' in e)) {
-    // Mouse events need global listeners
     window.addEventListener('mousemove', onDragMove);
     window.addEventListener('mouseup', onDragEnd);
   }
@@ -80,8 +72,6 @@ function onDragMove(e: TouchEvent | MouseEvent) {
 
   dragCurrentY.value = getClientY(e);
   const deltaY = dragCurrentY.value - dragStartY.value;
-
-  // Only allow dragging down (positive delta)
   sheetTranslateY.value = Math.max(0, deltaY);
 }
 
@@ -97,15 +87,11 @@ function onDragEnd() {
   const threshold = 100; // pixels to trigger close
 
   if (sheetTranslateY.value > threshold) {
-    // Close the menu
     contextMenu.close();
   }
-
-  // Reset translate
   sheetTranslateY.value = 0;
 }
 
-// Reset drag state when menu closes
 watch(
   () => menu.value,
   newMenu => {

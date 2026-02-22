@@ -56,7 +56,7 @@ import type { Node, SearchOptions } from '~/stores';
 const props = defineProps<{ nodes: Node[] }>();
 const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
 
-const defaultOptions: SearchOptions = {
+const DEFAULT_OPTIONS: SearchOptions = {
   query: '',
   sortType: 'descending',
   sortBy: 'created',
@@ -65,7 +65,8 @@ const defaultOptions: SearchOptions = {
 
 const { t } = useI18nT();
 const store = useNodesStore();
-const options = ref({ ...defaultOptions });
+
+const options = ref({ ...DEFAULT_OPTIONS });
 const opened = ref<boolean>(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 const root = ref<HTMLDivElement | null>(null);
@@ -90,8 +91,11 @@ const toggle = () => {
   opened.value = !opened.value;
   if (opened.value) focusInput();
 };
+
 const close = () => (opened.value = false);
-const reset = () => (options.value = { ...defaultOptions });
+
+const reset = () => (options.value = { ...DEFAULT_OPTIONS });
+
 const focusInput = () => nextTick(() => inputRef.value?.focus());
 
 watchEffect(() => {

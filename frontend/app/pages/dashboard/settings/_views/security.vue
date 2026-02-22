@@ -237,14 +237,6 @@ p {
   gap: 1rem;
   margin-bottom: 1.5rem;
 
-  svg {
-    width: 24px;
-    height: 24px;
-    color: var(--orange);
-    flex-shrink: 0;
-    margin-top: 0.15rem;
-  }
-
   strong {
     display: block;
     color: var(--orange-dark);
@@ -308,11 +300,6 @@ p {
   height: 24px;
   align-items: center;
   justify-content: center;
-
-  :deep(svg) {
-    width: 100%;
-    height: 100%;
-  }
 }
 
 .oidc-name {

@@ -58,15 +58,15 @@
 </template>
 
 <script setup lang="ts">
+import { navigationItems } from './helpers';
+import { filterTreeByLabel } from '~/helpers/TreeBuilder';
+import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
+import SidebarSkeleton from './SidebarSkeleton.vue';
+import Dock from './Dock.vue';
 import CollapseItem from './CollapseItem.vue';
 import SidebarWorkspaces from './SidebarWorkspaces.vue';
 import Resizable from './Resizable.vue';
 import IconClose from './IconClose.vue';
-import SidebarSkeleton from './SidebarSkeleton.vue';
-import { navigationItems } from './helpers';
-import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
-import Dock from './Dock.vue';
-import { filterTreeByLabel } from '~/helpers/TreeBuilder';
 
 const nodesStore = useNodesStore();
 const preferences = usePreferencesStore();
@@ -83,22 +83,21 @@ const compactMode = preferences.get('compactMode');
 const sidebarItemsPrefs = preferences.get('sidebarItems');
 
 const filter = ref<string>('');
+
 const workspaces = computed(() => [...nodesStore.getAll.filter(c => c.role === 1).map(c => ({ text: c.name, value: c.id, meta: c }))]);
 const isLoading = computed(() => nodesStore.isFetching);
-
-const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock').value);
-
 const tree = computed(() => {
   if (!filter.value.trim()) return filtered.value;
   return filterTreeByLabel(filtered.value, filter.value);
 });
 
+const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock').value);
+
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
 };
-const newCategory = () => {
-  useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 2 } }));
-};
+const newCategory = () => useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 2 } }));
+
 const onClick = () => {
   if (isMobile.value) isOpened.value = false;
 };

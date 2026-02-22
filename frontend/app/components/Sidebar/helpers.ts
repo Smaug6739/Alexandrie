@@ -1,7 +1,7 @@
 import type { TreeItem } from '~/helpers/TreeBuilder';
 import type { Node } from '~/stores';
 
-import SettingsModal from '~/pages/dashboard/settings/modal.vue';
+import SettingsModal from '~/pages/dashboard/settings/index.vue';
 
 export interface NavigationItem {
   data: {
@@ -108,7 +108,7 @@ export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems'])
     label: 'components.sidebar.nav.settings',
     onClick: () => {
       if (isMobile.value) useRouter().push('/dashboard/settings');
-      else useModal().add(new Modal(shallowRef(SettingsModal), { noPadding: true, props: {}, size: 'large' }));
+      else useModal().add(new Modal(shallowRef(SettingsModal), { noPadding: true, props: { isModal: true }, size: 'large' }));
     },
     parent_id: '',
     route: '',

@@ -6,11 +6,11 @@
       <Icon name="expand" display="sm" />
     </div>
     <ul v-if="isOpen" class="dropdown-options">
-      <li :class="{ selected: all_workspaces.value === workspaceId }" @click="selectOption(all_workspaces)">
-        <SidebarWorkspace :option="all_workspaces" />
+      <li :class="{ selected: allWorkspaces.value === workspaceId }" @click="selectOption(allWorkspaces)">
+        <SidebarWorkspace :option="allWorkspaces" />
       </li>
-      <li :class="{ selected: shared_workspaces.value === workspaceId }" @click="selectOption(shared_workspaces)">
-        <SidebarWorkspace :option="shared_workspaces" />
+      <li :class="{ selected: sharedWorkspaces.value === workspaceId }" @click="selectOption(sharedWorkspaces)">
+        <SidebarWorkspace :option="sharedWorkspaces" />
       </li>
       <hr />
       <span class="workspaces-label">{{ t('components.sidebar.workspaces') }}</span>
@@ -19,37 +19,44 @@
       </li>
       <div v-if="!options.length" class="placeholder">{{ t('components.sidebar.noWorkspaces') }}</div>
       <hr />
-      <div class="new-workspace" @click="create_workspace"><Icon name="plus" fill="var(--text-secondary)" /> {{ t('components.sidebar.newWorkspace') }}</div>
-      <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace"
-        ><Icon name="settings" fill="var(--text-secondary)" /> {{ t('components.sidebar.editWorkspace') }}</NuxtLink
-      >
+      <div class="new-workspace" @click="createWorkspace"><Icon name="plus" fill="var(--text-secondary)" /> {{ t('components.sidebar.newWorkspace') }}</div>
+      <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace">
+        <Icon name="settings" fill="var(--text-secondary)" /> {{ t('components.sidebar.editWorkspace') }}
+      </NuxtLink>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
 import SidebarWorkspace from './SidebarWorkspace.vue';
 import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
-
 import type { Workspace } from './helpers';
+
+const props = defineProps<{ options: Workspace[] }>();
 
 const { t } = useI18nT();
 const { workspaceId } = useSidebar();
-const props = defineProps<{ options: Workspace[] }>();
-const all_workspaces = computed(() => ({ text: t('components.sidebar.allWorkspaces'), value: undefined, meta: { color: -1 } }));
-const shared_workspaces = computed(() => ({ text: t('components.sidebar.sharedWithMe'), value: 'shared', meta: { color: -1, icon: 'users' } }));
+
+const isOpen = ref(false);
+
+const allWorkspaces = computed(() => ({ text: t('components.sidebar.allWorkspaces'), value: undefined, meta: { color: -1 } }));
+const sharedWorkspaces = computed(() => ({ text: t('components.sidebar.sharedWithMe'), value: 'shared', meta: { color: -1, icon: 'users' } }));
+const selectedOption = computed(() => [...props.options, sharedWorkspaces.value].find(option => option.value == workspaceId.value) || allWorkspaces.value);
+
 watch(
   () => props.options,
   opts => {
     const storage_item = localStorage.getItem('filterWorkspace');
-    if (storage_item && [...opts, shared_workspaces.value].find(option => option.value == storage_item)) {
+    if (storage_item && [...opts, sharedWorkspaces.value].find(option => option.value == storage_item)) {
       workspaceId.value = storage_item;
     }
   },
-  { immediate: true }, // check also during mounting
+  { immediate: true },
 );
-const isOpen = ref(false);
-const selectedOption = computed(() => [...props.options, shared_workspaces.value].find(option => option.value == workspaceId.value) || all_workspaces.value);
+
+const createWorkspace = () => useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 1 } }));
+
 const toggleDropdown = () => (isOpen.value = !isOpen.value);
+
 const closeDropdown = () => (isOpen.value = false);
 
 const selectOption = (option: Workspace) => {
@@ -60,9 +67,9 @@ const selectOption = (option: Workspace) => {
 const handleClickOutside = (event: MouseEvent) => {
   if (!(event.target as HTMLElement)!.closest('.dropdown-container')) closeDropdown();
 };
+
 onMounted(() => document.addEventListener('click', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
-const create_workspace = (_: MouseEvent) => useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 1 } }));
 </script>
 
 <style scoped lang="scss">

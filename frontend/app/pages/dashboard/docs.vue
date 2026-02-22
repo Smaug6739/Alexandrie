@@ -1,7 +1,7 @@
 <template>
-	<NuxtPage />
+  <NuxtPage />
 </template>
 
 <script setup lang="ts">
-definePageMeta({ breadcrumb: {c:2, i18n: 'nodes.types.document'} });
+definePageMeta({ breadcrumb: { i18n: 'nodes.types.document' } });
 </script>

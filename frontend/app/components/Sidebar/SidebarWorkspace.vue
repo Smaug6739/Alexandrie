@@ -1,5 +1,5 @@
 <template>
-  <div class="workspace-item">
+  <div>
     <span class="workspace-name">
       <Icon :name="option.meta?.icon || 'workspace'" size="22" :class="[getAppAccent(option.meta?.color), 'icon']" />
       {{ option.text }}
@@ -19,7 +19,7 @@ const { getAppAccent } = useAppColors();
 </script>
 
 <style scoped lang="scss">
-.workspace-item {
+div {
   display: flex;
   font-weight: 500;
   align-items: center;

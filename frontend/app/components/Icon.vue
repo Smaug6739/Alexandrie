@@ -14,12 +14,11 @@ const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 
   size: undefined,
 });
 
+const isUnicode = (str: string) => Array.from(str).some(char => char.charCodeAt(0) > 255);
+
 const isSpriteIcon = computed(() => {
   return typeof props.name === 'string' && props.name.length < 50 && !isUnicode(props.name);
 });
-const isUnicode = (str: string) => {
-  return Array.from(str).some(char => char.charCodeAt(0) > 255);
-};
 </script>
 
 <style scoped lang="scss">

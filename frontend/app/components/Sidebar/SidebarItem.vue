@@ -10,13 +10,15 @@
     @dragleave="dragLeave"
     @contextmenu.prevent="showContextMenu"
   >
+    <!-- Left icon -->
     <Icon :fill="item.data.role == 3 ? 'var(--pink) !important' : undefined" :name="icon" :class="customClass" />&nbsp;
 
+    <!-- Label -->
     <NuxtLink v-if="item.onClick" class="close content" @click="item.onClick">{{ item.data.role == -1 ? t(item.label) : item.label }}</NuxtLink>
     <NuxtLink v-else :to="item.route" class="close content">{{ item.data.role == -1 ? t(item.label) : item.label }}</NuxtLink>
 
+    <!-- Right icons / actions  -->
     <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--text-secondary)" />
-
     <NuxtLink v-if="item.data.role === 2 && canEdit" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" />
     </NuxtLink>
@@ -24,6 +26,8 @@
       <Icon name="plus" />
     </NuxtLink>
     <Icon v-if="item.data.order === -1" name="pin" fill="var(--text-secondary)" />
+
+    <!-- Show collapse icon for parents -->
     <slot />
   </span>
 </template>

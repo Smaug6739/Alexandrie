@@ -3,7 +3,7 @@
     <!-- Step 1: File Selection -->
     <div v-if="step === 'select'">
       <header>
-        <h1 style="font-size: 20px">{{ t('import.meta.title') }} <tag class="yellow">Beta</tag></h1>
+        <h1 style="font-size: 20px">{{ t('import.meta.title') }} <tag class="orange">Beta</tag></h1>
       </header>
       <p>
         {{ t('import.meta.description') }}

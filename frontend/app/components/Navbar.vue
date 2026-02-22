@@ -28,9 +28,10 @@
 const { t } = useI18nT();
 const { isOpened, toggleSidebar } = useSidebar();
 const preferences = usePreferencesStore();
+const commandCenter = useCommandCenter();
 
 const navbarItems = preferences.get('navbarItems');
-const openCommandCenter = () => useCommandCenter().open();
+const openCommandCenter = () => commandCenter.open();
 </script>
 
 <style lang="scss" scoped>

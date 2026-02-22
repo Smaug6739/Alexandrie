@@ -38,6 +38,7 @@ function resize(event: MouseEvent) {
   else if (newWidth > maxWidth) newWidth = maxWidth;
   paneWidth.value = newWidth;
 }
+
 function stopResize() {
   isResizing.value = false;
   document.removeEventListener('mousemove', resize);

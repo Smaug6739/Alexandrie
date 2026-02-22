@@ -79,7 +79,7 @@ const handleError = computed(() => {
   margin-top: 20px;
 }
 
-.error-illustration svg {
+svg {
   width: 100%;
   max-width: 300px;
   height: auto;
