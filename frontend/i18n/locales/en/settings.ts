@@ -33,7 +33,6 @@ export default {
     enableCompactModeDesc: 'Reduce sidebar item size to show more content.',
     enableDarkMode: 'Enable dark mode',
     general: 'General',
-    hideResources: 'Hide resources',
     interfaceStyle: 'Interface style',
     interfaceStyleDesc: 'Glassmorphism adds transparent surfaces with blur for a modern glass look.',
     navbar: 'Navbar',

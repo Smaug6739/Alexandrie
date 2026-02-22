@@ -34,7 +34,6 @@ export default {
     enableCompactModeDesc: 'Réduire la taille des éléments de la barre latérale pour afficher plus de contenu.',
     enableDarkMode: 'Activer le mode sombre',
     general: 'Général',
-    hideResources: 'Masquer les ressources',
     interfaceStyle: "Style d'interface",
     interfaceStyleDesc: 'Le glassmorphisme ajoute des surfaces transparentes avec des effets de flou pour un look moderne en verre.',
     navbar: 'Barre de navigation',

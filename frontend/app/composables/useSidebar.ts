@@ -24,6 +24,7 @@ export function useSidebar() {
     if (!preferences.get('displayUncategorizedResources').value) {
       return items.filter(item => item.data.role !== 4);
     }
+
     return items;
   });
 

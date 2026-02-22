@@ -91,7 +91,6 @@ const options = computed(
             type: 'toggle' as const,
             key: 'displayUncategorizedResources' as const,
           },
-          { label: t('settings.appearance.hideResources'), type: 'toggle' as const, key: 'hideSidebarResources' as const },
           {
             label: t('settings.appearance.showItemsInSidebar'),
             type: 'groupCheckbox' as const,
