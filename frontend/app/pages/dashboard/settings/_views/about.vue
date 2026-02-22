@@ -18,18 +18,19 @@
       }}</NuxtLink
       >.
     </p>
-    <h3>{{ t('settings.about.changelog') }} v8.6.0</h3>
+    <h3>{{ t('settings.about.changelog') }} v8.7.0</h3>
     <ul>
-      <li>New settings panel with improved UI and functionality</li>
-      <li>Added support for custom themes and appearance settings</li>
-      <li>Support notes sharing with the PWA</li>
-      <li>Improved performance and stability across the application</li>
-      <li>Fixed various bugs and issues reported by users</li>
+      <li>Support french interface 🎉</li>
+      <li>Save preferences and snippets in database 🎉</li>
+      <li>Improve editor with new plugins and colorization</li>
+      <li>Improve uploads management across the app</li>
+      <li>Add text layer support for PDF viewer</li>
+      <li>Fix various bugs, improve stability and accessibility</li>
     </ul>
     <p style="display: flex; gap: 5px">
       {{ t('settings.about.seeFullChangelog') }}
       <span style="display: flex; align-items: center">
-        <NuxtLink to="https://github.com/Smaug6739/Alexandrie/releases/tag/v8.6.0" target="_blank" style="font-weight: bold; color: var(--primary)"
+        <NuxtLink to="https://github.com/Smaug6739/Alexandrie/releases/tag/v8.7.0" target="_blank" style="font-weight: bold; color: var(--primary)"
           >GitHub</NuxtLink
         >
         <Icon name="new_tab" display="sm" /></span
