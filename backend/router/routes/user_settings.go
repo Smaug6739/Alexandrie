@@ -10,9 +10,9 @@ import (
 )
 
 func UserSettings(app *app.App, router *gin.RouterGroup) {
-	grp := router.Group("/user/settings")
+	grp := router.Group("/user")
 	ctrl := controllers.NewUserSettingsController(app)
 
-	grp.GET("", middlewares.Auth(), utils.WP(ctrl.GetSettings))
-	grp.PUT("", middlewares.Auth(), utils.WP(ctrl.SaveSettings))
+	grp.GET("/settings", middlewares.Auth(), utils.WP(ctrl.GetSettings))
+	grp.PUT("/settings", middlewares.Auth(), utils.WP(ctrl.SaveSettings))
 }
