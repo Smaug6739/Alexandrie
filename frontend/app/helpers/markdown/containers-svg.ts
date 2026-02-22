@@ -10,7 +10,7 @@ export const containerSvg = (md: MarkdownIt) => {
     { name: 'definition', color: 'red', icon: svg_info },
     { name: 'property', color: 'blue', icon: svg_info },
     { name: 'theorem', color: 'teal', icon: svg_info },
-    { name: 'warning', color: 'yellow', icon: svg_warning },
+    { name: 'warning', color: 'orange', icon: svg_warning },
     { name: 'info-red', color: 'red', icon: svg_info },
     { name: 'info-blue', color: 'blue', icon: svg_info },
     { name: 'info-teal', color: 'teal', icon: svg_info },
