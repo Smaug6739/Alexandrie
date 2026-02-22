@@ -47,13 +47,6 @@
       </p>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-bash">docker compose up
 </code></pre>
       </div>
@@ -77,13 +70,6 @@
       <h3 id="1.-public-urls-%26-global-access">1. Public URLs &amp; Global Access</h3>
 
       <div class="code-block-wrapper">
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">FRONTEND_URL=http://localhost:8200
 API_URL=http://localhost:8201
 CDN_URL=http://localhost:9005
@@ -107,13 +93,6 @@ CDN_ENDPOINT=/alexandrie/
       <h3 id="2.-application-feature-flags">2. Application Feature Flags</h3>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">CONFIG_DISABLE_LANDING=false
 CONFIG_DISABLE_SIGNUP=false
 CONFIG_DISABLE_NATIVE_LOGIN=false
@@ -137,13 +116,6 @@ CONFIG_DISABLE_NATIVE_LOGIN=false
       <h3 id="3.-backend-api-%E2%80%94-runtime-%26-security">3. Backend API — Runtime &amp; Security</h3>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">BACKEND_EXTERNAL_PORT=8201
 COOKIE_DOMAIN=localhost:8200
 ALLOW_UNSECURE=true
@@ -177,13 +149,6 @@ JWT_SECRET=your-secure-jwt-secret-key-change-this-in-production
       <h3 id="4.-database-%E2%80%94-mysql">4. Database — MySQL</h3>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">MYSQL_EXTERNAL_PORT=3307
 MYSQL_DATABASE=alexandrie
 MYSQL_USER=alexandrie
@@ -207,13 +172,6 @@ MYSQL_ROOT_PASSWORD=rootpassword
       </h3>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">RUSTFS_EXTERNAL_PORT=9005
 
 RUSTFS_ACCESS_KEY=alexandrie-key
@@ -236,13 +194,6 @@ MINIO_BUCKET=alexandrie
       <h3 id="6.-email-%E2%80%94-smtp-(optional)">6. Email — SMTP (optional)</h3>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">SMTP_HOST=
 SMTP_MAIL=
 SMTP_PASSWORD=
@@ -257,13 +208,6 @@ SMTP_PASSWORD=
       <h3 id="7.-frontend-%E2%80%94-nuxt">7. Frontend — Nuxt</h3>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">FRONTEND_EXTERNAL_PORT=8200
 </code></pre>
       </div>
@@ -284,13 +228,6 @@ SMTP_PASSWORD=
       </p>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">CONFIG_PATH=./config.toml # Path to your custom config.toml file
 </code></pre>
       </div>
@@ -305,13 +242,6 @@ SMTP_PASSWORD=
       <p>To config a provider you have to fill 4 variables:</p>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">OIDC_{i}_CONFIG_URL=https://yourdomain.com/.well-known/openid-configuration
 OIDC_{i}_CLIENT_ID=
 OIDC_{i}_CLIENT_SECRET=
@@ -327,13 +257,6 @@ OIDC_{i}_PROVIDER_NAME= # e.g. Google, Discord, Microsoft...
       </p>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-yml"><span class="hljs-attr">OIDC_1_CONFIG_URL:</span> <span class="hljs-string">${OIDC_1_CONFIG_URL}</span>
 <span class="hljs-attr">OIDC_1_CLIENT_ID:</span> <span class="hljs-string">${OIDC_1_CLIENT_ID}</span>
 <span class="hljs-attr">OIDC_1_CLIENT_SECRET:</span> <span class="hljs-string">${OIDC_1_CLIENT_SECRET}</span>
@@ -349,13 +272,6 @@ OIDC_{i}_PROVIDER_NAME= # e.g. Google, Discord, Microsoft...
       <h4 id="https-vs-http-(minio_secure)">HTTPS vs HTTP (MINIO_SECURE)</h4>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">MINIO_SECURE=true|false
 </code></pre>
       </div>
@@ -371,13 +287,6 @@ OIDC_{i}_PROVIDER_NAME= # e.g. Google, Discord, Microsoft...
       <p>If your S3 endpoint uses a certificate signed by an internal or private certificate authority, you must explicitly provide this CA to the backend.</p>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">MINIO_CA_PATH=/path/to/ca-certificate.pem
 </code></pre>
       </div>
@@ -394,13 +303,6 @@ OIDC_{i}_PROVIDER_NAME= # e.g. Google, Discord, Microsoft...
       <p><em>TLS Verification Bypass (Not Recommended)</em></p>
 
       <div class="code-block-wrapper">
-        <button class="code-copy-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px">
-            <path
-              d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"
-            ></path>
-          </svg>
-        </button>
         <pre><code class="hljs language-env">MINIO_INSECURE_TLS=true|false
 </code></pre>
       </div>
@@ -409,7 +311,7 @@ OIDC_{i}_PROVIDER_NAME= # e.g. Google, Discord, Microsoft...
         <li>The connection remains encrypted</li>
         <li>Certificate validation (CA + hostname) is skipped</li>
       </ul>
-      <div class="yellow custom-block">
+      <div class="orange custom-block">
         <p class="custom-block-title">Security warning</p>
         <div class="custom-block-content">
           <p>This option should only be used for:</p>

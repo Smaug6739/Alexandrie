@@ -16,6 +16,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  layout: 'public',
+});
+
 const username = ref('');
 const errors = ref({
   username: '',
