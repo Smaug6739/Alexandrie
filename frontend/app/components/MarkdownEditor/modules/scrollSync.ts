@@ -138,6 +138,35 @@ function computePreviewScroll(effectiveLine: number, anchors: ScrollAnchor[], to
  */
 export function createScrollSync({ getView, getPreview }: ScrollSyncOptions) {
   let rafId: number | null = null;
+  // keep track of whether the editor was scrolled to the bottom during the
+  // previous sync.  This is important because adding a new line increases the
+  // editor's scrollHeight, which means `scrollTop >= maxEditorScroll - 2`
+  // will temporarily become false even though the viewport was still at the
+  // end of the document.  We want the preview to stay glued to the bottom
+  // until the user explicitly scrolls away.
+  let wasAtBottom = false;
+  // remember the last known scrollTop so we can detect manual upward
+  // scrolling; if the user moves the viewport up we immediately drop the
+  // "wasAtBottom" flag regardless of content growth.
+  let prevScrollTop = 0;
+
+  /**
+   * Determine which fractional source line is currently visible at the very
+   * bottom of the CodeMirror viewport.  Used to decide whether the editor is
+   * effectively "at the end" of the document even if the scrollTop check
+   * fails due to a recent content resize.
+   */
+  function getEditorBottomLine(view: EditorViewLike): number {
+    const scrollDOM = view.scrollDOM;
+    const scrollBottom = scrollDOM.scrollTop + scrollDOM.clientHeight;
+    if (scrollBottom <= 0) return 0;
+
+    const block = view.lineBlockAtHeight(scrollBottom);
+    const docLine = view.state.doc.lineAt(block.from);
+    const fraction = block.height > 0 ? Math.max(0, Math.min(1, (scrollBottom - block.top) / block.height)) : 0;
+
+    return docLine.number - 1 + fraction; // 0-based + fraction
+  }
 
   /**
    * Call this from the editor's `scroll` event listener (or after content
@@ -161,20 +190,38 @@ export function createScrollSync({ getView, getPreview }: ScrollSyncOptions) {
       // Nothing to scroll
       if (maxEditorScroll <= 0 || maxPreviewScroll <= 0) {
         preview.scrollTop = 0;
+        prevScrollTop = scrollDOM.scrollTop;
         return;
       }
 
       // ── Edge: editor at the very top ──────────────────────────
       if (scrollDOM.scrollTop <= 2) {
         preview.scrollTop = 0;
+        wasAtBottom = false;
+        prevScrollTop = scrollDOM.scrollTop;
         return;
       }
 
+      // detect manual upward scroll and drop sticky-bottom if so
+      if (scrollDOM.scrollTop < prevScrollTop - 2) {
+        wasAtBottom = false;
+      }
+      prevScrollTop = scrollDOM.scrollTop;
+
       // ── Edge: editor at the very bottom ───────────────────────
-      if (scrollDOM.scrollTop >= maxEditorScroll - 2) {
+      // also consider the previous state in case the document just grew
+      const isBottomNow = scrollDOM.scrollTop >= maxEditorScroll - 2;
+      const bottomLine = getEditorBottomLine(view);
+      const atBottom = isBottomNow || wasAtBottom || bottomLine >= view.state.doc.lines - 0.1;
+
+      if (atBottom) {
         preview.scrollTop = maxPreviewScroll;
+        wasAtBottom = true;
         return;
       }
+
+      // we only clear wasAtBottom above when the user scrolls up, so no need to
+      // do it here again
 
       // ── General case: anchor-based interpolation ──────────────
       const anchors = buildAnchors(preview);
