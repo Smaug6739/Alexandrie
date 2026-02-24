@@ -10,7 +10,7 @@
     "@codemirror/view": "^6.39.15",
     "@lezer/highlight": "^1.2.3",
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint": "1.15.1",
+    "@nuxt/eslint": "1.15.2",
     "@nuxtjs/color-mode": "^4.0.0",
     "@nuxtjs/i18n": "10.2.3",
     "@pinia/nuxt": "^0.11.3",
