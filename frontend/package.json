@@ -22,7 +22,7 @@
     "@types/node": "^25.3.0",
     "@vite-pwa/nuxt": "^1.1.1",
     "@zip.js/zip.js": "^2.8.21",
-    "eslint": "^10.0.0",
+    "eslint": "^10.0.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-perfectionist": "^5.6.0",
     "etag": "^1.8.1",
