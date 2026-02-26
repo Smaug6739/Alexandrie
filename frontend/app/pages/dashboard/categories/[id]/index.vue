@@ -9,7 +9,7 @@ import {useBreadcrumbs} from "~/composables/useBreadcrumbs";
 
 definePageMeta({
   breadcrumb: (route: RouteLocationNormalizedLoaded) => {
-    return useBreadcrumbs().generateBreadcrumbsById(route.params.id as string, 2)
+    return useBreadcrumbs().generateBreadcrumbsById(route.params.id as string)
   }
 });
 

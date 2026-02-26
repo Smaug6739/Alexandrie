@@ -65,7 +65,7 @@ watchEffect(async () => {
 
 definePageMeta({
   breadcrumb: (route: RouteLocationNormalizedLoaded) => {
-    return useBreadcrumbs().generateBreadcrumbsById(route.params.id as string, 3)
+    return useBreadcrumbs().generateBreadcrumbsById(route.params.id as string)
   }
 });
 
