@@ -14,7 +14,7 @@
         <NodeDocumentHeader :doc="article" :public="true" style="margin: 20px 0" />
 
         <!-- Document content if available -->
-        <NodeDocumentContentCompiled v-if="hasContent" :node="article" ref="elementComponent" />
+        <NodeDocumentContentCompiled v-if="hasContent" ref="elementComponent" :node="article" />
 
         <!-- Hierarchical children tree -->
         <NodeTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />

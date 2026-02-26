@@ -25,6 +25,7 @@ import type { Node } from '~/stores';
 import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
+import {useBreadcrumbs} from "~/composables/useBreadcrumbs";
 
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferencesStore();
@@ -64,9 +65,8 @@ watchEffect(async () => {
 
 definePageMeta({
   breadcrumb: (route: RouteLocationNormalizedLoaded) => {
-    const doc = useNodesStore().getById(route.params.id as string);
-    return doc?.name || '';
-  },
+    return useBreadcrumbs().generateBreadcrumbsById(route.params.id as string, 3)
+  }
 });
 
 const next = computed(() => nodesTree.nextDocument(node.value?.id));

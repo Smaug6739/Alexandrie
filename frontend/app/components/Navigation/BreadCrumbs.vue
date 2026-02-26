@@ -7,24 +7,44 @@
 </template>
 
 <script setup lang="ts">
-const breadcrumbs = [
-  {
-    path: '/dashboard',
-    name: 'Home',
-  },
-  {
-    path: '/dashboard/docs',
-    name: 'Documents',
-  },
-  {
-    path: '/dashboard/docs/680090913317453829',
-    name: 'parent document',
-  },
-  {
-    path: '/dashboard/docs/680090970779418630',
-    name: 'child document',
-  },
-]
+interface I18nBreadcrumb {
+  c?: number; // Optional count for pluralization
+  i18n: I18nKey;
+}
+
+const route = useRoute();
+const { t } = useI18nT();
+
+const breadcrumbs = ref<{ name: string; path: string }[]>([])
+
+watchEffect(() => {
+  breadcrumbs.value = [];
+
+  route.matched.forEach(match => {
+    const meta = match.meta?.breadcrumb;
+
+    if (!meta) return;
+
+    let name = '';
+
+    if (typeof meta === 'function') {
+      breadcrumbs.value = [...breadcrumbs.value, ...meta(route)];
+      return;
+    } else if (typeof meta === 'object' && (meta as I18nBreadcrumb)?.i18n) {
+      const { c, i18n } = meta as I18nBreadcrumb;
+      name = t(i18n, { count: c });
+    } else {
+      name = meta as string;
+    }
+
+    if (!name) return;
+
+    breadcrumbs.value.push({
+      name,
+      path: match.path,
+    });
+  });
+});
 </script>
 
 <style scoped lang="scss">
