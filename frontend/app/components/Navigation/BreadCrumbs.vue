@@ -54,6 +54,14 @@ watchEffect(() => {
   padding: 0;
   align-items: center;
   list-style: none;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   &__item {
     display: inline-flex;

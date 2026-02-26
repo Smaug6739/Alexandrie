@@ -66,8 +66,11 @@ watch(() => window.history.state, handleState, { immediate: true });
   display: flex;
   padding: 3px;
   align-items: center;
-  flex-wrap: wrap;
   gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+  scroll-behavior: smooth;
 
   &__item {
     display: inline-flex;
@@ -75,6 +78,8 @@ watch(() => window.history.state, handleState, { immediate: true });
     border-radius: 50%;
     overflow: hidden;
     cursor: pointer;
+    min-width: 27px;
+    min-height: 27px;
 
     &:hover:not(:disabled) {
       .navigation__icon {
