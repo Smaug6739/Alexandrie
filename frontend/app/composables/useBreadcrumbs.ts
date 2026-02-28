@@ -1,0 +1,25 @@
+import type {NodeRole} from "~/stores";
+
+const ROUTE_ROLE_MAPPING: Record<NodeRole, string> = {
+  1: '/dashboard/categories',
+  2: '/dashboard/categories',
+  3: '/dashboard/docs',
+  4: '/dashboard/cdn',
+}
+
+export function useBreadcrumbs() {
+  const nodesStore = useNodesStore();
+
+  function generateBreadcrumbsById(id: string) {
+    const nodes = nodesStore.getByIdWithParents(id);
+
+    return nodes.map(node => ({
+      name: node.name,
+      path: `${ROUTE_ROLE_MAPPING[node.role]}/${node.id}`
+    })).reverse();
+  };
+
+  return {
+    generateBreadcrumbsById,
+  };
+};
