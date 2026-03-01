@@ -89,7 +89,7 @@ watchEffect(() => {
   &__link {
     padding: 4px 8px;
     border-radius: var(--radius-xs);
-    font-size: 13px;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-secondary);
     text-decoration: none;
