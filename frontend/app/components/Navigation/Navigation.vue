@@ -1,25 +1,13 @@
 <template>
   <nav class="navigation no-mobile" aria-label="Navigation">
     <template v-if="hasNavigation.navigation">
-      <button
-        :disabled="!canGoBack"
-        class="navigation__item no-tablet"
-        aria-label="Go back"
-        type="button"
-        @click="goBack"
-      >
+      <button :disabled="!canGoBack" class="navigation__item no-tablet" aria-label="Go back" type="button" @click="goBack">
         <svg class="navigation__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
           <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
         </svg>
       </button>
 
-      <button
-        :disabled="!canGoForward"
-        class="navigation__item no-tablet"
-        aria-label="Go forward"
-        type="button"
-        @click="goForward"
-      >
+      <button :disabled="!canGoForward" class="navigation__item no-tablet" aria-label="Go forward" type="button" @click="goForward">
         <svg class="navigation__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
           <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
         </svg>
@@ -31,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import BreadCrumbs from "~/components/Navigation/BreadCrumbs.vue";
+import BreadCrumbs from '~/components/Navigation/BreadCrumbs.vue';
 
 const router = useRouter();
 const preferences = usePreferencesStore();
@@ -41,13 +29,8 @@ const hasNavigation = preferences.get('navbarItems');
 const canGoBack = ref(false);
 const canGoForward = ref(false);
 
-function goBack() {
-  router.go(-1)
-}
-
-function goForward() {
-  router.go(1)
-}
+const goBack = () => router.go(-1);
+const goForward = () => router.go(1);
 
 function handleState(state: History['state']) {
   if (!state) return;
@@ -57,8 +40,6 @@ function handleState(state: History['state']) {
 }
 
 router.afterEach(() => handleState(window.history.state));
-
-watch(() => window.history.state, handleState, { immediate: true });
 </script>
 
 <style scoped lang="scss">

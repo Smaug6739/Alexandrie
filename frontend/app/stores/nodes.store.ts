@@ -4,7 +4,7 @@ import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission, PublicNode
 export type CategoryRole = 1 | 2;
 export type DocumentRole = 3;
 export type ResourceRole = 4;
-export type NodeRole = CategoryRole | DocumentRole | ResourceRole
+export type NodeRole = CategoryRole | DocumentRole | ResourceRole;
 
 export interface SearchOptions {
   query?: string;
@@ -30,30 +30,28 @@ export const useNodesStore = defineStore('nodes', {
     getAll: state => state.nodes,
     getAllTags: state => state.allTags,
     getById: state => (id: string) => state.nodes.get(id),
-    getByIdWithParents:
-        state =>
-          (id: string) => {
-            const node = state.nodes.get(id);
+    getByIdWithParents: state => (id: string) => {
+      const node = state.nodes.get(id);
 
-            if (!node) return []
+      if (!node) return [];
 
-            const result = [node];
+      const result = [node];
 
-            if (!node.parent_id) return result;
+      if (!node.parent_id) return result;
 
-            const getParents = (children: Node) => {
-              state.nodes.forEach(node => {
-                if (node.id === children.parent_id) {
-                  result.push(node);
-                  getParents(node);
-                }
-              });
-            }
-
+      const getParents = (children: Node) => {
+        state.nodes.forEach(node => {
+          if (node.id === children.parent_id) {
+            result.push(node);
             getParents(node);
+          }
+        });
+      };
 
-            return result;
-          },
+      getParents(node);
+
+      return result;
+    },
     getByCategories: state => (category: string) => state.nodes.filter(d => d.parent_id == category),
     getParents: state => state.nodes.filter(c => !c.parent_id),
     getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),

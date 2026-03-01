@@ -45,7 +45,6 @@ const user = computed(() => userStore.getById(props.document.user_id || ''));
 const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.document } }));
 
 function showContextMenu(event: MouseEvent) {
-  if (props.document.role === -1) return; // Prevent context menu on nav items
   useContextMenu().open(shallowRef(NodeContextMenu), event, {
     props: { node: props.document as Node, contextMenu: true },
   });

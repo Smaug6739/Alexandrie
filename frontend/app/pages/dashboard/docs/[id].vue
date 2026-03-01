@@ -19,19 +19,24 @@
 </template>
 <script setup lang="ts">
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
-
 import type { Node } from '~/stores';
 
 import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
-import {useBreadcrumbs} from "~/composables/useBreadcrumbs";
+
+definePageMeta({
+  breadcrumb: (route: RouteLocationNormalizedLoaded) => {
+    return useBreadcrumbs().generateBreadcrumbsById(route.params.id as string);
+  },
+});
 
 const documentsStore = useNodesStore();
 const preferencesStore = usePreferencesStore();
 
 const devise = useDevice();
 const nodesTree = useNodesTree();
+const contextMenu = useContextMenu();
 const route = useRoute();
 const router = useRouter();
 
@@ -63,12 +68,6 @@ watchEffect(async () => {
   useHead({ title: node.value?.name || '' });
 });
 
-definePageMeta({
-  breadcrumb: (route: RouteLocationNormalizedLoaded) => {
-    return useBreadcrumbs().generateBreadcrumbsById(route.params.id as string)
-  }
-});
-
 const next = computed(() => nodesTree.nextDocument(node.value?.id));
 const previous = computed(() => nodesTree.prevDocument(node.value?.id));
 const width = computed(() => {
@@ -76,9 +75,6 @@ const width = computed(() => {
   if (docSize.value == 1) return '800px';
   return '700px';
 });
-
-// Context menu
-const contextMenu = useContextMenu();
 
 function showContextMenu(event: MouseEvent) {
   contextMenu.open(shallowRef(NodeContextMenu), event, {
