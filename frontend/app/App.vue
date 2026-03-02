@@ -50,7 +50,8 @@ watch(
 <style lang="scss">
 #app {
   height: 100vh;
-  overflow: auto;
+  overflow-y: scroll;
+  overflow-x: auto;
   display: flex;
   flex-direction: column;
 }
