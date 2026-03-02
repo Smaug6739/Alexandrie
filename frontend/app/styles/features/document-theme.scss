@@ -368,6 +368,14 @@
 		font-size: 15px;
 		color: var(--text-body);
 
+		* {
+			fill: var(--text-body) !important;
+
+			path {
+				fill: var(--text-body) !important;
+			}
+		}
+
 		&.info,
 		&.blue {
 			background-color: var(--blue-bg-light);
