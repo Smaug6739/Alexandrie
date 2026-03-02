@@ -6,7 +6,11 @@
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: (route: RouteLocationNormalizedLoaded) => useNodesStore().getById(route.params.id as string)?.name || '' });
+definePageMeta({
+  breadcrumb: (route: RouteLocationNormalizedLoaded) => {
+    return useBreadcrumbs().generateBreadcrumbsById(route.params.id as string);
+  },
+});
 
 const route = useRoute();
 const nodesStore = useNodesStore();

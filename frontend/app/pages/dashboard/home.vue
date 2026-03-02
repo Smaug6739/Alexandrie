@@ -146,6 +146,8 @@ import { resolveIcon, resolveNodeLink, resolveNodeType } from '~/helpers/node';
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import type { Node } from '~/stores';
 
+definePageMeta({ breadcrumb: { i18n: 'dashboard.pages.home' } });
+
 const router = useRouter();
 const nodesStore = useNodesStore();
 const userStore = useUserStore();

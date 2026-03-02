@@ -1,14 +1,16 @@
 <template>
-  <header>
-    <div>
+  <header class="navbar">
+    <div class="navbar__navigation">
       <button v-if="!isOpened" class="open-sidebar" aria-label="open sidebar" @click="toggleSidebar">
         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
           <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
         </svg>
       </button>
-      <BreadCrumb v-if="navbarItems.breadcrumb" />
+
+      <Navigation v-if="navbarItems.breadcrumb" />
     </div>
-    <div>
+
+    <div class="navbar__search">
       <button v-if="navbarItems.search" class="search-btn" :title="t('components.navbar.commandCenter')" aria-label="Command center" @click="openCommandCenter">
         <Icon name="search" />
         <span class="search-text">
@@ -19,12 +21,15 @@
           </i18n-t>
         </span>
       </button>
+
       <ThemeToggle v-if="navbarItems.theme" aria-label="toggle theme" />
     </div>
   </header>
 </template>
 
 <script lang="ts" setup>
+import Navigation from "~/components/Navigation/Navigation.vue";
+
 const { t } = useI18nT();
 const { isOpened, toggleSidebar } = useSidebar();
 const preferences = usePreferencesStore();
@@ -35,7 +40,7 @@ const openCommandCenter = () => commandCenter.open();
 </script>
 
 <style lang="scss" scoped>
-header {
+.navbar {
   position: sticky;
   display: flex;
   width: 100%;
@@ -45,10 +50,16 @@ header {
   border-bottom: 1px solid var(--border);
   justify-content: space-between;
 
-  div {
+  &__navigation,
+  &__search {
     display: flex;
     align-items: center;
     gap: 16px;
+  }
+
+  &__navigation {
+    flex: 1;
+    overflow-x: auto;
   }
 }
 
