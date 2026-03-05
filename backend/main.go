@@ -33,7 +33,7 @@ func main() {
 }
 
 func loadEnv() {
-	_ = godotenv.Load() // facultatif : pas d’erreur si absent
+	_ = godotenv.Load()
 
 	port := os.Getenv("BACKEND_PORT")
 	if port == "" {

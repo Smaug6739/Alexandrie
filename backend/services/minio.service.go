@@ -68,7 +68,7 @@ func (s *minioService) DeleteNodeFiles(resources []*models.NodeResourceInfo) err
 
 	for _, res := range resources {
 		if err := s.DeleteSingleResource(res.UserId, res.Id, res.Metadata); err != nil {
-			// Log error but continue deleting other files
+			// Error but continue deleting other files
 			// logger.Warn(fmt.Sprintf("Failed to delete MinIO file for node %d: %v", res.Id, err))
 			lastErr = err
 		}

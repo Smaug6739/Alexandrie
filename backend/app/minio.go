@@ -30,10 +30,7 @@ func MinioConnection() (*minio.Client, *minio.Client, error) {
 		return nil, nil, fmt.Errorf("MINIO NOT CONFIGURED")
 	}
 
-	// ---------------------------------------------------------------------
 	// TLS configuration
-	// ---------------------------------------------------------------------
-
 	rootCAs, err := x509.SystemCertPool()
 	if err != nil {
 		rootCAs = x509.NewCertPool()
@@ -70,10 +67,7 @@ func MinioConnection() (*minio.Client, *minio.Client, error) {
 		TLSClientConfig: publicTLSConfig,
 	}
 
-	// ---------------------------------------------------------------------
 	// Internal MinIO client
-	// ---------------------------------------------------------------------
-
 	isSecure := true
 	if os.Getenv("MINIO_SECURE") != "" && os.Getenv("MINIO_SECURE") != "true" {
 		isSecure = false
@@ -91,10 +85,7 @@ func MinioConnection() (*minio.Client, *minio.Client, error) {
 		os.Exit(1)
 	}
 
-	// ---------------------------------------------------------------------
 	// Signer client (public URLs / CDN)
-	// ---------------------------------------------------------------------
-
 	publicURL, err := url.Parse(publicEndpoint)
 	if err != nil {
 		logger.Error("s3", "CONFIG: MINIO_PUBLIC_URL is not a valid URL")
@@ -115,10 +106,7 @@ func MinioConnection() (*minio.Client, *minio.Client, error) {
 		os.Exit(1)
 	}
 
-	// ---------------------------------------------------------------------
 	// Buckets setup
-	// ---------------------------------------------------------------------
-
 	bucketName := os.Getenv("MINIO_BUCKET")
 	setupPublicBucket(ctx, minioClient, bucketName)
 
@@ -128,7 +116,6 @@ func MinioConnection() (*minio.Client, *minio.Client, error) {
 	return minioClient, signerClient, nil
 }
 
-// setupPublicBucket creates and configures the main public bucket
 func setupPublicBucket(ctx context.Context, minioClient *minio.Client, bucketName string) {
 	err := minioClient.MakeBucket(ctx, bucketName, minio.MakeBucketOptions{})
 	if err != nil {
@@ -164,7 +151,6 @@ func setupPublicBucket(ctx context.Context, minioClient *minio.Client, bucketNam
 	logger.Success("s3", "Successfully set public bucket policy for "+bucketName)
 }
 
-// setupPrivateBackupBucket creates and configures the private backup bucket
 func setupPrivateBackupBucket(ctx context.Context, minioClient *minio.Client, bucketName string) {
 	err := minioClient.MakeBucket(ctx, bucketName, minio.MakeBucketOptions{})
 	if err != nil {
@@ -179,9 +165,6 @@ func setupPrivateBackupBucket(ctx context.Context, minioClient *minio.Client, bu
 		logger.Success("s3", "Successfully created private backup bucket: "+bucketName)
 	}
 
-	// No public policy - bucket remains private
-	// Backups are only accessible via presigned URLs
-
 	// Configure lifecycle rule to auto-delete backup files after 1 day
 	lifecycleConfig := lifecycle.NewConfiguration()
 	lifecycleConfig.Rules = []lifecycle.Rule{
@@ -189,7 +172,7 @@ func setupPrivateBackupBucket(ctx context.Context, minioClient *minio.Client, bu
 			ID:     "auto-delete-backups",
 			Status: "Enabled",
 			RuleFilter: lifecycle.Filter{
-				Prefix: "", // Apply to all objects in the bucket
+				Prefix: "",
 			},
 			Expiration: lifecycle.Expiration{
 				Days: 1,

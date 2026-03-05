@@ -27,7 +27,6 @@ func NewSessionRepository(db *sqlx.DB) SessionRepository {
 	return &SessionRepositoryImpl{db: db}
 }
 
-// GetByUserId retrieves all sessions for a given user ID
 func (r *SessionRepositoryImpl) GetByUserId(userId types.Snowflake) ([]models.Session, error) {
 	var sessions []models.Session
 	err := r.db.Select(&sessions, `
@@ -42,7 +41,6 @@ func (r *SessionRepositoryImpl) GetByUserId(userId types.Snowflake) ([]models.Se
 	return sessions, nil
 }
 
-// GetByRefreshToken retrieves a session by refresh token
 func (r *SessionRepositoryImpl) GetByRefreshToken(refreshToken string) (*models.Session, error) {
 	var session models.Session
 	err := r.db.Get(&session, `
@@ -57,7 +55,6 @@ func (r *SessionRepositoryImpl) GetByRefreshToken(refreshToken string) (*models.
 	return &session, nil
 }
 
-// Create creates a new session
 func (r *SessionRepositoryImpl) Create(session *models.Session) (*models.Session, error) {
 	_, err := r.db.NamedExec(`
 		INSERT INTO sessions (id, user_id, refresh_token, expire_token, last_refresh_timestamp, active, ip_adress, user_agent, location, type, login_timestamp, logout_timestamp)
@@ -70,7 +67,6 @@ func (r *SessionRepositoryImpl) Create(session *models.Session) (*models.Session
 	return session, nil
 }
 
-// Update updates an existing session (only refresh token and expiry)
 func (r *SessionRepositoryImpl) Update(session *models.Session) (*models.Session, error) {
 	_, err := r.db.Exec(`
 			UPDATE sessions
@@ -83,7 +79,6 @@ func (r *SessionRepositoryImpl) Update(session *models.Session) (*models.Session
 	return session, nil
 }
 
-// Delete deletes a session
 func (r *SessionRepositoryImpl) Delete(sessionId types.Snowflake) error {
 	_, err := r.db.Exec(`DELETE FROM sessions WHERE id = ?`, sessionId)
 	if err != nil {
@@ -93,7 +88,6 @@ func (r *SessionRepositoryImpl) Delete(sessionId types.Snowflake) error {
 	return nil
 }
 
-// DeleteAllByUser deletes all sessions for a user
 func (r *SessionRepositoryImpl) DeleteAllByUser(userId types.Snowflake) error {
 	_, err := r.db.Exec(`DELETE FROM sessions WHERE user_id = ?`, userId)
 	if err != nil {
@@ -102,7 +96,6 @@ func (r *SessionRepositoryImpl) DeleteAllByUser(userId types.Snowflake) error {
 	return nil
 }
 
-// DeleteOld deletes expired sessions
 func (r *SessionRepositoryImpl) DeleteOld() error {
 	currentTime := time.Now().UnixMilli()
 	_, err := r.db.Exec(`DELETE FROM sessions WHERE expire_token < ?`, currentTime)

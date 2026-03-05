@@ -126,7 +126,7 @@ type Node struct {
 
 // Correct
 type Node struct {
-    Metadata interface{}  // Use json.RawMessage or map[string]interface{}
+    Metadata any  // Use json.RawMessage or map[string]any
 }
 ```
 

@@ -23,19 +23,15 @@ import (
 
 const (
 	backupVersion      = "1.1.0"
-	backupExpiryHours  = 24 // Backup files expire after 24 hours
-	maxConcurrentFiles = 5  // Max concurrent file downloads for backup
+	backupExpiryHours  = 24
+	maxConcurrentFiles = 5
 )
 
 // BackupService handles backup creation and management
 type BackupService interface {
-	// CreateBackupAsync starts an async backup job and returns the job ID
 	CreateBackupAsync(userId types.Snowflake, options types.BackupOptions, minioClient *minio.Client, signerClient *minio.Client) (string, error)
-	// GetBackupStatus returns the current status of a backup job
 	GetBackupStatus(userId types.Snowflake, jobId string) (*types.BackupJob, error)
-	// CancelBackup cancels an ongoing backup job
 	CancelBackup(userId types.Snowflake, jobId string) error
-	// CleanupExpiredBackups removes expired backup files
 	CleanupExpiredBackups(minioClient *minio.Client) error
 }
 
@@ -43,12 +39,11 @@ type backupService struct {
 	nodeRepo         repositories.NodeRepository
 	userSettingsRepo repositories.UserSettingsRepository
 	jobs             map[string]*types.BackupJob
-	userJobs         map[types.Snowflake]string // Maps userId to current jobId
+	userJobs         map[types.Snowflake]string
 	jobMutex         sync.RWMutex
 	cancel           map[string]context.CancelFunc
 }
 
-// NewBackupService creates a new backup service instance
 func NewBackupService(nodeRepo repositories.NodeRepository, userSettingsRepo repositories.UserSettingsRepository) BackupService {
 	return &backupService{
 		nodeRepo:         nodeRepo,
@@ -59,16 +54,13 @@ func NewBackupService(nodeRepo repositories.NodeRepository, userSettingsRepo rep
 	}
 }
 
-// CreateBackupAsync starts an asynchronous backup job
 func (s *backupService) CreateBackupAsync(userId types.Snowflake, options types.BackupOptions, minioClient *minio.Client, signerClient *minio.Client) (string, error) {
 	if minioClient == nil {
 		return "", errors.New("minio client not initialized")
 	}
 
-	// Cancel any existing backup for this user
 	s.cancelExistingBackup(userId, minioClient)
 
-	// Use a fixed job ID per user so backups are replaced
 	jobId := fmt.Sprintf("user-%d-backup", userId)
 
 	// Create job entry
@@ -89,24 +81,21 @@ func (s *backupService) CreateBackupAsync(userId types.Snowflake, options types.
 	s.userJobs[userId] = jobId
 	s.jobMutex.Unlock()
 
-	// Create cancellation context
+	// Cancellation context
 	ctx, cancel := context.WithCancel(context.Background())
 	s.jobMutex.Lock()
 	s.cancel[jobId] = cancel
 	s.jobMutex.Unlock()
 
-	// Start async processing
 	go s.processBackup(ctx, job, minioClient, signerClient)
 
 	return jobId, nil
 }
 
-// cancelExistingBackup cancels any ongoing backup and removes the old backup file
 func (s *backupService) cancelExistingBackup(userId types.Snowflake, minioClient *minio.Client) {
 	s.jobMutex.Lock()
 	defer s.jobMutex.Unlock()
 
-	// Check if user has an existing job
 	existingJobId, exists := s.userJobs[userId]
 	if !exists {
 		return
@@ -118,7 +107,6 @@ func (s *backupService) cancelExistingBackup(userId types.Snowflake, minioClient
 		return
 	}
 
-	// Cancel if still running
 	if existingJob.Status == types.BackupStatusPending || existingJob.Status == types.BackupStatusProcessing {
 		if cancel, ok := s.cancel[existingJobId]; ok {
 			cancel()
@@ -126,18 +114,15 @@ func (s *backupService) cancelExistingBackup(userId types.Snowflake, minioClient
 		}
 	}
 
-	// Delete the old backup file from MinIO (private backup bucket)
 	if minioClient != nil {
 		objectName := fmt.Sprintf("%d/backup.zip", userId)
 		backupBucket := utils.GetBackupBucketName()
 		_ = minioClient.RemoveObject(context.Background(), backupBucket, objectName, minio.RemoveObjectOptions{})
 	}
 
-	// Remove old job
 	delete(s.jobs, existingJobId)
 }
 
-// GetBackupStatus returns the current status of a backup job
 func (s *backupService) GetBackupStatus(userId types.Snowflake, jobId string) (*types.BackupJob, error) {
 	s.jobMutex.RLock()
 	defer s.jobMutex.RUnlock()
@@ -155,7 +140,6 @@ func (s *backupService) GetBackupStatus(userId types.Snowflake, jobId string) (*
 	return job, nil
 }
 
-// CancelBackup cancels an ongoing backup job
 func (s *backupService) CancelBackup(userId types.Snowflake, jobId string) error {
 	s.jobMutex.Lock()
 	defer s.jobMutex.Unlock()
@@ -173,7 +157,6 @@ func (s *backupService) CancelBackup(userId types.Snowflake, jobId string) error
 		return errors.New("backup job already finished")
 	}
 
-	// Cancel the context
 	if cancel, ok := s.cancel[jobId]; ok {
 		cancel()
 		delete(s.cancel, jobId)
@@ -186,7 +169,6 @@ func (s *backupService) CancelBackup(userId types.Snowflake, jobId string) error
 	return nil
 }
 
-// CleanupExpiredBackups cleans up expired job entries from memory.
 // Note: The actual backup files are automatically deleted by MinIO lifecycle policy after 24h.
 // This function only cleans up the in-memory job tracking.
 func (s *backupService) CleanupExpiredBackups(minioClient *minio.Client) error {
@@ -206,7 +188,6 @@ func (s *backupService) CleanupExpiredBackups(minioClient *minio.Client) error {
 	return nil
 }
 
-// processBackup is the main backup processing goroutine
 func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob, minioClient *minio.Client, signerClient *minio.Client) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -216,14 +197,12 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 
 	s.updateJobStatus(job, types.BackupStatusProcessing, 5, "Fetching data...", "")
 
-	// Check for cancellation
 	select {
 	case <-ctx.Done():
 		return
 	default:
 	}
 
-	// Fetch all nodes for backup
 	nodes, err := s.nodeRepo.GetAllForBackup(job.UserID)
 	if err != nil {
 		s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to fetch nodes: %v", err))
@@ -232,21 +211,18 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 
 	s.updateJobStatus(job, types.BackupStatusProcessing, 15, "Preparing backup archive...", "")
 
-	// Create ZIP archive in memory
 	var buf bytes.Buffer
 	zipWriter := zip.NewWriter(&buf)
 
-	// Prepare backup statistics
 	stats := types.BackupStats{
 		TotalNodes: len(nodes),
 	}
 
-	// Filter and categorize nodes
 	var documents []*models.Node
 	var files []*models.Node
 
 	for _, node := range nodes {
-		if node.Role == 4 { // Role 4 is file/resource
+		if node.Role == 4 {
 			files = append(files, node)
 			stats.TotalFiles++
 		} else {
@@ -283,21 +259,19 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 	if job.Options.IncludeFiles && len(files) > 0 {
 		if err := s.addFilesToZip(ctx, zipWriter, files, job, minioClient, &stats); err != nil {
 			if ctx.Err() != nil {
-				return // Cancelled
+				return
 			}
 			s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to add files to archive: %v", err))
 			return
 		}
 	}
 
-	// Check for cancellation
 	select {
 	case <-ctx.Done():
 		return
 	default:
 	}
 
-	// Fetch user settings if requested
 	if job.Options.IncludeSettings {
 		s.updateJobStatus(job, types.BackupStatusProcessing, 75, "Fetching user settings...", "")
 
@@ -313,7 +287,6 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 		}
 	}
 
-	// Check for cancellation
 	select {
 	case <-ctx.Done():
 		return
@@ -322,7 +295,6 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 
 	s.updateJobStatus(job, types.BackupStatusProcessing, 85, "Creating manifest...", "")
 
-	// Create and add manifest
 	manifest := types.BackupManifest{
 		Version:   backupVersion,
 		CreatedAt: time.Now(),
@@ -341,7 +313,6 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 		return
 	}
 
-	// Add file index for easier restoration
 	if job.Options.IncludeFiles && len(files) > 0 {
 		fileIndex := s.createFileIndex(files)
 		if err := s.addJSONToZip(zipWriter, "files_index.json", fileIndex); err != nil {
@@ -350,7 +321,6 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 		}
 	}
 
-	// Close ZIP writer
 	if err := zipWriter.Close(); err != nil {
 		s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to finalize archive: %v", err))
 		return
@@ -378,7 +348,6 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 	stats.TotalSize = int64(buf.Len())
 
 	// Generate presigned URL for download (valid for 24 hours)
-	// This is the ONLY way to access the backup since the bucket is private
 	reqParams := make(url.Values)
 	reqParams.Set(
 		"response-content-disposition",
@@ -399,7 +368,6 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 		return
 	}
 
-	// Update job with completion status
 	s.jobMutex.Lock()
 	job.Status = types.BackupStatusCompleted
 	job.Progress = 100
@@ -410,14 +378,12 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 	s.jobMutex.Unlock()
 }
 
-// updateJobStatus safely updates the job status
 func (s *backupService) updateJobStatus(job *types.BackupJob, status types.BackupStatus, progress int, message string, errorMsg string) {
 	s.jobMutex.Lock()
 	defer s.jobMutex.Unlock()
 
 	job.Status = status
 
-	// Handle failed status: update message to reflect failure
 	if status == types.BackupStatusFailed {
 		job.Message = "Backup failed"
 		if errorMsg != "" {
@@ -435,13 +401,11 @@ func (s *backupService) updateJobStatus(job *types.BackupJob, status types.Backu
 	job.UpdatedAt = time.Now()
 }
 
-// prepareDocumentsData prepares document nodes for backup
-func (s *backupService) prepareDocumentsData(documents []*models.Node, includeMetadata bool) (interface{}, error) {
+func (s *backupService) prepareDocumentsData(documents []*models.Node, includeMetadata bool) (any, error) {
 	if !includeMetadata {
-		// Strip metadata from documents
-		stripped := make([]map[string]interface{}, len(documents))
+		stripped := make([]map[string]any, len(documents))
 		for i, doc := range documents {
-			stripped[i] = map[string]interface{}{
+			stripped[i] = map[string]any{
 				"id":                doc.Id,
 				"parent_id":         doc.ParentId,
 				"name":              doc.Name,
@@ -465,8 +429,7 @@ func (s *backupService) prepareDocumentsData(documents []*models.Node, includeMe
 	return documents, nil
 }
 
-// addJSONToZip adds a JSON file to the ZIP archive
-func (s *backupService) addJSONToZip(zipWriter *zip.Writer, filename string, data interface{}) error {
+func (s *backupService) addJSONToZip(zipWriter *zip.Writer, filename string, data any) error {
 	jsonData, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
 		return err
@@ -481,11 +444,9 @@ func (s *backupService) addJSONToZip(zipWriter *zip.Writer, filename string, dat
 	return err
 }
 
-// addFilesToZip downloads and adds files to the ZIP archive
 func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer, files []*models.Node, job *types.BackupJob, minioClient *minio.Client, stats *types.BackupStats) error {
 	bucket := os.Getenv("MINIO_BUCKET")
 
-	// Process files with a semaphore for concurrency control
 	sem := make(chan struct{}, maxConcurrentFiles)
 	var wg sync.WaitGroup
 	var mu sync.Mutex
@@ -507,7 +468,6 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 			defer wg.Done()
 			defer func() { <-sem }() // Release semaphore
 
-			// Get file path from metadata
 			var objectPath string
 			if f.Metadata != nil {
 				if transformedPath, ok := (*f.Metadata)["transformed_path"].(string); ok {
@@ -516,7 +476,6 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 			}
 
 			if objectPath == "" {
-				// Fallback: try to construct path from content_compiled
 				if f.ContentCompiled != nil {
 					objectPath = fmt.Sprintf("%d/%s", job.UserID, *f.ContentCompiled)
 				}
@@ -530,10 +489,9 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 					Reason: "no path found in metadata",
 				})
 				mu.Unlock()
-				return // Skip file because we can't determine its path
+				return
 			}
 
-			// Download file from MinIO
 			obj, err := minioClient.GetObject(ctx, bucket, objectPath, minio.GetObjectOptions{})
 			if err != nil {
 				mu.Lock()
@@ -543,11 +501,10 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 					Reason: fmt.Sprintf("failed to get object: %v", err),
 				})
 				mu.Unlock()
-				return // Skip file on error
+				return
 			}
 			defer obj.Close()
 
-			// Check if object exists by reading stat
 			_, err = obj.Stat()
 			if err != nil {
 				mu.Lock()
@@ -557,10 +514,9 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 					Reason: "file not found in storage",
 				})
 				mu.Unlock()
-				return // Skip file if not found
+				return
 			}
 
-			// Read file content
 			content, err := io.ReadAll(obj)
 			if err != nil {
 				mu.Lock()
@@ -574,7 +530,6 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 				return
 			}
 
-			// Determine filename for archive
 			archivePath := fmt.Sprintf("files/%d%s", f.Id, filepath.Ext(f.Name))
 			if f.Metadata != nil {
 				if originalPath, ok := (*f.Metadata)["original_path"].(string); ok {
@@ -582,7 +537,6 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 				}
 			}
 
-			// Add to ZIP (synchronized to avoid concurrent writes)
 			mu.Lock()
 			writer, err := zipWriter.Create(archivePath)
 			if err != nil {
@@ -612,7 +566,6 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 			stats.TotalSize += int64(len(content))
 			mu.Unlock()
 
-			// Update progress
 			progress := 40 + int(float64(processedFiles)/float64(totalFiles)*40)
 			s.updateJobStatus(job, types.BackupStatusProcessing, progress, fmt.Sprintf("Processing files (%d/%d)...", processedFiles, totalFiles), "")
 
@@ -624,9 +577,8 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 	return nil
 }
 
-// createFileIndex creates an index mapping file IDs to their archive paths
-func (s *backupService) createFileIndex(files []*models.Node) []map[string]interface{} {
-	index := make([]map[string]interface{}, len(files))
+func (s *backupService) createFileIndex(files []*models.Node) []map[string]any {
+	index := make([]map[string]any, len(files))
 	for i, f := range files {
 		archivePath := fmt.Sprintf("files/%d%s", f.Id, filepath.Ext(f.Name))
 		if f.Metadata != nil {
@@ -635,7 +587,7 @@ func (s *backupService) createFileIndex(files []*models.Node) []map[string]inter
 			}
 		}
 
-		entry := map[string]interface{}{
+		entry := map[string]any{
 			"id":           f.Id,
 			"name":         f.Name,
 			"archive_path": archivePath,

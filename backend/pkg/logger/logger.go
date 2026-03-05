@@ -43,7 +43,6 @@ func Success(title, msg string) {
 	baseLogger.Println(format(title+" |", green, msg))
 }
 
-// Optionnel : activer/désactiver les couleurs globalement
 func UseColor(b bool) {
 	useColor = b
 }

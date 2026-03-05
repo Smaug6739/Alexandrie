@@ -6,9 +6,9 @@ import (
 	"errors"
 )
 
-type JSONB map[string]interface{}
+type JSONB map[string]any
 
-func (j *JSONB) Scan(value interface{}) error {
+func (j *JSONB) Scan(value any) error {
 	if value == nil {
 		*j = nil
 		return nil

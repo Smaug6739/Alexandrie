@@ -155,7 +155,6 @@ var usernameAdjectives = []string{
 }
 var reg = regexp.MustCompile(`[^a-zA-Z0-9_-]`)
 
-// sanitizeUsername removes or replaces invalid characters from a username
 func sanitizeUsername(name string) string {
 	name = strings.ReplaceAll(name, " ", "_")
 	name = reg.ReplaceAllString(name, "")
@@ -165,7 +164,6 @@ func sanitizeUsername(name string) string {
 	return name
 }
 
-// generateRandomBase generates a random username base like "Alex-Brave-1234"
 func generateRandomBase() string {
 	randBytes := make([]byte, 2)
 	rand.Read(randBytes)
@@ -173,10 +171,6 @@ func generateRandomBase() string {
 	return fmt.Sprintf("Alex-%s", adj)
 }
 
-// GenerateUniqueUsername generates a unique username based on a given name and user ID.
-// If givenName is nil or empty, a random username base is generated.
-// Uniqueness is guaranteed by appending the last 6 digits of the user's Snowflake ID,
-// which is already guaranteed to be unique.
 func (s *userService) GenerateUniqueUsername(givenName *string, userID types.Snowflake) string {
 	var baseUsername string
 

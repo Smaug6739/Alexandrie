@@ -162,7 +162,7 @@ func (s *authService) RequestPasswordReset(username string, mailClient *mail.Cli
 
 func (s *authService) ResetPassword(token, newPassword string) error {
 	claims := jwt.RegisteredClaims{}
-	parsedToken, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
+	parsedToken, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (any, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("invalid signing method")
 		}

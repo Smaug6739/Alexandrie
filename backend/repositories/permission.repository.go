@@ -27,7 +27,6 @@ func NewPermissionRepository(db *sqlx.DB) PermissionRepository {
 	return &PermissionRepositoryImpl{db: db}
 }
 
-// GetByID retrieves a permission by ID
 func (r *PermissionRepositoryImpl) GetByID(permissionId types.Snowflake) (*models.Permission, error) {
 	var perm models.Permission
 	err := r.db.Get(&perm, `
@@ -40,7 +39,6 @@ func (r *PermissionRepositoryImpl) GetByID(permissionId types.Snowflake) (*model
 	return &perm, nil
 }
 
-// GetByNode retrieves all permissions for a node
 func (r *PermissionRepositoryImpl) GetByNode(nodeId types.Snowflake) ([]*models.Permission, error) {
 	var permissions []*models.Permission
 	err := r.db.Select(&permissions, `
@@ -53,7 +51,6 @@ func (r *PermissionRepositoryImpl) GetByNode(nodeId types.Snowflake) ([]*models.
 	return permissions, nil
 }
 
-// GetByNodeAndUser retrieves a specific permission for a node and user
 func (r *PermissionRepositoryImpl) GetByNodeAndUser(nodeId types.Snowflake, userId types.Snowflake) (*models.Permission, error) {
 	var perm models.Permission
 	err := r.db.Get(&perm, `
@@ -66,7 +63,6 @@ func (r *PermissionRepositoryImpl) GetByNodeAndUser(nodeId types.Snowflake, user
 	return &perm, nil
 }
 
-// Create creates a new permission
 func (r *PermissionRepositoryImpl) Create(permission *models.Permission) (*models.Permission, error) {
 	_, err := r.db.NamedExec(`
 		INSERT INTO permissions (id, node_id, user_id, permission, created_timestamp)
@@ -77,7 +73,6 @@ func (r *PermissionRepositoryImpl) Create(permission *models.Permission) (*model
 	return permission, nil
 }
 
-// Update updates an existing permission
 func (r *PermissionRepositoryImpl) Update(permission *models.Permission) error {
 	_, err := r.db.Exec(`
 		UPDATE permissions
@@ -89,7 +84,6 @@ func (r *PermissionRepositoryImpl) Update(permission *models.Permission) error {
 	return nil
 }
 
-// Delete deletes a permission
 func (r *PermissionRepositoryImpl) Delete(permissionId types.Snowflake) error {
 	_, err := r.db.Exec(`DELETE FROM permissions WHERE id = ?`, permissionId)
 	if err != nil {
@@ -98,7 +92,6 @@ func (r *PermissionRepositoryImpl) Delete(permissionId types.Snowflake) error {
 	return nil
 }
 
-// HasPermission checks if a user has required permission on a node
 func (r *PermissionRepositoryImpl) HasPermission(userId, nodeId types.Snowflake, required int) (bool, int) {
 	var perm sql.NullInt32
 	r.db.QueryRow(`

@@ -21,14 +21,12 @@ func NewUserSettingsService(settingsRepo repositories.UserSettingsRepository) Us
 	}
 }
 
-// GetSettings returns the user settings, or an empty shell if none exist yet
 func (s *userSettingsService) GetSettings(userID types.Snowflake) (*models.UserSettings, error) {
 	settings, err := s.settingsRepo.GetByUserID(userID)
 	if err != nil {
 		return nil, err
 	}
 	if settings == nil {
-		// Return empty settings — the frontend will merge with its defaults
 		return &models.UserSettings{
 			UserID:   userID,
 			General:  types.JSONB{},
@@ -39,7 +37,6 @@ func (s *userSettingsService) GetSettings(userID types.Snowflake) (*models.UserS
 	return settings, nil
 }
 
-// SaveSettings persists user settings (upsert)
 func (s *userSettingsService) SaveSettings(settings *models.UserSettings) error {
 	return s.settingsRepo.Upsert(settings)
 }

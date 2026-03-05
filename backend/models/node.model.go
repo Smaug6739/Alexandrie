@@ -3,7 +3,6 @@ package models
 import "alexandrie/types"
 
 type Node struct {
-	// Node
 	Id               types.Snowflake  `json:"id" form:"id" binding:"omitempty" db:"id"`
 	UserId           types.Snowflake  `json:"user_id" form:"user_id" binding:"omitempty" db:"user_id"`
 	ParentId         *types.Snowflake `json:"parent_id" form:"parent_id" binding:"omitempty" db:"parent_id"`

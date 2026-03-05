@@ -14,7 +14,6 @@ import (
 	"alexandrie/pkg/logger"
 )
 
-// Provider represents an OIDC provider configuration
 type Provider struct {
 	Name         string `json:"name"`
 	ConfigURL    string `json:"config_url"`
@@ -29,13 +28,11 @@ type Provider struct {
 	Scopes                []string `json:"scopes,omitempty"` // Minimal: openid - optional: profile, email
 }
 
-// PublicProvider is the public-facing provider info (without secrets)
 type PublicProvider struct {
 	Name                  string `json:"name"`
 	AuthorizationEndpoint string `json:"authorization_endpoint"`
 }
 
-// OIDCDiscovery represents the OpenID Connect discovery document
 type OIDCDiscovery struct {
 	Issuer                string   `json:"issuer"`
 	AuthorizationEndpoint string   `json:"authorization_endpoint"`
@@ -45,7 +42,6 @@ type OIDCDiscovery struct {
 	ScopesSupported       []string `json:"scopes_supported"`
 }
 
-// TokenResponse represents the OIDC token response
 type TokenResponse struct {
 	AccessToken  string `json:"access_token"`
 	TokenType    string `json:"token_type"`
@@ -55,7 +51,6 @@ type TokenResponse struct {
 	Scope        string `json:"scope,omitempty"`
 }
 
-// UserInfo represents the OIDC userinfo response
 type UserInfo struct {
 	Sub               string  `json:"sub"`
 	Email             *string `json:"email"`
@@ -67,7 +62,6 @@ type UserInfo struct {
 	Picture           *string `json:"picture"`
 }
 
-// Manager manages multiple OIDC providers
 type Manager struct {
 	providers map[string]*Provider
 	mu        sync.RWMutex
@@ -79,7 +73,6 @@ var (
 	once          sync.Once
 )
 
-// GetManager returns the global OIDC manager instance
 func GetManager() *Manager {
 	once.Do(func() {
 		globalManager = &Manager{
@@ -93,11 +86,6 @@ func GetManager() *Manager {
 	return globalManager
 }
 
-// loadFromEnv loads OIDC providers from environment variables
-// Supports multiple providers via indexed env vars:
-//
-//	OIDC_1_CONFIG_URL, OIDC_1_CLIENT_ID, OIDC_1_CLIENT_SECRET, OIDC_1_PROVIDER_NAME
-//	OIDC_2_CONFIG_URL, OIDC_2_CLIENT_ID, OIDC_2_CLIENT_SECRET, OIDC_2_PROVIDER_NAME
 func (m *Manager) loadFromEnv() {
 
 	// Try indexed providers (OIDC_1_*, OIDC_2_*, etc.)
@@ -130,7 +118,6 @@ func (m *Manager) loadFromEnv() {
 	}
 }
 
-// AddProvider adds a new OIDC provider and discovers its endpoints
 func (m *Manager) AddProvider(provider *Provider) error {
 	if provider.ConfigURL == "" {
 		return fmt.Errorf("provider config URL is required")
@@ -142,10 +129,8 @@ func (m *Manager) AddProvider(provider *Provider) error {
 		return fmt.Errorf("provider client secret is required")
 	}
 
-	// Normalize provider name to lowercase
-	providerName := strings.ToLower(provider.Name)
+	providerName := strings.ToLower(provider.Name) // To normalize provider names
 
-	// Discover OIDC endpoints
 	discovery, err := m.discoverEndpoints(provider.ConfigURL)
 	if err != nil {
 		return fmt.Errorf("failed to discover OIDC endpoints: %w", err)
@@ -174,7 +159,6 @@ func (m *Manager) AddProvider(provider *Provider) error {
 	return nil
 }
 
-// discoverEndpoints fetches the OIDC discovery document
 func (m *Manager) discoverEndpoints(configURL string) (*OIDCDiscovery, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -202,7 +186,6 @@ func (m *Manager) discoverEndpoints(configURL string) (*OIDCDiscovery, error) {
 	return &discovery, nil
 }
 
-// GetProvider returns a provider by name
 func (m *Manager) GetProvider(name string) (*Provider, error) {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
@@ -214,7 +197,6 @@ func (m *Manager) GetProvider(name string) (*Provider, error) {
 	return provider, nil
 }
 
-// GetProviders returns all configured providers (public info only)
 func (m *Manager) GetProviders() []PublicProvider {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
@@ -229,14 +211,12 @@ func (m *Manager) GetProviders() []PublicProvider {
 	return providers
 }
 
-// HasProviders returns true if at least one OIDC provider is configured
 func (m *Manager) HasProviders() bool {
 	m.mu.RLock()
 	defer m.mu.RUnlock()
 	return len(m.providers) > 0
 }
 
-// IsEnabled returns true if OIDC is enabled (at least one provider configured)
 func IsEnabled() bool {
 	return GetManager().HasProviders()
 }

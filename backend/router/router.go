@@ -9,19 +9,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Fake delay for dev to test reactivity
+// For development only - fake delay for dev to test reactivity
 
-//	func DelayMiddleware(delay time.Duration) gin.HandlerFunc {
-//		return func(c *gin.Context) {
-//			time.Sleep(delay)
-//			c.Next()
-//		}
-//	}
+/*
+		func DelayMiddleware(delay time.Duration) gin.HandlerFunc {
+		return func(c *gin.Context) {
+			time.Sleep(delay)
+			c.Next()
+		}
+	}
+*/
 func InitRouter(app *app.App) *gin.Engine {
 	router := gin.New()
 
 	router.Use(gin.Recovery())
 	//router.Use(DelayMiddleware(250 * time.Millisecond))
+
 	// Config proxy and CORS
 	router.SetTrustedProxies([]string{"127.0.0.1", "localhost"})
 	router.Use(cors.New(cors.Config{
@@ -34,11 +37,8 @@ func InitRouter(app *app.App) *gin.Engine {
 			}
 
 			// Allow all sub domains (www, api, etc.)
-			// simple example for mondomaine.com
-			// remove the protocol for comparison
 			originHost := origin
 			if len(originHost) > 0 {
-				// remove the protocol
 				if idx := len("http://"); len(originHost) > idx && originHost[:7] == "http://" {
 					originHost = originHost[7:]
 				} else if idx := len("https://"); len(originHost) > idx && originHost[:8] == "https://" {

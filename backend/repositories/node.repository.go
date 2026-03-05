@@ -106,7 +106,7 @@ func (r *NodeRepositoryImpl) loadPermissionsForNodes(userId types.Snowflake, nod
 	}
 
 	// Build the IN clause
-	nodeIDs := make([]interface{}, 0, len(nodeMap))
+	nodeIDs := make([]any, 0, len(nodeMap))
 	placeholders := make([]string, 0, len(nodeMap))
 	for nodeId := range nodeMap {
 		nodeIDs = append(nodeIDs, nodeId)
@@ -119,7 +119,7 @@ func (r *NodeRepositoryImpl) loadPermissionsForNodes(userId types.Snowflake, nod
 		WHERE user_id = ? AND node_id IN (%s)`,
 		strings.Join(placeholders, ","))
 
-	args := append([]interface{}{userId}, nodeIDs...)
+	args := append([]any{userId}, nodeIDs...)
 	rows, err := r.db.Query(query, args...)
 	if err != nil {
 		return fmt.Errorf("failed to query permissions: %w", err)

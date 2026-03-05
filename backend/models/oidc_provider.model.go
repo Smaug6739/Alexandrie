@@ -2,7 +2,6 @@ package models
 
 import "alexandrie/types"
 
-// UserOIDCProvider represents a link between a user and an external OIDC provider
 type UserOIDCProvider struct {
 	Id               types.Snowflake `json:"id" db:"id"`
 	UserId           types.Snowflake `json:"user_id" db:"user_id"`

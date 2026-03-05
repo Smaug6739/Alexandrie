@@ -25,7 +25,6 @@ func NewOIDCProviderRepository(db *sqlx.DB) OIDCProviderRepository {
 	return &OIDCProviderRepositoryImpl{db: db}
 }
 
-// GetByUserID retrieves all OIDC provider links for a user
 func (r *OIDCProviderRepositoryImpl) GetByUserID(userID types.Snowflake) ([]*models.UserOIDCProvider, error) {
 	var links []*models.UserOIDCProvider
 	err := r.db.Select(&links, `
@@ -38,7 +37,6 @@ func (r *OIDCProviderRepositoryImpl) GetByUserID(userID types.Snowflake) ([]*mod
 	return links, nil
 }
 
-// GetByProviderAndSubject finds a link by provider name and provider user ID
 func (r *OIDCProviderRepositoryImpl) GetByProviderAndSubject(providerName, providerUserID string) (*models.UserOIDCProvider, error) {
 	var link models.UserOIDCProvider
 	err := r.db.Get(&link, `
@@ -54,7 +52,6 @@ func (r *OIDCProviderRepositoryImpl) GetByProviderAndSubject(providerName, provi
 	return &link, nil
 }
 
-// Create creates a new user-OIDC provider link
 func (r *OIDCProviderRepositoryImpl) Create(link *models.UserOIDCProvider) (*models.UserOIDCProvider, error) {
 	_, err := r.db.NamedExec(`
 		INSERT INTO user_oidc_providers (id, user_id, provider_name, provider_user_id, created_timestamp, updated_timestamp)
@@ -65,7 +62,6 @@ func (r *OIDCProviderRepositoryImpl) Create(link *models.UserOIDCProvider) (*mod
 	return link, nil
 }
 
-// Delete removes a user-OIDC provider link
 func (r *OIDCProviderRepositoryImpl) Delete(id types.Snowflake) error {
 	_, err := r.db.Exec(`DELETE FROM user_oidc_providers WHERE id = ?`, id)
 	if err != nil {
@@ -74,7 +70,6 @@ func (r *OIDCProviderRepositoryImpl) Delete(id types.Snowflake) error {
 	return nil
 }
 
-// DeleteByUserID removes all OIDC provider links for a user
 func (r *OIDCProviderRepositoryImpl) DeleteByUserID(userID types.Snowflake) error {
 	_, err := r.db.Exec(`DELETE FROM user_oidc_providers WHERE user_id = ?`, userID)
 	if err != nil {

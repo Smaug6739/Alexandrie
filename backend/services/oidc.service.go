@@ -23,13 +23,13 @@ import (
 
 type StateData struct {
 	Expiry time.Time
-	IsLink bool            // true if this is a link flow, false if login flow
-	UserID types.Snowflake // user ID to link to (only set if IsLink is true)
+	IsLink bool
+	UserID types.Snowflake
 }
 
 type OIDCService interface {
-	GetProviders() []oidc.PublicProvider
 	IsEnabled() bool
+	GetProviders() []oidc.PublicProvider
 	GenerateAuthURL(providerName, redirectURI string, linkUserID *types.Snowflake) (string, string, error)
 	ExchangeCodeForUser(providerName, code, redirectURI string) (*oidc.UserInfo, error)
 	LoginOrCreate(providerName string, userInfo *oidc.UserInfo, ip, userAgent string) (*models.User, *models.Session, bool, error)
@@ -52,7 +52,6 @@ type oidcService struct {
 	statesMu    sync.RWMutex
 }
 
-// NewOIDCService creates a new OIDC service
 func NewOIDCService(
 	oidcRepo repositories.OIDCProviderRepository,
 	userRepo repositories.UserRepository,
@@ -75,13 +74,11 @@ func NewOIDCService(
 		states: make(map[string]*StateData),
 	}
 
-	// Start cleanup goroutine for expired states
 	go svc.cleanupExpiredStates()
 
 	return svc
 }
 
-// cleanupExpiredStates periodically removes expired state tokens
 func (s *oidcService) cleanupExpiredStates() {
 	ticker := time.NewTicker(5 * time.Minute)
 	for range ticker.C {
@@ -96,33 +93,26 @@ func (s *oidcService) cleanupExpiredStates() {
 	}
 }
 
-// GetProviders returns all available OIDC providers
-func (s *oidcService) GetProviders() []oidc.PublicProvider {
-	return s.manager.GetProviders()
-}
-
-// IsEnabled returns true if OIDC is enabled
 func (s *oidcService) IsEnabled() bool {
 	return s.manager.HasProviders()
 }
 
-// GenerateAuthURL generates an authorization URL for a provider.
-// If linkUserID is provided, this is a link flow (linking provider to existing user).
-// If linkUserID is nil, this is a login flow.
+func (s *oidcService) GetProviders() []oidc.PublicProvider {
+	return s.manager.GetProviders()
+}
+
 func (s *oidcService) GenerateAuthURL(providerName, redirectURI string, linkUserID *types.Snowflake) (string, string, error) {
 	provider, err := s.manager.GetProvider(providerName)
 	if err != nil {
 		return "", "", err
 	}
 
-	// Generate a secure random state
 	stateBytes := make([]byte, 32)
 	if _, err := rand.Read(stateBytes); err != nil {
 		return "", "", fmt.Errorf("failed to generate state: %w", err)
 	}
 	state := base64.URLEncoding.EncodeToString(stateBytes)
 
-	// Store state with metadata
 	stateData := &StateData{
 		Expiry: time.Now().Add(10 * time.Minute),
 		IsLink: linkUserID != nil,
@@ -135,7 +125,6 @@ func (s *oidcService) GenerateAuthURL(providerName, redirectURI string, linkUser
 	s.states[state] = stateData
 	s.statesMu.Unlock()
 
-	// Build authorization URL
 	authURL, err := url.Parse(provider.AuthorizationEndpoint)
 	if err != nil {
 		return "", "", fmt.Errorf("invalid authorization endpoint: %w", err)
@@ -152,8 +141,6 @@ func (s *oidcService) GenerateAuthURL(providerName, redirectURI string, linkUser
 	return authURL.String(), state, nil
 }
 
-// ValidateState validates and consumes an OIDC state token.
-// Returns the state data if valid, or an error if invalid/expired.
 func (s *oidcService) ValidateState(state string) (*StateData, error) {
 	s.statesMu.Lock()
 	defer s.statesMu.Unlock()
@@ -163,10 +150,8 @@ func (s *oidcService) ValidateState(state string) (*StateData, error) {
 		return nil, errors.New("invalid state")
 	}
 
-	// Remove state (one-time use)
 	delete(s.states, state)
 
-	// Check if expired
 	if time.Now().After(data.Expiry) {
 		return nil, errors.New("state expired")
 	}
@@ -174,20 +159,17 @@ func (s *oidcService) ValidateState(state string) (*StateData, error) {
 	return data, nil
 }
 
-// ExchangeCodeForUser exchanges an authorization code for user info
 func (s *oidcService) ExchangeCodeForUser(providerName, code, redirectURI string) (*oidc.UserInfo, error) {
 	provider, err := s.manager.GetProvider(providerName)
 	if err != nil {
 		return nil, err
 	}
 
-	// Exchange code for tokens
 	tokenResp, err := s.exchangeCode(provider, code, redirectURI)
 	if err != nil {
 		return nil, fmt.Errorf("failed to exchange code: %w", err)
 	}
 
-	// Get user info
 	userInfo, err := s.getUserInfo(provider, tokenResp.AccessToken)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user info: %w", err)
@@ -196,7 +178,6 @@ func (s *oidcService) ExchangeCodeForUser(providerName, code, redirectURI string
 	return userInfo, nil
 }
 
-// exchangeCode exchanges an authorization code for tokens
 func (s *oidcService) exchangeCode(provider *oidc.Provider, code, redirectURI string) (*oidc.TokenResponse, error) {
 	data := url.Values{}
 	data.Set("grant_type", "authorization_code")
@@ -234,7 +215,6 @@ func (s *oidcService) exchangeCode(provider *oidc.Provider, code, redirectURI st
 	return &tokenResp, nil
 }
 
-// getUserInfo fetches user info from the OIDC provider
 func (s *oidcService) getUserInfo(provider *oidc.Provider, accessToken string) (*oidc.UserInfo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -265,13 +245,10 @@ func (s *oidcService) getUserInfo(provider *oidc.Provider, accessToken string) (
 	return &userInfo, nil
 }
 
-// LoginOrCreate attempts to login via OIDC or creates a new user
-// Returns: user, session, isNewLink (true if this is a new provider link), error
 func (s *oidcService) LoginOrCreate(providerName string, userInfo *oidc.UserInfo, ip, userAgent string) (*models.User, *models.Session, bool, error) {
 
 	providerName = strings.ToLower(providerName)
 
-	// Check if this OIDC identity is already linked to a user
 	link, err := s.oidcRepo.GetByProviderAndSubject(providerName, userInfo.Sub)
 	if err != nil {
 		return nil, nil, false, fmt.Errorf("failed to check OIDC link: %w", err)
@@ -283,7 +260,6 @@ func (s *oidcService) LoginOrCreate(providerName string, userInfo *oidc.UserInfo
 			return nil, nil, false, errors.New("linked user not found")
 		}
 
-		// Create session
 		session, err := s.createSession(user, ip, userAgent)
 		if err != nil {
 			return nil, nil, false, err
@@ -299,12 +275,10 @@ func (s *oidcService) LoginOrCreate(providerName string, userInfo *oidc.UserInfo
 		return nil, nil, false, fmt.Errorf("failed to create user: %w", err)
 	}
 
-	// Link the OIDC provider to the user
 	if err := s.LinkProvider(user.Id, providerName, userInfo.Sub); err != nil {
 		return nil, nil, false, fmt.Errorf("failed to link provider: %w", err)
 	}
 
-	// Create session
 	session, err := s.createSession(user, ip, userAgent)
 	if err != nil {
 		return nil, nil, false, err
@@ -313,7 +287,6 @@ func (s *oidcService) LoginOrCreate(providerName string, userInfo *oidc.UserInfo
 	return user, session, true, nil
 }
 
-// createSession creates a new session for a user
 func (s *oidcService) createSession(user *models.User, ip, userAgent string) (*models.Session, error) {
 
 	session := &models.Session{
@@ -338,9 +311,8 @@ func (s *oidcService) createSession(user *models.User, ip, userAgent string) (*m
 	return session, nil
 }
 
-// createUserFromOIDC creates a new user from OIDC user info
 func (s *oidcService) createUserFromOIDC(userInfo *oidc.UserInfo) (*models.User, error) {
-	// User object
+
 	userID := s.snowflake.Generate()
 	username := s.userService.GenerateUniqueUsername(userInfo.PreferredUsername, userID)
 	now := time.Now().UnixMilli()
@@ -348,7 +320,7 @@ func (s *oidcService) createUserFromOIDC(userInfo *oidc.UserInfo) (*models.User,
 		Id:               userID,
 		Username:         username,
 		Email:            userInfo.Email,
-		Role:             1, // Default user role
+		Role:             1,
 		CreatedTimestamp: now,
 		UpdatedTimestamp: now,
 	}
@@ -371,11 +343,9 @@ func (s *oidcService) createUserFromOIDC(userInfo *oidc.UserInfo) (*models.User,
 	return createdUser, nil
 }
 
-// LinkProvider links an OIDC provider to an existing user
 func (s *oidcService) LinkProvider(userID types.Snowflake, providerName, providerUserID string) error {
 	providerName = strings.ToLower(providerName)
 
-	// Check if already linked
 	existing, err := s.oidcRepo.GetByProviderAndSubject(providerName, providerUserID)
 	if err != nil {
 		return fmt.Errorf("failed to check existing link: %w", err)
@@ -401,7 +371,6 @@ func (s *oidcService) LinkProvider(userID types.Snowflake, providerName, provide
 	return err
 }
 
-// UnlinkProvider removes an OIDC provider link from a user
 func (s *oidcService) UnlinkProvider(userID types.Snowflake, providerName string) error {
 	providerName = strings.ToLower(providerName)
 
@@ -409,7 +378,6 @@ func (s *oidcService) UnlinkProvider(userID types.Snowflake, providerName string
 	if err != nil {
 		return fmt.Errorf("failed to get user OIDC links: %w", err)
 	}
-	// Check if user has another login method available before unlinking
 	userPassword, err := s.userRepo.HasPassword(userID)
 	if err != nil {
 		return errors.New("failed to get user password status")
@@ -427,7 +395,6 @@ func (s *oidcService) UnlinkProvider(userID types.Snowflake, providerName string
 	return errors.New("provider link not found")
 }
 
-// GetUserProviders returns all OIDC providers linked to a user
 func (s *oidcService) GetUserProviders(userID types.Snowflake) ([]*models.UserOIDCProvider, error) {
 	return s.oidcRepo.GetByUserID(userID)
 }

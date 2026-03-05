@@ -22,7 +22,6 @@ func NewUserSettingsRepository(db *sqlx.DB) UserSettingsRepository {
 	return &UserSettingsRepositoryImpl{db: db}
 }
 
-// GetByUserID retrieves the settings for a given user, or nil if none exist
 func (r *UserSettingsRepositoryImpl) GetByUserID(userID types.Snowflake) (*models.UserSettings, error) {
 	var settings models.UserSettings
 	err := r.db.Get(&settings, `SELECT user_id, general, editor, advanced FROM user_settings WHERE user_id = ?`, userID)
@@ -35,7 +34,6 @@ func (r *UserSettingsRepositoryImpl) GetByUserID(userID types.Snowflake) (*model
 	return &settings, nil
 }
 
-// Upsert inserts or updates user settings (MySQL ON DUPLICATE KEY UPDATE)
 func (r *UserSettingsRepositoryImpl) Upsert(settings *models.UserSettings) error {
 	_, err := r.db.NamedExec(`
 		INSERT INTO user_settings (user_id, general, editor, advanced)

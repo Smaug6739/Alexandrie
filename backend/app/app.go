@@ -54,7 +54,6 @@ func InitApp(config Config) *App {
 	// Run database migrations / schema creation
 	Migrate(&config)
 
-	// Initialize repository manager
 	repoManager, err := repositories.NewRepositoryManager(app.DB)
 	if err != nil {
 		log.Fatalf("Failed to initialize repository manager: %v", err)
@@ -62,7 +61,6 @@ func InitApp(config Config) *App {
 
 	app.Repos = repoManager
 
-	// Initialize service manager
 	resourceConfig := services.ResourceConfig{
 		MaxUploadsSize:       config.Cdn.MaxUploadsSize,
 		SupportedTypes:       config.Cdn.SupportedTypes,

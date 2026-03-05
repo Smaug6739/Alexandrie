@@ -22,7 +22,6 @@ func NewLogRepository(db *sqlx.DB) LogRepository {
 	return &LogRepositoryImpl{db: db}
 }
 
-// GetLocationFromIP returns the location string from an IP address
 func (r *LogRepositoryImpl) GetLocationFromIP(ip string) string {
 	geonameId, err := r.getLocationIdFromIP(ip)
 	if err != nil {
@@ -46,7 +45,6 @@ func (r *LogRepositoryImpl) GetLocationFromIP(ip string) string {
 	return strings.Join(parts, ", ")
 }
 
-// getLocationIdFromIP returns the geoname ID for an IP address
 func (r *LogRepositoryImpl) getLocationIdFromIP(ip string) (int64, error) {
 	ipInt, db, err := ipToDecimal(ip)
 	if err != nil {
@@ -72,7 +70,6 @@ func (r *LogRepositoryImpl) getLocationIdFromIP(ip string) (int64, error) {
 	return locationId, nil
 }
 
-// ipToDecimal converts an IP address to its decimal representation
 func ipToDecimal(ipStr string) (string, string, error) {
 	ip := net.ParseIP(ipStr)
 	if ip == nil {

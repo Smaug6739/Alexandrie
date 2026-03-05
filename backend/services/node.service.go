@@ -17,7 +17,7 @@ type NodeService interface {
 	GetAllNodeBackup(userId types.Snowflake) ([]*models.Node, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
 	GetPublicNode(nodeId types.Snowflake) (*models.PublicNodeResponse, error)
-	GetNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (map[string]interface{}, error)
+	GetNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (map[string]any, error)
 	CreateNode(node *models.Node, userId types.Snowflake) (*models.Node, error)
 	UpdateNode(nodeId types.Snowflake, node *models.Node, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (*models.Node, error)
 	DeleteNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error
@@ -88,7 +88,7 @@ func (s *nodeService) GetPublicNode(nodeId types.Snowflake) (*models.PublicNodeR
 	}, nil
 }
 
-func (s *nodeService) GetNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (map[string]interface{}, error) {
+func (s *nodeService) GetNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (map[string]any, error) {
 	dbNode, err := s.nodeRepo.GetByID(nodeId)
 	if err != nil {
 		return nil, err
@@ -111,7 +111,7 @@ func (s *nodeService) GetNode(nodeId types.Snowflake, connectedUserId types.Snow
 		}
 	}
 
-	return map[string]interface{}{
+	return map[string]any{
 		"node":        dbNode,
 		"permissions": filteredPerms,
 	}, nil

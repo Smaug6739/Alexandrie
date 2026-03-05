@@ -13,7 +13,6 @@ func DBConnection(config Config, multiStatements bool) *sqlx.DB {
 	User := os.Getenv("DATABASE_USER")
 	Password := os.Getenv("DATABASE_PASSWORD")
 
-	// Use environment variables for host/port/database if set, otherwise fall back to config
 	Host := os.Getenv("DATABASE_HOST")
 	if Host == "" {
 		Host = config.Database.Host

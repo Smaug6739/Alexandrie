@@ -1,7 +1,5 @@
 package snowflake
 
-// Utility functions for Snowflake ID generation and management
-
 import (
 	"alexandrie/types"
 	"os"
@@ -30,7 +28,6 @@ type Snowflake struct {
 	mutex     sync.Mutex
 }
 
-// NewSnowflake creates a new Snowflake generator with automatically determined worker and process IDs
 func NewSnowflake(epoch int64) *Snowflake {
 	workerID := int64(os.Getpid() & maxWorkerID)
 	processID := int64(os.Getppid() & maxProcessID)
@@ -43,7 +40,6 @@ func NewSnowflake(epoch int64) *Snowflake {
 	}
 }
 
-// Generate creates a new unique snowflake ID
 func (s *Snowflake) Generate() types.Snowflake {
 	timestamp := time.Now().UnixMilli()
 	s.mutex.Lock()
@@ -67,7 +63,6 @@ func (s *Snowflake) Generate() types.Snowflake {
 		s.increment)
 }
 
-// Deconstruct splits a snowflake ID into its components
 func (s *Snowflake) Deconstruct(id int64) map[string]int64 {
 	return map[string]int64{
 		"id":        id,

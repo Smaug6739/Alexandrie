@@ -21,7 +21,6 @@ func NewAuthorizer(permRepo repositories.PermissionRepository) Authorizer {
 	return &DefaultAuthorizer{permRepo: permRepo}
 }
 
-// Check access to a node resource
 func (a *DefaultAuthorizer) CanAccessNode(userID types.Snowflake, userRole UserRole, node *models.Node, action NodeAction) (bool, NodePermissionLevel, error) {
 	// Case 1: Owner of the node
 	if userID == node.UserId {
@@ -39,13 +38,11 @@ func (a *DefaultAuthorizer) CanAccessNode(userID types.Snowflake, userRole UserR
 	return false, PermNone, errors.New("unauthorized")
 }
 
-// Check access to a user resource
 func (a *DefaultAuthorizer) CanAccessUser(connectedID, targetID types.Snowflake, userRole UserRole) (bool, error) {
 	if connectedID == targetID {
 		return true, nil
 	}
 
-	// Here we need to check the global role from the context (via middleware or db)
 	if a.IsAppAdmin(userRole) {
 		return true, nil
 	}
