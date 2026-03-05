@@ -1,83 +1,189 @@
-# Alexandrie – The Ultimate Note-Taking App
+<div align="center">
 
-<img src="./frontend/public/Logo/Alexandrie-logo-dark.png" width="120" align="left">
+<img src="./frontend/public/Logo/Alexandrie-logo-dark.png" width="140">
 
-<b>A modern and elegant application for taking notes in extended Markdown.</b><br>
-Organize, search, and export your notes with an intuitive interface designed for students and productivity.
+# Alexandrie
 
-<p align="center">
+**A self-hosted, open-source knowledge base with an extended Markdown editor.**<br>
+Organize, search, share and export your notes — from any device, even offline.
 
-[![GitHub Repo stars](https://img.shields.io/github/stars/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/issues)
-[![GitHub license](https://img.shields.io/github/license/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/pulls)
-[![GitHub release](https://img.shields.io/github/v/release/Smaug6739/Alexandrie)](https://github.com/Smaug6739/Alexandrie/releases)
-[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?&logo=discord&logoColor=white)](https://discord.gg/UPsEg6egPj)
+[Live Demo](https://alexandrie-hub.fr) · [Documentation](./docs/README.md) · [Discord](https://discord.gg/UPsEg6egPj)
 
-</p>
+[![GitHub Repo stars](https://img.shields.io/github/stars/Smaug6739/Alexandrie?style=for-the-badge)](https://github.com/Smaug6739/Alexandrie/stargazers)
+[![GitHub release](https://img.shields.io/github/v/release/Smaug6739/Alexandrie?style=for-the-badge)](https://github.com/Smaug6739/Alexandrie/releases)
+[![GitHub license](https://img.shields.io/github/license/Smaug6739/Alexandrie?style=for-the-badge)](https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE)
+[![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/UPsEg6egPj)
 
-![alexandrie-hub fr_dashboard_docs_218914302160015361](.github/present.png)
+</div>
 
-## ✨ Features
+![Alexandrie Preview](.github/present.png)
 
-- **Enhanced Markdown Editor** – Write notes with advanced and unique Markdown features.
-- **Instant Search** – Find your notes in seconds.
-- **Intuitive Organization** – Easily categorize and archive your notes with a complete sidebar, workspaces, categories, nested documents / categories, tags...
-- **Export & Print** – Save your notes as PDF, Markdown, and more.
-- **Access Anywhere** – Log in and retrieve your notes from any device. Use the PWA to access your notes offline.
-- **Share Notes** – Share your notes with others via unique links or powerful permissions system.
+## Why Alexandrie?
+
+Most note-taking apps are either too simple or too bloated. Alexandrie is the sweet spot: a **fast, self-hosted Markdown knowledge base** that's easy to deploy and packed with features you actually need.
+
+- **One command to deploy** — `docker compose up` brings up the full stack 🚀
+- **Extended Markdown** — colored containers, academic blocks, KaTeX math, footnotes, interactive checkboxes, and more. Also change preferred theme globally and see all of your notes in a consistent style
+- **Full-text search** — instant results with content snippets and relevance ranking
+- **Granular permissions** — 5-level access control (None → Read → Write → Admin → Owner) per document, per user
+- **PWA & offline support** — install on any device and work without internet
+- **SSO / OIDC** — connect Google, GitHub, Microsoft, Discord, or any OpenID provider
+- **Workspaces, categories, nested docs** — organize naturally with a tree sidebar, tags, bookmarks, and pinned notes
+- **Kanban boards** — plan and organize tasks visually within workspaces
+- **Voice-to-text** — dictate notes directly into the editor
+- **Backups** — export everything (docs, files, settings) as a ZIP with one click
 
 ---
 
-## Interface Preview
+## Screenshots
 
-![Interface 2](./frontend/public/screenshots/mock/2.png)
+<details>
+<summary><strong>Editor with live preview</strong></summary>
 
-### Share your notes, collaborate with others, manage permissions.
+![Editor](./frontend/public/screenshots/mock/2.png)
 
-![Interface 3](./frontend/public/screenshots/mock/3.png)
+</details>
 
-## Quick Start with Docker
+<details>
+<summary><strong>Sharing & permissions</strong></summary>
 
-For local testing and development, you can use Docker to run the entire stack:
+![Permissions](./frontend/public/screenshots/mock/3.png)
 
-**Start a demo server:**
+</details>
 
-- Download the [docker-compose.yml](./docker-compose.yml) file.
-- Download the [.env.example](./.env.example) file and rename it to `.env`, then adjust any environment variables as needed. _Default settings should work out of the box._
+<details>
+<summary><strong>Mobile view</strong></summary>
 
-```bash
-docker compose up
-```
+<img src="./frontend/public/screenshots/mock/phone-1.png" width="300">
 
-**Start a development server with hot reloading (HMR, and need to clone the repo):**
+</details>
 
-```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
-```
+---
 
-For complete setup instructions, please refer to the [Setup Documentation](./docs/README.md).
+## Quick Start
 
-**Access points:**
-
-- **Frontend**: http://localhost:8200
-- **Backend API**: http://localhost:8201
-- **Object Storage Console**: http://localhost:9000
-- **MySQL**: localhost:3307 (user: `alexandrie`, password: `password`)
-
-**To stop:**
+Get Alexandrie running in under a minute:
 
 ```bash
-docker compose down
+# 1. Clone (or just download docker-compose.yml + .env.example)
+git clone https://github.com/Smaug6739/Alexandrie.git
+cd Alexandrie
+
+# 2. Configure
+cp .env.example .env   # defaults work out of the box
+
+# 3. Launch
+docker compose up -d
 ```
 
-_The project support S3 compatible storage. The default in docker-compose is RustFS but you can use MinIO, garage, etc._
+Open **http://localhost:8200** and create your account.
 
-If you don't have Docker installed, you can follow the manual setup instructions in the [CONTRIBUTING.md](./CONTRIBUTING.md).
+> **Dev mode with HMR:**
+>
+> ```bash
+> docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+> ```
+
+For manual setup without Docker, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+---
+
+## Tech Stack
+
+| Layer        | Technology                                     |
+| :----------- | :--------------------------------------------- |
+| **Frontend** | Nuxt 4 (Vue 3), TypeScript, Pinia, SCSS        |
+| **Editor**   | CodeMirror 6 with custom extensions            |
+| **Markdown** | markdown-it + custom plugins, KaTeX            |
+| **Backend**  | Go (Gin), JWT auth, sqlx                       |
+| **Database** | MySQL 8                                        |
+| **Storage**  | S3-compatible (RustFS, MinIO, AWS S3, Garage…) |
+| **Auth**     | JWT + OIDC / SSO                               |
+| **Infra**    | Docker Compose (4 services)                    |
+
+---
+
+## Features at a Glance
+
+<table>
+<tr>
+<td width="50%">
+
+**Editor & Writing**
+
+- CodeMirror 6 with rich toolbar
+- Live preview with scroll sync
+- Custom containers, academic blocks, cards/panels
+- KaTeX math, syntax highlighting, footnotes
+- Custom snippets (create, import/export)
+- Voice recognition, drag & drop uploads
+- Auto-save, word count, spell check
+
+</td>
+<td width="50%">
+
+**Organization & Collaboration**
+
+- Workspaces → Categories → Documents (tree)
+- Tags, bookmarks, pinned notes, custom icons
+- Kanban boards per workspace
+- Public sharing with unique links
+- Per-user, per-node permission system
+- Full-text search with `Ctrl+K` command center
+
+</td>
+</tr>
+<tr>
+<td>
+
+**Files & Media**
+
+- S3-based CDN for images, videos, audio, docs
+- In-app PDF viewer with zoom modes
+- 30+ supported formats (images, video, office…)
+- Drag & drop file upload into notes
+
+</td>
+<td>
+
+**Customization & Admin**
+
+- Dark / Light mode, glassmorphism UI
+- Custom CSS injection (global & per-document)
+- Font family, size, line height settings
+- Admin panel with user management
+- Async backup & restore (ZIP)
+
+</td>
+</tr>
+</table>
+
+---
+
+## Roadmap
+
+See the [open issues](https://github.com/Smaug6739/Alexandrie/issues) for planned features and known bugs.
+
+---
 
 ## Contributing
 
-This project has an MIT license. And you are welcome to contribute.
-For more details on contributions, please read the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
+Alexandrie is MIT-licensed and contributions are welcome!
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before submitting a pull request.
 
-> Thank you to everyone who contributes to the project. 🎉
+---
+
+## Support the Project
+
+If Alexandrie is useful to you, consider:
+
+- ⭐ **[Star the repository](https://github.com/Smaug6739/Alexandrie)** — it helps others discover the project
+- **[Report issues](https://github.com/Smaug6739/Alexandrie/issues)** — bug reports and feature requests help improve the app
+- **[Join the Discord](https://discord.gg/UPsEg6egPj)** — get help, share feedback, or just hang out
+- **Spread the word** — share Alexandrie with your friends, on social media, or in your community
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ by <a href="https://github.com/Smaug6739">Smaug6739</a> and contributors.</sub>
+</div>
