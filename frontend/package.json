@@ -44,7 +44,7 @@
     "stylelint": "^17.4.0",
     "stylelint-config-recommended-vue": "^1.6.1",
     "stylelint-config-standard": "^40.0.0",
-    "stylelint-order": "^7.0.1",
+    "stylelint-order": "^8.1.1",
     "svg-baker": "^1.7.0",
     "svgo": "^4.0.1",
     "vue": "^3.5.30",
