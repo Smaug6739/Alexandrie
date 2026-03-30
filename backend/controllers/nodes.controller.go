@@ -3,7 +3,6 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
-	"alexandrie/permissions"
 	"alexandrie/utils"
 	"net/http"
 	"strconv"
@@ -25,8 +24,7 @@ type NodeController interface {
 func NewNodeController(app *app.App) NodeController {
 	utils.InitBluemonday()
 	return &Controller{
-		app:        app,
-		authorizer: permissions.NewAuthorizer(app.Repos.Permission),
+		app: app,
 	}
 }
 
@@ -54,18 +52,18 @@ func (ctr *Controller) GetPublicNode(c *gin.Context) (int, any) {
 // @Param userId path string true "Target User ID"
 // @Router /nodes/shared/{userId} [get]
 func (ctr *Controller) GetSharedNodes(c *gin.Context) (int, any) {
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
+
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	nodes, err := ctr.app.Services.Node.GetSharedNodes(targetUserId, connectedUserId, connectedUserRole)
+	nodes, err := ctr.app.Services.Node.GetSharedNodes(c.Request.Context(), targetUserId)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, nodes
 }
@@ -76,18 +74,19 @@ func (ctr *Controller) GetSharedNodes(c *gin.Context) (int, any) {
 // @Param userId path string true "Target User ID"
 // @Router /nodes/{userId} [get]
 func (ctr *Controller) GetNodes(c *gin.Context) (int, any) {
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
+
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
+
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	nodes, err := ctr.app.Services.Node.GetAllNodes(targetUserId, connectedUserId, connectedUserRole)
+	nodes, err := ctr.app.Services.Node.GetAllNodes(c.Request.Context(), targetUserId)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, nodes
 }
@@ -102,14 +101,13 @@ func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
-	result, err := ctr.app.Services.Node.GetNode(nodeId, connectedUserId, connectedUserRole, ctr.authorizer)
+	result, err := ctr.app.Services.Node.GetNode(c.Request.Context(), nodeId)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, result
 }
@@ -123,11 +121,6 @@ func (ctr *Controller) GetNode(c *gin.Context) (int, any) {
 //   - content: include content body in search (optional, default false)
 //   - limit: max results (optional, default 20, max 100)
 func (ctr *Controller) SearchNodes(c *gin.Context) (int, any) {
-	connectedUserId, _, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
-	}
-
 	query := c.Query("q")
 	if len(query) < 2 {
 		return http.StatusBadRequest, "Search query must be at least 2 characters"
@@ -142,7 +135,7 @@ func (ctr *Controller) SearchNodes(c *gin.Context) (int, any) {
 		}
 	}
 
-	results, err := ctr.app.Services.Node.SearchNodes(connectedUserId, query, includeContent, limit)
+	results, err := ctr.app.Services.Node.SearchNodes(c.Request.Context(), query, includeContent, limit)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
@@ -159,14 +152,13 @@ func (ctr *Controller) CreateNode(c *gin.Context) (int, any) {
 	if err := c.ShouldBind(&node); err != nil {
 		return http.StatusBadRequest, err
 	}
-	userId, _, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
-	createdNode, err := ctr.app.Services.Node.CreateNode(&node, userId)
+	createdNode, err := ctr.app.Services.Node.CreateNode(c.Request.Context(), &node)
 	if err != nil {
-		return http.StatusInternalServerError, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, createdNode
 }
@@ -181,9 +173,8 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
 	var node models.Node
@@ -191,9 +182,9 @@ func (ctr *Controller) UpdateNode(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	updatedNode, err := ctr.app.Services.Node.UpdateNode(nodeId, &node, connectedUserId, connectedUserRole, ctr.authorizer)
+	updatedNode, err := ctr.app.Services.Node.UpdateNode(c.Request.Context(), nodeId, &node)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, updatedNode
 }
@@ -208,14 +199,13 @@ func (ctr *Controller) DeleteNode(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
-	err = ctr.app.Services.Node.DeleteNode(nodeId, connectedUserId, connectedUserRole, ctr.authorizer)
+	err = ctr.app.Services.Node.DeleteNode(c.Request.Context(), nodeId)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, "OK"
 }

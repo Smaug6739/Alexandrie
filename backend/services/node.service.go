@@ -7,21 +7,21 @@ import (
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
-	"errors"
+	"context"
 	"time"
 )
 
 type NodeService interface {
-	GetAllNodes(userId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole) ([]*models.Node, error)
-	GetSharedNodes(userId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole) ([]*models.Node, error)
+	GetAllNodes(ctx context.Context, userId types.Snowflake) ([]*models.Node, error)
+	GetSharedNodes(ctx context.Context, userId types.Snowflake) ([]*models.Node, error)
 	GetAllNodeBackup(userId types.Snowflake) ([]*models.Node, error)
 	GetUserUploadsSize(userId types.Snowflake) (int64, error)
 	GetPublicNode(nodeId types.Snowflake) (*models.PublicNodeResponse, error)
-	GetNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (map[string]any, error)
-	CreateNode(node *models.Node, userId types.Snowflake) (*models.Node, error)
-	UpdateNode(nodeId types.Snowflake, node *models.Node, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (*models.Node, error)
-	DeleteNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error
-	SearchNodes(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error)
+	GetNode(ctx context.Context, nodeId types.Snowflake) (map[string]any, error)
+	CreateNode(ctx context.Context, node *models.Node) (*models.Node, error)
+	UpdateNode(ctx context.Context, nodeId types.Snowflake, node *models.Node) (*models.Node, error)
+	DeleteNode(ctx context.Context, nodeId types.Snowflake) error
+	SearchNodes(ctx context.Context, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error)
 }
 
 type nodeService struct {
@@ -29,27 +29,37 @@ type nodeService struct {
 	permRepo     repositories.PermissionRepository
 	minioService MinioService
 	snowflake    *snowflake.Snowflake
+	access       permissions.AccessGuard
 }
 
-func NewNodeService(nodeRepo repositories.NodeRepository, permRepo repositories.PermissionRepository, minioService MinioService, snowflake *snowflake.Snowflake) NodeService {
+func NewNodeService(nodeRepo repositories.NodeRepository, permRepo repositories.PermissionRepository, minioService MinioService, snowflake *snowflake.Snowflake, access permissions.AccessGuard) NodeService {
 	return &nodeService{
 		nodeRepo:     nodeRepo,
 		permRepo:     permRepo,
 		minioService: minioService,
 		snowflake:    snowflake,
+		access:       access,
 	}
 }
 
-func (s *nodeService) GetAllNodes(userId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole) ([]*models.Node, error) {
-	if connectedUserId != userId && connectedUserRole != permissions.RoleAdministrator {
-		return nil, errors.New("unauthorized")
+func (s *nodeService) GetAllNodes(ctx context.Context, userId types.Snowflake) ([]*models.Node, error) {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if actor.UserID != userId && !s.access.IsAppAdmin(actor.Role) {
+		return nil, permissions.ErrForbidden
 	}
 	return s.nodeRepo.GetAll(userId)
 }
 
-func (s *nodeService) GetSharedNodes(userId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole) ([]*models.Node, error) {
-	if connectedUserId != userId && connectedUserRole != permissions.RoleAdministrator {
-		return nil, errors.New("unauthorized")
+func (s *nodeService) GetSharedNodes(ctx context.Context, userId types.Snowflake) ([]*models.Node, error) {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if actor.UserID != userId && !s.access.IsAppAdmin(actor.Role) {
+		return nil, permissions.ErrForbidden
 	}
 	return s.nodeRepo.GetShared(userId)
 }
@@ -88,15 +98,15 @@ func (s *nodeService) GetPublicNode(nodeId types.Snowflake) (*models.PublicNodeR
 	}, nil
 }
 
-func (s *nodeService) GetNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (map[string]any, error) {
-	dbNode, err := s.nodeRepo.GetByID(nodeId)
+func (s *nodeService) GetNode(ctx context.Context, nodeId types.Snowflake) (map[string]any, error) {
+	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	allowed, _, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionRead)
-	if !allowed || err != nil {
-		return nil, errors.New("unauthorized")
+	decision, err := s.access.RequireNodeAction(actor, nodeId, permissions.ActionRead)
+	if err != nil {
+		return nil, err
 	}
 
 	perms, err := s.permRepo.GetByNode(nodeId)
@@ -106,31 +116,46 @@ func (s *nodeService) GetNode(nodeId types.Snowflake, connectedUserId types.Snow
 
 	filteredPerms := []*models.Permission{}
 	for _, p := range perms {
-		if p.UserId == connectedUserId || dbNode.UserId == connectedUserId {
+		if p.UserId == actor.UserID || decision.Node.UserId == actor.UserID {
 			filteredPerms = append(filteredPerms, p)
 		}
 	}
 
 	return map[string]any{
-		"node":        dbNode,
+		"node":        decision.Node,
 		"permissions": filteredPerms,
 	}, nil
 }
 
-func (s *nodeService) CreateNode(node *models.Node, userId types.Snowflake) (*models.Node, error) {
+func (s *nodeService) CreateNode(ctx context.Context, node *models.Node) (*models.Node, error) {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	escapedHTMLContent := utils.EscapeHTML(node.ContentCompiled)
 
-	description := ""
-	if node.Description != nil {
-		description = *node.Description
+	// Parent ID: Check if exists and user has permissions to create under it
+	safeParentId := node.ParentId
+	if node.ParentId != nil {
+		parentNode, err := s.nodeRepo.GetByID(*node.ParentId)
+		if err != nil {
+			safeParentId = nil
+		}
+		if parentNode != nil {
+			level, err := s.access.CheckNodeAction(actor, parentNode, permissions.ActionUpdate)
+			if err != nil || level == permissions.PermNone {
+				safeParentId = nil
+			}
+		}
 	}
 
 	createdNode := &models.Node{
 		Id:               s.snowflake.Generate(),
-		ParentId:         node.ParentId,
-		UserId:           userId,
+		ParentId:         safeParentId,
+		UserId:           actor.UserID,
 		Name:             node.Name,
-		Description:      &description,
+		Description:      node.Description,
 		Role:             node.Role,
 		Tags:             node.Tags,
 		Thumbnail:        node.Thumbnail,
@@ -155,22 +180,47 @@ func (s *nodeService) CreateNode(node *models.Node, userId types.Snowflake) (*mo
 	return createdNode, nil
 }
 
-func (s *nodeService) UpdateNode(nodeId types.Snowflake, node *models.Node, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (*models.Node, error) {
-	dbNode, err := s.nodeRepo.GetByID(nodeId)
+func (s *nodeService) UpdateNode(ctx context.Context, nodeId types.Snowflake, node *models.Node) (*models.Node, error) {
+	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	allowed, level, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionUpdate)
-	if !allowed && (dbNode.Access < 2 || *dbNode.Accessibility != 3) {
-		return nil, errors.New("unauthorized")
+	dbNode, err := s.nodeRepo.GetByID(nodeId)
+	if err != nil {
+		return nil, err
+	}
+	if dbNode == nil {
+		return nil, permissions.ErrNotFound
 	}
 
-	if dbNode.UserId != connectedUserId && level < permissions.PermOwner {
+	level, err := s.access.CheckNodeAction(actor, dbNode, permissions.ActionUpdate)
+	if err != nil {
+		if dbNode.Access < 2 || dbNode.Accessibility == nil || *dbNode.Accessibility != 3 {
+			return nil, err
+		}
+	}
+
+	if dbNode.UserId != actor.UserID && level < permissions.PermOwner {
 		node.ParentId = dbNode.ParentId
 		node.UserId = dbNode.UserId
 		node.Accessibility = dbNode.Accessibility
 		node.Access = dbNode.Access
+	}
+
+	// Parent ID: Check if exists and user has permissions to create under it
+	safeParentId := node.ParentId
+	if node.ParentId != nil {
+		parentNode, err := s.nodeRepo.GetByID(*node.ParentId)
+		if err != nil {
+			safeParentId = nil
+		}
+		if parentNode != nil {
+			parentLevel, err := s.access.CheckNodeAction(actor, parentNode, permissions.ActionUpdate)
+			if err != nil || parentLevel == permissions.PermNone {
+				safeParentId = nil
+			}
+		}
 	}
 
 	escapedHTMLContent := utils.EscapeHTML(node.ContentCompiled)
@@ -181,7 +231,7 @@ func (s *nodeService) UpdateNode(nodeId types.Snowflake, node *models.Node, conn
 
 	updatedNode := &models.Node{
 		Id:               nodeId,
-		ParentId:         node.ParentId,
+		ParentId:         safeParentId,
 		UserId:           node.UserId,
 		Name:             node.Name,
 		Description:      &description,
@@ -207,25 +257,21 @@ func (s *nodeService) UpdateNode(nodeId types.Snowflake, node *models.Node, conn
 	return updatedNode, nil
 }
 
-func (s *nodeService) DeleteNode(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error {
-	dbNode, err := s.nodeRepo.GetByID(nodeId)
+func (s *nodeService) DeleteNode(ctx context.Context, nodeId types.Snowflake) error {
+	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return err
 	}
 
-	if dbNode == nil {
-		return errors.New("node not found")
-	}
-
-	allowed, _, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionDelete)
-	if !allowed || err != nil {
-		return errors.New("unauthorized")
+	decision, err := s.access.RequireNodeAction(actor, nodeId, permissions.ActionDelete)
+	if err != nil {
+		return err
 	}
 
 	// Get all descendant resources (role=4) before deletion
 	// This is necessary because ON DELETE CASCADE will remove them from DB
 	// but we need to clean up their files in MinIO first
-	resources, err := s.nodeRepo.GetDescendantResources(nodeId)
+	resources, err := s.nodeRepo.GetDescendantResources(decision.Node.Id)
 	if err != nil {
 		// logger.Warn(fmt.Sprintf("Failed to get descendant resources for node %d: %v", nodeId, err))
 		// Continue with deletion even if we can't get resources
@@ -242,10 +288,14 @@ func (s *nodeService) DeleteNode(nodeId types.Snowflake, connectedUserId types.S
 	}
 
 	// Now delete the node from DB (CASCADE will handle children)
-	return s.nodeRepo.Delete(nodeId)
+	return s.nodeRepo.Delete(decision.Node.Id)
 }
 
 // SearchNodes performs a fulltext search on user's documents
-func (s *nodeService) SearchNodes(userId types.Snowflake, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error) {
-	return s.nodeRepo.SearchFulltext(userId, query, includeContent, limit)
+func (s *nodeService) SearchNodes(ctx context.Context, query string, includeContent bool, limit int) ([]*models.NodeSearchResult, error) {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return s.nodeRepo.SearchFulltext(actor.UserID, query, includeContent, limit)
 }

@@ -54,6 +54,8 @@ func Auth() gin.HandlerFunc {
 		}
 		c.Set("user_id", types.Snowflake(user_id))
 		c.Set("user_role", permissions.UserRole(user_role))
+		actor := permissions.Actor{UserID: types.Snowflake(user_id), Role: permissions.UserRole(user_role)}
+		c.Request = c.Request.WithContext(permissions.WithActor(c.Request.Context(), actor))
 		//c.Set("claims", claims)
 		c.Next()
 	}

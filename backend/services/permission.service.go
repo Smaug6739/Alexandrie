@@ -6,42 +6,43 @@ import (
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
-	"errors"
+	"context"
 	"time"
 )
 
 type PermissionService interface {
-	GetNodePermissions(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) ([]*models.Permission, error)
+	GetNodePermissions(ctx context.Context, nodeId types.Snowflake) ([]*models.Permission, error)
 	GetPermission(id types.Snowflake) (*models.Permission, error)
 	HasPermission(userId, nodeId types.Snowflake, required int) (bool, int)
-	CreatePermission(nodeId, userId types.Snowflake, permission int, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (*models.Permission, error)
-	UpdatePermission(id types.Snowflake, permission int, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error
-	DeletePermission(id types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error
+	CreatePermission(ctx context.Context, nodeId, userId types.Snowflake, permission int) (*models.Permission, error)
+	UpdatePermission(ctx context.Context, id types.Snowflake, permission int) error
+	DeletePermission(ctx context.Context, id types.Snowflake) error
 }
 
 type permissionService struct {
 	permRepo  repositories.PermissionRepository
 	nodeRepo  repositories.NodeRepository
 	snowflake *snowflake.Snowflake
+	access    permissions.AccessGuard
 }
 
-func NewPermissionService(permRepo repositories.PermissionRepository, nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake) PermissionService {
+func NewPermissionService(permRepo repositories.PermissionRepository, nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake, access permissions.AccessGuard) PermissionService {
 	return &permissionService{
 		permRepo:  permRepo,
 		nodeRepo:  nodeRepo,
 		snowflake: snowflake,
+		access:    access,
 	}
 }
 
-func (s *permissionService) GetNodePermissions(nodeId types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) ([]*models.Permission, error) {
-	dbNode, err := s.nodeRepo.GetByID(nodeId)
+func (s *permissionService) GetNodePermissions(ctx context.Context, nodeId types.Snowflake) ([]*models.Permission, error) {
+	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	allowed, _, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if !allowed || err != nil {
-		return nil, errors.New("unauthorized")
+	if _, err = s.access.RequireNodeAction(actor, nodeId, permissions.ActionManagePermissions); err != nil {
+		return nil, err
 	}
 
 	return s.permRepo.GetByNode(nodeId)
@@ -55,15 +56,14 @@ func (s *permissionService) HasPermission(userId, nodeId types.Snowflake, requir
 	return s.permRepo.HasPermission(userId, nodeId, required)
 }
 
-func (s *permissionService) CreatePermission(nodeId, userId types.Snowflake, permission int, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) (*models.Permission, error) {
-	dbNode, err := s.nodeRepo.GetByID(nodeId)
+func (s *permissionService) CreatePermission(ctx context.Context, nodeId, userId types.Snowflake, permission int) (*models.Permission, error) {
+	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	allowed, _, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if !allowed || err != nil {
-		return nil, errors.New("unauthorized")
+	if _, err = s.access.RequireNodeAction(actor, nodeId, permissions.ActionManagePermissions); err != nil {
+		return nil, err
 	}
 
 	perm := &models.Permission{
@@ -80,20 +80,19 @@ func (s *permissionService) CreatePermission(nodeId, userId types.Snowflake, per
 	return perm, nil
 }
 
-func (s *permissionService) UpdatePermission(id types.Snowflake, permission int, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error {
+func (s *permissionService) UpdatePermission(ctx context.Context, id types.Snowflake, permission int) error {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return err
+	}
 
 	perm, err := s.permRepo.GetByID(id)
 	if err != nil {
 		return err
 	}
 
-	dbNode, err := s.nodeRepo.GetByID(perm.NodeId)
-	if err != nil {
+	if _, err = s.access.RequireNodeAction(actor, perm.NodeId, permissions.ActionManagePermissions); err != nil {
 		return err
-	}
-	allowed, _, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if !allowed || err != nil {
-		return errors.New("unauthorized")
 	}
 
 	updatedPerm := &models.Permission{
@@ -103,20 +102,19 @@ func (s *permissionService) UpdatePermission(id types.Snowflake, permission int,
 	return s.permRepo.Update(updatedPerm)
 }
 
-func (s *permissionService) DeletePermission(id types.Snowflake, connectedUserId types.Snowflake, connectedUserRole permissions.UserRole, authorizer permissions.Authorizer) error {
+func (s *permissionService) DeletePermission(ctx context.Context, id types.Snowflake) error {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return err
+	}
+
 	perm, err := s.permRepo.GetByID(id)
 	if err != nil {
 		return err
 	}
 
-	dbNode, err := s.nodeRepo.GetByID(perm.NodeId)
-	if err != nil {
+	if _, err = s.access.RequireNodeAction(actor, perm.NodeId, permissions.ActionManagePermissions); err != nil && perm.UserId != actor.UserID {
 		return err
-	}
-
-	allowed, _, err := authorizer.CanAccessNode(connectedUserId, connectedUserRole, dbNode, permissions.ActionManagePermissions)
-	if (!allowed || err != nil) && perm.UserId != connectedUserId {
-		return errors.New("unauthorized")
 	}
 
 	return s.permRepo.Delete(id)

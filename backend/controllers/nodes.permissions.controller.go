@@ -3,7 +3,6 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
-	"alexandrie/permissions"
 	"alexandrie/utils"
 	"net/http"
 
@@ -19,8 +18,7 @@ type PermissionsController interface {
 
 func NewPermissionsController(app *app.App) PermissionsController {
 	return &Controller{
-		app:        app,
-		authorizer: permissions.NewAuthorizer(app.Repos.Permission),
+		app: app,
 	}
 }
 
@@ -34,14 +32,13 @@ func (ctr *Controller) GetNodePermissions(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
-	perms, err := ctr.app.Services.Permission.GetNodePermissions(nodeId, connectedUserId, connectedUserRole, ctr.authorizer)
+	perms, err := ctr.app.Services.Permission.GetNodePermissions(c.Request.Context(), nodeId)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, perms
 }
@@ -60,14 +57,13 @@ func (ctr *Controller) CreatePermission(c *gin.Context) (int, any) {
 	if err := c.ShouldBindJSON(&perm); err != nil {
 		return http.StatusBadRequest, err
 	}
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
-	createdPerm, err := ctr.app.Services.Permission.CreatePermission(nodeId, perm.UserId, perm.Permission, connectedUserId, connectedUserRole, ctr.authorizer)
+	createdPerm, err := ctr.app.Services.Permission.CreatePermission(c.Request.Context(), nodeId, perm.UserId, perm.Permission)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, createdPerm
 }
@@ -82,9 +78,8 @@ func (ctr *Controller) UpdatePermission(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
 	var requestChange models.Permission
@@ -92,9 +87,9 @@ func (ctr *Controller) UpdatePermission(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	err = ctr.app.Services.Permission.UpdatePermission(permId, requestChange.Permission, connectedUserId, connectedUserRole, ctr.authorizer)
+	err = ctr.app.Services.Permission.UpdatePermission(c.Request.Context(), permId, requestChange.Permission)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, "Permission updated"
 }
@@ -109,14 +104,13 @@ func (ctr *Controller) DeletePermission(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
-	err = ctr.app.Services.Permission.DeletePermission(permId, connectedUserId, connectedUserRole, ctr.authorizer)
+	err = ctr.app.Services.Permission.DeletePermission(c.Request.Context(), permId)
 	if err != nil {
-		return http.StatusUnauthorized, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, "Permission deleted"
 }

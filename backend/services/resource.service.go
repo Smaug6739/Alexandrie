@@ -2,6 +2,7 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/permissions"
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
@@ -25,7 +26,7 @@ type ResourceConfig struct {
 }
 
 type ResourceService interface {
-	UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, parentId *types.Snowflake, userId types.Snowflake) (*models.Node, error)
+	UploadFile(ctx context.Context, filename string, fileSize int64, fileContent []byte, mimeType string, parentId *types.Snowflake) (*models.Node, error)
 	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake) error
 }
 
@@ -34,18 +35,26 @@ type resourceService struct {
 	snowflake   *snowflake.Snowflake
 	minioClient *minio.Client
 	config      ResourceConfig
+	access      permissions.AccessGuard
 }
 
-func NewResourceService(nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake, minioClient *minio.Client, config ResourceConfig) ResourceService {
+func NewResourceService(nodeRepo repositories.NodeRepository, snowflake *snowflake.Snowflake, minioClient *minio.Client, config ResourceConfig, access permissions.AccessGuard) ResourceService {
 	return &resourceService{
 		nodeRepo:    nodeRepo,
 		snowflake:   snowflake,
 		minioClient: minioClient,
 		config:      config,
+		access:      access,
 	}
 }
 
-func (s *resourceService) UploadFile(filename string, fileSize int64, fileContent []byte, mimeType string, parentId *types.Snowflake, userId types.Snowflake) (*models.Node, error) {
+func (s *resourceService) UploadFile(ctx context.Context, filename string, fileSize int64, fileContent []byte, mimeType string, parentId *types.Snowflake) (*models.Node, error) {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	userId := actor.UserID
+
 	if s.minioClient == nil {
 		return nil, errors.New("minio client not initialized")
 	}
@@ -77,10 +86,25 @@ func (s *resourceService) UploadFile(filename string, fileSize int64, fileConten
 	}
 	accessibility := utils.IntPtr(1)
 
+	// Parent ID: Check if exists and user has permissions to create under it
+	safeParentId := parentId
+	if parentId != nil {
+		parentNode, err := s.nodeRepo.GetByID(*parentId)
+		if err != nil {
+			safeParentId = nil
+		}
+		if parentNode != nil {
+			level, err := s.access.CheckNodeAction(actor, parentNode, permissions.ActionUpdate)
+			if err != nil || level == permissions.PermNone {
+				safeParentId = nil
+			}
+		}
+	}
+
 	node := &models.Node{
 		Id:               id,
 		UserId:           userId,
-		ParentId:         parentId,
+		ParentId:         safeParentId,
 		Name:             name,
 		Role:             4,
 		Accessibility:    accessibility,

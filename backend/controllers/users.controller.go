@@ -3,7 +3,6 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
-	"alexandrie/permissions"
 	"alexandrie/utils"
 	"errors"
 	"net/http"
@@ -24,8 +23,7 @@ type UserController interface {
 
 func NewUserController(app *app.App) UserController {
 	return &Controller{
-		app:        app,
-		authorizer: permissions.NewAuthorizer(app.Repos.Permission),
+		app: app,
 	}
 }
 
@@ -76,22 +74,18 @@ func (ctr *Controller) GetPublicUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) GetUserById(c *gin.Context) (int, any) {
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
+
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole); !allowed || err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	result, err := ctr.app.Services.User.GetUserById(targetUserId)
+	result, err := ctr.app.Services.User.GetUserById(c.Request.Context(), targetUserId)
 	if err != nil {
-		return http.StatusInternalServerError, err
+		return statusFromAccessError(err), err
 	}
 
 	return http.StatusOK, result
@@ -142,17 +136,13 @@ func (ctr *Controller) CreateUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
+
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
-	}
-
-	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole); !allowed || err != nil {
-		return http.StatusUnauthorized, err
 	}
 
 	var user models.User
@@ -160,9 +150,9 @@ func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	updatedUser, err := ctr.app.Services.User.UpdateUser(targetUserId, user.Firstname, user.Lastname, user.Avatar, user.Email)
+	updatedUser, err := ctr.app.Services.User.UpdateUser(c.Request.Context(), targetUserId, user.Firstname, user.Lastname, user.Avatar, user.Email)
 	if err != nil {
-		return http.StatusInternalServerError, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, updatedUser
 }
@@ -178,17 +168,13 @@ func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
+
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
-	}
-
-	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole); !allowed || err != nil {
-		return http.StatusUnauthorized, err
 	}
 
 	var payload struct {
@@ -198,9 +184,9 @@ func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, errors.New("invalid request payload")
 	}
 
-	err = ctr.app.Services.User.UpdatePassword(targetUserId, payload.Password)
+	err = ctr.app.Services.User.UpdatePassword(c.Request.Context(), targetUserId, payload.Password)
 	if err != nil {
-		return http.StatusInternalServerError, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, "Password updated successfully"
 }
@@ -215,22 +201,17 @@ func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
 func (ctr *Controller) DeleteUser(c *gin.Context) (int, any) {
-	connectedUserId, connectedUserRole, err := utils.GetUserContext(c)
-	if err != nil {
-		return http.StatusUnauthorized, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
+
 	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
-
-	if allowed, err := ctr.authorizer.CanAccessUser(connectedUserId, targetUserId, connectedUserRole); !allowed || err != nil {
-		return http.StatusUnauthorized, err
-	}
-
-	err = ctr.app.Services.User.DeleteUser(targetUserId, ctr.app.Services.Minio)
+	err = ctr.app.Services.User.DeleteUser(c.Request.Context(), targetUserId, ctr.app.Services.Minio)
 	if err != nil {
-		return http.StatusInternalServerError, err
+		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, "User deleted successfully"
 }

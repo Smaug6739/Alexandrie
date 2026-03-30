@@ -1,6 +1,7 @@
 package services
 
 import (
+	"alexandrie/permissions"
 	"alexandrie/pkg/logger"
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
@@ -10,6 +11,7 @@ import (
 )
 
 type ServiceManager struct {
+	Access       permissions.AccessGuard
 	Auth         AuthService
 	User         UserService
 	Node         NodeService
@@ -36,13 +38,14 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowfla
 }
 
 func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, resourceConfig ResourceConfig) error {
+	sm.Access = permissions.NewAccessGuard(repos.Node, repos.Permission)
 	sm.Auth = NewAuthService(repos.User, repos.Session, repos.Log, snowflake)
-	sm.User = NewUserService(repos.User, repos.Log, snowflake)
+	sm.User = NewUserService(repos.User, repos.Log, snowflake, sm.Access)
 	sm.Minio = NewMinioService(minioClient)
-	sm.Node = NewNodeService(repos.Node, repos.Permission, sm.Minio, snowflake)
-	sm.Permission = NewPermissionService(repos.Permission, repos.Node, snowflake)
+	sm.Node = NewNodeService(repos.Node, repos.Permission, sm.Minio, snowflake, sm.Access)
+	sm.Permission = NewPermissionService(repos.Permission, repos.Node, snowflake, sm.Access)
 	sm.Session = NewSessionService(repos.Session)
-	sm.Resource = NewResourceService(repos.Node, snowflake, minioClient, resourceConfig)
+	sm.Resource = NewResourceService(repos.Node, snowflake, minioClient, resourceConfig, sm.Access)
 	sm.Backup = NewBackupService(repos.Node, repos.UserSettings)
 	sm.OIDC = NewOIDCService(repos.OIDCProvider, repos.User, sm.User, repos.Session, repos.Log, snowflake)
 	sm.UserSettings = NewUserSettingsService(repos.UserSettings)

@@ -2,10 +2,12 @@ package services
 
 import (
 	"alexandrie/models"
+	"alexandrie/permissions"
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
+	"context"
 	"crypto/rand"
 	"errors"
 	"fmt"
@@ -18,13 +20,13 @@ import (
 
 type UserService interface {
 	GetAllUsers() ([]*models.User, error)
-	GetUserById(id types.Snowflake) (*models.User, error)
+	GetUserById(ctx context.Context, id types.Snowflake) (*models.User, error)
 	GetUserByUsername(username string) (*models.User, error)
 	SearchPublicUsers(query string) ([]*models.User, error)
 	CreateUser(username string, firstname, lastname, avatar, email string, password *string) (*models.User, error)
-	UpdateUser(id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error)
-	UpdatePassword(id types.Snowflake, newPassword string) error
-	DeleteUser(id types.Snowflake, minioService MinioService) error
+	UpdateUser(ctx context.Context, id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error)
+	UpdatePassword(ctx context.Context, id types.Snowflake, newPassword string) error
+	DeleteUser(ctx context.Context, id types.Snowflake, minioService MinioService) error
 	GenerateUniqueUsername(givenName *string, userID types.Snowflake) string
 }
 
@@ -32,13 +34,15 @@ type userService struct {
 	userRepo  repositories.UserRepository
 	logRepo   repositories.LogRepository
 	snowflake *snowflake.Snowflake
+	access    permissions.AccessGuard
 }
 
-func NewUserService(userRepo repositories.UserRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake) UserService {
+func NewUserService(userRepo repositories.UserRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake, access permissions.AccessGuard) UserService {
 	return &userService{
 		userRepo:  userRepo,
 		logRepo:   logRepo,
 		snowflake: snowflake,
+		access:    access,
 	}
 }
 
@@ -46,13 +50,21 @@ func (s *userService) GetAllUsers() ([]*models.User, error) {
 	return s.userRepo.GetAll()
 }
 
-func (s *userService) GetUserById(id types.Snowflake) (*models.User, error) {
+func (s *userService) GetUserById(ctx context.Context, id types.Snowflake) (*models.User, error) {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := s.access.RequireUserAccess(actor, id); err != nil {
+		return nil, err
+	}
+
 	user, err := s.userRepo.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
 	if user == nil {
-		return nil, errors.New("user not found")
+		return nil, permissions.ErrNotFound
 	}
 
 	return user, nil
@@ -106,10 +118,18 @@ func (s *userService) CreateUser(username, firstname, lastname, avatar, email st
 	return createdUser, nil
 }
 
-func (s *userService) UpdateUser(id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error) {
+func (s *userService) UpdateUser(ctx context.Context, id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error) {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := s.access.RequireUserAccess(actor, id); err != nil {
+		return nil, err
+	}
+
 	dbUser, err := s.userRepo.GetByID(id)
 	if err != nil || dbUser == nil {
-		return nil, errors.New("user not found")
+		return nil, permissions.ErrNotFound
 	}
 
 	user := &models.User{
@@ -126,7 +146,15 @@ func (s *userService) UpdateUser(id types.Snowflake, firstname, lastname, avatar
 	return s.userRepo.Update(id, user)
 }
 
-func (s *userService) UpdatePassword(id types.Snowflake, newPassword string) error {
+func (s *userService) UpdatePassword(ctx context.Context, id types.Snowflake, newPassword string) error {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return err
+	}
+	if err := s.access.RequireUserAccess(actor, id); err != nil {
+		return err
+	}
+
 	if newPassword == "" {
 		return errors.New("password is required")
 	}
@@ -139,7 +167,15 @@ func (s *userService) UpdatePassword(id types.Snowflake, newPassword string) err
 	return s.userRepo.UpdatePassword(id, string(hash))
 }
 
-func (s *userService) DeleteUser(id types.Snowflake, minioService MinioService) error {
+func (s *userService) DeleteUser(ctx context.Context, id types.Snowflake, minioService MinioService) error {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return err
+	}
+	if err := s.access.RequireUserAccess(actor, id); err != nil {
+		return err
+	}
+
 	if minioService != nil {
 		if err := minioService.DeleteAllFromUser(id); err != nil {
 			return err

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"alexandrie/app"
-	"alexandrie/permissions"
 	"alexandrie/types"
 	"alexandrie/utils"
 	"errors"
@@ -19,8 +18,7 @@ type BackupController interface {
 
 func NewBackupController(app *app.App) BackupController {
 	return &Controller{
-		app:        app,
-		authorizer: permissions.NewAuthorizer(app.Repos.Permission),
+		app: app,
 	}
 }
 

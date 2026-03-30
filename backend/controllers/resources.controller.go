@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"alexandrie/app"
-	"alexandrie/permissions"
 	"alexandrie/types"
 	"alexandrie/utils"
 	"errors"
@@ -19,8 +18,7 @@ type ResourceController interface {
 
 func NewResourceController(app *app.App) ResourceController {
 	return &Controller{
-		app:        app,
-		authorizer: permissions.NewAuthorizer(app.Repos.Permission),
+		app: app,
 	}
 }
 
@@ -37,6 +35,9 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		int64(ctr.app.Config.Cdn.MaxSize),
 	)
 	file, header, err := c.Request.FormFile("file")
+	if err != nil {
+		return http.StatusBadRequest, errors.New("file too large or failed to get file")
+	}
 	parentIdStr := c.Request.FormValue("parent_id")
 
 	var parentId *types.Snowflake = nil
@@ -50,22 +51,21 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, errors.New("failed to read file")
 	}
 
-	userId, err := utils.GetUserIdCtx(c)
-	if err != nil {
-		return http.StatusBadRequest, err
+	if _, err := actorFromRequest(c); err != nil {
+		return statusFromAccessError(err), err
 	}
 
 	mimeType := header.Header.Get("Content-Type")
 	node, err := ctr.app.Services.Resource.UploadFile(
+		c.Request.Context(),
 		header.Filename,
 		header.Size,
 		fileContent,
 		mimeType,
 		parentId,
-		userId,
 	)
 	if err != nil {
-		return http.StatusBadRequest, err
+		return statusFromAccessError(err), err
 	}
 
 	return http.StatusOK, node
@@ -96,7 +96,7 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
-		return http.StatusBadRequest, err
+		return http.StatusUnauthorized, err
 	}
 
 	mimeType := header.Header.Get("Content-Type")

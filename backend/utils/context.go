@@ -27,30 +27,9 @@ func GetTargetId(ctx *gin.Context, param string) (types.Snowflake, error) {
 }
 
 func GetUserIdCtx(ctx *gin.Context) (types.Snowflake, error) {
-	userId, exists := ctx.Get("user_id")
-	if !exists {
-		return 0, errors.New("user ID not found in context")
+	actor, ok := permissions.ActorFromContext(ctx.Request.Context())
+	if !ok || actor.UserID == 0 {
+		return 0, permissions.ErrUnauthorized
 	}
-	id, ok := userId.(types.Snowflake)
-	if !ok {
-		return 0, errors.ErrUnsupported
-	}
-	return id, nil
-}
-
-// Return the user ID and user role from the context
-func GetUserContext(ctx *gin.Context) (types.Snowflake, permissions.UserRole, error) {
-	userId, exists := ctx.Get("user_id")
-	if !exists {
-		return 0, 0, errors.New("user ID not found in context")
-	}
-	id, ok := userId.(types.Snowflake)
-	if !ok {
-		return 0, 0, errors.ErrUnsupported
-	}
-	role, exists := ctx.Get("user_role")
-	if !exists {
-		role = permissions.RoleNone
-	}
-	return id, role.(permissions.UserRole), nil
+	return actor.UserID, nil
 }

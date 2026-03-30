@@ -3,7 +3,6 @@ package controllers
 import (
 	"alexandrie/app"
 	"alexandrie/models"
-	"alexandrie/permissions"
 	"alexandrie/types"
 	"alexandrie/utils"
 	"net/http"
@@ -18,8 +17,7 @@ type UserSettingsController interface {
 
 func NewUserSettingsController(app *app.App) UserSettingsController {
 	return &Controller{
-		app:        app,
-		authorizer: permissions.NewAuthorizer(app.Repos.Permission),
+		app: app,
 	}
 }
 
