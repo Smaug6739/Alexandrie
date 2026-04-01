@@ -21,7 +21,7 @@
     "@types/markdown-it-container": "^4.0.0",
     "@types/node": "^25.5.0",
     "@vite-pwa/nuxt": "^1.1.1",
-    "@zip.js/zip.js": "^2.8.23",
+    "@zip.js/zip.js": "^2.8.26",
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-perfectionist": "^5.7.0",
