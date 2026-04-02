@@ -24,7 +24,7 @@
     "@zip.js/zip.js": "^2.8.23",
     "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-perfectionist": "^5.7.0",
+    "eslint-plugin-perfectionist": "^5.8.0",
     "etag": "^1.8.1",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.4",
