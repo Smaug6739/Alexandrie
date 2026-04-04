@@ -107,7 +107,6 @@ const trigger = ref<HTMLElement | null>(null);
 const portalList = ref<HTMLElement | null>(null);
 const dropdownStyle = ref<Record<string, string>>({});
 
-// Mobile detection
 const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
 
 function updateWindowWidth() {
@@ -200,8 +199,7 @@ function handleSelect(node: ANode) {
 
 function handleClickOutside(e: MouseEvent) {
   // use composedPath for shadow-dom-safe detection
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const path = (e.composedPath && e.composedPath()) || (e as any).path || [];
+  const path = (e.composedPath && e.composedPath()) || (e as unknown as { path: EventTarget[] }).path || [];
   const targetIsInsideTrigger = trigger.value && (path.length ? path.includes(trigger.value) : trigger.value.contains(e.target as Node));
   const targetIsInsidePortal = portalList.value && (path.length ? path.includes(portalList.value) : portalList.value.contains(e.target as Node));
 

@@ -33,7 +33,7 @@ function select() {
 .tree-node {
   display: block;
   margin: 0 auto;
-  padding: 4px 8px;
+  padding: 4px 6px;
   border-radius: var(--radius-xs);
   font-size: 0.85rem;
   text-align: left;
