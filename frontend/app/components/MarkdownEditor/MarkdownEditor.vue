@@ -256,7 +256,6 @@ const autoSave = debounceDelayed(() => {
 
 .editor-panel,
 .preview-panel {
-  position: relative;
   display: flex;
   min-width: 0;
   border: 1px solid var(--border);
