@@ -2,6 +2,9 @@
   <div class="illustration">
     <!-- eslint-disable-next-line vue/no-v-html -->
     <div v-if="document?.thumbnail" class="user-image" v-html="document.thumbnail"></div>
+    <svg v-else-if="defaultThumbnail" src="/svg/thumbnail.svg">
+      <use href="/svg/thumbnail.svg" />
+    </svg>
   </div>
 </template>
 
@@ -9,6 +12,8 @@
 import type { Node } from '~/stores';
 
 defineProps<{ document?: Node }>();
+
+const defaultThumbnail = usePreferencesStore().get('documentDefaultThumbnail');
 </script>
 
 <style lang="scss" scoped>

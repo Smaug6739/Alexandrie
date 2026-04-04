@@ -111,6 +111,8 @@ export default {
     documentSize: 'Document size',
     documentShowAttachments: 'Show attachments',
     documentShowAttachmentsDesc: 'Show attached resources (images, PDFs, etc.) at the end of the document.',
+    documentDefaultThumbnail: 'Default thumbnail',
+    documentDefaultThumbnailDesc: "Show a default thumbnail for documents that don't have one, using the standard document icon.",
     enablePrintMode: 'Enable print mode',
     enablePrintModeDesc: 'Simplify document header when printing (remove thumbnail, tags and description)',
     hideTOC: 'Hide table of contents',

@@ -47,6 +47,12 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
         key: 'documentShowAttachments',
       },
       {
+        label: t('settings.documents.documentDefaultThumbnail'),
+        description: t('settings.documents.documentDefaultThumbnailDesc'),
+        type: 'toggle',
+        key: 'documentDefaultThumbnail',
+      },
+      {
         label: t('settings.documents.defaultFontSize'),
         description: t('settings.documents.defaultFontSizeDesc'),
         type: 'number',
