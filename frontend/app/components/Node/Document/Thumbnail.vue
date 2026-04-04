@@ -2,9 +2,6 @@
   <div class="illustration">
     <!-- eslint-disable-next-line vue/no-v-html -->
     <div v-if="document?.thumbnail" class="user-image" v-html="document.thumbnail"></div>
-    <svg v-else src="/svg/thumbnail.svg">
-      <use href="/svg/thumbnail.svg" />
-    </svg>
   </div>
 </template>
 

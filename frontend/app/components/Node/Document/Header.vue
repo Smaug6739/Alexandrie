@@ -59,7 +59,7 @@ watchEffect(() => {
   padding: 1.2rem 1.2rem 0;
   border: 1px solid var(--border-subtle);
   border-radius: 0.625rem;
-  background-color: var(--surface-raised);
+  background-color: var(--surface-raised-light);
   transition: background-color $transition-base;
 }
 

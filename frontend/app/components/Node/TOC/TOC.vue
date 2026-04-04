@@ -124,8 +124,9 @@ const childs = computed(() => nodesTree.getChildren(props.doc?.id).filter(c => c
 
 <style lang="scss" scoped>
 h4 {
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-secondary);
+  text-transform: uppercase;
 }
 
 aside {
