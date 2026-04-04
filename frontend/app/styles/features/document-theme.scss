@@ -296,13 +296,11 @@
 	}
 
 	a {
-		font-weight: 500;
-		color: var(--blue);
+		color: var(--primary);
 		transition: color $transition-fast ease, opacity $transition-fast ease;
 		text-decoration: none;
 
 		&:hover {
-			opacity: 0.8;
 			text-decoration: underline;
 		}
 	}
