@@ -112,6 +112,7 @@ export default defineNuxtConfig({
     locales: [
       { code: 'en', file: 'en/index.ts', language: 'en-US' },
       { code: 'fr', file: 'fr/index.ts', language: 'fr-FR' },
+      { code: 'uk', file: 'uk/index.ts', language: 'uk-UA' },
     ],
     strategy: 'no_prefix',
   },
