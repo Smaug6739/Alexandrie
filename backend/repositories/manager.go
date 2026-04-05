@@ -10,6 +10,7 @@ type RepositoryManager struct {
 	db           *sqlx.DB
 	User         UserRepository
 	Node         NodeRepository
+	Stats        StatsRepository
 	Session      SessionRepository
 	Permission   PermissionRepository
 	Log          LogRepository
@@ -25,7 +26,7 @@ func NewRepositoryManager(db *sqlx.DB) (*RepositoryManager, error) {
 
 	rm.initializeRepositories()
 	rm.initialized = true
-	logger.Success("Repository manager", "Initialized successfully")
+	logger.Success("repository manager", "Initialized successfully")
 	return rm, nil
 }
 
@@ -33,6 +34,7 @@ func (rm *RepositoryManager) initializeRepositories() {
 	rm.User = NewUserRepository(rm.db)
 	rm.Session = NewSessionRepository(rm.db)
 	rm.Node = NewNodeRepository(rm.db)
+	rm.Stats = NewStatsRepository(rm.db)
 	rm.Permission = NewPermissionRepository(rm.db)
 	rm.Log = NewLogRepository(rm.db)
 	rm.OIDCProvider = NewOIDCProviderRepository(rm.db)
@@ -41,7 +43,7 @@ func (rm *RepositoryManager) initializeRepositories() {
 
 func (rm *RepositoryManager) Close() error {
 	rm.initialized = false
-	logger.Success("Repository manager", "Closed successfully")
+	logger.Success("repository manager", "Closed successfully")
 	return rm.db.Close()
 }
 

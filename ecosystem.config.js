@@ -1,33 +1,34 @@
 module.exports = {
   apps: [
     {
-      name: 'alexandrie-backend',
-      script: './backend_app',
-      cwd: './backend',
+      name: "alexandrie-backend",
+      script: "./backend_app",
+      cwd: "./backend",
       env: {
         PORT: 8201,
-        FRONTEND_URL: 'https://alexandrie-hub.fr',
-        COOKIE_DOMAIN: 'alexandrie-hub.fr',
+        FRONTEND_URL: "https://alexandrie-hub.fr",
+        COOKIE_DOMAIN: "alexandrie-hub.fr",
+        ADMIN_ACCOUNTS: "152981937240150016",
 
-        MINIO_ENDPOINT: 'cdn.alexandrie-hub.fr',
-        MINIO_PUBLIC_URL: 'https://cdn.alexandrie-hub.fr',
-        MINIO_BUCKET: 'alexandrie',
-        MINIO_SECURE: 'true',
+        MINIO_ENDPOINT: "cdn.alexandrie-hub.fr",
+        MINIO_PUBLIC_URL: "https://cdn.alexandrie-hub.fr",
+        MINIO_BUCKET: "alexandrie",
+        MINIO_SECURE: "true",
 
-        DATABASE_HOST: 'localhost',
+        DATABASE_HOST: "localhost",
         DATABASE_PORT: 3306,
-        DATABASE_NAME: 'alexandrie',
+        DATABASE_NAME: "alexandrie",
 
-        CPWD: './backend/',
-        GIN_MODE: 'release',
+        CPWD: "./backend/",
+        GIN_MODE: "release",
       },
     },
     {
-      name: 'alexandrie-frontend',
-      cwd: './frontend',
-      script: 'bun .output/server/index.mjs',
+      name: "alexandrie-frontend",
+      cwd: "./frontend",
+      script: "bun .output/server/index.mjs",
       env: {
-        NODE_ENV: 'production',
+        NODE_ENV: "production",
         PORT: 8200,
       },
     },

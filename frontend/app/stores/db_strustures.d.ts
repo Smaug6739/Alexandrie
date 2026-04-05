@@ -103,6 +103,37 @@ export interface Session {
   logout_timestamp?: number;
 }
 
+export interface MonthlyCount {
+  month: string; // Format: YYYY-MM
+  count: number;
+}
+
+export interface UserStats {
+  total_users: number;
+  growth_last_12_months: MonthlyCount[];
+}
+
+export interface NodeOwnerStats {
+  user_id: string;
+  username: string;
+  node_count: number;
+  total_size: number;
+}
+
+export interface NodeStats {
+  total_nodes: number;
+  total_size: number;
+  growth_last_12_months: MonthlyCount[];
+  top_users_by_nodes: NodeOwnerStats[];
+  top_users_by_size: NodeOwnerStats[];
+}
+
+export interface OverviewStats {
+  total_users: number;
+  total_nodes: number;
+  total_size: number;
+}
+
 // Internal structures
 
 export interface ImportJob {

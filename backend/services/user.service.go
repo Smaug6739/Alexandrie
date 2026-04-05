@@ -3,6 +3,7 @@ package services
 import (
 	"alexandrie/models"
 	"alexandrie/permissions"
+	"alexandrie/pkg/logger"
 	"alexandrie/pkg/snowflake"
 	"alexandrie/repositories"
 	"alexandrie/types"
@@ -12,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"slices"
 	"strings"
 	"time"
 
@@ -28,6 +30,7 @@ type UserService interface {
 	UpdatePassword(ctx context.Context, id types.Snowflake, newPassword string) error
 	DeleteUser(ctx context.Context, id types.Snowflake, minioService MinioService) error
 	GenerateUniqueUsername(givenName *string, userID types.Snowflake) string
+	LoadAppAdmins()
 }
 
 type userService struct {
@@ -38,12 +41,14 @@ type userService struct {
 }
 
 func NewUserService(userRepo repositories.UserRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake, access permissions.AccessGuard) UserService {
-	return &userService{
+	userService := &userService{
 		userRepo:  userRepo,
 		logRepo:   logRepo,
 		snowflake: snowflake,
 		access:    access,
 	}
+	userService.LoadAppAdmins() // On startup, ensure admin users are loaded and updated
+	return userService
 }
 
 func (s *userService) GetAllUsers() ([]*models.User, error) {
@@ -222,4 +227,52 @@ func (s *userService) GenerateUniqueUsername(givenName *string, userID types.Sno
 	idSuffix := fmt.Sprintf("%06d", int64(userID)%1000000)
 
 	return fmt.Sprintf("%s-%s", baseUsername, idSuffix)
+}
+
+func (s *userService) LoadAppAdmins() {
+	adminIDs := utils.GetEnvAsSlice("ADMIN_ACCOUNTS", ",")
+
+	// Remove admin role from all users not in the current admin list
+	existingAdmins, err := s.userRepo.GetAppAdmins()
+
+	if err != nil {
+		logger.Warn("app-admins", "Failed to load existing admin users: "+err.Error())
+		return
+	}
+
+	for _, admin := range existingAdmins {
+		if !slices.Contains(adminIDs, admin.Id.String()) {
+			err := s.userRepo.UpdateRole(admin.Id, int(permissions.RoleNone))
+			if err != nil {
+				logger.Error("app-admins", "Failed to update user "+admin.Username+" to regular role: "+err.Error())
+			} else {
+				logger.Info("app-admins", "User "+admin.Username+" has been set to regular role.")
+			}
+		}
+	}
+
+	// Add new admins from the environment variable
+	for _, idStr := range adminIDs {
+		id, err := types.SnowflakeFromString(idStr)
+		if err != nil {
+			logger.Warn("app-admins", "Invalid admin user ID: "+idStr)
+			continue
+		}
+		user, err := s.userRepo.GetByID(*id)
+		if err != nil || user == nil {
+			logger.Warn("app-admins", "Failed to load admin user with ID "+idStr+"\nCheck if the ID is correct and if the user exists.")
+			continue
+		}
+		if user.Role != int(permissions.RoleAdministrator) {
+			err := s.userRepo.UpdateRole(user.Id, int(permissions.RoleAdministrator))
+			if err != nil {
+				logger.Warn("app-admins", "Failed to update user "+user.Username+" to admin role: "+err.Error())
+			} else {
+				logger.Info("app-admins", "User "+user.Username+" has been granted admin role.")
+			}
+		} else {
+			logger.Info("app-admins", "User "+user.Username+" is already an admin.")
+		}
+	}
+
 }

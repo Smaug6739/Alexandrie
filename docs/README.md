@@ -101,6 +101,7 @@ These variables configure the backend API service.
   - If misconfigured, login will appear to work but users will be instantly logged out
 - `ALLOW_UNSECURE`: If set to `true`, HTTP connections are allowed (useful for local and dev). In production, it is recommended to set this to `false` to enforce HTTPS.
 - `JWT_SECRET`: Secret key used to sign JWT tokens. You should change this to a random long string correcly generated (with openssl or similar) in production for security. Changing this value will invalidate all existing sessions.
+- `ADMIN_ACCOUNTS`: Comma-separated list of user IDs that should have admin privileges (e.g., `1,2,3`). Optional.
 
 ### 4. Database — MySQL
 

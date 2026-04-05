@@ -17,6 +17,7 @@ type UserRepository interface {
 	GetAll() ([]*models.User, error)
 	GetByID(id types.Snowflake) (*models.User, error)
 	GetByUsername(username string) (*models.User, error)
+	GetAppAdmins() ([]*models.User, error)
 	HasPassword(id types.Snowflake) (bool, error)
 	SearchPublic(query string) ([]*models.User, error)
 	CheckUsernameExists(username string) (bool, error)
@@ -24,6 +25,7 @@ type UserRepository interface {
 	Update(id types.Snowflake, user *models.User) (*models.User, error)
 	UpdatePassword(id types.Snowflake, password string) error
 	UpdatePasswordResetToken(id types.Snowflake, resetToken string) error
+	UpdateRole(id types.Snowflake, role int) error // Separate method for security
 	Delete(id types.Snowflake) error
 }
 
@@ -71,6 +73,15 @@ func (r *UserRepositoryImpl) GetByUsername(username string) (*models.User, error
 		return nil, fmt.Errorf("failed to get user by username: %w", err)
 	}
 	return &user, nil
+}
+
+func (r *UserRepositoryImpl) GetAppAdmins() ([]*models.User, error) {
+	var admins []*models.User
+	err := r.db.Select(&admins, `SELECT id, username, role, created_timestamp, updated_timestamp FROM users WHERE role = 2`)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get app admins: %w", err)
+	}
+	return admins, nil
 }
 
 func (r *UserRepositoryImpl) HasPassword(id types.Snowflake) (bool, error) {
@@ -139,6 +150,14 @@ func (r *UserRepositoryImpl) UpdatePasswordResetToken(id types.Snowflake, resetT
 	_, err := r.db.Exec(`UPDATE users SET password_reset_token=? WHERE id=?`, resetToken, id)
 	if err != nil {
 		return fmt.Errorf("failed to update password reset token: %w", err)
+	}
+	return nil
+}
+
+func (r *UserRepositoryImpl) UpdateRole(id types.Snowflake, role int) error {
+	_, err := r.db.Exec(`UPDATE users SET role=? WHERE id=?`, role, id)
+	if err != nil {
+		return fmt.Errorf("failed to update user role: %w", err)
 	}
 	return nil
 }

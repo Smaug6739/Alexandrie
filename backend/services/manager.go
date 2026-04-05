@@ -14,6 +14,7 @@ type ServiceManager struct {
 	Access       permissions.AccessGuard
 	Auth         AuthService
 	User         UserService
+	Stats        StatsService
 	Node         NodeService
 	Permission   PermissionService
 	Session      SessionService
@@ -33,7 +34,7 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowfla
 	}
 
 	sm.initialized = true
-	logger.Success("Service manager", "Initialized successfully")
+	logger.Success("service manager", "Initialized successfully")
 	return sm, nil
 }
 
@@ -41,6 +42,7 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 	sm.Access = permissions.NewAccessGuard(repos.Node, repos.Permission)
 	sm.Auth = NewAuthService(repos.User, repos.Session, repos.Log, snowflake)
 	sm.User = NewUserService(repos.User, repos.Log, snowflake, sm.Access)
+	sm.Stats = NewStatsService(repos.Stats)
 	sm.Minio = NewMinioService(minioClient)
 	sm.Node = NewNodeService(repos.Node, repos.Permission, sm.Minio, snowflake, sm.Access)
 	sm.Permission = NewPermissionService(repos.Permission, repos.Node, snowflake, sm.Access)

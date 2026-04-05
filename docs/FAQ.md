@@ -87,3 +87,18 @@ This is usually caused by a misconfiguration of the `MINIO_SECURE` environment v
 
 - If your RustFS S3 server is running with HTTP (not HTTPS), then set: `MINIO_SECURE=false`
 - If your RustFS S3 server is running with HTTPS, then set: `MINIO_SECURE=true`
+
+## Admins account not working or I don't see admin features
+
+**Symptoms**
+
+- You have set `ADMIN_ACCOUNTS` but you don't see admin features in the dashboard or you are not recognized as admin.
+
+**Cause**
+This is usually caused by an incorrect value in the `ADMIN_ACCOUNTS` environment variable or by not including your user ID in the list. This also be caused if you did not restart the backend service after changing the environment variable and logging out and back in.
+
+**Correct configuration examples**
+
+- If your user ID is `1` and you want to give admin privileges to users with IDs `2` and `3`, then set: `ADMIN_ACCOUNTS=1,2,3`
+- Restart the backend service
+- Wait for a few minutes to see changes in frontend (you may need to log out and log back in to see changes)

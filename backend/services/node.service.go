@@ -168,7 +168,7 @@ func (s *nodeService) CreateNode(ctx context.Context, node *models.Node) (*model
 		Order:            node.Order,
 		Content:          node.Content,
 		ContentCompiled:  &escapedHTMLContent,
-		Size:             node.Size,
+		Size:             getNodeSize(node),
 		Metadata:         node.Metadata,
 		CreatedTimestamp: time.Now().UnixMilli(),
 		UpdatedTimestamp: time.Now().UnixMilli(),
@@ -247,6 +247,7 @@ func (s *nodeService) UpdateNode(ctx context.Context, nodeId types.Snowflake, no
 		Order:            node.Order,
 		Content:          node.Content,
 		ContentCompiled:  &escapedHTMLContent,
+		Size:             getNodeSize(node),
 		Metadata:         node.Metadata,
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}
@@ -298,4 +299,14 @@ func (s *nodeService) SearchNodes(ctx context.Context, query string, includeCont
 		return nil, err
 	}
 	return s.nodeRepo.SearchFulltext(actor.UserID, query, includeContent, limit)
+}
+
+// ******************* Helper functions *******************
+
+func getNodeSize(node *models.Node) *int64 {
+	if node.Role == 4 && node.Size != nil {
+		return node.Size
+	}
+	size := int64(len(*node.ContentCompiled) + len(*node.Content))
+	return &size
 }

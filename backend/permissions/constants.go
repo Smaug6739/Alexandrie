@@ -4,7 +4,7 @@ package permissions
 type UserRole int
 
 const (
-	RoleNone          UserRole = 0
+	RoleNone          UserRole = 1 << 0
 	RoleAdministrator UserRole = 1 << 1
 	RoleManager       UserRole = 1 << 2
 	RoleModerator     UserRole = 1 << 3

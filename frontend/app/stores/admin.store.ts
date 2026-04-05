@@ -1,4 +1,4 @@
-import type { User, Node } from './db_strustures';
+import type { User, Node, OverviewStats, UserStats, NodeStats } from './db_strustures';
 
 interface UserData extends User {
   nodes?: Node[];
@@ -7,6 +7,26 @@ interface UserData extends User {
 export const useAdminStore = defineStore('admin', {
   state: () => ({
     users: ref<UserData[]>(),
+    loadingStats: false,
+    statsError: '',
+    stats: {
+      overview: {
+        total_users: 0,
+        total_nodes: 0,
+        total_size: 0,
+      } as OverviewStats,
+      users: {
+        total_users: 0,
+        growth_last_12_months: [],
+      } as UserStats,
+      nodes: {
+        total_nodes: 0,
+        total_size: 0,
+        growth_last_12_months: [],
+        top_users_by_nodes: [],
+        top_users_by_size: [],
+      } as NodeStats,
+    },
   }),
   actions: {
     async fetchAll(): Promise<UserData[] | undefined> {
@@ -46,6 +66,42 @@ export const useAdminStore = defineStore('admin', {
       if (responce.status === 'success') {
         return responce.result?.node;
       } else throw responce.message;
+    },
+    async fetchOverviewStats() {
+      const response = await makeRequest<OverviewStats>('stats/overview', 'GET', {});
+      if (response.status === 'success' && response.result) {
+        this.stats.overview = response.result;
+        return response.result;
+      }
+      throw response.message;
+    },
+    async fetchUsersStats() {
+      const response = await makeRequest<UserStats>('stats/users', 'GET', {});
+      if (response.status === 'success' && response.result) {
+        this.stats.users = response.result;
+        return response.result;
+      }
+      throw response.message;
+    },
+    async fetchNodesStats(top = 5) {
+      const response = await makeRequest<NodeStats>(`stats/nodes?top=${top}`, 'GET', {});
+      if (response.status === 'success' && response.result) {
+        this.stats.nodes = response.result;
+        return response.result;
+      }
+      throw response.message;
+    },
+    async fetchStats(top = 5) {
+      this.loadingStats = true;
+      this.statsError = '';
+      try {
+        await Promise.all([this.fetchOverviewStats(), this.fetchUsersStats(), this.fetchNodesStats(top)]);
+      } catch (error) {
+        this.statsError = String(error);
+        throw error;
+      } finally {
+        this.loadingStats = false;
+      }
     },
   },
 });

@@ -1,6 +1,9 @@
 package utils
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
 func IfNotNilPointer[T any](newValue, defaultValue *T) *T {
 	if newValue != nil {
@@ -27,4 +30,12 @@ func GetBackupBucketName() string {
 
 func PtrString(s string) *string {
 	return &s
+}
+
+func GetEnvAsSlice(name string, sep string) []string {
+	value := os.Getenv(name)
+	if value == "" {
+		return []string{}
+	}
+	return strings.Split(value, sep)
 }

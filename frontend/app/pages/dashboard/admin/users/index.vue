@@ -21,8 +21,6 @@ const { t } = useI18nT();
 const { avatarURL } = useApi();
 const { numericDate } = useDateFormatters();
 
-adminStore.fetchAll();
-
 const headers = computed(() => [
   { label: t('admin.users.headers.name'), key: 'username' },
   { label: t('admin.users.headers.firstname'), key: 'firstname' },

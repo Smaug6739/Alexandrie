@@ -35,6 +35,7 @@ Only variables documented here and in `.env.example` are officially supported.
 | `COOKIE_DOMAIN`         | Domain (no protocol) | Domain scope for authentication cookies. Must match the highest common domain between frontend and backend. |
 | `ALLOW_UNSECURE`        | `true` / `false`     | Allows HTTP connections (recommended `false` in production).                                                |
 | `JWT_SECRET`            | String               | Secret key used to sign JWT tokens. Changing it invalidates all sessions.                                   |
+| `ADMIN_ACCOUNTS`        | Comma-separated IDs  | List of user IDs with admin privileges.                                                                     |
 
 ---
 

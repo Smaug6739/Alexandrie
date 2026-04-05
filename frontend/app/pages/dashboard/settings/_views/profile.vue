@@ -3,6 +3,10 @@
     <h2 class="page-title">{{ t('settings.profile.title') }}</h2>
     <p class="page-subtitle">{{ t('settings.profile.subtitle') }}</p>
     <form v-if="userStore.user" @submit.prevent="updateUser">
+      <div v-if="devMode" class="form-group">
+        <label for="id">{{ t('common.labels.id') }}</label>
+        <input id="id" v-model="userStore.user.id" type="text" disabled />
+      </div>
       <div class="form-group">
         <label for="username">{{ t('settings.profile.username') }}</label>
         <input id="username" v-model="userStore.user.username" type="text" disabled required />
@@ -39,6 +43,7 @@
 <script setup lang="ts">
 const userStore = useUserStore();
 const resourcesStore = useResourcesStore();
+const preferencesStore = usePreferencesStore();
 
 const { avatarURL } = useApi();
 const { shortDate } = useDateFormatters();
@@ -47,6 +52,7 @@ const { t } = useI18nT();
 const avatarInput = ref<HTMLInputElement | null>(null);
 const avatarPreview = ref('');
 const avatarDisplayed = computed(() => avatarPreview.value || avatarURL(userStore.user));
+const devMode = preferencesStore.get('developerMode');
 
 const selectAvatar = () => avatarInput.value?.click();
 
