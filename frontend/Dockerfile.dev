@@ -1,5 +1,5 @@
 # Frontend Dockerfile for Alexandrie - Runtime build with build-time config
-FROM node:20-alpine
+FROM node:24-alpine
 
 # Install bun
 RUN apk add --no-cache curl unzip bash && \

@@ -15,6 +15,11 @@ services:
       CHOKIDAR_USEPOLLING: true
       WATCHPACK_POLLING: true
       CHOKIDAR_INTERVAL: 100
+  backend:
+    build:
+      context: ./backend
+    container_name: alexandrie-backend
+    restart: unless-stopped
 volumes:
   nuxt_build:
   deps:
