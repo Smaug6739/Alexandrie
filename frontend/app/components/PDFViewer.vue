@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import { GlobalWorkerOptions, getDocument, TextLayer, type PDFDocumentProxy, type PDFPageProxy } from 'pdfjs-dist';
-import pdfWorker from 'pdfjs-dist/build/pdf.worker?url';
+import { GlobalWorkerOptions, getDocument, TextLayer, type PDFDocumentProxy, type PDFPageProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import pdfWorker from 'pdfjs-dist/legacy/build/pdf.worker?url';
 
 GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -147,8 +147,6 @@ const renderPage = async (pageNum: number) => {
     if (pageInfo) pageInfo.rendered = true;
 
     renderedPages.add(pageNum);
-  } catch (err) {
-    console.error(`Erreur rendu page ${pageNum}:`, err);
   } finally {
     renderingPages.delete(pageNum);
   }
