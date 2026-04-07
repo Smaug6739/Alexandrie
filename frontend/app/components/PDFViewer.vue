@@ -199,8 +199,6 @@ const loadPdf = async () => {
   try {
     const loadingTask = getDocument({
       url: props.src,
-      cMapUrl: 'https://unpkg.com/pdfjs-dist@latest/cmaps/',
-      cMapPacked: true,
     });
 
     pdf = await loadingTask.promise;
