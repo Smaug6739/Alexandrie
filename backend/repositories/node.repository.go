@@ -40,7 +40,8 @@ func (r *NodeRepositoryImpl) GetAll(userId types.Snowflake) ([]*models.Node, err
 		WITH RECURSIVE user_nodes AS (
 			-- 1. Every node owned by the user
 			SELECT n.id, n.user_id, n.parent_id, n.name, n.description, n.tags, n.role, n.color, n.icon, n.theme,
-				   n.accessibility, n.access, n.display, n.`+"`order`"+`, n.size, n.metadata, n.created_timestamp, n.updated_timestamp
+				   n.accessibility, n.access, n.display, n.`+"`order`"+`, n.size, n.metadata, n.created_timestamp, n.updated_timestamp,
+					 CASE WHEN n.role IN (1, 2) THEN n.thumbnail ELSE NULL END AS thumbnail
 			FROM nodes n
 			WHERE n.user_id = ?
 
@@ -48,7 +49,8 @@ func (r *NodeRepositoryImpl) GetAll(userId types.Snowflake) ([]*models.Node, err
 
 			-- 2. Child nodes of owned nodes (even if not owned by the user)
 			SELECT c.id, c.user_id, c.parent_id, c.name, c.description, c.tags, c.role, c.color, c.icon, c.theme,
-				   c.accessibility, c.access, c.display, c.`+"`order`"+`, c.size, c.metadata, c.created_timestamp, c.updated_timestamp
+				   c.accessibility, c.access, c.display, c.`+"`order`"+`, c.size, c.metadata, c.created_timestamp, c.updated_timestamp,
+					 CASE WHEN c.role IN (1, 2) THEN c.thumbnail ELSE NULL END AS thumbnail
 			FROM nodes c
 			JOIN user_nodes un ON un.id = c.parent_id
 		)

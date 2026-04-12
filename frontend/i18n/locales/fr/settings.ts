@@ -114,6 +114,9 @@ export default {
     documentShowAttachmentsDesc: 'Afficher les ressources jointes (images, PDFs, etc.) à la fin du document.',
     documentDefaultThumbnail: 'Miniature par défaut',
     documentDefaultThumbnailDesc: "Afficher une miniature par défaut pour les documents qui n'en ont pas, en utilisant l'icône de document standard.",
+    documentUseParentThumbnail: 'Utiliser la miniature du parent',
+    documentUseParentThumbnailDesc:
+      "Afficher la miniature du parent pour les documents qui n'ont pas leur propre miniature. Si le parent n'a pas de miniature non plus, afficher la miniature par défaut.",
     enablePrintMode: 'Activer le mode impression',
     enablePrintModeDesc: "Simplifier l'en-tête des documents imprimés (supprimer la miniature, les tags, la description et garder uniquement le titre)",
     hideTOC: 'Masquer la table des matières',

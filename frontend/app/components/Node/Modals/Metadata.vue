@@ -49,14 +49,22 @@ const { t } = useI18nT();
 const nodeStore = useNodesStore();
 const nodesTree = useNodesTree();
 
-const node = ref<Node>(props.doc);
+const node = ref<Node>({ ...props.doc });
 const pinnedToggle = ref(node.value.order == -1);
 const parentsTree = nodesTree.treeUpToRole(node.value.role);
 
+onBeforeMount(async () => {
+  const latestNode = await nodeStore.fetch({ id: node.value.id });
+  if (latestNode) node.value = { ...latestNode }; // CLONE
+});
+
 watch(pinnedToggle, val => (node.value.order = val ? -1 : 0));
 watch(
-  node.value,
-  debounce(() => nodeStore.update(node.value), 500),
+  node,
+  debounce(async val => {
+    await nodeStore.update({ ...(val as Node) }); // clone → avoid mutating the original object which is still used in the parent component
+  }, 500),
+  { deep: true },
 );
 </script>
 

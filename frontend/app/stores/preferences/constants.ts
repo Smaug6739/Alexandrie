@@ -22,6 +22,7 @@ export const DEFAULT_PREFERENCES = {
   documentLineHeight: 1.5 as number,
   documentShowAttachments: false as boolean,
   documentDefaultThumbnail: false as boolean,
+  documentUseParentThumbnail: false as boolean,
   sidebarItems: {
     manageCategories: true as boolean,
     cdn: true as boolean,
@@ -102,6 +103,7 @@ export const EDITOR_KEYS: PreferenceKey[] = [
   'documentLineHeight',
   'documentShowAttachments',
   'documentDefaultThumbnail',
+  'documentUseParentThumbnail',
   'editorFontFamily',
   'editorFontSize',
   'editorSpellCheck',
