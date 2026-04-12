@@ -8,6 +8,7 @@ import (
 	"alexandrie/types"
 	"alexandrie/utils"
 	"context"
+	"fmt"
 	"time"
 )
 
@@ -304,9 +305,18 @@ func (s *nodeService) SearchNodes(ctx context.Context, query string, includeCont
 // ******************* Helper functions *******************
 
 func getNodeSize(node *models.Node) *int64 {
+	fmt.Println("**************************************************************************")
+
 	if node.Role == 4 && node.Size != nil {
 		return node.Size
 	}
-	size := int64(len(*node.ContentCompiled) + len(*node.Content))
+	size := int64(0)
+	if node.ContentCompiled != nil {
+		size += int64(len(*node.ContentCompiled))
+	}
+	if node.Content != nil {
+		size += int64(len(*node.Content))
+	}
+
 	return &size
 }
