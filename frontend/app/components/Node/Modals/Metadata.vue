@@ -17,14 +17,12 @@
 
       <label for="icon">{{ t('nodes.modals.metadata.emojiOrIcon') }} <AppHint :text="t('nodes.modals.metadata.emojiOrIconHint')" /></label>
       <textarea id="icon" v-model="node.icon"></textarea>
-      <template v-if="node.role == 3">
-        <label for="thumbnail">{{ t('nodes.modals.metadata.thumbnail') }} <AppHint :text="t('nodes.modals.metadata.thumbnailHint')" /></label>
-        <textarea id="thumbnail" v-model="node.thumbnail"></textarea>
-        <div class="inline-input">
-          <label for="pinned">{{ t('common.labels.pinned') }}</label>
-          <AppToggle id="pinned" v-model="pinnedToggle" />
-        </div>
-      </template>
+      <label for="thumbnail">{{ t('nodes.modals.metadata.thumbnail') }} <AppHint :text="t('nodes.modals.metadata.thumbnailHint')" /></label>
+      <textarea id="thumbnail" v-model="node.thumbnail"></textarea>
+      <div class="inline-input">
+        <label for="pinned">{{ t('common.labels.pinned') }}</label>
+        <AppToggle id="pinned" v-model="pinnedToggle" />
+      </div>
       <label for="parent">{{ t('common.labels.parent') }}</label>
       <AppSelect
         v-model="node.parent_id"
