@@ -37,9 +37,10 @@ const options = computed(
             choices: [
               { label: 'English', id: 'en' },
               { label: 'Français', id: 'fr' },
+              { label: 'Українська', id: 'uk' },
             ],
             onChange: (option: unknown) => {
-              const localeCode = option as 'en' | 'fr';
+              const localeCode = option as 'en' | 'fr' | 'uk';
               setLocale(localeCode);
             },
           },
