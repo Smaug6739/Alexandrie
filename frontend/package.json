@@ -47,7 +47,7 @@
     "stylelint-order": "^8.1.1",
     "svg-baker": "^1.7.0",
     "svgo": "^4.0.1",
-    "vue": "^3.5.32",
+    "vue": "^3.5.33",
     "vue-router": "^5.0.6"
   },
   "scripts": {
