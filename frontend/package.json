@@ -36,7 +36,7 @@
     "markdown-it-mark": "^4.0.0",
     "nuxt": "^4.4.2",
     "pathe": "^2.0.3",
-    "pdfjs-dist": "^5.6.205",
+    "pdfjs-dist": "^5.7.284",
     "pinia": "^3.0.4",
     "postcss-scss": "^4.0.9",
     "punycode": "^2.3.1",
