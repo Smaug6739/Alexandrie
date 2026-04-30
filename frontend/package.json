@@ -34,7 +34,7 @@
     "markdown-it-container": "^4.0.0",
     "markdown-it-highlightjs": "^4.3.0",
     "markdown-it-mark": "^4.0.0",
-    "nuxt": "^4.4.2",
+    "nuxt": "^4.4.4",
     "pathe": "^2.0.3",
     "pdfjs-dist": "^5.7.284",
     "pinia": "^3.0.4",
