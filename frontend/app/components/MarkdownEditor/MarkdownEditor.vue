@@ -3,7 +3,7 @@
   <div class="editor-wrapper">
     <div class="editor-container">
       <!-- Toolbar Section -->
-      <Toolbar v-model="document" @execute-action="commands.exec" />
+      <Toolbar v-model="document" @execute-action="handleToolbarAction" />
 
       <!-- Compact Document Metadata -->
       <div class="document-meta">
@@ -30,6 +30,7 @@
             <span class="panel-label">{{ t('common.actions.preview') }}</span>
           </div>
           <NodeDocumentContentCompiled ref="markdownPreviewComponent" :node="document" />
+          <DrawioSidebar :diagrams="referencedDrawioResources" @edit="openDrawioEditor" @delete="deleteDiagram" />
         </div>
       </div>
     </div>
@@ -45,15 +46,23 @@ import { createUploadsHandlers } from './modules/editorUploads';
 import { createSnippetSource } from './modules/editorUtils';
 import { createCommands } from './modules/editorCommands';
 import { createScrollSync } from './modules/scrollSync';
+import { DrawioIntegration } from './modules/drawioIntegration';
+import type { DrawioExportPayload } from './modules/drawio';
 import Toolbar from './Toolbar.vue';
+import DrawioSidebar from './DrawioSidebar.vue';
+import DrawioEditorModal from './DrawioEditor.modal.vue';
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 
 import compile from '~/helpers/markdown';
 import type { Node } from '~/stores';
 
 const { t } = useI18nT();
+const { resourceURL } = useApi();
+const notifications = useNotifications();
 const resourcesStore = useResourcesStore();
+const nodesStore = useNodesStore();
 const preferences = usePreferencesStore();
+const modalManager = useModal();
 
 const props = defineProps<{ doc?: Partial<Node> }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
@@ -88,6 +97,23 @@ const uploadsHandlers = createUploadsHandlers({
   resourcesStore,
   nodeId: props.doc?.id,
   insertText: (t: string) => commands.exec('insertText', t),
+});
+
+// Initialize Draw.io integration
+const drawioIntegration = new DrawioIntegration({
+  editorView: editorView as Ref<EditorView | null>,
+  document,
+  resourcesStore,
+  nodesStore,
+  resourceURL,
+  insertText: (text: string) => commands.exec('insertText', text),
+  showNotification: (title, message, type) => {
+    notifications.add({ title, message, type });
+  },
+});
+
+const referencedDrawioResources = computed(() => {
+  return drawioIntegration.getReferencedDiagrams();
 });
 
 const state = createEditorState({
@@ -136,6 +162,42 @@ function handleGlobalKeys(e: KeyboardEvent) {
   if (e.key === 'Escape') {
     emit('exit');
   }
+}
+
+function handleToolbarAction(action: string, payload?: string) {
+  if (action === 'diagram') {
+    openDrawioEditor();
+    return;
+  }
+  commands.exec(action, payload);
+}
+
+async function openDrawioEditor(resource?: Node) {
+  const initialXml = resource ? await drawioIntegration.loadDiagramXml(resource) : '';
+
+  const modal = new Modal(shallowRef(DrawioEditorModal), {
+    props: {
+      initialXml,
+      onSave: (payload: DrawioExportPayload) => saveDrawioDiagram(payload, resource),
+    },
+    size: 'large',
+    noPadding: true,
+  });
+
+  modal.options.props = {
+    ...modal.options.props,
+    modalRef: modal,
+  };
+
+  modalManager.add(modal);
+}
+
+async function saveDrawioDiagram(payload: DrawioExportPayload, editingResource?: Node) {
+  await drawioIntegration.saveDiagram(payload, editingResource || null);
+}
+
+async function deleteDiagram(resource: Node) {
+  await drawioIntegration.deleteDiagram(resource);
 }
 
 // Re-sync scroll after the preview DOM updates (e.g. after typing new content)

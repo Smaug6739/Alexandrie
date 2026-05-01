@@ -13,6 +13,13 @@ export default {
     title: 'Sélectionner une image',
     uploadError: 'Une erreur est survenue lors du téléchargement.',
   },
+  drawio: {
+    linked: 'Diagrammes liés',
+    loadError: 'Impossible de charger le diagramme existant. Un nouveau diagramme sera ouvert.',
+    missingParent: "Enregistrez d'abord le document pour y attacher des diagrammes.",
+    saved: 'Diagramme enregistré et lié à ce document.',
+    title: 'Éditeur de diagrammes',
+  },
   stats: {
     chars: 'car.',
     lines: 'lignes',
@@ -49,6 +56,7 @@ export default {
 
     color: 'Couleur',
     editorSettings: "Paramètres de l'éditeur",
+    diagram: 'Diagramme',
     footnote: 'Note de bas de page',
 
     goToDocument: 'Aller au document',

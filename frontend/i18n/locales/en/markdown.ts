@@ -13,6 +13,13 @@ export default {
     title: 'Select an image',
     uploadError: 'An error occurred while uploading.',
   },
+  drawio: {
+    linked: 'Linked diagrams',
+    loadError: 'Unable to load the existing diagram. A new diagram will be opened.',
+    missingParent: 'Save the document first to attach diagrams to it.',
+    saved: 'Diagram saved and linked to this document.',
+    title: 'Diagram editor',
+  },
   stats: {
     chars: 'chars.',
     lines: 'lines',
@@ -49,6 +56,7 @@ export default {
 
     color: 'Color',
     editorSettings: 'Editor settings',
+    diagram: 'Diagram',
     footnote: 'Footnote',
 
     goToDocument: 'Go to document',

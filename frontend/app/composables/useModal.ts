@@ -46,12 +46,18 @@ interface ModalOptions {
   size?: 'small' | 'medium' | 'large' | 'full';
   noPadding?: boolean;
   props?: object;
+  fullScreen?: boolean;
   onClose?: () => void;
 }
 
 export class Modal {
+  public options: ModalOptions;
+
   constructor(
     public component: object,
-    public options: ModalOptions = { size: 'medium' },
-  ) {}
+    options: ModalOptions = { size: 'medium' },
+  ) {
+    console.log('[Modal] Created with options:', options);
+    this.options = reactive(options);
+  }
 }
