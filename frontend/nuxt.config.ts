@@ -101,6 +101,7 @@ export default defineNuxtConfig({
     },
     payloadExtraction: true,
     viewTransition: true,
+    viteEnvironmentApi: true,
   },
   i18n: {
     defaultLocale: 'en',
