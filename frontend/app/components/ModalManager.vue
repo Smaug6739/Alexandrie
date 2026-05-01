@@ -63,6 +63,13 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
 }
 
+.modal-container:has(> .full) {
+  max-width: calc(100vw - 32px);
+  .modal {
+    max-height: none;
+  }
+}
+
 .modal-container:has(> .large) {
   max-width: 1115px;
 }

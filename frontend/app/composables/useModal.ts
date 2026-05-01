@@ -43,7 +43,7 @@ export function useModal() {
 }
 
 interface ModalOptions {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'full';
   noPadding?: boolean;
   props?: object;
   onClose?: () => void;
