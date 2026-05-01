@@ -15,7 +15,7 @@
         "@nuxt/devtools": "latest",
         "@nuxt/eslint": "1.15.2",
         "@nuxtjs/color-mode": "^4.0.0",
-        "@nuxtjs/i18n": "10.2.4",
+        "@nuxtjs/i18n": "10.3.0",
         "@pinia/nuxt": "^0.11.3",
         "@types/etag": "^1.8.4",
         "@types/fs-extra": "^11.0.4",
@@ -530,7 +530,7 @@
 
     "@nuxtjs/color-mode": ["@nuxtjs/color-mode@4.0.0", "", { "dependencies": { "@nuxt/kit": "^4.2.1", "exsolve": "^1.0.8", "pathe": "^2.0.3", "pkg-types": "^2.3.0", "semver": "^7.7.3" } }, "sha512-xyaVR/TPLdMuRa2VOgH6b75jvmFEsn9QKL6ISldaAw38ooFJfWY1ts2F3ye43wcT/goCbcuvPuskF2f8yUZhlw=="],
 
-    "@nuxtjs/i18n": ["@nuxtjs/i18n@10.2.4", "", { "dependencies": { "@intlify/core": "^11.2.8", "@intlify/h3": "^0.7.4", "@intlify/shared": "^11.2.8", "@intlify/unplugin-vue-i18n": "^11.0.7", "@intlify/utils": "^0.14.1", "@miyaneee/rollup-plugin-json5": "^1.2.0", "@nuxt/kit": "^4.4.2", "@rollup/plugin-yaml": "^4.1.2", "@vue/compiler-sfc": "^3.5.22", "defu": "^6.1.4", "devalue": "^5.1.1", "h3": "^1.15.4", "knitwork": "^1.2.0", "magic-string": "^0.30.21", "mlly": "^1.7.4", "nuxt-define": "^1.0.0", "ohash": "^2.0.11", "oxc-parser": "^0.112.0", "oxc-transform": "^0.112.0", "oxc-walker": "^0.7.0", "pathe": "^2.0.3", "ufo": "^1.6.1", "unplugin": "^2.3.11", "unrouting": "^0.1.5", "unstorage": "^1.16.1", "vue-i18n": "^11.1.11", "vue-router": "^5.0.4" } }, "sha512-T5nN7hT/tbExant+CeXtKXs9GbjWsEWnymCHJyU3Ujxfcw1WQsZZP6tyEtFRhkwjBwy8m4mj7GtU2qUCggUkkg=="],
+    "@nuxtjs/i18n": ["@nuxtjs/i18n@10.3.0", "", { "dependencies": { "@intlify/core": "^11.2.8", "@intlify/h3": "^0.7.4", "@intlify/shared": "^11.2.8", "@intlify/unplugin-vue-i18n": "^11.1.2", "@intlify/utils": "^0.14.1", "@miyaneee/rollup-plugin-json5": "^1.2.0", "@nuxt/kit": "^4.4.2", "@rollup/plugin-yaml": "^4.1.2", "@vue/compiler-sfc": "^3.5.22", "defu": "^6.1.4", "devalue": "^5.1.1", "h3": "^1.15.4", "knitwork": "^1.2.0", "magic-string": "^0.30.21", "mlly": "^1.7.4", "nuxt-define": "^1.0.0", "oxc-parser": "^0.112.0", "oxc-transform": "^0.112.0", "oxc-walker": "^0.7.0", "pathe": "^2.0.3", "ufo": "^1.6.1", "unplugin": "^2.3.11", "unrouting": "^0.1.5", "unstorage": "^1.16.1", "vue-i18n": "^11.1.11", "vue-router": "^5.0.4" } }, "sha512-qomybFaGXQ2RveUOVIQvjOmoeiyd60E22RVseMk9hgjgayDHnLfEpUyLWBam1cMyjMO4FXBvwGRgTEiszsNnvQ=="],
 
     "@oxc-minify/binding-android-arm-eabi": ["@oxc-minify/binding-android-arm-eabi@0.128.0", "", { "os": "android", "cpu": "arm" }, "sha512-EwdDhZLRmXxSnfy0v9gdOru7TutM8ItRg1Xv8e2B4boWMnHlFCIH38JfwgQnenbkF8SVTwVJtDCkmwEzN4q3xA=="],
 

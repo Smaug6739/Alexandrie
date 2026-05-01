@@ -12,7 +12,7 @@
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "1.15.2",
     "@nuxtjs/color-mode": "^4.0.0",
-    "@nuxtjs/i18n": "10.2.4",
+    "@nuxtjs/i18n": "10.3.0",
     "@pinia/nuxt": "^0.11.3",
     "@types/etag": "^1.8.4",
     "@types/fs-extra": "^11.0.4",
