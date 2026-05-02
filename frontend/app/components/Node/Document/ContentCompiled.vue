@@ -29,12 +29,14 @@ const rootElement = ref<HTMLElement>();
 defineExpose({ rootElement });
 
 function rerenderImages() {
-  // Re-triggering image loading by resetting the src attribute, to bypass potential caching issues after a drawio diagram update
-  const images = rootElement.value?.querySelectorAll('img');
-  images?.forEach(img => {
-    const src = img.getAttribute('src');
-    if (src) {
-      img.setAttribute('src', src);
+  // Re-triggering image loading by resetting the data attribute (add v=timestamp), to bypass potential caching issues after a drawio diagram update
+  const obj = rootElement.value?.querySelectorAll('object');
+  obj?.forEach(img => {
+    const data = img.getAttribute('data') || '';
+    const url = new URL(data);
+    url.searchParams.set('v', Date.now().toString());
+    if (data) {
+      img.setAttribute('data', url.toString());
     }
   });
 }
