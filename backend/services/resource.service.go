@@ -11,6 +11,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"maps"
 	"os"
 	"path/filepath"
 	"slices"
@@ -26,7 +27,7 @@ type ResourceConfig struct {
 }
 
 type ResourceService interface {
-	UploadFile(ctx context.Context, filename string, fileSize int64, fileContent []byte, mimeType string, parentId *types.Snowflake) (*models.Node, error)
+	UploadFile(ctx context.Context, filename string, fileSize int64, fileContent []byte, metadata types.JSONB, mimeType string, parentId *types.Snowflake) (*models.Node, error)
 	UploadAvatar(filename string, fileSize int64, fileContent []byte, mimeType string, userId types.Snowflake) error
 }
 
@@ -48,7 +49,7 @@ func NewResourceService(nodeRepo repositories.NodeRepository, snowflake *snowfla
 	}
 }
 
-func (s *resourceService) UploadFile(ctx context.Context, filename string, fileSize int64, fileContent []byte, mimeType string, parentId *types.Snowflake) (*models.Node, error) {
+func (s *resourceService) UploadFile(ctx context.Context, filename string, fileSize int64, fileContent []byte, metadata types.JSONB, mimeType string, parentId *types.Snowflake) (*models.Node, error) {
 	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return nil, err
@@ -74,11 +75,12 @@ func (s *resourceService) UploadFile(ctx context.Context, filename string, fileS
 	id := s.snowflake.Generate()
 	ext := filepath.Ext(filename)
 	transformedPath := fmt.Sprintf("%d%s", id, ext)
-	metadata := types.JSONB{
+	metadata_final := types.JSONB{
 		"filetype":         mimeType,
 		"original_path":    filename,
 		"transformed_path": transformedPath,
 	}
+	maps.Copy(metadata_final, metadata)
 
 	name := filename
 	if len(name) > 50 {
@@ -112,7 +114,7 @@ func (s *resourceService) UploadFile(ctx context.Context, filename string, fileS
 		Size:             &fileSize,
 		Content:          &filename,
 		ContentCompiled:  &transformedPath,
-		Metadata:         &metadata,
+		Metadata:         &metadata_final,
 		CreatedTimestamp: time.Now().UnixMilli(),
 		UpdatedTimestamp: time.Now().UnixMilli(),
 	}

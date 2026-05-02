@@ -4,6 +4,7 @@ import (
 	"alexandrie/app"
 	"alexandrie/types"
 	"alexandrie/utils"
+	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
@@ -34,16 +35,27 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		c.Request.Body,
 		int64(ctr.app.Config.Cdn.MaxSize),
 	)
+
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
 		return http.StatusBadRequest, errors.New("file too large or failed to get file")
 	}
-	parentIdStr := c.Request.FormValue("parent_id")
 
+	parentIdStr := c.Request.FormValue("parent_id")
 	var parentId *types.Snowflake = nil
 	if parentIdStr != "" {
 		parentId, err = types.SnowflakeFromString(parentIdStr)
 	}
+
+	metadataStr := c.Request.FormValue("metadata")
+	var metadata types.JSONB
+	if metadataStr != "" {
+		err = json.Unmarshal([]byte(metadataStr), &metadata)
+		if err != nil {
+			return http.StatusBadRequest, errors.New("invalid metadata format")
+		}
+	}
+
 	defer file.Close()
 
 	fileContent, err := io.ReadAll(file)
@@ -61,6 +73,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		header.Filename,
 		header.Size,
 		fileContent,
+		metadata,
 		mimeType,
 		parentId,
 	)
