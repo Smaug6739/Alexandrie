@@ -578,7 +578,7 @@ export function createCommands(params: CreateCommandsParams) {
     }
     if (action === 'image') return openImageSelector();
     if (action === 'gridOrganization') return openGridOrganization();
-    if (action === 'drawio') return openDrawioEditor();
+    if (action === 'diagram') return openDrawioEditor();
     if (action === 'insertText') return insertText(payload || '');
 
     const view = params.getView();
