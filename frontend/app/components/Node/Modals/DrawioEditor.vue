@@ -35,13 +35,15 @@ const { t } = useI18nT();
 
 interface Props {
   modalRef: Modal;
-  parentNode: Node;
+  parentNode?: Node;
   node?: Node;
-  insertText: (text: string) => void;
+  insertText?: (text: string) => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   node: undefined,
+  parentNode: undefined,
+  insertText: undefined,
 });
 
 const emit = defineEmits<{ (e: 'close'): void }>();
