@@ -9,7 +9,7 @@ import highlight from 'markdown-it-highlightjs';
 // @ts-expect-error no types provided
 import mark from 'markdown-it-mark';
 import colorPlugin from './colors';
-import { subscriptPlugin, superscriptPlugin, footNotePlugin, html5MediaPlugin } from './other';
+import { subscriptPlugin, superscriptPlugin, footNotePlugin, html5MediaPlugin, svgObjectPlugin } from './other';
 import { markdownItCheckbox } from './checkbox';
 import { markdownItKatexPlugin } from './katex';
 import { sourceMapPlugin } from './source-map';
@@ -33,6 +33,7 @@ md.use(colorPlugin, {
   allowHex: true, // allow #rgb and #rrggbb
 });
 md.use(html5MediaPlugin);
+md.use(svgObjectPlugin);
 md.use(sourceMapPlugin);
 
 export default function compile(str: string = ''): string {

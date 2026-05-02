@@ -86,7 +86,7 @@ func InitBluemonday() {
 	policy.RequireNoFollowOnLinks(false)
 
 	// Images videos audio
-	policy.AllowAttrs("src", "alt", "title", "width", "height").OnElements("img")
+	policy.AllowAttrs("src", "alt", "title", "width", "height", "data").OnElements("img", "object")
 	policy.AllowAttrs("src", "controls", "alt").OnElements("audio", "video")
 
 	// Iframe (use with caution)

@@ -153,4 +153,41 @@ function html5MediaPlugin(md: MarkdownIt) {
   };
 }
 
-export { superscriptPlugin, subscriptPlugin, footNotePlugin, html5MediaPlugin };
+const SVG_REGEX = /\.svg(\?.*)?$/i;
+
+function svgObjectPlugin(md: MarkdownIt) {
+  const defaultImageRenderer =
+    md.renderer.rules.image ||
+    function (tokens, idx, options, env, self) {
+      return self.renderToken(tokens, idx, options);
+    };
+
+  md.renderer.rules.image = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    if (!token) return '';
+
+    const src = token.attrGet('src') || '';
+    const alt = token.content || '';
+    const title = token.attrGet('title') || '';
+
+    if (SVG_REGEX.test(src)) {
+      const escapedSrc = md.utils.escapeHtml(src);
+      const escapedAlt = md.utils.escapeHtml(alt);
+      const escapedTitle = md.utils.escapeHtml(title);
+
+      return `
+<object 
+  data="${escapedSrc}" 
+  type="image/svg+xml" 
+  aria-label="${escapedAlt}"
+  ${escapedTitle ? `title="${escapedTitle}"` : ''}
+>
+  ${escapedAlt}
+</object>`;
+    }
+
+    return defaultImageRenderer(tokens, idx, options, env, self);
+  };
+}
+
+export { superscriptPlugin, subscriptPlugin, footNotePlugin, html5MediaPlugin, svgObjectPlugin };
