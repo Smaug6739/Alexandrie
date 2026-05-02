@@ -189,7 +189,6 @@ func (s *resourceService) UpdateFile(ctx context.Context, actor permissions.Acto
 
 		// Update the file in MinIO
 		objectName := fmt.Sprintf("%d/%s", actor.UserID, *node.ContentCompiled)
-		fmt.Printf("Updating file in storage: %s\n", objectName)
 		_, err = s.minioClient.PutObject(context.Background(), os.Getenv("MINIO_BUCKET"), objectName, bytes.NewReader(fileContent), fileSize, minio.PutObjectOptions{ContentType: mimeType})
 		if err != nil {
 			return nil, errors.New("failed to update file in storage")
