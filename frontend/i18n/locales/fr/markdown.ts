@@ -15,9 +15,6 @@ export default {
   },
   drawio: {
     linked: 'Diagrammes liés',
-    loadError: 'Impossible de charger le diagramme existant. Un nouveau diagramme sera ouvert.',
-    missingParent: "Enregistrez d'abord le document pour y attacher des diagrammes.",
-    saved: 'Diagramme enregistré et lié à ce document.',
     title: 'Éditeur de diagrammes',
   },
   stats: {

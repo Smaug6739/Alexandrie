@@ -15,9 +15,6 @@ export default {
   },
   drawio: {
     linked: 'Linked diagrams',
-    loadError: 'Unable to load the existing diagram. A new diagram will be opened.',
-    missingParent: 'Save the document first to attach diagrams to it.',
-    saved: 'Diagram saved and linked to this document.',
     title: 'Diagram editor',
   },
   stats: {
