@@ -30,7 +30,7 @@
             <span class="panel-label">{{ t('common.actions.preview') }}</span>
           </div>
           <NodeDocumentContentCompiled ref="markdownPreviewComponent" :node="document" />
-          <DrawioSidebar :diagrams="referencedDrawioResources" @edit="openDrawioEditor" />
+          <DrawioSidebar :diagrams="referencedDrawioResources" />
         </div>
       </div>
     </div>
@@ -48,7 +48,6 @@ import { createCommands } from './modules/editorCommands';
 import { createScrollSync } from './modules/scrollSync';
 import compile from '~/helpers/markdown';
 import Toolbar from './Toolbar.vue';
-import DrawioEditorModal from '~/components/Node/Modals/DrawioEditor.vue';
 import DrawioSidebar from './DrawioSidebar.vue';
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 
@@ -155,21 +154,6 @@ function handleGlobalKeys(e: KeyboardEvent) {
 function handleToolbarAction(action: string, payload?: string) {
   commands.exec(action, payload);
 }
-
-function openDrawioEditor(resource?: Node) {
-  const modalManager = useModal();
-  const modal = new Modal(shallowRef(DrawioEditorModal), {
-    props: {
-      insertText: (t: string) => commands.insertText(t),
-      parentNode: document.value as Node,
-      node: resource,
-    },
-    size: 'large',
-    noPadding: true,
-  });
-  modalManager.add(modal);
-}
-
 // Re-sync scroll after the preview DOM updates (e.g. after typing new content)
 watch(
   () => document.value.content_compiled,
