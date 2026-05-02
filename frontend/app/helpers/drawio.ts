@@ -7,12 +7,18 @@ export interface DrawioExportPayload {
 
 const DRAWIO_SVG_DATA_URI_PREFIX = 'data:image/svg+xml;base64,';
 
+function base64ToUtf8(base64: string): string {
+  const binary = atob(base64);
+  const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
 export function normalizeDrawioSvg(svgText: string): string {
   const trimmed = svgText.trim();
 
   if (trimmed.startsWith(DRAWIO_SVG_DATA_URI_PREFIX)) {
     const encoded = trimmed.slice(DRAWIO_SVG_DATA_URI_PREFIX.length);
-    return atob(encoded);
+    return base64ToUtf8(encoded);
   }
 
   if (trimmed.startsWith('data:image/svg+xml,')) {
