@@ -15,6 +15,13 @@ export const useResourcesStore = defineStore('resources', {
       } else throw request.message;
     },
 
+    async update(id: string, resource: FormData): Promise<Node> {
+      const request = await makeRequest(`resources/${id}`, 'PUT', resource);
+      if (request.status == 'success') {
+        return request.result as Node;
+      } else throw request.message;
+    },
+
     async postAvatar(resource: FormData): Promise<{ original_path: string; content_compiled: string }> {
       const request = await makeRequest(`resources/avatar`, 'POST', resource);
       if (request.status == 'success') {

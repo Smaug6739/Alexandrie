@@ -21,6 +21,7 @@ export interface DB_Node {
     filetype?: string;
     original_path?: string;
     transformed_path?: string;
+    drawio?: boolean;
   };
   created_timestamp: number;
   updated_timestamp: number;

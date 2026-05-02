@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import type { Node } from '~/stores';
+import { subscribeDrawioCacheInvalidated } from '~/composables/useDrawioCache';
 
 const props = defineProps<{ node?: Partial<Node> }>();
 
@@ -26,6 +27,26 @@ const documentLineHeight = preferences.get('documentLineHeight');
 const rootElement = ref<HTMLElement>();
 
 defineExpose({ rootElement });
+
+function rerenderImages() {
+  // Re-triggering image loading by resetting the src attribute, to bypass potential caching issues after a drawio diagram update
+  const images = rootElement.value?.querySelectorAll('img');
+  images?.forEach(img => {
+    const src = img.getAttribute('src');
+    if (src) {
+      img.setAttribute('src', src);
+    }
+  });
+}
+
+onMounted(() => {
+  const unsub = subscribeDrawioCacheInvalidated(() => {
+    rerenderImages();
+  });
+  onUnmounted(() => {
+    unsub();
+  });
+});
 </script>
 
 <style lang="scss" scoped>

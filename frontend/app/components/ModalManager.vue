@@ -67,13 +67,17 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   max-width: calc(100vw - 32px);
   max-height: calc(100vh - 20px);
   width: 100%;
+  height: 100%;
   .modal {
     max-height: none;
   }
 }
 
 .modal-container:has(> .large) {
-  max-width: calc(100vw - 32px);
+  max-width: 95vw;
+  max-height: 90vh;
+  width: 100%;
+  height: 100%;
   .modal {
     max-height: none;
   }

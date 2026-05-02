@@ -1,5 +1,3 @@
-import type { Node } from '~/stores';
-
 export const DRAWIO_FILE_SUFFIX = '.drawio.svg';
 
 export interface DrawioExportPayload {
@@ -22,30 +20,6 @@ export function normalizeDrawioSvg(svgText: string): string {
   }
 
   return trimmed;
-}
-
-export function normalizeUrl(url: string): string {
-  return url.split('?')[0] || url;
-}
-
-export function isDrawioResource(node: Partial<Node>): boolean {
-  const mimeType = node.metadata?.filetype || '';
-  const name = (node.name || '').toLowerCase();
-  const originalPath = (node.content || '').toLowerCase();
-  return mimeType === 'image/svg+xml' && (name.endsWith(DRAWIO_FILE_SUFFIX) || originalPath.endsWith(DRAWIO_FILE_SUFFIX));
-}
-
-export function extractMarkdownImageUrls(markdown: string): string[] {
-  const urls: string[] = [];
-  const regex = /!\[[^\]]*\]\(([^)\s]+)\)/g;
-
-  for (const match of markdown.matchAll(regex)) {
-    if (match[1]) {
-      urls.push(normalizeUrl(match[1]));
-    }
-  }
-
-  return Array.from(new Set(urls));
 }
 
 export function extractMxfileFromSvg(svgText: string): string | null {

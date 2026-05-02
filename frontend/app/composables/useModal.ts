@@ -8,6 +8,7 @@ const modals = ref<Modal[]>([]);
 /** Open a new modal (adds to stack) */
 function add(modal: Modal) {
   document.body.classList.add('modal-open');
+  modal.options.props = { ...modal.options.props, modalRef: modal };
   modals.value.push(modal);
 }
 
@@ -57,7 +58,6 @@ export class Modal {
     public component: object,
     options: ModalOptions = { size: 'medium' },
   ) {
-    console.log('[Modal] Created with options:', options);
     this.options = reactive(options);
   }
 }

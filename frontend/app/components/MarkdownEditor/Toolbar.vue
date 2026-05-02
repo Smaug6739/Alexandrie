@@ -164,7 +164,7 @@ const localValue = computed({
 const emitAction = (action: string) => emit('execute-action', action);
 
 const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'medium' }));
-const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'medium' }));
+const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'small' }));
 
 const nodesTree = useNodesTree();
 const categories = nodesTree.treeUpToRole(2);
