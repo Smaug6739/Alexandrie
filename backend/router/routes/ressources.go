@@ -16,6 +16,7 @@ func Uploads(app *app.App, router *gin.RouterGroup) {
 	resources.Use(middlewares.Auth())
 	resources.POST("", utils.WP(resourcesCtrl.UploadFile))
 	resources.POST("/avatar", utils.WP(resourcesCtrl.UploadAvatar))
+	resources.PUT("/:id", utils.WP(resourcesCtrl.UpdateFile))
 }
 
 func Backup(app *app.App, router *gin.RouterGroup) {
