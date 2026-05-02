@@ -108,7 +108,7 @@ export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems'])
     label: 'components.sidebar.nav.settings',
     onClick: () => {
       if (isMobile.value) useRouter().push('/dashboard/settings');
-      else useModal().add(new Modal(shallowRef(SettingsModal), { noPadding: true, props: { isModal: true }, size: 'large' }));
+      else useModal().add(new Modal(shallowRef(SettingsModal), { noPadding: true, props: { isModal: true }, size: 'medium' }));
     },
     parent_id: '',
     route: '',
