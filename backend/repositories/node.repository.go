@@ -353,11 +353,11 @@ func (r *NodeRepositoryImpl) Update(node *models.Node) error {
 		UPDATE nodes 
 		SET parent_id = ?, user_id = ?, name = ?, description = ?, tags = ?, role = ?, color = ?, 
 		    icon = ?, thumbnail = ?, theme = ?, accessibility = ?, access = ?, display = ?, `+"`order`"+` = ?, 
-		    content = ?, content_compiled = ?, metadata = ?, updated_timestamp = ? 
+		    content = ?, content_compiled = ?, size = ?, metadata = ?, updated_timestamp = ? 
 		WHERE id = ?`,
 		node.ParentId, node.UserId, node.Name, node.Description, node.Tags, node.Role, node.Color,
 		node.Icon, node.Thumbnail, node.Theme, node.Accessibility, node.Access, node.Display, node.Order,
-		node.Content, node.ContentCompiled, node.Metadata, node.UpdatedTimestamp, node.Id)
+		node.Content, node.ContentCompiled, node.Size, node.Metadata, node.UpdatedTimestamp, node.Id)
 	if err != nil {
 		return fmt.Errorf("failed to update node: %w", err)
 	}
