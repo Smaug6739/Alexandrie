@@ -30,6 +30,7 @@ export const useNodesStore = defineStore('nodes', {
     getAll: state => state.nodes,
     getAllTags: state => state.allTags,
     getById: state => (id: string) => state.nodes.get(id),
+    getTotalUsedStorage: state => state.nodes.toArray().reduce((total, node) => total + (node.size || 0), 0),
     getByIdWithParents: state => (id: string) => {
       const node = state.nodes.get(id);
 
