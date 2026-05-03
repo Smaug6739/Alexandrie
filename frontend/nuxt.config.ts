@@ -32,6 +32,7 @@ export default defineNuxtConfig({
         },
         { href: 'https://api.alexandrie-hub.fr', rel: 'preconnect' },
         { href: 'https://cdn.alexandrie-hub.fr', rel: 'preconnect' },
+        { href: 'https://embed.diagrams.net', rel: 'preload' },
       ],
       meta: [
         // SEO
