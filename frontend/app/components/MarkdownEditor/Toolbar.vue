@@ -163,8 +163,8 @@ const localValue = computed({
 
 const emitAction = (action: string) => emit('execute-action', action);
 
-const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'large' }));
-const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'medium' }));
+const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'medium' }));
+const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'small' }));
 
 const nodesTree = useNodesTree();
 const categories = nodesTree.treeUpToRole(2);
@@ -194,6 +194,7 @@ const extendedFormattingTools = computed<ToolItem[]>(() => [
 const insertTools = computed<ToolItem[]>(() => [
   { name: t('markdown.toolbar.link'), icon: 'format/link', action: 'link', shortcut: 'Ctrl+K' },
   { name: t('markdown.toolbar.image'), icon: 'format/image', action: 'image', shortcut: 'Ctrl+Shift+I' },
+  { name: t('markdown.toolbar.diagram'), icon: 'format/diagrams', action: 'diagram' },
   { name: t('markdown.toolbar.inlineCode'), icon: 'format/code', action: 'code', shortcut: 'Ctrl+E' },
   { name: t('markdown.toolbar.codeBlock'), icon: 'format/code-block', action: 'codeBlock', shortcut: 'Ctrl+Shift+C' },
   { name: t('markdown.toolbar.color'), icon: 'format/color', action: 'openColorPicker' },

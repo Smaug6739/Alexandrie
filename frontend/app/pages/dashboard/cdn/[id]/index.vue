@@ -44,7 +44,7 @@
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize } from '~/helpers/resources';
 
-definePageMeta({ breadcrumb: {i18n: 'common.actions.edit'} });
+definePageMeta({ breadcrumb: { i18n: 'common.actions.edit' } });
 
 const nodeStore = useNodesStore();
 const { t } = useI18nT();

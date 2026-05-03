@@ -63,7 +63,27 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
 }
 
+.modal-container:has(> .full) {
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 20px);
+  width: 100%;
+  height: 100%;
+  .modal {
+    max-height: none;
+  }
+}
+
 .modal-container:has(> .large) {
+  max-width: 95vw;
+  max-height: 90vh;
+  width: 100%;
+  height: 100%;
+  .modal {
+    max-height: none;
+  }
+}
+
+.modal-container:has(> .medium) {
   max-width: 1115px;
 }
 

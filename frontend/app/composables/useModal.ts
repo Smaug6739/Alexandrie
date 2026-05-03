@@ -8,6 +8,7 @@ const modals = ref<Modal[]>([]);
 /** Open a new modal (adds to stack) */
 function add(modal: Modal) {
   document.body.classList.add('modal-open');
+  modal.options.props = { ...modal.options.props, modalRef: modal };
   modals.value.push(modal);
 }
 
@@ -43,15 +44,20 @@ export function useModal() {
 }
 
 interface ModalOptions {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'full';
   noPadding?: boolean;
   props?: object;
+  fullScreen?: boolean;
   onClose?: () => void;
 }
 
 export class Modal {
+  public options: ModalOptions;
+
   constructor(
     public component: object,
-    public options: ModalOptions = { size: 'medium' },
-  ) {}
+    options: ModalOptions = { size: 'medium' },
+  ) {
+    this.options = reactive(options);
+  }
 }

@@ -16,6 +16,9 @@
     <NuxtLink to="/dashboard/import">
       <Icon name="import" display="lg" />
     </NuxtLink>
+    <NuxtLink to="/dashboard/cdn/diagram">
+      <Icon name="format/diagrams" display="lg" />
+    </NuxtLink>
     <NuxtLink v-if="userStore.user?.role === 2" to="/dashboard/admin">
       <Icon name="users" display="lg" />
     </NuxtLink>
@@ -36,7 +39,7 @@ import SettingsModal from '~/pages/dashboard/settings/index.vue';
 const userStore = useUserStore();
 
 const openSettings = () => {
-  useModal().add(new Modal(shallowRef(SettingsModal), { props: { isModal: true }, size: 'large', noPadding: true }));
+  useModal().add(new Modal(shallowRef(SettingsModal), { props: { isModal: true }, size: 'medium', noPadding: true }));
 };
 function closeDock() {
   usePreferencesStore().set('view_dock', false);

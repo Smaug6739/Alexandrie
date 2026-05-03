@@ -13,6 +13,10 @@ export default {
     title: 'Sélectionner une image',
     uploadError: 'Une erreur est survenue lors du téléchargement.',
   },
+  drawio: {
+    linked: 'Diagrammes liés',
+    title: 'Éditeur de diagrammes',
+  },
   stats: {
     chars: 'car.',
     lines: 'lignes',
@@ -49,6 +53,7 @@ export default {
 
     color: 'Couleur',
     editorSettings: "Paramètres de l'éditeur",
+    diagram: 'Diagramme',
     footnote: 'Note de bas de page',
 
     goToDocument: 'Aller au document',

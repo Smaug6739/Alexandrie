@@ -1,6 +1,7 @@
 import ImageSelectorModal from '../ImageSelectorModal.vue';
 import GridOrganizationModal from '../GridOrganizationModal.vue';
 import ColorPickerModal from '../ColorPickerModal.vue';
+import DrawioEditorModal from '~/components/Node/Modals/DrawioEditor.vue';
 import type { EditorView } from '@codemirror/view';
 import type { Node } from '~/stores';
 
@@ -509,8 +510,9 @@ export function createCommands(params: CreateCommandsParams) {
     view.focus();
   }
 
+  const modalManager = useModal();
+
   function openColorModal() {
-    const modalManager = useModal();
     modalManager.add(new Modal(shallowRef(ColorPickerModal), { props: { onColorSelect: handleColorSelect } }));
   }
 
@@ -519,13 +521,23 @@ export function createCommands(params: CreateCommandsParams) {
   }
 
   function openImageSelector() {
-    const modalManager = useModal();
-    modalManager.add(new Modal(shallowRef(ImageSelectorModal), { props: { onImageSelect: handleImageSelect, nodeId: params.getDoc()?.id }, size: 'large' }));
+    modalManager.add(new Modal(shallowRef(ImageSelectorModal), { props: { onImageSelect: handleImageSelect, nodeId: params.getDoc()?.id }, size: 'medium' }));
   }
 
   function openGridOrganization() {
-    const modalManager = useModal();
     modalManager.add(new Modal(shallowRef(GridOrganizationModal), { props: { onGridSelect: handleGridSelect } }));
+  }
+
+  function openDrawioEditor() {
+    const modal = new Modal(shallowRef(DrawioEditorModal), {
+      props: {
+        insertText: (t: string) => insertText(t),
+        parentNode: params.getDoc(),
+      },
+      size: 'large',
+      noPadding: true,
+    });
+    modalManager.add(modal);
   }
 
   function handleImageSelect(imageUrl: string, altText: string) {
@@ -566,6 +578,7 @@ export function createCommands(params: CreateCommandsParams) {
     }
     if (action === 'image') return openImageSelector();
     if (action === 'gridOrganization') return openGridOrganization();
+    if (action === 'diagram') return openDrawioEditor();
     if (action === 'insertText') return insertText(payload || '');
 
     const view = params.getView();

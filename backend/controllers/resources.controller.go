@@ -4,6 +4,7 @@ import (
 	"alexandrie/app"
 	"alexandrie/types"
 	"alexandrie/utils"
+	"encoding/json"
 	"errors"
 	"io"
 	"net/http"
@@ -14,6 +15,7 @@ import (
 type ResourceController interface {
 	UploadFile(c *gin.Context) (int, any)
 	UploadAvatar(c *gin.Context) (int, any)
+	UpdateFile(c *gin.Context) (int, any)
 }
 
 func NewResourceController(app *app.App) ResourceController {
@@ -34,16 +36,27 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		c.Request.Body,
 		int64(ctr.app.Config.Cdn.MaxSize),
 	)
+
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
 		return http.StatusBadRequest, errors.New("file too large or failed to get file")
 	}
-	parentIdStr := c.Request.FormValue("parent_id")
 
+	parentIdStr := c.Request.FormValue("parent_id")
 	var parentId *types.Snowflake = nil
 	if parentIdStr != "" {
 		parentId, err = types.SnowflakeFromString(parentIdStr)
 	}
+
+	metadataStr := c.Request.FormValue("metadata")
+	var metadata types.JSONB
+	if metadataStr != "" {
+		err = json.Unmarshal([]byte(metadataStr), &metadata)
+		if err != nil {
+			return http.StatusBadRequest, errors.New("invalid metadata format")
+		}
+	}
+
 	defer file.Close()
 
 	fileContent, err := io.ReadAll(file)
@@ -61,6 +74,7 @@ func (ctr *Controller) UploadFile(c *gin.Context) (int, any) {
 		header.Filename,
 		header.Size,
 		fileContent,
+		metadata,
 		mimeType,
 		parentId,
 	)
@@ -112,4 +126,75 @@ func (ctr *Controller) UploadAvatar(c *gin.Context) (int, any) {
 	}
 
 	return http.StatusOK, "Avatar uploaded successfully"
+}
+
+// UpdateFile handles file update for an existing resource
+// @Method PUT
+// @Description Update an existing file in the CDN and associated node.
+// @Router /resources/:id [put]
+func (ctr *Controller) UpdateFile(c *gin.Context) (int, any) {
+	resourceId := c.Param("id")
+	id, err := types.SnowflakeFromString(resourceId)
+	if err != nil {
+		return http.StatusBadRequest, errors.New("invalid resource id")
+	}
+
+	actor, err := actorFromRequest(c)
+	if err != nil {
+		return statusFromAccessError(err), err
+	}
+
+	// Limit request body size
+	c.Request.Body = http.MaxBytesReader(
+		c.Writer,
+		c.Request.Body,
+		int64(ctr.app.Config.Cdn.MaxSize),
+	)
+
+	file, header, err := c.Request.FormFile("file")
+	if err != nil {
+		// If no file is provided, user might be updating only metadata
+		file = nil
+	}
+
+	var fileContent []byte
+	var fileSize int64
+	if file != nil {
+		defer file.Close()
+		fileContent, err = io.ReadAll(file)
+		if err != nil {
+			return http.StatusInternalServerError, errors.New("failed to read file")
+		}
+		fileSize = int64(len(fileContent))
+	}
+
+	metadataStr := c.PostForm("metadata")
+	var metadata types.JSONB
+	if metadataStr != "" {
+		err = json.Unmarshal([]byte(metadataStr), &metadata)
+		if err != nil {
+			return http.StatusBadRequest, errors.New("invalid metadata format")
+		}
+	}
+
+	mimeType := ""
+	if file != nil {
+		mimeType = header.Header.Get("Content-Type")
+	}
+
+	node, err := ctr.app.Services.Resource.UpdateFile(
+		c.Request.Context(),
+		actor,
+		*id,
+		header.Filename,
+		fileContent,
+		fileSize,
+		metadata,
+		mimeType,
+	)
+	if err != nil {
+		return statusFromAccessError(err), err
+	}
+
+	return http.StatusOK, node
 }

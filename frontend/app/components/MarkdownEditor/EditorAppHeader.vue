@@ -4,18 +4,21 @@
       <Icon :name="icon" display="xxl" fill="var(--surface-base)" />
     </div>
     <h3>{{ title }}</h3>
-    <p class="header-subtitle">{{ subtitle }}</p>
+    <p v-if="subtitle" class="header-subtitle">{{ subtitle }}</p>
+    <div class="floating-toolbar">
+      <slot name="toolbar" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps<{ icon: string; title: string; subtitle: string }>();
+defineProps<{ icon: string; title: string; subtitle?: string }>();
 </script>
 
 <style scoped lang="scss">
 .modal-header {
   display: flex;
-  padding: 24px 0 20px;
+  padding: 16px 0 0;
   text-align: center;
   align-items: center;
   flex-direction: column;
@@ -52,5 +55,13 @@ defineProps<{ icon: string; title: string; subtitle: string }>();
     line-height: 1.4;
     color: var(--text-secondary);
   }
+}
+
+.floating-toolbar {
+  position: absolute;
+  top: 1.3rem;
+  right: 50px;
+  display: flex;
+  gap: 8px;
 }
 </style>

@@ -109,7 +109,7 @@ const MAX_STORAGE = 1024 * 1024 * 1024; // 1 GB in bytes
 const nodes = computed(() => nodesStore.resources.toArray());
 const filteredResources = ref(nodes.value);
 
-const totalUsedSpace = computed(() => nodes.value.reduce((acc, node) => acc + (node.size ?? 0), 0));
+const totalUsedSpace = computed(() => nodesStore.getTotalUsedStorage);
 const storagePercentage = computed(() => Math.min((totalUsedSpace.value / MAX_STORAGE) * 100, 100));
 const linksText = computed(() => fileLinks.value.join('\n'));
 

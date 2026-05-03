@@ -13,6 +13,10 @@ export default {
     title: 'Select an image',
     uploadError: 'An error occurred while uploading.',
   },
+  drawio: {
+    linked: 'Linked diagrams',
+    title: 'Diagram editor',
+  },
   stats: {
     chars: 'chars.',
     lines: 'lines',
@@ -49,6 +53,7 @@ export default {
 
     color: 'Color',
     editorSettings: 'Editor settings',
+    diagram: 'Diagram',
     footnote: 'Footnote',
 
     goToDocument: 'Go to document',

@@ -3,7 +3,7 @@
   <div class="editor-wrapper">
     <div class="editor-container">
       <!-- Toolbar Section -->
-      <Toolbar v-model="document" @execute-action="commands.exec" />
+      <Toolbar v-model="document" @execute-action="handleToolbarAction" />
 
       <!-- Compact Document Metadata -->
       <div class="document-meta">
@@ -30,6 +30,7 @@
             <span class="panel-label">{{ t('common.actions.preview') }}</span>
           </div>
           <NodeDocumentContentCompiled ref="markdownPreviewComponent" :node="document" />
+          <DrawioSidebar :diagrams="referencedDrawioResources" />
         </div>
       </div>
     </div>
@@ -45,14 +46,16 @@ import { createUploadsHandlers } from './modules/editorUploads';
 import { createSnippetSource } from './modules/editorUtils';
 import { createCommands } from './modules/editorCommands';
 import { createScrollSync } from './modules/scrollSync';
+import compile from '~/helpers/markdown';
 import Toolbar from './Toolbar.vue';
+import DrawioSidebar from './DrawioSidebar.vue';
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 
-import compile from '~/helpers/markdown';
 import type { Node } from '~/stores';
 
 const { t } = useI18nT();
 const resourcesStore = useResourcesStore();
+const nodesStore = useNodesStore();
 const preferences = usePreferencesStore();
 
 const props = defineProps<{ doc?: Partial<Node> }>();
@@ -88,6 +91,16 @@ const uploadsHandlers = createUploadsHandlers({
   resourcesStore,
   nodeId: props.doc?.id,
   insertText: (t: string) => commands.exec('insertText', t),
+});
+
+const referencedDrawioResources = computed(() => {
+  const diagrams: Node[] = [];
+  nodesStore.resources.forEach((resource: Node) => {
+    if (!resource.metadata?.drawio) return;
+    diagrams.push(resource);
+  });
+
+  return diagrams;
 });
 
 const state = createEditorState({
@@ -138,6 +151,9 @@ function handleGlobalKeys(e: KeyboardEvent) {
   }
 }
 
+function handleToolbarAction(action: string, payload?: string) {
+  commands.exec(action, payload);
+}
 // Re-sync scroll after the preview DOM updates (e.g. after typing new content)
 watch(
   () => document.value.content_compiled,

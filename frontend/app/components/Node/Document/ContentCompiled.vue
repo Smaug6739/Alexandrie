@@ -10,6 +10,8 @@
 
 <script setup lang="ts">
 import type { Node } from '~/stores';
+import { subscribeDrawioCacheInvalidated } from '~/composables/useDrawioCache';
+import { rerenderImages } from '~/helpers/DOM';
 
 const props = defineProps<{ node?: Partial<Node> }>();
 
@@ -26,6 +28,15 @@ const documentLineHeight = preferences.get('documentLineHeight');
 const rootElement = ref<HTMLElement>();
 
 defineExpose({ rootElement });
+
+onMounted(() => {
+  const unsub = subscribeDrawioCacheInvalidated(() => {
+    rerenderImages(rootElement.value!);
+  });
+  onUnmounted(() => {
+    unsub();
+  });
+});
 </script>
 
 <style lang="scss" scoped>
