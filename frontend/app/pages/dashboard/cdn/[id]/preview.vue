@@ -9,6 +9,10 @@
             <Icon name="edit" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
           </NuxtLink>
+          <button class="btn-icon" @click="showDrawioEditor">
+            <Icon name="format/diagrams" display="lg" />
+            <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
+          </button>
           <span class="btn-icon" @click="copyLink">
             <Icon name="copy" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.copyLink') }}</p>
@@ -17,14 +21,15 @@
             <Icon name="download" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.download') }}</p>
           </NuxtLink>
-          <NuxtLink class="btn-icon" @click="showDeleteModal">
+          <button class="btn-icon" @click="showDeleteModal">
             <Icon name="delete" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.delete') }}</p>
-          </NuxtLink>
+          </button>
         </div>
       </header>
-      <div class="preview">
-        <img v-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
+      <div ref="previewElement" class="preview">
+        <object v-if="resource.metadata?.drawio" :data="resourceURL(resource)" alt="Preview" />
+        <img v-else-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
         <LazyPDFViewer v-else-if="isPdfFile(mimeType)" :src="resourceURL(resource)" :zoom="zoom" />
         <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls />
         <audio v-else-if="isAudioFile(mimeType)" :src="resourceURL(resource)" controls />
@@ -43,14 +48,17 @@
 
 <script setup lang="ts">
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
+import DrawioEditorModal from '~/components/Node/Modals/DrawioEditor.vue';
 import { PDF_SCALES } from '~/helpers/constants';
 import { isImageFile, isPdfFile, isVideoFile, isAudioFile } from '~/helpers/resources';
+import { rerenderImages } from '~/helpers/DOM';
 
 definePageMeta({ breadcrumb: { i18n: 'common.actions.preview' } });
 
 const { t } = useI18nT();
 const { resourceURL } = useApi();
 
+const previewElement = ref<HTMLElement | null>();
 const zoom = ref<(typeof PDF_SCALES)[number]['id']>('automatic_zoom');
 
 const resource = computed(() => useNodesStore().getById(useRoute().params.id as string));
@@ -60,7 +68,18 @@ const copyLink = () => {
   const link = resourceURL(resource.value!);
   navigator.clipboard.writeText(link);
 };
-
+function showDrawioEditor() {
+  const modalManager = useModal();
+  const modal = new Modal(shallowRef(DrawioEditorModal), {
+    props: {
+      node: resource.value,
+    },
+    onClose: () => rerenderImages(previewElement.value!),
+    size: 'large',
+    noPadding: true,
+  });
+  modalManager.add(modal);
+}
 const showDeleteModal = () => {
   useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };

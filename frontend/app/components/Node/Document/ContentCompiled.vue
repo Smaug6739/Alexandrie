@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import type { Node } from '~/stores';
 import { subscribeDrawioCacheInvalidated } from '~/composables/useDrawioCache';
+import { rerenderImages } from '~/helpers/DOM';
 
 const props = defineProps<{ node?: Partial<Node> }>();
 
@@ -28,22 +29,9 @@ const rootElement = ref<HTMLElement>();
 
 defineExpose({ rootElement });
 
-function rerenderImages() {
-  // Re-triggering image loading by resetting the data attribute (add v=timestamp), to bypass potential caching issues after a drawio diagram update
-  const obj = rootElement.value?.querySelectorAll('object');
-  obj?.forEach(img => {
-    const data = img.getAttribute('data') || '';
-    const url = new URL(data);
-    url.searchParams.set('v', Date.now().toString());
-    if (data) {
-      img.setAttribute('data', url.toString());
-    }
-  });
-}
-
 onMounted(() => {
   const unsub = subscribeDrawioCacheInvalidated(() => {
-    rerenderImages();
+    rerenderImages(rootElement.value!);
   });
   onUnmounted(() => {
     unsub();
