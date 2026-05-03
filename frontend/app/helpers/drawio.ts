@@ -90,5 +90,5 @@ export function buildDrawioFilename(baseName: string): string {
 
   const suffix = formatDate(new Date());
 
-  return `${safeBase}-${suffix}`;
+  return `${safeBase}-${suffix}.svg`;
 }
