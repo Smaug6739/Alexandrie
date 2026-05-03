@@ -1,5 +1,3 @@
-export const DRAWIO_FILE_SUFFIX = '.drawio.svg';
-
 export interface DrawioExportPayload {
   svg: string;
   xml?: string;
@@ -77,6 +75,10 @@ export function extractMxfileFromSvg(svgText: string): string | null {
   }
 }
 
+function formatDate(d: Date) {
+  return `${d.getFullYear()}${(d.getMonth() + 1).toString().padStart(2, '0')}${d.getDate().toString().padStart(2, '0')}`;
+}
+
 export function buildDrawioFilename(baseName: string): string {
   const sanitized = (baseName || 'diagram')
     .toLowerCase()
@@ -85,5 +87,8 @@ export function buildDrawioFilename(baseName: string): string {
     .replace(/\s+/g, '-');
 
   const safeBase = sanitized || 'diagram';
-  return `${safeBase}-${Date.now()}${DRAWIO_FILE_SUFFIX}`;
+
+  const suffix = formatDate(new Date());
+
+  return `${safeBase}-${suffix}`;
 }

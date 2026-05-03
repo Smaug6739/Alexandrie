@@ -16,6 +16,9 @@
     <NuxtLink to="/dashboard/import">
       <Icon name="import" display="lg" />
     </NuxtLink>
+    <NuxtLink to="/dashboard/cdn/diagram">
+      <Icon name="format/diagrams" display="lg" />
+    </NuxtLink>
     <NuxtLink v-if="userStore.user?.role === 2" to="/dashboard/admin">
       <Icon name="users" display="lg" />
     </NuxtLink>

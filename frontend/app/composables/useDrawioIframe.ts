@@ -63,12 +63,12 @@ export function useDrawioIframe(iframe: Ref<HTMLIFrameElement | null>, node?: No
     }
   }
 
-  async function saveDiagram(svg: string): Promise<void> {
+  async function saveDiagram(svg: string, diagram_name?: string): Promise<void> {
     const parentId = parentNode?.id;
     const isNew = !node;
 
     try {
-      const filename = buildDrawioFilename(parentNode?.name || 'diagram');
+      const filename = diagram_name || node?.name || buildDrawioFilename(parentNode?.name || 'diagram');
       const svgContent = normalizeDrawioSvg(svg);
 
       const file = new File([svgContent], filename, { type: 'image/svg+xml' });
@@ -100,7 +100,7 @@ export function useDrawioIframe(iframe: Ref<HTMLIFrameElement | null>, node?: No
     }
   }
 
-  async function handleMessage(event: MessageEvent): Promise<boolean> {
+  async function handleMessage(event: MessageEvent, diagram_name?: string): Promise<boolean> {
     if (event.source !== iframe.value?.contentWindow) {
       return false;
     }
@@ -135,7 +135,7 @@ export function useDrawioIframe(iframe: Ref<HTMLIFrameElement | null>, node?: No
       const svg = data.data;
       //const xml = typeof data.xml === 'string' ? data.xml : extractMxfileFromSvg(svg) || undefined;
 
-      await saveDiagram(svg);
+      await saveDiagram(svg, diagram_name);
 
       return true;
     }
