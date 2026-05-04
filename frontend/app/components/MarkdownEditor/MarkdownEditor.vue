@@ -96,8 +96,7 @@ const uploadsHandlers = createUploadsHandlers({
 const referencedDrawioResources = computed(() => {
   const diagrams: Node[] = [];
   nodesStore.resources.forEach((resource: Node) => {
-    if (!resource.metadata?.drawio) return;
-    diagrams.push(resource);
+    if (resource.metadata?.drawio && resource.parent_id == document.value.id) diagrams.push(resource);
   });
 
   return diagrams;
