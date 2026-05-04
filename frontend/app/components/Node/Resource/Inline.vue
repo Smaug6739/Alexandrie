@@ -7,10 +7,10 @@
       <span class="file-size">{{ readableFileSize(node.size ?? 0) }}</span>
     </div>
 
-    <button v-if="editable" class="btn-icon file-edit" @click="openDrawioEditor">
+    <button v-if="editable" class="btn-icon file-edit" @click.prevent="openDrawioEditor">
       <Icon name="edit" />
     </button>
-    <button class="btn-icon file-remove" @click="openDeleteModal">
+    <button class="btn-icon file-remove" @click.prevent="openDeleteModal">
       <Icon name="close" />
     </button>
   </NuxtLink>
@@ -36,8 +36,7 @@ const openDeleteModal = () => {
   useModal().add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: props.node, redirect: '/dashboard' } }));
 };
 
-function openDrawioEditor(e: MouseEvent) {
-  e.preventDefault();
+function openDrawioEditor() {
   const modalManager = useModal();
   const modal = new Modal(shallowRef(DrawioEditorModal), {
     props: {
