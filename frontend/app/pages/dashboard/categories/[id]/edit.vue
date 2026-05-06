@@ -68,7 +68,14 @@ const updateCategory = async () => {
       .catch(e => useNotifications().add({ message: e, title: t('common.status.error'), type: 'error' }));
 };
 const deleteCategory = async () => {
-  useModal().add(new Modal(shallowRef(DeleteModal), { props: { categoryId: category.value?.id || '' } }));
+  useModal().add(
+    new Modal(shallowRef(DeleteModal), { 
+      props: { 
+        node: category.value,
+        redirectTo: '/dashboard/categories'
+      } 
+    })
+  );
 };
 </script>
 
