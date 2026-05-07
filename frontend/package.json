@@ -27,7 +27,7 @@
     "eslint-plugin-perfectionist": "^5.9.0",
     "etag": "^1.8.1",
     "fast-glob": "^3.3.3",
-    "fs-extra": "^11.3.4",
+    "fs-extra": "^11.3.5",
     "katex": "^0.16.45",
     "markdown-it": "^14.1.1",
     "markdown-it-anchor": "^9.2.0",
