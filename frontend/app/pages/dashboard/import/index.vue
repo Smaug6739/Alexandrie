@@ -1,236 +1,69 @@
 <template>
   <div class="import-page page-card">
-    <!-- Step 1: File Selection -->
-    <div v-if="step === 'select'">
-      <header>
-        <h1 style="font-size: 20px">{{ t('import.meta.title') }} <tag class="orange">Beta</tag></h1>
-      </header>
-      <p>
-        {{ t('import.meta.description') }}
-        <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">{{ t('import.meta.settingsLink') }}</NuxtLink
-        >.
-      </p>
-      <AppDrop ref="dropComponent" @select="handleFileSelect as (file: File) => void" />
-      <div class="submit">
-        <AppButton type="primary" :disabled="!selectedFile || isAnalyzing" @click="analyzeFile">
-          {{ isAnalyzing ? t('import.steps.select.analyzing') : t('import.steps.select.startImport') }}
-        </AppButton>
-      </div>
-      <p v-if="analyzeError" class="error-text">{{ analyzeError }}</p>
+    <header>
+      <h1 style="font-size: 20px">{{ t('import.meta.title') }} <tag class="orange">Beta</tag></h1>
+    </header>
+    <p>
+      {{ t('import.meta.description') }}
+      <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">{{ t('import.meta.settingsLink') }}</NuxtLink
+      >.
+    </p>
+    <div class="container">
+      <NuxtLink class="import-card" to="/dashboard/import/backup">
+        <h3>Alexandrie</h3>
+        <IconApp style="width: 100px" />
+        <p>Import your backup files to restore your data.</p>
+      </NuxtLink>
+      <NuxtLink class="import-card" to="/dashboard/import/files">
+        <h3>Markdown</h3>
+        <span v-html="icons.markdown"></span>
+        <p>Import your Markdown files to add them to the knowledge base.</p>
+      </NuxtLink>
+      <NuxtLink class="import-card" to="/dashboard/import/files">
+        <h3>Other</h3>
+        <span v-html="icons.other"></span>
+        <p>Import other file types.</p>
+      </NuxtLink>
     </div>
-
-    <!-- Step 2: Preview & Import -->
-    <template v-if="step === 'preview' && manifest">
-      <!-- Backup Info Card -->
-      <ImportHeader :manifest="manifest" :reset-import="resetImport" />
-
-      <!-- Import Summary -->
-      <SummaryCard :to-create="toCreate.length" :to-update="toUpdate.length" :unchanged-count="unchangedCount" :import-job="importJob" />
-
-      <!-- Tabs for New / Updates -->
-      <ImportTabs
-        :manifest="manifest"
-        :to-create="toCreate"
-        :to-update="toUpdate"
-        :import-job="importJob"
-        @import="importNodes"
-        @import-local-settings="importLocalSettings"
-      />
-
-      <!-- Import All Actions -->
-      <ImportActions
-        v-model:preserve-timestamps="importOptions.preserveTimestamps"
-        v-model:skip-existing="importOptions.skipExisting"
-        :to-create="toCreate"
-        :to-update="toUpdate"
-        :reset-import="resetImport"
-        :import-all="importAll"
-        :import-job="importJob"
-      />
-    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import ImportHeader from './_components/ImportHeader.vue';
-import SummaryCard from './_components/ImportSummary.vue';
-import ImportTabs from './_components/ImportTabs.vue';
-import ImportActions from './_components/ImportActions.vue';
-import { handleBackupFile } from '~/helpers/backups';
-import type { Manifest } from '~/helpers/backups/types';
-import type { DB_Node, ImportJob } from '~/stores/db_strustures';
-
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
 const { t } = useI18nT();
-const nodesStore = useNodesStore();
-const notifications = useNotifications();
 
-// State
-const step = ref<'select' | 'preview'>('select');
-const selectedFile = ref<File>();
-const isAnalyzing = ref(false);
-const analyzeError = ref('');
-
-// Backup data
-const manifest = ref<Manifest | null>(null);
-const backupDocuments = ref<DB_Node[]>([]);
-const toCreate = ref<DB_Node[]>([]);
-const toUpdate = ref<DB_Node[]>([]);
-const localData = ref<object | null>(null);
-
-// Import state
-const importJob = ref<ImportJob>({
-  status: 'pending',
-  toCreate: 0,
-  toUpdate: 0,
-  created: [],
-  updated: [],
-  failures: 0,
-});
-
-// Options
-const importOptions = reactive({
-  preserveTimestamps: false,
-  skipExisting: false,
-});
-
-// Computed
-const unchangedCount = computed(() => {
-  if (!backupDocuments.value.length) return 0;
-  return backupDocuments.value.length - toCreate.value.length - toUpdate.value.length;
-});
-
-// Methods
-const handleFileSelect = (file?: File) => {
-  selectedFile.value = file;
-  analyzeError.value = '';
+const icons = {
+  markdown: `<svg xmlns="http://www.w3.org/2000/svg"  width="75" height="100" viewBox="0 0 471 289.85"><path fill="currentColor" d="M437,289.85H34a34,34,0,0,1-34-34V34A34,34,0,0,1,34,0H437a34,34,0,0,1,34,34V255.88A34,34,0,0,1,437,289.85ZM34,22.64A11.34,11.34,0,0,0,22.64,34V255.88A11.34,11.34,0,0,0,34,267.2H437a11.34,11.34,0,0,0,11.33-11.32V34A11.34,11.34,0,0,0,437,22.64Z"/><path fill="currentColor" d="M67.93,221.91v-154h45.29l45.29,56.61L203.8,67.93h45.29v154H203.8V133.6l-45.29,56.61L113.22,133.6v88.31Zm283.06,0-67.94-74.72h45.29V67.93h45.29v79.26h45.29Z"/></svg>`,
+  other: `<svg xmlns="http://www.w3.org/2000/svg" width="75" height="100" viewBox="0 0 24 24"><path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,9V3.5L18.5,9H13M6,4H12V10H18V20H6V4Z"/></svg>`,
 };
-
-async function analyzeFile() {
-  if (!selectedFile.value) return;
-
-  isAnalyzing.value = true;
-  analyzeError.value = '';
-
-  try {
-    const result = await handleBackupFile(selectedFile.value);
-    manifest.value = result.manifest;
-    localData.value = result.localData;
-
-    if (result.documents?.length) {
-      backupDocuments.value = result.documents;
-      const { toCreate: create, toUpdate: update } = nodesStore.prepareImport(result.documents);
-      toCreate.value = create;
-      toUpdate.value = update;
-    } else {
-      backupDocuments.value = [];
-      toCreate.value = [];
-      toUpdate.value = [];
-    }
-
-    step.value = 'preview';
-  } catch (e) {
-    analyzeError.value = e instanceof Error ? e.message : 'Failed to analyze backup file';
-  } finally {
-    isAnalyzing.value = false;
-  }
-}
-
-function resetImport() {
-  step.value = 'select';
-  selectedFile.value = undefined;
-  manifest.value = null;
-  backupDocuments.value = [];
-  toCreate.value = [];
-  toUpdate.value = [];
-
-  importJob.value = {
-    status: 'pending',
-    toCreate: 0,
-    toUpdate: 0,
-    created: [],
-    updated: [],
-    failures: 0,
-  };
-}
-
-async function importNodes(type: 'create' | 'update', ids: string[]) {
-  const nodes: DB_Node[] = type === 'create' ? toCreate.value.filter(d => ids.includes(d.id)) : toUpdate.value.filter(d => ids.includes(d.id));
-
-  if (type === 'create') {
-    importJob.value.toCreate = nodes.length;
-    await nodesStore.importMultipleNodes({ toCreate: nodes, toUpdate: [] }, importJob);
-    toCreate.value = toCreate.value.filter(d => !importJob.value.created.includes(d.id));
-  } else if (type == 'update') {
-    importJob.value.toUpdate = nodes.length;
-    await nodesStore.importMultipleNodes({ toCreate: [], toUpdate: nodes }, importJob);
-    toUpdate.value = toUpdate.value.filter(d => !importJob.value.updated.includes(d.id));
-  }
-
-  notifications.add({
-    type: 'success',
-    title: 'Import complete',
-    message: `${importJob.value.created.length + importJob.value.updated.length} documents ${type === 'create' ? 'imported' : 'updated'}`,
-  });
-}
-
-function importLocalSettings() {
-  if (!manifest.value) return;
-
-  const preferences = usePreferencesStore();
-  if (localData.value) {
-    preferences.importPreferences(localData.value);
-    notifications.add({
-      type: 'success',
-      title: t('import.notifications.localImportedTitle'),
-      message: t('import.notifications.localImportedMessage'),
-    });
-  } else {
-    notifications.add({
-      type: 'error',
-      title: t('import.notifications.importFailedTitle'),
-      message: t('import.notifications.importFailedMessage'),
-    });
-  }
-}
-
-async function importAll() {
-  const createDocs = toCreate.value;
-  const updateDocs = importOptions.skipExisting ? [] : toUpdate.value;
-
-  importJob.value.toCreate = createDocs.length;
-  importJob.value.toUpdate = updateDocs.length;
-
-  await nodesStore.importMultipleNodes({ toCreate: createDocs, toUpdate: updateDocs }, importJob);
-  toCreate.value = toCreate.value.filter(d => !importJob.value.created.includes(d.id));
-  toUpdate.value = toUpdate.value.filter(d => !importJob.value.updated.includes(d.id));
-
-  notifications.add({
-    type: 'success',
-    title: t('import.notifications.importCompleteTitle'),
-    message: t('import.notifications.importCompleteMessage'),
-  });
-}
 </script>
 
 <style scoped lang="scss">
-.import-page {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.submit {
+.container {
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  align-items: stretch;
+  width: 100%;
+  gap: 1rem;
 }
 
-.error-text {
-  font-size: 0.9rem;
-  color: var(--red);
-  text-align: center;
-  margin-top: 0.5rem;
+.import-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.5rem;
+  p {
+    margin: 0 0.5rem;
+    text-align: center;
+  }
+  &:hover {
+    border-color: var(--primary);
+    background-color: var(--surface-raised);
+  }
 }
 </style>

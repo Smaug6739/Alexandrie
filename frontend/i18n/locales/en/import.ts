@@ -8,6 +8,10 @@ export default {
     skipExisting: 'Skip existing documents (import only new ones)',
   },
 
+  files: {
+    noMarkdownFiles: 'No markdown files found.',
+  },
+
   header: {
     changeFile: 'Change file',
     created: 'Created',
@@ -23,8 +27,7 @@ export default {
 
   meta: {
     breadcrumb: 'Imports',
-    description:
-      "You can import documents from a previous export. If you don't have one, create it from the",
+    description: "You can import documents from a previous export. If you don't have one, create it from the",
     settingsLink: 'settings',
     title: 'Import documents',
   },

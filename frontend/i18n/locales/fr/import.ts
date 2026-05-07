@@ -8,6 +8,10 @@ export default {
     skipExisting: 'Ignorer les documents existants (importer uniquement les nouveaux)',
   },
 
+  files: {
+    noMarkdownFiles: 'Aucun fichier markdown trouvé.',
+  },
+
   header: {
     changeFile: 'Changer de fichier',
     created: 'Créé',
