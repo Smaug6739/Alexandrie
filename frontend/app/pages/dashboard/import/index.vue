@@ -1,30 +1,47 @@
 <template>
   <div class="import-page page-card">
     <header>
-      <h1 style="font-size: 20px">{{ t('import.meta.title') }} <tag class="orange">Beta</tag></h1>
+      <div>
+        <h1>{{ t('import.meta.title') }} <tag class="orange">Beta</tag></h1>
+        <p class="subtitle">
+          {{ t('import.meta.description') }}
+          <NuxtLink to="/dashboard/settings?p=backup">{{ t('import.meta.settingsLink') }}</NuxtLink
+          >.
+        </p>
+      </div>
     </header>
-    <p>
-      {{ t('import.meta.description') }}
-      <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">{{ t('import.meta.settingsLink') }}</NuxtLink
-      >.
-    </p>
-    <div class="container">
+
+    <section class="cards-grid">
       <NuxtLink class="import-card" to="/dashboard/import/backup">
-        <h3>Alexandrie</h3>
-        <IconApp style="width: 100px" />
-        <p>Import your backup files to restore your data.</p>
+        <div class="top">
+          <h3>{{ t('import.categories.backup.title') }}</h3>
+          <tag class="green">{{ t('common.labels.basic') }}</tag>
+        </div>
+        <IconApp class="icon-app" />
+        <p>{{ t('import.categories.backup.description') }}</p>
+        <span class="cta">{{ t('common.actions.open') }}</span>
       </NuxtLink>
+
       <NuxtLink class="import-card" to="/dashboard/import/files">
-        <h3>Markdown</h3>
-        <span v-html="icons.markdown"></span>
-        <p>Import your Markdown files to add them to the knowledge base.</p>
+        <div class="top">
+          <h3>{{ t('import.categories.files.title') }}</h3>
+          <tag class="green">{{ t('common.labels.basic') }}</tag>
+        </div>
+        <Icon name="files" display="xxl" />
+        <p>{{ t('import.categories.files.description') }}</p>
+        <span class="cta">{{ t('common.actions.open') }}</span>
       </NuxtLink>
-      <NuxtLink class="import-card" to="/dashboard/import/files">
-        <h3>Other</h3>
-        <span v-html="icons.other"></span>
-        <p>Import other file types.</p>
+
+      <NuxtLink class="import-card" to="/dashboard/import/advanced">
+        <div class="top">
+          <h3>{{ t('import.categories.advanced.title') }}</h3>
+          <tag class="orange">{{ t('common.labels.advanced') }}</tag>
+        </div>
+        <Icon name="advanced" display="xxl" />
+        <p>{{ t('import.categories.advanced.description') }}</p>
+        <span class="cta">{{ t('common.actions.preview') }}</span>
       </NuxtLink>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -32,38 +49,75 @@
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
 const { t } = useI18nT();
-
-const icons = {
-  markdown: `<svg xmlns="http://www.w3.org/2000/svg"  width="75" height="100" viewBox="0 0 471 289.85"><path fill="currentColor" d="M437,289.85H34a34,34,0,0,1-34-34V34A34,34,0,0,1,34,0H437a34,34,0,0,1,34,34V255.88A34,34,0,0,1,437,289.85ZM34,22.64A11.34,11.34,0,0,0,22.64,34V255.88A11.34,11.34,0,0,0,34,267.2H437a11.34,11.34,0,0,0,11.33-11.32V34A11.34,11.34,0,0,0,437,22.64Z"/><path fill="currentColor" d="M67.93,221.91v-154h45.29l45.29,56.61L203.8,67.93h45.29v154H203.8V133.6l-45.29,56.61L113.22,133.6v88.31Zm283.06,0-67.94-74.72h45.29V67.93h45.29v79.26h45.29Z"/></svg>`,
-  other: `<svg xmlns="http://www.w3.org/2000/svg" width="75" height="100" viewBox="0 0 24 24"><path fill="currentColor" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M13,9V3.5L18.5,9H13M6,4H12V10H18V20H6V4Z"/></svg>`,
-};
 </script>
 
 <style scoped lang="scss">
-.container {
+.import-page {
   display: flex;
-  justify-content: center;
-  align-items: stretch;
-  width: 100%;
+  flex-direction: column;
   gap: 1rem;
 }
 
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
 .import-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 500px;
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 0.5rem;
-  p {
-    margin: 0 0.5rem;
-    text-align: center;
+  background: var(--surface-raised);
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-height: 185px;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
   }
+
+  h3 {
+    margin: 0;
+    font-size: 0.98rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .cta {
+    margin-top: auto;
+    font-size: 0.84rem;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
   &:hover {
     border-color: var(--primary);
-    background-color: var(--surface-raised);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  .icon-app {
+    width: 46px;
+  }
+}
+
+@media (max-width: 850px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

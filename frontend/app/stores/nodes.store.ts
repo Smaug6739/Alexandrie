@@ -342,6 +342,7 @@ export const useNodesStore = defineStore('nodes', {
       } else throw request.message;
     },
     async post(node: Partial<Node>): Promise<DB_Node> {
+      delete node.id;
       const request = await makeRequest('nodes', 'POST', node);
       if (request.status == 'success') {
         this.nodes.set((request.result as DB_Node).id, { ...(request.result as DB_Node), partial: false, shared: false, permissions: [] });
@@ -488,10 +489,11 @@ export const useNodesStore = defineStore('nodes', {
       }
 
       // Import of the node
+      const oldId = node.id;
       const res = await this.post(node);
-      job.value.created.push(node.id);
+      job.value.created.push(oldId);
       await new Promise(resolve => setTimeout(resolve, 75)); // slight delay to avoid overwhelming the server
-      corresponding[node.id] = res.id;
+      corresponding[oldId] = res.id;
     },
 
     async updateAllNodes(nodes: DB_Node[], job?: Ref<ImportJob>) {

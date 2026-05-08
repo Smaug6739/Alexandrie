@@ -11,6 +11,49 @@
 
     <AppDrop ref="dropComponent" multiple allow-folders @select="selectFiles" />
     <small>{{ t('import.files.importable') }}</small>
+
+    <h3>{{ t('import.advanced.options') }}</h3>
+
+    <div class="actions-row">
+      <AppToggle v-model="options.extractFrontMatter" />
+      <p>{{ t('import.actions.extractFrontMatter') }}</p>
+    </div>
+
+    <div class="actions-row">
+      <AppToggle v-model="options.normalizeLineEndings" />
+      <p>{{ t('import.actions.normalizeLineEndings') }}</p>
+    </div>
+
+    <div class="actions-row">
+      <AppToggle v-model="options.preserveTimestamps" />
+      <p>{{ t('import.actions.preserveTimestamps') }}</p>
+    </div>
+    <div>
+      <label for="default-description">
+        {{ t('import.advanced.defaultDescription') }}
+      </label>
+      <input id="default-description" v-model="options.defaultValues.defaultDescription" type="text" placeholder="Default description for imported nodes" />
+      <label for="default-tags">
+        {{ t('import.advanced.defaultTags') }}
+      </label>
+      <input id="default-tags" v-model="options.defaultValues.defaultTags" type="text" placeholder="tag1, tag2, tag3" />
+      <label for="default-color">
+        {{ t('import.advanced.defaultColor') }}
+      </label>
+      <AppColorPicker id="default-color" v-model="options.defaultValues.defaultColor" :allow-transparent="true" />
+      <label for="default-thumbnail">
+        {{ t('import.advanced.defaultThumbnail') }}
+      </label>
+      <input id="default-thumbnail" v-model="options.defaultValues.defaultThumbnail" type="text" />
+      <label for="default-icon">
+        {{ t('import.advanced.defaultIcon') }}
+      </label>
+      <input id="default-icon" v-model="options.defaultValues.defaultIcon" type="text" />
+      <label for="default-theme">
+        {{ t('import.advanced.defaultTheme') }}
+      </label>
+      <AppSelect id="default-theme" v-model="options.defaultValues.defaultTheme" :items="DOCUMENT_THEMES" />
+    </div>
     <section v-if="nodes.length" class="panel">
       <div class="panel-head">
         <h3>{{ t('import.files.toImport') }} ({{ nodes.length }})</h3>
@@ -43,6 +86,7 @@
 <script setup lang="ts">
 import ImportProgress from './_components/ImportProgress.vue';
 import { Importer } from '~/helpers/backups/Importer';
+import { DOCUMENT_THEMES } from '~/helpers/constants';
 import type { DB_Node, ImportJob } from '~/stores';
 
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
@@ -55,7 +99,31 @@ const selectedNodes = ref<string[]>([]);
 
 const toCreate = ref(0);
 
+const files = ref<File[]>([]);
 const nodes = ref<DB_Node[]>([]);
+
+const options = ref({
+  extractFrontMatter: true,
+  normalizeLineEndings: true,
+  preserveTimestamps: true,
+  defaultValues: {
+    defaultDescription: '',
+    defaultTags: '',
+    defaultColor: 0,
+    defaultThumbnail: '',
+    defaultIcon: '',
+    defaultTheme: '',
+  },
+});
+
+watch(
+  () => options.value,
+  _ => {
+    // Re-process files with new options
+    if (files.value.length) processImport();
+  },
+  { deep: true },
+);
 
 const importJob = ref<ImportJob>({
   status: 'pending',
@@ -66,23 +134,19 @@ const importJob = ref<ImportJob>({
   failures: 0,
 });
 
-async function selectFiles(files: File | File[] | null) {
-  if (!files) return;
+function selectFiles(importedFiles: File | File[] | null) {
+  if (!importedFiles) return;
+  files.value = Array.isArray(importedFiles) ? importedFiles : [importedFiles];
+  processImport();
+}
+
+async function processImport() {
+  if (!files.value) return;
   const imp = new Importer({
-    extractFrontMatter: true,
-    normalizeLineEndings: true,
-    preserveTimestamps: false,
-    defaultValues: {
-      defaultColor: 0,
-      defaultDescription: '',
-      defaultTags: '',
-      defaultIcon: '',
-      defaultTheme: '',
-      defaultThumbnail: '',
-    },
+    ...options.value,
     user_id: user.user!.id,
   });
-  await imp.handleFiles(files);
+  await imp.handleFiles(files.value);
   nodes.value = await imp.normalizedToNodes();
 }
 
@@ -111,6 +175,14 @@ async function importNodes(importNodes: DB_Node[]) {
 .files-import {
   display: grid;
   gap: 1rem;
+}
+
+.actions-row > p {
+  margin: 0.1rem;
+}
+
+label {
+  margin-top: 0.5rem;
 }
 
 .panel {

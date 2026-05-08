@@ -39,7 +39,9 @@ export default {
 
   labels: {
     action: 'Action',
+    advanced: 'Advanced',
     all: 'All',
+    basic: 'Basic',
     color: 'Color',
     content: 'Content',
     date: 'Date',

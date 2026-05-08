@@ -8,13 +8,17 @@
     @dragleave.prevent="dragLeave"
     @paste.prevent="handlePaste"
   >
-    <input ref="fileInput" type="file" :multiple="multiple" @change="handleFileSelect" />
+    <input ref="fileInput" type="file" :multiple="multiple" :webkitdirectory="allowFolders" @change="handleFileSelect" />
 
     <div v-if="selectedFiles.length" class="files">
       <div class="list">
-        <div v-for="(file, index) in selectedFiles" :key="file.name + '-' + file.size + '-' + file.lastModified" class="item">
-          <FileInline :file="file" :remove-file="() => removeFile(index)" class="file-card" />
-        </div>
+        <FileInline
+          v-for="(file, index) in selectedFiles"
+          :key="file.name + '-' + file.size + '-' + file.lastModified"
+          :file="file"
+          :remove-file="() => removeFile(index)"
+          class="file-card"
+        />
       </div>
       <footer>
         <span class="total">{{ selectedFiles.length }} file{{ selectedFiles.length > 1 ? 's' : '' }} • {{ readableFileSize(totalSize) }}</span>
@@ -48,11 +52,13 @@ import { readableFileSize } from '~/helpers/resources';
 const props = withDefaults(
   defineProps<{
     multiple?: boolean;
+    allowFolders?: boolean;
     maxFiles?: number;
   }>(),
   {
     maxFiles: 10,
     multiple: false,
+    allowFolders: false,
   },
 );
 
@@ -203,87 +209,6 @@ defineExpose({ reset });
   flex-direction: column;
   gap: 6px;
   overflow-y: auto;
-}
-
-.item {
-  display: flex;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: var(--surface-base);
-  transition:
-    border-color 0.15s ease,
-    background-color 0.15s ease;
-  align-items: center;
-  gap: 12px;
-
-  &:hover {
-    border-color: var(--border-strong);
-    background: var(--surface-raised);
-
-    .remove {
-      opacity: 1;
-    }
-  }
-}
-
-.icon {
-  display: flex;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-sm);
-  color: var(--primary);
-  align-items: center;
-  flex-shrink: 0;
-  justify-content: center;
-}
-
-.details {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.name {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.meta {
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-
-.remove {
-  display: flex;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-xs);
-  color: var(--text-secondary);
-  background: transparent;
-  opacity: 0.6;
-  transition:
-    color 0.15s ease,
-    background-color 0.15s ease,
-    opacity 0.15s ease;
-  align-items: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  justify-content: center;
-
-  &:hover {
-    color: var(--red);
-    background: var(--surface-transparent);
-    opacity: 1;
-  }
 }
 
 footer {

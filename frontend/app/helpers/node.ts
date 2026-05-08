@@ -18,7 +18,7 @@ export const resolveIcon = (item: Node | DB_Node | NodeSearchResult): string => 
     if (item.metadata?.filetype?.startsWith('image/')) return 'sidebar/image';
     return 'sidebar/attachment';
   }
-  return 'sidebar/default';
+  return 'sidebar/attachment';
 };
 
 /** Get the dashboard route for a node */
