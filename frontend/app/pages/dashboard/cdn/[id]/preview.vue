@@ -21,7 +21,7 @@
             <Icon name="download" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.download') }}</p>
           </NuxtLink>
-          <button class="btn-icon" @click="showDeleteModal">
+          <button class="btn-icon" @click="openDeleteModal">
             <Icon name="delete" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.delete') }}</p>
           </button>
@@ -80,9 +80,24 @@ function showDrawioEditor() {
   });
   modalManager.add(modal);
 }
-const showDeleteModal = () => {
+const openDeleteModal = () => {
+  if (!resource.value) return;
   useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
+
+const handleDocumentKeydown = (event: KeyboardEvent) => {
+  if (event.key !== 'Delete') return;
+  event.preventDefault();
+  openDeleteModal();
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleDocumentKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleDocumentKeydown);
+});
 </script>
 <style scoped lang="scss">
 .btn-icon {

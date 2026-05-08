@@ -67,16 +67,32 @@ const updateCategory = async () => {
       })
       .catch(e => useNotifications().add({ message: e, title: t('common.status.error'), type: 'error' }));
 };
+
 const deleteCategory = async () => {
+  if (!category.value) return;
   useModal().add(
-    new Modal(shallowRef(DeleteModal), { 
-      props: { 
+    new Modal(shallowRef(DeleteModal), {
+      props: {
         node: category.value,
-        redirectTo: '/dashboard/categories'
-      } 
-    })
+        redirectTo: '/dashboard/categories',
+      },
+    }),
   );
 };
+
+const handleDocumentKeydown = (event: KeyboardEvent) => {
+  if (event.key !== 'Delete') return;
+  event.preventDefault();
+  deleteCategory();
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleDocumentKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleDocumentKeydown);
+});
 </script>
 
 <style scoped lang="scss">

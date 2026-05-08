@@ -65,9 +65,26 @@ const updateCategory = async () => {
       })
       .catch(e => useNotifications().add({ message: e, title: 'Error', type: 'error' }));
 };
-const showDeleteModal = () => {
+const openDeleteModal = () => {
+  if (!resource.value) return;
   useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
+
+const showDeleteModal = openDeleteModal;
+
+const handleDocumentKeydown = (event: KeyboardEvent) => {
+  if (event.key !== 'Delete') return;
+  event.preventDefault();
+  openDeleteModal();
+};
+
+onMounted(() => {
+  document.addEventListener('keydown', handleDocumentKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleDocumentKeydown);
+});
 </script>
 
 <style scoped lang="scss">

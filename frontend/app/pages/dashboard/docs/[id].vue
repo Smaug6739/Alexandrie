@@ -82,6 +82,16 @@ function showContextMenu(event: MouseEvent) {
   });
 }
 
+const openDeleteModal = () => {
+  if (!node.value) return;
+  useModal().add(
+    new Modal(shallowRef(DeleteNodeModal), {
+      props: { node: node.value, redirectTo: '/dashboard' },
+      size: 'small',
+    }),
+  );
+};
+
 onMounted(() => {
   // Keyboard shortcuts management for navigating between corresponding pages
   const handleDocumentKeydown = (e: KeyboardEvent) => {
@@ -109,14 +119,8 @@ onMounted(() => {
     }
     if (e.key === 'Delete') {
       // Open delete modal on Delete
-      if (!node.value) return;
       e.preventDefault();
-      useModal().add(
-        new Modal(shallowRef(DeleteNodeModal), {
-          props: { node: node.value, redirectTo: '/dashboard' },
-          size: 'small',
-        }),
-      );
+      openDeleteModal();
     }
   };
 
