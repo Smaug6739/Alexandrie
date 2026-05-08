@@ -128,6 +128,23 @@ const openDeleteModal = () => {
   if (props.parent) modals.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: props.parent, redirect: '/dashboard' } }));
 };
 
+// Keyboard shortcut: Delete key triggers delete modal
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Delete' && !isEditingInput(e.target) && props.parent && nodesStore.hasPermissions(props.parent, 4)) {
+    e.preventDefault();
+    openDeleteModal();
+  }
+}
+function isEditingInput(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const tag = target.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  return target.isContentEditable;
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown));
+onUnmounted(() => window.removeEventListener('keydown', onKeydown));
+
 // Kanban functionality
 async function updateKanbanMetadata(metadata: KanbanMetadata) {
   if (!props.parent) return;

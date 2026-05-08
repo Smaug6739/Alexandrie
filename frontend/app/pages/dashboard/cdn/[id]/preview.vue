@@ -82,7 +82,24 @@ function showDrawioEditor() {
 }
 const showDeleteModal = () => {
   useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
-};
+}
+
+// Keyboard shortcut: Delete key triggers delete modal
+function onKeydown(e: KeyboardEvent) {
+  if (e.key === 'Delete' && !isEditingInput(e.target)) {
+    e.preventDefault();
+    showDeleteModal();
+  }
+}
+function isEditingInput(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const tag = target.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
+  return target.isContentEditable;
+}
+
+onMounted(() => window.addEventListener('keydown', onKeydown));
+onUnmounted(() => window.removeEventListener('keydown', onKeydown));
 </script>
 <style scoped lang="scss">
 .btn-icon {
