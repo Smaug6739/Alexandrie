@@ -40,7 +40,7 @@
       <label for="default-color">
         {{ t('import.advanced.defaultColor') }}
       </label>
-      <AppColorPicker id="default-color" v-model="options.defaultValues.defaultColor" :allow-transparent="true" />
+      <AppColorPicker id="default-color" v-model="options.defaultValues.defaultColor" nullable />
       <label for="default-thumbnail">
         {{ t('import.advanced.defaultThumbnail') }}
       </label>
@@ -109,7 +109,7 @@ const options = ref({
   defaultValues: {
     defaultDescription: '',
     defaultTags: '',
-    defaultColor: 0,
+    defaultColor: -1,
     defaultThumbnail: '',
     defaultIcon: '',
     defaultTheme: '',

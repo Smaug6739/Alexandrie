@@ -39,7 +39,9 @@ export default {
 
   labels: {
     action: 'Дія',
+    advanced: 'Розширений',
     all: 'Усе',
+    basic: 'Основний',
     color: 'Колір',
     content: 'Зміст',
     date: 'Дата',
