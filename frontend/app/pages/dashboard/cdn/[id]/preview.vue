@@ -9,7 +9,7 @@
             <Icon name="edit" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
           </NuxtLink>
-          <button class="btn-icon" @click="showDrawioEditor">
+          <button v-if="resource.metadata?.drawio" class="btn-icon" @click="showDrawioEditor">
             <Icon name="format/diagrams" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
           </button>
