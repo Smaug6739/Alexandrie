@@ -210,7 +210,7 @@ function importLocalSettings() {
 
 .warning {
   display: flex;
-  align-items: center;
   color: var(--red);
+  align-items: center;
 }
 </style>

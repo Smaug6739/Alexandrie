@@ -114,9 +114,9 @@ async function importNodes(importNodes: DB_Node[]) {
 }
 
 .panel {
+  padding: 0.85rem;
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 0.85rem;
 }
 
 .panel h3 {
@@ -126,19 +126,19 @@ async function importNodes(importNodes: DB_Node[]) {
 .panel-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.7rem;
+  justify-content: space-between;
   margin-bottom: 0.65rem;
 }
 
 .list {
   display: grid;
-  gap: 0.35rem;
   max-height: 250px;
+  gap: 0.35rem;
   overflow: auto;
 }
 
-@media (max-width: 900px) {
+@media (width <= 900px) {
   .grid {
     grid-template-columns: 1fr;
   }

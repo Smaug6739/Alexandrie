@@ -138,9 +138,9 @@ function handleKeydown(e: KeyboardEvent) {
 
 .shortcuts {
   display: flex;
-  align-items: center;
   font-size: 13px;
   font-weight: 500;
+  align-items: center;
   flex-wrap: wrap;
   gap: 10px;
 }

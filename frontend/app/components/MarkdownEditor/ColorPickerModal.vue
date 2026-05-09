@@ -62,33 +62,37 @@ watch(selectedColor, val => (hex.value = val));
 
 <style scoped lang="scss">
 .modal-ctn {
-  padding: 16px;
   display: flex;
+  padding: 16px;
   flex-direction: column;
   gap: 12px;
 }
+
 .modal-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
 .section-title {
-  font-weight: 700;
   font-size: 14px;
+  font-weight: 700;
 }
+
 .swatches {
   display: flex;
-  justify-content: space-evenly;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-evenly;
 }
+
 .swatch {
+  display: flex;
   width: 45px;
   height: 45px;
   border-radius: var(--radius-md);
-  cursor: pointer;
   transition: transform $transition-fast ease;
-  display: flex;
+  cursor: pointer;
   justify-content: center;
 
   &:hover {
@@ -100,27 +104,31 @@ watch(selectedColor, val => (hex.value = val));
   }
 
   .swatch-check {
+    width: 20px;
     opacity: 0;
     transition: opacity $transition-fast ease;
-    width: 20px;
   }
 }
+
 .custom-row {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
+
 .custom-inputs {
   display: flex;
-  gap: 8px;
   align-items: center;
+  gap: 8px;
 }
+
 .color-input {
   width: 48px;
   height: 34px;
   padding: 0;
   border: none;
 }
+
 .actions-row {
   justify-content: flex-end;
 }

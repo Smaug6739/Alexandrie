@@ -146,6 +146,7 @@ function toPolyline(series: MonthlyCount[]): string {
 a:hover {
   color: var(--primary);
 }
+
 .admin-dashboard {
   display: flex;
   flex-direction: column;
@@ -154,9 +155,9 @@ a:hover {
 
 .admin-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  justify-content: space-between;
 }
 
 .stats-loading,
@@ -189,22 +190,22 @@ a:hover {
 .kpi-card,
 .chart-card,
 .top-card {
+  padding: 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 1rem;
   background: radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 11%, transparent), transparent 54%), var(--background-100);
 }
 
 .kpi-label {
   margin: 0;
-  color: var(--text-muted);
   font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 .kpi-value {
   margin: 0.35rem 0 0;
-  font-weight: 700;
   font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 700;
 }
 
 .sparkline {
@@ -214,15 +215,15 @@ a:hover {
 }
 
 .month-row {
-  list-style: none;
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  padding: 0;
   margin: 0;
-  color: var(--text-muted);
+  padding: 0;
   font-size: 0.72rem;
-  gap: 0.2rem;
+  color: var(--text-muted);
   text-align: center;
+  gap: 0.2rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  list-style: none;
 }
 
 table {

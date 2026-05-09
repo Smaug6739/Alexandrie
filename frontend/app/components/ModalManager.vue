@@ -60,24 +60,26 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   background-color: var(--surface-base);
   box-shadow: var(--shadow-sm);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
 }
 
 .modal-container:has(> .full) {
-  max-width: calc(100vw - 32px);
-  max-height: calc(100vh - 20px);
   width: 100%;
+  max-width: calc(100vw - 32px);
   height: 100%;
+  max-height: calc(100vh - 20px);
+
   .modal {
     max-height: none;
   }
 }
 
 .modal-container:has(> .large) {
-  max-width: 95vw;
-  max-height: 90vh;
   width: 100%;
+  max-width: 95vw;
   height: 100%;
+  max-height: 90vh;
+
   .modal {
     max-height: none;
   }
@@ -118,7 +120,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
   display: flex;
   background-color: var(--overlay-backdrop);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
-  -webkit-backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   inset: 0;
 }
 

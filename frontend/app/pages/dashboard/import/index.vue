@@ -60,29 +60,29 @@ const { t } = useI18nT();
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.9rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .import-card {
+  display: flex;
+  min-height: 185px;
+  padding: 0.9rem;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--surface-raised);
-  padding: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  min-height: 185px;
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease,
     border-color 0.18s ease;
+  flex-direction: column;
+  gap: 0.65rem;
 
   .top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 0.6rem;
+    justify-content: space-between;
   }
 
   h3 {
@@ -92,22 +92,22 @@ const { t } = useI18nT();
 
   p {
     margin: 0;
-    color: var(--text-secondary);
     font-size: 0.9rem;
     line-height: 1.45;
+    color: var(--text-secondary);
   }
 
   .cta {
-    margin-top: auto;
     font-size: 0.84rem;
-    color: var(--primary);
     font-weight: 600;
+    color: var(--primary);
+    margin-top: auto;
   }
 
   &:hover {
     border-color: var(--primary);
+    box-shadow: 0 8px 18px rgb(0 0 0 / 8%);
     transform: translateY(-2px);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
   }
 
   .icon-app {
@@ -115,7 +115,7 @@ const { t } = useI18nT();
   }
 }
 
-@media (max-width: 850px) {
+@media (width <= 850px) {
   .cards-grid {
     grid-template-columns: 1fr;
   }

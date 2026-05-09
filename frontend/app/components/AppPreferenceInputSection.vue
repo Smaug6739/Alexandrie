@@ -141,6 +141,7 @@ h3 {
     opacity: 0.7;
   }
 }
+
 .number-entry {
   width: 40%;
 }

@@ -82,6 +82,7 @@ const selectColor = (color: number) => {
 .hint-tooltip {
   margin-top: 10px;
 }
+
 .color-option:hover .hint-tooltip {
   opacity: 1;
   visibility: visible;

@@ -54,14 +54,15 @@ const importSingle = () => emit('importSingle');
 <style scoped lang="scss">
 .node-item {
   display: flex;
-  padding: 0.75rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
   width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
+
 .doc-info {
   display: flex;
   min-width: 0;
@@ -69,11 +70,13 @@ const importSingle = () => emit('importSingle');
   flex: 1;
   gap: 0.75rem;
 }
+
 .icon {
   padding: 4px;
   border-radius: var(--radius-md);
   margin-right: 10px;
 }
+
 .doc-details {
   display: flex;
   min-width: 0;

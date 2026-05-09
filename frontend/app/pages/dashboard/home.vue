@@ -247,8 +247,8 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
 
 <style scoped lang="scss">
 .home-container {
-  max-width: 1400px;
   width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -612,6 +612,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   .greeting h1 {
     font-size: 1.5rem;
   }
+
   .stats-section {
     grid-template-columns: repeat(1, 1fr);
   }

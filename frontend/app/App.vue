@@ -49,11 +49,10 @@ watch(
 
 <style lang="scss">
 #app {
-  height: 100vh;
-  overflow-y: scroll;
-  overflow-x: auto;
   display: flex;
+  height: 100vh;
   flex-direction: column;
+  overflow: auto scroll;
 }
 
 @media print {

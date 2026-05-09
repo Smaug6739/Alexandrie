@@ -17,8 +17,8 @@ main {
   width: 100%;
   height: 100%;
   padding: 0 10px;
-  flex-direction: column;
   transition: padding-left $transition-medium;
+  flex-direction: column;
 }
 
 @media print {

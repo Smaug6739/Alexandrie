@@ -36,13 +36,13 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .file-card {
   display: flex;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-base);
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background-color: var(--surface-base);
-  width: 100%;
 
   .file-preview {
     width: 48px;
@@ -52,8 +52,8 @@ onBeforeUnmount(() => {
   }
 
   .file-info {
-    flex: 1;
     min-width: 0;
+    flex: 1;
 
     .file-name {
       display: block;
@@ -77,8 +77,8 @@ onBeforeUnmount(() => {
     cursor: pointer;
 
     &:hover {
-      background: var(--bg-tertiary);
       color: var(--red);
+      background: var(--bg-tertiary);
     }
   }
 }

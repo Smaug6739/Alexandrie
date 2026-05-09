@@ -1,6 +1,6 @@
 <template>
   <div class="body-container">
-    <article class="markdown-preview modern-theme document-content" style="font-size: 16px; font-family: Poppins; line-height: 1.5">
+    <article class="markdown-preview modern-theme document-content" style=" font-family: Poppins;font-size: 16px; line-height: 1.5">
       <h1 id="alexandrie-setup-guide">Alexandrie Setup Guide</h1>
       <p>This guide explains how to set up, configure, and deploy the Alexandrie stack.</p>
       <p>

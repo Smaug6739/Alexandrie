@@ -163,8 +163,8 @@ table {
   display: table;
   width: 100%;
   margin: 0;
-  border-radius: 0;
   border-color: inherit;
+  border-radius: 0;
   border-collapse: collapse;
   table-layout: auto;
 }

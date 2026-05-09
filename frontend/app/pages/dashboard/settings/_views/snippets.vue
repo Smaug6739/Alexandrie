@@ -224,8 +224,8 @@ const handleDictImport = async (e: Event) => {
 
 .dropdown-backdrop {
   position: fixed;
-  inset: 0;
   z-index: 99;
+  inset: 0;
 }
 
 .dropdown-menu {

@@ -57,6 +57,7 @@ onMounted(() => {
 }
 
 button {
+  position: relative;
   display: flex;
   width: 32px;
   height: 32px;
@@ -71,11 +72,11 @@ button {
   align-items: center;
   cursor: pointer;
   justify-content: center;
-  position: relative;
 
   &:hover {
     color: var(--text-body);
     background: var(--surface-base);
+
     .hint-tooltip {
       opacity: 1;
       visibility: visible;
