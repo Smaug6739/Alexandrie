@@ -18,7 +18,7 @@ export const resolveIcon = (item: Node | DB_Node | NodeSearchResult): string => 
     if (item.metadata?.filetype?.startsWith('image/')) return 'sidebar/image';
     return 'sidebar/attachment';
   }
-  return 'sidebar/default';
+  return 'sidebar/attachment';
 };
 
 /** Get the dashboard route for a node */
@@ -49,4 +49,28 @@ export const generateMarkdownWithMetadata = (node: Node): string => {
   if (node.tags && node.tags.length > 0) metadataLines.push(`tags: ${node.tags}`);
   metadataLines.push('---', '', '');
   return metadataLines.join('\n') + (node.content || '');
+};
+
+export const extractMetadataFromMarkdown = (markdown: string): { title: string; description?: string; tags?: string; content_clean: string } => {
+  const metadata: { title: string; description?: string; tags?: string } = { title: '' };
+  let contentClean = markdown;
+
+  const metadataMatch = markdown.match(/^---\n([\s\S]*?)\n---/);
+  if (metadataMatch && metadataMatch[1]) {
+    const metadataContent = metadataMatch[1];
+    const lines = metadataContent.split('\n');
+    for (const line of lines) {
+      const [key, ...rest] = line.split(':');
+      const value = rest
+        .join(':')
+        .trim()
+        .replace(/^"(.*)"$/, '$1'); // Remove surrounding quotes
+      if (key === 'title') metadata.title = value;
+      else if (key === 'description') metadata.description = value;
+      else if (key === 'tags') metadata.tags = value;
+    }
+    contentClean = markdown.slice(metadataMatch[0].length).trimStart();
+  }
+
+  return { ...metadata, content_clean: contentClean };
 };

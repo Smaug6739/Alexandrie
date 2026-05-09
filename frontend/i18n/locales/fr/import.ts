@@ -1,11 +1,48 @@
 export default {
   actions: {
     cancel: 'Annuler',
-    importAll: 'Tout importer',
-    importing: 'Importation...',
+    importAll: 'Importer tout',
+    importing: 'Importation en cours...',
     optionsTitle: "Options d'importation",
+    extractFrontMatter: 'Extraire les métadonnées du front matter',
+    normalizeLineEndings: 'Normaliser les fins de ligne',
     preserveTimestamps: 'Conserver les horodatages originaux',
     skipExisting: 'Ignorer les documents existants (importer uniquement les nouveaux)',
+  },
+
+  advanced: {
+    options: "Options d'importation avancées",
+    defaultDescription: 'DDescription par défaut pour les documents importés',
+    defaultTags: 'Balises par défaut pour les documents importés (séparées par des virgules)',
+    defaultColor: 'Couleur par défaut pour les documents importés',
+    defaultThumbnail: 'Vignette par défaut pour les documents importés (svg ou emoji unicode)',
+    defaultIcon: 'Icône par défaut pour les documents importés (svg ou emoji unicode)',
+    defaultTheme: 'Default theme for imported documents',
+  },
+
+  files: {
+    meta: {
+      title: 'Importer à partir de fichiers markdown',
+      description: 'Importez rapidement des fichiers markdown avec des options pour la destination et le traitement.',
+    },
+    importable:
+      "Vous pouvez importer des fichiers markdown ou un dossier contenant des fichiers markdown. Les dossiers seront importés de manière récursive, en préservant leur structure si vous choisissez l'option importer tout.",
+    toImport: 'Éléments à importer',
+  },
+
+  categories: {
+    backup: {
+      title: 'Importer depuis une sauvegarde',
+      description: "Restaurez une sauvegarde complète d'Alexandrie avec les documents et les paramètres.",
+    },
+    files: {
+      title: 'Importer à partir de fichiers',
+      description: 'Importez des documents à partir de fichiers markdown avec des options flexibles.',
+    },
+    advanced: {
+      title: 'Importation avancée',
+      description: 'Importez des documents en utilisant des options personnalisées pour un contrôle maximum.',
+    },
   },
 
   header: {
@@ -15,17 +52,16 @@ export default {
     files: 'Fichiers',
     metadata: 'Métadonnées',
     settings: 'Paramètres',
-    title: 'Informations de sauvegarde',
-    totalDocuments: 'Total des documents',
+    title: 'Informations de la sauvegarde',
+    totalDocuments: 'Documents totaux',
     totalSize: 'Taille totale',
     version: 'Version',
   },
 
   meta: {
     breadcrumb: 'Importations',
-    description:
-      "Vous pouvez importer des documents depuis une exportation précédente. Si vous n'avez pas d'exportation, vous pouvez en créer une depuis la page",
-    settingsLink: 'paramètres',
+    description: "Vous pouvez importer des documents à partir d'une sauvegarde précédente. Si vous n'en avez pas vous pouvez en créer une depuis",
+    settingsLink: 'les paramètres',
     title: 'Importer des documents',
   },
 

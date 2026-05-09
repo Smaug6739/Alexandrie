@@ -342,7 +342,7 @@ export const useNodesStore = defineStore('nodes', {
       } else throw request.message;
     },
     async post(node: Partial<Node>): Promise<DB_Node> {
-      const request = await makeRequest('nodes', 'POST', node);
+      const request = await makeRequest('nodes', 'POST', { ...node, id: undefined });
       if (request.status == 'success') {
         this.nodes.set((request.result as DB_Node).id, { ...(request.result as DB_Node), partial: false, shared: false, permissions: [] });
         return request.result as DB_Node;

@@ -11,17 +11,21 @@
     <div v-if="importJob.status === 'in_progress'" class="progress-bar-container">
       <div class="progress-bar" :style="{ width: progress + '%' }"></div>
     </div>
+
+    <small v-if="importJob.status === 'failed'">{{ importJob.error_message }}</small>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { ImportJob } from '~/stores';
 
-const props = defineProps<{ importJob: ImportJob; toCreate: number; toUpdate: number }>();
+const props = defineProps<{ importJob: ImportJob; toCreate?: number; toUpdate?: number }>();
 
 const { t } = useI18nT();
 
-const progress = computed(() => Math.floor(((props.importJob.created.length + props.importJob.updated.length) * 100) / (props.toCreate + props.toUpdate)));
+const progress = computed(() =>
+  Math.floor(((props.importJob.created.length + props.importJob.updated.length) * 100) / ((props.toCreate || 0) + (props.toUpdate || 0))),
+);
 const statusLabel = computed(() => {
   switch (props.importJob.status) {
     case 'pending':
@@ -98,5 +102,9 @@ const statusLabel = computed(() => {
   border-radius: var(--radius-xs);
   background: var(--primary);
   transition: width $transition-medium ease;
+}
+
+small {
+  color: var(--text-primary);
 }
 </style>

@@ -22,23 +22,16 @@
           </AppButton>
         </div>
         <div class="documents-list">
-          <div v-for="doc in toCreate" :key="doc.id" class="document-item">
-            <AppCheck :checked="selectedCreate.includes(doc.id)" @change="toggleSelection(doc.id, 'create')" />
-            <div class="doc-info">
-              <Icon :name="resolveIcon(doc)" :size="18" />
-              <div class="doc-details">
-                <span class="doc-name">{{ doc.name }}</span>
-                <span class="doc-meta">
-                  {{ getRoleName(doc.role) }}
-                  <span v-if="doc.description" class="separator">•</span>
-                  {{ doc.description || '' }}
-                </span>
-              </div>
-            </div>
-            <div class="doc-actions">
-              <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'create')"> {{ t('import.tabs.import') }} </AppButton>
-            </div>
-          </div>
+          <NodeImportPreview
+            v-for="doc in toCreate"
+            :key="doc.id"
+            :node="doc"
+            selectable
+            :selected="selectedCreate.includes(doc.id)"
+            :is-importing="isImporting"
+            @toggle-selection="() => toggleSelection(doc.id, 'create')"
+            @import-single="() => importSingle(doc, 'create')"
+          />
         </div>
       </template>
     </div>
@@ -58,34 +51,16 @@
           </AppButton>
         </div>
         <div class="documents-list">
-          <div v-for="doc in toUpdate" :key="doc.id" class="document-item update-item">
-            <AppCheck :checked="selectedUpdate.includes(doc.id)" @change="toggleSelection(doc.id, 'update')" />
-            <div class="doc-info">
-              <Icon :name="resolveIcon(doc)" :size="18" />
-              <div class="doc-details">
-                <span class="doc-name">{{ doc.name }}</span>
-                <span class="doc-meta">
-                  {{ getRoleName(doc.role) }}
-                </span>
-              </div>
-            </div>
-            <div class="comparison">
-              <div class="version current">
-                <span class="version-label">{{ t('import.tabs.current') }}</span>
-                <span class="version-date">{{ numericDate(getExistingNode(doc.id)?.updated_timestamp) }}</span>
-              </div>
-              <Icon name="arrow-right" :size="14" class="arrow" />
-              <div class="version backup">
-                <span class="version-label">{{ t('import.tabs.backup') }}</span>
-                <span class="version-date">{{ numericDate(doc.updated_timestamp) }}</span>
-              </div>
-            </div>
-            <div class="doc-actions">
-              <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle(doc, 'update')">
-                {{ t('import.tabs.importFromBackup') }}
-              </AppButton>
-            </div>
-          </div>
+          <NodeImportPreview
+            v-for="doc in toUpdate"
+            :key="doc.id"
+            :node="doc"
+            selectable
+            :selected="selectedUpdate.includes(doc.id)"
+            :is-importing="isImporting"
+            @toggle-selection="() => toggleSelection(doc.id, 'update')"
+            @import-single="() => importSingle(doc, 'update')"
+          />
         </div>
       </template>
     </div>
@@ -108,7 +83,6 @@
 </template>
 
 <script setup lang="ts">
-import { getRoleName, resolveIcon } from '~/helpers/node';
 import type { DB_Node, ImportJob } from '~/stores';
 import type { Manifest } from '~/helpers/backups/types';
 
@@ -118,10 +92,6 @@ const emit = defineEmits<{
   (e: 'import', type: 'create' | 'update', nodeIds: string[]): void;
   (e: 'importLocalSettings'): void;
 }>();
-
-const store = useNodesStore();
-
-const { numericDate } = useDateFormatters();
 
 // Selection
 const activeTab = ref<'create' | 'update' | 'local'>('create');
@@ -157,9 +127,7 @@ function toggleSelectAllUpdate(value: boolean) {
     selectedUpdate.value = [];
   }
 }
-function getExistingNode(id: string): DB_Node | undefined {
-  return store.getById(id);
-}
+
 function importSingle(doc: DB_Node, type: 'create' | 'update') {
   emit('import', type, [doc.id]);
 }
@@ -238,88 +206,6 @@ function importLocalSettings() {
   flex-direction: column;
   gap: 0.5rem;
   overflow-y: auto;
-}
-
-.document-item {
-  display: flex;
-  padding: 0.75rem;
-  border-radius: var(--radius-sm);
-  align-items: center;
-  gap: 1rem;
-
-  .doc-info {
-    display: flex;
-    min-width: 0;
-    align-items: center;
-    flex: 1;
-    gap: 0.75rem;
-  }
-
-  .doc-details {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-  }
-
-  .doc-name {
-    font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .doc-meta {
-    font-size: 0.75rem;
-    color: var(--text-primary);
-
-    .separator {
-      margin: 0 0.25rem;
-    }
-  }
-
-  .doc-actions {
-    display: flex;
-    flex-shrink: 0;
-    gap: 0.5rem;
-  }
-
-  &.update-item {
-    flex-wrap: wrap;
-
-    .comparison {
-      display: flex;
-      padding: 0.25rem 0.5rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.75rem;
-      background: var(--surface-base);
-      align-items: center;
-      gap: 0.5rem;
-
-      .version {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-
-        .version-label {
-          font-size: 0.65rem;
-          font-weight: 500;
-          text-transform: uppercase;
-        }
-
-        .version-date {
-          color: var(--text-primary);
-        }
-
-        &.backup .version-date {
-          color: var(--primary);
-        }
-      }
-
-      .arrow {
-        color: var(--text-primary);
-      }
-    }
-  }
 }
 
 .warning {
