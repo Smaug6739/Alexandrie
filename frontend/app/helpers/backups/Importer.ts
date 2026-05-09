@@ -1,4 +1,5 @@
 import compile from '~/helpers/markdown';
+import { extractMetadataFromMarkdown } from '~/helpers/node';
 import type { DB_Node } from '~/stores';
 
 interface ImportOptions {
@@ -81,22 +82,31 @@ export class Importer {
     while (to_process.length) {
       const entry = to_process.shift()!;
 
+      let tags = this.options.defaultValues.defaultTags;
+      let description = this.options.defaultValues.defaultDescription;
+      let content = '';
+      if (this.options.extractFrontMatter && entry.filetype === 'text_based') {
+        const data = extractMetadataFromMarkdown(entry.content as string);
+        tags = data.tags || this.options.defaultValues.defaultTags;
+        description = data.description || this.options.defaultValues.defaultDescription;
+        content = data.content_clean;
+      }
       const parentId = entry.id.split('/').slice(0, -1).join('/') || undefined;
       if (entry.filetype === 'text_based') {
         this.nodes.push({
           id: entry.id,
           parent_id: parentId,
           name: normalizeName(entry.filename) || 'Untitled',
-          description: this.options.defaultValues.defaultDescription,
-          tags: this.options.defaultValues.defaultTags,
-          color: this.options.defaultValues.defaultColor,
+          description: description,
+          tags: tags,
+          color: this.options.defaultValues.defaultColor || -1,
           role: 3,
           icon: this.options.defaultValues.defaultIcon,
           theme: this.options.defaultValues.defaultTheme,
           user_id: this.options.user_id,
-          content: entry.content as string,
-          content_compiled: compile(entry.content as string),
-          accessibility: 0,
+          content: content,
+          content_compiled: compile(content),
+          accessibility: 1,
           access: 1,
           created_timestamp: this.options.preserveTimestamps ? entry.file.lastModified : Date.now(),
           updated_timestamp: this.options.preserveTimestamps ? entry.file.lastModified : Date.now(),
@@ -110,7 +120,7 @@ export class Importer {
           name: normalizeName(entry.filename) || 'Untitled',
           role: 2,
           user_id: this.options.user_id,
-          accessibility: 0,
+          accessibility: 1,
           access: 1,
           created_timestamp: this.options.preserveTimestamps ? entry.file.lastModified : Date.now(),
           updated_timestamp: this.options.preserveTimestamps ? entry.file.lastModified : Date.now(),
