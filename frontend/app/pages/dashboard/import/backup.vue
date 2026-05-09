@@ -62,8 +62,9 @@ import type { DB_Node, ImportJob } from '~/stores/db_strustures';
 
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
-const { t } = useI18nT();
 const nodesStore = useNodesStore();
+
+const { t } = useI18nT();
 const notifications = useNotifications();
 
 // State

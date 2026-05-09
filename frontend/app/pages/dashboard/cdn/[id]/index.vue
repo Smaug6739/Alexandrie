@@ -34,7 +34,7 @@
       </p>
       <div class="actions-row">
         <AppButton type="primary" class="btn primary" @click="updateCategory">{{ t('common.actions.update') }}</AppButton>
-        <AppButton type="danger" @click="showDeleteModal">{{ t('common.actions.delete') }}</AppButton>
+        <AppButton type="danger" @click="openDeleteModal">{{ t('common.actions.delete') }}</AppButton>
       </div>
     </form>
   </div>
@@ -47,43 +47,47 @@ import { readableFileSize } from '~/helpers/resources';
 definePageMeta({ breadcrumb: { i18n: 'common.actions.edit' } });
 
 const nodeStore = useNodesStore();
-const { t } = useI18nT();
-const route = useRoute();
-const { resourceURL } = useApi();
 
-const resource = computed(() => nodeStore.getById(route.params.id as string));
+const { t } = useI18nT();
+const { resourceURL } = useApi();
+const modalManager = useModal();
+const notifications = useNotifications();
+const route = useRoute();
+const router = useRouter();
 
 const nodesTree = useNodesTree().treeUpToRole(3);
+const resource = computed(() => nodeStore.getById(route.params.id as string));
 
+// Actions
 const updateCategory = async () => {
-  if (resource.value)
-    nodeStore
-      .update(resource.value)
-      .then(() => {
-        useNotifications().add({ title: 'Resource updated', type: 'success' });
-        useRouter().push('/dashboard/cdn');
-      })
-      .catch(e => useNotifications().add({ message: e, title: 'Error', type: 'error' }));
+  if (!resource.value) return;
+  nodeStore
+    .update(resource.value)
+    .then(() => {
+      notifications.add({ title: 'Resource updated', type: 'success' });
+      router.push('/dashboard/cdn');
+    })
+    .catch(e => notifications.add({ message: e, title: 'Error', type: 'error' }));
 };
+
 const openDeleteModal = () => {
   if (!resource.value) return;
-  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
+  modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 
-const showDeleteModal = openDeleteModal;
-
-const handleDocumentKeydown = (event: KeyboardEvent) => {
+// Shortcuts
+function handleKeydown(event: KeyboardEvent) {
   if (event.key !== 'Delete') return;
   event.preventDefault();
   openDeleteModal();
-};
+}
 
 onMounted(() => {
-  document.addEventListener('keydown', handleDocumentKeydown);
+  document.addEventListener('keydown', handleKeydown);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('keydown', handleDocumentKeydown);
+  document.removeEventListener('keydown', handleKeydown);
 });
 </script>
 

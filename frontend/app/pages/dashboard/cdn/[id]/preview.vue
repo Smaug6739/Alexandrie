@@ -9,7 +9,7 @@
             <Icon name="edit" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
           </NuxtLink>
-          <button v-if="resource.metadata?.drawio" class="btn-icon" @click="showDrawioEditor">
+          <button v-if="resource.metadata?.drawio" class="btn-icon" @click="openDrawioEditor">
             <Icon name="format/diagrams" display="lg" />
             <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
           </button>
@@ -55,21 +55,24 @@ import { rerenderImages } from '~/helpers/DOM';
 
 definePageMeta({ breadcrumb: { i18n: 'common.actions.preview' } });
 
+const nodesStore = useNodesStore();
+
 const { t } = useI18nT();
 const { resourceURL } = useApi();
 const modalManager = useModal();
+const route = useRoute();
 
 const previewElement = ref<HTMLElement | null>();
 const zoom = ref<(typeof PDF_SCALES)[number]['id']>('automatic_zoom');
 
-const resource = computed(() => useNodesStore().getById(useRoute().params.id as string));
+const resource = computed(() => nodesStore.getById(route.params.id as string));
 const mimeType = computed(() => resource.value?.metadata?.filetype || '');
 
-const copyLink = () => {
-  const link = resourceURL(resource.value!);
-  navigator.clipboard.writeText(link);
-};
-const showDrawioEditor = () => {
+// Actions
+const copyLink = () => navigator.clipboard.writeText(resourceURL(resource.value!));
+
+const openDrawioEditor = () => {
+  if (!resource.value) return;
   const modal = new Modal(shallowRef(DrawioEditorModal), {
     props: {
       node: resource.value,
@@ -85,18 +88,19 @@ const openDeleteModal = () => {
   modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { node: resource.value, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 
-const handleDocumentKeydown = (event: KeyboardEvent) => {
+// Shortcuts
+function handleKeydown(event: KeyboardEvent) {
   if (event.key !== 'Delete') return;
   event.preventDefault();
   openDeleteModal();
-};
+}
 
 onMounted(() => {
-  document.addEventListener('keydown', handleDocumentKeydown);
+  document.addEventListener('keydown', handleKeydown);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('keydown', handleDocumentKeydown);
+  document.removeEventListener('keydown', handleKeydown);
 });
 </script>
 <style scoped lang="scss">

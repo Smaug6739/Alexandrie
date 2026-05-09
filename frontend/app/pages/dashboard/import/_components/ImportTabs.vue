@@ -86,12 +86,13 @@
 import type { DB_Node, ImportJob } from '~/stores';
 import type { Manifest } from '~/helpers/backups/types';
 
-const { t } = useI18nT();
 const props = defineProps<{ manifest: Manifest; toCreate: DB_Node[]; toUpdate: DB_Node[]; importJob: ImportJob }>();
 const emit = defineEmits<{
   (e: 'import', type: 'create' | 'update', nodeIds: string[]): void;
   (e: 'importLocalSettings'): void;
 }>();
+
+const { t } = useI18nT();
 
 // Selection
 const activeTab = ref<'create' | 'update' | 'local'>('create');

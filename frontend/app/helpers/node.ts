@@ -41,6 +41,10 @@ export const resolveNodeType = (node: Node): string => {
   return types[node.role] || '';
 };
 
+/** Resolve color for a resource-node based on its type */
+export const resolveNodeColor = (type: string) =>
+  type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red';
+
 /* Generate markdown file with metadata from a node */
 export const generateMarkdownWithMetadata = (node: Node): string => {
   const metadataLines = ['---', `title: "${node.name}"`];

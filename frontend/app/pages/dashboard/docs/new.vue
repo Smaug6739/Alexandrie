@@ -4,13 +4,14 @@
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
+definePageMeta({ breadcrumb: { i18n: 'common.actions.new' } });
+
 interface NewDocumentQuery {
-  parent_id?: string
+  parent_id?: string;
 }
 
-definePageMeta({ breadcrumb: {i18n: 'common.actions.new'} });
-
 const store = useNodesStore();
+
 const notifications = useNotifications();
 const route = useRoute();
 const sidebar = useSidebar();

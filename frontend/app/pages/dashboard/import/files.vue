@@ -49,12 +49,11 @@ definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
 const user = useUserStore();
 const nodesStore = useNodesStore();
+
 const { t } = useI18nT();
 
 const selectedNodes = ref<string[]>([]);
-
 const toCreate = ref(0);
-
 const nodes = ref<DB_Node[]>([]);
 
 const importJob = ref<ImportJob>({

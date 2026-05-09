@@ -79,22 +79,25 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Field } from '~/components/DataTable.vue';
-import type { Node } from '~/stores';
-
 import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
+import { resolveNodeColor } from '~/helpers/node';
+import type { Field } from '~/components/DataTable.vue';
+import type { Node } from '~/stores';
+
+const nodesStore = useNodesStore();
+const resourcesStore = useResourcesStore();
 
 const router = useRouter();
-const resourcesStore = useResourcesStore();
-const nodesStore = useNodesStore();
 const { t } = useI18nT();
 const device = useDevice();
 const appColors = useAppColors();
 const { numericDate } = useDateFormatters();
 const contextMenu = useContextMenu();
 const { resourceURL } = useApi();
+const modalManager = useModal();
+const notifications = useNotifications();
 
 const view = ref<'list' | 'table'>('list');
 const selectedFiles = ref<File[]>([]);
@@ -113,22 +116,49 @@ const totalUsedSpace = computed(() => nodesStore.getTotalUsedStorage);
 const storagePercentage = computed(() => Math.min((totalUsedSpace.value / MAX_STORAGE) * 100, 100));
 const linksText = computed(() => fileLinks.value.join('\n'));
 
-function showContextMenu(event: MouseEvent, node: Node) {
-  contextMenu.open(shallowRef(ResourceContextMenu), event, {
-    props: { node: node },
-  });
-}
+// DataTable setup
+const headers = [
+  { key: 'name', label: t('common.labels.name') },
+  { key: 'size', label: t('common.labels.size') },
+  { key: 'type', label: t('common.labels.type') },
+  { key: 'parent', label: t('common.labels.parent') },
+  { key: 'date', label: t('common.labels.date') },
+  { key: 'action', label: t('common.labels.action') },
+];
 
+const rows: ComputedRef<Field[]> = computed(() =>
+  filteredResources.value.map(res => {
+    const parent = res.parent_id ? nodesStore.getById(res.parent_id) : null;
+    const category = parent ? nodesStore.getById(parent.parent_id || '') : null;
+    return {
+      action: { data: res, type: 'slot' },
+      date: { content: numericDate(res.created_timestamp), type: 'text' },
+      name: { content: res.name, type: 'text' },
+      parent: { content: category ? `<tag class="${appColors.getAppAccent(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
+      size: { content: readableFileSize(res.size ?? 0), type: 'text' },
+      type: { content: `<tag class="${resolveNodeColor(res.metadata?.filetype || '')}">${res.metadata?.filetype || ''}</tag>`, type: 'html' },
+    };
+  }),
+);
+
+// Actions
 const selectFiles = (files: File | File[] | null) => {
-  if (!files) {
-    selectedFiles.value = [];
-  } else if (Array.isArray(files)) {
+  if (Array.isArray(files)) {
     selectedFiles.value = files;
-  } else {
+  } else if (files) {
     selectedFiles.value = [files];
   }
 };
+
+const showContextMenu = (event: MouseEvent, node: Node) => {
+  if (!node) return;
+  contextMenu.open(shallowRef(ResourceContextMenu), event, {
+    props: { node: node },
+  });
+};
+
 const copyLinks = () => navigator.clipboard.writeText(fileLinks.value.join('\n'));
+
 const submitFiles = async () => {
   if (!selectedFiles.value.length) return;
   isLoading.value = true;
@@ -146,14 +176,14 @@ const submitFiles = async () => {
       const r = await resourcesStore.post(body);
       fileLinks.value.push(resourceURL(r));
     } catch (e) {
-      useNotifications().add({ message: t('cdn.notifications.error', { error: e, file: file.name }), title: 'Error', type: 'error' });
+      notifications.add({ message: t('cdn.notifications.error', { error: e, file: file.name }), title: 'Error', type: 'error' });
     }
     uploadProgress.value.current++;
   }
 
   isLoading.value = false;
   if (fileLinks.value.length) {
-    useNotifications().add({
+    notifications.add({
       message: t('cdn.notifications.successMsg', { n: fileLinks.value.length }),
       title: t('cdn.notifications.successTitle'),
       type: 'success',
@@ -161,37 +191,12 @@ const submitFiles = async () => {
   }
 };
 
-const headers = [
-  { key: 'name', label: t('common.labels.name') },
-  { key: 'size', label: t('common.labels.size') },
-  { key: 'type', label: t('common.labels.type') },
-  { key: 'parent', label: t('common.labels.parent') },
-  { key: 'date', label: t('common.labels.date') },
-  { key: 'action', label: t('common.labels.action') },
-];
-
-const color = (type: string) => (type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red');
-const rows: ComputedRef<Field[]> = computed(() =>
-  filteredResources.value.map(res => {
-    const parent = res.parent_id ? nodesStore.getById(res.parent_id) : null;
-    const category = parent ? nodesStore.getById(parent.parent_id || '') : null;
-    return {
-      action: { data: res, type: 'slot' },
-      date: { content: numericDate(res.created_timestamp), type: 'text' },
-      name: { content: res.name, type: 'text' },
-      parent: { content: category ? `<tag class="${appColors.getAppAccent(category.color)}">${parent?.name}</tag>` : '', type: 'html' },
-      size: { content: readableFileSize(res.size ?? 0), type: 'text' },
-      type: { content: `<tag class="${color(res.metadata?.filetype || '')}">${res.metadata?.filetype || ''}</tag>`, type: 'html' },
-    };
-  }),
-);
-
 const deleteResource = async (node: Node) => {
-  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { node: node, redirectTo: '/dashboard/cdn' }, size: 'small' }));
+  modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { node: node, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 const bulkDelete = async (lines: Field[]) => {
   const resources = lines.map(line => line.action?.data as Node);
-  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: resources, redirectTo: '/dashboard/cdn' }, size: 'small' }));
+  modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: resources, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 </script>
 

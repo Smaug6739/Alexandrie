@@ -50,8 +50,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Manifest } from '~/helpers/backups/types';
 import { readableFileSize } from '~/helpers/resources';
+import type { Manifest } from '~/helpers/backups/types';
+
 defineProps<{ manifest: Manifest; resetImport: () => void }>();
 
 const { t } = useI18nT();

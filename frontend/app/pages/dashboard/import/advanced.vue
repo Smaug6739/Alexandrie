@@ -209,10 +209,4 @@ label {
   gap: 0.35rem;
   overflow: auto;
 }
-
-@media (width <= 900px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-}
 </style>

@@ -3,10 +3,9 @@
 </template>
 
 <script setup lang="ts">
+import NodeDeleteModal from '~/components/Node/Modals/Delete.vue';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import type { Node } from '~/stores';
-
-import NodeDeleteModal from '~/components/Node/Modals/Delete.vue';
 
 definePageMeta({
   breadcrumb: (route: RouteLocationNormalizedLoaded) => {
@@ -14,8 +13,10 @@ definePageMeta({
   },
 });
 
-const route = useRoute();
 const nodesStore = useNodesStore();
+
+const modal = useModal();
+const route = useRoute();
 
 const parentId = route.params.id as string;
 const parent = ref<Node | undefined>();
@@ -30,20 +31,21 @@ const nodes = computed(() => {
 
 const openDeleteModal = () => {
   if (!parent.value || !nodesStore.hasPermissions(parent.value, 4)) return;
-  useModal().add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: parent.value, redirect: '/dashboard' } }));
+  modal.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: parent.value, redirect: '/dashboard' } }));
 };
 
-const handleDocumentKeydown = (event: KeyboardEvent) => {
+// Shortcuts
+function handleKeydown(event: KeyboardEvent) {
   if (event.key !== 'Delete') return;
   event.preventDefault();
   openDeleteModal();
-};
+}
 
 onMounted(() => {
-  document.addEventListener('keydown', handleDocumentKeydown);
+  document.addEventListener('keydown', handleKeydown);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('keydown', handleDocumentKeydown);
+  document.removeEventListener('keydown', handleKeydown);
 });
 </script>

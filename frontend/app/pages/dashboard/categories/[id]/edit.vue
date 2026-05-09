@@ -47,30 +47,35 @@
 import DeleteModal from '~/components/Node/Modals/Delete.vue';
 import { CATEGORY_ROLES } from '~/helpers/constants';
 
-definePageMeta({ breadcrumb: {i18n: 'common.actions.edit'} });
+definePageMeta({ breadcrumb: { i18n: 'common.actions.edit' } });
+
+const nodesStore = useNodesStore();
 
 const { t } = useI18nT();
-const nodesStore = useNodesStore();
-const route = useRoute();
 const nodesTree = useNodesTree();
+const modal = useModal();
+const notifications = useNotifications();
+const route = useRoute();
+const router = useRouter();
 
 const category = computed(() => nodesStore.getById(route.params.id as string));
 const categoriesItem = nodesTree.treeUpToRole(2);
 
+// Actions
 const updateCategory = async () => {
   if (category.value)
     nodesStore
       .update(category.value)
       .then(() => {
-        useNotifications().add({ title: t('nodes.category.notifications.updated'), type: 'success' });
-        useRouter().push('/dashboard/categories');
+        notifications.add({ title: t('nodes.category.notifications.updated'), type: 'success' });
+        router.push('/dashboard/categories');
       })
-      .catch(e => useNotifications().add({ message: e, title: t('common.status.error'), type: 'error' }));
+      .catch(e => notifications.add({ message: e, title: t('common.status.error'), type: 'error' }));
 };
 
 const deleteCategory = async () => {
   if (!category.value) return;
-  useModal().add(
+  modal.add(
     new Modal(shallowRef(DeleteModal), {
       props: {
         node: category.value,
@@ -80,18 +85,19 @@ const deleteCategory = async () => {
   );
 };
 
-const handleDocumentKeydown = (event: KeyboardEvent) => {
+// Shortcuts
+function handleKeydown(event: KeyboardEvent) {
   if (event.key !== 'Delete') return;
   event.preventDefault();
   deleteCategory();
-};
+}
 
 onMounted(() => {
-  document.addEventListener('keydown', handleDocumentKeydown);
+  document.addEventListener('keydown', handleKeydown);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('keydown', handleDocumentKeydown);
+  document.removeEventListener('keydown', handleKeydown);
 });
 </script>
 

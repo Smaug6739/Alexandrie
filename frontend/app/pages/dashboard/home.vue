@@ -237,7 +237,7 @@ const getNodePath = (node: Node) => {
       current = parent;
     } else break;
   }
-  return parts.join(' / ') || 'Racine';
+  return parts.join(' / ') || 'Root';
 };
 
 // Actions
