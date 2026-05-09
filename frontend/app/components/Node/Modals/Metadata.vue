@@ -44,10 +44,11 @@ import { DOCUMENT_THEMES, CATEGORY_ROLES } from '~/helpers/constants';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ doc: Node }>();
-const { t } = useI18nT();
 
 const nodeStore = useNodesStore();
 const nodesTree = useNodesTree();
+
+const { t } = useI18nT();
 
 const node = ref<Node>({ ...props.doc });
 const pinnedToggle = ref(node.value.order == -1);

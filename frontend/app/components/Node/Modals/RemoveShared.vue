@@ -17,6 +17,7 @@ const emit = defineEmits(['close']);
 
 const { t } = useI18nT();
 const nodesTree = useNodesTree();
+
 const allChildren = nodesTree.getSubtreeAsArray(props.nodeId);
 
 const removeDoc = () => {

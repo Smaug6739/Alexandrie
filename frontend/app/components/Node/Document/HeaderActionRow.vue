@@ -59,19 +59,22 @@ import type { Node } from '~/stores';
 const props = defineProps<{ doc: Node; isPublic?: boolean }>();
 
 const nodeStore = useNodesStore();
-const { t } = useI18nT();
 
+const { t } = useI18nT();
+const modals = useModal();
+
+// Actions
 const print = () => window.print();
 const openDeleteModal = () =>
-  useModal().add(
+  modals.add(
     new Modal(shallowRef(DeleteNodeModal), {
       props: { node: props.doc, redirectTo: '/dashboard' },
       size: 'small',
     }),
   );
-const openEditModal = () => useModal().add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
-const openPermissionsModal = () => useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.doc }, size: 'small' }));
-const openRemoveShareModal = () => useModal().add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.doc.id }, size: 'small' }));
+const openEditModal = () => modals.add(new Modal(shallowRef(DocumentMeta), { props: { doc: props.doc }, size: 'small' }));
+const openPermissionsModal = () => modals.add(new Modal(shallowRef(NodePermissions), { props: { node: props.doc }, size: 'small' }));
+const openRemoveShareModal = () => modals.add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: props.doc.id }, size: 'small' }));
 
 function exportMarkdown() {
   const blob = new Blob([generateMarkdownWithMetadata(props.doc)], { type: 'text/markdown' });

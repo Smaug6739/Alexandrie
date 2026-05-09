@@ -61,7 +61,7 @@
             :key="image.id"
             class="image-item"
             @click="router.push(`/dashboard/cdn/${image.id}/preview`)"
-            @contextmenu="event => showContextMenu(event, image)"
+            @contextmenu="event => openContextMenu(event, image)"
           >
             <img :src="resolvePreviewUrl(image)" :alt="image.name" class="image-preview" />
             <div class="image-info">
@@ -96,7 +96,7 @@ const appColors = useAppColors();
 const { numericDate } = useDateFormatters();
 const contextMenu = useContextMenu();
 const { resourceURL } = useApi();
-const modalManager = useModal();
+const modals = useModal();
 const notifications = useNotifications();
 
 const view = ref<'list' | 'table'>('list');
@@ -150,7 +150,7 @@ const selectFiles = (files: File | File[] | null) => {
   }
 };
 
-const showContextMenu = (event: MouseEvent, node: Node) => {
+const openContextMenu = (event: MouseEvent, node: Node) => {
   if (!node) return;
   contextMenu.open(shallowRef(ResourceContextMenu), event, {
     props: { node: node },
@@ -192,11 +192,11 @@ const submitFiles = async () => {
 };
 
 const deleteResource = async (node: Node) => {
-  modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { node: node, redirectTo: '/dashboard/cdn' }, size: 'small' }));
+  modals.add(new Modal(shallowRef(DeleteNodeModal), { props: { node: node, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 const bulkDelete = async (lines: Field[]) => {
   const resources = lines.map(line => line.action?.data as Node);
-  modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: resources, redirectTo: '/dashboard/cdn' }, size: 'small' }));
+  modals.add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: resources, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 </script>
 

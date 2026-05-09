@@ -28,7 +28,6 @@
 <script setup lang="ts">
 import EditorAppHeader from '~/components/MarkdownEditor/EditorAppHeader.vue';
 import NodeDeleteModal from '~/components/Node/Modals/Delete.vue';
-
 import type { Node } from '~/stores';
 
 const { t } = useI18nT();
@@ -47,6 +46,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{ (e: 'close'): void }>();
+
+const modals = useModal();
 
 const iframe = ref<HTMLIFrameElement | null>(null);
 const iframeKey = ref(0);
@@ -77,7 +78,7 @@ const toggleFullScreen = () => {
 const openDeleteModal = () => {
   if (!props.node) return;
 
-  useModal().add(
+  modals.add(
     new Modal(shallowRef(NodeDeleteModal), {
       props: {
         node: props.node,

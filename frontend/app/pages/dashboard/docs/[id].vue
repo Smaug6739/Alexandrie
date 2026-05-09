@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; padding: 1rem 0" @contextmenu.prevent="showContextMenu">
+  <div style="width: 100%; padding: 1rem 0" @contextmenu.prevent="openContextMenu">
     <div v-if="!error" style="display: flex; justify-content: space-between">
       <div :style="{ maxWidth: width }" class="doc-container">
         <NodeDocumentHeader :doc="node" style="margin-bottom: 20px" />
@@ -36,7 +36,7 @@ const preferencesStore = usePreferencesStore();
 const devise = useDevice();
 const nodesTree = useNodesTree();
 const contextMenu = useContextMenu();
-const modal = useModal();
+const modals = useModal();
 const route = useRoute();
 const router = useRouter();
 
@@ -77,7 +77,7 @@ const width = computed(() => {
 });
 
 // Actions
-const showContextMenu = (event: MouseEvent) => {
+const openContextMenu = (event: MouseEvent) => {
   if (!node.value) return;
   contextMenu.open(shallowRef(NodeContextMenu), event, {
     props: { contextMenu: true, node: node.value },
@@ -86,7 +86,7 @@ const showContextMenu = (event: MouseEvent) => {
 
 const openDeleteModal = () => {
   if (!node.value) return;
-  modal.add(
+  modals.add(
     new Modal(shallowRef(DeleteNodeModal), {
       props: { node: node.value, redirectTo: '/dashboard' },
       size: 'small',

@@ -37,12 +37,15 @@
 import SettingsModal from '~/pages/dashboard/settings/index.vue';
 
 const userStore = useUserStore();
+const preferences = usePreferencesStore();
+
+const modals = useModal();
 
 const openSettings = () => {
-  useModal().add(new Modal(shallowRef(SettingsModal), { props: { isModal: true }, size: 'medium', noPadding: true }));
+  modals.add(new Modal(shallowRef(SettingsModal), { props: { isModal: true }, size: 'medium', noPadding: true }));
 };
 function closeDock() {
-  usePreferencesStore().set('view_dock', false);
+  preferences.set('view_dock', false);
 }
 </script>
 

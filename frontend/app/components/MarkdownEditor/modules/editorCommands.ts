@@ -510,10 +510,10 @@ export function createCommands(params: CreateCommandsParams) {
     view.focus();
   }
 
-  const modalManager = useModal();
+  const modals = useModal();
 
   function openColorModal() {
-    modalManager.add(new Modal(shallowRef(ColorPickerModal), { props: { onColorSelect: handleColorSelect } }));
+    modals.add(new Modal(shallowRef(ColorPickerModal), { props: { onColorSelect: handleColorSelect } }));
   }
 
   function handleColorSelect(color: string) {
@@ -521,11 +521,11 @@ export function createCommands(params: CreateCommandsParams) {
   }
 
   function openImageSelector() {
-    modalManager.add(new Modal(shallowRef(ImageSelectorModal), { props: { onImageSelect: handleImageSelect, nodeId: params.getDoc()?.id }, size: 'medium' }));
+    modals.add(new Modal(shallowRef(ImageSelectorModal), { props: { onImageSelect: handleImageSelect, nodeId: params.getDoc()?.id }, size: 'medium' }));
   }
 
   function openGridOrganization() {
-    modalManager.add(new Modal(shallowRef(GridOrganizationModal), { props: { onGridSelect: handleGridSelect } }));
+    modals.add(new Modal(shallowRef(GridOrganizationModal), { props: { onGridSelect: handleGridSelect } }));
   }
 
   function openDrawioEditor() {
@@ -537,7 +537,7 @@ export function createCommands(params: CreateCommandsParams) {
       size: 'large',
       noPadding: true,
     });
-    modalManager.add(modal);
+    modals.add(modal);
   }
 
   function handleImageSelect(imageUrl: string, altText: string) {

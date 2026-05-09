@@ -53,7 +53,7 @@ const nodesStore = useNodesStore();
 
 const { t } = useI18nT();
 const nodesTree = useNodesTree();
-const modal = useModal();
+const modals = useModal();
 const notifications = useNotifications();
 const route = useRoute();
 const router = useRouter();
@@ -75,7 +75,7 @@ const updateCategory = async () => {
 
 const deleteCategory = async () => {
   if (!category.value) return;
-  modal.add(
+  modals.add(
     new Modal(shallowRef(DeleteModal), {
       props: {
         node: category.value,

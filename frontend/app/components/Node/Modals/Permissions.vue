@@ -125,6 +125,8 @@ watch(
   debounce(() => nodesStore.update(node.value), 500),
   { deep: true },
 );
+
+// Actions
 const addPermission = async (user: PublicUser) => {
   if (!user) return;
   await nodesStore.addPermission({

@@ -59,7 +59,7 @@ const nodesStore = useNodesStore();
 
 const { t } = useI18nT();
 const { resourceURL } = useApi();
-const modalManager = useModal();
+const modals = useModal();
 const route = useRoute();
 
 const previewElement = ref<HTMLElement | null>();
@@ -73,19 +73,20 @@ const copyLink = () => navigator.clipboard.writeText(resourceURL(resource.value!
 
 const openDrawioEditor = () => {
   if (!resource.value) return;
-  const modal = new Modal(shallowRef(DrawioEditorModal), {
-    props: {
-      node: resource.value,
-    },
-    onClose: () => rerenderImages(previewElement.value!),
-    size: 'large',
-    noPadding: true,
-  });
-  modalManager.add(modal);
+  modals.add(
+    new Modal(shallowRef(DrawioEditorModal), {
+      props: {
+        node: resource.value,
+      },
+      onClose: () => rerenderImages(previewElement.value!),
+      size: 'large',
+      noPadding: true,
+    }),
+  );
 };
 const openDeleteModal = () => {
   if (!resource.value) return;
-  modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { node: resource.value, redirectTo: '/dashboard/cdn' }, size: 'small' }));
+  modals.add(new Modal(shallowRef(DeleteNodeModal), { props: { node: resource.value, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 
 // Shortcuts

@@ -79,6 +79,7 @@ export interface KanbanColumnData {
 }
 
 const { t } = useI18nT();
+const modals = useModal();
 
 const props = defineProps<{
   column: KanbanColumnData;
@@ -152,7 +153,7 @@ const selectColor = (color: number) => {
 };
 
 const confirmDelete = () => {
-  useModal().add(
+  modals.add(
     new Modal(shallowRef(DeleteColumnModal), {
       props: {
         columnTitle: props.column.title,
@@ -164,7 +165,12 @@ const confirmDelete = () => {
   );
 };
 
-// Close color picker on click outside
+function handleClickOutside(e: MouseEvent) {
+  const target = e.target as HTMLElement;
+  if (!target.closest('.column-header')) {
+    showColorPicker.value = false;
+  }
+}
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
@@ -172,13 +178,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
 });
-
-function handleClickOutside(e: MouseEvent) {
-  const target = e.target as HTMLElement;
-  if (!target.closest('.column-header')) {
-    showColorPicker.value = false;
-  }
-}
 </script>
 
 <style scoped lang="scss">

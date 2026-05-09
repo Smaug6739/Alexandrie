@@ -40,12 +40,13 @@ const emit = defineEmits<{
   (e: 'toggleSelection' | 'importSingle'): void;
 }>();
 
-const store = useNodesStore();
+const nodesStore = useNodesStore();
+
 const { t } = useI18nT();
 const { numericDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
 
-const existingNode = computed(() => store.getById(props.node.id));
+const existingNode = computed(() => nodesStore.getById(props.node.id));
 
 const toggleSelection = () => emit('toggleSelection');
 const importSingle = () => emit('importSingle');

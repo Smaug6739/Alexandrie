@@ -15,7 +15,7 @@ definePageMeta({
 
 const nodesStore = useNodesStore();
 
-const modal = useModal();
+const modals = useModal();
 const route = useRoute();
 
 const parentId = route.params.id as string;
@@ -31,7 +31,7 @@ const nodes = computed(() => {
 
 const openDeleteModal = () => {
   if (!parent.value || !nodesStore.hasPermissions(parent.value, 4)) return;
-  modal.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: parent.value, redirect: '/dashboard' } }));
+  modals.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: parent.value, redirect: '/dashboard' } }));
 };
 
 // Shortcuts

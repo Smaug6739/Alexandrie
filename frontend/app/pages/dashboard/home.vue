@@ -148,13 +148,14 @@ import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: { i18n: 'dashboard.pages.home' } });
 
-const router = useRouter();
 const nodesStore = useNodesStore();
 const userStore = useUserStore();
 
 const { t } = useI18nT();
 const { todayFormatted, formatTime, shortDateLabel } = useDateFormatters();
 const { getAppAccent } = useAppColors();
+const modals = useModal();
+const router = useRouter();
 
 // Search state
 const searchQuery = ref('');
@@ -242,7 +243,7 @@ const getNodePath = (node: Node) => {
 
 // Actions
 const createNewDocument = () => router.push('/dashboard/docs/new');
-const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
 </script>
 
 <style scoped lang="scss">

@@ -33,7 +33,7 @@ import type { Node } from '~/stores';
 const nodesTree = useNodesTree();
 
 const { t } = useI18nT();
-const modal = useModal();
+const modals = useModal();
 const router = useRouter();
 
 const filter = ref('');
@@ -44,15 +44,15 @@ const filteredItems = computed(() => {
   return filterTreeByLabel(items, filter.value);
 });
 
-const createWorkspace = () => modal.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
-const createCategory = () => modal.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2 } }));
+const createWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+const createCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2 } }));
 
 function editNode(node: TreeItem<Node>) {
   router.push('/dashboard/categories/' + node.id + '/edit');
 }
 
 function deleteNode(node: TreeItem<Node>) {
-  modal.add(new Modal(shallowRef(DeleteCategoryModal), { props: { categoryId: node.id } }));
+  modals.add(new Modal(shallowRef(DeleteCategoryModal), { props: { categoryId: node.id } }));
 }
 </script>
 

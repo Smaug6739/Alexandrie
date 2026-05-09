@@ -118,12 +118,13 @@
 </template>
 
 <script setup lang="ts">
-import type { Node } from '~/stores';
 import ModalSyntax from './ModalSyntax.vue';
 import VoiceRecognition from './VoiceRecognition.vue';
 import EditorPreferences from './EditorPreferences.vue';
+import type { Node } from '~/stores';
 
 const { t } = useI18nT();
+const modals = useModal();
 
 const props = defineProps<{
   modelValue: Partial<Node>;
@@ -163,8 +164,8 @@ const localValue = computed({
 
 const emitAction = (action: string) => emit('execute-action', action);
 
-const openHelp = () => useModal().add(new Modal(shallowRef(ModalSyntax), { size: 'medium' }));
-const openSettings = () => useModal().add(new Modal(shallowRef(EditorPreferences), { size: 'small' }));
+const openHelp = () => modals.add(new Modal(shallowRef(ModalSyntax), { size: 'medium' }));
+const openSettings = () => modals.add(new Modal(shallowRef(EditorPreferences), { size: 'small' }));
 
 const nodesTree = useNodesTree();
 const categories = nodesTree.treeUpToRole(2);

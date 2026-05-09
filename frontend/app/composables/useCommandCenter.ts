@@ -38,18 +38,18 @@ function getModal() {
 
 export function useCommandCenter() {
   const router = useRouter();
-  const modalManager = useModal();
+  const modals = useModal();
 
   function open() {
     if (state.isOpen) return;
     reset();
     state.isOpen = true;
-    modalManager.add(getModal());
+    modals.add(getModal());
   }
 
   function close() {
     if (!state.isOpen) return;
-    modalManager.close(getModal());
+    modals.close(getModal());
   }
 
   function changeTab(tabId: TabType) {
@@ -89,7 +89,7 @@ export function useCommandCenter() {
     }
     if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
       e.preventDefault();
-      return modalManager.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+      return modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
     }
   }
 

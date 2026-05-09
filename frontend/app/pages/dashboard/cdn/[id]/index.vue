@@ -50,7 +50,7 @@ const nodeStore = useNodesStore();
 
 const { t } = useI18nT();
 const { resourceURL } = useApi();
-const modalManager = useModal();
+const modals = useModal();
 const notifications = useNotifications();
 const route = useRoute();
 const router = useRouter();
@@ -72,7 +72,7 @@ const updateCategory = async () => {
 
 const openDeleteModal = () => {
   if (!resource.value) return;
-  modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
+  modals.add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 
 // Shortcuts
