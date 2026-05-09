@@ -57,6 +57,7 @@ definePageMeta({ breadcrumb: { i18n: 'common.actions.preview' } });
 
 const { t } = useI18nT();
 const { resourceURL } = useApi();
+const modalManager = useModal();
 
 const previewElement = ref<HTMLElement | null>();
 const zoom = ref<(typeof PDF_SCALES)[number]['id']>('automatic_zoom');
@@ -68,8 +69,7 @@ const copyLink = () => {
   const link = resourceURL(resource.value!);
   navigator.clipboard.writeText(link);
 };
-function showDrawioEditor() {
-  const modalManager = useModal();
+const showDrawioEditor = () => {
   const modal = new Modal(shallowRef(DrawioEditorModal), {
     props: {
       node: resource.value,
@@ -79,10 +79,10 @@ function showDrawioEditor() {
     noPadding: true,
   });
   modalManager.add(modal);
-}
+};
 const openDeleteModal = () => {
   if (!resource.value) return;
-  useModal().add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: [resource.value], redirectTo: '/dashboard/cdn' }, size: 'small' }));
+  modalManager.add(new Modal(shallowRef(DeleteNodeModal), { props: { node: resource.value, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
 
 const handleDocumentKeydown = (event: KeyboardEvent) => {
