@@ -58,7 +58,7 @@ import ImportTabs from './_components/ImportTabs.vue';
 import ImportActions from './_components/ImportActions.vue';
 import { handleBackupFile } from '~/helpers/backups';
 import type { Manifest } from '~/helpers/backups/types';
-import type { DB_Node, ImportJob } from '~/stores/db_strustures';
+import type { DB_Node, ImportJob } from '~/stores/db_structures';
 
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 

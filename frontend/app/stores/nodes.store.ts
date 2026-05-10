@@ -1,5 +1,5 @@
 import { Collection } from './collection';
-import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_strustures';
+import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
 
 export type CategoryRole = 1 | 2;
 export type DocumentRole = 3;

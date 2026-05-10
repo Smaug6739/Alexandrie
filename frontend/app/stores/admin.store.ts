@@ -1,4 +1,4 @@
-import type { User, Node, OverviewStats, UserStats, NodeStats } from './db_strustures';
+import type { User, Node, OverviewStats, UserStats, NodeStats } from './db_structures';
 
 interface UserData extends User {
   nodes?: Node[];
@@ -31,18 +31,18 @@ export const useAdminStore = defineStore('admin', {
   actions: {
     async fetchAll(): Promise<UserData[] | undefined> {
       if (this.users) return this.users;
-      const responce = await makeRequest<User[]>(`users`, 'GET', {});
-      if (responce.status === 'success') {
-        if (responce.result) this.users = responce.result as User[];
+      const response = await makeRequest<User[]>(`users`, 'GET', {});
+      if (response.status === 'success') {
+        if (response.result) this.users = response.result as User[];
         return this.users;
-      } else throw responce.message;
+      } else throw response.message;
     },
     async fetchById(id: string): Promise<User | undefined> {
       const cachedUser = this.users?.find(user => user.id === id);
       if (cachedUser) return cachedUser;
-      const responce = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});
-      if (responce.status === 'success') return responce.result?.user as User;
-      else throw responce.message;
+      const response = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});
+      if (response.status === 'success') return response.result?.user as User;
+      else throw response.message;
     },
     async update(user: User) {
       const request = await makeRequest(`users/${user.id}`, 'PATCH', user);
@@ -55,17 +55,17 @@ export const useAdminStore = defineStore('admin', {
     async fetchUserDocuments(userId: string): Promise<Node[] | undefined> {
       const cachedUser = this.users?.find(user => user.id === userId);
       if (cachedUser && cachedUser.nodes) return cachedUser.nodes;
-      const responce = await makeRequest<Node[]>(`nodes/user/${userId}`, 'GET', {});
-      if (responce.status === 'success') {
-        if (cachedUser) cachedUser.nodes = responce.result;
-        return responce.result;
-      } else throw responce.message;
+      const response = await makeRequest<Node[]>(`nodes/user/${userId}`, 'GET', {});
+      if (response.status === 'success') {
+        if (cachedUser) cachedUser.nodes = response.result;
+        return response.result;
+      } else throw response.message;
     },
     async fetchUserDocument(userId: string, docId: string): Promise<Node | undefined> {
-      const responce = await makeRequest<{ node: Node; permissions: [] }>(`nodes/${docId}`, 'GET', {});
-      if (responce.status === 'success') {
-        return responce.result?.node;
-      } else throw responce.message;
+      const response = await makeRequest<{ node: Node; permissions: [] }>(`nodes/${docId}`, 'GET', {});
+      if (response.status === 'success') {
+        return response.result?.node;
+      } else throw response.message;
     },
     async fetchOverviewStats() {
       const response = await makeRequest<OverviewStats>('stats/overview', 'GET', {});
