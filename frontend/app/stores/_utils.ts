@@ -4,8 +4,6 @@
  * SSR-compatible with proper cookie handling
  */
 
-import type { WatchSource } from 'vue';
-
 export interface APIResult<Data> {
   status: 'success' | 'error';
   message: string;
@@ -177,73 +175,4 @@ export async function makeRequest<T>(route: string, method: HttpMethod, body: ob
       message: err instanceof Error ? err.message : String(err),
     };
   }
-}
-
-/**
- * Composable for reactive API calls with Nuxt's useAsyncData
- * Use this for data that should be fetched on component mount and cached
- *
- * @param key - Unique key for caching
- * @param route - API endpoint
- * @param options - Additional options
- */
-export function useApiData<T>(
-  key: string,
-  route: string,
-  options: {
-    method?: HttpMethod;
-    body?: object;
-    immediate?: boolean;
-    watch?: WatchSource[];
-  } = {},
-) {
-  const { method = 'GET' as HttpMethod, body = {}, immediate = true, watch: watchSources } = options;
-
-  return useAsyncData<APIResult<T>>(key, () => makeRequest<T>(route, method, body), {
-    immediate,
-    watch: watchSources,
-  });
-}
-
-/**
- * Composable for lazy API calls (triggered manually)
- * Useful for mutations (POST, PUT, DELETE) or conditional fetching
- *
- * @param route - API endpoint
- * @param method - HTTP method
- */
-export function useApiMutation<T, TBody extends object = object>(route: string, method: HttpMethod = 'POST') {
-  const pending = ref(false);
-  const error = ref<string | null>(null);
-  const data = ref<T | null>(null);
-
-  async function mutate(body: TBody = {} as TBody): Promise<APIResult<T>> {
-    pending.value = true;
-    error.value = null;
-
-    try {
-      const response = await makeRequest<T>(route, method, body);
-
-      if (response.status === 'success') {
-        data.value = response.result ?? null;
-      } else {
-        error.value = response.message;
-      }
-
-      return response;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      error.value = message;
-      return { status: 'error', message };
-    } finally {
-      pending.value = false;
-    }
-  }
-
-  return {
-    mutate,
-    pending: readonly(pending),
-    error: readonly(error),
-    data: readonly(data),
-  };
 }

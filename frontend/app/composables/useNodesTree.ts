@@ -165,6 +165,3 @@ export function useNodesTree() {
     isAllCollapsed: collapseStore.isAllCollapsed,
   };
 }
-
-// Legacy alias for backward compatibility during migration
-export { useNodesTree as useSidebarTree };
