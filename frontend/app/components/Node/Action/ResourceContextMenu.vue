@@ -42,10 +42,14 @@ const emit = defineEmits(['close']);
 
 const nodeStore = useNodesStore();
 const userStore = useUserStore();
+
 const preferences = usePreferencesStore();
 const { t } = useI18nT();
 const { shortDate } = useDateFormatters();
 const { avatarURL, resourceURL } = useApi();
+const modal = useModal();
+const notifications = useNotifications();
+const router = useRouter();
 
 userStore.fetchPublicUser(props.node.user_id);
 const user = computed(() => userStore.getById(props.node.user_id || ''));
@@ -54,27 +58,28 @@ const developerMode = preferences.get('developerMode');
 async function action(name: string) {
   switch (name) {
     case 'open':
-      useRouter().push(`/dashboard/docs/${props.node.id}`);
+      router.push(`/dashboard/docs/${props.node.id}`);
       break;
     case 'edit':
-      useRouter().push(`/dashboard/cdn/${props.node.id}`);
+      router.push(`/dashboard/cdn/${props.node.id}`);
       break;
     case 'delete':
-      useModal().add(new Modal(shallowRef(NodeDeleteModal), { props: { node: props.node }, size: 'small' }));
+      modal.add(new Modal(shallowRef(NodeDeleteModal), { props: { node: props.node }, size: 'small' }));
       break;
     case 'copyLink':
       navigator.clipboard.writeText(resourceURL(props.node));
-      useNotifications().add({ type: 'success', title: 'Link copied to clipboard' });
+      notifications.add({ type: 'success', title: 'Link copied to clipboard' });
       break;
     case 'copyMd':
       navigator.clipboard.writeText(`![${props.node.name}](${resourceURL(props.node)})`);
-      useNotifications().add({ type: 'success', title: 'Markdown link copied to clipboard' });
+      notifications.add({ type: 'success', title: 'Markdown link copied to clipboard' });
       break;
     case 'manageAccess':
-      useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.node }, size: 'small' }));
+      modal.add(new Modal(shallowRef(NodePermissions), { props: { node: props.node }, size: 'small' }));
       break;
     case 'copyId':
       navigator.clipboard.writeText(props.node.id);
+      notifications.add({ type: 'success', title: 'ID copied to clipboard' });
       break;
   }
   emit('close');

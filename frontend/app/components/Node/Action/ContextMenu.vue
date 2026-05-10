@@ -47,14 +47,16 @@ const emit = defineEmits(['close']);
 const nodeStore = useNodesStore();
 const userStore = useUserStore();
 
-const router = useRouter();
-const route = useRoute();
 const preferences = usePreferencesStore();
 const { t } = useI18nT();
 const { shortDate } = useDateFormatters();
 const { avatarURL } = useApi();
+const router = useRouter();
+const route = useRoute();
+const modals = useModal();
 
 userStore.fetchPublicUser(props.node.user_id);
+
 const user = computed(() => userStore.getById(props.node.user_id || ''));
 const developerMode = preferences.get('developerMode');
 
@@ -73,7 +75,7 @@ async function action(name: string) {
       nodeStore.duplicate(props.node);
       break;
     case 'delete':
-      useModal().add(
+      modals.add(
         new Modal(shallowRef(NodeDeleteModal), {
           props: { node: props.node, redirectTo: route.params?.id === props.node.id ? '/dashboard' : undefined },
           size: 'small',
@@ -87,7 +89,7 @@ async function action(name: string) {
       await nodeStore.update({ ...props.node, order: props.node.order === -1 ? 0 : -1 });
       break;
     case 'manageAccess':
-      useModal().add(new Modal(shallowRef(NodePermissions), { props: { node: props.node }, size: 'small' }));
+      modals.add(new Modal(shallowRef(NodePermissions), { props: { node: props.node }, size: 'small' }));
       break;
     case 'copyId':
       navigator.clipboard.writeText(props.node.id);

@@ -228,20 +228,21 @@ async function uploadFiles() {
 section {
   margin-top: 1.5rem;
 }
+
 .share-content {
   gap: 1.5rem;
 }
 
 .preview-card {
   padding: 1rem;
-  border-radius: var(--radius-md);
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
 
   .shared-url {
     display: block;
     color: var(--primary);
-    word-break: break-all;
     text-decoration: underline;
+    word-break: break-all;
 
     &:hover {
       color: var(--primary-dark);
@@ -263,14 +264,14 @@ section {
 
 .action-card {
   display: flex;
-  align-items: center;
-  gap: 1rem;
   padding: 1rem;
-  background: var(--bg-secondary);
-  border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  cursor: pointer;
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
   transition: all 0.15s ease;
+  align-items: center;
+  cursor: pointer;
+  gap: 1rem;
 
   &:hover {
     border-color: var(--primary);
@@ -278,15 +279,15 @@ section {
   }
 
   .action-icon {
+    display: flex;
     width: 40px;
     height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--primary);
     border-radius: var(--radius-sm);
     color: white;
+    background: var(--primary);
+    align-items: center;
     flex-shrink: 0;
+    justify-content: center;
   }
 
   .action-info {

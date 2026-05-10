@@ -17,8 +17,9 @@
 </template>
 
 <script setup lang="ts">
-const open = ref(false);
 const emit = defineEmits(['open', 'close']);
+
+const open = ref(false);
 
 const toggleMenu = () => {
   open.value = !open.value;

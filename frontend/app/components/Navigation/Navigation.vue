@@ -48,19 +48,19 @@ router.afterEach(() => handleState(window.history.state));
   padding: 3px;
   align-items: center;
   gap: 8px;
-  overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  white-space: nowrap;
+  overflow-x: auto;
   scroll-behavior: smooth;
+  white-space: nowrap;
 
   &__item {
     display: inline-flex;
-    padding: 0;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
     min-width: 27px;
     min-height: 27px;
+    padding: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
 
     &:hover:not(:disabled) {
       .navigation__icon {
@@ -80,10 +80,10 @@ router.afterEach(() => handleState(window.history.state));
   &__icon {
     width: 27px;
     height: 27px;
-    fill: var(--text-body);
     transition:
       background-color $transition-medium ease,
       opacity $transition-medium ease;
+    fill: var(--text-body);
   }
 }
 </style>

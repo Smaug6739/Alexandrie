@@ -64,7 +64,7 @@ import type { Field } from '~/components/DataTable.vue';
 
 const { t } = useI18nT();
 const notifications = useNotifications();
-const modalManager = useModal();
+const modals = useModal();
 const { allSnippets, add, remove, update, exportJSON, importJSON, importDictionary, isDuplicate } = useSnippets();
 
 // Table config
@@ -97,7 +97,7 @@ const handleSave = (snippet: Snippet, originalId?: string): boolean => {
 };
 
 const openModal = (mode: 'create' | 'edit', snippet?: Snippet) => {
-  modalManager.add(
+  modals.add(
     new Modal(shallowRef(SnippetModal), {
       size: 'small',
       props: {
@@ -123,7 +123,7 @@ const bulkDelete = (selected: Field[]) => {
 };
 
 const openRestoreModal = () => {
-  modalManager.add(
+  modals.add(
     new Modal(shallowRef(RestoreModal), {
       size: 'small',
     }),
@@ -224,8 +224,8 @@ const handleDictImport = async (e: Event) => {
 
 .dropdown-backdrop {
   position: fixed;
-  inset: 0;
   z-index: 99;
+  inset: 0;
 }
 
 .dropdown-menu {

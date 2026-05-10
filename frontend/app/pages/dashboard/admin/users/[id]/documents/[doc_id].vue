@@ -108,9 +108,11 @@ label {
 button {
   margin-top: 1rem;
 }
+
 .columns {
   gap: 10px;
 }
+
 .column {
   margin: 0;
 }

@@ -8,7 +8,7 @@
     @dragover.prevent="dragOver"
     @drop.prevent="drop"
     @dragleave="dragLeave"
-    @contextmenu.prevent="showContextMenu"
+    @contextmenu.prevent="openContextMenu"
   >
     <!-- Left icon -->
     <Icon :fill="item.data.role == 3 ? 'var(--pink) !important' : undefined" :name="icon" :class="customClass" />&nbsp;
@@ -75,7 +75,7 @@ const onClick = (m: MouseEvent) => {
 
 /* Context menu */
 
-function showContextMenu(event: MouseEvent) {
+function openContextMenu(event: MouseEvent) {
   if (props.item.data.role === -1) return; // Prevent context menu on nav items
   contextMenu.open(shallowRef(NodeContextMenu), event, {
     props: { contextMenu: true, node: props.item.data as Node },

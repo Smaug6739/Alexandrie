@@ -148,13 +148,14 @@ import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: { i18n: 'dashboard.pages.home' } });
 
-const router = useRouter();
 const nodesStore = useNodesStore();
 const userStore = useUserStore();
 
 const { t } = useI18nT();
 const { todayFormatted, formatTime, shortDateLabel } = useDateFormatters();
 const { getAppAccent } = useAppColors();
+const modals = useModal();
+const router = useRouter();
 
 // Search state
 const searchQuery = ref('');
@@ -237,18 +238,18 @@ const getNodePath = (node: Node) => {
       current = parent;
     } else break;
   }
-  return parts.join(' / ') || 'Racine';
+  return parts.join(' / ') || 'Root';
 };
 
 // Actions
 const createNewDocument = () => router.push('/dashboard/docs/new');
-const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
 </script>
 
 <style scoped lang="scss">
 .home-container {
-  max-width: 1400px;
   width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
 }
@@ -612,6 +613,7 @@ const openCreateWorkspace = () => useModal().add(new Modal(shallowRef(CreateCate
   .greeting h1 {
     font-size: 1.5rem;
   }
+
   .stats-section {
     grid-template-columns: repeat(1, 1fr);
   }

@@ -198,6 +198,7 @@ input {
   align-items: center;
   cursor: pointer;
   justify-content: center;
+
   &:hover {
     background: var(--surface-transparent);
   }

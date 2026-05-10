@@ -219,6 +219,7 @@ watchEffect(() => {
 
 .modal {
   height: 100%;
+
   nav {
     width: 270px;
     border: none;

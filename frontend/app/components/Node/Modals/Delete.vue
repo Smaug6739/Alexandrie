@@ -39,10 +39,13 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['close']);
-const { t } = useI18nT();
 
 const store = useNodesStore();
 const nodesTree = useNodesTree();
+
+const { t } = useI18nT();
+const router = useRouter();
+const notifications = useNotifications();
 
 const allChildren = computed(() => (props.node ? nodesTree.getSubtreeAsArray(props.node.id) : []));
 
@@ -57,10 +60,10 @@ const handleDelete = async () => {
     }
     emit('close');
     if (props.redirectTo) {
-      useRouter().push(props.redirectTo);
+      router.push(props.redirectTo);
     }
   } catch (e) {
-    useNotifications().add({ type: 'error', title: 'Error', message: String(e) });
+    notifications.add({ type: 'error', title: 'Error', message: String(e) });
   }
 };
 </script>

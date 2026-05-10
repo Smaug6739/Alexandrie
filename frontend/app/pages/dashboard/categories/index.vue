@@ -27,13 +27,16 @@
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import DeleteCategoryModal from '~/components/Node/Modals/Delete.vue';
 import WorkspaceTree from './_components/WorkspaceTree.vue';
-import type { Node } from '~/stores';
 import { filterTreeByLabel, type TreeItem } from '~/helpers/TreeBuilder';
+import type { Node } from '~/stores';
+
+const nodesTree = useNodesTree();
 
 const { t } = useI18nT();
+const modals = useModal();
+const router = useRouter();
 
 const filter = ref('');
-const nodesTree = useNodesTree();
 
 const filteredItems = computed(() => {
   const items = nodesTree.treeUpToRole(2).value;
@@ -41,15 +44,15 @@ const filteredItems = computed(() => {
   return filterTreeByLabel(items, filter.value);
 });
 
-const createWorkspace = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
-const createCategory = () => useModal().add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2 } }));
+const createWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+const createCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2 } }));
 
 function editNode(node: TreeItem<Node>) {
-  useRouter().push('/dashboard/categories/' + node.id + '/edit');
+  router.push('/dashboard/categories/' + node.id + '/edit');
 }
 
 function deleteNode(node: TreeItem<Node>) {
-  useModal().add(new Modal(shallowRef(DeleteCategoryModal), { props: { categoryId: node.id } }));
+  modals.add(new Modal(shallowRef(DeleteCategoryModal), { props: { categoryId: node.id } }));
 }
 </script>
 

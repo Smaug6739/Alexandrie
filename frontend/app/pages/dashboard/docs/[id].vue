@@ -1,6 +1,5 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
-  <div style="width: 100%; padding: 1rem 0" @contextmenu.prevent="showContextMenu">
+  <div style="width: 100%; padding: 1rem 0" @contextmenu.prevent="openContextMenu">
     <div v-if="!error" style="display: flex; justify-content: space-between">
       <div :style="{ maxWidth: width }" class="doc-container">
         <NodeDocumentHeader :doc="node" style="margin-bottom: 20px" />
@@ -37,6 +36,7 @@ const preferencesStore = usePreferencesStore();
 const devise = useDevice();
 const nodesTree = useNodesTree();
 const contextMenu = useContextMenu();
+const modals = useModal();
 const route = useRoute();
 const router = useRouter();
 
@@ -76,15 +76,17 @@ const width = computed(() => {
   return '700px';
 });
 
-function showContextMenu(event: MouseEvent) {
+// Actions
+const openContextMenu = (event: MouseEvent) => {
+  if (!node.value) return;
   contextMenu.open(shallowRef(NodeContextMenu), event, {
     props: { contextMenu: true, node: node.value },
   });
-}
+};
 
 const openDeleteModal = () => {
   if (!node.value) return;
-  useModal().add(
+  modals.add(
     new Modal(shallowRef(DeleteNodeModal), {
       props: { node: node.value, redirectTo: '/dashboard' },
       size: 'small',
@@ -92,43 +94,43 @@ const openDeleteModal = () => {
   );
 };
 
+// Shortcuts
+function handleDocumentKeydown(e: KeyboardEvent) {
+  if (e.ctrlKey && e.key === 'e') {
+    // Go to the edit page of the current document
+    if (!node.value) return;
+    e.preventDefault();
+    router.push(`/dashboard/docs/edit/${node.value.id}`);
+  }
+  if (e.key === 'ArrowRight') {
+    // Go to the next document page
+    e.preventDefault();
+    if (!next.value?.id) return;
+    e.preventDefault();
+    router.push(`/dashboard/docs/${next.value.id}`);
+  }
+  if (e.key === 'ArrowLeft') {
+    if (!previous.value?.id) return;
+    e.preventDefault();
+    router.push(`/dashboard/docs/${previous.value.id}`);
+  }
+  if (e.key === 'Escape') {
+    // Close context menu on Escape
+    contextMenu.close();
+  }
+  if (e.key === 'Delete') {
+    // Open delete modal on Delete
+    e.preventDefault();
+    openDeleteModal();
+  }
+}
+
 onMounted(() => {
-  // Keyboard shortcuts management for navigating between corresponding pages
-  const handleDocumentKeydown = (e: KeyboardEvent) => {
-    if (e.ctrlKey && e.key === 'e') {
-      // Go to the edit page of the current document
-      if (!node.value) return;
-      e.preventDefault();
-      router.push(`/dashboard/docs/edit/${node.value.id}`);
-    }
-    if (e.key === 'ArrowRight') {
-      // Go to the next document page
-      e.preventDefault();
-      if (!next.value?.id) return;
-      e.preventDefault();
-      router.push(`/dashboard/docs/${next.value.id}`);
-    }
-    if (e.key === 'ArrowLeft') {
-      if (!previous.value?.id) return;
-      e.preventDefault();
-      router.push(`/dashboard/docs/${previous.value.id}`);
-    }
-    if (e.key === 'Escape') {
-      // Close context menu on Escape
-      contextMenu.close();
-    }
-    if (e.key === 'Delete') {
-      // Open delete modal on Delete
-      e.preventDefault();
-      openDeleteModal();
-    }
-  };
-
   document.addEventListener('keydown', handleDocumentKeydown);
+});
 
-  onUnmounted(() => {
-    document.removeEventListener('keydown', handleDocumentKeydown);
-  });
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleDocumentKeydown);
 });
 </script>
 

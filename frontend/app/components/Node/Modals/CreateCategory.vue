@@ -29,12 +29,12 @@ import type { Node } from '~/stores';
 
 const props = defineProps<{ role: 1 | 2 }>();
 const emit = defineEmits(['close']);
-const { t } = useI18nT();
 
 const categoriesStore = useNodesStore();
 
 const nodesTree = useNodesTree();
 const sidebar = useSidebar();
+const { t } = useI18nT();
 
 const categoriesItem = nodesTree.treeUpToRole(2);
 

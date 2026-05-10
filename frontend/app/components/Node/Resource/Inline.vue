@@ -26,6 +26,8 @@ const props = defineProps<{
   node: Node;
 }>();
 
+const modal = useModal();
+
 const editable = computed(() => props.node.metadata?.drawio);
 
 const preview = ref<string | null>(null);
@@ -33,32 +35,33 @@ const preview = ref<string | null>(null);
 if (isImageFile(props.node.metadata?.filetype)) preview.value = resolvePreviewUrl(props.node);
 
 const openDeleteModal = () => {
-  useModal().add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: props.node, redirect: '/dashboard' } }));
+  modal.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: props.node, redirect: '/dashboard' } }));
 };
 
 function openDrawioEditor() {
-  const modalManager = useModal();
-  const modal = new Modal(shallowRef(DrawioEditorModal), {
-    props: {
-      node: props.node,
-    },
-    size: 'large',
-    noPadding: true,
-  });
-  modalManager.add(modal);
+  modal.add(
+    new Modal(shallowRef(DrawioEditorModal), {
+      props: {
+        node: props.node,
+      },
+      size: 'large',
+      noPadding: true,
+    }),
+  );
 }
 </script>
 
 <style scoped lang="scss">
 .file-card {
   display: flex;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-base);
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background-color: var(--surface-base);
-  width: 100%;
+
   &:hover {
     background-color: var(--surface-raised);
   }
@@ -72,8 +75,8 @@ function openDrawioEditor() {
 }
 
 .file-info {
-  flex: 1;
   min-width: 0;
+  flex: 1;
 
   .file-name {
     display: block;

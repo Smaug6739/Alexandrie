@@ -69,14 +69,14 @@
 </template>
 
 <script setup lang="ts">
+defineProps<{
+  options: Array<{ label: string; options: Option[] }>;
+}>();
+
 const preferencesStore = usePreferencesStore();
 
 // @ts-expect-error unknown type
 const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnType<unknown>;
-
-defineProps<{
-  options: Array<{ label: string; options: Option[] }>;
-}>();
 </script>
 
 <style lang="scss" scoped>
@@ -141,6 +141,7 @@ h3 {
     opacity: 0.7;
   }
 }
+
 .number-entry {
   width: 40%;
 }

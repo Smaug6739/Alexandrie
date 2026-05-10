@@ -1,4 +1,4 @@
-import type { User, PublicUser, Session } from './db_strustures';
+import type { User, PublicUser, Session } from './db_structures';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -35,11 +35,11 @@ export const useUserStore = defineStore('user', {
 
     async fetch(): Promise<undefined | User> {
       if (this.user) return this.user;
-      const responce = await makeRequest<User>(`users/@me`, 'GET', {});
-      if (responce.status === 'success') {
-        if (responce.result) this.user = responce.result as User;
+      const response = await makeRequest<User>(`users/@me`, 'GET', {});
+      if (response.status === 'success') {
+        if (response.result) this.user = response.result as User;
         return this.user;
-      } else throw responce.message;
+      } else throw response.message;
     },
 
     async fetchSessions(): Promise<Session[]> {
@@ -57,10 +57,10 @@ export const useUserStore = defineStore('user', {
       if (this.current_fetching.includes(id)) return null;
       this.current_fetching.push(id);
       const response = await makeRequest<PublicUser[]>(`users/public/${id}`, 'GET', {});
+      this.current_fetching = this.current_fetching.filter(uid => uid !== id);
       if (response.status === 'success' && response.result?.length) {
         const user = response.result[0] as PublicUser;
         this.users[user.id] = user;
-        this.current_fetching = this.current_fetching.filter(uid => uid !== id);
         return user;
       }
       throw response.message;
@@ -79,9 +79,9 @@ export const useUserStore = defineStore('user', {
     },
 
     async fetchById(id: string): Promise<undefined | User> {
-      const responce = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});
-      if (responce.status === 'success') return responce.result?.user as User;
-      throw responce.message;
+      const response = await makeRequest<{ user: User }>(`users/${id}`, 'GET', {});
+      if (response.status === 'success') return response.result?.user as User;
+      throw response.message;
     },
 
     async update(user: User) {
@@ -121,7 +121,7 @@ export const useUserStore = defineStore('user', {
       } else throw request.message;
     },
 
-    async logout_all() {
+    async logoutAll() {
       if (!this.user) return;
       const request = await makeRequest(`auth/logout/all`, 'POST', {});
       if (request.status === 'success') {

@@ -1,5 +1,5 @@
 <template>
-  <div class="line" @contextmenu.prevent="showContextMenu">
+  <div class="line" @contextmenu.prevent="openContextMenu">
     <header>
       <div class="title-row">
         <Icon
@@ -38,17 +38,22 @@ const userStore = useUserStore();
 
 const { shortDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
+const modals = useModal();
+const contextMenu = useContextMenu();
+
+userStore.fetchPublicUser(props.document.user_id);
 
 const category = computed(() => categoriesStore.getById(props.document.parent_id || ''));
-userStore.fetchPublicUser(props.document.user_id);
 const user = computed(() => userStore.getById(props.document.user_id || ''));
-const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.document } }));
 
-function showContextMenu(event: MouseEvent) {
-  useContextMenu().open(shallowRef(NodeContextMenu), event, {
+// Actions
+const deleteDoc = () => modals.add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.document } }));
+
+const openContextMenu = (event: MouseEvent) => {
+  contextMenu.open(shallowRef(NodeContextMenu), event, {
     props: { node: props.document as Node, contextMenu: true },
   });
-}
+};
 </script>
 
 <style scoped lang="scss">

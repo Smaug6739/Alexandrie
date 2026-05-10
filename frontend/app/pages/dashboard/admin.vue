@@ -3,5 +3,5 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ breadcrumb: 'Admin' });
+definePageMeta({ breadcrumb: { i18n: 'admin.dashboard.title' } });
 </script>

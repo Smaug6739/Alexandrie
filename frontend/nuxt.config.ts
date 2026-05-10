@@ -256,7 +256,6 @@ export default defineNuxtConfig({
       },
     },
     plugins: [
-      // @ts-expect-error Vite version incompatibility
       createSvgIconsPlugin({
         iconDirs: [resolve(process.cwd(), 'public/app-icons/')],
         symbolId: 'icon-[name]',

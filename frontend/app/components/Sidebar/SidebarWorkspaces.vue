@@ -35,6 +35,7 @@ const props = defineProps<{ options: Workspace[] }>();
 
 const { t } = useI18nT();
 const { workspaceId } = useSidebar();
+const modals = useModal();
 
 const isOpen = ref(false);
 
@@ -53,7 +54,8 @@ watch(
   { immediate: true },
 );
 
-const createWorkspace = () => useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 1 } }));
+// Actions
+const createWorkspace = () => modals.add(new Modal(shallowRef(NewCategoryModal), { props: { role: 1 } }));
 
 const toggleDropdown = () => (isOpen.value = !isOpen.value);
 

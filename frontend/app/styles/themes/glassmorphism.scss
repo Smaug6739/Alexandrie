@@ -23,7 +23,6 @@
 }
 
 @mixin glassmorphism-theme-white {
-
 	--accent-bg: rgb(221 225 248 / 65%);
 	--accent-border: rgb(221 225 248 / 65%);
 
@@ -39,32 +38,25 @@
 	--border-strong: rgb(0 0 0 / 10%);
 
 	// Elevated shadows with slight spread
-	--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-	--shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-	--shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10);
-
+	--shadow-sm: 0 2px 8px rgb(0 0 0 / 6%);
+	--shadow-md: 0 4px 16px rgb(0 0 0 / 8%);
+	--shadow-lg: 0 8px 32px rgb(0 0 0 / 10%);
 	--surface-tooltip: rgb(30 30 40 / 80%);
 }
 
 @mixin glassmorphism-dark-theme {
-
 	--accent-bg: rgb(44 51 74 / 65%);
 	--accent-border: rgb(74 79 92 / 65%);
-
 	--surface-base: rgb(33 40 48 / 65%);
 	--surface-raised: rgb(38 44 54 / 55%);
 	--surface-overlay: rgb(45 52 67 / 50%);
-
 	--border: rgb(255 255 255 / 12%);
 	--border-subtle: rgb(255 255 255 / 6%);
 	--border-strong: rgb(255 255 255 / 18%);
-
-	--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-	--shadow-md: 0 4px 16px rgba(0, 0, 0, 0.20);
-	--shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25);
-
+	--shadow-sm: 0 2px 8px rgb(0 0 0 / 15%);
+	--shadow-md: 0 4px 16px rgb(0 0 0 / 20%);
+	--shadow-lg: 0 8px 32px rgb(0 0 0 / 25%);
 	--overlay-backdrop: rgb(0 0 0 / 40%);
 	--overlay-light: rgb(0 0 0 / 20%);
-
 	--surface-tooltip: rgb(15 18 25 / 85%);
 }

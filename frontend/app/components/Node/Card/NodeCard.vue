@@ -1,12 +1,12 @@
 <template>
-  <div class="document-card" @contextmenu.prevent="showContextMenu">
+  <div class="document-card" @contextmenu.prevent="openContextMenu">
     <div class="top">
       <div class="header">
         <span style="display: flex">
           <Icon :name="category?.icon || 'files'" display="xl" :class="['category-icon', getAppAccent(node.color || category?.color, true)]" />
           <NuxtLink :to="`/dashboard/docs/${node.id}`" class="document-title">{{ node.name }}</NuxtLink>
         </span>
-        <NodeActionDotMenu :node="node" :user="user" @delete="deleteDoc" />
+        <NodeActionDotMenu :node="node" :user="user" />
       </div>
       <div class="body">
         <div class="category">{{ category?.name }}</div>
@@ -33,7 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import DeleteDocumentModal from '~/components/Node/Modals/Delete.vue';
 import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 import type { Node } from '~/stores';
 
@@ -44,14 +43,17 @@ const userStore = useUserStore();
 
 const { shortDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
+const contextMenu = useContextMenu();
+
+userStore.fetchPublicUser(props.node.user_id);
 
 const category = computed(() => nodesStore.getById(props.node.parent_id || ''));
-userStore.fetchPublicUser(props.node.user_id);
-const user = computed(() => userStore.getById(props.node.user_id || ''));
-const deleteDoc = () => useModal().add(new Modal(shallowRef(DeleteDocumentModal), { props: { node: props.node } }));
 
-function showContextMenu(event: MouseEvent) {
-  useContextMenu().open(shallowRef(NodeContextMenu), event, {
+const user = computed(() => userStore.getById(props.node.user_id || ''));
+
+// Actions
+function openContextMenu(event: MouseEvent) {
+  contextMenu.open(shallowRef(NodeContextMenu), event, {
     props: { node: props.node, contextMenu: true },
   });
 }

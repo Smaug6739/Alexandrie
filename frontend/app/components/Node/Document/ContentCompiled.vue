@@ -9,9 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import type { Node } from '~/stores';
 import { subscribeDrawioCacheInvalidated } from '~/composables/useDrawioCache';
 import { rerenderImages } from '~/helpers/DOM';
+import type { Node } from '~/stores';
 
 const props = defineProps<{ node?: Partial<Node> }>();
 

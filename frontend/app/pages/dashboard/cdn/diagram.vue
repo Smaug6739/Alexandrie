@@ -60,10 +60,10 @@ onBeforeUnmount(() => window.removeEventListener('message', exitHandleMessage));
 <style scoped lang="scss">
 .drawio-editor-modal {
   display: flex;
-  flex-direction: column;
   height: 100%;
-  margin-top: 10px;
+  flex-direction: column;
   gap: 12px;
+  margin-top: 10px;
 }
 
 aside {
@@ -74,12 +74,12 @@ aside {
 
 .drawio-content {
   position: relative;
-  flex: 1;
   min-height: 0;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  background: var(--surface-base);
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-base);
+  flex: 1;
+  overflow: hidden;
 }
 
 .drawio-iframe {
@@ -91,18 +91,18 @@ aside {
 
 .loading-overlay {
   position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  background: var(--surface-base);
   z-index: 10;
+  display: flex;
+  background: var(--surface-base);
+  align-items: center;
+  flex-direction: column;
+  gap: 12px;
+  inset: 0;
+  justify-content: center;
 
   p {
-    color: var(--text-secondary);
     font-size: 14px;
+    color: var(--text-secondary);
   }
 }
 

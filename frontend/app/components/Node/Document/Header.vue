@@ -31,14 +31,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Node, PublicUser } from '~/stores';
 import Thumbnail from './Thumbnail.vue';
 import HeaderSkeleton from './HeaderSkeleton.vue';
 import HeaderActionRow from './HeaderActionRow.vue';
+import type { Node, PublicUser } from '~/stores';
 
 const props = defineProps<{ doc?: Node; public?: boolean }>();
 
-const store = useUserStore();
+const userStore = useUserStore();
 
 const preferences = usePreferencesStore();
 const { avatarURL } = useApi();
@@ -49,7 +49,7 @@ const user = ref<PublicUser | null>(null);
 const printMode = preferences.get('printMode');
 
 watchEffect(() => {
-  if (props.doc) store.fetchPublicUser(props.doc.user_id).then(u => (user.value = u));
+  if (props.doc) userStore.fetchPublicUser(props.doc.user_id).then(u => (user.value = u));
 });
 </script>
 

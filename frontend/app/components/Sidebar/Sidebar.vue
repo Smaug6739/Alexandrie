@@ -77,6 +77,7 @@ const nodesTree = useNodesTree();
 const { isOpened, hasSidebar, filtered } = useSidebar();
 const { isMobile } = useDevice();
 const { avatarURL } = useApi();
+const modals = useModal();
 
 const viewDock = preferences.get('view_dock');
 const compactMode = preferences.get('compactMode');
@@ -91,12 +92,13 @@ const tree = computed(() => {
   return filterTreeByLabel(filtered.value, filter.value);
 });
 
+// Actions
 const toggleDock = () => preferences.set('view_dock', !preferences.get('view_dock').value);
 
 const handleClickOutside = (e: MouseEvent) => {
   if (isOpened.value && e.target && !(e.target as Element).closest('.sidebar') && !(e.target as Element).closest('.open-sidebar')) isOpened.value = false;
 };
-const newCategory = () => useModal().add(new Modal(shallowRef(NewCategoryModal), { props: { role: 2 } }));
+const newCategory = () => modals.add(new Modal(shallowRef(NewCategoryModal), { props: { role: 2 } }));
 
 const onClick = () => {
   if (isMobile.value) isOpened.value = false;

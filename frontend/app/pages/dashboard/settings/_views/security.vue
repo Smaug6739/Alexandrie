@@ -5,9 +5,9 @@
     <h3>{{ t('settings.security.activeSessions') }}</h3>
     <p class="section-description">{{ t('settings.security.activeSessionsDesc') }}</p>
     <div class="sessions-list">
-      <SessionCard v-for="(session, index) in store.sessions" :key="session.id" :session="session" :is-current="index === 0" :show-user-agent="true" />
+      <SessionCard v-for="(session, index) in userStore.sessions" :key="session.id" :session="session" :is-current="index === 0" :show-user-agent="true" />
     </div>
-    <p v-if="store.sessions.length === 0" class="no-sessions">{{ t('settings.security.noSessions') }}</p>
+    <p v-if="userStore.sessions.length === 0" class="no-sessions">{{ t('settings.security.noSessions') }}</p>
     <div v-if="hasUnrecognizedSession" class="warning-box">
       <Icon name="warning" display="sm" />
       <div>
@@ -126,10 +126,14 @@ import { getProviderIcon, getProviderLabel } from '~/helpers/oidc-providers';
 import DeleteAccountModal from '../_modals/DeleteAccountModal.vue';
 
 const emit = defineEmits(['close']);
-const { t } = useI18nT();
 
-const store = useUserStore();
-store.fetchSessions();
+const userStore = useUserStore();
+
+const { t } = useI18nT();
+const modals = useModal();
+const notifications = useNotifications();
+
+userStore.fetchSessions();
 
 const {
   providers: availableProviders,
@@ -145,7 +149,7 @@ const loadingOIDC = ref(true);
 
 // Check if there might be unrecognized sessions (sessions other than current)
 const hasUnrecognizedSession = computed(() => {
-  return store.sessions.length > 1;
+  return userStore.sessions.length > 1;
 });
 
 function isLinked(providerName: string): boolean {
@@ -156,16 +160,16 @@ async function linkAccount(providerName: string) {
   try {
     await linkProvider(providerName);
   } catch (error) {
-    useNotifications().add({ type: 'error', title: (error as Error).message || t('settings.security.notifications.linkError') });
+    notifications.add({ type: 'error', title: (error as Error).message || t('settings.security.notifications.linkError') });
   }
 }
 
 async function unlinkAccount(providerName: string) {
   try {
     await unlinkProvider(providerName);
-    useNotifications().add({ type: 'success', title: t('settings.security.notifications.accountUnlinked', { provider: getProviderLabel(providerName) }) });
+    notifications.add({ type: 'success', title: t('settings.security.notifications.accountUnlinked', { provider: getProviderLabel(providerName) }) });
   } catch (error) {
-    useNotifications().add({ type: 'error', title: (error as Error).message || t('settings.security.notifications.unlinkError') });
+    notifications.add({ type: 'error', title: (error as Error).message || t('settings.security.notifications.unlinkError') });
   }
 }
 
@@ -181,17 +185,17 @@ const passwordConfirmValue = ref('');
 const errPasswordNotMatch = ref(false);
 
 const changePassword = async () => {
-  if (!store.user) return;
+  if (!userStore.user) return;
   if (passwordValue.value !== passwordConfirmValue.value) return (errPasswordNotMatch.value = true);
-  store
+  userStore
     .updatePassword(passwordValue.value)
     .then(() => {
       passwordValue.value = '';
       passwordConfirmValue.value = '';
       errPasswordNotMatch.value = false;
-      useNotifications().add({ type: 'success', title: t('settings.security.notifications.passwordChanged') });
+      notifications.add({ type: 'success', title: t('settings.security.notifications.passwordChanged') });
     })
-    .catch(e => useNotifications().add({ type: 'error', title: t('settings.security.notifications.passwordError'), message: e.message }));
+    .catch(e => notifications.add({ type: 'error', title: t('settings.security.notifications.passwordError'), message: e.message }));
 };
 
 const logout = () => {
@@ -203,7 +207,7 @@ const logoutAll = () => {
   emit('close');
 };
 
-const openDeleteModal = () => useModal().add(new Modal(shallowRef(DeleteAccountModal)));
+const openDeleteModal = () => modals.add(new Modal(shallowRef(DeleteAccountModal)));
 </script>
 
 <style scoped lang="scss">

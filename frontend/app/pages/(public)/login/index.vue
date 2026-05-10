@@ -126,6 +126,7 @@ form {
 
 input {
   padding: 0.6rem;
+
   &:disabled {
     background: var(--surface-transparent);
     cursor: not-allowed;
@@ -162,12 +163,14 @@ input {
     transform: translateY(-50%) scale(0.95);
   }
 }
+
 .disabled {
-  margin-top: 0.5rem;
   font-size: 0.9rem;
   color: var(--text-muted);
   text-align: center;
+  margin-top: 0.5rem;
 }
+
 .eye-icon {
   display: flex;
   width: 20px;
@@ -239,6 +242,7 @@ input {
   &:active {
     transform: translateY(0);
   }
+
   &:disabled {
     cursor: not-allowed;
     transform: none;
@@ -255,9 +259,10 @@ input {
   font-size: 0.8rem;
   color: var(--red);
   text-align: center;
+
   &.general {
-    margin-top: 1rem;
     font-size: 0.9rem;
+    margin-top: 1rem;
   }
 }
 </style>

@@ -20,7 +20,7 @@ function logoutUser() {
 function logoutUserAll() {
   const store = useUserStore();
   store
-    .logout_all()
+    .logoutAll()
     .then(() => {
       useNotifications().add({ type: 'success', title: 'Logged out' });
       store.post_logout();

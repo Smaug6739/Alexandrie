@@ -74,13 +74,13 @@
 
 	.custom-block {
 		display: flex;
-		flex-wrap: wrap;
 		margin: 2em 0;
 		padding: 0;
 		border: none;
 		font-size: 16px;
 		color: var(--text-body);
 		background-color: transparent;
+		flex-wrap: wrap;
 
 		.custom-block-title {
 			min-width: 150px;
@@ -170,13 +170,13 @@
 
 	.custom-block {
 		display: flex;
-		flex-wrap: wrap;
 		margin: 2em 0;
 		padding: 4px;
 		border: none;
 		border-radius: var(--radius-xs);
 		font-size: 16px;
 		color: var(--text-body);
+		flex-wrap: wrap;
 
 		.grey {
 			color: var(--grey);

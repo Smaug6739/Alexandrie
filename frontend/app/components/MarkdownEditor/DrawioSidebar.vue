@@ -25,46 +25,45 @@ defineProps<{ diagrams: Node[] }>();
 <style scoped lang="scss">
 .drawio-sidebar {
   display: flex;
+  max-height: 45%;
   padding: 12px;
-  border-top: 1px solid var(--border);
   background: var(--surface-base);
+  border-top: 1px solid var(--border);
   flex-direction: column;
   gap: 12px;
-  max-height: 45%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
 }
 
 .sidebar-header {
   display: flex;
   align-items: center;
-  padding-bottom: 8px;
   border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
 }
 
 .header-title {
   display: flex;
-  align-items: center;
-  gap: 8px;
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
-  text-transform: uppercase;
+  align-items: center;
+  gap: 8px;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .badge {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 20px;
   height: 20px;
-  margin-left: auto;
-  background: var(--primary-bg);
   border-radius: 50%;
   font-size: 11px;
   font-weight: 700;
   color: var(--primary);
+  background: var(--primary-bg);
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
 }
 
 .diagrams-list {

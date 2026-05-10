@@ -84,22 +84,29 @@ import type { Node } from '~/stores';
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
 
 const nodesStore = useNodesStore();
-
-const router = useRouter();
 const userStore = useUserStore();
+
 const { isMobile } = useDevice();
 const modals = useModal();
 const { getAppAccent } = useAppColors();
 const { t } = useI18nT();
+const router = useRouter();
 
 const connectedId = userStore.user?.id;
 const view = ref<ViewMode>();
 const filteredNodes = ref<Node[]>(props.nodes);
-
 const kanbanBoard = ref<InstanceType<typeof KanbanBoard> | null>(null);
 
+// Watch for nodes changes to update filtered nodes
+watch(
+  () => props.nodes,
+  newNodes => (filteredNodes.value = newNodes),
+  { immediate: true },
+);
+
+// Actions
 const resetKanban = () => {
-  useModal().add(
+  modals.add(
     new Modal(shallowRef(ResetBoardModal), {
       props: {
         onConfirm: () => kanbanBoard.value?.resetKanbanData(),
@@ -108,13 +115,6 @@ const resetKanban = () => {
     }),
   );
 };
-
-// Watch for nodes changes to update filtered nodes
-watch(
-  () => props.nodes,
-  newNodes => (filteredNodes.value = newNodes),
-  { immediate: true },
-);
 
 const openPermissionsModal = () => {
   if (props.parent) modals.add(new Modal(shallowRef(NodePermissions), { props: { node: props.parent }, size: 'small' }));

@@ -52,9 +52,10 @@ footer {
 }
 
 .attachments {
+  width: 100%;
   gap: 10px;
   margin-bottom: 20px;
-  width: 100%;
+
   .attachment {
     margin: 5px 0;
   }
@@ -81,9 +82,9 @@ footer {
 
 .last-updated {
   display: flex;
-  align-items: center;
   font-size: 13px;
   color: var(--text-secondary);
+  align-items: center;
   gap: 6px;
 }
 
@@ -112,12 +113,13 @@ footer {
     border: 1px solid var(--primary);
     color: var(--primary);
   }
+
   b {
     display: block;
     font-size: 10px;
-    text-transform: uppercase;
-    color: var(--text-secondary);
     font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
   }
 }
 

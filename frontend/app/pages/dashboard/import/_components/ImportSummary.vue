@@ -26,16 +26,16 @@
 
 <script setup lang="ts">
 import ImportProgress from './ImportProgress.vue';
-
 import type { ImportJob } from '~/stores';
 
-const { t } = useI18nT();
 defineProps<{
   toCreate: number;
   toUpdate: number;
   unchangedCount: number;
   importJob: ImportJob;
 }>();
+
+const { t } = useI18nT();
 </script>
 
 <style scoped lang="scss">

@@ -292,21 +292,21 @@ onBeforeUnmount(() => {
 
 .textLayer {
   --csstools-color-scheme--light: initial;
-  color-scheme: only light;
 
   position: absolute;
+  z-index: 0;
+  line-height: 1;
   text-align: initial;
+  opacity: 1;
+  caret-color: CanvasText;
+  color-scheme: only light;
+  forced-color-adjust: none;
   inset: 0;
   overflow: clip;
-  opacity: 1;
-  line-height: 1;
-  -webkit-text-size-adjust: none;
-  -moz-text-size-adjust: none;
   text-size-adjust: none;
-  forced-color-adjust: none;
+  text-size-adjust: none;
+  text-size-adjust: none;
   transform-origin: 0 0;
-  caret-color: CanvasText;
-  z-index: 0;
 }
 
 .textLayer.highlighting {
@@ -314,11 +314,11 @@ onBeforeUnmount(() => {
 }
 
 .textLayer :is(span, br) {
-  color: transparent;
   position: absolute;
-  white-space: pre;
+  color: transparent;
   cursor: text;
   transform-origin: 0% 0%;
+  white-space: pre;
 }
 
 .textLayer :is(br) {
@@ -340,10 +340,12 @@ onBeforeUnmount(() => {
   z-index: 1;
 
   --font-height: 0;
+
   font-size: calc(var(--text-scale-factor) * var(--font-height));
 
   --scale-x: 1;
   --rotate: 0deg;
+
   transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
 }
 
@@ -352,14 +354,14 @@ onBeforeUnmount(() => {
 }
 
 .textLayer span[role='img'] {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
   cursor: default;
+  user-select: none;
+  user-select: none;
+  user-select: none;
 }
 
 .textLayer .highlight {
-  --highlight-selected-bg-color: rgb(0 100 0 / 0.25);
+  --highlight-selected-bg-color: rgb(0 100 0 / 25%);
   --highlight-backdrop-filter: none;
   --highlight-selected-backdrop-filter: none;
 }
@@ -375,23 +377,21 @@ onBeforeUnmount(() => {
 .textLayer .highlight {
   margin: -1px;
   padding: 1px;
-  background-color: var(--selection-color);
-  -webkit-backdrop-filter: var(--highlight-backdrop-filter);
-  backdrop-filter: var(--highlight-backdrop-filter);
   border-radius: 4px;
+  background-color: var(--selection-color);
+  backdrop-filter: var(--highlight-backdrop-filter);
+  backdrop-filter: var(--highlight-backdrop-filter);
 }
 
-.textLayer ::-moz-selection {
-  background: rgba(0 0 255 / 0.25);
+.textLayer ::selection {
   background: color-mix(in srgb, AccentColor, transparent 75%);
 }
 
 .textLayer ::selection {
-  background: rgba(0 0 255 / 0.25);
   background: color-mix(in srgb, AccentColor, transparent 75%);
 }
 
-.textLayer br::-moz-selection {
+.textLayer br::selection {
   background: transparent;
 }
 
@@ -400,19 +400,20 @@ onBeforeUnmount(() => {
 }
 
 .textLayer .endOfContent {
-  display: block;
   position: absolute;
-  inset: 100% 0 0;
   z-index: 0;
+  display: block;
   cursor: default;
-  -webkit-user-select: none;
-  -moz-user-select: none;
+  inset: 100% 0 0;
+  user-select: none;
+  user-select: none;
   user-select: none;
 }
 
 .textLayer.selecting .endOfContent {
   top: 0;
 }
+
 .pdf-page-placeholder {
   position: absolute;
   display: flex;

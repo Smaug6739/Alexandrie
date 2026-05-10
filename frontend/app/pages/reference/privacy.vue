@@ -1,5 +1,5 @@
 <template>
-  <article class="markdown-preview modern-theme document-content" style="font-size: 16px; font-family: Poppins; line-height: 1.5">
+  <article class="markdown-preview modern-theme document-content" style=" font-family: Poppins;font-size: 16px; line-height: 1.5">
     <h1 id="privacy-policy---alexandrie" tabindex="-1">
       <a class="header-anchor" href="#privacy-policy---alexandrie" aria-hidden="true">#</a> Privacy Policy - Alexandrie
     </h1>
@@ -58,6 +58,6 @@ definePageMeta({
 <style scoped>
 article {
   max-width: 1000px;
-  margin: 2rem auto 0 auto;
+  margin: 2rem auto 0;
 }
 </style>

@@ -1,4 +1,4 @@
-import type { Node } from './db_strustures';
+import type { Node } from './db_structures';
 
 export const useResourcesStore = defineStore('resources', {
   actions: {

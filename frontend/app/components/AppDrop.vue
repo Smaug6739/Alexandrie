@@ -62,17 +62,19 @@ const props = withDefaults(
   },
 );
 
+const emit = defineEmits<{
+  select: [files: File | File[] | null];
+}>();
+
 const { t } = useI18nT();
+
 const selectedFiles = ref<File[]>([]);
 const isDragOver = ref(false);
 const fileInput = ref<HTMLInputElement | null>(null);
 
 const totalSize = computed(() => selectedFiles.value.reduce((acc, file) => acc + file.size, 0));
 
-const emit = defineEmits<{
-  select: [files: File | File[] | null];
-}>();
-
+// Actions
 const triggerFileSelect = () => fileInput.value!.click();
 
 const addFiles = (files?: FileList | File[] | null) => {
