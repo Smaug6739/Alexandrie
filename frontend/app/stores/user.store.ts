@@ -57,10 +57,10 @@ export const useUserStore = defineStore('user', {
       if (this.current_fetching.includes(id)) return null;
       this.current_fetching.push(id);
       const response = await makeRequest<PublicUser[]>(`users/public/${id}`, 'GET', {});
+      this.current_fetching = this.current_fetching.filter(uid => uid !== id);
       if (response.status === 'success' && response.result?.length) {
         const user = response.result[0] as PublicUser;
         this.users[user.id] = user;
-        this.current_fetching = this.current_fetching.filter(uid => uid !== id);
         return user;
       }
       throw response.message;
