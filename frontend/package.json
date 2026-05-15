@@ -19,7 +19,7 @@
     "@types/katex": "^0.16.8",
     "@types/markdown-it": "^14.1.2",
     "@types/markdown-it-container": "^4.0.0",
-    "@types/node": "^25.7.0",
+    "@types/node": "^25.8.0",
     "@vite-pwa/nuxt": "^1.1.1",
     "@zip.js/zip.js": "^2.8.26",
     "eslint": "^10.3.0",
