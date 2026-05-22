@@ -109,7 +109,8 @@ const getPageName = (path: string): string => {
     return getDocName(name) || 'Page';
   }
 
-  return name;
+  // Capitalize the first letter
+  return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
 const getDocName = (id?: string): string | undefined => {
