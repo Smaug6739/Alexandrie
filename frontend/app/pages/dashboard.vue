@@ -5,6 +5,7 @@
     </ClientOnly>
     <Sidebar />
     <MediumView>
+      <Tab />
       <Navbar />
       <NuxtPage />
     </MediumView>
