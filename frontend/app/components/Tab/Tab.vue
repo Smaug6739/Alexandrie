@@ -7,7 +7,7 @@
       </div>
     </button>
     <div class="more" @click="tabs.addTab">
-      <Icon name="plus" class="more" />
+      <Icon name="plus" />
     </div>
   </div>
 </template>
@@ -37,55 +37,119 @@ const selectTab = (tab: Tab, index: number): void => {
 .tabs-container {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
+  padding: 0.5rem;
+  overflow-x: auto;
 
-  overflow-y: auto;
-  overflow-x: visible;
-}
-
-.tab {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  padding: 10px 14px;
-  border: var(--border) solid 1px;
-  border-radius: 0;
-
-  background: var(--surface-overlay);
-  color: var(--text-secondary);
-
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &.active {
-    background: var(--surface-raised);
-    font-weight: 600;
-    border-bottom: 0;
+  // Optional scrollbar styling
+  &::-webkit-scrollbar {
+    height: 6px;
   }
 
-  &:hover {
-    background: var(--surface-raised);
+  &::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px;
   }
-}
 
-.close {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
 
-  border-radius: 50%;
-  font-size: 12px;
+    padding: 0.65rem 1rem;
+    min-width: max-content;
 
-  transition: 0.2s ease;
+    color: var(--color);
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.12);
+    border: 1px solid transparent;
+    border-radius: 10px 10px 0 0;
+    border-color: var(--primary-border);
+
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+
+    position: relative;
+
+    span {
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      opacity: 0;
+
+      width: 20px;
+      height: 20px;
+
+      border-radius: 50%;
+      transition:
+        background 0.2s ease,
+        opacity 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+    }
+
+    &:hover {
+      background: var(--primary-border);
+
+      .close {
+        opacity: 1;
+      }
+    }
+
+    &.active {
+      background: var(--primary-bg);
+      color: var(--color);
+      border-color: var(--primary-border);
+      border-bottom-color: transparent;
+
+      .close {
+        opacity: 1;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--primary);
+      }
+    }
   }
-}
 
-.more {
-  margin: 0 0.5rem;
-  cursor: pointer;
+  .more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    margin-left: 0.5rem;
+
+    border-radius: 8px;
+    cursor: pointer;
+
+    background: transparent;
+
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      opacity 0.2s ease;
+
+    &:hover {
+      background: var(--primary-bg);
+    }
+  }
 }
 </style>
