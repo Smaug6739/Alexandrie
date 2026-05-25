@@ -5,7 +5,7 @@
 # Alexandrie
 
 **A self-hosted, open-source knowledge base with an extended Markdown editor.**<br>
-Organize, search, share and export your notes — from any device, even offline.
+Organize, search, share and export your notes  from any device, even offline.
 
 [Live Demo](https://alexandrie-hub.fr) · [Documentation](./docs/README.md) · [Discord](https://discord.gg/UPsEg6egPj)
 
@@ -22,16 +22,16 @@ Organize, search, share and export your notes — from any device, even offline.
 
 Most note-taking apps are either too simple or too bloated. Alexandrie is the sweet spot: a **fast, self-hosted Markdown knowledge base** that's easy to deploy and packed with features you actually need.
 
-- **One command to deploy** — `docker compose up` brings up the full stack 🚀
-- **Extended Markdown** — colored containers, academic blocks, KaTeX math, footnotes, interactive checkboxes, and more. Also change preferred theme globally and see all of your notes in a consistent style
-- **Full-text search** — instant results with content snippets and relevance ranking
-- **Granular permissions** — 5-level access control (None → Read → Write → Admin → Owner) per document, per user
-- **PWA & offline support** — install on any device and work without internet
-- **SSO / OIDC** — connect Google, GitHub, Microsoft, Discord, or any OpenID provider
-- **Workspaces, categories, nested docs** — organize naturally with a tree sidebar, tags, bookmarks, and pinned notes
-- **Kanban boards** — plan and organize tasks visually within workspaces
-- **Voice-to-text** — dictate notes directly into the editor
-- **Backups** — export everything (docs, files, settings) as a ZIP with one click
+- **One command to deploy**  `docker compose up` brings up the full stack 🚀
+- **Extended Markdown**  colored containers, academic blocks, KaTeX math, footnotes, interactive checkboxes, and more. Also change preferred theme globally and see all of your notes in a consistent style
+- **Full-text search**  instant results with content snippets and relevance ranking
+- **Granular permissions**  5-level access control (None → Read → Write → Admin → Owner) per document, per user
+- **PWA & offline support**  install on any device and work without internet
+- **SSO / OIDC**  connect Google, GitHub, Microsoft, Discord, or any OpenID provider
+- **Workspaces, categories, nested docs**  organize naturally with a tree sidebar, tags, bookmarks, and pinned notes
+- **Kanban boards**  plan and organize tasks visually within workspaces
+- **Voice-to-text**  dictate notes directly into the editor
+- **Backups**  export everything (docs, files, settings) as a ZIP with one click
 
 ---
 
@@ -177,10 +177,10 @@ Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before submitting a pull reques
 
 If Alexandrie is useful to you, consider:
 
-- ⭐ **[Star the repository](https://github.com/Smaug6739/Alexandrie)** — it helps others discover the project
-- **[Report issues](https://github.com/Smaug6739/Alexandrie/issues)** — bug reports and feature requests help improve the app
-- **[Join the Discord](https://discord.gg/UPsEg6egPj)** — get help, share feedback, or just hang out
-- **Spread the word** — share Alexandrie with your friends, on social media, or in your community
+- ⭐ **[Star the repository](https://github.com/Smaug6739/Alexandrie)**  it helps others discover the project
+- **[Report issues](https://github.com/Smaug6739/Alexandrie/issues)**  bug reports and feature requests help improve the app
+- **[Join the Discord](https://discord.gg/UPsEg6egPj)**  get help, share feedback, or just hang out
+- **Spread the word**  share Alexandrie with your friends, on social media, or in your community
 
 ---
 
