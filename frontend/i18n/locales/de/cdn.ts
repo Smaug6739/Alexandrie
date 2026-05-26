@@ -34,7 +34,7 @@ export default {
 
   notifications: {
     error: 'Das Hochladen von {file} ist fehlgeschlagen: {error}',
-    successMsg: '{n} Datei erfolgreich hochgeladen | {n} Datein erfolgreich hochgeladen',
+    successMsg: '{n} Datei erfolgreich hochgeladen | {n} Dateien erfolgreich hochgeladen',
     successTitle: 'Hochladen abgeschlossen',
   },
 
@@ -42,7 +42,7 @@ export default {
     empty: 'Es wurden noch keine Dateien hochgeladen.',
   },
 
-	preview: {
+  preview: {
     title: 'Vorschau',
     unavailable: 'Für diesen Dateityp ist keine Vorschau verfügbar',
   },
