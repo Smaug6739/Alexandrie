@@ -78,7 +78,7 @@ export default {
   },
 
   search: {
-    noResults: 'Es wurden keine Ergebnisse für „{filter}“ gefunden',
+    noResults: 'Es wurden keine Ergebnisse für „{filter}" gefunden',
   },
 
   status: {
