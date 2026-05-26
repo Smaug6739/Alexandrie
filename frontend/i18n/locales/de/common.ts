@@ -41,7 +41,7 @@ export default {
     action: 'Aktion',
     advanced: 'Erweitert',
     all: 'Alle',
-    basic: 'Basic', //revisit
+    basic: 'Grundlage',
     color: 'Farbe',
     content: 'Inhalt',
     date: 'Datum',
