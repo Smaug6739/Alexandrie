@@ -37,6 +37,7 @@ const options = computed(
             choices: [
               { label: 'English', id: 'en' },
               { label: 'Français', id: 'fr' },
+              { label: 'Deutsch', id: 'de' },
               { label: 'Українська', id: 'uk' },
             ],
             onChange: (option: unknown) => {

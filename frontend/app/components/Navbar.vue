@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import Navigation from "~/components/Navigation/Navigation.vue";
+import Navigation from '~/components/Navigation/Navigation.vue';
 
 const { t } = useI18nT();
 const { isOpened, toggleSidebar } = useSidebar();
@@ -74,7 +74,7 @@ button {
 
 .search-btn {
   display: flex;
-  width: 200px;
+  min-width: 200px;
   padding: 8px 12px;
   border: none;
   border-radius: var(--radius-sm);
