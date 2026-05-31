@@ -2,34 +2,47 @@
   <div class="tabs-container">
     <button v-for="(tab, key) in tabs.tabs" :key class="tab" :class="{ active: tabs.indexActiveTab === key }" @click="selectTab(tab, key)">
       <span>{{ tab.name }}</span>
-      <div class="close" @click.stop="tabs.closeTab(key)">
+      <div class="close" @click.stop="closeTab(key)">
         <Icon name="close" display="sm" />
       </div>
     </button>
-    <div class="more" @click="tabs.addTab">
+    <div class="more" @click="addTab">
       <Icon name="plus" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useTabs, type Tab } from '~/stores/tabs.stores';
+import type { Tab } from '~/stores/tabs.stores';
 
 const tabs = useTabs();
+const router = useRouter();
 
+tabs.setup();
 tabs.$subscribe(() => {
   tabs.saveTabs();
 });
 
-onMounted(() => {
-  tabs.setup();
-  tabs.initWatcher();
-});
+useTabsSync();
 
 const selectTab = (tab: Tab, index: number): void => {
   tabs.setActive(index);
 
-  navigateTo(tab.path);
+  router.push(tab.path);
+};
+
+const addTab = (): void => {
+  const tab = tabs.addTab();
+
+  router.push(tab.path);
+};
+
+const closeTab = (index: number): void => {
+  const nextTab = tabs.closeTab(index);
+
+  if (nextTab) {
+    router.push(nextTab.path);
+  }
 };
 </script>
 
@@ -37,25 +50,28 @@ const selectTab = (tab: Tab, index: number): void => {
 .tabs-container {
   display: flex;
   align-items: center;
-  padding: 0.5rem;
+  flex-shrink: 0;
+  gap: 0.25rem;
+  min-height: 2.7rem;
+  min-width: 0;
+  padding: 0.25rem 0.5rem 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  width: 100%;
 
-  // Optional scrollbar styling
+  scrollbar-width: none;
+
   &::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 10px;
+    display: none;
   }
 
   .tab {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
 
-    padding: 0.65rem 1rem;
+    flex: 0 0 auto;
+    padding: 0.4rem 0.9rem;
     min-width: max-content;
 
     color: var(--color);
@@ -73,7 +89,7 @@ const selectTab = (tab: Tab, index: number): void => {
     position: relative;
 
     span {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       white-space: nowrap;
     }
 
@@ -131,11 +147,12 @@ const selectTab = (tab: Tab, index: number): void => {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 auto;
 
-    width: 2rem;
-    height: 2rem;
+    width: 1.9rem;
+    height: 1.9rem;
 
-    margin-left: 0.5rem;
+    margin-left: 0.25rem;
 
     border-radius: 8px;
     cursor: pointer;

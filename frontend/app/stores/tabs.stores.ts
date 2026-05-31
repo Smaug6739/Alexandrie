@@ -8,10 +8,29 @@ export interface TabsStore {
   indexActiveTab: number;
 }
 
-const loadStoredTabs = (): TabsStore => {
-  const raw = JSON.parse(localStorage.getItem('tabs') || '{}');
+const STORAGE_KEY = 'tabs';
 
-  return { ...raw };
+const createHomeTab = (): Tab => ({
+  path: '/dashboard/home',
+  name: 'Home',
+});
+
+const loadStoredTabs = (): TabsStore | null => {
+  if (!import.meta.client) return null;
+
+  const rawTabs = localStorage.getItem(STORAGE_KEY);
+  if (!rawTabs) return null;
+
+  try {
+    const parsed = JSON.parse(rawTabs) as Partial<TabsStore>;
+
+    return {
+      tabs: Array.isArray(parsed.tabs) ? parsed.tabs : [],
+      indexActiveTab: typeof parsed.indexActiveTab === 'number' ? parsed.indexActiveTab : 0,
+    };
+  } catch {
+    return null;
+  }
 };
 
 export const useTabs = defineStore('tabs', {
@@ -21,57 +40,46 @@ export const useTabs = defineStore('tabs', {
   }),
   actions: {
     setup() {
-      this.$patch(loadStoredTabs());
+      const storedTabs = loadStoredTabs();
+      if (storedTabs) {
+        this.$patch(storedTabs);
+      }
     },
     saveTabs() {
       if (!import.meta.client) return;
-      localStorage.setItem('tabs', JSON.stringify(this.$state));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.$state));
     },
 
-    // Watch if the route change and update the Tab item
-    initWatcher(): void {
-      const route = useRoute();
+    syncCurrentTab(tab: Tab): void {
+      const index = this.tabs.findIndex(existingTab => existingTab.path === tab.path);
 
-      watch(
-        () => route.path,
-        path => {
-          const index = this.tabs.findIndex(tab => tab.path === path);
+      if (index !== -1) {
+        this.indexActiveTab = index;
+        this.tabs[index] = tab;
+        return;
+      }
 
-          // Existing tab
-          if (index !== -1) {
-            this.indexActiveTab = index;
-            return;
-          }
+      if (this.tabs.length === 0) {
+        this.tabs.push(tab);
+        this.indexActiveTab = 0;
+        return;
+      }
 
-          const name = getPageName(path);
-
-          // Replace current active tab
-          this.tabs[this.indexActiveTab] = {
-            path,
-            name,
-          };
-        },
-        { immediate: true },
-      );
+      this.tabs[this.indexActiveTab] = tab;
     },
 
-    addTab(): void {
-      this.tabs.push({
-        path: '/dashboard/home',
-        name: 'Home',
-      });
+    addTab(tab: Tab = createHomeTab()): Tab {
+      this.tabs.push(tab);
       this.indexActiveTab = this.tabs.length - 1;
 
-      navigateTo('/dashboard/home');
+      return tab;
     },
 
     setActive(index: number): void {
       this.indexActiveTab = index;
-
-      navigateTo(this.tabs[index]!.path);
     },
 
-    async closeTab(index: number): Promise<void> {
+    closeTab(index: number): Tab | null {
       const wasActive = this.indexActiveTab === index;
 
       this.tabs.splice(index, 1);
@@ -80,16 +88,19 @@ export const useTabs = defineStore('tabs', {
         this.indexActiveTab--;
       }
 
-      if (wasActive) {
-        if (this.tabs.length === 0) {
-          this.addTab();
-          return;
-        }
-
-        const nextIndex = Math.min(index, this.tabs.length - 1);
-
-        this.setActive(nextIndex);
+      if (this.tabs.length === 0) {
+        const tab = this.addTab();
+        return tab;
       }
+
+      if (wasActive) {
+        const nextIndex = Math.min(index, this.tabs.length - 1);
+        this.indexActiveTab = nextIndex;
+
+        return this.tabs[nextIndex] ?? null;
+      }
+
+      return null;
     },
   },
   getters: {
@@ -98,27 +109,3 @@ export const useTabs = defineStore('tabs', {
     },
   },
 });
-
-const getPageName = (path: string): string => {
-  const name = path.split('/').pop() || 'Page';
-
-  if (path.includes('docs')) {
-    if (path.split('/').length === 3) {
-      return 'Docs';
-    }
-    return getDocName(name) || 'Page';
-  }
-
-  // Capitalize the first letter
-  return name.charAt(0).toUpperCase() + name.slice(1);
-};
-
-const getDocName = (id?: string): string | undefined => {
-  const nodesStores = useNodesStore();
-
-  if (!id) return;
-
-  const doc = nodesStores.getById(id);
-
-  return doc?.name;
-};
