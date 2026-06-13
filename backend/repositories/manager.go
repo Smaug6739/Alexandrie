@@ -7,16 +7,17 @@ import (
 )
 
 type RepositoryManager struct {
-	db           *sqlx.DB
-	User         UserRepository
-	Node         NodeRepository
-	Stats        StatsRepository
-	Session      SessionRepository
-	Permission   PermissionRepository
-	Log          LogRepository
-	OIDCProvider OIDCProviderRepository
-	UserSettings UserSettingsRepository
-	initialized  bool
+	db             *sqlx.DB
+	User           UserRepository
+	Node           NodeRepository
+	NodeInvitation NodeInvitationRepository
+	Stats          StatsRepository
+	Session        SessionRepository
+	Permission     PermissionRepository
+	Log            LogRepository
+	OIDCProvider   OIDCProviderRepository
+	UserSettings   UserSettingsRepository
+	initialized    bool
 }
 
 func NewRepositoryManager(db *sqlx.DB) (*RepositoryManager, error) {
@@ -34,6 +35,7 @@ func (rm *RepositoryManager) initializeRepositories() {
 	rm.User = NewUserRepository(rm.db)
 	rm.Session = NewSessionRepository(rm.db)
 	rm.Node = NewNodeRepository(rm.db)
+	rm.NodeInvitation = NewNodeInvitationRepository(rm.db)
 	rm.Stats = NewStatsRepository(rm.db)
 	rm.Permission = NewPermissionRepository(rm.db)
 	rm.Log = NewLogRepository(rm.db)

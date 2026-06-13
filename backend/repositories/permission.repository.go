@@ -57,6 +57,9 @@ func (r *PermissionRepositoryImpl) GetByNodeAndUser(nodeId types.Snowflake, user
 		SELECT id, node_id, user_id, permission, created_timestamp
 		FROM permissions
 		WHERE node_id = ? AND user_id = ?`, nodeId, userId)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
 	if err != nil {
 		return nil, fmt.Errorf("failed to get permission: %w", err)
 	}

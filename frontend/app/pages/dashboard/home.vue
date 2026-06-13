@@ -10,6 +10,7 @@
       </div>
       <div class="quick-actions">
         <AppButton type="primary" @click="createNewDocument">{{ t('dashboard.actions.newDocument') }}</AppButton>
+        <AppButton type="secondary" @click="openJoinModal"><Icon name="join" display="sm" /> {{ t('dashboard.actions.joinWorkspace') }}</AppButton>
       </div>
     </header>
 
@@ -144,6 +145,7 @@
 <script setup lang="ts">
 import { resolveIcon, resolveNodeLink, resolveNodeType } from '~/helpers/node';
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
+import NodeJoin from '~/components/Node/Modals/Join.vue';
 import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: { i18n: 'dashboard.pages.home' } });
@@ -244,6 +246,7 @@ const getNodePath = (node: Node) => {
 // Actions
 const createNewDocument = () => router.push('/dashboard/docs/new');
 const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin)));
 </script>
 
 <style scoped lang="scss">
