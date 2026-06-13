@@ -1,6 +1,7 @@
 export default {
   actions: {
     import: 'Import',
+    joinWorkspace: 'Join workspace',
     newDocument: '+ New document',
     newWorkspace: 'New workspace',
   },

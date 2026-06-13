@@ -1,5 +1,5 @@
 import { Collection } from './collection';
-import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
+import type { DB_Node, ImportJob, InvitationJoinResponse, Node, NodeInvitation, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
 
 export type CategoryRole = 1 | 2;
 export type DocumentRole = 3;
@@ -319,6 +319,40 @@ export const useNodesStore = defineStore('nodes', {
         node.permissions.push(request.result as Permission);
         return request.result as Permission;
       } else throw request.message;
+    },
+    async fetchInvitations(nodeId: string): Promise<NodeInvitation[]> {
+      const request = await makeRequest<NodeInvitation[]>(`nodes/${nodeId}/invitations`, 'GET', {});
+      if (request.status === 'success') {
+        return request.result || [];
+      }
+      throw request.message;
+    },
+    async addInvitation(nodeId: string, permission_level: number): Promise<NodeInvitation> {
+      const request = await makeRequest<NodeInvitation>(`nodes/${nodeId}/invitations`, 'POST', { permission_level });
+      if (request.status === 'success') {
+        return request.result as NodeInvitation;
+      }
+      throw request.message;
+    },
+    async removeInvitation(nodeId: string, invitationId: string) {
+      const request = await makeRequest(`nodes/${nodeId}/invitations/${invitationId}`, 'DELETE', {});
+      if (request.status !== 'success') throw request.message;
+    },
+    async joinInvitation(codeOrLink: string): Promise<InvitationJoinResponse> {
+      const request = await makeRequest<InvitationJoinResponse>('nodes/invitations/join', 'POST', { code: codeOrLink });
+      if (request.status === 'success' && request.result) {
+        const { node, permission } = request.result;
+        const existing = this.nodes.get(node.id);
+        this.nodes.set(node.id, {
+          ...(existing || {}),
+          ...node,
+          partial: false,
+          shared: true,
+          permissions: [permission],
+        } as Node);
+        return request.result;
+      }
+      throw request.message;
     },
     async updatePermission(perm: Permission) {
       console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);

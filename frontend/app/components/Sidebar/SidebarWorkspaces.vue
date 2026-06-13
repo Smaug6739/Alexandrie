@@ -20,6 +20,9 @@
       <div v-if="!options.length" class="placeholder">{{ t('components.sidebar.noWorkspaces') }}</div>
       <hr />
       <div class="new-workspace" @click="createWorkspace"><Icon name="plus" fill="var(--text-secondary)" /> {{ t('components.sidebar.newWorkspace') }}</div>
+      <NuxtLink to="/dashboard/join-workspace" class="new-workspace" @click="closeDropdown">
+        <Icon name="link" fill="var(--text-secondary)" /> Join workspace
+      </NuxtLink>
       <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace">
         <Icon name="settings" fill="var(--text-secondary)" /> {{ t('components.sidebar.editWorkspace') }}
       </NuxtLink>

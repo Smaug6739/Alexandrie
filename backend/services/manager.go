@@ -45,7 +45,7 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 	sm.Stats = NewStatsService(repos.Stats)
 	sm.Minio = NewMinioService(minioClient)
 	sm.Node = NewNodeService(repos.Node, repos.Permission, sm.Minio, snowflake, sm.Access)
-	sm.Permission = NewPermissionService(repos.Permission, repos.Node, snowflake, sm.Access)
+	sm.Permission = NewPermissionService(repos.Permission, repos.Node, repos.NodeInvitation, snowflake, sm.Access)
 	sm.Session = NewSessionService(repos.Session)
 	sm.Resource = NewResourceService(repos.Node, snowflake, minioClient, resourceConfig, sm.Access)
 	sm.Backup = NewBackupService(repos.Node, repos.UserSettings)
