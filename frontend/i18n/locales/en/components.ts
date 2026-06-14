@@ -102,6 +102,7 @@ export default {
     allWorkspaces: 'All workspaces',
     closeAll: 'Close all',
     editWorkspace: 'Edit workspace',
+    joinWorkspace: 'Join workspace',
     nav: {
       cdn: 'CDN',
       documents: 'Documents',

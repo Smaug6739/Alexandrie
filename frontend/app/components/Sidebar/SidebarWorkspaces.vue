@@ -20,9 +20,7 @@
       <div v-if="!options.length" class="placeholder">{{ t('components.sidebar.noWorkspaces') }}</div>
       <hr />
       <div class="new-workspace" @click="createWorkspace"><Icon name="plus" fill="var(--text-secondary)" /> {{ t('components.sidebar.newWorkspace') }}</div>
-      <NuxtLink to="/dashboard/join-workspace" class="new-workspace" @click="closeDropdown">
-        <Icon name="link" fill="var(--text-secondary)" /> Join workspace
-      </NuxtLink>
+      <div class="new-workspace" @click="joinWorkspace"><Icon name="link" fill="var(--text-secondary)" /> {{ t('components.sidebar.joinWorkspace') }}</div>
       <NuxtLink :to="`/dashboard/categories/${selectedOption.value}/edit`" class="new-workspace">
         <Icon name="settings" fill="var(--text-secondary)" /> {{ t('components.sidebar.editWorkspace') }}
       </NuxtLink>
@@ -32,6 +30,7 @@
 <script setup lang="ts">
 import SidebarWorkspace from './SidebarWorkspace.vue';
 import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
+import JoinModal from '~/components/Node/Modals/Join.vue';
 import type { Workspace } from './helpers';
 
 const props = defineProps<{ options: Workspace[] }>();
@@ -59,6 +58,8 @@ watch(
 
 // Actions
 const createWorkspace = () => modals.add(new Modal(shallowRef(NewCategoryModal), { props: { role: 1 } }));
+
+const joinWorkspace = () => modals.add(new Modal(shallowRef(JoinModal)));
 
 const toggleDropdown = () => (isOpen.value = !isOpen.value);
 

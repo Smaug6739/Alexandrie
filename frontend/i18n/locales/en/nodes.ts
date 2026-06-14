@@ -63,7 +63,8 @@ export default {
     join: {
       access: 'Node access',
       title: 'Join a workspace',
-      subtitle: 'Paste an invitation code or a full invite link. The code will be validated on the server before any permission is created.',
+      subtitle:
+        'Paste an invitation code or a full invite link. If you have already joined this workspace with a different permission level, only the highest one will be retained.',
       label: 'Invitation code or link',
       join: 'Join',
       joining: 'Joining...',

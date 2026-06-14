@@ -81,7 +81,6 @@ h1 {
 }
 
 .subtitle {
-  max-width: 60ch;
   margin: 0 0 1.5rem;
   color: var(--text-secondary);
 }
