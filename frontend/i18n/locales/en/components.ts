@@ -109,6 +109,7 @@ export default {
       home: 'Home',
       imports: 'Imports',
       manageCategories: 'Manage categories',
+      teams: 'Teams',
       newPage: 'New page',
       settings: 'Settings',
     },

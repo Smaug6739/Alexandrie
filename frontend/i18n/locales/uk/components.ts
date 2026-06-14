@@ -31,6 +31,7 @@ export default {
     },
   },
 
+  teams: 'Teams',
   dataTable: {
     rowsPerPage: 'Кількість файлів на сторінці',
     searchPlaceholder: 'Пошук...',

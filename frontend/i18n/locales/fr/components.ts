@@ -31,6 +31,7 @@ export default {
     },
   },
 
+  teams: 'Teams',
   dataTable: {
     rowsPerPage: 'Lignes par page',
     searchPlaceholder: 'Rechercher...',

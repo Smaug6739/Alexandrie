@@ -193,6 +193,7 @@ export default {
     shortcuts: 'Shortcuts',
     snippets: 'Snippets',
     styles: 'Style injection',
+    teams: 'Teams',
   },
 
   profile: {

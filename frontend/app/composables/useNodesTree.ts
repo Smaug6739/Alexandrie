@@ -93,14 +93,24 @@ export function useNodesTree() {
 
   // Full tree
   const tree = computed(() => {
-    const tree = builder.value.buildTree(node => node?.role === 1);
+    const tree = builder.value.buildTree(node => {
+      if (node?.role === 0) return true; // Teams are roots
+      if (node?.role === 1 && !nodesStore.teams.get(node.parent_id ?? '')) {
+        return true; // Workspaces not under teams are roots
+      }
+      return false;
+    });
     return tree;
   });
 
   const treeUpToRole = (maxRole: number) =>
     computed(() => {
       const filtered = sortedNodes.value.filter(n => n.role <= maxRole);
-      return new TreeBuilder(filtered, transformNode).buildTree(node => node?.role === 1);
+      return new TreeBuilder(filtered, transformNode).buildTree(node => {
+        if (node?.role === 0) return true; // Teams are roots
+        if (node?.role === 1 && !nodesStore.teams.get(node.parent_id ?? '')) return true; // Workspaces not under teams are roots
+        return false;
+      });
     });
 
   // === Filtered views ===

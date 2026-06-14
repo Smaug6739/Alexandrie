@@ -80,6 +80,22 @@ export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems'])
   },
   {
     data: {
+      icon: 'organization',
+      id: 'teams',
+      name: 'components.sidebar.nav.teams',
+      permissions: [],
+      role: -1,
+      shared: false,
+    },
+    icon: 'organization',
+    id: 'teams',
+    label: 'components.sidebar.nav.teams',
+    parent_id: '',
+    route: '/dashboard/teams',
+    show: computed(() => true),
+  },
+  {
+    data: {
       icon: 'cdn',
       id: 'cdn',
       name: 'components.sidebar.nav.cdn',

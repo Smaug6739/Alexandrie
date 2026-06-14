@@ -1,10 +1,11 @@
 import { Collection } from './collection';
 import type { DB_Node, ImportJob, InvitationJoinResponse, Node, NodeInvitation, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
 
+export type TeamRole = 0;
 export type CategoryRole = 1 | 2;
 export type DocumentRole = 3;
 export type ResourceRole = 4;
-export type NodeRole = CategoryRole | DocumentRole | ResourceRole;
+export type NodeRole = TeamRole | CategoryRole | DocumentRole | ResourceRole;
 
 export interface SearchOptions {
   query?: string;
@@ -56,6 +57,7 @@ export const useNodesStore = defineStore('nodes', {
     getByCategories: state => (category: string) => state.nodes.filter(d => d.parent_id == category),
     getParents: state => state.nodes.filter(c => !c.parent_id),
     getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),
+    teams: state => state.nodes.filter(d => d.role === 0),
     categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
     documents: state => state.nodes.filter(d => d.role === 3),
     resources: state => state.nodes.filter(d => d.role === 4),

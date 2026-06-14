@@ -108,6 +108,7 @@ export default {
       home: 'Startseite',
       imports: 'Importe',
       manageCategories: 'Kategorien verwalten',
+      teams: 'Teams',
       newPage: 'Neue Seite',
       settings: 'Einstellungen',
     },
