@@ -167,38 +167,29 @@ const isSearchFocused = ref(false);
 const userName = computed(() => userStore.user?.firstname || userStore.user?.username || '');
 
 // Stats
-const documentsCount = computed(() => nodesStore.documents.size);
-const workspacesCount = computed(() => nodesStore.getAll.filter(n => n.role === 1).size);
+const documentsCount = computed(() => nodesStore.documents.length);
+const workspacesCount = computed(() => nodesStore.workspaces.length);
 const tagsCount = computed(() => nodesStore.getAllTags.length);
-const resourcesCount = computed(() => nodesStore.resources.size);
+const resourcesCount = computed(() => nodesStore.resources.length);
 
 // Recently edited documents (last 5, sorted by update time)
 const recentlyEdited = computed(() => {
-  return nodesStore.documents
-    .toArray()
-    .toSorted((a, b) => b.updated_timestamp - a.updated_timestamp)
-    .slice(0, 5);
+  return nodesStore.documents.toSorted((a, b) => b.updated_timestamp - a.updated_timestamp).slice(0, 5);
 });
 
 // Pinned documents (order === -1)
 const pinnedDocuments = computed(() => {
-  return nodesStore.documents.filter(d => d.order === -1).toArray();
+  return nodesStore.documents.filter(d => d.order === -1);
 });
 
 // Workspaces
 const workspaces = computed(() => {
-  return nodesStore.getAll
-    .filter(n => n.role === 1)
-    .toArray()
-    .toSorted((a, b) => a.name.localeCompare(b.name));
+  return nodesStore.workspaces.toSorted((a, b) => a.name.localeCompare(b.name));
 });
 
 // Activity grouped by date
 const activityByDate = computed(() => {
-  const docs = nodesStore.documents
-    .toArray()
-    .toSorted((a, b) => b.updated_timestamp - a.updated_timestamp)
-    .slice(0, 15);
+  const docs = nodesStore.documents.toSorted((a, b) => b.updated_timestamp - a.updated_timestamp).slice(0, 15);
 
   const groups: Record<string, Node[]> = {};
   docs.forEach(doc => {
@@ -214,14 +205,14 @@ const searchResults = computed(() => {
   const query = searchQuery.value.toLowerCase().trim();
   if (!query) return [];
 
-  return nodesStore.getAll
+  return nodesStore.nodes
+    .toSortedArray()
     .filter((node: Node) => {
       const name = (node.name || '').toLowerCase();
       const description = (node.description || '').toLowerCase();
       const tags = (node.tags || '').toLowerCase();
       return name.includes(query) || description.includes(query) || tags.includes(query);
     })
-    .toArray()
     .slice(0, 8);
 });
 

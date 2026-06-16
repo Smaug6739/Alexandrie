@@ -70,7 +70,6 @@ nav {
 }
 
 .open {
-  border-right: 1px solid var(--border);
   transform: translate(0);
 }
 

@@ -72,20 +72,22 @@ import { resolveIcon, resolveNodeLink } from '~/helpers/node';
 definePageMeta({ breadcrumb: { i18n: 'components.sidebar.nav.teams' } });
 
 const nodesStore = useNodesStore();
+const nodesTree = useNodesTree();
 const modals = useModal();
 const { shortDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
 
 const query = ref('');
 
-const teams = computed(() => nodesStore.teams.toArray().toSorted((a, b) => a.name.localeCompare(b.name)));
+const teams = computed(() => nodesStore.teams.toSorted((a, b) => a.name.localeCompare(b.name)));
 const filteredTeams = computed(() => {
   const search = query.value.trim().toLowerCase();
   if (!search) return teams.value;
   return teams.value.filter(team => `${team.name} ${team.description || ''}`.toLowerCase().includes(search));
 });
 
-const countByRole = (teamId: string, role: number) => nodesStore.getAllChildrens(teamId).filter(node => node.id !== teamId && node.role === role).length;
+const countByRole = (teamId: string, role: number) =>
+  nodesTree.getSubtreeAsArray(teamId).filter(node => node.data.id !== teamId && node.data.role === role).length;
 
 const openCreateTeam = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 0, parentId: undefined }, size: 'small' }));
 </script>

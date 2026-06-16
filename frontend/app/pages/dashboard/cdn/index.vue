@@ -109,7 +109,7 @@ const filter = ref('');
 
 const MAX_STORAGE = 1024 * 1024 * 1024; // 1 GB in bytes
 
-const nodes = computed(() => nodesStore.resources.toArray());
+const nodes = computed(() => nodesStore.resources);
 const filteredResources = ref(nodes.value);
 
 const totalUsedSpace = computed(() => nodesStore.getTotalUsedStorage);

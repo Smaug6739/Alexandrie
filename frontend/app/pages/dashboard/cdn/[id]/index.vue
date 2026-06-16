@@ -55,7 +55,7 @@ const notifications = useNotifications();
 const route = useRoute();
 const router = useRouter();
 
-const nodesTree = useNodesTree().treeUpToRole(3);
+const nodesTree = useNodesTree().getTreeUpToRole(3);
 const resource = computed(() => nodeStore.getById(route.params.id as string));
 
 // Actions

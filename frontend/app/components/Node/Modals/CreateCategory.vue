@@ -38,12 +38,12 @@ const nodesTree = useNodesTree();
 const sidebar = useSidebar();
 const { t } = useI18nT();
 
-const categoriesItem = nodesTree.treeUpToRole(2);
+const categoriesItem = nodesTree.getTreeUpToRole(2);
 
 function getDefaultParentId() {
   const activeId = sidebar.active_id.value;
   if (activeId) {
-    const activeNode = nodesTree.getAncestorCategory(activeId);
+    const activeNode = nodesTree.getClosestCategoryAncestor(activeId);
     if (activeNode) return activeNode.id;
   }
   const workspaceId = sidebar.workspaceId.value;

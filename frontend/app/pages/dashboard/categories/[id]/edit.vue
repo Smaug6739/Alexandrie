@@ -59,7 +59,7 @@ const route = useRoute();
 const router = useRouter();
 
 const category = computed(() => nodesStore.getById(route.params.id as string));
-const categoriesItem = nodesTree.treeUpToRole(2);
+const categoriesItem = nodesTree.getTreeUpToRole(2);
 
 // Actions
 const updateCategory = async () => {

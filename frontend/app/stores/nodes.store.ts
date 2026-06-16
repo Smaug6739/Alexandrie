@@ -1,4 +1,4 @@
-import { Collection } from './collection';
+import { IndexedCollection } from '~/helpers/IndexedCollection';
 import type { DB_Node, ImportJob, InvitationJoinResponse, Node, NodeInvitation, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
 
 export type TeamRole = 0;
@@ -22,7 +22,7 @@ export interface SearchOptions {
 
 export const useNodesStore = defineStore('nodes', {
   state: () => ({
-    nodes: new Collection<string, Node>(),
+    nodes: new IndexedCollection(),
     public_nodes: new Collection<string, Node>(),
     allTags: [] as string[],
     isFetching: false,
@@ -31,81 +31,51 @@ export const useNodesStore = defineStore('nodes', {
     getAll: state => state.nodes,
     getAllTags: state => state.allTags,
     getById: state => (id: string) => state.nodes.get(id),
-    getTotalUsedStorage: state => state.nodes.toArray().reduce((total, node) => total + (node.size || 0), 0),
-    getByIdWithParents: state => (id: string) => {
-      const node = state.nodes.get(id);
+    getTotalUsedStorage: state => state.nodes.toSortedArray().reduce((total, node) => total + (node.size || 0), 0),
 
-      if (!node) return [];
+    /* Getters for nodes by role */
+    teams: state => state.nodes.getIdsByRole(0).map(id => state.nodes.get(id)!),
+    categories: state => [...state.nodes.getIdsByRole(1), ...state.nodes.getIdsByRole(2)].map(id => state.nodes.get(id)!),
+    workspaces: state => state.nodes.getIdsByRole(1).map(id => state.nodes.get(id)!),
+    documents: state => state.nodes.getIdsByRole(3).map(id => state.nodes.get(id)!),
+    resources: state => state.nodes.getIdsByRole(4).map(id => state.nodes.get(id)!),
 
-      const result = [node];
+    /**
+     * Recursive getters
+     */
 
-      if (!node.parent_id) return result;
-
-      const getParents = (children: Node) => {
-        state.nodes.forEach(node => {
-          if (node.id === children.parent_id) {
-            result.push(node);
-            getParents(node);
-          }
-        });
-      };
-
-      getParents(node);
-
-      return result;
-    },
-    getByCategories: state => (category: string) => state.nodes.filter(d => d.parent_id == category),
-    getParents: state => state.nodes.filter(c => !c.parent_id),
-    getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),
-    teams: state => state.nodes.filter(d => d.role === 0),
-    categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
-    documents: state => state.nodes.filter(d => d.role === 3),
-    resources: state => state.nodes.filter(d => d.role === 4),
+    // Check if a node (descendantId) is a descendant of another node
     isDescendant:
       state =>
-      (node: Node, descendantId: string): boolean => {
-        const checkDescendants = (currentNode: Node): boolean => {
-          const children = state.nodes.filter(d => d.parent_id === currentNode.id);
-          for (const child of children.values()) {
-            if (child.id === descendantId) return true;
-            if (checkDescendants(child)) return true;
-          }
-          return false;
-        };
-        return checkDescendants(node);
+      (parent: Node, descendantId: string): boolean => {
+        let current = state.nodes.get(descendantId);
+        while (current?.parent_id) {
+          if (current.parent_id === parent.id) return true;
+          current = state.nodes.get(current.parent_id);
+        }
+        return false;
       },
-    getAllChildrens: state => (id: string) => {
-      const parent = state.nodes.get(id);
-      if (!parent) return [];
-      const childrens: Node[] = [parent];
-      const getChildrens = (parent: Node) => {
-        state.nodes.forEach(node => {
-          if (node.parent_id == parent.id) {
-            childrens.push(node);
-            getChildrens(node);
+    // Get all descendant IDs of a node
+    getDescendantIds:
+      state =>
+      (id: string): string[] => {
+        const result: string[] = [];
+        const queue: string[] = [id];
+
+        while (queue.length > 0) {
+          const currentId = queue.shift()!;
+          const childrenIds = state.nodes.getChildrenIds(currentId);
+          for (const childId of childrenIds) {
+            result.push(childId);
+            queue.push(childId);
           }
-        });
-      };
-      getChildrens(parent);
-      return childrens;
-    },
-    getAllChildrensIds: state => (id: string) => {
-      const childrens: string[] = [id];
-      const getChildrens = (parent: Node) => {
-        state.nodes.forEach(node => {
-          if (node.parent_id == parent.id) {
-            childrens.push(node.id);
-            getChildrens(node);
-          }
-        });
-      };
-      const parent = state.nodes.get(id);
-      if (parent) getChildrens(parent);
-      return childrens;
-    },
+        }
+        return result;
+      },
+
     search:
       state =>
-      (options: SearchOptions, nodes = state.nodes.toArray()) => {
+      (options: SearchOptions, nodes = state.nodes.toSortedArray()) => {
         const {
           query,
           fromDate,
@@ -217,18 +187,23 @@ export const useNodesStore = defineStore('nodes', {
     },
     recomputeTags() {
       const tags = new Set<string>();
+
+      this.nodes.startBulk();
+
       this.nodes.forEach(node => {
         if (node.tags) {
           parseTags(node.tags).forEach(tag => tags.add(tag));
         }
         if (node.parent_id && !this.nodes.get(node.parent_id)) {
-          node.parent_id = '';
+          this.nodes.set(node.id, { ...node, parent_id: '' });
         }
       });
+
+      this.nodes.endBulk();
       this.allTags = Array.from(tags).sort();
     },
-    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : Collection<string, Node>> {
-      if (opts?.id && !this.nodes.get(opts.id)?.partial) return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
+    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : IndexedCollection> {
+      if (opts?.id && !this.nodes.get(opts.id)?.partial) return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : IndexedCollection;
       console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
       if (!this.nodes.size) this.isFetching = true;
       const request = await makeRequest(`nodes/${opts?.id ? opts.id : 'user/@me'}`, 'GET', {});
@@ -242,16 +217,18 @@ export const useNodesStore = defineStore('nodes', {
           const updatedNode: Node = { ...(result.node as DB_Node), partial: false, shared: shared, permissions: result.permissions };
           if (!n) this.nodes.set(opts.id, updatedNode);
           else this.nodes.set(opts.id, updatedNode);
-          return updatedNode as 'id' extends keyof T ? Node : Collection<string, Node>;
+          return updatedNode as 'id' extends keyof T ? Node : IndexedCollection;
         } else {
-          if (!request.result) return this.nodes as 'id' extends keyof T ? Node : Collection<string, Node>;
+          if (!request.result) return this.nodes as 'id' extends keyof T ? Node : IndexedCollection;
+          this.nodes.startBulk();
           for (const node of request.result as DB_Node[]) {
             const n = this.nodes.get(node.id);
             if (!n) this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
             else this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
           }
+          this.nodes.endBulk();
           this.recomputeTags();
-          return this.nodes as 'id' extends keyof T ? Node : Collection<string, Node>;
+          return this.nodes as 'id' extends keyof T ? Node : IndexedCollection;
         }
       } else throw request;
     },
@@ -276,11 +253,12 @@ export const useNodesStore = defineStore('nodes', {
         return { node: fetchedDoc, children };
       } else return undefined;
     },
-    async fetchShared(): Promise<Collection<string, Node>> {
+    async fetchShared(): Promise<IndexedCollection> {
       console.log(`[store/nodes] Fetching shared nodes`);
       const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
       if (request.status === 'success') {
-        if (!request.result) return this.nodes;
+        if (!request.result) return this.nodes as IndexedCollection;
+        this.nodes.startBulk();
         for (const node of request.result as DB_Node[]) {
           if (!this.nodes.has(node.id)) this.nodes.set(node.id, { ...node, partial: true, shared: true, permissions: node.permissions || [] });
           else {
@@ -288,7 +266,8 @@ export const useNodesStore = defineStore('nodes', {
             this.nodes.set(node.id, { ...node, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] });
           }
         }
-        return this.nodes;
+        this.nodes.endBulk();
+        return this.nodes as IndexedCollection;
       } else throw request;
     },
     /**
@@ -318,8 +297,44 @@ export const useNodesStore = defineStore('nodes', {
       if (!node) throw 'Node not found in store, cannot add permission';
       const request = await makeRequest(`nodes/${perm.node_id}/permissions`, 'POST', perm);
       if (request.status === 'success') {
-        node.permissions.push(request.result as Permission);
-        return request.result as Permission;
+        const newPermission = request.result as Permission;
+        this.nodes.set(node.id, {
+          ...node,
+          permissions: [...node.permissions, newPermission],
+        });
+        return newPermission;
+      } else throw request.message;
+    },
+    async updatePermission(perm: Permission) {
+      console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
+      const node = this.nodes.get(perm.node_id);
+      if (!node) throw 'Node not found in store, cannot update permission';
+      const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
+      if (request.status === 'success') {
+        const index = node.permissions.findIndex(p => p.id === perm.id);
+        const newPermissions = [...node.permissions];
+        if (index !== -1 && newPermissions[index]) {
+          newPermissions[index] = { ...newPermissions[index], permission: perm.permission };
+          this.nodes.set(node.id, {
+            ...node,
+            permissions: newPermissions,
+          });
+        }
+      } else throw request.message;
+    },
+    async removePermission(nodeId: string, userId: string) {
+      console.log(`[store/nodes/permissions] Removing permission for user ${userId} on node ${nodeId}`);
+      const node = this.nodes.get(nodeId);
+      if (!node) throw 'Node not found in store, cannot remove permission';
+      const perm = node.permissions.find(p => p.user_id === userId);
+      if (!perm) throw 'Permission not found in store, cannot remove permission';
+      const request = await makeRequest(`nodes/${nodeId}/permissions/${perm.id}`, 'DELETE', {});
+      if (request.status === 'success') {
+        const newPermissions = node.permissions.filter(p => p.id !== perm.id);
+        this.nodes.set(node.id, {
+          ...node,
+          permissions: newPermissions,
+        });
       } else throw request.message;
     },
     async fetchInvitations(nodeId: string): Promise<NodeInvitation[]> {
@@ -356,27 +371,7 @@ export const useNodesStore = defineStore('nodes', {
       }
       throw request.message;
     },
-    async updatePermission(perm: Permission) {
-      console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
-      const node = this.nodes.get(perm.node_id);
-      if (!node) throw 'Node not found in store, cannot update permission';
-      const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
-      if (request.status === 'success') {
-        const index = node.permissions.findIndex(p => p.id === perm.id);
-        if (index !== -1) node.permissions[index]!.permission = perm.permission;
-      } else throw request.message;
-    },
-    async removePermission(nodeId: string, userId: string) {
-      console.log(`[store/nodes/permissions] Removing permission for user ${userId} on node ${nodeId}`);
-      const node = this.nodes.get(nodeId);
-      if (!node) throw 'Node not found in store, cannot remove permission';
-      const perm = node.permissions.find(p => p.user_id === userId);
-      if (!perm) throw 'Permission not found in store, cannot remove permission';
-      const request = await makeRequest(`nodes/${nodeId}/permissions/${perm.id}`, 'DELETE', {});
-      if (request.status === 'success') {
-        node.permissions = node.permissions.filter(p => p.id !== perm.id);
-      } else throw request.message;
-    },
+
     async post(node: Partial<Node>): Promise<DB_Node> {
       const request = await makeRequest('nodes', 'POST', { ...node, id: undefined });
       if (request.status == 'success') {
@@ -424,7 +419,7 @@ export const useNodesStore = defineStore('nodes', {
     async delete(id: string) {
       const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
       if (request.status == 'success') {
-        const allChildrens = this.getAllChildrensIds(id);
+        const allChildrens = this.getDescendantIds(id);
         this.nodes.delete(id);
         allChildrens.forEach(childId => this.nodes.delete(childId));
       } else throw request.message;
@@ -449,11 +444,13 @@ export const useNodesStore = defineStore('nodes', {
         }
       }
       // Update store
+      this.nodes.startBulk();
       deletedIds.forEach(id => {
-        const allChildrens = this.getAllChildrensIds(id);
+        const allChildrens = this.getDescendantIds(id);
         this.nodes.delete(id);
         allChildrens.forEach(childId => this.nodes.delete(childId));
       });
+      this.nodes.endBulk();
       return { deletedIds, failedIds };
     },
 

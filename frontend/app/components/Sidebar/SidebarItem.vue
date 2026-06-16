@@ -113,7 +113,7 @@ const drop = async (event: DragEvent) => {
   const draggedItem = nodesStore.getById(draggedItemId);
 
   if (!draggedItem) return;
-
+  // @ts-expect-error -1 is a special role for nav items, which are not real nodes
   if (draggedItem.role === -1) return; // Prevent dropping nav items
   if (props.item.data.role === 4) return; // Prevent dropping on resource items
   if (draggedItem.id === props.item.id) return; // Prevent dropping on itself

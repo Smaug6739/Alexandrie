@@ -24,6 +24,8 @@ import type { Node } from '~/stores';
 import type { TreeItem as NodeTreeItem } from '~/helpers/TreeBuilder';
 
 const { t } = useI18nT();
+const nodesTree = useNodesTree();
+const childs = computed(() => nodesTree.getChildren(props.doc?.id).filter(c => c.data.role === 3)) as Ref<NodeTreeItem<Node>[]>;
 
 const props = defineProps<{ element?: HTMLElement; doc?: Node }>();
 const list = ref<HTMLElement>();
@@ -116,10 +118,6 @@ function updateActiveHeader() {
     }
   }
 }
-
-const nodesTree = useNodesTree();
-
-const childs = computed(() => nodesTree.getChildren(props.doc?.id).filter(c => c.data.role === 3)) as Ref<NodeTreeItem<Node>[]>;
 </script>
 
 <style lang="scss" scoped>

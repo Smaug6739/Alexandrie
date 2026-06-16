@@ -16,7 +16,7 @@
     <div class="teams-list">
       <h2>Teams</h2>
       <ul>
-        <li v-for="team in store.teams.toArray()" :key="team.id">
+        <li v-for="team in store.teams" :key="team.id">
           <span>{{ team.name }}</span>
         </li>
       </ul>

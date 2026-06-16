@@ -44,7 +44,7 @@ const preferences = usePreferencesStore();
 const { avatarURL } = useApi();
 const nodesTree = useNodesTree();
 
-const category = computed(() => nodesTree.getAncestorCategory(props.doc?.parent_id)?.data);
+const category = computed(() => nodesTree.getClosestCategoryAncestor(props.doc?.parent_id)?.data);
 const user = ref<PublicUser | null>(null);
 const printMode = preferences.get('printMode');
 

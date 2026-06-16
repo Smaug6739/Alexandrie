@@ -1,6 +1,6 @@
-import type { TreeNode } from '~/helpers/TreeBuilder';
+import type { TreeItem } from '~/helpers/TreeBuilder';
 
-export type ANode<ID = string | number> = Omit<TreeNode<unknown, ID>, 'data'>;
+export type ANode<ID = number | string> = Omit<TreeItem<unknown, ID>, 'data' | 'route'>;
 
 export const DEFAULT_PREFERENCES = {
   locale: 'en' as 'en' | 'fr',

@@ -168,7 +168,7 @@ const openHelp = () => modals.add(new Modal(shallowRef(ModalSyntax), { size: 'me
 const openSettings = () => modals.add(new Modal(shallowRef(EditorPreferences), { size: 'small' }));
 
 const nodesTree = useNodesTree();
-const categories = nodesTree.treeUpToRole(2);
+const categories = nodesTree.getTreeUpToRole(2);
 
 // Tool type with optional shortcut
 interface ToolItem {

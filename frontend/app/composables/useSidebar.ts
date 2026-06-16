@@ -20,7 +20,7 @@ export function useSidebar() {
 
   // Filtered tree based on current workspace and preferences
   const filtered = computed((): TreeItem<Node>[] => {
-    const items = nodesTree.workspaceTree(workspaceId.value);
+    const items = nodesTree.getWorkspaceTree(workspaceId.value);
     if (!preferences.get('displayUncategorizedResources').value) {
       return items.filter(item => item.data.role !== 4);
     }

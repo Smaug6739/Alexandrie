@@ -39,7 +39,7 @@ const router = useRouter();
 const filter = ref('');
 
 const filteredItems = computed(() => {
-  const items = nodesTree.treeUpToRole(2).value;
+  const items = nodesTree.getTreeUpToRole(2).value;
   if (!filter.value.trim()) return items;
   return filterTreeByLabel(items, filter.value);
 });

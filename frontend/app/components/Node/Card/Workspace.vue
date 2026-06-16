@@ -25,18 +25,15 @@ defineProps<{ workspace: Node }>();
 
 const nodesStore = useNodesStore();
 
+const nodesTree = useNodesTree();
 const { getAppAccent } = useAppColors();
 
 // Get workspace categories
 const getWorkspaceCategories = (workspaceId: string) => {
-  return nodesStore.categories.filter(n => n.parent_id === workspaceId).toArray();
+  return nodesStore.categories.filter(n => n.parent_id === workspaceId);
 };
 
-// Get document count for a workspace
-const getWorkspaceDocCount = (workspaceId: string) => {
-  const allChildren = nodesStore.getAllChildrensIds(workspaceId);
-  return nodesStore.documents.filter(d => allChildren.includes(d.id)).size;
-};
+const getWorkspaceDocCount = (workspaceId: string) => nodesTree.getSubtreeAsArray(workspaceId).filter(n => n.data.role === 3).length;
 </script>
 
 <style scoped lang="scss">

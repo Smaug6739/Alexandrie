@@ -85,7 +85,7 @@ const sidebarItemsPrefs = preferences.get('sidebarItems');
 
 const filter = ref<string>('');
 
-const workspaces = computed(() => [...nodesStore.getAll.filter(c => c.role === 1).map(c => ({ text: c.name, value: c.id, meta: c }))]);
+const workspaces = computed(() => [...nodesStore.workspaces.map(c => ({ text: c.name, value: c.id, meta: c }))]);
 const isLoading = computed(() => nodesStore.isFetching);
 const tree = computed(() => {
   if (!filter.value.trim()) return filtered.value;

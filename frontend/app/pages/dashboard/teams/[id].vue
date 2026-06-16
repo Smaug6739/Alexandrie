@@ -60,19 +60,19 @@
           </div>
 
           <div v-if="section.items.length" class="card-grid">
-            <NuxtLink v-for="item in section.items" :key="item.id" :to="resolveNodeLink(item)" class="entity-card">
+            <NuxtLink v-for="item in section.items" :key="item.id" :to="resolveNodeLink(item.data)" class="entity-card">
               <div class="entity-card-head">
-                <div class="entity-icon" :class="getAppAccent(item.color as number, true)">
-                  <Icon :name="resolveIcon(item)" />
+                <div class="entity-icon" :class="getAppAccent(item.data.color as number, true)">
+                  <Icon :name="resolveIcon(item.data)" />
                 </div>
                 <div class="entity-copy">
-                  <strong>{{ item.name }}</strong>
-                  <small>{{ resolveNodeType(item) }}</small>
+                  <strong>{{ item.data.name }}</strong>
+                  <small>{{ resolveNodeType(item.data) }}</small>
                 </div>
               </div>
-              <p>{{ item.description || 'No description' }}</p>
+              <p>{{ item.data.description || 'No description' }}</p>
               <div class="entity-meta">
-                <span>{{ shortDate(item.updated_timestamp) }}</span>
+                <span>{{ shortDate(item.data.updated_timestamp) }}</span>
                 <span>Open</span>
               </div>
             </NuxtLink>
@@ -90,13 +90,13 @@
       </div>
 
       <div v-if="recentItems.length" class="activity-list">
-        <NuxtLink v-for="item in recentItems" :key="item.id" :to="resolveNodeLink(item)" class="activity-item">
-          <div class="activity-icon" :class="getAppAccent(item.color as number, true)">
-            <Icon :name="resolveIcon(item)" />
+        <NuxtLink v-for="item in recentItems" :key="item.id" :to="resolveNodeLink(item.data)" class="activity-item">
+          <div class="activity-icon" :class="getAppAccent(item.data.color as number, true)">
+            <Icon :name="resolveIcon(item.data)" />
           </div>
           <div class="activity-copy">
-            <strong>{{ item.name }}</strong>
-            <span>{{ resolveNodeType(item) }} · {{ shortDate(item.updated_timestamp) }}</span>
+            <strong>{{ item.data.name }}</strong>
+            <span>{{ resolveNodeType(item.data) }} · {{ shortDate(item.data.updated_timestamp) }}</span>
           </div>
         </NuxtLink>
       </div>
@@ -118,6 +118,7 @@ definePageMeta({
 });
 
 const nodesStore = useNodesStore();
+const nodesTree = useNodesTree();
 const route = useRoute();
 const modals = useModal();
 const { shortDate } = useDateFormatters();
@@ -133,24 +134,24 @@ watchEffect(() => {
   }
 });
 
-const allItems = computed(() => (team.value ? nodesStore.getAllChildrens(team.value.id).filter(item => item.id !== team.value?.id) : []));
-const directChildren = computed(() => (team.value ? nodesStore.getChilds(team.value.id) : []));
-const countByRole = (role: number) => allItems.value.filter(item => item.role === role).length;
+const allItems = computed(() => (team.value ? nodesTree.getChildren(team.value.id).filter(item => item.id !== team.value?.id) : []));
+const directChildren = computed(() => (team.value ? nodesTree.getChildren(team.value.id) : []));
+
+const countByRole = (role: number) => allItems.value.filter(item => item.data.role === role).length;
 
 const structureSections = computed(() => [
-  { title: 'Workspaces', items: directChildren.value.filter(item => item.role === 1) },
-  { title: 'Categories', items: directChildren.value.filter(item => item.role === 2) },
-  { title: 'Documents', items: directChildren.value.filter(item => item.role === 3) },
-  { title: 'Resources', items: directChildren.value.filter(item => item.role === 4) },
+  { title: 'Workspaces', items: directChildren.value.filter(item => item.data.role === 1) },
+  { title: 'Categories', items: directChildren.value.filter(item => item.data.role === 2) },
+  { title: 'Documents', items: directChildren.value.filter(item => item.data.role === 3) },
+  { title: 'Resources', items: directChildren.value.filter(item => item.data.role === 4) },
 ]);
 
-const recentItems = computed(() => allItems.value.toSorted((a, b) => b.updated_timestamp - a.updated_timestamp).slice(0, 8));
+const recentItems = computed(() => allItems.value.toSorted((a, b) => b.data.updated_timestamp - a.data.updated_timestamp).slice(0, 8));
 
-const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1, parentId: teamId }, size: 'small' }));
-const openCreateCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2, parentId: teamId }, size: 'small' }));
-const openPermissions = () => team.value && modals.add(new Modal(shallowRef(NodePermissions), { props: { node: team.value }, size: 'small' }));
-const openDelete = () =>
-  team.value && modals.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: team.value, redirect: '/dashboard/teams' } }));
+const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1, parentId: teamId } }));
+const openCreateCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2, parentId: teamId } }));
+const openPermissions = () => team.value && modals.add(new Modal(shallowRef(NodePermissions), { props: { node: team.value } }));
+const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDeleteModal), { props: { node: team.value, redirect: '/dashboard/teams' } }));
 </script>
 
 <style scoped lang="scss">

@@ -1,6 +1,7 @@
 import type { NodeRole } from '~/stores';
 
 const ROUTE_ROLE_MAPPING: Record<NodeRole, string> = {
+  0: '/dashboard/teams',
   1: '/dashboard/categories',
   2: '/dashboard/categories',
   3: '/dashboard/docs',
@@ -8,15 +9,15 @@ const ROUTE_ROLE_MAPPING: Record<NodeRole, string> = {
 };
 
 export function useBreadcrumbs() {
-  const nodesStore = useNodesStore();
+  const nodesTree = useNodesTree();
 
   function generateBreadcrumbsById(id: string) {
-    const nodes = nodesStore.getByIdWithParents(id);
+    const nodes = nodesTree.getAncestors(id);
 
     return nodes
       .map(node => ({
-        name: node.name,
-        path: `${ROUTE_ROLE_MAPPING[node.role]}/${node.id}`,
+        name: node.label,
+        path: `${ROUTE_ROLE_MAPPING[node.data.role]}/${node.id}`,
       }))
       .reverse();
   }
