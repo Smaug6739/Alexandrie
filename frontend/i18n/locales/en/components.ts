@@ -38,6 +38,7 @@ export default {
   },
 
   editor: {
+    title: 'Markdown editor',
     placeholder: {
       title: 'Document title',
       description: 'Document description',

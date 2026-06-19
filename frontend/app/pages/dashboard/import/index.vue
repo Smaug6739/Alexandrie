@@ -1,15 +1,11 @@
 <template>
   <div class="import-page page-card">
-    <header>
-      <div>
-        <h1>{{ t('import.meta.title') }} <tag class="orange">Beta</tag></h1>
-        <p class="subtitle">
-          {{ t('import.meta.description') }}
-          <NuxtLink to="/dashboard/settings?p=backup">{{ t('import.meta.settingsLink') }}</NuxtLink
-          >.
-        </p>
-      </div>
-    </header>
+    <Teleport to="#navbar-title">{{ t('import.meta.title') }} <tag class="orange">Beta</tag></Teleport>
+
+    <p class="page-subtitle">
+      {{ t('import.meta.description') }}
+      <NuxtLink to="/dashboard/settings?p=backup">{{ t('import.meta.settingsLink') }}</NuxtLink>
+    </p>
 
     <section class="cards-grid">
       <NuxtLink class="import-card" to="/dashboard/import/backup">

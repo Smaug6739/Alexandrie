@@ -16,6 +16,10 @@
           <div class="infos">
             <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
             <h1 :class="{ public: public }">{{ doc?.name }}</h1>
+            <Teleport to="#navbar-title">
+              <Icon :name="doc.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(doc.color as number, true)]" />
+              {{ doc.name }}
+            </Teleport>
             <p class="description">{{ doc?.description }}</p>
             <div v-if="doc.tags" class="tags">
               <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
@@ -39,10 +43,11 @@ import type { Node, PublicUser } from '~/stores';
 const props = defineProps<{ doc?: Node; public?: boolean }>();
 
 const userStore = useUserStore();
-
 const preferences = usePreferencesStore();
+
 const { avatarURL } = useApi();
 const nodesTree = useNodesTree();
+const { getAppAccent } = useAppColors();
 
 const category = computed(() => nodesTree.getClosestCategoryAncestor(props.doc?.parent_id)?.data);
 const user = ref<PublicUser | null>(null);

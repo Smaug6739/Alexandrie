@@ -14,7 +14,7 @@ export interface ReadonlyIndexedCollection<T> {
   get(id: string): T | undefined;
   getChildrenIds(parentId: string | null | undefined): string[];
 }
-export class TreeBuilder<T extends { id: string; parent_id?: string | null; role?: number }> {
+export class TreeBuilder<T extends { id: string; parent_id?: string | null; role?: number; order?: number }> {
   private transformCache = new Map<string, TreeItem<T>>();
 
   constructor(
@@ -102,13 +102,29 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
    */
   buildSubtree(parentId: string): TreeItem<T> | undefined {
     const buildSubtreeRecursive = (id: string): TreeItem<T> | undefined => {
-      const item = this.getTransformedItem(id);
-      if (!item) return undefined;
+      const cachedItem = this.getTransformedItem(id);
+      if (!cachedItem) return undefined;
 
       const childrenIds = this.collection.getChildrenIds(id);
-      item.children = childrenIds.length > 0 ? childrenIds.map(cId => buildSubtreeRecursive(cId)).filter((c): c is TreeItem<T> => !!c) : undefined;
+      if (childrenIds.length === 0) {
+        // Évite l'allocation d'un nouvel objet si pas d'enfants
+        return { ...cachedItem, children: undefined };
+      }
 
-      return item;
+      const validChildren: TreeItem<T>[] = [];
+      for (let i = 0; i < childrenIds.length; i++) {
+        const child = buildSubtreeRecursive(childrenIds[i]!);
+        if (child) validChildren.push(child);
+      }
+
+      if (validChildren.length > 1) {
+        validChildren.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+      }
+
+      return {
+        ...cachedItem,
+        children: validChildren.length > 0 ? validChildren : undefined,
+      };
     };
 
     return buildSubtreeRecursive(parentId);

@@ -6,6 +6,7 @@ export default {
     newWorkspace: 'New workspace',
   },
 
+  dashboard: 'Dashboard',
   greeting: '👋 Hey, {userName}',
 
   links: {

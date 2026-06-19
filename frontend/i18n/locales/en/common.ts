@@ -22,6 +22,7 @@ export default {
     save: 'Save',
     search: 'Search',
     share: 'Share',
+    toggleFullscreen: 'Toggle fullscreen',
     unpin: 'Unpin from top',
     update: 'Update',
     upload: 'Upload',

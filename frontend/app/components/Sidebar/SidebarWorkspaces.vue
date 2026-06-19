@@ -14,10 +14,22 @@
       </li>
       <hr />
       <span class="workspaces-label">{{ t('components.sidebar.workspaces') }}</span>
-      <li v-for="option in options" :key="option.meta?.id" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
+      <li v-for="option in workspaces" :key="option.meta?.id" :class="{ selected: option.value === workspaceId }" @click="selectOption(option)">
         <SidebarWorkspace :option="option" />
       </li>
-      <div v-if="!options.length" class="placeholder">{{ t('components.sidebar.noWorkspaces') }}</div>
+      <div v-if="!workspaces.length" class="placeholder">{{ t('components.sidebar.noWorkspaces') }}</div>
+      <hr />
+      <span class="workspaces-label">Teams</span>
+      <li
+        v-for="option in flattenedWorkspaces"
+        :key="option.meta?.id"
+        :class="{ selected: option.value === workspaceId }"
+        :style="{ paddingLeft: `${(option.depth ?? 0) * 16 + 4}px` }"
+        @click="selectOption(option)"
+      >
+        <SidebarWorkspace :option="option" />
+      </li>
+      <div v-if="!teams.length" class="placeholder">No teams found</div>
       <hr />
       <div class="new-workspace" @click="createWorkspace"><Icon name="plus" fill="var(--text-secondary)" /> {{ t('components.sidebar.newWorkspace') }}</div>
       <div class="new-workspace" @click="joinWorkspace"><Icon name="link" fill="var(--text-secondary)" /> {{ t('components.sidebar.joinWorkspace') }}</div>
@@ -33,23 +45,30 @@ import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import JoinModal from '~/components/Node/Modals/Join.vue';
 import type { Workspace } from './helpers';
 
-const props = defineProps<{ options: Workspace[] }>();
+const props = defineProps<{ workspaces: Workspace[]; teams: Workspace[] }>();
 
 const { t } = useI18nT();
 const { workspaceId } = useSidebar();
 const modals = useModal();
+const router = useRouter();
 
 const isOpen = ref(false);
 
 const allWorkspaces = computed(() => ({ text: t('components.sidebar.allWorkspaces'), value: undefined, meta: { color: -1 } }));
 const sharedWorkspaces = computed(() => ({ text: t('components.sidebar.sharedWithMe'), value: 'shared', meta: { color: -1, icon: 'users' } }));
-const selectedOption = computed(() => [...props.options, sharedWorkspaces.value].find(option => option.value == workspaceId.value) || allWorkspaces.value);
+const selectedOption = computed(
+  () => [...props.workspaces, ...flattenedWorkspaces.value, sharedWorkspaces.value].find(option => option.value == workspaceId.value) || allWorkspaces.value,
+);
+const flattenWorkspaces = (workspaces: Workspace[], depth = 0): Workspace[] => {
+  return workspaces.flatMap(workspace => [{ ...workspace, depth }, ...(workspace.children ? flattenWorkspaces(workspace.children, depth + 1) : [])]);
+};
 
+const flattenedWorkspaces = computed(() => flattenWorkspaces(props.teams));
 watch(
-  () => props.options,
+  () => props.workspaces,
   opts => {
     const storage_item = localStorage.getItem('filterWorkspace');
-    if (storage_item && [...opts, sharedWorkspaces.value].find(option => option.value == storage_item)) {
+    if (storage_item && [...opts, ...flattenedWorkspaces.value, sharedWorkspaces.value].find(option => option.value == storage_item)) {
       workspaceId.value = storage_item;
     }
   },
@@ -67,6 +86,7 @@ const closeDropdown = () => (isOpen.value = false);
 
 const selectOption = (option: Workspace) => {
   workspaceId.value = option.value;
+  if (option.meta?.role === 0) router.push('/dashboard/teams/' + option.value);
   if (option.value) localStorage.setItem('filterWorkspace', option.value);
   else localStorage.removeItem('filterWorkspace');
 };
@@ -74,6 +94,7 @@ const handleClickOutside = (event: MouseEvent) => {
   if (!(event.target as HTMLElement)!.closest('.dropdown-container')) closeDropdown();
 };
 
+// Lifecycle hooks
 onMounted(() => document.addEventListener('click', handleClickOutside));
 onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside));
 </script>

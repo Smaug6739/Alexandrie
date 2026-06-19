@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-      <SidebarWorkspaces :options="workspaces" />
+      <SidebarWorkspaces :workspaces="workspaces" :teams="teams" />
       <CollapseItem v-for="item in navigationItems(sidebarItemsPrefs)" :key="item.id" :item="item" :root="true" />
       <hr style="width: 100%; margin: 5px 0" />
 
@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { navigationItems } from './helpers';
+import { navigationItems, type Workspace } from './helpers';
 import { filterTreeByLabel } from '~/helpers/TreeBuilder';
 import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import SidebarSkeleton from './SidebarSkeleton.vue';
@@ -85,7 +85,19 @@ const sidebarItemsPrefs = preferences.get('sidebarItems');
 
 const filter = ref<string>('');
 
-const workspaces = computed(() => [...nodesStore.workspaces.map(c => ({ text: c.name, value: c.id, meta: c }))]);
+const teams: ComputedRef<Workspace[]> = computed(() => [...nodesStore.teams.map(c => ({ text: c.name, value: c.id, meta: c, children: [] }))]);
+const workspaces = computed(() => {
+  const items = [];
+  for (const workspace of nodesStore.workspaces) {
+    const parentTeam = teams.value.find(t => t.value === workspace.parent_id);
+    if (parentTeam) {
+      parentTeam.children!.push({ text: workspace.name, value: workspace.id, meta: workspace });
+      continue;
+    }
+    items.push({ text: workspace.name, value: workspace.id, meta: workspace });
+  }
+  return items;
+});
 const isLoading = computed(() => nodesStore.isFetching);
 const tree = computed(() => {
   if (!filter.value.trim()) return filtered.value;

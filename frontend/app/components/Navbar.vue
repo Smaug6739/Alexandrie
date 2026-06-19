@@ -1,34 +1,46 @@
 <template>
-  <header class="navbar">
-    <div class="navbar__navigation">
-      <button v-if="!isOpened" class="open-sidebar" aria-label="open sidebar" @click="toggleSidebar">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
-          <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
-        </svg>
-      </button>
+  <header>
+    <div class="navbar">
+      <div class="left">
+        <NavbarRouter />
+        <button v-if="!isOpened" class="open-sidebar" aria-label="open sidebar" @click="toggleSidebar">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24">
+            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+          </svg>
+        </button>
+        <div id="navbar-title" />
+      </div>
 
-      <Navigation v-if="navbarItems.breadcrumb" />
+      <div class="navbar__search">
+        <div id="navbar-actions" />
+        <button
+          v-if="navbarItems.search"
+          class="search-btn"
+          :title="t('components.navbar.commandCenter')"
+          aria-label="Command center"
+          @click="openCommandCenter"
+        >
+          <Icon name="search" />
+          <span class="search-text">
+            <i18n-t scope="global" keypath="components.navbar.searchHint">
+              <template #key>
+                <kbd>/</kbd>
+              </template>
+            </i18n-t>
+          </span>
+        </button>
+        <div id="navbar-infos" />
+        <ThemeToggle v-if="navbarItems.theme" aria-label="toggle theme" />
+      </div>
     </div>
-
-    <div class="navbar__search">
-      <button v-if="navbarItems.search" class="search-btn" :title="t('components.navbar.commandCenter')" aria-label="Command center" @click="openCommandCenter">
-        <Icon name="search" />
-        <span class="search-text">
-          <i18n-t scope="global" keypath="components.navbar.searchHint">
-            <template #key>
-              <kbd>/</kbd>
-            </template>
-          </i18n-t>
-        </span>
-      </button>
-
-      <ThemeToggle v-if="navbarItems.theme" aria-label="toggle theme" />
+    <div class="breadcrumbs">
+      <BreadCrumbs v-if="navbarItems.breadcrumb" />
     </div>
   </header>
 </template>
 
 <script lang="ts" setup>
-import Navigation from '~/components/Navigation/Navigation.vue';
+import BreadCrumbs from '~/components/Navigation/BreadCrumbs.vue';
 
 const { t } = useI18nT();
 const { isOpened, toggleSidebar } = useSidebar();
@@ -40,14 +52,18 @@ const openCommandCenter = () => commandCenter.open();
 </script>
 
 <style lang="scss" scoped>
+header {
+  margin-top: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
 .navbar {
   position: sticky;
+  height: 60px;
   display: flex;
   width: 100%;
-  height: 50px;
   padding: 10px 0;
   align-items: center;
-  border-bottom: 1px solid var(--border);
   justify-content: space-between;
 
   &__navigation,
@@ -56,15 +72,24 @@ const openCommandCenter = () => commandCenter.open();
     align-items: center;
     gap: 16px;
   }
-
-  &__navigation {
-    flex: 1;
-    overflow-x: auto;
-  }
+}
+.left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-svg {
-  fill: var(--text-body);
+#navbar-title {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  gap: 12px;
+}
+#navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 button {
@@ -109,5 +134,9 @@ kbd {
   font-size: 14px;
   font-weight: 600;
   background: var(--border);
+}
+
+.breadcrumbs {
+  padding: 5px 0;
 }
 </style>

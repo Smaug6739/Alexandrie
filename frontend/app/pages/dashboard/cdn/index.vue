@@ -1,12 +1,13 @@
 <template>
   <div class="page-card">
-    <header>
-      <h1>{{ t('cdn.meta.title') }}</h1>
+    <Teleport to="#navbar-title">{{ t('cdn.meta.title') }}</Teleport>
+
+    <Teleport to="#navbar-infos">
       <div class="action-row">
         <NodeFilter v-show="!device.isMobile" :nodes="nodes" @update:nodes="filteredResources = $event" />
         <ViewSelection v-model="view" />
       </div>
-    </header>
+    </Teleport>
     <div class="storage-indicator">
       <div class="storage-info">
         <span class="storage-label">{{ t('cdn.storageUsed') }}</span>

@@ -90,7 +90,7 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 }
 
 .modal-container:has(> .small) {
-  max-width: 600px;
+  max-width: 700px;
 }
 
 .modal-overlay {

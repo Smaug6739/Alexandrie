@@ -43,6 +43,8 @@ export interface Workspace {
   meta?: Partial<Node>;
   text: string;
   value?: string;
+  depth?: number;
+  children?: Workspace[];
 }
 const { isMobile } = useDevice();
 export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems']): DefaultItem[] => [

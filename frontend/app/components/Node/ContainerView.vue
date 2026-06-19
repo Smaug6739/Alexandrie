@@ -1,45 +1,43 @@
 <template>
   <div class="page-card node-list">
-    <header>
-      <h1 v-if="parent">
+    <Teleport to="#navbar-title">
+      <template v-if="parent">
         <Icon :name="parent.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(parent.color as number, true)]" />
         {{ parent.name }}
-      </h1>
-      <h1 v-else-if="parentId === 'shared'">
+      </template>
+      <template v-else-if="parentId === 'shared'">
         <Icon name="users" display="xl" class="parent-icon grey" />
         {{ t('nodes.workspace.shared') }}
-      </h1>
-      <h1 v-else>
+      </template>
+      <template v-else>
         <Icon name="workspace" display="xl" class="parent-icon primary" />
         {{ t('nodes.workspace.all') }}
-      </h1>
-      <div class="header-actions">
-        <NuxtLink v-if="view == 'kanban'" class="btn-icon no-mobile" @click="resetKanban">
-          <Icon name="reset" display="lg" />
-          <p class="hint-tooltip">{{ t('nodes.actions.resetBoard') }}</p>
-        </NuxtLink>
-        <NodeFilter v-show="!isMobile" :nodes="nodes" @update:nodes="filteredNodes = $event" />
-        <NuxtLink v-if="parent?.shared && parent.user_id != connectedId" class="btn-icon no-mobile" @click="openRemoveShareModal">
-          <Icon name="group_off" display="lg" />
-          <p class="hint-tooltip">{{ t('nodes.actions.removeFromShared') }}</p>
-        </NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon no-mobile" @click="openPermissionsModal">
-          <Icon name="manage_access" display="lg" />
-          <p class="hint-tooltip">{{ t('nodes.actions.managePermissions') }}</p>
-        </NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 2)" class="btn-icon" @click="openEditModal">
-          <Icon name="settings" display="lg" />
-          <p class="hint-tooltip">{{ t('nodes.actions.editMeta') }}</p>
-        </NuxtLink>
-        <NuxtLink v-if="parent && nodesStore.hasPermissions(parent, 4)" class="btn-icon" @click="openDeleteModal">
-          <Icon name="delete" display="lg" />
-          <p class="hint-tooltip">{{ t('common.actions.delete') }}</p>
-        </NuxtLink>
+      </template>
+    </Teleport>
+    <Teleport to="#navbar-actions">
+      <AppBtnIcon v-if="view == 'kanban'" icon="reset" :tooltip="t('nodes.actions.resetBoard')" @click="resetKanban" />
+      <NodeFilter v-show="!isMobile" :nodes="nodes" @update:nodes="filteredNodes = $event" />
+      <AppBtnIcon
+        v-if="parent?.shared && parent.user_id != connectedId"
+        icon="group_off"
+        :tooltip="t('nodes.actions.removeFromShared')"
+        @click="openRemoveShareModal"
+      />
+      <AppBtnIcon
+        v-if="parent && nodesStore.hasPermissions(parent, 4)"
+        icon="manage_access"
+        :tooltip="t('nodes.actions.managePermissions')"
+        @click="openPermissionsModal"
+      />
+      <AppBtnIcon v-if="parent && nodesStore.hasPermissions(parent, 2)" icon="settings" :tooltip="t('nodes.actions.editMeta')" @click="openEditModal" />
+      <AppBtnIcon v-if="parent && nodesStore.hasPermissions(parent, 4)" icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
+    </Teleport>
+    <Teleport to="#navbar-infos">
+      <header>
         <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }}</span>
         <ViewSelection v-model="view" :show-kanban="true" />
-      </div>
-    </header>
-
+      </header>
+    </Teleport>
     <!-- Content based on view mode -->
     <div v-if="filteredNodes.length" class="node-content">
       <!-- Table/List View -->
@@ -159,6 +157,7 @@ function createDocumentInColumn(columnId: string) {
 
 <style scoped lang="scss">
 header {
+  display: flex;
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -169,27 +168,6 @@ h1 {
   font-weight: 600;
   align-items: center;
   gap: 12px;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-a {
-  position: relative;
-}
-
-a:hover > .hint-tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.parent-icon {
-  padding: 6px;
-  border-radius: var(--radius-sm);
-  margin-right: 10px;
 }
 
 .doc-count {
@@ -230,10 +208,6 @@ a:hover > .hint-tooltip {
 @media screen and (width <= 768px) {
   .parent-icon {
     margin-right: 0;
-  }
-
-  .header-actions {
-    gap: 0;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div class="modal">
     <div class="eyebrow">{{ t('nodes.modals.join.access') }}</div>
     <h1>{{ t('nodes.modals.join.title') }}</h1>
     <p class="subtitle">{{ t('nodes.modals.join.subtitle') }}</p>
@@ -12,7 +12,7 @@
 
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
     <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -64,20 +64,12 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-section {
-  padding: 2rem 1.7rem !important;
-}
-
 .eyebrow {
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   color: var(--text-secondary);
   text-transform: uppercase;
-}
-
-h1 {
-  font-size: 2rem;
 }
 
 .subtitle {

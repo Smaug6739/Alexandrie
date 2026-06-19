@@ -1,144 +1,149 @@
 <template>
   <div class="home-container">
-    <!-- Header with greeting and quick actions -->
-    <header class="home-header">
-      <div class="greeting">
-        <h1>{{ t('dashboard.greeting', { userName }) }}</h1>
-        <p class="subtitle">
-          {{ todayFormatted }} · {{ documentsCount }} {{ t('dashboard.stats.documents') }} · {{ workspacesCount }} {{ t('dashboard.stats.workspaces') }}
-        </p>
-      </div>
-      <div class="quick-actions">
-        <AppButton type="primary" @click="createNewDocument">{{ t('dashboard.actions.newDocument') }}</AppButton>
-        <AppButton type="secondary" @click="openJoinModal"><Icon name="join" display="sm" /> {{ t('dashboard.actions.joinWorkspace') }}</AppButton>
-      </div>
-    </header>
+    <Teleport to="#navbar-title"> {{ t('dashboard.dashboard') }}</Teleport>
 
-    <!-- Quick search bar -->
-    <div class="search-section">
-      <div class="search-wrapper" :class="{ focused: isSearchFocused }">
-        <Icon name="search" class="search-icon" />
-        <input
-          v-model="searchQuery"
-          type="text"
-          :placeholder="t('dashboard.search')"
-          class="search-input"
-          @focus="isSearchFocused = true"
-          @blur="isSearchFocused = false"
-        />
-        <div v-if="searchQuery" class="search-clear" @click="searchQuery = ''">
-          <Icon name="close" />
+    <section class="home-top">
+      <header class="home-header">
+        <div class="greeting">
+          <h1>{{ t('dashboard.greeting', { userName }) }}</h1>
+          <p class="subtitle">
+            {{ todayFormatted }} · {{ documentsCount }} {{ t('dashboard.stats.documents') }} · {{ workspacesCount }} {{ t('dashboard.stats.workspaces') }}
+          </p>
         </div>
-      </div>
-      <Transition name="dropdown">
-        <div v-if="searchResults?.length" class="search-results">
-          <NuxtLink v-for="result in searchResults" :key="result.id" class="search-result" :to="getNodeLink(result)">
-            <Icon :name="resolveIcon(result)" :class="['node-icon', getAppAccent(result.color as number, true)]" />
-            <div class="result-content">
-              <span class="result-name">{{ result.name }}</span>
-              <span class="result-path">{{ getNodePath(result) }}</span>
-            </div>
-            <span class="result-type">{{ getNodeType(result) }}</span>
-          </NuxtLink>
+        <div class="quick-actions">
+          <AppButton type="primary" @click="createNewDocument">{{ t('dashboard.actions.newDocument') }}</AppButton>
+          <AppButton type="secondary" @click="openJoinModal"><Icon name="join" display="sm" /> {{ t('dashboard.actions.joinWorkspace') }}</AppButton>
         </div>
-      </Transition>
-    </div>
+      </header>
 
-    <!-- Section "Continue Working" -->
-    <section v-if="recentlyEdited.length" class="section">
-      <div class="section-header">
-        <h2><Icon name="work" />{{ t('dashboard.sections.continueWorking') }}</h2>
-        <NuxtLink to="/dashboard/docs" class="see-all">{{ t('dashboard.links.seeAll') }}</NuxtLink>
-      </div>
-      <div class="continue-working">
-        <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
-          <NodeCardRecent :node="doc" />
-        </NuxtLink>
-      </div>
-    </section>
-
-    <!-- Section Pinned Documents -->
-    <section v-if="pinnedDocuments.length" class="section">
-      <div class="section-header">
-        <h2><Icon name="pin" /> {{ t('dashboard.sections.pinnedDocuments') }}</h2>
-      </div>
-      <div class="pinned-grid">
-        <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
-          <NodeCardRecent :node="doc" />
-        </NuxtLink>
-      </div>
-    </section>
-
-    <!-- Workspaces Section -->
-    <section class="section">
-      <div class="section-header">
-        <h2><Icon name="workspace" /> {{ t('dashboard.sections.yourWorkspaces') }}</h2>
-        <NuxtLink to="/dashboard/categories" class="see-all">{{ t('dashboard.links.manage') }}</NuxtLink>
-      </div>
-      <div class="workspaces-grid">
-        <NuxtLink v-for="workspace in workspaces" :key="workspace.id" :to="`/dashboard/categories/${workspace.id}`">
-          <NodeCardWorkspace :workspace="workspace" />
-        </NuxtLink>
-        <button class="add-workspace" @click="openCreateWorkspace">{{ t('dashboard.actions.newWorkspace') }}</button>
-      </div>
-    </section>
-
-    <!-- Recent Activity Section -->
-    <section class="section">
-      <div class="section-header">
-        <h2><Icon name="recent" /> {{ t('dashboard.sections.recentActivity') }}</h2>
-      </div>
-      <div class="activity-timeline">
-        <div v-for="(group, date) in activityByDate" :key="date" class="activity-group">
-          <div class="activity-date">{{ date }}</div>
-          <div class="activity-items">
-            <NuxtLink v-for="item in group" :key="item.id" :to="getNodeLink(item)" class="activity-item">
-              <Icon
-                :name="resolveIcon(item)"
-                display="md"
-                :class="['activity-icon', getAppAccent(item.color || (getCategory(item.parent_id)?.color as number), true)]"
-              />
-              <div class="activity-content">
-                <span class="activity-name">{{ item.name }}</span>
-                <span class="activity-time">{{ formatTime(item.updated_timestamp) }}</span>
-              </div>
-            </NuxtLink>
+      <!-- Quick search bar -->
+      <div class="search-section">
+        <div class="search-wrapper" :class="{ focused: isSearchFocused }">
+          <Icon name="search" class="search-icon" />
+          <input
+            v-model="searchQuery"
+            type="text"
+            :placeholder="t('dashboard.search')"
+            class="search-input"
+            @focus="isSearchFocused = true"
+            @blur="isSearchFocused = false"
+          />
+          <div v-if="searchQuery" class="search-clear" @click="searchQuery = ''">
+            <Icon name="close" />
           </div>
         </div>
+        <Transition name="dropdown">
+          <div v-if="searchResults?.length" class="search-results">
+            <NuxtLink v-for="result in searchResults" :key="result.id" class="search-result" :to="resolveNodeLink(result)">
+              <Icon :name="resolveIcon(result)" :class="['node-icon', getAppAccent(result.color as number, true)]" />
+              <div class="result-content">
+                <span class="result-name">{{ result.name }}</span>
+                <span class="result-path">{{ getNodePath(result) }}</span>
+              </div>
+              <span class="result-type">{{ resolveNodeType(result) }}</span>
+            </NuxtLink>
+          </div>
+        </Transition>
       </div>
     </section>
 
-    <!-- Quick stats -->
-    <section class="section stats-section">
-      <div class="stat-card">
-        <Icon name="files" display="xxl" class="stat-icon" fill="var(--primary)" />
-        <div class="stat-content">
-          <span class="stat-value">{{ documentsCount }}</span>
-          <span class="stat-label">{{ t('dashboard.stats.documents') }}</span>
+    <div class="sections">
+      <!-- Section "Continue Working" -->
+      <section v-if="recentlyEdited.length" class="section">
+        <div class="section-header">
+          <h2><Icon name="work" />{{ t('dashboard.sections.continueWorking') }}</h2>
+          <NuxtLink to="/dashboard/docs" class="see-all">{{ t('dashboard.links.seeAll') }}</NuxtLink>
         </div>
-      </div>
-      <div class="stat-card">
-        <Icon name="categories" display="xxl" class="stat-icon" fill="var(--primary)" />
-        <div class="stat-content">
-          <span class="stat-value">{{ workspacesCount }}</span>
-          <span class="stat-label">{{ t('dashboard.stats.workspaces') }}</span>
+        <div class="continue-working">
+          <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
+            <NodeCardRecent :node="doc" />
+          </NuxtLink>
         </div>
-      </div>
-      <div class="stat-card">
-        <Icon name="advanced" display="xxl" class="stat-icon" fill="var(--primary)" />
-        <div class="stat-content">
-          <span class="stat-value">{{ tagsCount }}</span>
-          <span class="stat-label">{{ t('dashboard.stats.tags') }}</span>
+      </section>
+
+      <!-- Section Pinned Documents -->
+      <section v-if="pinnedDocuments.length" class="section">
+        <div class="section-header">
+          <h2><Icon name="pin" /> {{ t('dashboard.sections.pinnedDocuments') }}</h2>
         </div>
-      </div>
-      <div class="stat-card">
-        <Icon name="import" display="xxl" class="stat-icon" fill="var(--primary)" />
-        <div class="stat-content">
-          <span class="stat-value">{{ resourcesCount }}</span>
-          <span class="stat-label">{{ t('dashboard.stats.cdnFiles') }}</span>
+        <div class="pinned-grid">
+          <NuxtLink v-for="doc in pinnedDocuments" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
+            <NodeCardRecent :node="doc" />
+          </NuxtLink>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- Workspaces Section -->
+      <section class="section">
+        <div class="section-header">
+          <h2><Icon name="workspace" /> {{ t('dashboard.sections.yourWorkspaces') }}</h2>
+          <NuxtLink to="/dashboard/categories" class="see-all">{{ t('dashboard.links.manage') }}</NuxtLink>
+        </div>
+        <div class="workspaces-grid">
+          <NuxtLink v-for="workspace in workspaces" :key="workspace.id" :to="`/dashboard/categories/${workspace.id}`">
+            <NodeCardWorkspace :workspace="workspace" />
+          </NuxtLink>
+          <button class="add-workspace" @click="openCreateWorkspace">{{ t('dashboard.actions.newWorkspace') }}</button>
+        </div>
+      </section>
+
+      <!-- Recent Activity Section -->
+      <section class="section">
+        <div class="section-header">
+          <h2><Icon name="recent" /> {{ t('dashboard.sections.recentActivity') }}</h2>
+        </div>
+        <div class="activity-timeline">
+          <div v-for="(group, date) in activityByDate" :key="date" class="activity-group">
+            <div class="activity-date">{{ date }}</div>
+            <div class="activity-items">
+              <NuxtLink v-for="item in group" :key="item.id" :to="resolveNodeLink(item)" class="activity-item">
+                <Icon
+                  :name="resolveIcon(item)"
+                  display="md"
+                  :class="['activity-icon', getAppAccent(item.color || (getCategory(item.parent_id)?.color as number), true)]"
+                />
+                <div class="activity-content">
+                  <span class="activity-name">{{ item.name }}</span>
+                  <span class="activity-time">{{ formatTime(item.updated_timestamp) }}</span>
+                </div>
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick stats -->
+      <section class="section stats-section">
+        <div class="stat-card">
+          <Icon name="files" display="xxl" class="stat-icon" fill="var(--primary)" />
+          <div class="stat-content">
+            <span class="stat-value">{{ documentsCount }}</span>
+            <span class="stat-label">{{ t('dashboard.stats.documents') }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <Icon name="categories" display="xxl" class="stat-icon" fill="var(--primary)" />
+          <div class="stat-content">
+            <span class="stat-value">{{ workspacesCount }}</span>
+            <span class="stat-label">{{ t('dashboard.stats.workspaces') }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <Icon name="advanced" display="xxl" class="stat-icon" fill="var(--primary)" />
+          <div class="stat-content">
+            <span class="stat-value">{{ tagsCount }}</span>
+            <span class="stat-label">{{ t('dashboard.stats.tags') }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <Icon name="import" display="xxl" class="stat-icon" fill="var(--primary)" />
+          <div class="stat-content">
+            <span class="stat-value">{{ resourcesCount }}</span>
+            <span class="stat-label">{{ t('dashboard.stats.cdnFiles') }}</span>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
@@ -167,24 +172,28 @@ const isSearchFocused = ref(false);
 const userName = computed(() => userStore.user?.firstname || userStore.user?.username || '');
 
 // Stats
-const documentsCount = computed(() => nodesStore.documents.length);
-const workspacesCount = computed(() => nodesStore.workspaces.length);
+const documentsCount = computed(() => nodesStore.getAll.getIdsByRole(3).length);
+const workspacesCount = computed(() => nodesStore.getAll.getIdsByRole(1).length);
 const tagsCount = computed(() => nodesStore.getAllTags.length);
-const resourcesCount = computed(() => nodesStore.resources.length);
+const resourcesCount = computed(() => nodesStore.getAll.getIdsByRole(4).length);
 
 // Recently edited documents (last 5, sorted by update time)
 const recentlyEdited = computed(() => {
-  return nodesStore.documents.toSorted((a, b) => b.updated_timestamp - a.updated_timestamp).slice(0, 5);
+  return nodesStore.getAll
+    .toSortedArray()
+    .filter(node => node.role === 3)
+    .slice(0, 5);
 });
 
 // Pinned documents (order === -1)
 const pinnedDocuments = computed(() => {
-  return nodesStore.documents.filter(d => d.order === -1);
+  return nodesStore.getAll.toSortedArray().filter(node => node.role === 3 && node.order === -1);
 });
 
 // Workspaces
 const workspaces = computed(() => {
-  return nodesStore.workspaces.toSorted((a, b) => a.name.localeCompare(b.name));
+  const workspaceNodes = nodesStore.workspaces.filter((n): n is Node => !!n);
+  return workspaceNodes.sort((a, b) => a.name.localeCompare(b.name));
 });
 
 // Activity grouped by date
@@ -218,8 +227,6 @@ const searchResults = computed(() => {
 
 // Helpers
 const getCategory = (id?: string) => nodesStore.getById(id || '');
-const getNodeLink = resolveNodeLink; // Use centralized helper
-const getNodeType = resolveNodeType; // Use centralized helper
 
 const getNodePath = (node: Node) => {
   const parts: string[] = [];
@@ -237,15 +244,24 @@ const getNodePath = (node: Node) => {
 // Actions
 const createNewDocument = () => router.push('/dashboard/docs/new');
 const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
-const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin)));
+const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: 'small' }));
 </script>
 
 <style scoped lang="scss">
+.home-top {
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 18%, transparent), transparent 28%),
+    linear-gradient(135deg, var(--surface-base), var(--surface-raised));
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border-radius: var(--radius-xl);
+  margin-top: 0.5rem;
+}
 .home-container {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
 }
 
 // Header
@@ -268,6 +284,10 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin)));
   font-size: 0.9rem;
   color: var(--text-secondary);
   text-transform: capitalize;
+}
+
+.sections {
+  padding: 2rem;
 }
 
 .quick-actions {

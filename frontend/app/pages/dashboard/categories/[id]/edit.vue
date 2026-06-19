@@ -1,7 +1,11 @@
 <template>
   <div class="page-card">
-    <h1 style="font-size: 24px">{{ t('nodes.category.editTitle') }}</h1>
+    <Teleport to="#navbar-title">{{ t('nodes.category.editTitle') }}</Teleport>
     <form v-if="category" @submit.prevent>
+      <Teleport to="#navbar-actions">
+        <AppBtnIcon icon="delete" :aria-label="t('common.actions.delete')" :tooltip="t('common.actions.delete')" @click="deleteCategory" />
+        <AppBtnIcon icon="save" :aria-label="t('common.actions.update')" :tooltip="t('common.actions.update')" @click="updateCategory" />
+      </Teleport>
       <div class="form-row">
         <div class="form-column">
           <label>{{ t('common.labels.name') }}</label>
@@ -34,11 +38,6 @@
 
       <label for="color">{{ t('common.labels.color') }}</label>
       <AppColorPicker v-model="category.color" name="color" nullable />
-
-      <div class="actions-row">
-        <AppButton type="danger" @click="deleteCategory()">{{ t('common.actions.delete') }}</AppButton>
-        <AppButton type="primary" class="btn primary" @click="updateCategory">{{ t('common.actions.update') }}</AppButton>
-      </div>
     </form>
   </div>
 </template>
@@ -115,9 +114,5 @@ label {
 .form-column {
   min-width: 200px;
   flex: 1;
-}
-
-.actions-row {
-  justify-content: flex-end;
 }
 </style>

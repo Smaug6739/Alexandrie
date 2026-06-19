@@ -1,6 +1,33 @@
 <template>
   <div class="toolbar">
     <!-- Text Formatting Group -->
+    <Teleport to="#navbar-actions">
+      <div v-if="displayStats" class="stats-badge no-tablet">
+        <div class="stat-item">
+          <span class="stat-value">{{ stats.words }}</span>
+          <span class="stat-label">{{ t('markdown.stats.words') }}</span>
+        </div>
+        <div class="stat-divider" />
+        <div class="stat-item">
+          <span class="stat-value">{{ stats.characters }}</span>
+          <span class="stat-label">{{ t('markdown.stats.chars') }}</span>
+        </div>
+        <div class="stat-divider" />
+        <div class="stat-item">
+          <span class="stat-value">{{ stats.lines }}</span>
+          <span class="stat-label">{{ t('markdown.stats.lines') }}</span>
+        </div>
+      </div>
+      <AppBtnIcon icon="save" :aria-label="t('common.actions.save')" :tooltip="t('common.actions.save')" @click="emitAction('save')" />
+      <AppBtnIcon
+        icon="file_shortcut"
+        :aria-label="t('markdown.toolbar.goToDocument')"
+        :tooltip="t('markdown.toolbar.goToDocument')"
+        @click="emitAction('goto')"
+      />
+      <AppBtnIcon icon="settings" :aria-label="t('markdown.toolbar.editorSettings')" :tooltip="t('markdown.toolbar.editorSettings')" @click="openSettings" />
+      <AppBtnIcon icon="help" :aria-label="t('markdown.toolbar.markdownSyntax')" :tooltip="t('markdown.toolbar.markdownSyntax')" @click="openHelp" />
+    </Teleport>
     <div :class="['toolbar-group', { 'no-mobile': mobileSimplifiedView }]">
       <div class="group-buttons">
         <button v-for="item in formattingTools" :key="item.name" class="toolbar-btn" :aria-label="item.name" @click="emitAction(item.action)">
@@ -67,22 +94,6 @@
     <!-- Right Section -->
     <div class="toolbar-right">
       <!-- Stats Badge -->
-      <div v-if="displayStats" class="stats-badge no-tablet">
-        <div class="stat-item">
-          <span class="stat-value">{{ stats.words }}</span>
-          <span class="stat-label">{{ t('markdown.stats.words') }}</span>
-        </div>
-        <div class="stat-divider" />
-        <div class="stat-item">
-          <span class="stat-value">{{ stats.characters }}</span>
-          <span class="stat-label">{{ t('markdown.stats.chars') }}</span>
-        </div>
-        <div class="stat-divider" />
-        <div class="stat-item">
-          <span class="stat-value">{{ stats.lines }}</span>
-          <span class="stat-label">{{ t('markdown.stats.lines') }}</span>
-        </div>
-      </div>
 
       <!-- Actions & Settings Group -->
       <div class="action-buttons">
@@ -102,15 +113,6 @@
           <span class="tooltip"
             >{{ item.name }}<kbd v-if="item.shortcut">{{ item.shortcut }}</kbd></span
           >
-        </button>
-        <div class="action-divider" />
-        <button class="toolbar-btn btn-ghost" aria-label="Settings" @click="openSettings">
-          <Icon name="settings" display="lg" />
-          <span class="tooltip">{{ t('markdown.toolbar.editorSettings') }}</span>
-        </button>
-        <button class="toolbar-btn btn-ghost" aria-label="Help" @click="openHelp">
-          <Icon name="help" display="lg" />
-          <span class="tooltip">{{ t('markdown.toolbar.markdownSyntax') }}</span>
         </button>
       </div>
     </div>
@@ -212,11 +214,7 @@ const structureTools = computed<ToolItem[]>(() => [
   { name: t('markdown.toolbar.horizontalRule'), icon: 'format/horizontal-rule', action: 'horizontalRule', shortcut: 'Ctrl+Shift+R' },
 ]);
 
-const actionTools = computed<ToolItem[]>(() => [
-  { name: t('markdown.toolbar.preview'), icon: 'preview', action: 'preview', shortcut: 'Ctrl+P' },
-  { name: t('markdown.toolbar.save'), icon: 'save', action: 'save', shortcut: 'Ctrl+S' },
-  { name: t('markdown.toolbar.goToDocument'), icon: 'file_shortcut', action: 'goto' },
-]);
+const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.preview'), icon: 'preview', action: 'preview', shortcut: 'Ctrl+P' }]);
 </script>
 <style scoped lang="scss">
 .toolbar {
@@ -428,30 +426,15 @@ const actionTools = computed<ToolItem[]>(() => [
   background: var(--surface-base);
 }
 
-// Responsive adjustments
 @media (width <= 900px) {
   .toolbar {
     padding: 6px 8px;
     gap: 4px;
   }
 
-  .group-label {
-    display: none;
-  }
-
   .toolbar-btn {
     width: 28px;
     height: 28px;
-
-    .btn-icon {
-      width: 16px;
-      height: 16px;
-
-      :deep(svg) {
-        width: 16px;
-        height: 16px;
-      }
-    }
   }
 
   .stats-badge {
@@ -477,13 +460,6 @@ const actionTools = computed<ToolItem[]>(() => [
   }
 
   .stats-badge {
-    display: none;
-  }
-}
-
-// Tablet hide
-.no-tablet {
-  @media (width <= 1024px) {
     display: none;
   }
 }

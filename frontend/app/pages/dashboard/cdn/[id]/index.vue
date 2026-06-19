@@ -1,11 +1,11 @@
 <template>
   <div class="page-card">
-    <header>
-      <h1>{{ t('cdn.edit.title') }}</h1>
-      <NuxtLink :to="`/dashboard/cdn/${resource?.id}/preview`" class="btn-icon">
-        <AppButton type="secondary">Preview</AppButton>
-      </NuxtLink>
-    </header>
+    <Teleport to="#navbar-title">{{ t('cdn.edit.title') }}</Teleport>
+    <Teleport to="#navbar-actions">
+      <AppBtnIcon icon="eye" :aria-label="t('common.actions.preview')" :tooltip="t('common.actions.preview')" :to="`/dashboard/cdn/${resource?.id}/preview`" />
+      <AppBtnIcon icon="save" :aria-label="t('common.actions.update')" :tooltip="t('common.actions.update')" @click="updateCategory" />
+      <AppBtnIcon icon="delete" :aria-label="t('common.actions.delete')" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
+    </Teleport>
     <p>{{ t('cdn.edit.description') }}</p>
     <form v-if="resource" @submit.prevent>
       <div class="form-row">
@@ -32,10 +32,6 @@
         Resource:
         <a :href="resourceURL(resource)" target="_blank">{{ resourceURL(resource) }}</a>
       </p>
-      <div class="actions-row">
-        <AppButton type="primary" class="btn primary" @click="updateCategory">{{ t('common.actions.update') }}</AppButton>
-        <AppButton type="danger" @click="openDeleteModal">{{ t('common.actions.delete') }}</AppButton>
-      </div>
     </form>
   </div>
 </template>
@@ -92,18 +88,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-h2 {
-  font-size: 26px;
-}
-
 label {
   margin-top: 10px;
-}
-
-input,
-textarea,
-select {
-  width: 100%;
 }
 
 .form-row {
@@ -120,9 +106,5 @@ select {
 a {
   color: var(--primary);
   text-decoration: underline;
-}
-
-.actions-row {
-  justify-content: flex-end;
 }
 </style>
