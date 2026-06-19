@@ -107,7 +107,7 @@ const nodesStore = useNodesStore();
 const nodesTree = useNodesTree();
 const { t } = useI18nT();
 
-const categoriesItem = nodesTree.treeUpToRole(2);
+const categoriesItem = nodesTree.getTreeUpToRole(2);
 
 const selectedNodes = ref<string[]>([]);
 const toCreate = ref(0);
