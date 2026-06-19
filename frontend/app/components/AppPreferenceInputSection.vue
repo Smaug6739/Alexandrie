@@ -38,7 +38,20 @@
       <div v-else-if="opt.type === 'groupCheckbox'" class="group-checkbox">
         <div class="checkbox-grid">
           <label v-for="[key, label] of Object.entries(opt.items)" :key="key">
-            <AppCheck v-model="p(opt.key).value[key]" @change="opt.onChange?.(p(opt.key).value)">{{ label }}</AppCheck>
+            <AppCheck
+              :model-value="p(opt.key).value[key]"
+              @change="opt.onChange?.(p(opt.key).value)"
+              @update:model-value="
+                value => {
+                  p(opt.key).value = {
+                    ...p(opt.key).value,
+                    [key]: value,
+                  };
+                }
+              "
+            >
+              {{ label }}
+            </AppCheck>
           </label>
         </div>
       </div>
