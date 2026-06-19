@@ -1,3 +1,5 @@
+import type { ResourceImportTask } from '~/helpers/backups/Importer';
+import { Collection } from './collection';
 import { IndexedCollection } from '~/helpers/IndexedCollection';
 import type { DB_Node, ImportJob, InvitationJoinResponse, Node, NodeInvitation, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
 
@@ -473,6 +475,42 @@ export const useNodesStore = defineStore('nodes', {
         }
       }
       return { toCreate, toUpdate };
+    },
+    async importAllNodesAndResources(nodes: DB_Node[], resources: ResourceImportTask[], job: Ref<ImportJob>) {
+      const nodesById = new Map(nodes.map(n => [n.id, n]));
+      const corresponding: Record<string, string> = {}; // Map: [old_id] -> [new_server_id]
+
+      const resourcesStore = useResourcesStore();
+
+      // 1. Start by importing all nodes (folders, documents) to get their new IDs
+      for (const node of nodes) {
+        await this.importNode(node, nodesById, corresponding, job);
+      }
+
+      // 2. Import resources (binary files) and map their parent_id to the new IDs
+      for (const task of resources) {
+        try {
+          let finalParentId = undefined;
+          if (task.parent_id) {
+            finalParentId = corresponding[task.parent_id] || task.parent_id;
+          } else {
+            finalParentId = usePreferencesStore().get('defaultUploadFolder').value;
+          }
+
+          const formData = new FormData();
+          formData.append('file', task.file);
+          if (finalParentId) formData.append('parent_id', finalParentId);
+
+          console.log(`[Import] Uploading resource file: ${task.file.name} to parent: ${finalParentId}`);
+          const uploadedResourceNode = await resourcesStore.post(formData);
+
+          job.value.created.push(uploadedResourceNode.id);
+
+          await new Promise(resolve => setTimeout(resolve, 50));
+        } catch (error) {
+          console.error(`[Import] Failed to upload resource ${task.file.name}:`, error);
+        }
+      }
     },
     async importMultipleNodes(nodes: { toCreate: DB_Node[]; toUpdate: DB_Node[] }, job: Ref<ImportJob>) {
       job.value.status = 'in_progress';
