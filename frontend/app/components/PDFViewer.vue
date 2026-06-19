@@ -192,7 +192,7 @@ const loadPdf = async () => {
     observer = null;
   }
   if (pdf) {
-    pdf.destroy();
+    pdf.loadingTask.destroy();
     pdf = null;
   }
 
@@ -258,7 +258,7 @@ watch(
 
 onBeforeUnmount(() => {
   observer?.disconnect();
-  pdf?.destroy();
+  pdf?.loadingTask.destroy();
 });
 </script>
 
