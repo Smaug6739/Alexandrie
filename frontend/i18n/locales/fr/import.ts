@@ -12,7 +12,8 @@ export default {
 
   advanced: {
     options: "Options d'importation avancées",
-    defaultDescription: 'DDescription par défaut pour les documents importés',
+    defaultParent: 'Catégorie parente par défaut pour les documents importés',
+    defaultDescription: 'Description par défaut pour les documents importés',
     defaultTags: 'Balises par défaut pour les documents importés (séparées par des virgules)',
     defaultColor: 'Couleur par défaut pour les documents importés',
     defaultThumbnail: 'Vignette par défaut pour les documents importés (svg ou emoji unicode)',
