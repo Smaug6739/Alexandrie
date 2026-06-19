@@ -12,6 +12,7 @@ export default {
 
   advanced: {
     options: 'Erweiterte Importoptionen',
+    defaultParent: 'Standardübergeordnete Kategorie für importierte Dokumente',
     defaultDescription: 'Standardbeschreibung für importierte Dokumente',
     defaultTags: 'Standard-Tags für importierte Dokumente (durch Kommas getrennt)',
     defaultColor: 'Standardfarbe für importierte Dokumente',
@@ -60,7 +61,7 @@ export default {
 
   meta: {
     breadcrumb: 'Importe',
-    description: "Du kannst Dokumente aus einem früheren Export importieren. Falls du keinen hast, erstelle ihn über die",
+    description: 'Du kannst Dokumente aus einem früheren Export importieren. Falls du keinen hast, erstelle ihn über die',
     settingsLink: 'Einstellungen',
     title: 'Dokumente importieren',
   },

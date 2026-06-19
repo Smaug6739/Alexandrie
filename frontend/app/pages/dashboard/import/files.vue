@@ -9,7 +9,7 @@
       </div>
     </header>
 
-    <AppDrop ref="dropComponent" multiple allow-folders @select="selectFiles" />
+    <AppDrop ref="dropComponent" multiple allow-folders :max-files="100" @select="selectFiles" />
     <small>{{ t('import.files.importable') }}</small>
     <section v-if="nodes.length" class="panel">
       <div class="panel-head">
@@ -82,7 +82,7 @@ async function selectFiles(files: File | File[] | null) {
     user_id: user.user!.id,
   });
   await imp.handleFiles(files);
-  nodes.value = await imp.normalizedToNodes();
+  nodes.value = (await imp.normalizedToNodes()).nodesToCreate;
 }
 
 function toggleSelection(id: string) {
