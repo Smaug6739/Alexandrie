@@ -1,9 +1,9 @@
 <template>
   <div class="page-card teams-index">
+    <Teleport to="#navbar-title">Teams</Teleport>
     <header class="hero">
       <div class="hero-copy">
         <p class="eyebrow">Organization view</p>
-        <h1>Teams</h1>
         <p class="subtitle">Teams group workspaces, categories, documents, and resources in one shared organization shell.</p>
       </div>
       <div class="hero-actions">

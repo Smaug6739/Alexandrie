@@ -1,13 +1,9 @@
 <template>
   <div class="page-card files-import">
-    <header>
-      <div>
-        <h1>{{ t('import.files.meta.title') }} <tag class="orange">Beta</tag></h1>
-        <p class="subtitle">
-          {{ t('import.files.meta.description') }}
-        </p>
-      </div>
-    </header>
+    <Teleport to="#navbar-title">{{ t('import.files.meta.title') }} <tag class="orange">Beta</tag></Teleport>
+    <p class="subtitle">
+      {{ t('import.files.meta.description') }}
+    </p>
 
     <AppDrop ref="dropComponent" multiple allow-folders :max-files="200" @select="selectFiles" />
     <small>{{ t('import.files.importable') }}</small>

@@ -1,5 +1,7 @@
 <template>
   <div v-if="team" class="team-page">
+    <Teleport to="#navbar-title">Team overview</Teleport>
+    <Teleport to="#navbar-bottom"><NodeTeamNavbar :team="team" /></Teleport>
     <section class="team-hero">
       <div class="team-ident">
         <div class="team-avatar" :class="getAppAccent(team.color as number, true)">
@@ -22,7 +24,6 @@
         <AppButton type="primary" @click="openCreateWorkspace">New workspace</AppButton>
         <AppButton type="secondary" @click="openCreateCategory">New category</AppButton>
         <NuxtLink :to="`/dashboard/docs/new?parent_id=${team.id}`"><AppButton type="secondary">New document</AppButton></NuxtLink>
-        <AppButton type="secondary" @click="openPermissions">Manage access</AppButton>
         <AppButton type="danger" @click="openDelete">Delete team</AppButton>
       </div>
     </section>
@@ -45,71 +46,13 @@
         ><span class="stat-label">Resources</span>
       </article>
     </section>
-
-    <section class="content-panel">
-      <div class="section-header">
-        <h2>Structure</h2>
-        <span>Live view of this team hierarchy</span>
-      </div>
-
-      <div class="section-grid">
-        <div v-for="section in structureSections" :key="section.title" class="section-block">
-          <div class="section-block-header">
-            <h3>{{ section.title }}</h3>
-            <span>{{ section.items.length }}</span>
-          </div>
-
-          <div v-if="section.items.length" class="card-grid">
-            <NuxtLink v-for="item in section.items" :key="item.id" :to="resolveNodeLink(item.data)" class="entity-card">
-              <div class="entity-card-head">
-                <div class="entity-icon" :class="getAppAccent(item.data.color as number, true)">
-                  <Icon :name="resolveIcon(item.data)" />
-                </div>
-                <div class="entity-copy">
-                  <strong>{{ item.data.name }}</strong>
-                  <small>{{ resolveNodeType(item.data) }}</small>
-                </div>
-              </div>
-              <p>{{ item.data.description || 'No description' }}</p>
-              <div class="entity-meta">
-                <span>{{ shortDate(item.data.updated_timestamp) }}</span>
-                <span>Open</span>
-              </div>
-            </NuxtLink>
-          </div>
-
-          <p v-else class="empty-hint">Nothing here yet.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="content-panel">
-      <div class="section-header">
-        <h2>Recent activity</h2>
-        <span>Latest changes inside the team</span>
-      </div>
-
-      <div v-if="recentItems.length" class="activity-list">
-        <NuxtLink v-for="item in recentItems" :key="item.id" :to="resolveNodeLink(item.data)" class="activity-item">
-          <div class="activity-icon" :class="getAppAccent(item.data.color as number, true)">
-            <Icon :name="resolveIcon(item.data)" />
-          </div>
-          <div class="activity-copy">
-            <strong>{{ item.data.name }}</strong>
-            <span>{{ resolveNodeType(item.data) }} · {{ shortDate(item.data.updated_timestamp) }}</span>
-          </div>
-        </NuxtLink>
-      </div>
-      <p v-else class="empty-hint">No activity yet.</p>
-    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import NodeDeleteModal from '~/components/Node/Modals/Delete.vue';
-import NodePermissions from '~/components/Node/Modals/Permissions.vue';
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
-import { resolveIcon, resolveNodeLink, resolveNodeType } from '~/helpers/node';
+import { resolveIcon } from '~/helpers/node';
 import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import type { Node } from '~/stores';
 
@@ -118,6 +61,7 @@ definePageMeta({
 });
 
 const nodesStore = useNodesStore();
+
 const nodesTree = useNodesTree();
 const route = useRoute();
 const modals = useModal();
@@ -130,7 +74,7 @@ const team = ref<Node | undefined>();
 watchEffect(() => {
   team.value = nodesStore.getById(teamId);
   if (team.value && team.value.partial) {
-    void nodesStore.fetch({ id: teamId }).then(fetched => (team.value = fetched));
+    nodesStore.fetch({ id: teamId }).then(fetched => (team.value = fetched));
   }
 });
 
@@ -139,18 +83,8 @@ const directChildren = computed(() => (team.value ? nodesTree.getChildren(team.v
 
 const countByRole = (role: number) => allItems.value.filter(item => item.data.role === role).length;
 
-const structureSections = computed(() => [
-  { title: 'Workspaces', items: directChildren.value.filter(item => item.data.role === 1) },
-  { title: 'Categories', items: directChildren.value.filter(item => item.data.role === 2) },
-  { title: 'Documents', items: directChildren.value.filter(item => item.data.role === 3) },
-  { title: 'Resources', items: directChildren.value.filter(item => item.data.role === 4) },
-]);
-
-const recentItems = computed(() => allItems.value.toSorted((a, b) => b.data.updated_timestamp - a.data.updated_timestamp).slice(0, 8));
-
 const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1, parentId: teamId } }));
 const openCreateCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2, parentId: teamId } }));
-const openPermissions = () => team.value && modals.add(new Modal(shallowRef(NodePermissions), { props: { node: team.value } }));
 const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDeleteModal), { props: { node: team.value, redirect: '/dashboard/teams' } }));
 </script>
 
@@ -159,6 +93,7 @@ const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDelet
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  margin: 1rem;
 }
 
 .team-hero,

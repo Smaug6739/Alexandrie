@@ -7,11 +7,6 @@ export default {
 
   greeting: '👋 Hey, {userName}',
 
-  links: {
-    manage: 'Verwalten',
-    seeAll: 'Alle anzeigen',
-  },
-
   pages: {
     home: 'Start',
   },

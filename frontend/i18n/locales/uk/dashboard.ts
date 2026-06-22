@@ -7,11 +7,6 @@ export default {
 
   greeting: '👋 Привіт, {userName}',
 
-  links: {
-    manage: 'Керувати',
-    seeAll: 'Переглянути все',
-  },
-
   pages: {
     home: 'Головна',
   },

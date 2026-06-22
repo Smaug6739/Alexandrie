@@ -33,9 +33,10 @@
         <ThemeToggle v-if="navbarItems.theme" aria-label="toggle theme" />
       </div>
     </div>
-    <div class="breadcrumbs">
-      <BreadCrumbs v-if="navbarItems.breadcrumb" />
+    <div v-if="navbarItems.breadcrumb" class="breadcrumbs">
+      <BreadCrumbs />
     </div>
+    <div id="navbar-bottom" />
   </header>
 </template>
 
@@ -55,6 +56,8 @@ const openCommandCenter = () => commandCenter.open();
 header {
   margin-top: 4px;
   border-bottom: 1px solid var(--border);
+  width: 98%;
+  margin: 0 auto;
 }
 
 .navbar {

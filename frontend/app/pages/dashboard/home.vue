@@ -52,7 +52,6 @@
       <section v-if="recentlyEdited.length" class="section">
         <div class="section-header">
           <h2><Icon name="work" />{{ t('dashboard.sections.continueWorking') }}</h2>
-          <NuxtLink to="/dashboard/docs" class="see-all">{{ t('dashboard.links.seeAll') }}</NuxtLink>
         </div>
         <div class="continue-working">
           <NuxtLink v-for="doc in recentlyEdited" :key="doc.id" :to="`/dashboard/docs/${doc.id}`">
@@ -77,7 +76,6 @@
       <section class="section">
         <div class="section-header">
           <h2><Icon name="workspace" /> {{ t('dashboard.sections.yourWorkspaces') }}</h2>
-          <NuxtLink to="/dashboard/categories" class="see-all">{{ t('dashboard.links.manage') }}</NuxtLink>
         </div>
         <div class="workspaces-grid">
           <NuxtLink v-for="workspace in workspaces" :key="workspace.id" :to="`/dashboard/categories/${workspace.id}`">
@@ -253,7 +251,7 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
     radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 18%, transparent), transparent 28%),
     linear-gradient(135deg, var(--surface-base), var(--surface-raised));
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 3rem 1.5rem;
   border-radius: var(--radius-xl);
   margin-top: 0.5rem;
 }
@@ -434,16 +432,6 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
     align-items: center;
     flex: 1;
     gap: 0.5rem;
-  }
-}
-
-.see-all {
-  font-size: 0.9rem;
-  color: var(--primary);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
   }
 }
 

@@ -9,11 +9,6 @@ export default {
   dashboard: 'Dashboard',
   greeting: '👋 Hey, {userName}',
 
-  links: {
-    manage: 'Manage',
-    seeAll: 'See all',
-  },
-
   pages: {
     home: 'Home',
   },
