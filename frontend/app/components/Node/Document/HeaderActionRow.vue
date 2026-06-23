@@ -1,51 +1,26 @@
 <template>
   <div>
     <Teleport to="#navbar-actions">
+      <AppBtnIcon nav v-if="doc.accessibility == 3 && !isPublic" icon="link" :tooltip="t('nodes.actions.publicLink')" :to="`/doc/${doc.id}`" :blank="true" />
       <AppBtnIcon
-        v-if="doc.accessibility == 3 && !isPublic"
-        icon="link"
-        :aria-label="t('nodes.actions.publicLink')"
-        :tooltip="t('nodes.actions.publicLink')"
-        :to="`/doc/${doc.id}`"
-        :blank="true"
-      />
-      <AppBtnIcon
+        nav
         v-if="nodeStore.hasPermissions(doc, 2)"
         icon="edit"
-        :aria-label="t('common.actions.edit')"
         :tooltip="t('common.actions.edit')"
         :to="isPublic ? `/doc/${doc.id}/edit` : `/dashboard/docs/edit/${doc.id}`"
       />
-      <AppBtnIcon icon="markdown" :aria-label="t('nodes.actions.exportAsMarkdown')" :tooltip="t('nodes.actions.exportAsMarkdown')" @click="exportMarkdown" />
-      <AppBtnIcon icon="print" :aria-label="t('common.actions.print')" :tooltip="t('common.actions.print')" @click="print" />
+      <AppBtnIcon nav icon="markdown" :tooltip="t('nodes.actions.exportAsMarkdown')" @click="exportMarkdown" />
+      <AppBtnIcon nav icon="print" :tooltip="t('common.actions.print')" @click="print" />
+      <AppBtnIcon nav v-if="doc.shared" icon="group_off" :tooltip="t('nodes.actions.removeFromShared')" @click="openRemoveShareModal" />
+      <AppBtnIcon nav v-if="nodeStore.hasPermissions(doc, 2)" icon="settings" :tooltip="t('nodes.actions.editMeta')" @click="openEditModal" />
       <AppBtnIcon
-        v-if="doc.shared"
-        icon="group_off"
-        :aria-label="t('nodes.actions.removeFromShared')"
-        :tooltip="t('nodes.actions.removeFromShared')"
-        @click="openRemoveShareModal"
-      />
-      <AppBtnIcon
-        v-if="nodeStore.hasPermissions(doc, 2)"
-        icon="settings"
-        :aria-label="t('nodes.actions.editMeta')"
-        :tooltip="t('nodes.actions.editMeta')"
-        @click="openEditModal"
-      />
-      <AppBtnIcon
+        nav
         v-if="nodeStore.hasPermissions(doc, 4)"
         icon="manage_access"
-        :aria-label="t('nodes.actions.managePermissions')"
         :tooltip="t('nodes.actions.managePermissions')"
         @click="openPermissionsModal"
       />
-      <AppBtnIcon
-        v-if="nodeStore.hasPermissions(doc, 3)"
-        icon="delete"
-        :aria-label="t('common.actions.delete')"
-        :tooltip="t('common.actions.delete')"
-        @click="openDeleteModal"
-      />
+      <AppBtnIcon nav v-if="nodeStore.hasPermissions(doc, 3)" icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
     </Teleport>
   </div>
 </template>

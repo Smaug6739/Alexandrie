@@ -1,76 +1,120 @@
 <template>
-  <div>
-    <span class="item">
-      <NuxtLink :to="`/dashboard/teams/${team.id}`">
+  <nav class="subnav" aria-label="Team navigation">
+    <span class="subnav__item">
+      <NuxtLink :to="`/dashboard/teams/${teamId}`">
         <Icon name="organization" />
-        Overview
+        <span>Overview</span>
       </NuxtLink>
     </span>
-    <span class="item">
-      <NuxtLink :to="`/dashboard/teams/${team.id}/nodes`">
+    <span class="subnav__item">
+      <NuxtLink :to="`/dashboard/teams/${teamId}/nodes`">
         <Icon name="nodes" />
-        Nodes
+        <span>Nodes</span>
       </NuxtLink>
     </span>
-    <span class="item">
-      <NuxtLink :to="`/dashboard/teams/${team.id}/manage-members`">
+    <span class="subnav__item">
+      <NuxtLink :to="`/dashboard/teams/${teamId}/manage-members`">
         <Icon name="users" />
-        Manage Members
+        <span>Members</span>
       </NuxtLink>
     </span>
-    <span class="item">
-      <NuxtLink :to="`/dashboard/teams`">
+    <span class="subnav__item">
+      <NuxtLink :to="`/dashboard/teams/${teamId}/uploads`">
         <Icon name="cdn" />
-        Uploads
+        <span>Uploads</span>
       </NuxtLink>
     </span>
-    <span class="item">
-      <NuxtLink :to="`/dashboard/teams`">
+    <span class="subnav__item">
+      <NuxtLink :to="`/dashboard/teams/${teamId}/insights`">
         <Icon name="insights" />
-        Insights
+        <span>Insights</span>
       </NuxtLink>
     </span>
-    <span class="item">
+    <span class="subnav__item">
       <NuxtLink :to="`/dashboard/teams`">
         <Icon name="settings" />
-        Settings
+        <span>Settings</span>
       </NuxtLink>
     </span>
-  </div>
+  </nav>
 </template>
 
 <script lang="ts" setup>
-import type { Node } from '~/stores';
-
 defineProps<{
-  team: Node;
+  teamId: string;
 }>();
 </script>
 
 <style lang="scss" scoped>
-div {
+/* ── Container ──────────────────────────────────────────────────── */
+.subnav {
   display: flex;
-  gap: 0.5rem;
+  align-items: stretch;
+  gap: 2px;
+  padding: 0 2px;
+  // Tabs sit on the border-bottom of the header
+  margin-bottom: -1px;
 }
-a {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: var(--radius-sm);
-  padding: 0.35rem 0.5rem;
-  transition: background-color $transition-fast ease-in-out;
-  font-size: 14px;
 
-  &:hover {
+/* ── Individual tab ─────────────────────────────────────────────── */
+.subnav__item {
+  display: inline-flex;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 12px;
+    height: 44px;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition:
+      background-color $transition-fast ease-in-out,
+      color $transition-fast ease-in-out,
+      border-color $transition-fast ease-in-out;
+
+    &:hover {
+      background-color: var(--surface-raised);
+      color: var(--text-primary);
+    }
+  }
+
+  // Active tab
+  &:has(a.router-link-exact-active) a {
+    color: var(--primary);
     background-color: var(--surface-raised);
+    border-bottom-color: var(--primary);
+    font-weight: 600;
   }
 }
-.item:has(a.router-link-exact-active) {
-  font-weight: 500;
 
-  border-bottom: 2px solid var(--primary);
-  a {
-    background-color: var(--surface-raised);
+/* ── Mobile vertical layout (driven by Navbar wrapper's :deep) ──── */
+@media (max-width: 767px) {
+  .subnav {
+    flex-direction: column;
+    padding: 6px 8px 10px;
+    gap: 2px;
+    margin-bottom: 0;
+
+    // Reset the bottom-border tab style; use left accent instead
+    .subnav__item a {
+      height: auto;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border-bottom: none;
+      font-size: 15px;
+      width: 100%;
+    }
+
+    .subnav__item:has(a.router-link-exact-active) a {
+      border-bottom: none;
+      border-left: 3px solid var(--primary);
+      padding-left: 11px; // compensate for border
+    }
   }
 }
 </style>

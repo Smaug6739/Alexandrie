@@ -18,15 +18,10 @@
           <span class="stat-label">{{ t('markdown.stats.lines') }}</span>
         </div>
       </div>
-      <AppBtnIcon icon="save" :aria-label="t('common.actions.save')" :tooltip="t('common.actions.save')" @click="emitAction('save')" />
-      <AppBtnIcon
-        icon="file_shortcut"
-        :aria-label="t('markdown.toolbar.goToDocument')"
-        :tooltip="t('markdown.toolbar.goToDocument')"
-        @click="emitAction('goto')"
-      />
-      <AppBtnIcon icon="settings" :aria-label="t('markdown.toolbar.editorSettings')" :tooltip="t('markdown.toolbar.editorSettings')" @click="openSettings" />
-      <AppBtnIcon icon="help" :aria-label="t('markdown.toolbar.markdownSyntax')" :tooltip="t('markdown.toolbar.markdownSyntax')" @click="openHelp" />
+      <AppBtnIcon nav icon="save" :tooltip="t('common.actions.save')" @click="emitAction('save')" />
+      <AppBtnIcon nav icon="file_shortcut" :tooltip="t('markdown.toolbar.goToDocument')" @click="emitAction('goto')" />
+      <AppBtnIcon nav icon="settings" :tooltip="t('markdown.toolbar.editorSettings')" @click="openSettings" />
+      <AppBtnIcon nav icon="help" :tooltip="t('markdown.toolbar.markdownSyntax')" @click="openHelp" />
     </Teleport>
     <div :class="['toolbar-group', { 'no-mobile': mobileSimplifiedView }]">
       <div class="group-buttons">

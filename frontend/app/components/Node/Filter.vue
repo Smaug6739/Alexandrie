@@ -1,6 +1,6 @@
 <template>
   <div ref="root" class="filter-component">
-    <AppBtnIcon icon="filter" :tooltip="t('nodes.filter.title')" @click="toggle">
+    <AppBtnIcon nav icon="filter" :tooltip="t('nodes.filter.title')" @click="toggle">
       <span v-if="filtered.length != nodes?.length" class="bubble"></span>
     </AppBtnIcon>
 

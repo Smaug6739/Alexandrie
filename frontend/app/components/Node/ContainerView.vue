@@ -15,22 +15,24 @@
       </template>
     </Teleport>
     <Teleport to="#navbar-actions">
-      <AppBtnIcon v-if="view == 'kanban'" icon="reset" :tooltip="t('nodes.actions.resetBoard')" @click="resetKanban" />
+      <AppBtnIcon nav v-if="view == 'kanban'" icon="reset" :tooltip="t('nodes.actions.resetBoard')" @click="resetKanban" />
       <NodeFilter v-show="!isMobile" :nodes="nodes" @update:nodes="filteredNodes = $event" />
       <AppBtnIcon
+        nav
         v-if="parent?.shared && parent.user_id != connectedId"
         icon="group_off"
         :tooltip="t('nodes.actions.removeFromShared')"
         @click="openRemoveShareModal"
       />
       <AppBtnIcon
+        nav
         v-if="parent && nodesStore.hasPermissions(parent, 4)"
         icon="manage_access"
         :tooltip="t('nodes.actions.managePermissions')"
         @click="openPermissionsModal"
       />
-      <AppBtnIcon v-if="parent && nodesStore.hasPermissions(parent, 2)" icon="settings" :tooltip="t('nodes.actions.editMeta')" @click="openEditModal" />
-      <AppBtnIcon v-if="parent && nodesStore.hasPermissions(parent, 4)" icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
+      <AppBtnIcon nav v-if="parent && nodesStore.hasPermissions(parent, 2)" icon="settings" :tooltip="t('nodes.actions.editMeta')" @click="openEditModal" />
+      <AppBtnIcon nav v-if="parent && nodesStore.hasPermissions(parent, 4)" icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
     </Teleport>
     <Teleport to="#navbar-infos">
       <header>

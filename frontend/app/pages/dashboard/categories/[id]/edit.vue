@@ -3,8 +3,8 @@
     <Teleport to="#navbar-title">{{ t('nodes.category.editTitle') }}</Teleport>
     <form v-if="category" @submit.prevent>
       <Teleport to="#navbar-actions">
-        <AppBtnIcon icon="delete" :aria-label="t('common.actions.delete')" :tooltip="t('common.actions.delete')" @click="deleteCategory" />
-        <AppBtnIcon icon="save" :aria-label="t('common.actions.update')" :tooltip="t('common.actions.update')" @click="updateCategory" />
+        <AppBtnIcon nav icon="delete" :tooltip="t('common.actions.delete')" @click="deleteCategory" />
+        <AppBtnIcon nav icon="save" :tooltip="t('common.actions.update')" @click="updateCategory" />
       </Teleport>
       <div class="form-row">
         <div class="form-column">

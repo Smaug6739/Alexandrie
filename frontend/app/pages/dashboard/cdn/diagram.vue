@@ -4,7 +4,7 @@
     <aside>
       <input v-model="node.name" type="text" :placeholder="t('common.labels.name')" />
       <Teleport to="#navbar-actions">
-        <AppBtnIcon icon="save" :tooltip="t('common.actions.save')" @click="requestSaveDiagram" />
+        <AppBtnIcon nav icon="save" :tooltip="t('common.actions.save')" @click="requestSaveDiagram" />
       </Teleport>
     </aside>
 

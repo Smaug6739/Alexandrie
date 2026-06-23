@@ -1,12 +1,10 @@
 <template>
   <div v-if="node">
     <Teleport to="#navbar-title"><Icon name="manage_access" display="lg" /> {{ t('nodes.modals.permissions.title') }}</Teleport>
-    <Teleport to="#navbar-bottom"><NodeTeamNavbar :team="node" /></Teleport>
+    <Teleport to="#navbar-bottom"><NodeTeamNavbar :team-id="teamId" /></Teleport>
 
     <!-- Search + add -->
     <section class="page">
-      <h2>{{ t('nodes.modals.permissions.managePermissions') }}</h2>
-
       <form @submit.prevent>
         <small>Add a new user and change it's permissions in the table.</small>
         <input id="user" v-model="query" :placeholder="t('nodes.modals.permissions.searchPlaceholder')" autocomplete="off" />
@@ -106,15 +104,16 @@ const searchError = ref<string | null>(null);
 const isLoading = ref(false);
 const isCreatingInvitation = ref(false);
 
+const teamId = route.params.id as string;
+
 const invitationLink = (code: string) => `${window.location.origin}/dashboard/join-workspace?code=${encodeURIComponent(code)}`;
 
 watchEffect(async () => {
-  const nodeId = route.params.id as string;
-  const cached = nodesStore.getById(nodeId);
+  const cached = nodesStore.getById(teamId);
   if (cached && cached.partial) {
-    await nodesStore.fetch({ id: nodeId });
+    await nodesStore.fetch({ id: teamId });
   }
-  node.value = nodesStore.getById(nodeId);
+  node.value = nodesStore.getById(teamId);
   for (const perm of node.value?.permissions || []) {
     usersStore.fetchPublicUser(perm.user_id);
   }

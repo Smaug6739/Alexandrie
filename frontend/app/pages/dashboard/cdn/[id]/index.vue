@@ -2,9 +2,9 @@
   <div class="page-card">
     <Teleport to="#navbar-title">{{ t('cdn.edit.title') }}</Teleport>
     <Teleport to="#navbar-actions">
-      <AppBtnIcon icon="eye" :aria-label="t('common.actions.preview')" :tooltip="t('common.actions.preview')" :to="`/dashboard/cdn/${resource?.id}/preview`" />
-      <AppBtnIcon icon="save" :aria-label="t('common.actions.update')" :tooltip="t('common.actions.update')" @click="updateCategory" />
-      <AppBtnIcon icon="delete" :aria-label="t('common.actions.delete')" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
+      <AppBtnIcon nav icon="eye" :tooltip="t('common.actions.preview')" :to="`/dashboard/cdn/${resource?.id}/preview`" />
+      <AppBtnIcon nav icon="save" :tooltip="t('common.actions.update')" @click="updateCategory" />
+      <AppBtnIcon nav icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
     </Teleport>
     <p>{{ t('cdn.edit.description') }}</p>
     <form v-if="resource" @submit.prevent>

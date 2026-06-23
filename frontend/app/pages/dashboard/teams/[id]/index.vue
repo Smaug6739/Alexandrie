@@ -1,7 +1,7 @@
 <template>
   <div v-if="team" class="team-page">
     <Teleport to="#navbar-title">Team overview</Teleport>
-    <Teleport to="#navbar-bottom"><NodeTeamNavbar :team="team" /></Teleport>
+    <Teleport to="#navbar-bottom"><NodeTeamNavbar :team-id="teamId" /></Teleport>
     <section class="team-hero">
       <div class="team-ident">
         <div class="team-avatar" :class="getAppAccent(team.color as number, true)">

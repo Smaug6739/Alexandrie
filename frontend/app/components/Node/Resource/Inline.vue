@@ -7,8 +7,8 @@
       <span class="file-size">{{ readableFileSize(node.size ?? 0) }}</span>
     </div>
 
-    <AppBtnIcon v-if="editable" icon="edit" :tooltip="t('common.actions.edit')" @click.prevent="openDrawioEditor" />
-    <AppBtnIcon icon="delete" :tooltip="t('common.actions.delete')" @click.prevent="openDeleteModal" />
+    <AppBtnIcon nav v-if="editable" icon="edit" :tooltip="t('common.actions.edit')" @click.prevent="openDrawioEditor" />
+    <AppBtnIcon nav icon="delete" :tooltip="t('common.actions.delete')" @click.prevent="openDeleteModal" />
   </NuxtLink>
 </template>
 
