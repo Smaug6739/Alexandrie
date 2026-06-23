@@ -150,7 +150,7 @@ $bp-md: 768px;
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 0; // allow text truncation
+  min-width: 0;
   flex: 1;
 }
 
@@ -185,7 +185,6 @@ $bp-md: 768px;
   gap: 6px;
 }
 
-/* ── Search button ──────────────────────────────────────────────── */
 .search-btn {
   display: inline-flex;
   align-items: center;
@@ -215,7 +214,6 @@ $bp-md: 768px;
     transform: translateY(0);
   }
 
-  // Icon-only variant on mobile
   &--compact {
     width: 36px;
     padding: 0;
@@ -238,9 +236,7 @@ kbd {
   line-height: 1.4;
 }
 
-/* ── Subnav hamburger ───────────────────────────────────────────── */
 .subnav-toggle {
-  // Only visible below md breakpoint
   display: none;
 
   @media (max-width: #{$bp-md - 1px}) {
@@ -254,13 +250,10 @@ kbd {
   }
 }
 
-/* ── Breadcrumbs ────────────────────────────────────────────────── */
 .breadcrumbs {
   padding: 4px 4px 6px;
   font-size: 13px;
 }
-
-/* ── Sub-navbar wrapper ─────────────────────────────────────────── */
 
 .navbar__actions-wrapper {
   display: flex;
@@ -268,7 +261,6 @@ kbd {
 }
 
 .subnav-wrapper {
-  // Desktop: always visible, horizontal
   display: flex;
   overflow-x: auto;
   scrollbar-width: none;
@@ -278,7 +270,6 @@ kbd {
     display: none;
   }
 
-  // When empty, collapse completely
   &:empty {
     display: none;
   }
@@ -297,12 +288,12 @@ kbd {
       gap: 8px;
 
       :deep(> *) {
-        width: 100%; /* Si tu veux que tes boutons prennent toute la largeur sur mobile */
+        width: 100%;
       }
     }
 
     &--open {
-      max-height: 600px; // enough for any reasonable tab count
+      max-height: 600px;
     }
   }
 }
