@@ -1,10 +1,12 @@
 export default {
   actions: {
     import: 'Importieren',
+    joinWorkspace: 'Arbeitsbereich beitreten',
     newDocument: '+ Neues Dokument',
     newWorkspace: 'Neuer Arbeitsbereich',
   },
 
+  dashboard: 'Dashboard',
   greeting: '👋 Hey, {userName}',
 
   pages: {

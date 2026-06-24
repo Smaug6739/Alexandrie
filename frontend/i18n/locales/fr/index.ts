@@ -12,18 +12,20 @@ import nodes from './nodes';
 import settings from './settings';
 import time from './time';
 import user from './user';
+import teams from './teams';
 
 export default {
-	admin,
-	application,
-	cdn,
-	common,
-	components,
-	dashboard,
-	import: importPage,
-	markdown,
-	nodes,
-	settings,
-	time,
-	user,
-} as MessageSchema;
+  admin,
+  application,
+  cdn,
+  common,
+  components,
+  dashboard,
+  import: importPage,
+  markdown,
+  nodes,
+  settings,
+  time,
+  user,
+  teams,
+} satisfies MessageSchema;

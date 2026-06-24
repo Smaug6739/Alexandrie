@@ -1,10 +1,10 @@
 <template>
   <div class="page-card">
-    <Teleport to="#navbar-title"><Icon name="insights" display="lg" /> Insights</Teleport>
+    <Teleport to="#navbar-title"><Icon name="insights" display="lg" /> {{ t('teams.insights.title') }}</Teleport>
     <Teleport to="#navbar-bottom"><NodeTeamNavbar :team-id="teamId" /></Teleport>
-    <h2>Trending</h2>
+    <h2>{{ t('teams.insights.trending') }}</h2>
     <Trending :stats="stats" />
-    <h2>Stats</h2>
+    <h2>{{ t('teams.insights.stats') }}</h2>
     <NodeStats :parent-id="teamId" />
   </div>
 </template>
@@ -14,6 +14,7 @@ import type { MonthlyCount } from '~/stores';
 
 const route = useRoute();
 const tree = useNodesTree();
+const { t } = useI18nT();
 
 const teamId = route.params.id as string;
 

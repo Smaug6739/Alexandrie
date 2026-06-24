@@ -1,6 +1,6 @@
 <template>
   <div class="page-card">
-    <Teleport to="#navbar-title">{{ t('nodes.category.editTitle') }}</Teleport>
+    <Teleport to="#navbar-title">{{ t('components.sidebar.nav.settings') }}</Teleport>
     <Teleport to="#navbar-bottom"><NodeTeamNavbar :team-id="nodeId" /></Teleport>
     <form v-if="node" @submit.prevent>
       <Teleport to="#navbar-actions">

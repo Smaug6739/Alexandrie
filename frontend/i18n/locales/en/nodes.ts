@@ -1,4 +1,5 @@
 export default {
+  nodes: 'Nodes',
   actions: {
     editMeta: 'Edit metadata',
     exportAsMarkdown: 'Export as Markdown',
@@ -62,7 +63,7 @@ export default {
     },
     join: {
       access: 'Node access',
-      title: 'Join a workspace',
+      title: 'Join a team or workspace',
       subtitle:
         'Paste an invitation code or a full invite link. If you have already joined this workspace with a different permission level, only the highest one will be retained.',
       label: 'Invitation code or link',

@@ -1,14 +1,17 @@
 <template>
   <div class="page-card teams-index">
-    <Teleport to="#navbar-title">Teams</Teleport>
+    <Teleport to="#navbar-title">{{ t('teams.title') }}</Teleport>
+
     <header class="hero">
       <div>
-        <p class="eyebrow">Organization view</p>
-        <p class="subtitle">Teams group workspaces, categories, documents, and resources in one shared organization shell.</p>
+        <p class="eyebrow">{{ t('teams.eyebrown') }}</p>
+        <p class="subtitle">{{ t('teams.subtitle') }}</p>
       </div>
       <div class="hero-actions">
-        <AppButton type="primary" @click="openCreateTeam">Create team</AppButton>
-        <NuxtLink to="/dashboard/join-workspace"><AppButton type="secondary">Join workspace</AppButton></NuxtLink>
+        <AppButton type="primary" @click="openCreateTeam">{{ t('teams.actions.create') }}</AppButton>
+        <NuxtLink to="/dashboard/join-workspace">
+          <AppButton type="secondary">{{ t('nodes.modals.join.title') }}</AppButton>
+        </NuxtLink>
       </div>
     </header>
 
@@ -17,7 +20,7 @@
         <Icon name="search" />
         <input v-model="query" type="text" placeholder="Search teams" />
       </div>
-      <div class="count-pill">{{ filteredTeams.length }} teams</div>
+      <div class="count-pill">{{ filteredTeams.length }} {{ t('teams.teamsCount') }}</div>
     </section>
 
     <section v-if="filteredTeams.length" class="team-grid">
@@ -29,7 +32,7 @@
           </div>
           <div class="team-title">
             <h2>{{ team.name }}</h2>
-            <p>{{ team.description || 'No description yet' }}</p>
+            <p>{{ team.description || t('teams.noDescription') }}</p>
           </div>
         </div>
 
@@ -42,8 +45,8 @@
       </NuxtLink>
     </section>
 
-    <NoContent v-else title="No teams yet" description="Create the first team to start grouping workspaces and documents.">
-      <AppButton type="primary" @click="openCreateTeam">Create team</AppButton>
+    <NoContent v-else title="No teams yet" :description="t('teams.actions.createDescription')">
+      <AppButton type="primary" @click="openCreateTeam">{{ t('teams.actions.create') }}</AppButton>
     </NoContent>
   </div>
 </template>
@@ -58,6 +61,7 @@ const nodesStore = useNodesStore();
 const modals = useModal();
 const { shortDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
+const { t } = useI18nT();
 
 const query = ref('');
 

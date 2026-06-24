@@ -1,4 +1,5 @@
 export default {
+  nodes: 'Вузли',
   actions: {
     editMeta: 'Редагувати метадані',
     exportAsMarkdown: 'Експортувати як Markdown',
@@ -60,6 +61,16 @@ export default {
       title: 'Видалити {type}',
       titleBulk: 'Видалити вузли',
     },
+    join: {
+      access: 'Доступ до вузла',
+      title: 'Приєднатися до команди або простору',
+      subtitle:
+        'Вставте код запрошення або повне посилання на запрошення. Якщо ви вже приєдналися до цього простору з іншим рівнем дозволу, буде збережено лише найвищий.',
+      label: 'Код запрошення або посилання',
+      join: 'Приєднатися',
+      joining: 'Приєднання...',
+      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
+    },
     metadata: {
       emojiOrIcon: 'Емоджі або іконка',
       emojiOrIconHint: 'Підтримуються SVG та емоджі',
@@ -71,12 +82,17 @@ export default {
       addPermission: 'Додати',
       defaultPermission: 'Права доступу за замовчуванням для нових користувачів',
       generalAccess: 'Загальний доступ',
+      inviteLabel: 'Запрошення до вузла',
+      inviteCreate: 'Створити запрошення',
+      inviteCreateProgress: 'Створення запрошення...',
+      inviteEmpty: 'Поки немає запрошень',
+      invitePermission: 'Права доступу',
       managePermissions: 'Керувати правами доступу',
       noPermissions: 'Права доступу не встановлено',
       noResults: 'Результатів не знайдено',
       publicInfo: 'Цей документ буде загальнодоступний за унікальним посиланням.',
       removePermission: 'Видалити права доступу',
-      searchPlaceholder: 'Ім\'я користувача або email',
+      searchPlaceholder: "Ім'я користувача або email",
       searchUser: 'Знайти користувача',
       shareLink: 'Поділіться цим посиланням, щоб будь-хто міг переглянути документ без облікового запису:',
       title: 'Керувати правами доступу',

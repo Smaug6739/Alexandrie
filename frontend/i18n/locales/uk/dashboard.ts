@@ -1,10 +1,12 @@
 export default {
   actions: {
     import: 'Імпорт',
+    joinWorkspace: 'Приєднатися до робочого простору',
     newDocument: '+ Новий документ',
     newWorkspace: 'Новий простір',
   },
 
+  dashboard: 'Панель керування',
   greeting: '👋 Привіт, {userName}',
 
   pages: {

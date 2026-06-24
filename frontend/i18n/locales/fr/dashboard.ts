@@ -1,10 +1,12 @@
 export default {
   actions: {
     import: 'Importer',
+    joinWorkspace: 'Rejoindre un espace de travail',
     newDocument: '+ Nouveau document',
     newWorkspace: 'Nouvel espace de travail',
   },
 
+  dashboard: 'Tableau de bord',
   greeting: '👋 Hey, {userName}',
 
   pages: {

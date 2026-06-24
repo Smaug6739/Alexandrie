@@ -1,13 +1,13 @@
 <template>
   <div v-if="node" class="page-card">
-    <Teleport to="#navbar-title"><Icon name="users" display="lg" /> Manage Members</Teleport>
+    <Teleport to="#navbar-title"><Icon name="users" display="lg" /> {{ t('teams.members.title') }}</Teleport>
     <Teleport to="#navbar-bottom"><NodeTeamNavbar :team-id="teamId" /></Teleport>
 
     <!-- Search + add -->
     <section>
-      <h2>Manage permissions in entire team</h2>
+      <h2>{{ t('teams.members.permissionsTitle') }}</h2>
       <form @submit.prevent>
-        <small>Add a new user and change it's permissions in the table.</small>
+        <small>{{ t('teams.members.permissionsDescription') }}</small>
         <input id="user" v-model="query" :placeholder="t('nodes.modals.permissions.searchPlaceholder')" autocomplete="off" />
 
         <div v-for="user in users" :key="user.id" class="user-card">
@@ -67,13 +67,13 @@
               <span class="invite-code">{{ invitation.invitation_code }}</span>
               <span class="invite-details">
                 {{ t('nodes.modals.permissions.invitePermission') }}: {{ resolvePermissionName(invitation.permission_level) }} ·
-                {{ shortDate(invitation.created_timestamp) }}</span
-              >
+                {{ shortDate(invitation.created_timestamp) }}
+              </span>
             </span>
 
             <div class="user-actions">
-              <AppButton type="secondary" small @click="copyInvitationLink(invitation.invitation_code)">Copy link</AppButton>
-              <AppButton type="danger" small @click="deleteInvitation(invitation.id)">Revoke</AppButton>
+              <AppButton type="secondary" small @click="copyInvitationLink(invitation.invitation_code)">{{ t('common.actions.copyLink') }}</AppButton>
+              <AppButton type="danger" small @click="deleteInvitation(invitation.id)">{{ t('common.actions.revoke') }}</AppButton>
             </div>
           </div>
         </li>
@@ -87,11 +87,10 @@ import { NODE_PERMISSIONS } from '~/helpers/constants';
 import { resolvePermissionName } from '~/helpers/node';
 import type { Node, NodeInvitation, Permission, PublicUser } from '~/stores';
 
-const { t } = useI18nT();
-
 const usersStore = useUserStore();
 const nodesStore = useNodesStore();
 
+const { t } = useI18nT();
 const { avatarURL } = useApi();
 const { shortDate, numericDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();

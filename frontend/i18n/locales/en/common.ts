@@ -19,6 +19,7 @@ export default {
     preview: 'Preview',
     print: 'Print',
     reset: 'Reset',
+    revoke: 'Revoke',
     save: 'Save',
     search: 'Search',
     share: 'Share',

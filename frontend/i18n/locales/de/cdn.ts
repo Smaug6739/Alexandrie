@@ -16,7 +16,7 @@ export default {
     promptPlural: 'Ziehe deine Dateien hierher oder klicke auf {link}, um sie auszuwählen',
     removeFile: 'Datei entfernen',
   },
-
+  diagram: 'Diagrammeditor',
   edit: {
     description: 'Verwalte Ressourcen und Dateien auf dem Server. Du kannst Metadaten bearbeiten und Dateien löschen.',
     title: 'Datei aktualisieren',

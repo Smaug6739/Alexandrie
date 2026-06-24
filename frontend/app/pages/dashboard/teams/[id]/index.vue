@@ -1,6 +1,6 @@
 <template>
   <div v-if="team" class="team-page">
-    <Teleport to="#navbar-title">Team overview</Teleport>
+    <Teleport to="#navbar-title">{{ t('teams.overview.title') }}</Teleport>
     <Teleport to="#navbar-bottom"><NodeTeamNavbar :team-id="teamId" /></Teleport>
     <section class="team-hero">
       <div class="team-ident">
@@ -9,31 +9,33 @@
           <Icon v-else :name="resolveIcon(team)" display="xxl" />
         </div>
         <div class="team-copy">
-          <p class="eyebrow">Team</p>
+          <p class="eyebrow">{{ t('teams.overview.team') }}</p>
           <h1>{{ team.name }}</h1>
-          <p class="description">{{ team.description || 'No description provided yet.' }}</p>
+          <p class="description">{{ team.description || t('teams.noDescription') }}</p>
           <div class="meta-row">
-            <span class="meta-chip">{{ directChildren.length }} direct items</span>
-            <span class="meta-chip">{{ allItems.length }} total nodes</span>
+            <span class="meta-chip">{{ directChildren.length }} {{ t('teams.overview.directItems') }}</span>
+            <span class="meta-chip">{{ allItems.length }} {{ t('teams.overview.totalNodes') }}</span>
             <span class="meta-chip">Updated {{ shortDate(team.updated_timestamp) }}</span>
           </div>
         </div>
       </div>
 
       <div class="team-actions">
-        <AppButton type="primary" @click="openCreateWorkspace">New workspace</AppButton>
-        <AppButton type="secondary" @click="openCreateCategory">New category</AppButton>
-        <NuxtLink :to="`/dashboard/docs/new?parent_id=${team.id}`"><AppButton type="secondary">New document</AppButton></NuxtLink>
-        <AppButton type="danger" @click="openDelete">Delete team</AppButton>
+        <AppButton type="primary" @click="openCreateWorkspace">{{ t('nodes.container.newWorkspace') }}</AppButton>
+        <AppButton type="secondary" @click="openCreateCategory"> {{ t('nodes.container.newCategory') }}</AppButton>
+        <NuxtLink :to="`/dashboard/docs/new?parent_id=${team.id}`"
+          ><AppButton type="secondary">{{ t('dashboard.actions.newDocument') }}</AppButton></NuxtLink
+        >
+        <AppButton type="danger" @click="openDelete">{{ t('teams.actions.delete') }}</AppButton>
       </div>
     </section>
 
     <section class="content">
       <AppBtnIcon icon="edit" style="position: absolute; top: 1rem; right: 1rem" @click="router.push(editLink)" />
       <NodeDocumentContentCompiled v-if="team.content_compiled" :node="team" />
-      <NoContent v-else title="No team homepage" description="There is no content in this team homepage yet.">
+      <NoContent v-else :title="t('teams.overview.homepageNoContentTitle')" :description="t('teams.overview.homepageNoContent')">
         <NuxtLink :to="editLink">
-          <AppButton type="link">Add content</AppButton>
+          <AppButton type="link">{{ t('teams.actions.addContent') }}</AppButton>
         </NuxtLink>
       </NoContent>
     </section>
@@ -59,6 +61,7 @@ const modals = useModal();
 const router = useRouter();
 const { shortDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
+const { t } = useI18nT();
 
 const teamId = route.params.id as string;
 const team = ref<Node | undefined>();

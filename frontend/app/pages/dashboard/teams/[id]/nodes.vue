@@ -4,7 +4,7 @@
     <NodeContainerView :parent="parent" :nodes="nodes" :parent-id="teamId">
       <template #title>
         <Icon name="nodes" display="lg" />
-        Nodes
+        {{ t('nodes.nodes') }}
       </template>
     </NodeContainerView>
   </div>
@@ -17,6 +17,7 @@ const nodesStore = useNodesStore();
 
 const route = useRoute();
 const tree = useNodesTree();
+const { t } = useI18nT();
 
 const teamId = route.params.id as string;
 const parent = computed(() => nodesStore.getById(teamId));
