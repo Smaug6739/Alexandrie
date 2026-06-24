@@ -33,6 +33,7 @@ func NewPermissionsController(app *app.App) PermissionsController {
 // @Router /permissions/node/{nodeId} [get]
 func (ctr *Controller) GetNodePermissions(c *gin.Context) (int, any) {
 	nodeId, err := utils.GetTargetId(c, c.Param("nodeId"))
+	recursive := c.Query("recursive") == "true"
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -40,7 +41,7 @@ func (ctr *Controller) GetNodePermissions(c *gin.Context) (int, any) {
 		return statusFromAccessError(err), err
 	}
 
-	perms, err := ctr.app.Services.Permission.GetNodePermissions(c.Request.Context(), nodeId)
+	perms, err := ctr.app.Services.Permission.GetNodePermissions(c.Request.Context(), nodeId, recursive)
 	if err != nil {
 		return statusFromAccessError(err), err
 	}

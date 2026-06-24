@@ -16,6 +16,7 @@ type PermissionRepositoryImpl struct {
 type PermissionRepository interface {
 	GetByID(permissionId types.Snowflake) (*models.Permission, error)
 	GetByNode(nodeId types.Snowflake) ([]*models.Permission, error)
+	GetByNodeRecursive(nodeId types.Snowflake) ([]*models.Permission, error)
 	GetByNodeAndUser(nodeId types.Snowflake, userId types.Snowflake) (*models.Permission, error)
 	HasPermission(userId, nodeId types.Snowflake, required int) (bool, int)
 	Create(permission *models.Permission) (*models.Permission, error)
@@ -48,6 +49,35 @@ func (r *PermissionRepositoryImpl) GetByNode(nodeId types.Snowflake) ([]*models.
 	if err != nil {
 		return nil, fmt.Errorf("failed to query permissions: %w", err)
 	}
+	return permissions, nil
+}
+
+func (r *PermissionRepositoryImpl) GetByNodeRecursive(nodeId types.Snowflake) ([]*models.Permission, error) {
+	var permissions []*models.Permission
+
+	err := r.db.Select(&permissions, `
+		WITH RECURSIVE descendants AS (
+			-- 1. Start with the given node
+			SELECT id
+			FROM nodes
+			WHERE id = ?
+
+			UNION ALL
+
+			-- 2. Recursive part : we retrieve all children of the found nodes
+			SELECT n.id
+			FROM nodes n
+			INNER JOIN descendants d ON n.parent_id = d.id
+		)
+		SELECT p.id, p.node_id, p.user_id, p.permission, p.created_timestamp
+		FROM permissions p
+		INNER JOIN descendants des ON p.node_id = des.id
+	`, nodeId)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to query recursive permissions for node %v: %w", nodeId, err)
+	}
+
 	return permissions, nil
 }
 

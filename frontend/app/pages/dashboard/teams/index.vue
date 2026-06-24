@@ -2,7 +2,7 @@
   <div class="page-card teams-index">
     <Teleport to="#navbar-title">Teams</Teleport>
     <header class="hero">
-      <div class="hero-copy">
+      <div>
         <p class="eyebrow">Organization view</p>
         <p class="subtitle">Teams group workspaces, categories, documents, and resources in one shared organization shell.</p>
       </div>
@@ -33,24 +33,7 @@
           </div>
         </div>
 
-        <div class="team-stats">
-          <div class="stat">
-            <span>{{ countByRole(team.id, 1) }}</span
-            ><small>Workspaces</small>
-          </div>
-          <div class="stat">
-            <span>{{ countByRole(team.id, 2) }}</span
-            ><small>Categories</small>
-          </div>
-          <div class="stat">
-            <span>{{ countByRole(team.id, 3) }}</span
-            ><small>Documents</small>
-          </div>
-          <div class="stat">
-            <span>{{ countByRole(team.id, 4) }}</span
-            ><small>Resources</small>
-          </div>
-        </div>
+        <NodeStats :parent-id="team.id" />
 
         <div class="team-footer">
           <span class="team-meta">Updated {{ shortDate(team.updated_timestamp) }}</span>
@@ -72,7 +55,6 @@ import { resolveIcon, resolveNodeLink } from '~/helpers/node';
 definePageMeta({ breadcrumb: { i18n: 'components.sidebar.nav.teams' } });
 
 const nodesStore = useNodesStore();
-const nodesTree = useNodesTree();
 const modals = useModal();
 const { shortDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
@@ -85,9 +67,6 @@ const filteredTeams = computed(() => {
   if (!search) return teams.value;
   return teams.value.filter(team => `${team.name} ${team.description || ''}`.toLowerCase().includes(search));
 });
-
-const countByRole = (teamId: string, role: number) =>
-  nodesTree.getSubtreeAsArray(teamId).filter(node => node.data.id !== teamId && node.data.role === role).length;
 
 const openCreateTeam = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 0, parentId: undefined }, size: 'small' }));
 </script>
@@ -167,11 +146,10 @@ h1 {
   font-size: 0.9rem;
   font-weight: 600;
 }
-
 .team-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .team-card {
@@ -235,28 +213,6 @@ h1 {
   }
 }
 
-.team-stats {
-  display: grid;
-  gap: 0.6rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.stat {
-  padding: 0.75rem;
-  border-radius: var(--radius-lg);
-  background: var(--surface-overlay);
-
-  span {
-    display: block;
-    font-size: 1.1rem;
-    font-weight: 700;
-  }
-
-  small {
-    color: var(--text-secondary);
-  }
-}
-
 .team-footer {
   display: flex;
   justify-content: space-between;
@@ -273,11 +229,5 @@ h1 {
 .team-open {
   font-weight: 700;
   color: var(--primary);
-}
-
-@media screen and (width <= 800px) {
-  .team-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 </style>

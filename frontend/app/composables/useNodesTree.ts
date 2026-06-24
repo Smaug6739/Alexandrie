@@ -143,7 +143,8 @@ export function useNodesTree() {
   };
 
   // Subtree retrieval as flat array
-  const getSubtreeAsArray = (id: string): TreeItem<Node>[] => {
+  const getSubtreeAsArray = (id?: string): TreeItem<Node>[] => {
+    if (!id) return flattenTree(tree.value);
     const subtree = builder.value.buildSubtree(id);
     return subtree?.children ? flattenTree(subtree.children as TreeItem<Node>[]) : [];
   };

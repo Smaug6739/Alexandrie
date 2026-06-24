@@ -1,6 +1,6 @@
 <template>
   <div class="page-card">
-    <Teleport to="#navbar-title">{{ props.title || t('cdn.meta.title') }}</Teleport>
+    <Teleport to="#navbar-title"><Icon name="cdn" /> {{ props.title || t('cdn.meta.title') }}</Teleport>
 
     <Teleport to="#navbar-infos">
       <div class="action-row">

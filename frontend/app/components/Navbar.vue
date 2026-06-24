@@ -266,16 +266,7 @@ kbd {
   scrollbar-width: none;
   -ms-overflow-style: none;
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  &:empty {
-    display: none;
-  }
-
-  @media (max-width: #{$bp-md - 1px}) {
-    // Mobile: hidden by default, vertical drawer
+  @media (max-width: 768px) {
     display: block;
     max-height: 0;
     overflow: hidden;

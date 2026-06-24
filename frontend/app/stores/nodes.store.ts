@@ -293,6 +293,28 @@ export const useNodesStore = defineStore('nodes', {
       console.error('[store/nodes] Fulltext search failed:', request.message);
       return [];
     },
+    async fetchPermissions(nodeId: string, recursive = false): Promise<Permission[]> {
+      const params = new URLSearchParams({
+        recursive: recursive.toString(),
+      });
+      const request = await makeRequest(`nodes/${nodeId}/permissions?${params.toString()}`, 'GET', {});
+      if (request.status === 'success') {
+        const permissions = request.result as Permission[];
+        this.nodes.startBulk();
+        for (const perm of permissions) {
+          const node = this.nodes.get(perm.node_id);
+          if (!node) continue;
+          const existingPermIndex = node.permissions.findIndex(p => p.id === perm.id);
+          if (existingPermIndex !== -1) node.permissions[existingPermIndex] = perm;
+          else node.permissions.push(perm);
+          this.nodes.set(node.id, node);
+        }
+        this.nodes.endBulk();
+        return permissions;
+      }
+      console.error('[store/nodes] Fetching permissions failed:', request.message);
+      return [];
+    },
     async addPermission(perm: Omit<Permission, 'id' | 'created_timestamp'>): Promise<Permission> {
       console.log(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
       const node = this.nodes.get(perm.node_id);
@@ -324,13 +346,11 @@ export const useNodesStore = defineStore('nodes', {
         }
       } else throw request.message;
     },
-    async removePermission(nodeId: string, userId: string) {
-      console.log(`[store/nodes/permissions] Removing permission for user ${userId} on node ${nodeId}`);
-      const node = this.nodes.get(nodeId);
+    async removePermission(perm: Permission) {
+      console.log(`[store/nodes/permissions] Removing permission for user ${perm.user_id} on node ${perm.node_id}`);
+      const node = this.nodes.get(perm.node_id);
       if (!node) throw 'Node not found in store, cannot remove permission';
-      const perm = node.permissions.find(p => p.user_id === userId);
-      if (!perm) throw 'Permission not found in store, cannot remove permission';
-      const request = await makeRequest(`nodes/${nodeId}/permissions/${perm.id}`, 'DELETE', {});
+      const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'DELETE', {});
       if (request.status === 'success') {
         const newPermissions = node.permissions.filter(p => p.id !== perm.id);
         this.nodes.set(node.id, {

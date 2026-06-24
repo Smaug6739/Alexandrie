@@ -1,7 +1,12 @@
 <template>
   <div>
     <Teleport to="#navbar-bottom"><NodeTeamNavbar :team-id="teamId" /></Teleport>
-    <NodeContainerView :parent="parent" :nodes="nodes" :parent-id="teamId" />
+    <NodeContainerView :parent="parent" :nodes="nodes" :parent-id="teamId">
+      <template #title>
+        <Icon name="nodes" display="lg" />
+        Nodes
+      </template>
+    </NodeContainerView>
   </div>
 </template>
 

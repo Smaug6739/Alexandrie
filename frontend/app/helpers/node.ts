@@ -43,6 +43,12 @@ export const resolveNodeType = (node: Node): string => {
   return types[node.role] || '';
 };
 
+/** Get the name of the permission level */
+const permissions: Record<number, string> = { 1: 'Viewer', 2: 'Editor', 3: 'Admin' };
+export const resolvePermissionName = (permission: number): string => {
+  return permissions[permission] || 'Unknown';
+};
+
 /** Resolve color for a resource-node based on its type */
 export const resolveNodeColor = (type: string) =>
   type.includes('image') ? 'green' : type.includes('video') ? 'blue' : type.includes('pdf') ? 'yellow' : 'red';

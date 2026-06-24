@@ -16,7 +16,7 @@ import (
 )
 
 type PermissionService interface {
-	GetNodePermissions(ctx context.Context, nodeId types.Snowflake) ([]*models.Permission, error)
+	GetNodePermissions(ctx context.Context, nodeId types.Snowflake, recursive bool) ([]*models.Permission, error)
 	GetNodeInvitations(ctx context.Context, nodeId types.Snowflake) ([]*models.NodeInvitation, error)
 	GetPermission(id types.Snowflake) (*models.Permission, error)
 	HasPermission(userId, nodeId types.Snowflake, required int) (bool, int)
@@ -46,7 +46,7 @@ func NewPermissionService(permRepo repositories.PermissionRepository, nodeRepo r
 	}
 }
 
-func (s *permissionService) GetNodePermissions(ctx context.Context, nodeId types.Snowflake) ([]*models.Permission, error) {
+func (s *permissionService) GetNodePermissions(ctx context.Context, nodeId types.Snowflake, recursive bool) ([]*models.Permission, error) {
 	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return nil, err
@@ -56,6 +56,9 @@ func (s *permissionService) GetNodePermissions(ctx context.Context, nodeId types
 		return nil, err
 	}
 
+	if recursive {
+		return s.permRepo.GetByNodeRecursive(nodeId)
+	}
 	return s.permRepo.GetByNode(nodeId)
 }
 

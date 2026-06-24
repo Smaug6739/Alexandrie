@@ -111,36 +111,7 @@
       </section>
 
       <!-- Quick stats -->
-      <section class="section stats-section">
-        <div class="stat-card">
-          <Icon name="files" display="xxl" class="stat-icon" fill="var(--primary)" />
-          <div class="stat-content">
-            <span class="stat-value">{{ documentsCount }}</span>
-            <span class="stat-label">{{ t('dashboard.stats.documents') }}</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <Icon name="categories" display="xxl" class="stat-icon" fill="var(--primary)" />
-          <div class="stat-content">
-            <span class="stat-value">{{ workspacesCount }}</span>
-            <span class="stat-label">{{ t('dashboard.stats.workspaces') }}</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <Icon name="advanced" display="xxl" class="stat-icon" fill="var(--primary)" />
-          <div class="stat-content">
-            <span class="stat-value">{{ tagsCount }}</span>
-            <span class="stat-label">{{ t('dashboard.stats.tags') }}</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <Icon name="import" display="xxl" class="stat-icon" fill="var(--primary)" />
-          <div class="stat-content">
-            <span class="stat-value">{{ resourcesCount }}</span>
-            <span class="stat-label">{{ t('dashboard.stats.cdnFiles') }}</span>
-          </div>
-        </div>
-      </section>
+      <NodeStats />
     </div>
   </div>
 </template>
@@ -172,8 +143,6 @@ const userName = computed(() => userStore.user?.firstname || userStore.user?.use
 // Stats
 const documentsCount = computed(() => nodesStore.getAll.getIdsByRole(3).length);
 const workspacesCount = computed(() => nodesStore.getAll.getIdsByRole(1).length);
-const tagsCount = computed(() => nodesStore.getAllTags.length);
-const resourcesCount = computed(() => nodesStore.getAll.getIdsByRole(4).length);
 
 // Recently edited documents (last 5, sorted by update time)
 const recentlyEdited = computed(() => {
@@ -543,44 +512,6 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 
 .activity-time {
   font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-// Stats
-.stats-section {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-}
-
-.stat-card {
-  display: flex;
-  padding: 1.25rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--surface-base);
-  align-items: center;
-  gap: 1rem;
-}
-
-.stat-icon {
-  padding: 0.4rem;
-  border-radius: var(--radius-md);
-  background: var(--primary-bg);
-}
-
-.stat-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.stat-label {
-  font-size: 0.85rem;
   color: var(--text-secondary);
 }
 

@@ -31,7 +31,7 @@
       </NuxtLink>
     </span>
     <span class="subnav__item">
-      <NuxtLink :to="`/dashboard/teams`">
+      <NuxtLink :to="`/dashboard/teams/${teamId}/settings`">
         <Icon name="settings" />
         <span>Settings</span>
       </NuxtLink>

@@ -2,7 +2,10 @@
   <div class="page-card">
     <Teleport to="#navbar-title"><Icon name="insights" display="lg" /> Insights</Teleport>
     <Teleport to="#navbar-bottom"><NodeTeamNavbar :team-id="teamId" /></Teleport>
+    <h2>Trending</h2>
     <Trending :stats="stats" />
+    <h2>Stats</h2>
+    <NodeStats :parent-id="teamId" />
   </div>
 </template>
 

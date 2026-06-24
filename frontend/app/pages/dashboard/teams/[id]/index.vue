@@ -28,23 +28,14 @@
       </div>
     </section>
 
-    <section class="stats-grid">
-      <article class="stat-card">
-        <span class="stat-value">{{ countByRole(1) }}</span
-        ><span class="stat-label">Workspaces</span>
-      </article>
-      <article class="stat-card">
-        <span class="stat-value">{{ countByRole(2) }}</span
-        ><span class="stat-label">Categories</span>
-      </article>
-      <article class="stat-card">
-        <span class="stat-value">{{ countByRole(3) }}</span
-        ><span class="stat-label">Documents</span>
-      </article>
-      <article class="stat-card">
-        <span class="stat-value">{{ countByRole(4) }}</span
-        ><span class="stat-label">Resources</span>
-      </article>
+    <section class="content">
+      <AppBtnIcon icon="edit" style="position: absolute; top: 1rem; right: 1rem" @click="router.push(editLink)" />
+      <NodeDocumentContentCompiled v-if="team.content_compiled" :node="team" />
+      <NoContent v-else title="No team homepage" description="There is no content in this team homepage yet.">
+        <NuxtLink :to="editLink">
+          <AppButton type="link">Add content</AppButton>
+        </NuxtLink>
+      </NoContent>
     </section>
   </div>
 </template>
@@ -65,6 +56,7 @@ const nodesStore = useNodesStore();
 const nodesTree = useNodesTree();
 const route = useRoute();
 const modals = useModal();
+const router = useRouter();
 const { shortDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
 
@@ -79,9 +71,8 @@ watchEffect(() => {
 });
 
 const allItems = computed(() => (team.value ? nodesTree.getChildren(team.value.id).filter(item => item.id !== team.value?.id) : []));
+const editLink = computed(() => (team.value ? `/dashboard/docs/edit/${team.value.id}?redirect=/dashboard/teams/${team.value.id}` : ''));
 const directChildren = computed(() => (team.value ? nodesTree.getChildren(team.value.id) : []));
-
-const countByRole = (role: number) => allItems.value.filter(item => item.data.role === role).length;
 
 const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1, parentId: teamId } }));
 const openCreateCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2, parentId: teamId } }));
@@ -96,18 +87,11 @@ const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDelet
   margin: 1rem;
 }
 
-.team-hero,
-.content-panel,
-.stat-card,
-.section-block,
-.entity-card {
+.team-hero {
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background: var(--surface-base);
   box-shadow: var(--shadow-sm);
-}
-
-.team-hero {
   display: flex;
   padding: 1.5rem;
   background:
@@ -131,7 +115,6 @@ const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDelet
   width: 96px;
   height: 96px;
   border-radius: 28px;
-  background: var(--surface-overlay);
   place-items: center;
   overflow: hidden;
   flex: none;
@@ -184,171 +167,15 @@ h1 {
   justify-content: flex-end;
 }
 
-.stats-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.stat-card {
-  padding: 1rem;
-}
-
-.stat-value {
-  display: block;
-  font-size: 1.8rem;
-  font-weight: 800;
-}
-
-.stat-label {
-  color: var(--text-secondary);
-}
-
-.content-panel {
-  padding: 1.25rem;
-}
-
-.section-header {
-  display: flex;
-  margin-bottom: 1rem;
-  justify-content: space-between;
-  gap: 0.75rem;
-  align-items: baseline;
-
-  h2 {
-    margin: 0;
-  }
-
-  span {
-    color: var(--text-secondary);
-  }
-}
-
-.section-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.section-block {
-  padding: 1rem;
-}
-
-.section-block-header {
-  display: flex;
-  margin-bottom: 0.75rem;
-  justify-content: space-between;
-  gap: 0.5rem;
-  align-items: center;
-
-  h3 {
-    margin: 0;
-  }
-
-  span {
-    color: var(--text-secondary);
-    font-weight: 600;
-  }
-}
-
-.card-grid {
-  display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.entity-card {
-  display: flex;
-  padding: 0.9rem;
-  color: var(--text-body);
-  gap: 0.75rem;
-  flex-direction: column;
-  text-decoration: none;
-
-  strong {
-    display: block;
-  }
-
-  p {
-    margin: 0;
-    color: var(--text-secondary);
-  }
-}
-
-.entity-card-head {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-}
-
-.entity-icon {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  place-items: center;
-  flex: none;
-}
-
-.entity-copy {
-  min-width: 0;
-
-  small {
-    color: var(--text-secondary);
-  }
-}
-
-.entity-meta {
-  display: flex;
-  justify-content: space-between;
-  color: var(--text-secondary);
-  font-size: 0.84rem;
-}
-
-.activity-list {
+.content {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
-}
-
-.activity-item {
-  display: flex;
-  padding: 0.8rem;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  color: var(--text-body);
-  background: var(--surface-overlay);
-  gap: 0.75rem;
-  align-items: center;
-  text-decoration: none;
-}
-
-.activity-icon {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  place-items: center;
-  flex: none;
-}
-
-.activity-copy {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-
-  span {
-    color: var(--text-secondary);
-  }
-}
-
-.empty-hint {
-  margin: 0;
-  color: var(--text-secondary);
-}
-
-@media screen and (width <= 900px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  width: 100%;
+  position: relative;
 }
 
 @media screen and (width <= 700px) {
@@ -358,10 +185,6 @@ h1 {
 
   .team-actions {
     justify-content: flex-start;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
   }
 }
 </style>

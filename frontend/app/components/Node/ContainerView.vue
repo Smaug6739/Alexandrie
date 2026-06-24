@@ -1,7 +1,10 @@
 <template>
   <div class="page-card node-list">
     <Teleport to="#navbar-title">
-      <template v-if="parent">
+      <template v-if="slots.title">
+        <slot name="title" />
+      </template>
+      <template v-else-if="parent">
         <Icon :name="parent.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(parent.color as number, true)]" />
         {{ parent.name }}
       </template>
@@ -15,24 +18,24 @@
       </template>
     </Teleport>
     <Teleport to="#navbar-actions">
-      <AppBtnIcon nav v-if="view == 'kanban'" icon="reset" :tooltip="t('nodes.actions.resetBoard')" @click="resetKanban" />
+      <AppBtnIcon v-if="view == 'kanban'" nav icon="reset" :tooltip="t('nodes.actions.resetBoard')" @click="resetKanban" />
       <NodeFilter v-show="!isMobile" :nodes="nodes" @update:nodes="filteredNodes = $event" />
       <AppBtnIcon
-        nav
         v-if="parent?.shared && parent.user_id != connectedId"
+        nav
         icon="group_off"
         :tooltip="t('nodes.actions.removeFromShared')"
         @click="openRemoveShareModal"
       />
       <AppBtnIcon
-        nav
         v-if="parent && nodesStore.hasPermissions(parent, 4)"
+        nav
         icon="manage_access"
         :tooltip="t('nodes.actions.managePermissions')"
         @click="openPermissionsModal"
       />
-      <AppBtnIcon nav v-if="parent && nodesStore.hasPermissions(parent, 2)" icon="settings" :tooltip="t('nodes.actions.editMeta')" @click="openEditModal" />
-      <AppBtnIcon nav v-if="parent && nodesStore.hasPermissions(parent, 4)" icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
+      <AppBtnIcon v-if="parent && nodesStore.hasPermissions(parent, 2)" nav icon="settings" :tooltip="t('nodes.actions.editMeta')" @click="openEditModal" />
+      <AppBtnIcon v-if="parent && nodesStore.hasPermissions(parent, 4)" nav icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
     </Teleport>
     <Teleport to="#navbar-infos">
       <header>
@@ -91,6 +94,7 @@ const modals = useModal();
 const { getAppAccent } = useAppColors();
 const { t } = useI18nT();
 const router = useRouter();
+const slots = useSlots();
 
 const connectedId = userStore.user?.id;
 const view = ref<ViewMode>();

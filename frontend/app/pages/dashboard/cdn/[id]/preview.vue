@@ -9,7 +9,7 @@
         <AppBtnIcon nav icon="edit" :to="`/dashboard/cdn/${resource.id}`" :tooltip="t('common.actions.edit')" />
         <AppBtnIcon nav v-if="resource.metadata?.drawio" icon="format/diagrams" :tooltip="t('common.actions.edit')" @click="openDrawioEditor" />
         <AppBtnIcon nav icon="copy" :tooltip="t('common.actions.copyLink')" @click="copyLink" />
-        <AppBtnIcon nav :href="resourceURL(resource, true)" download rel="noopener" icon="download" :tooltip="t('common.actions.download')" />
+        <AppBtnIcon nav :href="resourceURL(resource, true)" download icon="download" :tooltip="t('common.actions.download')" />
         <AppBtnIcon nav icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
       </Teleport>
       <div ref="previewElement" class="preview">
