@@ -171,14 +171,12 @@ table {
 
 th,
 td {
-  // On force le span interne à occuper tout l'espace et à devenir un conteneur Flex
   > span {
     display: inline-flex;
     width: 100%;
-    align-items: center; /* Aligne verticalement au centre */
+    align-items: center;
   }
 
-  // On applique les comportements de distribution de l'espace
   &.align-right > span {
     justify-content: flex-end;
   }
@@ -199,10 +197,10 @@ th {
   color: var(--text-primary);
   background: var(--surface-transparent);
   text-transform: uppercase;
-  text-align: left; /* Reset pour éviter les conflits */
+  text-align: left;
 
   &.align-right {
-    padding-right: 30px; /* Conserve votre padding initial si nécessaire */
+    padding-right: 30px;
   }
 }
 

@@ -43,20 +43,17 @@ const props = defineProps<{ workspace: Node }>();
 const nodesStore = useNodesStore();
 const { getAppAccent } = useAppColors();
 
-// Mapping pour les classes CSS d'accentuation
 const accentColorClass = computed(() => {
   const colors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'primary'];
   const colorIndex = props.workspace.color as number;
   return colors[colorIndex] || 'primary';
 });
 
-// Récupération indexée O(1) des catégories enfants directes
 const categories = computed(() => {
   const childrenIds = nodesStore.getAll.getChildrenIds(props.workspace.id);
   return childrenIds.map(id => nodesStore.getById(id)).filter((n): n is Node => !!n && (n.role === 1 || n.role === 2));
 });
 
-// Comptage optimisé via la structure à plat définie précédemment
 const docCount = computed(() => {
   return nodesStore
     .getDescendantIds(props.workspace.id)
@@ -77,7 +74,7 @@ const docCount = computed(() => {
   padding: 1rem;
   border: 1px solid var(--border);
   border-radius: var(--tile-radius);
-  background: var(--surface-base, #121214);
+  background: var(--surface-base);
   overflow: hidden;
   cursor: pointer;
   transition:
@@ -85,7 +82,6 @@ const docCount = computed(() => {
     transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
     box-shadow 0.4s ease;
 
-  // Effet de lévitation asymétrique au survol (3D discret)
   &:hover {
     transform: translateY(-6px) scale(1.01);
     border-color: rgba(var(--primary), 0.35);
@@ -110,7 +106,6 @@ const docCount = computed(() => {
   }
 }
 
-// Halo lumineux d'ambiance en arrière-plan (Premium look)
 .glow-ambiance {
   position: absolute;
   top: -20%;
@@ -135,7 +130,6 @@ const docCount = computed(() => {
   height: 100%;
 }
 
-// Ligne du haut unifiée
 .top-row {
   display: flex;
   align-items: center;
@@ -143,7 +137,6 @@ const docCount = computed(() => {
   margin-bottom: 1.5rem;
 }
 
-// Conteneur d'icône minimaliste
 .icon-box {
   position: relative;
   display: flex;
@@ -173,28 +166,25 @@ const docCount = computed(() => {
   }
 }
 
-// Badge de documents type "Chiffre brut épuré"
 .doc-badge {
   display: flex;
   align-items: baseline;
   gap: 0.2rem;
-  font-family: monospace; // Style Pro / Code
+  font-family: monospace;
 
   .count-number {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--text-title, #ffffff);
   }
 
   .count-label {
     font-size: 0.75rem;
-    color: var(--text-muted, #6c6c74);
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 }
 
-// Typographies épurées à fort contraste
 .meta-zone {
   margin-bottom: 1.5rem;
 
@@ -202,7 +192,7 @@ const docCount = computed(() => {
     font-size: 1.25rem;
     font-weight: 600;
     letter-spacing: -0.02em;
-    color: var(--text-body, #e3e3e6);
+    color: var(--text-body);
     margin: 0 0 0.4rem 0;
     transition: color 0.2s ease;
   }
@@ -210,7 +200,7 @@ const docCount = computed(() => {
   .ws-description {
     font-size: 0.85rem;
     line-height: 1.5;
-    color: var(--text-secondary, #9a9a9f);
+    color: var(--text-secondary);
     margin: 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -220,11 +210,10 @@ const docCount = computed(() => {
   }
 }
 
-// Section basse : Remplacement des badges pleins par des puces discrètes textuelles
 .tile-footer {
   margin-top: auto;
   padding-top: 1rem;
-  border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.04));
+  border-top: 1px solid var(--border);
 }
 
 .category-pills {
@@ -236,11 +225,10 @@ const docCount = computed(() => {
   .pill {
     font-size: 0.75rem;
     font-weight: 500;
-    color: var(--text-secondary, #9a9a9f);
+    color: var(--text-secondary);
     position: relative;
     padding-left: 0.6rem;
 
-    // Point minimaliste devant chaque catégorie au lieu d'un badge rectangle lourd
     &::before {
       content: '';
       position: absolute;
@@ -250,15 +238,15 @@ const docCount = computed(() => {
       width: 4px;
       height: 4px;
       border-radius: 50%;
-      background: var(--border-strong, rgba(255, 255, 255, 0.2));
+      background: var(--border-strong);
     }
   }
 
   .pill-more {
     font-size: 0.72rem;
     font-weight: 500;
-    color: var(--text-muted, #6c6c74);
-    background: var(--surface-raised, rgba(255, 255, 255, 0.03));
+    color: var(--text-muted);
+    background: var(--surface-raised);
     padding: 0.1rem 0.4rem;
     border-radius: 4px;
   }

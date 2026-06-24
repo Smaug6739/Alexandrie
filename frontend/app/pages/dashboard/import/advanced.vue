@@ -109,13 +109,9 @@ const selectedNodes = ref<string[]>([]);
 const toCreate = ref(0);
 
 const files = ref<File[]>([]);
-
-// On garde "nodes" pour l'affichage de la liste de prévisualisation dans le template
 const nodes = ref<DB_Node[]>([]);
-// On stocke les ressources binaires correspondantes en parallèle
 const resourcesToUpload = ref<ResourceImportTask[]>([]);
 
-// Calcule le total (nodes + ressources) pour la vue et la barre de progression
 const totalItemsToImport = computed(() => nodes.value.length + resourcesToUpload.value.length);
 
 const options = ref({
@@ -165,7 +161,6 @@ async function processImport() {
   });
   await imp.handleFiles(files.value);
 
-  // Utilisation de la nouvelle structure destructurée
   const result = await imp.normalizedToNodes();
   nodes.value = result.nodesToCreate;
   resourcesToUpload.value = result.resourcesToUpload;
@@ -178,15 +173,12 @@ function toggleSelection(id: string) {
 }
 
 const importSingle = (node: DB_Node) => {
-  // Pour un import single depuis la liste, on regarde si c'est un node text/folder
-  // On filtre aussi la liste des ressources si jamais elle était liée à cet ID de chemin
   const relatedResources = resourcesToUpload.value.filter(r => r.id === node.id || r.parent_id === node.id);
   importNodes([node], relatedResources);
 };
 
 const importSelected = () => {
   const targetNodes = nodes.value.filter(n => selectedNodes.value.includes(n.id));
-  // On récupère les ressources sélectionnées (ou dont le parent est sélectionné)
   const targetResources = resourcesToUpload.value.filter(r => selectedNodes.value.includes(r.id) || (r.parent_id && selectedNodes.value.includes(r.parent_id)));
   importNodes(targetNodes, targetResources);
 };
@@ -199,10 +191,8 @@ async function importNodes(nodesToImport: DB_Node[], resourcesImport: ResourceIm
   importJob.value.toCreate = totalCount;
   importJob.value.status = 'in_progress';
 
-  // Appel de la nouvelle méthode orchestrée du store (définie à l'étape précédente)
   await nodesStore.importAllNodesAndResources(nodesToImport, resourcesImport, importJob);
 
-  // Nettoyage de l'interface après import réussi
   nodes.value = nodes.value.filter(n => !importJob.value.created.includes(n.id));
   resourcesToUpload.value = resourcesToUpload.value.filter(r => !importJob.value.created.includes(r.id));
 
