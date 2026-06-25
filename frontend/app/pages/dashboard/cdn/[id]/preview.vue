@@ -7,7 +7,7 @@
       <Teleport to="#navbar-actions">
         <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
         <AppBtnIcon nav icon="edit" :to="`/dashboard/cdn/${resource.id}`" :tooltip="t('common.actions.edit')" />
-        <AppBtnIcon nav v-if="resource.metadata?.drawio" icon="format/diagrams" :tooltip="t('common.actions.edit')" @click="openDrawioEditor" />
+        <AppBtnIcon v-if="resource.metadata?.drawio" nav icon="format/diagrams" :tooltip="t('common.actions.edit')" @click="openDrawioEditor" />
         <AppBtnIcon nav icon="copy" :tooltip="t('common.actions.copyLink')" @click="copyLink" />
         <AppBtnIcon nav :href="resourceURL(resource, true)" download icon="download" :tooltip="t('common.actions.download')" />
         <AppBtnIcon nav icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />

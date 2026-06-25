@@ -110,7 +110,7 @@ async function refreshAccessToken(): Promise<void> {
         navigateTo('/login', { replace: true });
       }
 
-      throw new Error('Refresh token invalid');
+      throw new Error('Refresh token invalid', { cause: error });
     } finally {
       // Reset the promise so future refreshes can occur
       refreshPromise = null;
