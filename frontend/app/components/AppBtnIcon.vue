@@ -1,6 +1,6 @@
 <template>
   <template v-if="nav && !isMobile">
-    <NuxtLink v-if="to || href" :to="to" :href="href" :target="blank ? '_blank' : undefined" :download="download" @click="emit('click')">
+    <NuxtLink v-if="to || href" :to="to" :href="href" :target="blank ? '_blank' : undefined" v-bind="download ? { download: '' } : {}" @click="emit('click')">
       <Icon :name="icon" display="lg" />
       <p v-if="tooltip" class="hint-tooltip">{{ tooltip }}</p>
       <slot />
@@ -12,7 +12,7 @@
     </button>
   </template>
   <template v-else>
-    <NuxtLink v-if="to || href" :to="to" :href="href" :target="blank ? '_blank' : undefined" :download="download" @click="emit('click')">
+    <NuxtLink v-if="to || href" :to="to" :href="href" :target="blank ? '_blank' : undefined" v-bind="download ? { download: '' } : {}" @click="emit('click')">
       <Icon :name="icon" display="lg" />
       <slot />
       <span v-if="tooltip">{{ tooltip }}</span>
