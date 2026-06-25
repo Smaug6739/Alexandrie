@@ -1,4 +1,3 @@
-/** Extended tree item with routing and display properties */
 export interface TreeItem<T = unknown, ID = string> {
   id: ID;
   parentId?: string | null;
@@ -61,7 +60,6 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
    * @returns An array of TreeItem representing the tree structure
    */
   buildTree(options?: { nodeFilter?: (node: T) => boolean; rootFilter?: (node: T) => boolean }): TreeItem<T>[] {
-    // 1. Récupération instantanée des racines globales (parent_id vide ou nul)
     const rootIds = this.collection.getChildrenIds(null);
 
     const buildSubtree = (id: string): TreeItem<T> | undefined => {
@@ -75,7 +73,6 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
       const item = this.getTransformedItem(id);
       if (!item) return undefined;
 
-      // On récupère tous les enfants via l'index de parenté O(1)
       const childrenIds = this.collection.getChildrenIds(id);
       if (childrenIds.length > 0) {
         item.children = childrenIds.map(childId => buildSubtree(childId)).filter((c): c is TreeItem<T> => !!c); // On élimine les enfants filtrés
@@ -89,7 +86,6 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
       .filter(id => {
         const node = this.collection.get(id) as T;
         if (!node) return false;
-        // Filtre optionnel pour savoir si ce nœud a le droit d'être une racine
         if (options?.rootFilter && !options.rootFilter(node)) return false;
         return true;
       })
@@ -107,7 +103,6 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
 
       const childrenIds = this.collection.getChildrenIds(id);
       if (childrenIds.length === 0) {
-        // Évite l'allocation d'un nouvel objet si pas d'enfants
         return { ...cachedItem, children: undefined };
       }
 
@@ -130,7 +125,8 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
     return buildSubtreeRecursive(parentId);
   }
 
-  /** * Trouve le grand frère ou petit frère direct (Suivant / Précédent)
+  /**
+   * Get the next or previous sibling of a node, optionally filtered by a predicate
    */
   getSibling(id: string, direction: 'next' | 'prev', filter?: (item?: T) => boolean): TreeItem<T> | undefined {
     const currentItem = this.getTransformedItem(id);

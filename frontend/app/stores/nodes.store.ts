@@ -216,7 +216,13 @@ export const useNodesStore = defineStore('nodes', {
           const n = this.nodes.get(opts.id);
           let shared = false;
           if (n) shared = n.shared;
-          const updatedNode: Node = { ...(result.node as DB_Node), partial: false, shared: shared, permissions: result.permissions };
+          // Check for orphaned parent_id and detach if necessary
+          let finalParentId = result.node.parent_id;
+          if (finalParentId && !this.nodes.has(finalParentId)) {
+            finalParentId = '';
+          }
+
+          const updatedNode: Node = { ...(result.node as DB_Node), parent_id: finalParentId, partial: false, shared: shared, permissions: result.permissions };
           if (!n) this.nodes.set(opts.id, updatedNode);
           else this.nodes.set(opts.id, updatedNode);
           return updatedNode as 'id' extends keyof T ? Node : IndexedCollection;
@@ -262,10 +268,15 @@ export const useNodesStore = defineStore('nodes', {
         if (!request.result) return this.nodes as IndexedCollection;
         this.nodes.startBulk();
         for (const node of request.result as DB_Node[]) {
-          if (!this.nodes.has(node.id)) this.nodes.set(node.id, { ...node, partial: true, shared: true, permissions: node.permissions || [] });
+          let finalParentId = node.parent_id;
+          if (finalParentId && !this.nodes.has(finalParentId)) {
+            finalParentId = '';
+          }
+          if (!this.nodes.has(node.id))
+            this.nodes.set(node.id, { ...node, parent_id: finalParentId, partial: true, shared: true, permissions: node.permissions || [] });
           else {
             const state = this.nodes.get(node.id);
-            this.nodes.set(node.id, { ...node, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] });
+            this.nodes.set(node.id, { ...node, parent_id: finalParentId, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] });
           }
         }
         this.nodes.endBulk();
@@ -412,6 +423,7 @@ export const useNodesStore = defineStore('nodes', {
       const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
       if (request.status == 'success') {
         node.updated_timestamp = Date.now(); // approximate update time for better UX & backups import
+        if (node.parent_id && !this.nodes.has(node.parent_id)) node.parent_id = ''; // Check for orphaned parent_id and detach if necessary
         this.nodes.set(node.id, node);
         return this.nodes;
       } else throw request.message;

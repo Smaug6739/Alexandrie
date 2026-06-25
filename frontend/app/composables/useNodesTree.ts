@@ -91,8 +91,8 @@ function initGlobalTree() {
       return globalBuilder!.value.buildTree({
         rootFilter: node => {
           if (node?.role === 0) return false;
-          if (node?.role === 1 && !nodesStore.getAll.get(node.parent_id ?? '')) return true;
-          if (!nodesStore.getAll.get(node.parent_id ?? '')) return true;
+          if (node?.role === 1 && !nodesStore.getById(node.parent_id ?? '')) return true;
+          if (!nodesStore.getById(node.parent_id ?? '')) return true;
           return false;
         },
       });
@@ -125,7 +125,7 @@ export function useNodesTree() {
         nodeFilter: node => node.role <= maxRole,
         rootFilter: node => {
           if (node.role === 0) return true;
-          if (node.role === 1 && !nodesStore.getAll.get(node.parent_id ?? '')) return true;
+          if (node.role === 1 && !nodesStore.getById(node.parent_id ?? '')) return true;
           return false;
         },
       });
@@ -182,7 +182,6 @@ export function useNodesTree() {
     return null;
   };
 
-  // Navigation entre documents frères (Ultra rapide via l'index de parenté sous-jacent)
   const nextDocument = (id?: string) => (id ? builder.value.getSibling(id, 'next', n => n?.role === 3)?.data : undefined);
   const prevDocument = (id?: string) => (id ? builder.value.getSibling(id, 'prev', n => n?.role === 3)?.data : undefined);
 
