@@ -98,21 +98,21 @@ const notifications = useNotifications();
 const route = useRoute();
 const tree = useNodesTree();
 
+const teamId = route.params.id as string;
+
 const node = ref<Node | undefined>();
 const query = ref('');
 const users = ref<PublicUser[]>([]);
-const permToAdd = ref<Omit<Permission, 'id' | 'created_timestamp'>>({ node_id: '', user_id: '', permission: 1 });
-const invitationToAdd = ref<Omit<NodeInvitation, 'id' | 'created_timestamp' | 'invitation_code'>>({ node_id: '', permission_level: 1 });
+const permToAdd = ref<Omit<Permission, 'id' | 'created_timestamp'>>({ node_id: teamId, user_id: '', permission: 1 });
+const invitationToAdd = ref<Omit<NodeInvitation, 'id' | 'created_timestamp' | 'invitation_code'>>({ node_id: teamId, permission_level: 1 });
 const selectedInvitationPermission = ref(1);
 const invitations = ref<NodeInvitation[]>([]);
 const searchError = ref<string | null>(null);
 const isLoading = ref(false);
 const permissions = ref<Permission[]>([]);
 
-const teamId = route.params.id as string;
-
 const invitationLink = (code: string) => `${window.location.origin}/dashboard/join-workspace?code=${encodeURIComponent(code)}`;
-const contextOptions = computed(() => tree.getWorkspaceTree(node.value?.id as string));
+const contextOptions = computed(() => tree.getWorkspaceTree(node.value?.id as string, true));
 nodesStore.fetchPermissions(teamId, true).then(perms => (permissions.value = perms));
 nodesStore.fetchInvitations(teamId).then(invites => (invitations.value = invites));
 
@@ -193,7 +193,7 @@ const addPermission = async (user: PublicUser) => {
   });
   users.value = [];
   query.value = '';
-  permToAdd.value = { ...permToAdd.value, node_id: '', user_id: '', permission: 1 };
+  permToAdd.value = { ...permToAdd.value, node_id: teamId, user_id: '', permission: 1 };
   permissions.value = [newPermission, ...permissions.value];
 };
 
@@ -216,7 +216,7 @@ const createInvitation = async () => {
     selectedInvitationPermission.value = 1;
     notifications.add({ type: 'success', title: 'Invitation created' });
   } finally {
-    invitationToAdd.value = { ...invitationToAdd.value, node_id: '', permission_level: 1 };
+    invitationToAdd.value = { ...invitationToAdd.value, node_id: teamId, permission_level: 1 };
   }
 };
 

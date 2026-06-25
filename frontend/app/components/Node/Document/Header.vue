@@ -2,7 +2,7 @@
   <div class="header" :class="{ 'print-style': printMode }">
     <div class="container">
       <!-- Skeleton when doc is undefined -->
-      <HeaderSkeleton v-if="!doc" />
+      <NodeDocumentHeaderSkeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
         <div class="top-row">
@@ -10,7 +10,9 @@
             <img v-if="user" :src="avatarURL(user)" alt="avatar" class="avatar" />
             <span style="font-size: 16px; color: var(--text-secondary)">{{ user?.username }}</span>
           </p>
-          <HeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
+          <Teleport to="#navbar-actions">
+            <NodeDocumentHeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
+          </Teleport>
         </div>
         <div class="content">
           <div class="infos">
@@ -26,7 +28,7 @@
             </div>
           </div>
           <div class="thumbnail">
-            <Thumbnail :document="doc" />
+            <NodeDocumentThumbnail :document="doc" />
           </div>
         </div>
       </template>
@@ -35,9 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import Thumbnail from './Thumbnail.vue';
-import HeaderSkeleton from './HeaderSkeleton.vue';
-import HeaderActionRow from './HeaderActionRow.vue';
 import type { Node, PublicUser } from '~/stores';
 
 const props = defineProps<{ doc?: Node; public?: boolean }>();
@@ -49,8 +48,9 @@ const { avatarURL } = useApi();
 const nodesTree = useNodesTree();
 const { getAppAccent } = useAppColors();
 
-const category = computed(() => nodesTree.getClosestCategoryAncestor(props.doc?.parent_id)?.data);
 const user = ref<PublicUser | null>(null);
+
+const category = computed(() => nodesTree.getClosestCategoryAncestor(props.doc?.parent_id)?.data);
 const printMode = preferences.get('printMode');
 
 watchEffect(() => {

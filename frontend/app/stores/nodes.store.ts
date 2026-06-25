@@ -300,6 +300,7 @@ export const useNodesStore = defineStore('nodes', {
       const request = await makeRequest(`nodes/${nodeId}/permissions?${params.toString()}`, 'GET', {});
       if (request.status === 'success') {
         const permissions = request.result as Permission[];
+        if (!permissions || permissions.length === 0) return [];
         this.nodes.startBulk();
         for (const perm of permissions) {
           const node = this.nodes.get(perm.node_id);

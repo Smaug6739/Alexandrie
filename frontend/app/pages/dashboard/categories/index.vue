@@ -1,6 +1,6 @@
 <template>
   <div class="page-card">
-    <Teleport to="#navbar-title">{{ t('nodes.container.title') }}</Teleport>
+    <Teleport to="#navbar-title"><Icon name="categories" display="lg" />{{ t('nodes.container.title') }}</Teleport>
 
     <Teleport to="#navbar-actions">
       <AppButton type="primary" @click="createWorkspace">{{ t('nodes.container.newWorkspace') }}</AppButton>

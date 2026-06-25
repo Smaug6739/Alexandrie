@@ -154,6 +154,9 @@ h1 {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
+  :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
 }
 
 .team-card {

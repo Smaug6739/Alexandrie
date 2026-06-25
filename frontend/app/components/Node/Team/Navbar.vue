@@ -12,7 +12,7 @@
         <span>Nodes</span>
       </NuxtLink>
     </span>
-    <span class="subnav__item">
+    <span v-if="isAdmin" class="subnav__item">
       <NuxtLink :to="`/dashboard/teams/${teamId}/manage-members`">
         <Icon name="users" />
         <span>Members</span>
@@ -30,7 +30,7 @@
         <span>Insights</span>
       </NuxtLink>
     </span>
-    <span class="subnav__item">
+    <span v-if="isEditor" class="subnav__item">
       <NuxtLink :to="`/dashboard/teams/${teamId}/settings`">
         <Icon name="settings" />
         <span>Settings</span>
@@ -40,9 +40,22 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   teamId: string;
 }>();
+
+const store = useNodesStore();
+const team = computed(() => store.getById(props.teamId));
+
+const isAdmin = computed(() => {
+  if (!team.value) return false;
+  return store.hasPermissions(team.value, 3);
+});
+
+const isEditor = computed(() => {
+  if (!team.value) return false;
+  return store.hasPermissions(team.value, 2);
+});
 </script>
 
 <style lang="scss" scoped>

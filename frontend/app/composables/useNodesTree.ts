@@ -132,13 +132,14 @@ export function useNodesTree() {
     });
 
   // Workspace-specific tree retrieval
-  const getWorkspaceTree = (workspaceId?: string): TreeItem<Node>[] => {
+  const getWorkspaceTree = (workspaceId?: string, fullTree: boolean = false): TreeItem<Node>[] => {
     if (!workspaceId) return tree.value;
     if (workspaceId === 'shared') {
       return tree.value.filter(item => item.data?.shared);
     }
 
     const subtree = builder.value.buildSubtree(workspaceId);
+    if (fullTree) return subtree ? [subtree] : [];
     return (subtree?.children as TreeItem<Node>[]) ?? [];
   };
 
