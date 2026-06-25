@@ -14,7 +14,7 @@ type InterfaceOption = Option & {
 
 const { t } = useI18nT();
 const nodesTree = useNodesTree();
-const categories = nodesTree.treeUpToRole(2).value;
+const categories = nodesTree.getTreeUpToRole(2).value;
 
 const options = computed<Array<{ label: string; options: InterfaceOption[] }>>(() => [
   {

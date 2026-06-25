@@ -2,9 +2,7 @@
   <div class="import-page page-card">
     <!-- Step 1: File Selection -->
     <div v-if="step === 'select'">
-      <header>
-        <h1 style="font-size: 20px">{{ t('import.meta.title') }}</h1>
-      </header>
+      <Teleport to="#navbar-title">{{ t('import.meta.title') }}</Teleport>
       <p>
         {{ t('import.meta.description') }}
         <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">{{ t('import.meta.settingsLink') }}</NuxtLink

@@ -13,7 +13,7 @@
               <input type="checkbox" style="width: 20px" :checked="selectedRows.length > 0" @change="toggleSelectAll" />
             </th>
             <th v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
-              {{ header.label }}
+              <span>{{ header.label }}</span>
             </th>
           </tr>
         </thead>
@@ -129,7 +129,7 @@ const shouldShowEllipsisBefore = computed(() => {
 interface Header {
   key: string;
   label: string;
-  align?: 'left' | 'center' | 'right';
+  align?: 'left' | 'center' | 'right' | 'space-around' | 'space-between';
 }
 export interface Field<V = unknown> {
   [key: string]: {
@@ -161,7 +161,7 @@ header {
 
 table {
   display: table;
-  width: 100%;
+  min-width: 100%;
   margin: 0;
   border-color: inherit;
   border-radius: 0;
@@ -171,53 +171,48 @@ table {
 
 th,
 td {
-  padding: 10px;
-  text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  > span {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+  }
+
+  &.align-right > span {
+    justify-content: flex-end;
+  }
+
+  &.align-center > span {
+    justify-content: center;
+  }
+
+  &.align-space-around > span {
+    justify-content: space-around;
+  }
+
+  &.align-space-between > span {
+    justify-content: space-between;
+  }
 }
 
+/* --- ADAPTATIONS SPÉCIFIQUES --- */
 th {
   font-size: 13px;
   color: var(--text-primary);
+  text-align: left;
   background: var(--surface-transparent);
+  text-transform: uppercase;
 
   &.align-right {
-    text-align: right;
     padding-right: 30px;
   }
-
-  &.align-center {
-    text-align: center;
-  }
-
-  text-transform: uppercase;
 }
 
 td {
   color: var(--text-secondary);
+  text-align: left; /* Reset */
 
   &.align-right {
-    text-align: right;
     padding-right: 10px;
-
-    > span {
-      justify-content: flex-end;
-    }
-  }
-
-  &.align-center {
-    text-align: center;
-
-    > span {
-      justify-content: center;
-    }
-  }
-
-  > span {
-    display: flex;
-    align-items: center;
   }
 
   &:has(footer) {

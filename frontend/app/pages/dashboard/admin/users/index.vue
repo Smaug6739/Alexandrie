@@ -16,8 +16,8 @@ import { useAdminStore } from '~/stores/admin.store';
 import type { User } from '~/stores';
 
 const adminStore = useAdminStore();
-const { t } = useI18nT();
 
+const { t } = useI18nT();
 const { avatarURL } = useApi();
 const { numericDate } = useDateFormatters();
 

@@ -1,12 +1,14 @@
 <template>
   <div class="modal">
-    <h2>{{ role == 1 ? t('nodes.workspace.new') : t('nodes.category.new') }}</h2>
+    <h2>{{ role == 0 ? 'Create team' : role == 1 ? t('nodes.workspace.new') : t('nodes.category.new') }}</h2>
     <label for="name">{{ t('common.labels.name') }}</label>
     <input id="name" v-model="category.name" class="entry" type="text" required :placeholder="t('common.labels.name')" />
-    <label>{{ t('common.labels.parent') }}</label>
-    <div>
-      <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" nullable :placeholder="t('common.labels.parent')" />
-    </div>
+    <template v-if="role !== 0">
+      <label>{{ t('common.labels.parent') }}</label>
+      <div>
+        <AppSelect v-model="category.parent_id" class="entry" :items="categoriesItem" nullable :placeholder="t('common.labels.parent')" />
+      </div>
+    </template>
     <div style="display: flex; flex-wrap: wrap">
       <div style="min-width: 200px; flex: 1; margin-right: 10px">
         <label for="order">{{ t('common.labels.order') }} <AppHint :text="t('nodes.category.orderHint')" /></label>
@@ -27,7 +29,7 @@
 <script setup lang="ts">
 import type { Node } from '~/stores';
 
-const props = defineProps<{ role: 1 | 2 }>();
+const props = defineProps<{ role: 0 | 1 | 2; parentId?: string }>();
 const emit = defineEmits(['close']);
 
 const categoriesStore = useNodesStore();
@@ -36,12 +38,12 @@ const nodesTree = useNodesTree();
 const sidebar = useSidebar();
 const { t } = useI18nT();
 
-const categoriesItem = nodesTree.treeUpToRole(2);
+const categoriesItem = nodesTree.getTreeUpToRole(2);
 
 function getDefaultParentId() {
   const activeId = sidebar.active_id.value;
   if (activeId) {
-    const activeNode = nodesTree.getAncestorCategory(activeId);
+    const activeNode = nodesTree.getClosestCategoryAncestor(activeId);
     if (activeNode) return activeNode.id;
   }
   const workspaceId = sidebar.workspaceId.value;
@@ -52,7 +54,7 @@ function getDefaultParentId() {
 const category = ref<Partial<Node>>({
   accessibility: 1,
   name: '',
-  parent_id: getDefaultParentId(),
+  parent_id: props.role === 0 ? undefined : (props.parentId ?? getDefaultParentId()),
   role: props.role,
 });
 

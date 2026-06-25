@@ -78,7 +78,7 @@ defineEmits<{ updateSelectedIndex: [index: number] }>();
 const { t } = useI18nT();
 const nodesStore = useNodesStore();
 const nodesTree = useNodesTree();
-const categoriesTree = nodesTree.treeUpToRole(2);
+const categoriesTree = nodesTree.getTreeUpToRole(2);
 
 // UI State
 const showFilters = ref(true);

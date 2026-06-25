@@ -2,7 +2,7 @@ export default {
   dashboard: {
     cards: {
       totalNodes: 'Загальна кількість файлів',
-      totalStorage: 'Загальний обсяг пам\'яті',
+      totalStorage: "Загальний обсяг пам'яті",
       totalUsers: 'Загальна кількість користувачів',
     },
     charts: {
@@ -17,7 +17,7 @@ export default {
       byNodes: 'Найактивніші користувачі за кількістю файлів',
       byStorage: 'Користувачі з найбільшим обсягом використаного місця',
       nodes: 'Файли',
-      storage: 'Пам\`ять',
+      storage: 'Пам`ять',
       user: 'Користувач',
     },
     title: 'Панель адміністратора',
@@ -28,9 +28,9 @@ export default {
       action: 'Дія',
       createdAt: 'Створено',
       email: 'Електронна пошта',
-      firstname: 'Ім\'я',
+      firstname: "Ім'я",
       lastname: 'Прізвище',
-      name: 'Ім\'я',
+      name: "Ім'я",
       role: 'Роль',
     },
     noUsers: 'Користувачів не знайдено.',

@@ -1,32 +1,17 @@
 <template>
   <div class="page-card">
     <template v-if="resource">
-      <header>
-        <h1>{{ t('cdn.preview.title') }} <tag orange>Beta</tag> • {{ resource.name }}</h1>
-        <div class="actions-row">
-          <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
-          <NuxtLink :to="`/dashboard/cdn/${resource.id}`" class="btn-icon">
-            <Icon name="edit" display="lg" />
-            <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
-          </NuxtLink>
-          <button v-if="resource.metadata?.drawio" class="btn-icon" @click="openDrawioEditor">
-            <Icon name="format/diagrams" display="lg" />
-            <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
-          </button>
-          <span class="btn-icon" @click="copyLink">
-            <Icon name="copy" display="lg" />
-            <p class="hint-tooltip">{{ t('common.actions.copyLink') }}</p>
-          </span>
-          <NuxtLink :href="resourceURL(resource, true)" download rel="noopener" class="btn-icon">
-            <Icon name="download" display="lg" />
-            <p class="hint-tooltip">{{ t('common.actions.download') }}</p>
-          </NuxtLink>
-          <button class="btn-icon" @click="openDeleteModal">
-            <Icon name="delete" display="lg" />
-            <p class="hint-tooltip">{{ t('common.actions.delete') }}</p>
-          </button>
-        </div>
-      </header>
+      <Teleport to="#navbar-title"
+        >{{ t('cdn.preview.title') }} • <span class="page-subtitle">{{ resource.name }}</span></Teleport
+      >
+      <Teleport to="#navbar-actions">
+        <AppSelect v-if="isPdfFile(mimeType)" v-model="zoom" :items="PDF_SCALES" :searchable="false" label="Scale" style="width: 200px" />
+        <AppBtnIcon nav icon="edit" :to="`/dashboard/cdn/${resource.id}`" :tooltip="t('common.actions.edit')" />
+        <AppBtnIcon v-if="resource.metadata?.drawio" nav icon="format/diagrams" :tooltip="t('common.actions.edit')" @click="openDrawioEditor" />
+        <AppBtnIcon nav icon="copy" :tooltip="t('common.actions.copyLink')" @click="copyLink" />
+        <AppBtnIcon nav :href="resourceURL(resource, true)" download icon="download" :tooltip="t('common.actions.download')" />
+        <AppBtnIcon nav icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
+      </Teleport>
       <div ref="previewElement" class="preview">
         <object v-if="resource.metadata?.drawio" :data="resourceURL(resource)" alt="Preview" />
         <img v-else-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
@@ -105,16 +90,6 @@ onUnmounted(() => {
 });
 </script>
 <style scoped lang="scss">
-.btn-icon {
-  position: relative;
-  margin: 0 1px;
-
-  &:hover .hint-tooltip {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
 header {
   display: flex;
   align-items: center;

@@ -17,7 +17,8 @@ export default {
   advanced: {
     resetLocalStorage: 'Lokalen Speicher zurücksetzen',
     resetLocalStorageBtn: 'Lokalen Speicher löschen',
-    resetLocalStorageDesc: 'Dies setzt alle deine lokalen Speicherdaten zurück. Diese Aktion kann nicht rückgängig gemacht werden. Einstellungen werden ebenfalls zurückgesetzt.',
+    resetLocalStorageDesc:
+      'Dies setzt alle deine lokalen Speicherdaten zurück. Diese Aktion kann nicht rückgängig gemacht werden. Einstellungen werden ebenfalls zurückgesetzt.',
     resetPreferences: 'Alle Einstellungen zurücksetzen',
     resetPreferencesBtn: 'Einstellungen zurücksetzen',
     resetPreferencesDesc: 'Dies stellt alle Einstellungen auf ihre Standardwerte zurück. Diese Aktion kann nicht rückgängig gemacht werden.',
@@ -193,6 +194,7 @@ export default {
     shortcuts: 'Tastenkombinationen',
     snippets: 'Textblöcke',
     styles: 'Stilinjektion',
+    teams: 'Teams',
   },
 
   profile: {
@@ -254,7 +256,8 @@ export default {
     title: 'Sicherheit',
     unlink: 'Trennen',
     unrecognizedSession: 'Nicht erkannte Sitzung?',
-    unrecognizedSessionDesc: 'Wenn du eine Sitzung siehst, die du nicht erkennst, ändere dein Passwort sofort und klicke unten auf „Von allen Geräten abmelden".',
+    unrecognizedSessionDesc:
+      'Wenn du eine Sitzung siehst, die du nicht erkennst, ändere dein Passwort sofort und klicke unten auf „Von allen Geräten abmelden".',
   },
 
   shortcuts: {

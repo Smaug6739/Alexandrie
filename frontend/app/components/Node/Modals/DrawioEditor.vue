@@ -2,15 +2,9 @@
   <div class="drawio-editor-modal">
     <EditorAppHeader icon="image" :title="t('markdown.drawio.title')">
       <template #toolbar>
-        <div class="btn-icon" :class="{ disabled: !isReady }" @click="requestSaveDiagram">
-          <Icon name="save" display="lg" />
-        </div>
-        <div class="btn-icon" :class="{ disabled: !isReady }" @click="toggleFullScreen">
-          <Icon name="fullsreen" display="lg" />
-        </div>
-        <div class="btn-icon" :class="{ disabled: !isReady }" @click="openDeleteModal">
-          <Icon name="delete" display="lg" />
-        </div>
+        <AppBtnIcon nav icon="save" :class="{ disabled: !isReady }" :tooltip="t('common.actions.save')" @click="requestSaveDiagram" />
+        <AppBtnIcon nav icon="fullsreen" :class="{ disabled: !isReady }" :tooltip="t('common.actions.toggleFullscreen')" @click="toggleFullScreen" />
+        <AppBtnIcon nav icon="delete" :class="{ disabled: !isReady }" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
       </template>
     </EditorAppHeader>
 

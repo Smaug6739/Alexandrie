@@ -1,12 +1,13 @@
 /**
- * Node utilities - centralized helpers for working with nodes (documents, categories, workspaces, resources)
- * Roles: 1 = Workspace, 2 = Category, 3 = Document, 4 = Resource
+ * Node utilities - centralized helpers for working with nodes (documents, categories, workspaces, teams, resources)
+ * Roles:  0 = Team, 1 = Workspace, 2 = Category, 3 = Document, 4 = Resource
  */
 import type { DB_Node, Node, NodeSearchResult } from '~/stores';
 
 /** Resolve the appropriate icon for a node based on its role and properties */
 export const resolveIcon = (item: Node | DB_Node | NodeSearchResult): string => {
   if (item.icon) return item.icon;
+  if (item.role === 0) return 'organization';
   if (item.role === 1) return 'workspace';
   if (item.role === 2 && 'shared' in item) return item.shared ? 'shared_folder' : 'folder';
   if (item.role === 3) return item.accessibility == 1 ? 'sidebar/file' : item.accessibility == 2 ? 'draft' : 'shared_doc';
@@ -23,6 +24,7 @@ export const resolveIcon = (item: Node | DB_Node | NodeSearchResult): string => 
 
 /** Get the dashboard route for a node */
 export const resolveNodeLink = (node: Node): string => {
+  if (node.role === 0) return `/dashboard/teams/${node.id}`;
   if (node.role === 1 || node.role === 2) return `/dashboard/categories/${node.id}`;
   if (node.role === 3) return `/dashboard/docs/${node.id}`;
   if (node.role === 4) return `/dashboard/cdn/${node.id}/preview`;
@@ -31,14 +33,20 @@ export const resolveNodeLink = (node: Node): string => {
 
 export const getRoleName = (role?: number): string => {
   if (role === undefined) return 'Node';
-  const roles: Record<number, string> = { 1: 'Workspace', 2: 'Category', 3: 'Document', 4: 'Resource' };
+  const roles: Record<number, string> = { 0: 'Team', 1: 'Workspace', 2: 'Category', 3: 'Document', 4: 'Resource' };
   return roles[role] || 'Unknown';
 };
 
 /** Get human-readable type name for a node */
 export const resolveNodeType = (node: Node): string => {
-  const types: Record<number, string> = { 1: 'Workspace', 2: 'Category', 3: 'Document', 4: 'Resource' };
+  const types: Record<number, string> = { 0: 'Team', 1: 'Workspace', 2: 'Category', 3: 'Document', 4: 'Resource' };
   return types[node.role] || '';
+};
+
+/** Get the name of the permission level */
+const permissions: Record<number, string> = { 1: 'Viewer', 2: 'Editor', 3: 'Admin' };
+export const resolvePermissionName = (permission: number): string => {
+  return permissions[permission] || 'Unknown';
 };
 
 /** Resolve color for a resource-node based on its type */

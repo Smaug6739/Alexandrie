@@ -16,7 +16,7 @@ export default {
     promptPlural: 'Glissez-déposez vos fichiers ici ou {link} pour sélectionner',
     removeFile: 'Supprimer le fichier',
   },
-
+  diagram: 'Éditeur de diagramme',
   edit: {
     description: 'Gérer les ressources et fichiers sur le serveur. Vous pouvez modifier les métadonnées et supprimer des fichiers du serveur.',
     title: 'Mettre à jour le fichier',

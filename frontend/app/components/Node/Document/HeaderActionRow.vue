@@ -1,51 +1,26 @@
 <template>
-  <span class="actions-row">
-    <NuxtLink
-      v-if="doc.accessibility == 3 && !isPublic"
-      class="btn-icon"
-      :aria-label="t('nodes.actions.publicLink')"
-      :to="`/doc/${doc.id}`"
-      :prefetch="false"
-      target="_blank"
-    >
-      <Icon name="link" display="lg" />
-      <p class="hint-tooltip">{{ t('nodes.actions.publicLink') }}</p>
-    </NuxtLink>
-    <NuxtLink
+  <div>
+    <AppBtnIcon v-if="doc.accessibility == 3 && !isPublic" nav icon="link" :tooltip="t('nodes.actions.publicLink')" :to="`/doc/${doc.id}`" :blank="true" />
+    <AppBtnIcon
       v-if="nodeStore.hasPermissions(doc, 2)"
-      class="btn-icon"
-      :aria-label="t('common.actions.edit')"
+      nav
+      icon="edit"
+      :tooltip="t('common.actions.edit')"
       :to="isPublic ? `/doc/${doc.id}/edit` : `/dashboard/docs/edit/${doc.id}`"
-      :prefetch="false"
-    >
-      <Icon name="edit" display="lg" />
-      <p class="hint-tooltip">{{ t('common.actions.edit') }}</p>
-    </NuxtLink>
-    <button class="btn-icon" :aria-label="t('nodes.actions.exportAsMarkdown')" @click="exportMarkdown">
-      <Icon name="markdown" display="lg" />
-      <p class="hint-tooltip">{{ t('nodes.actions.exportAsMarkdown') }}</p>
-    </button>
-    <button class="btn-icon" :aria-label="t('common.actions.print')" @click="print">
-      <Icon name="print" display="lg" />
-      <p class="hint-tooltip">{{ t('common.actions.print') }}</p>
-    </button>
-    <button v-if="doc.shared" class="btn-icon" :aria-label="t('nodes.actions.removeFromShared')" @click="openRemoveShareModal">
-      <Icon name="group_off" display="lg" />
-      <p class="hint-tooltip">{{ t('nodes.actions.removeFromShared') }}</p>
-    </button>
-    <button v-if="nodeStore.hasPermissions(doc, 2)" class="btn-icon" :aria-label="t('nodes.actions.editMeta')" @click="openEditModal">
-      <Icon name="settings" display="lg" />
-      <p class="hint-tooltip">{{ t('nodes.actions.editMeta') }}</p>
-    </button>
-    <button v-if="nodeStore.hasPermissions(doc, 4)" class="btn-icon" :aria-label="t('nodes.actions.managePermissions')" @click="openPermissionsModal">
-      <Icon name="manage_access" display="lg" />
-      <p class="hint-tooltip">{{ t('nodes.actions.managePermissions') }}</p>
-    </button>
-    <button v-if="nodeStore.hasPermissions(doc, 3)" class="btn-icon" :aria-label="t('common.actions.delete')" @click="openDeleteModal">
-      <Icon name="delete" display="lg" />
-      <p class="hint-tooltip">{{ t('common.actions.delete') }}</p>
-    </button>
-  </span>
+    />
+    <AppBtnIcon nav icon="markdown" :tooltip="t('nodes.actions.exportAsMarkdown')" @click="exportMarkdown" />
+    <AppBtnIcon nav icon="print" :tooltip="t('common.actions.print')" @click="print" />
+    <AppBtnIcon v-if="doc.shared" nav icon="group_off" :tooltip="t('nodes.actions.removeFromShared')" @click="openRemoveShareModal" />
+    <AppBtnIcon v-if="nodeStore.hasPermissions(doc, 2)" nav icon="settings" :tooltip="t('nodes.actions.editMeta')" @click="openEditModal" />
+    <AppBtnIcon
+      v-if="nodeStore.hasPermissions(doc, 4)"
+      nav
+      icon="manage_access"
+      :tooltip="t('nodes.actions.managePermissions')"
+      @click="openPermissionsModal"
+    />
+    <AppBtnIcon v-if="nodeStore.hasPermissions(doc, 3)" nav icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -88,18 +63,3 @@ function exportMarkdown() {
   URL.revokeObjectURL(url);
 }
 </script>
-
-<style lang="scss" scoped>
-.btn-icon {
-  position: relative;
-
-  &:hover .hint-tooltip {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-.actions-row {
-  flex-wrap: wrap;
-}
-</style>

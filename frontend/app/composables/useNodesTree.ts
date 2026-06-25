@@ -2,9 +2,9 @@
  * Nodes Tree Composable
  * Single source of truth for the hierarchical node structure
  */
-import type { Node } from '~/stores';
-import { TreeBuilder, type TreeItem } from '~/helpers/TreeBuilder';
+import { TreeBuilder, flattenTree, type TreeItem } from '~/helpers/TreeBuilder';
 import { resolveIcon, resolveNodeLink } from '~/helpers/node';
+import type { Node } from '~/stores';
 
 // ============================================================================
 // Collapse States (localStorage persistence)
@@ -70,6 +70,36 @@ const collapseStore = createCollapseStore();
 // Main Composable
 // ============================================================================
 
+let globalBuilder: ComputedRef<TreeBuilder<Node>> | null = null;
+let globalTree: ComputedRef<TreeItem<Node>[]> | null = null;
+
+function initGlobalTree() {
+  const nodesStore = useNodesStore();
+
+  if (!globalBuilder) {
+    console.log('[useNodesTree] 🏗️ Building global TreeBuilder');
+    globalBuilder = computed(() => {
+      const _ = nodesStore.getAll.size; // Trigger reactivity on nodesStore.getAll
+      const rawCollection = toRaw(nodesStore.nodes);
+      return new TreeBuilder<Node>(rawCollection, transformNode);
+    });
+  }
+
+  if (!globalTree) {
+    console.log('[useNodesTree] 🌳 Building global tree');
+    globalTree = computed(() => {
+      return globalBuilder!.value.buildTree({
+        rootFilter: node => {
+          if (node?.role === 0) return false;
+          if (node?.role === 1 && !nodesStore.getById(node.parent_id ?? '')) return true;
+          if (!nodesStore.getById(node.parent_id ?? '')) return true;
+          return false;
+        },
+      });
+    });
+  }
+}
+
 /** Transform Node to TreeItem */
 function transformNode(node: Node): Omit<TreeItem<Node>, 'children'> {
   return {
@@ -81,51 +111,69 @@ function transformNode(node: Node): Omit<TreeItem<Node>, 'children'> {
     data: node,
   };
 }
-
 export function useNodesTree() {
   const nodesStore = useNodesStore();
 
-  // Sorted nodes
-  const sortedNodes = computed(() => nodesStore.nodes.toArray().sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.name.localeCompare(b.name)));
+  initGlobalTree();
 
-  // Tree builder instance (recreated when nodes change)
-  const builder = computed(() => new TreeBuilder(sortedNodes.value, transformNode));
+  const builder = globalBuilder!;
+  const tree = globalTree!;
 
-  // Full tree
-  const tree = computed(() => {
-    const tree = builder.value.buildTree(node => node?.role === 1);
-    return tree;
-  });
-
-  const treeUpToRole = (maxRole: number) =>
+  const getTreeUpToRole = (maxRole: number) =>
     computed(() => {
-      const filtered = sortedNodes.value.filter(n => n.role <= maxRole);
-      return new TreeBuilder(filtered, transformNode).buildTree(node => node?.role === 1);
+      return builder.value.buildTree({
+        nodeFilter: node => node.role <= maxRole,
+        rootFilter: node => {
+          if (node.role === 0) return true;
+          if (node.role === 1 && !nodesStore.getById(node.parent_id ?? '')) return true;
+          return false;
+        },
+      });
     });
 
-  // === Filtered views ===
-  const workspaceTree = (workspaceId?: string): TreeItem<Node>[] => {
+  // Workspace-specific tree retrieval
+  const getWorkspaceTree = (workspaceId?: string, fullTree: boolean = false): TreeItem<Node>[] => {
     if (!workspaceId) return tree.value;
     if (workspaceId === 'shared') {
       return tree.value.filter(item => item.data?.shared);
     }
-    const workspace = tree.value.find(item => item.id === workspaceId);
-    if (!workspace) return tree.value;
-    return (workspace?.children as TreeItem<Node>[]) ?? [];
+
+    const subtree = builder.value.buildSubtree(workspaceId);
+    if (fullTree) return subtree ? [subtree] : [];
+    return (subtree?.children as TreeItem<Node>[]) ?? [];
   };
 
-  // === Get subtree as flat array ===
-  const getSubtreeAsArray = (id: string): TreeItem<Node>[] => {
+  // Subtree retrieval as flat array
+  const getSubtreeAsArray = (id?: string): TreeItem<Node>[] => {
+    if (!id) return flattenTree(tree.value);
     const subtree = builder.value.buildSubtree(id);
-    return subtree?.children ? builder.value.flatten(subtree.children as TreeItem<Node>[]) : [];
+    return subtree?.children ? flattenTree(subtree.children as TreeItem<Node>[]) : [];
   };
 
-  // === Navigation ===
-  const getAncestorCategory = (nodeId?: string | null): TreeItem<Node> | null => {
+  // Get ancestors of a node as TreeItems[]
+  const getAncestors = (fromNodeId?: string): TreeItem<Node>[] => {
+    const node = builder.value.getTransformedItem(fromNodeId ?? '');
+    if (!node) return [];
+
+    const result = [node];
+    let current = node;
+    while (current.parentId) {
+      const parentNode = nodesStore.nodes.get(current.parentId);
+      if (!parentNode) break;
+      const transformed = builder.value.getTransformedItem(parentNode.id)!;
+      result.push(transformed);
+      current = transformed;
+    }
+    return result;
+  };
+
+  // Get the first ancestor that is a category (role 1 or 2)
+  const getClosestCategoryAncestor = (nodeId?: string | null): TreeItem<Node> | null => {
     if (!nodeId) return null;
-    let current = builder.value.get(nodeId);
+
+    let current = builder.value.getTransformedItem(nodeId);
     while (current?.parentId) {
-      const parent = builder.value.get(current.parentId);
+      const parent = builder.value.getTransformedItem(current.parentId);
       if (parent && (parent.data?.role === 1 || parent.data?.role === 2)) {
         return parent;
       }
@@ -137,7 +185,7 @@ export function useNodesTree() {
   const nextDocument = (id?: string) => (id ? builder.value.getSibling(id, 'next', n => n?.role === 3)?.data : undefined);
   const prevDocument = (id?: string) => (id ? builder.value.getSibling(id, 'prev', n => n?.role === 3)?.data : undefined);
 
-  // === Get children of a node ===
+  // Get children of a node (descendants) as TreeItems[]
   const getChildren = (parentId?: string | null): TreeItem<Node>[] => {
     return builder.value.getChildren(parentId ?? null);
   };
@@ -145,10 +193,11 @@ export function useNodesTree() {
   return {
     // Tree data
     tree,
-    treeUpToRole,
-    workspaceTree,
+    getTreeUpToRole,
+    getWorkspaceTree,
     getSubtreeAsArray,
-    getAncestorCategory,
+    getAncestors,
+    getClosestCategoryAncestor,
     getChildren,
     builder,
 

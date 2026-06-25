@@ -304,8 +304,6 @@ onBeforeUnmount(() => {
   inset: 0;
   overflow: clip;
   text-size-adjust: none;
-  text-size-adjust: none;
-  text-size-adjust: none;
   transform-origin: 0 0;
 }
 
@@ -356,8 +354,6 @@ onBeforeUnmount(() => {
 .textLayer span[role='img'] {
   cursor: default;
   user-select: none;
-  user-select: none;
-  user-select: none;
 }
 
 .textLayer .highlight {
@@ -379,7 +375,6 @@ onBeforeUnmount(() => {
   padding: 1px;
   border-radius: 4px;
   background-color: var(--selection-color);
-  backdrop-filter: var(--highlight-backdrop-filter);
   backdrop-filter: var(--highlight-backdrop-filter);
 }
 
@@ -405,8 +400,6 @@ onBeforeUnmount(() => {
   display: block;
   cursor: default;
   inset: 100% 0 0;
-  user-select: none;
-  user-select: none;
   user-select: none;
 }
 

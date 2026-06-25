@@ -1,10 +1,8 @@
 <template>
   <div ref="root" class="filter-component">
-    <div class="btn-icon" @click="toggle" @keydown.enter.prevent="toggle">
-      <Icon name="filter" display="lg" />
-      <p class="hint-tooltip">{{ t('nodes.filter.title') }}</p>
+    <AppBtnIcon nav icon="filter" :tooltip="t('nodes.filter.title')" @click="toggle">
       <span v-if="filtered.length != nodes?.length" class="bubble"></span>
-    </div>
+    </AppBtnIcon>
 
     <Transition name="pop">
       <div v-if="opened" class="filter-panel" role="dialog" :aria-label="t('nodes.filter.title')" @keydown.esc.prevent="close">
@@ -121,15 +119,6 @@ onBeforeUnmount(() => {
   display: inline-block;
 }
 
-.btn-icon {
-  position: relative;
-
-  &:hover > .hint-tooltip {
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
 .bubble {
   position: absolute;
   top: 2px;
@@ -183,12 +172,6 @@ label {
   border-radius: var(--radius-md);
   background: transparent;
   cursor: pointer;
-}
-
-.btn.primary {
-  border: none;
-  color: white;
-  background: linear-gradient(180deg, var(--primary) 0%, var(--primary-600) 100%);
 }
 
 .panel-footer {

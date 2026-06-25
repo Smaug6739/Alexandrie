@@ -1,11 +1,11 @@
 <template>
-  <button :class="[type, { large }]" @click="onClick">
+  <button :class="[type, { large, small }]" @click="onClick">
     <slot />
   </button>
 </template>
 
 <script setup lang="ts">
-defineProps<{ type: string; large?: boolean }>();
+defineProps<{ type: 'primary' | 'secondary' | 'success' | 'link' | 'danger'; large?: boolean; small?: boolean }>();
 const emit = defineEmits(['click']);
 const onClick = () => emit('click');
 </script>
@@ -30,6 +30,11 @@ button {
 .large {
   padding: 10px 14px;
   font-size: 1rem;
+}
+
+.small {
+  padding: 6px 10px;
+  font-size: 0.8rem;
 }
 
 .primary {

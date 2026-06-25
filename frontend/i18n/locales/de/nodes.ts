@@ -1,4 +1,5 @@
 export default {
+  nodes: 'Nodes',
   actions: {
     editMeta: 'Metadaten bearbeiten',
     exportAsMarkdown: 'Als Markdown exportieren',
@@ -60,6 +61,16 @@ export default {
       title: 'Lösche {type}',
       titleBulk: 'Nodes löschen',
     },
+    join: {
+      access: 'Zugriff auf Node',
+      title: 'Tritt einem Team oder Arbeitsbereich bei',
+      subtitle:
+        'Füge einen Einladungscode oder einen vollständigen Einladungslink ein. Wenn du diesem Arbeitsbereich bereits mit einer anderen Berechtigungsstufe beigetreten bist, wird nur die höchste beibehalten.',
+      label: 'Einladungscode oder Link',
+      join: 'Beitreten',
+      joining: 'Beitreten...',
+      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
+    },
     metadata: {
       emojiOrIcon: 'Emoji oder Symbol',
       emojiOrIconHint: 'SVG oder Emojis werden unterstützt',
@@ -71,6 +82,11 @@ export default {
       addPermission: 'Hinzufügen',
       defaultPermission: 'Standardberechtigung für neue Benutzer',
       generalAccess: 'Allgemeiner Zugang',
+      inviteLabel: 'Node-Einladungen',
+      inviteCreate: 'Einladung erstellen',
+      inviteCreateProgress: 'Einladung wird erstellt...',
+      inviteEmpty: 'Noch keine Einladungen',
+      invitePermission: 'Berechtigung',
       managePermissions: 'Berechtigungen verwalten',
       noPermissions: 'Keine Berechtigungen festgelegt',
       noResults: 'Es wurden keine Ergebnisse gefunden',
@@ -96,7 +112,8 @@ export default {
     actionCreateDocument: 'Neues Dokument erstellen',
     actionCreateDocumentDesc: 'Erstelle ein neues Markdown-Dokument mit den freigegebenen Inhalten',
     actionUploadResource: 'Als Ressource hochladen',
-    actionUploadResourceDesc: 'Lade die freigegebenen Inhalte als Ressource (Bild, PDF, usw.) hoch und erhalte einen Link, den du in deine Dokumente einfügen kannst',
+    actionUploadResourceDesc:
+      'Lade die freigegebenen Inhalte als Ressource (Bild, PDF, usw.) hoch und erhalte einen Link, den du in deine Dokumente einfügen kannst',
     chooseDestination: 'Wähle aus, wo du diesen Inhalt speichern möchten.',
     description: 'Von einer anderen App empfangene Inhalte.',
     sharedContent: 'Geteilte Inhalte',

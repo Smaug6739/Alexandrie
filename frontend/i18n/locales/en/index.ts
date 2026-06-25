@@ -10,6 +10,7 @@ import nodes from './nodes';
 import settings from './settings';
 import time from './time';
 import user from './user';
+import teams from './teams';
 
 export default {
   admin,
@@ -24,4 +25,5 @@ export default {
   settings,
   time,
   user,
+  teams,
 };

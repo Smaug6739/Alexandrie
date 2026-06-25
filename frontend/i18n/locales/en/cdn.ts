@@ -16,7 +16,7 @@ export default {
     promptPlural: 'Drag and drop your files here or {link} to select',
     removeFile: 'Remove file',
   },
-
+  diagram: 'Diagram editor',
   edit: {
     description: 'Manage resources and files on the server. You can edit metadata and delete files.',
     title: 'Update file',
@@ -42,7 +42,7 @@ export default {
     empty: 'No files uploaded yet.',
   },
 
-	preview: {
+  preview: {
     title: 'Preview',
     unavailable: 'Preview not available for this file type',
   },

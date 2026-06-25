@@ -1,4 +1,5 @@
 export default {
+  nodes: 'Nœuds',
   actions: {
     editMeta: 'Modifier les métadonnées',
     exportAsMarkdown: 'Exporter en Markdown',
@@ -60,6 +61,16 @@ export default {
       title: 'Supprimer {type}',
       titleBulk: 'Supprimer les nœuds',
     },
+    join: {
+      access: 'Accès au nœud',
+      title: 'Rejoindre une équipe ou un espace de travail',
+      subtitle:
+        "Coller un code d'invitation ou un lien d'invitation complet. Si vous avez déjà rejoint cet espace de travail avec un niveau de permission différent, seul le plus élevé sera conservé.",
+      label: "Code d'invitation ou lien",
+      join: 'Rejoindre',
+      joining: 'Rejoindre...',
+      inputPlaceholder: 'ABC123 ou https://.../join-workspace?code=ABC123',
+    },
     metadata: {
       emojiOrIcon: 'Emoji ou icône',
       emojiOrIconHint: 'SVG ou emojis supportés',
@@ -71,6 +82,11 @@ export default {
       addPermission: 'Ajouter',
       defaultPermission: 'Permission par défaut pour les nouveaux utilisateurs',
       generalAccess: 'Accès général',
+      inviteLabel: 'Invitations au nœud',
+      inviteCreate: 'Créer une invitation',
+      inviteCreateProgress: "Création de l'invitation...",
+      inviteEmpty: 'Aucune invitation pour le moment',
+      invitePermission: 'Permission',
       managePermissions: 'Gérer les permissions',
       noPermissions: 'Aucune permission définie',
       noResults: 'Aucun résultat trouvé',

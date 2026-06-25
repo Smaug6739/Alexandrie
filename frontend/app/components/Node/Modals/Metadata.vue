@@ -52,7 +52,7 @@ const { t } = useI18nT();
 
 const node = ref<Node>({ ...props.doc });
 const pinnedToggle = ref(node.value.order == -1);
-const parentsTree = nodesTree.treeUpToRole(node.value.role);
+const parentsTree = nodesTree.getTreeUpToRole(node.value.role);
 
 onBeforeMount(async () => {
   const latestNode = await nodeStore.fetch({ id: node.value.id });

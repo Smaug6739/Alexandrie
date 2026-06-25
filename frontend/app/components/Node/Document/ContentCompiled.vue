@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { subscribeDrawioCacheInvalidated } from '~/composables/useDrawioCache';
 import { rerenderImages } from '~/helpers/DOM';
 import type { Node } from '~/stores';
 

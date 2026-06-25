@@ -194,6 +194,7 @@ export default {
     shortcuts: 'Raccourcis',
     snippets: 'Snippets',
     styles: 'Injection de styles',
+    teams: 'Équipes',
   },
 
   profile: {

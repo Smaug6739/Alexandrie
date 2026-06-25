@@ -19,13 +19,18 @@
 // ===========================
 // BUTTONS
 // ===========================
-.btn-icon {
-	padding: 4px;
-	border-radius: var(--radius-sm);
-	transition: background $transition-fast;
-	cursor: pointer;
 
-	&:hover {
-		background: var(--surface-transparent);
-	}
+
+.header-title {
+	display: flex;
+	font-size: 18px;
+	font-weight: 600;
+	align-items: center;
+	gap: 12px;
+}
+
+.parent-icon {
+	padding: 6px;
+	border-radius: var(--radius-sm);
+	margin-right: 10px;
 }
