@@ -63,8 +63,8 @@ watchEffect(() => {
   padding: 1.2rem 1.2rem 0;
   border: 1px solid var(--border-subtle);
   border-radius: 0.625rem;
-  transition: background-color $transition-base;
   background: radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 18%, transparent), var(--surface-raised) 28%);
+  transition: background-color $transition-base;
 }
 
 p {
@@ -80,8 +80,8 @@ p {
   display: flex;
   min-width: 120px;
   align-items: center;
-  margin-bottom: 8px;
   gap: 12px;
+  margin-bottom: 8px;
 }
 
 .content {

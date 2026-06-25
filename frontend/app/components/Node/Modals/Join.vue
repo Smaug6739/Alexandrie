@@ -67,8 +67,8 @@ onMounted(() => {
 .eyebrow {
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
   color: var(--text-secondary);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -93,12 +93,12 @@ onMounted(() => {
 }
 
 .error-message {
-  margin-top: 1rem;
   color: var(--red);
+  margin-top: 1rem;
 }
 
 .success-message {
-  margin-top: 1rem;
   color: var(--green);
+  margin-top: 1rem;
 }
 </style>

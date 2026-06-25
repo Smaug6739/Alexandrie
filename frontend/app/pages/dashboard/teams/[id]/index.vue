@@ -82,32 +82,31 @@ const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDelet
 <style scoped lang="scss">
 .team-page {
   display: flex;
+  margin: 1rem;
   flex-direction: column;
   gap: 1.25rem;
-  margin: 1rem;
 }
 
 .team-hero {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  background: var(--surface-base);
-  box-shadow: var(--shadow-sm);
   display: flex;
   padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
   background:
     radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 20%, transparent), transparent 28%),
     linear-gradient(135deg, var(--surface-base), var(--surface-raised));
-  justify-content: space-between;
-  gap: 1.5rem;
+  box-shadow: var(--shadow-sm);
   align-items: flex-start;
   flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
 }
 
 .team-ident {
   display: flex;
-  gap: 1rem;
   align-items: flex-start;
   flex: 1;
+  gap: 1rem;
 }
 
 .team-avatar {
@@ -115,9 +114,9 @@ const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDelet
   width: 96px;
   height: 96px;
   border-radius: 28px;
-  place-items: center;
-  overflow: hidden;
   flex: none;
+  overflow: hidden;
+  place-items: center;
 }
 
 .team-thumbnail {
@@ -129,9 +128,9 @@ const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDelet
 .eyebrow {
   margin: 0 0 0.25rem;
   font-size: 0.78rem;
+  color: var(--text-secondary);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text-secondary);
 }
 
 h1 {
@@ -154,10 +153,10 @@ h1 {
 .meta-chip {
   padding: 0.45rem 0.75rem;
   border-radius: 999px;
-  color: var(--text-secondary);
-  background: var(--surface-overlay);
   font-size: 0.84rem;
   font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--surface-overlay);
 }
 
 .team-actions {
@@ -168,14 +167,14 @@ h1 {
 }
 
 .content {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  width: 100%;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  width: 100%;
-  position: relative;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 @media screen and (width <= 700px) {

@@ -180,12 +180,15 @@ td {
   &.align-right > span {
     justify-content: flex-end;
   }
+
   &.align-center > span {
     justify-content: center;
   }
+
   &.align-space-around > span {
     justify-content: space-around;
   }
+
   &.align-space-between > span {
     justify-content: space-between;
   }
@@ -195,9 +198,9 @@ td {
 th {
   font-size: 13px;
   color: var(--text-primary);
+  text-align: left;
   background: var(--surface-transparent);
   text-transform: uppercase;
-  text-align: left;
 
   &.align-right {
     padding-right: 30px;
@@ -216,6 +219,7 @@ td {
     border-radius: 0 0 var(--radius-md) var(--radius-md);
   }
 }
+
 .pagination {
   display: flex;
   align-items: center;

@@ -63,7 +63,6 @@ watchEffect(() => {
   align-items: center;
   list-style: none;
   mask-image: linear-gradient(to right, transparent, black var(--_fade), black calc(100% - var(--_fade)), transparent);
-  mask-image: linear-gradient(to right, transparent, black var(--_fade), black calc(100% - var(--_fade)), transparent);
   -webkit-overflow-scrolling: touch;
   overflow-x: auto;
   padding-inline: 8px;

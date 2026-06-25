@@ -69,25 +69,25 @@ const docCount = computed(() => {
 
   position: relative;
   display: flex;
-  flex-direction: column;
   height: 100%;
   padding: 1rem;
   border: 1px solid var(--border);
   border-radius: var(--tile-radius);
   background: var(--surface-base);
-  overflow: hidden;
-  cursor: pointer;
   transition:
     border-color var(--bg-speed) ease,
     transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
     box-shadow 0.4s ease;
+  cursor: pointer;
+  flex-direction: column;
+  overflow: hidden;
 
   &:hover {
-    transform: translateY(-6px) scale(1.01);
-    border-color: rgba(var(--primary), 0.35);
+    border-color: rgb(var(--primary), 0.35);
     box-shadow:
-      0 20px 30px -10px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(var(--primary), 0.1);
+      0 20px 30px -10px rgb(0 0 0 / 30%),
+      0 0 0 1px rgb(var(--primary), 0.1);
+    transform: translateY(-6px) scale(1.01);
 
     .glow-ambiance {
       opacity: 0.12;
@@ -98,9 +98,10 @@ const docCount = computed(() => {
       .ws-icon {
         transform: scale(1.1);
       }
+
       .status-dot {
-        transform: scale(1.3);
         box-shadow: 0 0 12px var(--primary);
+        transform: scale(1.3);
       }
     }
   }
@@ -110,24 +111,24 @@ const docCount = computed(() => {
   position: absolute;
   top: -20%;
   right: -20%;
+  z-index: 0;
   width: 70%;
   height: 70%;
   background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
   opacity: 0;
-  filter: blur(40px);
-  pointer-events: none;
   transition:
     opacity 0.6s ease,
     transform 0.6s ease;
-  z-index: 0;
+  filter: blur(40px);
+  pointer-events: none;
 }
 
 .tile-content {
   position: relative;
   z-index: 1;
   display: flex;
-  flex-direction: column;
   height: 100%;
+  flex-direction: column;
 }
 
 .top-row {
@@ -140,11 +141,11 @@ const docCount = computed(() => {
 .icon-box {
   position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: 2.8rem;
   height: 2.8rem;
   border-radius: 10px;
+  align-items: center;
+  justify-content: center;
 
   .ws-icon {
     font-size: 1.4rem;
@@ -157,9 +158,9 @@ const docCount = computed(() => {
     right: -2px;
     width: 7px;
     height: 7px;
+    border: 1.5px solid var(--surface-base);
     border-radius: 50%;
     background: var(--primary-border);
-    border: 1.5px solid var(--surface-base);
     transition:
       transform 0.3s ease,
       box-shadow 0.3s ease;
@@ -168,9 +169,9 @@ const docCount = computed(() => {
 
 .doc-badge {
   display: flex;
+  font-family: monospace;
   align-items: baseline;
   gap: 0.2rem;
-  font-family: monospace;
 
   .count-number {
     font-size: 1.3rem;
@@ -180,8 +181,8 @@ const docCount = computed(() => {
   .count-label {
     font-size: 0.75rem;
     color: var(--text-muted);
-    text-transform: uppercase;
     letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 }
 
@@ -189,20 +190,20 @@ const docCount = computed(() => {
   margin-bottom: 1.5rem;
 
   .ws-title {
+    margin: 0 0 0.4rem;
     font-size: 1.25rem;
     font-weight: 600;
-    letter-spacing: -0.02em;
     color: var(--text-body);
-    margin: 0 0 0.4rem 0;
     transition: color 0.2s ease;
+    letter-spacing: -0.02em;
   }
 
   .ws-description {
+    display: -webkit-box;
+    margin: 0;
     font-size: 0.85rem;
     line-height: 1.5;
     color: var(--text-secondary);
-    margin: 0;
-    display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -211,44 +212,44 @@ const docCount = computed(() => {
 }
 
 .tile-footer {
+  border-top: 1px solid var(--border);
   margin-top: auto;
   padding-top: 1rem;
-  border-top: 1px solid var(--border);
 }
 
 .category-pills {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   flex-wrap: wrap;
+  gap: 0.75rem;
 
   .pill {
+    position: relative;
     font-size: 0.75rem;
     font-weight: 500;
     color: var(--text-secondary);
-    position: relative;
     padding-left: 0.6rem;
 
     &::before {
-      content: '';
       position: absolute;
-      left: 0;
       top: 50%;
-      transform: translateY(-50%);
+      left: 0;
       width: 4px;
       height: 4px;
       border-radius: 50%;
       background: var(--border-strong);
+      content: '';
+      transform: translateY(-50%);
     }
   }
 
   .pill-more {
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
     font-size: 0.72rem;
     font-weight: 500;
     color: var(--text-muted);
     background: var(--surface-raised);
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
   }
 }
 </style>

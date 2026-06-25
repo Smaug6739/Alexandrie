@@ -62,9 +62,9 @@ const isEditor = computed(() => {
 /* ── Container ──────────────────────────────────────────────────── */
 .subnav {
   display: flex;
+  padding: 0 2px;
   align-items: stretch;
   gap: 2px;
-  padding: 0 2px;
   // Tabs sit on the border-bottom of the header
   margin-bottom: -1px;
 }
@@ -75,52 +75,52 @@ const isEditor = computed(() => {
 
   a {
     display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 0 12px;
     height: 44px;
+    padding: 0 12px;
     border-radius: var(--radius-sm) var(--radius-sm) 0 0;
     font-size: 13.5px;
     font-weight: 500;
     color: var(--text-secondary);
-    white-space: nowrap;
-    border-bottom: 2px solid transparent;
     transition:
       background-color $transition-fast ease-in-out,
       color $transition-fast ease-in-out,
       border-color $transition-fast ease-in-out;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    gap: 7px;
+    white-space: nowrap;
 
     &:hover {
-      background-color: var(--surface-raised);
       color: var(--text-primary);
+      background-color: var(--surface-raised);
     }
   }
 
   // Active tab
   &:has(a.router-link-exact-active) a {
+    font-weight: 600;
     color: var(--primary);
     background-color: var(--surface-raised);
     border-bottom-color: var(--primary);
-    font-weight: 600;
   }
 }
 
 /* ── Mobile vertical layout (driven by Navbar wrapper's :deep) ──── */
-@media (max-width: 767px) {
+@media (width <= 767px) {
   .subnav {
-    flex-direction: column;
     padding: 6px 8px 10px;
+    flex-direction: column;
     gap: 2px;
     margin-bottom: 0;
 
     // Reset the bottom-border tab style; use left accent instead
     .subnav__item a {
+      width: 100%;
       height: auto;
       padding: 10px 14px;
       border-radius: var(--radius-sm);
-      border-bottom: none;
       font-size: 15px;
-      width: 100%;
+      border-bottom: none;
     }
 
     .subnav__item:has(a.router-link-exact-active) a {

@@ -88,18 +88,18 @@ const openCreateTeam = () => modals.add(new Modal(shallowRef(CreateCategoryModal
   background:
     radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 18%, transparent), transparent 28%),
     linear-gradient(135deg, var(--surface-base), var(--surface-raised));
-  justify-content: space-between;
-  gap: 1rem;
   align-items: flex-start;
   flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 .eyebrow {
   margin: 0 0 0.25rem;
   font-size: 0.78rem;
+  color: var(--text-secondary);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text-secondary);
 }
 
 h1 {
@@ -116,10 +116,10 @@ h1 {
 .hero-actions,
 .toolbar {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: space-between;
-  align-items: center;
 }
 
 .search-box {
@@ -135,23 +135,25 @@ h1 {
   input {
     width: 100%;
     border: none;
-    outline: none;
     background: transparent;
+    outline: none;
   }
 }
 
 .count-pill {
   padding: 0.55rem 0.85rem;
   border-radius: 999px;
-  color: var(--text-secondary);
-  background: var(--surface-raised);
   font-size: 0.9rem;
   font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--surface-raised);
 }
+
 .team-grid {
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
+
   :last-child:nth-child(odd) {
     grid-column: 1 / -1;
   }
@@ -175,16 +177,16 @@ h1 {
   text-decoration: none;
 
   &:hover {
-    transform: translateY(-2px);
     border-color: var(--border-strong);
     box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
   }
 }
 
 .team-card-top {
   display: flex;
-  gap: 1rem;
   align-items: center;
+  gap: 1rem;
 }
 
 .team-avatar {
@@ -193,9 +195,9 @@ h1 {
   height: 72px;
   border-radius: 22px;
   background: var(--surface-overlay);
-  place-items: center;
-  overflow: hidden;
   flex: none;
+  overflow: hidden;
+  place-items: center;
 }
 
 .team-thumbnail {
@@ -220,15 +222,15 @@ h1 {
 
 .team-footer {
   display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
   align-items: center;
+  gap: 0.5rem;
+  justify-content: space-between;
   margin-top: auto;
 }
 
 .team-meta {
-  color: var(--text-secondary);
   font-size: 0.86rem;
+  color: var(--text-secondary);
 }
 
 .team-open {

@@ -36,18 +36,17 @@ const attrs = useAttrs();
 <style scoped lang="scss">
 button,
 a {
-  padding: 4.5px;
-  margin: 0 1px;
-  border-radius: var(--radius-sm);
   position: relative;
   display: inline-flex;
-  align-items: center;
-  gap: 7px;
-
-  border-bottom: 2px solid transparent;
+  margin: 0 1px;
+  padding: 4.5px;
+  border-radius: var(--radius-sm);
   transition:
     background-color $transition-fast ease-in-out,
     border-color $transition-fast ease-in-out;
+  align-items: center;
+  border-bottom: 2px solid transparent;
+  gap: 7px;
 
   &:hover {
     background-color: var(--surface-raised);
@@ -62,6 +61,7 @@ a:hover > .hint-tooltip {
   opacity: 1;
   visibility: visible;
 }
+
 button:hover > .hint-tooltip {
   opacity: 1;
   visibility: visible;

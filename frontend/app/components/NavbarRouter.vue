@@ -35,17 +35,18 @@ router.afterEach(() => handleState(window.history.state));
 <style lang="scss" scoped>
 .nav {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
   min-width: 27px;
   min-height: 27px;
   padding: 0;
   border-radius: 50%;
-  cursor: pointer;
-  overflow: hidden;
   transition:
     background-color $transition-medium ease,
     opacity $transition-medium ease;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  overflow: hidden;
+
   &:hover:not(:disabled) {
     background-color: var(--selection-color);
     opacity: 0.8;

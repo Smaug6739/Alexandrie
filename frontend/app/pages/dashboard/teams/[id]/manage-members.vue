@@ -238,14 +238,14 @@ const copyInvitationLink = async (code: string) => {
 <style scoped lang="scss">
 h2 {
   margin: 20px 5px;
-  padding-bottom: 8px;
   font-size: 20px;
+  padding-bottom: 8px;
 }
 
 form {
   display: flex;
-  padding: 0 4px;
   margin: 15px 0;
+  padding: 0 4px;
   flex-direction: column;
   gap: 10px;
 }
@@ -285,10 +285,10 @@ form {
 
 .info-secondary {
   margin: 0;
-  margin-top: 10px;
   font-size: 14px;
   color: var(--text-secondary);
   text-align: center;
+  margin-top: 10px;
 }
 
 .public-info {
@@ -327,6 +327,7 @@ form {
 
 .permission-item {
   padding: 8px;
+
   &:not(:last-child) {
     border-bottom: 1px solid var(--border);
   }

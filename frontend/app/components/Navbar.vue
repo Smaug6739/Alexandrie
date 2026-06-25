@@ -139,38 +139,38 @@ $bp-md: 768px;
 
 .navbar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   height: $navbar-height;
-  gap: 8px;
   padding: 0 4px;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
 }
 
 .navbar__left {
   display: flex;
-  align-items: center;
-  gap: 8px;
   min-width: 0;
+  align-items: center;
   flex: 1;
+  gap: 8px;
 }
 
 .navbar__title {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  min-width: 0;
   font-size: 17px;
   font-weight: 600;
-  white-space: nowrap;
+  align-items: center;
+  gap: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0;
+  white-space: nowrap;
 }
 
 .navbar__right {
   display: flex;
   align-items: center;
-  gap: 6px;
   flex-shrink: 0;
+  gap: 6px;
 }
 
 .navbar__actions {
@@ -187,26 +187,26 @@ $bp-md: 768px;
 
 .search-btn {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
   height: 36px;
-  padding: 0 12px;
   margin: 0;
+  padding: 0 12px;
   border: none;
   border-radius: var(--radius-sm);
-  background: var(--border);
-  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
+  color: var(--text-secondary);
+  background: var(--border);
   transition:
     background-color $transition-base ease,
     transform $transition-base ease;
+  align-items: center;
+  cursor: pointer;
+  gap: 6px;
+  white-space: nowrap;
 
   &:hover {
-    background: var(--selection-color);
     color: var(--text-primary);
+    background: var(--selection-color);
     transform: translateY(-1px);
   }
 
@@ -232,8 +232,8 @@ kbd {
   font-family: monospace;
   font-size: 12px;
   font-weight: 600;
-  background: var(--border);
   line-height: 1.4;
+  background: var(--border);
 }
 
 .subnav-toggle {
@@ -262,20 +262,20 @@ kbd {
 
 .subnav-wrapper {
   display: flex;
+  -ms-overflow-style: none;
   overflow-x: auto;
   scrollbar-width: none;
-  -ms-overflow-style: none;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     display: block;
     max-height: 0;
-    overflow: hidden;
     transition: max-height $transition-base ease;
+    overflow: hidden;
 
     .navbar__actions {
-      flex-direction: column;
       width: 100%;
       padding: 10px 16px;
+      flex-direction: column;
       gap: 8px;
 
       :deep(> *) {

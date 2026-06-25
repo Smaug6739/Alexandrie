@@ -216,14 +216,14 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 
 <style scoped lang="scss">
 .home-top {
+  padding: 3rem 1.5rem;
+  border-radius: var(--radius-xl);
   background:
     radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 18%, transparent), transparent 28%),
     linear-gradient(135deg, var(--surface-base), var(--surface-raised));
-  border-radius: var(--radius-lg);
-  padding: 3rem 1.5rem;
-  border-radius: var(--radius-xl);
   margin-top: 0.5rem;
 }
+
 .home-container {
   width: 100%;
   max-width: 1400px;

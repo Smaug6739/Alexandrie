@@ -2,7 +2,7 @@
   <div class="document-card" @contextmenu.prevent="openContextMenu">
     <div class="top">
       <div class="header">
-        <span style="display: flex; overflow: hidden; align-items: center; gap: 10px">
+        <span style="display: flex; align-items: center; gap: 10px; overflow: hidden">
           <Icon :name="category?.icon || 'files'" display="xl" :class="['category-icon', getAppAccent(node.color || category?.color, true)]" />
           <NuxtLink :to="`/dashboard/docs/${node.id}`" class="document-title">{{ node.name }}</NuxtLink>
         </span>
@@ -98,9 +98,9 @@ function openContextMenu(event: MouseEvent) {
   line-height: 1.3;
   color: var(--text-primary);
   transition: color 0.15s;
+  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
 
   &:hover {
     color: var(--primary);
