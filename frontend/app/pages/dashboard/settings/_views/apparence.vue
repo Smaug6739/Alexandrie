@@ -117,7 +117,7 @@ const options = computed(
             type: 'groupCheckbox' as const,
             key: 'navbarItems' as const,
             items: {
-              breadcrumb: t('settings.appearance.navbarItems.breadcrumb'),
+              breadcrumbNav: t('settings.appearance.navbarItems.breadcrumb'),
               search: t('settings.appearance.navbarItems.search'),
               theme: t('settings.appearance.navbarItems.theme'),
               navigation: t('settings.appearance.navbarItems.navigation'),

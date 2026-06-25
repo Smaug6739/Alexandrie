@@ -12,6 +12,8 @@
 <script setup lang="ts">
 import type { MonthlyCount } from '~/stores';
 
+definePageMeta({ breadcrumb: { i18n: 'teams.insights.title' } });
+
 const route = useRoute();
 const tree = useNodesTree();
 const { t } = useI18nT();

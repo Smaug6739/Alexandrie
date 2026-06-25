@@ -46,12 +46,9 @@
 import NodeDeleteModal from '~/components/Node/Modals/Delete.vue';
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import { resolveIcon } from '~/helpers/node';
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
 import type { Node } from '~/stores';
 
-definePageMeta({
-  breadcrumb: (route: RouteLocationNormalizedLoaded) => useBreadcrumbs().generateBreadcrumbsById(route.params.id as string),
-});
+definePageMeta({ breadcrumb: { i18n: 'teams.overview.title' } });
 
 const nodesStore = useNodesStore();
 

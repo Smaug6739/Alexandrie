@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ breadcrumb: { i18n: 'common.labels.all' } });
+definePageMeta({ breadcrumb: { i18n: 'cdn.meta.title' } });
 
 const route = useRoute();
 const teamId = route.params.id as string;

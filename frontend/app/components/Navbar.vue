@@ -37,7 +37,7 @@
     </div>
 
     <!-- Bottom side -->
-    <div v-if="navbarItems.breadcrumb" class="breadcrumbs">
+    <div v-if="navbarItems.breadcrumbNav" class="breadcrumbs">
       <BreadCrumbs />
     </div>
 

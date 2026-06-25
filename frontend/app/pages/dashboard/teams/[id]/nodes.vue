@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ breadcrumb: { i18n: 'common.labels.all' } });
+definePageMeta({ breadcrumb: { i18n: 'nodes.nodes' } });
 
 const nodesStore = useNodesStore();
 

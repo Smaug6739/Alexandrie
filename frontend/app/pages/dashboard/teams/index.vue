@@ -55,8 +55,6 @@
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import { resolveIcon, resolveNodeLink } from '~/helpers/node';
 
-definePageMeta({ breadcrumb: { i18n: 'components.sidebar.nav.teams' } });
-
 const nodesStore = useNodesStore();
 const modals = useModal();
 const { shortDate } = useDateFormatters();

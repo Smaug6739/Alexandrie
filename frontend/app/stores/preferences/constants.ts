@@ -33,11 +33,11 @@ export const DEFAULT_PREFERENCES = {
     newPage: false as boolean,
   } as const,
   navbarItems: {
-    breadcrumb: true as boolean,
+    breadcrumbNav: false as boolean,
     search: true as boolean,
     theme: true as boolean,
     navigation: true as boolean,
-  },
+  } as const,
   snippets: [
     { id: '!blue', label: ':::blue\n${0}\n:::' },
     { id: '!green', label: ':::green\n${0}\n:::' },

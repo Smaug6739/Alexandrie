@@ -87,6 +87,8 @@ import { NODE_PERMISSIONS } from '~/helpers/constants';
 import { resolvePermissionName } from '~/helpers/node';
 import type { Node, NodeInvitation, Permission, PublicUser } from '~/stores';
 
+definePageMeta({ breadcrumb: { i18n: 'teams.members.title' } });
+
 const usersStore = useUserStore();
 const nodesStore = useNodesStore();
 
