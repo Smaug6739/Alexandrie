@@ -41,7 +41,6 @@ const thumbnail = computed(() => {
   display: block;
   width: 100%;
   height: 160px;
-  padding: 10px 0;
 }
 
 .user-image {

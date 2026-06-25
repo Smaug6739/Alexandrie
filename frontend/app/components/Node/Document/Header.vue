@@ -5,17 +5,16 @@
       <NodeDocumentHeaderSkeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
-        <div class="top-row">
-          <p class="user">
-            <img v-if="user" :src="avatarURL(user)" alt="avatar" class="avatar" />
-            <span style="font-size: 16px; color: var(--text-secondary)">{{ user?.username }}</span>
-          </p>
-          <Teleport to="#navbar-actions">
-            <NodeDocumentHeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
-          </Teleport>
-        </div>
+        <Teleport to="#navbar-actions">
+          <NodeDocumentHeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
+        </Teleport>
+
         <div class="content">
           <div class="infos">
+            <p class="user">
+              <img v-if="user" :src="avatarURL(user)" alt="avatar" class="avatar" />
+              <span style="font-size: 16px; color: var(--text-secondary)">{{ user?.username }}</span>
+            </p>
             <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
             <h1 :class="{ public: public }">{{ doc?.name }}</h1>
             <Teleport to="#navbar-title">
@@ -77,18 +76,12 @@ p {
   padding-right: 10px;
 }
 
-.top-row {
+.user {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-top: 6px;
-
-  .user {
-    display: flex;
-    min-width: 120px;
-    align-items: center;
-    gap: 12px;
-  }
+  min-width: 120px;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 12px;
 }
 
 .content {
@@ -162,7 +155,6 @@ h1 {
     .description,
     .category,
     .tags,
-    .top-row,
     .user {
       display: none;
     }
