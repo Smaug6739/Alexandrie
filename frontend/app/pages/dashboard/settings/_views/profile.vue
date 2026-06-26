@@ -21,7 +21,7 @@
       </div>
       <div class="form-group">
         <label for="email">{{ t('settings.profile.email') }}</label>
-        <input id="email" v-model="userStore.user.email" type="email" required />
+        <input id="email" v-model="userStore.user.email" type="email" />
       </div>
       <div class="form-group">
         <label>{{ t('settings.profile.avatar') }}</label>
