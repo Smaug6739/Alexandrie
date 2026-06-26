@@ -99,6 +99,7 @@ const options = computed(
             key: 'sidebarItems' as const,
             items: {
               manageCategories: t('settings.appearance.sidebarItems.manageCategories'),
+              teams: t('settings.appearance.sidebarItems.teams'),
               importation: t('settings.appearance.sidebarItems.importation'),
               cdn: t('settings.appearance.sidebarItems.cdn'),
               documents: t('settings.appearance.sidebarItems.documents'),

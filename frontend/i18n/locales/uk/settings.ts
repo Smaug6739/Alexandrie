@@ -57,6 +57,7 @@ export default {
       manageCategories: 'Керувати категоріями',
       newPage: 'Нова сторінка',
       settings: 'Налаштування',
+      teams: 'Команди',
     },
     styleDefault: 'За замовчуванням',
     styleGlassmorphism: 'Glassmorphism',

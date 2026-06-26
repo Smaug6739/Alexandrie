@@ -58,6 +58,7 @@ export default {
       manageCategories: 'Gérer les catégories',
       newPage: 'Nouvelle page',
       settings: 'Paramètres',
+      teams: 'Équipes',
     },
     styleDefault: 'Par défaut',
     styleGlassmorphism: 'Glassmorphisme',

@@ -58,6 +58,7 @@ export default {
       manageCategories: 'Kategorien verwalten',
       newPage: 'Neue Seite',
       settings: 'Einstellungen',
+      teams: 'Teams',
     },
     styleDefault: 'Standard',
     styleGlassmorphism: 'Glassmorphismus',

@@ -94,7 +94,7 @@ export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems'])
     label: 'components.sidebar.nav.teams',
     parent_id: '',
     route: '/dashboard/teams',
-    show: computed(() => true),
+    show: computed(() => sidebarItemsPrefs?.teams ?? true),
   },
   {
     data: {
