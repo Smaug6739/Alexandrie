@@ -24,25 +24,7 @@
     </section>
 
     <section v-if="filteredTeams.length" class="team-grid">
-      <NuxtLink v-for="team in filteredTeams" :key="team.id" :to="resolveNodeLink(team)" class="team-card">
-        <div class="team-card-top">
-          <div class="team-avatar" :class="getAppAccent(team.color as number, true)">
-            <img v-if="team.thumbnail" :src="team.thumbnail" :alt="team.name" class="team-thumbnail" />
-            <Icon v-else :name="resolveIcon(team)" display="xl" />
-          </div>
-          <div class="team-title">
-            <h2>{{ team.name }}</h2>
-            <p>{{ team.description || t('teams.noDescription') }}</p>
-          </div>
-        </div>
-
-        <NodeStats :parent-id="team.id" />
-
-        <div class="team-footer">
-          <span class="team-meta">Updated {{ shortDate(team.updated_timestamp) }}</span>
-          <span class="team-open">Open team</span>
-        </div>
-      </NuxtLink>
+      <NodeCardTeam v-for="team in filteredTeams" :key="team.id" :team="team" />
     </section>
 
     <NoContent v-else title="No teams yet" :description="t('teams.actions.createDescription')">
@@ -53,12 +35,9 @@
 
 <script setup lang="ts">
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
-import { resolveIcon, resolveNodeLink } from '~/helpers/node';
 
 const nodesStore = useNodesStore();
 const modals = useModal();
-const { shortDate } = useDateFormatters();
-const { getAppAccent } = useAppColors();
 const { t } = useI18nT();
 
 const query = ref('');
@@ -157,84 +136,5 @@ h1 {
   :last-child:nth-child(odd) {
     grid-column: 1 / -1;
   }
-}
-
-.team-card {
-  display: flex;
-  min-height: 220px;
-  padding: 1.1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  color: var(--text-body);
-  background: linear-gradient(180deg, var(--surface-base), var(--surface-raised));
-  box-shadow: var(--shadow-sm);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    border-color 0.18s ease;
-  flex-direction: column;
-  gap: 1rem;
-  text-decoration: none;
-
-  &:hover {
-    border-color: var(--border-strong);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-2px);
-  }
-}
-
-.team-card-top {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.team-avatar {
-  display: grid;
-  width: 72px;
-  height: 72px;
-  border-radius: 22px;
-  background: var(--surface-overlay);
-  flex: none;
-  overflow: hidden;
-  place-items: center;
-}
-
-.team-thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.team-title {
-  min-width: 0;
-
-  h2 {
-    margin: 0;
-    font-size: 1.1rem;
-  }
-
-  p {
-    margin: 0.3rem 0 0;
-    color: var(--text-secondary);
-  }
-}
-
-.team-footer {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: space-between;
-  margin-top: auto;
-}
-
-.team-meta {
-  font-size: 0.86rem;
-  color: var(--text-secondary);
-}
-
-.team-open {
-  font-weight: 700;
-  color: var(--primary);
 }
 </style>
