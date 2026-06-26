@@ -9,6 +9,7 @@ definePageMeta({ breadcrumb: { i18n: 'common.actions.edit' } });
 const store = useNodesStore();
 
 const route = useRoute();
+const router = useRouter();
 
 const nodeId = route.params.id as string;
 const node = ref<Node | undefined>(undefined);
@@ -33,5 +34,10 @@ const save = (doc: Node) => {
     .catch(e => notifications.add({ message: e, title: 'Error', type: 'error' }));
 };
 const autoSave = (doc: Node) => store.update(doc);
-const exit = () => useRouter().push(`/dashboard/docs/${nodeId}`);
+
+const exit = () => {
+  const redirect = route.query.redirect as string | undefined;
+  if (redirect) router.push(redirect);
+  else router.push(`/dashboard/docs/${nodeId}`);
+};
 </script>

@@ -55,32 +55,4 @@
     background-position: 400px 0;
   }
 }
-
-@media print, screen and (width >= 1024px) {
-  .icon {
-    display: block;
-  }
-}
-
-@media print {
-  .print-style {
-    padding: 0.4rem 0.2rem;
-    background: none;
-    align-items: center;
-
-    .icon,
-    .description,
-    .document-tags,
-    .category {
-      display: none;
-    }
-
-    .title {
-      font-size: 27px;
-      font-weight: 700;
-      text-align: center;
-      border-bottom: 1px solid var(--text-body);
-    }
-  }
-}
 </style>

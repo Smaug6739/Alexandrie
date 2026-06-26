@@ -1,4 +1,5 @@
 export default {
+  nodes: 'Nodes',
   actions: {
     editMeta: 'Edit metadata',
     exportAsMarkdown: 'Export as Markdown',
@@ -60,6 +61,16 @@ export default {
       title: 'Delete {type}',
       titleBulk: 'Delete nodes',
     },
+    join: {
+      access: 'Node access',
+      title: 'Join a team or workspace',
+      subtitle:
+        'Paste an invitation code or a full invite link. If you have already joined this workspace with a different permission level, only the highest one will be retained.',
+      label: 'Invitation code or link',
+      join: 'Join',
+      joining: 'Joining...',
+      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
+    },
     metadata: {
       emojiOrIcon: 'Emoji or icon',
       emojiOrIconHint: 'SVG or emojis supported',
@@ -71,6 +82,11 @@ export default {
       addPermission: 'Add',
       defaultPermission: 'Default permission for new users',
       generalAccess: 'General access',
+      inviteLabel: 'Node invitations',
+      inviteCreate: 'Create invitation',
+      inviteCreateProgress: 'Creating invitation...',
+      inviteEmpty: 'No invitations yet',
+      invitePermission: 'Permission',
       managePermissions: 'Manage permissions',
       noPermissions: 'No permission set',
       noResults: 'No results found',

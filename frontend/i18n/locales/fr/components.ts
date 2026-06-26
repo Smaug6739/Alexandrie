@@ -38,6 +38,7 @@ export default {
   },
 
   editor: {
+    title: 'Éditeur Markdown',
     placeholder: {
       title: 'Document title',
       description: 'Document description',
@@ -99,6 +100,7 @@ export default {
   },
 
   sidebar: {
+    joinWorkspace: "Rejoindre l'espace de travail",
     allWorkspaces: 'Tous les espaces de travail',
     closeAll: 'Tout fermer',
     editWorkspace: "Modifier l'espace de travail",
@@ -108,6 +110,7 @@ export default {
       home: 'Accueil',
       imports: 'Importations',
       manageCategories: 'Gérer les catégories',
+      teams: 'Teams',
       newPage: 'Nouvelle page',
       settings: 'Paramètres',
     },

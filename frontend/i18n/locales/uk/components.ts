@@ -38,6 +38,7 @@ export default {
   },
 
   editor: {
+    title: 'Редактор Markdown',
     placeholder: {
       title: 'Назва документа',
       description: 'Опис документа',
@@ -99,6 +100,7 @@ export default {
   },
 
   sidebar: {
+    joinWorkspace: 'Приєднатися до простору',
     allWorkspaces: 'Усі простори',
     closeAll: 'Закрити все',
     editWorkspace: 'Редагувати простір',
@@ -108,6 +110,7 @@ export default {
       home: 'Головна',
       imports: 'Імпортування',
       manageCategories: 'Категорії',
+      teams: 'Команди',
       newPage: 'Нова сторінка',
       settings: 'Налаштування',
     },

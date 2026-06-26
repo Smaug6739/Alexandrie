@@ -1,16 +1,13 @@
 export default {
   actions: {
     import: 'Import',
+    joinWorkspace: 'Join workspace',
     newDocument: '+ New document',
     newWorkspace: 'New workspace',
   },
 
+  dashboard: 'Dashboard',
   greeting: '👋 Hey, {userName}',
-
-  links: {
-    manage: 'Manage',
-    seeAll: 'See all',
-  },
 
   pages: {
     home: 'Home',

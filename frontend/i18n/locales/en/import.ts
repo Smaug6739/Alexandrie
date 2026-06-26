@@ -12,6 +12,7 @@ export default {
 
   advanced: {
     options: 'Advanced import options',
+    defaultParent: 'Default parent category for imported documents',
     defaultDescription: 'Default description for imported documents',
     defaultTags: 'Default tags for imported documents (comma-separated)',
     defaultColor: 'Default color for imported documents',

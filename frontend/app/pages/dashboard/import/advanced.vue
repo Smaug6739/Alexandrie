@@ -1,15 +1,11 @@
 <template>
   <div class="page-card files-import">
-    <header>
-      <div>
-        <h1>{{ t('import.files.meta.title') }} <tag class="orange">Beta</tag></h1>
-        <p class="subtitle">
-          {{ t('import.files.meta.description') }}
-        </p>
-      </div>
-    </header>
+    <Teleport to="#navbar-title">{{ t('import.files.meta.title') }} <tag class="orange">Beta</tag></Teleport>
+    <p class="subtitle">
+      {{ t('import.files.meta.description') }}
+    </p>
 
-    <AppDrop ref="dropComponent" multiple allow-folders @select="selectFiles" />
+    <AppDrop ref="dropComponent" multiple allow-folders :max-files="200" @select="selectFiles" />
     <small>{{ t('import.files.importable') }}</small>
 
     <h3>{{ t('import.advanced.options') }}</h3>
@@ -29,6 +25,10 @@
       <p>{{ t('import.actions.preserveTimestamps') }}</p>
     </div>
     <div>
+      <div>
+        <label for="default-parent">{{ t('import.advanced.defaultParent') }}</label>
+        <AppSelect v-model="options.defaultValues.parent_id" class="entry" :items="categoriesItem" nullable :placeholder="t('common.labels.parent')" />
+      </div>
       <label for="default-description">
         {{ t('import.advanced.defaultDescription') }}
       </label>
@@ -56,7 +56,7 @@
     </div>
     <section v-if="nodes.length" class="panel">
       <div class="panel-head">
-        <h3>{{ t('import.files.toImport') }} ({{ nodes.length }})</h3>
+        <h3>{{ t('import.files.toImport') }} ({{ totalItemsToImport }})</h3>
         <div class="actions-row">
           <AppButton type="primary" size="sm" :disabled="selectedNodes.length === 0" @click="importSelected">
             {{ t('import.tabs.importSelected', { count: selectedNodes.length }) }}
@@ -78,14 +78,20 @@
           @toggle-selection="() => toggleSelection(node.id)"
           @import-single="() => importSingle(node)"
         />
+        <FileInline
+          v-for="resource in resourcesToUpload"
+          :key="resource.id"
+          :file="resource.file"
+          :selected="selectedNodes.includes(resource.id)"
+          :remove-file="() => false"
+        />
       </div>
     </section>
   </div>
 </template>
-
 <script setup lang="ts">
 import ImportProgress from './_components/ImportProgress.vue';
-import { Importer } from '~/helpers/backups/Importer';
+import { Importer, type ResourceImportTask } from '~/helpers/backups/Importer';
 import { DOCUMENT_THEMES } from '~/helpers/constants';
 import type { DB_Node, ImportJob } from '~/stores';
 
@@ -93,20 +99,27 @@ definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
 const user = useUserStore();
 const nodesStore = useNodesStore();
+
+const nodesTree = useNodesTree();
 const { t } = useI18nT();
 
-const selectedNodes = ref<string[]>([]);
+const categoriesItem = nodesTree.getTreeUpToRole(2);
 
+const selectedNodes = ref<string[]>([]);
 const toCreate = ref(0);
 
 const files = ref<File[]>([]);
 const nodes = ref<DB_Node[]>([]);
+const resourcesToUpload = ref<ResourceImportTask[]>([]);
+
+const totalItemsToImport = computed(() => nodes.value.length + resourcesToUpload.value.length);
 
 const options = ref({
   extractFrontMatter: true,
   normalizeLineEndings: true,
   preserveTimestamps: true,
   defaultValues: {
+    parent_id: undefined,
     defaultDescription: '',
     defaultTags: '',
     defaultColor: -1,
@@ -147,7 +160,10 @@ async function processImport() {
     user_id: user.user!.id,
   });
   await imp.handleFiles(files.value);
-  nodes.value = await imp.normalizedToNodes();
+
+  const result = await imp.normalizedToNodes();
+  nodes.value = result.nodesToCreate;
+  resourcesToUpload.value = result.resourcesToUpload;
 }
 
 function toggleSelection(id: string) {
@@ -156,18 +172,31 @@ function toggleSelection(id: string) {
   else selectedNodes.value.splice(idx, 1);
 }
 
-const importSingle = (node: DB_Node) => importNodes([node]);
-const importSelected = () => {
-  const toImport = nodes.value.filter(n => selectedNodes.value.includes(n.id));
-  importNodes(toImport);
+const importSingle = (node: DB_Node) => {
+  const relatedResources = resourcesToUpload.value.filter(r => r.id === node.id || r.parent_id === node.id);
+  importNodes([node], relatedResources);
 };
-const importAll = () => importNodes(nodes.value);
 
-async function importNodes(importNodes: DB_Node[]) {
-  toCreate.value = importNodes.length;
-  importJob.value.toCreate = importNodes.length;
-  await nodesStore.importMultipleNodes({ toCreate: importNodes, toUpdate: [] }, importJob);
+const importSelected = () => {
+  const targetNodes = nodes.value.filter(n => selectedNodes.value.includes(n.id));
+  const targetResources = resourcesToUpload.value.filter(r => selectedNodes.value.includes(r.id) || (r.parent_id && selectedNodes.value.includes(r.parent_id)));
+  importNodes(targetNodes, targetResources);
+};
+
+const importAll = () => importNodes(nodes.value, resourcesToUpload.value);
+
+async function importNodes(nodesToImport: DB_Node[], resourcesImport: ResourceImportTask[]) {
+  const totalCount = nodesToImport.length + resourcesImport.length;
+  toCreate.value = totalCount;
+  importJob.value.toCreate = totalCount;
+  importJob.value.status = 'in_progress';
+
+  await nodesStore.importAllNodesAndResources(nodesToImport, resourcesImport, importJob);
+
   nodes.value = nodes.value.filter(n => !importJob.value.created.includes(n.id));
+  resourcesToUpload.value = resourcesToUpload.value.filter(r => !importJob.value.created.includes(r.id));
+
+  importJob.value.status = 'completed';
 }
 </script>
 

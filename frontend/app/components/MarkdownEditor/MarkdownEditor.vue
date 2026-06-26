@@ -1,8 +1,11 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="editor-wrapper">
+    <Teleport to="#navbar-title"> {{ t('components.editor.title') }}</Teleport>
+
     <div class="editor-container">
       <!-- Toolbar Section -->
+
       <Toolbar v-model="document" @execute-action="handleToolbarAction" />
 
       <!-- Compact Document Metadata -->

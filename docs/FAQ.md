@@ -18,6 +18,7 @@ This is usually caused by a misconfiguration of the `COOKIE_DOMAIN` environment 
 - Including protocol (http:// or https://) in `COOKIE_DOMAIN`.
 - Setting `COOKIE_DOMAIN` to a subdomain that does not match both frontend and backend domains.
 - Setting `COOKIE_DOMAIN` to a domain that does not match the actual domain used to access the services.
+- Not setting `ALLOW_UNSECURE` to `true` when using HTTP (not HTTPS) in development.
 
 **Correct configuration examples**
 

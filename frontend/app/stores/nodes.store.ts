@@ -1,10 +1,13 @@
+import type { ResourceImportTask } from '~/helpers/backups/Importer';
 import { Collection } from './collection';
-import type { DB_Node, ImportJob, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
+import { IndexedCollection } from '~/helpers/IndexedCollection';
+import type { DB_Node, ImportJob, InvitationJoinResponse, Node, NodeInvitation, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
 
+export type TeamRole = 0;
 export type CategoryRole = 1 | 2;
 export type DocumentRole = 3;
 export type ResourceRole = 4;
-export type NodeRole = CategoryRole | DocumentRole | ResourceRole;
+export type NodeRole = TeamRole | CategoryRole | DocumentRole | ResourceRole;
 
 export interface SearchOptions {
   query?: string;
@@ -21,7 +24,7 @@ export interface SearchOptions {
 
 export const useNodesStore = defineStore('nodes', {
   state: () => ({
-    nodes: new Collection<string, Node>(),
+    nodes: new IndexedCollection(),
     public_nodes: new Collection<string, Node>(),
     allTags: [] as string[],
     isFetching: false,
@@ -30,80 +33,51 @@ export const useNodesStore = defineStore('nodes', {
     getAll: state => state.nodes,
     getAllTags: state => state.allTags,
     getById: state => (id: string) => state.nodes.get(id),
-    getTotalUsedStorage: state => state.nodes.toArray().reduce((total, node) => total + (node.size || 0), 0),
-    getByIdWithParents: state => (id: string) => {
-      const node = state.nodes.get(id);
+    getTotalUsedStorage: state => state.nodes.toSortedArray().reduce((total, node) => total + (node.size || 0), 0),
 
-      if (!node) return [];
+    /* Getters for nodes by role */
+    teams: state => state.nodes.getIdsByRole(0).map(id => state.nodes.get(id)!),
+    categories: state => [...state.nodes.getIdsByRole(1), ...state.nodes.getIdsByRole(2)].map(id => state.nodes.get(id)!),
+    workspaces: state => state.nodes.getIdsByRole(1).map(id => state.nodes.get(id)!),
+    documents: state => state.nodes.getIdsByRole(3).map(id => state.nodes.get(id)!),
+    resources: state => state.nodes.getIdsByRole(4).map(id => state.nodes.get(id)!),
 
-      const result = [node];
+    /**
+     * Recursive getters
+     */
 
-      if (!node.parent_id) return result;
-
-      const getParents = (children: Node) => {
-        state.nodes.forEach(node => {
-          if (node.id === children.parent_id) {
-            result.push(node);
-            getParents(node);
-          }
-        });
-      };
-
-      getParents(node);
-
-      return result;
-    },
-    getByCategories: state => (category: string) => state.nodes.filter(d => d.parent_id == category),
-    getParents: state => state.nodes.filter(c => !c.parent_id),
-    getChilds: state => (id: string) => state.nodes.filter(c => c.parent_id == id),
-    categories: state => state.nodes.filter(d => d.role === 1 || d.role === 2),
-    documents: state => state.nodes.filter(d => d.role === 3),
-    resources: state => state.nodes.filter(d => d.role === 4),
+    // Check if a node (descendantId) is a descendant of another node
     isDescendant:
       state =>
-      (node: Node, descendantId: string): boolean => {
-        const checkDescendants = (currentNode: Node): boolean => {
-          const children = state.nodes.filter(d => d.parent_id === currentNode.id);
-          for (const child of children.values()) {
-            if (child.id === descendantId) return true;
-            if (checkDescendants(child)) return true;
-          }
-          return false;
-        };
-        return checkDescendants(node);
+      (parent: Node, descendantId: string): boolean => {
+        let current = state.nodes.get(descendantId);
+        while (current?.parent_id) {
+          if (current.parent_id === parent.id) return true;
+          current = state.nodes.get(current.parent_id);
+        }
+        return false;
       },
-    getAllChildrens: state => (id: string) => {
-      const parent = state.nodes.get(id);
-      if (!parent) return [];
-      const childrens: Node[] = [parent];
-      const getChildrens = (parent: Node) => {
-        state.nodes.forEach(node => {
-          if (node.parent_id == parent.id) {
-            childrens.push(node);
-            getChildrens(node);
+    // Get all descendant IDs of a node
+    getDescendantIds:
+      state =>
+      (id: string): string[] => {
+        const result: string[] = [];
+        const queue: string[] = [id];
+
+        while (queue.length > 0) {
+          const currentId = queue.shift()!;
+          const childrenIds = state.nodes.getChildrenIds(currentId);
+          for (const childId of childrenIds) {
+            result.push(childId);
+            queue.push(childId);
           }
-        });
-      };
-      getChildrens(parent);
-      return childrens;
-    },
-    getAllChildrensIds: state => (id: string) => {
-      const childrens: string[] = [id];
-      const getChildrens = (parent: Node) => {
-        state.nodes.forEach(node => {
-          if (node.parent_id == parent.id) {
-            childrens.push(node.id);
-            getChildrens(node);
-          }
-        });
-      };
-      const parent = state.nodes.get(id);
-      if (parent) getChildrens(parent);
-      return childrens;
-    },
+        }
+        return result;
+      },
+
     search:
       state =>
-      (options: SearchOptions, nodes = state.nodes.toArray()) => {
+      (options: SearchOptions, nodes = state.nodes.toSortedArray()) => {
         const {
           query,
           fromDate,
@@ -213,20 +187,27 @@ export const useNodesStore = defineStore('nodes', {
       this.clear();
       await Promise.all([this.fetch(), this.fetchShared()]);
     },
+
     recomputeTags() {
       const tags = new Set<string>();
+
+      this.nodes.startBulk();
+
       this.nodes.forEach(node => {
         if (node.tags) {
           parseTags(node.tags).forEach(tag => tags.add(tag));
         }
         if (node.parent_id && !this.nodes.get(node.parent_id)) {
-          node.parent_id = '';
+          this.nodes.set(node.id, { ...node, parent_id: '' });
         }
       });
+
+      this.nodes.endBulk();
       this.allTags = Array.from(tags).sort();
     },
-    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : Collection<string, Node>> {
-      if (opts?.id && !this.nodes.get(opts.id)?.partial) return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : Collection<string, Node>;
+
+    async fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : IndexedCollection> {
+      if (opts?.id && !this.nodes.get(opts.id)?.partial) return this.nodes.get(opts.id) as 'id' extends keyof T ? Node : IndexedCollection;
       console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
       if (!this.nodes.size) this.isFetching = true;
       const request = await makeRequest(`nodes/${opts?.id ? opts.id : 'user/@me'}`, 'GET', {});
@@ -237,22 +218,31 @@ export const useNodesStore = defineStore('nodes', {
           const n = this.nodes.get(opts.id);
           let shared = false;
           if (n) shared = n.shared;
-          const updatedNode: Node = { ...(result.node as DB_Node), partial: false, shared: shared, permissions: result.permissions };
+          // Check for orphaned parent_id and detach if necessary
+          let finalParentId = result.node.parent_id;
+          if (finalParentId && !this.nodes.has(finalParentId)) {
+            finalParentId = '';
+          }
+
+          const updatedNode: Node = { ...(result.node as DB_Node), parent_id: finalParentId, partial: false, shared: shared, permissions: result.permissions };
           if (!n) this.nodes.set(opts.id, updatedNode);
           else this.nodes.set(opts.id, updatedNode);
-          return updatedNode as 'id' extends keyof T ? Node : Collection<string, Node>;
+          return updatedNode as 'id' extends keyof T ? Node : IndexedCollection;
         } else {
-          if (!request.result) return this.nodes as 'id' extends keyof T ? Node : Collection<string, Node>;
+          if (!request.result) return this.nodes as 'id' extends keyof T ? Node : IndexedCollection;
+          this.nodes.startBulk();
           for (const node of request.result as DB_Node[]) {
             const n = this.nodes.get(node.id);
             if (!n) this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
             else this.nodes.set(node.id, { ...node, partial: true, shared: false, permissions: [] });
           }
+          this.nodes.endBulk();
           this.recomputeTags();
-          return this.nodes as 'id' extends keyof T ? Node : Collection<string, Node>;
+          return this.nodes as 'id' extends keyof T ? Node : IndexedCollection;
         }
       } else throw request;
     },
+
     async fetchPublic(id: string): Promise<{ node: Node; children: Node[] } | undefined> {
       console.log(`[store/nodes] Fetching public node with id: ${id}`);
       const existingDoc = this.public_nodes.get(id);
@@ -274,19 +264,27 @@ export const useNodesStore = defineStore('nodes', {
         return { node: fetchedDoc, children };
       } else return undefined;
     },
-    async fetchShared(): Promise<Collection<string, Node>> {
+
+    async fetchShared(): Promise<IndexedCollection> {
       console.log(`[store/nodes] Fetching shared nodes`);
       const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
       if (request.status === 'success') {
-        if (!request.result) return this.nodes;
+        if (!request.result) return this.nodes as IndexedCollection;
+        this.nodes.startBulk();
         for (const node of request.result as DB_Node[]) {
-          if (!this.nodes.has(node.id)) this.nodes.set(node.id, { ...node, partial: true, shared: true, permissions: node.permissions || [] });
+          let finalParentId = node.parent_id;
+          if (finalParentId && !this.nodes.has(finalParentId)) {
+            finalParentId = '';
+          }
+          if (!this.nodes.has(node.id))
+            this.nodes.set(node.id, { ...node, parent_id: finalParentId, partial: true, shared: true, permissions: node.permissions || [] });
           else {
             const state = this.nodes.get(node.id);
-            this.nodes.set(node.id, { ...node, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] });
+            this.nodes.set(node.id, { ...node, parent_id: finalParentId, partial: true, shared: state?.shared ?? true, permissions: node.permissions || [] });
           }
         }
-        return this.nodes;
+        this.nodes.endBulk();
+        return this.nodes as IndexedCollection;
       } else throw request;
     },
     /**
@@ -310,37 +308,7 @@ export const useNodesStore = defineStore('nodes', {
       console.error('[store/nodes] Fulltext search failed:', request.message);
       return [];
     },
-    async addPermission(perm: Omit<Permission, 'id' | 'created_timestamp'>): Promise<Permission> {
-      console.log(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
-      const node = this.nodes.get(perm.node_id);
-      if (!node) throw 'Node not found in store, cannot add permission';
-      const request = await makeRequest(`nodes/${perm.node_id}/permissions`, 'POST', perm);
-      if (request.status === 'success') {
-        node.permissions.push(request.result as Permission);
-        return request.result as Permission;
-      } else throw request.message;
-    },
-    async updatePermission(perm: Permission) {
-      console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
-      const node = this.nodes.get(perm.node_id);
-      if (!node) throw 'Node not found in store, cannot update permission';
-      const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
-      if (request.status === 'success') {
-        const index = node.permissions.findIndex(p => p.id === perm.id);
-        if (index !== -1) node.permissions[index]!.permission = perm.permission;
-      } else throw request.message;
-    },
-    async removePermission(nodeId: string, userId: string) {
-      console.log(`[store/nodes/permissions] Removing permission for user ${userId} on node ${nodeId}`);
-      const node = this.nodes.get(nodeId);
-      if (!node) throw 'Node not found in store, cannot remove permission';
-      const perm = node.permissions.find(p => p.user_id === userId);
-      if (!perm) throw 'Permission not found in store, cannot remove permission';
-      const request = await makeRequest(`nodes/${nodeId}/permissions/${perm.id}`, 'DELETE', {});
-      if (request.status === 'success') {
-        node.permissions = node.permissions.filter(p => p.id !== perm.id);
-      } else throw request.message;
-    },
+
     async post(node: Partial<Node>): Promise<DB_Node> {
       const request = await makeRequest('nodes', 'POST', { ...node, id: undefined });
       if (request.status == 'success') {
@@ -348,6 +316,7 @@ export const useNodesStore = defineStore('nodes', {
         return request.result as DB_Node;
       } else throw request.message;
     },
+
     async update(node: Node) {
       if (node.partial) {
         console.log('[store/nodes] Node looks partial, cannot update it directly.');
@@ -358,10 +327,12 @@ export const useNodesStore = defineStore('nodes', {
       const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
       if (request.status == 'success') {
         node.updated_timestamp = Date.now(); // approximate update time for better UX & backups import
+        if (node.parent_id && !this.nodes.has(node.parent_id)) node.parent_id = ''; // Check for orphaned parent_id and detach if necessary
         this.nodes.set(node.id, node);
         return this.nodes;
       } else throw request.message;
     },
+
     async duplicate(node: Node): Promise<DB_Node> {
       if (!node) throw 'Node not found in store, cannot duplicate';
       if (node.partial) {
@@ -388,15 +359,12 @@ export const useNodesStore = defineStore('nodes', {
     async delete(id: string) {
       const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
       if (request.status == 'success') {
-        const allChildrens = this.getAllChildrensIds(id);
+        const allChildrens = this.getDescendantIds(id);
         this.nodes.delete(id);
         allChildrens.forEach(childId => this.nodes.delete(childId));
       } else throw request.message;
     },
 
-    // Loop through ids and delete them one by one
-    // Only update the store after all deletions are successful
-    // Return the list of deleted ids and failed ids
     async bulkDelete(nodes: Node[]) {
       const deletedIds: string[] = [];
       const failedIds: { id: string; message: string }[] = [];
@@ -413,18 +381,128 @@ export const useNodesStore = defineStore('nodes', {
         }
       }
       // Update store
+      this.nodes.startBulk();
       deletedIds.forEach(id => {
-        const allChildrens = this.getAllChildrensIds(id);
+        const allChildrens = this.getDescendantIds(id);
         this.nodes.delete(id);
         allChildrens.forEach(childId => this.nodes.delete(childId));
       });
+      this.nodes.endBulk();
       return { deletedIds, failedIds };
     },
+    // ********************************** Permissions management **********************************
 
-    /* Backup import helpers */
+    async fetchPermissions(nodeId: string, recursive = false): Promise<Permission[]> {
+      const params = new URLSearchParams({
+        recursive: recursive.toString(),
+      });
+      const request = await makeRequest(`nodes/${nodeId}/permissions?${params.toString()}`, 'GET', {});
+      if (request.status === 'success') {
+        const permissions = request.result as Permission[];
+        if (!permissions || permissions.length === 0) return [];
+        this.nodes.startBulk();
+        for (const perm of permissions) {
+          const node = this.nodes.get(perm.node_id);
+          if (!node) continue;
+          const existingPermIndex = node.permissions.findIndex(p => p.id === perm.id);
+          if (existingPermIndex !== -1) node.permissions[existingPermIndex] = perm;
+          else node.permissions.push(perm);
+          this.nodes.set(node.id, node);
+        }
+        this.nodes.endBulk();
+        return permissions;
+      }
+      console.error('[store/nodes] Fetching permissions failed:', request.message);
+      return [];
+    },
+
+    async addPermission(perm: Omit<Permission, 'id' | 'created_timestamp'>): Promise<Permission> {
+      console.log(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
+      const node = this.nodes.get(perm.node_id);
+      if (!node) throw 'Node not found in store, cannot add permission';
+      const request = await makeRequest(`nodes/${perm.node_id}/permissions`, 'POST', perm);
+      if (request.status === 'success') {
+        const newPermission = request.result as Permission;
+        this.nodes.set(node.id, {
+          ...node,
+          permissions: [...node.permissions, newPermission],
+        });
+        return newPermission;
+      } else throw request.message;
+    },
+
+    async updatePermission(perm: Permission) {
+      console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
+      const node = this.nodes.get(perm.node_id);
+      if (!node) throw 'Node not found in store, cannot update permission';
+      const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
+      if (request.status === 'success') {
+        const index = node.permissions.findIndex(p => p.id === perm.id);
+        const newPermissions = [...node.permissions];
+        if (index !== -1 && newPermissions[index]) {
+          newPermissions[index] = { ...newPermissions[index], permission: perm.permission };
+          this.nodes.set(node.id, {
+            ...node,
+            permissions: newPermissions,
+          });
+        }
+      } else throw request.message;
+    },
+
+    async removePermission(perm: Permission) {
+      console.log(`[store/nodes/permissions] Removing permission for user ${perm.user_id} on node ${perm.node_id}`);
+      const node = this.nodes.get(perm.node_id);
+      if (!node) throw 'Node not found in store, cannot remove permission';
+      const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'DELETE', {});
+      if (request.status === 'success') {
+        const newPermissions = node.permissions.filter(p => p.id !== perm.id);
+        this.nodes.set(node.id, {
+          ...node,
+          permissions: newPermissions,
+        });
+      } else throw request.message;
+    },
+
+    // ********************************** Invitations management **********************************
+
+    async fetchInvitations(nodeId: string): Promise<NodeInvitation[]> {
+      const request = await makeRequest<NodeInvitation[]>(`nodes/${nodeId}/invitations`, 'GET', {});
+      if (request.status === 'success') {
+        return request.result || [];
+      }
+      throw request.message;
+    },
+
+    async addInvitation(nodeId: string, permission_level: number): Promise<NodeInvitation> {
+      const request = await makeRequest<NodeInvitation>(`nodes/${nodeId}/invitations`, 'POST', { permission_level });
+      if (request.status === 'success') return request.result as NodeInvitation;
+      throw request.message;
+    },
+
+    async removeInvitation(nodeId: string, invitationId: string) {
+      const request = await makeRequest(`nodes/${nodeId}/invitations/${invitationId}`, 'DELETE', {});
+      if (request.status !== 'success') throw request.message;
+    },
+    async joinInvitation(codeOrLink: string): Promise<InvitationJoinResponse> {
+      const request = await makeRequest<InvitationJoinResponse>('nodes/invitations/join', 'POST', { code: codeOrLink });
+      if (request.status === 'success' && request.result) {
+        const { node, permission } = request.result;
+        const existing = this.nodes.get(node.id);
+        this.nodes.set(node.id, {
+          ...(existing || {}),
+          ...node,
+          partial: false,
+          shared: true,
+          permissions: [permission],
+        } as Node);
+        return request.result;
+      }
+      throw request.message;
+    },
+
+    // ********************************** Import management **********************************
 
     // Prepare nodes for import by checking which nodes need to be created or updated
-    // Based on node id and updated_timestamp
     prepareImport(nodes: DB_Node[]): { toCreate: DB_Node[]; toUpdate: DB_Node[] } {
       const toCreate: DB_Node[] = [];
       const toUpdate: DB_Node[] = [];
@@ -441,6 +519,43 @@ export const useNodesStore = defineStore('nodes', {
       }
       return { toCreate, toUpdate };
     },
+    async importAllNodesAndResources(nodes: DB_Node[], resources: ResourceImportTask[], job: Ref<ImportJob>) {
+      const nodesById = new Map(nodes.map(n => [n.id, n]));
+      const corresponding: Record<string, string> = {}; // Map: [old_id] -> [new_server_id]
+
+      const resourcesStore = useResourcesStore();
+
+      // 1. Start by importing all nodes (folders, documents) to get their new IDs
+      for (const node of nodes) {
+        await this.importNode(node, nodesById, corresponding, job);
+      }
+
+      // 2. Import resources (binary files) and map their parent_id to the new IDs
+      for (const task of resources) {
+        try {
+          let finalParentId = undefined;
+          if (task.parent_id) {
+            finalParentId = corresponding[task.parent_id] || task.parent_id;
+          } else {
+            finalParentId = usePreferencesStore().get('defaultUploadFolder').value;
+          }
+
+          const formData = new FormData();
+          formData.append('file', task.file);
+          if (finalParentId) formData.append('parent_id', finalParentId);
+
+          console.log(`[Import] Uploading resource file: ${task.file.name} to parent: ${finalParentId}`);
+          const uploadedResourceNode = await resourcesStore.post(formData);
+
+          job.value.created.push(uploadedResourceNode.id);
+
+          await new Promise(resolve => setTimeout(resolve, 50));
+        } catch (error) {
+          console.error(`[Import] Failed to upload resource ${task.file.name}:`, error);
+        }
+      }
+    },
+
     async importMultipleNodes(nodes: { toCreate: DB_Node[]; toUpdate: DB_Node[] }, job: Ref<ImportJob>) {
       job.value.status = 'in_progress';
       try {

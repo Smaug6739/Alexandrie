@@ -43,6 +43,8 @@ export interface Workspace {
   meta?: Partial<Node>;
   text: string;
   value?: string;
+  depth?: number;
+  children?: Workspace[];
 }
 const { isMobile } = useDevice();
 export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems']): DefaultItem[] => [
@@ -77,6 +79,22 @@ export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems'])
     parent_id: '',
     route: '/dashboard/categories',
     show: computed(() => sidebarItemsPrefs?.manageCategories ?? true),
+  },
+  {
+    data: {
+      icon: 'organization',
+      id: 'teams',
+      name: 'components.sidebar.nav.teams',
+      permissions: [],
+      role: -1,
+      shared: false,
+    },
+    icon: 'organization',
+    id: 'teams',
+    label: 'components.sidebar.nav.teams',
+    parent_id: '',
+    route: '/dashboard/teams',
+    show: computed(() => sidebarItemsPrefs?.teams ?? true),
   },
   {
     data: {

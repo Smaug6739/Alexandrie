@@ -41,7 +41,7 @@ func (a NodeAction) RequiredLevel() NodePermissionLevel {
 	case ActionDelete, ActionShare:
 		return PermAdmin
 	case ActionManagePermissions:
-		return PermOwner
+		return PermAdmin
 	default:
 		return PermOwner
 	}

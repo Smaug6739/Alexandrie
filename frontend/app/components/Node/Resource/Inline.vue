@@ -7,12 +7,8 @@
       <span class="file-size">{{ readableFileSize(node.size ?? 0) }}</span>
     </div>
 
-    <button v-if="editable" class="btn-icon file-edit" @click.prevent="openDrawioEditor">
-      <Icon name="edit" />
-    </button>
-    <button class="btn-icon file-remove" @click.prevent="openDeleteModal">
-      <Icon name="close" />
-    </button>
+    <AppBtnIcon v-if="editable" nav icon="edit" :tooltip="t('common.actions.edit')" @click.prevent="openDrawioEditor" />
+    <AppBtnIcon nav icon="delete" :tooltip="t('common.actions.delete')" @click.prevent="openDeleteModal" />
   </NuxtLink>
 </template>
 
@@ -22,33 +18,20 @@ import DrawioEditorModal from '../Modals/DrawioEditor.vue';
 import { isImageFile, readableFileSize, resolveFileIcon, resolvePreviewUrl } from '~/helpers/resources';
 import type { Node } from '~/stores';
 
-const props = defineProps<{
-  node: Node;
-}>();
+const props = defineProps<{ node: Node }>();
 
 const modal = useModal();
-
-const editable = computed(() => props.node.metadata?.drawio);
+const { t } = useI18nT();
 
 const preview = ref<string | null>(null);
 
+const editable = computed(() => props.node.metadata?.drawio);
+
 if (isImageFile(props.node.metadata?.filetype)) preview.value = resolvePreviewUrl(props.node);
 
-const openDeleteModal = () => {
-  modal.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: props.node, redirect: '/dashboard' } }));
-};
-
-function openDrawioEditor() {
-  modal.add(
-    new Modal(shallowRef(DrawioEditorModal), {
-      props: {
-        node: props.node,
-      },
-      size: 'large',
-      noPadding: true,
-    }),
-  );
-}
+// Actions
+const openDeleteModal = () => modal.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: props.node, redirect: '/dashboard' } }));
+const openDrawioEditor = () => modal.add(new Modal(shallowRef(DrawioEditorModal), { props: { node: props.node }, size: 'large', noPadding: true }));
 </script>
 
 <style scoped lang="scss">

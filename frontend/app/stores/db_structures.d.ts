@@ -37,6 +37,19 @@ export interface Permission {
   created_timestamp: number;
 }
 
+export interface NodeInvitation {
+  id: string;
+  invitation_code: string;
+  permission_level: number;
+  node_id: string;
+  created_timestamp: number;
+}
+
+export interface InvitationJoinResponse {
+  permission: Permission;
+  node: Node;
+}
+
 export interface Node extends DB_Node {
   partial?: boolean;
   shared: boolean;

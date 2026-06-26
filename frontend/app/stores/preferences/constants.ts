@@ -1,6 +1,6 @@
-import type { TreeNode } from '~/helpers/TreeBuilder';
+import type { TreeItem } from '~/helpers/TreeBuilder';
 
-export type ANode<ID = string | number> = Omit<TreeNode<unknown, ID>, 'data'>;
+export type ANode<ID = number | string> = Omit<TreeItem<unknown, ID>, 'data' | 'route'>;
 
 export const DEFAULT_PREFERENCES = {
   locale: 'en' as 'en' | 'fr',
@@ -28,16 +28,17 @@ export const DEFAULT_PREFERENCES = {
     cdn: true as boolean,
     settings: true as boolean,
     home: true as boolean,
+    teams: true as boolean,
     importation: false as boolean,
     documents: false as boolean,
     newPage: false as boolean,
   } as const,
   navbarItems: {
-    breadcrumb: true as boolean,
+    breadcrumbNav: false as boolean,
     search: true as boolean,
     theme: true as boolean,
     navigation: true as boolean,
-  },
+  } as const,
   snippets: [
     { id: '!blue', label: ':::blue\n${0}\n:::' },
     { id: '!green', label: ':::green\n${0}\n:::' },

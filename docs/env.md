@@ -76,11 +76,12 @@ Only variables documented here and in `.env.example` are officially supported.
 
 ## Email — SMTP (optional)
 
-| Variable        | Accepted Values | Description                    |
-| --------------- | --------------- | ------------------------------ |
-| `SMTP_HOST`     | Hostname        | SMTP server host.              |
-| `SMTP_MAIL`     | Email address   | Sender email address.          |
-| `SMTP_PASSWORD` | String          | Password for the SMTP account. |
+| Variable         | Accepted Values | Description                    |
+| ---------------- | --------------- | ------------------------------ |
+| `SMTP_HOST`      | Hostname        | SMTP server host.              |
+| `SMTP_MAIL`      | Email address   | Sender email address.          |
+| `SMTP_MAIL_FROM` | Email address   | From email address.            |
+| `SMTP_PASSWORD`  | String          | Password for the SMTP account. |
 
 ---
 

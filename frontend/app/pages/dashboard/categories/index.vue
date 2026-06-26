@@ -1,15 +1,15 @@
 <template>
   <div class="page-card">
-    <header>
-      <h1>{{ t('nodes.container.title') }}</h1>
-      <div class="actions-row">
-        <AppButton type="primary" @click="createWorkspace">{{ t('nodes.container.newWorkspace') }}</AppButton>
-        <AppButton type="primary" @click="createCategory">{{ t('nodes.container.newCategory') }}</AppButton>
-        <NuxtLink to="/dashboard/import"
-          ><AppButton type="secondary" variant="outline">{{ t('nodes.container.import') }}</AppButton></NuxtLink
-        >
-      </div>
-    </header>
+    <Teleport to="#navbar-title"><Icon name="categories" display="lg" />{{ t('nodes.container.title') }}</Teleport>
+
+    <Teleport to="#navbar-actions">
+      <AppButton type="primary" @click="createWorkspace">{{ t('nodes.container.newWorkspace') }}</AppButton>
+      <AppButton type="primary" @click="createCategory">{{ t('nodes.container.newCategory') }}</AppButton>
+      <NuxtLink to="/dashboard/import">
+        <AppButton type="secondary" variant="outline">{{ t('nodes.container.import') }}</AppButton>
+      </NuxtLink>
+    </Teleport>
+
     <div style="padding-bottom: 10px">
       <input v-model="filter" :placeholder="t('nodes.container.searchPlaceholder')" />
     </div>
@@ -39,7 +39,7 @@ const router = useRouter();
 const filter = ref('');
 
 const filteredItems = computed(() => {
-  const items = nodesTree.treeUpToRole(2).value;
+  const items = nodesTree.getTreeUpToRole(2).value;
   if (!filter.value.trim()) return items;
   return filterTreeByLabel(items, filter.value);
 });

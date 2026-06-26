@@ -57,6 +57,7 @@ export default {
       manageCategories: 'Manage categories',
       newPage: 'New page',
       settings: 'Settings',
+      teams: 'Teams',
     },
     styleDefault: 'Default',
     styleGlassmorphism: 'Glassmorphism',
@@ -193,6 +194,7 @@ export default {
     shortcuts: 'Shortcuts',
     snippets: 'Snippets',
     styles: 'Style injection',
+    teams: 'Teams',
   },
 
   profile: {

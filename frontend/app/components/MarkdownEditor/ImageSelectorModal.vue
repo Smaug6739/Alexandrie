@@ -9,7 +9,7 @@
         <input v-model="searchQuery" :placeholder="t('markdown.image.searchPlaceholder')" />
       </div>
       <div class="images-grid">
-        <div v-for="image in filteredImages.values()" :key="image.id" class="image-item" @click="selectImage(image)">
+        <div v-for="image in filteredImages" :key="image.id" class="image-item" @click="selectImage(image)">
           <img :src="resolvePreviewUrl(image)" :alt="image.name" class="image-preview" @error="handleImageError" />
           <div class="image-info">
             <span class="image-name">{{ image.name }}</span>
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div v-if="filteredImages.size === 0" class="no-images">
+      <div v-if="filteredImages.length === 0" class="no-images">
         <p>{{ t('markdown.image.noImages') }}</p>
       </div>
     </div>
@@ -30,18 +30,25 @@ import EditorAppHeader from './EditorAppHeader.vue';
 import { readableFileSize, isImageFile, resolvePreviewUrl } from '~/helpers/resources';
 import type { Node } from '~/stores';
 
+const props = defineProps<{ onImageSelect: (imageUrl: string, altText: string) => void; nodeId?: string }>();
+const emit = defineEmits<{ (e: 'close'): void }>();
+
 const { t } = useI18nT();
 const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
-
-const props = defineProps<{ onImageSelect: (imageUrl: string, altText: string) => void; nodeId?: string }>();
-const emit = defineEmits<{ (e: 'close'): void }>();
 
 const searchQuery = ref('');
 const isLoading = ref(false);
 const uploadError = ref<string | null>(null);
 const dropComponent = ref();
 const { resourceURL } = useApi();
+
+const filteredImages = computed(() => {
+  if (!searchQuery.value.trim()) {
+    return nodesStore.resources.filter(img => isImageFile(img.metadata?.filetype as string));
+  }
+  return nodesStore.resources.filter(img => isImageFile(img.metadata?.filetype as string) && img.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
+});
 
 const submitFile = (selectedFile: File) => {
   if (!selectedFile) return;
@@ -55,13 +62,6 @@ const submitFile = (selectedFile: File) => {
     .catch(e => (uploadError.value = e || t('markdown.image.uploadError')))
     .finally(() => (isLoading.value = false));
 };
-
-const filteredImages = computed(() => {
-  if (!searchQuery.value.trim()) {
-    return nodesStore.resources.filter(img => isImageFile(img.metadata?.filetype as string));
-  }
-  return nodesStore.resources.filter(img => isImageFile(img.metadata?.filetype as string) && img.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
-});
 
 const handleImageError = (event: Event) => {
   const img = event.target as HTMLImageElement;

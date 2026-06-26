@@ -86,6 +86,7 @@ export const useUserStore = defineStore('user', {
 
     async update(user: User) {
       if (!this.user) return;
+      if (!user.email) user.email = undefined; // Ensure email is undefined if not provided to avoid sending empty string
       const request = await makeRequest(`users/${user.id}`, 'PATCH', user);
       if (request.status === 'success') {
         if (this.user.id == user.id) this.user = request.result as User;

@@ -37,6 +37,7 @@ const options = computed(
             choices: [
               { label: 'English', id: 'en' },
               { label: 'Français', id: 'fr' },
+              { label: 'Deutsch', id: 'de' },
               { label: 'Українська', id: 'uk' },
             ],
             onChange: (option: unknown) => {
@@ -98,6 +99,7 @@ const options = computed(
             key: 'sidebarItems' as const,
             items: {
               manageCategories: t('settings.appearance.sidebarItems.manageCategories'),
+              teams: t('settings.appearance.sidebarItems.teams'),
               importation: t('settings.appearance.sidebarItems.importation'),
               cdn: t('settings.appearance.sidebarItems.cdn'),
               documents: t('settings.appearance.sidebarItems.documents'),
@@ -116,7 +118,7 @@ const options = computed(
             type: 'groupCheckbox' as const,
             key: 'navbarItems' as const,
             items: {
-              breadcrumb: t('settings.appearance.navbarItems.breadcrumb'),
+              breadcrumbNav: t('settings.appearance.navbarItems.breadcrumb'),
               search: t('settings.appearance.navbarItems.search'),
               theme: t('settings.appearance.navbarItems.theme'),
               navigation: t('settings.appearance.navbarItems.navigation'),

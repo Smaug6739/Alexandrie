@@ -14,6 +14,7 @@ definePageMeta({
 });
 
 const nodesStore = useNodesStore();
+const nodesTree = useNodesTree();
 
 const modals = useModal();
 const route = useRoute();
@@ -26,7 +27,10 @@ watchEffect(() => {
 });
 
 const nodes = computed(() => {
-  return nodesStore.getAllChildrens(parent.value?.id || '').filter(d => d.role == 3);
+  return nodesTree
+    .getSubtreeAsArray(parent.value?.id || '')
+    .filter(d => d.data.role === 3)
+    .map(c => c.data);
 });
 
 const openDeleteModal = () => {

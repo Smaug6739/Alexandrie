@@ -6,6 +6,7 @@
     </span>
     <span>
       <Icon v-if="option.meta?.shared" name="users" />
+      <Icon v-if="option.meta?.user_id === userStore.user?.id && option.meta?.role === 0" name="owner" />
     </span>
   </div>
 </template>
@@ -14,6 +15,7 @@
 import type { Workspace } from './helpers';
 
 defineProps<{ option: Workspace }>();
+const userStore = useUserStore();
 
 const { getAppAccent } = useAppColors();
 </script>

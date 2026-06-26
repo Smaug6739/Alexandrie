@@ -1,12 +1,13 @@
 <template>
   <div>
-    <header>
-      <h2>{{ t('import.header.title') }} <tag orange>Beta</tag></h2>
+    <Teleport to="#navbar-title">{{ t('import.header.title') }}</Teleport>
+
+    <Teleport to="#navbar-actions">
       <AppButton type="secondary" size="sm" class="btn-close" @click="resetImport">
         <Icon name="close" :size="14" />
         {{ t('import.header.changeFile') }}
       </AppButton>
-    </header>
+    </Teleport>
 
     <div class="info-grid">
       <div class="info-item">
@@ -60,10 +61,6 @@ const { numericDate } = useDateFormatters();
 </script>
 
 <style scoped lang="scss">
-h2 {
-  border-bottom: none;
-}
-
 .btn-close {
   display: flex;
   align-items: center;

@@ -148,8 +148,13 @@ func (s *authService) RequestPasswordReset(username string, mailClient *mail.Cli
 		return nil // Don't reveal errors
 	}
 
+	mailFrom := os.Getenv("SMTP_MAIL_FROM")
+	if mailFrom == "" {
+		mailFrom = os.Getenv("SMTP_MAIL")
+	}
+
 	message := mail.NewMsg()
-	message.FromFormat("Alexandrie Team", os.Getenv("SMTP_MAIL"))
+	message.FromFormat("Alexandrie Team", mailFrom)
 	message.To(*user.Email)
 	message.Subject("Alexandrie: Password Reset")
 	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Your password reset link is: %s", os.Getenv("FRONTEND_URL")+"/login/reset?token="+resetToken))

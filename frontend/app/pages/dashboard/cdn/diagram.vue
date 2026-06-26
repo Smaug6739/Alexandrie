@@ -1,17 +1,15 @@
 <template>
   <div class="drawio-editor-modal">
+    <Teleport to="#navbar-title">{{ t('cdn.diagram') }}</Teleport>
     <aside>
       <input v-model="node.name" type="text" :placeholder="t('common.labels.name')" />
-
-      <button class="btn-icon" @click="requestSaveDiagram">
-        <Icon name="save" display="lg" />
-        <p class="hint-tooltip">{{ t('common.actions.save') }}</p>
-      </button>
+      <Teleport to="#navbar-actions">
+        <AppBtnIcon nav icon="save" :tooltip="t('common.actions.save')" @click="requestSaveDiagram" />
+      </Teleport>
     </aside>
 
     <div class="drawio-content">
       <iframe :key="iframeKey" ref="iframe" class="drawio-iframe" :src="iframeUrl" />
-
       <div v-if="!isReady" class="loading-overlay">
         <LoaderSpinner />
         <p>{{ t('common.status.loading') }}</p>
@@ -43,15 +41,16 @@ function requestSaveDiagram() {
   });
 }
 
-function postMessageToIframe(msg: object) {
+const postMessageToIframe = (msg: object) => {
   if (!iframe.value?.contentWindow) return;
   iframe.value.contentWindow.postMessage(JSON.stringify(msg), '*');
-}
+};
 const exitHandleMessage = async (e: MessageEvent) => {
   const result = await handleMessage(e, node.value.name);
   if (result) router.push(`/dashboard/cdn`);
 };
 
+// Lifecycle hooks
 onMounted(() => window.addEventListener('message', exitHandleMessage));
 
 onBeforeUnmount(() => window.removeEventListener('message', exitHandleMessage));

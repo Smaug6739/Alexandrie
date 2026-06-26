@@ -12,11 +12,15 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - '${MYSQL_EXTERNAL_PORT:-3307}:3306'
+      - "${MYSQL_EXTERNAL_PORT:-3307}:3306"
     networks:
       - alexandrie-network
     healthcheck:
-      test: ['CMD-SHELL', "mysql -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} -e 'SELECT 1' $${MYSQL_DATABASE}"]
+      test:
+        [
+          "CMD-SHELL",
+          "mysql -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} -e 'SELECT 1' $${MYSQL_DATABASE}",
+        ]
       timeout: 10s
       retries: 5
       interval: 30s
@@ -30,17 +34,17 @@ services:
     environment:
       RUSTFS_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-alexandrie-key}
       RUSTFS_SECRET_KEY: ${RUSTFS_SECRET_KEY:-alexandrie-secret}
-      RUSTFS_CONSOLE_ENABLE: '${RUSTFS_CONSOLE_ENABLE:-false}'
+      RUSTFS_CONSOLE_ENABLE: "${RUSTFS_CONSOLE_ENABLE:-false}"
       RUSTFS_LOG_LEVEL: ${RUSTFS_LOG_LEVEL:-info}
     ports:
-      - '${RUSTFS_EXTERNAL_PORT:-9000}:9000'
+      - "${RUSTFS_EXTERNAL_PORT:-9000}:9000"
     volumes:
       - rustfs_data:/data
       - rustfs_logs:/logs
     networks:
       - alexandrie-network
     healthcheck:
-      test: ['CMD-SHELL', 'nc -z localhost 9000 || exit 1']
+      test: ["CMD-SHELL", "nc -z localhost 9000 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -59,11 +63,11 @@ services:
       JWT_SECRET: ${JWT_SECRET:-your-secure-jwt-secret-key-change-this-in-production}
       COOKIE_DOMAIN: ${COOKIE_DOMAIN:-localhost:8200} # Common domain for cookies (e.g., yourdomain.com if you have frontend.yourdomain.com and api.yourdomain.com)
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8200} # URL where the frontend is hosted (for CORS policy and url generation in emails)
-      ALLOW_UNSECURE: '${ALLOW_UNSECURE:-true}' # Set to 'true' if you run without HTTPS (e.g., local dev);
+      ALLOW_UNSECURE: "${ALLOW_UNSECURE:-true}" # Set to 'true' if you run without HTTPS (e.g., local dev);
 
       # Flags
-      CONFIG_DISABLE_SIGNUP: '${CONFIG_DISABLE_SIGNUP:-false}' # Disable user signup if set to 'true'
-      CONFIG_DISABLE_NATIVE_LOGIN: '${CONFIG_DISABLE_NATIVE_LOGIN:-false}' # Disable native username/password login if set to 'true' (useful if you only want OAuth providers)
+      CONFIG_DISABLE_SIGNUP: "${CONFIG_DISABLE_SIGNUP:-false}" # Disable user signup if set to 'true'
+      CONFIG_DISABLE_NATIVE_LOGIN: "${CONFIG_DISABLE_NATIVE_LOGIN:-false}" # Disable native username/password login if set to 'true' (useful if you only want OAuth providers)
 
       # Database Configuration
       DATABASE_HOST: mysql
@@ -76,7 +80,7 @@ services:
       # OPTIONAL: If you don't want to use the CDN feature you can leave these variables empty
       MINIO_ENDPOINT: rustfs:9000
       MINIO_PUBLIC_URL: ${CDN_URL:-http://localhost:${RUSTFS_EXTERNAL_PORT:-9000}}
-      MINIO_SECURE: '${MINIO_SECURE:-false}' # Set to 'true' if your S3 endpoint uses HTTPS
+      MINIO_SECURE: "${MINIO_SECURE:-false}" # Set to 'true' if your S3 endpoint uses HTTPS
       MINIO_ACCESSKEY: ${RUSTFS_ACCESS_KEY:-alexandrie-key}
       MINIO_SECRETKEY: ${RUSTFS_SECRET_KEY:-alexandrie-secret}
       MINIO_BUCKET: ${MINIO_BUCKET:-alexandrie}
@@ -85,12 +89,13 @@ services:
       # OPTIONAL: If you don't want to use email features, you can leave these variables empty
       SMTP_HOST: ${SMTP_HOST:-}
       SMTP_MAIL: ${SMTP_MAIL:-}
+      SMTP_MAIL_FROM: ${SMTP_MAIL_FROM:-}
       SMTP_PASSWORD: ${SMTP_PASSWORD:-}
 
     ports:
-      - '${BACKEND_EXTERNAL_PORT:-8201}:8201'
+      - "${BACKEND_EXTERNAL_PORT:-8201}:8201"
     extra_hosts:
-      - 'localhost:host-gateway'
+      - "localhost:host-gateway"
     depends_on:
       mysql:
         condition: service_healthy
@@ -108,8 +113,8 @@ services:
       PORT: 8200
 
       # Flags
-      NUXT_PUBLIC_CONFIG_DISABLE_SIGNUP_PAGE: '${CONFIG_DISABLE_SIGNUP:-false}' # Disable signup page if set to 'true'
-      NUXT_PUBLIC_CONFIG_DISABLE_LANDING_PAGE: '${CONFIG_DISABLE_LANDING:-false}' # Disable landing page
+      NUXT_PUBLIC_CONFIG_DISABLE_SIGNUP_PAGE: "${CONFIG_DISABLE_SIGNUP:-false}" # Disable signup page if set to 'true'
+      NUXT_PUBLIC_CONFIG_DISABLE_LANDING_PAGE: "${CONFIG_DISABLE_LANDING:-false}" # Disable landing page
 
       # Runtime configuration - builds with these values at startup
       NUXT_PUBLIC_BASE_API: ${API_URL:-http://localhost:8201}
@@ -118,7 +123,7 @@ services:
       NUXT_PUBLIC_BASE_URL: ${FRONTEND_URL:-http://localhost:8200}
 
     ports:
-      - '${FRONTEND_EXTERNAL_PORT:-8200}:8200'
+      - "${FRONTEND_EXTERNAL_PORT:-8200}:8200"
     depends_on:
       - backend
     networks:

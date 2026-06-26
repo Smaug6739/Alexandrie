@@ -38,6 +38,7 @@ export default {
   },
 
   editor: {
+    title: 'Markdown editor',
     placeholder: {
       title: 'Document title',
       description: 'Document description',
@@ -102,12 +103,14 @@ export default {
     allWorkspaces: 'All workspaces',
     closeAll: 'Close all',
     editWorkspace: 'Edit workspace',
+    joinWorkspace: 'Join workspace',
     nav: {
       cdn: 'CDN',
       documents: 'Documents',
       home: 'Home',
       imports: 'Imports',
       manageCategories: 'Manage categories',
+      teams: 'Teams',
       newPage: 'New page',
       settings: 'Settings',
     },

@@ -33,7 +33,7 @@
           </span>
           <div class="user-actions">
             <AppSelect v-model="selectedPermission" :items="NODE_PERMISSIONS" :searchable="false" size="200px" />
-            <button @click="addPermission(user)">{{ t('nodes.modals.permissions.addPermission') }}</button>
+            <AppButton type="primary" small @click="addPermission(user)">{{ t('nodes.modals.permissions.addPermission') }}</AppButton>
           </div>
         </div>
       </div>
@@ -67,12 +67,40 @@
         </div>
       </li>
     </ul>
+
+    <hr />
+
+    <label for="invitations">{{ t('nodes.modals.permissions.inviteLabel') }}</label>
+    <div class="invite-form">
+      <AppSelect v-model="selectedInvitationPermission" :items="NODE_PERMISSIONS" :searchable="false" />
+      <AppButton type="primary" small :disabled="isCreatingInvitation" @click="createInvitation">
+        {{ isCreatingInvitation ? t('nodes.modals.permissions.inviteCreateProgress') : t('nodes.modals.permissions.inviteCreate') }}
+      </AppButton>
+    </div>
+    <p v-if="!invitations.length" class="info-secondary">{{ t('nodes.modals.permissions.inviteEmpty') }}</p>
+    <ul id="invitations" class="permissions-list">
+      <li v-for="invitation in invitations" :key="invitation.id" class="permission-item invitation-item">
+        <div class="user-info-row invitation-row">
+          <span class="invite-meta">
+            <span class="invite-code">{{ invitation.invitation_code }}</span>
+            <span class="invite-details">
+              {{ t('nodes.modals.permissions.invitePermission') }}: {{ invitation.permission_level }} · {{ shortDate(invitation.created_timestamp) }}</span
+            >
+          </span>
+
+          <div class="user-actions">
+            <AppButton type="secondary" small @click="copyInvitationLink(invitation.invitation_code)">Copy link</AppButton>
+            <AppButton type="danger" small @click="deleteInvitation(invitation.id)">Revoke</AppButton>
+          </div>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
 import { DOCUMENT_ACCESSIBILITIES, DOCUMENT_GENERAL_ACCESS, NODE_PERMISSIONS } from '~/helpers/constants';
-import type { Node, Permission, PublicUser } from '~/stores';
+import type { Node, NodeInvitation, Permission, PublicUser } from '~/stores';
 
 const props = defineProps<{ node: Node }>();
 const { t } = useI18nT();
@@ -81,15 +109,26 @@ const usersStore = useUserStore();
 const nodesStore = useNodesStore();
 
 const { avatarURL } = useApi();
+const { shortDate } = useDateFormatters();
+const notifications = useNotifications();
 
 const node = ref<Node>(props.node);
 const query = ref('');
 const users = ref<PublicUser[]>([]);
 const selectedPermission = ref(1);
+const selectedInvitationPermission = ref(1);
+const invitations = ref<NodeInvitation[]>([]);
 const searchError = ref<string | null>(null);
 const isLoading = ref(false);
+const isCreatingInvitation = ref(false);
 
 const link = computed(() => `${window.location.origin}/doc/${node.value?.id}`);
+const invitationLink = (code: string) => `${window.location.origin}/dashboard/join-workspace?code=${encodeURIComponent(code)}`;
+
+const refreshInvitations = async () => {
+  if (!node.value?.id) return;
+  invitations.value = await nodesStore.fetchInvitations(node.value.id);
+};
 
 watchEffect(() => {
   if (node.value.partial) nodesStore.fetch({ id: node.value.id }).then(fetched => (node.value = fetched));
@@ -97,6 +136,16 @@ watchEffect(() => {
     usersStore.fetchPublicUser(perm.user_id);
   }
 });
+
+watch(
+  () => node.value.id,
+  () => {
+    refreshInvitations().catch(() => {
+      invitations.value = [];
+    });
+  },
+  { immediate: true },
+);
 
 watch(query, async newQuery => {
   users.value = [];
@@ -137,6 +186,31 @@ const addPermission = async (user: PublicUser) => {
   users.value = [];
   query.value = '';
   selectedPermission.value = 1;
+};
+
+const createInvitation = async () => {
+  if (!node.value?.id) return;
+  isCreatingInvitation.value = true;
+  try {
+    const invitation = await nodesStore.addInvitation(node.value.id, selectedInvitationPermission.value);
+    invitations.value = [invitation, ...invitations.value];
+    selectedInvitationPermission.value = 1;
+    notifications.add({ type: 'success', title: 'Invitation created' });
+  } finally {
+    isCreatingInvitation.value = false;
+  }
+};
+
+const deleteInvitation = async (invitationId: string) => {
+  if (!node.value?.id) return;
+  await nodesStore.removeInvitation(node.value.id, invitationId);
+  invitations.value = invitations.value.filter(invitation => invitation.id !== invitationId);
+  notifications.add({ type: 'success', title: 'Invitation revoked' });
+};
+
+const copyInvitationLink = async (code: string) => {
+  await navigator.clipboard.writeText(invitationLink(code));
+  notifications.add({ type: 'success', title: 'Invitation link copied to clipboard' });
 };
 
 const updatePermission = async (perm: Permission) => {
@@ -239,19 +313,6 @@ form {
   margin-top: 10px;
 }
 
-button {
-  padding: 4px 8px;
-  border: none;
-  border-radius: var(--radius-sm);
-  color: white;
-  background: var(--primary-color, #444);
-  cursor: pointer;
-}
-
-button:hover {
-  background: var(--primary-hover, #666);
-}
-
 .permissions-list {
   margin: 0;
   padding: 0;
@@ -260,6 +321,35 @@ button:hover {
 
 .permission-item {
   padding: 8px;
-  border-bottom: 1px solid var(--border, #ddd);
+  border-bottom: 1px solid var(--border);
+}
+
+.invite-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.invitation-item {
+  .invitation-row {
+    gap: 10px;
+  }
+
+  .invite-meta {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .invite-code {
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .invite-details {
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
 }
 </style>
