@@ -49,7 +49,7 @@ const { getAppAccent } = useAppColors();
 
 const user = ref<PublicUser | null>(null);
 
-const category = computed(() => nodesTree.getClosestCategoryAncestor(props.doc?.parent_id)?.data);
+const category = computed(() => nodesTree.getClosestCategoryAncestor(props.doc?.id)?.data);
 const printMode = preferences.get('printMode');
 
 watchEffect(() => {
