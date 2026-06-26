@@ -10,6 +10,7 @@ export const DEFAULT_PREFERENCES = {
   compactMode: false as boolean,
   normalizeFileIcons: false as boolean,
   displayUncategorizedResources: true as boolean,
+  displayTabs: false as boolean,
   datatableItemsCount: 10 as number,
   view_dock: true as boolean,
   primaryColor: -2 as number, // -2 default primary; -1 unset; >= 0 app color index
@@ -87,6 +88,7 @@ export const GENERAL_KEYS: PreferenceKey[] = [
   'compactMode',
   'normalizeFileIcons',
   'displayUncategorizedResources',
+  'displayTabs',
   'datatableItemsCount',
   'view_dock',
   'primaryColor',

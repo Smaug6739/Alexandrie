@@ -1,47 +1,37 @@
 <template>
   <div class="tabs-container">
-    <button v-for="(tab, key) in tabs.tabs" :key class="tab" :class="{ active: tabs.indexActiveTab === key }" @click="selectTab(tab, key)">
+    <button v-for="tab in tabsStore.tabs" :key="tab.path" class="tab" :class="{ active: route.fullPath === tab.path }" @click="selectTab(tab.path)">
       <span>{{ tab.name }}</span>
-      <div class="close" @click.stop="closeTab(key)">
+      <div class="close" @click.stop="closeTab(tab.path)">
         <Icon name="close" display="sm" />
       </div>
     </button>
-    <div class="more" @click="addTab">
+
+    <div class="more" @click="addDefaultTab">
       <Icon name="plus" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Tab } from '~/stores/tabs.stores';
-
-const tabs = useTabs();
+const route = useRoute();
 const router = useRouter();
-
-tabs.setup();
-tabs.$subscribe(() => {
-  tabs.saveTabs();
-});
+const tabsStore = useTabsStore();
 
 useTabsSync();
 
-const selectTab = (tab: Tab, index: number): void => {
-  tabs.setActive(index);
-
-  router.push(tab.path);
+const selectTab = (path: string): void => {
+  router.push(path);
 };
 
-const addTab = (): void => {
-  const tab = tabs.addTab();
-
-  router.push(tab.path);
+const addDefaultTab = (): void => {
+  router.push('/dashboard/home');
 };
 
-const closeTab = (index: number): void => {
-  const nextTab = tabs.closeTab(index);
-
-  if (nextTab) {
-    router.push(nextTab.path);
+const closeTab = (path: string): void => {
+  const nextPath = tabsStore.closeTab(path, route.fullPath);
+  if (nextPath) {
+    router.push(nextPath);
   }
 };
 </script>
@@ -51,15 +41,13 @@ const closeTab = (index: number): void => {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  gap: 0.25rem;
-  min-height: 2.7rem;
+  gap: 0.2rem;
+  margin-top: 2px;
   min-width: 0;
-  padding: 0.25rem 0.5rem 0;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   width: 100%;
-
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
@@ -69,27 +57,23 @@ const closeTab = (index: number): void => {
   .tab {
     display: flex;
     align-items: center;
-
     flex: 0 0 auto;
-    padding: 0.4rem 0.9rem;
+    padding: 0.3rem 0.9rem;
+    gap: 0.4rem;
     min-width: max-content;
-
     color: var(--color);
-
     border: 1px solid transparent;
-    border-radius: 10px 10px 0 0;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
     border-color: var(--primary-border);
-
     cursor: pointer;
     transition:
       background 0.2s ease,
       color 0.2s ease,
       border-color 0.2s ease;
-
     position: relative;
 
     span {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       white-space: nowrap;
     }
 
@@ -97,25 +81,21 @@ const closeTab = (index: number): void => {
       display: flex;
       align-items: center;
       justify-content: center;
-
       opacity: 0;
-
       width: 20px;
       height: 20px;
-
       border-radius: 50%;
       transition:
         background 0.2s ease,
         opacity 0.2s ease;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.12);
+        background: var(--surface-raised);
       }
     }
 
     &:hover {
       background: var(--primary-border);
-
       .close {
         opacity: 1;
       }
@@ -148,17 +128,12 @@ const closeTab = (index: number): void => {
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
-
     width: 1.9rem;
     height: 1.9rem;
-
     margin-left: 0.25rem;
-
     border-radius: 8px;
     cursor: pointer;
-
     background: transparent;
-
     transition:
       background 0.2s ease,
       color 0.2s ease,

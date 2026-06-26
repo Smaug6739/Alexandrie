@@ -1,13 +1,19 @@
 <template>
-  <header class="site-header">
+  <header :class="{ 'header--has-tabs': tabEnabled }">
     <div class="navbar">
-      <!-- Left side: burger + title -->
-      <div class="navbar__left">
-        <AppBtnIcon v-if="!isOpened" icon="burger" class="open-sidebar" @click="toggleSidebar" />
+      <div v-if="!isOpened && (!tabEnabled || isMobile)" class="navbar__left-trigger">
+        <AppBtnIcon icon="burger" class="open-sidebar" @click="toggleSidebar" />
+      </div>
+
+      <div class="navbar__center">
+        <div v-if="tabEnabled" class="navbar__tabs-wrapper">
+          <AppBtnIcon v-if="!isOpened && !isMobile" icon="burger" class="open-sidebar inline-burger" @click="toggleSidebar" />
+          <Tab class="navbar__tabs" />
+        </div>
+
         <div id="navbar-title" class="navbar__title" />
       </div>
 
-      <!-- Right side: actions + infos -->
       <div class="navbar__right">
         <div ref="desktopActionsZone" class="navbar__actions-wrapper" />
 
@@ -36,9 +42,8 @@
       </div>
     </div>
 
-    <!-- Bottom side -->
     <div v-if="navbarItems.breadcrumbNav" class="breadcrumbs">
-      <BreadCrumbs />
+      <NavigationBreadCrumbs />
     </div>
 
     <div class="subnav-wrapper" :class="{ 'subnav-wrapper--open': subnavOpen }" @vue:mounted="onSubnavMounted" @vue:updated="onSubnavMounted">
@@ -52,10 +57,7 @@
     </div>
   </header>
 </template>
-
 <script lang="ts" setup>
-import BreadCrumbs from '~/components/Navigation/BreadCrumbs.vue';
-
 const route = useRoute();
 const { t } = useI18nT();
 const { isMobile } = useDevice();
@@ -64,6 +66,7 @@ const preferences = usePreferencesStore();
 const commandCenter = useCommandCenter();
 
 const navbarItems = preferences.get('navbarItems');
+const tabEnabled = preferences.get('displayTabs');
 const openCommandCenter = () => commandCenter.open();
 
 const subnavOpen = ref(false);
@@ -80,9 +83,7 @@ let observer: MutationObserver | null = null;
 function checkSubnavContent() {
   const bottomEl = document.getElementById('navbar-bottom');
   hasBottomContent.value = !!(bottomEl && bottomEl.children.length > 0);
-
   hasActionsContent.value = !!(navbarActionsEl.value && navbarActionsEl.value.children.length > 0);
-
   hasSubnav.value = hasBottomContent.value || (isMobile.value && hasActionsContent.value);
 }
 
@@ -128,11 +129,11 @@ watch(
 
 <style lang="scss" scoped>
 $navbar-height: 56px;
-$subnav-height: 44px;
+$secondary-height: 40px;
 $bp-md: 768px;
 
-.site-header {
-  width: 98%;
+header {
+  width: 100%;
   margin: 0 auto;
   border-bottom: 1px solid var(--border);
 }
@@ -142,16 +143,102 @@ $bp-md: 768px;
   height: $navbar-height;
   padding: 0 4px;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   justify-content: space-between;
 }
 
-.navbar__left {
+.navbar__left-trigger {
   display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.navbar__center {
+  display: flex;
+  flex: 1;
   min-width: 0;
   align-items: center;
+  gap: 12px;
+}
+
+.navbar__title {
+  display: flex;
+  min-width: 0;
+  font-size: 17px;
+  font-weight: 600;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 100%;
+}
+
+/* Secondary Row (only if tabs are enabled) */
+.header--has-tabs {
+  .navbar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-rows: $navbar-height auto;
+    height: auto;
+    padding-bottom: 8px;
+    gap: 0 12px;
+  }
+
+  .navbar__left-trigger {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .navbar__center {
+    grid-column: 2;
+    grid-row: 1;
+    display: contents;
+  }
+
+  .navbar__tabs-wrapper {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  #navbar-title {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    height: $secondary-height;
+    padding-top: 4px;
+  }
+
+  .navbar__right {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+  }
+}
+
+.navbar__tabs {
   flex: 1;
+  min-width: 0;
+}
+
+.navbar__tabs-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
   gap: 8px;
+
+  .inline-burger {
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+}
+
+.navbar__tabs {
+  flex: 1;
+  min-width: 0;
 }
 
 .navbar__title {
@@ -166,6 +253,23 @@ $bp-md: 768px;
   white-space: nowrap;
 }
 
+/* Secondary Row */
+.navbar__secondary {
+  display: flex;
+  height: $secondary-height;
+  padding: 0 2px 6px 2px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar__secondary-left {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
+}
+
+/* Right Actions Side (Toujours fixe, ne saute jamais) */
 .navbar__right {
   display: flex;
   align-items: center;
@@ -173,12 +277,12 @@ $bp-md: 768px;
   gap: 6px;
 }
 
-.navbar__actions {
+.navbar__actions-wrapper {
   display: flex;
   align-items: center;
-  gap: 6px;
 }
 
+.navbar__actions,
 .navbar__infos {
   display: flex;
   align-items: center;
@@ -253,11 +357,6 @@ kbd {
 .breadcrumbs {
   padding: 4px 4px 6px;
   font-size: 13px;
-}
-
-.navbar__actions-wrapper {
-  display: flex;
-  align-items: center;
 }
 
 .subnav-wrapper {

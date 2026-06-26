@@ -1,111 +1,68 @@
 export interface Tab {
   path: string;
   name: string;
+  id?: string;
 }
 
-export interface TabsStore {
-  tabs: Tab[];
-  indexActiveTab: number;
-}
+const STORAGE_KEY = 'app-tabs';
 
-const STORAGE_KEY = 'tabs';
+export const useTabsStore = defineStore('tabs', () => {
+  const tabs = ref<Tab[]>([]);
 
-const createHomeTab = (): Tab => ({
-  path: '/dashboard/home',
-  name: 'Home',
-});
+  // Chargement initial depuis le localStorage (côté client uniquement)
+  if (import.meta.client) {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        tabs.value = JSON.parse(saved);
+      } catch {
+        tabs.value = [];
+      }
+    }
+  }
 
-const loadStoredTabs = (): TabsStore | null => {
-  if (!import.meta.client) return null;
+  // Sauvegarde automatique à chaque modification de la liste
+  watch(
+    tabs,
+    newTabs => {
+      if (import.meta.client) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(newTabs));
+      }
+    },
+    { deep: true },
+  );
 
-  const rawTabs = localStorage.getItem(STORAGE_KEY);
-  if (!rawTabs) return null;
+  // Ajouter ou activer un onglet
+  function syncTab(tab: Tab) {
+    const exists = tabs.value.some(t => t.path === tab.path);
+    if (!exists) {
+      tabs.value.push(tab);
+    }
+  }
 
-  try {
-    const parsed = JSON.parse(rawTabs) as Partial<TabsStore>;
+  // Fermer un onglet et retourner le prochain chemin à ouvrir si nécessaire
+  function closeTab(path: string, currentPath: string): string | null {
+    const index = tabs.value.findIndex(t => t.path === path);
+    if (index === -1) return null;
 
-    return {
-      tabs: Array.isArray(parsed.tabs) ? parsed.tabs : [],
-      indexActiveTab: typeof parsed.indexActiveTab === 'number' ? parsed.indexActiveTab : 0,
-    };
-  } catch {
+    tabs.value.splice(index, 1);
+
+    // Si on ferme l'onglet sur lequel on se trouve actuellement
+    if (currentPath === path) {
+      if (tabs.value.length > 0) {
+        // On redirige vers l'onglet précédent, ou le premier disponible
+        const nextTab = tabs.value[index - 1] || tabs.value[0];
+        return nextTab!.path;
+      }
+      return '/dashboard/home'; // Route de secours par défaut
+    }
+
     return null;
   }
-};
 
-export const useTabs = defineStore('tabs', {
-  state: (): TabsStore => ({
-    tabs: [],
-    indexActiveTab: 0,
-  }),
-  actions: {
-    setup() {
-      const storedTabs = loadStoredTabs();
-      if (storedTabs) {
-        this.$patch(storedTabs);
-      }
-    },
-    saveTabs() {
-      if (!import.meta.client) return;
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.$state));
-    },
-
-    syncCurrentTab(tab: Tab): void {
-      const index = this.tabs.findIndex(existingTab => existingTab.path === tab.path);
-
-      if (index !== -1) {
-        this.indexActiveTab = index;
-        this.tabs[index] = tab;
-        return;
-      }
-
-      if (this.tabs.length === 0) {
-        this.tabs.push(tab);
-        this.indexActiveTab = 0;
-        return;
-      }
-
-      this.tabs[this.indexActiveTab] = tab;
-    },
-
-    addTab(tab: Tab = createHomeTab()): Tab {
-      this.tabs.push(tab);
-      this.indexActiveTab = this.tabs.length - 1;
-
-      return tab;
-    },
-
-    setActive(index: number): void {
-      this.indexActiveTab = index;
-    },
-
-    closeTab(index: number): Tab | null {
-      const wasActive = this.indexActiveTab === index;
-
-      this.tabs.splice(index, 1);
-
-      if (this.indexActiveTab > index) {
-        this.indexActiveTab--;
-      }
-
-      if (this.tabs.length === 0) {
-        const tab = this.addTab();
-        return tab;
-      }
-
-      if (wasActive) {
-        const nextIndex = Math.min(index, this.tabs.length - 1);
-        this.indexActiveTab = nextIndex;
-
-        return this.tabs[nextIndex] ?? null;
-      }
-
-      return null;
-    },
-  },
-  getters: {
-    activeTab(): Tab {
-      return this.tabs[this.indexActiveTab]!;
-    },
-  },
+  return {
+    tabs,
+    syncTab,
+    closeTab,
+  };
 });
