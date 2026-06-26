@@ -137,4 +137,10 @@ h1 {
     grid-column: 1 / -1;
   }
 }
+
+@media (max-width: 768px) {
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

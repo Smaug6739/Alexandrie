@@ -67,7 +67,6 @@ a {
   width: 72px;
   height: 72px;
   border-radius: 22px;
-  background: var(--surface-overlay);
   flex: none;
   overflow: hidden;
   place-items: center;

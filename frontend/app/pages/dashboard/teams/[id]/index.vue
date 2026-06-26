@@ -23,9 +23,9 @@
       <div class="team-actions">
         <AppButton type="primary" @click="openCreateWorkspace">{{ t('nodes.container.newWorkspace') }}</AppButton>
         <AppButton type="secondary" @click="openCreateCategory"> {{ t('nodes.container.newCategory') }}</AppButton>
-        <NuxtLink :to="`/dashboard/docs/new?parent_id=${team.id}`"
-          ><AppButton type="secondary">{{ t('dashboard.actions.newDocument') }}</AppButton></NuxtLink
-        >
+        <NuxtLink :to="`/dashboard/docs/new?parent_id=${team.id}`">
+          <AppButton type="secondary">{{ t('dashboard.actions.newDocument') }}</AppButton>
+        </NuxtLink>
         <AppButton type="danger" @click="openDelete">{{ t('teams.actions.delete') }}</AppButton>
       </div>
     </section>
