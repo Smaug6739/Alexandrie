@@ -82,6 +82,9 @@ const logoutAll = () => {
 const openDeleteModal = () => modals.add(new Modal(shallowRef(DeleteAccountModal)));
 </script>
 <style lang="scss" scoped>
+h3 {
+  margin-top: 2.5rem;
+}
 .section {
   display: flex;
   flex-direction: column;

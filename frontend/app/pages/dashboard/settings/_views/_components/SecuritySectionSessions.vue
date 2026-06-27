@@ -45,6 +45,10 @@ const hasUnrecognizedSession = computed(() => userStore.sessions.length > 1);
 </script>
 
 <style lang="scss" scoped>
+h3 {
+  margin-top: 2.5rem;
+}
+
 .section-description {
   color: var(--text-secondary);
   margin-bottom: 1rem;

@@ -43,6 +43,10 @@ const changePassword = async () => {
 };
 </script>
 <style lang="scss" scoped>
+h3 {
+  margin-top: 2.5rem;
+}
+
 .err {
   padding: 0.1rem 0.5rem;
   font-size: 0.8rem;

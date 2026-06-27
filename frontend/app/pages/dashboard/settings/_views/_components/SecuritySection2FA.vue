@@ -2,7 +2,7 @@
   <section>
     <header>
       <div>
-        <h3>Two-Factor Authentication (2FA)</h3>
+        <h3>Two-Factor Authentication (2FA)<tag blue>New</tag></h3>
         <p class="section-description">Secure your account by requiring a 6-digit code during login.</p>
       </div>
       <div v-if="userStore.user?.totp_enabled">
@@ -84,6 +84,13 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+h3 {
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .section-description {

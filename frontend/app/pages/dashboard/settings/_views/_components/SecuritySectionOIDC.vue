@@ -38,10 +38,9 @@ const userStore = useUserStore();
 
 const { t } = useI18nT();
 const notifications = useNotifications();
+const { providers: availableProviders, isLoading, linkProvider, unlinkProvider, isProviderLinked } = useOIDC();
 
 userStore.fetchSessions();
-
-const { providers: availableProviders, isLoading, linkProvider, unlinkProvider, isProviderLinked } = useOIDC();
 
 function isLinked(providerName: string): boolean {
   return isProviderLinked(providerName);
@@ -65,6 +64,9 @@ async function unlinkAccount(providerName: string) {
 }
 </script>
 <style lang="scss" scoped>
+h3 {
+  margin-top: 2.5rem;
+}
 .section-description {
   color: var(--text-secondary);
   margin-bottom: 1rem;
