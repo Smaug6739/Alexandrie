@@ -18,10 +18,10 @@ export const useUserStore = defineStore('user', {
     async login(username: string, password: string) {
       try {
         // makeRequest doit être capable de vous retourner la réponse brute ou le body complet
-        const response = await makeRequest<{ auth: boolean; user_id?: string; message?: string }>('auth', 'POST', { username, password });
+        const response = await makeRequest<{ auth: boolean; pre_auth_token?: string; message?: string }>('auth', 'POST', { username, password });
 
         if (response.status === 'success') {
-          if (response.result?.message === '2FA_REQUIRED') return { success: true, require2FA: true, userId: response.result?.user_id };
+          if (response.result?.message === '2FA_REQUIRED') return { success: true, require2FA: true, preAuthToken: response.result?.pre_auth_token };
           if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
           return { success: true, require2FA: false };
         } else {
@@ -49,9 +49,9 @@ export const useUserStore = defineStore('user', {
       throw response.message;
     },
 
-    async verify2FA(userId: string, code: string) {
+    async verify2FA(preAuthToken: string, code: string) {
       try {
-        const response = await makeRequest<{ success: boolean }>('auth/2fa/verify', 'POST', { user_id: userId, code });
+        const response = await makeRequest<{ success: boolean }>('auth/2fa/verify', 'POST', { pre_auth_token: preAuthToken, code });
         if (response.status === 'success') {
           if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
           return { success: true };

@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"alexandrie/app"
-	"alexandrie/types"
 	"alexandrie/utils"
 	"errors"
 	"net/http"
@@ -78,14 +77,15 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	user, session, err := ctr.app.Services.Auth.Login(authClaims.Username, authClaims.Password, c.ClientIP(), c.Request.UserAgent())
+	user, session, preAuthToken, err := ctr.app.Services.Auth.Login(authClaims.Username, authClaims.Password, c.ClientIP(), c.Request.UserAgent())
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
 	if user.TotpEnabled && session == nil {
 		return http.StatusAccepted, gin.H{
-			"message": "2FA_REQUIRED",
-			"user_id": user.Id,
+			"message":        "2FA_REQUIRED",
+			"pre_auth_token": preAuthToken,
+			"user_id":        user.Id,
 		}
 	}
 
@@ -102,11 +102,6 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 	return http.StatusOK, user
 }
 
-type VerifyTOTPClaims struct {
-	UserId types.Snowflake `json:"user_id" binding:"required"`
-	Code   string          `json:"code" binding:"required"`
-}
-
 // VerifyTOTP
 // @Summary Verify TOTP code and login
 // @Method POST
@@ -115,13 +110,18 @@ type VerifyTOTPClaims struct {
 // @Success 200 {object} Success([]models.User)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
+type VerifyTOTPClaims struct {
+	PreAuthToken string `json:"pre_auth_token" binding:"required"`
+	Code         string `json:"code" binding:"required"`
+}
+
 func (ctr *Controller) VerifyTOTP(c *gin.Context) (int, any) {
 	var claims VerifyTOTPClaims
 	if err := c.ShouldBindJSON(&claims); err != nil {
 		return http.StatusBadRequest, err
 	}
 
-	user, session, err := ctr.app.Services.Auth.VerifyTOTPAndLogin(claims.UserId, claims.Code, c.ClientIP(), c.Request.UserAgent())
+	user, session, err := ctr.app.Services.Auth.VerifyTOTPAndLogin(claims.PreAuthToken, claims.Code, c.ClientIP(), c.Request.UserAgent())
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}

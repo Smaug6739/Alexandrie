@@ -75,7 +75,7 @@ const password = ref('');
 const totpCode = ref('');
 
 const step2FA = ref(false);
-const pendingUserId = ref('');
+const pendingPreAuthToken = ref('');
 
 definePageMeta({
   layout: 'public',
@@ -130,8 +130,8 @@ async function connect() {
   const res = await userStore.login(username.value, password.value);
   if (res.success) {
     if (res.require2FA) {
-      pendingUserId.value = res.userId!;
-      step2FA.value = true; // On bascule sur l'affichage du champ TOTP
+      pendingPreAuthToken.value = res.preAuthToken!;
+      step2FA.value = true;
     } else {
       router.push('/dashboard');
     }
@@ -141,7 +141,7 @@ async function connect() {
 }
 
 async function handleVerify2FA() {
-  const res = await userStore.verify2FA(pendingUserId.value, totpCode.value);
+  const res = await userStore.verify2FA(pendingPreAuthToken.value, totpCode.value);
   if (res.success) {
     router.push('/dashboard');
   } else {
