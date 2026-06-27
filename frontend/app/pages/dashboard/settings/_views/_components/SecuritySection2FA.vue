@@ -85,7 +85,10 @@ header {
   justify-content: space-between;
   align-items: center;
 }
-
+.section-description {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
 .enabled {
   margin: 0;
   font-size: 0.95rem;
