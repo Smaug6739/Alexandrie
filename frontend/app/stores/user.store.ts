@@ -40,11 +40,11 @@ export const useUserStore = defineStore('user', {
       throw response.message;
     },
 
-    async confirm2FA(secret: string, code: string) {
-      const response = await makeRequest<string>('auth/2fa/confirm', 'POST', { secret, code });
+    async confirm2FA(secret: string, code: string): Promise<string[]> {
+      const response = await makeRequest<{ message: string; backup_codes: string[] }>('auth/2fa/confirm', 'POST', { secret, code });
       if (response.status === 'success') {
         if (this.user) this.user.totp_enabled = true;
-        return true;
+        return response.result?.backup_codes || [];
       }
       throw response.message;
     },

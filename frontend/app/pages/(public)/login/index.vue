@@ -50,8 +50,8 @@
             id="totpCode"
             v-model="totpCode"
             type="text"
-            placeholder="000000"
-            maxlength="6"
+            placeholder="000000 or 8-digit backup code"
+            maxlength="8"
             pattern="[0-9]*"
             inputmode="numeric"
             autocomplete="one-time-code"
@@ -120,7 +120,7 @@ function login() {
   }
 }
 
-watch([username, password], () => {
+watch([username, password, totpCode], () => {
   errors.value.general = '';
   errors.value.username = '';
   errors.value.password = '';

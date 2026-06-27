@@ -31,6 +31,7 @@
         <AppButton type="secondary" @click="setupMode = false">Cancel</AppButton>
         <AppButton type="primary" @click="confirm2FA">Confirm Activation</AppButton>
       </div>
+
       <p v-if="setupError" class="error">{{ setupError }}</p>
     </div>
   </section>
@@ -38,7 +39,8 @@
 
 <script setup lang="ts">
 import QrcodeVue from 'qrcode.vue';
-import Disable2FAModal from '~/components/Security/Disable2FA.vue';
+import Disable2FAModal from './Disable2FA.vue';
+import BackupCodes2FA from './BackupCodes2FA.vue';
 
 const userStore = useUserStore();
 
@@ -63,9 +65,10 @@ async function start2FASetup() {
 async function confirm2FA() {
   setupError.value = '';
   try {
-    await userStore.confirm2FA(totpData.value.secret, setupCode.value);
+    const backupCodes = await userStore.confirm2FA(totpData.value.secret, setupCode.value);
     setupMode.value = false;
     setupCode.value = '';
+    modals.add(new Modal(shallowRef(BackupCodes2FA), { size: 'small', props: { backupCodes } }));
   } catch (err) {
     setupError.value = (err as string) || "Code invalide. L'activation a échoué.";
   }

@@ -40,7 +40,7 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowfla
 
 func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, resourceConfig ResourceConfig) error {
 	sm.Access = permissions.NewAccessGuard(repos.Node, repos.Permission)
-	sm.Auth = NewAuthService(repos.User, repos.Session, repos.Log, snowflake)
+	sm.Auth = NewAuthService(repos.User, repos.Session, repos.BackupCodes, repos.Log, snowflake)
 	sm.User = NewUserService(repos.User, repos.Log, snowflake, sm.Access)
 	sm.Stats = NewStatsService(repos.Stats)
 	sm.Minio = NewMinioService(minioClient)

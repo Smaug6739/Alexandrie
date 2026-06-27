@@ -247,28 +247,6 @@ h3 {
   margin-bottom: 1rem;
 }
 
-.warning-box {
-  display: flex;
-  padding: 1rem 1.25rem;
-  border: 1px solid var(--orange-border);
-  border-radius: var(--radius-lg);
-  background: var(--orange-bg);
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-
-  strong {
-    display: block;
-    color: var(--orange-dark);
-    margin-bottom: 0.25rem;
-  }
-
-  p {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--text-body);
-  }
-}
-
 .err {
   padding: 0.1rem 0.5rem;
   font-size: 0.8rem;

@@ -264,11 +264,14 @@ func (ctr *Controller) ConfirmTOTPActivation(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	if err := ctr.app.Services.Auth.EnableTOTP(userId, data.Secret, data.Code); err != nil {
+	if codes, err := ctr.app.Services.Auth.EnableTOTP(userId, data.Secret, data.Code); err != nil {
 		return http.StatusBadRequest, err
+	} else {
+		return http.StatusOK, gin.H{
+			"message":      "2FA activated successfully.",
+			"backup_codes": codes,
+		}
 	}
-
-	return http.StatusOK, "Success."
 }
 
 // DisableTOTP
