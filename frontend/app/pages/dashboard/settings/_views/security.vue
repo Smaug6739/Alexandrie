@@ -2,12 +2,14 @@
   <div>
     <h2 class="page-title">{{ t('settings.security.title') }}</h2>
     <p class="page-subtitle">{{ t('settings.security.subtitle') }}</p>
+
+    <!-- Sessions -->
     <h3>{{ t('settings.security.activeSessions') }}</h3>
     <p class="section-description">{{ t('settings.security.activeSessionsDesc') }}</p>
-    <div class="sessions-list">
+    <div v-if="userStore.sessions.length" class="sessions-list">
       <SessionCard v-for="(session, index) in userStore.sessions" :key="session.id" :session="session" :is-current="index === 0" :show-user-agent="true" />
     </div>
-    <p v-if="userStore.sessions.length === 0" class="no-sessions">{{ t('settings.security.noSessions') }}</p>
+    <p v-else class="no-sessions">{{ t('settings.security.noSessions') }}</p>
     <div v-if="hasUnrecognizedSession" class="warning-box">
       <Icon name="warning" display="sm" />
       <div>
@@ -15,6 +17,9 @@
         <p>{{ t('settings.security.unrecognizedSessionDesc') }}</p>
       </div>
     </div>
+
+    <!-- Two-Factor Authentication (2FA) -->
+    <Security2FABox />
 
     <!-- OIDC Linked Accounts -->
     <template v-if="oidcEnabled">
@@ -48,6 +53,7 @@
       </div>
     </template>
 
+    <!-- Password Change -->
     <h3>{{ t('settings.security.password') }}</h3>
     <form @submit.prevent="changePassword">
       <div class="form-group">
@@ -63,7 +69,9 @@
       </div>
       <AppButton type="primary">{{ t('settings.security.changePassword') }}</AppButton>
     </form>
-    <h2>{{ t('settings.security.dangerZone') }}</h2>
+
+    <!-- Danger Zone -->
+    <h3>{{ t('settings.security.dangerZone') }}</h3>
     <p class="page-subtitle">{{ t('settings.security.dangerZoneDesc') }}</p>
 
     <div class="danger-section">
@@ -134,6 +142,8 @@ const modals = useModal();
 const notifications = useNotifications();
 
 userStore.fetchSessions();
+
+// OIDC Linked Accounts
 
 const {
   providers: availableProviders,
@@ -230,6 +240,11 @@ const openDeleteModal = () => modals.add(new Modal(shallowRef(DeleteAccountModal
 p {
   margin: 0.5rem 0;
   font-size: 0.9rem;
+}
+
+h3 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
 }
 
 .warning-box {

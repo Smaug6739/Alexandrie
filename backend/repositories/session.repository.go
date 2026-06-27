@@ -18,7 +18,7 @@ type SessionRepository interface {
 	GetByRefreshToken(refreshToken string) (*models.Session, error)
 	Create(session *models.Session) (*models.Session, error)
 	Update(session *models.Session) (*models.Session, error)
-	Delete(sessionId types.Snowflake) error
+	Delete(sessionId types.Snowflake, userId types.Snowflake) error
 	DeleteAllByUser(userId types.Snowflake) error
 	DeleteOld() error
 }
@@ -79,8 +79,8 @@ func (r *SessionRepositoryImpl) Update(session *models.Session) (*models.Session
 	return session, nil
 }
 
-func (r *SessionRepositoryImpl) Delete(sessionId types.Snowflake) error {
-	_, err := r.db.Exec(`DELETE FROM sessions WHERE id = ?`, sessionId)
+func (r *SessionRepositoryImpl) Delete(sessionId types.Snowflake, userId types.Snowflake) error {
+	_, err := r.db.Exec(`DELETE FROM sessions WHERE id = ? AND user_id = ?`, sessionId, userId)
 	if err != nil {
 		return fmt.Errorf("failed to delete session: %w", err)
 	}

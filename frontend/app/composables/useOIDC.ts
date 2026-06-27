@@ -61,6 +61,7 @@ export function useOIDC() {
 
     try {
       const response = await makeRequest<OIDCProvidersResponse>('auth/oidc/providers', 'GET', {});
+
       if (response.status === 'success' && response.result) {
         isEnabled.value = response.result.enabled;
         providers.value = response.result.providers || [];

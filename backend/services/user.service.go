@@ -64,7 +64,7 @@ func (s *userService) GetUserById(ctx context.Context, id types.Snowflake) (*mod
 		return nil, err
 	}
 
-	user, err := s.userRepo.GetByID(id)
+	user, err := s.userRepo.GetByID(id, false)
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func (s *userService) UpdateUser(ctx context.Context, id types.Snowflake, firstn
 		return nil, err
 	}
 
-	dbUser, err := s.userRepo.GetByID(id)
+	dbUser, err := s.userRepo.GetByID(id, false)
 	if err != nil || dbUser == nil {
 		return nil, permissions.ErrNotFound
 	}
@@ -258,7 +258,7 @@ func (s *userService) LoadAppAdmins() {
 			logger.Warn("app-admins", "Invalid admin user ID: "+idStr)
 			continue
 		}
-		user, err := s.userRepo.GetByID(*id)
+		user, err := s.userRepo.GetByID(*id, false)
 		if err != nil || user == nil {
 			logger.Warn("app-admins", "Failed to load admin user with ID "+idStr+"\nCheck if the ID is correct and if the user exists.")
 			continue

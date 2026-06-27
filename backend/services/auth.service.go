@@ -14,16 +14,21 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/pquerna/otp/totp"
 	"github.com/wneessen/go-mail"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService interface {
 	Login(username, password, ip, userAgent string) (*models.User, *models.Session, error)
+	VerifyTOTPAndLogin(userId types.Snowflake, code, ip, userAgent string) (*models.User, *models.Session, error)
 	RefreshSession(refreshToken string) (*models.User, *models.Session, error)
 	Logout(refreshToken string) error
 	LogoutAllDevices(userId types.Snowflake) error
 	RequestPasswordReset(username string, mailClient *mail.Client) error
+	GenerateTOTPSecret(user *models.User) (string, string, error)
+	EnableTOTP(userId types.Snowflake, secret, code string) error
+	DisableTOTP(userId types.Snowflake, code string) error
 	ResetPassword(token, newPassword string) error
 	SignAccessToken(user *models.User, accessTokenExpiry int) (string, error)
 }
@@ -64,6 +69,44 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 	if err := bcrypt.CompareHashAndPassword([]byte(*user.Password), []byte(password)); err != nil {
 		return nil, nil, errors.New("invalid credentials")
 	}
+	if user.TotpEnabled {
+		user.Password = nil
+		return user, nil, nil
+	}
+
+	session := &models.Session{
+		Id:                   s.snowflake.Generate(),
+		UserId:               user.Id,
+		RefreshToken:         signRefreshToken(),
+		ExpireToken:          time.Now().Add(time.Duration(30 * 24 * time.Hour)).UnixMilli(),
+		LastRefreshTimestamp: time.Now().UnixMilli(),
+		Active:               1,
+		IpAddr:               &ip,
+		UserAgent:            &userAgent,
+		Location:             utils.PtrString(s.logRepo.GetLocationFromIP(ip)),
+		Type:                 utils.PtrString("login"),
+		LoginTimestamp:       time.Now().UnixMilli(),
+		LogoutTimestamp:      0,
+	}
+
+	if _, err := s.sessionRepo.Create(session); err != nil {
+		return nil, nil, errors.New("failed to create session")
+	}
+
+	user.Password = nil
+	return user, session, nil
+}
+
+func (s *authService) VerifyTOTPAndLogin(userId types.Snowflake, code, ip, userAgent string) (*models.User, *models.Session, error) {
+	user, err := s.userRepo.GetByID(userId, true)
+	if user == nil || err != nil {
+		return nil, nil, errors.New("user not found")
+	}
+
+	valid := totp.Validate(code, *user.TotpSecret)
+	if !valid {
+		return nil, nil, errors.New("invalid 2FA code")
+	}
 
 	session := &models.Session{
 		Id:                   s.snowflake.Generate(),
@@ -97,7 +140,7 @@ func (s *authService) RefreshSession(refreshToken string) (*models.User, *models
 		return nil, nil, errors.New("refresh token expired")
 	}
 
-	user, err := s.userRepo.GetByID(session.UserId)
+	user, err := s.userRepo.GetByID(session.UserId, false)
 	if user == nil || err != nil {
 		return nil, nil, errors.New("failed to get user")
 	}
@@ -122,11 +165,46 @@ func (s *authService) Logout(refreshToken string) error {
 	if session.ExpireToken < time.Now().UnixMilli() {
 		return errors.New("refresh token expired")
 	}
-	return s.sessionRepo.Delete(session.Id)
+	return s.sessionRepo.Delete(session.Id, session.UserId)
 }
 
 func (s *authService) LogoutAllDevices(userId types.Snowflake) error {
 	return s.sessionRepo.DeleteAllByUser(userId)
+}
+
+func (s *authService) GenerateTOTPSecret(user *models.User) (string, string, error) {
+	key, err := totp.Generate(totp.GenerateOpts{
+		Issuer:      "Alexandrie",
+		AccountName: user.Username,
+	})
+	if err != nil {
+		return "", "", errors.New("failed to generate TOTP key")
+	}
+
+	return key.Secret(), key.URL(), nil
+}
+
+func (s *authService) EnableTOTP(userId types.Snowflake, secret, code string) error {
+	valid := totp.Validate(code, secret)
+	if !valid {
+		return errors.New("invalid verification code")
+	}
+
+	return s.userRepo.UpdateTOTP(userId, secret, true)
+}
+
+func (s *authService) DisableTOTP(userId types.Snowflake, code string) error {
+	user, err := s.userRepo.GetByID(userId, true)
+	if err != nil {
+		return errors.New("failed to get user")
+	}
+
+	valid := totp.Validate(code, *user.TotpSecret)
+	if !valid {
+		return errors.New("invalid verification code")
+	}
+
+	return s.userRepo.UpdateTOTP(userId, "", false)
 }
 
 func (s *authService) RequestPasswordReset(username string, mailClient *mail.Client) error {
@@ -182,7 +260,7 @@ func (s *authService) ResetPassword(token, newPassword string) error {
 		return errors.New("invalid user ID in reset token")
 	}
 
-	user, err := s.userRepo.GetByID(types.Snowflake(userId))
+	user, err := s.userRepo.GetByID(types.Snowflake(userId), false)
 	if user == nil || err != nil {
 		return errors.New("failed to get user")
 	}

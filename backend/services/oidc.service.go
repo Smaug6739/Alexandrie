@@ -255,7 +255,7 @@ func (s *oidcService) LoginOrCreate(providerName string, userInfo *oidc.UserInfo
 	}
 	if link != nil {
 		// User already linked, perform login
-		user, err := s.userRepo.GetByID(link.UserId)
+		user, err := s.userRepo.GetByID(link.UserId, false)
 		if err != nil || user == nil {
 			return nil, nil, false, errors.New("linked user not found")
 		}

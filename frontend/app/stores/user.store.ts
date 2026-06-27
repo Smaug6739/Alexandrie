@@ -17,14 +17,58 @@ export const useUserStore = defineStore('user', {
   actions: {
     async login(username: string, password: string) {
       try {
-        const response = await makeRequest<{ auth: boolean }>('auth', 'POST', { username, password });
-        if (response.status == 'success') {
+        // makeRequest doit être capable de vous retourner la réponse brute ou le body complet
+        const response = await makeRequest<{ auth: boolean; user_id?: string; message?: string }>('auth', 'POST', { username, password });
+
+        if (response.status === 'success') {
+          if (response.result?.message === '2FA_REQUIRED') return { success: true, require2FA: true, userId: response.result?.user_id };
           if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
-          return true;
-        } else throw response.message;
+          return { success: true, require2FA: false };
+        } else {
+          throw response.message;
+        }
       } catch (e) {
-        return e;
+        return { success: false, error: e };
       }
+    },
+
+    async request2FA() {
+      const response = await makeRequest<{ secret: string; qr_code_url: string }>('auth/2fa/request', 'POST', {});
+      if (response.status === 'success') {
+        return response.result; // contient { secret, qr_code_url }
+      }
+      throw response.message;
+    },
+
+    async confirm2FA(secret: string, code: string) {
+      const response = await makeRequest<string>('auth/2fa/confirm', 'POST', { secret, code });
+      if (response.status === 'success') {
+        if (this.user) this.user.totp_enabled = true;
+        return true;
+      }
+      throw response.message;
+    },
+
+    async verify2FA(userId: string, code: string) {
+      try {
+        const response = await makeRequest<{ success: boolean }>('auth/2fa/verify', 'POST', { user_id: userId, code });
+        if (response.status === 'success') {
+          if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
+          return { success: true };
+        }
+        throw response.message;
+      } catch (e) {
+        return { success: false, error: e };
+      }
+    },
+
+    async disable2FA(code: string) {
+      const response = await makeRequest('auth/2fa/disable', 'POST', { code });
+      if (response.status === 'success') {
+        if (this.user) this.user.totp_enabled = false;
+        return true;
+      }
+      throw response.message;
     },
 
     async register(user: Omit<User, 'created_timestamp' | 'id' | 'updated_timestamp'>): Promise<boolean> {
@@ -46,7 +90,7 @@ export const useUserStore = defineStore('user', {
       if (this.sessions.length) return this.sessions;
       const response = await makeRequest<Session[]>(`auth/sessions`, 'GET', {});
       if (response.status === 'success') {
-        this.sessions = response.result as Session[];
+        this.sessions = response.result?.length ? response.result : [];
         return this.sessions;
       }
       throw response.message;
@@ -126,6 +170,15 @@ export const useUserStore = defineStore('user', {
       if (!this.user) return;
       const request = await makeRequest(`auth/logout/all`, 'POST', {});
       if (request.status === 'success') {
+        return true;
+      } else throw request.message;
+    },
+
+    async deleteSession(sessionId: string) {
+      if (!this.user) return;
+      const request = await makeRequest(`auth/sessions/${sessionId}`, 'DELETE', {});
+      if (request.status === 'success') {
+        this.sessions = this.sessions.filter(s => s.id !== sessionId);
         return true;
       } else throw request.message;
     },
