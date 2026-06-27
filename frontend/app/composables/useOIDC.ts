@@ -48,23 +48,24 @@ const OIDC_REDIRECT_URI_KEY = 'oidc_redirect_uri';
 const OIDC_FLOW_KEY = 'oidc_flow'; // 'login' or 'link'
 
 export function useOIDC() {
-  const providers = ref<OIDCProvider[]>([]);
-  const isEnabled = ref(false);
-  const isLoading = ref(false);
-  const linkedProviders = ref<UserOIDCProvider[]>([]);
+  const providers = useState<OIDCProvider[]>('oidc-providers', () => []);
+  const isEnabled = useState('oidc-enabled', () => false);
+  const isLoading = useState('oidc-loading', () => false);
+  const linkedProviders = useState<UserOIDCProvider[]>('oidc-linked', () => []);
 
   /**
    * Fetch available OIDC providers from the backend
    */
   async function fetchProviders(): Promise<void> {
-    isLoading.value = true;
+    if (providers.value.length > 0) return;
 
+    isLoading.value = true;
     try {
       const response = await makeRequest<OIDCProvidersResponse>('auth/oidc/providers', 'GET', {});
 
       if (response.status === 'success' && response.result) {
         isEnabled.value = response.result.enabled;
-        providers.value = response.result.providers || [];
+        providers.value = response.result.providers;
       } else {
         isEnabled.value = false;
         providers.value = [];
@@ -177,6 +178,7 @@ export function useOIDC() {
    * Fetch OIDC providers linked to the current user
    */
   async function fetchLinkedProviders(): Promise<void> {
+    if (linkedProviders.value.length > 0) return;
     try {
       const response = await makeRequest<UserOIDCProvider[]>('auth/oidc/linked', 'GET', {});
       if (response.status === 'success' && response.result) {
