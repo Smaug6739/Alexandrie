@@ -7,7 +7,13 @@
     <h3>{{ t('settings.security.activeSessions') }}</h3>
     <p class="section-description">{{ t('settings.security.activeSessionsDesc') }}</p>
     <div v-if="userStore.sessions.length" class="sessions-list">
-      <SessionCard v-for="(session, index) in userStore.sessions" :key="session.id" :session="session" :is-current="index === 0" :show-user-agent="true" />
+      <SessionCard
+        v-for="session in userStore.sessions"
+        :key="session.id"
+        :session="session"
+        :is-current="currentSession?.id === session.id"
+        :show-user-agent="true"
+      />
     </div>
     <p v-else class="no-sessions">{{ t('settings.security.noSessions') }}</p>
     <div v-if="hasUnrecognizedSession" class="warning-box">
@@ -142,6 +148,16 @@ const modals = useModal();
 const notifications = useNotifications();
 
 userStore.fetchSessions();
+
+const currentSession = computed(() => {
+  // Search for the session using User-Agent and if multiple sessions are found, use the one with the latest login timestamp
+  const currentUserAgent = navigator.userAgent;
+  const matchingSessions = userStore.sessions.filter(session => session.user_agent === currentUserAgent);
+  if (matchingSessions.length > 0) {
+    return matchingSessions.reduce((latest, session) => (session.login_timestamp > latest.login_timestamp ? session : latest), matchingSessions[0]);
+  }
+  return userStore.sessions[0] || null;
+});
 
 // OIDC Linked Accounts
 

@@ -31,8 +31,7 @@ func (r *SessionRepositoryImpl) GetByUserId(userId types.Snowflake) ([]models.Se
 	var sessions []models.Session
 	err := r.db.Select(&sessions, `
 			SELECT id, user_id, refresh_token, expire_token, last_refresh_timestamp, active, ip_adress, user_agent, location, type, login_timestamp, logout_timestamp
-			FROM sessions
-			WHERE user_id = ?`, userId)
+			FROM sessions WHERE user_id = ? ORDER BY login_timestamp DESC`, userId)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to get sessions by user ID: %w", err)
