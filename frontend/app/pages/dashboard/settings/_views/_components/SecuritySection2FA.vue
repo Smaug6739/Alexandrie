@@ -82,57 +82,63 @@ function disable2FA() {
 <style scoped lang="scss">
 header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
+
 .section-description {
   color: var(--text-secondary);
   margin-bottom: 1rem;
 }
+
 .enabled {
   margin: 0;
   font-size: 0.95rem;
   color: var(--text-primary);
+
   strong {
     color: var(--green);
   }
 }
+
 .setup-wizard {
   display: flex;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-overlay);
   flex-direction: column;
   gap: 1.25rem;
-  background: var(--surface-overlay);
-  border: 1px solid var(--border);
   margin-top: 1rem;
-  padding: 1.5rem;
-  border-radius: var(--radius-lg);
+
   p {
     margin: 0;
     font-size: 0.95rem;
   }
 }
+
 .qr-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: white;
-  border-radius: var(--radius-md);
   width: fit-content;
+  padding: 1.5rem;
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: white;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
 
   .secret-text {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
     font-family: var(--font-mono, monospace);
     font-size: 0.85rem;
     color: #333; /* Lisible sur fond blanc */
-    background: var(--surface-background);
-    padding: 0.4rem 0.75rem;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    word-break: break-all;
     text-align: center;
+    background: var(--surface-background);
+    word-break: break-all;
   }
 }
 </style>

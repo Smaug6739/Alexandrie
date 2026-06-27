@@ -71,42 +71,42 @@ async function copyAllCodes() {
 <style scoped lang="scss">
 .modal {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 1.25rem;
-  width: 100%;
 }
 
 .codes-container {
-  background: var(--surface-overlay);
+  display: flex;
+  padding: 1.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 1.25rem;
-  display: flex;
+  background: var(--surface-overlay);
   flex-direction: column;
   gap: 1rem;
 }
 
 .codes-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem 1.5rem;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .code-row {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
   padding: 0.4rem 0.5rem;
   border-radius: var(--radius-sm);
   transition: background-color 0.2s ease;
+  align-items: center;
+  gap: 0.75rem;
 
   &:hover {
     background: var(--surface-transparent);
   }
 
   .code-index {
-    font-size: 0.75rem;
     font-family: monospace;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     opacity: 0.6;
     user-select: none;
@@ -123,19 +123,19 @@ async function copyAllCodes() {
 
 .btn-copy {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background: var(--surface-transparent);
+  padding: 0.5rem 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 0.5rem 1rem;
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-primary);
-  cursor: pointer;
+  background: var(--surface-transparent);
   transition: all 0.2s ease;
+  align-items: center;
   align-self: center;
+  cursor: pointer;
+  gap: 0.5rem;
+  justify-content: center;
 
   &:hover {
     background: var(--border);
@@ -146,10 +146,10 @@ async function copyAllCodes() {
   }
 }
 
-@media (max-width: 400px) {
+@media (width <= 400px) {
   .codes-list {
-    grid-template-columns: 1fr;
     gap: 0.5rem;
+    grid-template-columns: 1fr;
   }
 }
 </style>

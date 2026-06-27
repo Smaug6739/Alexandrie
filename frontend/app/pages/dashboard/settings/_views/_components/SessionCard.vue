@@ -161,9 +161,9 @@ const closeSession = async () => {
 .session-info-container {
   display: flex;
   min-width: 0;
+  align-items: flex-start;
   flex: 1;
   gap: 0.5rem;
-  align-items: flex-start;
   justify-content: space-between;
 }
 

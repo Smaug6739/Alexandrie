@@ -138,7 +138,7 @@ h1 {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .team-grid {
     grid-template-columns: 1fr;
   }
