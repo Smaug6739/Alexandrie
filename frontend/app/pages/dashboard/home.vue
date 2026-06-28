@@ -1,7 +1,6 @@
 <template>
   <div class="home-container">
     <Teleport to="#navbar-title"> {{ t('dashboard.dashboard') }}</Teleport>
-
     <section class="home-top">
       <header class="home-header">
         <div class="greeting">
@@ -46,6 +45,8 @@
         </Transition>
       </div>
     </section>
+
+    <Welcome />
 
     <div class="sections">
       <!-- Section "Continue Working" -->

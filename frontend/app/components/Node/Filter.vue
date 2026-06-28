@@ -119,17 +119,6 @@ onBeforeUnmount(() => {
   display: inline-block;
 }
 
-.bubble {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 10px;
-  height: 10px;
-  border: 3px solid var(--primary);
-  border-radius: 50%;
-  background: var(--primary-bg);
-}
-
 .filter-panel {
   position: absolute;
   top: 48px;

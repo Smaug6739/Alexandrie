@@ -20,6 +20,7 @@ export interface NavigationItem {
   parent_id?: string;
   route: string;
   show: Ref<boolean>;
+  mark?: string;
 }
 
 export type DefaultItem = NavigationItem;
@@ -95,6 +96,7 @@ export const navigationItems = (sidebarItemsPrefs?: Preferences['sidebarItems'])
     parent_id: '',
     route: '/dashboard/teams',
     show: computed(() => sidebarItemsPrefs?.teams ?? true),
+    mark: 'teams',
   },
   {
     data: {

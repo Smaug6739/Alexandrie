@@ -1,5 +1,6 @@
 <template>
   <div class="workspace-tile" :class="accentColorClass">
+    <!-- La lueur utilise désormais une variable CSS `--accent-color` injectée proprement par getAppAccent -->
     <div class="glow-ambiance" />
 
     <div class="tile-content">
@@ -16,7 +17,7 @@
       </div>
 
       <div class="meta-zone">
-        <h3 class="ws-title">{{ workspace.name }}</h3>
+        <h3 class="ws-title" :title="workspace.name">{{ workspace.name }}</h3>
         <p v-if="workspace.description" class="ws-description">
           {{ workspace.description }}
         </p>
@@ -27,7 +28,7 @@
           <span v-for="child in categories.slice(0, 2)" :key="child.id" class="pill">
             {{ child.name }}
           </span>
-          <span v-if="categories.length > 2" class="pill-more"> +{{ categories.length - 2 }} autres </span>
+          <span v-if="categories.length > 2" class="pill-more"> +{{ categories.length - 2 }} </span>
         </div>
       </div>
     </div>
@@ -43,6 +44,7 @@ const props = defineProps<{ workspace: Node }>();
 const nodesStore = useNodesStore();
 const { getAppAccent } = useAppColors();
 
+// Nettoyage de la logique de couleur pour utiliser les mêmes standards de l'app
 const accentColorClass = computed(() => {
   const colors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'primary'];
   const colorIndex = props.workspace.color as number;
@@ -64,44 +66,40 @@ const docCount = computed(() => {
 
 <style scoped lang="scss">
 .workspace-tile {
-  --tile-radius: 14px;
-  --bg-speed: 0.3s;
-
   position: relative;
   display: flex;
   height: 100%;
-  padding: 1rem;
+  padding: 1.25rem;
   border: 1px solid var(--border);
-  border-radius: var(--tile-radius);
+  border-radius: var(--radius-lg);
   background: var(--surface-base);
-  transition:
-    border-color var(--bg-speed) ease,
-    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-    box-shadow 0.4s ease;
-  cursor: pointer;
   flex-direction: column;
   overflow: hidden;
+  cursor: pointer;
+
+  transition:
+    border-color $transition-fast ease,
+    background-color $transition-fast ease,
+    box-shadow $transition-fast ease,
+    transform $transition-fast cubic-bezier(0.25, 1, 0.5, 1);
 
   &:hover {
-    border-color: rgb(var(--primary), 0.35);
-    box-shadow:
-      0 20px 30px -10px rgb(0 0 0 / 30%),
-      0 0 0 1px rgb(var(--primary), 0.1);
-    transform: translateY(-6px) scale(1.01);
+    border-color: var(--primary);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 
     .glow-ambiance {
-      opacity: 0.12;
-      transform: scale(1.2);
+      opacity: 0.08;
+      transform: scale(1.1);
     }
 
     .icon-box {
       .ws-icon {
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
-
       .status-dot {
-        box-shadow: 0 0 12px var(--primary);
-        transform: scale(1.3);
+        box-shadow: 0 0 8px var(--primary);
       }
     }
   }
@@ -112,90 +110,95 @@ const docCount = computed(() => {
   top: -20%;
   right: -20%;
   z-index: 0;
-  width: 70%;
-  height: 70%;
-  background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--primary) 25%, transparent) 0%, transparent 75%);
   opacity: 0;
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
-  filter: blur(40px);
   pointer-events: none;
+  filter: blur(30px);
+  transition:
+    opacity $transition-base ease,
+    transform $transition-base ease;
 }
 
 .tile-content {
   position: relative;
   z-index: 1;
   display: flex;
-  height: 100%;
   flex-direction: column;
+  height: 100%;
 }
 
 .top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .icon-box {
   position: relative;
   display: flex;
-  width: 2.8rem;
-  height: 2.8rem;
-  border-radius: 10px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
   align-items: center;
   justify-content: center;
 
   .ws-icon {
-    font-size: 1.4rem;
-    transition: transform 0.3s ease;
+    font-size: 1.25rem;
+    transition: transform $transition-fast ease;
   }
 
   .status-dot {
     position: absolute;
-    top: -2px;
-    right: -2px;
-    width: 7px;
-    height: 7px;
-    border: 1.5px solid var(--surface-base);
+    top: -1px;
+    right: -1px;
+    width: 8px;
+    height: 8px;
+    border: 2px solid var(--surface-base);
     border-radius: 50%;
-    background: var(--primary-border);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
+    background: var(--primary);
+    transition: box-shadow $transition-fast ease;
+
+    .workspace-tile:hover & {
+      border-color: var(--surface-raised);
+    }
   }
 }
 
 .doc-badge {
   display: flex;
-  font-family: monospace;
   align-items: baseline;
-  gap: 0.2rem;
+  gap: 0.25rem;
+  color: var(--text-body);
 
   .count-number {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   .count-label {
     font-size: 0.75rem;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text-secondary);
   }
 }
 
 .meta-zone {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+  flex: 1;
 
   .ws-title {
-    margin: 0 0 0.4rem;
-    font-size: 1.25rem;
+    margin: 0 0 0.35rem 0;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--text-body);
-    transition: color 0.2s ease;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .ws-description {
@@ -214,21 +217,26 @@ const docCount = computed(() => {
 .tile-footer {
   border-top: 1px solid var(--border);
   margin-top: auto;
-  padding-top: 1rem;
+  padding-top: 0.75rem;
 }
 
 .category-pills {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  min-width: 0;
 
   .pill {
     position: relative;
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-secondary);
-    padding-left: 0.6rem;
+    padding-left: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100px;
 
     &::before {
       position: absolute;
@@ -237,19 +245,26 @@ const docCount = computed(() => {
       width: 4px;
       height: 4px;
       border-radius: 50%;
-      background: var(--border-strong);
+      background: var(--border);
       content: '';
       transform: translateY(-50%);
     }
   }
 
   .pill-more {
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.35rem;
+    border-radius: var(--radius-xs);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-secondary);
     background: var(--surface-raised);
+    border: 1px solid var(--border);
+
+    .workspace-tile:hover & {
+      background: var(--surface-base);
+    }
   }
 }
 </style>

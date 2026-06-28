@@ -18,14 +18,8 @@
           >{{ section.title }} <tag v-if="section.tag" blue>{{ section.tag }}</tag></span
         >
         <template v-for="item in section.items" :key="item.label">
-          <NuxtLink v-if="item.type === 'link'" :to="item.to" @click="close">
-            <Icon :name="item.icon" /><span v-if="item.bubble" class="bubble" />{{ item.label }}
-          </NuxtLink>
-          <NuxtLink v-else-if="item.type === 'action'" @click="item.action?.()">
-            <Icon :name="item.icon" /><span v-if="item.bubble" class="bubble" />{{ item.label }}
-          </NuxtLink>
-          <NuxtLink v-else :class="{ active: currentPage === item.key }" @click="setPage(item.key!)">
-            <span v-if="item.bubble" class="bubble" /> <Icon :name="item.icon" />{{ item.label }}
+          <NuxtLink :class="{ active: currentPage === item.key }" @click="handleItemClick(item)">
+            <span v-if="mark.hasMark(item.newId)" class="bubble" /> <Icon :name="item.icon" />{{ item.label }}
           </NuxtLink>
         </template>
       </template>
@@ -61,7 +55,7 @@ interface NavItem {
   icon: string;
   to?: string;
   action?: () => void;
-  bubble?: boolean;
+  newId?: MarkId;
 }
 
 interface NavSection {
@@ -95,6 +89,7 @@ const router = useRouter();
 const store = useUserStore();
 const { avatarURL } = useApi();
 const { t } = useI18nT();
+const mark = useMark();
 
 const currentPage = ref<PageKey>((route.query.p as PageKey) || 'profile');
 const currentComponent = computed(() => pages[currentPage.value]);
@@ -112,7 +107,7 @@ const navSections = computed<NavSection[]>(() => [
     items: [
       { key: 'profile', label: t('settings.pages.profile'), icon: 'profil' },
       { key: 'apparence', label: t('settings.pages.appearance'), icon: 'brush' },
-      { key: 'security', label: t('settings.pages.security'), icon: 'security', bubble: true },
+      { key: 'security', label: t('settings.pages.security'), icon: 'security', newId: 'security-2fa' },
     ],
   },
   {
@@ -131,7 +126,7 @@ const navSections = computed<NavSection[]>(() => [
       { key: 'snippets', label: t('settings.pages.snippets'), icon: 'snippets' },
       { key: 'backup', label: t('settings.pages.backup'), icon: 'backup' },
       { key: 'advanced', label: t('settings.pages.advanced'), icon: 'build' },
-      { key: 'teams', label: t('settings.pages.teams'), icon: 'users' },
+      { key: 'teams', label: t('settings.pages.teams'), icon: 'users', newId: 'teams' },
     ],
   },
   {
@@ -150,7 +145,20 @@ const navSections = computed<NavSection[]>(() => [
   },
 ]);
 
-const setPage = (p: PageKey) => {
+const handleItemClick = (item: NavItem) => {
+  if (item.type === 'action') {
+    item.action?.();
+    return;
+  }
+  if (item.type === 'link' && item.to) {
+    router.push(item.to);
+    menuOpen.value = false;
+    return;
+  }
+  if (mark.hasMark(item.newId)) {
+    mark.dismissMark(item.newId!);
+  }
+  const p = item.key!;
   router.push({ query: { ...route.query, p } });
   currentPage.value = p;
   menuOpen.value = false;
@@ -241,17 +249,6 @@ watchEffect(() => {
     margin: 0.5rem;
     padding: 1rem 2rem;
   }
-}
-
-.bubble {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 10px;
-  height: 10px;
-  border: 3px solid var(--primary);
-  border-radius: 50%;
-  background: var(--primary-bg);
 }
 
 @media screen and (width <= 920px) {

@@ -28,9 +28,9 @@
         <span class="cta">{{ t('common.actions.open') }}</span>
       </NuxtLink>
 
-      <NuxtLink class="import-card" to="/dashboard/import/advanced">
-        <div class="top">
-          <h3>{{ t('import.categories.advanced.title') }}</h3>
+      <NuxtLink class="import-card" to="/dashboard/import/advanced" @click="mark.dismissMark('new-imports')">
+        <div class="top" style="position: relative">
+          <h3>{{ t('import.categories.advanced.title') }}<span v-if="mark.hasMark('new-imports')" class="bubble" /></h3>
           <tag class="orange">{{ t('common.labels.advanced') }}</tag>
         </div>
         <Icon name="advanced" display="xxl" />
@@ -45,6 +45,7 @@
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
 const { t } = useI18nT();
+const mark = useMark();
 </script>
 
 <style scoped lang="scss">
