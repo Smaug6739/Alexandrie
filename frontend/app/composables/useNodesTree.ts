@@ -6,70 +6,6 @@ import { TreeBuilder, flattenTree, type TreeItem } from '~/helpers/TreeBuilder';
 import { resolveIcon, resolveNodeLink } from '~/helpers/node';
 import type { Node } from '~/stores';
 
-// ============================================================================
-// Collapse States (localStorage persistence)
-// ============================================================================
-const COLLAPSE_STORAGE_KEY = 'collapse-states';
-
-function createCollapseStore() {
-  const states = ref<Record<string, boolean>>({});
-  let initialized = false;
-
-  function init() {
-    if (initialized || import.meta.server) return;
-    try {
-      const raw = localStorage.getItem(COLLAPSE_STORAGE_KEY);
-      states.value = raw ? JSON.parse(raw) : {};
-    } catch {
-      states.value = {};
-    }
-    initialized = true;
-  }
-
-  function save() {
-    if (import.meta.server) return;
-    localStorage.setItem(COLLAPSE_STORAGE_KEY, JSON.stringify(states.value));
-  }
-
-  return {
-    isExpanded: (id: string) => {
-      init();
-      const state = states.value[id];
-      if (state === undefined) {
-        states.value[id] = true;
-        return true;
-      }
-      return state ?? true;
-    },
-    setExpanded: (id: string, value: boolean) => {
-      init();
-      states.value[id] = value;
-      save();
-    },
-    toggle: (id: string) => {
-      init();
-      states.value[id] = !(states.value[id] ?? true);
-      save();
-    },
-    setAll: (expanded: boolean) => {
-      init();
-      Object.keys(states.value).forEach(key => (states.value[key] = expanded));
-      save();
-    },
-    isAllCollapsed: () => {
-      init();
-      return Object.values(states.value).every(v => v === false);
-    },
-  };
-}
-
-// Singleton collapse store
-const collapseStore = createCollapseStore();
-
-// ============================================================================
-// Main Composable
-// ============================================================================
-
 let globalBuilder: ComputedRef<TreeBuilder<Node>> | null = null;
 let globalTree: ComputedRef<TreeItem<Node>[]> | null = null;
 
@@ -113,6 +49,7 @@ function transformNode(node: Node): Omit<TreeItem<Node>, 'children'> {
 }
 export function useNodesTree() {
   const nodesStore = useNodesStore();
+  const collapseStore = useCollapseStore();
 
   initGlobalTree();
 

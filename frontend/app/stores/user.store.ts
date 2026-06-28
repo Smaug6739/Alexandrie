@@ -1,3 +1,4 @@
+import localForage from 'localforage';
 import type { User, PublicUser, Session } from './db_structures';
 
 export const useUserStore = defineStore('user', {
@@ -22,7 +23,7 @@ export const useUserStore = defineStore('user', {
 
         if (response.status === 'success') {
           if (response.result?.message === '2FA_REQUIRED') return { success: true, require2FA: true, preAuthToken: response.result?.pre_auth_token };
-          if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
+          if (import.meta.client) localForage.setItem('isLoggedIn', true);
           return { success: true, require2FA: false };
         } else {
           throw response.message;
@@ -53,7 +54,7 @@ export const useUserStore = defineStore('user', {
       try {
         const response = await makeRequest<{ success: boolean }>('auth/2fa/verify', 'POST', { pre_auth_token: preAuthToken, code });
         if (response.status === 'success') {
-          if (import.meta.client) localStorage.setItem('isLoggedIn', 'true');
+          if (import.meta.client) localForage.setItem('isLoggedIn', 'true');
           return { success: true };
         }
         throw response.message;
@@ -196,7 +197,7 @@ export const useUserStore = defineStore('user', {
       this.user = undefined;
       useNodesStore().clear();
       useUserStore().clear();
-      if (import.meta.client) localStorage.removeItem('isLoggedIn');
+      if (import.meta.client) localForage.removeItem('isLoggedIn');
     },
 
     clear() {

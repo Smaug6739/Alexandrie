@@ -93,7 +93,7 @@ export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2024-07-19',
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
-
+  spaLoadingTemplate: './splash-screen.html',
   /**
    ************************ Imports & modules ************************
    */

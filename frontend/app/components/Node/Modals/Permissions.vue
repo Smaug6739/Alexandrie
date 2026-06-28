@@ -219,7 +219,7 @@ const updatePermission = async (perm: Permission) => {
 
 const removePermission = async (perm: Permission) => {
   if (!node.value) return;
-  await nodesStore.removePermission(node.value.id, perm.user_id);
+  await nodesStore.removePermission(perm);
   node.value.permissions = node.value.permissions.filter(p => p.id !== perm.id);
 };
 </script>

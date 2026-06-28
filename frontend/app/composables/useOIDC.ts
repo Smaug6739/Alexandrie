@@ -2,6 +2,7 @@
  * OIDC Authentication Composable
  * Handles OpenID Connect authentication flows with frontend callback
  */
+import localForage from 'localforage';
 
 export interface OIDCProvider {
   name: string;
@@ -166,7 +167,7 @@ export function useOIDC() {
     if (response.status === 'success' && response.result) {
       // Only store login state for login flow (not link flow)
       if (!response.result.linked) {
-        localStorage.setItem('isLoggedIn', 'true');
+        localForage.setItem('isLoggedIn', true);
       }
       return response.result;
     }
