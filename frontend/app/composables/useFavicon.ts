@@ -1,4 +1,7 @@
 export function useFavicon() {
+  let mediaQuery: MediaQueryList | null = null;
+  let onThemeChange: ((event: MediaQueryListEvent) => void) | null = null;
+
   const setFavicon = (isDark: boolean) => {
     let link = document.head.querySelector<HTMLLinkElement>('link[rel="icon"]');
     if (!link) {
@@ -11,8 +14,16 @@ export function useFavicon() {
   };
 
   onMounted(() => {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    setFavicon(mq.matches);
-    mq.addEventListener('change', e => setFavicon(e.matches));
+    mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    onThemeChange = e => setFavicon(e.matches);
+
+    setFavicon(mediaQuery.matches);
+    mediaQuery.addEventListener('change', onThemeChange);
+  });
+
+  onBeforeUnmount(() => {
+    if (mediaQuery && onThemeChange) {
+      mediaQuery.removeEventListener('change', onThemeChange);
+    }
   });
 }

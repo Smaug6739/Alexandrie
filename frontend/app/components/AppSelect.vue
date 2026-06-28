@@ -107,12 +107,6 @@ const trigger = ref<HTMLElement | null>(null);
 const portalList = ref<HTMLElement | null>(null);
 const dropdownStyle = ref<Record<string, string>>({});
 
-const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024);
-
-function updateWindowWidth() {
-  windowWidth.value = window.innerWidth;
-}
-
 const selected = computed(() => {
   const findSelected = (items: ANode[]): ANode | null => {
     for (const item of items) {
@@ -139,6 +133,7 @@ const filteredItems = computed(() => {
 });
 
 function updatePosition() {
+  if (!open.value) return;
   const el = searchInput.value ?? trigger.value;
   if (!el || !portalList.value) return;
 
@@ -161,29 +156,33 @@ function updatePosition() {
   };
 }
 
+function openDropdown() {
+  open.value = true;
+  search.value = '';
+  nextTick(() => {
+    if (isMobile.value) {
+      document.body.style.overflow = 'hidden';
+      mobileSearchInput.value?.focus();
+    } else {
+      updatePosition();
+      searchInput.value?.focus();
+    }
+  });
+}
+
+function closeDropdown() {
+  open.value = false;
+  document.body.style.overflow = '';
+}
+
 function toggleDropdown() {
-  open.value = !open.value;
-  if (open.value) {
-    search.value = '';
-    nextTick(() => {
-      if (isMobile.value) {
-        // Lock body scroll on mobile
-        document.body.style.overflow = 'hidden';
-        mobileSearchInput.value?.focus();
-      } else {
-        updatePosition();
-        searchInput.value?.focus();
-      }
-    });
-  } else {
-    // Restore body scroll
-    document.body.style.overflow = '';
-  }
+  if (open.value) closeDropdown();
+  else openDropdown();
 }
 
 function handleKeyDown(event: KeyboardEvent) {
   if (event.key === 'Escape') {
-    open.value = false;
+    closeDropdown();
   } else if (event.key === 'Enter') {
     const firstItem = filteredItems.value[0];
     if (firstItem) handleSelect(firstItem);
@@ -193,8 +192,7 @@ function handleKeyDown(event: KeyboardEvent) {
 function handleSelect(node: ANode) {
   selectedId.value = node.id;
   emit('update:modelValue', node.id);
-  open.value = false;
-  document.body.style.overflow = '';
+  closeDropdown();
 }
 
 function handleClickOutside(e: MouseEvent) {
@@ -204,23 +202,35 @@ function handleClickOutside(e: MouseEvent) {
   const targetIsInsidePortal = portalList.value && (path.length ? path.includes(portalList.value) : portalList.value.contains(e.target as Node));
 
   if (!targetIsInsideTrigger && !targetIsInsidePortal) {
-    open.value = false;
+    closeDropdown();
   }
 }
 
-onMounted(() => {
+let listenersBound = false;
+
+function addGlobalListeners() {
+  if (listenersBound || !import.meta.client) return;
+  listenersBound = true;
   window.addEventListener('click', handleClickOutside);
   window.addEventListener('resize', updatePosition);
-  window.addEventListener('resize', updateWindowWidth);
-  // capture scroll on ancestors too
-  window.addEventListener('scroll', updatePosition, true);
+  window.addEventListener('scroll', updatePosition, { capture: true, passive: true });
+}
+
+function removeGlobalListeners() {
+  if (!listenersBound || !import.meta.client) return;
+  listenersBound = false;
+  window.removeEventListener('click', handleClickOutside);
+  window.removeEventListener('resize', updatePosition);
+  window.removeEventListener('scroll', updatePosition, true);
+}
+
+watch(open, isOpen => {
+  if (isOpen) addGlobalListeners();
+  else removeGlobalListeners();
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('click', handleClickOutside);
-  window.removeEventListener('resize', updatePosition);
-  window.removeEventListener('resize', updateWindowWidth);
-  window.removeEventListener('scroll', updatePosition, true);
+  removeGlobalListeners();
   // Ensure body scroll is restored
   document.body.style.overflow = '';
 });

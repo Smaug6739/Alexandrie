@@ -81,8 +81,6 @@ const MATCH_OPTIONS = [
   { id: 'exact', label: t('components.filter.exact') },
 ];
 
-let outsideHandler: ((e: MouseEvent) => void) | null = null;
-
 const filtered = computed(() => store.search(options.value, props.nodes));
 
 const toggle = () => {
@@ -100,16 +98,18 @@ watchEffect(() => {
   if (props.nodes) emit('update:nodes', filtered.value);
 });
 
-onMounted(() => {
-  outsideHandler = (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    if (opened.value && root.value && !root.value.contains(target)) close();
-  };
-  document.addEventListener('click', outsideHandler);
+function outsideHandler(e: MouseEvent) {
+  const target = e.target as HTMLElement;
+  if (root.value && !root.value.contains(target)) close();
+}
+
+watch(opened, isOpened => {
+  if (isOpened) document.addEventListener('click', outsideHandler);
+  else document.removeEventListener('click', outsideHandler);
 });
 
 onBeforeUnmount(() => {
-  if (outsideHandler) document.removeEventListener('click', outsideHandler);
+  document.removeEventListener('click', outsideHandler);
 });
 </script>
 
