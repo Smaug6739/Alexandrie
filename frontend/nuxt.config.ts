@@ -4,6 +4,9 @@ import { createSvgIconsPlugin } from './vite/plugins/svg-sprite';
 import type { NuxtPage } from 'nuxt/schema';
 
 export default defineNuxtConfig({
+  /**
+   ************************ Application ************************
+   */
   app: {
     head: {
       charset: 'utf-8',
@@ -33,7 +36,7 @@ export default defineNuxtConfig({
         },
         { href: 'https://api.alexandrie-hub.fr', rel: 'preconnect' },
         { href: 'https://cdn.alexandrie-hub.fr', rel: 'preconnect' },
-        { href: 'https://embed.diagrams.net', rel: 'preload' },
+        { href: 'https://embed.diagrams.net', rel: 'preconnect' },
       ],
       meta: [
         // SEO
@@ -83,43 +86,34 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
     },
   },
+
+  /**
+   ************************ General ************************
+   */
+  ssr: false,
+  compatibilityDate: '2024-07-19',
+  devtools: { enabled: process.env.NODE_ENV !== 'production' },
+
+  /**
+   ************************ Imports & modules ************************
+   */
   imports: {
     dirs: ['stores/**'],
   },
-  hooks: {
-    'pages:extend'(pages: NuxtPage[]) {
-      function remove(pages: NuxtPage[]) {
-        for (const page of [...pages]) {
-          if (page.file?.includes('/components/') || page.file?.includes('/_')) {
-            pages.splice(pages.indexOf(page), 1);
-          }
+  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt', '@nuxt/eslint', '@nuxtjs/i18n'],
 
-          if (page.children) remove(page.children);
-        }
-      }
-
-      remove(pages);
-    },
-  },
+  /**
+   ************************ Styles ************************
+   */
+  css: ['~/styles/main.scss', '~/styles/vendors/katex/katex.min.css'],
   colorMode: {
     classSuffix: '-mode',
     fallback: 'light', // fallback value if not system preference found
     preference: 'light', // default value of $colorMode.preference
   },
-  compatibilityDate: '2024-07-19',
-  css: ['~/styles/main.scss', '~/styles/vendors/katex/katex.min.css'],
-
-  devtools: { enabled: process.env.NODE_ENV !== 'production' },
-  experimental: {
-    defaults: {
-      nuxtLink: {
-        // prefetch: false,
-      },
-    },
-    payloadExtraction: true,
-    viewTransition: true,
-    viteEnvironmentApi: true,
-  },
+  /**
+   ************************ Internationalization ************************
+   */
   i18n: {
     defaultLocale: 'en',
     experimental: {
@@ -135,14 +129,45 @@ export default defineNuxtConfig({
     ],
     strategy: 'no_prefix',
   },
+  /**
+   ************************ Experimental ************************
+   */
+  experimental: {
+    defaults: {
+      nuxtLink: {
+        // prefetch: false,
+      },
+    },
+    payloadExtraction: true,
+    viewTransition: true,
+    viteEnvironmentApi: true,
+  },
+  /**
+   ************************ Runetime config ************************
+   */
+  runtimeConfig: {
+    public: {
+      // Base URLs
+      baseApi: '',
+      baseCdn: '',
+      cdnEndpoint: '/alexandrie/',
+      configDisableLandingPage: '',
+      configDisableNativeLogin: false,
+      // Feature flags
+      configDisableSignupPage: '',
+    },
+  },
 
-  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', '@vite-pwa/nuxt', '@nuxt/eslint', '@nuxtjs/i18n'],
-
+  /**
+   ************************ Nitro ************************
+   */
   nitro: {
     compressPublicAssets: true,
     minify: true,
   },
-
+  /**
+   ************************ PWA ************************
+   */
   pwa: {
     base: '/',
     filename: 'sw.ts',
@@ -247,21 +272,27 @@ export default defineNuxtConfig({
     srcDir: '.',
     strategies: 'injectManifest',
   },
+  /**
+   ************************ Hooks ************************
+   */
+  hooks: {
+    'pages:extend'(pages: NuxtPage[]) {
+      function remove(pages: NuxtPage[]) {
+        for (const page of [...pages]) {
+          if (page.file?.includes('/components/') || page.file?.includes('/_')) {
+            pages.splice(pages.indexOf(page), 1);
+          }
 
-  runtimeConfig: {
-    public: {
-      // Base URLs
-      baseApi: '',
-      baseCdn: '',
-      cdnEndpoint: '/alexandrie/',
-      configDisableLandingPage: '',
-      configDisableNativeLogin: false,
-      // Feature flags
-      configDisableSignupPage: '',
+          if (page.children) remove(page.children);
+        }
+      }
+
+      remove(pages);
     },
   },
-
-  ssr: false,
+  /**
+   ************************ Vite ************************
+   */
 
   vite: {
     css: {
