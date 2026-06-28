@@ -16,6 +16,7 @@ type RepositoryManager struct {
 	Permission     PermissionRepository
 	Log            LogRepository
 	OIDCProvider   OIDCProviderRepository
+	BackupCodes    BackupCodesRepository
 	UserSettings   UserSettingsRepository
 	initialized    bool
 }
@@ -40,6 +41,7 @@ func (rm *RepositoryManager) initializeRepositories() {
 	rm.Permission = NewPermissionRepository(rm.db)
 	rm.Log = NewLogRepository(rm.db)
 	rm.OIDCProvider = NewOIDCProviderRepository(rm.db)
+	rm.BackupCodes = NewBackupCodesRepository(rm.db)
 	rm.UserSettings = NewUserSettingsRepository(rm.db)
 }
 

@@ -9,38 +9,50 @@ import (
 	"crypto/rand"
 	"errors"
 	"fmt"
+	"math/big"
 	"os"
 	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/pquerna/otp/totp"
 	"github.com/wneessen/go-mail"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type AuthService interface {
-	Login(username, password, ip, userAgent string) (*models.User, *models.Session, error)
+	Login(username, password, ip, userAgent string) (*models.User, *models.Session, string, error)
+
 	RefreshSession(refreshToken string) (*models.User, *models.Session, error)
+	SignAccessToken(user *models.User, accessTokenExpiry int) (string, error)
+
 	Logout(refreshToken string) error
 	LogoutAllDevices(userId types.Snowflake) error
+
 	RequestPasswordReset(username string, mailClient *mail.Client) error
 	ResetPassword(token, newPassword string) error
-	SignAccessToken(user *models.User, accessTokenExpiry int) (string, error)
+
+	VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent string) (*models.User, *models.Session, error)
+	GenerateTOTPSecret(user *models.User) (string, string, error)
+	EnableTOTP(userId types.Snowflake, secret, code string) ([]string, error)
+	DisableTOTP(userId types.Snowflake, code string) error
 }
 
 type authService struct {
-	userRepo    repositories.UserRepository
-	sessionRepo repositories.SessionRepository
-	logRepo     repositories.LogRepository
-	snowflake   *snowflake.Snowflake
+	userRepo       repositories.UserRepository
+	sessionRepo    repositories.SessionRepository
+	backupCodeRepo repositories.BackupCodesRepository
+	logRepo        repositories.LogRepository
+	snowflake      *snowflake.Snowflake
 }
 
-func NewAuthService(userRepo repositories.UserRepository, sessionRepo repositories.SessionRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake) AuthService {
+func NewAuthService(userRepo repositories.UserRepository, sessionRepo repositories.SessionRepository, backupCodeRepo repositories.BackupCodesRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake) AuthService {
 	return &authService{
-		userRepo:    userRepo,
-		sessionRepo: sessionRepo,
-		logRepo:     logRepo,
-		snowflake:   snowflake,
+		userRepo:       userRepo,
+		sessionRepo:    sessionRepo,
+		backupCodeRepo: backupCodeRepo,
+		logRepo:        logRepo,
+		snowflake:      snowflake,
 	}
 }
 
@@ -49,20 +61,28 @@ func NewAuthService(userRepo repositories.UserRepository, sessionRepo repositori
 // Compare the password with the hashed password
 // Create a new session with a refresh token
 // Return the user and session
-func (s *authService) Login(username, password, ip, userAgent string) (*models.User, *models.Session, error) {
+func (s *authService) Login(username, password, ip, userAgent string) (*models.User, *models.Session, string, error) {
 
 	user, err := s.userRepo.GetByUsername(username)
 
 	if user == nil || err != nil {
-		return nil, nil, errors.New("invalid credentials")
+		return nil, nil, "", errors.New("invalid credentials")
 	}
 
 	if user.Password == nil {
-		return nil, nil, errors.New("please login with OIDC provider")
+		return nil, nil, "", errors.New("please login with OIDC provider")
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(*user.Password), []byte(password)); err != nil {
-		return nil, nil, errors.New("invalid credentials")
+		return nil, nil, "", errors.New("invalid credentials")
+	}
+	if user.TotpEnabled {
+		user.Password = nil
+		preAuthToken, err := signPreAuthToken(user.Id)
+		if err != nil {
+			return nil, nil, "", errors.New("failed to generate pre-authentication token")
+		}
+		return user, nil, preAuthToken, nil
 	}
 
 	session := &models.Session{
@@ -81,11 +101,11 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 	}
 
 	if _, err := s.sessionRepo.Create(session); err != nil {
-		return nil, nil, errors.New("failed to create session")
+		return nil, nil, "", errors.New("failed to create session")
 	}
 
 	user.Password = nil
-	return user, session, nil
+	return user, session, "", nil
 }
 
 func (s *authService) RefreshSession(refreshToken string) (*models.User, *models.Session, error) {
@@ -97,7 +117,7 @@ func (s *authService) RefreshSession(refreshToken string) (*models.User, *models
 		return nil, nil, errors.New("refresh token expired")
 	}
 
-	user, err := s.userRepo.GetByID(session.UserId)
+	user, err := s.userRepo.GetByID(session.UserId, false)
 	if user == nil || err != nil {
 		return nil, nil, errors.New("failed to get user")
 	}
@@ -114,6 +134,17 @@ func (s *authService) RefreshSession(refreshToken string) (*models.User, *models
 	return user, session, nil
 }
 
+func (s *authService) SignAccessToken(user *models.User, accessTokenExpiry int) (string, error) {
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub":  strconv.FormatUint(uint64(user.Id), 10),
+		"iss":  "alexandrie",
+		"exp":  time.Now().Add(time.Duration(time.Second * time.Duration(accessTokenExpiry))).Unix(),
+		"iat":  time.Now().Unix(),
+		"role": strconv.Itoa(user.Role),
+	})
+	return claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
+}
+
 func (s *authService) Logout(refreshToken string) error {
 	session, err := s.sessionRepo.GetByRefreshToken(refreshToken)
 	if err != nil {
@@ -122,7 +153,7 @@ func (s *authService) Logout(refreshToken string) error {
 	if session.ExpireToken < time.Now().UnixMilli() {
 		return errors.New("refresh token expired")
 	}
-	return s.sessionRepo.Delete(session.Id)
+	return s.sessionRepo.Delete(session.Id, session.UserId)
 }
 
 func (s *authService) LogoutAllDevices(userId types.Snowflake) error {
@@ -182,7 +213,7 @@ func (s *authService) ResetPassword(token, newPassword string) error {
 		return errors.New("invalid user ID in reset token")
 	}
 
-	user, err := s.userRepo.GetByID(types.Snowflake(userId))
+	user, err := s.userRepo.GetByID(types.Snowflake(userId), false)
 	if user == nil || err != nil {
 		return errors.New("failed to get user")
 	}
@@ -195,13 +226,164 @@ func (s *authService) ResetPassword(token, newPassword string) error {
 	return s.userRepo.UpdatePassword(user.Id, string(hash))
 }
 
-func (s *authService) SignAccessToken(user *models.User, accessTokenExpiry int) (string, error) {
+func (s *authService) VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent string) (*models.User, *models.Session, error) {
+
+	token, err := jwt.Parse(preAuthToken, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil || !token.Valid {
+		return nil, nil, errors.New("invalid or expired pre-authentication token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || claims["pre_auth"] != true {
+		return nil, nil, errors.New("invalid token type")
+	}
+
+	// 2. Extraire le User ID du token
+	userIdStr, _ := claims["sub"].(string)
+	userIdUint, err := strconv.ParseUint(userIdStr, 10, 64)
+	if err != nil {
+		return nil, nil, errors.New("invalid user ID")
+	}
+	userId := types.Snowflake(userIdUint)
+
+	user, err := s.userRepo.GetByID(userId, true)
+	if user == nil || err != nil {
+		return nil, nil, errors.New("user not found")
+	}
+
+	if !s.validateCode(user, code) {
+		return nil, nil, errors.New("invalid 2FA code")
+	}
+
+	session := &models.Session{
+		Id:                   s.snowflake.Generate(),
+		UserId:               user.Id,
+		RefreshToken:         signRefreshToken(),
+		ExpireToken:          time.Now().Add(time.Duration(30 * 24 * time.Hour)).UnixMilli(),
+		LastRefreshTimestamp: time.Now().UnixMilli(),
+		Active:               1,
+		IpAddr:               &ip,
+		UserAgent:            &userAgent,
+		Location:             utils.PtrString(s.logRepo.GetLocationFromIP(ip)),
+		Type:                 utils.PtrString("login"),
+		LoginTimestamp:       time.Now().UnixMilli(),
+		LogoutTimestamp:      0,
+	}
+
+	if _, err := s.sessionRepo.Create(session); err != nil {
+		return nil, nil, errors.New("failed to create session")
+	}
+
+	user.Password = nil
+	return user, session, nil
+}
+
+func (s *authService) GenerateTOTPSecret(user *models.User) (string, string, error) {
+	key, err := totp.Generate(totp.GenerateOpts{
+		Issuer:      "Alexandrie",
+		AccountName: user.Username,
+	})
+	if err != nil {
+		return "", "", errors.New("failed to generate TOTP key")
+	}
+
+	return key.Secret(), key.URL(), nil
+}
+
+func generateBackupCodes() ([]string, error) {
+	codes := make([]string, 8)
+	for i := range 8 {
+		// Génère un nombre aléatoire entre 10000000 et 99999999
+		nBig, err := rand.Int(rand.Reader, big.NewInt(90000000))
+		if err != nil {
+			return nil, err
+		}
+		codes[i] = fmt.Sprintf("%08d", nBig.Uint64()+10000000)
+	}
+	return codes, nil
+}
+
+func (s *authService) EnableTOTP(userId types.Snowflake, secret, code string) ([]string, error) {
+	valid := totp.Validate(code, secret)
+	if !valid {
+		return nil, errors.New("invalid verification code")
+	}
+
+	plainCodes, err := generateBackupCodes()
+	if err != nil {
+		return nil, errors.New("failed to generate backup codes")
+	}
+
+	backupCodes := make([]models.UserTOTPRecoveryCode, 0, len(plainCodes))
+	for _, plainCode := range plainCodes {
+		hash, _ := bcrypt.GenerateFromPassword([]byte(plainCode), bcrypt.DefaultCost)
+		backupCodes = append(backupCodes, models.UserTOTPRecoveryCode{
+			Id:               s.snowflake.Generate(),
+			UserId:           userId,
+			Code:             string(hash),
+			Used:             false,
+			CreatedTimestamp: time.Now().UnixMilli(),
+		})
+	}
+	err = s.backupCodeRepo.Create(backupCodes)
+	if err != nil {
+		return nil, errors.New("failed to create backup codes")
+	}
+
+	return plainCodes, s.userRepo.UpdateTOTP(userId, secret, true)
+}
+
+func (s *authService) DisableTOTP(userId types.Snowflake, code string) error {
+	user, err := s.userRepo.GetByID(userId, true)
+	if err != nil {
+		return errors.New("failed to get user")
+	}
+
+	valid := s.validateCode(user, code)
+	if !valid {
+		return errors.New("invalid verification code")
+	}
+
+	err = s.userRepo.UpdateTOTP(userId, "", false)
+
+	if err != nil {
+		return errors.New("failed to disable TOTP")
+	}
+
+	return s.backupCodeRepo.DeleteByUserId(userId)
+}
+
+func (s *authService) validateCode(user *models.User, code string) bool {
+	valid := false
+
+	if len(code) == 6 {
+		valid = totp.Validate(code, *user.TotpSecret)
+	} else if len(code) == 8 {
+		backupCodes, err := s.backupCodeRepo.GetActiveCodesByUserId(user.Id)
+		if err == nil {
+			for _, bc := range backupCodes {
+				if bcrypt.CompareHashAndPassword([]byte(bc.Code), []byte(code)) == nil {
+					valid = true
+					s.backupCodeRepo.MarkAsUsed(bc.Id)
+					break
+				}
+			}
+		}
+	}
+
+	return valid
+
+}
+
+func signPreAuthToken(userId types.Snowflake) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":  strconv.FormatUint(uint64(user.Id), 10),
-		"iss":  "alexandrie",
-		"exp":  time.Now().Add(time.Duration(time.Second * time.Duration(accessTokenExpiry))).Unix(),
-		"iat":  time.Now().Unix(),
-		"role": strconv.Itoa(user.Role),
+		"sub":      strconv.FormatUint(uint64(userId), 10),
+		"iss":      "alexandrie",
+		"exp":      time.Now().Add(3 * time.Minute).Unix(), // Valide seulement 3 minutes
+		"iat":      time.Now().Unix(),
+		"pre_auth": true, // Flag crucial pour identifier qu'il ne s'agit pas d'une session finale
 	})
 	return claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 }

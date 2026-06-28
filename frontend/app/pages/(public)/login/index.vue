@@ -1,60 +1,92 @@
 <template>
   <div class="body-container">
     <IconApp style="width: 120px" />
-    <h1>Connection</h1>
-    <form @submit.prevent="login">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" :disabled="loginDisabled" />
-        <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="password-input">
+
+    <template v-if="!step2FA">
+      <h1>Connection</h1>
+      <form @submit.prevent="login">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" :disabled="loginDisabled" />
+          <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-input">
+            <input
+              id="password"
+              :key="`password-${showPassword}`"
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              :class="{ 'is-invalid': errors.password }"
+              :disabled="loginDisabled"
+            />
+            <button type="button" class="password-toggle" @click="togglePassword">
+              <div class="eye-icon" :class="{ show: showPassword }">
+                <Icon v-if="showPassword" name="eye" />
+                <Icon v-else name="eye_off" />
+              </div>
+            </button>
+          </div>
+          <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
+        </div>
+        <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
+        <button class="btn" :disabled="loginDisabled" @click="login">Login</button>
+        <p v-if="loginDisabled" class="disabled">Native login is currently disabled. Please use one of the available authentication providers below.</p>
+        <OIDCProviders />
+
+        <p v-if="errors.general" class="invalid-feedback general">{{ errors.general }}</p>
+        <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
+      </form>
+    </template>
+
+    <template v-else>
+      <h1>Two-Factor Authentication</h1>
+      <p class="section-description">Enter the 6-digit verification code from your authenticator app.</p>
+      <form @submit.prevent="handleVerify2FA">
+        <div class="form-group">
+          <label for="totpCode">Verification Code</label>
           <input
-            id="password"
-            :key="`password-${showPassword}`"
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            :class="{ 'is-invalid': errors.password }"
+            id="totpCode"
+            v-model="totpCode"
+            type="text"
+            placeholder="000000 or 8-digit backup code"
+            maxlength="8"
+            pattern="[0-9]*"
+            inputmode="numeric"
+            autocomplete="one-time-code"
             :disabled="loginDisabled"
           />
-          <button type="button" class="password-toggle" @click="togglePassword">
-            <div class="eye-icon" :class="{ show: showPassword }">
-              <Icon v-if="showPassword" name="eye" />
-              <Icon v-else name="eye_off" />
-            </div>
-          </button>
         </div>
-        <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
-      </div>
-      <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-      <button class="btn" :disabled="loginDisabled" @click="login">Login</button>
-      <p v-if="loginDisabled" class="disabled">Native login is currently disabled. Please use one of the available authentication providers below.</p>
-      <OIDCProviders />
-
-      <p v-if="errors.general" class="invalid-feedback general">{{ errors.general }}</p>
-      <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
-    </form>
+        <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
+        <button class="btn" :disabled="loginDisabled" type="submit">Verify</button>
+        <button class="btn-secondary" type="button" @click="step2FA = false">Back</button>
+      </form>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'public',
-});
 const userStore = useUserStore();
-
 const router = useRouter();
-const route = useRoute();
-const config = useRuntimeConfig();
 
 const username = ref('');
 const password = ref('');
+const totpCode = ref('');
+
+const step2FA = ref(false);
+const pendingPreAuthToken = ref('');
+
+definePageMeta({
+  layout: 'public',
+});
+
+const route = useRoute();
+const config = useRuntimeConfig();
+const loginDisabled = config.public.configDisableNativeLogin;
+
 const errors = ref({ username: '', password: '', general: '' });
 const { showPassword, togglePassword } = usePasswordField();
-
-const loginDisabled = config.public.configDisableNativeLogin;
 
 // Check for OIDC error redirect
 onMounted(() => {
@@ -84,20 +116,37 @@ function login() {
   errors.value.password = !password.value ? 'Password is required' : '';
 
   if (username.value && password.value) {
-    connect(username.value, password.value);
+    connect();
   }
 }
 
-watch([username, password], () => {
+watch([username, password, totpCode], () => {
   errors.value.general = '';
   errors.value.username = '';
   errors.value.password = '';
 });
 
-async function connect(username: string, password: string) {
-  const result = await userStore.login(username, password);
-  if (result === true) router.push('/dashboard');
-  else errors.value.general = String(result);
+async function connect() {
+  const res = await userStore.login(username.value, password.value);
+  if (res.success) {
+    if (res.require2FA) {
+      pendingPreAuthToken.value = res.preAuthToken!;
+      step2FA.value = true;
+    } else {
+      router.push('/dashboard');
+    }
+  } else {
+    errors.value.general = (res.error as string) || 'Invalid credentials';
+  }
+}
+
+async function handleVerify2FA() {
+  const res = await userStore.verify2FA(pendingPreAuthToken.value, totpCode.value);
+  if (res.success) {
+    router.push('/dashboard');
+  } else {
+    errors.value.general = (res.error as string) || 'Invalid 2FA code';
+  }
 }
 </script>
 <style scoped lang="scss">

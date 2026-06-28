@@ -1,6 +1,7 @@
 import { defineNuxtConfig } from 'nuxt/config';
 import { resolve } from 'path';
 import { createSvgIconsPlugin } from './vite/plugins/svg-sprite';
+import type { NuxtPage } from 'nuxt/schema';
 
 export default defineNuxtConfig({
   app: {
@@ -84,6 +85,21 @@ export default defineNuxtConfig({
   },
   imports: {
     dirs: ['stores/**'],
+  },
+  hooks: {
+    'pages:extend'(pages: NuxtPage[]) {
+      function remove(pages: NuxtPage[]) {
+        for (const page of [...pages]) {
+          if (page.file?.includes('/components/') || page.file?.includes('/_')) {
+            pages.splice(pages.indexOf(page), 1);
+          }
+
+          if (page.children) remove(page.children);
+        }
+      }
+
+      remove(pages);
+    },
   },
   colorMode: {
     classSuffix: '-mode',

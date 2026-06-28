@@ -67,6 +67,7 @@ export interface User {
   avatar?: string;
   password?: string;
   email?: string;
+  totp_enabled: boolean;
   created_timestamp: number;
   updated_timestamp: number;
 }

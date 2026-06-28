@@ -15,7 +15,7 @@ type UserRepositoryImpl struct {
 
 type UserRepository interface {
 	GetAll() ([]*models.User, error)
-	GetByID(id types.Snowflake) (*models.User, error)
+	GetByID(id types.Snowflake, secrets bool) (*models.User, error)
 	GetByUsername(username string) (*models.User, error)
 	GetAppAdmins() ([]*models.User, error)
 	HasPassword(id types.Snowflake) (bool, error)
@@ -25,6 +25,7 @@ type UserRepository interface {
 	Update(id types.Snowflake, user *models.User) (*models.User, error)
 	UpdatePassword(id types.Snowflake, password string) error
 	UpdatePasswordResetToken(id types.Snowflake, resetToken string) error
+	UpdateTOTP(id types.Snowflake, secret string, enabled bool) error
 	UpdateRole(id types.Snowflake, role int) error // Separate method for security
 	Delete(id types.Snowflake) error
 }
@@ -36,7 +37,7 @@ func NewUserRepository(db *sqlx.DB) UserRepository {
 func (r *UserRepositoryImpl) GetAll() ([]*models.User, error) {
 	var users []*models.User
 	err := r.db.Select(&users, `
-		SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp 
+		SELECT id, username, firstname, lastname, role, avatar, email, totp_enabled, created_timestamp, updated_timestamp 
 		FROM users 
 		ORDER BY created_timestamp DESC`)
 	if err != nil {
@@ -45,12 +46,20 @@ func (r *UserRepositoryImpl) GetAll() ([]*models.User, error) {
 	return users, nil
 }
 
-func (r *UserRepositoryImpl) GetByID(id types.Snowflake) (*models.User, error) {
+func (r *UserRepositoryImpl) GetByID(id types.Snowflake, secrets bool) (*models.User, error) {
 	var user models.User
-	err := r.db.Get(&user, `
-		SELECT id, username, firstname, lastname, role, avatar, email, created_timestamp, updated_timestamp 
+	var err error
+	if secrets {
+		err = r.db.Get(&user, `
+			SELECT id, username, firstname, lastname, role, avatar, email, password, totp_secret, totp_enabled, created_timestamp, updated_timestamp 
+			FROM users 
+			WHERE id = ?`, id)
+	} else {
+		err = r.db.Get(&user, `
+		SELECT id, username, firstname, lastname, role, avatar, email, totp_enabled, created_timestamp, updated_timestamp 
 		FROM users 
 		WHERE id = ?`, id)
+	}
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}
@@ -63,7 +72,7 @@ func (r *UserRepositoryImpl) GetByID(id types.Snowflake) (*models.User, error) {
 func (r *UserRepositoryImpl) GetByUsername(username string) (*models.User, error) {
 	var user models.User
 	err := r.db.Get(&user, `
-		SELECT id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp 
+		SELECT id, username, firstname, lastname, role, avatar, email, password, totp_enabled, created_timestamp, updated_timestamp 
 		FROM users 
 		WHERE username = ?`, username)
 	if err == sql.ErrNoRows {
@@ -150,6 +159,14 @@ func (r *UserRepositoryImpl) UpdatePasswordResetToken(id types.Snowflake, resetT
 	_, err := r.db.Exec(`UPDATE users SET password_reset_token=? WHERE id=?`, resetToken, id)
 	if err != nil {
 		return fmt.Errorf("failed to update password reset token: %w", err)
+	}
+	return nil
+}
+
+func (r *UserRepositoryImpl) UpdateTOTP(id types.Snowflake, secret string, enabled bool) error {
+	_, err := r.db.Exec(`UPDATE users SET totp_secret=?, totp_enabled=? WHERE id=?`, secret, enabled, id)
+	if err != nil {
+		return fmt.Errorf("failed to update TOTP settings: %w", err)
 	}
 	return nil
 }
