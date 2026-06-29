@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div v-show="!isLoading" id="app">
     <ModalManager />
     <ContextMenuManager />
     <NuxtLayout>
@@ -7,6 +7,7 @@
     </NuxtLayout>
     <Notification />
   </div>
+  <SplashScreen v-show="isLoading" />
 </template>
 
 <script setup lang="ts">
@@ -16,6 +17,8 @@ useFavicon();
 const preferences = usePreferencesStore();
 const { setAppColor } = useAppColors();
 const { setLocale } = useI18n();
+const { isLoading } = useAppState();
+const router = useRouter();
 
 const primaryColor = preferences.get('primaryColor');
 const interfaceStyle = preferences.get('style');
@@ -45,6 +48,13 @@ watch(
   },
   { immediate: true },
 );
+
+router.beforeEach((to, from, next) => {
+  if (to.path.startsWith('/dashboard') && from.path === '/login') {
+    isLoading.value = true;
+  }
+  next();
+});
 </script>
 
 <style lang="scss">

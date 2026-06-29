@@ -13,16 +13,19 @@
 <script setup lang="ts">
 const nodesStore = useNodesStore();
 const userStore = useUserStore();
+const preferencesStore = usePreferencesStore();
 
-nodesStore.init();
-userStore.fetch();
-usePreferencesStore().fetchFromBackend();
-
+const { isLoading } = useAppState();
 useStyleInjection(); // Custom styles for the app and documents
 const { initGlobalListeners, destroyGlobalListeners } = useCommandCenter();
 
+nodesStore.init();
+userStore.fetch();
+preferencesStore.fetchFromBackend();
+
 onMounted(() => {
   initGlobalListeners();
+  isLoading.value = false;
 });
 onBeforeUnmount(() => {
   destroyGlobalListeners();
