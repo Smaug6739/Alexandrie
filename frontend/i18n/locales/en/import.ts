@@ -42,7 +42,7 @@ export default {
     },
     advanced: {
       title: 'Advanced import',
-      description: 'Import documents using custom options for maximum control.',
+      description: 'Import entire folder (including subfolders & uploads) using custom options for maximum control.',
     },
   },
 
@@ -73,6 +73,10 @@ export default {
     importFailedTitle: 'Import failed',
     localImportedMessage: 'Your local settings were replaced with the backup.',
     localImportedTitle: 'Local settings imported',
+  },
+
+  progress: {
+    title: 'Import progress',
   },
 
   steps: {

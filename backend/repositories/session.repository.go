@@ -18,7 +18,7 @@ type SessionRepository interface {
 	GetByRefreshToken(refreshToken string) (*models.Session, error)
 	Create(session *models.Session) (*models.Session, error)
 	Update(session *models.Session) (*models.Session, error)
-	Delete(sessionId types.Snowflake) error
+	Delete(sessionId types.Snowflake, userId types.Snowflake) error
 	DeleteAllByUser(userId types.Snowflake) error
 	DeleteOld() error
 }
@@ -31,8 +31,7 @@ func (r *SessionRepositoryImpl) GetByUserId(userId types.Snowflake) ([]models.Se
 	var sessions []models.Session
 	err := r.db.Select(&sessions, `
 			SELECT id, user_id, refresh_token, expire_token, last_refresh_timestamp, active, ip_adress, user_agent, location, type, login_timestamp, logout_timestamp
-			FROM sessions
-			WHERE user_id = ?`, userId)
+			FROM sessions WHERE user_id = ? ORDER BY login_timestamp DESC`, userId)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to get sessions by user ID: %w", err)
@@ -79,8 +78,8 @@ func (r *SessionRepositoryImpl) Update(session *models.Session) (*models.Session
 	return session, nil
 }
 
-func (r *SessionRepositoryImpl) Delete(sessionId types.Snowflake) error {
-	_, err := r.db.Exec(`DELETE FROM sessions WHERE id = ?`, sessionId)
+func (r *SessionRepositoryImpl) Delete(sessionId types.Snowflake, userId types.Snowflake) error {
+	_, err := r.db.Exec(`DELETE FROM sessions WHERE id = ? AND user_id = ?`, sessionId, userId)
 	if err != nil {
 		return fmt.Errorf("failed to delete session: %w", err)
 	}

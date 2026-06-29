@@ -92,6 +92,7 @@ const dateType = ref<'created' | 'modified'>('modified');
 const tagInput = ref('');
 const selectedTags = ref<string>('');
 const selectedCategory = ref('');
+let searchRequestId = 0;
 
 /**
  * Global search function
@@ -99,19 +100,24 @@ const selectedCategory = ref('');
  * - Otherwise → local store search
  */
 
-async function searchAPI() {
+async function searchAPI(query: string) {
+  const requestId = ++searchRequestId;
+
   try {
-    const apiResults = await nodesStore.searchFulltext(props.query, true, 30);
+    const apiResults = await nodesStore.searchFulltext(query, true, 30);
+    if (requestId !== searchRequestId || query !== props.query) return;
     searchResults.value = applyFilters(apiResults);
   } catch (error) {
+    if (requestId !== searchRequestId) return;
     console.error('[CommandCenter] Fulltext search error:', error);
     searchResults.value = [];
   }
 }
 
-const searchAPIdebounced = useDebounceFn(() => searchAPI(), 300);
+const searchAPIdebounced = useDebounceFn((query: string) => searchAPI(query), 300);
 
 async function localSearch() {
+  searchRequestId++;
   searchResults.value = nodesStore.search({
     query: props.query,
     category: selectedCategory.value,
@@ -169,7 +175,7 @@ watch(
   [() => props.query, searchInContent, dateFrom, dateTo, dateType, selectedCategory, selectedTags],
   () => {
     if (props.query.length >= 2 && searchInContent.value) {
-      searchAPIdebounced();
+      searchAPIdebounced(props.query);
     } else {
       localSearch();
     }

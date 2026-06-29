@@ -86,3 +86,28 @@ export const extractMetadataFromMarkdown = (markdown: string): { title: string; 
 
   return { ...metadata, content_clean: contentClean };
 };
+
+export function parseTags(tags: string): string[] {
+  if (typeof tags === 'string') {
+    return tags
+      .split(',')
+      .map(tag => tag.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+export function mergeNode(node: Node, full_node: Node): Node {
+  const result: Node = { ...full_node };
+
+  for (const key in node) {
+    const localValue = node[key as keyof Node];
+    if (localValue !== undefined && localValue !== null && localValue !== '') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (result as any)[key] = localValue; // keep local value if it's defined
+    }
+  }
+
+  result.partial = false;
+  return result;
+}

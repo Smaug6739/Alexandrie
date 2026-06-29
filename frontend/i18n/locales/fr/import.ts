@@ -42,7 +42,8 @@ export default {
     },
     advanced: {
       title: 'Importation avancée',
-      description: 'Importez des documents en utilisant des options personnalisées pour un contrôle maximum.',
+      description:
+        'Importer un dossier entier (y compris les sous-dossiers et les téléchargements) en utilisant des options personnalisées pour un contrôle maximal.',
     },
   },
 
@@ -73,6 +74,10 @@ export default {
     importFailedTitle: "Échec de l'importation",
     localImportedMessage: 'Vos paramètres locaux ont été remplacés par ceux de la sauvegarde.',
     localImportedTitle: 'Paramètres locaux importés',
+  },
+
+  progress: {
+    title: "Avancement de l'importation",
   },
 
   steps: {

@@ -18,9 +18,15 @@
           >{{ section.title }} <tag v-if="section.tag" blue>{{ section.tag }}</tag></span
         >
         <template v-for="item in section.items" :key="item.label">
-          <NuxtLink v-if="item.type === 'link'" :to="item.to" @click="close"> <Icon :name="item.icon" />{{ item.label }} </NuxtLink>
-          <NuxtLink v-else-if="item.type === 'action'" @click="item.action?.()"> <Icon :name="item.icon" />{{ item.label }} </NuxtLink>
-          <NuxtLink v-else :class="{ active: currentPage === item.key }" @click="setPage(item.key!)"> <Icon :name="item.icon" />{{ item.label }} </NuxtLink>
+          <NuxtLink v-if="item.type === 'link'" :to="item.to" @click="close">
+            <Icon :name="item.icon" /><span v-if="item.bubble" class="bubble" />{{ item.label }}
+          </NuxtLink>
+          <NuxtLink v-else-if="item.type === 'action'" @click="item.action?.()">
+            <Icon :name="item.icon" /><span v-if="item.bubble" class="bubble" />{{ item.label }}
+          </NuxtLink>
+          <NuxtLink v-else :class="{ active: currentPage === item.key }" @click="setPage(item.key!)">
+            <span v-if="item.bubble" class="bubble" /> <Icon :name="item.icon" />{{ item.label }}
+          </NuxtLink>
         </template>
       </template>
     </nav>
@@ -55,6 +61,7 @@ interface NavItem {
   icon: string;
   to?: string;
   action?: () => void;
+  bubble?: boolean;
 }
 
 interface NavSection {
@@ -104,8 +111,8 @@ const navSections = computed<NavSection[]>(() => [
     title: t('settings.nav.general'),
     items: [
       { key: 'profile', label: t('settings.pages.profile'), icon: 'profil' },
-      { key: 'apparence', label: t('settings.pages.appearance'), icon: 'brush', bubble: true },
-      { key: 'security', label: t('settings.pages.security'), icon: 'security' },
+      { key: 'apparence', label: t('settings.pages.appearance'), icon: 'brush' },
+      { key: 'security', label: t('settings.pages.security'), icon: 'security', bubble: true },
     ],
   },
   {
@@ -177,6 +184,7 @@ watchEffect(() => {
 
     a {
       display: flex;
+      position: relative;
       margin: 0.4rem 0.2rem;
       padding: 0.05rem 0.4rem;
       border-radius: var(--radius-sm);
@@ -233,6 +241,17 @@ watchEffect(() => {
     margin: 0.5rem;
     padding: 1rem 2rem;
   }
+}
+
+.bubble {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  border: 3px solid var(--primary);
+  border-radius: 50%;
+  background: var(--primary-bg);
 }
 
 @media screen and (width <= 920px) {

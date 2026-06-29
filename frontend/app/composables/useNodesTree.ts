@@ -126,6 +126,7 @@ export function useNodesTree() {
         rootFilter: node => {
           if (node.role === 0) return true;
           if (node.role === 1 && !nodesStore.getById(node.parent_id ?? '')) return true;
+          if (!nodesStore.getById(node.parent_id ?? '')) return true;
           return false;
         },
       });

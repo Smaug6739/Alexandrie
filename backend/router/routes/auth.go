@@ -20,8 +20,14 @@ func Auth(app *app.App, router *gin.RouterGroup) {
 	auth.POST("/logout", utils.WP(authCtrl.Logout))
 	auth.POST("/logout/all", middlewares.Auth(), utils.WP(authCtrl.LogoutAllDevices))
 
+	auth.POST("/2fa/request", middlewares.Auth(), utils.WP(authCtrl.RequestTOTPActivation))
+	auth.POST("/2fa/confirm", middlewares.Auth(), utils.WP(authCtrl.ConfirmTOTPActivation))
+	auth.POST("/2fa/verify", utils.WP(authCtrl.VerifyTOTP))
+	auth.POST("/2fa/disable", middlewares.Auth(), utils.WP(authCtrl.DisableTOTP))
+
 	// Sessions route
 	auth.GET("/sessions", middlewares.Auth(), utils.WP(authCtrl.GetSessions))
+	auth.DELETE("/sessions/:sessionId", middlewares.Auth(), utils.WP(authCtrl.DeleteSession))
 
 	// OIDC routes
 	oidcCtrl := controllers.NewOIDCController(app)

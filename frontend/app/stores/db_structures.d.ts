@@ -67,6 +67,7 @@ export interface User {
   avatar?: string;
   password?: string;
   email?: string;
+  totp_enabled: boolean;
   created_timestamp: number;
   updated_timestamp: number;
 }
@@ -146,16 +147,4 @@ export interface OverviewStats {
   total_users: number;
   total_nodes: number;
   total_size: number;
-}
-
-// Internal structures
-
-export interface ImportJob {
-  status: 'pending' | 'in_progress' | 'completed' | 'failed';
-  toCreate: number;
-  created: string[];
-  toUpdate: number;
-  updated: string[];
-  failures: number;
-  error_message?: string;
 }

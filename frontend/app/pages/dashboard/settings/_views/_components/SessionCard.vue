@@ -5,23 +5,26 @@
         <Icon v-if="deviceType == 'mobile'" name="mobile" fill="var(--purple)" />
         <Icon v-else name="computer" fill="var(--blue)" />
       </div>
-      <div class="session-info">
-        <div class="session-title">
-          <span class="browser">{{ parsedUserAgent.browser }}</span>
-          <span class="os">on {{ parsedUserAgent.os }}</span>
-          <span v-if="isCurrent" class="badge current">{{ t('components.sessionCard.current') }}</span>
-          <span v-else-if="!session.active" class="badge inactive">{{ t('components.sessionCard.inactive') }}</span>
+      <div class="session-info-container">
+        <div class="session-info">
+          <div class="session-title">
+            <span class="browser">{{ parsedUserAgent.browser }}</span>
+            <span class="os">on {{ parsedUserAgent.os }}</span>
+            <span v-if="isCurrent" class="badge current">{{ t('components.sessionCard.current') }}</span>
+            <span v-else-if="!session.active" class="badge inactive">{{ t('components.sessionCard.inactive') }}</span>
+          </div>
+          <div class="session-meta">
+            <span class="meta-item">
+              <Icon name="location" display="xsm" />
+              {{ session.location || t('components.sessionCard.unknownLocation') }}
+            </span>
+            <span class="meta-item">
+              <Icon name="internet" display="xsm" />
+              {{ session.ip_adress || t('components.sessionCard.unknownIP') }}
+            </span>
+          </div>
         </div>
-        <div class="session-meta">
-          <span class="meta-item">
-            <Icon name="location" display="xsm" />
-            {{ session.location || t('components.sessionCard.unknownLocation') }}
-          </span>
-          <span class="meta-item">
-            <Icon name="internet" display="xsm" />
-            {{ session.ip_adress || t('components.sessionCard.unknownIP') }}
-          </span>
-        </div>
+        <AppBtnIcon icon="close" display="lg" @click="closeSession" />
       </div>
     </div>
 
@@ -51,22 +54,10 @@
 
 <script setup lang="ts">
 import { parseUserAgent } from '~/helpers/utils';
+import type { Session } from '~/stores';
 
 const { t } = useI18nT();
-
-export interface Session {
-  id: string;
-  user_id: string;
-  expire_token: number;
-  last_refresh_timestamp: number;
-  active: boolean;
-  ip_adress?: string;
-  user_agent?: string;
-  location?: string;
-  type: string;
-  login_timestamp: number;
-  logout_timestamp?: number;
-}
+const store = useUserStore();
 
 const props = withDefaults(
   defineProps<{
@@ -91,6 +82,14 @@ const deviceType = computed(() => {
   }
   return 'desktop';
 });
+
+const closeSession = async () => {
+  try {
+    await store.deleteSession(props.session.id);
+  } catch (error) {
+    console.error('Failed to delete session:', error);
+  }
+};
 </script>
 
 <style scoped lang="scss">
@@ -157,6 +156,15 @@ const deviceType = computed(() => {
     color: var(--blue);
     background: var(--blue-bg);
   }
+}
+
+.session-info-container {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  flex: 1;
+  gap: 0.5rem;
+  justify-content: space-between;
 }
 
 .session-info {
