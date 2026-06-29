@@ -1,8 +1,12 @@
 <template>
   <div>
     <div class="tabs">
-      <button :class="{ active: activeTab === 'create' }" @click="activeTab = 'create'">{{ t('import.tabs.newDocuments') }} ({{ toCreate.length }})</button>
-      <button :class="{ active: activeTab === 'update' }" @click="activeTab = 'update'">{{ t('import.tabs.updates') }} ({{ toUpdate.length }})</button>
+      <button :class="{ active: activeTab === 'create' }" @click="activeTab = 'create'">
+        {{ t('import.tabs.newDocuments') }} ({{ importJob.toCreate.length }})
+      </button>
+      <button :class="{ active: activeTab === 'update' }" @click="activeTab = 'update'">
+        {{ t('import.tabs.updates') }} ({{ importJob.toUpdate.length }})
+      </button>
       <button :class="{ active: activeTab === 'local' }" @click="activeTab = 'local'">
         {{ t('import.tabs.localSettings') }} ({{ manifest?.options.include_settings ? 1 : 0 }})
       </button>
@@ -10,7 +14,7 @@
 
     <!-- Tab: New Documents -->
     <div v-if="activeTab === 'create'" class="tab-content">
-      <div v-if="toCreate.length === 0" class="empty-state">
+      <div v-if="importJob.toCreate.length === 0" class="empty-state">
         <Icon name="folder" :size="32" />
         <p>{{ t('import.tabs.noNewDocuments') }}</p>
       </div>
@@ -23,7 +27,7 @@
         </div>
         <div class="documents-list">
           <NodeImportPreview
-            v-for="doc in toCreate"
+            v-for="doc in importJob.toCreate"
             :key="doc.id"
             :node="doc"
             selectable
@@ -38,7 +42,7 @@
 
     <!-- Tab: Updates -->
     <div v-if="activeTab === 'update'" class="tab-content">
-      <div v-if="toUpdate.length === 0" class="empty-state">
+      <div v-if="importJob.toUpdate.length === 0" class="empty-state">
         <Icon name="update" :size="32" />
         <p>{{ t('import.tabs.noUpdates') }}</p>
       </div>
@@ -52,7 +56,7 @@
         </div>
         <div class="documents-list">
           <NodeImportPreview
-            v-for="doc in toUpdate"
+            v-for="doc in importJob.toUpdate"
             :key="doc.id"
             :node="doc"
             selectable
@@ -83,10 +87,11 @@
 </template>
 
 <script setup lang="ts">
-import type { DB_Node, ImportJob } from '~/stores';
+import type { DB_Node } from '~/stores';
 import type { Manifest } from '~/helpers/backups/types';
+import type { ImportJob } from '~/helpers/backups/Importer';
 
-const props = defineProps<{ manifest: Manifest; toCreate: DB_Node[]; toUpdate: DB_Node[]; importJob: ImportJob }>();
+const props = defineProps<{ manifest: Manifest; importJob: ImportJob }>();
 const emit = defineEmits<{
   (e: 'import', type: 'create' | 'update', nodeIds: string[]): void;
   (e: 'importLocalSettings'): void;
@@ -105,7 +110,7 @@ const isImporting = computed(() => props.importJob.status === 'in_progress');
 
 function toggleSelectAllCreate(value: boolean) {
   if (value) {
-    selectedCreate.value = props.toCreate.map(d => d.id);
+    selectedCreate.value = props.importJob.toCreate.map(d => d.id);
   } else {
     selectedCreate.value = [];
   }
@@ -123,7 +128,7 @@ function toggleSelection(id: string, type: 'create' | 'update') {
 
 function toggleSelectAllUpdate(value: boolean) {
   if (value) {
-    selectedUpdate.value = props.toUpdate.map(d => d.id);
+    selectedUpdate.value = props.importJob.toUpdate.map(d => d.id);
   } else {
     selectedUpdate.value = [];
   }

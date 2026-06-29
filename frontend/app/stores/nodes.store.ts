@@ -1,7 +1,8 @@
-import type { ResourceImportTask } from '~/helpers/backups/Importer';
 import { Collection } from './collection';
 import { IndexedCollection } from '~/helpers/IndexedCollection';
-import type { DB_Node, ImportJob, InvitationJoinResponse, Node, NodeInvitation, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
+import { parseTags, mergeNode } from '~/helpers/node';
+import type { DB_Node, InvitationJoinResponse, Node, NodeInvitation, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
+import type { ImportJob, ResourceImportTask } from '~/helpers/backups/Importer';
 
 export type TeamRole = 0;
 export type CategoryRole = 1 | 2;
@@ -511,7 +512,6 @@ export const useNodesStore = defineStore('nodes', {
         if (!existingNode) {
           toCreate.push(backupNode);
         } else {
-          // Check if any field is different
           if (backupNode.updated_timestamp !== existingNode.updated_timestamp) {
             toUpdate.push(backupNode);
           }
@@ -519,67 +519,30 @@ export const useNodesStore = defineStore('nodes', {
       }
       return { toCreate, toUpdate };
     },
-    async importAllNodesAndResources(nodes: DB_Node[], resources: ResourceImportTask[], job: Ref<ImportJob>) {
-      const nodesById = new Map(nodes.map(n => [n.id, n]));
-      const corresponding: Record<string, string> = {}; // Map: [old_id] -> [new_server_id]
-
-      const resourcesStore = useResourcesStore();
-
-      // 1. Start by importing all nodes (folders, documents) to get their new IDs
-      for (const node of nodes) {
-        await this.importNode(node, nodesById, corresponding, job);
-      }
-
-      // 2. Import resources (binary files) and map their parent_id to the new IDs
-      for (const task of resources) {
-        try {
-          let finalParentId = undefined;
-          if (task.parent_id) {
-            finalParentId = corresponding[task.parent_id] || task.parent_id;
-          } else {
-            finalParentId = usePreferencesStore().get('defaultUploadFolder').value;
-          }
-
-          const formData = new FormData();
-          formData.append('file', task.file);
-          if (finalParentId) formData.append('parent_id', finalParentId);
-
-          console.log(`[Import] Uploading resource file: ${task.file.name} to parent: ${finalParentId}`);
-          const uploadedResourceNode = await resourcesStore.post(formData);
-
-          job.value.created.push(uploadedResourceNode.id);
-
-          await new Promise(resolve => setTimeout(resolve, 50));
-        } catch (error) {
-          console.error(`[Import] Failed to upload resource ${task.file.name}:`, error);
-        }
-      }
-    },
-
-    async importMultipleNodes(nodes: { toCreate: DB_Node[]; toUpdate: DB_Node[] }, job: Ref<ImportJob>) {
+    async importAllNodesAndResources(nodes: { toCreate: DB_Node[]; toUpdate: DB_Node[]; resources: ResourceImportTask[] }, job: Ref<ImportJob>) {
       job.value.status = 'in_progress';
+      job.value.failures = 0;
       try {
-        await this.importAllNodes(nodes.toCreate, job);
+        const corresponding: Record<string, string> = {};
+        await this.importAllNodes(nodes.toCreate, job, corresponding);
         await this.updateAllNodes(nodes.toUpdate, job);
+        await this.importAllResources(nodes.resources, job, corresponding);
         job.value.status = 'completed';
       } catch (error) {
         job.value.status = 'failed';
         job.value.error_message = (error as Error).message;
       }
     },
-    async importAllNodes(nodes: DB_Node[], job: Ref<ImportJob>) {
+
+    async importAllNodes(nodes: DB_Node[], job: Ref<ImportJob>, corresponding: Record<string, string>) {
       const nodesById = new Map(nodes.map(n => [n.id, n]));
-      const corresponding: Record<string, string> = {};
 
       for (const node of nodes) {
         await this.importNode(node, nodesById, corresponding, job);
       }
     },
     async importNode(node: DB_Node, nodesById: Map<string, DB_Node>, corresponding: Record<string, string>, job: Ref<ImportJob>): Promise<void> {
-      // Already imported
-      if (corresponding[node.id]) return;
-
-      // Handle the parent
+      if (corresponding[node.id]) return; // Already imported
 
       if (node.parent_id && !this.getById(node.parent_id)) {
         const newParentId = corresponding[node.parent_id];
@@ -588,24 +551,19 @@ export const useNodesStore = defineStore('nodes', {
           const parent = nodesById.get(node.parent_id); // Parent from the backup (future import)
 
           if (parent) {
-            // Import the parent first
-            await this.importNode(parent, nodesById, corresponding, job);
+            await this.importNode(parent, nodesById, corresponding, job); // Import the parent first
           } else {
-            // Parent not found → detach
-            delete node.parent_id;
+            delete node.parent_id; // Parent not found → detach
           }
         }
 
-        // Update parent_id after import
-        if (corresponding[node.parent_id!]) {
-          node.parent_id = corresponding[node.parent_id!];
-        }
+        if (corresponding[node.parent_id!]) node.parent_id = corresponding[node.parent_id!]; // Update parent_id after import
       }
 
       // Import of the node
-      const res = await this.post(node);
+      const res = await this.post({ ...node, user_id: undefined });
       job.value.created.push(node.id);
-      await new Promise(resolve => setTimeout(resolve, 75)); // slight delay to avoid overwhelming the server
+      await new Promise(resolve => setTimeout(resolve, 75));
       corresponding[node.id] = res.id;
     },
 
@@ -614,7 +572,35 @@ export const useNodesStore = defineStore('nodes', {
         if (!this.getById(node.id)) continue;
         await this.update({ ...(node as Node), partial: false, shared: false, permissions: [] });
         if (job) job.value.updated.push(node.id);
-        await new Promise(resolve => setTimeout(resolve, 75)); // slight delay to avoid overwhelming the server
+        await new Promise(resolve => setTimeout(resolve, 75));
+      }
+    },
+
+    async importAllResources(resources: ResourceImportTask[], job: Ref<ImportJob>, corresponding: Record<string, string>) {
+      const preferences = usePreferencesStore();
+      const defaultUploadFolder = preferences.get('defaultUploadFolder').value;
+      const resourcesStore = useResourcesStore();
+      for (const task of resources) {
+        try {
+          let finalParentId = undefined;
+          if (task.parent_id) finalParentId = corresponding[task.parent_id] || task.parent_id;
+          else {
+            if (job.value.options?.defaultValues?.defaultParent) finalParentId = job.value.options.defaultValues.defaultParent;
+            else if (defaultUploadFolder) finalParentId = defaultUploadFolder;
+          }
+
+          const formData = new FormData();
+          formData.append('file', task.file);
+          if (finalParentId) formData.append('parent_id', finalParentId);
+
+          const uploadedResourceNode = await resourcesStore.post(formData);
+
+          job.value.created.push(uploadedResourceNode.id);
+
+          await new Promise(resolve => setTimeout(resolve, 50));
+        } catch (error) {
+          console.error(`[Import] Failed to upload resource ${task.file.name}:`, error);
+        }
       }
     },
 
@@ -627,27 +613,4 @@ export const useNodesStore = defineStore('nodes', {
   },
 });
 
-function parseTags(tags: string): string[] {
-  if (typeof tags === 'string') {
-    return tags
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(Boolean);
-  }
-  return [];
-}
-
-function mergeNode(node: Node, full_node: Node): Node {
-  const result: Node = { ...full_node };
-
-  for (const key in node) {
-    const localValue = node[key as keyof Node];
-    if (localValue !== undefined && localValue !== null && localValue !== '') {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (result as any)[key] = localValue; // keep local value if it's defined
-    }
-  }
-
-  result.partial = false;
-  return result;
-}
+// Helper functions
