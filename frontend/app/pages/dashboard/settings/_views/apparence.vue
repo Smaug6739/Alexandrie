@@ -64,6 +64,12 @@ const options = computed(
               { label: t('settings.appearance.styleGlassmorphism'), id: 'glassmorphism' },
             ],
           },
+          {
+            label: t('settings.appearance.displayTabs'),
+            description: t('settings.appearance.displayTabsDesc'),
+            type: 'toggle' as const,
+            key: 'displayTabs' as const,
+          },
         ],
       },
       {
