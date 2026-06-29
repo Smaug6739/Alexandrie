@@ -4,12 +4,12 @@
     <div class="stats">
       <div class="stat new">
         <Icon name="plus" :size="20" />
-        <span class="count">{{ toCreate }}</span>
+        <span class="count">{{ importJob.toCreate.length }}</span>
         <span class="label">{{ t('import.summary.newDocuments') }}</span>
       </div>
       <div class="stat update">
         <Icon name="update" :size="20" />
-        <span class="count">{{ toUpdate }}</span>
+        <span class="count">{{ importJob.toUpdate.length }}</span>
         <span class="label">{{ t('import.summary.documentsToUpdate') }}</span>
       </div>
       <div class="stat unchanged">
@@ -19,18 +19,16 @@
       </div>
     </div>
     <div class="progess">
-      <ImportProgress :import-job="importJob" :to-create="toCreate" :to-update="toUpdate" />
+      <ImportProgress :import-job="importJob" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import ImportProgress from './ImportProgress.vue';
-import type { ImportJob } from '~/stores';
+import type { ImportJob } from '~/helpers/backups/Importer';
 
 defineProps<{
-  toCreate: number;
-  toUpdate: number;
   unchangedCount: number;
   importJob: ImportJob;
 }>();

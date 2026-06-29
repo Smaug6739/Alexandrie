@@ -23,24 +23,15 @@
       <ImportHeader :manifest="manifest" :reset-import="resetImport" />
 
       <!-- Import Summary -->
-      <SummaryCard :to-create="toCreate.length" :to-update="toUpdate.length" :unchanged-count="unchangedCount" :import-job="importJob" />
+      <SummaryCard :unchanged-count="unchangedCount" :import-job="importJob" />
 
       <!-- Tabs for New / Updates -->
-      <ImportTabs
-        :manifest="manifest"
-        :to-create="toCreate"
-        :to-update="toUpdate"
-        :import-job="importJob"
-        @import="importNodes"
-        @import-local-settings="importLocalSettings"
-      />
+      <ImportTabs :manifest="manifest" :import-job="importJob" @import="importNodes" @import-local-settings="importLocalSettings" />
 
       <!-- Import All Actions -->
       <ImportActions
-        v-model:preserve-timestamps="importOptions.preserveTimestamps"
+        v-model:preserve-timestamps="importJob.options.preserveTimestamps"
         v-model:skip-existing="importOptions.skipExisting"
-        :to-create="toCreate"
-        :to-update="toUpdate"
         :reset-import="resetImport"
         :import-all="importAll"
         :import-job="importJob"
@@ -55,8 +46,9 @@ import SummaryCard from './_components/ImportSummary.vue';
 import ImportTabs from './_components/ImportTabs.vue';
 import ImportActions from './_components/ImportActions.vue';
 import { handleBackupFile } from '~/helpers/backups';
+import type { ImportJob } from '~/helpers/backups/Importer';
 import type { Manifest } from '~/helpers/backups/types';
-import type { DB_Node, ImportJob } from '~/stores/db_structures';
+import type { DB_Node } from '~/stores/db_structures';
 
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
@@ -74,30 +66,28 @@ const analyzeError = ref('');
 // Backup data
 const manifest = ref<Manifest | null>(null);
 const backupDocuments = ref<DB_Node[]>([]);
-const toCreate = ref<DB_Node[]>([]);
-const toUpdate = ref<DB_Node[]>([]);
 const localData = ref<object | null>(null);
 
 // Import state
 const importJob = ref<ImportJob>({
   status: 'pending',
-  toCreate: 0,
-  toUpdate: 0,
+  toCreate: [],
+  toUpdate: [],
   created: [],
   updated: [],
   failures: 0,
+  options: {
+    preserveTimestamps: false,
+  },
 });
 
-// Options
 const importOptions = reactive({
-  preserveTimestamps: false,
   skipExisting: false,
 });
 
-// Computed
 const unchangedCount = computed(() => {
   if (!backupDocuments.value.length) return 0;
-  return backupDocuments.value.length - toCreate.value.length - toUpdate.value.length;
+  return backupDocuments.value.length - importJob.value.toCreate.length - importJob.value.toUpdate.length;
 });
 
 // Methods
@@ -120,12 +110,12 @@ async function analyzeFile() {
     if (result.documents?.length) {
       backupDocuments.value = result.documents;
       const { toCreate: create, toUpdate: update } = nodesStore.prepareImport(result.documents);
-      toCreate.value = create;
-      toUpdate.value = update;
+      importJob.value.toCreate = create;
+      importJob.value.toUpdate = update;
     } else {
       backupDocuments.value = [];
-      toCreate.value = [];
-      toUpdate.value = [];
+      importJob.value.toCreate = [];
+      importJob.value.toUpdate = [];
     }
 
     step.value = 'preview';
@@ -141,30 +131,32 @@ function resetImport() {
   selectedFile.value = undefined;
   manifest.value = null;
   backupDocuments.value = [];
-  toCreate.value = [];
-  toUpdate.value = [];
+  importJob.value.toCreate = [];
+  importJob.value.toUpdate = [];
 
   importJob.value = {
     status: 'pending',
-    toCreate: 0,
-    toUpdate: 0,
+    toCreate: [],
+    toUpdate: [],
     created: [],
     updated: [],
     failures: 0,
+    options: {
+      preserveTimestamps: false,
+    },
   };
 }
 
 async function importNodes(type: 'create' | 'update', ids: string[]) {
-  const nodes: DB_Node[] = type === 'create' ? toCreate.value.filter(d => ids.includes(d.id)) : toUpdate.value.filter(d => ids.includes(d.id));
+  const nodes: DB_Node[] =
+    type === 'create' ? importJob.value.toCreate.filter(d => ids.includes(d.id)) : importJob.value.toUpdate.filter(d => ids.includes(d.id));
 
   if (type === 'create') {
-    importJob.value.toCreate = nodes.length;
-    await nodesStore.importMultipleNodes({ toCreate: nodes, toUpdate: [] }, importJob);
-    toCreate.value = toCreate.value.filter(d => !importJob.value.created.includes(d.id));
+    await nodesStore.importAllNodesAndResources({ toCreate: nodes, toUpdate: [], resources: [] }, importJob);
+    importJob.value.toCreate = importJob.value.toCreate.filter(d => !importJob.value.created.includes(d.id));
   } else if (type == 'update') {
-    importJob.value.toUpdate = nodes.length;
-    await nodesStore.importMultipleNodes({ toCreate: [], toUpdate: nodes }, importJob);
-    toUpdate.value = toUpdate.value.filter(d => !importJob.value.updated.includes(d.id));
+    await nodesStore.importAllNodesAndResources({ toCreate: [], toUpdate: nodes, resources: [] }, importJob);
+    importJob.value.toUpdate = importJob.value.toUpdate.filter(d => !importJob.value.updated.includes(d.id));
   }
 
   notifications.add({
@@ -195,15 +187,12 @@ function importLocalSettings() {
 }
 
 async function importAll() {
-  const createDocs = toCreate.value;
-  const updateDocs = importOptions.skipExisting ? [] : toUpdate.value;
+  const createDocs = importJob.value.toCreate;
+  const updateDocs = importOptions.skipExisting ? [] : importJob.value.toUpdate;
 
-  importJob.value.toCreate = createDocs.length;
-  importJob.value.toUpdate = updateDocs.length;
-
-  await nodesStore.importMultipleNodes({ toCreate: createDocs, toUpdate: updateDocs }, importJob);
-  toCreate.value = toCreate.value.filter(d => !importJob.value.created.includes(d.id));
-  toUpdate.value = toUpdate.value.filter(d => !importJob.value.updated.includes(d.id));
+  await nodesStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs, resources: [] }, importJob);
+  importJob.value.toCreate = importJob.value.toCreate.filter(d => !importJob.value.created.includes(d.id));
+  importJob.value.toUpdate = importJob.value.toUpdate.filter(d => !importJob.value.updated.includes(d.id));
 
   notifications.add({
     type: 'success',

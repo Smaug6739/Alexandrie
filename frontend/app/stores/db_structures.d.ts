@@ -148,15 +148,3 @@ export interface OverviewStats {
   total_nodes: number;
   total_size: number;
 }
-
-// Internal structures
-
-export interface ImportJob {
-  status: 'pending' | 'in_progress' | 'completed' | 'failed';
-  toCreate: number;
-  created: string[];
-  toUpdate: number;
-  updated: string[];
-  failures: number;
-  error_message?: string;
-}

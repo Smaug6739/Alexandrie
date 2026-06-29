@@ -42,7 +42,7 @@ export default {
     },
     advanced: {
       title: 'Erweiterter Import',
-      description: 'Importiere Dokumente mit angepassten Optionen für maximale Kontrolle.',
+      description: 'Importiere gesamte Ordner (einschließlich Unterordner & Uploads) mit benutzerdefinierten Optionen für maximale Kontrolle.',
     },
   },
 
@@ -73,6 +73,10 @@ export default {
     importFailedTitle: 'Import fehlgeschlagen',
     localImportedMessage: 'Deine lokalen Einstellungen wurden durch die Backup-Datei ersetzt.',
     localImportedTitle: 'Lokale Einstellungen importiert',
+  },
+
+  progress: {
+    title: 'Importfortschritt',
   },
 
   steps: {

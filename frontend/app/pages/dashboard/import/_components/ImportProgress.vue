@@ -2,8 +2,8 @@
   <div class="container">
     <div class="progress-header">
       <span class="status">
-        <strong>{{ t('common.labels.status') }}</strong
-        ><span class="status-badge" :class="importJob.status"> {{ statusLabel }} </span>
+        <strong>{{ t('common.labels.status') }}</strong>
+        <span class="status-badge" :class="importJob.status"> {{ statusLabel }} </span>
       </span>
       <span v-if="importJob.status === 'in_progress'" class="progress-percent"> {{ progress }}% </span>
     </div>
@@ -12,19 +12,22 @@
       <div class="progress-bar" :style="{ width: progress + '%' }"></div>
     </div>
 
-    <small v-if="importJob.status === 'failed'">{{ importJob.error_message }}</small>
+    <small v-if="importJob.status === 'failed'">{{ importJob.error_message }} ({{ importJob.failures }} {{ t('common.status.failed') }})</small>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ImportJob } from '~/stores';
+import type { ImportJob } from '~/helpers/backups/Importer';
 
-const props = defineProps<{ importJob: ImportJob; toCreate?: number; toUpdate?: number }>();
+const props = defineProps<{ importJob: ImportJob }>();
 
 const { t } = useI18nT();
 
 const progress = computed(() =>
-  Math.floor(((props.importJob.created.length + props.importJob.updated.length) * 100) / ((props.toCreate || 0) + (props.toUpdate || 0))),
+  Math.floor(
+    ((props.importJob.created.length + props.importJob.updated.length) * 100) /
+      ((props.importJob.toCreate.length || 0) + (props.importJob.toUpdate.length || 0)),
+  ),
 );
 const statusLabel = computed(() => {
   switch (props.importJob.status) {

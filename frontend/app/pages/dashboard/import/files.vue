@@ -20,7 +20,7 @@
           </AppButton>
         </div>
       </div>
-      <ImportProgress :import-job="importJob" :to-create="toCreate" />
+      <ImportProgress :import-job="importJob" />
       <div class="list">
         <NodeImportPreview
           v-for="node in nodes"
@@ -38,32 +38,26 @@
 
 <script setup lang="ts">
 import ImportProgress from './_components/ImportProgress.vue';
-import { Importer } from '~/helpers/backups/Importer';
-import type { DB_Node, ImportJob } from '~/stores';
+import { Importer, type ImportJob } from '~/helpers/backups/Importer';
+import type { DB_Node } from '~/stores';
 
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
-const user = useUserStore();
 const nodesStore = useNodesStore();
 
 const { t } = useI18nT();
 
 const selectedNodes = ref<string[]>([]);
-const toCreate = ref(0);
 const nodes = ref<DB_Node[]>([]);
 
 const importJob = ref<ImportJob>({
   status: 'pending',
-  toCreate: 0,
-  toUpdate: 0,
+  toCreate: [],
+  toUpdate: [],
   created: [],
   updated: [],
   failures: 0,
-});
-
-async function selectFiles(files: File | File[] | null) {
-  if (!files) return;
-  const imp = new Importer({
+  options: {
     extractFrontMatter: true,
     normalizeLineEndings: true,
     preserveTimestamps: false,
@@ -75,8 +69,12 @@ async function selectFiles(files: File | File[] | null) {
       defaultTheme: '',
       defaultThumbnail: '',
     },
-    user_id: user.user!.id,
-  });
+  },
+});
+
+async function selectFiles(files: File | File[] | null) {
+  if (!files) return;
+  const imp = new Importer(importJob.value.options);
   await imp.handleFiles(files);
   nodes.value = (await imp.normalizedToNodes()).nodesToCreate;
 }
@@ -95,9 +93,8 @@ const importSelected = () => {
 const importAll = () => importNodes(nodes.value);
 
 async function importNodes(importNodes: DB_Node[]) {
-  toCreate.value = importNodes.length;
-  importJob.value.toCreate = importNodes.length;
-  await nodesStore.importMultipleNodes({ toCreate: importNodes, toUpdate: [] }, importJob);
+  importJob.value.toCreate = importNodes;
+  await nodesStore.importAllNodesAndResources({ toCreate: importNodes, toUpdate: [], resources: [] }, importJob);
   nodes.value = nodes.value.filter(n => !importJob.value.created.includes(n.id));
 }
 </script>

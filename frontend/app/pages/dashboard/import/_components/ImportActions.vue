@@ -10,7 +10,7 @@
         <Icon name="close" :size="16" />
         {{ t('import.actions.cancel') }}
       </AppButton>
-      <AppButton type="primary" :disabled="isImporting || (toCreate.length === 0 && toUpdate.length === 0)" @click="importAll">
+      <AppButton type="primary" :disabled="isImporting || (importJob.toCreate.length === 0 && importJob.toUpdate.length === 0)" @click="importAll">
         <Icon name="download" :size="16" />
         {{ isImporting ? t('import.actions.importing') : t('import.actions.importAll') }}
       </AppButton>
@@ -19,12 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import type { DB_Node, ImportJob } from '~/stores';
+import type { ImportJob } from '~/helpers/backups/Importer';
 
 const { t } = useI18nT();
 const props = defineProps<{
-  toCreate: DB_Node[];
-  toUpdate: DB_Node[];
   importJob: ImportJob;
   resetImport: () => void;
   importAll: () => void;
