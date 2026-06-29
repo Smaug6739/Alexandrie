@@ -20,7 +20,7 @@
             <div class="email">{{ userStore.user.email }}</div>
           </NuxtLink>
           <div class="icons">
-            <NuxtLink to="/dashboard/docs/new" class="nav-item" :prefetch="false" @click="onClick">
+            <NuxtLink to="/dashboard/docs/new" class="nav-item" @click="onClick">
               <Icon name="add_file" />
               <p class="hint-tooltip">{{ t('components.sidebar.newDoc') }}</p>
             </NuxtLink>

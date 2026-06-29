@@ -6,7 +6,7 @@
       </div>
     </div>
     <div class="footer-top-row">
-      <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" :prefetch="false" class="edit-link">
+      <NuxtLink :to="`/dashboard/docs/edit/${document.id}`" class="edit-link">
         <Icon name="edit_page" display="sm" />
         <span>{{ t('nodes.document.editPage') }}</span>
       </NuxtLink>
