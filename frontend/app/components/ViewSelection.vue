@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import localForage from 'localforage';
 export type ViewMode = 'kanban' | 'list' | 'table';
 
 const props = withDefaults(
@@ -34,11 +35,11 @@ const viewOptions = computed(() => {
 });
 
 watch(view, newView => {
-  if (newView) localStorage.setItem('viewSelection', newView);
+  if (newView) localForage.setItem('viewSelection', newView);
 });
 
-onMounted(() => {
-  const storedView = localStorage.getItem('viewSelection');
+onMounted(async () => {
+  const storedView = await localForage.getItem<ViewMode>('viewSelection');
   const list = ['table', 'list'];
   if (props.showKanban) list.push('kanban');
   if (storedView && list.includes(storedView)) view.value = storedView as ViewMode;

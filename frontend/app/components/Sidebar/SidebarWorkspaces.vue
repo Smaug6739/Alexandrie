@@ -43,6 +43,7 @@
 import SidebarWorkspace from './SidebarWorkspace.vue';
 import NewCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import JoinModal from '~/components/Node/Modals/Join.vue';
+import localForage from 'localforage';
 import type { Workspace } from './helpers';
 
 const props = defineProps<{ workspaces: Workspace[]; teams: Workspace[] }>();
@@ -66,8 +67,8 @@ const flattenWorkspaces = (workspaces: Workspace[], depth = 0): Workspace[] => {
 const flattenedWorkspaces = computed(() => flattenWorkspaces(props.teams));
 watch(
   () => props.workspaces,
-  opts => {
-    const storage_item = localStorage.getItem('filterWorkspace');
+  async opts => {
+    const storage_item = await localForage.getItem<string>('filterWorkspace');
     if (storage_item && [...opts, ...flattenedWorkspaces.value, sharedWorkspaces.value].find(option => option.value == storage_item)) {
       workspaceId.value = storage_item;
     }
@@ -87,8 +88,8 @@ const closeDropdown = () => (isOpen.value = false);
 const selectOption = (option: Workspace) => {
   workspaceId.value = option.value;
   if (option.meta?.role === 0) router.push('/dashboard/teams/' + option.value);
-  if (option.value) localStorage.setItem('filterWorkspace', option.value);
-  else localStorage.removeItem('filterWorkspace');
+  if (option.value) localForage.setItem('filterWorkspace', option.value);
+  else localForage.removeItem('filterWorkspace');
 };
 const handleClickOutside = (event: MouseEvent) => {
   if (!(event.target as HTMLElement)!.closest('.dropdown-container')) closeDropdown();

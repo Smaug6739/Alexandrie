@@ -4,6 +4,7 @@ export type ANode<ID = number | string> = Omit<TreeItem<unknown, ID>, 'data' | '
 
 export const DEFAULT_PREFERENCES = {
   locale: 'en' as 'en' | 'fr',
+  readAnnouncements: [] as string[],
   printMode: false as boolean,
   darkMode: false as boolean,
   hideTOC: false as boolean,
@@ -82,6 +83,7 @@ export type PreferenceKey = keyof Preferences;
 // ─── Key mapping: which preference keys go to which backend JSON column ───
 export const GENERAL_KEYS: PreferenceKey[] = [
   'locale',
+  'readAnnouncements',
   'printMode',
   'darkMode',
   'hideTOC',

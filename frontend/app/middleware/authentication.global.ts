@@ -1,6 +1,8 @@
+import localForage from 'localforage';
+
 export default defineNuxtRouteMiddleware(async (to, _) => {
   if (!import.meta.client) return;
-  const user_auth = localStorage.getItem('isLoggedIn');
+  const user_auth = await localForage.getItem('isLoggedIn');
 
   if (to.fullPath.startsWith('/dashboard') && !user_auth) {
     return navigateTo({

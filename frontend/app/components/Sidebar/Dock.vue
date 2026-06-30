@@ -1,27 +1,9 @@
 <template>
   <div class="dock">
-    <NuxtLink to="/dashboard/home">
-      <Icon name="dashboard" display="lg" />
-    </NuxtLink>
-    <NuxtLink to="/dashboard/categories">
-      <Icon name="categories" display="lg" />
-    </NuxtLink>
-    <NuxtLink to="/dashboard/docs">
-      <Icon name="files" display="lg" />
-    </NuxtLink>
-    <NuxtLink to="/dashboard/cdn">
-      <Icon name="cdn" display="lg" />
+    <NuxtLink v-for="item in items" :key="item.label" :to="item.to" :class="{ admin: isAdmin && item.adminOnly, show: isAdmin && item.adminOnly }">
+      <Icon :name="item.icon" display="lg" /><span v-if="mark.hasMark(item.mark as MarkId)" class="bubble" />
     </NuxtLink>
 
-    <NuxtLink to="/dashboard/import">
-      <Icon name="import" display="lg" />
-    </NuxtLink>
-    <NuxtLink to="/dashboard/cdn/diagram">
-      <Icon name="format/diagrams" display="lg" />
-    </NuxtLink>
-    <NuxtLink v-if="userStore.user?.role === 2" to="/dashboard/admin">
-      <Icon name="users" display="lg" />
-    </NuxtLink>
     <div style="margin-top: auto">
       <NuxtLink @click="openSettings">
         <Icon name="settings" display="lg" />
@@ -40,6 +22,19 @@ const userStore = useUserStore();
 const preferences = usePreferencesStore();
 
 const modals = useModal();
+const mark = useMark();
+
+const items = [
+  { label: 'Dashboard', icon: 'dashboard', to: '/dashboard/home' },
+  { label: 'Categories', icon: 'categories', to: '/dashboard/categories' },
+  { label: 'Documents', icon: 'files', to: '/dashboard/docs' },
+  { label: 'CDN', icon: 'cdn', to: '/dashboard/cdn' },
+  { label: 'Import', icon: 'import', to: '/dashboard/import', mark: 'new-imports' },
+  { label: 'Diagrams', icon: 'format/diagrams', to: '/dashboard/cdn/diagram' },
+  { label: 'Admin', icon: 'users', to: '/dashboard/admin', adminOnly: true },
+];
+
+const isAdmin = computed(() => userStore.user?.role === 2);
 
 const openSettings = () => {
   modals.add(new Modal(shallowRef(SettingsModal), { props: { isModal: true }, size: 'medium', noPadding: true }));
@@ -61,6 +56,7 @@ function closeDock() {
 
 a {
   display: flex;
+  position: relative;
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
@@ -73,6 +69,14 @@ a {
       color: var(--text-inverse) !important;
     }
   }
+}
+
+.admin {
+  display: none;
+}
+
+.show {
+  display: flex;
 }
 
 a.router-link-active {

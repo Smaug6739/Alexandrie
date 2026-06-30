@@ -15,20 +15,27 @@
 const props = defineProps<{ nodeId: string }>();
 const emit = defineEmits(['close']);
 
+const nodesStore = useNodesStore();
+const userStore = useUserStore();
+
 const { t } = useI18nT();
 const nodesTree = useNodesTree();
+const notifications = useNotifications();
 
 const allChildren = nodesTree.getSubtreeAsArray(props.nodeId);
 
 const removeDoc = () => {
-  useNodesStore()
-    .removePermission(props.nodeId, useUserStore().user!.id)
+  const node = nodesStore.getById(props.nodeId);
+  const perm = node?.permissions.find(p => p.user_id === userStore.user?.id);
+  if (!perm) return notifications.add({ type: 'error', title: t('common.errors.generic') });
+  nodesStore
+    .removePermission(perm)
     .then(() => {
-      useNotifications().add({ type: 'success', title: t('nodes.modals.removeShared.success') });
+      notifications.add({ type: 'success', title: t('nodes.modals.removeShared.success') });
       emit('close');
       useRouter().push('/dashboard');
     })
-    .catch(e => useNotifications().add({ type: 'error', title: t('common.errors.generic'), message: e }));
+    .catch(e => notifications.add({ type: 'error', title: t('common.errors.generic'), message: e }));
 };
 </script>
 

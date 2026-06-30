@@ -34,3 +34,15 @@
 	border-radius: var(--radius-sm);
 	margin-right: 10px;
 }
+
+// Mark
+.bubble {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	width: 10px;
+	height: 10px;
+	border: 3px solid var(--primary);
+	border-radius: 50%;
+	background: var(--primary-bg);
+}

@@ -15,14 +15,16 @@
 
     <!-- Label -->
     <NuxtLink v-if="item.onClick" class="close content" @click="item.onClick">{{ item.data.role == -1 ? t(item.label) : item.label }}</NuxtLink>
-    <NuxtLink v-else :to="item.route" class="close content">{{ item.data.role == -1 ? t(item.label) : item.label }}</NuxtLink>
+    <NuxtLink v-else :to="item.route" class="close content"
+      >{{ item.data.role == -1 ? t(item.label) : item.label }} <span v-if="'mark' in item && item.mark && mark.hasMark(item.mark as MarkId)" class="bubble"
+    /></NuxtLink>
 
     <!-- Right icons / actions  -->
     <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--text-secondary)" />
     <NuxtLink v-if="item.data.role === 2 && canEdit" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" />
     </NuxtLink>
-    <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?parent_id=${item.id}`" :prefetch="false" class="nav close">
+    <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?parent_id=${item.id}`" class="nav close">
       <Icon name="plus" />
     </NuxtLink>
     <Icon v-if="item.data.order === -1" name="pin" fill="var(--text-secondary)" />
@@ -48,6 +50,7 @@ const { isOpened, workspaceId } = useSidebar();
 const { getAppAccent } = useAppColors();
 const { isMobile } = useDevice();
 const contextMenu = useContextMenu();
+const mark = useMark();
 
 const props = defineProps<{ item: SidebarItem; level: number }>();
 const isDragOver = ref<boolean>(false);
@@ -167,6 +170,7 @@ const drop = async (event: DragEvent) => {
 
 .content {
   flex: 1;
+  position: relative;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

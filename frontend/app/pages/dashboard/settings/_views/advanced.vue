@@ -17,11 +17,15 @@
 </template>
 
 <script setup lang="ts">
+import localForage from 'localforage';
+
 const preferences = usePreferencesStore();
+
 const { t } = useI18nT();
 
 const deleteLocalStorage = () => {
   localStorage.clear();
+  localForage.clear();
   location.reload();
 };
 </script>
