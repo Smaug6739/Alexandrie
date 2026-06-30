@@ -302,6 +302,10 @@ export default defineNuxtConfig({
         },
       },
     },
+    define: {
+      __SW_CDN_URL__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_CDN),
+      __SW_API_URL__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_API),
+    },
     plugins: [
       createSvgIconsPlugin({
         iconDirs: [resolve(process.cwd(), 'public/app-icons/')],

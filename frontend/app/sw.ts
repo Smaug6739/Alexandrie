@@ -27,8 +27,7 @@ registerRoute(
           statuses: [0, 200],
         }),
         new ExpirationPlugin({
-          maxEntries: 5000,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+          maxEntries: 1000,
         }),
       ],
     }),
@@ -37,7 +36,32 @@ registerRoute(
 );
 
 // ─── API cache ───────────────────────────────────────────────────────────────
-registerRoute(({ url }) => url.pathname.startsWith('/api/') && !url.pathname.startsWith('/api/backup/'), new NetworkFirst({ cacheName: 'api-cache' }));
+registerRoute(
+  ({ url }) => url.origin === __SW_API_URL__ && !url.pathname.startsWith('/api/backup/'),
+  new NetworkFirst({
+    cacheName: 'api-cache',
+    networkTimeoutSeconds: 3,
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 1000,
+      }),
+    ],
+  }),
+);
+
+// ─── CDN cache ────────────────────────────────────────────────────────────────
+registerRoute(
+  ({ url }) => url.origin === __SW_CDN_URL__,
+  new NetworkFirst({
+    cacheName: 'cdn-cache',
+    networkTimeoutSeconds: 3,
+    plugins: [
+      new ExpirationPlugin({
+        purgeOnQuotaError: true,
+      }),
+    ],
+  }),
+);
 
 // ─── Share Target API handler ────────────────────────────────────────────────
 // When the PWA receives a share via the Share Target API (POST with form data),
