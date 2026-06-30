@@ -107,6 +107,7 @@ const { t } = useI18nT();
 
 const usersStore = useUserStore();
 const nodesStore = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 
 const { avatarURL } = useApi();
 const { shortDate } = useDateFormatters();
@@ -127,7 +128,7 @@ const invitationLink = (code: string) => `${window.location.origin}/dashboard/jo
 
 const refreshInvitations = async () => {
   if (!node.value?.id) return;
-  invitations.value = await nodesStore.fetchInvitations(node.value.id);
+  invitations.value = await nodesPermissionsStore.fetchInvitations(node.value.id);
 };
 
 watchEffect(() => {
@@ -178,7 +179,7 @@ watch(
 // Actions
 const addPermission = async (user: PublicUser) => {
   if (!user) return;
-  await nodesStore.addPermission({
+  await nodesPermissionsStore.addPermission({
     node_id: props.node.id,
     user_id: user.id,
     permission: selectedPermission.value,
@@ -192,7 +193,7 @@ const createInvitation = async () => {
   if (!node.value?.id) return;
   isCreatingInvitation.value = true;
   try {
-    const invitation = await nodesStore.addInvitation(node.value.id, selectedInvitationPermission.value);
+    const invitation = await nodesPermissionsStore.addInvitation(node.value.id, selectedInvitationPermission.value);
     invitations.value = [invitation, ...invitations.value];
     selectedInvitationPermission.value = 1;
     notifications.add({ type: 'success', title: 'Invitation created' });
@@ -203,7 +204,7 @@ const createInvitation = async () => {
 
 const deleteInvitation = async (invitationId: string) => {
   if (!node.value?.id) return;
-  await nodesStore.removeInvitation(node.value.id, invitationId);
+  await nodesPermissionsStore.removeInvitation(node.value.id, invitationId);
   invitations.value = invitations.value.filter(invitation => invitation.id !== invitationId);
   notifications.add({ type: 'success', title: 'Invitation revoked' });
 };
@@ -214,12 +215,12 @@ const copyInvitationLink = async (code: string) => {
 };
 
 const updatePermission = async (perm: Permission) => {
-  await nodesStore.updatePermission(perm);
+  await nodesPermissionsStore.updatePermission(perm);
 };
 
 const removePermission = async (perm: Permission) => {
   if (!node.value) return;
-  await nodesStore.removePermission(perm);
+  await nodesPermissionsStore.removePermission(perm);
   node.value.permissions = node.value.permissions.filter(p => p.id !== perm.id);
 };
 </script>

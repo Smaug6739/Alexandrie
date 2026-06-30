@@ -22,7 +22,7 @@
       </button>
     </div>
 
-    <div v-if="nodeStore.hasPermissions(node, 4)" class="menu-group">
+    <div v-if="nodesPermissionsStore.hasPermissions(node, 4)" class="menu-group">
       <button class="menu-item" @click="action('manageAccess')"><Icon name="manage_access" />{{ t('nodes.actions.managePermissions') }}</button>
     </div>
 
@@ -45,6 +45,7 @@ const props = defineProps<{ node: Node; contextMenu?: boolean }>();
 const emit = defineEmits(['close']);
 
 const nodeStore = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 const userStore = useUserStore();
 
 const preferences = usePreferencesStore();

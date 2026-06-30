@@ -52,6 +52,7 @@ export interface InvitationJoinResponse {
 
 export interface Node extends DB_Node {
   partial?: boolean;
+  synced?: boolean;
   shared: boolean;
   permissions: Permission[];
 

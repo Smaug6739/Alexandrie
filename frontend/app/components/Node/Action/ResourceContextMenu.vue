@@ -18,7 +18,7 @@
       <button class="menu-item" @click="action('copyMd')"><Icon name="link" />{{ t('common.actions.copy') }} {{ t('common.labels.content') }}</button>
     </div>
 
-    <div v-if="nodeStore.hasPermissions(node, 4)" class="menu-group">
+    <div v-if="nodesPermissionsStore.hasPermissions(node, 4)" class="menu-group">
       <button class="menu-item" @click="action('manageAccess')"><Icon name="manage_access" />{{ t('nodes.actions.managePermissions') }}</button>
     </div>
 
@@ -40,7 +40,7 @@ import type { Node } from '~/stores';
 const props = defineProps<{ node: Node }>();
 const emit = defineEmits(['close']);
 
-const nodeStore = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 const userStore = useUserStore();
 
 const preferences = usePreferencesStore();

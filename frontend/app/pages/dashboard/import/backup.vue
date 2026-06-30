@@ -52,7 +52,7 @@ import type { DB_Node } from '~/stores/db_structures';
 
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
-const nodesStore = useNodesStore();
+const nodesImporterStore = useNodesImporterStore();
 
 const { t } = useI18nT();
 const notifications = useNotifications();
@@ -109,7 +109,7 @@ async function analyzeFile() {
 
     if (result.documents?.length) {
       backupDocuments.value = result.documents;
-      const { toCreate: create, toUpdate: update } = nodesStore.prepareImport(result.documents);
+      const { toCreate: create, toUpdate: update } = nodesImporterStore.prepareImport(result.documents);
       importJob.value.toCreate = create;
       importJob.value.toUpdate = update;
     } else {
@@ -152,10 +152,10 @@ async function importNodes(type: 'create' | 'update', ids: string[]) {
     type === 'create' ? importJob.value.toCreate.filter(d => ids.includes(d.id)) : importJob.value.toUpdate.filter(d => ids.includes(d.id));
 
   if (type === 'create') {
-    await nodesStore.importAllNodesAndResources({ toCreate: nodes, toUpdate: [], resources: [] }, importJob);
+    await nodesImporterStore.importAllNodesAndResources({ toCreate: nodes, toUpdate: [], resources: [] }, importJob);
     importJob.value.toCreate = importJob.value.toCreate.filter(d => !importJob.value.created.includes(d.id));
   } else if (type == 'update') {
-    await nodesStore.importAllNodesAndResources({ toCreate: [], toUpdate: nodes, resources: [] }, importJob);
+    await nodesImporterStore.importAllNodesAndResources({ toCreate: [], toUpdate: nodes, resources: [] }, importJob);
     importJob.value.toUpdate = importJob.value.toUpdate.filter(d => !importJob.value.updated.includes(d.id));
   }
 
@@ -190,7 +190,7 @@ async function importAll() {
   const createDocs = importJob.value.toCreate;
   const updateDocs = importOptions.skipExisting ? [] : importJob.value.toUpdate;
 
-  await nodesStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs, resources: [] }, importJob);
+  await nodesImporterStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs, resources: [] }, importJob);
   importJob.value.toCreate = importJob.value.toCreate.filter(d => !importJob.value.created.includes(d.id));
   importJob.value.toUpdate = importJob.value.toUpdate.filter(d => !importJob.value.updated.includes(d.id));
 

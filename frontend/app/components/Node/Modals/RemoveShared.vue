@@ -16,6 +16,7 @@ const props = defineProps<{ nodeId: string }>();
 const emit = defineEmits(['close']);
 
 const nodesStore = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 const userStore = useUserStore();
 
 const { t } = useI18nT();
@@ -28,7 +29,7 @@ const removeDoc = () => {
   const node = nodesStore.getById(props.nodeId);
   const perm = node?.permissions.find(p => p.user_id === userStore.user?.id);
   if (!perm) return notifications.add({ type: 'error', title: t('common.errors.generic') });
-  nodesStore
+  nodesPermissionsStore
     .removePermission(perm)
     .then(() => {
       notifications.add({ type: 'success', title: t('nodes.modals.removeShared.success') });

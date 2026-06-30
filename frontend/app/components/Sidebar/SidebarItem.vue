@@ -42,6 +42,7 @@ import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 import { type SidebarItem, getItemChildren } from './helpers';
 
 const nodesStore = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 const resourcesStore = useResourcesStore();
 const preferencesStore = usePreferencesStore();
 
@@ -68,7 +69,7 @@ const icon = computed(() => {
   return props.item.icon || '';
 });
 
-const canEdit = computed(() => nodesStore.hasPermissions(props.item.data as Node, 2));
+const canEdit = computed(() => nodesPermissionsStore.hasPermissions(props.item.data as Node, 2));
 
 const onClick = (m: MouseEvent) => {
   // if element does not have the "close" class, don't close the sidebar

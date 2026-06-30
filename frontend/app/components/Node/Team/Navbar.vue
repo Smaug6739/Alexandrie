@@ -45,16 +45,17 @@ const props = defineProps<{
 }>();
 
 const store = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 const team = computed(() => store.getById(props.teamId));
 
 const isAdmin = computed(() => {
   if (!team.value) return false;
-  return store.hasPermissions(team.value, 3);
+  return nodesPermissionsStore.hasPermissions(team.value, 3);
 });
 
 const isEditor = computed(() => {
   if (!team.value) return false;
-  return store.hasPermissions(team.value, 2);
+  return nodesPermissionsStore.hasPermissions(team.value, 2);
 });
 </script>
 

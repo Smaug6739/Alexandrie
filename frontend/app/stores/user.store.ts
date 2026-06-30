@@ -18,7 +18,6 @@ export const useUserStore = defineStore('user', {
   actions: {
     async login(username: string, password: string) {
       try {
-        // makeRequest doit être capable de vous retourner la réponse brute ou le body complet
         const response = await makeRequest<{ auth: boolean; pre_auth_token?: string; message?: string }>('auth', 'POST', { username, password });
 
         if (response.status === 'success') {
@@ -36,7 +35,7 @@ export const useUserStore = defineStore('user', {
     async request2FA() {
       const response = await makeRequest<{ secret: string; qr_code_url: string }>('auth/2fa/request', 'POST', {});
       if (response.status === 'success') {
-        return response.result; // contient { secret, qr_code_url }
+        return response.result;
       }
       throw response.message;
     },

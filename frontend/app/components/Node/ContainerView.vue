@@ -28,14 +28,26 @@
         @click="openRemoveShareModal"
       />
       <AppBtnIcon
-        v-if="parent && nodesStore.hasPermissions(parent, 4)"
+        v-if="parent && nodesPermissionsStore.hasPermissions(parent, 4)"
         nav
         icon="manage_access"
         :tooltip="t('nodes.actions.managePermissions')"
         @click="openPermissionsModal"
       />
-      <AppBtnIcon v-if="parent && nodesStore.hasPermissions(parent, 2)" nav icon="settings" :tooltip="t('nodes.actions.editMeta')" @click="openEditModal" />
-      <AppBtnIcon v-if="parent && nodesStore.hasPermissions(parent, 4)" nav icon="delete" :tooltip="t('common.actions.delete')" @click="openDeleteModal" />
+      <AppBtnIcon
+        v-if="parent && nodesPermissionsStore.hasPermissions(parent, 2)"
+        nav
+        icon="settings"
+        :tooltip="t('nodes.actions.editMeta')"
+        @click="openEditModal"
+      />
+      <AppBtnIcon
+        v-if="parent && nodesPermissionsStore.hasPermissions(parent, 4)"
+        nav
+        icon="delete"
+        :tooltip="t('common.actions.delete')"
+        @click="openDeleteModal"
+      />
     </Teleport>
     <Teleport to="#navbar-infos">
       <header>
@@ -87,6 +99,7 @@ import type { Node } from '~/stores';
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
 
 const nodesStore = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 const userStore = useUserStore();
 
 const { isMobile } = useDevice();
