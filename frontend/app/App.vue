@@ -50,7 +50,8 @@ watch(
 );
 
 router.beforeEach((to, from, next) => {
-  if (to.path.startsWith('/dashboard') && from.path === '/login') {
+  if (to.path.startsWith('/dashboard') && (from.path === '/login' || from.path === '/')) {
+    console.log('Setting loading state to true');
     isLoading.value = true;
   }
   next();
