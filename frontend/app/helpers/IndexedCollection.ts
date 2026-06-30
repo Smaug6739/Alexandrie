@@ -12,15 +12,32 @@ export class IndexedCollection {
   // Flag to indicate bulk loading mode (to avoid unnecessary sorting during batch operations)
   private isBulkLoading = false;
 
+  // Internal for reactivity, not exposed to the outside
+  private _dependents = shallowRef(null);
+
+  private notify() {
+    if (!this.isBulkLoading) {
+      triggerRef(this._dependents);
+    }
+  }
+
+  private track() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    this._dependents.value;
+  }
+
   get size(): number {
+    this.track();
     return this.store.size;
   }
 
   get(id: string): Node | undefined {
+    this.track();
     return this.store.get(id);
   }
 
   has(id: string): boolean {
+    this.track();
     return this.store.has(id);
   }
 
@@ -28,6 +45,7 @@ export class IndexedCollection {
    * Access O(1) to children of a parent
    */
   getChildrenIds(parentId: string | null | undefined): string[] {
+    this.track();
     return this.byParent.get(parentId ?? '') ?? [];
   }
 
@@ -35,6 +53,7 @@ export class IndexedCollection {
    * Access O(1) to nodes by role
    */
   getIdsByRole(role: number): string[] {
+    this.track();
     return this.byRole.get(role) ?? [];
   }
 
@@ -42,6 +61,7 @@ export class IndexedCollection {
    * Access O(1) to nodes up to a certain role (inclusive)
    */
   getIdsUpToRole(maxRole: number): string[] {
+    this.track();
     const ids: string[] = [];
     for (let role = 0; role <= maxRole; role++) {
       ids.push(...this.getIdsByRole(role));
@@ -53,6 +73,7 @@ export class IndexedCollection {
    * Return pre-sorted array of nodes for iteration
    */
   toSortedArray(): readonly Node[] {
+    this.track();
     return this.sortedArray;
   }
 
@@ -87,6 +108,7 @@ export class IndexedCollection {
     if (!this.isBulkLoading) {
       this.rebuildSortedArray();
     }
+    this.notify();
   }
 
   delete(id: string): boolean {
@@ -97,6 +119,7 @@ export class IndexedCollection {
     this.store.delete(id);
 
     if (!this.isBulkLoading) this.rebuildSortedArray();
+    this.notify();
     return true;
   }
 
@@ -105,6 +128,7 @@ export class IndexedCollection {
     this.byParent.clear();
     this.byRole.clear();
     this.sortedArray = [];
+    this.notify();
   }
 
   forEach(callback: (node: Node, id: string) => void): void {
@@ -118,6 +142,7 @@ export class IndexedCollection {
   endBulk() {
     this.isBulkLoading = false;
     this.rebuildSortedArray();
+    this.notify();
   }
 
   // Internal helper to remove a node from the indexes
