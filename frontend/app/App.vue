@@ -49,12 +49,12 @@ watch(
   { immediate: true },
 );
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   if (to.path.startsWith('/dashboard') && (from.path === '/login' || from.path === '/')) {
     console.log('Setting loading state to true');
     isLoading.value = true;
   }
-  next();
+  return;
 });
 </script>
 
