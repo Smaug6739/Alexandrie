@@ -36,7 +36,7 @@ watch(
 watch(
   interfaceStyle,
   style => {
-    document.documentElement.classList.toggle('glassmorphism', style === 'glassmorphism');
+    if (import.meta.client) document.documentElement.classList.toggle('glassmorphism', style === 'glassmorphism');
   },
   { immediate: true },
 );

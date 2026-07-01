@@ -90,7 +90,16 @@ export default defineNuxtConfig({
   /**
    ************************ General ************************
    */
-  ssr: false,
+  ssr: true,
+  routeRules: {
+    // Hybrid rendering: the public surface (landing, login, shared documents) is
+    // server-rendered so links unfurl with per-document metadata and pages are
+    // crawlable. The authenticated dashboard is a client-rendered SPA — it depends
+    // entirely on the user's session (unavailable during SSR) and gains no SEO
+    // benefit, so it stays client-only.
+    '/dashboard': { ssr: false },
+    '/dashboard/**': { ssr: false },
+  },
   compatibilityDate: '2024-07-19',
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
   spaLoadingTemplate: './splash-screen.html',
@@ -146,9 +155,14 @@ export default defineNuxtConfig({
    ************************ Runetime config ************************
    */
   runtimeConfig: {
+    // Server-only: internal backend base URL used for SSR-time requests, to avoid
+    // looping server-side fetches back through a public proxy/tunnel. Set via
+    // NUXT_BASE_API_INTERNAL (e.g. http://backend:8201). Falls back to public baseApi.
+    baseApiInternal: '',
     public: {
       // Base URLs
       baseApi: '',
+      baseUrl: '', // public site URL (NUXT_PUBLIC_BASE_URL) — used for canonical/og:url on public pages
       baseCdn: '',
       cdnEndpoint: '/alexandrie/',
       configDisableLandingPage: '',

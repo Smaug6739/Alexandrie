@@ -9,6 +9,8 @@ function getAppAccent(index: number = 0, defaultPrimary?: boolean): string {
 
 /** Apply a theme color to CSS custom properties */
 function setAppColor(color: string | number) {
+  // DOM-only side effect; skip during SSR (re-runs on the client via the immediate watcher).
+  if (import.meta.server) return;
   if (typeof color === 'number') {
     color = getAppAccent(color);
   }

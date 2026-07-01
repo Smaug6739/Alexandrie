@@ -25,6 +25,13 @@ let refreshPromise: Promise<void> | null = null;
  */
 function getApiBaseUrl(): string {
   const config = useRuntimeConfig();
+  // During SSR, prefer an internal backend base URL when configured, so server-side
+  // requests don't loop back out through a public proxy/tunnel (which can deadlock when
+  // the frontend and backend are served behind the same reverse proxy). Falls back to
+  // the public base URL, so this is a no-op for typical deployments.
+  if (import.meta.server && config.baseApiInternal) {
+    return `${config.baseApiInternal}/api`;
+  }
   return `${config.public.baseApi}/api`;
 }
 
