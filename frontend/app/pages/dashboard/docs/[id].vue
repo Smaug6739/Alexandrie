@@ -50,6 +50,7 @@ const node = ref<Node | undefined>();
 const error = ref<false | string>(false);
 
 watchEffect(async () => {
+  error.value = false;
   const document_id = route.params.id as string;
   const docFromStore = documentsStore.getById(document_id);
   if (!docFromStore) {

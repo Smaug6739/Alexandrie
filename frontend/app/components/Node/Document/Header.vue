@@ -52,9 +52,22 @@ const user = ref<PublicUser | null>(null);
 const category = computed(() => nodesTree.getClosestCategoryAncestor(props.doc?.id)?.data);
 const printMode = preferences.get('printMode');
 
-watchEffect(() => {
-  if (props.doc) userStore.fetchPublicUser(props.doc.user_id).then(u => (user.value = u));
-});
+watch(
+  () => props.doc?.user_id,
+  async newUserId => {
+    if (!newUserId || newUserId === 'undefined') {
+      user.value = null;
+      return;
+    }
+    try {
+      const u = await userStore.fetchPublicUser(newUserId);
+      user.value = u;
+    } catch {
+      user.value = null;
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <style lang="scss" scoped>

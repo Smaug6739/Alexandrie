@@ -28,6 +28,7 @@
       <Icon name="plus" />
     </NuxtLink>
     <Icon v-if="item.data.order === -1" name="pin" fill="var(--text-secondary)" />
+    <Icon v-if="'synced' in item.data && !item.data.synced" name="no_synced" fill="var(--text-secondary)" />
 
     <!-- Show collapse icon for parents -->
     <slot />

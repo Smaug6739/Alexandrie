@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     async login(username: string, password: string) {
       try {
-        const response = await makeRequest<{ auth: boolean; pre_auth_token?: string; message?: string }>('auth', 'POST', { username, password });
+        const response = await makeRequest<{ auth: boolean; pre_auth_token?: string; message?: string; user?: User }>('auth', 'POST', { username, password });
 
         if (response.status === 'success') {
           if (response.result?.message === '2FA_REQUIRED') return { success: true, require2FA: true, preAuthToken: response.result?.pre_auth_token };
@@ -51,9 +51,9 @@ export const useUserStore = defineStore('user', {
 
     async verify2FA(preAuthToken: string, code: string) {
       try {
-        const response = await makeRequest<{ success: boolean }>('auth/2fa/verify', 'POST', { pre_auth_token: preAuthToken, code });
+        const response = await makeRequest<{ user: User }>('auth/2fa/verify', 'POST', { pre_auth_token: preAuthToken, code });
         if (response.status === 'success') {
-          if (import.meta.client) localForage.setItem('isLoggedIn', 'true');
+          if (import.meta.client) localForage.setItem('isLoggedIn', true);
           return { success: true };
         }
         throw response.message;

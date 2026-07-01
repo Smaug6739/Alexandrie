@@ -1,6 +1,7 @@
 import { IndexedCollection } from '~/helpers/IndexedCollection';
 import { parseTags, mergeNode } from '~/helpers/node';
 import type { DB_Node, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
+import { LocalDbService } from '~/services/localDB';
 
 export type TeamRole = 0;
 export type CategoryRole = 1 | 2;
@@ -22,6 +23,8 @@ export interface SearchOptions {
 }
 
 export const useNodesStore = defineStore('nodes', () => {
+  const userStore = useUserStore();
+
   const nodes = shallowRef(new IndexedCollection());
   const public_nodes = shallowRef(new IndexedCollection());
   const allTags = ref<string[]>([]);
@@ -146,7 +149,29 @@ export const useNodesStore = defineStore('nodes', () => {
   async function init() {
     console.log('[store/nodes] Initializing store');
     clear();
-    await Promise.all([fetch(), fetchShared()]);
+    await Promise.all([syncLocalDeltas(), fetch(), fetchShared()]);
+  }
+
+  async function syncLocalDeltas() {
+    const deltas = await LocalDbService.getDeltas();
+    await LocalDbService.clearDeltas(); // Clear deltas before syncing to avoid duplicates in case of failure & reset counter
+    for (const delta of deltas) {
+      try {
+        switch (delta.action) {
+          case 'POST':
+            await post(delta.node!);
+            break;
+          case 'PUT':
+            await update(delta.node! as Node);
+            break;
+          case 'DELETE':
+            await remove(delta.id);
+            break;
+        }
+      } catch (error) {
+        console.error(`[store/nodes] Failed to sync delta ${delta.action} for node ${delta.id}:`, error);
+      }
+    }
   }
 
   function recomputeTags() {
@@ -208,7 +233,7 @@ export const useNodesStore = defineStore('nodes', () => {
         recomputeTags();
         return nodes.value as 'id' extends keyof T ? Node : IndexedCollection;
       }
-    } else throw request;
+    } else throw request.message;
   }
 
   async function fetchPublic(id: string): Promise<{ node: Node; children: Node[] } | undefined> {
@@ -285,28 +310,39 @@ export const useNodesStore = defineStore('nodes', () => {
   }
 
   async function post(node: Partial<Node>): Promise<DB_Node> {
-    const request = await makeRequest('nodes', 'POST', { ...node, id: undefined });
-    if (request.status == 'success') {
-      nodes.value.set((request.result as DB_Node).id, { ...(request.result as DB_Node), partial: false, synced: true, shared: false, permissions: [] });
-      return request.result as DB_Node;
-    } else throw request.message;
+    const oldId = node.id;
+    delete node.id;
+    const response = await makeRequest<DB_Node>('nodes', 'POST', { ...node, id: undefined });
+    if (response.status == 'success') {
+      nodes.value.set((response.result as DB_Node).id, { ...(response.result as DB_Node), partial: false, synced: true, shared: false, permissions: [] });
+      return response.result as DB_Node;
+    } else if (isNetworkError(response)) {
+      node.user_id = userStore.user?.id;
+      const localNode = await LocalDbService.saveCreateDelta({ ...node, id: oldId });
+      nodes.value.set(localNode.id, localNode);
+      return localNode;
+    }
+    throw response.message || 'Failed to create node';
   }
 
-  async function update(node: Node) {
+  async function update(node: Node): Promise<void> {
     if (node.partial) {
       console.log('[store/nodes] Node looks partial, cannot update it directly.');
       const full_node = await fetch({ id: node.id });
       if (!full_node) throw 'Node not found';
       node = mergeNode(node, full_node);
     }
-    const request = await makeRequest(`nodes/${node.id}`, 'PUT', node);
-    if (request.status == 'success') {
+    const response = await makeRequest(`nodes/${node.id}`, 'PUT', node);
+    if (response.status == 'success') {
       node.updated_timestamp = Date.now(); // approximate update time for better UX & backups import
       node.synced = true;
       if (node.parent_id && !nodes.value.has(node.parent_id)) node.parent_id = ''; // Check for orphaned parent_id and detach if necessary
       nodes.value.set(node.id, node);
-      return nodes.value;
-    } else throw request.message;
+    } else if (isNetworkError(response)) {
+      await LocalDbService.saveUpdateDelta(node);
+      node.synced = false;
+      nodes.value.set(node.id, node);
+    }
   }
 
   async function duplicate(node: Node): Promise<DB_Node> {
@@ -317,7 +353,6 @@ export const useNodesStore = defineStore('nodes', () => {
       if (!full_node) throw 'Node not found';
       node = mergeNode(node, full_node);
     }
-    // use the post method to duplicate the node
     const newNodeData: Partial<Node> = {
       name: node.name,
       description: node.description,
@@ -334,27 +369,29 @@ export const useNodesStore = defineStore('nodes', () => {
   }
 
   async function remove(id: string) {
-    const request = await makeRequest(`nodes/${id}`, 'DELETE', {});
-    if (request.status == 'success') {
-      const allChildrens = getDescendantIds(id);
-      nodes.value.delete(id);
-      allChildrens.forEach(childId => nodes.value.delete(childId));
-    } else throw request.message;
+    const response = await makeRequest(`nodes/${id}`, 'DELETE', {});
+    if (response.status == 'success') {
+      //
+    } else if (isNetworkError(response)) {
+      await LocalDbService.saveDeleteDelta(id);
+    }
+    const allChildrens = getDescendantIds(id);
+    nodes.value.delete(id);
+    allChildrens.forEach(childId => nodes.value.delete(childId));
   }
 
   async function bulkDelete(toDelete: Node[]) {
     const deletedIds: string[] = [];
     const failedIds: { id: string; message: string }[] = [];
     for (const node of toDelete) {
-      try {
-        const request = await makeRequest(`nodes/${node.id}`, 'DELETE', {});
-        if (request.status === 'success') {
-          deletedIds.push(node.id);
-        } else {
-          failedIds.push({ id: node.id, message: request.message || 'Unknown error' });
-        }
-      } catch (error) {
-        failedIds.push({ id: node.id, message: (error as Error).message });
+      const response = await makeRequest(`nodes/${node.id}`, 'DELETE', {});
+      if (response.status === 'success') {
+        deletedIds.push(node.id);
+      } else if (isNetworkError(response)) {
+        await LocalDbService.saveDeleteDelta(node.id);
+        deletedIds.push(node.id);
+      } else {
+        failedIds.push({ id: node.id, message: response.message || 'Unknown error' });
       }
     }
     // Update store

@@ -132,7 +132,11 @@ const refreshInvitations = async () => {
 };
 
 watchEffect(() => {
-  if (node.value.partial) nodesStore.fetch({ id: node.value.id }).then(fetched => (node.value = fetched));
+  if (node.value.partial)
+    nodesStore
+      .fetch({ id: node.value.id })
+      .then(fetched => (node.value = fetched))
+      .catch(() => {});
   for (const perm of node.value.permissions) {
     usersStore.fetchPublicUser(perm.user_id);
   }

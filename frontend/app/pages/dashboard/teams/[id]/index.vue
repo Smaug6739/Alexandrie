@@ -66,7 +66,10 @@ const team = ref<Node | undefined>();
 watchEffect(() => {
   team.value = nodesStore.getById(teamId);
   if (team.value && team.value.partial) {
-    nodesStore.fetch({ id: teamId }).then(fetched => (team.value = fetched));
+    nodesStore
+      .fetch({ id: teamId })
+      .then(fetched => (team.value = fetched))
+      .catch(() => {});
   }
 });
 
