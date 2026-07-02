@@ -30,7 +30,7 @@
     "fs-extra": "^11.3.5",
     "katex": "^0.17.0",
     "localforage": "^1.10.0",
-    "markdown-it": "^14.2.0",
+    "markdown-it": "^14.3.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-container": "^4.0.0",
     "markdown-it-highlightjs": "^4.3.0",
