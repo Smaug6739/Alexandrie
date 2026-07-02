@@ -42,9 +42,58 @@ export const useNodesStore = defineStore('nodes', () => {
   const documents = computed(() => nodes.value.getIdsByRole(3).map(id => nodes.value.get(id)!));
   const resources = computed(() => nodes.value.getIdsByRole(4).map(id => nodes.value.get(id)!));
 
-  /**
-   * Recursive getters
-   */
+  async function init() {
+    console.log('[store/nodes] Initializing store');
+    clear();
+    await Promise.all([syncLocalDeltas(), fetch(), fetchShared()]);
+
+    if (import.meta.client) {
+      window.addEventListener('online', () => {
+        console.log('[store/nodes] Online, syncing local deltas');
+        syncLocalDeltas();
+      });
+    }
+  }
+
+  async function syncLocalDeltas() {
+    const deltas = await LocalDbService.getDeltas();
+    await LocalDbService.clearDeltas(); // Clear deltas before syncing to avoid duplicates in case of failure & reset counter
+    for (const delta of deltas) {
+      try {
+        switch (delta.action) {
+          case 'POST':
+            await post(delta.node!);
+            break;
+          case 'PUT':
+            await update(delta.node! as Node);
+            break;
+          case 'DELETE':
+            await remove(delta.id);
+            break;
+        }
+      } catch (error) {
+        console.error(`[store/nodes] Failed to sync delta ${delta.action} for node ${delta.id}:`, error);
+      }
+    }
+  }
+
+  function recomputeTags() {
+    const tags = new Set<string>();
+
+    nodes.value.startBulk();
+
+    nodes.value.forEach(node => {
+      if (node.tags) {
+        parseTags(node.tags).forEach(tag => tags.add(tag));
+      }
+      if (node.parent_id && !nodes.value.get(node.parent_id)) {
+        nodes.value.set(node.id, { ...node, parent_id: '' });
+      }
+    });
+
+    nodes.value.endBulk();
+    allTags.value = Array.from(tags).sort();
+  }
 
   // Check if a node (descendantId) is a descendant of another node
   const isDescendant = (parent: Node, descendantId: string): boolean => {
@@ -145,52 +194,6 @@ export const useNodesStore = defineStore('nodes', () => {
 
     return filtered;
   };
-
-  async function init() {
-    console.log('[store/nodes] Initializing store');
-    clear();
-    await Promise.all([syncLocalDeltas(), fetch(), fetchShared()]);
-  }
-
-  async function syncLocalDeltas() {
-    const deltas = await LocalDbService.getDeltas();
-    await LocalDbService.clearDeltas(); // Clear deltas before syncing to avoid duplicates in case of failure & reset counter
-    for (const delta of deltas) {
-      try {
-        switch (delta.action) {
-          case 'POST':
-            await post(delta.node!);
-            break;
-          case 'PUT':
-            await update(delta.node! as Node);
-            break;
-          case 'DELETE':
-            await remove(delta.id);
-            break;
-        }
-      } catch (error) {
-        console.error(`[store/nodes] Failed to sync delta ${delta.action} for node ${delta.id}:`, error);
-      }
-    }
-  }
-
-  function recomputeTags() {
-    const tags = new Set<string>();
-
-    nodes.value.startBulk();
-
-    nodes.value.forEach(node => {
-      if (node.tags) {
-        parseTags(node.tags).forEach(tag => tags.add(tag));
-      }
-      if (node.parent_id && !nodes.value.get(node.parent_id)) {
-        nodes.value.set(node.id, { ...node, parent_id: '' });
-      }
-    });
-
-    nodes.value.endBulk();
-    allTags.value = Array.from(tags).sort();
-  }
 
   async function fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : IndexedCollection> {
     if (opts?.id && !nodes.value.get(opts.id)?.partial) return nodes.value.get(opts.id) as 'id' extends keyof T ? Node : IndexedCollection;
