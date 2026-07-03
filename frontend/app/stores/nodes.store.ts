@@ -2,7 +2,7 @@ import { IndexedCollection } from '~/helpers/IndexedCollection';
 import { parseTags, mergeNode } from '~/helpers/node';
 import { LocalDbService } from '~/services/localDB';
 import { skipHydrate } from 'pinia';
-import type { DB_Node, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
+import type { DB_Node, Node, NodeSearchResult, Permission } from './db_structures';
 
 export type TeamRole = 0;
 export type CategoryRole = 1 | 2;
@@ -239,23 +239,6 @@ export const useNodesStore = defineStore('nodes', () => {
     } else throw request.message;
   }
 
-  async function fetchPublic(id: string): Promise<{ node: Node; children: Node[] } | undefined> {
-    console.log(`[store/nodes] Fetching public node with id: ${id}`);
-    const request = await makeRequest(`nodes/public/${id}`, 'GET', {});
-    if (request.status === 'success') {
-      const response = request.result as PublicNodeResponse;
-      const children: Node[] = (response.children || []).map(c => ({ ...c, partial: true, shared: false, permissions: [] }));
-      const fetchedDoc: Node & { _children?: Node[] } = {
-        ...response.node,
-        partial: false,
-        shared: false,
-        permissions: [],
-        _children: children,
-      };
-      return { node: fetchedDoc, children };
-    } else return undefined;
-  }
-
   async function fetchShared(): Promise<IndexedCollection> {
     console.log(`[store/nodes] Fetching shared nodes`);
     const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
@@ -428,7 +411,6 @@ export const useNodesStore = defineStore('nodes', () => {
     init,
     recomputeTags,
     fetch,
-    fetchPublic,
     fetchShared,
     searchFulltext,
     post,
