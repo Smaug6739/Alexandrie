@@ -1,12 +1,12 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="editor-wrapper">
-    <Teleport to="#navbar-title"> {{ t('components.editor.title') }}</Teleport>
+    <Teleport v-if="!public" to="#navbar-title"> {{ t('components.editor.title') }}</Teleport>
 
     <div class="editor-container">
       <!-- Toolbar Section -->
 
-      <Toolbar v-model="document" @execute-action="handleToolbarAction" />
+      <Toolbar v-model="document" @execute-action="handleToolbarAction" :public="public" />
 
       <!-- Compact Document Metadata -->
       <div class="document-meta">
@@ -61,7 +61,7 @@ const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
 const preferences = usePreferencesStore();
 
-const props = defineProps<{ doc?: Partial<Node> }>();
+const props = defineProps<{ doc?: Partial<Node>; public?: boolean }>();
 const emit = defineEmits(['save', 'exit', 'autoSave']);
 
 const editorContainer = ref<HTMLDivElement>();

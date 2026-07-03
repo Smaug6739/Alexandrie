@@ -1,32 +1,26 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <div style="width: 100%; padding: 1rem 0">
     <div
       v-if="!error && article"
       class="reader"
       :style="{
-        marginRight: !isTablet && hideTOC && isOpened && hasContent ? '200px' : '0px',
+        marginRight: !isTablet && isOpened && hasContent ? '200px' : '0px',
         transition: 'margin $transition-medium',
       }"
     >
       <div class="doc-container">
-        <!-- Header for all node types -->
-        <NodeDocumentHeader :doc="article" :public="true" style="margin: 20px 0" />
+        <NodeDocumentHeader :doc="article" public style="margin: 20px 0" />
 
-        <!-- Document content if available -->
         <NodeDocumentContentCompiled v-if="hasContent" ref="elementComponent" :node="article" />
 
-        <!-- Hierarchical children tree -->
         <NodeTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />
       </div>
 
-      <!-- Table of contents only for documents with content -->
-      <div v-if="!isTablet && !hideTOC && hasContent" class="toc">
+      <div v-if="!isTablet && hasContent" class="toc">
         <NodeTOC :doc="article" :element="element" />
       </div>
     </div>
 
-    <!-- Loading state -->
     <div v-else-if="!error" class="reader">
       <div class="doc-container">
         <NodeDocumentSkeleton />
@@ -36,19 +30,15 @@
     <Error v-else :error="error?.message" />
   </div>
 </template>
+
 <script setup lang="ts">
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
-import type { Node } from '~/stores';
-
-const documentsStore = useNodesStore();
-const preferencesStore = usePreferencesStore();
+import type { Node, PublicNodeResponse } from '~/stores';
 
 const route = useRoute();
-const runtimeConfig = useRuntimeConfig();
+const requestUrl = useRequestURL();
 const { isOpened } = useSidebar();
 const { isTablet } = useDevice();
-
-const hideTOC = preferencesStore.get('hideTOC');
 
 const children = ref<Node[]>([]);
 const elementComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
@@ -57,41 +47,47 @@ const element = computed(() => elementComponent.value?.rootElement as HTMLElemen
 const { data: article, error } = await useAsyncData(`public-doc-${route.params.id}`, async (): Promise<Node | undefined> => {
   const documentId = route.params.id;
   if (!documentId || typeof documentId !== 'string') return undefined;
-  const result = await documentsStore.fetchPublic(documentId);
-  if (result) {
-    children.value = result.children || [];
-    return result.node;
+
+  const request = await makeRequest(`nodes/public/${documentId}`, 'GET', {});
+  if (request.status === 'success') {
+    const response = request.result as PublicNodeResponse;
+
+    children.value = (response.children || []).map(c => ({ ...c, partial: true, shared: false, permissions: [] }));
+
+    return {
+      ...response.node,
+      partial: false,
+      shared: false,
+      permissions: [],
+    };
   }
   return undefined;
 });
 
 /** Check if node has displayable content */
-const hasContent = computed(() => article.value?.content_compiled && article.value.content_compiled.trim().length > 0);
-const title = computed(() => article.value?.name || 'Unknown document');
-const description = computed(() => article.value?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.');
-const baseUrl = runtimeConfig.public.baseUrl || 'https://alexandrie-hub.fr';
-const canonicalUrl = computed(() => `${baseUrl}/doc/${route.params.id}`);
-const ogImage = computed(() => (article.value?.thumbnail ? `${baseUrl}${article.value.thumbnail}` : `${baseUrl}/og/default-article.png`));
+const hasContent = computed(() => !!article.value?.content_compiled?.trim());
 
+const baseUrl = requestUrl.origin || 'https://alexandrie-hub.fr';
+
+// Configuration SEO robuste pour le SSR
 useSeoMeta({
-  title,
-  description,
+  title: () => article.value?.name || 'Unknown document',
+  description: () => article.value?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
   keywords: () => article.value?.tags,
 
-  ogTitle: title,
-  ogDescription: description,
+  ogTitle: () => article.value?.name || 'Unknown document',
+  ogDescription: () => article.value?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
   ogType: 'article',
-  ogUrl: canonicalUrl,
-  ogImage,
+  ogUrl: () => `${baseUrl}/doc/${route.params.id}`,
+  ogImage: () => (article.value?.thumbnail ? `${baseUrl}${article.value.thumbnail}` : `${baseUrl}/og/default-article.png`),
 
-  articlePublishedTime: () => (article.value ? new Date(article.value.created_timestamp).toISOString() : undefined),
-
-  articleModifiedTime: () => (article.value ? new Date(article.value.updated_timestamp).toISOString() : undefined),
+  articlePublishedTime: () => (article.value?.created_timestamp ? new Date(article.value.created_timestamp).toISOString() : undefined),
+  articleModifiedTime: () => (article.value?.updated_timestamp ? new Date(article.value.updated_timestamp).toISOString() : undefined),
 
   twitterCard: 'summary_large_image',
-  twitterTitle: title,
-  twitterDescription: description,
-  twitterImage: ogImage,
+  twitterTitle: () => article.value?.name || 'Unknown document',
+  twitterDescription: () => article.value?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
+  twitterImage: () => (article.value?.thumbnail ? `${baseUrl}${article.value.thumbnail}` : `${baseUrl}/og/default-article.png`),
 });
 </script>
 

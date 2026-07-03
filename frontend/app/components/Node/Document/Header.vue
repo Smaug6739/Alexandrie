@@ -5,9 +5,10 @@
       <NodeDocumentHeaderSkeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
-        <Teleport to="#navbar-actions">
+        <Teleport v-if="!public" to="#navbar-actions">
           <NodeDocumentHeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
         </Teleport>
+        <NodeDocumentHeaderActionRow v-else :doc="doc" :is-public="public" class="no-print actions" />
 
         <div class="content">
           <div class="infos">
@@ -17,7 +18,7 @@
             </p>
             <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
             <h1 :class="{ public: public }">{{ doc?.name }}</h1>
-            <Teleport to="#navbar-title">
+            <Teleport v-if="!public" to="#navbar-title">
               <Icon :name="doc.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(doc.color as number, true)]" />
               {{ doc.name }}
             </Teleport>

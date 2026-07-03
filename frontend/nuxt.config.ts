@@ -84,16 +84,38 @@ export default defineNuxtConfig({
       ],
       title: 'Alexandrie',
       viewport: 'width=device-width, initial-scale=1',
+
+      script: [
+        {
+          id: 'set-app-colors',
+          innerHTML: `
+        (function() {
+          const docEl = document.documentElement;
+          docEl.style.setProperty('--primary', 'var(--accent)');
+          docEl.style.setProperty('--primary-dark', 'var(--accent-dark)');
+          docEl.style.setProperty('--primary-bg', 'var(--accent-bg)');
+          docEl.style.setProperty('--primary-border', 'var(--accent-border)');
+        })();
+      `,
+          type: 'text/javascript',
+        },
+      ],
     },
   },
 
   /**
    ************************ General ************************
    */
-  ssr: false,
+  ssr: true,
   compatibilityDate: '2024-07-19',
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
   spaLoadingTemplate: './splash-screen.html',
+  routeRules: {
+    '/dashboard/**': { ssr: false },
+    '/dashboard': { ssr: false },
+    '/': { ssr: true },
+    '/(public)/**': { ssr: true },
+  },
   /**
    ************************ Imports & modules ************************
    */

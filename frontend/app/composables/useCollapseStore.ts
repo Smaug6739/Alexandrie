@@ -11,8 +11,6 @@ const untilReady = new Promise<void>(resolve => {
   resolveReady = resolve;
 });
 
-// Instance réactive partagée unique pour Nuxt
-// (on utilise une fonction d'initialisation tardive pour éviter les soucis de SSR)
 let states: Ref<Record<string, boolean>> | null = null;
 
 function getStatesRef() {

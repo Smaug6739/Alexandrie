@@ -12,6 +12,7 @@ function setAppColor(color: string | number) {
   if (typeof color === 'number') {
     color = getAppAccent(color);
   }
+  if (!import.meta.client) return;
   setThemeColor(`--${color}`);
   if (color === 'primary') color = 'accent';
   document.documentElement.style.setProperty('--primary', `var(--${color})`);

@@ -1,10 +1,10 @@
 <template>
-  <LazyMarkdownEditor v-if="document && !error" :doc="document" @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
+  <LazyMarkdownEditor v-if="document && !error" :doc="document" public @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import type { Node } from '~/stores';
 
-definePageMeta({ breadcrumb: {i18n: 'common.actions.edit'} });
+definePageMeta({ breadcrumb: { i18n: 'common.actions.edit' } });
 
 const store = useNodesStore();
 

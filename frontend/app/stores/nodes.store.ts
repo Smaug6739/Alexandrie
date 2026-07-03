@@ -1,7 +1,8 @@
 import { IndexedCollection } from '~/helpers/IndexedCollection';
 import { parseTags, mergeNode } from '~/helpers/node';
-import type { DB_Node, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
 import { LocalDbService } from '~/services/localDB';
+import { skipHydrate } from 'pinia';
+import type { DB_Node, Node, NodeSearchResult, Permission, PublicNodeResponse } from './db_structures';
 
 export type TeamRole = 0;
 export type CategoryRole = 1 | 2;
@@ -26,7 +27,6 @@ export const useNodesStore = defineStore('nodes', () => {
   const userStore = useUserStore();
 
   const nodes = shallowRef(new IndexedCollection());
-  const public_nodes = shallowRef(new IndexedCollection());
   const allTags = ref<string[]>([]);
   const isFetching = ref(false);
 
@@ -241,10 +241,6 @@ export const useNodesStore = defineStore('nodes', () => {
 
   async function fetchPublic(id: string): Promise<{ node: Node; children: Node[] } | undefined> {
     console.log(`[store/nodes] Fetching public node with id: ${id}`);
-    const existingDoc = public_nodes.value.get(id);
-    if (existingDoc && existingDoc._children !== undefined) {
-      return { node: existingDoc, children: existingDoc._children };
-    }
     const request = await makeRequest(`nodes/public/${id}`, 'GET', {});
     if (request.status === 'success') {
       const response = request.result as PublicNodeResponse;
@@ -256,7 +252,6 @@ export const useNodesStore = defineStore('nodes', () => {
         permissions: [],
         _children: children,
       };
-      public_nodes.value.set(fetchedDoc.id, fetchedDoc);
       return { node: fetchedDoc, children };
     } else return undefined;
   }
@@ -410,14 +405,12 @@ export const useNodesStore = defineStore('nodes', () => {
 
   function clear() {
     nodes.value.clear();
-    public_nodes.value.clear();
     allTags.value = [];
     isFetching.value = false;
   }
 
   return {
-    nodes,
-    public_nodes,
+    nodes: skipHydrate(nodes),
     allTags,
     isFetching,
     getAll,
