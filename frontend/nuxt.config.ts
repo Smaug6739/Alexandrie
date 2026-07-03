@@ -85,19 +85,17 @@ export default defineNuxtConfig({
       title: 'Alexandrie',
       viewport: 'width=device-width, initial-scale=1',
 
-      script: [
+      style: [
         {
-          id: 'set-app-colors',
+          id: 'dynamic-theme-vars',
           innerHTML: `
-        (function() {
-          const docEl = document.documentElement;
-          docEl.style.setProperty('--primary', 'var(--accent)');
-          docEl.style.setProperty('--primary-dark', 'var(--accent-dark)');
-          docEl.style.setProperty('--primary-bg', 'var(--accent-bg)');
-          docEl.style.setProperty('--primary-border', 'var(--accent-border)');
-        })();
+        :root {
+          --primary: var(--accent);
+          --primary-dark: var(--accent-dark);
+          --primary-bg: var(--accent-bg);
+          --primary-border: var(--accent-border);
+        }
       `,
-          type: 'text/javascript',
         },
       ],
     },
