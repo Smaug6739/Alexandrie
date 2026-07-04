@@ -63,6 +63,7 @@ export const useNodesStore = defineStore('nodes', () => {
     const deltas = await LocalDbService.getDeltas();
     await LocalDbService.clearDeltas(); // Clear deltas before syncing to avoid duplicates in case of failure & reset counter
     for (const delta of deltas) {
+      if (nodes.value.get(delta.id)) nodes.value.delete(delta.id); // Remove the node from the store to ensure a clean state before syncing
       try {
         switch (delta.action) {
           case 'POST':
