@@ -174,12 +174,12 @@ export const useNodesStore = defineStore('nodes', () => {
 
       switch (sortBy) {
         case 'created':
-          valA = new Date(a.created_timestamp).getTime();
-          valB = new Date(b.created_timestamp).getTime();
+          valA = a.created_timestamp;
+          valB = b.created_timestamp;
           break;
         case 'modified':
-          valA = new Date(a.updated_timestamp).getTime();
-          valB = new Date(b.updated_timestamp).getTime();
+          valA = a.updated_timestamp;
+          valB = b.updated_timestamp;
           break;
         case 'name':
           valA = a.name.toLowerCase();
@@ -204,9 +204,7 @@ export const useNodesStore = defineStore('nodes', () => {
     if (request.status == 'success') {
       if (opts?.id) {
         const result = request.result as { node: DB_Node; permissions: Permission[] };
-        const n = nodes.value.get(opts.id);
-        let shared = false;
-        if (n) shared = n.shared;
+        const shared = nodes.value.get(opts.id)?.shared ?? false;
         // Check for orphaned parent_id and detach if necessary
         let finalParentId = result.node.parent_id;
         if (finalParentId && !nodes.value.has(finalParentId)) {
@@ -221,16 +219,13 @@ export const useNodesStore = defineStore('nodes', () => {
           shared: shared,
           permissions: result.permissions,
         };
-        if (!n) nodes.value.set(opts.id, updatedNode);
-        else nodes.value.set(opts.id, updatedNode);
+        nodes.value.set(opts.id, updatedNode);
         return updatedNode as 'id' extends keyof T ? Node : IndexedCollection;
       } else {
         if (!request.result) return nodes.value as 'id' extends keyof T ? Node : IndexedCollection;
         nodes.value.startBulk();
         for (const node of request.result as DB_Node[]) {
-          const n = nodes.value.get(node.id);
-          if (!n) nodes.value.set(node.id, { ...node, partial: true, synced: true, shared: false, permissions: [] });
-          else nodes.value.set(node.id, { ...node, partial: true, synced: true, shared: false, permissions: [] });
+          nodes.value.set(node.id, { ...node, partial: true, synced: true, shared: false, permissions: [] });
         }
         nodes.value.endBulk();
         recomputeTags();

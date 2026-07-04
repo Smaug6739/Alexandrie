@@ -165,6 +165,21 @@ export class IndexedCollection {
 	Builds the sorted array of nodes based on their order and name.
 	*/
   private rebuildSortedArray() {
-    this.sortedArray = Array.from(this.store.values()).sort((a, b) => (a.order ?? 0) - (b.order ?? 0) || a.name.localeCompare(b.name));
+    this.sortedArray = Array.from(this.store.values()).sort((a, b) => {
+      // 1. Sort by role
+      if (a.role !== b.role) {
+        return b.role - a.role;
+      }
+
+      // 2. Sort by order (if roles are identical)
+      const orderA = a.order ?? 0;
+      const orderB = b.order ?? 0;
+      if (orderA !== orderB) {
+        return orderB - orderA;
+      }
+
+      // 3. Sort by name (if roles and orders are identical)
+      return a.name.localeCompare(b.name);
+    });
   }
 }
