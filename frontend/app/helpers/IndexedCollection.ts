@@ -10,7 +10,7 @@ export class IndexedCollection {
   private sortedArray: Node[] = [];
 
   // Flag to indicate bulk loading mode (to avoid unnecessary sorting during batch operations)
-  private isBulkLoading = false;
+  private isBulkLoading = 0;
 
   // Internal for reactivity, not exposed to the outside
   private _dependents = shallowRef(null);
@@ -86,6 +86,7 @@ export class IndexedCollection {
       // Update the sorted array in place if the node's order or name has changed
       const idx = this.sortedArray.findIndex(n => n.id === id);
       if (idx !== -1) this.sortedArray[idx] = node;
+      this.notify();
       return;
     }
 
@@ -137,10 +138,10 @@ export class IndexedCollection {
 
   // Bulk operations to optimize performance when adding/removing multiple nodes
   startBulk() {
-    this.isBulkLoading = true;
+    this.isBulkLoading++;
   }
   endBulk() {
-    this.isBulkLoading = false;
+    this.isBulkLoading--;
     this.rebuildSortedArray();
     this.notify();
   }

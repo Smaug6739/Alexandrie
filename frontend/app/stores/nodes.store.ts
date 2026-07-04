@@ -45,8 +45,10 @@ export const useNodesStore = defineStore('nodes', () => {
   async function init() {
     console.log('[store/nodes] Initializing store');
     clear();
-    await Promise.all([syncLocalDeltas(), fetch(), fetchShared()]);
 
+    nodes.value.startBulk();
+    await Promise.all([syncLocalDeltas(), fetch(), fetchShared()]);
+    nodes.value.endBulk();
     if (import.meta.client) {
       window.addEventListener('online', () => {
         console.log('[store/nodes] Online, syncing local deltas');
