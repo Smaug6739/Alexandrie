@@ -56,6 +56,29 @@ router.beforeEach((to, from) => {
   }
   return;
 });
+
+useHead({
+  link: [
+    {
+      rel: 'canonical',
+      href: __BASE_URL__,
+    },
+    {
+      rel: 'preconnect',
+      href: __BASE_API__,
+    },
+    {
+      rel: 'preconnect',
+      href: __BASE_CDN__,
+    },
+  ],
+  meta: [
+    {
+      property: 'og:url',
+      content: __BASE_URL__,
+    },
+  ],
+});
 </script>
 
 <style lang="scss">

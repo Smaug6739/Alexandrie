@@ -67,7 +67,7 @@ const { data: article, error } = await useAsyncData(`public-doc-${route.params.i
 /** Check if node has displayable content */
 const hasContent = computed(() => !!article.value?.content_compiled?.trim());
 
-const baseUrl = requestUrl.origin || 'https://alexandrie-hub.fr';
+const baseUrl = requestUrl.origin || __BASE_URL__;
 
 // Configuration SEO robuste pour le SSR
 useSeoMeta({

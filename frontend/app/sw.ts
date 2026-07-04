@@ -37,7 +37,7 @@ registerRoute(
 
 // ─── API cache ───────────────────────────────────────────────────────────────
 registerRoute(
-  ({ url }) => url.origin === __SW_API_URL__ && !url.pathname.startsWith('/api/backup/'),
+  ({ url }) => url.origin === __BASE_API__ && !url.pathname.startsWith('/api/backup/'),
   new NetworkFirst({
     cacheName: 'api-cache',
     networkTimeoutSeconds: 3,
@@ -51,7 +51,7 @@ registerRoute(
 
 // ─── CDN cache ────────────────────────────────────────────────────────────────
 registerRoute(
-  ({ url }) => url.origin === __SW_CDN_URL__,
+  ({ url }) => url.origin === __BASE_CDN__,
   new NetworkFirst({
     cacheName: 'cdn-cache',
     networkTimeoutSeconds: 3,

@@ -15,10 +15,6 @@ export default defineNuxtConfig({
       },
       link: [
         {
-          href: 'https://alexandrie-hub.fr',
-          rel: 'canonical',
-        },
-        {
           href: '/manifest.webmanifest',
           rel: 'manifest',
         },
@@ -34,12 +30,10 @@ export default defineNuxtConfig({
           rel: 'icon',
           type: 'image/x-icon',
         },
-        { href: 'https://api.alexandrie-hub.fr', rel: 'preconnect' },
-        { href: 'https://cdn.alexandrie-hub.fr', rel: 'preconnect' },
         { href: 'https://embed.diagrams.net', rel: 'preconnect' },
       ],
       meta: [
-        // SEO
+        // SEO (url meta tags are defined in App.vue for dynamic URLs)
         {
           content:
             'Alexandrie is a modern note-taking and knowledge base application built for developers and power users. Write, organize and render beautiful notes using extended Markdown in a fast, clean and distraction-free interface. Self-hostable with Docker.',
@@ -69,7 +63,6 @@ export default defineNuxtConfig({
           content: 'A modern note-taking and knowledge base app for developers, built around extended Markdown and self-hostable with Docker.',
           property: 'og:description',
         },
-        { content: 'https://alexandrie-hub.fr', property: 'og:url' },
         { content: '/icons/icon-192.png', property: 'og:image' },
 
         // Twitter Card
@@ -323,8 +316,9 @@ export default defineNuxtConfig({
       },
     },
     define: {
-      __SW_CDN_URL__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_CDN),
-      __SW_API_URL__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_API),
+      __BASE_URL__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_URL || ''),
+      __BASE_CDN__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_CDN || ''),
+      __BASE_API__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_API || ''),
     },
     plugins: [
       createSvgIconsPlugin({
