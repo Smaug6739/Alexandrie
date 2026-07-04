@@ -6,7 +6,7 @@
     <div class="editor-container">
       <!-- Toolbar Section -->
 
-      <Toolbar v-model="document" @execute-action="handleToolbarAction" :public="public" />
+      <Toolbar v-model="document" :public="public" @execute-action="handleToolbarAction" />
 
       <!-- Compact Document Metadata -->
       <div class="document-meta">

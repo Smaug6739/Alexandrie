@@ -23,7 +23,6 @@ function initGlobalTree() {
       console.log('[useNodesTree] 🌳 Building global tree');
       const _ = nodesStore.getAll.size; // Trigger reactivity on nodesStore.getAll
 
-      // Optionnel mais safe : on nettoie le cache pour éviter d'accumuler les nodes supprimés
       globalBuilder!.clearCache();
 
       return globalBuilder!.buildTree({
