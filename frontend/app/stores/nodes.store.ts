@@ -46,9 +46,11 @@ export const useNodesStore = defineStore('nodes', () => {
     console.log('[store/nodes] Initializing store');
     clear();
 
+    isFetching.value = true;
     nodes.value.startBulk();
     await Promise.all([syncLocalDeltas(), fetch(), fetchShared()]);
     nodes.value.endBulk();
+    isFetching.value = false;
     if (import.meta.client) {
       window.addEventListener('online', () => {
         console.log('[store/nodes] Online, syncing local deltas');
@@ -200,9 +202,7 @@ export const useNodesStore = defineStore('nodes', () => {
   async function fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : IndexedCollection> {
     if (opts?.id && !nodes.value.get(opts.id)?.partial) return nodes.value.get(opts.id) as 'id' extends keyof T ? Node : IndexedCollection;
     console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
-    if (!nodes.value.size) isFetching.value = true;
     const request = await makeRequest(`nodes/${opts?.id ? opts.id : 'user/@me'}`, 'GET', {});
-    isFetching.value = false;
     if (request.status == 'success') {
       if (opts?.id) {
         const result = request.result as { node: DB_Node; permissions: Permission[] };
