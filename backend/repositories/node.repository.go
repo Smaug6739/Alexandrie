@@ -351,11 +351,11 @@ func (r *NodeRepositoryImpl) Create(node *models.Node) error {
 func (r *NodeRepositoryImpl) Update(node *models.Node) error {
 	_, err := r.db.Exec(`
 		UPDATE nodes 
-		SET parent_id = ?, user_id = ?, name = ?, description = ?, tags = ?, role = ?, color = ?, 
+		SET parent_id = ?, name = ?, description = ?, tags = ?, role = ?, color = ?, 
 		    icon = ?, thumbnail = ?, theme = ?, accessibility = ?, access = ?, display = ?, `+"`order`"+` = ?, 
 		    content = ?, content_compiled = ?, size = ?, metadata = ?, updated_timestamp = ? 
 		WHERE id = ?`,
-		node.ParentId, node.UserId, node.Name, node.Description, node.Tags, node.Role, node.Color,
+		node.ParentId, node.Name, node.Description, node.Tags, node.Role, node.Color,
 		node.Icon, node.Thumbnail, node.Theme, node.Accessibility, node.Access, node.Display, node.Order,
 		node.Content, node.ContentCompiled, node.Size, node.Metadata, node.UpdatedTimestamp, node.Id)
 	if err != nil {
