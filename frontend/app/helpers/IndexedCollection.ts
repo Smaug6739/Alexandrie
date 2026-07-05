@@ -81,12 +81,12 @@ export class IndexedCollection {
     const oldNode = this.store.get(id);
 
     // If the node structure hasn't changed, we can skip the re-indexing
-    if (oldNode && oldNode.parent_id === node.parent_id && oldNode.role === node.role && oldNode.name === node.name && oldNode.order === node.order) {
+    if (!hasNodeSignatureChanged(oldNode, node)) {
       this.store.set(id, node);
       // Update the sorted array in place if the node's order or name has changed
       const idx = this.sortedArray.findIndex(n => n.id === id);
       if (idx !== -1) this.sortedArray[idx] = node;
-      this.notify();
+      //this.notify();
       return;
     }
 
@@ -176,11 +176,24 @@ export class IndexedCollection {
       const orderA = a.order ?? 0;
       const orderB = b.order ?? 0;
       if (orderA !== orderB) {
-        return orderB - orderA;
+        return orderA - orderB;
       }
 
       // 3. Sort by name (if roles and orders are identical)
       return a.name.localeCompare(b.name);
     });
   }
+}
+
+function hasNodeSignatureChanged(oldNode: Node | undefined, newNode: Node): boolean {
+  if (!oldNode) return true;
+  return (
+    oldNode.parent_id !== newNode.parent_id ||
+    oldNode.role !== newNode.role ||
+    oldNode.name !== newNode.name ||
+    oldNode.order !== newNode.order ||
+    oldNode.icon !== newNode.icon ||
+    oldNode.color !== newNode.color ||
+    oldNode.accessibility !== newNode.accessibility
+  );
 }

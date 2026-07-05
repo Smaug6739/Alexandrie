@@ -14,20 +14,28 @@
     </ul>
     <h4 v-if="childs.length">{{ t('nodes.document.childs') }}</h4>
     <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link">
-      <Icon name="file_shortcut" fill="var(--primary)" />{{ child.data.name as string }}
+      <Icon name="file_shortcut" fill="var(--primary)" />{{ child.name as string }}
     </NuxtLink>
   </aside>
 </template>
 
 <script lang="ts" setup>
 import type { Node } from '~/stores';
-import type { TreeItem as NodeTreeItem } from '~/helpers/TreeBuilder';
-
-const { t } = useI18nT();
-const nodesTree = useNodesTree();
-const childs = computed(() => nodesTree.getChildren(props.doc?.id).filter(c => c.data.role === 3)) as Ref<NodeTreeItem<Node>[]>;
 
 const props = defineProps<{ element?: HTMLElement; doc?: Node }>();
+
+const nodesStore = useNodesStore();
+
+const { t } = useI18nT();
+
+const childs = computed(
+  () =>
+    nodesStore.nodes
+      .getChildrenIds(props.doc?.id)
+      .map(id => nodesStore.getById(id))
+      .filter(n => n?.role === 3) as Node[],
+);
+
 const list = ref<HTMLElement>();
 
 interface GroupedHeaders {

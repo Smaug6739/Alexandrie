@@ -42,19 +42,6 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
   }
 
   /**
-   * Build the direct children of a given parentId
-   */
-  getChildren(parentId: string | null): TreeItem<T>[] {
-    const childrenIds = this.collection.getChildrenIds(parentId);
-    const result: TreeItem<T>[] = [];
-    for (const childId of childrenIds) {
-      const item = this.getTransformedItem(childId);
-      if (item) result.push(item);
-    }
-    return result;
-  }
-
-  /**
    * Build the entire descending tree recursively, starting from the roots
    * @param options Optional filters for nodes and roots
    * @returns An array of TreeItem representing the tree structure
@@ -106,53 +93,23 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
   }
 
   /**
-   * Build a subtree starting from a specific parentId, recursively
-   */
-  buildSubtree(parentId: string): TreeItem<T> | undefined {
-    const buildSubtreeRecursive = (id: string): TreeItem<T> | undefined => {
-      const cachedItem = this.getTransformedItem(id);
-      if (!cachedItem) return undefined;
-
-      const childrenIds = this.collection.getChildrenIds(id);
-      if (childrenIds.length === 0) {
-        return { ...cachedItem, children: undefined };
-      }
-
-      const validChildren: TreeItem<T>[] = [];
-      for (let i = 0; i < childrenIds.length; i++) {
-        const child = buildSubtreeRecursive(childrenIds[i]!);
-        if (child) validChildren.push(child);
-      }
-
-      if (validChildren.length > 1) {
-        validChildren.sort(sortNodes);
-      }
-
-      return {
-        ...cachedItem,
-        children: validChildren.length > 0 ? validChildren : undefined,
-      };
-    };
-
-    return buildSubtreeRecursive(parentId);
-  }
-
-  /**
    * Get the next or previous sibling of a node, optionally filtered by a predicate
    */
-  getSibling(id: string, direction: 'next' | 'prev', filter?: (item?: T) => boolean): TreeItem<T> | undefined {
+  getSibling(id: string, direction: number, filter?: (item?: T) => boolean): TreeItem<T> | undefined {
     const currentItem = this.getTransformedItem(id);
     if (!currentItem) return undefined;
 
-    // On récupère instantanément les frères via le parent commun
-    let siblings = this.getChildren(currentItem.parentId ?? null);
+    let siblings = this.collection
+      .getChildrenIds(currentItem.parentId ?? null)
+      .map(id => this.getTransformedItem(id))
+      .filter((s): s is TreeItem<T> => !!s);
+
     if (filter) siblings = siblings.filter(s => filter(s.data));
 
     const index = siblings.findIndex(s => s.id === id);
     if (index === -1) return undefined;
 
-    const targetIndex = direction === 'next' ? index + 1 : index - 1;
-    return siblings[targetIndex];
+    return siblings[index + direction] ?? undefined;
   }
 
   /**
@@ -205,7 +162,7 @@ function sortNodes<T extends { id: string; parent_id?: string | null; role?: num
   const orderA = a.data.order ?? 0;
   const orderB = b.data.order ?? 0;
   if (orderA !== orderB) {
-    return orderB - orderA;
+    return orderA - orderB;
   }
   return a.label.localeCompare(b.label);
 }
