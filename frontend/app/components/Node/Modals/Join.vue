@@ -22,7 +22,7 @@ const props = defineProps<{ code?: string }>();
 const emit = defineEmits(['close']);
 
 const router = useRouter();
-const nodesStore = useNodesStore();
+const nodesStore = useNodesPermissionsStore();
 const notifications = useNotifications();
 const { t } = useI18nT();
 
@@ -44,14 +44,13 @@ const joinWorkspace = async () => {
 
   try {
     const result = await nodesStore.joinInvitation(code);
-    await nodesStore.init();
     successMessage.value = 'Joined successfully.';
     notifications.add({ type: 'success', title: 'Workspace joined' });
     await router.push(resolveNodeLink(result.node));
+    emit('close');
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : String(error);
   } finally {
-    emit('close');
     isJoining.value = false;
   }
 };
@@ -95,10 +94,12 @@ onMounted(() => {
 .error-message {
   color: var(--red);
   margin-top: 1rem;
+  text-align: center;
 }
 
 .success-message {
   color: var(--green);
   margin-top: 1rem;
+  text-align: center;
 }
 </style>
