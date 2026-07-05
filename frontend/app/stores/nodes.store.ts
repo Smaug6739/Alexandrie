@@ -292,12 +292,12 @@ export const useNodesStore = defineStore('nodes', () => {
     delete node.id;
     const response = await makeRequest<DB_Node>('nodes', 'POST', { ...node, id: undefined });
     if (response.status == 'success') {
-      nodes.value.set((response.result as DB_Node).id, { ...(response.result as DB_Node), partial: false, synced: true, shared: false, permissions: [] });
+      nodes.value.set((response.result as DB_Node).id, { ...(response.result as DB_Node), partial: false, synced: true, shared: false, permissions: [] }, true);
       return response.result as DB_Node;
     } else if (isNetworkError(response)) {
       node.user_id = userStore.user?.id;
       const localNode = await LocalDbService.saveCreateDelta({ ...node, id: oldId });
-      nodes.value.set(localNode.id, localNode);
+      nodes.value.set(localNode.id, localNode, true);
       return localNode;
     }
     throw response.message || 'Failed to create node';
@@ -315,12 +315,13 @@ export const useNodesStore = defineStore('nodes', () => {
       node.updated_timestamp = Date.now(); // approximate update time for better UX & backups import
       node.synced = true;
       if (node.parent_id && !nodes.value.has(node.parent_id)) node.parent_id = ''; // Check for orphaned parent_id and detach if necessary
-      nodes.value.set(node.id, node);
+      nodes.value.set(node.id, node, true);
     } else if (isNetworkError(response)) {
       await LocalDbService.saveUpdateDelta(node);
       node.synced = false;
-      nodes.value.set(node.id, node);
+      nodes.value.set(node.id, node, true);
     }
+    nodes.value.rebuildIndexes();
   }
 
   async function duplicate(node: Node): Promise<DB_Node> {
