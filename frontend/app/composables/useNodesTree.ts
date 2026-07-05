@@ -25,9 +25,9 @@ function initGlobalTree() {
 
       return globalBuilder!.buildTree({
         rootFilter: node => {
-          if (node?.role === 0) return false;
-          // Un nœud est une racine s'il n'a pas de parent ou si son parent n'est pas dans le store
-          return !node.parent_id || !nodesStore.getById(node.parent_id);
+          if (node?.role <= 1) return true; // Include teams and categories as root nodes
+          if (!nodesStore.getById(node.parent_id ?? '')) return true;
+          return false;
         },
       });
     });
