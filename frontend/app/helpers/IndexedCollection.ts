@@ -42,6 +42,13 @@ export class IndexedCollection {
   }
 
   /**
+   * Iterate over all nodes in the collection
+   */
+  forEach(callback: (node: Node, id: string) => void): void {
+    this.store.forEach(callback);
+  }
+
+  /**
    * Access O(1) to children of a parent
    */
   getChildrenIds(parentId: string | null | undefined): string[] {
@@ -77,7 +84,13 @@ export class IndexedCollection {
     return this.sortedArray;
   }
 
-  set(id: string, node: Node): void {
+  /**
+   * Set a node in the collection. Must be called even if the node has been updated by reference, to ensure the indexes are updated and trigger reactivity.
+   * @param id The ID of the node
+   * @param node The node object
+   * @param forceNotify If true, will trigger reactivity even if the node structure hasn't changed
+   */
+  set(id: string, node: Node, forceNotify = false): void {
     const oldNode = this.store.get(id);
 
     // If the node structure hasn't changed, we can skip the re-indexing
@@ -86,7 +99,7 @@ export class IndexedCollection {
       // Update the sorted array in place if the node's order or name has changed
       const idx = this.sortedArray.findIndex(n => n.id === id);
       if (idx !== -1) this.sortedArray[idx] = node;
-      this.notify();
+      if (forceNotify) this.notify();
       return;
     }
 
@@ -109,7 +122,7 @@ export class IndexedCollection {
     if (!this.isBulkLoading) {
       this.rebuildSortedArray();
     }
-    this.notify();
+    if (forceNotify) this.notify();
   }
 
   delete(id: string): boolean {
@@ -124,16 +137,33 @@ export class IndexedCollection {
     return true;
   }
 
+  // Used to rebuild the indexes when the hierarchy changes
+  rebuildIndexes(): void {
+    this.byParent.clear();
+    this.byRole.clear();
+
+    for (const [id, node] of this.store.entries()) {
+      const pId = node.parent_id ?? '';
+      if (!this.byParent.has(pId)) this.byParent.set(pId, []);
+      this.byParent.get(pId)!.push(id);
+
+      if (!this.byRole.has(node.role)) this.byRole.set(node.role, []);
+      this.byRole.get(node.role)!.push(id);
+    }
+
+    if (!this.isBulkLoading) {
+      this.rebuildSortedArray();
+    }
+    this.notify();
+  }
+
+  // Clear the entire collection and its indexes
   clear(): void {
     this.store.clear();
     this.byParent.clear();
     this.byRole.clear();
     this.sortedArray = [];
     this.notify();
-  }
-
-  forEach(callback: (node: Node, id: string) => void): void {
-    this.store.forEach(callback);
   }
 
   // Bulk operations to optimize performance when adding/removing multiple nodes
