@@ -21,7 +21,7 @@
 
     <!-- Right icons / actions  -->
     <Icon v-if="item.data.shared && level === 0" name="shared" fill="var(--text-secondary)" />
-    <NuxtLink v-if="item.data.role === 2 && canEdit" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
+    <NuxtLink v-if="item.data.role <= 2 && canEdit" :to="`/dashboard/categories/${item.id}/edit`" class="nav close">
       <Icon name="settings" />
     </NuxtLink>
     <NuxtLink v-if="item.data.role === 2" :to="`/dashboard/docs/new?parent_id=${item.id}`" class="nav close">
