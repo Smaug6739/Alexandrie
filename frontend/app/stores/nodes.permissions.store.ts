@@ -56,10 +56,14 @@ export const useNodesPermissionsStore = defineStore('nodesPermissions', () => {
     const request = await makeRequest(`nodes/${perm.node_id}/permissions`, 'POST', perm);
     if (request.status === 'success') {
       const newPermission = request.result as Permission;
-      nodes.set(node.id, {
-        ...node,
-        permissions: [...node.permissions, newPermission],
-      });
+      nodes.set(
+        node.id,
+        {
+          ...node,
+          permissions: [...node.permissions, newPermission],
+        },
+        true,
+      );
       return newPermission;
     } else throw request.message;
   }
