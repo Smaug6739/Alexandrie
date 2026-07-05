@@ -84,7 +84,7 @@ async function refreshAccessToken(): Promise<void> {
   if (refreshPromise) return refreshPromise;
 
   refreshPromise = (async () => {
-    console.log('[AUTH] Refreshing access token...');
+    console.debug('[auth] Refreshing access token...');
 
     try {
       const baseUrl = getApiBaseUrl();
@@ -99,9 +99,9 @@ async function refreshAccessToken(): Promise<void> {
         throw new Error('Refresh token invalid');
       }
 
-      console.log('[AUTH] Access token refreshed successfully.');
+      console.debug('[auth] Access token refreshed successfully.');
     } catch (error) {
-      console.warn('[AUTH] Refresh failed, logging out.', error);
+      console.warn('[auth] Refresh failed, logging out.', error);
 
       // Clear user state
       useUserStore().post_logout();

@@ -24,7 +24,7 @@ async function init() {
   if (isInitializing) return;
   isInitializing = true;
 
-  console.log('🌳 [CollapseStore] Initializing store...');
+  console.debug('[collapseStore] 🌳 Initializing store...');
 
   if (import.meta.server) {
     resolveReady();
@@ -37,10 +37,10 @@ async function init() {
       getStatesRef().value = savedStates;
     }
   } catch (e) {
-    console.warn('[CollapseStore] Failed to load collapse states', e);
+    console.warn('[collapseStore] Failed to load collapse states', e);
   } finally {
     resolveReady();
-    console.log('🌳 [CollapseStore] Store is ready !');
+    console.debug('[collapseStore] Store is ready !');
   }
 }
 

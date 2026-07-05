@@ -26,7 +26,6 @@ watchEffect(() => {
   const nodes = tree.getSubtreeAsArray(teamId);
   for (const node of nodes) {
     const month = new Date(node.data.created_timestamp).toISOString().slice(5, 7);
-    console.log('Month:', month, 'Node ID:', node.data.id);
     const existing = stats.value.find(item => item.month === month);
     if (existing) {
       existing.count++;

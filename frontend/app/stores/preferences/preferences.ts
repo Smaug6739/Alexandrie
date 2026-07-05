@@ -21,7 +21,7 @@ export const usePreferencesStore = defineStore('preferences', () => {
   const debouncedSync = useDebounceFn(syncToBackend, 1500);
 
   async function initStore() {
-    console.log('🏬 [Preferences] Initializing store...');
+    console.debug('[preferences] 🏬 Initializing store...');
     if (!import.meta.client) return;
     try {
       const raw = await localForage.getItem<Partial<Preferences>>('preferences');

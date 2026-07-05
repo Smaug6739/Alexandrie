@@ -50,7 +50,7 @@ export const useNodesPermissionsStore = defineStore('nodesPermissions', () => {
   }
 
   async function addPermission(perm: Omit<Permission, 'id' | 'created_timestamp'>): Promise<Permission> {
-    console.log(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
+    console.debug(`[store/nodes/permissions] Adding permission for user ${perm.user_id} on node ${perm.node_id}`);
     const node = nodes.get(perm.node_id);
     if (!node) throw 'Node not found in store, cannot add permission';
     const request = await makeRequest(`nodes/${perm.node_id}/permissions`, 'POST', perm);
@@ -69,7 +69,7 @@ export const useNodesPermissionsStore = defineStore('nodesPermissions', () => {
   }
 
   async function updatePermission(perm: Permission) {
-    console.log(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
+    console.debug(`[store/nodes/permissions] Updating permission for user ${perm.user_id} on node ${perm.node_id}`);
     const node = nodes.get(perm.node_id);
     if (!node) throw 'Node not found in store, cannot update permission';
     const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'PATCH', { permission: perm.permission });
@@ -87,7 +87,7 @@ export const useNodesPermissionsStore = defineStore('nodesPermissions', () => {
   }
 
   async function removePermission(perm: Permission) {
-    console.log(`[store/nodes/permissions] Removing permission for user ${perm.user_id} on node ${perm.node_id}`);
+    console.debug(`[store/nodes/permissions] Removing permission for user ${perm.user_id} on node ${perm.node_id}`);
     const node = nodes.get(perm.node_id);
     if (!node) throw 'Node not found in store, cannot remove permission';
     const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'DELETE', {});

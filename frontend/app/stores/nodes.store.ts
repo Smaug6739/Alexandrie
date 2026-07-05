@@ -43,7 +43,7 @@ export const useNodesStore = defineStore('nodes', () => {
   const resources = computed(() => nodes.value.getIdsByRole(4).map(id => nodes.value.get(id)!));
 
   async function init() {
-    console.log('[store/nodes] Initializing store');
+    console.debug('[store/nodes] Initializing store');
     clear();
 
     isFetching.value = true;
@@ -53,7 +53,7 @@ export const useNodesStore = defineStore('nodes', () => {
     isFetching.value = false;
     if (import.meta.client) {
       window.addEventListener('online', () => {
-        console.log('[store/nodes] Online, syncing local deltas');
+        console.debug('[store/nodes] Online, syncing local deltas');
         syncLocalDeltas();
       });
     }
@@ -201,7 +201,7 @@ export const useNodesStore = defineStore('nodes', () => {
 
   async function fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : IndexedCollection> {
     if (opts?.id && !nodes.value.get(opts.id)?.partial) return nodes.value.get(opts.id) as 'id' extends keyof T ? Node : IndexedCollection;
-    console.log(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
+    console.debug(`[store/nodes] Fetching nodes with options: ${JSON.stringify(opts)}`);
     const request = await makeRequest(`nodes/${opts?.id ? opts.id : 'user/@me'}`, 'GET', {});
     if (request.status == 'success') {
       if (opts?.id) {
@@ -237,7 +237,7 @@ export const useNodesStore = defineStore('nodes', () => {
   }
 
   async function fetchShared(): Promise<IndexedCollection> {
-    console.log(`[store/nodes] Fetching shared nodes`);
+    console.debug(`[store/nodes] Fetching shared nodes`);
     const request = await makeRequest(`nodes/shared/@me`, 'GET', {});
     if (request.status === 'success') {
       if (!request.result) return nodes.value as IndexedCollection;
@@ -305,7 +305,7 @@ export const useNodesStore = defineStore('nodes', () => {
 
   async function update(node: Node): Promise<void> {
     if (node.partial) {
-      console.log('[store/nodes] Node looks partial, cannot update it directly.');
+      console.debug('[store/nodes] Node looks partial, cannot update it directly.');
       const full_node = await fetch({ id: node.id });
       if (!full_node) throw 'Node not found';
       node = mergeNode(node, full_node);
@@ -327,7 +327,7 @@ export const useNodesStore = defineStore('nodes', () => {
   async function duplicate(node: Node): Promise<DB_Node> {
     if (!node) throw 'Node not found in store, cannot duplicate';
     if (node.partial) {
-      console.log('[store/nodes] Node looks partial, cannot duplcate it directly.');
+      console.debug('[store/nodes] Node looks partial, cannot duplcate it directly.');
       const full_node = await fetch({ id: node.id });
       if (!full_node) throw 'Node not found';
       node = mergeNode(node, full_node);
