@@ -103,8 +103,6 @@ export function mergeNode(node: Node, full_node: Node): Node {
   if (!node.content) result.content = full_node.content;
   if (!node.content_compiled) result.content_compiled = full_node.content_compiled;
 
-  if (!result.parent_id) delete result.parent_id;
-
   result.partial = false;
   return result;
 }

@@ -290,6 +290,7 @@ export const useNodesStore = defineStore('nodes', () => {
   async function post(node: Partial<Node>): Promise<DB_Node> {
     const oldId = node.id;
     delete node.id;
+    if (!node.parent_id) delete node.parent_id; // Ensure parent_id is not sent as empty string
     const response = await makeRequest<DB_Node>('nodes', 'POST', { ...node, id: undefined });
     if (response.status == 'success') {
       nodes.value.set((response.result as DB_Node).id, { ...(response.result as DB_Node), partial: false, synced: true, shared: false, permissions: [] }, true);
@@ -310,6 +311,7 @@ export const useNodesStore = defineStore('nodes', () => {
       if (!full_node) throw 'Node not found';
       node = mergeNode(node, full_node);
     }
+    if (!node.parent_id) delete node.parent_id; // Ensure parent_id is not sent as empty string
     const response = await makeRequest(`nodes/${node.id}`, 'PUT', node);
     if (response.status == 'success') {
       node.updated_timestamp = Date.now(); // approximate update time for better UX & backups import
