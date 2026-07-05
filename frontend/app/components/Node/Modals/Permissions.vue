@@ -107,12 +107,13 @@ const { t } = useI18nT();
 
 const usersStore = useUserStore();
 const nodesStore = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 
 const { avatarURL } = useApi();
 const { shortDate } = useDateFormatters();
 const notifications = useNotifications();
 
-const node = ref<Node>(props.node);
+const node = ref<Node | undefined>(props.node);
 const query = ref('');
 const users = ref<PublicUser[]>([]);
 const selectedPermission = ref(1);
@@ -125,27 +126,20 @@ const isCreatingInvitation = ref(false);
 const link = computed(() => `${window.location.origin}/doc/${node.value?.id}`);
 const invitationLink = (code: string) => `${window.location.origin}/dashboard/join-workspace?code=${encodeURIComponent(code)}`;
 
-const refreshInvitations = async () => {
-  if (!node.value?.id) return;
-  invitations.value = await nodesStore.fetchInvitations(node.value.id);
-};
-
-watchEffect(() => {
-  if (node.value.partial) nodesStore.fetch({ id: node.value.id }).then(fetched => (node.value = fetched));
-  for (const perm of node.value.permissions) {
-    usersStore.fetchPublicUser(perm.user_id);
+watchEffect(async () => {
+  try {
+    const cached = nodesStore.getById(props.node.id);
+    if (cached && cached.partial) {
+      await nodesStore.fetch({ id: props.node.id });
+    }
+    node.value = nodesStore.getById(props.node.id);
+    for (const perm of node.value?.permissions ?? []) {
+      usersStore.fetchPublicUser(perm.user_id);
+    }
+  } catch {
+    node.value = undefined;
   }
 });
-
-watch(
-  () => node.value.id,
-  () => {
-    refreshInvitations().catch(() => {
-      invitations.value = [];
-    });
-  },
-  { immediate: true },
-);
 
 watch(query, async newQuery => {
   users.value = [];
@@ -170,29 +164,56 @@ const searchUsers = debounce((query: unknown) => {
 }, 750);
 
 watch(
-  () => node.value.accessibility + node.value.access,
-  debounce(() => nodesStore.update(node.value), 500),
+  () => (node.value?.accessibility ?? 0) + (node.value?.access ?? 0),
+  debounce(() => nodesStore.update(node.value!), 500),
   { deep: true },
 );
 
 // Actions
+
 const addPermission = async (user: PublicUser) => {
   if (!user) return;
-  await nodesStore.addPermission({
+  await nodesPermissionsStore.addPermission({
     node_id: props.node.id,
     user_id: user.id,
     permission: selectedPermission.value,
   });
+
   users.value = [];
   query.value = '';
   selectedPermission.value = 1;
 };
 
+const updatePermission = async (perm: Permission) => {
+  await nodesPermissionsStore.updatePermission(perm);
+};
+
+const removePermission = async (perm: Permission) => {
+  if (!node.value) return;
+  await nodesPermissionsStore.removePermission(perm);
+  node.value.permissions = node.value.permissions.filter(p => p.id !== perm.id);
+};
+
+const refreshInvitations = async () => {
+  if (!node.value?.id) return;
+  invitations.value = await nodesPermissionsStore.fetchInvitations(node.value.id);
+};
+
+watch(
+  () => node.value?.id,
+  () => {
+    refreshInvitations().catch(() => {
+      invitations.value = [];
+    });
+  },
+  { immediate: true },
+);
+
 const createInvitation = async () => {
   if (!node.value?.id) return;
   isCreatingInvitation.value = true;
   try {
-    const invitation = await nodesStore.addInvitation(node.value.id, selectedInvitationPermission.value);
+    const invitation = await nodesPermissionsStore.addInvitation(node.value.id, selectedInvitationPermission.value);
     invitations.value = [invitation, ...invitations.value];
     selectedInvitationPermission.value = 1;
     notifications.add({ type: 'success', title: 'Invitation created' });
@@ -203,7 +224,7 @@ const createInvitation = async () => {
 
 const deleteInvitation = async (invitationId: string) => {
   if (!node.value?.id) return;
-  await nodesStore.removeInvitation(node.value.id, invitationId);
+  await nodesPermissionsStore.removeInvitation(node.value.id, invitationId);
   invitations.value = invitations.value.filter(invitation => invitation.id !== invitationId);
   notifications.add({ type: 'success', title: 'Invitation revoked' });
 };
@@ -211,16 +232,6 @@ const deleteInvitation = async (invitationId: string) => {
 const copyInvitationLink = async (code: string) => {
   await navigator.clipboard.writeText(invitationLink(code));
   notifications.add({ type: 'success', title: 'Invitation link copied to clipboard' });
-};
-
-const updatePermission = async (perm: Permission) => {
-  await nodesStore.updatePermission(perm);
-};
-
-const removePermission = async (perm: Permission) => {
-  if (!node.value) return;
-  await nodesStore.removePermission(perm);
-  node.value.permissions = node.value.permissions.filter(p => p.id !== perm.id);
 };
 </script>
 

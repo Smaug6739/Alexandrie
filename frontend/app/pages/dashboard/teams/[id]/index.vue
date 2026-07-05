@@ -52,7 +52,6 @@ definePageMeta({ breadcrumb: { i18n: 'teams.overview.title' } });
 
 const nodesStore = useNodesStore();
 
-const nodesTree = useNodesTree();
 const route = useRoute();
 const modals = useModal();
 const router = useRouter();
@@ -66,13 +65,23 @@ const team = ref<Node | undefined>();
 watchEffect(() => {
   team.value = nodesStore.getById(teamId);
   if (team.value && team.value.partial) {
-    nodesStore.fetch({ id: teamId }).then(fetched => (team.value = fetched));
+    nodesStore
+      .fetch({ id: teamId })
+      .then(fetched => (team.value = fetched))
+      .catch(() => {});
   }
 });
 
-const allItems = computed(() => (team.value ? nodesTree.getChildren(team.value.id).filter(item => item.id !== team.value?.id) : []));
+const allItems = computed(() =>
+  team.value
+    ? nodesStore.nodes
+        .getChildrenIds(team.value.id)
+        .map(id => nodesStore.getById(id)!)
+        .filter(item => item.id !== team.value?.id)
+    : [],
+);
 const editLink = computed(() => (team.value ? `/dashboard/docs/edit/${team.value.id}?redirect=/dashboard/teams/${team.value.id}` : ''));
-const directChildren = computed(() => (team.value ? nodesTree.getChildren(team.value.id) : []));
+const directChildren = computed(() => (team.value ? nodesStore.nodes.getChildrenIds(team.value.id).map(id => nodesStore.getById(id)) : []));
 
 const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1, parentId: teamId } }));
 const openCreateCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2, parentId: teamId } }));

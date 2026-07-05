@@ -25,7 +25,7 @@ export function useSidebar() {
       return items.filter(item => item.data.role !== 4);
     }
 
-    return items;
+    return items.filter(item => item.data.role !== 0); // Exclude teams (role 0) from the sidebar
   });
 
   const toggle = () => (isOpen.value = !isOpen.value);

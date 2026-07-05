@@ -17,12 +17,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
-import type { Node } from '~/stores';
-
 import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
+
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
+import type { Node } from '~/stores';
 
 definePageMeta({
   breadcrumb: (route: RouteLocationNormalizedLoaded) => {
@@ -49,24 +49,7 @@ const element = computed(() => elementComponent.value?.rootElement as HTMLElemen
 const node = ref<Node | undefined>();
 const error = ref<false | string>(false);
 
-watchEffect(async () => {
-  const document_id = route.params.id as string;
-  const docFromStore = documentsStore.getById(document_id);
-  if (!docFromStore) {
-    if (documentsStore.isFetching) return;
-    return (error.value = 'Document not found');
-  }
-  node.value = undefined;
-  if (docFromStore.partial) {
-    try {
-      error.value = false;
-      node.value = await documentsStore.fetch({ id: document_id });
-    } catch (err: unknown) {
-      error.value = (err as Error).message || 'Failed to fetch document';
-    }
-  } else node.value = docFromStore;
-  useHead({ title: node.value?.name || '' });
-});
+const documentId = computed(() => route.params.id as string);
 
 const next = computed(() => nodesTree.nextDocument(node.value?.id));
 const previous = computed(() => nodesTree.prevDocument(node.value?.id));
@@ -75,6 +58,45 @@ const width = computed(() => {
   if (docSize.value == 1) return '800px';
   return '700px';
 });
+
+async function loadDocument(id: string) {
+  error.value = false;
+
+  if (documentsStore.isFetching) {
+    node.value = undefined;
+    return;
+  }
+
+  const docFromStore = documentsStore.getById(id);
+
+  if (!docFromStore) {
+    node.value = undefined;
+    error.value = 'Document not found';
+    return;
+  }
+
+  if (docFromStore.partial) {
+    try {
+      node.value = await documentsStore.fetch({ id });
+    } catch (err: unknown) {
+      error.value = (err as Error).message || 'Failed to fetch document';
+    }
+  } else {
+    node.value = docFromStore;
+  }
+
+  if (node.value) useHead({ title: node.value.name });
+}
+
+watch(
+  [documentId, () => documentsStore.isFetching],
+  ([newId, _]) => {
+    if (newId) {
+      loadDocument(newId);
+    }
+  },
+  { immediate: true },
+);
 
 // Actions
 const openContextMenu = (event: MouseEvent) => {

@@ -42,19 +42,6 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
   }
 
   /**
-   * Build the direct children of a given parentId
-   */
-  getChildren(parentId: string | null): TreeItem<T>[] {
-    const childrenIds = this.collection.getChildrenIds(parentId);
-    const result: TreeItem<T>[] = [];
-    for (const childId of childrenIds) {
-      const item = this.getTransformedItem(childId);
-      if (item) result.push(item);
-    }
-    return result;
-  }
-
-  /**
    * Build the entire descending tree recursively, starting from the roots
    * @param options Optional filters for nodes and roots
    * @returns An array of TreeItem representing the tree structure
@@ -75,14 +62,20 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
 
       const childrenIds = this.collection.getChildrenIds(id);
       if (childrenIds.length > 0) {
-        item.children = childrenIds.map(childId => buildSubtree(childId)).filter((c): c is TreeItem<T> => !!c); // On élimine les enfants filtrés
+        const mappedChildren = childrenIds.map(childId => buildSubtree(childId)).filter((c): c is TreeItem<T> => !!c);
+
+        if (mappedChildren.length > 1) {
+          mappedChildren.sort(sortNodes);
+        }
+
+        item.children = mappedChildren.length > 0 ? mappedChildren : undefined;
       } else {
         item.children = undefined;
       }
       return item;
     };
 
-    return rootIds
+    const rootItems = rootIds
       .filter(id => {
         const node = this.collection.get(id) as T;
         if (!node) return false;
@@ -91,56 +84,40 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
       })
       .map(id => buildSubtree(id))
       .filter((item): item is TreeItem<T> => !!item);
-  }
 
-  /**
-   * Build a subtree starting from a specific parentId, recursively
-   */
-  buildSubtree(parentId: string): TreeItem<T> | undefined {
-    const buildSubtreeRecursive = (id: string): TreeItem<T> | undefined => {
-      const cachedItem = this.getTransformedItem(id);
-      if (!cachedItem) return undefined;
+    if (rootItems.length > 1) {
+      rootItems.sort(sortNodes);
+    }
 
-      const childrenIds = this.collection.getChildrenIds(id);
-      if (childrenIds.length === 0) {
-        return { ...cachedItem, children: undefined };
-      }
-
-      const validChildren: TreeItem<T>[] = [];
-      for (let i = 0; i < childrenIds.length; i++) {
-        const child = buildSubtreeRecursive(childrenIds[i]!);
-        if (child) validChildren.push(child);
-      }
-
-      if (validChildren.length > 1) {
-        validChildren.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
-      }
-
-      return {
-        ...cachedItem,
-        children: validChildren.length > 0 ? validChildren : undefined,
-      };
-    };
-
-    return buildSubtreeRecursive(parentId);
+    return rootItems;
   }
 
   /**
    * Get the next or previous sibling of a node, optionally filtered by a predicate
    */
-  getSibling(id: string, direction: 'next' | 'prev', filter?: (item?: T) => boolean): TreeItem<T> | undefined {
+  getSibling(id: string, direction: number, filter?: (item?: T) => boolean): TreeItem<T> | undefined {
     const currentItem = this.getTransformedItem(id);
     if (!currentItem) return undefined;
 
-    // On récupère instantanément les frères via le parent commun
-    let siblings = this.getChildren(currentItem.parentId ?? null);
+    let siblings = this.collection
+      .getChildrenIds(currentItem.parentId ?? null)
+      .map(id => this.getTransformedItem(id))
+      .filter((s): s is TreeItem<T> => !!s);
+
     if (filter) siblings = siblings.filter(s => filter(s.data));
 
     const index = siblings.findIndex(s => s.id === id);
     if (index === -1) return undefined;
 
-    const targetIndex = direction === 'next' ? index + 1 : index - 1;
-    return siblings[targetIndex];
+    return siblings[index + direction] ?? undefined;
+  }
+
+  /**
+   * Clear the transformation cache, useful when the underlying collection changes
+   * to ensure that the tree is rebuilt with the latest data.
+   */
+  public clearCache() {
+    this.transformCache.clear();
   }
 }
 /** Filter tree recursively, keeping branches with matches */
@@ -176,4 +153,16 @@ export function flattenTree<T>(items: TreeItem<T>[]): TreeItem<T>[] {
     }
   }
   return result;
+}
+
+function sortNodes<T extends { id: string; parent_id?: string | null; role?: number; order?: number }>(a: TreeItem<T>, b: TreeItem<T>) {
+  if (a.data.role !== b.data.role) {
+    return (b.data.role ?? 0) - (a.data.role ?? 0);
+  }
+  const orderA = a.data.order ?? 0;
+  const orderB = b.data.order ?? 0;
+  if (orderA !== orderB) {
+    return orderA - orderB;
+  }
+  return a.label.localeCompare(b.label);
 }

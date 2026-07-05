@@ -36,7 +36,7 @@ watch(
 watch(
   interfaceStyle,
   style => {
-    document.documentElement.classList.toggle('glassmorphism', style === 'glassmorphism');
+    if (import.meta.client) document.documentElement.classList.toggle('glassmorphism', style === 'glassmorphism');
   },
   { immediate: true },
 );
@@ -49,12 +49,35 @@ watch(
   { immediate: true },
 );
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
   if (to.path.startsWith('/dashboard') && (from.path === '/login' || from.path === '/')) {
     console.log('Setting loading state to true');
     isLoading.value = true;
   }
-  next();
+  return;
+});
+
+useHead({
+  link: [
+    {
+      rel: 'canonical',
+      href: __BASE_URL__,
+    },
+    {
+      rel: 'preconnect',
+      href: __BASE_API__,
+    },
+    {
+      rel: 'preconnect',
+      href: __BASE_CDN__,
+    },
+  ],
+  meta: [
+    {
+      property: 'og:url',
+      content: __BASE_URL__,
+    },
+  ],
 });
 </script>
 

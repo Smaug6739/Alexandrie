@@ -8,6 +8,7 @@ export interface APIResult<Data> {
   status: 'success' | 'error';
   message: string;
   result?: Data;
+  _statusCode: number;
 }
 
 export interface FetchOptions {
@@ -162,6 +163,7 @@ export async function makeRequest<T>(route: string, method: HttpMethod, body: ob
         return {
           status: 'error',
           message: response.message || 'Authentication failed.',
+          _statusCode: response._statusCode,
         };
       }
     }
@@ -173,6 +175,32 @@ export async function makeRequest<T>(route: string, method: HttpMethod, body: ob
     return {
       status: 'error',
       message: err instanceof Error ? err.message : String(err),
+      _statusCode: 0,
     };
   }
+}
+
+/**
+ * Detects if a response is likely due to network issues (offline, timeout, etc.)
+ * @param response - The API response to analyze
+ * @returns true if the response is likely a network error, false otherwise
+ */
+export function isNetworkError(response: APIResult<unknown>): boolean {
+  if (!response) return false;
+
+  if (typeof navigator !== 'undefined' && !navigator.onLine) {
+    return true;
+  }
+
+  if (response._statusCode !== undefined) {
+    return (
+      response._statusCode === 0 || // Connection failed (Offline / Crash TCP / CORS Blocked)
+      response._statusCode === 408 || // Request Timeout
+      response._statusCode === 502 || // Bad Gateway (Reverse proxy active but Backend Go down)
+      response._statusCode === 503 || // Service Unavailable
+      response._statusCode === 504 // Gateway Timeout
+    );
+  }
+
+  return false;
 }

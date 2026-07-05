@@ -56,7 +56,7 @@ const handleDelete = async () => {
     if (props.nodes && props.nodes.length > 0) {
       await store.bulkDelete(props.nodes);
     } else if (props.node) {
-      await store.delete(props.node.id);
+      await store.remove(props.node.id);
     }
     emit('close');
     if (props.redirectTo) {

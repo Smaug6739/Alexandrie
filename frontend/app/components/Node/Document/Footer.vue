@@ -2,7 +2,7 @@
   <footer v-if="document">
     <div v-if="showAttachments" class="attachments">
       <div v-for="attachment in attachments" :key="attachment.id" class="attachment">
-        <NodeResourceInline :node="attachment.data" />
+        <NodeResourceInline :node="attachment" />
       </div>
     </div>
     <div class="footer-top-row">
@@ -34,15 +34,17 @@ import type { Node } from '~/stores';
 const props = defineProps<{ document?: Node; next?: Node; previous?: Node }>();
 
 const preferences = usePreferencesStore();
+const nodeStore = useNodesStore();
 
 const { t } = useI18nT();
 const { formatRelativeDate } = useDateFormatters();
-const nodesTree = useNodesTree();
 
 const showAttachments = preferences.get('documentShowAttachments');
 const attachments = computed(() => {
-  const children = nodesTree.getChildren(props.document?.id);
-  return children.filter(child => child.data.role === 4);
+  return nodeStore.nodes
+    .getChildrenIds(props.document?.id)
+    .map(id => nodeStore.getById(id))
+    .filter(n => n?.role === 4) as Node[];
 });
 </script>
 

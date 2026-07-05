@@ -11,7 +11,7 @@
     <div class="storage-indicator">
       <div class="storage-info">
         <span class="storage-label">{{ t('cdn.storageUsed') }}</span>
-        <span class="storage-values">{{ readableFileSize(totalUsedSpace) }} / {{ readableFileSize(MAX_STORAGE) }}</span>
+        <span class="storage-values">{{ readableFileSize(nodesStore.getTotalUsedStorage) }} / {{ readableFileSize(MAX_STORAGE) }}</span>
       </div>
       <div class="progress-bar">
         <div
@@ -127,8 +127,7 @@ const nodes = computed(() => {
 });
 const filteredResources = ref(nodes.value);
 
-const totalUsedSpace = computed(() => nodesStore.getTotalUsedStorage);
-const storagePercentage = computed(() => Math.min((totalUsedSpace.value / MAX_STORAGE) * 100, 100));
+const storagePercentage = computed(() => Math.min((nodesStore.getTotalUsedStorage / MAX_STORAGE) * 100, 100));
 const linksText = computed(() => fileLinks.value.join('\n'));
 
 // DataTable setup

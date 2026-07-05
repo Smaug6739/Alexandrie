@@ -14,6 +14,7 @@ definePageMeta({
 });
 
 const nodesStore = useNodesStore();
+const nodesPermissionsStore = useNodesPermissionsStore();
 const nodesTree = useNodesTree();
 
 const modals = useModal();
@@ -34,7 +35,7 @@ const nodes = computed(() => {
 });
 
 const openDeleteModal = () => {
-  if (!parent.value || !nodesStore.hasPermissions(parent.value, 4)) return;
+  if (!parent.value || !nodesPermissionsStore.hasPermissions(parent.value, 4)) return;
   modals.add(new Modal(shallowRef(NodeDeleteModal), { size: 'small', props: { node: parent.value, redirect: '/dashboard' } }));
 };
 

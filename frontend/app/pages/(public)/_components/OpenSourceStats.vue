@@ -1,11 +1,6 @@
 <template>
   <section class="oss-stats">
     <div class="stats-visual">
-      <div class="visual-bg">
-        <div class="code-lines">
-          <span v-for="i in 8" :key="i" class="code-line" :style="{ '--delay': `${i * 0.1}s`, '--width': `${40 + Math.random() * 50}%` }"></span>
-        </div>
-      </div>
       <div class="github-card">
         <div class="card-header">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
@@ -143,31 +138,6 @@ onMounted(() => {
 
 .stats-visual {
   position: relative;
-}
-
-.visual-bg {
-  position: absolute;
-  border-radius: var(--radius-xxl);
-  background: linear-gradient(135deg, var(--surface-raised), var(--surface-base));
-  inset: 0;
-  overflow: hidden;
-}
-
-.code-lines {
-  position: absolute;
-  display: flex;
-  padding: 2rem;
-  flex-direction: column;
-  gap: 12px;
-  inset: 0;
-}
-
-.code-line {
-  width: var(--width);
-  height: 12px;
-  border-radius: var(--radius-sm);
-  background: var(--border);
-  opacity: 0.4;
 }
 
 .github-card {

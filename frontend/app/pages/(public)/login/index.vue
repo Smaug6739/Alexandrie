@@ -31,7 +31,7 @@
           <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
         </div>
         <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-        <button class="btn" :disabled="loginDisabled" @click="login">Login</button>
+        <button class="btn" :disabled="loginDisabled">Login</button>
         <p v-if="loginDisabled" class="disabled">Native login is currently disabled. Please use one of the available authentication providers below.</p>
         <OIDCProviders />
 

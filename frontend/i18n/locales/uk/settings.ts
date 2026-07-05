@@ -29,6 +29,8 @@ export default {
     chooseAccentColor: 'Вибрати акцентний колір',
     displayUncategorizedResources: 'Показувати ресурси без категорії',
     displayUncategorizedResourcesDesc: 'Показувати ресурси без категорії (завантаження CDN) у верхній частині бічної панелі.',
+    displayTabs: 'Показувати вкладки',
+    displayTabsDesc: 'Увімкнути або вимкнути панель вкладок у верхній частині панелі керування.',
     enableCompactMode: 'Увімкнути компактний режим',
     enableCompactModeDesc: 'Зменшити розмір елементів бічної панелі, щоб показати більше вмісту.',
     enableDarkMode: 'Увімкнути темний режим',

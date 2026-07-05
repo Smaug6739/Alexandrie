@@ -1,6 +1,6 @@
 <template>
   <svg v-if="isSpriteIcon" class="icon" :class="display" :style="{ color: fill || 'currentColor', width: size, height: size }" aria-hidden="true">
-    <use :href="`#icon-${name}`" />
+    <use :xlink:href="`#icon-${name}`" />
   </svg>
 
   <!-- eslint-disable-next-line vue/no-v-html | OK Because not a user entry-->

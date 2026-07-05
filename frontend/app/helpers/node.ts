@@ -98,15 +98,12 @@ export function parseTags(tags: string): string[] {
 }
 
 export function mergeNode(node: Node, full_node: Node): Node {
-  const result: Node = { ...full_node };
+  const result: Node = { ...node };
 
-  for (const key in node) {
-    const localValue = node[key as keyof Node];
-    if (localValue !== undefined && localValue !== null && localValue !== '') {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (result as any)[key] = localValue; // keep local value if it's defined
-    }
-  }
+  if (!node.content) result.content = full_node.content;
+  if (!node.content_compiled) result.content_compiled = full_node.content_compiled;
+
+  if (!result.parent_id) delete result.parent_id;
 
   result.partial = false;
   return result;

@@ -10,7 +10,7 @@ export const useResourcesStore = defineStore('resources', {
       }
       const request = await makeRequest(`resources`, 'POST', resource);
       if (request.status == 'success') {
-        nodesStore.nodes.set((request.result as Node).id, request.result as Node);
+        nodesStore.nodes.set((request.result as Node).id, request.result as Node, true);
         return request.result as Node;
       } else throw request.message;
     },

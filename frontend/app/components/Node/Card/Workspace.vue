@@ -1,6 +1,5 @@
 <template>
-  <div class="workspace-tile" :class="accentColorClass">
-    <!-- La lueur utilise désormais une variable CSS `--accent-color` injectée proprement par getAppAccent -->
+  <div class="workspace-tile" :class="getAppAccent(workspace.color, true)">
     <div class="glow-ambiance" />
 
     <div class="tile-content">
@@ -43,13 +42,6 @@ const props = defineProps<{ workspace: Node }>();
 
 const nodesStore = useNodesStore();
 const { getAppAccent } = useAppColors();
-
-// Nettoyage de la logique de couleur pour utiliser les mêmes standards de l'app
-const accentColorClass = computed(() => {
-  const colors = ['blue', 'red', 'green', 'yellow', 'purple', 'pink', 'teal', 'primary'];
-  const colorIndex = props.workspace.color as number;
-  return colors[colorIndex] || 'primary';
-});
 
 const categories = computed(() => {
   const childrenIds = nodesStore.getAll.getChildrenIds(props.workspace.id);

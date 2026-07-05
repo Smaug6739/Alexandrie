@@ -15,10 +15,6 @@ export default defineNuxtConfig({
       },
       link: [
         {
-          href: 'https://alexandrie-hub.fr',
-          rel: 'canonical',
-        },
-        {
           href: '/manifest.webmanifest',
           rel: 'manifest',
         },
@@ -34,12 +30,10 @@ export default defineNuxtConfig({
           rel: 'icon',
           type: 'image/x-icon',
         },
-        { href: 'https://api.alexandrie-hub.fr', rel: 'preconnect' },
-        { href: 'https://cdn.alexandrie-hub.fr', rel: 'preconnect' },
         { href: 'https://embed.diagrams.net', rel: 'preconnect' },
       ],
       meta: [
-        // SEO
+        // SEO (url meta tags are defined in App.vue for dynamic URLs)
         {
           content:
             'Alexandrie is a modern note-taking and knowledge base application built for developers and power users. Write, organize and render beautiful notes using extended Markdown in a fast, clean and distraction-free interface. Self-hostable with Docker.',
@@ -69,7 +63,6 @@ export default defineNuxtConfig({
           content: 'A modern note-taking and knowledge base app for developers, built around extended Markdown and self-hostable with Docker.',
           property: 'og:description',
         },
-        { content: 'https://alexandrie-hub.fr', property: 'og:url' },
         { content: '/icons/icon-192.png', property: 'og:image' },
 
         // Twitter Card
@@ -84,16 +77,34 @@ export default defineNuxtConfig({
       ],
       title: 'Alexandrie',
       viewport: 'width=device-width, initial-scale=1',
+
+      style: [
+        {
+          id: 'dynamic-theme-vars',
+          innerHTML: `
+        :root {
+          --primary: var(--accent);
+          --primary-dark: var(--accent-dark);
+          --primary-bg: var(--accent-bg);
+          --primary-border: var(--accent-border);
+        }
+      `,
+        },
+      ],
     },
   },
 
   /**
    ************************ General ************************
    */
-  ssr: false,
+  ssr: true,
   compatibilityDate: '2024-07-19',
   devtools: { enabled: process.env.NODE_ENV !== 'production' },
   spaLoadingTemplate: './splash-screen.html',
+  routeRules: {
+    '/dashboard/**': { ssr: false },
+    '/dashboard': { ssr: false },
+  },
   /**
    ************************ Imports & modules ************************
    */
@@ -301,6 +312,11 @@ export default defineNuxtConfig({
           additionalData: "@use '~/styles/abstract/static.scss' as *;",
         },
       },
+    },
+    define: {
+      __BASE_URL__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_URL || ''),
+      __BASE_CDN__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_CDN || ''),
+      __BASE_API__: JSON.stringify(import.meta.env.NUXT_PUBLIC_BASE_API || ''),
     },
     plugins: [
       createSvgIconsPlugin({

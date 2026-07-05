@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <!-- Text Formatting Group -->
-    <Teleport to="#navbar-actions">
+    <Teleport to="#navbar-actions" :disabled="public">
       <div v-if="displayStats" class="stats-badge no-tablet">
         <div class="stat-item">
           <span class="stat-value">{{ stats.words }}</span>
@@ -125,6 +125,7 @@ const modals = useModal();
 
 const props = defineProps<{
   modelValue: Partial<Node>;
+  public?: boolean;
 }>();
 
 const preferences = usePreferencesStore();

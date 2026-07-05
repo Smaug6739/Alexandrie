@@ -91,6 +91,7 @@ definePageMeta({ breadcrumb: { i18n: 'teams.members.title' } });
 
 const usersStore = useUserStore();
 const nodesStore = useNodesStore();
+const permissionsStore = useNodesPermissionsStore();
 
 const { t } = useI18nT();
 const { avatarURL } = useApi();
@@ -115,17 +116,21 @@ const permissions = ref<Permission[]>([]);
 
 const invitationLink = (code: string) => `${window.location.origin}/dashboard/join-workspace?code=${encodeURIComponent(code)}`;
 const contextOptions = computed(() => tree.getWorkspaceTree(node.value?.id as string, true));
-nodesStore.fetchPermissions(teamId, true).then(perms => (permissions.value = perms));
-nodesStore.fetchInvitations(teamId).then(invites => (invitations.value = invites));
+permissionsStore.fetchPermissions(teamId, true).then(perms => (permissions.value = perms));
+permissionsStore.fetchInvitations(teamId).then(invites => (invitations.value = invites));
 
 watchEffect(async () => {
-  const cached = nodesStore.getById(teamId);
-  if (cached && cached.partial) {
-    await nodesStore.fetch({ id: teamId });
-  }
-  node.value = nodesStore.getById(teamId);
-  for (const perm of permissions.value) {
-    usersStore.fetchPublicUser(perm.user_id);
+  try {
+    const cached = nodesStore.getById(teamId);
+    if (cached && cached.partial) {
+      await nodesStore.fetch({ id: teamId });
+    }
+    node.value = nodesStore.getById(teamId);
+    for (const perm of permissions.value) {
+      usersStore.fetchPublicUser(perm.user_id);
+    }
+  } catch {
+    node.value = undefined;
   }
 });
 
@@ -189,7 +194,7 @@ watch(
 // Actions
 const addPermission = async (user: PublicUser) => {
   if (!user) return;
-  const newPermission = await nodesStore.addPermission({
+  const newPermission = await permissionsStore.addPermission({
     ...permToAdd.value,
     user_id: user.id,
   });
@@ -200,20 +205,20 @@ const addPermission = async (user: PublicUser) => {
 };
 
 const updatePermission = async (perm: Permission) => {
-  await nodesStore.updatePermission(perm);
+  await permissionsStore.updatePermission(perm);
   permissions.value = permissions.value.map(p => (p.id === perm.id ? perm : p));
 };
 
 const removePermission = async (perm: Permission) => {
   if (!node.value) return;
-  await nodesStore.removePermission(perm);
+  await permissionsStore.removePermission(perm);
   permissions.value = permissions.value.filter(p => p.id !== perm.id);
 };
 
 const createInvitation = async () => {
   if (!node.value?.id) return;
   try {
-    const invitation = await nodesStore.addInvitation(node.value.id, selectedInvitationPermission.value);
+    const invitation = await permissionsStore.addInvitation(node.value.id, selectedInvitationPermission.value);
     invitations.value = [invitation, ...invitations.value];
     selectedInvitationPermission.value = 1;
     notifications.add({ type: 'success', title: 'Invitation created' });
@@ -224,7 +229,7 @@ const createInvitation = async () => {
 
 const deleteInvitation = async (invitationId: string) => {
   if (!node.value?.id) return;
-  await nodesStore.removeInvitation(node.value.id, invitationId);
+  await permissionsStore.removeInvitation(node.value.id, invitationId);
   invitations.value = invitations.value.filter(invitation => invitation.id !== invitationId);
   notifications.add({ type: 'success', title: 'Invitation revoked' });
 };

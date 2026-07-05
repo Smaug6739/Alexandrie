@@ -109,7 +109,7 @@ import type { DB_Node } from '~/stores';
 
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
-const nodesStore = useNodesStore();
+const nodesImporterStore = useNodesImporterStore();
 
 const nodesTree = useNodesTree();
 const { t } = useI18nT();
@@ -194,7 +194,7 @@ const importAll = () => importNodes(nodes.value, resourcesToUpload.value);
 async function importNodes(nodesToImport: DB_Node[], resourcesImport: ResourceImportTask[]) {
   importJob.value.toCreate = nodesToImport;
   importJob.value.toUpdate = [];
-  await nodesStore.importAllNodesAndResources({ toCreate: nodesToImport, toUpdate: [], resources: resourcesImport }, importJob);
+  await nodesImporterStore.importAllNodesAndResources({ toCreate: nodesToImport, toUpdate: [], resources: resourcesImport }, importJob);
   nodes.value = [];
   resourcesToUpload.value = [];
 }
