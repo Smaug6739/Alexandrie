@@ -85,7 +85,7 @@ const directChildren = computed(() => (team.value ? nodesStore.nodes.getChildren
 
 const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1, parentId: teamId } }));
 const openCreateCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2, parentId: teamId } }));
-const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDeleteModal), { props: { node: team.value, redirect: '/dashboard/teams' } }));
+const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDeleteModal), { props: { node: team.value, redirectTo: '/dashboard/teams' } }));
 </script>
 
 <style scoped lang="scss">
