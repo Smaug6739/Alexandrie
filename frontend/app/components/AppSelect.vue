@@ -123,7 +123,6 @@ const selected = computed(() => {
 
 const clearSelection = () => {
   selectedId.value = '';
-  emit('update:modelValue', null);
   toggleDropdown();
 };
 
@@ -191,7 +190,6 @@ function handleKeyDown(event: KeyboardEvent) {
 
 function handleSelect(node: ANode) {
   selectedId.value = node.id;
-  emit('update:modelValue', node.id);
   closeDropdown();
 }
 
