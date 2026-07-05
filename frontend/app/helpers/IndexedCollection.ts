@@ -159,6 +159,7 @@ export class IndexedCollection {
 
   // Clear the entire collection and its indexes
   clear(): void {
+    this.isBulkLoading = 0;
     this.store.clear();
     this.byParent.clear();
     this.byRole.clear();
