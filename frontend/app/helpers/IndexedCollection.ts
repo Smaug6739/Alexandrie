@@ -86,7 +86,7 @@ export class IndexedCollection {
       // Update the sorted array in place if the node's order or name has changed
       const idx = this.sortedArray.findIndex(n => n.id === id);
       if (idx !== -1) this.sortedArray[idx] = node;
-      //this.notify();
+      this.notify();
       return;
     }
 
