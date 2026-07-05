@@ -95,9 +95,21 @@ const emit = defineEmits(['update:modelValue']);
 const { isMobile } = useDevice();
 const { t } = useI18nT();
 
+const localValue = ref(props.modelValue ?? '');
+
+watch(
+  () => props.modelValue,
+  newVal => {
+    localValue.value = newVal ?? '';
+  },
+);
+
 const selectedId = computed({
-  get: () => props.modelValue ?? '',
-  set: val => emit('update:modelValue', val),
+  get: () => localValue.value,
+  set: val => {
+    localValue.value = val;
+    emit('update:modelValue', val);
+  },
 });
 const open = ref(false);
 const search = ref('');
