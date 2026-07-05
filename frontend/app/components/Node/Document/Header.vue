@@ -5,10 +5,9 @@
       <NodeDocumentHeaderSkeleton v-if="!doc" />
       <!-- Real content -->
       <template v-else>
-        <Teleport v-if="!public" to="#navbar-actions">
-          <NodeDocumentHeaderActionRow :doc="doc" :is-public="public" class="no-print actions" />
+        <Teleport to="#navbar-actions" :disabled="public">
+          <NodeDocumentHeaderActionRow :doc="doc" :is-public="public" />
         </Teleport>
-        <NodeDocumentHeaderActionRow v-else :doc="doc" :is-public="public" class="no-print actions" />
 
         <div class="content">
           <div class="infos">
