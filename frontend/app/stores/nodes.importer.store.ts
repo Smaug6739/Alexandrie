@@ -23,6 +23,7 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
   async function importAllNodesAndResources(nodes: { toCreate: DB_Node[]; toUpdate: DB_Node[]; resources: ResourceImportTask[] }, job: Ref<ImportJob>) {
     job.value.status = 'in_progress';
     job.value.failures = 0;
+    nodesStore.nodes.startBulk();
     try {
       const corresponding: Record<string, string> = {};
       await importAllNodes(nodes.toCreate, job, corresponding);
@@ -33,6 +34,7 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
       job.value.status = 'failed';
       job.value.error_message = (error as Error).message;
     }
+    nodesStore.nodes.endBulk();
   }
   async function importAllNodes(nodes: DB_Node[], job: Ref<ImportJob>, corresponding: Record<string, string>) {
     const nodesById = new Map(nodes.map(n => [n.id, n]));
@@ -44,7 +46,7 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
   async function importNode(node: DB_Node, nodesById: Map<string, DB_Node>, corresponding: Record<string, string>, job: Ref<ImportJob>): Promise<void> {
     if (corresponding[node.id]) return; // Already imported
 
-    if (node.parent_id && nodesStore.getById(node.parent_id)) {
+    if (node.parent_id && !nodesStore.getById(node.parent_id)) {
       const newParentId = corresponding[node.parent_id];
 
       if (!newParentId) {
@@ -63,7 +65,7 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
     // Import of the node
     const res = await nodesStore.post({ ...node, user_id: undefined });
     job.value.created.push(node.id);
-    await new Promise(resolve => setTimeout(resolve, 75));
+    //await new Promise(resolve => setTimeout(resolve, 75));
     corresponding[node.id] = res.id;
   }
   async function updateAllNodes(nodes: DB_Node[], job?: Ref<ImportJob>) {
