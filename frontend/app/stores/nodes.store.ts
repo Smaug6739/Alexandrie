@@ -62,19 +62,18 @@ export const useNodesStore = defineStore('nodes', () => {
   async function syncLocalDeltas() {
     const deltas = await LocalDbService.getDeltas();
     await LocalDbService.clearDeltas(); // Clear deltas before syncing to avoid duplicates in case of failure & reset counter
+    const corresponding: Record<string, string> = {};
     for (const delta of deltas) {
       if (nodes.value.get(delta.id)) nodes.value.delete(delta.id); // Remove the node from the store to ensure a clean state before syncing
       try {
-        switch (delta.action) {
-          case 'POST':
-            await post(delta.node!);
-            break;
-          case 'PUT':
-            await update(delta.node! as Node);
-            break;
-          case 'DELETE':
-            await remove(delta.id);
-            break;
+        if (delta.action === 'POST') {
+          if (delta.node?.parent_id && corresponding[delta.node.parent_id]) delta.node.parent_id = corresponding[delta.node.parent_id];
+          const res = await post(delta.node!);
+          corresponding[delta.id] = res.id;
+        } else if (delta.action === 'PUT' && delta.node) {
+          await update(delta.node! as Node);
+        } else if (delta.action === 'DELETE') {
+          await remove(delta.id);
         }
       } catch (error) {
         console.error(`[store/nodes] Failed to sync delta ${delta.action} for node ${delta.id}:`, error);
