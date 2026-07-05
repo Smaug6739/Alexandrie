@@ -75,6 +75,7 @@ jobs:
           SMTP_HOST=${{ secrets.SMTP_HOST }}
           SMTP_MAIL=${{ secrets.SMTP_MAIL }}
           SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}
+          NUXT_PUBLIC_BASE_URL=https://alexandrie-hub.fr
           NUXT_PUBLIC_BASE_API=https://api.alexandrie-hub.fr
           NUXT_PUBLIC_BASE_CDN=https://cdn.alexandrie-hub.fr
           EOF
