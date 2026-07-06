@@ -93,10 +93,9 @@ export const useNodesPermissionsStore = defineStore('nodesPermissions', () => {
     const request = await makeRequest(`nodes/${perm.node_id}/permissions/${perm.id}`, 'DELETE', {});
     if (request.status === 'success') {
       const newPermissions = node.permissions.filter(p => p.id !== perm.id);
-      nodes.set(node.id, {
-        ...node,
-        permissions: newPermissions,
-      });
+      const newNode = { ...node, permissions: newPermissions };
+      if (hasPermissions(newNode, 1)) nodes.set(node.id, newNode);
+      else nodes.delete(node.id);
     } else throw request.message;
   }
 
