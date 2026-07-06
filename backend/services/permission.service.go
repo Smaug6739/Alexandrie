@@ -89,6 +89,10 @@ func (s *permissionService) CreatePermission(ctx context.Context, nodeId, userId
 		return nil, err
 	}
 
+	if permission < int(permissions.PermRead) || permission > int(permissions.PermAdmin) {
+		return nil, fmt.Errorf("invalid permission level")
+	}
+
 	if _, err = s.access.RequireNodeAction(actor, nodeId, permissions.ActionManagePermissions); err != nil {
 		return nil, err
 	}
@@ -106,6 +110,52 @@ func (s *permissionService) CreatePermission(ctx context.Context, nodeId, userId
 	}
 	return perm, nil
 }
+
+func (s *permissionService) UpdatePermission(ctx context.Context, id types.Snowflake, permission int) error {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return err
+	}
+
+	if permission < int(permissions.PermRead) || permission > int(permissions.PermAdmin) {
+		return fmt.Errorf("invalid permission level")
+	}
+
+	perm, err := s.permRepo.GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	if _, err = s.access.RequireNodeAction(actor, perm.NodeId, permissions.ActionManagePermissions); err != nil {
+		return err
+	}
+
+	updatedPerm := &models.Permission{
+		Id:         id,
+		Permission: permission,
+	}
+	return s.permRepo.Update(updatedPerm)
+}
+
+func (s *permissionService) DeletePermission(ctx context.Context, id types.Snowflake) error {
+	actor, err := actorFromContext(ctx)
+	if err != nil {
+		return err
+	}
+
+	perm, err := s.permRepo.GetByID(id)
+	if err != nil {
+		return err
+	}
+
+	if _, err = s.access.RequireNodeAction(actor, perm.NodeId, permissions.ActionManagePermissions); err != nil && perm.UserId != actor.UserID {
+		return err
+	}
+
+	return s.permRepo.Delete(id)
+}
+
+// Invitation system
 
 func (s *permissionService) CreateNodeInvitation(ctx context.Context, nodeId types.Snowflake, permissionLevel int) (*models.NodeInvitation, error) {
 	actor, err := actorFromContext(ctx)
@@ -222,6 +272,14 @@ func (s *permissionService) JoinNodeInvitation(ctx context.Context, input string
 	return perm, node, nil
 }
 
+func isDuplicateInvitationError(err error) bool {
+	if err == nil {
+		return false
+	}
+	message := strings.ToLower(err.Error())
+	return strings.Contains(message, "duplicate") || strings.Contains(message, "unique")
+}
+
 func generateInvitationCode(length int) string {
 	const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 	result := make([]byte, length)
@@ -261,52 +319,4 @@ func parseInvitationCode(input string) (string, error) {
 	}
 
 	return trimmed, nil
-}
-
-func isDuplicateInvitationError(err error) bool {
-	if err == nil {
-		return false
-	}
-	message := strings.ToLower(err.Error())
-	return strings.Contains(message, "duplicate") || strings.Contains(message, "unique")
-}
-
-func (s *permissionService) UpdatePermission(ctx context.Context, id types.Snowflake, permission int) error {
-	actor, err := actorFromContext(ctx)
-	if err != nil {
-		return err
-	}
-
-	perm, err := s.permRepo.GetByID(id)
-	if err != nil {
-		return err
-	}
-
-	if _, err = s.access.RequireNodeAction(actor, perm.NodeId, permissions.ActionManagePermissions); err != nil {
-		return err
-	}
-
-	updatedPerm := &models.Permission{
-		Id:         id,
-		Permission: permission,
-	}
-	return s.permRepo.Update(updatedPerm)
-}
-
-func (s *permissionService) DeletePermission(ctx context.Context, id types.Snowflake) error {
-	actor, err := actorFromContext(ctx)
-	if err != nil {
-		return err
-	}
-
-	perm, err := s.permRepo.GetByID(id)
-	if err != nil {
-		return err
-	}
-
-	if _, err = s.access.RequireNodeAction(actor, perm.NodeId, permissions.ActionManagePermissions); err != nil && perm.UserId != actor.UserID {
-		return err
-	}
-
-	return s.permRepo.Delete(id)
 }
