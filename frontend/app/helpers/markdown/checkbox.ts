@@ -2,9 +2,9 @@ import type MarkdownIt from 'markdown-it';
 import type { StateCore } from 'markdown-it/dist/index.cjs.js';
 
 function markdownItCheckbox(md: MarkdownIt) {
-  let checkboxIdCounter = 0;
   // Add a core rule to process checkboxes
   md.core.ruler.after('inline', 'checkbox', (state: StateCore) => {
+    let checkboxIdCounter = 0;
     // Iterate through all tokens in the state
     for (let i = 0; i < state.tokens.length; i++) {
       const token = state.tokens[i];
@@ -16,13 +16,12 @@ function markdownItCheckbox(md: MarkdownIt) {
         if (match) {
           const isChecked = match[1]?.toLowerCase() === 'x';
           const label = match[2];
-          const checkboxId = `check-${checkboxIdCounter++}`;
 
           // Inject HTML tokens for rendering checkboxes
           const checkboxToken = new state.Token('html_inline', '', 0);
           checkboxToken.content = `
             <label class="checkbox-container">
-              <input type="checkbox" ${isChecked ? 'checked' : ''} id="check-${checkboxId}">
+              <input type="checkbox" ${isChecked ? 'checked' : ''} data-checkbox-index="${checkboxIdCounter++}">
               <span>${label}</span>
             </label>
           `;

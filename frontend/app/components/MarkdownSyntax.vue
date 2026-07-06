@@ -42,9 +42,19 @@
 
       <p>
         <strong>{{ t('markdown.syntax.linksAndImages') }}:</strong>
-        Use <code>[links](https://example.com)</code> and <code>![images](image.png)</code>.
+        Use <code>[links](https://example.com)</code> and <code>![images](image.png)</code>. <br />
+        Resize images with <code>![image | WIDTH](image.png)</code> or <code>![image | WIDTH](image.png)</code>.
       </p>
-
+      <div class="center" style="flex-direction: row">
+        <div class="center">
+          <img src="/Logo/Alexandrie-logo-light.svg" alt="Example Image" style="width: 200px; height: auto" />
+          <code>![image | 200x200](image.png)</code>
+        </div>
+        <div class="center">
+          <img src="/Logo/Alexandrie-logo-light.svg" alt="Example Image" style="width: 150px; height: auto" />
+          <code>![image | 150x150](image.png)</code>
+        </div>
+      </div>
       <!-- COLORED BLOCKS -->
       <h2><Icon name="layers" fill="var(--primary)" /> {{ t('markdown.syntax.coloredBlocks') }}</h2>
       <p>Use colored blocks with the syntax <code>:::color TITLE</code>.</p>

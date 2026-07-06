@@ -131,7 +131,6 @@ const VIDEO_REGEX = /\.(mp4|webm|ogg|mov|avi|mkv|flv|wmv)(\?.*)?$/i;
 const AUDIO_REGEX = /\.(mp3|wav|ogg|m4a|flac|aac)(\?.*)?$/i;
 
 function html5MediaPlugin(md: MarkdownIt) {
-  // Handle <video> and <audio> tags on ![alt](src)
   const defaultImageRenderer =
     md.renderer.rules.image ||
     function (tokens, idx, options, env, self) {
@@ -141,14 +140,38 @@ function html5MediaPlugin(md: MarkdownIt) {
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx];
     if (!token) return '';
+
     const src = token.attrGet('src') || '';
-    const alt = token.content || '';
+    let alt = token.content || '';
+
+    // Parse: "Alt text | 100x200", "Alt | 100x", "Alt | x200", "Alt | 100"
+    const match = alt.match(/^(.*?)\s*\|\s*(?:(\d+)?x(\d+)?|(\d+))\s*$/);
+
+    if (match) {
+      alt = match[1]!.trim();
+      token.content = alt;
+
+      const width = match[4] || match[2];
+      const height = match[3];
+
+      if (width) {
+        token.attrSet('width', width);
+        token.attrJoin('style', `width:${width}px;`);
+      }
+      if (height) {
+        token.attrSet('height', height);
+        token.attrJoin('style', `height:${height}px;`);
+      }
+    }
 
     if (src.match(VIDEO_REGEX)) {
       return `<video controls alt="${md.utils.escapeHtml(alt)}" src="${md.utils.escapeHtml(src)}"></video>`;
-    } else if (src.match(AUDIO_REGEX)) {
+    }
+
+    if (src.match(AUDIO_REGEX)) {
       return `<audio controls alt="${md.utils.escapeHtml(alt)}" src="${md.utils.escapeHtml(src)}"></audio>`;
     }
+
     return defaultImageRenderer(tokens, idx, options, env, self);
   };
 }
