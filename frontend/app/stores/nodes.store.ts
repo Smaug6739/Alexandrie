@@ -221,7 +221,7 @@ export const useNodesStore = defineStore('nodes', () => {
           shared: shared,
           permissions: result.permissions,
         };
-        nodes.value.set(opts.id, updatedNode);
+        nodes.value.set(opts.id, updatedNode, true);
         return updatedNode as 'id' extends keyof T ? Node : IndexedCollection;
       } else {
         if (!request.result) return nodes.value as 'id' extends keyof T ? Node : IndexedCollection;
