@@ -18,19 +18,18 @@
       }}</NuxtLink
       >.
     </p>
-    <h3>{{ t('settings.about.changelog') }} v8.7.0</h3>
+    <h3>{{ t('settings.about.changelog') }} v8.10.0</h3>
     <ul>
-      <li>Support french interface 🎉</li>
-      <li>Save preferences and snippets in database 🎉</li>
-      <li>Improve editor with new plugins and colorization</li>
-      <li>Improve uploads management across the app</li>
-      <li>Add text layer support for PDF viewer</li>
-      <li>Fix various bugs, improve stability and accessibility</li>
+      <li>Support full offline mode 🎉</li>
+      <li>New UI design, more options and performances improvments 🎉</li>
+      <li>New team structure to manage projects, organisations etc. with improved collaboration features 🎉</li>
+      <li>Support 2FA authentication</li>
+      <li>Import full folders from your device</li>
     </ul>
     <p style="display: flex; gap: 5px">
       {{ t('settings.about.seeFullChangelog') }}
       <span style="display: flex; align-items: center">
-        <NuxtLink to="https://github.com/Smaug6739/Alexandrie/releases/tag/v8.7.0" target="_blank" style="font-weight: bold; color: var(--primary)"
+        <NuxtLink to="https://github.com/Smaug6739/Alexandrie/releases/tag/v8.10.0" target="_blank" style="font-weight: bold; color: var(--primary)"
           >GitHub</NuxtLink
         >
         <Icon name="new_tab" display="sm" /></span
