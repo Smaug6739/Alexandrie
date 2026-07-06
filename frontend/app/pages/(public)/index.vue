@@ -23,8 +23,8 @@
       </div>
       <img src="/screenshots/mock/0.png" class="hero-image" alt="App preview" />
     </section>
-
     <BentoFeatures class="reveal" />
+    <Support />
     <FeaturesShowcase class="reveal" />
     <SelfHostSteps class="reveal" />
     <OpenSourceStats class="reveal" />

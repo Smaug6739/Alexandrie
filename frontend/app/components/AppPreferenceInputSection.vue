@@ -4,7 +4,9 @@
 
     <div v-for="opt in section.options" :key="opt.key" :class="['form-group', opt.type === 'textarea' ? 'form-group--vertical' : '']">
       <div>
-        <label>{{ opt.label }}</label>
+        <label>
+          {{ opt.label }} <tag v-if="opt.tag" blue>{{ opt.tag }}</tag>
+        </label>
 
         <p class="description">{{ opt.description }}</p>
       </div>

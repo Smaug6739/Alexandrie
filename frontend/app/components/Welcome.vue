@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const markStore = useMark();
 
-// L'ID de la marque globale de cette release (à ajouter dans ton ACTIVE_MARK_IDS)
 const RELEASE_MARK_ID: MarkId = 'v8.10.0';
 
 const isVisible = ref(false);
@@ -48,7 +47,13 @@ function handleClose() {
               <p>Organize your activities with others. Manage permissions, access rights and collaborate</p>
             </div>
           </div>
-
+          <div class="item">
+            <div class="indicator"></div>
+            <div class="text">
+              <h3>Offline mode</h3>
+              <p>Install PWA and create, read and edit documents offline.</p>
+            </div>
+          </div>
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
@@ -82,11 +87,11 @@ function handleClose() {
 .welcome-banner {
   position: relative;
   overflow: hidden;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   border: 2px solid var(--border);
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, var(--surface-base), var(--surface-raised));
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   transition:
     opacity $transition-fast ease,
     transform $transition-fast ease,

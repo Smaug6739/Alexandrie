@@ -1,6 +1,6 @@
 <template>
   <div class="import-page page-card">
-    <Teleport to="#navbar-title">{{ t('import.meta.title') }} <tag class="orange">Beta</tag></Teleport>
+    <Teleport to="#navbar-title">{{ t('import.meta.title') }}</Teleport>
 
     <p class="page-subtitle">
       {{ t('import.meta.description') }}

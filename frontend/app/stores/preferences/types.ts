@@ -2,6 +2,7 @@ type OptionType = 'toggle' | 'select' | 'color' | 'radio' | 'groupCheckbox' | 'a
 interface BaseOption<K extends PreferenceKey = PreferenceKey> {
   label: string;
   description?: string;
+  tag?: string;
   type: OptionType;
   key: K;
   onChange?: (value: Preferences[K]) => void;

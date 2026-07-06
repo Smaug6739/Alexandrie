@@ -1,4 +1,4 @@
-const ACTIVE_MARK_IDS = ['security-2fa', 'new-imports', 'teams', 'v8.10.0', 'workspace-sharing'] as const;
+const ACTIVE_MARK_IDS = ['support', 'security-2fa', 'tabs', 'new-imports', 'teams', 'v8.10.0', 'workspace-sharing'] as const;
 
 export type MarkId = (typeof ACTIVE_MARK_IDS)[number];
 
@@ -21,7 +21,6 @@ async function runGarbageCollector(preferencesStore: ReturnType<typeof usePrefer
 export function useMark() {
   const preferencesStore = usePreferencesStore();
 
-  // Lancement du GC uniquement côté client au montage
   if (import.meta.client) {
     onMounted(() => {
       runGarbageCollector(preferencesStore);

@@ -106,7 +106,7 @@ const navSections = computed<NavSection[]>(() => [
     title: t('settings.nav.general'),
     items: [
       { key: 'profile', label: t('settings.pages.profile'), icon: 'profil' },
-      { key: 'apparence', label: t('settings.pages.appearance'), icon: 'brush' },
+      { key: 'apparence', label: t('settings.pages.appearance'), icon: 'brush', newId: 'tabs' },
       { key: 'security', label: t('settings.pages.security'), icon: 'security', newId: 'security-2fa' },
     ],
   },
@@ -193,7 +193,7 @@ watchEffect(() => {
     a {
       display: flex;
       position: relative;
-      margin: 0.4rem 0.2rem;
+      margin: 0.37rem 0.2rem;
       padding: 0.05rem 0.4rem;
       border-radius: var(--radius-sm);
       color: inherit;

@@ -11,7 +11,7 @@
           class="search-input"
           @input="handleSearchInput"
           @keydown="handleKeydown"
-        /><tag orange class="tag">Beta</tag>
+        />
       </div>
     </div>
 

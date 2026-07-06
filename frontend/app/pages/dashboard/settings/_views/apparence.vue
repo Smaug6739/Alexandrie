@@ -58,7 +58,6 @@ const options = computed(
             description: t('settings.appearance.interfaceStyleDesc'),
             type: 'radio' as const,
             key: 'style' as const,
-            tag: t('settings.nav.new'),
             choices: [
               { label: t('settings.appearance.styleDefault'), id: 'default' },
               { label: t('settings.appearance.styleGlassmorphism'), id: 'glassmorphism' },
@@ -69,6 +68,7 @@ const options = computed(
             description: t('settings.appearance.displayTabsDesc'),
             type: 'toggle' as const,
             key: 'displayTabs' as const,
+            tag: t('settings.nav.new'),
           },
         ],
       },
