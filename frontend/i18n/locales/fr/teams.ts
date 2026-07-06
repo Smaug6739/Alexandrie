@@ -8,6 +8,8 @@ export default {
     createDescription: 'Créez la première équipe pour commencer à regrouper les espaces de travail et les documents',
     delete: "Supprimer l'équipe",
     addContent: 'Ajouter du contenu',
+    leave: "Quitter l'équipe",
+    noTeams: "Pas encore d'équipes",
   },
   teamsCount: 'équipes',
   noDescription: 'Aucune description pour le moment',

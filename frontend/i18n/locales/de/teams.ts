@@ -8,6 +8,8 @@ export default {
     createDescription: 'Erstellen Sie das erste Team, um Arbeitsbereiche und Dokumente zu gruppieren',
     delete: 'Team löschen',
     addContent: 'Inhalte hinzufügen',
+    leave: 'Team verlassen',
+    noTeams: 'Noch keine Teams',
   },
   teamsCount: 'Teams',
   noDescription: 'Noch keine Beschreibung',

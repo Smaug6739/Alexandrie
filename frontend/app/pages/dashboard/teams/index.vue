@@ -26,7 +26,7 @@
       <NodeCardTeam v-for="team in filteredTeams" :key="team.id" :team="team" />
     </section>
 
-    <NoContent v-else title="No teams yet" :description="t('teams.actions.createDescription')">
+    <NoContent v-else :title="t('teams.actions.noTeams')" :description="t('teams.actions.createDescription')">
       <AppButton type="primary" @click="openCreateTeam">{{ t('teams.actions.create') }}</AppButton>
     </NoContent>
   </div>

@@ -8,6 +8,8 @@ export default {
     createDescription: 'Створіть першу команду, щоб почати групувати робочі простори та документи',
     delete: 'Видалити команду',
     addContent: 'Додати вміст',
+    leave: 'Покинути команду',
+    noTeams: 'Команд ще немає',
   },
   teamsCount: 'команди',
   noDescription: 'Опис ще не додано',

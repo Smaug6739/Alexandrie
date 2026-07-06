@@ -26,7 +26,8 @@
         <NuxtLink :to="`/dashboard/docs/new?parent_id=${team.id}`">
           <AppButton type="secondary">{{ t('dashboard.actions.newDocument') }}</AppButton>
         </NuxtLink>
-        <AppButton type="danger" @click="openDelete">{{ t('teams.actions.delete') }}</AppButton>
+        <AppButton v-if="userStore.user?.id === team.user_id" type="danger" @click="openDelete">{{ t('teams.actions.delete') }}</AppButton>
+        <AppButton v-else type="danger" @click="openRemoveShareModal">{{ t('teams.actions.leave') }}</AppButton>
       </div>
     </section>
 
@@ -45,12 +46,14 @@
 <script setup lang="ts">
 import NodeDeleteModal from '~/components/Node/Modals/Delete.vue';
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
+import RemoveSharedNode from '~/components/Node/Modals/RemoveShared.vue';
 import { resolveIcon } from '~/helpers/node';
 import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: { i18n: 'teams.overview.title' } });
 
 const nodesStore = useNodesStore();
+const userStore = useUserStore();
 
 const route = useRoute();
 const modals = useModal();
@@ -86,6 +89,7 @@ const directChildren = computed(() => (team.value ? nodesStore.nodes.getChildren
 const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1, parentId: teamId } }));
 const openCreateCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2, parentId: teamId } }));
 const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDeleteModal), { props: { node: team.value, redirectTo: '/dashboard/teams' } }));
+const openRemoveShareModal = () => modals.add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: team.value?.id }, size: 'small' }));
 </script>
 
 <style scoped lang="scss">

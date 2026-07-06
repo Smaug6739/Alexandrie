@@ -8,6 +8,8 @@ export default {
     createDescription: 'Create the first team to start grouping workspaces and documents',
     delete: 'Delete team',
     addContent: 'Add content',
+    leave: 'Leave team',
+    noTeams: 'No teams yet',
   },
   teamsCount: 'teams',
   noDescription: 'No description yet',
