@@ -530,7 +530,11 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 // Responsive
 @media (width <= 768px) {
   .home-container {
-    padding: 1rem;
+    padding: 0.5rem;
+  }
+
+  .sections {
+    padding: 0.25rem;
   }
 
   .home-header {

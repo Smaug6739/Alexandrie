@@ -4,7 +4,7 @@
       <div :style="{ maxWidth: width }" class="doc-container">
         <NodeDocumentHeader :doc="node" style="margin-bottom: 20px" />
 
-        <NodeDocumentContentCompiled v-if="node" ref="elementComponent" :node="node" />
+        <NodeDocumentContentCompiled v-if="node && !node.partial" ref="elementComponent" :node="node" />
         <NodeDocumentSkeleton v-else />
         <NodeDocumentFooter :document="node" :next="next" :previous="previous" />
       </div>
