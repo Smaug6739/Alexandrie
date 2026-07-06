@@ -46,13 +46,18 @@ const docSize = preferencesStore.get('docSize');
 const elementComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
 const element = computed(() => elementComponent.value?.rootElement as HTMLElement | undefined);
 
-const node = ref<Node | undefined>();
 const error = ref<false | string>(false);
 
 const documentId = computed(() => route.params.id as string);
 
 const next = computed(() => nodesTree.nextDocument(node.value?.id));
 const previous = computed(() => nodesTree.prevDocument(node.value?.id));
+
+const node = computed<Node | undefined>(() => {
+  if (!documentId.value) return undefined;
+  return documentsStore.getById(documentId.value);
+});
+
 const width = computed(() => {
   if (docSize.value == 2) return '980px';
   if (docSize.value == 1) return '800px';
@@ -62,27 +67,21 @@ const width = computed(() => {
 async function loadDocument(id: string) {
   error.value = false;
 
-  if (documentsStore.isFetching) {
-    node.value = undefined;
-    return;
-  }
+  if (documentsStore.isFetching) return;
 
-  const docFromStore = documentsStore.getById(id);
+  const cached = documentsStore.getById(id);
 
-  if (!docFromStore) {
-    node.value = undefined;
+  if (!cached) {
     error.value = 'Document not found';
     return;
   }
 
-  if (docFromStore.partial) {
+  if (cached.partial) {
     try {
-      node.value = await documentsStore.fetch({ id });
+      await documentsStore.fetch({ id });
     } catch (err: unknown) {
       error.value = (err as Error).message || 'Failed to fetch document';
     }
-  } else {
-    node.value = docFromStore;
   }
 
   if (node.value) useHead({ title: node.value.name });

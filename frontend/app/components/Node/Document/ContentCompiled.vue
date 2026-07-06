@@ -4,6 +4,7 @@
     ref="rootElement"
     :class="['markdown-preview', `${theme}-theme`, `document-content`]"
     :style="{ fontSize: documentFontSize + 'px', fontFamily: documentFontFamily, lineHeight: documentLineHeight }"
+    @change="handleCheckboxChange"
     v-html="node?.content_compiled"
   />
 </template>
@@ -15,6 +16,7 @@ import type { Node } from '~/stores';
 const props = defineProps<{ node?: Partial<Node> }>();
 
 const preferences = usePreferencesStore();
+const nodesStore = useNodesStore();
 
 const theme = computed(() => {
   if (props.node?.theme) return props.node.theme;
@@ -27,6 +29,53 @@ const documentLineHeight = preferences.get('documentLineHeight');
 const rootElement = ref<HTMLElement>();
 
 defineExpose({ rootElement });
+
+const updateDocumentContent = debounce(() => {
+  nodesStore.update(nodesStore.nodes.get(props.node!.id!) as Node);
+}, 1000);
+
+const updateMarkdownCheckbox = (markdown: string, indexToTarget: number, shouldCheck: boolean): string => {
+  let currentIndex = 0;
+
+  return markdown.replace(/^([ \t]*[-*+]\s+\[)([ xX]?)(\].*)/gm, (match, before, status, after) => {
+    if (currentIndex === indexToTarget) {
+      currentIndex++;
+      const newStatus = shouldCheck ? 'x' : ' ';
+      return `${before}${newStatus}${after}`;
+    }
+    currentIndex++;
+    return match;
+  });
+};
+
+const handleCheckboxChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+
+  if (target && target.type === 'checkbox' && target.hasAttribute('data-checkbox-index')) {
+    const checkboxIndex = parseInt(target.getAttribute('data-checkbox-index') || '0', 10);
+    const isChecked = target.checked;
+
+    if (!props.node?.content) return;
+
+    const updatedMarkdown = updateMarkdownCheckbox(props.node.content, checkboxIndex, isChecked);
+
+    // Update the DOM attribute to reflect the new state
+    if (isChecked) target.setAttribute('checked', '');
+    else target.removeAttribute('checked');
+
+    const updatedHtml = rootElement.value?.innerHTML || '';
+    nodesStore.nodes.set(
+      props.node.id!,
+      {
+        ...props.node,
+        content: updatedMarkdown,
+        content_compiled: updatedHtml,
+      } as Node,
+      true,
+    );
+    updateDocumentContent();
+  }
+};
 
 onMounted(() => {
   const unsub = subscribeDrawioCacheInvalidated(() => {
