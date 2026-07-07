@@ -34,7 +34,7 @@
         "katex": "^0.17.0",
         "localforage": "^1.10.0",
         "markdown-it": "^14.3.0",
-        "markdown-it-anchor": "^9.2.0",
+        "markdown-it-anchor": "^9.2.1",
         "markdown-it-container": "^4.0.0",
         "markdown-it-highlightjs": "^4.3.0",
         "markdown-it-mark": "^4.0.0",
@@ -1770,7 +1770,7 @@
 
     "markdown-it": ["markdown-it@14.3.0", "", { "dependencies": { "argparse": "^2.0.1", "entities": "^4.5.0", "linkify-it": "^5.0.2", "mdurl": "^2.0.0", "punycode.js": "^2.3.1", "uc.micro": "^2.1.0" }, "bin": { "markdown-it": "bin/markdown-it.mjs" } }, "sha512-RCEsPjR+sr0x+AuYp601tKTkgFG4YEPLCzHST3cQ/fhlJkqAkz1L2/Qbp1j9qw5SBwQHFBoW8+hoN5xssOF0Tw=="],
 
-    "markdown-it-anchor": ["markdown-it-anchor@9.2.0", "", { "peerDependencies": { "@types/markdown-it": "*", "markdown-it": "*" } }, "sha512-sa2ErMQ6kKOA4l31gLGYliFQrMKkqSO0ZJgGhDHKijPf0pNFM9vghjAh3gn26pS4JDRs7Iwa9S36gxm3vgZTzg=="],
+    "markdown-it-anchor": ["markdown-it-anchor@9.2.1", "", { "peerDependencies": { "@types/markdown-it": "*", "markdown-it": "*" } }, "sha512-p6APiLJDFAW2GEvaavDvhIBn7jrX2jLv77NkBGgNacFTurbORYc4pyYySg/mI6mpR6cHQuAtzKtmqgQr4K8dsQ=="],
 
     "markdown-it-container": ["markdown-it-container@4.0.0", "", {}, "sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw=="],
 
