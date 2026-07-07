@@ -81,9 +81,9 @@ Maintain total ownership over your binaries, media streams, and backups. Alexand
 Get your instance running in less than a minute:
 
 ```bash
-# 1. Clone the repository
-git clone [https://github.com/Smaug6739/Alexandrie.git](https://github.com/Smaug6739/Alexandrie.git)
-cd Alexandrie
+# 1. Download the .env.example and docker-compose.yml files
+curl https://raw.githubusercontent.com/Smaug6739/Alexandrie/main/.env.example -O .env.example
+curl https://raw.githubusercontent.com/Smaug6739/Alexandrie/main/docker-compose.yml -O docker-compose.yml
 
 # 2. Configure environments
 cp .env.example .env
