@@ -36,7 +36,7 @@ export default defineNuxtConfig({
         // SEO (url meta tags are defined in App.vue for dynamic URLs)
         {
           content:
-            'Alexandrie is a modern note-taking and knowledge base application built for developers and power users. Write, organize and render beautiful notes using extended Markdown in a fast, clean and distraction-free interface. Self-hostable with Docker.',
+            'Alexandrie is a modern note-taking and knowledge base application built for students & creators. Write, organize and render beautiful notes using extended Markdown in a fast, clean and distraction-free interface. Self-hostable with Docker.',
           name: 'description',
         },
         {
@@ -60,13 +60,13 @@ export default defineNuxtConfig({
         { content: 'Alexandrie', property: 'og:site_name' },
         { content: 'Alexandrie – Modern Markdown Note-Taking & Knowledge Base App', property: 'og:title' },
         {
-          content: 'A modern note-taking and knowledge base app for developers, built around extended Markdown and self-hostable with Docker.',
+          content: 'A modern note-taking and knowledge base app for students and creators, built around extended Markdown and self-hostable with Docker.',
           property: 'og:description',
         },
         { content: '/icons/icon-192.png', property: 'og:image' },
 
         // Twitter Card
-        { content: 'Alexandrie – Modern Markdown Note-Taking App', name: 'twitter:title' },
+        { content: 'Alexandrie – Modern Markdown Note-Taking & Knowledge Base App', name: 'twitter:title' },
         {
           content: 'Write and organize beautiful notes with extended Markdown. Fast, clean and developer-friendly. Self-hostable with Docker.',
           name: 'twitter:description',
@@ -75,7 +75,7 @@ export default defineNuxtConfig({
         { content: '/icons/icon-192.png', name: 'twitter:image' },
         { content: 'Alexandrie', name: 'twitter:image:alt' },
       ],
-      title: 'Alexandrie',
+      title: 'Alexandrie | Modern Markdown Note-Taking & Knowledge Base App',
       viewport: 'width=device-width, initial-scale=1',
 
       style: [
