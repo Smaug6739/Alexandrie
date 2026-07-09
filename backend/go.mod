@@ -6,7 +6,7 @@ require (
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/pquerna/otp v1.5.0
-	github.com/wneessen/go-mail v0.7.3
+	github.com/wneessen/go-mail v0.8.0
 )
 
 require (
