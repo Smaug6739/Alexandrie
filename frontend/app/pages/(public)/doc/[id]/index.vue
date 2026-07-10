@@ -1,23 +1,22 @@
 <template>
   <div style="width: 100%; padding: 1rem 0">
     <div
-      v-if="!error && article"
+      v-if="!error && data?.node"
       class="reader"
       :style="{
-        marginRight: !isTablet && isOpened && hasContent ? '200px' : '0px',
+        marginRight: isOpened && hasContent ? '200px' : '0px',
         transition: 'margin $transition-medium',
       }"
     >
       <div class="doc-container">
-        <NodeDocumentHeader :doc="article" public style="margin: 20px 0" />
+        <NodeDocumentHeader :doc="data.node" public style="margin: 20px 0" />
 
-        <NodeDocumentContentCompiled v-if="hasContent" ref="elementComponent" :node="article" />
-
-        <NodeTree v-if="children.length > 0" :nodes="children" :parent-id="article.id" />
+        <NodeDocumentContentCompiled v-if="hasContent" ref="elementComponent" :node="data.node" />
+        <NodeTree v-if="data.children.length > 0" :nodes="data.children" :parent-id="data.node.id" />
       </div>
 
-      <div v-if="!isTablet && hasContent" class="toc">
-        <NodeTOC :doc="article" :element="element" />
+      <div v-if="hasContent" class="toc">
+        <NodeTOC :doc="data.node" :element="element" />
       </div>
     </div>
 
@@ -38,56 +37,48 @@ import type { Node, PublicNodeResponse } from '~/stores';
 const route = useRoute();
 const requestUrl = useRequestURL();
 const { isOpened } = useSidebar();
-const { isTablet } = useDevice();
 
-const children = ref<Node[]>([]);
 const elementComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
 const element = computed(() => elementComponent.value?.rootElement as HTMLElement | undefined);
 
-const { data: article, error } = await useAsyncData(`public-doc-${route.params.id}`, async (): Promise<Node | undefined> => {
+const { data, error } = await useAsyncData(`public-doc-${route.params.id}`, async (): Promise<{ node: Node | undefined; children: Node[] }> => {
   const documentId = route.params.id;
-  if (!documentId || typeof documentId !== 'string') return undefined;
+  if (!documentId || typeof documentId !== 'string') return { node: undefined, children: [] };
 
   const request = await makeRequest(`nodes/public/${documentId}`, 'GET', {});
   if (request.status === 'success') {
     const response = request.result as PublicNodeResponse;
-
-    children.value = (response.children || []).map(c => ({ ...c, partial: true, shared: false, permissions: [] }));
-
     return {
-      ...response.node,
-      partial: false,
-      shared: false,
-      permissions: [],
+      node: { ...response.node, shared: false, public: true, permissions: [] } as Node,
+      children: response.children?.map(child => ({ ...child, shared: false, public: true }) as Node) || [],
     };
   }
-  return undefined;
+  return { node: undefined, children: [] };
 });
 
 /** Check if node has displayable content */
-const hasContent = computed(() => !!article.value?.content_compiled?.trim());
+const hasContent = computed(() => !!data.value?.node?.content_compiled?.trim());
 
 const baseUrl = requestUrl.origin || __BASE_URL__;
 
-// Configuration SEO robuste pour le SSR
 useSeoMeta({
-  title: () => article.value?.name || 'Unknown document',
-  description: () => article.value?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
-  keywords: () => article.value?.tags,
+  title: () => data.value?.node?.name || 'Unknown document',
+  description: () => data.value?.node?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
+  keywords: () => data.value?.node?.tags,
 
-  ogTitle: () => article.value?.name || 'Unknown document',
-  ogDescription: () => article.value?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
+  ogTitle: () => data.value?.node?.name || 'Unknown document',
+  ogDescription: () => data.value?.node?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
   ogType: 'article',
   ogUrl: () => `${baseUrl}/doc/${route.params.id}`,
-  ogImage: () => (article.value?.thumbnail ? `${baseUrl}${article.value.thumbnail}` : `${baseUrl}/og/default-article.png`),
+  ogImage: () => (data.value?.node?.thumbnail ? `${baseUrl}${data.value?.node.thumbnail}` : `${baseUrl}/og/default-data.png`),
 
-  articlePublishedTime: () => (article.value?.created_timestamp ? new Date(article.value.created_timestamp).toISOString() : undefined),
-  articleModifiedTime: () => (article.value?.updated_timestamp ? new Date(article.value.updated_timestamp).toISOString() : undefined),
+  articlePublishedTime: () => (data.value?.node?.created_timestamp ? new Date(data.value?.node.created_timestamp).toISOString() : undefined),
+  articleModifiedTime: () => (data.value?.node?.updated_timestamp ? new Date(data.value?.node.updated_timestamp).toISOString() : undefined),
 
   twitterCard: 'summary_large_image',
-  twitterTitle: () => article.value?.name || 'Unknown document',
-  twitterDescription: () => article.value?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
-  twitterImage: () => (article.value?.thumbnail ? `${baseUrl}${article.value.thumbnail}` : `${baseUrl}/og/default-article.png`),
+  twitterTitle: () => data.value?.node?.name || 'Unknown document',
+  twitterDescription: () => data.value?.node?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
+  twitterImage: () => (data.value?.node?.thumbnail ? `${baseUrl}${data.value?.node.thumbnail}` : `${baseUrl}/og/default-data.png`),
 });
 </script>
 

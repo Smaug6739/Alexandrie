@@ -1,39 +1,34 @@
 <template>
-  <template v-if="nav && !isMobile">
-    <NuxtLink v-if="to || href" :to="to" :href="href" :target="blank ? '_blank' : undefined" v-bind="download ? { download: '' } : {}" @click="emit('click')">
-      <Icon :name="icon" display="lg" />
-      <p v-if="tooltip" class="hint-tooltip">{{ tooltip }}</p>
-      <slot />
-    </NuxtLink>
-    <button v-else v-bind="attrs" :class="{ fill }" @click="emit('click')">
-      <Icon :name="icon" display="lg" />
-      <p v-if="tooltip" class="hint-tooltip">{{ tooltip }}</p>
-      <slot />
-    </button>
-  </template>
-  <template v-else>
-    <NuxtLink v-if="to || href" :to="to" :href="href" :target="blank ? '_blank' : undefined" v-bind="download ? { download: '' } : {}" @click="emit('click')">
-      <Icon :name="icon" display="lg" />
-      <slot />
-      <span v-if="tooltip">{{ tooltip }}</span>
-    </NuxtLink>
-    <button v-else v-bind="attrs" :class="{ fill }" @click="emit('click')">
-      <Icon :name="icon" display="lg" />
-      <slot />
-      <span v-if="tooltip">{{ tooltip }}</span>
-    </button>
-  </template>
+  <NuxtLink
+    v-if="to || href"
+    :to="to"
+    :href="href"
+    :target="blank ? '_blank' : undefined"
+    v-bind="download ? { download: '' } : {}"
+    :class="{ 'btn-nav': nav }"
+    @click="emit('click')"
+  >
+    <Icon :name="icon" display="lg" />
+    <slot />
+    <span v-if="tooltip" class="hint-tooltip btn-tooltip">{{ tooltip }}</span>
+  </NuxtLink>
+
+  <button v-else v-bind="attrs" :class="{ fill, 'btn-nav': nav }" @click="emit('click')">
+    <Icon :name="icon" display="lg" />
+    <slot />
+    <span v-if="tooltip" class="hint-tooltip btn-tooltip">{{ tooltip }}</span>
+  </button>
 </template>
 
 <script setup lang="ts">
 defineProps<{ icon: string; tooltip?: string; to?: string; blank?: boolean; href?: string; download?: boolean; nav?: boolean; fill?: boolean }>();
 const emit = defineEmits<{ (e: 'click'): void }>();
 
-const { isMobile } = useDevice();
 const attrs = useAttrs();
 </script>
 
 <style scoped lang="scss">
+button,
 button,
 a {
   position: relative;
@@ -51,29 +46,37 @@ a {
   &:hover {
     background-color: var(--surface-raised);
   }
+}
 
-  &:hover {
-    background: var(--surface-transparent);
+// Gestion du survol pour Desktop uniquement (au-dessus de 768px)
+@media screen and (width > 768px) {
+  a:hover > .btn-tooltip,
+  button:hover > .btn-tooltip {
+    opacity: 1;
+    visibility: visible;
   }
-}
-
-a:hover > .hint-tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-button:hover > .hint-tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-span {
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
 }
 
 .fill {
   background-color: var(--surface-raised);
+}
+
+// Le fix magique pour Mobile
+@media screen and (width <= 768px) {
+  .btn-tooltip {
+    position: static !important;
+    transform: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+
+    order: 1;
+  }
 }
 </style>
