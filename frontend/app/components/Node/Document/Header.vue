@@ -6,9 +6,7 @@
       <!-- Real content -->
       <template v-else>
         <Teleport to="#navbar-actions" :disabled="public">
-          <div class="no-print">
-            <NodeDocumentHeaderActionRow :doc="doc" :is-public="public" />
-          </div>
+          <NodeDocumentHeaderActionRow :doc="doc" :is-public="public" />
         </Teleport>
 
         <div class="content">
