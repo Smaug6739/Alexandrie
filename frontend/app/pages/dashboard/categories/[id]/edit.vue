@@ -86,6 +86,11 @@ const deleteCategory = async () => {
 
 // Shortcuts
 function handleKeydown(event: KeyboardEvent) {
+  if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+    event.preventDefault();
+    updateCategory();
+    return;
+  }
   if (event.key !== 'Delete') return;
   event.preventDefault();
   deleteCategory();
