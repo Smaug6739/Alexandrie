@@ -12,6 +12,12 @@
           <input ref="inputRef" v-model="options.query" />
         </div>
 
+        <!-- Tags -->
+        <div>
+          <label>{{ t('components.filter.tags') }}</label>
+          <AppTagInput :model-value="(options.tags || []).join(',')" @update:model-value="options.tags = parseTags($event)" />
+        </div>
+
         <!-- Sort & Match -->
         <div class="row">
           <label class="row">
@@ -49,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { parseTags } from '~/helpers/node';
 import type { Node, SearchOptions } from '~/stores';
 
 const props = defineProps<{ nodes: Node[] }>();
@@ -56,6 +63,7 @@ const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
 
 const DEFAULT_OPTIONS: SearchOptions = {
   query: '',
+  tags: [],
   sortType: 'descending',
   sortBy: 'created',
   matchMode: 'includes',
@@ -63,8 +71,10 @@ const DEFAULT_OPTIONS: SearchOptions = {
 
 const { t } = useI18nT();
 const store = useNodesStore();
+const route = useRoute();
+const router = useRouter();
 
-const options = ref({ ...DEFAULT_OPTIONS });
+const options = ref<SearchOptions>({ ...DEFAULT_OPTIONS, tags: [] });
 const opened = ref<boolean>(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 const root = ref<HTMLDivElement | null>(null);
@@ -90,7 +100,21 @@ const toggle = () => {
 
 const close = () => (opened.value = false);
 
-const reset = () => (options.value = { ...DEFAULT_OPTIONS });
+const reset = () => {
+  options.value = { ...DEFAULT_OPTIONS, tags: [] };
+  if (route.query.tags) router.replace({ query: { ...route.query, tags: undefined } });
+};
+
+// Initialize tags from the URL (e.g. /dashboard/docs?tags=foo) and react to later changes
+watch(
+  () => route.query.tags,
+  queryTags => {
+    if (!queryTags) return;
+    const raw = Array.isArray(queryTags) ? queryTags.filter(Boolean).map(String) : String(queryTags).split(',');
+    options.value.tags = raw.map(tag => tag.trim()).filter(Boolean);
+  },
+  { immediate: true },
+);
 
 const focusInput = () => nextTick(() => inputRef.value?.focus());
 
