@@ -76,11 +76,10 @@ function handleKeydown(event: KeyboardEvent) {
   if ((event.ctrlKey || event.metaKey) && event.key === 's') {
     event.preventDefault();
     updateCategory();
-    return;
+  } else if (event.key === 'Delete') {
+    event.preventDefault();
+    openDeleteModal();
   }
-  if (event.key !== 'Delete') return;
-  event.preventDefault();
-  openDeleteModal();
 }
 
 onMounted(() => {
