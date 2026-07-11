@@ -61,3 +61,11 @@ function exportMarkdown() {
   URL.revokeObjectURL(url);
 }
 </script>
+
+<style scoped lang="scss">
+@media print {
+  button {
+    display: none !important;
+  }
+}
+</style>
