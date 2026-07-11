@@ -1,4 +1,4 @@
-<template><AppBtnIcon :icon="colorMode.value === 'light' ? 'theme_light' : 'theme_dark'" fill @click="toggleColorMode" /></template>
+<template><AppBtnIcon :icon="colorMode.value === 'light' ? 'theme_light' : 'theme_dark'" @click="toggleColorMode" /></template>
 
 <script setup lang="ts">
 const colorMode = useColorMode();
