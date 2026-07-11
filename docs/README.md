@@ -37,7 +37,9 @@ Once the containers are running:
 - Backend API → http://localhost:8201
 - Object Storage (RustFS) → http://localhost:9000
 
-_Note: No default account is created. You can register a new user directly from the frontend._
+> [!NOTE]
+> No default account is created. You can register a new user directly from the frontend.  
+> If you want to make it admin of application, add the account ID to the `ADMIN_ACCOUNTS` variable.
 
 ## Configuration (Environment Variables)
 
@@ -87,6 +89,7 @@ BACKEND_EXTERNAL_PORT=8201
 COOKIE_DOMAIN=localhost:8200
 ALLOW_UNSECURE=true
 JWT_SECRET=your-secure-jwt-secret-key-change-this-in-production
+ADMIN_ACCOUNTS=id1,id2,id3
 ```
 
 These variables configure the backend API service.
@@ -145,6 +148,7 @@ These variables configure the RustFS object storage service.
 SMTP_HOST=
 SMTP_MAIL=
 SMTP_PASSWORD=
+SMTP_MAIL_FROM= # Optional
 ```
 
 Used only for password reset emails. Leave empty to disable email features (default).
@@ -152,6 +156,7 @@ Used only for password reset emails. Leave empty to disable email features (defa
 - `SMTP_HOST`: The SMTP server host.
 - `SMTP_MAIL`: The email address used to send emails.
 - `SMTP_PASSWORD`: The password for the SMTP email account.
+- `SMTP_MAIL_FROM` The email adress used to send messages (optional, default same as `SMTP_MAIL`)
 
 ### 7. Frontend — Nuxt
 
@@ -241,7 +246,8 @@ MINIO_CA_PATH=/path/to/ca-certificate.pem
 - This CA will be added to the system trust store used by the S3 client
 - This is the recommended and secure way to handle internal PKI
 
-_Note: if you are using docker containers, you must mount this file into the backend container using a volume in `docker-compose.yml`._
+> [!NOTE]
+> if you are using docker containers, you must mount this file into the backend container using a volume in `docker-compose.yml`.
 
 _TLS Verification Bypass (Not Recommended)_
 
@@ -254,9 +260,9 @@ This option disables TLS certificate verification while still using HTTPS.
 - The connection remains encrypted
 - Certificate validation (CA + hostname) is skipped
 
-⚠️ Security warning  
-This option should only be used for:
-
-- temporary debugging
-- local testing environments
-- It is not recommended for production use.
+> [!WARNING]
+> This option should only be used for:
+> 
+> - temporary debugging
+> - local testing environments
+> - It is not recommended for production use.
