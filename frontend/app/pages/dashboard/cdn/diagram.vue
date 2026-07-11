@@ -60,12 +60,12 @@ function handleKeydown(event: KeyboardEvent) {
 
 // Lifecycle hooks
 onMounted(() => {
-  window.addEventListener('message', exitHandleMessage);
+  document.addEventListener('message', exitHandleMessage);
   document.addEventListener('keydown', handleKeydown);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('message', exitHandleMessage);
+  document.removeEventListener('message', exitHandleMessage);
   document.removeEventListener('keydown', handleKeydown);
 });
 </script>
