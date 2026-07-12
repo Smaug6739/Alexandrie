@@ -1,6 +1,6 @@
 <template>
   <div class="dock">
-    <NuxtLink v-for="item in items" :key="item.label" :to="item.to" :class="{ admin: isAdmin && item.adminOnly, show: isAdmin && item.adminOnly }">
+    <NuxtLink v-for="item in items" :key="item.label" :to="item.to" :class="{ admin: item.adminOnly, show: isAdmin && item.adminOnly }">
       <Icon :name="item.icon" display="lg" /><span v-if="mark.hasMark(item.mark as MarkId)" class="bubble" />
     </NuxtLink>
 
