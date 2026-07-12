@@ -22,9 +22,7 @@
               {{ doc.name }}
             </Teleport>
             <p class="description">{{ doc?.description }}</p>
-            <div v-if="doc.tags" class="tags">
-              <tag v-for="tag in doc.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
-            </div>
+            <NodeTagList v-if="doc.tags" :tags="doc.tags" :clickable="!public" class="tags" />
           </div>
           <div class="thumbnail">
             <NodeDocumentThumbnail :document="doc" />

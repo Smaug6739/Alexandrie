@@ -55,6 +55,7 @@ export default {
     contains: 'Містить',
     startsWith: 'Починається з',
     exact: 'Точне співпадіння',
+    tags: 'Теги',
   },
 
   kanban: {

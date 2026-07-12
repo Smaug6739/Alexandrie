@@ -55,6 +55,7 @@ export default {
     contains: 'Contains',
     startsWith: 'Starts with',
     exact: 'Exact match',
+    tags: 'Tags',
   },
 
   kanban: {

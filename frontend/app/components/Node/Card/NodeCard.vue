@@ -10,9 +10,7 @@
       </div>
       <div class="body">
         <div class="category">{{ category?.name }}</div>
-        <div v-if="node.tags" class="tags">
-          <tag v-for="tag in node.tags.split(',')" :key="tag" class="primary">{{ tag.trim() }}</tag>
-        </div>
+        <NodeTagList v-if="node.tags" :tags="node.tags" class="tags" />
         <p class="description" v-text="node.description" />
       </div>
     </div>

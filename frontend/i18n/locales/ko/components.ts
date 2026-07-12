@@ -55,6 +55,7 @@ export default {
     contains: '포함',
     startsWith: '시작 문자열',
     exact: '정확히 일치',
+    tags: '태그',
   },
 
   kanban: {

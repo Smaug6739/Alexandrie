@@ -11,9 +11,7 @@
       </div>
       <NodeActionDotMenu :node="document" :user="user" @delete="deleteDoc" />
     </header>
-    <div v-if="document.tags" class="tags">
-      <tag v-for="tag in document.tags?.split(', ')" :key="tag" class="primary">{{ tag }}</tag>
-    </div>
+    <NodeTagList v-if="document.tags" :tags="document.tags" class="tags" />
     <p class="desc">{{ document.description }}</p>
     <footer>
       <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="var(--text-body)">
