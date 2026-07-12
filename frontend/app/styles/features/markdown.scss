@@ -245,3 +245,17 @@
 .bordered {
 	border: 1px solid var(--border);
 }
+
+/* Internal document links (#<id>) */
+.internal-link {
+	padding: 1px 5px;
+	border-radius: var(--radius-sm);
+	font-weight: 500;
+	color: var(--primary);
+	background: var(--accent-bg);
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

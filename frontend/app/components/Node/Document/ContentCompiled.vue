@@ -5,6 +5,7 @@
     :class="['markdown-preview', `${theme}-theme`, `document-content`]"
     :style="{ fontSize: documentFontSize + 'px', fontFamily: documentFontFamily, lineHeight: documentLineHeight }"
     @change="handleCheckboxChange"
+    @click="handleInternalLinkClick"
     v-html="node?.content_compiled"
   />
 </template>
@@ -17,6 +18,7 @@ const props = defineProps<{ node?: Partial<Node> }>();
 
 const preferences = usePreferencesStore();
 const nodesStore = useNodesStore();
+const router = useRouter();
 
 const theme = computed(() => {
   if (props.node?.theme) return props.node.theme;
@@ -46,6 +48,17 @@ const updateMarkdownCheckbox = (markdown: string, indexToTarget: number, shouldC
     currentIndex++;
     return match;
   });
+};
+
+// Navigate internal document links (#<id>) through the router, without a full page reload
+const handleInternalLinkClick = (event: MouseEvent) => {
+  if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a[data-internal-link]');
+  if (!link) return;
+  const id = link.dataset.internalLink;
+  if (!id) return;
+  event.preventDefault();
+  router.push(`/dashboard/docs/${id}`);
 };
 
 const handleCheckboxChange = (event: Event) => {
