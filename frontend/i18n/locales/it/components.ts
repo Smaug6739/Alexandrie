@@ -55,6 +55,7 @@ export default {
     contains: 'Contiene',
     startsWith: 'Inizia con',
     exact: 'Corrispondenza esatta',
+    tags: "Tags",
   },
 
   kanban: {
