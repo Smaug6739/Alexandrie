@@ -28,6 +28,7 @@ export default {
     cardsAndPanels: '카드 및 패널',
     coloredBlocks: '색상 블록',
     colors: '색상',
+    diagrams: '다이어그램',
     extendedSyntax: '확장 문법',
     footnotes: '각주',
     layoutBlocks: '레이아웃 블록',

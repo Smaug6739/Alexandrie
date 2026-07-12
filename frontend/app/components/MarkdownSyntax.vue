@@ -164,6 +164,7 @@
         <li><strong>rounded</strong> — adds strong border radius</li>
         <li><strong>shadow</strong> — soft drop shadow</li>
         <li><strong>bordered</strong> — stronger border</li>
+        <li><strong>background=base|raised|overlay</strong> — panel background (e.g. to frame a diagram)</li>
         <li><strong>gap=sm|md|lg</strong> — internal spacing</li>
         <li><strong>title="Your Title"</strong> — custom header</li>
       </ul>
@@ -205,6 +206,20 @@ Useful for side content or notes.
           <div class="block-title">Panel</div>
           <p>Useful for side content or notes.</p>
         </div>
+      </div>
+
+      <!-- DIAGRAMS -->
+      <h2><Icon name="format/diagrams" fill="var(--primary)" /> {{ t('markdown.syntax.diagrams') }}</h2>
+      <p>Render live diagrams with <a href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid</a> syntax inside a <code>:::mermaid</code> block.</p>
+      <div class="demo">
+        <pre>
+:::mermaid
+graph TD
+  A[Start] --> B{Is it working?}
+  B -->|Yes| C[Ship it]
+  B -->|No| D[Debug]
+:::</pre
+        >
       </div>
 
       <!-- MATH -->

@@ -246,6 +246,18 @@
 	border: 1px solid var(--border);
 }
 
+.block.background-base {
+	background: var(--surface-base);
+}
+
+.block.background-raised {
+	background: var(--surface-raised);
+}
+
+.block.background-overlay {
+	background: var(--surface-overlay);
+}
+
 /* Internal document links (#<id>) */
 .internal-link {
 	padding: 1px 5px;

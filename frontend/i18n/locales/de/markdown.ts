@@ -28,6 +28,7 @@ export default {
     cardsAndPanels: 'Karten & Paneele',
     coloredBlocks: 'Farbige Blöcke',
     colors: 'Farben',
+    diagrams: 'Diagramme',
     extendedSyntax: 'Erweiterte Syntax',
     footnotes: 'Fußnoten',
     layoutBlocks: 'Layout-Blöcke',

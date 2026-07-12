@@ -1,0 +1,19 @@
+pre.mermaid {
+	margin: 1rem 0;
+	text-align: center;
+	background: transparent;
+	overflow-x: auto;
+
+	svg {
+		max-width: 100%;
+	}
+}
+
+pre.mermaid.mermaid-error {
+	padding: 0.75rem 1rem;
+	border: 1px solid var(--red-border);
+	color: var(--red);
+	text-align: left;
+	background: var(--red-bg);
+	white-space: pre-wrap;
+}

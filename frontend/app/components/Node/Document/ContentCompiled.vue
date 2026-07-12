@@ -11,7 +11,9 @@
 </template>
 
 <script setup lang="ts">
+import compile from '~/helpers/markdown';
 import { rerenderImages } from '~/helpers/DOM';
+import { renderMermaidDiagrams } from '~/helpers/mermaid-render';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ node?: Partial<Node> }>();
@@ -19,6 +21,7 @@ const props = defineProps<{ node?: Partial<Node> }>();
 const preferences = usePreferencesStore();
 const nodesStore = useNodesStore();
 const router = useRouter();
+const colorMode = useColorMode();
 
 const theme = computed(() => {
   if (props.node?.theme) return props.node.theme;
@@ -63,34 +66,33 @@ const handleInternalLinkClick = (event: MouseEvent) => {
 
 const handleCheckboxChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
+  if (!target || target.type !== 'checkbox' || !target.hasAttribute('data-checkbox-index')) return;
+  if (!props.node?.content) return;
 
-  if (target && target.type === 'checkbox' && target.hasAttribute('data-checkbox-index')) {
-    const checkboxIndex = parseInt(target.getAttribute('data-checkbox-index') || '0', 10);
-    const isChecked = target.checked;
+  const checkboxIndex = parseInt(target.getAttribute('data-checkbox-index') || '0', 10);
+  const updatedMarkdown = updateMarkdownCheckbox(props.node.content, checkboxIndex, target.checked);
 
-    if (!props.node?.content) return;
-
-    const updatedMarkdown = updateMarkdownCheckbox(props.node.content, checkboxIndex, isChecked);
-
-    // Update the DOM attribute to reflect the new state
-    if (isChecked) target.setAttribute('checked', '');
-    else target.removeAttribute('checked');
-
-    const updatedHtml = rootElement.value?.innerHTML || '';
-    nodesStore.nodes.set(
-      props.node.id!,
-      {
-        ...props.node,
-        content: updatedMarkdown,
-        content_compiled: updatedHtml,
-      } as Node,
-      true,
-    );
-    updateDocumentContent();
-  }
+  // Recompile from the updated source rather than snapshotting the rendered DOM, so the
+  // persisted HTML stays reusable (fresh diagram placeholders, resolved internal links).
+  nodesStore.nodes.set(
+    props.node.id!,
+    {
+      ...props.node,
+      content: updatedMarkdown,
+      content_compiled: compile(updatedMarkdown, id => nodesStore.getById(id)?.name),
+    } as Node,
+    true,
+  );
+  updateDocumentContent();
 };
 
+function runMermaidRender() {
+  if (!rootElement.value) return;
+  renderMermaidDiagrams(rootElement.value, { dark: colorMode.value === 'dark' });
+}
+
 onMounted(() => {
+  runMermaidRender();
   const unsub = subscribeDrawioCacheInvalidated(() => {
     rerenderImages(rootElement.value!);
   });
@@ -98,6 +100,22 @@ onMounted(() => {
     unsub();
   });
 });
+
+watch(
+  () => props.node?.content_compiled,
+  async () => {
+    await nextTick();
+    runMermaidRender();
+  },
+);
+
+watch(
+  () => colorMode.value,
+  async () => {
+    await nextTick();
+    runMermaidRender();
+  },
+);
 </script>
 
 <style lang="scss" scoped>
