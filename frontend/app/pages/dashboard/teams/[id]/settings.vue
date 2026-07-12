@@ -72,6 +72,22 @@ const updateCategory = async () => {
       })
       .catch(e => notifications.add({ message: e, title: t('common.status.error'), type: 'error' }));
 };
+
+// Shortcuts
+function handleKeydown(event: KeyboardEvent) {
+  if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+    event.preventDefault();
+    updateCategory();
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown);
+});
 </script>
 
 <style scoped lang="scss">

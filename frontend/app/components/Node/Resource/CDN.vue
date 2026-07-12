@@ -40,7 +40,7 @@
       </div>
     </div>
     <div v-if="filteredResources.length" class="resources-list">
-      <DataTable v-if="view === 'table'" :headers="headers" :rows="rows">
+      <DataTable v-if="view === 'table'" ref="dataTable" :headers="headers" :rows="rows">
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
@@ -108,6 +108,7 @@ const modals = useModal();
 const notifications = useNotifications();
 
 const view = ref<'list' | 'table'>('list');
+const dataTable = ref<{ selectedRows: Field[] } | null>(null);
 const selectedFiles = ref<File[]>([]);
 const fileLinks = ref<string[]>([]);
 const isLoading = ref(false);
@@ -213,6 +214,24 @@ const bulkDelete = async (lines: Field[]) => {
   const resources = lines.map(line => line.action?.data as Node);
   modals.add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: resources, redirectTo: '/dashboard/cdn' }, size: 'small' }));
 };
+
+// Shortcuts
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key !== 'Delete') return;
+  if (view.value !== 'table') return;
+  const selected = dataTable.value?.selectedRows ?? [];
+  if (!selected.length) return;
+  event.preventDefault();
+  bulkDelete(selected);
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown);
+});
 </script>
 
 <style scoped lang="scss">

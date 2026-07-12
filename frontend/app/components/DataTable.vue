@@ -105,6 +105,9 @@ const toggleSelectAll = () => {
   else selectedRows.value = [...data.value];
 };
 
+// Parents can read the selection (e.g. to wire a Delete-key bulk action).
+defineExpose({ selectedRows });
+
 // Pagination (visible pages logic)
 const maxVisiblePages = 3;
 const visiblePages = computed(() => {
