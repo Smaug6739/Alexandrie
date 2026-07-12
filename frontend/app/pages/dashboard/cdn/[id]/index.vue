@@ -73,9 +73,13 @@ const openDeleteModal = () => {
 
 // Shortcuts
 function handleKeydown(event: KeyboardEvent) {
-  if (event.key !== 'Delete') return;
-  event.preventDefault();
-  openDeleteModal();
+  if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+    event.preventDefault();
+    updateCategory();
+  } else if (event.key === 'Delete') {
+    event.preventDefault();
+    openDeleteModal();
+  }
 }
 
 onMounted(() => {

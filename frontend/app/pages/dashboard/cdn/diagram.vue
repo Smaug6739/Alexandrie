@@ -50,10 +50,24 @@ const exitHandleMessage = async (e: MessageEvent) => {
   if (result) router.push(`/dashboard/cdn`);
 };
 
-// Lifecycle hooks
-onMounted(() => window.addEventListener('message', exitHandleMessage));
+// Shortcuts
+function handleKeydown(event: KeyboardEvent) {
+  if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+    event.preventDefault();
+    requestSaveDiagram();
+  }
+}
 
-onBeforeUnmount(() => window.removeEventListener('message', exitHandleMessage));
+// Lifecycle hooks
+onMounted(() => {
+  document.addEventListener('message', exitHandleMessage);
+  document.addEventListener('keydown', handleKeydown);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('message', exitHandleMessage);
+  document.removeEventListener('keydown', handleKeydown);
+});
 </script>
 
 <style scoped lang="scss">

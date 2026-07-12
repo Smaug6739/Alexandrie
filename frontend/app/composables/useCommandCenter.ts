@@ -1,5 +1,6 @@
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import CommandCenter from '~/components/CommandCenter/index.vue';
+import SettingsModal from '~/pages/dashboard/settings/index.vue';
 
 type TabType = 'quick' | 'advanced';
 
@@ -39,6 +40,7 @@ function getModal() {
 export function useCommandCenter() {
   const router = useRouter();
   const modals = useModal();
+  const { isMobile } = useDevice();
 
   function open() {
     if (state.isOpen) return;
@@ -90,6 +92,12 @@ export function useCommandCenter() {
     if ((e.ctrlKey || e.metaKey) && e.altKey && e.key.toLowerCase() === 'n') {
       e.preventDefault();
       return modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 1 } }));
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === ',') {
+      e.preventDefault();
+      // Same behavior as the sidebar settings entry: full page on mobile, modal on desktop.
+      if (isMobile.value) return router.push('/dashboard/settings');
+      return modals.add(new Modal(shallowRef(SettingsModal), { noPadding: true, props: { isModal: true }, size: 'medium' }));
     }
   }
 
