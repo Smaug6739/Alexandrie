@@ -263,14 +263,28 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
 .select {
   position: relative;
   width: 100%;
-  margin: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-base);
+  font-family: $font-ui;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    border-color: var(--text-secondary);
+  }
+
+  // Quand le dropdown est ouvert
+  &[style*='var(--primary)'] {
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 59, 130, 246), 0.15);
+  }
 }
 
 .trigger {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   align-items: center;
   padding: 2px;
@@ -278,35 +292,89 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
 
 .value {
   height: 30px;
+  padding: 0 12px;
+  height: 32px;
+  cursor: pointer;
+
+  svg {
+    flex-shrink: 0;
+    transition: transform $transition-fast;
+    opacity: 0.7;
+    transform: rotate(180deg);
+    &.rotated {
+      transform: rotate(360deg);
+    }
+  }
 }
 
-button,
-.search {
+button.value {
   width: 100%;
-  height: 34px;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
+  padding: 0;
+  border: none;
+  background: transparent;
   font-size: 0.95rem;
+  color: var(--text-body);
   text-align: left;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .search {
-  padding: 7px 10px;
+  width: 100%;
+  height: 32px;
+  padding: 0 6px;
   border: none;
-  cursor: text;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--text-body);
+
+  &:focus {
+    outline: none;
+  }
 }
 
+// ===========================
+// Desktop Dropdown (Portal)
+// ===========================
 .dropdown {
-  max-height: 300px;
-  margin: 0;
-  padding: 2px;
+  max-height: 280px;
+  margin: 4px 0 0 0;
+  padding: 6px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-base);
-  box-shadow: var(--shadow-sm);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.05);
   list-style: none;
   overflow-y: auto;
+  animation: dropdown-fade-in $transition-fast;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+  }
+}
+
+@keyframes dropdown-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // ===========================
@@ -314,25 +382,35 @@ button,
 // ===========================
 .overlay {
   position: fixed;
+  inset: 0;
   z-index: 1000;
   display: flex;
-  justify-content: center;
   align-items: flex-end;
-  background: var(--overlay-backdrop);
-  inset: 0;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
 }
 
 .sheet {
   display: flex;
   flex-direction: column;
+  flex-direction: column;
   width: 100%;
-  max-height: 85vh;
-  border-radius: var(--surface-sheet-radius);
+  max-height: 80vh;
+  border-radius: 16px 16px 0 0;
   background: var(--surface-base);
   animation: slide-up $transition-medium ease-out;
+  box-shadow:
+    0 -10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 -8px 10px -6px rgba(0, 0, 0, 0.1);
+  animation: slide-up $transition-medium cubic-bezier(0.16, 1, 0.3, 1);
 
   header {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
     flex-shrink: 0;
     justify-content: space-between;
     align-items: center;
@@ -345,15 +423,15 @@ button,
   from {
     transform: translateY(100%);
   }
-
   to {
     transform: translateY(0);
   }
 }
 
 .sheet-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
+  color: var(--text-body);
 }
 
 .close-btn {
@@ -362,15 +440,26 @@ button,
   align-items: center;
   width: 36px;
   height: 36px;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border: none;
   border-radius: 50%;
   background: var(--surface-raised);
   cursor: pointer;
   transition: background 0.2s;
+  transition:
+    background $transition-fast,
+    transform 0.1s;
+  cursor: pointer;
 
   &:hover {
-    background: var(--selection-color);
+    background: var(--border);
+  }
+  &:active {
+    transform: scale(0.95);
   }
 }
 
@@ -382,11 +471,36 @@ button,
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
   background: var(--surface-raised);
+  gap: 10px;
+  margin: 16px 20px 8px 20px;
+  padding: 0 14px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-base);
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 59, 130, 246), 0.15);
+  }
 
   input {
     flex: 1;
     height: 40px;
     padding: 8px 12px;
+    flex: 1;
+    height: 100%;
+    border: none;
+    background: transparent;
+    font-size: 0.95rem;
+    color: var(--text-body);
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
@@ -394,18 +508,26 @@ button,
   flex: 1;
   margin: 0;
   padding: 8px;
+  padding: 12px 16px;
   list-style: none;
-  -webkit-overflow-scrolling: touch;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   :deep(.tree-node) {
-    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    margin-bottom: 2px;
     border-radius: var(--radius-sm);
-    font-size: 1rem;
-    transition: background 0.15s;
+    font-size: 0.95rem;
+    color: var(--text-body);
+    transition:
+      background $transition-fast,
+      color $transition-fast;
+    cursor: pointer;
 
-    &:active {
-      background: var(--selection-color);
+    &:hover {
+      background: var(--surface-raised);
     }
   }
 
@@ -416,12 +538,6 @@ button,
   }
 }
 
-.empty {
-  padding: 24px 16px;
-  color: var(--text-secondary);
-  text-align: center;
-}
-
 .clear {
   display: flex;
   align-items: center;
@@ -430,43 +546,36 @@ button,
   padding: 6px 12px;
   border-bottom: 1px solid var(--border);
   border-radius: var(--radius-xs);
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
   color: var(--text-secondary);
   cursor: pointer;
   transition:
     color 0.15s ease,
     background-color 0.15s ease;
+  cursor: pointer;
+  transition:
+    background $transition-fast,
+    color $transition-fast;
 
   &:hover {
     color: var(--red);
-    background: var(--selection-color);
+    background: var(--surface-raised);
 
     :deep(svg) {
       fill: var(--red);
     }
   }
-
-  span {
-    font-weight: 400;
-  }
 }
 
-// Transitions
-.sheet-enter-active,
-.sheet-leave-active {
-  transition: opacity $transition-medium ease;
-
-  .sheet {
-    transition: transform $transition-medium ease;
-  }
-}
-
-.sheet-enter-from,
-.sheet-leave-to {
-  opacity: 0;
-
-  .sheet {
-    transform: translateY(100%);
-  }
+.empty {
+  padding: 32px 16px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
 }
 </style>

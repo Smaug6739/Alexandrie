@@ -10,12 +10,16 @@
       <p class="info-text">
         {{ t('nodes.modals.permissions.shareLink') }}
         <br />
-        <a :href="link" target="_blank" rel="noopener noreferrer" class="public-link">
-          <Icon name="new_tab" display="sm" fill="var(--text-secondary)" /><span>{{ link }}</span>
-        </a>
+        <span class="public-link">
+          <a :href="link" target="_blank" rel="noopener noreferrer">
+            <Icon name="new_tab" display="sm" fill="var(--text-secondary)" />
+            {{ link }}
+          </a>
+          <AppBtnIcon icon="copy" display="md" @click="copyLink" />
+        </span>
       </p>
       <div class="access">
-        <p for="access">{{ t('nodes.modals.permissions.defaultPermission') }}</p>
+        <label for="access">{{ t('nodes.modals.permissions.defaultPermission') }}</label>
         <AppSelect v-model="node.access" :items="DOCUMENT_GENERAL_ACCESS" :searchable="false" size="150px" placeholder="Default" />
       </div>
     </div>
@@ -48,7 +52,7 @@
       <li v-for="perm in node.permissions" :key="perm.id" class="permission-item">
         <div class="user-info-row">
           <span class="user-meta">
-            <img :src="avatarURL(usersStore.getById(perm.user_id))" alt="avatar" class="avatar" />
+            <UserAvatar :user="usersStore.getById(perm.user_id)" />
             <span>{{ usersStore.getById(perm.user_id)?.username }}</span>
           </span>
 
@@ -171,6 +175,11 @@ watch(
 
 // Actions
 
+const copyLink = async () => {
+  await navigator.clipboard.writeText(link.value);
+  notifications.add({ type: 'success', title: 'Link copied to clipboard' });
+};
+
 const addPermission = async (user: PublicUser) => {
   if (!user) return;
   await nodesPermissionsStore.addPermission({
@@ -240,6 +249,8 @@ const copyInvitationLink = async (code: string) => {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  color: rgb(73, 80, 87);
 }
 
 h2 {
@@ -253,7 +264,9 @@ form {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 0 4px;
+}
+label {
+  color: var(--text-inverse);
 }
 
 .user-card {
@@ -309,11 +322,22 @@ form {
 
   .public-link {
     display: flex;
-    align-items: flex-end;
+    justify-content: space-between;
+    color: var(--primary);
+    background-color: #f2f3f5;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    align-items: center;
     gap: 2px;
     color: var(--primary);
     text-decoration: underline;
     word-break: break-all;
+    a {
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
   }
 }
 
