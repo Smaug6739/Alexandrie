@@ -6,12 +6,12 @@
 
 @mixin glassmorphism-theme {
 	// Border radius
-	--radius-xs: 80px;
-	--radius-sm: 12px;
-	--radius-md: 18px;
-	--radius-lg: 24px;
-	--radius-xl: 24px;
-	--radius-xxl: 28px;
+	--radius-xs: 8px;
+	--radius-sm: 10px;
+	--radius-md: 16px;
+	--radius-lg: 20px;
+	--radius-xl: 22px;
+	--radius-xxl: 26px;
 
 	// Overlay backdrop
 	--overlay-backdrop: rgb(0 0 0 / 50%);
@@ -19,7 +19,7 @@
 
 	// Backdrop effects for glassmorphism
 	--backdrop-blur: blur(2px);
-	--backdrop-saturate: saturate(1);
+	--backdrop-saturate: saturate(1.6);
 }
 
 @mixin glassmorphism-theme-white {
@@ -33,9 +33,9 @@
 
 
 	// Softer borders
-	--border: rgb(223 224 229 / 100%);
-	--border-subtle: rgb(223 225 230 / 20%);
-	--border-strong: rgb(0 0 0 / 10%);
+	--border: rgb(223 224 229 / 45%);
+	--border-subtle: rgb(223 225 230 / 15%);
+	--border-strong: rgb(0 0 0 / 15%);
 
 	// Elevated shadows with slight spread
 	--shadow-sm: 0 2px 8px rgb(0 0 0 / 6%);
