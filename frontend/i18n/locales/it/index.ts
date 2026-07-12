@@ -1,3 +1,5 @@
+import type { MessageSchema } from '../../i18n.config';
+
 import admin from './admin';
 import application from './application';
 import cdn from './cdn';
@@ -26,4 +28,4 @@ export default {
   time,
   user,
   teams,
-};
+} satisfies MessageSchema;
