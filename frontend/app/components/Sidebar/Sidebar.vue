@@ -134,6 +134,7 @@ onBeforeUnmount(() => {
   max-height: 100%;
   padding: 0.5rem 0.2rem 0.5rem 0.5rem;
   background: var(--surface-base);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   overflow-y: auto;
   scrollbar-gutter: stable;
 

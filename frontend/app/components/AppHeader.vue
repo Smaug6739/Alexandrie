@@ -20,6 +20,7 @@ nav {
 .sign-up {
   border: 1px solid var(--border);
   background: var(--surface-base);
+  backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
 
   &:hover {
     outline: 2px solid var(--border);
