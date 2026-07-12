@@ -7,6 +7,7 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { rainbowBrackets } from './bracketsRainbow';
 import { containerHighlight } from './customBlocks';
 import type { createInternalLinks } from './internalLinks';
+import { mermaidBlockHighlight } from './mermaidHighlight';
 
 export interface CreateEditorStateParams {
   initialDoc: string;
@@ -35,6 +36,7 @@ export function createEditorState(params: CreateEditorStateParams) {
       autocompletion(),
       rainbowBrackets(),
       containerHighlight(),
+      mermaidBlockHighlight(),
       closeBrackets(),
       keymap.of([...params.keymaps, ...defaultKeymap, ...historyKeymap, indentWithTab, ...searchKeymap, ...closeBracketsKeymap]),
       markdown({ base: markdownLanguage }),

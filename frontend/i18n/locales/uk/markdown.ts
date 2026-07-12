@@ -28,6 +28,7 @@ export default {
     cardsAndPanels: 'Картки та панелі',
     coloredBlocks: 'Кольорові блоки',
     colors: 'Кольори',
+    diagrams: 'Діаграми',
     extendedSyntax: 'Розширений синтаксис',
     footnotes: 'Виноски',
     layoutBlocks: 'Блоки макета',
