@@ -90,6 +90,23 @@ const openCreateWorkspace = () => modals.add(new Modal(shallowRef(CreateCategory
 const openCreateCategory = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 2, parentId: teamId } }));
 const openDelete = () => team.value && modals.add(new Modal(shallowRef(NodeDeleteModal), { props: { node: team.value, redirectTo: '/dashboard/teams' } }));
 const openRemoveShareModal = () => modals.add(new Modal(shallowRef(RemoveSharedNode), { props: { nodeId: team.value?.id }, size: 'small' }));
+
+// Shortcuts
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key !== 'Delete') return;
+  // Deleting is only offered to the team owner (others get "leave" instead).
+  if (userStore.user?.id !== team.value?.user_id) return;
+  event.preventDefault();
+  openDelete();
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleKeydown);
+});
 </script>
 
 <style scoped lang="scss">
