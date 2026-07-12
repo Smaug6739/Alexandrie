@@ -6,6 +6,7 @@ import { autocompletion, closeBrackets, closeBracketsKeymap } from '@codemirror/
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { rainbowBrackets } from './bracketsRainbow';
 import { containerHighlight } from './customBlocks';
+import type { createInternalLinks } from './internalLinks';
 
 export interface CreateEditorStateParams {
   initialDoc: string;
@@ -13,6 +14,7 @@ export interface CreateEditorStateParams {
   themeExtension: Extension;
   keymaps: readonly KeyBinding[];
   snippetSource: object;
+  internalLinks?: ReturnType<typeof createInternalLinks>;
   onDocChanged: () => void;
   uploadsHandlers: ReturnType<typeof EditorView.domEventHandlers>;
 }
@@ -39,6 +41,14 @@ export function createEditorState(params: CreateEditorStateParams) {
       markdownLanguage.data.of({
         autocomplete: params.snippetSource,
       }),
+      ...(params.internalLinks
+        ? [
+            params.internalLinks.extension,
+            markdownLanguage.data.of({
+              autocomplete: params.internalLinks.completionSource,
+            }),
+          ]
+        : []),
       updateListener,
       params.uploadsHandlers,
       themeCompartment.of(params.themeExtension),

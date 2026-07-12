@@ -47,6 +47,7 @@ import { createEditorState } from './modules/editorState';
 import { createKeymaps } from './modules/editorKeymaps';
 import { createUploadsHandlers } from './modules/editorUploads';
 import { createSnippetSource } from './modules/editorUtils';
+import { createInternalLinks } from './modules/internalLinks';
 import { createCommands } from './modules/editorCommands';
 import { createScrollSync } from './modules/scrollSync';
 import compile from '~/helpers/markdown';
@@ -77,9 +78,11 @@ const scrollSync = createScrollSync({
   getPreview: () => markdownPreview.value,
 });
 
+const resolveNode = (id: string) => nodesStore.getById(id)?.name;
+
 const document = ref<Partial<Node>>({
   ...props.doc,
-  content_compiled: compile(props.doc?.content || ''),
+  content_compiled: compile(props.doc?.content || '', resolveNode),
 });
 
 const commands = createCommands({
@@ -111,6 +114,10 @@ const state = createEditorState({
   themeExtension: loadTheme(),
   keymaps: createKeymaps(commands),
   snippetSource: createSnippetSource(preferences.get('editorSnippetsEnabled'), preferences.get('snippets')),
+  internalLinks: createInternalLinks({
+    getName: id => nodesStore.getById(id)?.name,
+    getDocuments: () => nodesStore.documents,
+  }),
   onDocChanged: () => {
     updateDocumentContent();
     autoSaveConditional();
@@ -173,7 +180,7 @@ function autoSaveConditional() {
 const updateDocumentContent = debounce(() => {
   const content = editorView.value?.state.doc.toString() || '';
   document.value.content = content;
-  document.value.content_compiled = compile(content);
+  document.value.content_compiled = compile(content, resolveNode);
 }, 100);
 
 const save = debounce(() => {

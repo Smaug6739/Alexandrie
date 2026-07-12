@@ -13,6 +13,7 @@ import { subscriptPlugin, superscriptPlugin, footNotePlugin, html5MediaPlugin, s
 import { markdownItCheckbox } from './checkbox';
 import { markdownItKatexPlugin } from './katex';
 import { sourceMapPlugin } from './source-map';
+import { internalLinkPlugin } from './internal-links';
 
 const md = new MarkdownIt({ html: true, linkify: true });
 md.use(containerPlugin);
@@ -34,12 +35,14 @@ md.use(colorPlugin, {
 });
 md.use(html5MediaPlugin);
 md.use(svgObjectPlugin);
+md.use(internalLinkPlugin);
 md.use(sourceMapPlugin);
 
-export default function compile(str: string = ''): string {
+export default function compile(str: string = '', resolveNode?: (id: string) => string | undefined): string {
   // Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)
   str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
   return md.render(str, {
     html: true,
+    resolveNode,
   });
 }
