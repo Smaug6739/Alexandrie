@@ -32,7 +32,7 @@
       <div v-for="user in users" :key="user.id" class="user-card">
         <div class="user-info-row">
           <span class="user-meta">
-            <img :src="avatarURL(user)" alt="avatar" class="avatar" />
+            <UserAvatar :user="user" display="lg" />
             <span>{{ user.username }}</span>
           </span>
           <div class="user-actions">
@@ -52,7 +52,7 @@
       <li v-for="perm in node.permissions" :key="perm.id" class="permission-item">
         <div class="user-info-row">
           <span class="user-meta">
-            <UserAvatar :user="usersStore.getById(perm.user_id)" />
+            <UserAvatar :user="usersStore.getById(perm.user_id)" display="lg" />
             <span>{{ usersStore.getById(perm.user_id)?.username }}</span>
           </span>
 
@@ -113,7 +113,6 @@ const usersStore = useUserStore();
 const nodesStore = useNodesStore();
 const nodesPermissionsStore = useNodesPermissionsStore();
 
-const { avatarURL } = useApi();
 const { shortDate } = useDateFormatters();
 const notifications = useNotifications();
 
@@ -288,12 +287,6 @@ label {
   display: flex;
   align-items: center;
   gap: 10px;
-
-  .avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
 }
 
 .user-actions {

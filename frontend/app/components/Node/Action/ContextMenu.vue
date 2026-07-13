@@ -1,7 +1,7 @@
 <template>
   <div class="context-menu" :class="{ 'is-context-menu': props.contextMenu }">
     <div class="menu-header">
-      <img :src="avatarURL(user)" alt="" class="avatar" />
+      <UserAvatar :user="user" square />
       <div class="header-info">
         <span class="header-name">{{ node.name }}</span>
         <span class="header-meta">{{ user?.username }} · {{ shortDate(node.updated_timestamp) }}</span>
@@ -51,7 +51,6 @@ const userStore = useUserStore();
 const preferences = usePreferencesStore();
 const { t } = useI18nT();
 const { shortDate } = useDateFormatters();
-const { avatarURL } = useApi();
 const router = useRouter();
 const route = useRoute();
 const modals = useModal();
@@ -110,15 +109,6 @@ async function action(name: string) {
   align-items: center;
   gap: 10px;
   margin-bottom: 6px;
-  padding: 8px 10px 12px;
-  border-bottom: 1px solid var(--border);
-
-  .avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-sm);
-    object-fit: cover;
-  }
 }
 
 .header-info {

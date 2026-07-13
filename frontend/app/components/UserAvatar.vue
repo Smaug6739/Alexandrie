@@ -1,6 +1,6 @@
 <template>
-  <img v-if="avatarURL != '/placeholder/avatar.avif'" :src="avatarURL" alt="" class="avatar" :class="{ square }" />
-  <div v-else class="placeholder" :class="getAppAccent(avatarHash)">
+  <img v-if="avatarURL != '/placeholder/avatar.avif'" :src="avatarURL" alt="" :class="['avatar', { square }, display]" />
+  <div v-else :class="['placeholder', getAppAccent(avatarHash), display]">
     <span> {{ props.user?.username.slice(0, 2).toUpperCase() }}</span>
   </div>
 </template>
@@ -8,10 +8,18 @@
 <script setup lang="ts">
 import type { PublicUser } from '~/stores';
 
-const props = defineProps<{
-  user?: PublicUser;
-  square?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    user?: PublicUser | null;
+    display?: 'sm' | 'md' | 'lg';
+    square?: boolean;
+  }>(),
+  {
+    user: null,
+    display: 'md',
+    square: false,
+  },
+);
 
 const { avatarURL: resolveAvatarURL } = useApi();
 const { getAppAccent } = useAppColors();
@@ -27,17 +35,27 @@ const avatarHash = computed(() => {
 </script>
 
 <style scoped lang="scss">
-.avatar {
+.sm {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+}
+.md {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+.lg {
   width: 32px;
   height: 32px;
   border-radius: 50%;
+}
+
+.avatar {
   object-fit: cover;
 }
 
 .placeholder {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
   span {
     display: flex;
     align-items: center;
