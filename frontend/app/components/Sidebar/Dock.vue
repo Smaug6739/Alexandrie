@@ -50,24 +50,22 @@ function closeDock() {
   flex-direction: column;
   gap: 10px;
   padding: 1rem 0.3rem;
+  background-color: var(--surface-raised-light);
   border-right: 1px solid var(--border);
-  background-color: var(--surface-base);
+  flex-direction: column;
+  gap: 15px;
 }
 
 a {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 39px;
+  height: 39px;
+  padding: 0.5rem;
   border-radius: var(--radius-md);
   transition: background-color $transition-medium ease;
 
   &:hover {
-    svg {
-      color: var(--text-inverse) !important;
-    }
+    background-color: var(--primary-bg);
   }
 }
 
@@ -80,6 +78,7 @@ a {
 }
 
 a.router-link-active {
+  background-color: var(--primary-bg);
   svg {
     color: var(--primary) !important;
   }
