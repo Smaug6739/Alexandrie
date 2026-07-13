@@ -1,21 +1,33 @@
 <template>
-  <aside>
-    <h4 v-if="doc?.tags">{{ t('nodes.tags') }}</h4>
-    <div v-if="doc?.tags" class="tags">
-      <tag v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
-    </div>
-    <ul ref="list" style="position: relative">
-      <div v-if="headers.length" ref="marker" class="marker" />
-      <h4>{{ t('nodes.document.TOC') }}</h4>
-      <div v-if="headers.length">
-        <NodeTOCLevel v-for="header of headers_tree" :key="header.link" :node="header" style="padding-left: 10px" />
+  <aside class="document-sidebar">
+    <section v-if="doc?.tags" class="sidebar-section">
+      <h3 class="section-title">{{ t('nodes.tags') }}</h3>
+      <div class="tags-container">
+        <NodeTagList :tags="doc.tags" />
       </div>
-      <p v-else>{{ t('common.nothing') }}</p>
-    </ul>
-    <h4 v-if="childs.length">{{ t('nodes.document.childs') }}</h4>
-    <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link">
-      <Icon name="file_shortcut" fill="var(--primary)" />{{ child.name as string }}
-    </NuxtLink>
+    </section>
+
+    <section class="sidebar-section">
+      <h3 class="section-title">{{ t('nodes.document.TOC') }}</h3>
+      <div class="toc-wrapper">
+        <div v-if="headers.length" ref="marker" class="active-marker" />
+
+        <div v-if="headers.length" ref="list" class="toc-tree">
+          <NodeTOCLevel v-for="header of headers_tree" :key="header.link" :node="header" />
+        </div>
+        <p v-else class="empty-state">{{ t('common.nothing') }}</p>
+      </div>
+    </section>
+
+    <section v-if="childs.length" class="sidebar-section">
+      <h3 class="section-title">{{ t('nodes.document.childs') }}</h3>
+      <nav class="children-links">
+        <NuxtLink v-for="child in childs" :key="child.id" :to="`/dashboard/docs/${child.id}`" class="child-link">
+          <Icon name="file_shortcut" fill="var(--primary)" />
+          <span class="child-name">{{ child.name }}</span>
+        </NuxtLink>
+      </nav>
+    </section>
   </aside>
 </template>
 
@@ -23,9 +35,7 @@
 import type { Node } from '~/stores';
 
 const props = defineProps<{ element?: HTMLElement; doc?: Node }>();
-
 const nodesStore = useNodesStore();
-
 const { t } = useI18nT();
 
 const childs = computed(
@@ -37,6 +47,8 @@ const childs = computed(
 );
 
 const list = ref<HTMLElement>();
+const marker = ref<HTMLElement>();
+const appElement = ref<HTMLElement | null>(null);
 
 interface GroupedHeaders {
   title: string;
@@ -52,21 +64,17 @@ interface TreeItem {
 
 const getHTMLHeaders = (): HTMLElement[] => {
   if (!props.element) return [];
-  const headers = props.element.querySelectorAll('h1, h2, h3, h4, h5, h6') as NodeListOf<HTMLElement>;
-  return Array.from(headers);
+  return Array.from(props.element.querySelectorAll('h1, h2, h3, h4, h5, h6'));
 };
 
 function getHeaders(headers: HTMLElement[]): GroupedHeaders[] {
-  const tree: GroupedHeaders[] = [];
-  for (const header of headers) {
-    const level = parseInt(header.tagName[1] || '1');
-    const title = header.textContent?.replace(/#/g, '') || '';
-    const link = `#${header.id}`;
-    const node: GroupedHeaders = { title, link, level };
-    tree.push(node);
-  }
-  return tree;
+  return headers.map(header => ({
+    title: header.textContent?.replace(/#/g, '') || '',
+    link: `#${header.id}`,
+    level: parseInt(header.tagName[1] || '1'),
+  }));
 }
+
 function buildTree(tree: GroupedHeaders[]): TreeItem[] {
   const result: TreeItem[] = [];
   const stack: TreeItem[] = [];
@@ -88,12 +96,6 @@ function buildTree(tree: GroupedHeaders[]): TreeItem[] {
 
 const headers = computed(() => getHTMLHeaders());
 const headers_tree = computed(() => buildTree(getHeaders(headers.value)));
-
-// On scroll, highlight the current header
-
-const marker = ref<HTMLElement>();
-
-const appElement = ref<HTMLElement | null>(null);
 
 onMounted(() => {
   appElement.value = document.getElementById('app');
@@ -129,63 +131,144 @@ function updateActiveHeader() {
 </script>
 
 <style lang="scss" scoped>
-h4 {
-  font-size: 12px;
-  color: var(--text-secondary);
+.document-sidebar {
+  position: sticky;
+  top: 40px;
+  width: 280px;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, var(--text-muted));
   text-transform: uppercase;
 }
 
-aside {
-  position: sticky;
-  top: 20px;
-  width: 350px;
-  padding: 0 15px;
-  border-left: 1px solid var(--border);
-  font-size: 0.8rem;
-}
-
-.tags {
+/* TAGS */
+.tags-container {
   display: flex;
   flex-wrap: wrap;
-  font-size: 14px;
+  gap: 6px;
 }
 
-.marker {
+.modern-tag {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--surface-raised);
+  color: var(--text-body);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: var(--border);
+    color: var(--primary);
+  }
+}
+
+/* TOC */
+.toc-wrapper {
+  position: relative;
+  border-left: 1px solid var(--border);
+  padding-left: 12px;
+}
+
+.toc-tree {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+:deep(a) {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  line-height: 1.4;
+
+  &:hover {
+    color: var(--text-body);
+  }
+
+  &.active {
+    font-weight: 500;
+    color: var(--primary) !important;
+  }
+}
+
+.active-marker {
   position: absolute;
-  top: 32px;
-  left: -8px;
-  z-index: 1;
-  width: 3px;
-  height: 15px;
-  border-radius: var(--radius-xs);
+  left: -1px;
+  width: 1px;
+  height: 18px;
   background-color: var(--primary);
-  transition:
-    top $transition-base ease,
-    height $transition-base ease;
+  transition: top 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-ul {
+.empty-state {
   margin: 0;
-  padding: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-style: italic;
 }
 
-li:deep(a).active {
-  font-weight: 600;
-  color: var(--primary);
+/* CHILDS */
+.children-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .child-link {
   display: flex;
-  align-items: flex-start;
-  gap: 5px;
-  margin: 5px 0;
-  font-weight: 450;
-  color: var(--text-body);
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  margin: 0 -8px;
+  border-radius: 6px;
   text-decoration: none;
-  transition: color $transition-base;
+  color: var(--text-body);
+  transition: background 0.15s ease;
 
   &:hover {
-    color: var(--primary);
+    background: var(--surface-raised);
+
+    .child-name {
+      color: var(--primary);
+    }
+    .child-icon {
+      color: var(--primary);
+    }
   }
+}
+
+.child-icon {
+  font-size: 16px;
+  color: var(--text-secondary);
+  transition: color 0.15s ease;
+}
+
+.child-name {
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
 }
 </style>
