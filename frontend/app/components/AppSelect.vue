@@ -346,7 +346,7 @@ button.value {
 .dropdown {
   max-height: 280px;
   margin: 4px 0 0 0;
-  padding: 6px;
+  padding: 2px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-base);
