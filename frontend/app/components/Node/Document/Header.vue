@@ -17,9 +17,9 @@
             </p>
             <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
             <h1 :class="{ public: public }">{{ doc?.name }}</h1>
-            <Teleport v-if="!public" to="#navbar-title">
-              <Icon :name="doc.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(doc.color as number, true)]" />
-              {{ doc.name }}
+            <Teleport v-if="!public && category" to="#navbar-title">
+              <Icon :name="category.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(category.color as number, true)]" />
+              {{ category.name }}
             </Teleport>
             <p class="description">{{ doc?.description }}</p>
             <NodeTagList v-if="doc.tags" :tags="doc.tags" :clickable="!public" class="tags" />
