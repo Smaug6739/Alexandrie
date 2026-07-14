@@ -16,9 +16,12 @@ button {
   align-items: center;
   gap: 0.5rem;
   width: fit-content;
-  padding: 10px;
+  padding: 9px;
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
+  font-weight: 450;
+  align-items: center;
+  gap: 0.5rem;
   white-space: nowrap;
 
   &:disabled {
