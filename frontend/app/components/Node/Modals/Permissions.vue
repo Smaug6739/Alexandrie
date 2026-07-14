@@ -7,17 +7,14 @@
     <!-- Accessibility 3: Public document -->
     <div v-if="node.accessibility === 3" class="public-info">
       <p class="info-text">{{ t('nodes.modals.permissions.publicInfo') }}</p>
-      <p class="info-text">
-        {{ t('nodes.modals.permissions.shareLink') }}
-        <br />
-        <span class="public-link">
-          <a :href="link" target="_blank" rel="noopener noreferrer">
-            <Icon name="new_tab" display="sm" fill="var(--text-secondary)" />
-            {{ link }}
-          </a>
-          <AppBtnIcon icon="copy" display="md" @click="copyLink" />
-        </span>
-      </p>
+      <p class="info-text">{{ t('nodes.modals.permissions.shareLink') }}</p>
+      <span class="public-link">
+        <a :href="link" target="_blank" rel="noopener noreferrer">
+          <Icon name="new_tab" display="sm" fill="var(--text-secondary)" />
+          {{ link }}
+        </a>
+        <AppBtnIcon icon="copy" display="md" @click="copyLink" />
+      </span>
       <div class="access">
         <label for="access">{{ t('nodes.modals.permissions.defaultPermission') }}</label>
         <AppSelect v-model="node.access" :items="DOCUMENT_GENERAL_ACCESS" :searchable="false" size="150px" placeholder="Default" />
@@ -248,8 +245,6 @@ const copyInvitationLink = async (code: string) => {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
-  color: rgb(73, 80, 87);
 }
 
 h2 {
@@ -257,15 +252,6 @@ h2 {
   align-items: center;
   gap: 10px;
   font-size: 20px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-label {
-  color: var(--text-inverse);
 }
 
 .user-card {
@@ -309,31 +295,29 @@ label {
 
   .info-text {
     margin: 5px 0;
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--text-secondary);
   }
-
-  .public-link {
+}
+.public-link {
+  display: flex;
+  justify-content: space-between;
+  color: var(--primary);
+  background-color: var(--surface-raised);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  align-items: center;
+  gap: 2px;
+  text-decoration: underline;
+  word-break: break-all;
+  font-size: 13px;
+  a {
+    color: var(--primary);
     display: flex;
-    justify-content: space-between;
-    color: var(--primary);
-    background-color: #f2f3f5;
-    padding: 6px 10px;
-    border-radius: var(--radius-sm);
     align-items: center;
-    gap: 2px;
-    color: var(--primary);
-    text-decoration: underline;
-    word-break: break-all;
-    a {
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+    gap: 5px;
   }
 }
-
 .access {
   display: flex;
   justify-content: space-between;
