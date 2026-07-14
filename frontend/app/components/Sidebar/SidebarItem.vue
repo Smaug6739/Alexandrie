@@ -145,7 +145,9 @@ const drop = async (event: DragEvent) => {
   padding: 1px 4px;
   border-radius: var(--radius-sm);
   font-size: 15px;
-  font-weight: 450;
+  align-items: center;
+  cursor: pointer;
+  justify-content: flex-start;
   letter-spacing: -0.4px;
   cursor: pointer;
 
