@@ -14,8 +14,8 @@
     <Icon :fill="item.data.role == 3 ? 'var(--pink) !important' : undefined" :name="icon" :class="customClass" />&nbsp;
 
     <!-- Label -->
-    <NuxtLink v-if="item.onClick" class="close content" @click="item.onClick">{{ item.data.role == -1 ? t(item.label) : item.label }}</NuxtLink>
-    <NuxtLink v-else :to="item.route" class="close content"
+    <NuxtLink v-if="item.onClick" class="close" @click="item.onClick">{{ item.data.role == -1 ? t(item.label) : item.label }}</NuxtLink>
+    <NuxtLink v-else :to="item.route" class="close"
       >{{ item.data.role == -1 ? t(item.label) : item.label }} <span v-if="'mark' in item && item.mark && mark.hasMark(item.mark as MarkId)" class="bubble"
     /></NuxtLink>
 
@@ -170,12 +170,13 @@ const drop = async (event: DragEvent) => {
   }
 }
 
-.content {
+a {
+  flex: 1;
   position: relative;
   flex: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  color: var(--text-primary);
 }
 
 .dragging {
