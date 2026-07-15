@@ -16,11 +16,7 @@ services:
     networks:
       - alexandrie-network
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "mysql -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} -e 'SELECT 1' $${MYSQL_DATABASE}",
-        ]
+      test: ["CMD-SHELL", "mysql -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} -e 'SELECT 1' $${MYSQL_DATABASE}"]
       timeout: 10s
       retries: 5
       interval: 30s
@@ -54,6 +50,7 @@ services:
   backend:
     image: ghcr.io/smaug6739/alexandrie-backend:latest
     container_name: alexandrie-backend
+    restart: unless-stopped
     environment:
       # General configuration
       BACKEND_PORT: 8201
