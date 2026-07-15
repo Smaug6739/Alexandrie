@@ -35,4 +35,4 @@ ENV VITE_BASE_API=""
 ENV VITE_BASE_CDN=""
 ENV NUXT_PUBLIC_BASE_URL=""
 
-CMD ["bun", "run", "dev"]
+CMD ["bun", "run", "dev:host"]

@@ -11,6 +11,8 @@ services:
       - deps:/app/node_modules
     ports:
       - "8200:8200"
+    healthcheck:
+      disable: true
     environment:
       CHOKIDAR_USEPOLLING: true
       WATCHPACK_POLLING: true
