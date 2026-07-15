@@ -31,6 +31,19 @@
               </svg>
             </a>
           </div>
+
+          <div class="footer-language-switcher">
+            <label class="language-label" for="footer-language-select">{{ t('settings.appearance.setLanguage') }}</label>
+            <AppSelect
+              class="footer-language-select"
+              :items="localeItems"
+              :model-value="locale"
+              :searchable="false"
+              :placeholder="t('settings.appearance.setLanguage')"
+              size="min(100%, 260px)"
+              @update:model-value="selectLocale"
+            />
+          </div>
         </div>
 
         <!-- Links Columns -->
@@ -124,7 +137,34 @@
 </template>
 
 <script setup lang="ts">
-const { t } = useI18n();
+const { t, locale, loadLocaleMessages, setLocale } = useI18nT();
+
+const localeCodes = ['en', 'fr', 'de', 'uk', 'ko', 'it'] as const;
+type LocaleCode = (typeof localeCodes)[number];
+
+const isLocaleCode = (value: string): value is LocaleCode => localeCodes.includes(value as LocaleCode);
+
+const localeItems = computed(() => {
+  const displayNames = typeof Intl.DisplayNames === 'function' ? new Intl.DisplayNames([locale.value], { type: 'language' }) : null;
+
+  return localeCodes.map(code => ({
+    id: code,
+    label: capitalize(displayNames?.of(code) ?? code.toUpperCase()),
+  }));
+});
+
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+const selectLocale = async (nextLocale: string | number) => {
+  const normalizedLocale = String(nextLocale);
+
+  if (!isLocaleCode(normalizedLocale) || normalizedLocale === locale.value) {
+    return;
+  }
+
+  await loadLocaleMessages(normalizedLocale);
+  await setLocale(normalizedLocale);
+};
 </script>
 
 <style scoped lang="scss">
@@ -150,7 +190,6 @@ const { t } = useI18n();
   border-top: 1px solid var(--border);
 }
 
-// Brand Section
 .footer-brand {
   max-width: 320px;
 }
@@ -203,7 +242,91 @@ const { t } = useI18n();
   }
 }
 
-// Links Section
+.footer-language-switcher {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.25rem;
+}
+
+.language-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.footer-language-select {
+  width: min(100%, 260px);
+}
+
+.language-trigger-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  text-align: left;
+}
+
+.language-code {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.language-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.language-trigger-icon {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1;
+  transform: translateY(-1px);
+  transition: transform $transition-medium ease;
+}
+
+.language-trigger-icon.open {
+  transform: translateY(1px) rotate(180deg);
+}
+
+.language-option-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.language-option-code {
+  min-width: 2.4rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  text-align: center;
+  background: var(--surface-raised);
+}
+
+.language-option-name {
+  flex: 1;
+  overflow: hidden;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.language-option-check {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 .footer-links {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -246,7 +369,6 @@ const { t } = useI18n();
   }
 }
 
-// Footer Bottom
 .footer-bottom {
   display: flex;
   justify-content: space-between;
@@ -280,7 +402,7 @@ const { t } = useI18n();
     opacity: 0.3;
   }
 }
-// Background
+
 .footer-bg {
   position: absolute;
   inset: 0;
@@ -299,7 +421,6 @@ const { t } = useI18n();
   filter: blur(60px);
 }
 
-// Responsive
 @media screen and (width <= 1024px) {
   .footer-main {
     grid-template-columns: 1fr;
@@ -342,6 +463,10 @@ const { t } = useI18n();
     .separator {
       display: none;
     }
+  }
+
+  .footer-language-select {
+    width: 100%;
   }
 }
 </style>
