@@ -67,7 +67,7 @@ export function createSnippetSource(enabled: Ref<boolean>, snippets: Ref<ANode<s
           ? katexSnippets.map(s => ({
               label: s.id,
               detail: 'KaTeX',
-              type: 'snippet',
+              type: 'math',
               apply: snippet(s.label),
             }))
           : []),

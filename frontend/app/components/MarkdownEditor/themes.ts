@@ -4,6 +4,8 @@ import { tags } from '@lezer/highlight';
 
 const preferences = usePreferencesStore();
 
+const makeSvgUrl = (svg: string) => 'url("data:image/svg+xml,' + svg + '")';
+
 function loadTheme() {
   const generalContent = {
     fontSize: (preferences.get('editorFontSize').value || 14) + 'px',
@@ -293,45 +295,186 @@ function loadTheme() {
       },
       // Tooltips and autocomplete
       '.cm-tooltip': {
-        backgroundColor: tooltipBackground,
-        border: `1px solid ${base04}`,
-        borderRadius: generalTooltip.borderRadius,
-        padding: generalTooltip.padding,
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+        backgroundColor: 'var(--surface-base) !important',
+        border: '1px solid var(--border) !important',
+        borderRadius: '8px !important',
+        boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.05) !important',
+        overflow: 'hidden !important',
+        backdropFilter: 'blur(12px) !important',
+        '-webkit-backdrop-filter': 'blur(12px) !important',
+      },
+      '.cm-tooltip-arrow': {
+        display: 'none !important',
       },
       '.cm-tooltip-autocomplete': {
-        '& > ul': {
-          backgroundColor: tooltipBackground,
-          border: 'none',
-        },
-        '& > ul > li': {
-          padding: generalTooltip.padding,
-          lineHeight: generalTooltip.lineHeight,
-        },
-        '& > ul > li[aria-selected]': {
-          backgroundColor: hoverHighlight,
-          color: base02,
-          borderRadius: generalTooltip.borderRadiusSelected,
-        },
-        '& > ul > li:hover': {
-          backgroundColor: hoverHighlight,
-        },
-        '& > ul > li > span.cm-completionIcon': {
-          color: base03,
-          paddingRight: generalTooltip.paddingRight,
-        },
-        '& > ul > li > span.cm-completionDetail': {
-          color: base03,
-          fontStyle: 'italic',
-        },
+        padding: '5px !important',
+        animation: 'cm-slide-in 0.22s cubic-bezier(0.34, 1.56, 0.64, 1) !important',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif !important',
       },
-      '.cm-tooltip .cm-tooltip-arrow:before': {
-        borderTopColor: 'transparent',
-        borderBottomColor: 'transparent',
+      '.cm-tooltip-autocomplete::after': {
+        content: '"↑↓ to navigate   ·   Enter to select"',
+        display: 'block !important',
+        padding: '6px 12px 4px !important',
+        fontSize: '9px !important',
+        fontWeight: '600 !important',
+        color: 'var(--text-muted) !important',
+        borderTop: '1px solid var(--border) !important',
+        backgroundColor: 'color-mix(in srgb, var(--surface-base) 40%, transparent) !important',
+        textAlign: 'center !important',
+        textTransform: 'uppercase !important',
+        letterSpacing: '0.8px !important',
+        marginTop: '4px !important',
+        opacity: '0.8 !important',
       },
-      '.cm-tooltip .cm-tooltip-arrow:after': {
-        borderTopColor: tooltipBackground,
-        borderBottomColor: tooltipBackground,
+      '.cm-tooltip-autocomplete > ul': {
+        backgroundColor: 'transparent !important',
+        border: 'none !important',
+        maxHeight: '280px !important',
+        padding: '0 !important',
+        margin: '0 !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li': {
+        display: 'flex !important',
+        alignItems: 'center !important',
+        gap: '10px !important',
+        padding: '4px 8px !important',
+        lineHeight: '1.4 !important',
+        borderRadius: '8px !important',
+        margin: '2px 0 !important',
+        cursor: 'pointer !important',
+        transition: 'all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important',
+        color: 'var(--text-body) !important',
+        fontSize: '13px !important',
+        border: 'none !important',
+        borderLeft: '3px solid transparent !important',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li[aria-selected]': {
+        backgroundColor: 'var(--accent-bg) !important',
+        color: 'var(--accent) !important',
+        fontWeight: '500 !important',
+        borderLeft: '3px solid var(--accent) !important',
+        transform: 'translateX(2px) !important',
+        paddingLeft: '11px !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li:hover:not([aria-selected])': {
+        backgroundColor: 'var(--surface-transparent) !important',
+        color: 'var(--text-primary) !important',
+        transform: 'translateX(1px) !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon': {
+        display: 'inline-flex !important',
+        alignItems: 'center !important',
+        justifyContent: 'center !important',
+        width: '22px !important',
+        height: '22px !important',
+        borderRadius: '6px !important',
+        fontSize: '0 !important',
+        flexShrink: '0 !important',
+        marginRight: '2px !important',
+        padding: '0 !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon::before': {
+        content: '""',
+        display: 'block !important',
+        width: '12px !important',
+        height: '12px !important',
+        backgroundColor: 'currentColor !important',
+        '-webkit-mask-size': 'contain !important',
+        '-webkit-mask-repeat': 'no-repeat !important',
+        '-webkit-mask-position': 'center !important',
+        maskSize: 'contain !important',
+        maskRepeat: 'no-repeat !important',
+        maskPosition: 'center !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-snippet': {
+        backgroundColor: 'var(--purple-bg) !important',
+        color: 'var(--purple) !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-snippet::before': {
+        '-webkit-mask-image':
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'/%3E%3Cpolyline points='8 6 2 12 8 18'/%3E%3C/svg%3E",
+          ) + ' !important',
+        maskImage:
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'/%3E%3Cpolyline points='8 6 2 12 8 18'/%3E%3C/svg%3E",
+          ) + ' !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-math': {
+        backgroundColor: 'var(--orange-bg) !important',
+        color: 'var(--orange) !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-math::before': {
+        '-webkit-mask-image':
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v3M4 4l8 8-8 8M4 20h16v-3'/%3E%3C/svg%3E",
+          ) + ' !important',
+        maskImage:
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v3M4 4l8 8-8 8M4 20h16v-3'/%3E%3C/svg%3E",
+          ) + ' !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-reference': {
+        backgroundColor: 'var(--blue-bg) !important',
+        color: 'var(--blue) !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-reference::before': {
+        '-webkit-mask-image':
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E",
+          ) + ' !important',
+        maskImage:
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E",
+          ) + ' !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionLabel': {
+        flex: '1 1 auto !important',
+        fontWeight: '400 !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li[aria-selected] > span.cm-completionLabel': {
+        fontWeight: '500 !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionMatched': {
+        color: 'var(--accent) !important',
+        fontWeight: '700 !important',
+        textDecoration: 'none !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li[aria-selected] > span.cm-completionMatched': {
+        color: 'inherit !important',
+        fontWeight: '700 !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li > span.cm-completionDetail': {
+        marginLeft: 'auto !important',
+        fontSize: '9px !important',
+        fontWeight: '700 !important',
+        textTransform: 'uppercase !important',
+        letterSpacing: '0.6px !important',
+        padding: '2px 6px !important',
+        borderRadius: '5px !important',
+        fontStyle: 'normal !important',
+        border: '1px solid transparent !important',
+        transition: 'all 0.12s ease !important',
+        opacity: '0.9 !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li:has(span.cm-completionIcon-snippet) > span.cm-completionDetail': {
+        backgroundColor: 'var(--purple-bg) !important',
+        color: 'var(--purple) !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li:has(span.cm-completionIcon-math) > span.cm-completionDetail': {
+        backgroundColor: 'var(--orange-bg) !important',
+        color: 'var(--orange) !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li:has(span.cm-completionIcon-reference) > span.cm-completionDetail': {
+        backgroundColor: 'var(--blue-bg) !important',
+        color: 'var(--blue) !important',
+      },
+      '.cm-tooltip-autocomplete > ul > li[aria-selected] > span.cm-completionDetail': {
+        backgroundColor: 'var(--surface-base) !important',
+        borderColor: 'var(--accent-border) !important',
+        color: 'var(--accent) !important',
+        opacity: '1 !important',
       },
       // Diagnostics styling
       '.cm-diagnostic': {
