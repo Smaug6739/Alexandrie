@@ -128,12 +128,12 @@ onMounted(() => {
 <style scoped lang="scss">
 .oss-stats {
   display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
   max-width: 1200px;
   margin: 6rem auto;
   padding: 2rem;
-  align-items: center;
-  gap: 4rem;
-  grid-template-columns: 1fr 1fr;
 }
 
 .stats-visual {
@@ -152,17 +152,17 @@ onMounted(() => {
 
 .card-header {
   display: flex;
-  font-weight: 600;
   align-items: center;
   gap: 12px;
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 .card-desc {
+  margin-bottom: 1.5rem;
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
 }
 
 .card-stats {
@@ -172,10 +172,10 @@ onMounted(() => {
 
 .mini-stat {
   display: flex;
-  font-size: 14px;
-  color: var(--text-secondary);
   align-items: center;
   gap: 6px;
+  font-size: 14px;
+  color: var(--text-secondary);
 
   svg {
     color: var(--primary);
@@ -186,36 +186,36 @@ onMounted(() => {
 .stats-content {
   .section-tag {
     display: inline-block;
+    margin-bottom: 1rem;
     padding: 6px 14px;
     border-radius: 100px;
     font-size: 12px;
     font-weight: 600;
     color: white;
-    background: linear-gradient(135deg, #8b5cf6, #6366f1);
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #8b5cf6, #6366f1);
   }
 
   h2 {
+    margin-bottom: 1rem;
     font-size: clamp(2rem, 4vw, 2.5rem);
     font-weight: 800;
     letter-spacing: -0.02em;
-    margin-bottom: 1rem;
   }
 
   .subtitle {
+    margin-bottom: 2rem;
     font-size: 1.1rem;
     line-height: 1.7;
     color: var(--text-secondary);
-    margin-bottom: 2rem;
   }
 }
 
 .stats-grid {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -237,9 +237,9 @@ onMounted(() => {
 
 .stat-icon {
   display: flex;
-  margin: 0.5rem;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
 }
 
 .stat-value {
@@ -251,26 +251,26 @@ onMounted(() => {
 }
 
 .stat-label {
+  margin-top: 4px;
   font-size: 13px;
   color: var(--text-secondary);
-  margin-top: 4px;
 }
 
 .btn {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 20px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
   transition:
     box-shadow $transition-medium ease,
     transform $transition-medium ease,
     border-color $transition-medium ease,
     color $transition-medium ease;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
 
   &.primary {
     border-color: var(--primary);
@@ -305,8 +305,8 @@ onMounted(() => {
 
 @media screen and (width <= 968px) {
   .oss-stats {
-    gap: 2rem;
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .stats-visual {

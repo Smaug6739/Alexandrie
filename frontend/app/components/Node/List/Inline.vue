@@ -57,25 +57,25 @@ const openContextMenu = (event: MouseEvent) => {
 <style scoped lang="scss">
 .line {
   display: flex;
+  flex-direction: column;
   padding: 14px 16px;
   border: 1px solid var(--border);
+  border-bottom: none;
   background: var(--surface-base);
   transition: background $transition-fast ease;
-  border-bottom: none;
-  flex-direction: column;
 
   &:first-child {
     border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
 
   &:last-child {
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
     border-bottom: 1px solid var(--border);
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
   }
 
   &:only-child {
-    border-radius: var(--radius-md);
     border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-md);
   }
 
   &:hover {
@@ -85,9 +85,9 @@ const openContextMenu = (event: MouseEvent) => {
 
 header {
   display: flex;
-  border: none;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  border: none;
 }
 
 .title-row {
@@ -96,17 +96,17 @@ header {
 }
 
 .icon {
+  margin-right: 8px;
   padding: 6px;
   border-radius: var(--radius-sm);
-  margin-right: 8px;
 }
 
 .name {
   font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
-  transition: color $transition-fast;
   text-decoration: none;
+  transition: color $transition-fast;
 
   &:hover {
     color: var(--primary);
@@ -119,18 +119,18 @@ header {
   font-size: 14px;
   line-height: 1.5;
   color: var(--text-secondary);
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 footer {
   display: flex;
-  font-size: 12px;
-  color: var(--text-secondary);
   align-items: center;
   gap: 6px;
   margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
 
   svg {
     width: 14px;

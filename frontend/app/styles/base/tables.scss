@@ -11,21 +11,21 @@ table {
 /* Header */
 thead th {
 	padding: 0.9rem 1rem;
+	border-bottom: 1px solid var(--border);
 	font-size: 0.8rem;
 	font-weight: 500;
 	color: var(--text-secondary);
 	text-align: left;
-	background-color: var(--border-subtle);
-	border-bottom: 1px solid var(--border);
-	letter-spacing: 0.03em;
 	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	background-color: var(--border-subtle);
 }
 
 /* Cells */
 tbody td {
 	padding: 0.5rem 1rem;
-	color: var(--text-primary);
 	border-bottom: 1px solid var(--border);
+	color: var(--text-primary);
 }
 
 /* Last row without separation */

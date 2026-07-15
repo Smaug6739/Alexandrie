@@ -102,10 +102,10 @@ const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnTyp
 
 .form-group {
   display: flex;
-  width: 100%;
+  justify-content: space-between;
   align-items: flex-start;
   gap: 1rem;
-  justify-content: space-between;
+  width: 100%;
   margin-bottom: 1rem;
 
   &--vertical {
@@ -114,15 +114,15 @@ const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnTyp
 }
 
 label {
-  font-weight: 400;
   flex: 1;
+  font-weight: 400;
 }
 
 .description {
+  margin-top: 0.25rem;
+  margin-left: 2px;
   font-size: 0.85rem;
   color: var(--text-secondary);
-  margin-left: 2px;
-  margin-top: 0.25rem;
 }
 
 h3 {
@@ -138,8 +138,8 @@ h3 {
 .group-checkbox {
   .checkbox-grid {
     display: grid;
-    gap: 0.5rem 3rem;
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 3rem;
   }
 }
 

@@ -58,9 +58,10 @@ watchEffect(() => {
   --_fade: 12px;
 
   display: flex;
+  align-items: center;
   min-width: 0;
   margin: 0;
-  align-items: center;
+  white-space: nowrap;
   list-style: none;
   mask-image: linear-gradient(to right, transparent, black var(--_fade), black calc(100% - var(--_fade)), transparent);
   -webkit-overflow-scrolling: touch;
@@ -68,7 +69,6 @@ watchEffect(() => {
   padding-inline: 8px;
   scroll-behavior: smooth;
   scrollbar-width: none;
-  white-space: nowrap;
 
   &::-webkit-scrollbar {
     display: none;
@@ -81,8 +81,8 @@ watchEffect(() => {
   }
 
   &__separator {
-    opacity: 0.6;
     flex-shrink: 0;
+    opacity: 0.6;
   }
 
   &__link {
@@ -91,10 +91,10 @@ watchEffect(() => {
     font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-secondary);
+    text-decoration: none;
     transition:
       background-color 0.15s ease,
       color 0.15s ease;
-    text-decoration: none;
 
     &:hover {
       color: var(--text-body);

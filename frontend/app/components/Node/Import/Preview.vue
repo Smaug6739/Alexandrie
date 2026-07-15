@@ -55,40 +55,40 @@ const importSingle = () => emit('importSingle');
 <style scoped lang="scss">
 .node-item {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
   padding: 0.75rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
 }
 
 .doc-info {
   display: flex;
-  min-width: 0;
-  align-items: center;
   flex: 1;
+  align-items: center;
   gap: 0.75rem;
+  min-width: 0;
 }
 
 .icon {
+  margin-right: 10px;
   padding: 4px;
   border-radius: var(--radius-md);
-  margin-right: 10px;
 }
 
 .doc-details {
   display: flex;
-  min-width: 0;
   flex-direction: column;
+  min-width: 0;
 }
 
 .doc-name {
   font-weight: 500;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .doc-meta {
@@ -102,17 +102,17 @@ const importSingle = () => emit('importSingle');
 
 .comparison {
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.25rem 0.5rem;
   border-radius: var(--radius-sm);
   font-size: 0.75rem;
   background: var(--surface-base);
-  align-items: center;
-  gap: 0.5rem;
 
   .version {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
 
     .version-label {
       font-size: 0.65rem;

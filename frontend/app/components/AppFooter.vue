@@ -98,8 +98,8 @@
 <style scoped lang="scss">
 .footer {
   position: relative;
-  padding: 0 2rem;
   margin-top: 4rem;
+  padding: 0 2rem;
   overflow: hidden;
 }
 
@@ -112,10 +112,10 @@
 
 .footer-main {
   display: grid;
+  grid-template-columns: 1.5fr 2.5fr;
+  gap: 4rem;
   padding: 4rem 0;
   border-top: 1px solid var(--border);
-  gap: 4rem;
-  grid-template-columns: 1.5fr 2.5fr;
 }
 
 // Brand Section
@@ -136,10 +136,10 @@
 }
 
 .brand-desc {
+  margin-bottom: 1.5rem;
   font-size: 0.9rem;
   line-height: 1.7;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
 }
 
 .social-links {
@@ -148,6 +148,8 @@
 
   a {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 40px;
     height: 40px;
     border: 1px solid var(--border);
@@ -159,8 +161,6 @@
       color $transition-medium ease,
       background-color $transition-medium ease,
       transform $transition-medium ease;
-    align-items: center;
-    justify-content: center;
 
     &:hover {
       border-color: var(--primary);
@@ -174,18 +174,18 @@
 // Links Section
 .footer-links {
   display: grid;
-  gap: 2rem;
   grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
 }
 
 .links-column {
   h4 {
+    margin-bottom: 1rem;
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--text-body);
-    letter-spacing: 0.5px;
-    margin-bottom: 1rem;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   ul {
@@ -201,10 +201,10 @@
       display: inline-block;
       font-size: 0.9rem;
       color: var(--text-secondary);
+      text-decoration: none;
       transition:
         color $transition-fast ease,
         transform $transition-fast ease;
-      text-decoration: none;
 
       &:hover {
         color: var(--primary);
@@ -217,18 +217,18 @@
 // Footer Bottom
 .footer-bottom {
   display: flex;
-  padding: 1.5rem 0;
-  align-items: center;
-  border-top: 1px solid var(--border);
   justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
 }
 
 .footer-bottom-left {
   display: flex;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
   align-items: center;
   gap: 12px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
 
   a {
     font-weight: 500;
@@ -263,15 +263,15 @@
   width: 800px;
   height: 400px;
   background: radial-gradient(ellipse, rgb(99 102 241 / 10%), transparent 70%);
-  filter: blur(60px);
   transform: translateX(-50%);
+  filter: blur(60px);
 }
 
 // Responsive
 @media screen and (width <= 1024px) {
   .footer-main {
-    gap: 3rem;
     grid-template-columns: 1fr;
+    gap: 3rem;
   }
 
   .footer-brand {
@@ -293,14 +293,14 @@
   }
 
   .footer-links {
-    gap: 1.5rem;
     grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
   }
 
   .footer-bottom {
-    text-align: center;
     flex-direction: column;
     gap: 1rem;
+    text-align: center;
   }
 
   .footer-bottom-left {

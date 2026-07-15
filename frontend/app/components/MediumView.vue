@@ -14,11 +14,11 @@ const marginLeft = computed(() => (isMobile.value || !isOpened.value ? '10px' : 
 <style scoped lang="scss">
 main {
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   padding: 0 10px;
   transition: padding-left $transition-medium;
-  flex-direction: column;
 }
 
 @media print {

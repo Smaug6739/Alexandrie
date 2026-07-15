@@ -67,8 +67,8 @@ onMounted(() => {
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--text-secondary);
-  letter-spacing: 0.18em;
   text-transform: uppercase;
+  letter-spacing: 0.18em;
 }
 
 .subtitle {
@@ -92,14 +92,14 @@ onMounted(() => {
 }
 
 .error-message {
-  color: var(--red);
   margin-top: 1rem;
+  color: var(--red);
   text-align: center;
 }
 
 .success-message {
-  color: var(--green);
   margin-top: 1rem;
+  color: var(--green);
   text-align: center;
 }
 </style>

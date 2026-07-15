@@ -271,12 +271,12 @@ onBeforeUnmount(() => {
 
 .pdf-error {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
   height: 100%;
   color: var(--red-dark);
-  align-items: center;
-  flex-direction: column;
-  gap: 12px;
-  justify-content: center;
 }
 
 .pdf-page-wrapper {
@@ -292,19 +292,22 @@ onBeforeUnmount(() => {
 
 .textLayer {
   --csstools-color-scheme--light: initial;
+  --min-font-size: 1;
+  --text-scale-factor: 1;
+  --min-font-size-inv: 1;
 
   position: absolute;
   z-index: 0;
   line-height: 1;
   text-align: initial;
   opacity: 1;
+  transform-origin: 0 0;
   caret-color: CanvasText;
   color-scheme: only light;
   forced-color-adjust: none;
   inset: 0;
   overflow: clip;
   text-size-adjust: none;
-  transform-origin: 0 0;
 }
 
 .textLayer.highlighting {
@@ -314,9 +317,9 @@ onBeforeUnmount(() => {
 .textLayer :is(span, br) {
   position: absolute;
   color: transparent;
+  white-space: pre;
   cursor: text;
   transform-origin: 0% 0%;
-  white-space: pre;
 }
 
 .textLayer :is(br) {
@@ -325,12 +328,6 @@ onBeforeUnmount(() => {
   overflow: hidden;
   pointer-events: none;
   user-select: none;
-}
-
-.textLayer {
-  --min-font-size: 1;
-  --text-scale-factor: 1;
-  --min-font-size-inv: 1;
 }
 
 .textLayer > :not(.markedContent),
@@ -356,12 +353,6 @@ onBeforeUnmount(() => {
   user-select: none;
 }
 
-.textLayer .highlight {
-  --highlight-selected-bg-color: rgb(0 100 0 / 25%);
-  --highlight-backdrop-filter: none;
-  --highlight-selected-backdrop-filter: none;
-}
-
 @media screen and (forced-colors: active) {
   .textLayer .highlight {
     --highlight-selected-bg-color: transparent;
@@ -371,6 +362,10 @@ onBeforeUnmount(() => {
 }
 
 .textLayer .highlight {
+  --highlight-selected-bg-color: rgb(0 100 0 / 25%);
+  --highlight-backdrop-filter: none;
+  --highlight-selected-backdrop-filter: none;
+
   margin: -1px;
   padding: 1px;
   border-radius: 4px;
@@ -380,14 +375,6 @@ onBeforeUnmount(() => {
 
 .textLayer ::selection {
   background: color-mix(in srgb, AccentColor, transparent 75%);
-}
-
-.textLayer ::selection {
-  background: color-mix(in srgb, AccentColor, transparent 75%);
-}
-
-.textLayer br::selection {
-  background: transparent;
 }
 
 .textLayer br::selection {
@@ -410,11 +397,11 @@ onBeforeUnmount(() => {
 .pdf-page-placeholder {
   position: absolute;
   display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 14px;
   color: #999;
   background: #f5f5f5;
-  align-items: center;
   inset: 0;
-  justify-content: center;
 }
 </style>

@@ -134,10 +134,10 @@ onUnmounted(() => document.removeEventListener('keydown', handleKeydown));
 @media screen and (width <= 600px) {
   .modal-container {
     display: flex;
-    width: 95%;
-    padding: 12px 0;
     flex-direction: column;
     justify-content: center;
+    width: 95%;
+    padding: 12px 0;
   }
 
   .close-btn {

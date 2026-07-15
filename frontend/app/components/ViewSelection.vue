@@ -50,16 +50,18 @@ onMounted(async () => {
 <style scoped lang="scss">
 .view-selection {
   display: flex;
+  align-items: center;
+  gap: 2px;
   padding: 3px;
   border-radius: var(--radius-sm);
   background: var(--surface-raised);
-  align-items: center;
-  gap: 2px;
 }
 
 button {
   position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 32px;
   height: 32px;
   padding: 0;
@@ -67,12 +69,10 @@ button {
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   background: transparent;
+  cursor: pointer;
   transition:
     color $transition-fast,
     background $transition-fast;
-  align-items: center;
-  cursor: pointer;
-  justify-content: center;
 
   &:hover {
     color: var(--text-body);

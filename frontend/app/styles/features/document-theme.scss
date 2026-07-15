@@ -47,20 +47,20 @@
 
 	.markdown-container {
 		display: flex;
+		gap: 1rem;
 		margin: 0.5em 0;
 		padding: 0;
 		border: none;
 		color: var(--text-body);
 		background-color: transparent;
-		gap: 1rem;
 
 		.title {
 			min-width: 150px;
 			max-width: 170px;
 			padding: 5px 12px;
+			border-right: 1px solid var(--text-body);
 			font-size: 15px;
 			color: var(--text-primary);
-			border-right: 1px solid var(--text-body);
 
 			svg {
 				display: none;
@@ -74,28 +74,28 @@
 
 	.custom-block {
 		display: flex;
+		flex-wrap: wrap;
 		margin: 2em 0;
 		padding: 0;
 		border: none;
 		font-size: 16px;
 		color: var(--text-body);
 		background-color: transparent;
-		flex-wrap: wrap;
 
 		.custom-block-title {
 			min-width: 150px;
 			max-width: 170px;
 			padding: 5px 12px;
+			border-right: 1px solid var(--text-body);
 			font-weight: bold;
 			color: var(--text-primary);
-			border-right: 1px solid var(--text-body);
 		}
 
 
 
 		.custom-block-content {
-			padding: 0 0.5em;
 			flex: 1;
+			padding: 0 0.5em;
 
 			p {
 				padding: 0 0.5em;
@@ -144,19 +144,19 @@
 
 	.markdown-container {
 		display: flex;
+		gap: 1rem;
 		margin: 0.5em 0;
 		padding: 0;
 		border-radius: var(--radius-xs);
 		color: var(--text-body);
 		background-color: transparent;
-		gap: 1rem;
 
 		.title {
 			min-width: 150px;
 			max-width: 170px;
 			padding: 5px 12px;
-			font-size: 15px;
 			border-right: 1px solid var(--text-body);
+			font-size: 15px;
 
 			svg {
 				display: none;
@@ -170,83 +170,83 @@
 
 	.custom-block {
 		display: flex;
+		flex-wrap: wrap;
 		margin: 2em 0;
 		padding: 4px;
 		border: none;
 		border-radius: var(--radius-xs);
 		font-size: 16px;
 		color: var(--text-body);
-		flex-wrap: wrap;
 
 		.grey {
+			border-left: 4px solid var(--grey);
 			color: var(--grey);
 			background-color: var(--grey-bg-light);
-			border-left: 4px solid var(--grey);
 		}
 
 		&.blue {
+			border-left: 4px solid var(--blue);
 			color: var(--blue);
 			background-color: var(--blue-bg-light);
-			border-left: 4px solid var(--blue);
 		}
 
 		&.green {
+			border-left: 4px solid var(--green);
 			color: var(--green);
 			background-color: var(--green-bg-light);
-			border-left: 4px solid var(--green);
 		}
 
 		&.teal {
+			border-left: 4px solid var(--teal);
 			color: var(--teal);
 			background-color: var(--teal-bg-light);
-			border-left: 4px solid var(--teal);
 		}
 
 		&.yellow {
+			border-left: 4px solid var(--yellow);
 			color: var(--yellow);
 			background-color: var(--yellow-bg-light);
-			border-left: 4px solid var(--yellow);
 		}
 
 		&.orange {
+			border-left: 4px solid var(--orange);
 			color: var(--orange);
 			background-color: var(--orange-bg-light);
-			border-left: 4px solid var(--orange);
 		}
 
 
 		&.red {
+			border-left: 4px solid var(--red);
 			color: var(--red);
 			background-color: var(--red-bg-light);
-			border-left: 4px solid var(--red);
 		}
 
 		&.purple {
+			border-left: 4px solid var(--purple);
 			color: var(--purple);
 			background-color: var(--purple-bg-light);
-			border-left: 4px solid var(--purple);
 		}
 
 
 		&.custom-block.details {
+			border-left: 4px solid var(--blue);
 			color: var(--blue);
 			background-color: var(--blue-bg-light);
-			border-left: 4px solid var(--blue);
 		}
 
 		.custom-block-title {
 			min-width: 150px;
 			max-width: 170px;
 			padding: 5px 12px;
-			font-weight: bold;
 			border-right: 1px solid var(--border);
+			font-weight: bold;
 		}
 
 
 
 		.custom-block-content {
-			padding: 0 0.5em;
 			flex: 1;
+			padding: 0 0.5em;
 
 			p {
 				padding: 0 0.5em;
@@ -281,13 +281,13 @@
 	}
 
 	h2 {
-		font-size: 1.5rem;
 		margin-top: 2rem;
+		font-size: 1.5rem;
 	}
 
 	h3 {
-		font-size: 1.25rem;
 		margin-top: 1rem;
+		font-size: 1.25rem;
 	}
 
 	p {
@@ -297,8 +297,8 @@
 
 	a {
 		color: var(--primary);
-		transition: color $transition-fast ease, opacity $transition-fast ease;
 		text-decoration: none;
+		transition: color $transition-fast ease, opacity $transition-fast ease;
 
 		&:hover {
 			text-decoration: underline;
@@ -318,10 +318,10 @@
 
 	blockquote {
 		margin: 1.5rem 0;
+		padding-left: 1rem;
+		border-left: 4px solid var(--blue);
 		color: var(--text-body);
 		background-color: var(--surface-raised);
-		border-left: 4px solid var(--blue);
-		padding-left: 1rem;
 	}
 
 	ul,
@@ -375,46 +375,46 @@
 
 		&.info,
 		&.blue {
-			background-color: var(--blue-bg-light);
 			border-left: 4px solid var(--blue);
+			background-color: var(--blue-bg-light);
 		}
 
 		&.success,
 		&.green {
-			background-color: var(--green-bg-light);
 			border-left: 4px solid var(--green);
+			background-color: var(--green-bg-light);
 		}
 
 		&.warning,
 		&.yellow {
-			background-color: var(--yellow-bg-light);
 			border-left: 4px solid var(--yellow);
+			background-color: var(--yellow-bg-light);
 		}
 
 		&.danger,
 		&.red {
-			background-color: var(--red-bg-light);
 			border-left: 4px solid var(--red);
+			background-color: var(--red-bg-light);
 		}
 
 		&.teal {
-			background-color: var(--teal-bg-light);
 			border-left: 4px solid var(--teal);
+			background-color: var(--teal-bg-light);
 		}
 
 		&.purple {
-			background-color: var(--purple-bg-light);
 			border-left: 4px solid var(--purple);
+			background-color: var(--purple-bg-light);
 		}
 
 		&.grey {
-			background-color: var(--grey-bg);
 			border-left: 4px solid var(--grey);
+			background-color: var(--grey-bg);
 		}
 
 		.custom-block-title {
-			font-weight: 600;
 			margin-bottom: 0.5rem;
+			font-weight: 600;
 		}
 
 		.custom-block-content {

@@ -121,15 +121,15 @@ function copyCode(code: string, index: number) {
 }
 
 .section-header {
-  text-align: center;
   margin-bottom: 3rem;
+  text-align: center;
 }
 
 h2 {
+  margin-bottom: 0.5rem;
   font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
 }
 
 .subtitle {
@@ -140,8 +140,8 @@ h2 {
 .steps-container {
   display: grid;
   align-items: center;
-  gap: 3rem;
   grid-template-columns: 1fr 1.2fr;
+  gap: 3rem;
   margin-bottom: 2rem;
 }
 
@@ -176,6 +176,8 @@ h2 {
 
 .step-index {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 32px;
   height: 32px;
   border-radius: var(--radius-lg);
@@ -183,8 +185,6 @@ h2 {
   font-weight: 700;
   color: white;
   background: var(--primary);
-  align-items: center;
-  justify-content: center;
 }
 
 .step-header h3 {
@@ -194,9 +194,9 @@ h2 {
 }
 
 .step-content p {
+  margin-bottom: 0.75rem;
   font-size: 0.9rem;
   color: var(--text-secondary);
-  margin-bottom: 0.75rem;
 }
 
 .code-wrap {
@@ -206,19 +206,21 @@ h2 {
 }
 
 .code {
+  flex: 1;
   padding: 10px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   font-family: $font-mono;
   font-size: 13px;
-  background: var(--surface-raised);
-  flex: 1;
-  overflow: auto;
   white-space: nowrap;
+  background: var(--surface-raised);
+  overflow: auto;
 }
 
 .copy {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 36px;
   height: 36px;
   padding: 0;
@@ -226,12 +228,10 @@ h2 {
   border-radius: var(--radius-lg);
   color: var(--text-secondary);
   background: var(--surface-base);
+  cursor: pointer;
   transition:
     border-color $transition-fast ease,
     color $transition-fast ease;
-  align-items: center;
-  cursor: pointer;
-  justify-content: center;
 
   &:hover {
     border-color: var(--primary);
@@ -256,11 +256,11 @@ h2 {
 
 .terminal-header {
   display: flex;
-  padding: 12px 16px;
-  background: #181825;
   align-items: center;
-  border-bottom: 1px solid #313244;
   gap: 1rem;
+  padding: 12px 16px;
+  border-bottom: 1px solid #313244;
+  background: #181825;
 }
 
 .terminal-dots {
@@ -300,12 +300,12 @@ h2 {
 
 .terminal-line {
   display: flex;
-  color: #cdd6f4;
   gap: 8px;
+  color: #cdd6f4;
 
   &.output {
-    color: #6c7086;
     padding-left: 18px;
+    color: #6c7086;
   }
 
   &.success {
@@ -338,12 +338,14 @@ h2 {
 .notes {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   justify-content: center;
+  gap: 10px;
 }
 
 .pill {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 14px;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -351,8 +353,6 @@ h2 {
   font-weight: 500;
   background: var(--surface-base);
   transition: border-color $transition-fast ease;
-  align-items: center;
-  gap: 8px;
 
   &:hover {
     border-color: var(--primary);

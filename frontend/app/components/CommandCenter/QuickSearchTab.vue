@@ -110,7 +110,7 @@ defineExpose({ flattenedItems });
 <style scoped lang="scss">
 .quick-search-tab {
   display: flex;
-  height: 100%;
   flex-direction: column;
+  height: 100%;
 }
 </style>

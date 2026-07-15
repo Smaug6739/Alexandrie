@@ -50,8 +50,8 @@ h3 {
 }
 
 .section-description {
-  color: var(--text-secondary);
   margin-bottom: 1rem;
+  color: var(--text-secondary);
 }
 
 .sessions-list {
@@ -64,9 +64,9 @@ h3 {
 .no-sessions {
   padding: 1rem;
   border-radius: var(--radius-lg);
+  font-style: italic;
   color: var(--text-secondary);
   text-align: center;
   background: var(--surface-raised);
-  font-style: italic;
 }
 </style>

@@ -89,6 +89,10 @@
 	}
 }
 
+.border-yellow {
+	border-color: var(--yellow) !important;
+}
+
 .orange,
 [orange] {
 	border-color: var(--orange-border);
@@ -104,8 +108,8 @@
 	}
 }
 
-.border-yellow {
-	border-color: var(--yellow) !important;
+.border-orange {
+	border-color: var(--orange) !important;
 }
 
 .red,
@@ -142,8 +146,8 @@
 	}
 }
 
-.border-pink {
-	border-color: var(--pink) !important;
+.border-purple {
+	border-color: var(--purple) !important;
 }
 
 .pink,

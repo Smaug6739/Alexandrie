@@ -41,8 +41,8 @@ const store = usePreferencesStore();
 }
 
 form {
-  padding: 0 5px 25px;
   flex: 1;
+  padding: 0 5px 25px;
   overflow-y: auto;
 }
 

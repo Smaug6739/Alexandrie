@@ -271,9 +271,9 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
 
 .trigger {
   display: flex;
-  padding: 2px;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  padding: 2px;
 }
 
 .value {
@@ -316,28 +316,28 @@ button,
   position: fixed;
   z-index: 1000;
   display: flex;
-  background: var(--overlay-backdrop);
-  align-items: flex-end;
-  inset: 0;
   justify-content: center;
+  align-items: flex-end;
+  background: var(--overlay-backdrop);
+  inset: 0;
 }
 
 .sheet {
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-height: 85vh;
   border-radius: var(--surface-sheet-radius);
   background: var(--surface-base);
   animation: slide-up $transition-medium ease-out;
-  flex-direction: column;
 
   header {
     display: flex;
-    padding: 16px;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
     flex-shrink: 0;
     justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
   }
 }
 
@@ -358,16 +358,16 @@ button,
 
 .close-btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 36px;
   height: 36px;
   padding: 0;
   border: none;
   border-radius: 50%;
   background: var(--surface-raised);
-  transition: background 0.2s;
-  align-items: center;
   cursor: pointer;
-  justify-content: center;
+  transition: background 0.2s;
 
   &:hover {
     background: var(--selection-color);
@@ -376,24 +376,24 @@ button,
 
 .sheet-search {
   display: flex;
-  padding: 12px 16px;
-  background: var(--surface-raised);
-  align-items: center;
-  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  align-items: center;
   gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-raised);
 
   input {
+    flex: 1;
     height: 40px;
     padding: 8px 12px;
-    flex: 1;
   }
 }
 
 .sheet-list {
+  flex: 1;
   margin: 0;
   padding: 8px;
-  flex: 1;
   list-style: none;
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
@@ -424,18 +424,18 @@ button,
 
 .clear {
   display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 2px 0 6px;
   padding: 6px 12px;
+  border-bottom: 1px solid var(--border);
   border-radius: var(--radius-xs);
   font-size: 0.9rem;
   color: var(--text-secondary);
+  cursor: pointer;
   transition:
     color 0.15s ease,
     background-color 0.15s ease;
-  align-items: center;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  gap: 8px;
 
   &:hover {
     color: var(--red);

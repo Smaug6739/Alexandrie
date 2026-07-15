@@ -63,9 +63,9 @@ watch(selectedColor, val => (hex.value = val));
 <style scoped lang="scss">
 .modal-ctn {
   display: flex;
-  padding: 16px;
   flex-direction: column;
   gap: 12px;
+  padding: 16px;
 }
 
 .modal-content {
@@ -82,18 +82,18 @@ watch(selectedColor, val => (hex.value = val));
 .swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   justify-content: space-evenly;
+  gap: 8px;
 }
 
 .swatch {
   display: flex;
+  justify-content: center;
   width: 45px;
   height: 45px;
   border-radius: var(--radius-md);
-  transition: transform $transition-fast ease;
   cursor: pointer;
-  justify-content: center;
+  transition: transform $transition-fast ease;
 
   &:hover {
     transform: scale(1.1);

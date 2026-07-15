@@ -1,7 +1,8 @@
 <template>
   <aside>
     <h4 v-if="doc?.tags">{{ t('nodes.tags') }}</h4>
-    <div v-if="doc?.tags" style="display: flex; font-size: 14px; flex-wrap: wrap">
+    <div v-if="doc?.tags" style="display: flex; flex-wrap: wrap;
+ font-size: 14px">
       <tag v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
     </div>
     <ul ref="list" style="position: relative">
@@ -140,8 +141,8 @@ aside {
   top: 20px;
   width: 350px;
   padding: 0 15px;
-  font-size: 0.8rem;
   border-left: 1px solid var(--border);
+  font-size: 0.8rem;
 }
 
 .marker {
@@ -170,13 +171,13 @@ li:deep(a).active {
 
 .child-link {
   display: flex;
+  align-items: flex-start;
+  gap: 5px;
   margin: 5px 0;
   font-weight: 450;
   color: var(--text-body);
-  transition: color $transition-base;
-  align-items: flex-start;
-  gap: 5px;
   text-decoration: none;
+  transition: color $transition-base;
 
   &:hover {
     color: var(--primary);

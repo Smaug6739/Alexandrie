@@ -57,12 +57,14 @@ const mark = useMark();
 
 .cards-grid {
   display: grid;
-  gap: 0.9rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
 }
 
 .import-card {
   display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
   min-height: 185px;
   padding: 0.9rem;
   border: 1px solid var(--border);
@@ -72,14 +74,12 @@ const mark = useMark();
     transform 0.18s ease,
     box-shadow 0.18s ease,
     border-color 0.18s ease;
-  flex-direction: column;
-  gap: 0.65rem;
 
   .top {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 0.6rem;
-    justify-content: space-between;
   }
 
   h3 {
@@ -95,10 +95,10 @@ const mark = useMark();
   }
 
   .cta {
+    margin-top: auto;
     font-size: 0.84rem;
     font-weight: 600;
     color: var(--primary);
-    margin-top: auto;
   }
 
   &:hover {

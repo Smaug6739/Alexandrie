@@ -73,9 +73,9 @@ onBeforeUnmount(() => {
 <style scoped lang="scss">
 .drawio-editor-modal {
   display: flex;
-  height: 100%;
   flex-direction: column;
   gap: 12px;
+  height: 100%;
   margin-top: 10px;
 }
 
@@ -87,11 +87,11 @@ aside {
 
 .drawio-content {
   position: relative;
+  flex: 1;
   min-height: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-base);
-  flex: 1;
   overflow: hidden;
 }
 
@@ -106,12 +106,12 @@ aside {
   position: absolute;
   z-index: 10;
   display: flex;
-  background: var(--surface-base);
-  align-items: center;
   flex-direction: column;
-  gap: 12px;
-  inset: 0;
   justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-base);
+  inset: 0;
 
   p {
     font-size: 14px;

@@ -152,12 +152,12 @@ async function handleVerify2FA() {
 <style scoped lang="scss">
 .body-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 }
 
 h1 {
@@ -192,16 +192,16 @@ input {
   top: 50%;
   right: 8px;
   display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 8px;
   border: none;
   border-radius: 50%;
   background: transparent;
+  cursor: pointer;
   transition:
     background-color $transition-fast ease,
     transform $transition-fast ease;
-  align-items: center;
-  cursor: pointer;
-  justify-content: center;
   transform: translateY(-50%);
 
   &:hover {
@@ -214,19 +214,19 @@ input {
 }
 
 .disabled {
+  margin-top: 0.5rem;
   font-size: 0.9rem;
   color: var(--text-muted);
   text-align: center;
-  margin-top: 0.5rem;
 }
 
 .eye-icon {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 20px;
   height: 20px;
   transition: transform $transition-medium ease;
-  align-items: center;
-  justify-content: center;
 
   &.show {
     transform: scale(1.1);
@@ -236,12 +236,12 @@ input {
 /* ===== Links ===== */
 .signup-link {
   display: block;
+  margin-bottom: 1rem;
   font-weight: 500;
   color: var(--primary);
   text-align: center;
-  transition: color $transition-fast ease;
-  margin-bottom: 1rem;
   text-decoration: none;
+  transition: color $transition-fast ease;
 
   &:hover {
     color: var(--primary-dark);
@@ -250,10 +250,10 @@ input {
 }
 
 .forgot-password-link {
+  margin-top: 1rem;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
-  margin-top: 1rem;
 
   a {
     font-weight: 600;
@@ -270,6 +270,7 @@ input {
 /* ===== Buttons ===== */
 .btn {
   width: 100%;
+  margin-top: 1rem;
   padding: 0.9rem;
   border: none;
   border-radius: var(--radius-lg);
@@ -277,11 +278,10 @@ input {
   font-weight: 600;
   color: white;
   background-color: var(--primary);
+  cursor: pointer;
   transition:
     background-color $transition-fast ease,
     transform $transition-fast ease;
-  cursor: pointer;
-  margin-top: 1rem;
 
   &:hover {
     background: var(--primary-dark);
@@ -310,8 +310,8 @@ input {
   text-align: center;
 
   &.general {
-    font-size: 0.9rem;
     margin-top: 1rem;
+    font-size: 0.9rem;
   }
 }
 </style>

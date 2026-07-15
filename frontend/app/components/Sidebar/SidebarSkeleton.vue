@@ -35,10 +35,10 @@ defineProps<{ isLoading: boolean }>();
 
 .sidebar-skeleton {
   display: flex;
-  padding: 0.5rem;
   flex-direction: column;
   gap: 6px;
   margin-top: 8px;
+  padding: 0.5rem;
 }
 
 .skeleton-line {
@@ -61,11 +61,11 @@ defineProps<{ isLoading: boolean }>();
 
 .empty-sidebar {
   display: flex;
+  flex-direction: column;
   height: 100%;
   padding: 20% 1rem;
   color: var(--text-secondary);
   text-align: center;
-  flex-direction: column;
 }
 
 .empty-sidebar .icon {
@@ -79,9 +79,9 @@ defineProps<{ isLoading: boolean }>();
 }
 
 .empty-sidebar .message {
+  margin-bottom: 0.25rem;
   font-size: 0.95rem;
   font-weight: 500;
-  margin-bottom: 0.25rem;
 }
 
 .empty-sidebar .hint {
@@ -90,10 +90,10 @@ defineProps<{ isLoading: boolean }>();
 }
 
 .action-link {
+  margin-top: 5px;
   font-size: 0.75rem;
   font-weight: bold;
   color: var(--primary);
   cursor: pointer;
-  margin-top: 5px;
 }
 </style>

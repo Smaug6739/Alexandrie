@@ -60,20 +60,19 @@ const docCount = computed(() => {
 .workspace-tile {
   position: relative;
   display: flex;
+  flex-direction: column;
   height: 100%;
   padding: 1.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  flex-direction: column;
-  overflow: hidden;
   cursor: pointer;
-
   transition:
     border-color $transition-fast ease,
     background-color $transition-fast ease,
     box-shadow $transition-fast ease,
     transform $transition-fast cubic-bezier(0.25, 1, 0.5, 1);
+  overflow: hidden;
 
   &:hover {
     border-color: var(--primary);
@@ -90,6 +89,7 @@ const docCount = computed(() => {
       .ws-icon {
         transform: scale(1.05);
       }
+
       .status-dot {
         box-shadow: 0 0 8px var(--primary);
       }
@@ -106,11 +106,11 @@ const docCount = computed(() => {
   height: 60%;
   background: radial-gradient(circle, color-mix(in srgb, var(--primary) 25%, transparent) 0%, transparent 75%);
   opacity: 0;
-  pointer-events: none;
-  filter: blur(30px);
   transition:
     opacity $transition-base ease,
     transform $transition-base ease;
+  filter: blur(30px);
+  pointer-events: none;
 }
 
 .tile-content {
@@ -123,19 +123,19 @@ const docCount = computed(() => {
 
 .top-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 1.25rem;
 }
 
 .icon-box {
   position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 2.5rem;
   height: 2.5rem;
   border-radius: var(--radius-md);
-  align-items: center;
-  justify-content: center;
 
   .ws-icon {
     font-size: 1.25rem;
@@ -179,18 +179,18 @@ const docCount = computed(() => {
 }
 
 .meta-zone {
-  margin-bottom: 1.25rem;
   flex: 1;
+  margin-bottom: 1.25rem;
 
   .ws-title {
-    margin: 0 0 0.35rem 0;
+    margin: 0 0 0.35rem;
     font-size: 1.05rem;
     font-weight: 600;
     color: var(--text-body);
-    letter-spacing: -0.01em;
-    overflow: hidden;
     text-overflow: ellipsis;
+    letter-spacing: -0.01em;
     white-space: nowrap;
+    overflow: hidden;
   }
 
   .ws-description {
@@ -207,28 +207,28 @@ const docCount = computed(() => {
 }
 
 .tile-footer {
-  border-top: 1px solid var(--border);
   margin-top: auto;
   padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
 }
 
 .category-pills {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-  flex-wrap: wrap;
   min-width: 0;
 
   .pill {
     position: relative;
+    max-width: 100px;
+    padding-left: 0.5rem;
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--text-secondary);
-    padding-left: 0.5rem;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 100px;
+    overflow: hidden;
 
     &::before {
       position: absolute;
@@ -238,8 +238,8 @@ const docCount = computed(() => {
       height: 4px;
       border-radius: 50%;
       background: var(--border);
-      content: '';
       transform: translateY(-50%);
+      content: '';
     }
   }
 
@@ -247,12 +247,12 @@ const docCount = computed(() => {
     display: inline-flex;
     align-items: center;
     padding: 0.15rem 0.35rem;
+    border: 1px solid var(--border);
     border-radius: var(--radius-xs);
     font-size: 0.7rem;
     font-weight: 600;
     color: var(--text-secondary);
     background: var(--surface-raised);
-    border: 1px solid var(--border);
 
     .workspace-tile:hover & {
       background: var(--surface-base);

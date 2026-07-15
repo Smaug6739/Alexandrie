@@ -39,12 +39,12 @@ async function reset() {
 <style scoped lang="scss">
 .body-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 600px;
   margin: 0 auto 10%;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 }
 
 h1 {
@@ -57,8 +57,8 @@ form {
 
 .form-group {
   display: flex;
-  width: 100%;
   flex-direction: column;
+  width: 100%;
   margin-bottom: 1rem;
 }
 
@@ -85,10 +85,10 @@ input {
 }
 
 .invalid-feedback {
+  margin-top: 0.5rem;
   font-size: 15px;
   color: var(--red);
   text-align: center;
-  margin-top: 0.5rem;
 }
 
 .issue {

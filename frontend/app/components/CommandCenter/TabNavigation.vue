@@ -39,22 +39,22 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeydown, { capture
 
 .tab-button {
   display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   padding: 14px 20px;
   border: none;
+  border-bottom: 2px solid transparent;
   border-radius: 0;
   font-size: 14px;
   font-weight: 500;
   background: transparent;
-  align-items: center;
-  border-bottom: 2px solid transparent;
   cursor: pointer;
-  flex: 1;
-  gap: 8px;
-  justify-content: center;
 
   &.active {
-    color: var(--primary);
     border-bottom-color: var(--primary);
+    color: var(--primary);
   }
 }
 

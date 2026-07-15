@@ -92,8 +92,8 @@
 
 <style scoped lang="scss">
 .final-cta {
-  padding: 2rem;
   margin-bottom: 2rem;
+  padding: 2rem;
 }
 
 .cta-container {
@@ -153,16 +153,16 @@
 
 .cta-badge {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2rem;
   padding: 8px 16px;
   border: 1px solid rgb(255 255 255 / 20%);
   border-radius: 100px;
   font-size: 13px;
   font-weight: 500;
   background: rgb(255 255 255 / 15%);
-  align-items: center;
   backdrop-filter: blur(10px);
-  gap: 8px;
-  margin-bottom: 2rem;
 
   svg {
     color: #fbbf24;
@@ -170,10 +170,10 @@
 }
 
 .cta-title {
+  margin-bottom: 1rem;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
   line-height: 1.2;
-  margin-bottom: 1rem;
 
   .gradient-text {
     display: block;
@@ -193,25 +193,25 @@
 
 .cta-actions {
   display: flex;
-  gap: 1rem;
   justify-content: center;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
 .btn-primary {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 16px 28px;
   border-radius: var(--radius-lg);
   font-size: 15px;
   font-weight: 600;
   color: var(--primary);
+  text-decoration: none;
   background: white;
   transition:
     box-shadow $transition-medium ease,
     transform $transition-medium ease;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
 
   &:hover {
     box-shadow: var(--shadow-lg);
@@ -229,20 +229,20 @@
 
 .btn-secondary {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 16px 28px;
   border: 1px solid rgb(255 255 255 / 30%);
   border-radius: var(--radius-lg);
   font-size: 15px;
   font-weight: 600;
   color: white;
+  text-decoration: none;
   background: rgb(255 255 255 / 15%);
   transition:
     background-color $transition-medium ease,
     transform $transition-medium ease;
-  align-items: center;
   backdrop-filter: blur(10px);
-  gap: 8px;
-  text-decoration: none;
 
   &:hover {
     background: rgb(255 255 255 / 25%);
@@ -253,16 +253,16 @@
 .cta-features {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
   justify-content: center;
+  gap: 2rem;
   margin-bottom: 3rem;
 
   .feature {
     display: flex;
-    font-size: 14px;
-    opacity: 0.9;
     align-items: center;
     gap: 6px;
+    font-size: 14px;
+    opacity: 0.9;
 
     svg {
       color: #a5f3fc;
@@ -273,31 +273,31 @@
 // Discord Banner
 .discord-banner {
   display: flex;
+  align-items: center;
+  gap: 1rem;
   max-width: 500px;
   margin: 0 auto;
   padding: 1rem 1.5rem;
   border: 1px solid rgb(88 101 242 / 50%);
   border-radius: 16px;
   background: rgb(88 101 242 / 30%);
-  align-items: center;
   backdrop-filter: blur(10px);
-  gap: 1rem;
 }
 
 .discord-icon {
   display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
   width: 48px;
   height: 48px;
   border-radius: var(--radius-lg);
   background: #5865f2;
-  align-items: center;
-  flex-shrink: 0;
-  justify-content: center;
 }
 
 .discord-text {
-  text-align: left;
   flex: 1;
+  text-align: left;
 }
 
 .discord-title {
@@ -317,12 +317,12 @@
   font-size: 13px;
   font-weight: 600;
   color: #5865f2;
+  text-decoration: none;
+  white-space: nowrap;
   background: white;
   transition:
     box-shadow $transition-medium ease,
     transform $transition-medium ease;
-  text-decoration: none;
-  white-space: nowrap;
 
   &:hover {
     box-shadow: var(--shadow-lg);
@@ -341,8 +341,8 @@
   }
 
   .cta-actions {
-    align-items: center;
     flex-direction: column;
+    align-items: center;
   }
 
   .cta-features {
@@ -350,8 +350,8 @@
   }
 
   .discord-banner {
-    text-align: center;
     flex-direction: column;
+    text-align: center;
   }
 
   .discord-text {

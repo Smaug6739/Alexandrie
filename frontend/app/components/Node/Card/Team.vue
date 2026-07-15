@@ -34,20 +34,20 @@ const { t } = useI18nT();
 <style scoped lang="scss">
 a {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
   min-height: 220px;
   padding: 1.1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   color: var(--text-body);
+  text-decoration: none;
   background: linear-gradient(180deg, var(--surface-base), var(--surface-raised));
   box-shadow: var(--shadow-sm);
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease,
     border-color 0.18s ease;
-  flex-direction: column;
-  gap: 1rem;
-  text-decoration: none;
 
   &:hover {
     border-color: var(--border-strong);
@@ -64,10 +64,10 @@ a {
 
 .avatar {
   display: grid;
+  flex: none;
   width: 72px;
   height: 72px;
   border-radius: 22px;
-  flex: none;
   overflow: hidden;
   place-items: center;
 }
@@ -94,9 +94,9 @@ a {
 
 .team-footer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
-  justify-content: space-between;
   margin-top: auto;
 }
 

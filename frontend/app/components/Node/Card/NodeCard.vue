@@ -2,7 +2,8 @@
   <div class="document-card" @contextmenu.prevent="openContextMenu">
     <div class="top">
       <div class="header">
-        <span style="display: flex; align-items: center; gap: 10px; overflow: hidden">
+        <span style="display: flex; align-items: center; gap: 10px;
+ overflow: hidden">
           <Icon :name="category?.icon || 'files'" display="xl" :class="['category-icon', getAppAccent(node.color || category?.color, true)]" />
           <NuxtLink :to="`/dashboard/docs/${node.id}`" class="document-title">{{ node.name }}</NuxtLink>
         </span>
@@ -60,6 +61,8 @@ function openContextMenu(event: MouseEvent) {
 <style scoped lang="scss">
 .document-card {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   max-width: 380px;
   min-height: 250px;
   border: 1px solid var(--border);
@@ -69,8 +72,6 @@ function openContextMenu(event: MouseEvent) {
   transition:
     border-color $transition-base ease,
     box-shadow $transition-base ease;
-  flex-direction: column;
-  justify-content: space-between;
 
   &:hover {
     border-color: var(--border-strong);
@@ -80,9 +81,9 @@ function openContextMenu(event: MouseEvent) {
 
 .header {
   display: flex;
-  padding: 14px 14px 8px;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  padding: 14px 14px 8px;
 }
 
 .category-icon {
@@ -91,14 +92,14 @@ function openContextMenu(event: MouseEvent) {
 }
 
 .document-title {
+  flex: 1;
   font-size: 17px;
   font-weight: 600;
   line-height: 1.3;
   color: var(--text-primary);
-  transition: color 0.15s;
-  flex: 1;
-  overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.15s;
+  overflow: hidden;
 
   &:hover {
     color: var(--primary);
@@ -106,15 +107,15 @@ function openContextMenu(event: MouseEvent) {
 }
 
 .body {
-  padding: 0 14px;
   flex: 1;
+  padding: 0 14px;
 }
 
 .category {
+  padding-bottom: 8px;
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
-  padding-bottom: 8px;
 }
 
 .description {
@@ -123,8 +124,8 @@ function openContextMenu(event: MouseEvent) {
   font-size: 14px;
   line-height: 1.5;
   color: var(--text-secondary);
-  overflow: hidden;
   text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .tags {
@@ -136,14 +137,14 @@ function openContextMenu(event: MouseEvent) {
 
 footer {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px 14px;
+  border-top: 1px solid var(--border);
   border-radius: 0 0 11px 11px;
   font-size: 12px;
   color: var(--text-secondary);
   background: var(--surface-raised);
-  align-items: center;
-  border-top: 1px solid var(--border);
-  justify-content: space-between;
 }
 
 .footer-item {

@@ -244,31 +244,31 @@ const copyInvitationLink = async (code: string) => {
 
 h2 {
   display: flex;
-  font-size: 20px;
   align-items: center;
   gap: 10px;
+  font-size: 20px;
 }
 
 form {
   display: flex;
-  padding: 0 4px;
   flex-direction: column;
   gap: 10px;
+  padding: 0 4px;
 }
 
 .user-card {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
   padding: 6px 10px;
   border-radius: var(--radius-md);
   background-color: var(--surface-transparent);
-  flex-direction: column;
-  gap: 8px;
 }
 
 .user-info-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .user-meta {
@@ -297,9 +297,9 @@ form {
 }
 
 .public-info {
+  margin-bottom: 10px;
   padding: 0 5px;
   border-radius: var(--radius-md);
-  margin-bottom: 10px;
 
   .info-text {
     margin: 5px 0;
@@ -309,9 +309,9 @@ form {
 
   .public-link {
     display: flex;
-    color: var(--primary);
     align-items: flex-end;
     gap: 2px;
+    color: var(--primary);
     text-decoration: underline;
     word-break: break-all;
   }
@@ -319,8 +319,8 @@ form {
 
 .access {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-top: 10px;
 }
 
@@ -348,9 +348,9 @@ form {
 
   .invite-meta {
     display: flex;
-    min-width: 0;
     flex-direction: column;
     gap: 2px;
+    min-width: 0;
   }
 
   .invite-code {

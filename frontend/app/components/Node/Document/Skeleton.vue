@@ -30,9 +30,9 @@
 <style scoped lang="scss">
 .article-skeleton {
   display: flex;
-  padding: 2rem 0;
   flex-direction: column;
   gap: 50px;
+  padding: 2rem 0;
 }
 
 .skeleton-paragraph {

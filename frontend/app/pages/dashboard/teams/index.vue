@@ -62,24 +62,24 @@ const openCreateTeam = () => modals.add(new Modal(shallowRef(CreateCategoryModal
 
 .hero {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background:
     radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 18%, transparent), transparent 28%),
     linear-gradient(135deg, var(--surface-base), var(--surface-raised));
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
 }
 
 .eyebrow {
   margin: 0 0 0.25rem;
   font-size: 0.78rem;
   color: var(--text-secondary);
-  letter-spacing: 0.18em;
   text-transform: uppercase;
+  letter-spacing: 0.18em;
 }
 
 h1 {
@@ -96,21 +96,21 @@ h1 {
 .hero-actions,
 .toolbar {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 0.75rem;
   justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .search-box {
   display: flex;
+  align-items: center;
+  gap: 0.75rem;
   min-width: min(520px, 100%);
   padding: 0.8rem 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  align-items: center;
-  gap: 0.75rem;
 
   input {
     width: 100%;
@@ -131,8 +131,8 @@ h1 {
 
 .team-grid {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 
   :last-child:nth-child(odd) {
     grid-column: 1 / -1;

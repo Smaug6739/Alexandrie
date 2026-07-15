@@ -68,8 +68,8 @@ const { numericDate } = useDateFormatters();
 
 .info-grid {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -97,13 +97,13 @@ const { numericDate } = useDateFormatters();
 
   .badge {
     display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     padding: 0.25rem 0.5rem;
     border-radius: var(--radius-sm);
     font-size: 0.75rem;
     color: var(--text-primary);
     opacity: 0.5;
-    align-items: center;
-    gap: 0.25rem;
 
     &.active {
       color: var(--primary);

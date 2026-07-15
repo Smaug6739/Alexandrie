@@ -152,8 +152,8 @@ export interface Field<V = unknown> {
 
 header {
   display: flex;
-  padding: 0 10px;
   align-items: center;
+  padding: 0 10px;
 }
 
 .wrapper {
@@ -176,8 +176,8 @@ th,
 td {
   > span {
     display: inline-flex;
-    width: 100%;
     align-items: center;
+    width: 100%;
   }
 
   &.align-right > span {
@@ -202,8 +202,8 @@ th {
   font-size: 13px;
   color: var(--text-primary);
   text-align: left;
-  background: var(--surface-transparent);
   text-transform: uppercase;
+  background: var(--surface-transparent);
 
   &.align-right {
     padding-right: 30px;
@@ -225,8 +225,8 @@ td {
 
 .pagination {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 button {
@@ -253,8 +253,8 @@ button {
 
 footer {
   display: flex;
-  width: 100%;
   justify-content: space-between;
+  width: 100%;
 }
 
 select {

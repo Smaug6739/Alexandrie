@@ -108,17 +108,17 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 
 .dropdown-selected {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 4px 0;
   padding: 4px 10px 4px 4px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-base);
+  cursor: pointer;
   transition:
     border-color $transition-base ease,
     box-shadow $transition-base ease;
-  align-items: center;
-  cursor: pointer;
-  justify-content: space-between;
 
   &:hover {
     border-color: var(--border-strong);
@@ -137,8 +137,8 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
 .placeholder {
   padding: 6px;
   font-size: 0.9rem;
-  color: var(--text-secondary);
   font-style: italic;
+  color: var(--text-secondary);
 }
 
 .dropdown-selected.open {
@@ -182,10 +182,10 @@ li {
   margin: 4px 0;
   padding: 2px 4px;
   border-radius: var(--radius-sm);
+  cursor: pointer;
   transition:
     background-color 0.15s ease,
     transform 0.15s ease;
-  cursor: pointer;
 }
 
 li.selected {
@@ -217,18 +217,18 @@ hr {
 
 .new-workspace {
   display: flex;
+  align-items: center;
+  gap: 6px;
   margin: 2px 0;
   padding: 8px;
   border-radius: var(--radius-md);
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
+  cursor: pointer;
   transition:
     color 0.15s ease,
     background-color 0.15s ease;
-  align-items: center;
-  cursor: pointer;
-  gap: 6px;
 
   &:hover {
     color: var(--text-body);

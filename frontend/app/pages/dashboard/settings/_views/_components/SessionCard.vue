@@ -95,6 +95,8 @@ const closeSession = async () => {
 <style scoped lang="scss">
 .session-card {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
   padding: 1rem 1.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -102,8 +104,6 @@ const closeSession = async () => {
   transition:
     border-color $transition-base ease,
     box-shadow $transition-base ease;
-  flex-direction: column;
-  gap: 1rem;
 
   &:hover {
     border-color: var(--border-strong);
@@ -133,14 +133,14 @@ const closeSession = async () => {
 
 .device-icon {
   display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
   width: 44px;
   height: 44px;
   border-radius: var(--radius-lg);
   color: var(--text-body);
   background: var(--surface-overlay);
-  align-items: center;
-  flex-shrink: 0;
-  justify-content: center;
 
   svg {
     width: 22px;
@@ -160,27 +160,27 @@ const closeSession = async () => {
 
 .session-info-container {
   display: flex;
-  min-width: 0;
-  align-items: flex-start;
   flex: 1;
-  gap: 0.5rem;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
 }
 
 .session-info {
   display: flex;
-  min-width: 0;
   flex: 1;
   flex-direction: column;
   gap: 0.35rem;
+  min-width: 0;
 }
 
 .session-title {
   display: flex;
-  font-size: 0.95rem;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.5rem;
+  font-size: 0.95rem;
 
   .browser {
     font-weight: 600;
@@ -194,13 +194,13 @@ const closeSession = async () => {
 
 .badge {
   display: inline-flex;
+  align-items: center;
   padding: 0.15rem 0.5rem;
   border-radius: var(--radius-xl);
   font-size: 0.7rem;
   font-weight: 600;
-  align-items: center;
-  letter-spacing: 0.03em;
   text-transform: uppercase;
+  letter-spacing: 0.03em;
 
   &.current {
     color: var(--green-dark);
@@ -221,10 +221,10 @@ const closeSession = async () => {
 
 .meta-item {
   display: inline-flex;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
   align-items: center;
   gap: 0.35rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
 
   svg {
     width: 14px;
@@ -234,8 +234,8 @@ const closeSession = async () => {
 }
 
 .session-details {
-  border-top: 1px solid var(--border-subtle);
   padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .detail-row {
@@ -254,8 +254,8 @@ const closeSession = async () => {
   font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-secondary);
-  letter-spacing: 0.04em;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .detail-value {
@@ -265,18 +265,18 @@ const closeSession = async () => {
 
 .session-user-agent {
   display: flex;
-  border-top: 1px solid var(--border-subtle);
   flex-direction: column;
   gap: 0.35rem;
   padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
 }
 
 .user-agent-label {
   font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-secondary);
-  letter-spacing: 0.04em;
   text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .user-agent-value {
@@ -286,7 +286,7 @@ const closeSession = async () => {
   font-size: 0.75rem;
   line-height: 1.4;
   color: var(--text-secondary);
-  background: var(--surface-raised);
   word-break: break-all;
+  background: var(--surface-raised);
 }
 </style>

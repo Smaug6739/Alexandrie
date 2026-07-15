@@ -242,7 +242,10 @@ graph TD
         <li><strong>Task lists:</strong> <code>- [ ] Todo</code>, <code>- [x] Done</code></li>
         <li>
           <strong>Tables:</strong><br />
-          <pre style="margin: 10px 0; padding: 0.75rem; border-radius: var(--radius-sm); color: white; overflow-x: auto">
+          <pre style="margin: 10px 0; padding: 0.75rem;
+ border-radius: var(--radius-sm);
+ color: white;
+ overflow-x: auto">
 | Column 1 | Column 2 |
 |-----------|-----------|
 | Cell 1    | Cell 2    |</pre
@@ -268,7 +271,9 @@ This is a text with a note[^1] and another[^ref].
               ><a href="#fn-ref" title="Second footnote with text identifier">[ref]</a></sup
             >.
           </p>
-          <section class="footnotes" style="font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 1rem; padding-top: 0.5rem">
+          <section class="footnotes" style=" margin-top: 1rem; padding-top: 0.5rem;
+ border-top: 1px solid var(--border);
+font-size: 0.9rem">
             <ol style="margin: 0; padding-left: 1.5rem">
               <li>First footnote <a href="#fnref-1" class="footnote-backref">↩</a></li>
               <li>Second footnote with text identifier <a href="#fnref-ref" class="footnote-backref">↩</a></li>
@@ -299,17 +304,17 @@ const { t } = useI18nT();
 
 h1 {
   display: flex;
-  margin: 0;
   align-items: center;
+  margin: 0;
 }
 
 h2 {
   display: flex;
-  font-size: 1.3rem;
-  color: var(--primary);
   align-items: center;
   gap: 0.5rem;
   margin-top: 2rem;
+  font-size: 1.3rem;
+  color: var(--primary);
 }
 
 code {
@@ -321,9 +326,9 @@ code {
 
 .demo {
   display: flex;
-  width: 100%;
   flex-wrap: wrap;
   gap: 1rem;
+  width: 100%;
   margin-bottom: 1rem;
 
   pre {
@@ -340,18 +345,18 @@ code {
 }
 
 .custom-block pre {
+  margin-top: 0.5rem;
   padding: 0.5rem;
   border-radius: var(--radius-sm);
   font-family: $font-mono;
   font-size: 0.85rem;
   background: rgb(255 255 255 / 30%);
-  margin-top: 0.5rem;
 }
 
 .block-grid {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }
 
 @media screen and (width <= 800px) {

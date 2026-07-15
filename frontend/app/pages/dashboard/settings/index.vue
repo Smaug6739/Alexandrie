@@ -7,7 +7,8 @@
     <nav :class="{ open: menuOpen }">
       <span v-if="isModal">{{ t('settings.meta.accountSettings') }}</span>
       <div v-if="isModal && store.user" class="user">
-        <img :src="avatarURL(store.user)" alt="Avatar" style="width: 25px; height: 25px; border-radius: 50%" />
+        <img :src="avatarURL(store.user)" alt="Avatar" style="width: 25px; height: 25px;
+ border-radius: 50%" />
         <div>
           <div class="username">{{ store.user.username }}</div>
           <div class="email">{{ store.user.email }}</div>
@@ -178,10 +179,10 @@ watchEffect(() => {
   background-color: var(--surface-base);
 
   nav {
+    gap: 1rem;
     width: 300px;
     padding: 1rem;
     border-right: 1px solid var(--border);
-    gap: 1rem;
     overflow-y: auto;
 
     span {
@@ -191,14 +192,14 @@ watchEffect(() => {
     }
 
     a {
-      display: flex;
       position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       margin: 0.37rem 0.2rem;
       padding: 0.05rem 0.4rem;
       border-radius: var(--radius-sm);
       color: inherit;
-      align-items: center;
-      gap: 0.5rem;
       text-decoration: none;
 
       &:hover,
@@ -212,8 +213,8 @@ watchEffect(() => {
       align-items: center;
 
       div {
-        font-size: 0.8rem;
         margin-left: 5px;
+        font-size: 0.8rem;
 
         .email {
           font-size: 0.7rem;
@@ -226,9 +227,9 @@ watchEffect(() => {
 
 .content {
   position: relative;
+  flex: 1;
   margin: 0 0.5rem;
   padding: 0 2rem;
-  flex: 1;
   overflow-y: auto;
 }
 
@@ -258,15 +259,15 @@ watchEffect(() => {
 
     .menu-toggle {
       display: flex;
+      align-items: center;
+      gap: 0.5rem;
       padding: 0.75rem 1rem;
       border: none;
+      border-bottom: 1px solid var(--border);
       font-size: 0.9rem;
       color: inherit;
       background-color: var(--surface-raised);
-      align-items: center;
-      border-bottom: 1px solid var(--border);
       cursor: pointer;
-      gap: 0.5rem;
     }
 
     nav {
@@ -277,19 +278,19 @@ watchEffect(() => {
       width: 100%;
       max-height: 0;
       padding: 0;
+      border-right: none;
       background-color: var(--surface-base);
       transition:
         max-height $transition-base ease,
         padding $transition-base ease;
-      border-right: none;
       overflow: hidden;
 
       &.open {
         max-height: 70vh;
         padding: 1rem;
+        border-bottom: 1px solid var(--border);
         border-radius: var(--radius-lg);
         box-shadow: var(--shadow-md);
-        border-bottom: 1px solid var(--border);
         overflow-y: auto;
       }
     }

@@ -158,9 +158,9 @@ onBeforeUnmount(() => {
 
 .row {
   display: flex;
-  margin: 4px 0;
-  gap: 8px;
   justify-content: space-around;
+  gap: 8px;
+  margin: 4px 0;
 }
 
 kbd {
@@ -168,14 +168,14 @@ kbd {
 }
 
 label {
-  font-size: 13px;
   margin-bottom: 6px;
+  font-size: 13px;
 }
 
 .panel-actions {
   display: flex;
-  gap: 8px;
   justify-content: flex-end;
+  gap: 8px;
   margin-top: 6px;
 }
 
@@ -188,8 +188,8 @@ label {
 }
 
 .panel-footer {
-  color: var(--muted);
   margin-top: 8px;
+  color: var(--muted);
 }
 
 /* small pop animation */

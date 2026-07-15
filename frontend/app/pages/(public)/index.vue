@@ -90,20 +90,20 @@ onMounted(() => {
 
 <style scoped lang="scss">
 main {
-  padding: 0 2rem;
   margin-top: 1em;
+  padding: 0 2rem;
   overflow-x: hidden;
 }
 
 .hero {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   padding: 4rem 2rem;
   border-radius: 1rem;
   color: white;
   background: radial-gradient(1200px 400px at 20% -10%, rgb(255 255 255 / 8%), transparent), linear-gradient(120deg, var(--primary), #6c63ff);
-  align-items: center;
-  flex-wrap: wrap;
   overflow: hidden;
 }
 
@@ -113,9 +113,9 @@ main {
 
 .hero-image {
   width: 600px;
+  margin-top: 10px;
   border-radius: 1rem;
   box-shadow: var(--shadow-xl);
-  margin-top: 10px;
 }
 
 .gradient-text {
@@ -185,8 +185,8 @@ main {
   position: absolute;
   border-radius: 50%;
   opacity: 0.55;
-  filter: blur(40px);
   transform: translate3d(calc(var(--px, 0) * 20px), calc(var(--py, 0) * 20px), 0);
+  filter: blur(40px);
 }
 
 .orb-1 {
@@ -243,9 +243,9 @@ main {
   }
 
   .hero {
+    flex-direction: column;
     padding: 2rem 1rem;
     text-align: center;
-    flex-direction: column;
   }
 
   .hero-image {

@@ -218,8 +218,8 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 
 <style scoped lang="scss">
 .home-top {
-  padding: 3rem 1.5rem;
   margin-top: 0.5rem;
+  padding: 3rem 1.5rem;
 }
 
 .home-container {
@@ -232,17 +232,17 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 // Header
 .home-header {
   display: flex;
-  align-items: flex-start;
   flex-wrap: wrap;
-  gap: 1rem;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
 .greeting h1 {
+  margin-bottom: 0.25rem;
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 0.25rem;
 }
 
 .subtitle {
@@ -268,6 +268,7 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 
 .search-wrapper {
   display: flex;
+  align-items: center;
   padding: 0.75rem 1rem;
   border: 2px solid var(--border);
   border-radius: var(--radius-lg);
@@ -275,7 +276,6 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
   transition:
     border-color $transition-fast,
     box-shadow $transition-fast;
-  align-items: center;
 
   &.focused {
     border-color: var(--primary);
@@ -284,16 +284,16 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 }
 
 .search-icon {
-  color: var(--text-secondary);
   margin-right: 0.75rem;
+  color: var(--text-secondary);
 }
 
 .search-input {
+  flex: 1;
   border: none;
   font-size: 1rem;
   color: var(--text-body);
   background: transparent;
-  flex: 1;
   outline: none;
 
   &::placeholder {
@@ -328,13 +328,13 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 
 .search-result {
   display: flex;
+  align-items: center;
+  gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
   color: var(--text-body);
-  transition: background $transition-fast;
-  align-items: center;
-  gap: 0.75rem;
   text-decoration: none;
+  transition: background $transition-fast;
 
   &:hover {
     background: var(--surface-raised);
@@ -350,22 +350,22 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 }
 
 .node-icon {
+  margin-right: 10px;
   padding: 3px;
   border-radius: var(--radius-sm);
-  margin-right: 10px;
 }
 
 .result-content {
-  min-width: 0;
   flex: 1;
+  min-width: 0;
 }
 
 .result-name {
   display: block;
   font-weight: 500;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .result-path {
@@ -389,57 +389,57 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 
 .section-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
 
   h2 {
     display: flex;
-    font-size: 1.1rem;
-    align-items: center;
     flex: 1;
+    align-items: center;
     gap: 0.5rem;
+    font-size: 1.1rem;
   }
 }
 
 // Continue working cards
 .continue-working {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
 // Pinned
 .pinned-grid {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
 // Workspaces
 .workspaces-grid {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
 .add-workspace {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   min-height: 150px;
   border: 2px dashed var(--border);
   border-radius: var(--radius-lg);
   font-size: 0.9rem;
   color: var(--text-secondary);
   background: transparent;
+  cursor: pointer;
   transition:
     border-color $transition-fast,
     background $transition-fast,
     box-shadow $transition-fast,
     transform $transition-fast;
-  align-items: center;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: center;
 
   &:hover {
     border-color: var(--primary);
@@ -471,21 +471,21 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 
 .activity-items {
   display: flex;
-  border-left: 2px solid var(--border);
   flex-direction: column;
   gap: 0.25rem;
   padding-left: 1rem;
+  border-left: 2px solid var(--border);
 }
 
 .activity-item {
   display: flex;
+  align-items: center;
+  gap: 0.75rem;
   padding: 0.5rem;
   border-radius: var(--radius-md);
   color: var(--text-body);
-  transition: background $transition-fast;
-  align-items: center;
-  gap: 0.75rem;
   text-decoration: none;
+  transition: background $transition-fast;
 
   &:hover {
     background: var(--surface-raised);
@@ -499,9 +499,9 @@ const openJoinModal = () => modals.add(new Modal(shallowRef(NodeJoin), { size: '
 
 .activity-content {
   display: flex;
-  align-items: center;
   flex: 1;
   justify-content: space-between;
+  align-items: center;
 }
 
 .activity-name {

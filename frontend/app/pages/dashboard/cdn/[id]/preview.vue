@@ -92,9 +92,9 @@ onUnmounted(() => {
 <style scoped lang="scss">
 header {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 
 .preview {
@@ -112,7 +112,7 @@ header {
 
 .no-preview {
   display: flex;
-  text-align: center;
   flex-direction: column;
+  text-align: center;
 }
 </style>

@@ -67,9 +67,10 @@ async function unlinkAccount(providerName: string) {
 h3 {
   margin-top: 2.5rem;
 }
+
 .section-description {
-  color: var(--text-secondary);
   margin-bottom: 1rem;
+  color: var(--text-secondary);
 }
 
 .accounts {
@@ -81,21 +82,21 @@ h3 {
 
 .loading {
   display: flex;
-  padding: 1rem;
-  color: var(--text-secondary);
   align-items: center;
   gap: 0.75rem;
+  padding: 1rem;
+  color: var(--text-secondary);
 }
 
 .account {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-secondary);
-  align-items: center;
-  gap: 1rem;
-  justify-content: space-between;
 }
 
 .account-info {
@@ -106,10 +107,10 @@ h3 {
 
 .icon {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 24px;
   height: 24px;
-  align-items: center;
-  justify-content: center;
 }
 
 .name {

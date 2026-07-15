@@ -89,20 +89,20 @@ h1 {
 
 .body-container {
   display: flex;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  align-items: center;
   flex: 1;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .status-container {
   display: flex;
-  text-align: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 
   p {
     margin: 0.25rem 0;
@@ -117,8 +117,8 @@ h1 {
 }
 
 .redirect-notice {
-  opacity: 0.8;
   margin-top: 1rem !important;
+  opacity: 0.8;
 }
 
 .actions-row {

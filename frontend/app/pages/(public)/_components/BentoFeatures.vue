@@ -219,15 +219,15 @@
 }
 
 .section-header {
-  text-align: center;
   margin-bottom: 4rem;
+  text-align: center;
 }
 
 .section-title {
+  margin-bottom: 1rem;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-bottom: 1rem;
 }
 
 .section-subtitle {
@@ -239,9 +239,9 @@
 
 .bento-grid {
   display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(3, auto);
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
 }
 
 .bento-card {
@@ -264,20 +264,20 @@
 
   .card-icon {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 48px;
     height: 48px;
+    margin-bottom: 1rem;
     border-radius: var(--radius-lg);
     color: var(--primary);
     background: var(--surface-raised);
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
   }
 
   h3 {
+    margin-bottom: 0.5rem;
     font-size: 1.125rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
   }
 
   p {
@@ -306,9 +306,9 @@
 }
 
 .card-small {
-  padding: 1.25rem;
   grid-column: span 1;
   grid-row: span 1;
+  padding: 1.25rem;
 
   .card-icon {
     width: 40px;
@@ -317,8 +317,8 @@
   }
 
   h3 {
-    font-size: 1rem;
     margin-bottom: 0.25rem;
+    font-size: 1rem;
   }
 
   p {
@@ -329,9 +329,9 @@
 .card-wide {
   display: flex;
   align-items: center;
-  gap: 2rem;
   grid-column: span 2;
   grid-row: span 1;
+  gap: 2rem;
 
   .card-content {
     flex: 1;
@@ -344,8 +344,8 @@
 
   .card-visual {
     display: flex;
-    align-items: flex-end;
     flex: 1;
+    align-items: flex-end;
   }
 
   .editor-preview {
@@ -360,8 +360,8 @@
   }
 
   .editor-line {
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
   }
 
   .syntax-heading {
@@ -398,9 +398,9 @@
     display: inline-block;
     width: 2px;
     height: 16px;
-    background: var(--primary);
     margin-left: 2px;
     vertical-align: text-bottom;
+    background: var(--primary);
   }
 }
 
@@ -417,11 +417,11 @@
 
   .folder-item {
     display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 6px 10px;
     border-radius: var(--radius-md);
     transition: background 0.2s;
-    align-items: center;
-    gap: 8px;
 
     &:hover {
       background: var(--surface-raised);
@@ -460,9 +460,9 @@
     img {
       width: 32px;
       height: 32px;
+      margin-left: -8px;
       border: 2px solid var(--surface-base);
       border-radius: 50%;
-      margin-left: -8px;
 
       &:first-child {
         margin-left: 0;
@@ -471,17 +471,17 @@
 
     .avatar-more {
       display: flex;
+      justify-content: center;
+      align-items: center;
       width: 32px;
       height: 32px;
+      margin-left: -8px;
       border: 2px solid var(--surface-base);
       border-radius: 50%;
       font-size: 11px;
       font-weight: 600;
       color: white;
       background: var(--primary);
-      align-items: center;
-      justify-content: center;
-      margin-left: -8px;
     }
   }
 
@@ -506,21 +506,21 @@
 
   .search-input {
     display: flex;
+    align-items: center;
+    gap: 10px;
     padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
     font-size: 14px;
     color: var(--text-secondary);
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-    gap: 10px;
 
     .kbd {
+      margin-left: auto;
       padding: 4px 8px;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       font-size: 11px;
       font-weight: 600;
       background: var(--surface-base);
-      margin-left: auto;
     }
   }
 
@@ -530,12 +530,12 @@
 
   .search-result {
     display: flex;
+    align-items: center;
+    gap: 10px;
     padding: 10px 12px;
     border-radius: var(--radius-md);
-    transition: background 0.2s;
-    align-items: center;
     cursor: pointer;
-    gap: 10px;
+    transition: background 0.2s;
 
     &:hover {
       background: var(--surface-base);
@@ -571,30 +571,30 @@
 
   .publish-preview {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 12px 14px;
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     font-size: 13px;
     background: var(--surface-raised);
-    align-items: center;
-    justify-content: space-between;
   }
 
   .url-bar {
     display: flex;
-    color: var(--text-secondary);
     align-items: center;
     gap: 6px;
+    color: var(--text-secondary);
   }
 
   .status-badge {
     display: flex;
+    align-items: center;
+    gap: 6px;
     padding: 4px 10px;
     border-radius: 100px;
     font-size: 11px;
     font-weight: 600;
-    align-items: center;
-    gap: 6px;
 
     &.published {
       color: var(--green);
@@ -637,11 +637,11 @@
   }
 
   .card-large {
-    align-items: center;
     flex-direction: row;
-    gap: 2rem;
+    align-items: center;
     grid-column: span 2;
     grid-row: span 1;
+    gap: 2rem;
   }
 
   .card-tall {
@@ -665,8 +665,8 @@
 
   .card-large,
   .card-wide {
-    align-items: stretch;
     flex-direction: column;
+    align-items: stretch;
     grid-column: span 1;
   }
 }

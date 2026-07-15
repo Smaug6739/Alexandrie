@@ -72,22 +72,22 @@ async function reset() {
 <style scoped lang="scss">
 .container {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 95%;
   height: 100%;
   margin: 0 auto;
-  flex-direction: column;
-  justify-content: space-between;
   padding-top: 1.5rem;
 }
 
 .body-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 600px;
   margin: 0 auto 10%;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 }
 
 h1 {
@@ -111,8 +111,8 @@ form {
   border: none;
   font-size: 0.8rem;
   background-color: transparent;
-  cursor: pointer;
   outline: none;
+  cursor: pointer;
   transform: translateY(-50%);
 
   &:hover {
@@ -122,8 +122,8 @@ form {
 
 .form-group {
   display: flex;
-  width: 100%;
   flex-direction: column;
+  width: 100%;
   margin-bottom: 1rem;
 }
 

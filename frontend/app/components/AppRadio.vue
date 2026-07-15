@@ -25,16 +25,16 @@ const selectItem = (id: number | string) => {
 <style scoped lang="scss">
 .segmented {
   display: flex;
-  width: 100%;
   gap: 0.5rem;
+  width: 100%;
 
   button {
+    flex: 1;
     padding: 0.6rem;
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     background: var(--surface-raised);
     cursor: pointer;
-    flex: 1;
 
     &.active {
       border-color: var(--primary);

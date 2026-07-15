@@ -179,17 +179,17 @@ defineExpose({ resetKanbanData });
 <style scoped lang="scss">
 .kanban-board {
   display: flex;
-  height: 100%;
-  min-height: 0;
   flex: 1;
   flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
 .board-content {
   display: flex;
-  padding: 8px 4px 16px;
   flex: 1;
   gap: 16px;
+  padding: 8px 4px 16px;
   overflow: auto hidden;
 }
 
@@ -200,8 +200,14 @@ defineExpose({ resetKanbanData });
 
 .add-column-btn {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   min-width: 200px;
   height: stretch;
+  margin-top: auto;
+  margin-bottom: auto;
   padding: 20px;
   border: 2px dashed var(--border);
   border-radius: var(--radius-lg);
@@ -209,13 +215,7 @@ defineExpose({ resetKanbanData });
   font-weight: 500;
   color: var(--text-secondary);
   background: transparent;
-  align-items: center;
   cursor: pointer;
-  flex-direction: column;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: auto;
-  margin-top: auto;
 
   &:hover {
     border-color: var(--primary);

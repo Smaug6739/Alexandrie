@@ -268,9 +268,9 @@ onUnmounted(() => {
   text-align: left;
 
   h3 {
+    margin-bottom: 1rem;
     font-size: 1rem;
     color: var(--text-body);
-    margin-bottom: 1rem;
   }
 }
 
@@ -293,8 +293,8 @@ onUnmounted(() => {
 
 .progress-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.75rem;
 }
 
@@ -333,9 +333,9 @@ onUnmounted(() => {
 .progress-bar-container {
   width: 100%;
   height: 8px;
+  margin-bottom: 0.75rem;
   border-radius: var(--radius-xs);
   background: var(--border);
-  margin-bottom: 0.75rem;
   overflow: hidden;
 }
 
@@ -347,22 +347,22 @@ onUnmounted(() => {
 }
 
 .progress-message {
+  margin-bottom: 0.75rem;
   font-size: 1rem;
   font-weight: bold;
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
 }
 
 .error-message {
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
   padding: 0.75rem;
   border-radius: var(--radius-sm);
   color: var(--error);
   text-align: left;
   background: var(--error-bg);
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
 }
 
 .link-section {
@@ -371,12 +371,12 @@ onUnmounted(() => {
 
 .expiry-notice {
   display: flex;
-  font-size: 0.75rem;
-  color: var(--text-primary);
+  justify-content: center;
   align-items: center;
   gap: 0.25rem;
-  justify-content: center;
   margin-bottom: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-primary);
 }
 
 input[type='text'] {

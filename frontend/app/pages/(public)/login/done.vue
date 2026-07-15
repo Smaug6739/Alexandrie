@@ -12,13 +12,13 @@
 <style scoped lang="scss">
 .container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   text-align: center;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 }
 
 h1 {
@@ -26,8 +26,8 @@ h1 {
 }
 
 p {
-  font-size: 1.2em;
   margin-bottom: 20px;
+  font-size: 1.2em;
 }
 
 .button {
@@ -35,8 +35,8 @@ p {
   padding: 10px 20px;
   border-radius: 5px;
   color: white;
+  text-decoration: none;
   background-color: var(--primary);
   transition: background-color $transition-medium;
-  text-decoration: none;
 }
 </style>

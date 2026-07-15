@@ -178,21 +178,21 @@ const pos = computed(() => {
   position: fixed;
   z-index: 6000;
   display: flex;
-  background: var(--overlay-backdrop);
-  align-items: flex-end;
-  inset: 0;
   justify-content: center;
+  align-items: flex-end;
+  background: var(--overlay-backdrop);
+  inset: 0;
 }
 
 .mobile-sheet {
   display: flex;
+  flex-direction: column;
   width: 100%;
   min-height: 60vh;
   max-height: 85vh;
   border-radius: var(--surface-sheet-radius);
   background: var(--surface-base);
   animation: slide-up $transition-medium ease-out;
-  flex-direction: column;
 }
 
 @keyframes slide-up {
@@ -207,11 +207,11 @@ const pos = computed(() => {
 
 .mobile-sheet-header {
   display: flex;
-  padding: 12px 16px 8px;
-  align-items: center;
-  cursor: grab;
   flex-shrink: 0;
   justify-content: center;
+  align-items: center;
+  padding: 12px 16px 8px;
+  cursor: grab;
   touch-action: none;
   user-select: none;
 

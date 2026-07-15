@@ -86,18 +86,18 @@ function handleClose() {
 <style scoped lang="scss">
 .welcome-banner {
   position: relative;
-  overflow: hidden;
+  margin-top: 1rem;
   margin-bottom: 1rem;
   border: 2px solid var(--border);
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, var(--surface-base), var(--surface-raised));
-  margin-top: 1rem;
   transition:
     opacity $transition-fast ease,
     transform $transition-fast ease,
     max-height 0.4s ease,
     margin 0.4s ease,
     padding 0.4s ease;
+  overflow: hidden;
 }
 
 .banner-glow {
@@ -123,28 +123,28 @@ function handleClose() {
 
 .header-title {
   display: flex;
-  gap: 0.75rem;
   align-items: center;
+  gap: 0.75rem;
 
   h2 {
+    margin: 0;
     font-size: 1.25rem;
     font-weight: 700;
-    margin: 0;
     color: var(--text-body);
   }
 }
 
 .icon-badge {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   width: 36px;
   height: 36px;
   border-radius: var(--radius-md);
 }
 
 .version-tag {
-  margin: 2px 0 0 0;
+  margin: 2px 0 0;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-secondary);
@@ -153,48 +153,49 @@ function handleClose() {
 // Organisation en grille responsive
 .grid {
   display: grid;
-  gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
 .item {
   display: flex;
-  gap: 0.75rem;
   align-items: flex-start;
+  gap: 0.75rem;
 }
 
 .indicator {
-  margin-top: 6px;
+  flex-shrink: 0;
   width: 8px;
   height: 8px;
-  background-color: var(--primary);
+  margin-top: 6px;
   border-radius: 50%;
-  flex-shrink: 0;
+  background-color: var(--primary);
   box-shadow: 0 0 8px var(--primary-bg);
 }
 
 .text {
   h3 {
+    margin: 0 0 4px;
     font-size: 0.95rem;
     font-weight: 600;
-    margin: 0 0 4px 0;
     color: var(--text-body);
   }
 
   p {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
     margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
   }
 }
 
 .description {
+  margin: 0 0 1.5rem;
   font-size: 0.85rem;
-  color: var(--text-secondary);
   line-height: 1.4;
-  margin: 0 0 1.5rem 0;
+  color: var(--text-secondary);
+
   a {
     color: var(--primary);
     text-decoration: underline;
@@ -217,12 +218,12 @@ function handleClose() {
 
 .welcome-collapse-enter-from,
 .welcome-collapse-leave-to {
-  opacity: 0;
-  transform: translateY(-8px) scale(0.99);
   max-height: 0 !important;
   margin-bottom: 0 !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.99);
 }
 
 .welcome-collapse-enter-to,

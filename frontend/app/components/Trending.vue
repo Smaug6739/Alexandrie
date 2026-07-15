@@ -50,13 +50,13 @@ function toPolyline(series: MonthlyCount[]): string {
 
 .month-row {
   display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0.2rem;
   margin: 0;
   padding: 0;
   font-size: 0.72rem;
   color: var(--text-muted);
   text-align: center;
-  gap: 0.2rem;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
   list-style: none;
 }
 </style>

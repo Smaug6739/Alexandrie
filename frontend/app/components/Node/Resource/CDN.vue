@@ -23,7 +23,8 @@
       <span class="storage-percentage">{{ storagePercentage.toFixed(1) }}%</span>
     </div>
     <AppDrop ref="dropComponent" multiple :max-files="10" @select="selectFiles" />
-    <div style="display: flex; width: 100%; padding: 12px 0; align-items: center; flex-direction: column; gap: 10px">
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;
+ width: 100%; padding: 12px 0">
       <AppButton type="primary" :disabled="!selectedFiles.length" @click="submitFiles">
         {{ selectedFiles.length ? t('cdn.actions.upload.multiple', { n: selectedFiles.length }) : t('cdn.actions.upload.idle') }}
       </AppButton>
@@ -44,7 +45,8 @@
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
-            <span style="height: 32px; border-left: 1px solid var(--border); margin-left: 4px"></span>
+            <span style="height: 32px; margin-left: 4px;
+ border-left: 1px solid var(--border)"></span>
             <span @click="bulkDelete(selected)"><Icon name="delete" fill="var(--text-secondary)" class="action-btn" /></span>
           </div>
         </template>
@@ -237,18 +239,18 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .storage-indicator {
   display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
   margin: 12px 0;
   padding: 12px 16px;
   border-radius: var(--radius-md);
-  align-items: center;
-  gap: 12px;
 
   .storage-info {
     display: flex;
-    min-width: 180px;
     flex-direction: column;
     gap: 2px;
+    min-width: 180px;
 
     .storage-label {
       font-size: 12px;
@@ -263,10 +265,10 @@ onUnmounted(() => {
   }
 
   .progress-bar {
+    flex: 1;
     height: 8px;
     border-radius: var(--radius-xs);
     background: var(--surface-transparent);
-    flex: 1;
     overflow: hidden;
 
     .progress-fill {
@@ -301,18 +303,18 @@ onUnmounted(() => {
 
 .upload-progress {
   display: flex;
-  font-size: 14px;
-  color: var(--text-secondary);
   align-items: center;
   gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
 }
 
 .link-section {
   display: flex;
-  width: 100%;
-  margin: 6px 0;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
+  margin: 6px 0;
 
   .links-text {
     width: 100%;
@@ -322,8 +324,8 @@ onUnmounted(() => {
     font-family: $font-mono;
     font-size: 13px;
     color: var(--text-primary);
-    white-space: pre-wrap;
     word-break: break-all;
+    white-space: pre-wrap;
   }
 
   .links-actions {
@@ -334,9 +336,9 @@ onUnmounted(() => {
 
 .bulk-actions {
   display: flex;
-  width: 100%;
   align-items: center;
   gap: 8px;
+  width: 100%;
 }
 
 .action-btn {
@@ -349,6 +351,8 @@ onUnmounted(() => {
 
 .selected-count {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 32px;
   height: 34px;
   padding: 4px;
@@ -357,8 +361,6 @@ onUnmounted(() => {
   font-size: 12px;
   font-weight: bold;
   color: var(--text-secondary);
-  align-items: center;
-  justify-content: center;
 }
 
 .resources-list {
@@ -366,17 +368,17 @@ onUnmounted(() => {
 }
 
 .not-found {
+  grid-column: 1 / -1;
   color: var(--text-secondary);
   text-align: center;
-  grid-column: 1 / -1;
 }
 
 .images-grid {
   display: grid;
-  padding: 16px 0;
   flex: 1;
-  gap: 16px;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 16px 0;
 }
 
 .image-item {
@@ -402,13 +404,13 @@ onUnmounted(() => {
 
     .image-name {
       display: block;
+      margin-bottom: 4px;
       font-size: 14px;
       font-weight: 500;
       color: var(--text-primary);
-      margin-bottom: 4px;
-      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      overflow: hidden;
     }
 
     .image-size {

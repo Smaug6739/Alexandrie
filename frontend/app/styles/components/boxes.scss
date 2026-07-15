@@ -1,16 +1,16 @@
 .warning-box {
 	display: flex;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
 	padding: 1rem 1.25rem;
 	border: 1px solid var(--orange-border);
 	border-radius: var(--radius-lg);
 	background: var(--orange-bg);
-	gap: 1rem;
-	margin-bottom: 1.5rem;
 
 	strong {
 		display: block;
-		color: var(--orange-dark);
 		margin-bottom: 0.25rem;
+		color: var(--orange-dark);
 	}
 
 	p {

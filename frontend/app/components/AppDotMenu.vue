@@ -66,11 +66,11 @@ onBeforeUnmount(() => document.removeEventListener('mousedown', handleClickOutsi
   right: 0;
   z-index: 2;
   min-width: 270px;
+  margin-top: 4px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-base);
   box-shadow: var(--shadow-sm);
-  margin-top: 4px;
   overflow: hidden;
 }
 

@@ -1,5 +1,6 @@
 <template>
-  <div class="page-card" style="height: 100%; overflow: auto">
+  <div class="page-card" style="height: 100%;
+ overflow: auto">
     <h1>Node advanced view</h1>
     <div v-if="document">
       <div class="columns">
@@ -75,10 +76,15 @@
       </div>
 
       <label for="content">Content</label>
-      <div style="display: flex; width: 100%; height: 500px; flex: 1; gap: 10px">
-        <textarea v-model="document.content" style="height: 500px; flex: 1; overflow: auto"></textarea>
+      <div style="display: flex; flex: 1; gap: 10px;
+ width: 100%; height: 500px">
+        <textarea v-model="document.content" style=" flex: 1;
+height: 500px;
+ overflow: auto"></textarea>
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div style="height: 500px; flex: 1; overflow: auto" class="alexandrie-theme" v-html="document.content_compiled" />
+        <div style=" flex: 1;
+height: 500px;
+ overflow: auto" class="alexandrie-theme" v-html="document.content_compiled" />
       </div>
     </div>
 

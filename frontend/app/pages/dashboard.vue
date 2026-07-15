@@ -35,7 +35,7 @@ onBeforeUnmount(() => {
 <style lang="scss">
 .dashboard-root {
   display: flex;
-  height: 100%;
   flex-direction: column;
+  height: 100%;
 }
 </style>

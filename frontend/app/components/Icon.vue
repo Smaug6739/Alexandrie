@@ -24,8 +24,8 @@ const isSpriteIcon = computed(() => {
 <style scoped lang="scss">
 .icon {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   pointer-events: none;
   user-select: none;
 

@@ -106,15 +106,15 @@ function onLeave(el: Element) {
 
 .accordion-trigger {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
   width: 100%;
   padding: 1.1rem 1.4rem;
   border: 0;
   text-align: left;
   background: transparent;
-  align-items: center;
   cursor: pointer;
-  gap: 0.75rem;
-  justify-content: space-between;
 
   &:focus-visible {
     border-radius: var(--radius-lg);
@@ -140,8 +140,8 @@ function onLeave(el: Element) {
 }
 
 .open .chevron {
-  stroke: var(--primary);
   transform: rotate(180deg);
+  stroke: var(--primary);
 }
 
 .accordion-content-wrapper {
@@ -150,10 +150,10 @@ function onLeave(el: Element) {
 
 .accordion-content {
   padding: 0 1.4rem 1.1rem;
+  border-top: 1px solid #eee;
   line-height: 1.6;
   color: #555;
   background: #fafafa;
-  border-top: 1px solid #eee;
 }
 
 .accordion-expand-enter-active,

@@ -117,16 +117,16 @@ async function importNodes(importNodes: DB_Node[]) {
 
 .panel-head {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 0.7rem;
-  justify-content: space-between;
   margin-bottom: 0.65rem;
 }
 
 .list {
   display: grid;
-  max-height: 250px;
   gap: 0.35rem;
+  max-height: 250px;
   overflow: auto;
 }
 

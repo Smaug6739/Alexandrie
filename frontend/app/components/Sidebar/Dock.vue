@@ -47,22 +47,22 @@ function closeDock() {
 <style scoped lang="scss">
 .dock {
   display: flex;
-  padding: 1rem 0.3rem;
-  background-color: var(--surface-base);
-  border-right: 1px solid var(--border);
   flex-direction: column;
   gap: 10px;
+  padding: 1rem 0.3rem;
+  border-right: 1px solid var(--border);
+  background-color: var(--surface-base);
 }
 
 a {
-  display: flex;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 40px;
   height: 40px;
   border-radius: var(--radius-md);
   transition: background-color $transition-medium ease;
-  align-items: center;
-  justify-content: center;
 
   &:hover {
     svg {

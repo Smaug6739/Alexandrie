@@ -148,6 +148,9 @@ defineExpose({ reset });
 .drop {
   position: relative;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   min-height: 150px;
   border: 2px dashed var(--border);
@@ -158,9 +161,6 @@ defineExpose({ reset });
   transition:
     border-color $transition-base ease,
     background-color $transition-base ease;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 
   &:hover {
     border-color: var(--border-strong);
@@ -168,8 +168,8 @@ defineExpose({ reset });
   }
 
   &.has-files {
-    padding: 12px;
     align-items: stretch;
+    padding: 12px;
   }
 
   &.dragging {
@@ -184,8 +184,8 @@ defineExpose({ reset });
 
 .empty {
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   gap: 8px;
 
   p {
@@ -200,25 +200,25 @@ defineExpose({ reset });
 
 .files {
   display: flex;
-  width: 100%;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
 }
 
 .list {
   display: flex;
-  max-height: 300px;
   flex-direction: column;
   gap: 6px;
+  max-height: 300px;
   overflow-y: auto;
 }
 
 footer {
   display: flex;
-  align-items: center;
-  border-top: 1px solid var(--border);
   justify-content: space-between;
+  align-items: center;
   padding-top: 8px;
+  border-top: 1px solid var(--border);
 }
 
 .total {

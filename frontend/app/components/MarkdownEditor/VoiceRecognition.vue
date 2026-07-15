@@ -112,6 +112,8 @@ onUnmounted(() => {
 <style scoped lang="scss">
 button {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 28px;
   height: 28px;
   margin: 0;
@@ -119,9 +121,7 @@ button {
   border: none;
   border-radius: 5px;
   background: transparent;
-  align-items: center;
   cursor: pointer;
-  justify-content: center;
 
   &:hover {
     background-color: var(--surface-overlay);

@@ -183,12 +183,12 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .kanban-column {
   display: flex;
+  flex-direction: column;
   min-width: 300px;
   max-width: 320px;
   padding: 12px;
   border-radius: var(--radius-lg);
   background: var(--surface-raised);
-  flex-direction: column;
 
   &.drag-over {
     background: rgb(57 86 231 / 6%);
@@ -209,14 +209,14 @@ onUnmounted(() => {
 }
 
 .column-color-btn {
+  flex-shrink: 0;
   width: 14px;
   height: 14px;
   padding: 0;
   border: none;
   border-radius: 50%;
-  transition: transform $transition-base;
   cursor: pointer;
-  flex-shrink: 0;
+  transition: transform $transition-base;
 
   &:hover {
     transform: scale(1.2);
@@ -224,15 +224,15 @@ onUnmounted(() => {
 }
 
 .column-title {
+  flex: 1;
   margin: 0;
   padding: 2px 0;
   border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
-  transition: color $transition-base;
   cursor: pointer;
-  flex: 1;
+  transition: color $transition-base;
 
   &:hover {
     color: var(--primary);
@@ -240,6 +240,7 @@ onUnmounted(() => {
 }
 
 .column-title-input {
+  flex: 1;
   padding: 4px 8px;
   border: 1px solid var(--primary);
   border-radius: var(--radius-sm);
@@ -248,7 +249,6 @@ onUnmounted(() => {
   color: var(--text-primary);
   background: var(--surface-base);
   box-shadow: 0 0 0 3px rgb(57 86 231 / 10%);
-  flex: 1;
   outline: none;
 }
 
@@ -269,6 +269,8 @@ onUnmounted(() => {
 
 .action-btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 28px;
   height: 28px;
   padding: 0;
@@ -276,9 +278,7 @@ onUnmounted(() => {
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
   background: transparent;
-  align-items: center;
   cursor: pointer;
-  justify-content: center;
 
   &:hover {
     color: var(--text-body);
@@ -303,14 +303,14 @@ onUnmounted(() => {
   left: 0;
   z-index: 10;
   display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
   max-width: 180px;
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-base);
   box-shadow: var(--shadow-sm-md);
-  flex-wrap: wrap;
-  gap: 6px;
 }
 
 .color-option {
@@ -333,33 +333,33 @@ onUnmounted(() => {
 
 .column-content {
   display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
   min-height: 120px;
   max-height: 60vh;
   margin: -4px;
   padding: 4px;
-  flex: 1;
-  flex-direction: column;
-  gap: 8px;
   overflow-y: auto;
 }
 
 .empty-state {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 32px 16px;
   border: 2px dashed var(--border);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   text-align: center;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 
   :deep(svg) {
     width: 24px;
     height: 24px;
+    margin-bottom: 8px;
     opacity: 0.5;
     fill: currentcolor;
-    margin-bottom: 8px;
   }
 
   p {
@@ -376,7 +376,11 @@ onUnmounted(() => {
 
 .add-card-btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
   width: 100%;
+  margin-top: 12px;
   padding: 10px;
   border: none;
   border-radius: var(--radius-md);
@@ -384,11 +388,7 @@ onUnmounted(() => {
   font-weight: 500;
   color: var(--text-secondary);
   background: var(--surface-base);
-  align-items: center;
   cursor: pointer;
-  gap: 6px;
-  justify-content: center;
-  margin-top: 12px;
 
   &:hover {
     color: var(--primary);

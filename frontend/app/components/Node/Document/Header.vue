@@ -89,9 +89,9 @@ p {
 
 .user {
   display: flex;
-  min-width: 120px;
   align-items: center;
   gap: 12px;
+  min-width: 120px;
   margin-bottom: 8px;
 }
 
@@ -123,9 +123,9 @@ h1 {
 }
 
 .description {
+  margin-bottom: 12px;
   font-size: 14px;
   color: var(--text-secondary);
-  margin-bottom: 12px;
 }
 
 .category {
@@ -137,8 +137,8 @@ h1 {
 
 .tags {
   display: flex;
-  padding: 8px 0;
   flex-wrap: wrap;
+  padding: 8px 0;
 }
 
 @media print, screen and (width >= 1024px) {
@@ -157,10 +157,10 @@ h1 {
 
 @media print {
   .print-style {
+    align-items: center;
     padding: 0;
     border: none;
     background: none;
-    align-items: center;
 
     .thumbnail,
     .description,
@@ -171,10 +171,10 @@ h1 {
     }
 
     h1 {
+      border-bottom: 1px solid var(--text-body);
       font-size: 27px;
       font-weight: 700;
       text-align: center;
-      border-bottom: 1px solid var(--text-body);
     }
   }
 }

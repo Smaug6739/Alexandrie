@@ -102,7 +102,7 @@ label {
 }
 
 .form-column {
-  min-width: 200px;
   flex: 1;
+  min-width: 200px;
 }
 </style>

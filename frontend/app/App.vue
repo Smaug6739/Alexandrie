@@ -83,8 +83,8 @@ useHead({
 <style lang="scss">
 #app {
   display: flex;
-  height: 100vh;
   flex-direction: column;
+  height: 100vh;
   overflow: auto scroll;
 }
 

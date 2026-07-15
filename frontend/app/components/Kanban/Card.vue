@@ -73,8 +73,8 @@ const onDragEnd = () => {
 
 .card-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 8px;
 }
 
@@ -86,11 +86,11 @@ const onDragEnd = () => {
 
 .card-icon {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 22px;
   height: 22px;
   border-radius: var(--radius-sm);
-  align-items: center;
-  justify-content: center;
 
   :deep(svg) {
     width: 16px;
@@ -112,13 +112,13 @@ const onDragEnd = () => {
 
 .card-title {
   display: block;
+  margin-bottom: 4px;
   font-size: 14px;
   font-weight: 600;
   line-height: 1.3;
   color: var(--text-primary);
-  transition: color $transition-base;
-  margin-bottom: 4px;
   text-decoration: none;
+  transition: color $transition-base;
 
   &:hover {
     color: var(--primary);
@@ -139,17 +139,17 @@ const onDragEnd = () => {
 
 .card-footer {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 8px;
-  justify-content: space-between;
 }
 
 .card-tags {
   display: flex;
-  min-width: 0;
   flex: 1;
   flex-wrap: wrap;
   gap: 4px;
+  min-width: 0;
 }
 
 .tag {
@@ -159,10 +159,10 @@ const onDragEnd = () => {
   font-size: 10px;
   font-weight: 500;
   color: var(--text-secondary);
-  background: var(--surface-raised);
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background: var(--surface-raised);
+  overflow: hidden;
 }
 
 .card-date {

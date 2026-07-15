@@ -18,22 +18,22 @@ defineProps<{ icon: string; title: string; subtitle?: string }>();
 <style scoped lang="scss">
 .modal-header {
   display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
   padding: 16px 0 0;
   text-align: center;
-  align-items: center;
-  flex-direction: column;
-  flex-shrink: 0;
 
   .header-icon {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 48px;
     height: 48px;
+    margin-bottom: 16px;
     border-radius: 16px;
     color: white;
     background: linear-gradient(135deg, var(--primary), var(--primary-dark, var(--primary)));
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 16px;
   }
 
   h3 {
@@ -41,9 +41,9 @@ defineProps<{ icon: string; title: string; subtitle?: string }>();
     font-size: 24px;
     font-weight: 800;
     color: var(--text-primary);
+    letter-spacing: -0.8px;
     background: linear-gradient(135deg, var(--text-primary), var(--primary));
     background-clip: text;
-    letter-spacing: -0.8px;
     -webkit-text-fill-color: transparent;
   }
 

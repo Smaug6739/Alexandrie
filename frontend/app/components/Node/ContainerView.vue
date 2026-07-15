@@ -183,10 +183,10 @@ header {
 
 h1 {
   display: flex;
-  font-size: 18px;
-  font-weight: 600;
   align-items: center;
   gap: 12px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .doc-count {
@@ -209,9 +209,9 @@ h1 {
 
 .document-grid {
   display: grid;
-  width: 100%;
-  gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
 }
 
 .line-item:first-child {
@@ -220,8 +220,8 @@ h1 {
 }
 
 .line-item:last-child {
-  border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
 @media screen and (width <= 768px) {

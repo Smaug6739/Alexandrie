@@ -1,19 +1,19 @@
 .page-card {
 	display: block;
+	gap: 16px;
 	margin: 8px 4px;
 	padding: 20px;
 	border: 1px solid var(--border);
 	border-radius: var(--radius-md);
 	box-shadow: var(--shadow-sm);
-	gap: 16px;
 
 	header {
 		display: flex;
-		align-items: center;
-		border-bottom: 1px solid var(--border);
 		justify-content: space-between;
+		align-items: center;
 		margin-bottom: 10px;
 		padding-bottom: 4px;
+		border-bottom: 1px solid var(--border);
 
 		h1 {
 			margin: 10px 0;
@@ -32,10 +32,10 @@
 
 .page-title {
 	display: flex;
-	font-size: 1.7rem;
-	font-weight: bold;
 	align-items: center;
 	gap: 0.5rem;
+	font-size: 1.7rem;
+	font-weight: bold;
 }
 
 .page-subtitle {

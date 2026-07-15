@@ -39,15 +39,14 @@ const closeTab = (path: string): void => {
 <style scoped lang="scss">
 .tabs-container {
   display: flex;
-  align-items: center;
   flex-shrink: 0;
+  align-items: center;
   gap: 0.2rem;
-  margin-top: 2px;
-  min-width: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
   width: 100%;
+  min-width: 0;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: auto hidden;
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
@@ -55,22 +54,22 @@ const closeTab = (path: string): void => {
   }
 
   .tab {
+    position: relative;
     display: flex;
-    align-items: center;
     flex: 0 0 auto;
-    padding: 0.3rem 0.9rem;
+    align-items: center;
     gap: 0.4rem;
     min-width: max-content;
-    color: var(--color);
+    padding: 0.3rem 0.9rem;
     border: 1px solid transparent;
-    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
     border-color: var(--primary-border);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    color: var(--color);
     cursor: pointer;
     transition:
       background 0.2s ease,
       color 0.2s ease,
       border-color 0.2s ease;
-    position: relative;
 
     span {
       font-size: 0.85rem;
@@ -79,12 +78,12 @@ const closeTab = (path: string): void => {
 
     .close {
       display: flex;
-      align-items: center;
       justify-content: center;
-      opacity: 0;
+      align-items: center;
       width: 20px;
       height: 20px;
       border-radius: 50%;
+      opacity: 0;
       transition:
         background 0.2s ease,
         opacity 0.2s ease;
@@ -96,44 +95,45 @@ const closeTab = (path: string): void => {
 
     &:hover {
       background: var(--primary-border);
+
       .close {
         opacity: 1;
       }
     }
 
     &.active {
-      background: var(--primary-bg);
-      color: var(--color);
       border-color: var(--primary-border);
       border-bottom-color: transparent;
+      color: var(--color);
+      background: var(--primary-bg);
 
       .close {
         opacity: 1;
       }
 
       &::after {
-        content: '';
         position: absolute;
         bottom: -1px;
         left: 0;
         width: 100%;
         height: 2px;
         background: var(--primary);
+        content: '';
       }
     }
   }
 
   .more {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex: 0 0 auto;
+    justify-content: center;
+    align-items: center;
     width: 1.9rem;
     height: 1.9rem;
     margin-left: 0.25rem;
     border-radius: 8px;
-    cursor: pointer;
     background: transparent;
+    cursor: pointer;
     transition:
       background 0.2s ease,
       color 0.2s ease,

@@ -29,19 +29,18 @@ const attrs = useAttrs();
 
 <style scoped lang="scss">
 button,
-button,
 a {
   position: relative;
   display: inline-flex;
+  align-items: center;
+  gap: 7px;
   margin: 0 1px;
   padding: 4.5px;
+  border-bottom: 2px solid transparent;
   border-radius: var(--radius-sm);
   transition:
     background-color $transition-fast ease-in-out,
     border-color $transition-fast ease-in-out;
-  align-items: center;
-  border-bottom: 2px solid transparent;
-  gap: 7px;
 
   &:hover {
     background-color: var(--surface-raised);
@@ -65,18 +64,16 @@ a {
 @media screen and (width <= 768px) {
   .btn-tooltip {
     position: static !important;
-    transform: none !important;
+    order: 1;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: inherit !important;
     background-color: transparent !important;
     box-shadow: none !important;
-    color: inherit !important;
-    padding: 0 !important;
-    margin: 0 !important;
-
     opacity: 1 !important;
     visibility: visible !important;
+    transform: none !important;
     pointer-events: auto !important;
-
-    order: 1;
   }
 }
 </style>

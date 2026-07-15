@@ -89,16 +89,16 @@ const faqs = [
 }
 
 .section-header {
-  text-align: center;
   margin-bottom: 3rem;
+  text-align: center;
 }
 
 h2 {
+  margin-bottom: 0.5rem;
   border: none;
   font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
 }
 
 .subtitle {
@@ -109,8 +109,8 @@ h2 {
 .faq-container {
   display: grid;
   align-items: start;
-  gap: 3rem;
   grid-template-columns: 1.5fr 1fr;
+  gap: 3rem;
 }
 
 .faq-list {
@@ -140,6 +140,9 @@ h2 {
 
 .faq-question {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
   padding: 1.25rem 1.5rem;
   border: none;
@@ -148,15 +151,15 @@ h2 {
   color: var(--text-body);
   text-align: left;
   background: none;
-  transition: color $transition-fast ease;
-  align-items: center;
   cursor: pointer;
-  gap: 1rem;
-  justify-content: space-between;
+  transition: color $transition-fast ease;
 }
 
 .question-icon {
   display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
   width: 28px;
   height: 28px;
   border-radius: var(--radius-md);
@@ -165,9 +168,6 @@ h2 {
   transition:
     color $transition-medium ease,
     background-color $transition-medium ease;
-  align-items: center;
-  flex-shrink: 0;
-  justify-content: center;
 
   .open & {
     color: white;
@@ -209,31 +209,31 @@ h2 {
 }
 
 .cta-content h3 {
+  margin-bottom: 0.5rem;
   font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
 }
 
 .cta-content p {
+  margin-bottom: 1.5rem;
   font-size: 0.9rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
 }
 
 .cta-btn {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 24px;
   border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
   color: white;
+  text-decoration: none;
   background: #5865f2;
   transition:
     box-shadow $transition-medium ease,
     transform $transition-medium ease;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
 
   &:hover {
     box-shadow: 0 8px 20px rgb(88 101 242 / 30%);

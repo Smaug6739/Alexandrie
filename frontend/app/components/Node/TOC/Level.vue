@@ -23,10 +23,10 @@ a {
 }
 
 li {
+  margin-top: 3px;
   padding: 0;
   font-size: 12px;
   list-style: none;
-  margin-top: 3px;
 }
 
 ul {

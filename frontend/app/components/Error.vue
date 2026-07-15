@@ -30,10 +30,10 @@ const handleError = computed(() => {
 <style lang="scss" scoped>
 .page-card {
   display: flex;
-  text-align: center;
-  align-items: center;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .error-content {
@@ -56,9 +56,9 @@ const handleError = computed(() => {
 }
 
 .error-description {
+  margin-bottom: 20px;
   font-size: 16px;
   color: var(--text-secondary);
-  margin-bottom: 20px;
 }
 
 .error-button {
@@ -66,9 +66,9 @@ const handleError = computed(() => {
   padding: 10px 20px;
   border-radius: 5px;
   color: white;
+  text-decoration: none;
   background-color: var(--primary);
   transition: background-color $transition-medium;
-  text-decoration: none;
 }
 
 .error-button:hover {

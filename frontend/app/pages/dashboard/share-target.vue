@@ -264,14 +264,14 @@ section {
 
 .action-card {
   display: flex;
+  align-items: center;
+  gap: 1rem;
   padding: 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--bg-secondary);
-  transition: all 0.15s ease;
-  align-items: center;
   cursor: pointer;
-  gap: 1rem;
+  transition: all 0.15s ease;
 
   &:hover {
     border-color: var(--primary);
@@ -280,20 +280,20 @@ section {
 
   .action-icon {
     display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
     width: 40px;
     height: 40px;
     border-radius: var(--radius-sm);
     color: white;
     background: var(--primary);
-    align-items: center;
-    flex-shrink: 0;
-    justify-content: center;
   }
 
   .action-info {
     h3 {
-      font-size: 0.95rem;
       margin-bottom: 0.15rem;
+      font-size: 0.95rem;
     }
 
     p {

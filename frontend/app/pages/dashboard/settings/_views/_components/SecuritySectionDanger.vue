@@ -85,6 +85,7 @@ const openDeleteModal = () => modals.add(new Modal(shallowRef(DeleteAccountModal
 h3 {
   margin-top: 2.5rem;
 }
+
 .section {
   display: flex;
   flex-direction: column;
@@ -94,14 +95,14 @@ h3 {
 
 .card {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
   padding: 1rem 1.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
   transition: border-color $transition-fast ease;
-  align-items: center;
-  gap: 1rem;
-  justify-content: space-between;
 
   &:hover {
     border-color: var(--border-strong);
@@ -119,22 +120,22 @@ h3 {
 
 .card-content {
   display: flex;
-  min-width: 0;
-  align-items: flex-start;
   flex: 1;
+  align-items: flex-start;
   gap: 1rem;
+  min-width: 0;
 }
 
 .card-icon {
   display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
   width: 40px;
   height: 40px;
   border-radius: var(--radius-lg);
   color: var(--text-body);
   background: var(--surface-overlay);
-  align-items: center;
-  flex-shrink: 0;
-  justify-content: center;
 
   &.warning {
     color: var(--orange-dark);
@@ -148,8 +149,8 @@ h3 {
 }
 
 .card-info {
-  min-width: 0;
   flex: 1;
+  min-width: 0;
 
   h4 {
     margin: 0 0 0.25rem;
@@ -183,9 +184,9 @@ h3 {
 
   ul {
     margin: 0.5rem 0;
+    padding-left: 1.25rem;
     font-size: 0.8rem;
     color: var(--text-secondary);
-    padding-left: 1.25rem;
 
     li {
       margin: 0.2rem 0;
@@ -206,12 +207,12 @@ h3 {
 
 @media (width <= 600px) {
   .card {
-    align-items: stretch;
     flex-direction: column;
+    align-items: stretch;
 
     button {
-      width: 100%;
       justify-content: center;
+      width: 100%;
     }
   }
 }

@@ -107,11 +107,11 @@ async function action(name: string) {
 
 .menu-header {
   display: flex;
-  padding: 8px 10px 12px;
   align-items: center;
-  border-bottom: 1px solid var(--border);
   gap: 10px;
   margin-bottom: 6px;
+  padding: 8px 10px 12px;
+  border-bottom: 1px solid var(--border);
 
   .avatar {
     width: 32px;
@@ -123,18 +123,18 @@ async function action(name: string) {
 
 .header-info {
   display: flex;
-  min-width: 0;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .header-name {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .header-meta {
@@ -146,14 +146,16 @@ async function action(name: string) {
   padding: 2px 0;
 
   & + & {
-    border-top: 1px solid var(--border);
     margin-top: 2px;
     padding-top: 4px;
+    border-top: 1px solid var(--border);
   }
 }
 
 .menu-item {
   display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   padding: 4px 10px;
   border: none;
@@ -163,21 +165,19 @@ async function action(name: string) {
   color: var(--text-body);
   text-align: left;
   background: none;
-  transition: background 0.1s;
-  align-items: center;
   cursor: pointer;
-  gap: 10px;
+  transition: background 0.1s;
 
   &:hover {
     background: var(--surface-raised);
   }
 
   kbd {
+    margin-left: auto;
     padding: 2px 5px;
     font-size: 10px;
     color: var(--text-secondary);
     background: var(--surface-raised);
-    margin-left: auto;
   }
 
   &.delete {

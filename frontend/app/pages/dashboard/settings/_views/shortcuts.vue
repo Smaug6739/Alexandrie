@@ -136,12 +136,12 @@ const { t } = useI18nT();
 <style scoped lang="scss">
 .shortcuts {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
   border-radius: var(--radius-lg);
   font-size: 16px;
   font-weight: 400;
   background-color: var(--surface-transparent);
-  flex-direction: column;
-  gap: 8px;
   text-size-adjust: 100%;
 }
 
@@ -151,12 +151,12 @@ p {
 
 .shortcut {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
   padding: 8px 12px;
   border-radius: var(--radius-md);
   text-align: left;
-  align-items: center;
-  gap: 1rem;
-  justify-content: space-between;
 
   &:hover {
     background-color: var(--surface-transparent);

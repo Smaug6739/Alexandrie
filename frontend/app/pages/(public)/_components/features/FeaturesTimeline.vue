@@ -107,11 +107,11 @@ section {
 }
 
 .section-title {
+  margin-bottom: 1rem;
   font-size: clamp(1.5rem, 2.5vw + 1rem, 2.5rem);
   font-weight: 800;
   color: var(--text-primary);
   text-align: center;
-  margin-bottom: 1rem;
 }
 
 .section-subtitle {
@@ -143,12 +143,12 @@ section {
   .timeline-item {
     position: relative;
     display: flex;
+    align-items: center;
+    margin-bottom: 5rem;
     opacity: 0;
     transition:
       opacity 0.8s ease,
       transform 0.8s ease;
-    align-items: center;
-    margin-bottom: 5rem;
     transform: translateY(40px);
 
     &.visible {
@@ -162,19 +162,19 @@ section {
 
     .timeline-content {
       display: flex;
-      width: 100%;
+      justify-content: space-between;
       align-items: center;
       gap: clamp(1rem, 4vw, 3rem);
-      justify-content: space-between;
+      width: 100%;
 
       .text {
-        padding: 0.5rem;
         flex: 1;
+        padding: 0.5rem;
 
         h3 {
+          margin-bottom: 0.8rem;
           font-size: clamp(1.1rem, 1.6vw + 0.75rem, 1.5rem);
           color: #111;
-          margin-bottom: 0.8rem;
         }
 
         p {
@@ -195,10 +195,10 @@ section {
           border-radius: 16px;
           background: white;
           box-shadow: var(--shadow-lg);
+          cursor: zoom-in;
           transition:
             transform 0.5s ease,
             box-shadow 0.5s ease;
-          cursor: zoom-in;
 
           &:hover {
             box-shadow: var(--shadow-xl);
@@ -223,10 +223,10 @@ section {
   position: fixed;
   z-index: 2000;
   display: flex;
+  justify-content: center;
   align-items: center;
   animation: fadeIn $transition-base ease;
   inset: 0;
-  justify-content: center;
 
   .lightbox-content {
     position: relative;
@@ -244,10 +244,10 @@ section {
     }
 
     .caption {
+      margin-top: 1rem;
       font-size: 1rem;
       color: #f0f0f0;
       text-align: center;
-      margin-top: 1rem;
     }
 
     .close-btn {
@@ -259,8 +259,8 @@ section {
       line-height: 1;
       color: white;
       background: transparent;
-      transition: transform $transition-base ease;
       cursor: pointer;
+      transition: transform $transition-base ease;
 
       &:hover {
         transform: scale(1.2);
@@ -307,8 +307,8 @@ section {
 
     .timeline-item,
     .timeline-content {
-      align-items: flex-start;
       flex-direction: column !important;
+      align-items: flex-start;
 
       .timeline-content {
         flex-direction: column;
@@ -353,8 +353,8 @@ section {
 
 @media (width <= 400px) {
   .section-subtitle {
-    padding: 0 0.25rem;
     margin-bottom: 2rem;
+    padding: 0 0.25rem;
   }
 }
 

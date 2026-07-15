@@ -23,10 +23,10 @@ function toggle() {
 <style scoped lang="scss">
 .checkbox {
   display: inline-flex;
-  width: fit-content;
   align-items: center;
-  cursor: pointer;
   gap: 0.25rem;
+  width: fit-content;
+  cursor: pointer;
   user-select: none;
 
   input {
@@ -35,6 +35,8 @@ function toggle() {
 
   .mark {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 20px;
     height: 20px;
     border: 2px solid var(--border);
@@ -43,8 +45,6 @@ function toggle() {
     transition:
       border-color $transition-fast,
       background-color $transition-fast;
-    align-items: center;
-    justify-content: center;
 
     svg {
       width: 16px;

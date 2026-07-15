@@ -335,11 +335,11 @@ definePageMeta({
 <style lang="scss" scoped>
 .body-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 1000px;
   margin: 2rem auto;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
 }
 </style>

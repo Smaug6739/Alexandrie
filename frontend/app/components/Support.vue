@@ -101,13 +101,13 @@ function handleClose() {
 .support-container {
   position: relative;
   display: grid;
+  align-items: center;
   grid-template-columns: 1.2fr 1fr;
   gap: 4rem;
   padding: 3.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, var(--surface-base), var(--surface-raised));
-  align-items: center;
 }
 
 .close-btn {
@@ -154,9 +154,9 @@ function handleClose() {
   h2 {
     font-size: clamp(1.75rem, 3vw, 2.25rem);
     font-weight: 800;
-    letter-spacing: -0.02em;
     line-height: 1.3;
     color: var(--text-body);
+    letter-spacing: -0.02em;
   }
 
   .letter-content {
@@ -202,8 +202,8 @@ function handleClose() {
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--surface-base);
   text-decoration: none;
+  background: var(--surface-base);
   transition:
     border-color $transition-medium ease,
     transform $transition-medium ease,
@@ -211,34 +211,34 @@ function handleClose() {
 
   &:hover {
     border-color: var(--primary);
-    transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 
     .card-arrow {
-      transform: translateX(4px);
       color: var(--primary);
+      transform: translateX(4px);
     }
   }
 
   .card-icon {
     display: flex;
-    align-items: center;
+    flex-shrink: 0;
     justify-content: center;
+    align-items: center;
     width: 44px;
     height: 44px;
     border-radius: var(--radius-lg);
     background: var(--surface-raised);
-    flex-shrink: 0;
   }
 
   .card-text {
     flex: 1;
 
     h3 {
+      margin-bottom: 0.25rem;
       font-size: 1.1rem;
       font-weight: 700;
       color: var(--text-body);
-      margin-bottom: 0.25rem;
     }
 
     p {
@@ -249,18 +249,19 @@ function handleClose() {
   }
 
   .card-arrow {
+    align-self: center;
     font-size: 1.2rem;
     color: var(--text-secondary);
     transition:
       transform $transition-fast ease,
       color $transition-fast ease;
-    align-self: center;
   }
 }
 
 .star-card .card-icon {
   color: #fbbf24;
 }
+
 .donate-card .card-icon {
   color: #ec4899;
 }
@@ -277,12 +278,15 @@ function handleClose() {
   .support-section {
     padding: 0 1rem;
   }
+
   .support-container {
     padding: 2rem 1.25rem;
   }
+
   .action-card {
-    padding: 1.25rem;
     gap: 1rem;
+    padding: 1.25rem;
+
     .card-arrow {
       display: none;
     }

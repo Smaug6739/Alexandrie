@@ -2,7 +2,8 @@
   <div v-if="node.data.role === 2" class="tree-node">
     <div class="tree-content">
       <div class="tree-label">
-        <Icon class="icon" name="folder" style="display: inline; width: 18px" fill="var(--orange)" />
+        <Icon class="icon" name="folder" style="display: inline;
+ width: 18px" fill="var(--orange)" />
         <span>{{ node.label }}</span>
       </div>
       <div class="tree-actions">
@@ -28,16 +29,16 @@ defineEmits(['edit', 'delete']);
 <style scoped lang="scss">
 .tree-node {
   position: relative;
-  border-left: 1px solid var(--border);
   margin-left: 20px;
   padding-left: 12px;
+  border-left: 1px solid var(--border);
 }
 
 .tree-content {
   position: relative;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 .tree-content::before {
@@ -52,9 +53,9 @@ defineEmits(['edit', 'delete']);
 
 .tree-label {
   display: flex;
+  align-items: center;
   padding: 4px 0;
   font-size: 14px;
-  align-items: center;
 
   span {
     margin-left: 4px;

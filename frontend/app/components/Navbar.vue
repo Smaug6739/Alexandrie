@@ -1,21 +1,21 @@
 <template>
   <header :class="{ 'header--has-tabs': tabEnabled }">
     <div class="navbar">
-      <div v-if="!isOpened && (!tabEnabled || isMobile)" class="navbar__left-trigger">
+      <div v-if="!isOpened && (!tabEnabled || isMobile)" class="navbar-left-trigger">
         <AppBtnIcon icon="burger" class="open-sidebar" @click="toggleSidebar" />
       </div>
 
-      <div class="navbar__center">
-        <div v-if="tabEnabled" class="navbar__tabs-wrapper">
+      <div class="navbar-center">
+        <div v-if="tabEnabled" class="navbar-tabs-wrapper">
           <AppBtnIcon v-if="!isOpened && !isMobile" icon="burger" class="open-sidebar inline-burger" @click="toggleSidebar" />
-          <Tab class="navbar__tabs" />
+          <Tab class="navbar-tabs" />
         </div>
 
-        <div id="navbar-title" class="navbar__title" />
+        <div id="navbar-title" class="navbar-title" />
       </div>
 
-      <div class="navbar__right">
-        <div ref="desktopActionsZone" class="navbar__actions-wrapper" />
+      <div class="navbar-right">
+        <div ref="desktopActionsZone" class="navbar-actions-wrapper" />
 
         <button
           v-if="navbarItems.search"
@@ -26,14 +26,14 @@
           @click="openCommandCenter"
         >
           <Icon name="search" display="lg" />
-          <span v-if="!isMobile" class="search-btn__text">
+          <span v-if="!isMobile" class="search-btn-text">
             <i18n-t scope="global" keypath="components.navbar.searchHint">
               <template #key><kbd>/</kbd></template>
             </i18n-t>
           </span>
         </button>
 
-        <div id="navbar-infos" class="navbar__infos" />
+        <div id="navbar-infos" class="navbar-infos" />
         <ThemeToggle v-if="navbarItems.theme" />
 
         <div v-if="hasSubnav" class="subnav-toggle" :class="{ 'is-open': subnavOpen }">
@@ -47,13 +47,13 @@
     </div>
 
     <div class="subnav-wrapper" :class="{ 'subnav-wrapper--open': subnavOpen }" @vue:mounted="onSubnavMounted" @vue:updated="onSubnavMounted">
-      <div ref="mobileActionsZone" class="navbar__actions-wrapper" />
+      <div ref="mobileActionsZone" class="navbar-actions-wrapper" />
       <hr v-if="hasBottomContent && isMobile && hasActionsContent" />
       <div id="navbar-bottom" />
     </div>
 
     <div style="display: none">
-      <div id="navbar-actions" ref="navbarActionsEl" class="navbar__actions" />
+      <div id="navbar-actions" ref="navbarActionsEl" class="navbar-actions" />
     </div>
   </header>
 </template>
@@ -130,7 +130,6 @@ watch(
 <style lang="scss" scoped>
 $navbar-height: 56px;
 $secondary-height: 40px;
-$bp-md: 768px;
 
 header {
   width: 100%;
@@ -140,68 +139,47 @@ header {
 
 .navbar {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   height: $navbar-height;
   padding: 0 4px;
-  align-items: center;
-  gap: 12px;
-  justify-content: space-between;
 }
 
-.navbar__left-trigger {
+.navbar-left-trigger {
   display: flex;
-  align-items: center;
   flex-shrink: 0;
+  align-items: center;
 }
 
-.navbar__center {
+.navbar-center {
   display: flex;
   flex: 1;
-  min-width: 0;
   align-items: center;
   gap: 12px;
-}
-
-.navbar__title {
-  display: flex;
   min-width: 0;
-  font-size: 17px;
-  font-weight: 600;
-  align-items: center;
-  gap: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  height: 100%;
 }
 
 /* Secondary Row (only if tabs are enabled) */
 .header--has-tabs {
   .navbar {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-rows: $navbar-height auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0 12px;
     height: auto;
     padding-bottom: 8px;
-    gap: 0 12px;
   }
 
-  .navbar__left-trigger {
+  .navbar-left-trigger {
     grid-column: 1;
     grid-row: 1;
   }
 
-  .navbar__center {
+  .navbar-center {
+    display: contents;
     grid-column: 2;
     grid-row: 1;
-    display: contents;
-  }
-
-  .navbar__tabs-wrapper {
-    grid-column: 1 / span 2;
-    grid-row: 1;
-    display: flex;
-    align-items: center;
-    min-width: 0;
   }
 
   #navbar-title {
@@ -211,24 +189,19 @@ header {
     padding-top: 4px;
   }
 
-  .navbar__right {
+  .navbar-right {
+    align-self: center;
     grid-column: 3;
     grid-row: 1;
-    align-self: center;
   }
 }
 
-.navbar__tabs {
-  flex: 1;
-  min-width: 0;
-}
-
-.navbar__tabs-wrapper {
+.navbar-tabs-wrapper {
   display: flex;
   align-items: center;
+  gap: 8px;
   width: 100%;
   min-width: 0;
-  gap: 8px;
 
   .inline-burger {
     flex-shrink: 0;
@@ -236,54 +209,55 @@ header {
   }
 }
 
-.navbar__tabs {
+.navbar-tabs {
   flex: 1;
   min-width: 0;
 }
 
-.navbar__title {
+.navbar-title {
   display: flex;
-  min-width: 0;
-  font-size: 17px;
-  font-weight: 600;
   align-items: center;
   gap: 10px;
-  overflow: hidden;
+  min-width: 0;
+  height: 100%;
+  font-size: 17px;
+  font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 /* Secondary Row */
-.navbar__secondary {
+.navbar-secondary {
   display: flex;
-  height: $secondary-height;
-  padding: 0 2px 6px 2px;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  height: $secondary-height;
+  padding: 0 2px 6px;
 }
 
-.navbar__secondary-left {
+.navbar-secondary-left {
   display: flex;
   align-items: center;
-  min-width: 0;
   gap: 8px;
+  min-width: 0;
 }
 
 /* Right Actions Side (Toujours fixe, ne saute jamais) */
-.navbar__right {
+.navbar-right {
   display: flex;
-  align-items: center;
   flex-shrink: 0;
+  align-items: center;
   gap: 6px;
 }
 
-.navbar__actions-wrapper {
+.navbar-actions-wrapper {
   display: flex;
   align-items: center;
 }
 
-.navbar__actions,
-.navbar__infos {
+.navbar-actions,
+.navbar-infos {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -291,6 +265,8 @@ header {
 
 .search-btn {
   display: inline-flex;
+  align-items: center;
+  gap: 6px;
   height: 36px;
   margin: 0;
   padding: 0 12px;
@@ -299,14 +275,12 @@ header {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-secondary);
+  white-space: nowrap;
   background: var(--border);
+  cursor: pointer;
   transition:
     background-color $transition-base ease,
     transform $transition-base ease;
-  align-items: center;
-  cursor: pointer;
-  gap: 6px;
-  white-space: nowrap;
 
   &:hover {
     color: var(--text-primary);
@@ -319,11 +293,11 @@ header {
   }
 
   &--compact {
+    justify-content: center;
     width: 36px;
     padding: 0;
-    justify-content: center;
 
-    .search-btn__text {
+    .search-btn-text {
       display: none;
     }
   }
@@ -343,7 +317,7 @@ kbd {
 .subnav-toggle {
   display: none;
 
-  @media (max-width: #{$bp-md - 1px}) {
+  @media (width <= 768px) {
     display: inline-flex;
   }
 
@@ -371,11 +345,11 @@ kbd {
     transition: max-height $transition-base ease;
     overflow: hidden;
 
-    .navbar__actions {
-      width: 100%;
-      padding: 10px 16px;
+    .navbar-actions {
       flex-direction: column;
       gap: 8px;
+      width: 100%;
+      padding: 10px 16px;
 
       :deep(> *) {
         width: 100%;

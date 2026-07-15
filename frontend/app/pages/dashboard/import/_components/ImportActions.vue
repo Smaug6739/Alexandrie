@@ -36,10 +36,10 @@ const isImporting = computed(() => props.importJob.status === 'in_progress');
 <style scoped lang="scss">
 .actions-card {
   display: flex;
-  padding: 1rem;
-  align-items: center;
-  border-top: 1px solid var(--border);
   justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
 
   .import-options {
     display: flex;

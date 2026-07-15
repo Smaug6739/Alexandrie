@@ -83,24 +83,24 @@ function handleKeydown(e: KeyboardEvent) {
 <style scoped lang="scss">
 .command-center {
   display: flex;
-  border-radius: 16px;
   flex-direction: column;
+  border-radius: 16px;
   overflow: auto;
 }
 
 .search-header {
   display: flex;
-  padding: 20px;
   align-items: center;
-  border-bottom: 1px solid var(--border);
   gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
 }
 
 .search-input-wrapper {
   position: relative;
   display: flex;
-  align-items: center;
   flex: 1;
+  align-items: center;
 }
 
 .search-icon {
@@ -126,8 +126,8 @@ function handleKeydown(e: KeyboardEvent) {
 }
 
 .tab-content {
-  min-height: 0;
   flex: 1;
+  min-height: 0;
   overflow: auto;
 }
 
@@ -138,10 +138,10 @@ function handleKeydown(e: KeyboardEvent) {
 
 .shortcuts {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
   font-size: 13px;
   font-weight: 500;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
 }
 </style>

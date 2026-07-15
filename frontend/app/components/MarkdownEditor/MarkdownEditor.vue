@@ -202,28 +202,29 @@ const autoSave = debounceDelayed(() => {
 
 .editor-container {
   display: flex;
-  width: 100%;
-  height: 100%;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
+  height: 100%;
 }
 
 // Compact Document Metadata - Single line
 .document-meta {
   .line {
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
+    align-items: center;
   }
 
+  gap: 8px;
   padding: 6px 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  gap: 8px;
 }
 
 .meta-title {
+  flex: 0 1 auto;
   min-width: 120px;
   max-width: 280px;
   padding: 4px 8px;
@@ -233,9 +234,8 @@ const autoSave = debounceDelayed(() => {
   font-weight: 600;
   color: var(--text-primary);
   background: transparent;
-  transition: background $transition-fast ease;
-  flex: 0 1 auto;
   outline: none;
+  transition: background $transition-fast ease;
 
   &:hover,
   &:focus {
@@ -249,6 +249,7 @@ const autoSave = debounceDelayed(() => {
 }
 
 .meta-description {
+  flex: 1 1 150px;
   min-width: 100px;
   padding: 4px 8px;
   border: none;
@@ -256,9 +257,8 @@ const autoSave = debounceDelayed(() => {
   font-size: 0.85rem;
   color: var(--text-body);
   background: transparent;
-  transition: background $transition-fast ease;
-  flex: 1 1 150px;
   outline: none;
+  transition: background $transition-fast ease;
 
   &:hover,
   &:focus {
@@ -274,20 +274,20 @@ const autoSave = debounceDelayed(() => {
 // Editor Content Section
 .editor-content {
   display: flex;
-  min-height: 0;
   flex: 1;
   gap: 8px;
+  min-height: 0;
 }
 
 .editor-panel,
 .preview-panel {
   display: flex;
+  flex: 1;
+  flex-direction: column;
   min-width: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  flex: 1;
-  flex-direction: column;
   overflow: hidden;
 }
 
@@ -297,18 +297,18 @@ const autoSave = debounceDelayed(() => {
 
 .panel-header {
   display: flex;
-  padding: 6px 12px;
-  background: var(--surface-transparent);
   align-items: center;
+  padding: 6px 12px;
   border-bottom: 1px solid var(--border);
+  background: var(--surface-transparent);
 }
 
 .panel-label {
   font-size: 10px;
   font-weight: 600;
   color: var(--text-secondary);
-  letter-spacing: 0.5px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .codemirror-editor {
@@ -329,9 +329,9 @@ const autoSave = debounceDelayed(() => {
 }
 
 .markdown-preview {
+  flex: 1;
   padding: 12px 16px;
   background: var(--surface-base);
-  flex: 1;
   overflow: auto;
 }
 
@@ -357,10 +357,10 @@ const autoSave = debounceDelayed(() => {
 
 @media (width <= 600px) {
   .document-meta {
-    padding: 8px 10px;
-    align-items: stretch;
     flex-direction: column;
+    align-items: stretch;
     gap: 4px;
+    padding: 8px 10px;
   }
 
   .meta-title,

@@ -98,16 +98,16 @@ const generateGridMarkdown = (columns: number, rows: number): string => {
 <style scoped lang="scss">
 .table-grid {
   display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 4px;
   max-width: 350px;
+  margin-right: auto;
+  margin-bottom: 16px;
+  margin-left: auto;
   padding: 4px;
   border: 2px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-base);
-  gap: 4px;
-  grid-template-columns: repeat(12, 1fr);
-  margin-bottom: 16px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .table-row {
@@ -119,11 +119,11 @@ const generateGridMarkdown = (columns: number, rows: number): string => {
   width: 16px;
   height: 16px;
   border: 1px solid var(--border);
+  cursor: pointer;
   transition:
     border-color $transition-base ease,
     background-color $transition-base ease,
     opacity $transition-base ease;
-  cursor: pointer;
 
   &:hover {
     z-index: 2;
@@ -149,6 +149,8 @@ const generateGridMarkdown = (columns: number, rows: number): string => {
 .table-info {
   max-width: 400px;
   min-height: 20px;
+  margin-right: auto;
+  margin-left: auto;
   padding: 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -156,15 +158,13 @@ const generateGridMarkdown = (columns: number, rows: number): string => {
   font-weight: 500;
   text-align: center;
   box-shadow: var(--shadow-md);
-  margin-left: auto;
-  margin-right: auto;
 }
 
 @media (width <= 768px) {
   .table-grid {
-    max-width: 300px;
-    gap: 1px;
     grid-template-columns: repeat(8, 1fr);
+    gap: 1px;
+    max-width: 300px;
 
     .table-cell {
       width: 14px;

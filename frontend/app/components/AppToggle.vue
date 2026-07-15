@@ -23,17 +23,17 @@ const toggle = () => {
 <style scoped lang="scss">
 .toggle {
   display: flex;
+  flex: 0 0 44px;
+  align-items: center;
   height: 24px;
   padding: 2px;
   border: 1px solid var(--border);
   border-radius: 15px;
   background: var(--surface-overlay);
+  cursor: pointer;
   transition:
     background-color $transition-medium,
     border-color $transition-medium;
-  align-items: center;
-  cursor: pointer;
-  flex: 0 0 44px;
 
   .knob {
     width: 20px;

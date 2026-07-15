@@ -71,34 +71,34 @@ async function copyAllCodes() {
 <style scoped lang="scss">
 .modal {
   display: flex;
-  width: 100%;
   flex-direction: column;
   gap: 1.25rem;
+  width: 100%;
 }
 
 .codes-container {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
   padding: 1.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-overlay);
-  flex-direction: column;
-  gap: 1rem;
 }
 
 .codes-list {
   display: grid;
-  gap: 0.75rem 1.5rem;
   grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem 1.5rem;
 }
 
 .code-row {
   display: flex;
+  align-items: center;
+  gap: 0.75rem;
   padding: 0.4rem 0.5rem;
   border-radius: var(--radius-sm);
   transition: background-color 0.2s ease;
-  align-items: center;
-  gap: 0.75rem;
 
   &:hover {
     background: var(--surface-transparent);
@@ -123,6 +123,10 @@ async function copyAllCodes() {
 
 .btn-copy {
   display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -130,12 +134,8 @@ async function copyAllCodes() {
   font-weight: 500;
   color: var(--text-primary);
   background: var(--surface-transparent);
-  transition: all 0.2s ease;
-  align-items: center;
-  align-self: center;
   cursor: pointer;
-  gap: 0.5rem;
-  justify-content: center;
+  transition: all 0.2s ease;
 
   &:hover {
     background: var(--border);
@@ -148,8 +148,8 @@ async function copyAllCodes() {
 
 @media (width <= 400px) {
   .codes-list {
-    gap: 0.5rem;
     grid-template-columns: 1fr;
+    gap: 0.5rem;
   }
 }
 </style>

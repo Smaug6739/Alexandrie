@@ -138,16 +138,16 @@ const drop = async (event: DragEvent) => {
 <style scoped lang="scss">
 .item {
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
   margin: 2.5px 0;
   padding: 1px 4px;
   border-radius: var(--radius-sm);
   font-size: 15px;
   font-weight: 450;
-  align-items: center;
-  cursor: pointer;
-  justify-content: flex-start;
   letter-spacing: -0.4px;
+  cursor: pointer;
 
   &:hover {
     background: var(--surface-overlay);
@@ -171,16 +171,16 @@ const drop = async (event: DragEvent) => {
 }
 
 .content {
-  flex: 1;
   position: relative;
-  overflow: hidden;
+  flex: 1;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .dragging {
-  box-shadow: var(--shadow-sm);
   border-bottom: 2px solid var(--primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .nav {

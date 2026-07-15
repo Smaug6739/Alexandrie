@@ -151,9 +151,9 @@ onBeforeUnmount(() => {
 
 .header {
   display: flex;
-  height: 50px;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  height: 50px;
 
   .btn {
     width: 30px;
@@ -163,9 +163,9 @@ onBeforeUnmount(() => {
 
   .name {
     display: flex;
+    align-items: center;
     font-size: 1rem;
     font-weight: 400;
-    align-items: center;
   }
 }
 
@@ -192,27 +192,27 @@ onBeforeUnmount(() => {
 input {
   height: 30px;
   margin: 3px 0;
+  padding-left: 30px;
   border: none;
   background-color: var(--surface-raised);
   background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%235b5967" height="24" viewBox="0 -960 960 960" width="22"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>');
-  background-position: 5px;
-  transition: background-color $transition-base;
   background-repeat: no-repeat;
+  background-position: 5px;
   outline: none;
-  padding-left: 30px;
+  transition: background-color $transition-base;
 }
 
 .user {
   display: flex;
-  margin: 4px 0 0 5px;
   align-items: center;
+  margin: 4px 0 0 5px;
 
   .details {
     display: flex;
-    width: 100%;
-    font-size: 0.85rem;
     justify-content: space-between;
+    width: 100%;
     margin-left: 5px;
+    font-size: 0.85rem;
   }
 
   .email {

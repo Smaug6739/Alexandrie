@@ -1,17 +1,17 @@
 .actions-row {
 	display: flex;
-	align-items: center;
 	flex-wrap: wrap;
+	align-items: center;
 	gap: 0.5rem;
 }
 
 .center {
 	display: flex;
-	width: 100%;
-	text-align: center;
-	align-items: center;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
+	width: 100%;
+	text-align: center;
 }
 
 .flex {

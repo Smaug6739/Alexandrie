@@ -139,8 +139,8 @@ function removeTag(tag: string) {
 
 .row {
   display: flex;
-  align-items: baseline;
   flex-direction: row;
+  align-items: baseline;
   gap: 12px;
 }
 
@@ -154,8 +154,8 @@ function removeTag(tag: string) {
 }
 
 input {
-  min-width: 200px;
   flex: 1;
+  min-width: 200px;
 
   &:focus {
     border-color: var(--primary);
@@ -175,14 +175,14 @@ input {
 
 .add-tag-btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 6px 10px;
   border: none;
   border-radius: var(--radius-xs);
   color: white;
   background: var(--primary);
-  align-items: center;
   cursor: pointer;
-  justify-content: center;
 
   &:hover {
     background: var(--primary-dark);
@@ -191,13 +191,13 @@ input {
 
 .add-tag-btn-min {
   display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 4px;
   border: none;
   border-radius: var(--radius-md);
   color: var(--text-body);
-  align-items: center;
   cursor: pointer;
-  justify-content: center;
 
   &:hover {
     background: var(--surface-transparent);
@@ -211,11 +211,11 @@ input {
   left: 0;
   z-index: 10;
   max-height: 150px;
+  margin-top: 2px;
   border: 1px solid var(--border);
   border-radius: var(--radius-xs);
   background: var(--surface-base);
   box-shadow: var(--shadow-md);
-  margin-top: 2px;
   overflow-y: auto;
 }
 
@@ -239,24 +239,24 @@ input {
 
 .tag-chip {
   display: inline-flex;
+  align-items: center;
+  gap: 4px;
   padding: 3px 6px;
   border-radius: var(--radius-lg);
   font-size: 12px;
   background: var(--border);
-  align-items: center;
-  gap: 4px;
 
   .remove-tag {
     display: flex;
+    justify-content: center;
+    align-items: center;
     width: 14px;
     height: 14px;
     padding: 0;
     border: none;
     border-radius: 50%;
     background: none;
-    align-items: center;
     cursor: pointer;
-    justify-content: center;
 
     &:hover {
       color: var(--text-inverse);

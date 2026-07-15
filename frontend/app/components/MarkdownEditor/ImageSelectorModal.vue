@@ -82,35 +82,35 @@ const selectImage = (image: Node) => {
 }
 
 .content {
+  gap: 24px;
   min-height: 0;
   padding: 0;
-  gap: 24px;
-  overflow-y: auto;
   padding-right: 8px;
+  overflow-y: auto;
 }
 
 .search-bar {
+  flex-shrink: 0;
   padding: 16px 0;
   border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
 }
 
 .images-grid {
   display: grid;
-  padding: 16px 0;
   flex: 1;
-  gap: 16px;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 16px 0;
 }
 
 .image-item {
   border: 2px solid transparent;
   border-radius: var(--radius-md);
+  cursor: pointer;
   transition:
     border-color $transition-fast ease,
     box-shadow $transition-fast ease,
     transform $transition-fast ease;
-  cursor: pointer;
 
   &:hover {
     border-color: var(--primary);
@@ -129,13 +129,13 @@ const selectImage = (image: Node) => {
 
     .image-name {
       display: block;
+      margin-bottom: 4px;
       font-size: 14px;
       font-weight: 500;
       color: var(--text-primary);
-      margin-bottom: 4px;
-      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      overflow: hidden;
     }
 
     .image-size {
@@ -148,10 +148,10 @@ const selectImage = (image: Node) => {
 
 .no-images {
   display: flex;
+  justify-content: center;
+  align-items: center;
   height: 200px;
   font-size: 16px;
   color: var(--text-secondary);
-  align-items: center;
-  justify-content: center;
 }
 </style>

@@ -54,8 +54,8 @@ footer {
 }
 
 .attachments {
-  width: 100%;
   gap: 10px;
+  width: 100%;
   margin-bottom: 20px;
 
   .attachment {
@@ -65,6 +65,8 @@ footer {
 
 .edit-link {
   display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 14px;
   border-radius: var(--radius-md);
   font-size: 13px;
@@ -73,8 +75,6 @@ footer {
   transition:
     color $transition-base ease,
     background-color $transition-base ease;
-  align-items: center;
-  gap: 6px;
 
   &:hover {
     color: var(--primary);
@@ -84,21 +84,22 @@ footer {
 
 .last-updated {
   display: flex;
-  font-size: 13px;
-  color: var(--text-secondary);
   align-items: center;
   gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 .items {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .item {
   display: block;
+  flex: 1;
   width: 100%;
   min-width: 280px;
   max-width: 400px;
@@ -109,7 +110,6 @@ footer {
   font-size: 15px;
   font-weight: 450;
   transition: color 0.25s;
-  flex: 1;
 
   &:hover {
     border: 1px solid var(--primary);
@@ -126,21 +126,21 @@ footer {
 }
 
 .right {
-  text-align: right;
   margin-left: auto;
+  text-align: right;
 }
 
 .left {
-  text-align: left;
   margin-right: auto;
+  text-align: left;
 }
 
 .footer-top-row {
   display: flex;
-  padding: 10px 0;
-  font-weight: 450;
-  align-items: center;
-  border-bottom: 1px solid var(--border);
   justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-weight: 450;
 }
 </style>

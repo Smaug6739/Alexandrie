@@ -82,20 +82,20 @@ function disable2FA() {
 <style scoped lang="scss">
 header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
 h3 {
-  margin-top: 2.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 2.5rem;
 }
 
 .section-description {
-  color: var(--text-secondary);
   margin-bottom: 1rem;
+  color: var(--text-secondary);
 }
 
 .enabled {
@@ -110,13 +110,13 @@ h3 {
 
 .setup-wizard {
   display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 1rem;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-overlay);
-  flex-direction: column;
-  gap: 1.25rem;
-  margin-top: 1rem;
 
   p {
     margin: 0;
@@ -126,15 +126,15 @@ h3 {
 
 .qr-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   width: fit-content;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: white;
-  align-items: center;
-  flex-direction: column;
-  gap: 1rem;
-  justify-content: center;
 
   .secret-text {
     padding: 0.4rem 0.75rem;
@@ -144,8 +144,8 @@ h3 {
     font-size: 0.85rem;
     color: #333; /* Lisible sur fond blanc */
     text-align: center;
-    background: var(--surface-background);
     word-break: break-all;
+    background: var(--surface-background);
   }
 }
 </style>

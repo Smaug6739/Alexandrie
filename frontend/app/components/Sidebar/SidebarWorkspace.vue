@@ -23,9 +23,9 @@ const { getAppAccent } = useAppColors();
 <style scoped lang="scss">
 div {
   display: flex;
-  font-weight: 500;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
 }
 
 .workspace-name {

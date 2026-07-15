@@ -112,13 +112,17 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .team-page {
   display: flex;
-  margin: 1rem;
   flex-direction: column;
   gap: 1.25rem;
+  margin: 1rem;
 }
 
 .team-hero {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
@@ -126,25 +130,21 @@ onUnmounted(() => {
     radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 20%, transparent), transparent 28%),
     linear-gradient(135deg, var(--surface-base), var(--surface-raised));
   box-shadow: var(--shadow-sm);
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: space-between;
 }
 
 .team-ident {
   display: flex;
-  align-items: flex-start;
   flex: 1;
+  align-items: flex-start;
   gap: 1rem;
 }
 
 .team-avatar {
   display: grid;
+  flex: none;
   width: 96px;
   height: 96px;
   border-radius: 28px;
-  flex: none;
   overflow: hidden;
   place-items: center;
 }
@@ -159,8 +159,8 @@ onUnmounted(() => {
   margin: 0 0 0.25rem;
   font-size: 0.78rem;
   color: var(--text-secondary);
-  letter-spacing: 0.18em;
   text-transform: uppercase;
+  letter-spacing: 0.18em;
 }
 
 h1 {
@@ -192,19 +192,19 @@ h1 {
 .team-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
   justify-content: flex-end;
+  gap: 0.75rem;
 }
 
 .content {
   position: relative;
   display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   width: 100%;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  flex-direction: column;
-  gap: 1.5rem;
 }
 
 @media screen and (width <= 700px) {

@@ -259,28 +259,28 @@ defineExpose({ flattenedItems });
 <style scoped lang="scss">
 .advanced-search-tab {
   display: flex;
-  height: 100%;
   flex-direction: column;
+  height: 100%;
 }
 
 .search-filters {
-  border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .filters-header {
   display: flex;
-  padding: 10px 16px;
-  align-items: center;
-  border-bottom: 1px solid var(--border);
   justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
 }
 
 .filters-title {
   margin: 0;
   font-size: 11px;
-  letter-spacing: 0.5px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .filters-actions {
@@ -291,14 +291,14 @@ defineExpose({ flattenedItems });
 
 .toggle-filters-btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 4px;
   border: none;
   border-radius: var(--radius-xs);
   background: transparent;
-  transition: transform $transition-fast ease;
-  align-items: center;
   cursor: pointer;
-  justify-content: center;
+  transition: transform $transition-fast ease;
 
   &:hover {
     background: var(--border);
@@ -311,9 +311,9 @@ defineExpose({ flattenedItems });
 
 .filters-content {
   display: grid;
-  padding: 12px 16px;
-  gap: 12px 16px;
   grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  padding: 12px 16px;
 }
 
 .filter-group {
@@ -324,11 +324,11 @@ defineExpose({ flattenedItems });
 
 .filter-label {
   display: block;
+  margin-bottom: 4px;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.3px;
-  margin-bottom: 4px;
   text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .inline {
@@ -346,9 +346,9 @@ defineExpose({ flattenedItems });
 
   label {
     display: block;
+    margin-bottom: 2px;
     font-size: 10px;
     opacity: 0.6;
-    margin-bottom: 2px;
   }
 }
 
@@ -369,10 +369,10 @@ defineExpose({ flattenedItems });
 
 .radio-option {
   display: flex;
-  font-size: 13px;
   align-items: center;
-  cursor: pointer;
   gap: 4px;
+  font-size: 13px;
+  cursor: pointer;
 
   input[type='radio'] {
     accent-color: var(--primary);
@@ -381,8 +381,8 @@ defineExpose({ flattenedItems });
 
 .filter-actions {
   display: flex;
-  gap: 8px;
   grid-column: 1 / -1;
+  gap: 8px;
 }
 
 .clear-filters-btn {
@@ -391,11 +391,8 @@ defineExpose({ flattenedItems });
   border-radius: var(--radius-xs);
   font-size: 12px;
   font-weight: 500;
-  cursor: pointer;
-}
-
-.clear-filters-btn {
   background: var(--border);
+  cursor: pointer;
 
   &:hover {
     background: var(--selection-color);
@@ -404,8 +401,8 @@ defineExpose({ flattenedItems });
 
 .search-results {
   position: relative;
-  min-height: 0;
   flex: 1;
+  min-height: 0;
   overscroll-behavior: contain;
 }
 

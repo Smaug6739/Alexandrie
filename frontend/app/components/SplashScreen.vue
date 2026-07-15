@@ -20,78 +20,52 @@
 <style scoped lang="scss">
 #splash-screen {
   position: fixed;
-  inset: 0;
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-
-  background: radial-gradient(circle at top, #f8f9ff 0%, #ffffff 55%), #fff;
-
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
-
-  user-select: none;
-  z-index: 9999;
-
+  font-family: Inter;
+  background: radial-gradient(circle at top, #f8f9ff 0%, #fff 55%), #fff;
   transition:
     opacity 0.45s ease,
     visibility 0.45s ease;
-}
-
-#splash-screen.fade-out {
-  opacity: 0;
-  visibility: hidden;
+  inset: 0;
+  overflow: hidden;
+  user-select: none;
 }
 
 .background-glow {
   position: absolute;
   width: 420px;
   height: 420px;
-
-  background: radial-gradient(circle, rgba(57, 86, 231, 0.12), transparent 70%);
-
-  filter: blur(25px);
-
+  background: radial-gradient(circle, rgb(57 86 231 / 12%), transparent 70%);
   animation: glow 5s ease-in-out infinite alternate;
+  filter: blur(25px);
 }
 
 .splash-content {
   position: relative;
   z-index: 2;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   animation: appear 0.8s cubic-bezier(0.22, 0.8, 0.25, 1);
 }
 
 .logo-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 170px;
   height: 170px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  border: 1px solid rgb(255 255 255 / 75%);
   border-radius: 36px;
-
-  background: rgba(255, 255, 255, 0.75);
-
-  backdrop-filter: blur(18px);
-
-  border: 1px solid rgba(255, 255, 255, 0.75);
-
+  background: rgb(255 255 255 / 75%);
   box-shadow:
-    0 20px 60px rgba(20, 20, 30, 0.08),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9);
-
+    0 20px 60px rgb(20 20 30 / 8%),
+    inset 0 1px 1px rgb(255 255 255 / 90%);
   animation: floating 4s ease-in-out infinite;
+  backdrop-filter: blur(18px);
 }
 
 .splash-logo {
@@ -102,22 +76,16 @@
 .splash-title {
   margin-top: 34px;
   margin-bottom: 8px;
-
   font-size: 2rem;
   font-weight: 700;
-
-  letter-spacing: -0.04em;
-
   color: #111827;
+  letter-spacing: -0.04em;
 }
 
 .splash-subtitle {
   margin: 0;
-
-  color: #8d93a6;
-
   font-size: 0.95rem;
-
+  color: #8d93a6;
   letter-spacing: 0.02em;
 }
 
@@ -153,36 +121,30 @@
 
 @keyframes glow {
   from {
-    transform: scale(0.95);
     opacity: 0.7;
+    transform: scale(0.95);
   }
 
   to {
-    transform: scale(1.08);
     opacity: 1;
+    transform: scale(1.08);
   }
 }
 
 .loading-line {
-  margin-top: 28px;
-
   width: 48px;
   height: 2px;
-
+  margin-top: 28px;
   border-radius: 999px;
+  background: rgb(17 24 39 / 8%);
   overflow: hidden;
-
-  background: rgba(17, 24, 39, 0.08);
 }
 
 .loading-highlight {
   width: 45%;
   height: 100%;
-
   border-radius: inherit;
-
   background: linear-gradient(90deg, transparent, #3956e7, transparent);
-
   animation: loadingLine 1.4s ease-in-out infinite;
 }
 

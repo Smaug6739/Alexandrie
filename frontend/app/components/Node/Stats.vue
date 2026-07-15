@@ -43,18 +43,18 @@ const countByRole = (role: number) => nodesTree.getSubtreeAsArray(props.parentId
 <style scoped lang="scss">
 section {
   display: grid;
-  gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
 }
 
 .card {
   display: flex;
+  align-items: center;
+  gap: 1rem;
   padding: 1.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
-  align-items: center;
-  gap: 1rem;
 }
 
 .stat-icon {

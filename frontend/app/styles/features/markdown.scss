@@ -1,10 +1,10 @@
 @use "../abstract/static.scss" as *;
 
 .markdown-container {
+	margin-top: 10px;
 	padding: 10px;
 	border-radius: var(--radius-xs);
 	background-color: var(--surface-raised);
-	margin-top: 10px;
 
 	&:has(.blue) {
 		padding: 10px;
@@ -24,21 +24,21 @@
 	}
 
 	&:has(.teal) {
-		background-color: var(--surface-raised);
 		border-left: 4px solid var(--teal);
+		background-color: var(--surface-raised);
 	}
 
 	.svg-icon {
 		display: inline-block;
 		box-sizing: border-box;
+		margin-right: 8px;
 		font-size: 16px;
 		color: var(--blue);
+		vertical-align: text-bottom;
 		color-scheme: dark;
 		fill: var(--blue);
-		margin-right: 8px;
 		overflow: visible;
-		overflow-wrap: break-word;
-		vertical-align: text-bottom
+		overflow-wrap: break-word
 	}
 
 	.title {
@@ -87,14 +87,14 @@
 }
 
 .custom-block {
+	margin-top: 10px;
+	margin-bottom: 5px;
 	padding: 10px 10px 8px;
 	border: 1px solid transparent;
 	border-radius: var(--radius-md);
 	font-size: 14px;
 	line-height: 24px;
 	color: rgb(235 235 235 / 100%);
-	margin-bottom: 5px;
-	margin-top: 10px;
 
 	p {
 		margin: 0;
@@ -122,9 +122,9 @@
 
 .checkbox-container {
 	display: flex;
-	padding: 0;
-	align-items: center;
 	justify-content: flex-start;
+	align-items: center;
+	padding: 0;
 }
 
 .checkbox-container input[type="checkbox"] {
@@ -161,8 +161,8 @@
 }
 
 .columns .column {
-	margin: 0 10px;
 	flex: 1;
+	margin: 0 10px;
 }
 
 // *************** CODE BLOCKS **************** //
@@ -176,13 +176,13 @@
 	top: 22px;
 	right: 14px;
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	padding: 4px;
 	opacity: 0;
-	transition: opacity $transition-fast ease, background-color $transition-fast ease, border-color $transition-fast ease;
-	align-items: center;
 	cursor: pointer;
+	transition: opacity $transition-fast ease, background-color $transition-fast ease, border-color $transition-fast ease;
 	fill: #e3e4e6;
-	justify-content: center;
 }
 
 .code-block-wrapper:hover .code-copy-btn {
@@ -200,10 +200,10 @@
 // *************** CARDS BLOCKS **************** //
 .block {
 	display: flex;
+	flex-direction: column;
 	margin: 0.5rem 0;
 	padding: 0.5rem;
 	border: 1px solid var(--border);
-	flex-direction: column;
 }
 
 
@@ -223,9 +223,9 @@
 	.block-title {
 		margin: 0 -0.5rem;
 		padding: .5rem 1rem;
+		border-bottom: 1px solid var(--border);
 		font-weight: 600;
 		background: var(--surface-raised);
-		border-bottom: 1px solid var(--border);
 	}
 }
 
@@ -264,8 +264,8 @@
 	border-radius: var(--radius-sm);
 	font-weight: 500;
 	color: var(--primary);
-	background: var(--accent-bg);
 	text-decoration: none;
+	background: var(--accent-bg);
 
 	&:hover {
 		text-decoration: underline;

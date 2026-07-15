@@ -19,6 +19,8 @@ const show = ref(false);
 
 .icon {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
@@ -26,8 +28,6 @@ const show = ref(false);
   font-weight: bold;
   color: white;
   background-color: var(--primary);
-  align-items: center;
-  justify-content: center;
 }
 
 .hint-content {
@@ -35,14 +35,14 @@ const show = ref(false);
   top: 100%;
   left: 50%;
   z-index: 100;
+  margin-top: 0.4rem;
   padding: 0.4rem 0.6rem;
   border-radius: 0.4rem;
   font-size: 0.65rem;
   color: white;
+  white-space: nowrap;
   background-color: var(--surface-tooltip);
   box-shadow: var(--shadow-sm);
-  margin-top: 0.4rem;
   transform: translateX(-50%);
-  white-space: nowrap;
 }
 </style>

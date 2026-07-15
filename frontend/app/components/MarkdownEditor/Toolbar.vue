@@ -79,7 +79,7 @@
     <div :class="['toolbar-divider', { 'no-mobile': mobileSimplifiedView }]" />
 
     <!-- Voice & Category -->
-    <div class="toolbar-group" style="align-items: center; flex: 1; flex-direction: row; gap: 4px">
+    <div class="toolbar-group" style=" flex: 1; flex-direction: row;align-items: center; gap: 4px">
       <div class="group-buttons">
         <VoiceRecognition :class="{ 'no-mobile': mobileSimplifiedView }" @transcription="handleTranscription" />
       </div>
@@ -215,17 +215,17 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
 <style scoped lang="scss">
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
   width: 100%;
+  margin-top: 8px;
   padding: 6px 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
   box-shadow: var(--shadow-sm);
   transition: box-shadow $transition-base ease;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px 6px;
-  margin-top: 8px;
   overflow-x: clip;
   user-select: none;
 
@@ -242,15 +242,17 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
 
 .group-buttons {
   display: flex;
+  gap: 1px;
   padding: 3px;
   border-radius: var(--radius-sm);
   background: var(--surface-transparent);
-  gap: 1px;
 }
 
 .toolbar-btn {
   position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 28px;
   height: 28px;
   margin: 0;
@@ -258,18 +260,16 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
   border: none;
   border-radius: 5px;
   background: transparent;
-  transition: background-color 0.15s ease;
-  align-items: center;
   cursor: pointer;
-  justify-content: center;
+  transition: background-color 0.15s ease;
 
   &:hover {
     background: var(--surface-overlay);
 
     .tooltip {
       opacity: 1;
-      transform: translateX(-50%) translateY(0);
       visibility: visible;
+      transform: translateX(-50%) translateY(0);
     }
   }
 }
@@ -309,34 +309,34 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
   left: 50%;
   z-index: 1000;
   display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 6px 10px;
   border-radius: var(--radius-sm);
   font-size: 11px;
   font-weight: 500;
   color: var(--surface-base);
+  white-space: nowrap;
   background: var(--text-inverse);
   box-shadow: var(--shadow-md);
   opacity: 0;
+  visibility: hidden;
   transition:
     opacity $transition-base ease,
     transform $transition-base ease,
     visibility $transition-base ease;
-  align-items: center;
-  gap: 6px;
-  pointer-events: none;
   transform: translateX(-50%) translateY(-4px);
-  visibility: hidden;
-  white-space: nowrap;
+  pointer-events: none;
 
   &::before {
     position: absolute;
     top: -4px;
     left: 50%;
+    border-right: 5px solid transparent;
     border-bottom: 5px solid var(--text-inverse);
     border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    content: '';
     transform: translateX(-50%);
+    content: '';
   }
 
   kbd {
@@ -363,20 +363,20 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
 
 .stats-badge {
   display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 3px 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: linear-gradient(135deg, var(--surface-raised) 0%, var(--surface-overlay) 100%);
-  align-items: center;
-  gap: 6px;
 }
 
 .stat-item {
   display: flex;
-  line-height: 1.1;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
   gap: 0;
+  line-height: 1.1;
 }
 
 .stat-value {
@@ -389,8 +389,8 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
 .stat-label {
   font-size: 9px;
   color: var(--text-secondary);
-  letter-spacing: 0.3px;
   text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .stat-divider {
@@ -401,19 +401,19 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
 
 .action-buttons {
   display: flex;
+  gap: 3px;
   padding: 3px;
   border-radius: var(--radius-sm);
   background: var(--surface-transparent);
-  gap: 3px;
 }
 
 .action-divider {
+  align-self: center;
   width: 1px;
   height: 18px;
   margin: 0 2px;
   background: var(--border);
   opacity: 0.5;
-  align-self: center;
 }
 
 .category-select {
@@ -424,8 +424,8 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
 
 @media (width <= 900px) {
   .toolbar {
-    padding: 6px 8px;
     gap: 4px;
+    padding: 6px 8px;
   }
 
   .toolbar-btn {

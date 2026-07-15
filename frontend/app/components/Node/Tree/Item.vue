@@ -91,11 +91,11 @@ function toggleExpand() {
 
 .node-row {
   display: flex;
-  padding: 0.625rem 1rem;
-  transition: background-color 0.15s;
   align-items: center;
-  border-left: 2px solid transparent;
   gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-left: 2px solid transparent;
+  transition: background-color 0.15s;
 
   &:hover {
     border-left-color: var(--primary);
@@ -104,17 +104,17 @@ function toggleExpand() {
 
 .expand-btn {
   display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
   width: 20px;
   height: 20px;
   padding: 0;
   border: none;
   color: var(--text-secondary);
   background: none;
-  transition: transform 0.2s;
-  align-items: center;
   cursor: pointer;
-  flex-shrink: 0;
-  justify-content: center;
+  transition: transform 0.2s;
 
   &.rotated {
     transform: rotate(90deg);
@@ -126,26 +126,26 @@ function toggleExpand() {
 }
 
 .expand-placeholder {
-  width: 20px;
   flex-shrink: 0;
+  width: 20px;
 }
 
 .node-icon {
   display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
   width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
-  align-items: center;
-  flex-shrink: 0;
-  justify-content: center;
 }
 
 .node-link {
   display: flex;
-  min-width: 0;
   flex: 1;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
   text-decoration: none;
 
   &:hover .node-name {
@@ -157,24 +157,24 @@ function toggleExpand() {
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--text-primary);
-  transition: color 0.15s;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transition: color 0.15s;
+  overflow: hidden;
 }
 
 .node-description {
   font-size: 0.8125rem;
   color: var(--text-secondary);
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .node-meta {
   display: flex;
-  align-items: center;
   flex-shrink: 0;
+  align-items: center;
   gap: 0.5rem;
 }
 
@@ -184,13 +184,15 @@ function toggleExpand() {
   font-size: 0.6875rem;
   font-weight: 500;
   color: var(--text-secondary);
-  background: var(--surface-raised);
-  letter-spacing: 0.5px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--surface-raised);
 }
 
 .children-count {
   display: flex;
+  justify-content: center;
+  align-items: center;
   min-width: 20px;
   height: 20px;
   padding: 0 6px;
@@ -199,13 +201,11 @@ function toggleExpand() {
   font-weight: 600;
   color: var(--text-body);
   background: var(--surface-raised);
-  align-items: center;
-  justify-content: center;
 }
 
 .node-children {
-  border-left: 1px dashed var(--border);
   margin-left: 1.75rem;
+  border-left: 1px dashed var(--border);
 }
 
 // Expand transition

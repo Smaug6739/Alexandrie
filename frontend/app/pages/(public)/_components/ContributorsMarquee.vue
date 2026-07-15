@@ -67,9 +67,9 @@ onMounted(fetchContributors);
   margin-bottom: 2rem;
 
   h3 {
+    margin-bottom: 0.5rem;
     font-size: 1.5rem;
     font-weight: 700;
-    margin-bottom: 0.5rem;
   }
 
   p {
@@ -86,24 +86,24 @@ onMounted(fetchContributors);
 .contributors-track {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
   justify-content: center;
+  gap: 1rem;
 }
 
 .contributor {
   display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 12px;
   padding: 12px 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
+  text-decoration: none;
   background: var(--surface-base);
   transition:
     border-color $transition-medium ease,
     box-shadow $transition-medium ease,
     transform $transition-medium ease;
-  align-items: center;
-  flex-shrink: 0;
-  gap: 12px;
-  text-decoration: none;
 
   &:hover {
     border-color: var(--primary);
@@ -125,8 +125,8 @@ onMounted(fetchContributors);
 
 .contributor-info {
   display: flex;
-  text-align: left;
   flex-direction: column;
+  text-align: left;
 
   .name {
     font-size: 0.9rem;
@@ -146,20 +146,20 @@ onMounted(fetchContributors);
 
 .cta-btn {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 24px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   font-size: 14px;
   font-weight: 600;
   color: var(--text-body);
+  text-decoration: none;
   background: var(--surface-raised);
   transition:
     border-color $transition-medium ease,
     color $transition-medium ease,
     transform $transition-medium ease;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
 
   &:hover {
     border-color: var(--primary);

@@ -194,12 +194,12 @@ const handleDictImport = async (e: Event) => {
   }
 
   .count {
+    margin-left: 0.5rem;
     padding: 0.15rem 0.5rem;
     border-radius: 999px;
     font-size: 0.75rem;
     color: var(--text-secondary);
     background: var(--surface-transparent);
-    margin-left: 0.5rem;
   }
 
   code {
@@ -234,15 +234,17 @@ const handleDictImport = async (e: Event) => {
   left: 0;
   z-index: 100;
   min-width: 160px;
+  margin-top: 0.25rem;
   padding: 0.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-base);
   box-shadow: var(--shadow-md);
-  margin-top: 0.25rem;
 
   button {
     display: flex;
+    align-items: center;
+    gap: 0.5rem;
     width: 100%;
     padding: 0.5rem 0.75rem;
     border: none;
@@ -251,9 +253,7 @@ const handleDictImport = async (e: Event) => {
     color: var(--text-body);
     text-align: left;
     background: none;
-    align-items: center;
     cursor: pointer;
-    gap: 0.5rem;
 
     &:hover {
       background: var(--surface-transparent);
@@ -270,6 +270,8 @@ const handleDictImport = async (e: Event) => {
 
 .selected-count {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 32px;
   height: 36px;
   padding: 6px;
@@ -278,19 +280,17 @@ const handleDictImport = async (e: Event) => {
   font-size: 13px;
   font-weight: bold;
   color: var(--text-secondary);
-  align-items: center;
-  justify-content: center;
 }
 
 .separator {
   height: 32px;
-  border-left: 1px solid var(--border);
   margin-left: 4px;
+  border-left: 1px solid var(--border);
 }
 
 .action-btn {
-  cursor: pointer;
   margin-right: 10px;
+  cursor: pointer;
 
   &:hover {
     opacity: 0.7;

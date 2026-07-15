@@ -111,15 +111,15 @@ onUnmounted(() => {
 }
 
 .section-header {
-  text-align: center;
   margin-bottom: 4rem;
+  text-align: center;
 }
 
 .section-title {
+  margin-bottom: 1rem;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-bottom: 1rem;
 }
 
 .section-subtitle {
@@ -132,8 +132,8 @@ onUnmounted(() => {
 .showcase-container {
   display: grid;
   align-items: start;
-  gap: 3rem;
   grid-template-columns: 300px 1fr;
+  gap: 3rem;
 }
 
 .showcase-nav {
@@ -147,19 +147,19 @@ onUnmounted(() => {
 .nav-item {
   position: relative;
   display: flex;
+  align-items: flex-start;
+  gap: 1rem;
   padding: 1.25rem;
   border: 1px solid var(--border);
   border-radius: 16px;
   text-align: left;
   background: var(--surface-base);
+  cursor: pointer;
   transition:
     border-color $transition-medium ease,
     transform $transition-medium ease,
     background-color $transition-medium ease,
     box-shadow $transition-medium ease;
-  align-items: flex-start;
-  cursor: pointer;
-  gap: 1rem;
   overflow: hidden;
 
   &:hover {
@@ -181,6 +181,8 @@ onUnmounted(() => {
 
 .nav-number {
   display: flex;
+  justify-content: center;
+  align-items: center;
   min-width: 32px;
   height: 32px;
   border-radius: var(--radius-md);
@@ -191,8 +193,6 @@ onUnmounted(() => {
   transition:
     color $transition-medium ease,
     background-color $transition-medium ease;
-  align-items: center;
-  justify-content: center;
 }
 
 .nav-content {
@@ -201,9 +201,9 @@ onUnmounted(() => {
 
 .nav-title {
   display: block;
+  margin-bottom: 2px;
   font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 2px;
 }
 
 .nav-desc {
@@ -241,23 +241,23 @@ onUnmounted(() => {
   position: absolute;
   display: grid;
   align-items: center;
-  gap: 3rem;
   grid-template-columns: 1fr 1.5fr;
+  gap: 3rem;
   inset: 0;
 }
 
 .display-content {
   h3 {
+    margin-bottom: 1rem;
     font-size: 1.75rem;
     font-weight: 700;
-    margin-bottom: 1rem;
   }
 
   p {
+    margin-bottom: 1.5rem;
     font-size: 1.1rem;
     line-height: 1.7;
     color: var(--text-secondary);
-    margin-bottom: 1.5rem;
   }
 }
 
@@ -268,14 +268,14 @@ onUnmounted(() => {
 
   li {
     display: flex;
-    padding: 0.5rem 0;
-    font-size: 0.95rem;
     align-items: center;
     gap: 10px;
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
 
     svg {
-      color: var(--green);
       flex-shrink: 0;
+      color: var(--green);
     }
   }
 }
@@ -299,21 +299,21 @@ onUnmounted(() => {
 
 @media screen and (width <= 1024px) {
   .showcase-container {
-    gap: 2rem;
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .showcase-nav {
     position: static;
     flex-direction: row;
     gap: 0.75rem;
-    overflow-x: auto;
     padding-bottom: 0.5rem;
+    overflow-x: auto;
   }
 
   .nav-item {
-    min-width: 200px;
     flex-shrink: 0;
+    min-width: 200px;
 
     &:hover {
       transform: translateY(-2px);
@@ -333,8 +333,8 @@ onUnmounted(() => {
 
   .display-item {
     position: relative;
-    gap: 2rem;
     grid-template-columns: 1fr;
+    gap: 2rem;
     inset: auto;
   }
 }

@@ -46,18 +46,18 @@ const { t } = useI18nT();
 .stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
   justify-content: space-around;
+  gap: 1rem;
 }
 
 .stat {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
   width: 200px;
   padding: 1rem;
   border-radius: var(--radius-sm);
-  align-items: center;
-  flex-direction: column;
-  gap: 0.25rem;
 
   .count {
     font-size: 1.75rem;

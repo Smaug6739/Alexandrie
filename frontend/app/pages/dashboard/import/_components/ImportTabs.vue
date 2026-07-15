@@ -150,32 +150,32 @@ function importLocalSettings() {
 // Documents Card
 .tabs {
   display: flex;
+  gap: 0;
   width: 100%;
+  margin-bottom: 2rem;
   padding: 0 1.5rem;
   border-bottom: 1px solid var(--border);
-  gap: 0;
-  margin-bottom: 2rem;
 
   button {
+    flex: 1;
     padding: 1rem 1.5rem;
     border: none;
+    border-bottom: 2px solid transparent;
     font-size: 15px;
     color: var(--text-primary);
     background: none;
+    cursor: pointer;
     transition:
       color $transition-fast ease,
       border-bottom-color $transition-fast ease;
-    border-bottom: 2px solid transparent;
-    cursor: pointer;
-    flex: 1;
 
     &:hover {
       color: var(--text-body);
     }
 
     &.active {
-      color: var(--primary);
       border-bottom-color: var(--primary);
+      color: var(--primary);
     }
   }
 }
@@ -186,11 +186,11 @@ function importLocalSettings() {
 
 .empty-state {
   display: flex;
-  padding: 3rem;
-  color: var(--text-primary);
-  align-items: center;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding: 3rem;
+  color: var(--text-primary);
 
   p {
     margin-top: 0.5rem;
@@ -199,24 +199,24 @@ function importLocalSettings() {
 
 .list-header {
   display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--border);
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .documents-list {
   display: flex;
-  max-height: 400px;
   flex-direction: column;
   gap: 0.5rem;
+  max-height: 400px;
   overflow-y: auto;
 }
 
 .warning {
   display: flex;
-  color: var(--red);
   align-items: center;
+  color: var(--red);
 }
 </style>

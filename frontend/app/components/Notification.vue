@@ -56,25 +56,25 @@ const close = (id: number) => manager.remove(id);
 .notification {
   position: relative;
   display: flex;
+  align-items: flex-start;
+  gap: 12px;
   width: 380px;
   padding: 14px 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface-base);
   box-shadow: var(--shadow-md);
-  align-items: flex-start;
-  gap: 12px;
   overflow: hidden;
 }
 
 .icon-wrapper {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 36px;
   min-width: 36px;
   height: 36px;
   border-radius: var(--radius-lg);
-  align-items: center;
-  justify-content: center;
 
   svg {
     width: 20px;
@@ -83,10 +83,10 @@ const close = (id: number) => manager.remove(id);
 }
 
 .content {
-  min-width: 0;
-  text-align: left;
   flex: 1;
+  min-width: 0;
   padding-top: 2px;
+  text-align: left;
 }
 
 .title {
@@ -106,6 +106,9 @@ const close = (id: number) => manager.remove(id);
 
 .close-btn {
   display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
   width: 28px;
   height: 28px;
   padding: 0;
@@ -113,13 +116,10 @@ const close = (id: number) => manager.remove(id);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
   background: transparent;
+  cursor: pointer;
   transition:
     color 0.15s ease,
     background-color 0.15s ease;
-  align-items: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  justify-content: center;
 
   svg {
     width: 16px;
@@ -140,8 +140,8 @@ const close = (id: number) => manager.remove(id);
   height: 3px;
   background: currentcolor;
   opacity: 0.3;
-  animation: shrink linear forwards;
   transform-origin: left;
+  animation: shrink linear forwards;
 }
 
 @keyframes shrink {

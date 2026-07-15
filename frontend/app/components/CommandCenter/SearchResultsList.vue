@@ -61,14 +61,14 @@ const groupedItems = computed(() => {
 
 .search-result-item {
   display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 0 5px;
   padding: 8px 20px;
   border-radius: var(--radius-md);
   color: inherit;
-  align-items: center;
-  cursor: pointer;
-  gap: 10px;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover,
   &.selected {
@@ -77,18 +77,18 @@ const groupedItems = computed(() => {
 }
 
 .result-icon {
+  flex-shrink: 0;
   width: 20px;
   height: 20px;
   color: var(--primary);
-  flex-shrink: 0;
 }
 
 .result-content {
   display: flex;
-  min-width: 0;
   flex: 1;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .result-shortcut {
@@ -100,22 +100,22 @@ const groupedItems = computed(() => {
 .result-title {
   font-size: 14px;
   font-weight: 500;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .result-description {
   font-size: 13px;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .navigate-icon {
+  flex-shrink: 0;
   width: 16px;
   height: 16px;
-  flex-shrink: 0;
 }
 
 .section {
@@ -128,17 +128,17 @@ const groupedItems = computed(() => {
   z-index: 1;
   padding: 6px 20px;
   font-size: 12px;
-  background: var(--surface-base);
   text-transform: uppercase;
+  background: var(--surface-base);
 }
 
 .no-results {
   display: flex;
-  padding: 40px 20px;
-  text-align: center;
+  justify-content: center;
   align-items: center;
   gap: 5px;
-  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
 
   .no-results-icon {
     opacity: 0.5;

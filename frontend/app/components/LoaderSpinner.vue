@@ -8,9 +8,9 @@
   height: 50px;
   margin: 20px auto;
   border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  border-top: 5px solid var(--primary);
 }
 
 @keyframes spin {

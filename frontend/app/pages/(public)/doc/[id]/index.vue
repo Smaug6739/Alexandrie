@@ -86,13 +86,13 @@ useSeoMeta({
 .reader {
   display: grid;
   align-items: start;
-  column-gap: 20px;
   grid-template-columns: 1fr minmax(0, 800px) 1fr;
+  column-gap: 20px;
 }
 
 .doc-container {
-  margin: 0;
   grid-column: 2;
+  margin: 0;
 }
 
 @media screen and (width >= 810px) {
@@ -105,9 +105,9 @@ useSeoMeta({
 .toc {
   position: sticky;
   top: 1rem;
+  grid-column: 3;
   width: 100%;
   max-width: 320px;
-  grid-column: 3;
   justify-self: start;
 }
 

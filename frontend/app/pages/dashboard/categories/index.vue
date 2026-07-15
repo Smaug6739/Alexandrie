@@ -19,7 +19,7 @@
       </h3>
       <WorkspaceTree v-for="node in workspace.children" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
-    <div v-if="!filteredItems.length" style="color: #6c757d; font-style: italic">{{ t('nodes.container.noWorkspaces') }}</div>
+    <div v-if="!filteredItems.length" style=" font-style: italic;color: #6c757d">{{ t('nodes.container.noWorkspaces') }}</div>
   </div>
 </template>
 
@@ -59,12 +59,12 @@ function deleteNode(node: TreeItem<Node>) {
 <style scoped>
 .workspace {
   display: block;
+  flex-direction: column;
   width: 100%;
+  margin-bottom: 16px;
   padding: 5px 15px;
   border: var(--border) 1px solid;
   border-radius: var(--radius-lg);
-  flex-direction: column;
-  margin-bottom: 16px;
 }
 
 .wp-name {

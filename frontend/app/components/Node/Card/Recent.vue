@@ -60,10 +60,9 @@ const computedTags = computed(() => {
   padding: 1.25rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background: var(--surface-base);
   color: var(--text-body);
   text-decoration: none;
-
+  background: var(--surface-base);
   transition:
     border-color $transition-fast ease,
     background-color $transition-fast ease,
@@ -80,15 +79,15 @@ const computedTags = computed(() => {
 
 .header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
 .icon-wrapper {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .node-icon {
@@ -104,32 +103,32 @@ const computedTags = computed(() => {
 
 .card-body {
   display: flex;
-  flex-direction: column;
   flex: 1;
+  flex-direction: column;
 }
 
 .title {
+  margin: 0 0 0.35rem;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.4;
-  margin: 0 0 0.35rem 0;
   color: var(--text-body);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   // Sécurité anti-débordement
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .desc {
   display: -webkit-box;
+  margin: 0 0 1rem;
   font-size: 0.85rem;
   line-height: 1.5;
   color: var(--text-secondary);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
-  margin: 0 0 1rem 0;
   overflow: hidden;
 }
 
@@ -137,19 +136,19 @@ const computedTags = computed(() => {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  min-width: 0;
   margin-top: auto;
   padding-top: 0.5rem;
-  min-width: 0;
 }
 
 .category {
+  max-width: 110px;
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-secondary);
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 110px;
+  overflow: hidden;
 }
 
 .meta-separator {
@@ -160,20 +159,20 @@ const computedTags = computed(() => {
 
 .tags {
   display: flex;
-  gap: 0.35rem;
   flex-wrap: wrap;
+  gap: 0.35rem;
 }
 
 .tag-badge {
   display: inline-flex;
   align-items: center;
   padding: 0.15rem 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
   font-size: 0.72rem;
   font-weight: 600;
-  border-radius: var(--radius-xs);
-  background: var(--surface-raised);
-  border: 1px solid var(--border);
   color: var(--text-secondary);
+  background: var(--surface-raised);
 
   .card:hover & {
     background: var(--surface-base);

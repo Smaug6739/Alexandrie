@@ -118,21 +118,21 @@ onMounted(() => {
 
 <style scoped lang="scss">
 main {
-  padding: 0 2rem;
   margin-top: 1em;
+  padding: 0 2rem;
   overflow-x: hidden;
 }
 
 .hero {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 4rem;
   padding: 4rem 2rem;
   border-radius: 1rem;
   color: white;
   background: radial-gradient(1200px 400px at 20% -10%, rgb(255 255 255 / 8%), transparent), linear-gradient(120deg, var(--primary), #6c63ff);
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 4rem;
   overflow: hidden;
 }
 
@@ -142,9 +142,9 @@ main {
 
 .hero-image {
   width: 600px;
+  margin-top: 10px;
   border-radius: 1rem;
   box-shadow: var(--shadow-xl);
-  margin-top: 10px;
 }
 
 .gradient-text {
@@ -198,9 +198,9 @@ main {
 }
 
 .section-title {
+  margin-bottom: 1rem;
   font-size: 2rem;
   color: var(--text-primary);
-  margin-bottom: 1rem;
 }
 
 .section-text {
@@ -210,22 +210,22 @@ main {
 }
 
 .feature-list {
+  margin-top: 2rem;
   padding: 0;
   text-align: left;
   list-style: none;
-  margin-top: 2rem;
 }
 
 .feature-list li {
-  line-height: 1.6;
   margin-bottom: 0.8rem;
+  line-height: 1.6;
 }
 
 .demo-gallery {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
   justify-content: center;
+  gap: 1.5rem;
   margin-top: 2rem;
 }
 
@@ -259,9 +259,9 @@ main {
   }
 
   .hero {
+    flex-direction: column;
     padding: 2rem 1rem;
     text-align: center;
-    flex-direction: column;
   }
 
   .hero-image {

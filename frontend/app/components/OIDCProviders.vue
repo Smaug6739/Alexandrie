@@ -44,10 +44,10 @@ onMounted(() => {
 
   &::before,
   &::after {
+    flex: 1;
     height: 1px;
     background: var(--border);
     content: '';
-    flex: 1;
   }
 
   span {
@@ -59,10 +59,10 @@ onMounted(() => {
 
 .providers-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
   max-width: 400px;
   margin: 0 auto;
-  gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 
   // When only 1 provider, center it with max-width
   &:has(.provider-btn:only-child) {
@@ -72,6 +72,9 @@ onMounted(() => {
 
 .provider-btn {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -79,15 +82,12 @@ onMounted(() => {
   font-weight: 500;
   color: var(--text-body);
   background: var(--surface-base);
+  cursor: pointer;
   transition:
     border-color $transition-base ease,
     background-color $transition-base ease,
     box-shadow $transition-base ease,
     transform $transition-base ease;
-  align-items: center;
-  cursor: pointer;
-  gap: 0.6rem;
-  justify-content: center;
 
   &:hover:not(:disabled) {
     border-color: var(--provider-color);
@@ -108,16 +108,16 @@ onMounted(() => {
 
 .provider-icon {
   display: flex;
-  width: 20px;
-  height: 20px;
-  align-items: center;
   flex-shrink: 0;
   justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
 }
 
 .provider-label {
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 </style>

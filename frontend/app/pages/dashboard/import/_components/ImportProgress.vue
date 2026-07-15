@@ -48,8 +48,8 @@ const statusLabel = computed(() => {
 <style scoped lang="scss">
 .progress-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.75rem;
 }
 
@@ -94,9 +94,9 @@ const statusLabel = computed(() => {
 .progress-bar-container {
   width: 100%;
   height: 8px;
+  margin-bottom: 0.75rem;
   border-radius: var(--radius-xs);
   background: var(--border);
-  margin-bottom: 0.75rem;
   overflow: hidden;
 }
 

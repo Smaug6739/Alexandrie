@@ -7,12 +7,12 @@
 
 	.footer {
 		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: 8px;
 		margin: 6px 0;
 		padding: 6px 0 0;
-		align-items: center;
 		border-top: 1px solid var(--border);
-		gap: 8px;
-		justify-content: flex-end;
 	}
 }
 
@@ -23,16 +23,16 @@
 
 .header-title {
 	display: flex;
-	font-size: 18px;
-	font-weight: 600;
 	align-items: center;
 	gap: 12px;
+	font-size: 18px;
+	font-weight: 600;
 }
 
 .parent-icon {
+	margin-right: 10px;
 	padding: 6px;
 	border-radius: var(--radius-sm);
-	margin-right: 10px;
 }
 
 // Mark
