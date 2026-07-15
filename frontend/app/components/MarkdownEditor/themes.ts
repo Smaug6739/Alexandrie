@@ -54,13 +54,6 @@ function loadTheme() {
     borderRadius: '4px',
     padding: '2px 6px',
   };
-  const generalTooltip = {
-    borderRadius: '4px',
-    borderRadiusSelected: '3px',
-    lineHeight: '1.3',
-    padding: '4px 8px',
-    paddingRight: '8px',
-  };
 
   // Base colors
   const base00 = 'var(--surface-base)',
