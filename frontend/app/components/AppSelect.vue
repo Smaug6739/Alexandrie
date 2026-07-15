@@ -313,7 +313,6 @@ button.value {
   border: none;
   background: transparent;
   font-size: 0.95rem;
-  color: var(--text-body);
   text-align: left;
   cursor: pointer;
   white-space: nowrap;
