@@ -53,7 +53,12 @@ function getProviderLabel(name: string): string {
 
 function getProviderConfig(name: string) {
   const key = name.toLowerCase();
-  return providerIcons[key] ?? providerIcons['default']!;
+  if (providerIcons[key]) {
+return providerIcons[key];
+  }
+return {
+    ...providerIcons['default']!,
+    label: name,
+  };
 }
-
 export { getProviderIcon, getProviderLabel, getProviderConfig };
