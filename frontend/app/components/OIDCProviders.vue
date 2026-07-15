@@ -14,14 +14,14 @@
       >
         <!-- eslint-disable-next-line vue/no-v-html | Safe: icons are statically defined, not user input -->
         <span class="provider-icon" v-html="getProviderConfig(provider.name).icon"></span>
-        <span class="provider-label">{{ getProviderConfig(provider.name).label }}</span>
+        <span class="provider-label">{{ getProviderLabel(provider.name) }}</span>
       </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getProviderConfig } from '~/helpers/oidc-providers';
+import { getProviderConfig, getProviderLabel } from '~/helpers/oidc-providers';
 
 const { providers, isEnabled, isLoading, fetchProviders, loginWithProvider } = useOIDC();
 
