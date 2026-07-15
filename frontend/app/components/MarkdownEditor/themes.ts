@@ -294,11 +294,10 @@ function loadTheme() {
         background: 'transparent !important',
       },
       // Tooltips and autocomplete
-      // Tooltips and autocomplete
       '.cm-tooltip': {
         backgroundColor: 'var(--surface-base) !important',
         border: '1px solid var(--border) !important',
-        borderRadius: '12px !important',
+        borderRadius: '8px !important',
         boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.05) !important',
         overflow: 'hidden !important',
         backdropFilter: 'blur(12px) !important',
@@ -338,7 +337,7 @@ function loadTheme() {
         display: 'flex !important',
         alignItems: 'center !important',
         gap: '10px !important',
-        padding: '6px 10px !important',
+        padding: '4px 8px !important',
         lineHeight: '1.4 !important',
         borderRadius: '8px !important',
         margin: '2px 0 !important',
@@ -348,6 +347,7 @@ function loadTheme() {
         fontSize: '13px !important',
         border: 'none !important',
         borderLeft: '3px solid transparent !important',
+        fontFamily: 'Inter, system-ui, -apple-system, sans-serif !important',
       },
       '.cm-tooltip-autocomplete > ul > li[aria-selected]': {
         backgroundColor: 'var(--accent-bg) !important',
@@ -355,7 +355,7 @@ function loadTheme() {
         fontWeight: '500 !important',
         borderLeft: '3px solid var(--accent) !important',
         transform: 'translateX(2px) !important',
-        paddingLeft: '11px !important', 
+        paddingLeft: '11px !important',
       },
       '.cm-tooltip-autocomplete > ul > li:hover:not([aria-selected])': {
         backgroundColor: 'var(--surface-transparent) !important',
@@ -392,24 +392,42 @@ function loadTheme() {
         color: 'var(--purple) !important',
       },
       '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-snippet::before': {
-        '-webkit-mask-image': makeSvgUrl("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'/%3E%3Cpolyline points='8 6 2 12 8 18'/%3E%3C/svg%3E") + ' !important',
-        maskImage: makeSvgUrl("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'/%3E%3Cpolyline points='8 6 2 12 8 18'/%3E%3C/svg%3E") + ' !important',
+        '-webkit-mask-image':
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'/%3E%3Cpolyline points='8 6 2 12 8 18'/%3E%3C/svg%3E",
+          ) + ' !important',
+        maskImage:
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='16 18 22 12 16 6'/%3E%3Cpolyline points='8 6 2 12 8 18'/%3E%3C/svg%3E",
+          ) + ' !important',
       },
       '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-math': {
         backgroundColor: 'var(--orange-bg) !important',
         color: 'var(--orange) !important',
       },
       '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-math::before': {
-        '-webkit-mask-image': makeSvgUrl("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v3M4 4l8 8-8 8M4 20h16v-3'/%3E%3C/svg%3E") + ' !important',
-        maskImage: makeSvgUrl("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v3M4 4l8 8-8 8M4 20h16v-3'/%3E%3C/svg%3E") + ' !important',
+        '-webkit-mask-image':
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v3M4 4l8 8-8 8M4 20h16v-3'/%3E%3C/svg%3E",
+          ) + ' !important',
+        maskImage:
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v3M4 4l8 8-8 8M4 20h16v-3'/%3E%3C/svg%3E",
+          ) + ' !important',
       },
       '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-reference': {
         backgroundColor: 'var(--blue-bg) !important',
         color: 'var(--blue) !important',
       },
       '.cm-tooltip-autocomplete > ul > li > span.cm-completionIcon-reference::before': {
-        '-webkit-mask-image': makeSvgUrl("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E") + ' !important',
-        maskImage: makeSvgUrl("%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E") + ' !important',
+        '-webkit-mask-image':
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E",
+          ) + ' !important',
+        maskImage:
+          makeSvgUrl(
+            "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/%3E%3Cpolyline points='14 2 14 8 20 8'/%3E%3C/svg%3E",
+          ) + ' !important',
       },
       '.cm-tooltip-autocomplete > ul > li > span.cm-completionLabel': {
         flex: '1 1 auto !important',
