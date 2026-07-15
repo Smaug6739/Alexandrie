@@ -1,6 +1,5 @@
 <template>
-  <div class="page-card" style="height: 100%;
- overflow: auto">
+  <div class="page-card">
     <h1>Node advanced view</h1>
     <div v-if="document">
       <div class="columns">
@@ -76,15 +75,10 @@
       </div>
 
       <label for="content">Content</label>
-      <div style="display: flex; flex: 1; gap: 10px;
- width: 100%; height: 500px">
-        <textarea v-model="document.content" style=" flex: 1;
-height: 500px;
- overflow: auto"></textarea>
+      <div class="content">
+        <textarea v-model="document.content" class="side"></textarea>
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div style=" flex: 1;
-height: 500px;
- overflow: auto" class="alexandrie-theme" v-html="document.content_compiled" />
+        <div class="side alexandrie-theme" v-html="document.content_compiled" />
       </div>
     </div>
 
@@ -107,12 +101,31 @@ document.value = await store.fetchUserDocument(route.params.id as string, route.
 </script>
 
 <style scoped lang="scss">
+.page-card {
+  height: 100%;
+  overflow: auto;
+}
+
 label {
   font-weight: bold;
 }
 
 button {
   margin-top: 1rem;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  width: 100%;
+  height: 500px;
+
+  .side {
+    flex: 1;
+    height: 500px;
+    overflow: auto;
+  }
 }
 
 .columns {

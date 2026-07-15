@@ -2,9 +2,7 @@
   <div class="color-picker">
     <div
       v-if="nullable"
-      class="color-option"
-      style="border: 1px solid var(--border);
- background-color: white"
+      class="color-option null-color"
       :style="{ outline: modelValue == -1 ? '2px solid var(--text-secondary)' : '' }"
       :class="{ selected: modelValue === -1 }"
       @click="selectColor(-1)"
@@ -74,6 +72,11 @@ const selectColor = (color: number) => {
   height: 28px;
   border-radius: var(--radius-md);
   cursor: pointer;
+}
+
+.null-color {
+  border: 1px solid var(--border);
+  background-color: white;
 }
 
 .selected {

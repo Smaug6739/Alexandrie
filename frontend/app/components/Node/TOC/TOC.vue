@@ -1,8 +1,7 @@
 <template>
   <aside>
     <h4 v-if="doc?.tags">{{ t('nodes.tags') }}</h4>
-    <div v-if="doc?.tags" style="display: flex; flex-wrap: wrap;
- font-size: 14px">
+    <div v-if="doc?.tags" class="tags">
       <tag v-for="tag in doc?.tags.split(',')" :key="tag" class="primary">#{{ tag.trim() }}</tag>
     </div>
     <ul ref="list" style="position: relative">
@@ -143,6 +142,12 @@ aside {
   padding: 0 15px;
   border-left: 1px solid var(--border);
   font-size: 0.8rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
 }
 
 .marker {

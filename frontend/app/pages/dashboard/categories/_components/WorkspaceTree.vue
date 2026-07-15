@@ -2,8 +2,7 @@
   <div v-if="node.data.role === 2" class="tree-node">
     <div class="tree-content">
       <div class="tree-label">
-        <Icon class="icon" name="folder" style="display: inline;
- width: 18px" fill="var(--orange)" />
+        <Icon class="icon item" name="folder" fill="var(--orange)" />
         <span>{{ node.label }}</span>
       </div>
       <div class="tree-actions">
@@ -79,5 +78,10 @@ defineEmits(['edit', 'delete']);
     width: 20px;
     height: 20px;
   }
+}
+
+.item {
+  display: inline;
+  width: 18px;
 }
 </style>

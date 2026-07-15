@@ -23,8 +23,7 @@
       <span class="storage-percentage">{{ storagePercentage.toFixed(1) }}%</span>
     </div>
     <AppDrop ref="dropComponent" multiple :max-files="10" @select="selectFiles" />
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;
- width: 100%; padding: 12px 0">
+    <div class="upload-actions">
       <AppButton type="primary" :disabled="!selectedFiles.length" @click="submitFiles">
         {{ selectedFiles.length ? t('cdn.actions.upload.multiple', { n: selectedFiles.length }) : t('cdn.actions.upload.idle') }}
       </AppButton>
@@ -45,8 +44,7 @@
         <template #bulk-actions="{ selected }">
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
-            <span style="height: 32px; margin-left: 4px;
- border-left: 1px solid var(--border)"></span>
+            <span class="divider" />
             <span @click="bulkDelete(selected)"><Icon name="delete" fill="var(--text-secondary)" class="action-btn" /></span>
           </div>
         </template>
@@ -296,6 +294,15 @@ onUnmounted(() => {
   }
 }
 
+.upload-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 0;
+}
+
 .action-row {
   display: flex;
   align-items: center;
@@ -361,6 +368,12 @@ onUnmounted(() => {
   font-size: 12px;
   font-weight: bold;
   color: var(--text-secondary);
+}
+
+.divider {
+  height: 32px;
+  margin-left: 4px;
+  border-left: 1px solid var(--border);
 }
 
 .resources-list {

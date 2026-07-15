@@ -1,9 +1,6 @@
 <template>
   <div class="page-card">
-    <h2 style="display: flex; justify-content: space-between; align-items: center">
-      User Details <img v-if="user" style="width: 40px; height: 40px;
- border-radius: 50%" :src="avatarURL(user)" />
-    </h2>
+    <h2 style="display: flex; justify-content: space-between; align-items: center">User Details <img v-if="user" class="avatar" :src="avatarURL(user)" /></h2>
     <div v-if="user" style="width: 100%">
       <div class="user-details">
         <div class="user-detail">
@@ -29,8 +26,7 @@
             <option :value="2">Admin</option>
           </select>
         </div>
-        <div style="display: flex;
- width: 100%">
+        <div class="container">
           <div class="user-detail">
             <label>Created At</label>
             <div class="value">{{ numericDate(user.created_timestamp) }}</div>
@@ -86,12 +82,23 @@ const saveChanges = async () => {
   width: 100%;
 }
 
+.container {
+  display: flex;
+  width: 100%;
+}
+
 .user-detail {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
   width: 100%;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
 label {

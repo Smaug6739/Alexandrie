@@ -1,5 +1,5 @@
 <template>
-  <article class="markdown-preview modern-theme document-content" style=" font-family: Poppins;font-size: 16px; line-height: 1.5">
+  <article class="markdown-preview modern-theme document-content" style="font-family: Poppins; font-size: 16px; line-height: 1.5">
     <h1 id="privacy-policy---alexandrie" tabindex="-1">
       <a class="header-anchor" href="#privacy-policy---alexandrie" aria-hidden="true">#</a> Privacy Policy - Alexandrie
     </h1>

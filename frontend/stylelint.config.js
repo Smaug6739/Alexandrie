@@ -11,12 +11,12 @@ export default {
       [
         {
           groupName: 'positioning',
-          emptyLineBefore: 'always',
+          emptyLineBefore: 'never',
           properties: ['position', 'top', 'right', 'bottom', 'left', 'z-index'],
         },
         {
           groupName: 'display-and-layout',
-          emptyLineBefore: 'always',
+          emptyLineBefore: 'never',
           properties: [
             'display',
             'flex',
@@ -50,7 +50,7 @@ export default {
         },
         {
           groupName: 'box-model',
-          emptyLineBefore: 'always',
+          emptyLineBefore: 'never',
           properties: [
             'box-sizing',
             'width',
@@ -73,7 +73,7 @@ export default {
         },
         {
           groupName: 'borders',
-          emptyLineBefore: 'always',
+          emptyLineBefore: 'never',
           properties: [
             'border',
             'border-width',
@@ -104,7 +104,7 @@ export default {
         },
         {
           groupName: 'typography',
-          emptyLineBefore: 'always',
+          emptyLineBefore: 'never',
           properties: [
             'font',
             'font-family',
@@ -138,7 +138,7 @@ export default {
         },
         {
           groupName: 'visuals',
-          emptyLineBefore: 'always',
+          emptyLineBefore: 'never',
           properties: [
             'background',
             'background-color',
@@ -164,7 +164,7 @@ export default {
         },
         {
           groupName: 'animations',
-          emptyLineBefore: 'always',
+          emptyLineBefore: 'never',
           properties: [
             'transition',
             'transition-delay',
@@ -187,7 +187,7 @@ export default {
       ],
       {
         unspecified: 'bottomAlphabetical',
-        emptyLineBeforeUnspecified: 'always',
+        emptyLineBeforeUnspecified: 'never',
       },
     ],
 

@@ -7,8 +7,7 @@
     <nav :class="{ open: menuOpen }">
       <span v-if="isModal">{{ t('settings.meta.accountSettings') }}</span>
       <div v-if="isModal && store.user" class="user">
-        <img :src="avatarURL(store.user)" alt="Avatar" style="width: 25px; height: 25px;
- border-radius: 50%" />
+        <img :src="avatarURL(store.user)" alt="Avatar" class="avatar" />
         <div>
           <div class="username">{{ store.user.username }}</div>
           <div class="email">{{ store.user.email }}</div>
@@ -220,6 +219,12 @@ watchEffect(() => {
           font-size: 0.7rem;
           color: var(--text-secondary);
         }
+      }
+
+      .avatar {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
       }
     }
   }

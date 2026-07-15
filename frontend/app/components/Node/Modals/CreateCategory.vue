@@ -10,13 +10,11 @@
       </div>
     </template>
     <div style="display: flex; flex-wrap: wrap">
-      <div style=" flex: 1;
-min-width: 200px; margin-right: 10px">
+      <div class="col" style="margin-right: 10px">
         <label for="order">{{ t('common.labels.order') }} <AppHint :text="t('nodes.category.orderHint')" /></label>
         <input id="order" v-model.number="category.order" class="entry" type="number" placeholder="0" />
       </div>
-      <div style=" flex: 1;
-min-width: 200px; margin-left: 10px">
+      <div class="col" style="margin-left: 10px">
         <label for="color">{{ t('common.labels.color') }}</label>
         <AppColorPicker id="color" v-model="category.color" class="entry" nullable />
       </div>
@@ -78,5 +76,10 @@ label {
 
 .entry {
   background: var(--surface-base);
+}
+
+.col {
+  flex: 1;
+  min-width: 200px;
 }
 </style>

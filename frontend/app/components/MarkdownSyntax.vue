@@ -210,7 +210,9 @@ Useful for side content or notes.
 
       <!-- DIAGRAMS -->
       <h2><Icon name="format/diagrams" fill="var(--primary)" /> {{ t('markdown.syntax.diagrams') }}</h2>
-      <p>Render live diagrams with <a href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid</a> syntax inside a <code>:::mermaid</code> block.</p>
+      <p>
+        Render live diagrams with <a href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid</a> syntax inside a <code>:::mermaid</code> block.
+      </p>
       <div class="demo">
         <pre>
 :::mermaid
@@ -242,13 +244,10 @@ graph TD
         <li><strong>Task lists:</strong> <code>- [ ] Todo</code>, <code>- [x] Done</code></li>
         <li>
           <strong>Tables:</strong><br />
-          <pre style="margin: 10px 0; padding: 0.75rem;
- border-radius: var(--radius-sm);
- color: white;
- overflow-x: auto">
+          <pre class="pre-table">
 | Column 1 | Column 2 |
 |-----------|-----------|
-| Cell 1    | Cell 2    |</pre
+| Cell 1    | Cell 2    |3</pre
           >
         </li>
         <li><strong>Footnotes:</strong> <code>Text[^1]</code> with <code>[^1]: footnote text</code></li>
@@ -271,9 +270,7 @@ This is a text with a note[^1] and another[^ref].
               ><a href="#fn-ref" title="Second footnote with text identifier">[ref]</a></sup
             >.
           </p>
-          <section class="footnotes" style=" margin-top: 1rem; padding-top: 0.5rem;
- border-top: 1px solid var(--border);
-font-size: 0.9rem">
+          <section class="footnotes">
             <ol style="margin: 0; padding-left: 1.5rem">
               <li>First footnote <a href="#fnref-1" class="footnote-backref">↩</a></li>
               <li>Second footnote with text identifier <a href="#fnref-ref" class="footnote-backref">↩</a></li>
@@ -324,6 +321,14 @@ code {
   font-size: 0.8rem;
 }
 
+.pre-table {
+  margin: 10px 0;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  color: white;
+  overflow-x: auto;
+}
+
 .demo {
   display: flex;
   flex-wrap: wrap;
@@ -342,6 +347,13 @@ code {
   * {
     flex: 1;
   }
+}
+
+.footnotes {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
 }
 
 .custom-block pre {
