@@ -7,30 +7,23 @@
         <div class="letter-top-header">
           <div class="dev-badge">
             <span class="dot"></span>
-            <span>A word from the creator</span>
+            <span>{{ t('landing.support.badge') }}</span>
           </div>
         </div>
 
-        <h2>Alexandrie is free, and it will stay that way.</h2>
+        <h2>{{ t('landing.support.title') }}</h2>
 
         <div class="letter-content">
-          <p>
-            Alexandrie didn't start as a business. It started as a tool I wanted for myself. Years later, I'm still maintaining and improving it in my spare
-            time, and I'm happy to share it with anyone who finds it useful.
-          </p>
-          <p>
-            The application doesn't track you, doesn't serve ads, and is fully open-source. However, keeping the live platform running involves hosting and
-            infrastructure costs. If Alexandrie adds value to your daily workflow, consider supporting its independence. Even the smallest donation helps cover
-            the servers for months.
-          </p>
+          <p>{{ t('landing.support.paragraph1') }}</p>
+          <p>{{ t('landing.support.paragraph2') }}</p>
         </div>
 
         <div class="letter-footer">
-          <span class="signature">— Smaug</span>
+          <span class="signature">{{ t('landing.support.signature') }}</span>
         </div>
 
         <div v-if="closeable" class="banner-actions">
-          <AppButton type="primary" size="sm" @click="handleClose">I understand, thank you!</AppButton>
+          <AppButton type="primary" size="sm" @click="handleClose">{{ t('landing.support.confirm') }}</AppButton>
         </div>
       </div>
 
@@ -42,8 +35,8 @@
             </svg>
           </div>
           <div class="card-text">
-            <h3>Star on GitHub</h3>
-            <p>Show your support and help other developers discover the project. It costs nothing but means everything.</p>
+            <h3>{{ t('landing.support.cards.starTitle') }}</h3>
+            <p>{{ t('landing.support.cards.starDesc') }}</p>
           </div>
           <span class="card-arrow">→</span>
         </a>
@@ -57,8 +50,8 @@
             </svg>
           </div>
           <div class="card-text">
-            <h3>Support financially</h3>
-            <p>Help cover hosting, backup infrastructure, and development costs to keep Alexandrie online and independent.</p>
+            <h3>{{ t('landing.support.cards.sponsorTitle') }}</h3>
+            <p>{{ t('landing.support.cards.sponsorDesc') }}</p>
           </div>
           <span class="card-arrow">→</span>
         </a>
@@ -68,6 +61,8 @@
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 withDefaults(
   defineProps<{
     closeable?: boolean;

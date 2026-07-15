@@ -1,20 +1,20 @@
 <template>
   <div class="body-container">
     <IconApp style="width: 120px" />
-    <h1>Account creation</h1>
+    <h1>{{ t('public.signup.title') }}</h1>
     <form @submit.prevent="register">
       <div class="form-group">
-        <label for="username">Username <span class="required">*</span></label>
+        <label for="username">{{ t('public.signup.form.username') }} <span class="required">*</span></label>
         <input id="username" v-model="username" type="text" :class="{ 'is-invalid': errors.username }" />
         <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
       </div>
       <div class="form-group">
-        <label for="email">Email </label>
+        <label for="email">{{ t('public.signup.form.email') }}</label>
         <input id="email" v-model="email" type="email" />
-        <small>Email is only used for account recovery. It will not be shared publicly.</small>
+        <small>{{ t('public.signup.form.emailDescription') }}</small>
       </div>
       <div class="form-group">
-        <label for="password">Password <span class="required">*</span></label>
+        <label for="password">{{ t('public.signup.form.password') }} <span class="required">*</span></label>
         <div class="password-input">
           <input
             id="password"
@@ -33,7 +33,7 @@
         <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
       </div>
       <div class="form-group">
-        <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+        <label for="confirmPassword">{{ t('public.signup.form.confirmPassword') }} <span class="required">*</span></label>
         <div class="password-input">
           <input
             id="confirmPassword"
@@ -51,8 +51,8 @@
         </div>
         <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
       </div>
-      <NuxtLink to="/login" class="login-link">Already have an account? Log in</NuxtLink>
-      <button type="submit" class="btn">Sign Up</button>
+      <NuxtLinkLocale to="/login" class="login-link">{{ t('public.signup.alreadyHaveAccount') }}</NuxtLinkLocale>
+      <button type="submit" class="btn">{{ t('public.signup.form.submit') }}</button>
       <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
     </form>
   </div>
@@ -71,8 +71,10 @@ definePageMeta({
   ],
 });
 
-const router = useRouter();
 const userStore = useUserStore();
+
+const router = useRouter();
+const { t } = useI18nT();
 
 // Form fields
 const username = ref('');
@@ -105,7 +107,7 @@ watch([username, email, password, confirmPassword], () => {
 
 async function createAccount(username: string, email: string, password: string) {
   userStore
-    .register({ username, email: email || undefined, password, role: 1 })
+    .register({ username, email: email || undefined, password, role: 1, totp_enabled: false })
     .then(() => {
       router.push('/login');
     })

@@ -10,7 +10,7 @@
           </svg>
           <span>{{ owner }}/{{ repo }}</span>
         </div>
-        <p class="card-desc">The open-source workspace for developers who think in Markdown</p>
+        <p class="card-desc">{{ t('landing.stats.cardDescription') }}</p>
         <div class="card-stats">
           <div class="mini-stat">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -32,25 +32,25 @@
     </div>
 
     <div class="stats-content">
-      <span class="section-tag">Open Source</span>
-      <h2>Built in the open</h2>
-      <p class="subtitle">Transparent development, community-driven decisions, and full access to the source code</p>
+      <span class="section-tag">{{ t('landing.stats.badge') }}</span>
+      <h2>{{ t('landing.stats.title') }}</h2>
+      <p class="subtitle">{{ t('landing.stats.subtitle') }}</p>
 
       <div class="stats-grid">
         <div class="stat">
           <div class="stat-icon"><Icon name="star" display="xl" /></div>
           <div class="stat-value">{{ starsDisplay }}</div>
-          <div class="stat-label">GitHub stars</div>
+          <div class="stat-label">{{ t('landing.stats.labels.stars') }}</div>
         </div>
         <div class="stat">
           <div class="stat-icon"><Icon name="users" display="xl" /></div>
           <div class="stat-value">{{ contributorsDisplay }}</div>
-          <div class="stat-label">Contributors</div>
+          <div class="stat-label">{{ t('landing.stats.labels.contributors') }}</div>
         </div>
         <div class="stat">
           <div class="stat-icon"><Icon name="release" display="xl" /></div>
           <div class="stat-value">{{ latestRelease || 'v1.0' }}</div>
-          <div class="stat-label">Latest release</div>
+          <div class="stat-label">{{ t('landing.stats.labels.latestRelease') }}</div>
         </div>
       </div>
 
@@ -62,16 +62,18 @@
               points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
             ></polygon>
           </svg>
-          Star on GitHub
+          {{ t('landing.stats.actions.star') }}
         </NuxtLink>
-        <NuxtLink :prefetch="false" to="/dashboard" class="btn secondary">Try the app</NuxtLink>
-        <a :href="`https://github.com/${owner}/${repo}/contribute`" target="_blank" class="btn tertiary">Contribute</a>
+        <NuxtLinkLocale :prefetch="false" to="/dashboard" class="btn secondary">{{ t('landing.stats.actions.tryApp') }}</NuxtLinkLocale>
+        <a :href="`https://github.com/${owner}/${repo}/contribute`" target="_blank" class="btn tertiary">{{ t('landing.stats.actions.contribute') }}</a>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 const owner = 'Smaug6739';
 const repo = 'Alexandrie';
 

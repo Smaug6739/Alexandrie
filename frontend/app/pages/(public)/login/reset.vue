@@ -2,40 +2,61 @@
   <div class="container">
     <div class="body-container">
       <IconApp style="width: 120px" />
-      <h1>Password Reset</h1>
+      <h1>{{ t('public.login.reset.title') }}</h1>
       <form class="body" @submit.prevent="reset">
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">{{ t('public.login.form.password') }}</label>
           <div class="password-input">
-            <input id="password" v-model="password" :type="showPassword ? 'text' : 'password'" :class="{ 'is-invalid': errors.password }" />
-            <button type="button" class="password-toggle" @click="showPassword = !showPassword">{{ showPassword ? 'Hide' : 'Show' }}</button>
+            <input
+              id="password"
+              :key="`password-${showPassword}`"
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              :class="{ 'is-invalid': errors.password }"
+            />
+            <button type="button" class="password-toggle" @click="showPassword = !showPassword">
+              <div class="eye-icon" :class="{ show: showPassword }">
+                <Icon v-if="showPassword" name="eye" />
+                <Icon v-else name="eye_off" />
+              </div>
+            </button>
           </div>
           <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
         </div>
         <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
+          <label for="confirmPassword">{{ t('public.login.form.confirmPassword') }}</label>
           <div class="password-input">
             <input
               id="confirmPassword"
+              :key="`confirmPassword-${showConfirmPassword}`"
               v-model="confirmPassword"
               :type="showConfirmPassword ? 'text' : 'password'"
               :class="{ 'is-invalid': errors.confirmPassword }"
             />
             <button type="button" class="password-toggle" @click="showConfirmPassword = !showConfirmPassword">
-              {{ showConfirmPassword ? 'Hide' : 'Show' }}
+              <div class="eye-icon" :class="{ show: showConfirmPassword }">
+                <Icon v-if="showConfirmPassword" name="eye" />
+                <Icon v-else name="eye_off" />
+              </div>
             </button>
           </div>
           <p v-if="errors.confirmPassword" class="invalid-feedback">{{ errors.confirmPassword }}</p>
         </div>
-        <button type="submit" class="btn">Change password</button>
+        <button type="submit" class="btn">{{ t('public.login.reset.change') }}</button>
         <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-        <p class="sub"><NuxtLink to="/login">Return to login</NuxtLink></p>
+        <p class="sub">
+          <NuxtLinkLocale to="/login">{{ t('public.login.reset.done.returnToLogin') }}</NuxtLinkLocale>
+        </p>
       </form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+const userStore = useUserStore();
+
+const { t } = useI18nT();
+
 const password = ref('');
 const confirmPassword = ref('');
 const showPassword = ref(false);
@@ -45,7 +66,6 @@ const errors = ref({
   confirmPassword: '',
   general: '',
 });
-const userStore = useUserStore();
 
 async function reset() {
   if (!password.value) errors.value.password = 'Password is required';

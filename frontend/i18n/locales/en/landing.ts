@@ -1,0 +1,231 @@
+export default {
+  seo: {
+    description: 'Alexandrie is a fast, self-hostable Markdown workspace for notes, knowledge bases, collaboration, and public documentation.',
+    keywords: 'Markdown notes, knowledge base, self-hosted notes, public documentation, collaboration, note taking app',
+    title: 'Alexandrie | Modern Markdown workspace',
+  },
+  hero: {
+    badges: {
+      markdown: 'Markdown',
+      openSource: 'Open-source',
+      organization: 'Organization',
+    },
+    ctaPrimary: 'Get Started',
+    ctaSecondary: 'GitHub',
+    titleHighlight: 'Your Notes',
+    titleSuffix: ', Beautifully Organized',
+    tagline: 'A powerful Markdown workspace designed for speed, clarity, and creativity.',
+    previewAlt: 'Alexandrie app preview',
+  },
+  bento: {
+    title: 'Everything you need to write better',
+    subtitle: 'Powerful features packed into a beautiful, intuitive interface',
+    editor: {
+      description: 'Write with syntax highlighting, live preview, and keyboard shortcuts. Support for tables, code blocks, math equations, and more.',
+      heading: 'Powerful Markdown Editor',
+      sampleHeading: 'Welcome to Alexandrie',
+      sampleList: 'Lists are easy',
+      sampleMarkdown: 'Write your notes in Markdown',
+      sampleText: ' and ',
+    },
+    organization: {
+      description: 'Nested folders, workspaces, tags, and powerful search to keep everything in its place.',
+      heading: 'Smart Organization',
+    },
+    collaboration: {
+      description: 'Work together with your team. Share notes, manage permissions, and more.',
+      heading: 'Collaborate and share',
+      editing: '3 people editing...',
+    },
+    cdn: {
+      description: 'Upload images & files',
+      heading: 'Built-in CDN',
+    },
+    themes: {
+      description: 'Themes for every mood',
+      extra: 'Also change the colors, document themes, add some custom colors, icons, and more.',
+      heading: 'Dark & Light',
+    },
+    search: {
+      description: 'Full-text search across all your documents. Find anything in milliseconds.',
+      heading: 'Lightning Fast Search',
+      input: 'react hooks...',
+    },
+    publish: {
+      description: 'Share your work publicly or with specific people. Generate beautiful read-only pages.',
+      heading: 'One-Click Publish',
+      status: 'Live',
+      url: 'docs.yoursite.com/guide',
+    },
+    organizationSamples: {
+      knowledgeBase: 'Knowledge Base',
+      projects: 'Projects',
+      roadmap: 'Roadmap.md',
+      ideas: 'Ideas.md',
+      development: 'Development',
+      reactTips: 'React Tips.md',
+    },
+    searchResults: {
+      customHooks: 'Custom Hooks',
+      reactHooksGuide: 'React Hooks Guide',
+      path1: 'Knowledge Base / Development',
+      path2: 'Projects / Frontend',
+    },
+    theme: {
+      subtitle: 'Also change the colors, document themes, add some custom colors, icons, and more.',
+    },
+  },
+  showcase: {
+    features: [
+      {
+        description: 'Start writing immediately with our distraction-free editor. Everything syncs automatically.',
+        points: ['Real-time autosave', 'Quick keyboard shortcuts', 'Distraction-free mode', 'Templates for common formats'],
+        shortDesc: 'Quick notes & drafts',
+        title: 'Capture Ideas Instantly',
+      },
+      {
+        description: 'Create a powerful knowledge base with nested folders, workspaces, and smart tagging.',
+        points: ['Unlimited nested folders', 'Multiple workspaces', 'Tag-based organization', 'Smart filters & views'],
+        shortDesc: 'Structure & categorize',
+        title: 'Organize Your Knowledge',
+      },
+      {
+        description: 'Share notes with your team, manage permissions, and work together in real-time.',
+        points: ['Granular permissions', 'Real-time collaboration', 'Comment & feedback', 'Activity history'],
+        shortDesc: 'Team workflows',
+        title: 'Collaborate Seamlessly',
+      },
+      {
+        description: 'Transform your notes into beautiful public documentation with one click.',
+        points: ['Custom domains', 'SEO optimized', 'Analytics built-in', 'Password protection'],
+        shortDesc: 'Go live instantly',
+        title: 'Publish & Share',
+      },
+    ],
+    subtitle: 'See how Alexandrie streamlines your entire workflow',
+    title: 'From idea to published docs',
+  },
+  selfHost: {
+    notes: ['No telemetry', 'Full data ownership', 'MIT License', 'Docker ready'],
+    steps: [
+      {
+        description:
+          'Get the config files from GitHub <br /> <a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/docker-compose.yml">Download the docker-compose.yml file</a> <br /><a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/.env.example">Download the .env.example file</a> ',
+        title: 'Clone the repo',
+      },
+      {
+        code: 'cp .env.example .env && nano .env',
+        description: 'Change environment variables as needed (optional)',
+        title: 'Configure',
+      },
+      {
+        code: 'docker compose up -d',
+        description: 'Start all services with Docker Compose',
+        title: 'Launch',
+      },
+    ],
+    subtitle: 'Take full control of your data with a simple deployment',
+    terminal: {
+      lines: ['[+] Running 3/3', '✓ Container alexandrie-db Started', '✓ Container alexandrie-minio Started', '✓ Container alexandrie-app Started'],
+      title: 'Terminal',
+    },
+    title: 'Self-host in minutes',
+  },
+  stats: {
+    actions: {
+      contribute: 'Contribute',
+      star: 'Star on GitHub',
+      tryApp: 'Try the app',
+    },
+    badge: 'Open Source',
+    cardDescription: 'The open-source workspace for developers who think in Markdown',
+    labels: {
+      contributors: 'Contributors',
+      latestRelease: 'Latest release',
+      stars: 'GitHub stars',
+    },
+    subtitle: 'Transparent development, community-driven decisions, and full access to the source code',
+    title: 'Built in the open',
+  },
+  contributors: {
+    commitLabel: 'commits',
+    cta: 'Become a contributor',
+    subtitle: 'Meet the amazing people who make Alexandrie possible',
+    title: 'Built by the community',
+  },
+  faq: {
+    answer1:
+      'Yes, Alexandrie is 100% open-source under the MIT license. You can use it, modify it, and distribute it freely. No hidden costs, no premium tiers.',
+    answer2: 'Absolutely! You can run Alexandrie on your own infrastructure using Docker. Full documentation is available to help you get started in minutes.',
+    answer3: 'Yes, Alexandrie is designed with offline-first principles. Your notes are available locally and sync when you reconnect.',
+    answer4: 'When self-hosting, your data stays on your own server. We use industry-standard security practices, and all data transmission is encrypted.',
+    answer5:
+      'Yes! You can import Markdown files from other apps like Notion, Obsidian, or any Markdown editor. Export to PDF with beautiful formatting is also supported.',
+    answer6: 'Definitely! We support syntax highlighting for 100+ programming languages and LaTeX math equations rendering.',
+    answer7: 'Alexandrie is a responsive web application that works great on mobile browsers. Native apps are on our roadmap.',
+    ctaDescription: "Can't find what you're looking for? Join our community!",
+    ctaTitle: 'Still have questions?',
+    discord: 'Join Discord',
+    subtitle: 'Everything you need to know about Alexandrie',
+    title: 'Frequently asked questions',
+    questions: [
+      'Is Alexandrie really free and open-source?',
+      'Can I self-host Alexandrie on my own server?',
+      'Does Alexandrie work offline?',
+      'How is my data stored and secured?',
+      'Can I import my notes from other apps?',
+      'Does it support code blocks and math equations?',
+      'Is there a mobile app available?',
+    ],
+  },
+  cta: {
+    discord: 'Discord server',
+    description: 'Join us on this journey to better note-taking.',
+    title: 'Ready to Take Better Notes?',
+    button: 'Start Now',
+    contributionPrefix: 'Want to contribute or discuss? Check out our',
+  },
+  support: {
+    badge: 'A word from the creator',
+    confirm: 'I understand, thank you!',
+    paragraph1:
+      "Alexandrie didn't start as a business. It started as a tool I wanted for myself. Years later, I'm still maintaining and improving it in my spare time, and I'm happy to share it with anyone who finds it useful.",
+    paragraph2:
+      'The application does not track you, does not serve ads, and is fully open-source. However, keeping the live platform running involves hosting and infrastructure costs. If Alexandrie adds value to your daily workflow, consider supporting its independence. Even the smallest donation helps cover the servers for months.',
+    title: 'Alexandrie is free, and it will stay that way.',
+    signature: '— Smaug',
+    cards: {
+      sponsorDesc: 'Help cover hosting, backup infrastructure, and development costs to keep Alexandrie online and independent.',
+      sponsorTitle: 'Support financially',
+      starDesc: 'Show your support and help other developers discover the project. It costs nothing but means everything.',
+      starTitle: 'Star on GitHub',
+    },
+  },
+  footer: {
+    brandDescription: 'The open-source workspace for developers who think in Markdown. Beautiful docs, powerful organization, zero friction.',
+    madeWith: 'Made with',
+    columns: {
+      community: 'Community',
+      legal: 'Legal',
+      product: 'Product',
+      resources: 'Resources',
+    },
+    links: {
+      about: 'About',
+      apiReference: 'API Reference',
+      changelog: 'Changelog',
+      contribute: 'Contribute',
+      dashboard: 'Dashboard',
+      discord: 'Discord',
+      documentation: 'Documentation',
+      features: 'Features',
+      github: 'GitHub',
+      issues: 'Issues',
+      mitLicense: 'MIT License',
+      privacyPolicy: 'Privacy Policy',
+      roadmap: 'Roadmap',
+      terms: 'Terms of Service',
+    },
+    by: 'by',
+  },
+};

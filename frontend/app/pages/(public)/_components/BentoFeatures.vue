@@ -1,8 +1,8 @@
 <template>
   <section class="bento-section">
     <div class="section-header">
-      <h2 class="section-title">Everything you need to write better</h2>
-      <p class="section-subtitle">Powerful features packed into a beautiful, intuitive interface</p>
+      <h2 class="section-title">{{ t('landing.bento.title') }}</h2>
+      <p class="section-subtitle">{{ t('landing.bento.subtitle') }}</p>
     </div>
 
     <div class="bento-grid">
@@ -18,27 +18,26 @@
               <line x1="10" y1="9" x2="8" y2="9" />
             </svg>
           </div>
-          <h3>Powerful Markdown Editor</h3>
-          <p>Write with syntax highlighting, live preview, and keyboard shortcuts. Support for tables, code blocks, math equations, and more.</p>
+          <h3>{{ t('landing.bento.editor.heading') }}</h3>
+          <p>{{ t('landing.bento.editor.description') }}</p>
         </div>
         <div class="card-visual">
           <div class="editor-preview">
             <div class="editor-line">
               <span class="syntax-heading"># </span>
-              <span class="syntax-text">Welcome to Alexandrie</span>
+              <span class="syntax-text">{{ t('landing.bento.editor.sampleHeading') }}</span>
             </div>
             <div class="editor-line">
-              <span class="syntax-text">Write your notes in </span>
-              <span class="syntax-bold">**Markdown**</span>
+              <span class="syntax-text">{{ t('landing.bento.editor.sampleMarkdown') }}</span>
             </div>
             <div class="editor-line">
               <span class="syntax-code">`code`</span>
-              <span class="syntax-text"> and </span>
+              <span class="syntax-text">{{ t('landing.bento.editor.sampleText') }}</span>
               <span class="syntax-link">[links]()</span>
             </div>
             <div class="editor-line">
               <span class="syntax-list">- </span>
-              <span class="syntax-text">Lists are easy</span>
+              <span class="syntax-text">{{ t('landing.bento.editor.sampleList') }}</span>
             </div>
             <div class="cursor"></div>
           </div>
@@ -53,34 +52,34 @@
               <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
             </svg>
           </div>
-          <h3>Smart Organization</h3>
-          <p>Nested folders, workspaces, tags, and powerful search to keep everything in its place.</p>
+          <h3>{{ t('landing.bento.organization.heading') }}</h3>
+          <p>{{ t('landing.bento.organization.description') }}</p>
         </div>
         <div class="card-visual">
           <div class="folder-tree">
             <div class="folder-item">
               <span class="folder-icon"><Icon name="folder" fill="var(--orange)" /></span>
-              <span>Projects</span>
+              <span>{{ t('landing.bento.organizationSamples.projects') }}</span>
             </div>
             <div class="folder-item nested">
               <span class="folder-icon"><Icon name="file" fill="var(--primary)" /></span>
-              <span>Roadmap.md</span>
+              <span>{{ t('landing.bento.organizationSamples.roadmap') }}</span>
             </div>
             <div class="folder-item nested">
               <span class="folder-icon"><Icon name="file" fill="var(--primary)" /></span>
-              <span>Ideas.md</span>
+              <span>{{ t('landing.bento.organizationSamples.ideas') }}</span>
             </div>
             <div class="folder-item">
               <span class="folder-icon"><Icon name="folder" fill="var(--orange)" /></span>
-              <span>Knowledge Base</span>
+              <span>{{ t('landing.bento.organizationSamples.knowledgeBase') }}</span>
             </div>
             <div class="folder-item nested">
               <span class="folder-icon"><Icon name="folder" fill="var(--orange)" /></span>
-              <span>Development</span>
+              <span>{{ t('landing.bento.organizationSamples.development') }}</span>
             </div>
             <div class="folder-item nested-2">
               <span class="folder-icon"><Icon name="file" fill="var(--primary)" /></span>
-              <span>React Tips.md</span>
+              <span>{{ t('landing.bento.organizationSamples.reactTips') }}</span>
             </div>
           </div>
         </div>
@@ -97,8 +96,8 @@
               <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
           </div>
-          <h3>Collaborate and share</h3>
-          <p>Work together with your team. Share notes, manage permissions, and more.</p>
+          <h3>{{ t('landing.bento.collaboration.heading') }}</h3>
+          <p>{{ t('landing.bento.collaboration.description') }}</p>
         </div>
         <div class="card-visual">
           <div class="collab-avatars">
@@ -108,7 +107,7 @@
               <img src="https://i.pravatar.cc/40?img=3" alt="User 3" />
               <span class="avatar-more">+2</span>
             </div>
-            <span class="editing-text">3 people editing...</span>
+            <span class="editing-text">{{ t('landing.bento.collaboration.editing') }}</span>
           </div>
         </div>
       </div>
@@ -122,8 +121,8 @@
             <polyline points="21 15 16 10 5 21" />
           </svg>
         </div>
-        <h3>Built-in CDN</h3>
-        <p>Upload images & files</p>
+        <h3>{{ t('landing.bento.cdn.heading') }}</h3>
+        <p>{{ t('landing.bento.cdn.description') }}</p>
       </div>
 
       <!-- Small Card - Themes -->
@@ -134,9 +133,9 @@
             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
           </svg>
         </div>
-        <h3>Dark & Light</h3>
-        <p>Themes for every mood</p>
-        <p>Also change the colors, document themes, add some custom colors, icons, and more.</p>
+        <h3>{{ t('landing.bento.themes.heading') }}</h3>
+        <p>{{ t('landing.bento.themes.description') }}</p>
+        <p>{{ t('landing.bento.themes.extra') }}</p>
       </div>
 
       <!-- Wide Card - Search -->
@@ -148,8 +147,8 @@
               <path d="M21 21l-4.35-4.35" />
             </svg>
           </div>
-          <h3>Lightning Fast Search</h3>
-          <p>Full-text search across all your documents. Find anything in milliseconds.</p>
+          <h3>{{ t('landing.bento.search.heading') }}</h3>
+          <p>{{ t('landing.bento.search.description') }}</p>
         </div>
         <div class="card-visual">
           <div class="search-demo">
@@ -158,22 +157,22 @@
                 <circle cx="11" cy="11" r="8" />
                 <path d="M21 21l-4.35-4.35" />
               </svg>
-              <span>react hooks...</span>
+              <span>{{ t('landing.bento.search.input') }}</span>
               <span class="kbd">⌘K</span>
             </div>
             <div class="search-results">
               <div class="search-result">
                 <span class="result-icon"><Icon name="file" fill="var(--primary)" /></span>
                 <div class="result-content">
-                  <span class="result-title">React Hooks Guide</span>
-                  <span class="result-path">Knowledge Base / Development</span>
+                  <span class="result-title">{{ t('landing.bento.searchResults.reactHooksGuide') }}</span>
+                  <span class="result-path">{{ t('landing.bento.searchResults.path1') }}</span>
                 </div>
               </div>
               <div class="search-result">
                 <span class="result-icon"><Icon name="file" fill="var(--primary)" /></span>
                 <div class="result-content">
-                  <span class="result-title">Custom Hooks</span>
-                  <span class="result-path">Projects / Frontend</span>
+                  <span class="result-title">{{ t('landing.bento.searchResults.customHooks') }}</span>
+                  <span class="result-path">{{ t('landing.bento.searchResults.path2') }}</span>
                 </div>
               </div>
             </div>
@@ -191,18 +190,18 @@
               <line x1="12" y1="2" x2="12" y2="15" />
             </svg>
           </div>
-          <h3>One-Click Publish</h3>
-          <p>Share your work publicly or with specific people. Generate beautiful read-only pages.</p>
+          <h3>{{ t('landing.bento.publish.heading') }}</h3>
+          <p>{{ t('landing.bento.publish.description') }}</p>
         </div>
         <div class="card-visual">
           <div class="publish-preview">
             <div class="url-bar">
               <span class="lock">🔒</span>
-              <span>docs.yoursite.com/guide</span>
+              <span>{{ t('landing.bento.publish.url') }}</span>
             </div>
             <div class="status-badge published">
               <span class="dot"></span>
-              Live
+              {{ t('landing.bento.publish.status') }}
             </div>
           </div>
         </div>
@@ -210,6 +209,10 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+</script>
 
 <style scoped lang="scss">
 .bento-section {

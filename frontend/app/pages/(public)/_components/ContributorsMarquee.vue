@@ -1,8 +1,8 @@
 <template>
   <section class="contributors">
     <div class="section-header">
-      <h3>Built by the community</h3>
-      <p>Meet the amazing people who make Alexandrie possible</p>
+      <h3>{{ t('landing.contributors.title') }}</h3>
+      <p>{{ t('landing.contributors.subtitle') }}</p>
     </div>
 
     <div v-if="displayAvatars.length" class="contributors-wrapper">
@@ -11,7 +11,7 @@
           <img :src="c.avatar_url + '&s=80'" :alt="c.login" loading="lazy" />
           <div class="contributor-info">
             <span class="name">{{ c.login }}</span>
-            <span class="contributions">{{ c.contributions }} commits</span>
+            <span class="contributions">{{ c.contributions }} {{ commitLabel }}</span>
           </div>
         </a>
       </div>
@@ -22,13 +22,15 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M12 5v14M5 12h14" />
         </svg>
-        Become a contributor
+        {{ t('landing.contributors.cta') }}
       </a>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+const { t } = useI18n();
+
 interface Contributor {
   id: number;
   login: string;
@@ -39,6 +41,7 @@ interface Contributor {
 
 const avatars = ref<Contributor[]>([]);
 const displayAvatars = computed(() => avatars.value.map((c, idx) => ({ ...c, __key: `${c.id}-${idx}` })));
+const commitLabel = computed(() => t('landing.contributors.commitLabel'));
 
 async function fetchContributors() {
   try {

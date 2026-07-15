@@ -1,0 +1,63 @@
+export default {
+  nav: {
+    login: 'Accedi',
+    signup: 'Registrati',
+    home: 'Home',
+  },
+  login: {
+    title: 'Connessione',
+    form: {
+      username: 'Nome utente',
+      password: 'Password',
+      confirmPassword: 'Conferma password',
+      submit: 'Accedi',
+    },
+    disabled: "L'accesso nativo è attualmente disabilitato. Si prega di utilizzare uno dei provider di autenticazione disponibili di seguito.",
+    needAccount: 'Hai bisogno di un account? Registrati',
+    forgotPassword: 'Password dimenticata?',
+    clickHere: 'Clicca qui',
+    OTP_2FA: {
+      title: 'Autenticazione a due fattori',
+      description: 'Inserisci il codice a 6 cifre della tua app di autenticazione.',
+      code: 'Codice di autenticazione',
+      submit: 'Verifica',
+      back: 'Indietro',
+    },
+    reset: {
+      title: 'Reimposta password',
+      submit: 'Richiedi reimpostazione',
+      change: 'Cambia password',
+      havingIssues: 'Problemi?',
+      contactUs: 'Contattaci!',
+      done: {
+        title: 'Istruzioni inviate',
+        description: 'Controlla la tua email per il link di reimpostazione della password. Se non appare entro pochi minuti, controlla la cartella dello spam.',
+        returnToLogin: "Torna all'accesso",
+      },
+    },
+    oidc: {
+      title: 'Autenticazione in corso...',
+      description: "Si prega di attendere il completamento dell'accesso.",
+      linked: 'Il tuo account {{ providerName }} è stato collegato con successo.',
+      created: 'Il tuo account è stato creato e collegato con successo.',
+      signIn: 'Accesso effettuato con successo.',
+      redirectSettings: 'Reindirizzamento alle impostazioni...',
+      redirectDashboard: 'Reindirizzamento alla dashboard...',
+      error: 'Autenticazione non riuscita',
+      tryAgain: 'Riprova',
+      createAccount: 'Crea un account',
+    },
+  },
+  signup: {
+    title: 'Creazione account',
+    form: {
+      username: 'Nome utente',
+      email: 'Email',
+      emailDescription: "L'email viene utilizzata solo per il recupero dell'account. Non sarà condivisa pubblicamente.",
+      password: 'Password',
+      confirmPassword: 'Conferma password',
+      submit: 'Registrati',
+    },
+    alreadyHaveAccount: 'Hai già un account? Accedi',
+  },
+};

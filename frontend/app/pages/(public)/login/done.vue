@@ -1,13 +1,15 @@
 <template>
   <div class="container">
     <IconApp style="width: 120px" />
-    <h1>Instructions sent</h1>
-    <p>Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.</p>
-    <nuxt-link to="/" class="button">Return to Homepage</nuxt-link>
+    <h1>{{ t('public.login.reset.done.title') }}</h1>
+    <p>{{ t('public.login.reset.done.description') }}</p>
+    <NuxtLinkLocale to="/login" class="button">{{ t('public.login.reset.done.returnToLogin') }}</NuxtLinkLocale>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { t } = useI18nT();
+</script>
 
 <style scoped lang="scss">
 .container {

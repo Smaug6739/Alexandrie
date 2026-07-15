@@ -5,10 +5,10 @@ export default defineNuxtRouteMiddleware(async (to, _) => {
   const user_auth = await localForage.getItem('isLoggedIn');
 
   if (to.fullPath.startsWith('/dashboard') && !user_auth) {
-    return navigateTo({
-      path: '/login',
-      query: { redirect: to.fullPath },
-    });
+    const localeRoute = useLocaleRoute();
+    const route = localeRoute({ name: 'login', query: { redirect: to.fullPath } });
+
+    return navigateTo(route);
   }
 
   if (to.fullPath.startsWith('/dashboard/admin')) {

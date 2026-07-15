@@ -9,7 +9,7 @@
             <IconApp style="width: 40px" />
             <span class="brand-name">Alexandrie</span>
           </div>
-          <p class="brand-desc">The open-source workspace for developers who think in Markdown. Beautiful docs, powerful organization, zero friction.</p>
+          <p class="brand-desc">{{ t('landing.footer.brandDescription') }}</p>
           <div class="social-links">
             <a href="https://github.com/Smaug6739/Alexandrie" target="_blank" aria-label="GitHub">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -36,40 +36,68 @@
         <!-- Links Columns -->
         <div class="footer-links">
           <div class="links-column">
-            <h4>Product</h4>
+            <h4>{{ t('landing.footer.columns.product') }}</h4>
             <ul>
-              <li><NuxtLink :prefetch="false" to="/dashboard">Dashboard</NuxtLink></li>
-              <li><NuxtLink :prefetch="false" to="/#features">Features</NuxtLink></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/releases" target="_blank">Changelog</a></li>
-              <li><a href="https://github.com/users/Smaug6739/projects/7" target="_blank">Roadmap</a></li>
+              <li>
+                <NuxtLink :prefetch="false" to="/dashboard">{{ t('landing.footer.links.dashboard') }}</NuxtLink>
+              </li>
+              <li>
+                <NuxtLink :prefetch="false" to="/#features">{{ t('landing.footer.links.features') }}</NuxtLink>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/releases" target="_blank">{{ t('landing.footer.links.changelog') }}</a>
+              </li>
+              <li>
+                <a href="https://github.com/users/Smaug6739/projects/7" target="_blank">{{ t('landing.footer.links.roadmap') }}</a>
+              </li>
             </ul>
           </div>
 
           <div class="links-column">
-            <h4>Resources</h4>
+            <h4>{{ t('landing.footer.columns.resources') }}</h4>
             <ul>
-              <li><NuxtLink to="/reference/documentation" no-prefetch>Documentation</NuxtLink></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/wiki" target="_blank">API Reference</a></li>
-              <li><NuxtLink to="/about">About</NuxtLink></li>
+              <li>
+                <NuxtLink to="/reference/documentation" no-prefetch>{{ t('landing.footer.links.documentation') }}</NuxtLink>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/wiki" target="_blank">{{ t('landing.footer.links.apiReference') }}</a>
+              </li>
+              <li>
+                <NuxtLink to="/about">{{ t('landing.footer.links.about') }}</NuxtLink>
+              </li>
             </ul>
           </div>
 
           <div class="links-column">
-            <h4>Community</h4>
+            <h4>{{ t('landing.footer.columns.community') }}</h4>
             <ul>
-              <li><a href="https://github.com/Smaug6739/Alexandrie" target="_blank">GitHub</a></li>
-              <li><a href="https://discord.gg/UPsEg6egPj" target="_blank">Discord</a></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/contribute" target="_blank">Contribute</a></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/issues" target="_blank">Issues</a></li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie" target="_blank">{{ t('landing.footer.links.github') }}</a>
+              </li>
+              <li>
+                <a href="https://discord.gg/UPsEg6egPj" target="_blank">{{ t('landing.footer.links.discord') }}</a>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/contribute" target="_blank">{{ t('landing.footer.links.contribute') }}</a>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/issues" target="_blank">{{ t('landing.footer.links.issues') }}</a>
+              </li>
             </ul>
           </div>
 
           <div class="links-column">
-            <h4>Legal</h4>
+            <h4>{{ t('landing.footer.columns.legal') }}</h4>
             <ul>
-              <li><NuxtLink to="/reference/privacy">Privacy Policy</NuxtLink></li>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE" target="_blank">MIT License</a></li>
+              <li>
+                <NuxtLink to="/reference/privacy">{{ t('landing.footer.links.privacyPolicy') }}</NuxtLink>
+              </li>
+              <li>
+                <a href="#">{{ t('landing.footer.links.terms') }}</a>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE" target="_blank">{{ t('landing.footer.links.mitLicense') }}</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -81,7 +109,7 @@
           <p>&copy; {{ new Date().getFullYear() }} Alexandrie.</p>
           <span class="separator">•</span>
           <p>
-            Made with <span class="heart">❤️</span> by
+            {{ t('landing.footer.madeWith') }} <span class="heart">❤️</span> {{ t('landing.footer.by') }}
             <a href="https://github.com/Smaug6739" target="_blank">Smaug</a>
           </p>
         </div>
@@ -94,6 +122,10 @@
     </div>
   </footer>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+</script>
 
 <style scoped lang="scss">
 .footer {

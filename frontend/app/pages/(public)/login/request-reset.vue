@@ -1,16 +1,19 @@
 <template>
   <div class="body-container">
     <IconApp style="width: 120px" />
-    <h1>Reset password</h1>
+    <h1>{{ t('public.login.reset.title') }}</h1>
     <form @submit.prevent="reset">
       <div class="form-group">
-        <label for="username">Username</label>
+        <label for="username">{{ t('public.login.form.username') }}</label>
         <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" />
         <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
       </div>
-      <button type="submit" class="btn">Request Reset</button>
+      <button type="submit" class="btn">{{ t('public.login.reset.submit') }}</button>
       <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-      <p class="issue">Having issue ? <NuxtLink to="mailto:contact@alexandrie-hub.fr">Contact us !</NuxtLink></p>
+      <p class="issue">
+        {{ t('public.login.reset.havingIssues') }}
+        <NuxtLinkLocale to="mailto:contact@alexandrie-hub.fr">{{ t('public.login.reset.contactUs') }}</NuxtLinkLocale>
+      </p>
     </form>
   </div>
 </template>
@@ -19,6 +22,10 @@
 definePageMeta({
   layout: 'public',
 });
+
+const { t } = useI18nT();
+const router = useRouter();
+const localeRoute = useLocaleRoute();
 
 const username = ref('');
 const errors = ref({
@@ -32,7 +39,7 @@ async function reset() {
   else errors.value.username = '';
   userStore
     .requestReset(username.value)
-    .then(() => useRouter().push('/login/done'))
+    .then(() => router.push(localeRoute('/login/done')))
     .catch(err => (errors.value.general = err || 'An error occurred while requesting reset'));
 }
 </script>
