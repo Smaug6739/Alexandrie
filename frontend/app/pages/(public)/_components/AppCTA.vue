@@ -5,9 +5,6 @@
     <NuxtLinkLocale :prefetch="false" to="/dashboard" class="btn primary large">
       {{ t('landing.cta.button') }}
     </NuxtLinkLocale>
-    <h2>Ready to Take Better Notes?</h2>
-    <p>Join us on this journey to better note-taking.</p>
-    <NuxtLink :prefetch="false" to="/dashboard" class="btn primary large">Start Now</NuxtLink>
     <p style="margin-top: 20px">
       {{ t('landing.cta.contributionPrefix') }}
       <NuxtLink :prefetch="false" to="https://discord.gg/UPsEg6egPj" target="_blank" style="color: white; text-decoration: underline">
