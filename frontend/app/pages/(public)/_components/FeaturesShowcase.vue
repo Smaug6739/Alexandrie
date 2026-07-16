@@ -1,8 +1,8 @@
 <template>
   <section class="showcase-section">
     <div class="section-header">
-      <h2 class="section-title">From idea to published docs</h2>
-      <p class="section-subtitle">See how Alexandrie streamlines your entire workflow</p>
+      <h2 class="section-title">{{ t('landing.showcase.title') }}</h2>
+      <p class="section-subtitle">{{ t('landing.showcase.subtitle') }}</p>
     </div>
 
     <div class="showcase-container">
@@ -49,36 +49,17 @@
 </template>
 
 <script setup lang="ts">
-const features = [
-  {
-    title: 'Capture Ideas Instantly',
-    shortDesc: 'Quick notes & drafts',
-    description: 'Start writing immediately with our distraction-free editor. Everything syncs automatically.',
-    points: ['Real-time autosave', 'Quick keyboard shortcuts', 'Distraction-free mode', 'Templates for common formats'],
-    image: '/screenshots/mock/1.png',
-  },
-  {
-    title: 'Organize Your Knowledge',
-    shortDesc: 'Structure & categorize',
-    description: 'Create a powerful knowledge base with nested folders, workspaces, and smart tagging.',
-    points: ['Unlimited nested folders', 'Multiple workspaces', 'Tag-based organization', 'Smart filters & views'],
-    image: '/screenshots/mock/2.png',
-  },
-  {
-    title: 'Collaborate Seamlessly',
-    shortDesc: 'Team workflows',
-    description: 'Share notes with your team, manage permissions, and work together in real-time.',
-    points: ['Granular permissions', 'Real-time collaboration', 'Comment & feedback', 'Activity history'],
-    image: '/screenshots/mock/3.png',
-  },
-  {
-    title: 'Publish & Share',
-    shortDesc: 'Go live instantly',
-    description: 'Transform your notes into beautiful public documentation with one click.',
-    points: ['Custom domains', 'SEO optimized', 'Analytics built-in', 'Password protection'],
-    image: '/screenshots/mock/4.png',
-  },
-];
+const { t, tm, locale } = useI18n();
+
+const features = computed(() => {
+  void locale.value;
+  return [
+    { ...tm('landing.showcase.features.0'), image: '/screenshots/mock/1.png' },
+    { ...tm('landing.showcase.features.1'), image: '/screenshots/mock/2.png' },
+    { ...tm('landing.showcase.features.2'), image: '/screenshots/mock/3.png' },
+    { ...tm('landing.showcase.features.3'), image: '/screenshots/mock/4.png' },
+  ] as Array<{ title: string; shortDesc: string; description: string; points: string[]; image: string }>;
+});
 
 const activeIndex = ref(0);
 const progress = ref(0);

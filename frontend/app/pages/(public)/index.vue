@@ -9,19 +9,22 @@
       </div>
       <div class="hero-content">
         <div class="badges">
-          <span class="badge">Open-source</span>
-          <span class="badge">Markdown</span>
-          <span class="badge">Organization</span>
+          <span class="badge">{{ t('landing.hero.badges.openSource') }}</span>
+          <span class="badge">{{ t('landing.hero.badges.markdown') }}</span>
+          <span class="badge">{{ t('landing.hero.badges.organization') }}</span>
         </div>
         <IconApp class="logo" style="width: 120px" fill="white" />
-        <h1><span class="gradient-text">Your Notes</span>, Beautifully Organized</h1>
-        <p class="tagline">A powerful Markdown workspace designed for speed, clarity, and creativity.</p>
+        <h1>
+          <span class="gradient-text">{{ t('landing.hero.titleHighlight') }}</span
+          >{{ t('landing.hero.titleSuffix') }}
+        </h1>
+        <p class="tagline">{{ t('landing.hero.tagline') }}</p>
         <div class="cta-buttons">
-          <NuxtLink :prefetch="false" to="/dashboard" class="btn primary glow">Get Started</NuxtLink>
-          <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" class="btn secondary"> GitHub </NuxtLink>
+          <NuxtLink :prefetch="false" to="/dashboard" class="btn primary glow">{{ t('landing.hero.ctaPrimary') }}</NuxtLink>
+          <NuxtLink to="https://github.com/Smaug6739/Alexandrie" target="_blank" class="btn secondary"> {{ t('landing.hero.ctaSecondary') }} </NuxtLink>
         </div>
       </div>
-      <img src="/screenshots/mock/0.png" class="hero-image" alt="App preview" />
+      <img src="/screenshots/mock/0.png" class="hero-image" :alt="t('landing.hero.previewAlt')" />
     </section>
     <BentoFeatures class="reveal" />
     <Support />
@@ -44,6 +47,8 @@ import SelfHostSteps from './_components/SelfHostSteps.vue';
 import ContributorsMarquee from './_components/ContributorsMarquee.vue';
 import FeaturesFAQ from './_components/features/FeaturesFAQ.vue';
 import AppCTA from './_components/AppCTA.vue';
+
+const { t } = useI18n();
 
 definePageMeta({
   ssr: true,

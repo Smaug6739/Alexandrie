@@ -1,14 +1,21 @@
 <template>
   <nav>
-    <NuxtLink to="/login" class="login">Login</NuxtLink>
-    <NuxtLink to="/signup" class="sign-up">Sign up</NuxtLink>
+    <NuxtLinkLocale to="/" class="secondary">{{ t('public.nav.home') }}</NuxtLinkLocale>
+    <div>
+      <NuxtLinkLocale to="/login" class="primary">{{ t('public.nav.login') }}</NuxtLinkLocale>
+      <NuxtLinkLocale to="/signup" class="secondary">{{ t('public.nav.signup') }}</NuxtLinkLocale>
+    </div>
   </nav>
 </template>
+
+<script setup lang="ts">
+const { t } = useI18nT();
+</script>
 
 <style scoped lang="scss">
 nav {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 
   a {
     margin: 0 8px;
@@ -17,7 +24,12 @@ nav {
   }
 }
 
-.sign-up {
+div {
+  display: flex;
+  align-items: center;
+}
+
+.secondary {
   border: 1px solid var(--border);
   background: var(--surface-base);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
@@ -28,7 +40,7 @@ nav {
   }
 }
 
-.login {
+.primary {
   color: var(--surface-base);
   background: var(--primary);
 

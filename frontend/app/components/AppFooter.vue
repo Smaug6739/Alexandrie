@@ -9,7 +9,7 @@
             <IconApp style="width: 40px" />
             <span class="brand-name">Alexandrie</span>
           </div>
-          <p class="brand-desc">The open-source workspace for developers who think in Markdown. Beautiful docs, powerful organization, zero friction.</p>
+          <p class="brand-desc">{{ t('landing.footer.brandDescription') }}</p>
           <div class="social-links">
             <a href="https://github.com/Smaug6739/Alexandrie" target="_blank" aria-label="GitHub">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -31,45 +31,86 @@
               </svg>
             </a>
           </div>
+
+          <div class="footer-language-switcher">
+            <label class="language-label" for="footer-language-select">{{ t('settings.appearance.setLanguage') }}</label>
+            <AppSelect
+              class="footer-language-select"
+              :items="localeItems"
+              :model-value="locale"
+              :searchable="false"
+              :placeholder="t('settings.appearance.setLanguage')"
+              size="min(100%, 260px)"
+              @update:model-value="selectLocale"
+            />
+          </div>
         </div>
 
         <!-- Links Columns -->
         <div class="footer-links">
           <div class="links-column">
-            <h4>Product</h4>
+            <h4>{{ t('landing.footer.columns.product') }}</h4>
             <ul>
-              <li><NuxtLink :prefetch="false" to="/dashboard">Dashboard</NuxtLink></li>
-              <li><NuxtLink :prefetch="false" to="/#features">Features</NuxtLink></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/releases" target="_blank">Changelog</a></li>
-              <li><a href="https://github.com/users/Smaug6739/projects/7" target="_blank">Roadmap</a></li>
+              <li>
+                <NuxtLink :prefetch="false" to="/dashboard">{{ t('landing.footer.links.dashboard') }}</NuxtLink>
+              </li>
+              <li>
+                <NuxtLink :prefetch="false" to="/#features">{{ t('landing.footer.links.features') }}</NuxtLink>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/releases" target="_blank">{{ t('landing.footer.links.changelog') }}</a>
+              </li>
+              <li>
+                <a href="https://github.com/users/Smaug6739/projects/7" target="_blank">{{ t('landing.footer.links.roadmap') }}</a>
+              </li>
             </ul>
           </div>
 
           <div class="links-column">
-            <h4>Resources</h4>
+            <h4>{{ t('landing.footer.columns.resources') }}</h4>
             <ul>
-              <li><NuxtLink to="/reference/documentation" no-prefetch>Documentation</NuxtLink></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/wiki" target="_blank">API Reference</a></li>
-              <li><NuxtLink to="/about">About</NuxtLink></li>
+              <li>
+                <NuxtLink to="/reference/documentation" no-prefetch>{{ t('landing.footer.links.documentation') }}</NuxtLink>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/wiki" target="_blank">{{ t('landing.footer.links.apiReference') }}</a>
+              </li>
+              <li>
+                <NuxtLink to="/about">{{ t('landing.footer.links.about') }}</NuxtLink>
+              </li>
             </ul>
           </div>
 
           <div class="links-column">
-            <h4>Community</h4>
+            <h4>{{ t('landing.footer.columns.community') }}</h4>
             <ul>
-              <li><a href="https://github.com/Smaug6739/Alexandrie" target="_blank">GitHub</a></li>
-              <li><a href="https://discord.gg/UPsEg6egPj" target="_blank">Discord</a></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/contribute" target="_blank">Contribute</a></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/issues" target="_blank">Issues</a></li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie" target="_blank">{{ t('landing.footer.links.github') }}</a>
+              </li>
+              <li>
+                <a href="https://discord.gg/UPsEg6egPj" target="_blank">{{ t('landing.footer.links.discord') }}</a>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/contribute" target="_blank">{{ t('landing.footer.links.contribute') }}</a>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/issues" target="_blank">{{ t('landing.footer.links.issues') }}</a>
+              </li>
             </ul>
           </div>
 
           <div class="links-column">
-            <h4>Legal</h4>
+            <h4>{{ t('landing.footer.columns.legal') }}</h4>
             <ul>
-              <li><NuxtLink to="/reference/privacy">Privacy Policy</NuxtLink></li>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE" target="_blank">MIT License</a></li>
+              <li>
+                <NuxtLink to="/reference/privacy">{{ t('landing.footer.links.privacyPolicy') }}</NuxtLink>
+              </li>
+              <li>
+                <a href="#">{{ t('landing.footer.links.terms') }}</a>
+              </li>
+              <li>
+                <a href="https://github.com/Smaug6739/Alexandrie/blob/main/LICENSE" target="_blank">{{ t('landing.footer.links.mitLicense') }}</a>
+              </li>
             </ul>
           </div>
         </div>
@@ -81,7 +122,7 @@
           <p>&copy; {{ new Date().getFullYear() }} Alexandrie.</p>
           <span class="separator">•</span>
           <p>
-            Made with <span class="heart">❤️</span> by
+            {{ t('landing.footer.madeWith') }} <span class="heart">❤️</span> {{ t('landing.footer.by') }}
             <a href="https://github.com/Smaug6739" target="_blank">Smaug</a>
           </p>
         </div>
@@ -94,6 +135,37 @@
     </div>
   </footer>
 </template>
+
+<script setup lang="ts">
+const { t, locale, loadLocaleMessages, setLocale } = useI18nT();
+
+const localeCodes = ['en', 'fr', 'de', 'uk', 'ko', 'it'] as const;
+type LocaleCode = (typeof localeCodes)[number];
+
+const isLocaleCode = (value: string): value is LocaleCode => localeCodes.includes(value as LocaleCode);
+
+const localeItems = computed(() => {
+  const displayNames = typeof Intl.DisplayNames === 'function' ? new Intl.DisplayNames([locale.value], { type: 'language' }) : null;
+
+  return localeCodes.map(code => ({
+    id: code,
+    label: capitalize(displayNames?.of(code) ?? code.toUpperCase()),
+  }));
+});
+
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+const selectLocale = async (nextLocale: string | number) => {
+  const normalizedLocale = String(nextLocale);
+
+  if (!isLocaleCode(normalizedLocale) || normalizedLocale === locale.value) {
+    return;
+  }
+
+  await loadLocaleMessages(normalizedLocale);
+  await setLocale(normalizedLocale);
+};
+</script>
 
 <style scoped lang="scss">
 .footer {
@@ -118,7 +190,6 @@
   border-top: 1px solid var(--border);
 }
 
-// Brand Section
 .footer-brand {
   max-width: 320px;
 }
@@ -171,7 +242,91 @@
   }
 }
 
-// Links Section
+.footer-language-switcher {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.25rem;
+}
+
+.language-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.footer-language-select {
+  width: min(100%, 260px);
+}
+
+.language-trigger-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  text-align: left;
+}
+
+.language-code {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.language-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.language-trigger-icon {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1;
+  transform: translateY(-1px);
+  transition: transform $transition-medium ease;
+}
+
+.language-trigger-icon.open {
+  transform: translateY(1px) rotate(180deg);
+}
+
+.language-option-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.language-option-code {
+  min-width: 2.4rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  text-align: center;
+  background: var(--surface-raised);
+}
+
+.language-option-name {
+  flex: 1;
+  overflow: hidden;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.language-option-check {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 .footer-links {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -214,7 +369,6 @@
   }
 }
 
-// Footer Bottom
 .footer-bottom {
   display: flex;
   justify-content: space-between;
@@ -248,7 +402,7 @@
     opacity: 0.3;
   }
 }
-// Background
+
 .footer-bg {
   position: absolute;
   inset: 0;
@@ -267,7 +421,6 @@
   filter: blur(60px);
 }
 
-// Responsive
 @media screen and (width <= 1024px) {
   .footer-main {
     grid-template-columns: 1fr;
@@ -310,6 +463,10 @@
     .separator {
       display: none;
     }
+  }
+
+  .footer-language-select {
+    width: 100%;
   }
 }
 </style>

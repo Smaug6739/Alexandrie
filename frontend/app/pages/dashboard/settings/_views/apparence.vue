@@ -12,7 +12,6 @@ const appColors = useAppColors();
 const { t } = useI18nT();
 
 const colorMode = useColorMode();
-const { setLocale } = useI18n();
 
 const options = computed(
   () =>
@@ -42,10 +41,6 @@ const options = computed(
               { label: '한국어', id: 'ko' },
               { label: 'Italian', id: 'it' },
             ],
-            onChange: (option: unknown) => {
-              const localeCode = option as 'en' | 'fr' | 'uk' | 'ko'| 'it';
-              setLocale(localeCode);
-            },
           },
           {
             label: t('settings.appearance.chooseAccentColor'),

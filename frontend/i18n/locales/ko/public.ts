@@ -1,0 +1,63 @@
+export default {
+  nav: {
+    login: '로그인',
+    signup: '회원가입',
+    home: '홈',
+  },
+  login: {
+    title: '로그인',
+    form: {
+      username: '사용자 이름',
+      password: '비밀번호',
+      confirmPassword: '비밀번호 확인',
+      submit: '로그인',
+    },
+    disabled: '현재 자체 로그인이 비활성화되어 있습니다. 아래의 사용 가능한 인증 제공업체 중 하나를 이용해 주세요.',
+    needAccount: '계정이 필요하신가요? 회원가입',
+    forgotPassword: '비밀번호를 잊으셨나요?',
+    clickHere: '여기를 클릭하세요',
+    OTP_2FA: {
+      title: '2단계 인증',
+      description: '인증 앱의 6자리 코드를 입력해 주세요.',
+      code: '인증 코드',
+      submit: '확인',
+      back: '뒤로 가기',
+    },
+    reset: {
+      title: '비밀번호 초기화',
+      submit: '초기화 요청',
+      change: '비밀번호 변경',
+      havingIssues: '문제가 발생하셨나요?',
+      contactUs: '문의하기 !',
+      done: {
+        title: '안내 메일 발송 완료',
+        description: '이메일로 전송된 비밀번호 초기화 링크를 확인해 주세요. 몇 분 내로 메일이 도착하지 않으면 스팸 메일함을 확인해 주세요.',
+        returnToLogin: '로그인 화면으로 돌아가기',
+      },
+    },
+    oidc: {
+      title: '인증 중...',
+      description: '로그인 완료를 위해 잠시만 기다려 주세요.',
+      linked: '{{ providerName }} 계정이 성공적으로 연동되었습니다.',
+      created: '계정이 성공적으로 생성되고 연동되었습니다.',
+      signIn: '성공적으로 로그인되었습니다.',
+      redirectSettings: '설정 페이지로 이동 중...',
+      redirectDashboard: '대시보드로 이동 중...',
+      error: '인증 실패',
+      tryAgain: '다시 시도',
+      createAccount: '계정 만들기',
+    },
+  },
+  signup: {
+    title: '계정 생성',
+    form: {
+      username: '사용자 이름',
+      email: '이메일',
+      emailDescription: '이메일은 계정 복구 목적으로만 사용되며, 공개적으로 공유되지 않습니다.',
+      password: '비밀번호',
+      confirmPassword: '비밀번호 확인',
+      submit: '회원가입',
+    },
+    alreadyHaveAccount: '이미 계정이 있으신가요? 로그인',
+  },
+};

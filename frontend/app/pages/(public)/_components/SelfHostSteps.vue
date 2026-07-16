@@ -1,8 +1,8 @@
 <template>
   <section class="self-host">
     <div class="section-header">
-      <h2>Self-host in minutes</h2>
-      <p class="subtitle">Take full control of your data with a simple deployment</p>
+      <h2>{{ t('landing.selfHost.title') }}</h2>
+      <p class="subtitle">{{ t('landing.selfHost.subtitle') }}</p>
     </div>
 
     <div class="steps-container">
@@ -35,7 +35,7 @@
         <div class="terminal">
           <div class="terminal-header">
             <div class="terminal-dots"><span></span><span></span><span></span></div>
-            <span class="terminal-title">Terminal</span>
+            <span class="terminal-title">{{ t('landing.selfHost.terminal.title') }}</span>
           </div>
           <div class="terminal-body">
             <div class="terminal-line">
@@ -43,16 +43,16 @@
               <span class="command">docker compose up -d</span>
             </div>
             <div class="terminal-line output">
-              <span>[+] Running 3/3</span>
+              <span>{{ tm('landing.selfHost.terminal.lines.0') }}</span>
             </div>
             <div class="terminal-line output success">
-              <span>✓ Container alexandrie-db Started</span>
+              <span>{{ tm('landing.selfHost.terminal.lines.1') }}</span>
             </div>
             <div class="terminal-line output success">
-              <span>✓ Container alexandrie-minio Started</span>
+              <span>{{ tm('landing.selfHost.terminal.lines.2') }}</span>
             </div>
             <div class="terminal-line output success">
-              <span>✓ Container alexandrie-app Started</span>
+              <span>{{ tm('landing.selfHost.terminal.lines.3') }}</span>
             </div>
             <div class="terminal-line">
               <span class="prompt">$</span>
@@ -66,43 +66,32 @@
     <div class="notes">
       <span class="pill">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>
-        No telemetry
+        {{ tm('landing.selfHost.notes.0') }}
       </span>
       <span class="pill">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>
-        Full data ownership
+        {{ tm('landing.selfHost.notes.1') }}
       </span>
       <span class="pill">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>
-        MIT License
+        {{ tm('landing.selfHost.notes.2') }}
       </span>
       <span class="pill">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>
-        Docker ready
+        {{ tm('landing.selfHost.notes.3') }}
       </span>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-const steps = [
-  {
-    title: 'Clone the repo',
-    description:
-      'Get the config files from GitHub <br /> <a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/docker-compose.yml">Download the docker-compose.yml file</a> <br /><a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/.env.example">Download the .env.example file</a> ',
-    //code: 'git clone https://github.com/Smaug6739/Alexandrie.git',
-  },
-  {
-    title: 'Configure',
-    description: 'Change environment variables as needed (optional)',
-    code: 'cp .env.example .env && nano .env',
-  },
-  {
-    title: 'Launch',
-    description: 'Start all services with Docker Compose',
-    code: 'docker compose up -d',
-  },
-];
+const { locale } = useI18n();
+const { t, tm } = useI18n();
+
+const steps = computed(() => {
+  void locale.value;
+  return tm('landing.selfHost.steps') as Array<{ title: string; description: string; code?: string }>;
+});
 
 const copiedIndex = ref<number | null>(null);
 

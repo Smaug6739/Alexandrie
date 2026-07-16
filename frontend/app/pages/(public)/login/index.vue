@@ -3,15 +3,15 @@
     <IconApp style="width: 120px" />
 
     <template v-if="!step2FA">
-      <h1>Connection</h1>
+      <h1>{{ t('public.login.title') }}</h1>
       <form @submit.prevent="login">
         <div class="form-group">
-          <label for="username">Username</label>
+          <label for="username">{{ t('public.login.form.username') }}</label>
           <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" :disabled="loginDisabled" />
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">{{ t('public.login.form.password') }}</label>
           <div class="password-input">
             <input
               id="password"
@@ -30,22 +30,24 @@
           </div>
           <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
         </div>
-        <NuxtLink to="/signup" class="signup-link">Need an account? Sign up</NuxtLink>
-        <button class="btn" :disabled="loginDisabled">Login</button>
-        <p v-if="loginDisabled" class="disabled">Native login is currently disabled. Please use one of the available authentication providers below.</p>
+        <NuxtLinkLocale to="/signup" class="signup-link">{{ t('public.login.needAccount') }}</NuxtLinkLocale>
+        <button class="btn" :disabled="loginDisabled">{{ t('public.login.form.submit') }}</button>
+        <p v-if="loginDisabled" class="disabled">{{ t('public.login.disabled') }}</p>
         <OIDCProviders />
 
         <p v-if="errors.general" class="invalid-feedback general">{{ errors.general }}</p>
-        <p class="forgot-password-link">Forgot your password? <NuxtLink to="/login/request-reset">Click here</NuxtLink></p>
+        <p class="forgot-password-link">
+          {{ t('public.login.forgotPassword') }} <NuxtLinkLocale to="/login/request-reset">{{ t('public.login.clickHere') }}</NuxtLinkLocale>
+        </p>
       </form>
     </template>
 
     <template v-else>
-      <h1>Two-Factor Authentication</h1>
-      <p class="section-description">Enter the 6-digit verification code from your authenticator app.</p>
+      <h1>{{ t('public.login.OTP_2FA.title') }}</h1>
+      <p class="section-description">{{ t('public.login.OTP_2FA.description') }}</p>
       <form @submit.prevent="handleVerify2FA">
         <div class="form-group">
-          <label for="totpCode">Verification Code</label>
+          <label for="totpCode">{{ t('public.login.OTP_2FA.code') }}</label>
           <input
             id="totpCode"
             v-model="totpCode"
@@ -59,8 +61,8 @@
           />
         </div>
         <p v-if="errors.general" class="invalid-feedback">{{ errors.general }}</p>
-        <button class="btn" :disabled="loginDisabled" type="submit">Verify</button>
-        <button class="btn-secondary" type="button" @click="step2FA = false">Back</button>
+        <button class="btn" :disabled="loginDisabled" type="submit">{{ t('public.login.OTP_2FA.submit') }}</button>
+        <button class="btn-secondary" type="button" @click="step2FA = false">{{ t('public.login.OTP_2FA.back') }}</button>
       </form>
     </template>
   </div>
@@ -69,6 +71,7 @@
 <script setup lang="ts">
 const userStore = useUserStore();
 const router = useRouter();
+const { t } = useI18nT();
 
 const username = ref('');
 const password = ref('');

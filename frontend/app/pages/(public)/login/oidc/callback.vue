@@ -5,26 +5,30 @@
     <!-- Loading state -->
     <div v-if="isProcessing" class="status-container">
       <LoaderSpinner />
-      <h1>Authenticating...</h1>
-      <p>Please wait while we complete your sign-in.</p>
+      <h1>{{ t('public.login.oidc.title') }}</h1>
+      <p>{{ t('public.login.oidc.description') }}</p>
     </div>
 
     <!-- Success state -->
     <div v-else-if="isSuccess" class="status-container success">
-      <h1>{{ isLinkFlow ? 'Provider Linked!' : 'Welcome!' }}</h1>
-      <p v-if="isLinkFlow">Your {{ providerName }} account has been linked successfully.</p>
-      <p v-else-if="isNewLink">Your account has been created and linked successfully.</p>
-      <p v-else>You have been signed in successfully.</p>
-      <p class="redirect-notice">{{ isLinkFlow ? 'Redirecting to settings...' : 'Redirecting to dashboard...' }}</p>
+      <h1>{{ isLinkFlow ? t('public.login.oidc.linked') : t('public.login.oidc.signIn') }}</h1>
+      <p v-if="isLinkFlow">{{ t('public.login.oidc.linked') }}</p>
+      <p v-else-if="isNewLink">{{ t('public.login.oidc.created') }}</p>
+      <p v-else>{{ t('public.login.oidc.signIn') }}</p>
+      <p class="redirect-notice">{{ isLinkFlow ? t('public.login.oidc.redirectSettings') : t('public.login.oidc.redirectDashboard') }}</p>
     </div>
 
     <!-- Error state -->
     <div v-else-if="errorMessage" class="status-container error">
-      <h1>Authentication Failed</h1>
+      <h1>{{ t('public.login.oidc.error') }}</h1>
       <p class="error-message">{{ formatError(errorMessage) }}</p>
       <div class="actions-row">
-        <NuxtLink to="/login"><AppButton large type="primary">Try Again</AppButton></NuxtLink>
-        <NuxtLink to="/signup"><AppButton large type="secondary">Create Account</AppButton></NuxtLink>
+        <NuxtLinkLocale to="/login"
+          ><AppButton large type="primary">{{ t('public.login.oidc.tryAgain') }}</AppButton>
+        </NuxtLinkLocale>
+        <NuxtLinkLocale to="/signup">
+          <AppButton large type="secondary">{{ t('public.login.oidc.createAccount') }}</AppButton>
+        </NuxtLinkLocale>
       </div>
     </div>
   </div>
@@ -37,6 +41,7 @@ definePageMeta({
 
 const router = useRouter();
 const { handleCallback } = useOIDC();
+const { t } = useI18nT();
 
 const isProcessing = ref(true);
 const isSuccess = ref(false);

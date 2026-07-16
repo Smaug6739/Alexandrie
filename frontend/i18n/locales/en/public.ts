@@ -1,0 +1,64 @@
+export default {
+  nav: {
+    login: 'Login',
+    signup: 'Sign up',
+    home: 'Home',
+  },
+  login: {
+    title: 'Connection',
+    form: {
+      username: 'Username',
+      password: 'Password',
+      confirmPassword: 'Confirm Password',
+      submit: 'Login',
+    },
+    disabled: 'Native login is currently disabled. Please use one of the available authentication providers below.',
+    needAccount: 'Need an account? Sign up',
+    forgotPassword: 'Forgot your password?',
+    clickHere: 'Click here',
+    OTP_2FA: {
+      title: 'Two-Factor Authentication',
+      description: 'Please enter the 6-digit code from your authenticator app.',
+      code: 'Authentication code',
+      submit: 'Verify',
+      back: 'Back',
+    },
+    reset: {
+      title: 'Reset password',
+      submit: 'Request reset',
+      change: 'Change password',
+      havingIssues: 'Having issues?',
+      contactUs: 'Contact us !',
+      done: {
+        title: 'Instructions sent',
+        description: 'Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder.',
+        returnToLogin: 'Return to login',
+      },
+    },
+    oidc: {
+      title: 'Authenticating...',
+      description: 'Please wait while we complete your sign-in.',
+
+      linked: 'Your {{ providerName }} account has been linked successfully.',
+      created: 'Your account has been created and linked successfully.',
+      signIn: 'You have been signed in successfully.',
+      redirectSettings: 'Redirecting to settings...',
+      redirectDashboard: 'Redirecting to dashboard...',
+      error: 'Authentication Failed',
+      tryAgain: 'Try again',
+      createAccount: 'Create an account',
+    },
+  },
+  signup: {
+    title: 'Account creation',
+    form: {
+      username: 'Username',
+      email: 'Email',
+      emailDescription: 'Email is only used for account recovery. It will not be shared publicly.',
+      password: 'Password',
+      confirmPassword: 'Confirm Password',
+      submit: 'Sign up',
+    },
+    alreadyHaveAccount: 'Already have an account? Login',
+  },
+};

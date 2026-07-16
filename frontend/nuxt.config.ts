@@ -132,6 +132,10 @@ export default defineNuxtConfig({
       stripMessagesPayload: true,
       typedOptionsAndMessages: 'default',
     },
+    detectBrowserLanguage: {
+      useCookie: false,
+      redirectOn: 'root',
+    },
     locales: [
       { code: 'en', file: 'en/index.ts', language: 'en-US' },
       { code: 'fr', file: 'fr/index.ts', language: 'fr-FR' },
@@ -140,7 +144,12 @@ export default defineNuxtConfig({
       { code: 'ko', file: 'ko/index.ts', language: 'ko-KR' },
       { code: 'it', file: 'it/index.ts', language: 'it-IT' },
     ],
-    strategy: 'no_prefix',
+    strategy: 'prefix_except_default',
+    baseUrl: import.meta.env.NUXT_PUBLIC_BASE_URL,
+    pages: {
+      'dashboard/index': false,
+      'dashboard/[...all]': false,
+    },
   },
   /**
    ************************ Experimental ************************
@@ -177,6 +186,9 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true,
     minify: true,
+    experimental: {
+      // envExpansion: true,
+    },
   },
   /**
    ************************ PWA ************************
