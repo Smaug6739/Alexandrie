@@ -12,8 +12,6 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
@@ -26,6 +24,13 @@ body {
 	color: var(--text-body);
 	background: var(--body-fixed);
 	transition: background-color $transition-base;
+
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+	font-feature-settings: "calt", "dlig", "tnum", "frac", "case", "ccmp", "ss06";
+	font-display: swap;
 }
 
 body.modal-open {
