@@ -4,7 +4,7 @@
       <Icon :name="item.icon" display="lg" /><span v-if="mark.hasMark(item.mark as MarkId)" class="bubble" />
     </NuxtLink>
 
-    <div style="margin-top: auto">
+    <div class="bottom">
       <NuxtLink @click="openSettings">
         <Icon name="settings" display="lg" />
       </NuxtLink>
@@ -81,5 +81,12 @@ a.router-link-active {
   svg {
     color: var(--primary) !important;
   }
+}
+
+.bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 </style>
