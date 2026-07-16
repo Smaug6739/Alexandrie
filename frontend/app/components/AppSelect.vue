@@ -276,9 +276,8 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
     border-color: var(--text-secondary);
   }
 
-  // Quand le dropdown est ouvert
   &[style*='var(--primary)'] {
-    box-shadow: 0 0 0 2px rgb(var(--primary-rgb, 59, 130, 246), 0.15);
+    box-shadow: var(--shadow-sm);
   }
 }
 
@@ -286,7 +285,7 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2px;
+  padding: 1px 6px;
 }
 
 .value {
@@ -348,9 +347,7 @@ button.value {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-base);
-  box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 10%),
-    0 4px 6px -4px rgb(0 0 0 / 5%);
+  box-shadow: var(--shadow-sm), var(--shadow-md);
   animation: dropdown-fade-in $transition-fast;
   list-style: none;
   overflow-y: auto;
@@ -398,9 +395,7 @@ button.value {
   max-height: 80vh;
   border-radius: 16px 16px 0 0;
   background: var(--surface-base);
-  box-shadow:
-    0 -10px 25px -5px rgb(0 0 0 / 10%),
-    0 -8px 10px -6px rgb(0 0 0 / 10%);
+  box-shadow: var(--shadow-sm), var(--shadow-md);
   animation: slide-up $transition-medium cubic-bezier(0.16, 1, 0.3, 1);
 
   header {
@@ -471,7 +466,7 @@ button.value {
 
   &:focus-within {
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgb(var(--primary-rgb, 59, 130, 246), 0.15);
+    box-shadow: var(--shadow-sm);
   }
 
   input {

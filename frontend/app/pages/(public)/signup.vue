@@ -151,7 +151,7 @@ input {
 
   &:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgb(var(--primary-rgb), 0.1);
+    box-shadow: var(--shadow-sm);
   }
 }
 
@@ -242,12 +242,12 @@ input {
 
   &:hover {
     background: var(--primary-dark);
-    box-shadow: 0 4px 12px rgb(var(--primary-rgb), 0.3);
+    box-shadow: var(--shadow-sm);
     transform: translateY(-1px);
   }
 
   &:active {
-    box-shadow: 0 2px 6px rgb(var(--primary-rgb), 0.3);
+    box-shadow: var(--shadow-md);
     transform: translateY(0);
   }
 }
