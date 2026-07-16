@@ -16,7 +16,7 @@
         "@nuxt/eslint": "1.16.0",
         "@nuxtjs/color-mode": "^4.0.1",
         "@nuxtjs/i18n": "10.4.1",
-        "@pinia/nuxt": "^0.11.3",
+        "@pinia/nuxt": "^1.0.1",
         "@types/etag": "^1.8.4",
         "@types/fs-extra": "^11.0.4",
         "@types/katex": "^0.16.8",
@@ -699,7 +699,7 @@
 
     "@parcel/watcher-win32-x64": ["@parcel/watcher-win32-x64@2.5.6", "", { "os": "win32", "cpu": "x64" }, "sha512-hbQlYcCq5dlAX9Qx+kFb0FHue6vbjlf0FrNzSKdYK2APUf7tGfGxQCk2ihEREmbR6ZMc0MVAD5RIX/41gpUzTw=="],
 
-    "@pinia/nuxt": ["@pinia/nuxt@0.11.3", "", { "dependencies": { "@nuxt/kit": "^4.2.0" }, "peerDependencies": { "pinia": "^3.0.4" } }, "sha512-7WVNHpWx4qAEzOlnyrRC88kYrwnlR/PrThWT0XI1dSNyUAXu/KBv9oR37uCgYkZroqP5jn8DfzbkNF3BtKvE9w=="],
+    "@pinia/nuxt": ["@pinia/nuxt@1.0.1", "", { "dependencies": { "@nuxt/kit": "^4.4.8" }, "peerDependencies": { "pinia": "^4.0.2" } }, "sha512-le5bc7KnlAg7W04XKhIQEGTrIgNPV2eNS5wj62OKfvUGGBAvdQLEoEbxKxuli4q0PPS888waxphNzCuz7ilvDQ=="],
 
     "@pkgjs/parseargs": ["@pkgjs/parseargs@0.11.0", "", {}, "sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg=="],
 

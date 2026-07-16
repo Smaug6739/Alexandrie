@@ -13,7 +13,7 @@
     "@nuxt/eslint": "1.16.0",
     "@nuxtjs/color-mode": "^4.0.1",
     "@nuxtjs/i18n": "10.4.1",
-    "@pinia/nuxt": "^0.11.3",
+    "@pinia/nuxt": "^1.0.1",
     "@types/etag": "^1.8.4",
     "@types/fs-extra": "^11.0.4",
     "@types/katex": "^0.16.8",
