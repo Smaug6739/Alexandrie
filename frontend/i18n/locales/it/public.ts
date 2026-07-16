@@ -38,6 +38,7 @@ export default {
     oidc: {
       title: 'Autenticazione in corso...',
       description: "Si prega di attendere il completamento dell'accesso.",
+      divider: 'o continua con',
       linked: 'Il tuo account {{ providerName }} è stato collegato con successo.',
       created: 'Il tuo account è stato creato e collegato con successo.',
       signIn: 'Accesso effettuato con successo.',

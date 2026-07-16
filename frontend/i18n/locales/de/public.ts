@@ -39,6 +39,7 @@ export default {
     oidc: {
       title: 'Authentifizierung...',
       description: 'Bitte warten Sie, während wir Ihre Anmeldung abschließen.',
+      divider: 'oder fortfahren mit',
       linked: 'Ihr {{ providerName }}-Konto wurde erfolgreich verknüpft.',
       created: 'Ihr Konto wurde erfolgreich erstellt und verknüpft.',
       signIn: 'Sie wurden erfolgreich angemeldet.',

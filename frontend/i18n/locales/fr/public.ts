@@ -39,6 +39,7 @@ export default {
     oidc: {
       title: 'Authentification en cours...',
       description: 'Veuillez patienter pendant que nous finalisons votre connexion.',
+      divider: 'ou continuer avec',
       linked: 'Votre compte {{ providerName }} a été lié avec succès.',
       created: 'Votre compte a été créé et lié avec succès.',
       signIn: 'Vous vous êtes connecté avec succès.',

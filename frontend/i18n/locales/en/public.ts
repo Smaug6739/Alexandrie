@@ -38,7 +38,7 @@ export default {
     oidc: {
       title: 'Authenticating...',
       description: 'Please wait while we complete your sign-in.',
-
+      divider: 'or continue with',
       linked: 'Your {{ providerName }} account has been linked successfully.',
       created: 'Your account has been created and linked successfully.',
       signIn: 'You have been signed in successfully.',

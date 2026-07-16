@@ -1,7 +1,7 @@
 <template>
   <div v-if="isEnabled && providers.length > 0" class="oidc-providers">
     <div class="divider">
-      <span>or continue with</span>
+      <span>{{ t('public.login.oidc.divider') }}</span>
     </div>
     <div class="providers-grid">
       <button
@@ -24,6 +24,7 @@
 import { getProviderConfig } from '~/helpers/oidc-providers';
 
 const { providers, isEnabled, isLoading, fetchProviders, loginWithProvider } = useOIDC();
+const { t } = useI18nT();
 
 onMounted(() => {
   fetchProviders();

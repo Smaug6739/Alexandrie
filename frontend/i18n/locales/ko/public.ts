@@ -38,6 +38,7 @@ export default {
     oidc: {
       title: '인증 중...',
       description: '로그인 완료를 위해 잠시만 기다려 주세요.',
+      divider: '또는 다음으로 계속하기',
       linked: '{{ providerName }} 계정이 성공적으로 연동되었습니다.',
       created: '계정이 성공적으로 생성되고 연동되었습니다.',
       signIn: '성공적으로 로그인되었습니다.',
