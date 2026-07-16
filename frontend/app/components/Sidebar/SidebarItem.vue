@@ -172,7 +172,8 @@ const drop = async (event: DragEvent) => {
 .content {
   position: relative;
   flex: 1;
-  color: var(--text-primary);
+  color: var(--text-primary-light);
+  font-weight: 450;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
