@@ -35,8 +35,8 @@ function select() {
   margin: 0 auto;
   padding: 4px 6px;
   border-radius: var(--radius-xs);
-  font-size: 0.85rem;
   font-family: $font-ui;
+  font-size: 0.85rem;
   text-align: left;
   cursor: pointer;
 }

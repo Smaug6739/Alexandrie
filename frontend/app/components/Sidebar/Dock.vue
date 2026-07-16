@@ -48,12 +48,10 @@ function closeDock() {
 .dock {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 1rem 0.3rem;
-  background-color: var(--surface-raised-light);
-  border-right: 1px solid var(--border);
-  flex-direction: column;
   gap: 15px;
+  padding: 1rem 0.3rem;
+  border-right: 1px solid var(--border);
+  background-color: var(--surface-raised-light);
 }
 
 a {
@@ -79,6 +77,7 @@ a {
 
 a.router-link-active {
   background-color: var(--primary-bg);
+
   svg {
     color: var(--primary) !important;
   }

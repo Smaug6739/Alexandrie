@@ -134,13 +134,13 @@ function updateActiveHeader() {
 .document-sidebar {
   position: sticky;
   top: 40px;
-  width: 280px;
-  max-height: calc(100vh - 80px);
-  overflow-y: auto;
-  padding: 0 24px;
   display: flex;
   flex-direction: column;
   gap: 32px;
+  width: 280px;
+  max-height: calc(100vh - 80px);
+  padding: 0 24px;
+  overflow-y: auto;
 }
 
 .sidebar-section {
@@ -153,9 +153,9 @@ function updateActiveHeader() {
   margin: 0;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.05em;
   color: var(--text-secondary, var(--text-muted));
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* TAGS */
@@ -166,12 +166,12 @@ function updateActiveHeader() {
 }
 
 .modern-tag {
-  font-size: 12px;
   padding: 4px 8px;
-  border-radius: 4px;
-  background: var(--surface-raised);
-  color: var(--text-body);
   border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--text-body);
+  background: var(--surface-raised);
   transition: all 0.2s ease;
 
   &:hover {
@@ -183,8 +183,8 @@ function updateActiveHeader() {
 /* TOC */
 .toc-wrapper {
   position: relative;
-  border-left: 1px solid var(--border);
   padding-left: 12px;
+  border-left: 1px solid var(--border);
 }
 
 .toc-tree {
@@ -196,10 +196,10 @@ function updateActiveHeader() {
 :deep(a) {
   display: block;
   font-size: 13px;
+  line-height: 1.4;
   color: var(--text-secondary);
   text-decoration: none;
   transition: color 0.15s ease;
-  line-height: 1.4;
 
   &:hover {
     color: var(--text-body);
@@ -223,8 +223,8 @@ function updateActiveHeader() {
 .empty-state {
   margin: 0;
   font-size: 13px;
-  color: var(--text-secondary);
   font-style: italic;
+  color: var(--text-secondary);
 }
 
 /* CHILDS */
@@ -238,11 +238,11 @@ function updateActiveHeader() {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 8px;
   margin: 0 -8px;
+  padding: 6px 8px;
   border-radius: 6px;
-  text-decoration: none;
   color: var(--text-body);
+  text-decoration: none;
   transition: background 0.15s ease;
 
   &:hover {
@@ -251,6 +251,7 @@ function updateActiveHeader() {
     .child-name {
       color: var(--primary);
     }
+
     .child-icon {
       color: var(--primary);
     }
@@ -266,9 +267,9 @@ function updateActiveHeader() {
 .child-name {
   font-size: 12px;
   font-weight: 400;
-  white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   transition: color 0.15s ease;
+  overflow: hidden;
 }
 </style>

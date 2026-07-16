@@ -299,25 +299,28 @@ h2 {
     color: var(--text-secondary);
   }
 }
+
 .public-link {
   display: flex;
   justify-content: space-between;
-  color: var(--primary);
-  background-color: var(--surface-raised);
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
   align-items: center;
   gap: 2px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--primary);
   text-decoration: underline;
   word-break: break-all;
-  font-size: 13px;
+  background-color: var(--surface-raised);
+
   a {
-    color: var(--primary);
     display: flex;
     align-items: center;
     gap: 5px;
+    color: var(--primary);
   }
 }
+
 .access {
   display: flex;
   justify-content: space-between;

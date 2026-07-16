@@ -49,6 +49,7 @@ const attrs = useAttrs();
 button,
 a {
   --btn-fill: var(--text-primary-light);
+
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -58,37 +59,26 @@ a {
   transition:
     background-color $transition-fast ease-in-out,
     border-color $transition-fast ease-in-out;
-  align-items: center;
-  gap: 7px;
 
   &:hover {
     --btn-fill: var(--text-inverse);
+
     background-color: var(--surface-raised);
   }
-}
 
-a,
-button {
   &.sm {
     padding: 2px;
   }
-}
 
-a,
-button {
   &.md {
     padding: 3px;
   }
-}
 
-a,
-button {
   &.lg {
     padding: 4.5px;
   }
 }
 
-// Gestion du survol pour Desktop uniquement (au-dessus de 768px)
 @media screen and (width > 768px) {
   a:hover > .btn-tooltip,
   button:hover > .btn-tooltip {
@@ -101,7 +91,6 @@ button {
   background-color: var(--surface-raised);
 }
 
-// Le fix magique pour Mobile
 @media screen and (width <= 768px) {
   .btn-tooltip {
     position: static !important;

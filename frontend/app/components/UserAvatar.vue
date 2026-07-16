@@ -40,11 +40,13 @@ const avatarHash = computed(() => {
   height: 22px;
   border-radius: 50%;
 }
+
 .md {
   width: 25px;
   height: 25px;
   border-radius: 50%;
 }
+
 .lg {
   width: 32px;
   height: 32px;
@@ -58,8 +60,8 @@ const avatarHash = computed(() => {
 .placeholder {
   span {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
     font-size: 12px;

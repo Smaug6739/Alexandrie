@@ -20,8 +20,6 @@ button {
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
   font-weight: 450;
-  align-items: center;
-  gap: 0.5rem;
   white-space: nowrap;
 
   &:disabled {
