@@ -271,9 +271,9 @@ const selectLocale = async (nextLocale: string | number) => {
 .language-code {
   font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
   color: var(--text-secondary);
   text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
 .language-name {
@@ -282,11 +282,11 @@ const selectLocale = async (nextLocale: string | number) => {
 }
 
 .language-trigger-icon {
-  color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1;
-  transform: translateY(-1px);
+  color: var(--text-secondary);
   transition: transform $transition-medium ease;
+  transform: translateY(-1px);
 }
 
 .language-trigger-icon.open {
@@ -295,8 +295,8 @@ const selectLocale = async (nextLocale: string | number) => {
 
 .language-option-content {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 0.75rem;
   width: 100%;
 }
@@ -307,24 +307,24 @@ const selectLocale = async (nextLocale: string | number) => {
   border-radius: 999px;
   font-size: 0.74rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
   color: var(--text-secondary);
   text-align: center;
+  letter-spacing: 0.12em;
   background: var(--surface-raised);
 }
 
 .language-option-name {
   flex: 1;
-  overflow: hidden;
   font-size: 0.92rem;
   font-weight: 600;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .language-option-check {
-  color: var(--primary);
   font-weight: 700;
+  color: var(--primary);
 }
 
 .footer-links {
