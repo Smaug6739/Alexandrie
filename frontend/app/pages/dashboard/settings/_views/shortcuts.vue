@@ -33,6 +33,14 @@
         <span><kbd>Ctrl</kbd> <kbd>P</kbd></span>
       </div>
       <div class="shortcut">
+        <span>{{ t('application.shortcuts.openSettings') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>,</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.deleteElement') }}</span>
+        <span><kbd>Delete</kbd></span>
+      </div>
+      <div class="shortcut">
         <span>{{ t('application.shortcuts.closeModal') }}</span>
         <span><kbd>Esc</kbd></span>
       </div>
@@ -103,12 +111,75 @@
         <span><kbd>Ctrl</kbd> <kbd>U</kbd></span>
       </div>
       <div class="shortcut">
+        <span>{{ t('application.shortcuts.strikethroughText') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>S</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.highlightText') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>H</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.superscriptText') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>↑</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.subscriptText') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>↓</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.mathInline') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>M</kbd></span>
+      </div>
+      <div class="shortcut">
         <span>{{ t('application.shortcuts.insertLink') }}</span>
-        <span><kbd>Ctrl</kbd> <kbd>L</kbd></span>
+        <span><kbd>Ctrl</kbd> <kbd>K</kbd></span>
       </div>
       <div class="shortcut">
         <span>{{ t('application.shortcuts.insertImage') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.inlineCode') }}</span>
         <span><kbd>Ctrl</kbd> <kbd>E</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.insertCodeBlock') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>C</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.headingLevel') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>1</kbd>…<kbd>6</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.insertQuote') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>.</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.orderedList') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>7</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.bulletList') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>8</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.taskList') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>9</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.insertSeparator') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>R</kbd></span>
+      </div>
+    </div>
+    <p>{{ t('application.shortcuts.sections.commandCenter') }}</p>
+    <div class="shortcuts">
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.toggleAdvancedView') }}</span>
+        <span><kbd>ArrowRight</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.toggleQuickView') }}</span>
+        <span><kbd>ArrowLeft</kbd></span>
       </div>
     </div>
     <p>{{ t('application.shortcuts.sections.search') }}</p>
