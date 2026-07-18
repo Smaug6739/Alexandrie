@@ -115,8 +115,8 @@ const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnTyp
 
 label {
   flex: 1;
-  font-weight: 400;
   font-size: 1rem;
+  font-weight: 400;
 }
 
 .description {

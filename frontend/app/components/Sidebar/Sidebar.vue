@@ -132,11 +132,12 @@ onBeforeUnmount(() => {
   width: 100%;
   max-height: 100%;
   padding: 0.5rem 0.2rem 0.5rem 0.5rem;
+  font-family: $font-ui;
   background: var(--surface-base);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   overflow-y: auto;
   scrollbar-gutter: stable;
-  font-family: $font-ui;
+
   &::-webkit-scrollbar-thumb {
     background: transparent;
   }

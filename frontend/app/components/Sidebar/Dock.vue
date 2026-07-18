@@ -84,9 +84,9 @@ a.router-link-active {
 }
 
 .bottom {
-  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: auto;
 }
 </style>

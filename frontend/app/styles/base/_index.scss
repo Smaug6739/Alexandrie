@@ -24,13 +24,10 @@ body {
 	color: var(--text-body);
 	background: var(--body-fixed);
 	transition: background-color $transition-base;
-
-
+	font-feature-settings: "calt", "dlig", "tnum", "case", "ccmp", "ss06";
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizeLegibility;
-	font-feature-settings: "calt", "dlig", "tnum", "case", "ccmp", "ss06";
-	font-display: swap;
+	text-rendering: optimizelegibility;
 }
 
 body.modal-open {
