@@ -136,7 +136,7 @@ onBeforeUnmount(() => {
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   overflow-y: auto;
   scrollbar-gutter: stable;
-
+  font-family: $font-ui;
   &::-webkit-scrollbar-thumb {
     background: transparent;
   }

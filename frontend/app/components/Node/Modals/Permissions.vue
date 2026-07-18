@@ -245,6 +245,7 @@ const copyInvitationLink = async (code: string) => {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  font-family: $font-ui;
 }
 
 h2 {
