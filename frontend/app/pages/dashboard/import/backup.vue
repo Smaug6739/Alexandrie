@@ -8,7 +8,7 @@
         <NuxtLink to="/dashboard/settings?p=backup" style="color: var(--primary)">{{ t('import.meta.settingsLink') }}</NuxtLink
         >.
       </p>
-      <AppDrop ref="dropComponent" @select="handleFileSelect as (file: File) => void" />
+      <AppDrop ref="dropComponent" @select="handleFileSelect" />
       <div class="submit">
         <AppButton type="primary" :disabled="!selectedFile || isAnalyzing" @click="analyzeFile">
           {{ isAnalyzing ? t('import.steps.select.analyzing') : t('import.steps.select.startImport') }}
@@ -91,8 +91,9 @@ const unchangedCount = computed(() => {
 });
 
 // Methods
-const handleFileSelect = (file?: File) => {
-  selectedFile.value = file;
+const handleFileSelect = (file?: File | File[] | null) => {
+  if (!file) return;
+  selectedFile.value = Array.isArray(file) ? file[0] : file;
   analyzeError.value = '';
 };
 

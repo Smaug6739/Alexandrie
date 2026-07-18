@@ -43,16 +43,16 @@
               <span class="command">docker compose up -d</span>
             </div>
             <div class="terminal-line output">
-              <span>{{ tm('landing.selfHost.terminal.lines.0') }}</span>
+              <span>{{ terminalLines[0] }}</span>
             </div>
             <div class="terminal-line output success">
-              <span>{{ tm('landing.selfHost.terminal.lines.1') }}</span>
+              <span>{{ terminalLines[1] }}</span>
             </div>
             <div class="terminal-line output success">
-              <span>{{ tm('landing.selfHost.terminal.lines.2') }}</span>
+              <span>{{ terminalLines[2] }}</span>
             </div>
             <div class="terminal-line output success">
-              <span>{{ tm('landing.selfHost.terminal.lines.3') }}</span>
+              <span>{{ terminalLines[3] }}</span>
             </div>
             <div class="terminal-line">
               <span class="prompt">$</span>
@@ -66,19 +66,19 @@
     <div class="notes">
       <span class="pill">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>
-        {{ tm('landing.selfHost.notes.0') }}
+        {{ notes[0] }}
       </span>
       <span class="pill">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>
-        {{ tm('landing.selfHost.notes.1') }}
+        {{ notes[1] }}
       </span>
       <span class="pill">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>
-        {{ tm('landing.selfHost.notes.2') }}
+        {{ notes[2] }}
       </span>
       <span class="pill">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 16.2l-3.5-3.5-1.4 1.4L9 19 20 8l-1.4-1.4z" /></svg>
-        {{ tm('landing.selfHost.notes.3') }}
+        {{ notes[3] }}
       </span>
     </div>
   </section>
@@ -91,6 +91,16 @@ const { t, tm } = useI18n();
 const steps = computed(() => {
   void locale.value;
   return tm('landing.selfHost.steps') as Array<{ title: string; description: string; code?: string }>;
+});
+
+const terminalLines = computed(() => {
+  void locale.value;
+  return tm('landing.selfHost.terminal.lines') as string[];
+});
+
+const notes = computed(() => {
+  void locale.value;
+  return tm('landing.selfHost.notes') as string[];
 });
 
 const copiedIndex = ref<number | null>(null);

@@ -2,7 +2,7 @@
   <div class="container">
     <EditorAppHeader icon="image" :title="t('markdown.image.title')" :subtitle="t('markdown.image.subtitle')" />
     <div class="content">
-      <AppDrop ref="dropComponent" @select="submitFile as (file: File) => void" />
+      <AppDrop ref="dropComponent" @select="submitFile" />
       <Loader v-if="isLoading" style="margin: 12px auto" />
       <p v-if="uploadError" class="error">{{ uploadError }}</p>
       <div class="search-bar">
@@ -50,12 +50,12 @@ const filteredImages = computed(() => {
   return nodesStore.resources.filter(img => isImageFile(img.metadata?.filetype as string) && img.name.toLowerCase().includes(searchQuery.value.toLowerCase()));
 });
 
-const submitFile = (selectedFile: File) => {
+const submitFile = (selectedFile: File | File[] | null) => {
   if (!selectedFile) return;
   isLoading.value = true;
   const body = new FormData();
   body.append('parent_id', props.nodeId || '');
-  body.append('file', selectedFile);
+  body.append('file', Array.isArray(selectedFile) ? selectedFile[0]! : selectedFile);
   dropComponent.value.reset(); // Reset drop component
   resourcesStore
     .post(body)

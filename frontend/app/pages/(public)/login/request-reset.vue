@@ -39,7 +39,7 @@ async function reset() {
   else errors.value.username = '';
   userStore
     .requestReset(username.value)
-    .then(() => router.push(localeRoute('/login/done')))
+    .then(() => router.push(localeRoute('/login/done')!))
     .catch(err => (errors.value.general = err || 'An error occurred while requesting reset'));
 }
 </script>
