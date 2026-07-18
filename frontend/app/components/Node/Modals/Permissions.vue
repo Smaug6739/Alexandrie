@@ -7,15 +7,16 @@
     <!-- Accessibility 3: Public document -->
     <div v-if="node.accessibility === 3" class="public-info">
       <p class="info-text">{{ t('nodes.modals.permissions.publicInfo') }}</p>
-      <p class="info-text">
-        {{ t('nodes.modals.permissions.shareLink') }}
-        <br />
-        <a :href="link" target="_blank" rel="noopener noreferrer" class="public-link">
-          <Icon name="new_tab" display="sm" fill="var(--text-secondary)" /><span>{{ link }}</span>
+      <p class="info-text">{{ t('nodes.modals.permissions.shareLink') }}</p>
+      <span class="public-link">
+        <a :href="link" target="_blank" rel="noopener noreferrer">
+          <Icon name="new_tab" display="sm" fill="var(--text-secondary)" />
+          {{ link }}
         </a>
-      </p>
+        <AppBtnIcon icon="copy" display="md" @click="copyLink" />
+      </span>
       <div class="access">
-        <p for="access">{{ t('nodes.modals.permissions.defaultPermission') }}</p>
+        <label for="access">{{ t('nodes.modals.permissions.defaultPermission') }}</label>
         <AppSelect v-model="node.access" :items="DOCUMENT_GENERAL_ACCESS" :searchable="false" size="150px" placeholder="Default" />
       </div>
     </div>
@@ -28,7 +29,7 @@
       <div v-for="user in users" :key="user.id" class="user-card">
         <div class="user-info-row">
           <span class="user-meta">
-            <img :src="avatarURL(user)" alt="avatar" class="avatar" />
+            <UserAvatar :user="user" display="lg" />
             <span>{{ user.username }}</span>
           </span>
           <div class="user-actions">
@@ -48,7 +49,7 @@
       <li v-for="perm in node.permissions" :key="perm.id" class="permission-item">
         <div class="user-info-row">
           <span class="user-meta">
-            <img :src="avatarURL(usersStore.getById(perm.user_id))" alt="avatar" class="avatar" />
+            <UserAvatar :user="usersStore.getById(perm.user_id)" display="lg" />
             <span>{{ usersStore.getById(perm.user_id)?.username }}</span>
           </span>
 
@@ -109,7 +110,6 @@ const usersStore = useUserStore();
 const nodesStore = useNodesStore();
 const nodesPermissionsStore = useNodesPermissionsStore();
 
-const { avatarURL } = useApi();
 const { shortDate } = useDateFormatters();
 const notifications = useNotifications();
 
@@ -170,6 +170,11 @@ watch(
 );
 
 // Actions
+
+const copyLink = async () => {
+  await navigator.clipboard.writeText(link.value);
+  notifications.add({ type: 'success', title: 'Link copied to clipboard' });
+};
 
 const addPermission = async (user: PublicUser) => {
   if (!user) return;
@@ -240,6 +245,7 @@ const copyInvitationLink = async (code: string) => {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  font-family: $font-ui;
 }
 
 h2 {
@@ -247,13 +253,6 @@ h2 {
   align-items: center;
   gap: 10px;
   font-size: 20px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 0 4px;
 }
 
 .user-card {
@@ -275,12 +274,6 @@ form {
   display: flex;
   align-items: center;
   gap: 10px;
-
-  .avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-  }
 }
 
 .user-actions {
@@ -303,17 +296,29 @@ form {
 
   .info-text {
     margin: 5px 0;
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--text-secondary);
   }
+}
 
-  .public-link {
+.public-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: underline;
+  word-break: break-all;
+  background-color: var(--surface-raised);
+
+  a {
     display: flex;
-    align-items: flex-end;
-    gap: 2px;
+    align-items: center;
+    gap: 5px;
     color: var(--primary);
-    text-decoration: underline;
-    word-break: break-all;
   }
 }
 

@@ -12,14 +12,14 @@
         <div class="content">
           <div class="infos">
             <p class="user">
-              <img v-if="user" :src="avatarURL(user)" alt="avatar" class="avatar" />
+              <UserAvatar :user="user" />
               <span style="font-size: 16px; color: var(--text-secondary)">{{ user?.username }}</span>
             </p>
             <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
             <h1 :class="{ public: public }">{{ doc?.name }}</h1>
-            <Teleport v-if="!public" to="#navbar-title">
-              <Icon :name="doc.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(doc.color as number, true)]" />
-              {{ doc.name }}
+            <Teleport v-if="!public && category" to="#navbar-title">
+              <Icon :name="category.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(category.color as number, true)]" />
+              {{ category.name }}
             </Teleport>
             <p class="description">{{ doc?.description }}</p>
             <NodeTagList v-if="doc.tags" :tags="doc.tags" :clickable="!public" class="tags" />
@@ -41,7 +41,6 @@ const props = defineProps<{ doc?: Node; public?: boolean }>();
 const userStore = useUserStore();
 const preferences = usePreferencesStore();
 
-const { avatarURL } = useApi();
 const nodesTree = useNodesTree();
 const { getAppAccent } = useAppColors();
 
@@ -145,14 +144,6 @@ h1 {
   .thumbnail {
     display: block;
   }
-}
-
-.avatar {
-  width: 25px;
-  height: 25px;
-  margin: 0;
-  padding: 0;
-  border-radius: 50%;
 }
 
 @media print {

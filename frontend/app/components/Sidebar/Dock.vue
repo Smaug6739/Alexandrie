@@ -4,7 +4,7 @@
       <Icon :name="item.icon" display="lg" /><span v-if="mark.hasMark(item.mark as MarkId)" class="bubble" />
     </NuxtLink>
 
-    <div style="margin-top: auto">
+    <div class="bottom">
       <NuxtLink @click="openSettings">
         <Icon name="settings" display="lg" />
       </NuxtLink>
@@ -48,26 +48,22 @@ function closeDock() {
 .dock {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   padding: 1rem 0.3rem;
   border-right: 1px solid var(--border);
-  background-color: var(--surface-base);
+  background-color: var(--surface-raised-light);
 }
 
 a {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 39px;
+  height: 39px;
+  padding: 0.5rem;
   border-radius: var(--radius-md);
   transition: background-color $transition-medium ease;
 
   &:hover {
-    svg {
-      color: var(--text-inverse) !important;
-    }
+    background-color: var(--primary-bg);
   }
 }
 
@@ -80,8 +76,17 @@ a {
 }
 
 a.router-link-active {
+  background-color: var(--primary-bg);
+
   svg {
     color: var(--primary) !important;
   }
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
 }
 </style>

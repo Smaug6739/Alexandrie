@@ -145,7 +145,6 @@ const drop = async (event: DragEvent) => {
   padding: 1px 4px;
   border-radius: var(--radius-sm);
   font-size: 15px;
-  font-weight: 450;
   letter-spacing: -0.4px;
   cursor: pointer;
 
@@ -173,9 +172,10 @@ const drop = async (event: DragEvent) => {
 .content {
   position: relative;
   flex: 1;
+  font-weight: 470;
+  color: var(--text-primary-light);
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
 }
 
 .dragging {

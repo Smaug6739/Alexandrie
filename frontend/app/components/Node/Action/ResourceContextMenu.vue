@@ -1,7 +1,7 @@
 <template>
   <div class="context-menu">
     <div class="menu-header">
-      <img :src="avatarURL(user)" alt="" class="avatar" />
+      <UserAvatar :user="user" square />
       <div class="header-info">
         <span class="header-name">{{ node.name }}</span>
         <span class="header-meta">{{ user?.username }} · {{ shortDate(node.updated_timestamp) }}</span>
@@ -46,7 +46,7 @@ const userStore = useUserStore();
 const preferences = usePreferencesStore();
 const { t } = useI18nT();
 const { shortDate } = useDateFormatters();
-const { avatarURL, resourceURL } = useApi();
+const { resourceURL } = useApi();
 const modal = useModal();
 const notifications = useNotifications();
 const router = useRouter();

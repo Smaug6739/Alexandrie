@@ -13,7 +13,7 @@
       <input v-model="filter" type="text" :placeholder="t('components.sidebar.searchPlaceholder')" />
 
       <div v-if="userStore.user" class="user">
-        <img :src="avatarURL(userStore.user)" alt="Avatar" class="avatar" />
+        <UserAvatar :user="userStore.user" />
         <div class="details">
           <NuxtLink to="/dashboard/settings?p=profile">
             <div>{{ userStore.user.username }}</div>
@@ -76,7 +76,6 @@ const { t } = useI18nT();
 const nodesTree = useNodesTree();
 const { isOpened, hasSidebar, filtered } = useSidebar();
 const { isMobile } = useDevice();
-const { avatarURL } = useApi();
 const modals = useModal();
 
 const viewDock = preferences.get('view_dock');
@@ -133,6 +132,7 @@ onBeforeUnmount(() => {
   width: 100%;
   max-height: 100%;
   padding: 0.5rem 0.2rem 0.5rem 0.5rem;
+  font-family: $font-ui;
   background: var(--surface-base);
   backdrop-filter: var(--backdrop-blur) var(--backdrop-saturate);
   overflow-y: auto;
@@ -218,12 +218,6 @@ input {
   .email {
     font-size: 0.7rem;
     color: var(--text-secondary);
-  }
-
-  .avatar {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
   }
 }
 

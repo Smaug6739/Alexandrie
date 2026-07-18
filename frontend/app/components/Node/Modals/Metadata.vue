@@ -69,10 +69,11 @@ watch(
 );
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .modal-content {
   display: flex;
   flex-direction: column;
+  font-family: $font-ui;
 }
 
 .inline-input {

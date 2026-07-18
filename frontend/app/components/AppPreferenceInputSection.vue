@@ -106,7 +106,7 @@ const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnTyp
   align-items: flex-start;
   gap: 1rem;
   width: 100%;
-  margin-bottom: 1rem;
+  margin: 2rem 0;
 
   &--vertical {
     flex-direction: column;
@@ -115,13 +115,13 @@ const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnTyp
 
 label {
   flex: 1;
+  font-size: 1rem;
   font-weight: 400;
 }
 
 .description {
   margin-top: 0.25rem;
-  margin-left: 2px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
 }
 

@@ -25,7 +25,15 @@
           <Icon name="close" display="sm" fill="var(--text-secondary)" />
           <span>Clear selection</span>
         </li>
-        <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
+        <AppSelectNode
+          v-for="item in filteredItems"
+          :key="item.id"
+          :node="item"
+          :level="0"
+          :disabled="disabled"
+          :selected-id="selectedId"
+          @select="handleSelect"
+        />
         <slot name="list-footer"></slot>
       </ul>
     </Teleport>
@@ -263,50 +271,115 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
 .select {
   position: relative;
   width: 100%;
-  margin: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
+  font-family: $font-ui;
   background: var(--surface-base);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:hover {
+    border-color: var(--text-secondary);
+  }
+
+  &[style*='var(--primary)'] {
+    box-shadow: var(--shadow-sm);
+  }
 }
 
 .trigger {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2px;
+  padding: 1px 6px;
 }
 
 .value {
-  height: 30px;
+  height: 32px;
+  padding: 0 12px;
+  cursor: pointer;
+
+  svg {
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: transform $transition-fast;
+    transform: rotate(180deg);
+
+    &.rotated {
+      transform: rotate(360deg);
+    }
+  }
 }
 
-button,
-.search {
+button.value {
   width: 100%;
-  height: 34px;
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
+  padding: 0;
+  border: none;
   font-size: 0.95rem;
   text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: transparent;
   cursor: pointer;
+  overflow: hidden;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .search {
-  padding: 7px 10px;
+  width: 100%;
+  height: 32px;
+  padding: 0 6px;
   border: none;
-  cursor: text;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  color: var(--text-body);
+  background: transparent;
+
+  &:focus {
+    outline: none;
+  }
 }
 
+// ===========================
+// Desktop Dropdown (Portal)
+// ===========================
 .dropdown {
-  max-height: 300px;
-  margin: 0;
+  max-height: 280px;
+  margin: 4px 0 0;
   padding: 2px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface-base);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-sm), var(--shadow-md);
+  animation: dropdown-fade-in $transition-fast;
   list-style: none;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: var(--border);
+  }
+}
+
+@keyframes dropdown-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 // ===========================
@@ -318,7 +391,8 @@ button,
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  background: var(--overlay-backdrop);
+  background: rgb(0 0 0 / 40%);
+  backdrop-filter: blur(4px);
   inset: 0;
 }
 
@@ -326,10 +400,11 @@ button,
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 85vh;
-  border-radius: var(--surface-sheet-radius);
+  max-height: 80vh;
+  border-radius: 16px 16px 0 0;
   background: var(--surface-base);
-  animation: slide-up $transition-medium ease-out;
+  box-shadow: var(--shadow-sm), var(--shadow-md);
+  animation: slide-up $transition-medium cubic-bezier(0.16, 1, 0.3, 1);
 
   header {
     display: flex;
@@ -352,25 +427,32 @@ button,
 }
 
 .sheet-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
+  color: var(--text-body);
 }
 
 .close-btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border: none;
   border-radius: 50%;
   background: var(--surface-raised);
   cursor: pointer;
-  transition: background 0.2s;
+  transition:
+    background $transition-fast,
+    transform 0.1s;
 
   &:hover {
-    background: var(--selection-color);
+    background: var(--border);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 }
 
@@ -378,48 +460,63 @@ button,
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
+  gap: 10px;
+  height: 44px;
+  margin: 16px 20px 8px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  background: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  background: var(--surface-base);
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:focus-within {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+  }
 
   input {
     flex: 1;
-    height: 40px;
+    height: 100%;
     padding: 8px 12px;
+    border: none;
+    font-size: 0.95rem;
+    color: var(--text-body);
+    background: transparent;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
 .sheet-list {
   flex: 1;
   margin: 0;
-  padding: 8px;
+  padding: 12px 16px;
   list-style: none;
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
 
   :deep(.tree-node) {
-    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+    padding: 10px 12px;
     border-radius: var(--radius-sm);
-    font-size: 1rem;
-    transition: background 0.15s;
+    font-size: 0.95rem;
+    color: var(--text-body);
+    cursor: pointer;
+    transition:
+      background $transition-fast,
+      color $transition-fast;
 
-    &:active {
-      background: var(--selection-color);
+    &:hover {
+      background: var(--surface-raised);
     }
   }
-
-  :deep(.tree-node.selected) {
-    font-weight: 500;
-    color: var(--primary);
-    background: var(--selection-color);
-  }
-}
-
-.empty {
-  padding: 24px 16px;
-  color: var(--text-secondary);
-  text-align: center;
 }
 
 .clear {
@@ -427,46 +524,31 @@ button,
   align-items: center;
   gap: 8px;
   margin: 2px 0 6px;
-  padding: 6px 12px;
+  margin-bottom: 8px;
+  padding: 4px 6px;
   border-bottom: 1px solid var(--border);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
   color: var(--text-secondary);
   cursor: pointer;
   transition:
-    color 0.15s ease,
-    background-color 0.15s ease;
+    background $transition-fast,
+    color $transition-fast;
 
   &:hover {
     color: var(--red);
-    background: var(--selection-color);
+    background: var(--surface-raised);
 
     :deep(svg) {
       fill: var(--red);
     }
   }
-
-  span {
-    font-weight: 400;
-  }
 }
 
-// Transitions
-.sheet-enter-active,
-.sheet-leave-active {
-  transition: opacity $transition-medium ease;
-
-  .sheet {
-    transition: transform $transition-medium ease;
-  }
-}
-
-.sheet-enter-from,
-.sheet-leave-to {
-  opacity: 0;
-
-  .sheet {
-    transform: translateY(100%);
-  }
+.empty {
+  padding: 32px 16px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
 }
 </style>

@@ -13,9 +13,11 @@ form {
 
 label {
 	display: block;
-	padding: 4px 2px;
+	margin: 2px 0 0;
+	padding: 0;
 	font-size: 0.95rem;
 	font-weight: 500;
+	color: var(--text-primary);
 }
 
 textarea {
@@ -68,6 +70,7 @@ button {
 	padding: 8px 16px;
 	border: none;
 	border-radius: var(--radius-sm);
+	font-family: $font-ui;
 	color: var(--text-body);
 	background: transparent;
 	cursor: pointer;

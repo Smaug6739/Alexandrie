@@ -7,7 +7,7 @@
     <nav :class="{ open: menuOpen }">
       <span v-if="isModal">{{ t('settings.meta.accountSettings') }}</span>
       <div v-if="isModal && store.user" class="user">
-        <img :src="avatarURL(store.user)" alt="Avatar" class="avatar" />
+        <UserAvatar :user="store.user" />
         <div>
           <div class="username">{{ store.user.username }}</div>
           <div class="email">{{ store.user.email }}</div>
@@ -87,7 +87,6 @@ const emit = defineEmits<{ (e: 'close'): void }>();
 const route = useRoute();
 const router = useRouter();
 const store = useUserStore();
-const { avatarURL } = useApi();
 const { t } = useI18nT();
 const mark = useMark();
 

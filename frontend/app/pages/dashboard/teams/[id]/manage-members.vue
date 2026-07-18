@@ -13,7 +13,7 @@
         <div v-for="user in users" :key="user.id" class="user-card">
           <div class="user-info-row">
             <span class="user-meta">
-              <img :src="avatarURL(user)" alt="avatar" class="avatar" />
+              <UserAvatar :user="user" />
               <span>{{ user.username }}</span>
             </span>
             <div class="user-actions">
@@ -30,6 +30,10 @@
       <!-- Current permissions -->
       <p v-if="!node?.permissions.length" class="info-secondary">{{ t('nodes.modals.permissions.noPermissions') }}</p>
       <DataTable v-if="rows?.length" :headers="headers" :rows="rows || []">
+        <template #username="{ cell }">
+          <UserAvatar :user="cell?.data as PublicUser" />
+          &nbsp;&nbsp;{{ (cell?.data as PublicUser)?.username || 'Unknown' }}
+        </template>
         <template #context="{ cell }">
           <Icon
             :name="nodesStore.getById((cell?.data as Permission).node_id)?.icon || 'files'"
@@ -94,7 +98,6 @@ const nodesStore = useNodesStore();
 const permissionsStore = useNodesPermissionsStore();
 
 const { t } = useI18nT();
-const { avatarURL } = useApi();
 const { shortDate, numericDate } = useDateFormatters();
 const { getAppAccent } = useAppColors();
 const notifications = useNotifications();
@@ -148,8 +151,8 @@ const rows = computed(() => {
     const u = usersStore.getById(p.user_id);
     return {
       username: {
-        content: `<img style="border-radius:50%;width:25px;height:25px;" src="${avatarURL(u)}"/>&nbsp;&nbsp;&nbsp;${u?.username || 'Unknown'}`,
-        type: 'html' as const,
+        type: 'slot' as const,
+        data: u,
       },
       role: {
         content: p.permission == 1 ? `<tag class="blue">Read</tag>` : p.permission == 2 ? `<tag class="green">Write</tag>` : `<tag class="red">Admin</tag>`,

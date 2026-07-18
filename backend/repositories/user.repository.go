@@ -104,17 +104,44 @@ func (r *UserRepositoryImpl) HasPassword(id types.Snowflake) (bool, error) {
 
 func (r *UserRepositoryImpl) SearchPublic(query string) ([]*models.User, error) {
 	var users []*models.User
+
+	if len(query) < 3 {
+		return users, nil
+	}
+
 	err := r.db.Select(&users, `
-		SELECT id, username, avatar, created_timestamp, updated_timestamp 
-		FROM users 
-		WHERE username = ? OR email = ? OR id = ? 
-		LIMIT 10`, query, query, query)
+		SELECT
+			id,
+			username,
+			avatar,
+			created_timestamp,
+			updated_timestamp
+		FROM users
+		WHERE
+			username LIKE ?
+			OR email = ?
+			OR id = ?
+		ORDER BY
+			CASE
+				WHEN username = ? THEN 0
+				WHEN username LIKE ? THEN 1
+				ELSE 2
+			END,
+			username ASC
+		LIMIT 10`,
+		"%"+query+"%",
+		query,
+		query,
+		query,
+		query+"%",
+	)
+
 	if err != nil {
 		return nil, fmt.Errorf("failed to search public users: %w", err)
 	}
+
 	return users, nil
 }
-
 func (r *UserRepositoryImpl) CheckUsernameExists(username string) (bool, error) {
 	var count int
 	err := r.db.Get(&count, `SELECT COUNT(*) FROM users WHERE username = ?`, username)

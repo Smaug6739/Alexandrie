@@ -18,7 +18,7 @@ export default {
     defaultColor: 'Couleur par défaut pour les documents importés',
     defaultThumbnail: 'Vignette par défaut pour les documents importés (svg ou emoji unicode)',
     defaultIcon: 'Icône par défaut pour les documents importés (svg ou emoji unicode)',
-    defaultTheme: 'Default theme for imported documents',
+    defaultTheme: 'Thème par défaut pour les documents importés',
   },
 
   files: {
