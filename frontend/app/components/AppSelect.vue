@@ -25,7 +25,15 @@
           <Icon name="close" display="sm" fill="var(--text-secondary)" />
           <span>Clear selection</span>
         </li>
-        <AppSelectNode v-for="item in filteredItems" :key="item.id" :node="item" :level="0" :disabled="disabled" @select="handleSelect" />
+        <AppSelectNode
+          v-for="item in filteredItems"
+          :key="item.id"
+          :node="item"
+          :level="0"
+          :disabled="disabled"
+          :selected-id="selectedId"
+          @select="handleSelect"
+        />
         <slot name="list-footer"></slot>
       </ul>
     </Teleport>
@@ -508,12 +516,6 @@ button.value {
     &:hover {
       background: var(--surface-raised);
     }
-  }
-
-  :deep(.tree-node.selected) {
-    font-weight: 500;
-    color: var(--primary);
-    background: var(--selection-color);
   }
 }
 
