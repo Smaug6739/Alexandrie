@@ -233,7 +233,15 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
     {
       any: (_view, event) => {
         if (!(event.ctrlKey || event.metaKey) || !event.shiftKey || event.altKey) return false;
-        const digitActions: Record<string, string> = { Digit7: 'orderedList', Digit8: 'list', Digit9: 'taskList' };
+        // The numeric keypad reports its own codes, so it needs listing alongside the digit row.
+        const digitActions: Record<string, string> = {
+          Digit7: 'orderedList',
+          Numpad7: 'orderedList',
+          Digit8: 'list',
+          Numpad8: 'list',
+          Digit9: 'taskList',
+          Numpad9: 'taskList',
+        };
         const action = digitActions[event.code];
         if (!action) return false;
         commands.exec(action);
