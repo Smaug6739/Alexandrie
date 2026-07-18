@@ -222,6 +222,33 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
         return true;
       },
     },
+
+    // Layout-independent fallback for the Mod-Shift-digit list shortcuts (#610): with Shift held,
+    // the digit row produces a different character on many layouts ('&' on QWERTY, '/' on QWERTZ…)
+    // and some browser/layout combos report keyCodes that CodeMirror can't map back to the digit,
+    // so the name-based bindings above never match. Matching the PHYSICAL key (event.code) works
+    // on every layout; it only runs when no named binding handled the event, so there's no double
+    // dispatch. Returning true makes CodeMirror preventDefault, which also stops the browser's own
+    // Ctrl+digit fallbacks (tab switching) on layouts where digits are shifted.
+    {
+      any: (_view, event) => {
+        if (!(event.ctrlKey || event.metaKey) || !event.shiftKey || event.altKey) return false;
+        // The numeric keypad reports its own codes, so it needs listing alongside the digit row.
+        const digitActions: Record<string, string> = {
+          Digit7: 'orderedList',
+          Numpad7: 'orderedList',
+          Digit8: 'list',
+          Numpad8: 'list',
+          Digit9: 'taskList',
+          Numpad9: 'taskList',
+        };
+        const action = digitActions[event.code];
+        if (!action) return false;
+        commands.exec(action);
+        return true;
+      },
+      stopPropagation: true,
+    },
   ];
 
   return markdownKeysmap;

@@ -318,21 +318,14 @@ function toggleCodeBlock(view: EditorView, language = ''): void {
     }
   }
 
-  // Not in a code block, create one
-  const isMultiLine = selectedText.includes('\n');
-
-  if (isMultiLine || selectedText.length > 50) {
-    // Use fenced code block for multi-line
-    const insert = `\`\`\`${language}\n${selectedText}\n\`\`\``;
-    view.dispatch({
-      changes: { from, to, insert },
-      selection: { anchor: from + 4 + language.length, head: from + 4 + language.length + selectedText.length },
-    });
-  } else {
-    // Use inline code for short single-line
-    toggleInlineFormat(view, 'code');
-    return;
-  }
+  // Not in a code block, create one. Always a FENCED block (#610): inline code has its own
+  // shortcut and toolbar button, so silently degrading short selections to `inline` made the
+  // explicit code-block action look broken.
+  const insert = `\`\`\`${language}\n${selectedText}\n\`\`\``;
+  view.dispatch({
+    changes: { from, to, insert },
+    selection: { anchor: from + 4 + language.length, head: from + 4 + language.length + selectedText.length },
+  });
   view.focus();
 }
 
