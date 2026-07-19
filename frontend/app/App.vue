@@ -77,7 +77,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   twitterTitle: () => t('landing.seo.title'),
   twitterDescription: () => t('landing.seo.description'),
-  twitterImage: () => `${requestUrl.origin || __BASE_URL__}/icons/icon-192.png`,
+  twitterImage: () => `${requestUrl.origin || __BASE_URL__}/screenshots/mock/0.png`,
 });
 
 useHead({
