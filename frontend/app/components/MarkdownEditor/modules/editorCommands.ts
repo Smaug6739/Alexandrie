@@ -70,6 +70,56 @@ function detectInnerFormat(selectedText: string, pattern: RegExp): string | null
   return match && match[1] !== undefined ? match[1] : null;
 }
 
+function expandAndClearFormatting(view: EditorView, from: number, to: number): { from: number; to: number; insert: string } {
+  const doc = view.state.doc.toString();
+  let currentFrom = from;
+  let currentTo = to;
+  
+  let expanded = true;
+  while (expanded) {
+    expanded = false;
+    for (const key of Object.keys(FORMAT_MARKERS)) {
+      const marker = FORMAT_MARKERS[key];
+      const wrapped = detectWrappedFormat(doc, currentFrom, currentTo, marker.prefix, marker.suffix);
+      if (wrapped) {
+        currentFrom = wrapped.from;
+        currentTo = wrapped.to;
+        expanded = true;
+        break;
+      }
+    }
+    
+    // Also detect color wrapping: {color:name}(text)
+    const beforeText = doc.slice(0, currentFrom);
+    const afterText = doc.slice(currentTo);
+    const colorMatch = beforeText.match(/\{color:[^}]+\}\($/);
+    const hasColorSuffix = afterText.startsWith(')');
+    
+    if (colorMatch && hasColorSuffix) {
+      currentFrom = currentFrom - colorMatch[0].length;
+      currentTo = currentTo + 1;
+      expanded = true;
+    }
+  }
+
+  let text = doc.slice(currentFrom, currentTo);
+  
+  // Clean internal/common markdown formatting
+  text = text
+    .replace(/\*\*(.+?)\*\*/g, '$1') // bold
+    .replace(/\*(.+?)\*/g, '$1') // italic
+    .replace(/__(.+?)__/g, '$1') // underline
+    .replace(/~~(.+?)~~/g, '$1') // strikethrough
+    .replace(/`(.+?)`/g, '$1') // code
+    .replace(/==(.+?)==/g, '$1') // mark
+    .replace(/\^(.+?)\^/g, '$1') // superscript
+    .replace(/~(.+?)~/g, '$1') // subscript
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // links
+    .replace(/\{color:[^}]+\}\((.+?)\)/g, '$1'); // color
+    
+  return { from: currentFrom, to: currentTo, insert: text };
+}
+
 function trimSelectionWhitespace(view: EditorView, from: number, to: number): { newFrom: number; newTo: number } {
   const state = view.state;
   let newFrom = from;
@@ -636,23 +686,11 @@ export function createCommands(params: CreateCommandsParams) {
       case 'clearFormatting': {
         const state = view.state;
         const { from, to } = state.selection.main;
-        let text = state.sliceDoc(from, to);
-
-        // Remove common markdown formatting
-        text = text
-          .replace(/\*\*(.+?)\*\*/g, '$1') // bold
-          .replace(/\*(.+?)\*/g, '$1') // italic
-          .replace(/__(.+?)__/g, '$1') // underline
-          .replace(/~~(.+?)~~/g, '$1') // strikethrough
-          .replace(/`(.+?)`/g, '$1') // code
-          .replace(/==(.+?)==/g, '$1') // mark
-          .replace(/\^(.+?)\^/g, '$1') // superscript
-          .replace(/~(.+?)~/g, '$1') // subscript
-          .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1'); // links
+        const result = expandAndClearFormatting(view, from, to);
 
         view.dispatch({
-          changes: { from, to, insert: text },
-          selection: { anchor: from, head: from + text.length },
+          changes: { from: result.from, to: result.to, insert: result.insert },
+          selection: { anchor: result.from, head: result.from + result.insert.length },
         });
         view.focus();
         break;

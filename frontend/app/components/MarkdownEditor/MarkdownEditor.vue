@@ -26,6 +26,10 @@
       <div ref="container" class="editor-content">
         <div class="editor-panel" :class="{ 'with-preview': showPreview }">
           <div ref="editorContainer" class="codemirror-editor" />
+          <FloatToolbar
+            :editor-view="editorView"
+            @execute-action="handleToolbarAction"
+          />
         </div>
 
         <div v-if="showPreview" class="preview-panel">
@@ -52,6 +56,7 @@ import { createCommands } from './modules/editorCommands';
 import { createScrollSync } from './modules/scrollSync';
 import compile from '~/helpers/markdown';
 import Toolbar from './Toolbar.vue';
+import FloatToolbar from './FloatToolbar.vue';
 import DrawioSidebar from './DrawioSidebar.vue';
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 
