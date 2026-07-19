@@ -139,6 +139,18 @@
         <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd></span>
       </div>
       <div class="shortcut">
+        <span>{{ t('application.shortcuts.insertDiagram') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>D</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.textColor') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>O</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.insertFootnote') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>F</kbd></span>
+      </div>
+      <div class="shortcut">
         <span>{{ t('application.shortcuts.inlineCode') }}</span>
         <span><kbd>Ctrl</kbd> <kbd>E</kbd></span>
       </div>
@@ -165,6 +177,10 @@
       <div class="shortcut">
         <span>{{ t('application.shortcuts.taskList') }}</span>
         <span><kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>9</kbd></span>
+      </div>
+      <div class="shortcut">
+        <span>{{ t('application.shortcuts.insertTable') }}</span>
+        <span><kbd>Ctrl</kbd> <kbd>Alt</kbd> <kbd>T</kbd></span>
       </div>
       <div class="shortcut">
         <span>{{ t('application.shortcuts.insertSeparator') }}</span>

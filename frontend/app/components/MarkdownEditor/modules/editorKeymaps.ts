@@ -85,6 +85,30 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
         return true;
       },
     },
+    {
+      key: 'Mod-Shift-d',
+      stopPropagation: true,
+      run: () => {
+        commands.exec('diagram');
+        return true;
+      },
+    },
+    {
+      key: 'Mod-Shift-o',
+      stopPropagation: true,
+      run: () => {
+        commands.exec('openColorPicker');
+        return true;
+      },
+    },
+    {
+      key: 'Mod-Shift-f',
+      stopPropagation: true,
+      run: () => {
+        commands.exec('footnote');
+        return true;
+      },
+    },
 
     // Code
     {
@@ -142,6 +166,16 @@ export function createKeymaps(commands: { exec: (action: string, payload?: strin
       stopPropagation: true,
       run: () => {
         commands.exec('toggleCheckbox');
+        return true;
+      },
+    },
+    // Mod-Alt rather than Mod-Shift: Ctrl+Shift+T is the browser's reserved
+    // "reopen closed tab" shortcut, which pages cannot intercept.
+    {
+      key: 'Mod-Alt-t',
+      stopPropagation: true,
+      run: () => {
+        commands.exec('gridOrganization');
         return true;
       },
     },
