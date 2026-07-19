@@ -31,10 +31,30 @@ router.beforeEach((to, from) => {
 const canonicalUrl = computed(() => new URL(route.path, requestUrl.origin || __BASE_URL__).toString());
 
 useHead({
+  link: [
+    {
+      rel: 'canonical',
+      href: __BASE_URL__,
+    },
+    {
+      rel: 'preconnect',
+      href: __BASE_API__,
+    },
+    {
+      rel: 'preconnect',
+      href: __BASE_CDN__,
+    },
+    ...(i18nHead.value.link || []),
+  ],
+  meta: [
+    {
+      property: 'og:url',
+      content: __BASE_URL__,
+    },
+  ],
   htmlAttrs: {
     lang: i18nHead.value.htmlAttrs?.lang,
   },
-  link: [...(i18nHead.value.link || [])],
   script: [
     {
       type: 'application/ld+json',
@@ -78,29 +98,6 @@ useSeoMeta({
   twitterTitle: () => t('landing.seo.title'),
   twitterDescription: () => t('landing.seo.description'),
   twitterImage: () => `${requestUrl.origin || __BASE_URL__}/screenshots/mock/0.png`,
-});
-
-useHead({
-  link: [
-    {
-      rel: 'canonical',
-      href: __BASE_URL__,
-    },
-    {
-      rel: 'preconnect',
-      href: __BASE_API__,
-    },
-    {
-      rel: 'preconnect',
-      href: __BASE_CDN__,
-    },
-  ],
-  meta: [
-    {
-      property: 'og:url',
-      content: __BASE_URL__,
-    },
-  ],
 });
 </script>
 

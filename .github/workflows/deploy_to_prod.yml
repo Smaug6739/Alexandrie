@@ -37,6 +37,10 @@ jobs:
           GOOS=linux GOARCH=amd64 go build -o backend_app
 
       - name: Build frontend
+        env:
+          NUXT_PUBLIC_BASE_URL: https://alexandrie-hub.fr
+          NUXT_PUBLIC_BASE_API: https://api.alexandrie-hub.fr
+          NUXT_PUBLIC_BASE_CDN: https://cdn.alexandrie-hub.fr
         run: |
           cd frontend
           bun install
