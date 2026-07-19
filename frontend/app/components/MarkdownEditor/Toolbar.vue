@@ -193,11 +193,11 @@ const extendedFormattingTools = computed<ToolItem[]>(() => [
 const insertTools = computed<ToolItem[]>(() => [
   { name: t('markdown.toolbar.link'), icon: 'format/link', action: 'link', shortcut: 'Ctrl+K' },
   { name: t('markdown.toolbar.image'), icon: 'format/image', action: 'image', shortcut: 'Ctrl+Shift+I' },
-  { name: t('markdown.toolbar.diagram'), icon: 'format/diagrams', action: 'diagram' },
+  { name: t('markdown.toolbar.diagram'), icon: 'format/diagrams', action: 'diagram', shortcut: 'Ctrl+Shift+D' },
   { name: t('markdown.toolbar.inlineCode'), icon: 'format/code', action: 'code', shortcut: 'Ctrl+E' },
   { name: t('markdown.toolbar.codeBlock'), icon: 'format/code-block', action: 'codeBlock', shortcut: 'Ctrl+Shift+C' },
-  { name: t('markdown.toolbar.color'), icon: 'format/color', action: 'openColorPicker' },
-  { name: t('markdown.toolbar.footnote'), icon: 'format/footnote', action: 'footnote' },
+  { name: t('markdown.toolbar.color'), icon: 'format/color', action: 'openColorPicker', shortcut: 'Ctrl+Shift+O' },
+  { name: t('markdown.toolbar.footnote'), icon: 'format/footnote', action: 'footnote', shortcut: 'Ctrl+Shift+F' },
 ]);
 
 const structureTools = computed<ToolItem[]>(() => [
@@ -206,7 +206,7 @@ const structureTools = computed<ToolItem[]>(() => [
   { name: t('markdown.toolbar.bulletList'), icon: 'format/list-bulleted', action: 'list', shortcut: 'Ctrl+Shift+8' },
   { name: t('markdown.toolbar.numberedList'), icon: 'format/list-ordered', action: 'orderedList', shortcut: 'Ctrl+Shift+7' },
   { name: t('markdown.toolbar.taskList'), icon: 'format/task-list', action: 'taskList', shortcut: 'Ctrl+Shift+9' },
-  { name: t('markdown.toolbar.table'), icon: 'format/table', action: 'gridOrganization' },
+  { name: t('markdown.toolbar.table'), icon: 'format/table', action: 'gridOrganization', shortcut: 'Ctrl+Alt+T' },
   { name: t('markdown.toolbar.horizontalRule'), icon: 'format/horizontal-rule', action: 'horizontalRule', shortcut: 'Ctrl+Shift+R' },
 ]);
 
