@@ -271,3 +271,46 @@
 		text-decoration: underline;
 	}
 }
+
+/* Markdown tooltips: [[hint]] and [text]{tooltip=hint} (#618).
+   Reuses the global .hint-tooltip look; the reveal is CSS-only because
+   rendered markdown has no component logic behind it. */
+.md-tooltip {
+	position: relative;
+	display: inline-block;
+
+	> .hint-tooltip {
+		width: max-content;
+		max-width: 280px;
+		text-transform: none;
+		white-space: normal;
+	}
+
+	&:hover > .hint-tooltip,
+	&:focus-visible > .hint-tooltip {
+		opacity: 1;
+		visibility: visible;
+		transition-delay: 0s;
+	}
+}
+
+.md-tooltip-text {
+	border-bottom: 1px dotted currentcolor;
+	cursor: help;
+}
+
+.md-tooltip-icon {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 1rem;
+	height: 1rem;
+	border-radius: 50%;
+	font-size: 0.7rem;
+	font-style: normal;
+	font-weight: bold;
+	color: white;
+	background-color: var(--primary);
+	cursor: help;
+	user-select: none;
+}

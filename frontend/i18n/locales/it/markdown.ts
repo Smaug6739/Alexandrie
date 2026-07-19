@@ -38,6 +38,7 @@ export default {
     tags: 'Tag',
     title: 'Guida alla sintassi Markdown di Alexandrie',
     titles: 'Intestazioni',
+    tooltips: 'Tooltip',
   },
   table: {
     hoverHint: 'Passa il mouse per vedere le dimensioni',

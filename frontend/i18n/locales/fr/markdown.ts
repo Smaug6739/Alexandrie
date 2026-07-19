@@ -38,6 +38,7 @@ export default {
     tags: 'Tags',
     title: 'Guide de syntaxe Markdown Alexandrie',
     titles: 'Titres',
+    tooltips: 'Info-bulles',
   },
   table: {
     hoverHint: 'Survolez pour voir la taille',

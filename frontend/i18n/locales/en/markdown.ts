@@ -38,6 +38,7 @@ export default {
     tags: 'Tags',
     title: 'Alexandrie Markdown syntax guide',
     titles: 'Headings',
+    tooltips: 'Tooltips',
   },
   table: {
     hoverHint: 'Hover to see size',

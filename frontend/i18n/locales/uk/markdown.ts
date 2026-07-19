@@ -38,6 +38,7 @@ export default {
     tags: 'Теги',
     title: 'Посібник із синтаксису Markdown для «Alexandrie»',
     titles: 'Заголовки',
+    tooltips: 'Підказки',
   },
   table: {
     hoverHint: 'Наведіть курсор, щоб побачити розмір',

@@ -38,6 +38,7 @@ export default {
     tags: 'Tags',
     title: 'Leitfaden zur Alexandrie-Markdown-Syntax',
     titles: 'Überschriften',
+    tooltips: 'Tooltips',
   },
   table: {
     hoverHint: 'Mit der Maus darüberfahren, um die Größe anzuzeigen',

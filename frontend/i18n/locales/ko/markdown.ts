@@ -38,6 +38,7 @@ export default {
     tags: '태그',
     title: 'Alexandrie 마크다운 문법 가이드',
     titles: '제목',
+    tooltips: '툴팁',
   },
   table: {
     hoverHint: '마우스를 올리면 크기가 표시됩니다',
