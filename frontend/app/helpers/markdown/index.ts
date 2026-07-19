@@ -15,6 +15,7 @@ import { markdownItCheckbox } from './checkbox';
 import { markdownItKatexPlugin } from './katex';
 import { sourceMapPlugin } from './source-map';
 import { internalLinkPlugin } from './internal-links';
+import { tooltipPlugin } from './tooltip';
 
 const md = new MarkdownIt({ html: true, linkify: true });
 md.use(containerPlugin);
@@ -35,6 +36,7 @@ md.use(colorPlugin, {
   enableBracketSyntax: true, // also parse [text]{color=value}
   allowHex: true, // allow #rgb and #rrggbb
 });
+md.use(tooltipPlugin);
 md.use(html5MediaPlugin);
 md.use(svgObjectPlugin);
 md.use(internalLinkPlugin);

@@ -35,6 +35,12 @@
         Syntax: <code v-text="`{color:'color'}(Text to color)`"></code> — example: <code v-text="`{color:blue}(blue)`"></code>
       </p>
 
+      <!-- TOOLTIPS -->
+      <p>
+        <strong>{{ t('markdown.syntax.tooltips') }}:</strong>
+        Syntax: <code v-text="`[Visible text]{tooltip=Hint shown on hover}`"></code> — or a standalone marker: <code v-text="`[[Hint shown on hover]]`"></code>
+      </p>
+
       <p>
         <strong>{{ t('markdown.syntax.titles') }}:</strong>
         Syntax: <code v-text="`# H1`"></code> → <code v-text="`###### H6`"></code>
