@@ -28,7 +28,7 @@
     "etag": "^1.8.1",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.6",
-    "katex": "^0.17.0",
+    "katex": "^0.18.1",
     "localforage": "^1.10.0",
     "markdown-it": "^14.3.0",
     "markdown-it-anchor": "^9.2.1",
