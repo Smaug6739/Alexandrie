@@ -12,7 +12,9 @@
         <div class="content">
           <div class="infos">
             <p class="user">
-              <UserAvatar :user="user" />
+              <ClientOnly>
+                <UserAvatar :user="user" />
+              </ClientOnly>
               <span style="font-size: 16px; color: var(--text-secondary)">{{ user?.username }}</span>
             </p>
             <NuxtLink class="category" :to="`/dashboard/categories/${category?.id}`">{{ category?.name || 'Uncategorized' }}</NuxtLink>
