@@ -26,5 +26,11 @@ func statusFromAccessError(err error) int {
 	if errors.Is(err, permissions.ErrNotFound) {
 		return http.StatusNotFound
 	}
+	if errors.Is(err, permissions.ErrInvalidPassword) {
+		return http.StatusBadRequest
+	}
+	if errors.Is(err, permissions.ErrIncorrectPassword) {
+		return http.StatusUnauthorized
+	}
 	return http.StatusInternalServerError
 }

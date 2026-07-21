@@ -163,7 +163,7 @@ func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 // @Router /users/{id}/password [patch]
 // @Security Authenfification: Auth, {self, admin}
 // @Param id path int true "User ID"
-// @Body Password
+// @Body CurrentPassword, Password
 // @Success 200 {object} Success(string)
 // @Failure 400 {object} Error
 // @Failure 401 {object} Error
@@ -178,13 +178,14 @@ func (ctr *Controller) UpdatePassword(c *gin.Context) (int, any) {
 	}
 
 	var payload struct {
-		Password string `form:"password" json:"password"`
+		CurrentPassword string `form:"current_password" json:"current_password"`
+		Password        string `form:"password" json:"password"`
 	}
 	if err := c.ShouldBind(&payload); err != nil {
 		return http.StatusBadRequest, errors.New("invalid request payload")
 	}
 
-	err = ctr.app.Services.User.UpdatePassword(c.Request.Context(), targetUserId, payload.Password)
+	err = ctr.app.Services.User.UpdatePassword(c.Request.Context(), targetUserId, payload.CurrentPassword, payload.Password)
 	if err != nil {
 		return statusFromAccessError(err), err
 	}

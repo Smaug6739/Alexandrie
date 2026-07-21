@@ -3,6 +3,10 @@
     <h3>{{ t('settings.security.password') }}</h3>
     <form @submit.prevent="changePassword">
       <div class="form-group">
+        <label for="current_password">{{ t('settings.security.currentPassword') }}</label>
+        <input id="current_password" v-model="currentPasswordValue" autocomplete="current-password" type="password" required />
+      </div>
+      <div class="form-group">
         <label for="password">{{ t('settings.security.newPassword') }}</label>
         <input id="password" v-model="passwordValue" autocomplete="new-password" type="password" required />
       </div>
@@ -25,6 +29,7 @@ const { t } = useI18nT();
 const notifications = useNotifications();
 
 const passwordValue = ref('');
+const currentPasswordValue = ref('');
 const passwordConfirmValue = ref('');
 const errPasswordNotMatch = ref(false);
 
@@ -32,8 +37,9 @@ const changePassword = async () => {
   if (!userStore.user) return;
   if (passwordValue.value !== passwordConfirmValue.value) return (errPasswordNotMatch.value = true);
   userStore
-    .updatePassword(passwordValue.value)
+    .updatePassword(currentPasswordValue.value, passwordValue.value)
     .then(() => {
+      currentPasswordValue.value = '';
       passwordValue.value = '';
       passwordConfirmValue.value = '';
       errPasswordNotMatch.value = false;

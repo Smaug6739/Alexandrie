@@ -138,9 +138,9 @@ export const useUserStore = defineStore('user', {
       } else throw request.message;
     },
 
-    async updatePassword(newPassword: string) {
+    async updatePassword(currentPassword: string, newPassword: string) {
       if (!this.user) return;
-      const request = await makeRequest(`users/${this.user.id}/password`, 'PATCH', { password: newPassword });
+      const request = await makeRequest(`users/${this.user.id}/password`, 'PATCH', { current_password: currentPassword, password: newPassword });
       if (request.status === 'success') {
         return true;
       } else throw request.message;
