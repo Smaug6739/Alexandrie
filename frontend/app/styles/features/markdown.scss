@@ -279,15 +279,15 @@
 	position: relative;
 	display: inline-block;
 
-	> .hint-tooltip {
+	>.hint-tooltip {
 		width: max-content;
 		max-width: 280px;
 		text-transform: none;
 		white-space: normal;
 	}
 
-	&:hover > .hint-tooltip,
-	&:focus-visible > .hint-tooltip {
+	&:hover>.hint-tooltip,
+	&:focus-visible>.hint-tooltip {
 		opacity: 1;
 		visibility: visible;
 		transition-delay: 0s;
@@ -307,8 +307,8 @@
 	height: 1rem;
 	border-radius: 50%;
 	font-size: 0.7rem;
-	font-style: normal;
 	font-weight: bold;
+	font-style: normal;
 	color: white;
 	background-color: var(--primary);
 	cursor: help;
