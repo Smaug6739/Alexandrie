@@ -28,7 +28,7 @@ CREATE TABLE `nodes` (
     CONSTRAINT `nodes_parent_fk` FOREIGN KEY (`parent_id`) REFERENCES `nodes` (`id`) ON DELETE CASCADE,
     CONSTRAINT `nodes_users_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
     CONSTRAINT `chk_parent_not_self` CHECK (`parent_id` IS NULL OR `parent_id` != `id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -38,7 +38,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ========================================
 
 INSERT INTO nodes (`id`, `user_id`, `parent_id`,  `name`, `role`, `color`, `icon`, `order`, `created_timestamp`, `updated_timestamp`)
-SELECT 
+SELECT
     c.id,
     c.author_id,
     c.parent_id,
@@ -57,7 +57,7 @@ FROM categories c;
 -- ========================================
 
 INSERT INTO nodes (`id`, `user_id`, `parent_id`,  `name`, `description`, `tags`, `role`, `color`, `icon`, `thumbnail`, `theme`, `accessibility`, `content`, `content_compiled`, `created_timestamp`, `updated_timestamp`)
-SELECT 
+SELECT
     d.id,
     d.author_id,
     COALESCE(d.parent_id, d.category),
@@ -82,7 +82,7 @@ FROM documents d;
 -- ========================================
 
 INSERT INTO nodes (`id`, `user_id`, `parent_id`,  `name`, `role`, `size`, `content`, `content_compiled`, `metadata`, `created_timestamp`, `updated_timestamp`)
-SELECT 
+SELECT
     r.id,
     r.author_id,
     r.parent_id,
