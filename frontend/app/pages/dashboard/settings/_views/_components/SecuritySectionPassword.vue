@@ -45,7 +45,7 @@ const changePassword = async () => {
       errPasswordNotMatch.value = false;
       notifications.add({ type: 'success', title: t('settings.security.notifications.passwordChanged') });
     })
-    .catch(e => notifications.add({ type: 'error', title: t('settings.security.notifications.passwordError'), message: e.message }));
+    .catch(e => notifications.add({ type: 'error', title: t('settings.security.notifications.passwordError'), message: e }));
 };
 </script>
 <style lang="scss" scoped>
