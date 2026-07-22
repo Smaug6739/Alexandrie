@@ -88,7 +88,6 @@ useHead({
 useSeoMeta({
   title: () => t('landing.seo.title'),
   description: () => t('landing.seo.description'),
-  keywords: () => t('landing.seo.keywords'),
   ogTitle: () => t('landing.seo.title'),
   ogDescription: () => t('landing.seo.description'),
   ogType: 'website',

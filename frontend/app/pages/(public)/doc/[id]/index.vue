@@ -64,7 +64,6 @@ const baseUrl = requestUrl.origin || __BASE_URL__;
 useSeoMeta({
   title: () => data.value?.node?.name || 'Unknown document',
   description: () => data.value?.node?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
-  keywords: () => data.value?.node?.tags,
 
   ogTitle: () => data.value?.node?.name || 'Unknown document',
   ogDescription: () => data.value?.node?.description || 'Public document published on Alexandrie, a modern Markdown-based note-taking platform.',
