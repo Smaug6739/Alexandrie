@@ -30,9 +30,11 @@ func ActorFromContext(ctx context.Context) (Actor, bool) {
 }
 
 var (
-	ErrUnauthorized = errors.New("unauthorized")
-	ErrForbidden    = errors.New("forbidden")
-	ErrNotFound     = errors.New("not found")
+	ErrUnauthorized      = errors.New("unauthorized")
+	ErrForbidden         = errors.New("forbidden")
+	ErrNotFound          = errors.New("not found")
+	ErrInvalidPassword   = errors.New("current password is required")
+	ErrIncorrectPassword = errors.New("current password is incorrect")
 )
 
 type NodeDecision struct {

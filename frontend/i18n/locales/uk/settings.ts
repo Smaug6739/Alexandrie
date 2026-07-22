@@ -224,6 +224,7 @@ export default {
     connected: 'Підключено',
     connectedAccounts: "Пов'язані акаунти",
     connectedAccountsDesc: "Прив'яжіть зовнішні акаунти для зручнішого входу.",
+    currentPassword: 'Поточний пароль',
     dangerZone: 'Небезпечна зона',
     dangerZoneDesc: 'Незворотні дії. Будьте обережні.',
     deleteAccount: 'Видалити обліковий запис',

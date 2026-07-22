@@ -126,6 +126,41 @@ func TestUserLifeCycle(t *testing.T) {
 		assert.Equal(t, "Unauthorized", r.Message)
 	})
 	// ************************************************************
+	// PATCH /users/@me/password
+	// ************************************************************
+	t.Run("Update password without current password fails", func(t *testing.T) {
+		r := DoPatch(t, client, "/users/@me/password", map[string]any{
+			"password": "new-strong-password",
+		})
+		assert.Equal(t, "error", r.Status)
+		assert.Equal(t, 400, r.StatusCode)
+	})
+	t.Run("Update password with wrong current password fails", func(t *testing.T) {
+		r := DoPatch(t, client, "/users/@me/password", map[string]any{
+			"current_password": "not-the-real-password",
+			"password":         "new-strong-password",
+		})
+		assert.Equal(t, "error", r.Status)
+		assert.Equal(t, 401, r.StatusCode)
+	})
+	t.Run("Update password with correct current password succeeds", func(t *testing.T) {
+		r := DoPatch(t, client, "/users/@me/password", map[string]any{
+			"current_password": "password",
+			"password":         "new-strong-password",
+		})
+		assert.Equal(t, "success", r.Status)
+		assert.Equal(t, 200, r.StatusCode)
+	})
+	t.Run("Login with old password fails after change", func(t *testing.T) {
+		r := LoginAs(t, client, "gnolan", "password")
+		assert.Equal(t, "error", r.Status)
+	})
+	t.Run("Login with new password succeeds", func(t *testing.T) {
+		r := LoginAs(t, client, "gnolan", "new-strong-password")
+		assert.Equal(t, "success", r.Status)
+		assert.Equal(t, 200, r.StatusCode)
+	})
+	// ************************************************************
 	// DELETE /users/@me
 	// ************************************************************
 	t.Run("Delete user", func(t *testing.T) {

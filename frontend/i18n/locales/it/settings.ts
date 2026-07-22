@@ -224,6 +224,7 @@ export default {
     connected: 'Connesso',
     connectedAccounts: 'Account collegati',
     connectedAccountsDesc: 'Collega account esterni per accedere più facilmente.',
+    currentPassword: 'Password attuale',
     dangerZone: 'Zona di pericolo',
     dangerZoneDesc: 'Azioni irreversibili. Procedi con cautela.',
     deleteAccount: 'Elimina account',

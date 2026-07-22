@@ -27,7 +27,7 @@ type UserService interface {
 	SearchPublicUsers(query string) ([]*models.User, error)
 	CreateUser(username string, firstname, lastname, avatar, email string, password *string) (*models.User, error)
 	UpdateUser(ctx context.Context, id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error)
-	UpdatePassword(ctx context.Context, id types.Snowflake, newPassword string) error
+	UpdatePassword(ctx context.Context, id types.Snowflake, currentPassword string, newPassword string) error
 	DeleteUser(ctx context.Context, id types.Snowflake, minioService MinioService) error
 	GenerateUniqueUsername(givenName *string, userID types.Snowflake) string
 	LoadAppAdmins()
@@ -151,7 +151,7 @@ func (s *userService) UpdateUser(ctx context.Context, id types.Snowflake, firstn
 	return s.userRepo.Update(id, user)
 }
 
-func (s *userService) UpdatePassword(ctx context.Context, id types.Snowflake, newPassword string) error {
+func (s *userService) UpdatePassword(ctx context.Context, id types.Snowflake, currentPassword string, newPassword string) error {
 	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return err
@@ -162,6 +162,27 @@ func (s *userService) UpdatePassword(ctx context.Context, id types.Snowflake, ne
 
 	if newPassword == "" {
 		return errors.New("password is required")
+	}
+
+	// Only require the current password when users change their own password.
+	// App admins resetting another user's password are exempt (e.g. account recovery).
+	if actor.UserID == id {
+		dbUser, err := s.userRepo.GetByID(id, true)
+		if err != nil || dbUser == nil {
+			return permissions.ErrNotFound
+		}
+
+		// If the user already has a password set, they must confirm it.
+		// Users without a password (e.g. OAuth/SSO-only accounts) are setting
+		// a password for the first time, so no current-password check applies.
+		if dbUser.Password != nil {
+			if currentPassword == "" {
+				return permissions.ErrInvalidPassword
+			}
+			if err := bcrypt.CompareHashAndPassword([]byte(*dbUser.Password), []byte(currentPassword)); err != nil {
+				return permissions.ErrIncorrectPassword
+			}
+		}
 	}
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
