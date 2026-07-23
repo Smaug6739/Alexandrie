@@ -434,7 +434,7 @@
 	}
 }
 
-// Academic — for research papers, theses and scientific writing. Serif body at
+// Academic â€” for research papers, theses and scientific writing. Serif body at
 // a comfortable reading measure, numbered headings, tighter leading than Modern,
 // and figure/table captions that read as part of the document rather than UI.
 .academic-theme {
@@ -499,7 +499,7 @@
 		padding: 0.35em 0;
 	}
 
-	// Indent successive paragraphs instead of spacing them out — the typographic
+	// Indent successive paragraphs instead of spacing them out â€” the typographic
 	// convention in printed papers.
 	p + p {
 		text-indent: 1.5em;
@@ -651,5 +651,194 @@
 			font-family: 'Libertinus Math', serif !important;
 			font-size: 14px;
 		}
+	}
+}
+
+
+.github-theme {
+	max-width: 100%;
+	padding: 0 0.5rem;
+	font-family: $font-sans !important;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--text-body);
+
+	.header-anchor {
+		display: none;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		margin: 24px 0 16px;
+		font-weight: 600;
+		line-height: 1.25;
+	}
+
+	// The rule under the top two levels is the most recognisable part of the look.
+	h1 {
+		padding-bottom: 0.3em;
+		border-bottom: 1px solid var(--border-color);
+		font-size: 2em;
+	}
+
+	h2 {
+		padding-bottom: 0.3em;
+		border-bottom: 1px solid var(--border-color);
+		font-size: 1.5em;
+	}
+
+	h3 {
+		font-size: 1.25em;
+	}
+
+	h4 {
+		font-size: 1em;
+	}
+
+	p {
+		width: 100%;
+		margin: 0 0 16px;
+	}
+
+	a {
+		color: var(--primary);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	// Inline code is a tinted chip; a fenced block is a padded panel.
+	code {
+		padding: 0.2em 0.4em;
+		border-radius: var(--radius-sm);
+		font-family: $font-mono;
+		font-size: 85%;
+		background-color: var(--surface-raised);
+	}
+
+	pre {
+		margin: 0 0 16px;
+		padding: 16px;
+		border-radius: var(--radius-md);
+		font-size: 85%;
+		line-height: 1.45;
+		background-color: var(--surface-raised);
+		overflow-x: auto;
+
+		code {
+			padding: 0;
+			font-size: 100%;
+			background-color: transparent;
+		}
+	}
+
+	blockquote {
+		margin: 0 0 16px;
+		padding: 0 1em;
+		border-left: 0.25em solid var(--border-color);
+		color: var(--text-muted);
+	}
+
+	ul,
+	ol {
+		margin: 0 0 16px;
+		padding-left: 2em;
+
+		li {
+			margin: 0.25em 0;
+		}
+	}
+
+	img {
+		max-width: 100%;
+		margin: 0.5rem 0;
+		border-radius: var(--radius-sm);
+	}
+
+	hr {
+		height: 0.25em;
+		margin: 24px 0;
+		padding: 0;
+		border: 0;
+		background-color: var(--border-color);
+	}
+
+	table {
+		display: block;
+		width: 100%;
+		margin: 0 0 16px;
+		font-size: 0.95em;
+		border-collapse: collapse;
+		overflow-x: auto;
+
+		th,
+		td {
+			padding: 6px 13px;
+			border: 1px solid var(--border-color);
+		}
+
+		thead th {
+			font-weight: 600;
+			background-color: var(--surface-raised);
+		}
+
+		// Zebra striping, as on rendered GitHub tables.
+		tbody tr:nth-child(2n) {
+			background-color: var(--surface-raised);
+		}
+	}
+
+	// Closest thing to GitHub's alert callouts: coloured left rule, no heavy fill.
+	.custom-block {
+		margin: 0 0 16px;
+		padding: 0.5rem 1em;
+		border-left: 0.25em solid var(--grey);
+		border-radius: 0;
+		background-color: transparent;
+
+		&.info,
+		&.blue {
+			border-left-color: var(--blue);
+		}
+
+		&.success,
+		&.green {
+			border-left-color: var(--green);
+		}
+
+		&.warning,
+		&.yellow {
+			border-left-color: var(--yellow);
+		}
+
+		&.danger,
+		&.red {
+			border-left-color: var(--red);
+		}
+
+		&.teal {
+			border-left-color: var(--teal);
+		}
+
+		&.purple {
+			border-left-color: var(--purple);
+		}
+
+		.custom-block-title {
+			margin-bottom: 0.25rem;
+			font-weight: 600;
+		}
+
+		.custom-block-content p {
+			margin: 0.25em 0;
+		}
+	}
+
+	.katex {
+		font-size: 1.05em;
 	}
 }
