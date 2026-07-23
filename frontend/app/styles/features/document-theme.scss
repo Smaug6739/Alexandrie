@@ -854,7 +854,7 @@
 	hr {
 		margin: 2rem 0;
 		border: none;
-		border-top: 1px solid var(--border-color);
+		border-top: 1px solid var(--border);
 	}
 
 	// Data table: no vertical rules, a divider under the header, 500-weight
@@ -872,7 +872,7 @@
 		td {
 			padding: 0.75rem 1rem;
 			border: none;
-			border-bottom: 1px solid var(--border-color);
+			border-bottom: 1px solid var(--border);
 			text-align: left;
 		}
 
@@ -941,5 +941,209 @@
 
 	.katex {
 		font-size: 1.05em;
+	}
+}
+
+.github-theme {
+	max-width: 100%;
+	padding: 0 0.5rem;
+	font-family: $font-sans !important;
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--text-body);
+
+	.header-anchor {
+		display: none;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		margin: 24px 0 16px;
+		font-weight: 600;
+		line-height: 1.25;
+	}
+
+	// GitHub's signature: a hairline rule under the top two heading levels.
+	h1 {
+		padding-bottom: 0.3em;
+		border-bottom: 1px solid var(--border);
+		font-size: 2em;
+	}
+
+	h2 {
+		padding-bottom: 0.3em;
+		border-bottom: 1px solid var(--border);
+		font-size: 1.5em;
+	}
+
+	h3 {
+		font-size: 1.25em;
+	}
+
+	h4 {
+		font-size: 1em;
+	}
+
+	h5 {
+		font-size: 0.875em;
+	}
+
+	h6 {
+		font-size: 0.85em;
+		color: var(--text-muted);
+	}
+
+	p {
+		width: 100%;
+		margin: 0 0 16px;
+	}
+
+	a {
+		color: var(--primary);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	// Inline code is a tinted chip; a fenced block is a bordered, padded panel.
+	code {
+		padding: 0.2em 0.4em;
+		border-radius: var(--radius-sm);
+		font-family: $font-mono;
+		font-size: 85%;
+		background-color: var(--surface-raised);
+	}
+
+	pre {
+		margin: 0 0 16px;
+		padding: 16px;
+		border: 1px solid var(--border);
+		border-radius: var(--radius-md);
+		font-size: 85%;
+		line-height: 1.45;
+		background-color: var(--surface-raised);
+		overflow-x: auto;
+
+		code {
+			padding: 0;
+			font-size: 100%;
+			background-color: transparent;
+		}
+	}
+
+	blockquote {
+		margin: 0 0 16px;
+		padding: 0 1em;
+		border-left: 0.25em solid var(--border);
+		color: var(--text-muted);
+	}
+
+	ul,
+	ol {
+		margin: 0 0 16px;
+		padding-left: 2em;
+
+		li {
+			margin: 0.25em 0;
+		}
+	}
+
+	img {
+		max-width: 100%;
+		margin: 0.5rem 0;
+		border-radius: var(--radius-sm);
+	}
+
+	hr {
+		height: 0.25em;
+		margin: 24px 0;
+		padding: 0;
+		border: 0;
+		background-color: var(--border);
+	}
+
+	// GitHub-flavoured tables: fully bordered cells with zebra striping on even rows.
+	table {
+		display: block;
+		width: max-content;
+		max-width: 100%;
+		margin: 0 0 16px;
+		border-collapse: collapse;
+		overflow-x: auto;
+
+		th,
+		td {
+			padding: 6px 13px;
+			border: 1px solid var(--border);
+		}
+
+		th {
+			font-weight: 600;
+		}
+
+		tr:nth-child(2n) {
+			background-color: var(--surface-raised);
+		}
+	}
+
+	// GitHub alerts: a coloured left rail plus a coloured, bold title and no fill — mapping Alexandrie's
+	// container colours onto GitHub's Note / Tip / Warning / Caution palette.
+	.custom-block {
+		margin: 0 0 16px;
+		padding: 0.5em 1em;
+		border: 0;
+		border-left: 0.25em solid var(--border);
+		color: var(--text-body);
+		background-color: transparent;
+
+		.custom-block-title {
+			margin: 0 0 0.5em;
+			font-weight: 600;
+			color: var(--text-primary);
+		}
+
+		.custom-block-content > :last-child {
+			margin-bottom: 0;
+		}
+
+		&.blue,
+		&.grey,
+		&.teal {
+			border-left-color: var(--blue);
+
+			.custom-block-title {
+				color: var(--blue);
+			}
+		}
+
+		&.green {
+			border-left-color: var(--green);
+
+			.custom-block-title {
+				color: var(--green);
+			}
+		}
+
+		&.yellow {
+			border-left-color: var(--yellow);
+
+			.custom-block-title {
+				color: var(--yellow);
+			}
+		}
+
+		&.red {
+			border-left-color: var(--red);
+
+			.custom-block-title {
+				color: var(--red);
+			}
+		}
 	}
 }

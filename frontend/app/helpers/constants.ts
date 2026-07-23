@@ -14,6 +14,7 @@ export const DOCUMENT_THEMES = [
   { label: 'Modern', id: 'modern' },
   { label: 'Academic', id: 'academic' },
   { label: 'Material', id: 'material' },
+  { label: 'Github', id: 'github' },
 ];
 
 // Document visibility options (1 = Private, 3 = Published)
