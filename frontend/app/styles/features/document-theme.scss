@@ -434,7 +434,7 @@
 	}
 }
 
-// Academic — for research papers, theses and scientific writing. Serif body at
+// Academic â€” for research papers, theses and scientific writing. Serif body at
 // a comfortable reading measure, numbered headings, tighter leading than Modern,
 // and figure/table captions that read as part of the document rather than UI.
 .academic-theme {
@@ -499,7 +499,7 @@
 		padding: 0.35em 0;
 	}
 
-	// Indent successive paragraphs instead of spacing them out — the typographic
+	// Indent successive paragraphs instead of spacing them out â€” the typographic
 	// convention in printed papers.
 	p + p {
 		text-indent: 1.5em;
@@ -651,5 +651,210 @@
 			font-family: 'Libertinus Math', serif !important;
 			font-size: 14px;
 		}
+	}
+}
+
+
+.material-theme {
+	max-width: 100%;
+	padding: 0 0.5rem;
+	font-family: Roboto, $font-sans !important;
+	font-size: 1rem;
+	line-height: 1.5;
+	color: var(--text-body);
+	letter-spacing: 0.0313em;
+
+	.header-anchor {
+		display: none;
+	}
+
+	// M3 type scale: display/headline sizes tighten tracking, body text loosens
+	// it. That contrast is what makes the hierarchy read as Material.
+	h1 {
+		margin: 0 0 1.5rem;
+		font-size: 2em;
+		font-weight: 400;
+		line-height: 1.2;
+		letter-spacing: 0;
+	}
+
+	h2 {
+		margin: 2rem 0 0.75rem;
+		font-size: 1.5em;
+		font-weight: 400;
+		line-height: 1.3;
+		letter-spacing: 0;
+	}
+
+	h3 {
+		margin: 1.5rem 0 0.5rem;
+		font-size: 1.25em;
+		font-weight: 500;
+		line-height: 1.4;
+		letter-spacing: 0.0094em;
+	}
+
+	h4 {
+		margin: 1.25rem 0 0.5rem;
+		font-size: 1em;
+		font-weight: 500;
+		letter-spacing: 0.0063em;
+	}
+
+	p {
+		width: 100%;
+		margin: 0 0 1rem;
+	}
+
+	a {
+		color: var(--primary);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	code {
+		padding: 0.15em 0.4em;
+		border-radius: var(--radius-sm);
+		font-family: $font-mono;
+		font-size: 0.875em;
+		letter-spacing: 0;
+		background-color: var(--surface-raised);
+	}
+
+	// Surfaces are elevated and rounded rather than outlined â€” the core of the
+	// Material surface model.
+	pre {
+		margin: 1.25rem 0;
+		padding: 1rem;
+		border-radius: var(--radius-md);
+		line-height: 1.5;
+		background-color: var(--surface-raised);
+		box-shadow: var(--shadow-sm, 0 1px 3px rgb(0 0 0 / 12%));
+		overflow-x: auto;
+
+		code {
+			padding: 0;
+			background-color: transparent;
+		}
+	}
+
+	blockquote {
+		margin: 1.25rem 0;
+		padding: 0.75rem 1rem;
+		border-left: 4px solid var(--primary);
+		border-radius: var(--radius-sm);
+		color: var(--text-muted);
+		background-color: var(--surface-raised);
+	}
+
+	ul,
+	ol {
+		margin: 0 0 1rem;
+		padding-left: 1.75rem;
+
+		li {
+			margin: 0.35em 0;
+		}
+	}
+
+	img {
+		max-width: 100%;
+		margin: 1.25rem 0;
+		border-radius: var(--radius-md);
+	}
+
+	hr {
+		margin: 2rem 0;
+		border: none;
+		border-top: 1px solid var(--border-color);
+	}
+
+	// Data table: no vertical rules, a divider under the header, 500-weight
+	// column labels.
+	table {
+		width: 100%;
+		margin: 1.5rem 0;
+		border-radius: var(--radius-md);
+		font-size: 0.95em;
+		background-color: var(--surface-raised);
+		border-collapse: collapse;
+		overflow: hidden;
+
+		th,
+		td {
+			padding: 0.75rem 1rem;
+			border: none;
+			border-bottom: 1px solid var(--border-color);
+			text-align: left;
+		}
+
+		thead th {
+			font-weight: 500;
+			letter-spacing: 0.0063em;
+		}
+
+		tbody tr:last-child td {
+			border-bottom: none;
+		}
+	}
+
+	// A tinted state layer plus a leading rule, the way an M3 banner reads.
+	.custom-block {
+		margin: 1.25rem 0;
+		padding: 0.75rem 1rem;
+		border-left: 4px solid var(--grey);
+		border-radius: var(--radius-md);
+		background-color: var(--grey-bg);
+
+		&.info,
+		&.blue {
+			border-left-color: var(--blue);
+			background-color: var(--blue-bg-light);
+		}
+
+		&.success,
+		&.green {
+			border-left-color: var(--green);
+			background-color: var(--green-bg-light);
+		}
+
+		&.warning,
+		&.yellow {
+			border-left-color: var(--yellow);
+			background-color: var(--yellow-bg-light);
+		}
+
+		&.danger,
+		&.red {
+			border-left-color: var(--red);
+			background-color: var(--red-bg-light);
+		}
+
+		&.teal {
+			border-left-color: var(--teal);
+			background-color: var(--teal-bg-light);
+		}
+
+		&.purple {
+			border-left-color: var(--purple);
+			background-color: var(--purple-bg-light);
+		}
+
+		.custom-block-title {
+			margin-bottom: 0.25rem;
+			font-weight: 500;
+			letter-spacing: 0.0063em;
+		}
+
+		.custom-block-content p {
+			margin: 0.25em 0;
+		}
+	}
+
+	.katex {
+		font-size: 1.05em;
 	}
 }
