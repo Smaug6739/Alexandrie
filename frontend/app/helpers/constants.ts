@@ -13,6 +13,7 @@ export const DOCUMENT_THEMES = [
   { label: 'Latex colored', id: 'latex-colored' },
   { label: 'Modern', id: 'modern' },
   { label: 'Academic', id: 'academic' },
+  { label: 'Material', id: 'material' },
 ];
 
 // Document visibility options (1 = Private, 3 = Published)
