@@ -68,6 +68,6 @@
   },
   "type": "module",
   "devDependencies": {
-    "vue-tsc": "^3.3.7"
+    "vue-tsc": "^3.3.8"
   }
 }
