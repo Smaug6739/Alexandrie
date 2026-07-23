@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const markStore = useMark();
 
-const RELEASE_MARK_ID: MarkId = 'v8.10.0';
+const RELEASE_MARK_ID: MarkId = 'v8.11.0';
 
 const isVisible = ref(false);
 
@@ -32,7 +32,7 @@ function handleClose() {
             </div>
             <div>
               <h2>What's new in Alexandrie?</h2>
-              <p class="version-tag">Version 8.10.0</p>
+              <p class="version-tag">Version 8.11.0</p>
             </div>
           </div>
 
@@ -43,30 +43,22 @@ function handleClose() {
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Teams</h3>
-              <p>Organize your activities with others. Manage permissions, access rights and collaborate</p>
+              <h3>Translations</h3>
+              <p>Improved translations and support two new languages: Korean and Italian</p>
             </div>
           </div>
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Offline mode</h3>
-              <p>Install PWA and create, read and edit documents offline.</p>
+              <h3>Markdown Syntax</h3>
+              <p>Enhanced Markdown syntax support for better document formatting: Support internal links, tooltips, snippets, diagrams and more.</p>
             </div>
           </div>
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Account 2FA</h3>
-              <p>Ensure the security of your account with two-factor authentication.</p>
-            </div>
-          </div>
-
-          <div class="item">
-            <div class="indicator"></div>
-            <div class="text">
-              <h3>Import full folders from your device</h3>
-              <p>Import entire folders including subfolders & images from your device with the advanced import feature.</p>
+              <h3>Editor & App</h3>
+              <p>Improved design, performance and user experience across the board.</p>
             </div>
           </div>
         </div>

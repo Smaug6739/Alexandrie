@@ -1,4 +1,4 @@
-const ACTIVE_MARK_IDS = ['support', 'security-2fa', 'tabs', 'new-imports', 'teams', 'v8.10.0', 'workspace-sharing'] as const;
+const ACTIVE_MARK_IDS = ['support', 'security-2fa', 'tabs', 'new-imports', 'teams', 'v8.11.0', 'workspace-sharing'] as const;
 
 export type MarkId = (typeof ACTIVE_MARK_IDS)[number];
 
