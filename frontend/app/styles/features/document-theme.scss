@@ -434,7 +434,7 @@
 	}
 }
 
-// Academic — for research papers, theses and scientific writing. Serif body at
+// Academic â€” for research papers, theses and scientific writing. Serif body at
 // a comfortable reading measure, numbered headings, tighter leading than Modern,
 // and figure/table captions that read as part of the document rather than UI.
 .academic-theme {
@@ -499,7 +499,7 @@
 		padding: 0.35em 0;
 	}
 
-	// Indent successive paragraphs instead of spacing them out — the typographic
+	// Indent successive paragraphs instead of spacing them out â€” the typographic
 	// convention in printed papers.
 	p + p {
 		text-indent: 1.5em;
@@ -651,5 +651,179 @@
 			font-family: 'Libertinus Math', serif !important;
 			font-size: 14px;
 		}
+	}
+}
+
+
+.minimal-theme {
+	max-width: 100%;
+	padding: 0 0.5rem;
+	font-family: $font-sans !important;
+	font-size: 1.0625rem;
+	line-height: 1.75;
+	color: var(--text-body);
+
+	.header-anchor {
+		display: none;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4 {
+		font-weight: 600;
+		line-height: 1.3;
+	}
+
+	h1 {
+		margin: 0 0 1.5rem;
+		font-size: 1.75em;
+	}
+
+	h2 {
+		margin: 2.5rem 0 0.75rem;
+		font-size: 1.35em;
+	}
+
+	h3 {
+		margin: 1.75rem 0 0.5rem;
+		font-size: 1.1em;
+	}
+
+	h4 {
+		margin: 1.25rem 0 0.5rem;
+		font-size: 1em;
+	}
+
+	p {
+		width: 100%;
+		margin: 0;
+		padding: 0.45em 0;
+	}
+
+	// Underlined rather than colour-only, so the link is still identifiable
+	// without relying on colour perception.
+	a {
+		color: var(--text-body);
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+
+		&:hover,
+		&:focus-visible {
+			color: var(--primary);
+		}
+	}
+
+	code,
+	pre {
+		font-family: $font-mono;
+		font-size: 0.9em;
+		color: var(--text-body);
+	}
+
+	pre {
+		margin: 1.25rem 0;
+		padding: 0.85rem 1rem;
+		border-radius: var(--radius-sm);
+		background-color: var(--surface-raised);
+		overflow-x: auto;
+	}
+
+	blockquote {
+		margin: 1.5rem 0;
+		padding-left: 1.25rem;
+		border-left: 2px solid var(--border-color);
+		color: var(--text-muted);
+	}
+
+	ul,
+	ol {
+		margin: 0.5em 0;
+		padding-left: 1.5rem;
+
+		li {
+			margin: 0.35em 0;
+		}
+	}
+
+	img {
+		max-width: 100%;
+		margin: 1.5rem 0;
+	}
+
+	hr {
+		margin: 2.5rem 0;
+		border: none;
+		border-top: 1px solid var(--border-color);
+	}
+
+	table {
+		width: 100%;
+		margin: 1.5em 0;
+		font-size: 0.95em;
+		border-collapse: collapse;
+
+		th,
+		td {
+			padding: 0.5em 0.65em;
+			border: none;
+			border-bottom: 1px solid var(--border-color);
+			text-align: left;
+		}
+
+		thead th {
+			font-weight: 600;
+		}
+	}
+
+	// Meaning is carried by the label and a single accent rule, not a fill â€”
+	// the block still reads correctly in greyscale or high-contrast mode.
+	.custom-block {
+		margin: 1.25rem 0;
+		padding: 0.15rem 0 0.15rem 1rem;
+		border-left: 3px solid var(--grey);
+		border-radius: 0;
+		background-color: transparent;
+
+		&.info,
+		&.blue {
+			border-left-color: var(--blue);
+		}
+
+		&.success,
+		&.green {
+			border-left-color: var(--green);
+		}
+
+		&.warning,
+		&.yellow {
+			border-left-color: var(--yellow);
+		}
+
+		&.danger,
+		&.red {
+			border-left-color: var(--red);
+		}
+
+		&.teal {
+			border-left-color: var(--teal);
+		}
+
+		&.purple {
+			border-left-color: var(--purple);
+		}
+
+		.custom-block-title {
+			margin-bottom: 0.25rem;
+			font-weight: 600;
+		}
+
+		.custom-block-content p {
+			margin: 0.3em 0;
+		}
+	}
+
+	.katex {
+		font-size: 1.05em;
 	}
 }
