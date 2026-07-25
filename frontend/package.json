@@ -9,7 +9,7 @@
     "@codemirror/state": "^6.7.1",
     "@codemirror/view": "^6.43.6",
     "@lezer/highlight": "^1.2.3",
-    "@nuxt/devtools": "latest",
+    "@nuxt/devtools": "4.0.0-alpha.9",
     "@nuxt/eslint": "1.16.0",
     "@nuxtjs/color-mode": "^4.0.1",
     "@nuxtjs/i18n": "10.5.0",
@@ -21,13 +21,13 @@
     "@types/markdown-it-container": "^4.0.0",
     "@types/node": "^26.1.1",
     "@vite-pwa/nuxt": "^1.1.1",
-    "@zip.js/zip.js": "^2.8.33",
-    "eslint": "^10.7.0",
+    "@zip.js/zip.js": "^2.8.34",
+    "eslint": "^10.8.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-perfectionist": "^5.10.0",
     "etag": "^1.8.1",
     "fast-glob": "^3.3.3",
-    "fs-extra": "^11.3.6",
+    "fs-extra": "^11.4.0",
     "katex": "^0.18.1",
     "localforage": "^1.10.0",
     "markdown-it": "^14.3.0",
@@ -43,7 +43,7 @@
     "postcss-scss": "^4.0.9",
     "punycode": "^2.3.1",
     "qrcode.vue": "^3.10.0",
-    "sass": "^1.101.3",
+    "sass": "^1.102.0",
     "stylelint": "^17.14.1",
     "stylelint-config-recommended-vue": "^1.6.1",
     "stylelint-config-standard": "^40.0.0",
@@ -68,6 +68,6 @@
   },
   "type": "module",
   "devDependencies": {
-    "vue-tsc": "^3.3.7"
+    "vue-tsc": "^3.3.8"
   }
 }
