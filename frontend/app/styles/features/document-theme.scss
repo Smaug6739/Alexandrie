@@ -276,6 +276,20 @@
 		display: none;
 	}
 
+	counter-reset: section subsection;
+
+	&.numbering {
+		h2::before {
+			content: counter(section, upper-roman) ". ";
+			counter-increment: section;
+		}
+
+		h3::before {
+			content: counter(subsection, lower-alpha) ". ";
+			counter-increment: subsection;
+		}
+	}
+
 	h1 {
 		font-size: 2rem;
 	}
@@ -283,6 +297,7 @@
 	h2 {
 		margin-top: 2rem;
 		font-size: 1.5rem;
+		counter-reset: subsection;
 	}
 
 	h3 {
@@ -438,218 +453,273 @@
 // a comfortable reading measure, numbered headings, tighter leading than Modern,
 // and figure/table captions that read as part of the document rather than UI.
 .academic-theme {
-	max-width: 100%;
-	padding: 0 0.5rem;
-	font-family: 'Libertinus Serif', 'LMRoman10', Georgia, serif !important;
-	font-size: 17px;
-	line-height: 1.65;
+	margin: auto;
+	padding: 0 3rem;
+	font-family: "Libertinus Serif", Georgia, serif !important;
+	font-size: 18px;
+	line-height: 1.85;
 	color: var(--text-body);
 	text-align: justify;
-
-	// Automatic section numbering, the way a paper is structured. Counters are
-	// reset on the container so every document numbers from 1.
-	counter-reset: section;
+	counter-reset: section subsection;
 	hyphens: auto;
 
 	.header-anchor {
 		display: none;
 	}
 
-	h1 {
-		margin: 0 0 1.5rem;
-		font-size: 1.9em;
-		font-weight: 700;
-		line-height: 1.25;
-		text-align: center;
+	@media print {
+		margin: 0;
+		padding: 0;
 	}
 
-	h2 {
-		margin: 2rem 0 0.75rem;
-		font-size: 1.35em;
-		font-weight: 700;
-		counter-reset: subsection;
-
-		&::before {
-			content: counter(section) '. ';
+	&.numbering {
+		h2::before {
+			font-size: 1.8rem;
+			font-weight: 700;
+			color: var(--text-primary);
+			letter-spacing: normal;
+			content: counter(section, decimal-leading-zero);
 			counter-increment: section;
 		}
-	}
 
-	h3 {
-		margin: 1.25rem 0 0.5rem;
-		font-size: 1.12em;
-		font-weight: 600;
-
-		&::before {
-			content: counter(section) '.' counter(subsection) '. ';
+		h3::before {
+			color: var(--text-muted);
+			content: counter(section) "." counter(subsection) " ";
 			counter-increment: subsection;
 		}
 	}
 
+	/* ---------- Title ---------- */
+
+	h1 {
+		margin: 0 0 4rem;
+		padding-bottom: 1.5rem;
+		border-bottom: 2px solid var(--border);
+		font-size: 3rem;
+		font-weight: 700;
+		line-height: 1.15;
+		text-align: center;
+		letter-spacing: -.03em;
+	}
+
+	h2 {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin: 2rem 0;
+		font-size: .95rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: .25em;
+		counter-reset: subsection;
+
+
+	}
+
+	h3 {
+		margin: 2.5rem 0 1rem;
+		font-size: 1.3rem;
+		font-weight: 600;
+	}
+
 	h4 {
-		margin: 1rem 0 0.5rem;
-		font-size: 1em;
+		margin: 1.5rem 0 .75rem;
+		font-size: 1.05rem;
 		font-weight: 600;
 		font-style: italic;
 	}
 
+	/* ---------- Paragraphs ---------- */
+
 	p {
-		width: 100%;
 		margin: 0;
-		padding: 0.35em 0;
+		padding: 0;
 	}
 
-	// Indent successive paragraphs instead of spacing them out â€” the typographic
-	// convention in printed papers.
-	p + p {
-		text-indent: 1.5em;
+	p+p {
+		margin-top: .25em;
+		text-indent: 2em;
 	}
+
+
+
+	/* ---------- Links ---------- */
 
 	a {
-		color: var(--primary);
-		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-		}
+		color: inherit;
+		text-decoration-color: var(--primary);
+		text-decoration-thickness: 2px;
+		text-underline-offset: .18em;
 	}
 
-	code,
-	pre {
-		font-family: $font-mono;
-		font-size: 0.88em;
-		color: var(--text-body);
-	}
-
-	pre {
-		padding: 0.75rem 1rem;
-		border: 1px solid var(--border-color);
-		border-radius: var(--radius-sm);
-		text-align: left;
-		hyphens: none;
-		overflow-x: auto;
-	}
-
-	blockquote {
-		margin: 1.25rem 2rem;
-		padding: 0;
-		border: none;
-		font-size: 0.95em;
-		font-style: italic;
-		color: var(--text-muted);
-	}
+	/* ---------- Lists ---------- */
 
 	ul,
 	ol {
-		margin: 0.5em 0;
-		padding-left: 1.75rem;
-		text-align: left;
+		margin: 1.5rem 0;
+		padding-left: 2rem;
 
 		li {
-			margin: 0.25em 0;
+			margin: .45rem 0;
 		}
 	}
+
+	/* ---------- Quotes ---------- */
+
+	blockquote {
+		position: relative;
+		margin: 3rem 2rem;
+		padding: 1rem 2rem;
+		border: none;
+		font-size: 1.05rem;
+		font-style: italic;
+
+		&::before {
+			position: absolute;
+			top: -.15em;
+			left: -.25em;
+			font-size: 5rem;
+			line-height: 1;
+			opacity: .15;
+			content: "“";
+		}
+	}
+
+	/* ---------- Code ---------- */
+
+	code {
+		font-family: $font-mono;
+		font-size: .9em;
+	}
+
+	pre {
+		margin: 2rem 0;
+		padding: 1.25rem;
+		border-left: 3px solid var(--text-primary);
+		font-size: .9rem;
+		background: transparent;
+		overflow-x: auto;
+	}
+
+	/* ---------- Images ---------- */
 
 	img {
 		display: block;
 		max-width: 100%;
-		margin: 1.5rem auto 0.5rem;
+		margin: 3rem auto 1rem;
+		border: 1px solid var(--border);
 	}
 
-	// Figure and table captions: small, centred, numbered.
 	figure {
-		margin: 1.5rem 0;
+		margin: 3rem 0;
+	}
 
-		figcaption {
-			margin-top: 0.5rem;
-			font-size: 0.85em;
-			color: var(--text-muted);
-			text-align: center;
+	figcaption {
+		margin-top: .75rem;
+		font-size: .85rem;
+		font-style: italic;
+		color: var(--text-muted);
+		text-align: center;
+
+		&::before {
+			font-weight: bold;
+			content: "Figure — ";
 		}
 	}
+
+	/* ---------- Tables ---------- */
 
 	table {
 		width: 100%;
-		margin: 1.5em 0;
-		font-size: 0.92em;
-		text-align: left;
+		margin: 3rem 0;
+		font-size: .95rem;
 		border-collapse: collapse;
-
-		// Booktabs-style rules: horizontal only, no vertical lines.
-		th,
-		td {
-			padding: 0.45em 0.6em;
-			border: none;
-			border-bottom: 1px solid var(--border-color);
-		}
-
-		thead th {
-			border-top: 2px solid var(--text-body);
-			border-bottom: 1px solid var(--text-body);
-			font-weight: 700;
-		}
-
-		tbody tr:last-child td {
-			border-bottom: 2px solid var(--text-body);
-		}
 	}
 
-	.custom-block {
-		margin: 1.25rem 0;
-		padding: 0.75rem 1rem;
-		border-left: 3px solid var(--grey);
-		border-radius: 0;
-		font-size: 0.95em;
-		text-align: left;
-		background-color: var(--surface-raised);
+	th,
+	td {
+		padding: .65rem .8rem;
+		border: none;
+	}
 
-		&.info,
+	thead tr {
+		border-top: 2px solid currentcolor;
+		border-bottom: 1px solid currentcolor;
+	}
+
+	tbody tr:last-child {
+		border-bottom: 2px solid currentcolor;
+	}
+
+	tbody tr:nth-child(even) {
+		background: rgb(127 127 127 / 4%);
+	}
+
+	/* ---------- Horizontal rule ---------- */
+
+	hr {
+		width: 30%;
+		margin: 4rem auto;
+		border: none;
+		border-top: 1px solid var(--border);
+	}
+
+	/* ---------- Custom blocks ---------- */
+
+	.custom-block {
+		margin: 2.5rem 0;
+		padding: 1.5rem 2rem;
+		border: 1px solid var(--border);
+		border-left: 5px solid var(--text-primary);
+		background: transparent;
+		box-shadow: none;
+
+		.custom-block-title {
+			margin-bottom: 1rem;
+			font-size: .9rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: .2em;
+		}
+
+		.custom-block-content p {
+			text-indent: 0;
+		}
+
 		&.blue {
 			border-left-color: var(--blue);
 		}
 
-		&.success,
 		&.green {
 			border-left-color: var(--green);
 		}
 
-		&.warning,
 		&.yellow {
 			border-left-color: var(--yellow);
 		}
 
-		&.danger,
 		&.red {
 			border-left-color: var(--red);
-		}
-
-		&.teal {
-			border-left-color: var(--teal);
 		}
 
 		&.purple {
 			border-left-color: var(--purple);
 		}
 
-		.custom-block-title {
-			margin-bottom: 0.35rem;
-			font-weight: 700;
-			font-variant: small-caps;
-			letter-spacing: 0.02em;
-		}
-
-		.custom-block-content p {
-			margin: 0.35em 0;
-			text-indent: 0;
+		&.teal {
+			border-left-color: var(--teal);
 		}
 	}
 
+	/* ---------- KaTeX ---------- */
+
 	.katex {
-		font-size: 18px;
+		display: flex;
+		justify-content: center;
+		font-size: 1.15em;
 
 		.text {
-			font-family: 'Libertinus Math', serif !important;
-			font-size: 14px;
+			font-family: "Libertinus Math", serif !important;
 		}
 	}
 }
@@ -668,8 +738,22 @@
 		display: none;
 	}
 
-	// M3 type scale: display/headline sizes tighten tracking, body text loosens
-	// it. That contrast is what makes the hierarchy read as Material.
+	counter-reset: section subsection;
+
+	&.numbering {
+		h2::before {
+			color: var(--text-primary);
+			content: counter(section, upper-roman) ". ";
+			counter-increment: section;
+		}
+
+		h3::before {
+			color: var(--text-muted);
+			content: counter(subsection, lower-alpha) ". ";
+			counter-increment: subsection;
+		}
+	}
+
 	h1 {
 		margin: 0 0 1.5rem;
 		font-size: 2em;
@@ -684,6 +768,7 @@
 		font-weight: 400;
 		line-height: 1.3;
 		letter-spacing: 0;
+		counter-reset: subsection;
 	}
 
 	h3 {

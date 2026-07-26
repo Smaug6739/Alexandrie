@@ -41,6 +41,12 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
         choices: DOCUMENT_THEMES,
       },
       {
+        label: t('settings.documents.documentTitlesNumbering'),
+        description: t('settings.documents.documentTitlesNumberingDesc'),
+        type: 'toggle',
+        key: 'documentTitlesNumbering',
+      },
+      {
         label: t('settings.documents.documentShowAttachments'),
         description: t('settings.documents.documentShowAttachmentsDesc'),
         type: 'toggle',

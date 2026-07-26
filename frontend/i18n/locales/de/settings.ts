@@ -113,6 +113,8 @@ export default {
     defaultLineHeight: 'Standardzeilenhöhe',
     defaultLineHeightDesc: 'Lege die Standardzeilenhöhe für alle deine Dokumente fest.',
     documentSize: 'Dokumentgröße',
+    documentTitlesNumbering: 'Dokumenttitel nummerieren',
+    documentTitlesNumberingDesc: 'Aktiviere die automatische Nummerierung von Dokumenttiteln (H1, H2, H3...).',
     documentShowAttachments: 'Anhänge anzeigen',
     documentShowAttachmentsDesc: 'Zeige angehängte Ressourcen (Bilder, PDFs usw.) am Ende des Dokuments an.',
     documentDefaultThumbnail: 'Standardminiaturansicht',

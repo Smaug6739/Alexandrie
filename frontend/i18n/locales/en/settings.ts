@@ -112,6 +112,8 @@ export default {
     defaultLineHeight: 'Default line height',
     defaultLineHeightDesc: 'Set the default line height for all your documents.',
     documentSize: 'Document size',
+    documentTitlesNumbering: 'Number document titles',
+    documentTitlesNumberingDesc: 'Enable automatic numbering of document titles (H1, H2, H3...).',
     documentShowAttachments: 'Show attachments',
     documentShowAttachmentsDesc: 'Show attached resources (images, PDFs, etc.) at the end of the document.',
     documentDefaultThumbnail: 'Default thumbnail',

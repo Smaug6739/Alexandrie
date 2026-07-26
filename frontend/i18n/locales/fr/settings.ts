@@ -113,6 +113,8 @@ export default {
     defaultLineHeight: 'Hauteur de ligne par défaut',
     defaultLineHeightDesc: 'Définir la hauteur de ligne par défaut pour tous vos documents.',
     documentSize: 'Taille du document',
+    documentTitlesNumbering: 'Numérotation des titres de documents',
+    documentTitlesNumberingDesc: 'Activer la numérotation automatique des titres de documents (H1, H2, H3...).',
     documentShowAttachments: 'Afficher les pièces jointes',
     documentShowAttachmentsDesc: 'Afficher les ressources jointes (images, PDFs, etc.) à la fin du document.',
     documentDefaultThumbnail: 'Miniature par défaut',

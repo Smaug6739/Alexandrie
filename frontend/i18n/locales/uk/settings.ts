@@ -112,6 +112,8 @@ export default {
     defaultLineHeight: 'Міжрядковий інтервал за замовчуванням',
     defaultLineHeightDesc: 'Встановити міжрядковий інтервал за замовчуванням для всіх документів.',
     documentSize: 'Розмір документа',
+    documentTitlesNumbering: 'Нумерація заголовків документів',
+    documentTitlesNumberingDesc: 'Увімкнути автоматичну нумерацію заголовків документів (H1, H2, H3...).',
     documentShowAttachments: 'Показувати вкладення',
     documentShowAttachmentsDesc: 'Показувати прикріплені ресурси (зображення, PDF тощо) в кінці документа.',
     documentDefaultThumbnail: 'Мініатюра за замовчуванням',

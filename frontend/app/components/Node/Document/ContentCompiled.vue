@@ -2,7 +2,7 @@
   <!-- eslint-disable vue/no-v-html -->
   <article
     ref="rootElement"
-    :class="['markdown-preview', `${theme}-theme`, `document-content`]"
+    :class="['markdown-preview', `${theme}-theme`, `document-content`, { numbering: documentTitlesNumbering }]"
     :style="{ fontSize: documentFontSize + 'px', fontFamily: documentFontFamily, lineHeight: documentLineHeight }"
     @change="handleCheckboxChange"
     @click="handleInternalLinkClick"
@@ -30,6 +30,7 @@ const theme = computed(() => {
 const documentFontSize = preferences.get('documentFontSize');
 const documentFontFamily = preferences.get('documentFontFamily');
 const documentLineHeight = preferences.get('documentLineHeight');
+const documentTitlesNumbering = preferences.get('documentTitlesNumbering');
 
 const rootElement = ref<HTMLElement>();
 
