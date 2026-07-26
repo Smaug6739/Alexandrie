@@ -53,7 +53,7 @@ export default {
     id: 'ID',
     name: 'Name',
     order: 'Reihenfolge',
-    parent: 'Übergeördnet',
+    parent: 'Übergeordnet',
     pinned: 'Angeheftet',
     role: 'Rolle',
     size: 'Größe',
