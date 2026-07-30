@@ -74,6 +74,8 @@ These variables define how clients (browsers) reach your services.
 CONFIG_DISABLE_LANDING=false
 CONFIG_DISABLE_SIGNUP=false
 CONFIG_DISABLE_NATIVE_LOGIN=false
+CONFIG_OIDC_PROVIDER_AUTO_REDIRECT=""
+CONFIG_HIDE_NATIVE_LOGIN_FORM=false
 ```
 
 These variables control specific features of the application (useful for private deployments, internal tools etc.).
@@ -81,6 +83,9 @@ These variables control specific features of the application (useful for private
 - `CONFIG_DISABLE_LANDING`: If set to `true`, the landing page is disabled, and users are redirected to the login page. The default is `false`.
 - `CONFIG_DISABLE_SIGNUP`: If set to `true`, new user registrations are disabled (in frontend + backend for security). The default is `false`.
 - `CONFIG_DISABLE_NATIVE_LOGIN`: If set to `true`, the native username/password login method is disabled. This is useful if you want to enforce OIDC or other external authentication methods. The default is `false`.
+- `CONFIG_HIDE_NATIVE_LOGIN_FORM`: If set to `true`, the native username/password login method is hidden. This is useful if you want to enforce OIDC or other external authentication methods but without setting up `CONFIG_OIDC_PROVIDER_AUTO_REDIRECT`. The default is `false`. Recommended to use in conjunction with `CONFIG_DISABLE_NATIVE_LOGIN`.
+- `CONFIG_OIDC_PROVIDER_AUTO_REDIRECT`: Provide a string that matches the provider name of one of your OIDC providers, if provided the user is automatically redirected to the OIDC login when landing on the login page.
+
 
 ### 3. Backend API — Runtime & Security
 

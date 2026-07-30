@@ -176,8 +176,10 @@ export default defineNuxtConfig({
       cdnEndpoint: '/alexandrie/',
       configDisableLandingPage: '',
       configDisableNativeLogin: false,
+      configHideNativeLogin: false,
       // Feature flags
       configDisableSignupPage: '',
+      configOidcProviderAutoRedirect: '',
     },
   },
 

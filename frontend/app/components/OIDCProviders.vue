@@ -25,10 +25,16 @@ import { getProviderConfig } from '~/helpers/oidc-providers';
 
 const { providers, isEnabled, isLoading, fetchProviders, loginWithProvider } = useOIDC();
 const { t } = useI18nT();
+const config = useRuntimeConfig();
 
 onMounted(() => {
-  fetchProviders();
+  if (!!config.public.configOidcProviderAutoRedirect) {
+    loginWithProvider(config.public.configOidcProviderAutoRedirect)
+  } else {
+    fetchProviders();
+  }
 });
+
 </script>
 
 <style scoped lang="scss">
