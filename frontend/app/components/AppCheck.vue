@@ -40,7 +40,7 @@ function toggle() {
     width: 20px;
     height: 20px;
     border: 2px solid var(--border);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-xs);
     background: var(--surface-base);
     transition:
       border-color $transition-fast,

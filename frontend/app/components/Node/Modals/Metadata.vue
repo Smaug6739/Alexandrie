@@ -22,7 +22,7 @@
 
         <div class="setting-row">
           <div class="setting-info">
-            <label for="pinned" class="setting-label">{{ t('common.labels.pinned') }}</label>
+            <label for="pinned">{{ t('common.labels.pinned') }}</label>
             <span class="setting-description">{{ t('nodes.modals.metadata.pinDescription') }}</span>
           </div>
           <AppToggle id="pinned" v-model="pinnedToggle" />
@@ -98,20 +98,6 @@ form {
   flex: 1;
   padding-bottom: 10px;
   overflow-y: auto;
-
-  section {
-    .sec-title {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-    margin-bottom: 10px;
-    padding: 10px 12px;
-    background: var(--surface-raised-light);
-    border-radius: var(--radius-lg);
-  }
 }
 
 label {
@@ -126,27 +112,5 @@ textarea {
   max-height: 50px;
   font-size: 14px;
   resize: none;
-}
-
-.setting-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 5px 0;
-  .setting-info {
-    display: flex;
-    flex-direction: column;
-
-    .setting-label {
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-    }
-
-    .setting-description {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-  }
 }
 </style>

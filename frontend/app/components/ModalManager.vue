@@ -8,7 +8,7 @@
         </button>
         <component
           :is="modal.component"
-          :style="{ padding: modal.options.noPadding ? '0' : '16px 22px' }"
+          :style="{ padding: modal.options.noPadding ? '0' : '10px 18px' }"
           v-bind="modal.options.props"
           class="modal"
           :class="modal.options.size"
