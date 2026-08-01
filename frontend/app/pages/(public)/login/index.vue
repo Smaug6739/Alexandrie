@@ -5,12 +5,12 @@
     <template v-if="!step2FA">
       <h1>{{ t('public.login.title') }}</h1>
       <form @submit.prevent="login">
-        <div class="form-group" v-if="!hideLoginForm">
+        <div v-if="!hideLoginForm" class="form-group">
           <label for="username">{{ t('public.login.form.username') }}</label>
           <input id="username" v-model="username" type="username" :class="{ 'is-invalid': errors.username }" :disabled="loginDisabled" />
           <p v-if="errors.username" class="invalid-feedback">{{ errors.username }}</p>
         </div>
-        <div class="form-group" v-if="!hideLoginForm">
+        <div v-if="!hideLoginForm" class="form-group">
           <label for="password">{{ t('public.login.form.password') }}</label>
           <div class="password-input">
             <input
@@ -31,7 +31,7 @@
           <p v-if="errors.password" class="invalid-feedback">{{ errors.password }}</p>
         </div>
         <NuxtLinkLocale to="/signup" class="signup-link">{{ t('public.login.needAccount') }}</NuxtLinkLocale>
-        <button class="btn" :disabled="loginDisabled" v-if="!hideLoginForm">{{ t('public.login.form.submit') }}</button>
+        <button v-if="!hideLoginForm" class="btn" :disabled="loginDisabled">{{ t('public.login.form.submit') }}</button>
         <p v-if="loginDisabled" class="disabled">{{ t('public.login.disabled') }}</p>
         <OIDCProviders />
 

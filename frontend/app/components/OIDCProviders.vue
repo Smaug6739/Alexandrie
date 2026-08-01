@@ -28,7 +28,7 @@ const { t } = useI18nT();
 const config = useRuntimeConfig();
 
 onMounted(() => {
-  if (!!config.public.configOidcProviderAutoRedirect) {
+  if (config.public.configOidcProviderAutoRedirect) {
     loginWithProvider(config.public.configOidcProviderAutoRedirect)
   } else {
     fetchProviders();
