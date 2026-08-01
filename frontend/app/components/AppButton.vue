@@ -52,6 +52,7 @@ button {
 }
 
 .secondary {
+  padding: 8px;
   border: 1px solid var(--primary);
   color: var(--text-body);
 
