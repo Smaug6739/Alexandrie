@@ -36,14 +36,13 @@ select {
 	font-size: 0.9rem;
 	color: var(--text-body);
 	margin: 0;
+	outline: none;
 	transition:
 		outline 0.2s ease,
-		border-color 0.2s ease,
-		box-shadow 0.2s ease;
+		border-color 0.2s ease;
 
 	&:focus {
 		background: var(--surface-base);
-		box-shadow: var(--shadow-input);
 		border-color: var(--primary);
 		outline: none;
 	}
