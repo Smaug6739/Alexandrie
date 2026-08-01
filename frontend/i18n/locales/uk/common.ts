@@ -1,5 +1,6 @@
 export default {
   actions: {
+    back: 'Назад',
     cancel: 'Скасувати',
     clear: 'Очистити',
     close: 'Закрити',

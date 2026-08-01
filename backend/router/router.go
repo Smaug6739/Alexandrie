@@ -72,5 +72,6 @@ func InitRouter(app *app.App) *gin.Engine {
 	routes.Backup(app, mainGroup)
 	routes.Nodes(app, mainGroup)
 	routes.Stats(app, mainGroup)
+	routes.CalendarEvents(app, mainGroup)
 	return router
 }

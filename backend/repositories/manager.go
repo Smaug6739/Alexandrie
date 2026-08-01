@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"alexandrie/pkg/logger"
-
 	"github.com/jmoiron/sqlx"
 )
 
@@ -18,6 +17,7 @@ type RepositoryManager struct {
 	OIDCProvider   OIDCProviderRepository
 	BackupCodes    BackupCodesRepository
 	UserSettings   UserSettingsRepository
+	CalendarEvent  CalendarEventRepository
 	initialized    bool
 }
 
@@ -25,10 +25,9 @@ func NewRepositoryManager(db *sqlx.DB) (*RepositoryManager, error) {
 	rm := &RepositoryManager{
 		db: db,
 	}
-
 	rm.initializeRepositories()
 	rm.initialized = true
-	logger.Success("repository manager", "Initialized successfully")
+	logger.Success("repository manager", "")
 	return rm, nil
 }
 
@@ -43,11 +42,12 @@ func (rm *RepositoryManager) initializeRepositories() {
 	rm.OIDCProvider = NewOIDCProviderRepository(rm.db)
 	rm.BackupCodes = NewBackupCodesRepository(rm.db)
 	rm.UserSettings = NewUserSettingsRepository(rm.db)
+	rm.CalendarEvent = NewCalendarEventRepository(rm.db)
 }
 
 func (rm *RepositoryManager) Close() error {
 	rm.initialized = false
-	logger.Success("repository manager", "Closed successfully")
+	logger.Success("repository manager", "Closed")
 	return rm.db.Close()
 }
 
