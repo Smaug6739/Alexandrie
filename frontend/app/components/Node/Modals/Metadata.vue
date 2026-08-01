@@ -2,15 +2,15 @@
   <div class="modal-content">
     <h2><Icon :name="node.icon || 'files'" display="xl" :class="['parent-icon', getAppAccent(node.color as number, true)]" /> {{ node.name }}</h2>
     <form @submit.prevent>
-      <template v-if="node.role == 1 || node.role == 2">
-        <label for="category">{{ t('common.labels.name') }}</label>
-        <input id="category" v-model="node.name" />
-        <label>{{ t('common.labels.role') }}</label>
-        <AppRadio v-model="node.role" :items="CATEGORY_ROLES" />
-      </template>
-
       <section>
         <span class="sec-title">{{ t('nodes.modals.metadata.labelOrganization') }}</span>
+        <template v-if="node.role == 1 || node.role == 2">
+          <label for="category">{{ t('common.labels.name') }}</label>
+          <input id="category" v-model="node.name" />
+          <label>{{ t('common.labels.role') }}</label>
+          <AppRadio v-model="node.role" :items="CATEGORY_ROLES" />
+        </template>
+
         <label for="parent">{{ t('common.labels.parent') }}</label>
         <AppSelect
           v-model="node.parent_id"
