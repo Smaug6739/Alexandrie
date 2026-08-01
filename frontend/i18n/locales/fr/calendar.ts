@@ -1,0 +1,45 @@
+export default {
+  title: 'Calendrier',
+  addEvent: 'Ajouter un événement',
+  editEvent: "Modifier l'événement",
+  startDate: 'Date de début',
+  endDate: 'Date de fin',
+  type: "Type d'événement",
+  linkDocument: 'Lier un document',
+  selectDocument: 'Sélectionner un document (optionnel)',
+  types: {
+    event: 'Événement',
+    homework: 'Devoir',
+    exam: 'Examen',
+    other: 'Autre',
+  },
+  colors: {
+    blue: 'Bleu',
+    green: 'Vert',
+    red: 'Rouge',
+    orange: 'Orange',
+    pink: 'Rose',
+  },
+  recurrence: 'Récurrence',
+  recurrencePatterns: {
+    none: 'Aucune',
+    daily: 'Chaque jour',
+    weekly: 'Chaque semaine',
+    monthly: 'Chaque mois',
+  },
+  recurrenceInterval: 'Répéter tous les',
+  recurrenceEnd: 'Fin de récurrence',
+  views: {
+    month: 'Mois',
+    week: 'Semaine',
+    day: 'Jour',
+  },
+  filters: {
+    title: 'Filtres',
+    type: 'Filtrer par type',
+    color: 'Filtrer par couleur',
+  },
+  dialog: {
+    deleteConfirm: 'Êtes-vous sûr de vouloir supprimer cet événement ?',
+  },
+};

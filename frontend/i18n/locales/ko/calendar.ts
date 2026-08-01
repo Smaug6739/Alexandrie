@@ -1,0 +1,45 @@
+export default {
+  title: '달력',
+  addEvent: '일정 추가',
+  editEvent: '일정 편집',
+  startDate: '시작일',
+  endDate: '종료일',
+  type: '일정 유형',
+  linkDocument: '문서 링크',
+  selectDocument: '문서 선택 (선택 사항)',
+  types: {
+    event: '이벤트',
+    homework: '과제',
+    exam: '시험',
+    other: '기타',
+  },
+  colors: {
+    blue: '파란색',
+    green: '초록색',
+    red: '빨간색',
+    orange: '주황색',
+    pink: '분홍색',
+  },
+  recurrence: '반복',
+  recurrencePatterns: {
+    none: '없음',
+    daily: '매일',
+    weekly: '매주',
+    monthly: '매월',
+  },
+  recurrenceInterval: '반복 주기',
+  recurrenceEnd: '반복 종료',
+  views: {
+    month: '월',
+    week: '주',
+    day: '일',
+  },
+  filters: {
+    title: '필터',
+    type: '유형별 필터',
+    color: '색상별 필터',
+  },
+  dialog: {
+    deleteConfirm: '이 일정을 삭제하시겠습니까?',
+  },
+};

@@ -114,6 +114,7 @@ export default {
       teams: 'Teams',
       newPage: 'New page',
       settings: 'Settings',
+      calendar: 'Calendar',
     },
     newCategory: 'New category',
     newDoc: 'New doc',

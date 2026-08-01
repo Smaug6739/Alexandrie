@@ -89,7 +89,6 @@ function expandAndClearFormatting(view: EditorView, from: number, to: number): {
       }
     }
     
-    // Also detect color wrapping: {color:name}(text)
     const beforeText = doc.slice(0, currentFrom);
     const afterText = doc.slice(currentTo);
     const colorMatch = beforeText.match(/\{color:[^}]+\}\($/);
@@ -104,7 +103,6 @@ function expandAndClearFormatting(view: EditorView, from: number, to: number): {
 
   let text = doc.slice(currentFrom, currentTo);
   
-  // Clean internal/common markdown formatting
   text = text
     .replace(/\*\*(.+?)\*\*/g, '$1') // bold
     .replace(/\*(.+?)\*/g, '$1') // italic
