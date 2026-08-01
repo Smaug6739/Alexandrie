@@ -112,24 +112,25 @@ const renderPage = async (pageNum: number) => {
     const page = await pdf.getPage(pageNum);
     const scale = computeScale(page);
     textLayerDiv.style.setProperty('--text-scale-factor', scale.toString());
+
+    const outputScale = window.devicePixelRatio || 1;
+
     const viewport = page.getViewport({ scale });
+    const ctx = canvas.getContext('2d')!;
 
-    // Set canvas dimensions
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = viewport.width * dpr;
-    canvas.height = viewport.height * dpr;
-    canvas.style.width = `${viewport.width}px`;
-    canvas.style.height = `${viewport.height}px`;
+    canvas.width = Math.floor(viewport.width * outputScale);
+    canvas.height = Math.floor(viewport.height * outputScale);
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    canvas.style.width = `${Math.round(viewport.width)}px`;
+    canvas.style.height = `${Math.round(viewport.height)}px`;
 
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : undefined;
 
     await page.render({
       canvasContext: ctx,
-      canvas,
+      canvas: canvas,
       viewport,
+      transform,
     }).promise;
 
     textLayerDiv.innerHTML = '';
@@ -287,7 +288,6 @@ onBeforeUnmount(() => {
 
 .pdf-canvas {
   display: block;
-  padding: 2px;
 }
 
 .textLayer {
