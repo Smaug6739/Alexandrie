@@ -271,18 +271,17 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
 .select {
   position: relative;
   width: 100%;
+  margin: 0;
   border: 1px solid var(--border);
+  border-radius: var(--radius-md);
   font-family: $font-ui;
+  font-size: 0.9rem;
+  color: var(--text-body);
+  background: var(--input-bg);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
   transition:
     border-color $transition-fast,
     box-shadow $transition-fast;
-
-  border-radius: var(--radius-md);
-  background: var(--input-bg);
-  font-size: 0.9rem;
-  color: var(--text-body);
-  margin: 0;
 
   &:hover {
     border-color: var(--text-secondary);
@@ -297,7 +296,7 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 6px;
+  padding: 0 6px;
 }
 
 .value {

@@ -13,16 +13,16 @@ form {
 	section {
 		.sec-title {
 			display: block;
+			margin-bottom: 10px;
 			font-size: 0.85rem;
 			color: var(--text-muted);
-			margin-bottom: 10px;
 			text-transform: uppercase;
 		}
 
 		.setting-row {
 			display: flex;
-			align-items: center;
 			justify-content: space-between;
+			align-items: center;
 			margin: 5px 0;
 
 			* {
@@ -42,8 +42,8 @@ form {
 
 		margin: 5px 0;
 		padding: 10px 12px;
-		background: var(--surface-raised-light);
 		border-radius: var(--radius-lg);
+		background: var(--surface-raised-light);
 	}
 }
 
@@ -65,21 +65,21 @@ input,
 textarea,
 select {
 	width: 100%;
+	margin: 0;
 	padding: 8px 12px;
-	border-radius: var(--radius-md);
 	border: 1px solid var(--border);
-	background: var(--input-bg);
+	border-radius: var(--radius-md);
 	font-size: 0.9rem;
 	color: var(--text-body);
-	margin: 0;
+	background: var(--input-bg);
 	outline: none;
 	transition:
 		outline 0.2s ease,
 		border-color 0.2s ease;
 
 	&:focus {
-		background: var(--surface-base);
 		border-color: var(--primary);
+		background: var(--surface-base);
 		outline: none;
 	}
 

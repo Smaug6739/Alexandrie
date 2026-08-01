@@ -103,7 +103,7 @@ form {
 label {
   display: flex;
   align-items: center;
-  margin: 5px 0 5px 0;
+  margin: 5px 0;
 }
 
 textarea {
