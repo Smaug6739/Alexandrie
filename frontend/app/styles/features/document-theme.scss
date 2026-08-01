@@ -854,7 +854,7 @@
 	hr {
 		margin: 2rem 0;
 		border: none;
-		border-top: 1px solid var(--border-color);
+		border-top: 1px solid var(--border);
 	}
 
 	// Data table: no vertical rules, a divider under the header, 500-weight
@@ -872,7 +872,7 @@
 		td {
 			padding: 0.75rem 1rem;
 			border: none;
-			border-bottom: 1px solid var(--border-color);
+			border-bottom: 1px solid var(--border);
 			text-align: left;
 		}
 
@@ -1090,7 +1090,7 @@
 			letter-spacing: 0.06em;
 		}
 
-		.custom-block-content > :last-child {
+		.custom-block-content> :last-child {
 			margin-bottom: 0;
 		}
 	}

@@ -32,7 +32,7 @@ export default {
     noDocuments: 'Nessun documento trovato',
     noDocumentsDescription: 'Non ci sono documenti in questa categoria',
     noWorkspaces: 'Nessuna area di lavoro o categoria trovata',
-    searchPlaceholder: 'Cerca un\'area di lavoro...',
+    searchPlaceholder: "Cerca un'area di lavoro...",
     title: 'Aree di lavoro e Categorie',
   },
 
@@ -63,7 +63,7 @@ export default {
     },
     join: {
       access: 'Accesso al nodo',
-      title: 'Entra in un team o in un\'area di lavoro',
+      title: "Entra in un team o in un'area di lavoro",
       subtitle:
         'Incolla un codice di invito o un link di invito completo. Se sei già entrato in questa area di lavoro con un livello di permesso differente, verrà mantenuto solo quello più alto.',
       label: 'Codice o link di invito',
@@ -74,6 +74,10 @@ export default {
     metadata: {
       emojiOrIcon: 'Emoji o icona',
       emojiOrIconHint: 'Supporta SVG o emoji',
+      labelAppearance: 'Apparenza',
+      labelOrganization: 'Organizzazione',
+      labelMedia: 'Media',
+      pinDescription: 'Fissa questo documento in alto nel tuo spazio di lavoro',
       thumbnail: 'Miniatura',
       thumbnailHint: 'Supporta gli SVG',
       title: 'Metadati',
@@ -114,7 +118,7 @@ export default {
     actionUploadResource: 'Carica come risorsa',
     actionUploadResourceDesc: 'Carica il contenuto condiviso come risorsa (immagine, PDF, ecc.) e ottieni un link da inserire nei tuoi documenti',
     chooseDestination: 'Scegli dove vuoi salvare questo contenuto.',
-    description: 'Contenuto ricevuto da un\'altra app.',
+    description: "Contenuto ricevuto da un'altra app.",
     sharedContent: 'Contenuto condiviso',
     title: 'Condividi contenuto',
   },

@@ -74,6 +74,10 @@ export default {
     metadata: {
       emojiOrIcon: 'Emoji ou icône',
       emojiOrIconHint: 'SVG ou emojis supportés',
+      labelAppearance: 'Apparence',
+      labelOrganization: 'Organisation',
+      labelMedia: 'Media',
+      pinDescription: 'Épingler ce document en haut de votre espace de travail',
       thumbnail: 'Miniature',
       thumbnailHint: 'SVG supporté',
       title: 'Métadonnées',
