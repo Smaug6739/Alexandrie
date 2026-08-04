@@ -45,6 +45,13 @@
           <div class="bulk-actions">
             <span class="selected-count">{{ selected.length }}</span>
             <span class="divider" />
+            <AppSelect
+              v-model="bulkParentId"
+              :items="parentNodes"
+              :placeholder="t('common.placeholder.parent')"
+              size="240px"
+              @update:model-value="parentId => bulkSetParent(selected, parentId)"
+            />
             <span @click="bulkDelete(selected)"><Icon name="delete" fill="var(--text-secondary)" class="action-btn" /></span>
           </div>
         </template>
@@ -83,6 +90,7 @@
 import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import { readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
+import { assignParent } from '~/helpers/resources-parent';
 import { resolveNodeColor } from '~/helpers/node';
 
 import type { Field } from '~/components/DataTable.vue';
@@ -109,6 +117,7 @@ const notifications = useNotifications();
 
 const view = ref<'list' | 'table'>('list');
 const dataTable = ref<{ selectedRows: Field[] } | null>(null);
+const bulkParentId = ref<string | number>('');
 const selectedFiles = ref<File[]>([]);
 const fileLinks = ref<string[]>([]);
 const isLoading = ref(false);
@@ -117,6 +126,7 @@ const dropComponent = ref();
 const filter = ref('');
 
 const MAX_STORAGE = 1024 * 1024 * 1024; // 1 GB in bytes
+const parentNodes = tree.getTreeUpToRole(3);
 
 const nodes = computed(() => {
   if (props.parentId)
@@ -213,6 +223,23 @@ const deleteResource = async (node: Node) => {
 const bulkDelete = async (lines: Field[]) => {
   const resources = lines.map(line => line.action?.data as Node);
   modals.add(new Modal(shallowRef(DeleteNodeModal), { props: { nodes: resources, redirectTo: '/dashboard/cdn' }, size: 'small' }));
+};
+
+const bulkSetParent = async (lines: Field[], parentId: string | number) => {
+  if (!parentId) return;
+
+  const resources = assignParent(
+    lines.map(line => line.action?.data as Node),
+    parentId,
+  );
+  try {
+    await Promise.all(resources.map(resource => nodesStore.update(resource)));
+    bulkParentId.value = '';
+    if (dataTable.value) dataTable.value.selectedRows = [];
+    notifications.add({ title: t('common.actions.update'), type: 'success' });
+  } catch (e) {
+    notifications.add({ message: String(e), title: 'Error', type: 'error' });
+  }
 };
 
 // Shortcuts
