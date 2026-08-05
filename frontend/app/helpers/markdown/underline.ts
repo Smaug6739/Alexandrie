@@ -1,10 +1,7 @@
-import type { Options } from 'markdown-it';
-import type MarkdownIt from 'markdown-it';
-import type Renderer from 'markdown-it/lib/renderer.mjs';
-import type Token from 'markdown-it/lib/token.mjs';
+import type { MarkdownIt, MarkdownItOptions, Renderer, Token } from 'markdown-it';
 
 export default function markdownItUnderline(md: MarkdownIt) {
-  function renderEm(tokens: Token[], idx: number, opts: Options, _: unknown, slf: Renderer) {
+  function renderEm(tokens: Token[], idx: number, opts: Required<MarkdownItOptions>, _: unknown, slf: Renderer) {
     const token = tokens[idx];
     if (token?.markup === '__') {
       token.tag = 'u';

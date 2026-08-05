@@ -1,4 +1,4 @@
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 import anchor from 'markdown-it-anchor';
 
 export const anchorPlugin = (md: MarkdownIt) => {

@@ -1,6 +1,5 @@
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt, RendererRule } from 'markdown-it';
 import container from 'markdown-it-container';
-import type { RenderRule } from 'markdown-it/lib/renderer.mjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const containerPlugin_ = container as any;
@@ -19,7 +18,7 @@ export const containerPlugin = (md: MarkdownIt) => {
     .use(...createInvisibleContainer('column'));
 };
 
-type ContainerArgs = [typeof containerPlugin_, string, { render: RenderRule }];
+type ContainerArgs = [typeof containerPlugin_, string, { render: RendererRule }];
 
 function createContainer(klass: string, defaultTitle: string, md: MarkdownIt): ContainerArgs {
   return [

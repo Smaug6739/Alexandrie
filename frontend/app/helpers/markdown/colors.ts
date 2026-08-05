@@ -1,5 +1,4 @@
-import type MarkdownIt from 'markdown-it';
-import type { StateInline } from 'markdown-it/dist/index.cjs.js';
+import type { MarkdownIt, StateInline } from 'markdown-it';
 
 export type ColorPluginOptions = {
   /** Also enable the bracket style: [text]{color=value} */

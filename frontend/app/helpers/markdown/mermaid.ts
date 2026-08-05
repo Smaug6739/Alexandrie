@@ -1,4 +1,4 @@
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 
 export const MERMAID_OPEN_RE = /^:{3,}mermaid\s*$/;
 export const MERMAID_CLOSE_RE = /^:{3,}\s*$/;
