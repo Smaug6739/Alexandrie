@@ -1,5 +1,4 @@
-import type MarkdownIt from 'markdown-it';
-import type { StateInline } from 'markdown-it/dist/index.cjs.js';
+import type { MarkdownIt, StateInline } from 'markdown-it';
 
 /**
  * Tooltips — reuses the application's `.hint-tooltip` CSS (#618).
@@ -95,7 +94,7 @@ export function tooltipPlugin(md: MarkdownIt) {
   });
 
   md.renderer.rules.tooltip_marker = (tokens, idx) => {
-    const hint: string = tokens[idx]?.meta?.hint || '';
+    const hint = String(tokens[idx]?.meta?.hint ?? '');
     return (
       `<span class="md-tooltip md-tooltip-marker" tabindex="0">` +
       `<span class="md-tooltip-icon">i</span>` +
@@ -105,7 +104,7 @@ export function tooltipPlugin(md: MarkdownIt) {
   };
 
   md.renderer.rules.tooltip_hint = (tokens, idx) => {
-    const hint: string = tokens[idx]?.meta?.hint || '';
+    const hint = String(tokens[idx]?.meta?.hint ?? '');
     return `<span class="hint-tooltip">${md.utils.escapeHtml(hint)}</span>`;
   };
 }

@@ -2,6 +2,7 @@
  * Node utilities - centralized helpers for working with nodes (documents, categories, workspaces, teams, resources)
  * Roles:  0 = Team, 1 = Workspace, 2 = Category, 3 = Document, 4 = Resource
  */
+import { appColors } from '~/helpers/constants';
 import type { DB_Node, Node, NodeSearchResult } from '~/stores';
 
 /** Resolve the appropriate icon for a node based on its role and properties */
@@ -95,6 +96,20 @@ export function parseTags(tags: string): string[] {
       .filter(Boolean);
   }
   return [];
+}
+
+/**
+ * Resolve a palette color for a tag from its name, so tags on a note are visually
+ * distinct instead of all sharing one color. The mapping is a hash of the name, so a
+ * given tag always keeps the same color everywhere without storing anything.
+ */
+export function resolveTagColor(tag: string): string {
+  const name = tag.trim().toLowerCase();
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (Math.imul(hash, 31) + name.charCodeAt(i)) | 0;
+  }
+  return appColors[Math.abs(hash) % appColors.length] || 'blue';
 }
 
 export function mergeNode(node: Node, full_node: Node): Node {

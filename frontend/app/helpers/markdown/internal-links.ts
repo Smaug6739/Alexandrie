@@ -1,5 +1,4 @@
-import type MarkdownIt from 'markdown-it';
-import type { StateInline } from 'markdown-it/dist/index.cjs.js';
+import type { MarkdownIt, StateInline } from 'markdown-it';
 
 // Internal links: #726782907684193440 => link to the document, displayed as "#<document name>"
 export const INTERNAL_LINK_REGEX = /#(\d{15,20})(?!\d)/g;
@@ -35,7 +34,7 @@ export function internalLinkPlugin(md: MarkdownIt) {
   });
 
   md.renderer.rules.internal_link = (tokens, idx, options, env) => {
-    const id: string = tokens[idx]?.meta?.id || '';
+    const id = String(tokens[idx]?.meta?.id ?? '');
     const name = (env as InternalLinkEnv)?.resolveNode?.(id);
     const label = md.utils.escapeHtml(name ? `#${name}` : `#${id}`);
     return `<a href="/dashboard/docs/${id}" class="internal-link" data-internal-link="${id}">${label}</a>`;

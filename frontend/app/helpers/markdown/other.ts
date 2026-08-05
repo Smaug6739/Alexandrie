@@ -1,5 +1,4 @@
-import type MarkdownIt from 'markdown-it';
-import type { StateInline } from 'markdown-it/dist/index.cjs.js';
+import type { Env, MarkdownIt, StateInline } from 'markdown-it';
 
 function superscriptPlugin(md: MarkdownIt) {
   md.inline.ruler.after('emphasis', 'superscript', (state: StateInline, silent: boolean) => {
@@ -104,14 +103,14 @@ function footNotePlugin(md: MarkdownIt) {
   });
 
   md.renderer.rules.footnote_ref = (tokens, idx) => {
-    const id = tokens[idx]?.meta.id;
+    const id = String(tokens[idx]?.meta?.id ?? '');
     const content = footnotes.get(id) || '';
     return `<sup class="footnote-ref"><a href="#fn-${id}" id="fnref-${id}" title="${md.utils.escapeHtml(content)}">[${id}]</a></sup>`;
   };
 
   // Add footnotes section at the end
   const originalRender = md.render.bind(md);
-  md.render = (src: string, env?: object) => {
+  md.render = (src: string, env?: Env) => {
     footnotes.clear();
     let result = originalRender(src, env);
 
@@ -141,7 +140,7 @@ function html5MediaPlugin(md: MarkdownIt) {
     const token = tokens[idx];
     if (!token) return '';
 
-    const src = token.attrGet('src') || '';
+    const src = String(token.attrGet('src') ?? '');
     let alt = token.content || '';
 
     // Parse: "Alt text | 100x200", "Alt | 100x", "Alt | x200", "Alt | 100"
@@ -189,9 +188,9 @@ function svgObjectPlugin(md: MarkdownIt) {
     const token = tokens[idx];
     if (!token) return '';
 
-    const src = token.attrGet('src') || '';
+    const src = String(token.attrGet('src') ?? '');
     const alt = token.content || '';
-    const title = token.attrGet('title') || '';
+    const title = String(token.attrGet('title') ?? '');
 
     if (SVG_REGEX.test(src)) {
       const escapedSrc = md.utils.escapeHtml(src);

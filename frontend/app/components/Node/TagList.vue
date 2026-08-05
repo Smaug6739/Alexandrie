@@ -1,11 +1,11 @@
 <template>
   <div v-if="parsedTags.length" class="tags">
-    <tag v-for="tag in parsedTags" :key="tag" class="primary" :class="{ clickable }" @click="onClick($event, tag)">{{ tag }}</tag>
+    <tag v-for="tag in parsedTags" :key="tag" :class="[resolveTagColor(tag), { clickable }]" @click="onClick($event, tag)">{{ tag }}</tag>
   </div>
 </template>
 
 <script setup lang="ts">
-import { parseTags } from '~/helpers/node';
+import { parseTags, resolveTagColor } from '~/helpers/node';
 
 const props = withDefaults(defineProps<{ tags?: string; clickable?: boolean }>(), { tags: '', clickable: true });
 

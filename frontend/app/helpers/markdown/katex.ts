@@ -1,6 +1,5 @@
 import { renderToString } from 'katex';
-import type MarkdownIt from 'markdown-it';
-import type { StateInline } from 'markdown-it/dist/index.cjs.js';
+import type { MarkdownIt, StateInline } from 'markdown-it';
 
 function markdownItKatexPlugin(md: MarkdownIt) {
   md.inline.ruler.after('escape', 'katex', (state: StateInline, silent: boolean) => {

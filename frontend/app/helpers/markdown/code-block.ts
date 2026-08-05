@@ -1,4 +1,4 @@
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 
 /**
  * Markdown-it plugin to add a "copy to clipboard" button to code blocks.

@@ -1,6 +1,5 @@
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt, Token } from 'markdown-it';
 import container from 'markdown-it-container';
-import type Token from 'markdown-it/lib/token.mjs';
 
 interface BlockDef {
   name: string;

@@ -1,5 +1,4 @@
-import type MarkdownIt from 'markdown-it';
-import type { StateCore } from 'markdown-it/dist/index.cjs.js';
+import type { MarkdownIt, StateCore } from 'markdown-it';
 
 function markdownItCheckbox(md: MarkdownIt) {
   // Add a core rule to process checkboxes

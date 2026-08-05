@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type MarkdownIt from 'markdown-it';
+import type { MarkdownIt } from 'markdown-it';
 import container from 'markdown-it-container';
 import { svg_info, svg_warning, containerOpen } from './constants';
 
