@@ -33,7 +33,7 @@
       </div>
     </div>
     <div v-if="selectedTags?.length" :class="`selected-tags `">
-      <span v-for="tag in selectedTags" :key="tag" class="tag-chip">
+      <span v-for="tag in selectedTags" :key="tag" class="tag-chip" :class="resolveTagColor(tag)">
         {{ tag }}
         <button class="remove-tag" @click.stop="removeTag(tag)">×</button>
       </span>
@@ -42,6 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import { resolveTagColor } from '~/helpers/node';
+
 const props = defineProps<{
   display?: 'column' | 'row';
   minimal?: boolean;
@@ -244,7 +246,6 @@ input {
   padding: 3px 6px;
   border-radius: var(--radius-lg);
   font-size: 12px;
-  background: var(--border);
 
   .remove-tag {
     display: flex;
