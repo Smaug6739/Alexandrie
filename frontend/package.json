@@ -35,7 +35,7 @@
     "markdown-it-container": "^4.0.0",
     "markdown-it-highlightjs": "^4.3.0",
     "markdown-it-mark": "^4.0.0",
-    "mermaid": "^11.16.0",
+    "mermaid": "^11.16.1",
     "nuxt": "^4.5.1",
     "pathe": "^2.0.3",
     "pdfjs-dist": "^6.2.108",
