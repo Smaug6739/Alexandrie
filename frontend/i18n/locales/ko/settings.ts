@@ -114,6 +114,8 @@ export default {
     documentSize: '문서 크기',
     documentTitlesNumbering: '문서 제목 번호 매기기',
     documentTitlesNumberingDesc: '문서 제목(H1, H2, H3 등)의 자동 번호 매기기를 활성화합니다.',
+    documentColoredTags: '컬러 태그',
+    documentColoredTagsDesc: '태그 이름에 따라 색상을 적용하여 태그를 표시합니다. 비활성화하면 모든 태그가 동일한 색상으로 표시됩니다.',
     documentShowAttachments: '첨부 파일 표시',
     documentShowAttachmentsDesc: '문서 끝에 첨부된 리소스(이미지, PDF 등)를 표시합니다.',
     documentDefaultThumbnail: '기본 썸네일',

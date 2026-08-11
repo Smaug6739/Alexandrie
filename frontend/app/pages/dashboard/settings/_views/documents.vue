@@ -45,6 +45,14 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
         description: t('settings.documents.documentTitlesNumberingDesc'),
         type: 'toggle',
         key: 'documentTitlesNumbering',
+        tag: t('common.actions.new'),
+      },
+      {
+        label: t('settings.documents.documentColoredTags'),
+        description: t('settings.documents.documentColoredTagsDesc'),
+        type: 'toggle',
+        key: 'documentColoredTags',
+        tag: t('common.actions.new'),
       },
       {
         label: t('settings.documents.documentShowAttachments'),

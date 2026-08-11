@@ -1,6 +1,6 @@
 <template>
   <div v-if="parsedTags.length" class="tags">
-    <tag v-for="tag in parsedTags" :key="tag" :class="[resolveTagColor(tag), { clickable }]" @click="onClick($event, tag)">{{ tag }}</tag>
+    <tag v-for="tag in parsedTags" :key="tag" :class="[colored ? resolveTagColor(tag) : 'primary', { clickable }]" @click="onClick($event, tag)">{{ tag }}</tag>
   </div>
 </template>
 
@@ -9,9 +9,12 @@ import { parseTags, resolveTagColor } from '~/helpers/node';
 
 const props = withDefaults(defineProps<{ tags?: string; clickable?: boolean }>(), { tags: '', clickable: true });
 
+const preferencesStore = usePreferencesStore();
+
 const router = useRouter();
 
 const parsedTags = computed(() => parseTags(props.tags));
+const colored = preferencesStore.get('documentColoredTags');
 
 function onClick(event: MouseEvent, tag: string) {
   if (!props.clickable) return;

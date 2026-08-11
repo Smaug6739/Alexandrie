@@ -114,6 +114,8 @@ export default {
     documentSize: 'Document size',
     documentTitlesNumbering: 'Number document titles',
     documentTitlesNumberingDesc: 'Enable automatic numbering of document titles (H1, H2, H3...).',
+    documentColoredTags: 'Colored tags',
+    documentColoredTagsDesc: 'Display tags with colors based on their name. If disabled, all tags will have the same color.',
     documentShowAttachments: 'Show attachments',
     documentShowAttachmentsDesc: 'Show attached resources (images, PDFs, etc.) at the end of the document.',
     documentDefaultThumbnail: 'Default thumbnail',

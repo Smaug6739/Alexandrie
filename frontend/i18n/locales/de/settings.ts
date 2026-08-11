@@ -115,6 +115,8 @@ export default {
     documentSize: 'Dokumentgröße',
     documentTitlesNumbering: 'Dokumenttitel nummerieren',
     documentTitlesNumberingDesc: 'Aktiviere die automatische Nummerierung von Dokumenttiteln (H1, H2, H3...).',
+    documentColoredTags: 'Farbcodierte Tags',
+    documentColoredTagsDesc: 'Zeige Tags mit Farben basierend auf ihrem Namen an. Wenn deaktiviert, werden alle Tags dieselbe Farbe haben.',
     documentShowAttachments: 'Anhänge anzeigen',
     documentShowAttachmentsDesc: 'Zeige angehängte Ressourcen (Bilder, PDFs usw.) am Ende des Dokuments an.',
     documentDefaultThumbnail: 'Standardminiaturansicht',

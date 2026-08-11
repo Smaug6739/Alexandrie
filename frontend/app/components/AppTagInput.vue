@@ -33,7 +33,7 @@
       </div>
     </div>
     <div v-if="selectedTags?.length" :class="`selected-tags `">
-      <span v-for="tag in selectedTags" :key="tag" class="tag-chip" :class="resolveTagColor(tag)">
+      <span v-for="tag in selectedTags" :key="tag" class="tag-chip" :class="colored ? resolveTagColor(tag) : 'primary'">
         {{ tag }}
         <button class="remove-tag" @click.stop="removeTag(tag)">×</button>
       </span>
@@ -53,6 +53,9 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void;
 }>();
 
+const nodesStore = useNodesStore();
+const preferencesStore = usePreferencesStore();
+
 const { t } = useI18nT();
 
 const selectedTags = ref<string[]>(stringToTags(props.modelValue || ''));
@@ -60,7 +63,7 @@ const tagInput = ref('');
 const showSuggestions = ref(false);
 const selectedSuggestionIndex = ref(-1);
 
-const nodesStore = useNodesStore();
+const colored = preferencesStore.get('documentColoredTags');
 
 watch(
   () => props.modelValue,
