@@ -5,7 +5,7 @@
     :class="['markdown-preview', `${theme}-theme`, `document-content`, { numbering: documentTitlesNumbering }]"
     :style="{ fontSize: documentFontSize + 'px', fontFamily: documentFontFamily, lineHeight: documentLineHeight }"
     @change="handleCheckboxChange"
-    @click="handleInternalLinkClick"
+    @click="handleClick"
     v-html="node?.content_compiled"
   />
 </template>
@@ -54,6 +54,36 @@ const updateMarkdownCheckbox = (markdown: string, indexToTarget: number, shouldC
   });
 };
 
+// Handle the "Copy code" button click event
+const handleCodeCopyClick = async (e: MouseEvent) => {
+  const btn = (e.target as HTMLElement)?.closest('.code-copy-btn') as HTMLButtonElement | null;
+  if (!btn || btn.classList.contains('copied')) return;
+
+  const wrapper = btn.closest('.code-block-wrapper');
+  const codeEl = wrapper?.querySelector('pre code');
+  if (!codeEl) return;
+
+  const codeToCopy = codeEl.textContent || '';
+
+  let success = false;
+
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(codeToCopy);
+      success = true;
+    } catch (err) {
+      console.warn('Cannot copy text to clipboard', err);
+    }
+  }
+
+  if (success) {
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+    }, 1500);
+  }
+};
+
 // Navigate internal document links (#<id>) through the router, without a full page reload
 const handleInternalLinkClick = (event: MouseEvent) => {
   if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -63,6 +93,11 @@ const handleInternalLinkClick = (event: MouseEvent) => {
   if (!id) return;
   event.preventDefault();
   router.push(`/dashboard/docs/${id}`);
+};
+
+const handleClick = (event: MouseEvent) => {
+  handleCodeCopyClick(event);
+  handleInternalLinkClick(event);
 };
 
 const handleCheckboxChange = (event: Event) => {

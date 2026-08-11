@@ -166,35 +166,70 @@
 }
 
 // *************** CODE BLOCKS **************** //
-// Copy Button Styles
 .code-block-wrapper {
 	position: relative;
+	margin: 1em 0;
 }
 
 .code-copy-btn {
 	position: absolute;
-	top: 22px;
-	right: 14px;
-	display: flex;
-	justify-content: center;
+	top: 20px;
+	right: 8px;
+	z-index: 5;
+	display: inline-flex;
 	align-items: center;
-	padding: 4px;
-	opacity: 0;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	padding: 6px;
+	border-radius: 6px;
+	border: 1px solid var(--grey-dark);
+	background: rgba(30, 30, 30, 0.7);
+	color: #a0a0a0;
+	backdrop-filter: blur(4px);
 	cursor: pointer;
-	transition: opacity $transition-fast ease, background-color $transition-fast ease, border-color $transition-fast ease;
-	fill: #e3e4e6;
-}
-
-.code-block-wrapper:hover .code-copy-btn {
-	opacity: 1;
+	transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .code-copy-btn:hover {
-	background: #b0aeb91a;
+	background: rgba(45, 45, 45, 0.9);
+	color: #fff;
+	border-color: var(--grey);
+}
+
+.code-copy-btn:active {
+	transform: scale(0.92);
+}
+
+.code-copy-btn .btn-icon,
+.code-copy-btn .btn-icon-success {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+		opacity 0.2s ease;
+}
+
+.code-copy-btn .btn-icon-success {
+	position: absolute;
+	opacity: 0;
+	transform: scale(0.5) rotate(-45deg);
+	color: var(--green);
 }
 
 .code-copy-btn.copied {
-	fill: #2ac27a;
+	border-color: var(--green-border);
+	background: var(--green-bg);
+}
+
+.code-copy-btn.copied .btn-icon {
+	opacity: 0;
+	transform: scale(0.5) rotate(45deg);
+}
+
+.code-copy-btn.copied .btn-icon-success {
+	opacity: 1;
+	transform: scale(1) rotate(0deg);
 }
 
 // *************** CARDS BLOCKS **************** //

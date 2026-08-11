@@ -1,47 +1,25 @@
 import type { MarkdownIt } from 'markdown-it';
 
 /**
- * Markdown-it plugin to add a "copy to clipboard" button to code blocks.
- * @param md - The MarkdownIt instance
+ * This plugin adds a copy button to code blocks in the rendered markdown.
  */
+
+const ICON_COPY = `<svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+const ICON_CHECK = `<svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
 export const copyCodePlugin = (md: MarkdownIt) => {
-  // Sauvegarde du renderer par défaut des blocs <pre><code>
   const defaultFence = md.renderer.rules.fence;
 
   md.renderer.rules.fence = function (tokens, idx, options, env, self) {
-    const token = tokens[idx];
-    const rawCode = token?.content || '';
-
-    // HTML original rendu par markdown-it
     const original = defaultFence ? defaultFence(tokens, idx, options, env, self) : self.renderToken(tokens, idx, options);
 
-    // On enveloppe dans un container pour pouvoir placer le bouton
     return `
 <div class="code-block-wrapper">
-  <button class="code-copy-btn" data-code="${md.utils.escapeHtml(rawCode)}" aria-label="Copy code">
-    ${COPY_ICON}
+  <button type="button" class="code-copy-btn" aria-label="Copy code" title="Copy code">
+    <span class="btn-icon">${ICON_COPY}</span>
+    <span class="btn-icon-success">${ICON_CHECK}</span>
   </button>
   ${original}
-</div>
-    `;
+</div>`;
   };
 };
-
-// Icon svg "copy"
-const COPY_ICON = `<svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px"><path d="M160-80q-33 0-56.5-23.5T80-160v-480q0-33 23.5-56.5T160-720h80v-80q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240h-80v80q0 33-23.5 56.5T640-80H160Zm160-240h480v-480H320v480Z"/></svg>`;
-
-// Registered at module scope, so it must be guarded for SSR: the markdown pipeline
-// is imported on server-rendered pages (e.g. the public document reader) where
-// `document` does not exist.
-if (import.meta.client) {
-  document.addEventListener('click', e => {
-    const btn = (e.target as HTMLElement)?.closest('.code-copy-btn') as HTMLButtonElement | null;
-    if (!btn) return;
-
-    const code = btn.dataset.code ?? '';
-    navigator.clipboard.writeText(code);
-
-    btn.classList.add('copied');
-    setTimeout(() => btn.classList.remove('copied'), 800);
-  });
-}
