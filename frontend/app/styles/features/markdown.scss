@@ -197,6 +197,19 @@
 	fill: #2ac27a;
 }
 
+// A copy that could not complete — no clipboard API (non-secure context) and the
+// legacy fallback refused too. Says so rather than looking like a dead button.
+.code-copy-btn.copy-failed {
+	fill: #e5484d;
+}
+
+// While either state is showing, keep the button visible even if the pointer has
+// moved off the block: the feedback is the point.
+.code-copy-btn.copied,
+.code-copy-btn.copy-failed {
+	opacity: 1;
+}
+
 // *************** CARDS BLOCKS **************** //
 .block {
 	display: flex;
