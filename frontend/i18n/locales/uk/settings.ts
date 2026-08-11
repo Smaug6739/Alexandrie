@@ -114,6 +114,8 @@ export default {
     documentSize: 'Розмір документа',
     documentTitlesNumbering: 'Нумерація заголовків документів',
     documentTitlesNumberingDesc: 'Увімкнути автоматичну нумерацію заголовків документів (H1, H2, H3...).',
+    documentColoredTags: 'Кольорові теги',
+    documentColoredTagsDesc: 'Відображати теги з кольорами, які базуються на їхніх назвах. Якщо вимкнено, усі теги будуть мати однаковий колір.',
     documentShowAttachments: 'Показувати вкладення',
     documentShowAttachmentsDesc: 'Показувати прикріплені ресурси (зображення, PDF тощо) в кінці документа.',
     documentDefaultThumbnail: 'Мініатюра за замовчуванням',
