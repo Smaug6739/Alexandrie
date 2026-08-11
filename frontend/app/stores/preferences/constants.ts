@@ -68,6 +68,7 @@ export const DEFAULT_PREFERENCES = {
   editorSpellCheck: true as boolean,
   editorDisplayStats: false as boolean,
   editorSnippetsEnabled: true as boolean,
+  editorScrollBeyondLastLine: true as boolean,
   editorSimplifiedViewOnMobile: true as boolean,
   developerMode: false as boolean,
   stylesInjectionEnabled: false as boolean,
@@ -116,6 +117,7 @@ export const EDITOR_KEYS: PreferenceKey[] = [
   'editorSpellCheck',
   'editorDisplayStats',
   'editorSnippetsEnabled',
+  'editorScrollBeyondLastLine',
   'editorSimplifiedViewOnMobile',
 ];
 

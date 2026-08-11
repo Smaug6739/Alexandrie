@@ -145,6 +145,8 @@ export default {
     section: 'Editor',
     simplifiedMobileView: 'Vereinfachte Mobilansicht',
     simplifiedMobileViewDesc: 'Aktiviere eine vereinfachte Editor-Ansicht auf Mobilgeräten für bessere Benutzerfreundlichkeit.',
+    scrollBeyondLastLine: 'Über die letzte Zeile hinaus scrollen',
+    scrollBeyondLastLineDesc: 'Erlaube dem Editor, über das Ende des Dokuments hinaus zu scrollen, damit die letzte Zeile nicht am unteren Bildschirmrand bleibt.',
     subtitle: 'Verwalte deine Editor-Einstellungen.',
     title: 'Editor-Einstellungen',
   },

@@ -143,6 +143,8 @@ export default {
     section: '에디터',
     simplifiedMobileView: '단순화된 모바일 보기',
     simplifiedMobileViewDesc: '모바일에서 사용성을 높이기 위해 단순화된 에디터 보기를 활성화합니다.',
+    scrollBeyondLastLine: '마지막 줄 아래로 스크롤',
+    scrollBeyondLastLineDesc: '문서 끝을 지나서도 스크롤할 수 있게 하여 마지막 줄이 화면 맨 아래에 머물지 않도록 합니다.',
     subtitle: '에디터 환경설정을 관리합니다.',
     title: '에디터 환경설정',
   },

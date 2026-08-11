@@ -146,6 +146,8 @@ export default {
     section: 'Editor',
     simplifiedMobileView: 'Vista mobile semplificata',
     simplifiedMobileViewDesc: "Abilita una vista semplificata dell'editor su dispositivi mobili per una migliore usabilità.",
+    scrollBeyondLastLine: "Scorri oltre l'ultima riga",
+    scrollBeyondLastLineDesc: "Consenti all'editor di scorrere oltre la fine del documento, così l'ultima riga non resta in fondo allo schermo.",
     subtitle: "Gestisci le tue preferenze dell'editor.",
     title: 'Preferenze editor',
   },

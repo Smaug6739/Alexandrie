@@ -66,6 +66,13 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
         type: 'toggle',
         key: 'editorSimplifiedViewOnMobile',
       },
+      {
+        label: t('settings.editor.scrollBeyondLastLine'),
+        tag: t('settings.nav.new'),
+        description: t('settings.editor.scrollBeyondLastLineDesc'),
+        type: 'toggle',
+        key: 'editorScrollBeyondLastLine',
+      },
     ],
   },
 ]);
