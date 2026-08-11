@@ -1,5 +1,6 @@
 export default {
   actions: {
+    back: 'Zurück',
     cancel: 'Abbrechen',
     clear: 'Leeren',
     close: 'Schließen',

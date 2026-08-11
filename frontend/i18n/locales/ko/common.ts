@@ -1,5 +1,6 @@
 export default {
   actions: {
+    back: '뒤로',
     cancel: '취소',
     clear: '지우기',
     close: '닫기',

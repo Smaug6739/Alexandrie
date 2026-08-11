@@ -13,6 +13,7 @@ import settings from './settings';
 import time from './time';
 import user from './user';
 import teams from './teams';
+import calendar from './calendar';
 
 export default {
   admin,
@@ -30,4 +31,5 @@ export default {
   time,
   user,
   teams,
+  calendar,
 };
