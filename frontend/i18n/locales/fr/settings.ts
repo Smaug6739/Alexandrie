@@ -145,6 +145,8 @@ export default {
     section: 'Éditeur',
     simplifiedMobileView: 'Vue simplifiée pour mobile',
     simplifiedMobileViewDesc: "Activer une vue simplifiée de l'éditeur sur les appareils mobiles pour une meilleure utilisabilité.",
+    scrollBeyondLastLine: 'Défiler au-delà de la dernière ligne',
+    scrollBeyondLastLineDesc: "Permettre à l'éditeur de défiler au-delà de la fin du document, afin que la dernière ligne ne reste pas en bas de l'écran.",
     subtitle: "Gérez vos préférences d'édition.",
     title: "Préférences de l'éditeur",
   },

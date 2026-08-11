@@ -25,7 +25,7 @@
       <!-- Editor Content Section -->
       <div ref="container" class="editor-content">
         <div class="editor-panel" :class="{ 'with-preview': showPreview }">
-          <div ref="editorContainer" class="codemirror-editor" />
+          <div ref="editorContainer" class="codemirror-editor" :class="{ 'scroll-beyond-last-line': scrollBeyondLastLine }" />
         </div>
 
         <div v-if="showPreview" class="preview-panel">
@@ -72,6 +72,7 @@ const editorView = ref<EditorView | null>(null);
 const showPreview = ref(false);
 
 const autoSaveEnabled = preferences.get('documentAutoSave');
+const scrollBeyondLastLine = preferences.get('editorScrollBeyondLastLine');
 
 const scrollSync = createScrollSync({
   getView: () => editorView.value as EditorView | null,
@@ -326,6 +327,18 @@ const autoSave = debounceDelayed(() => {
 
 .editor-container:deep(.cm-scroller) {
   padding: 8px 12px;
+}
+
+// Scroll past the end of the document (#653), so the line being typed need not sit at
+// the bottom of the screen. Padding on .cm-content rather than a CodeMirror extension:
+// the space has to be INSIDE the scrollable content for the scroller to reach it, and
+// this way toggling the preference is a class change with no editor reconfiguration.
+//
+// vh rather than a line count: the useful amount is "most of a screen", which is what
+// makes the last line reachable near the top, and it stays right when the font size or
+// the window changes.
+.codemirror-editor.scroll-beyond-last-line:deep(.cm-content) {
+  padding-bottom: 60vh;
 }
 
 .markdown-preview {

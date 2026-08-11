@@ -144,6 +144,8 @@ export default {
     section: 'Editor',
     simplifiedMobileView: 'Simplified mobile view',
     simplifiedMobileViewDesc: 'Enable a simplified editor view on mobile for better usability.',
+    scrollBeyondLastLine: 'Scroll beyond last line',
+    scrollBeyondLastLineDesc: 'Allow the editor to scroll past the end of the document, so the last line need not sit at the bottom of the screen.',
     subtitle: 'Manage your editor preferences.',
     title: 'Editor preferences',
   },
