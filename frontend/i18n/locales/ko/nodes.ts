@@ -73,6 +73,10 @@ export default {
     metadata: {
       emojiOrIcon: '이모지 또는 아이콘',
       emojiOrIconHint: 'SVG 또는 이모지 지원',
+      labelAppearance: '외형',
+      labelOrganization: '조직',
+      labelMedia: '미디어',
+      pinDescription: '이 문서를 워크스페이스 상단에 고정합니다',
       thumbnail: '썸네일',
       thumbnailHint: 'SVG 지원',
       title: '메타데이터',

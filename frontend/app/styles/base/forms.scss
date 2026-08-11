@@ -3,11 +3,47 @@
 form {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
+	gap: 0.3rem;
 
 	.form-group {
 		display: flex;
 		flex-direction: column;
+	}
+
+	section {
+		.sec-title {
+			display: block;
+			margin-bottom: 10px;
+			font-size: 0.85rem;
+			color: var(--text-muted);
+			text-transform: uppercase;
+		}
+
+		.setting-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin: 5px 0;
+
+			* {
+				width: auto;
+			}
+
+			.setting-info {
+				display: flex;
+				flex-direction: column;
+
+				.setting-description {
+					font-size: 0.75rem;
+					color: var(--text-muted);
+				}
+			}
+		}
+
+		margin: 5px 0;
+		padding: 10px 12px;
+		border-radius: var(--radius-lg);
+		background: var(--surface-raised-light);
 	}
 }
 
@@ -15,7 +51,7 @@ label {
 	display: block;
 	margin: 2px 0 0;
 	padding: 0;
-	font-size: 0.95rem;
+	font-size: 0.875rem;
 	font-weight: 500;
 	color: var(--text-primary);
 }
@@ -26,32 +62,32 @@ textarea {
 }
 
 input,
-select,
-textarea {
+textarea,
+select {
+	width: 100%;
 	margin: 0;
-	padding: 8px 10px;
+	padding: 8px 12px;
 	border: 1px solid var(--border);
-	border-radius: var(--radius-sm);
-	font-size: 14px;
+	border-radius: var(--radius-md);
+	font-size: 0.9rem;
 	color: var(--text-body);
-	background: var(--surface-base);
+	background: var(--input-bg);
+	outline: none;
+	transition:
+		outline 0.2s ease,
+		border-color 0.2s ease;
+
+	&:focus {
+		border-color: var(--primary);
+		background: var(--surface-base);
+		outline: none;
+	}
 
 	&:disabled {
 		opacity: 0.8;
 		cursor: not-allowed;
 	}
 
-	&:focus {
-		border-color: var(--primary);
-		outline: none;
-	}
-
-}
-
-input {
-	display: block;
-	width: 100%;
-	font-size: 16px;
 }
 
 input[type="radio"]:focus {

@@ -11,10 +11,11 @@
 	// -------------------------------------------------------------------------
 	--surface-base: #fff;
 	--surface-raised: #F1F6FD;
-	--surface-raised-light: #f6faff;
+	--surface-raised-light: #f4f6f8;
 	--surface-overlay: #e2ebfd;
 	--surface-transparent: rgb(8 8 8 / 3%);
 	--surface-transparent-light: rgb(8 8 8 / 2%);
+	--input-bg: #fafafa;
 	--body-fixed: var(--surface-base);
 	// -------------------------------------------------------------------------
 	// TEXT
@@ -29,7 +30,7 @@
 	// -------------------------------------------------------------------------
 	// BORDERS
 	// -------------------------------------------------------------------------
-	--border: #d1d3d7;
+	--border: #ddd;
 	--border-subtle: #dfe0e585;
 	--border-strong: #c4c6d0;
 	--border-focus: var(--accent);

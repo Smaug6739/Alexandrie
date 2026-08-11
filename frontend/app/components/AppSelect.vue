@@ -271,10 +271,13 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
 .select {
   position: relative;
   width: 100%;
+  margin: 0;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   font-family: $font-ui;
-  background: var(--surface-base);
+  font-size: 0.9rem;
+  color: var(--text-body);
+  background: var(--input-bg);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
   transition:
     border-color $transition-fast,
@@ -293,7 +296,7 @@ const filterRecursive = <T extends ANode>(items: T[], filter: Ref<string>): T[] 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1px 6px;
+  padding: 0 6px;
 }
 
 .value {
@@ -317,11 +320,10 @@ button.value {
   width: 100%;
   padding: 0;
   border: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background: transparent;
   cursor: pointer;
   overflow: hidden;
 
@@ -336,9 +338,8 @@ button.value {
   padding: 0 6px;
   border: none;
   border-radius: var(--radius-sm);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-body);
-  background: transparent;
 
   &:focus {
     outline: none;
@@ -482,13 +483,8 @@ button.value {
     height: 100%;
     padding: 8px 12px;
     border: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--text-body);
-    background: transparent;
-
-    &:focus {
-      outline: none;
-    }
   }
 }
 
@@ -499,24 +495,6 @@ button.value {
   list-style: none;
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
-
-  :deep(.tree-node) {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2px;
-    padding: 10px 12px;
-    border-radius: var(--radius-sm);
-    font-size: 0.95rem;
-    color: var(--text-body);
-    cursor: pointer;
-    transition:
-      background $transition-fast,
-      color $transition-fast;
-
-    &:hover {
-      background: var(--surface-raised);
-    }
-  }
 }
 
 .clear {

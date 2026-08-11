@@ -74,6 +74,10 @@ export default {
     metadata: {
       emojiOrIcon: 'Емоджі або іконка',
       emojiOrIconHint: 'Підтримуються SVG та емоджі',
+      labelAppearance: 'Зовнішній вигляд',
+      labelOrganization: 'Організація',
+      labelMedia: 'Медіа',
+      pinDescription: 'Закріпити цей документ у верхній частині вашого простору',
       thumbnail: 'Мініатюра',
       thumbnailHint: 'Підтримується SVG',
       title: 'Метадані',

@@ -666,48 +666,61 @@
 
 	/* ---------- Custom blocks ---------- */
 
+	.markdown-container {
+		display: flex;
+		gap: 1rem;
+		margin: 0.5em 0;
+		padding: 0;
+		border: none !important;
+		color: var(--text-body);
+		background-color: transparent !important;
+
+		.title {
+			min-width: 150px;
+			max-width: 170px;
+			padding: 5px 12px;
+			border-right: 1px solid var(--text-body);
+			font-size: 15px;
+			color: var(--text-primary);
+
+			svg {
+				display: none;
+			}
+		}
+
+		p {
+			padding: 0 0.5em;
+		}
+	}
+
 	.custom-block {
-		margin: 2.5rem 0;
-		padding: 1.5rem 2rem;
-		border: 1px solid var(--border);
-		border-left: 5px solid var(--text-primary);
-		background: transparent;
-		box-shadow: none;
+		display: flex;
+		flex-wrap: wrap;
+		margin: 2em 0;
+		padding: 0;
+		border: none;
+		font-size: 16px;
+		color: var(--text-body);
+		background-color: transparent;
 
 		.custom-block-title {
-			margin-bottom: 1rem;
-			font-size: .9rem;
-			font-weight: 700;
-			text-transform: uppercase;
-			letter-spacing: .2em;
+			min-width: 150px;
+			max-width: 170px;
+			padding: 5px 12px;
+			border-right: 1px solid var(--text-body);
+			font-weight: bold;
+			color: var(--text-primary);
 		}
 
-		.custom-block-content p {
-			text-indent: 0;
-		}
 
-		&.blue {
-			border-left-color: var(--blue);
-		}
 
-		&.green {
-			border-left-color: var(--green);
-		}
+		.custom-block-content {
+			flex: 1;
+			padding: 0 0.5em;
 
-		&.yellow {
-			border-left-color: var(--yellow);
-		}
-
-		&.red {
-			border-left-color: var(--red);
-		}
-
-		&.purple {
-			border-left-color: var(--purple);
-		}
-
-		&.teal {
-			border-left-color: var(--teal);
+			p {
+				padding: 0 0.5em;
+			}
 		}
 	}
 
@@ -854,7 +867,7 @@
 	hr {
 		margin: 2rem 0;
 		border: none;
-		border-top: 1px solid var(--border-color);
+		border-top: 1px solid var(--border);
 	}
 
 	// Data table: no vertical rules, a divider under the header, 500-weight
@@ -872,7 +885,7 @@
 		td {
 			padding: 0.75rem 1rem;
 			border: none;
-			border-bottom: 1px solid var(--border-color);
+			border-bottom: 1px solid var(--border);
 			text-align: left;
 		}
 
@@ -1090,7 +1103,7 @@
 			letter-spacing: 0.06em;
 		}
 
-		.custom-block-content > :last-child {
+		.custom-block-content> :last-child {
 			margin-bottom: 0;
 		}
 	}
