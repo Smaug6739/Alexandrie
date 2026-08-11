@@ -9,7 +9,7 @@
     "@codemirror/state": "^6.7.1",
     "@codemirror/view": "^6.43.7",
     "@lezer/highlight": "^1.2.3",
-    "@nuxt/devtools": "3.4.0",
+    "@nuxt/devtools": "3.4.1",
     "@nuxt/eslint": "1.16.0",
     "@nuxtjs/color-mode": "^4.0.1",
     "@nuxtjs/i18n": "10.6.0",
