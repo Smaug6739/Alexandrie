@@ -11,7 +11,7 @@ jobs:
     env:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USER }}
-      REMOTE_PATH: /home/smaug/sites/alexandrie
+      REMOTE_PATH: /home/deploy/apps/alexandrie
 
     steps:
       - name: Checkout repository
@@ -52,12 +52,19 @@ jobs:
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -t ed25519 "${SSH_HOST}" >> ~/.ssh/known_hosts
+          printf '%s\n' "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
           printf "%s" "${DEPLOY_SSH_KEY}" > deploy_key
           chmod 600 deploy_key
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
 
+      - name: Test SSH connection
+        run: |
+          ssh -i deploy_key \
+            -o BatchMode=yes \
+            "${SSH_USER}@${SSH_HOST}" \
+            "whoami && test \"\$(whoami)\" = \"deploy\""
       # -------------------------
       # Generate .env file with secrets & configuration
       # -------------------------
@@ -83,7 +90,7 @@ jobs:
           NUXT_PUBLIC_BASE_API=https://api.alexandrie-hub.fr
           NUXT_PUBLIC_BASE_CDN=https://cdn.alexandrie-hub.fr
           EOF
-
+          chmod 600 .env.production
       # -------------------------
       # Deploy files using rsync
       # -------------------------
@@ -102,7 +109,7 @@ jobs:
             bun install --production
           "
       # -------------------------
-      # Rollback + restart app
+      # Restart application with PM2
       # -------------------------
       - name: Restart application with pm2
         run: |
@@ -116,11 +123,5 @@ jobs:
             # Reload or start the application
             pm2 delete ecosystem.config.js || true
             pm2 start ecosystem.config.js
+            pm2 save
           "
-
-      # -------------------------
-      # Cleanup sensitive files
-      # -------------------------
-      - name: Cleanup
-        run: |
-          rm -f deploy_key .env.production
