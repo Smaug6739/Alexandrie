@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "alexandrie-backend",
-      script: "./backend_app",
+      script: "./backend",
       cwd: "./backend",
       env: {
         PORT: 8201,
