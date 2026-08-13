@@ -3,7 +3,6 @@ module.exports = {
     {
       name: "alexandrie-backend",
       script: "./backend",
-      cwd: "./backend",
       env: {
         PORT: 8201,
         FRONTEND_URL: "https://alexandrie-hub.fr",
