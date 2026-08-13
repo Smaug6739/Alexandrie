@@ -21,7 +21,6 @@
         "nuxt-og-image": "^6.7.6",
         "tailwindcss": "^4.3.3",
         "ufo": "^1.6.4",
-        "unhead": "^3.3.2",
         "unist-util-visit": "^5.1.0",
         "zod": "^4.4.3",
       },
