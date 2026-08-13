@@ -106,6 +106,10 @@ jobs:
             set -e
             rm -rf ${REMOTE_PATH}/frontend/.output/server/node_modules
             cd ${REMOTE_PATH}/frontend/.output/server
+
+            export BUN_INSTALL=\"/home/deploy/.bun\"
+            export PATH=\"\$BUN_INSTALL/bin:\$PATH\"
+
             bun install --production
           "
       # -------------------------
@@ -120,6 +124,10 @@ jobs:
             set -o allexport
             source .env.production
             set +o allexport
+
+            export BUN_INSTALL=\"/home/deploy/.bun\"
+            export PATH=\"\$BUN_INSTALL/bin:\$PATH\"
+            
             # Reload or start the application
             pm2 delete ecosystem.config.js || true
             pm2 start ecosystem.config.js
