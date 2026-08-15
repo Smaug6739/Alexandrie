@@ -69,6 +69,7 @@ export interface User {
   password?: string;
   email?: string;
   totp_enabled: boolean;
+  totp_forced?: boolean;
   created_timestamp: number;
   updated_timestamp: number;
 }
@@ -80,6 +81,8 @@ export interface PublicUser {
   created_timestamp: number;
   updated_timestamp: number;
 }
+
+export type UserToCreate = Pick<User, 'username' | 'email' | 'firstname' | 'lastname' | 'totp_forced'>;
 
 export interface NodeSearchResult {
   id: string;

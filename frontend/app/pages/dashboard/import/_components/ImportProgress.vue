@@ -12,20 +12,21 @@
       <div class="progress-bar" :style="{ width: progress + '%' }"></div>
     </div>
 
-    <small v-if="importJob.status === 'failed'">{{ importJob.error_message }} ({{ importJob.failures }} {{ t('common.status.failed') }})</small>
+    <!-- eslint-disable-next-line vue/no-v-html -->
+    <small v-if="displayErr" v-html="`${importJob.error_message}<br>${importJob.failures} ${t('common.status.failed')}`"></small>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { ImportJob } from '~/helpers/backups/Importer';
 
-const props = defineProps<{ importJob: ImportJob }>();
+const props = defineProps<{ importJob: ImportJob<object, object | null> }>();
 
 const { t } = useI18nT();
 
 const progress = computed(() =>
   Math.floor(
-    ((props.importJob.created.length + props.importJob.updated.length) * 100) /
+    ((props.importJob.created.length + props.importJob.updated.length + props.importJob.failures) * 100) /
       ((props.importJob.toCreate.length || 0) + (props.importJob.toUpdate.length || 0)),
   ),
 );
@@ -43,6 +44,8 @@ const statusLabel = computed(() => {
       return t('common.status.unknown');
   }
 });
+
+const displayErr = computed(() => props.importJob.status === 'failed' || props.importJob.error_message);
 </script>
 
 <style scoped lang="scss">

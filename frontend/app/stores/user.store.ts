@@ -1,5 +1,6 @@
 import localForage from 'localforage';
-import type { User, PublicUser, Session } from './db_structures';
+import type { User, PublicUser, UserToCreate, Session } from './db_structures';
+import type { ImportJob } from '~/helpers/backups/Importer';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -21,6 +22,7 @@ export const useUserStore = defineStore('user', {
         const response = await makeRequest<{ auth: boolean; pre_auth_token?: string; message?: string; user?: User }>('auth', 'POST', { username, password });
 
         if (response.status === 'success') {
+          if (response.result?.message === '2FA_TO_ENABLE') return { success: true, require2FAEnable: true, preAuthToken: response.result?.pre_auth_token };
           if (response.result?.message === '2FA_REQUIRED') return { success: true, require2FA: true, preAuthToken: response.result?.pre_auth_token };
           if (import.meta.client) localForage.setItem('isLoggedIn', true);
           return { success: true, require2FA: false };
@@ -32,16 +34,20 @@ export const useUserStore = defineStore('user', {
       }
     },
 
-    async request2FA() {
-      const response = await makeRequest<{ secret: string; qr_code_url: string }>('auth/2fa/request', 'POST', {});
+    async request2FA(preAuthToken?: string) {
+      const response = await makeRequest<{ secret: string; qr_code_url: string }>('auth/2fa/request', 'POST', { pre_auth_token: preAuthToken });
       if (response.status === 'success') {
         return response.result;
       }
       throw response.message;
     },
 
-    async confirm2FA(secret: string, code: string): Promise<string[]> {
-      const response = await makeRequest<{ message: string; backup_codes: string[] }>('auth/2fa/confirm', 'POST', { secret, code });
+    async confirm2FA(secret: string, code: string, preAuthToken?: string): Promise<string[]> {
+      const response = await makeRequest<{ message: string; backup_codes: string[] }>('auth/2fa/confirm', 'POST', {
+        secret,
+        code,
+        pre_auth_token: preAuthToken,
+      });
       if (response.status === 'success') {
         if (this.user) this.user.totp_enabled = true;
         return response.result?.backup_codes || [];
@@ -75,6 +81,28 @@ export const useUserStore = defineStore('user', {
       const request = await makeRequest('users', 'POST', user);
       if (request.status === 'success') return true;
       throw request.message;
+    },
+
+    async bulkRegister(job: ImportJob<UserToCreate, null>) {
+      job.status = 'in_progress';
+      job.failures = 0;
+      job.error_message = '';
+      for (const user of job.toCreate) {
+        try {
+          await new Promise(resolve => setTimeout(resolve, 75));
+          const request = await makeRequest('users', 'POST', user);
+          if (request.status === 'success') job.created.push((request.result as User).id);
+          else throw request.message;
+        } catch (e) {
+          job.failures++;
+          job.error_message += `Failed to register user ${user.username}: ${e}<br>`;
+        }
+      }
+      if (job.failures > 0) {
+        job.status = 'failed';
+      } else {
+        job.status = 'completed';
+      }
     },
 
     async fetch(): Promise<undefined | User> {

@@ -17,10 +17,18 @@ type AuthClaims struct {
 	jwt.RegisteredClaims
 }
 
-func Auth() gin.HandlerFunc {
+func Auth(allowNoAuthorization ...bool) gin.HandlerFunc {
+	allowNoToken := false
+	if len(allowNoAuthorization) > 0 {
+		allowNoToken = allowNoAuthorization[0]
+	}
 	return func(c *gin.Context) {
 		tokenString, err := c.Cookie("Authorization")
 		if err != nil {
+			if allowNoToken {
+				c.Next()
+				return
+			}
 			c.JSON(http.StatusUnauthorized, utils.Error("Bad access token."))
 			c.Abort()
 			return

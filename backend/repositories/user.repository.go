@@ -51,12 +51,12 @@ func (r *UserRepositoryImpl) GetByID(id types.Snowflake, secrets bool) (*models.
 	var err error
 	if secrets {
 		err = r.db.Get(&user, `
-			SELECT id, username, firstname, lastname, role, avatar, email, password, totp_secret, totp_enabled, created_timestamp, updated_timestamp 
+			SELECT id, username, firstname, lastname, role, avatar, email, password, totp_secret, totp_enabled, totp_forced, created_timestamp, updated_timestamp 
 			FROM users 
 			WHERE id = ?`, id)
 	} else {
 		err = r.db.Get(&user, `
-		SELECT id, username, firstname, lastname, role, avatar, email, totp_enabled, created_timestamp, updated_timestamp 
+		SELECT id, username, firstname, lastname, role, avatar, email, totp_enabled, totp_forced, created_timestamp, updated_timestamp 
 		FROM users 
 		WHERE id = ?`, id)
 	}
@@ -72,7 +72,7 @@ func (r *UserRepositoryImpl) GetByID(id types.Snowflake, secrets bool) (*models.
 func (r *UserRepositoryImpl) GetByUsername(username string) (*models.User, error) {
 	var user models.User
 	err := r.db.Get(&user, `
-		SELECT id, username, firstname, lastname, role, avatar, email, password, totp_enabled, created_timestamp, updated_timestamp 
+		SELECT id, username, firstname, lastname, role, avatar, email, password, totp_enabled, created_timestamp, updated_timestamp, totp_forced 
 		FROM users 
 		WHERE username = ?`, username)
 	if err == sql.ErrNoRows {
@@ -153,8 +153,8 @@ func (r *UserRepositoryImpl) CheckUsernameExists(username string) (bool, error) 
 
 func (r *UserRepositoryImpl) Create(user *models.User) (*models.User, error) {
 	_, err := r.db.NamedExec(`
-		INSERT INTO users (id, username, firstname, lastname, role, avatar, email, password, created_timestamp, updated_timestamp) 
-		VALUES (:id, :username, :firstname, :lastname, :role, :avatar, :email, :password, :created_timestamp, :updated_timestamp)`,
+		INSERT INTO users (id, username, firstname, lastname, role, type, avatar, email, password, created_timestamp, updated_timestamp, totp_forced) 
+		VALUES (:id, :username, :firstname, :lastname, :role, :type, :avatar, :email, :password, :created_timestamp, :updated_timestamp, :totp_forced)`,
 		user)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create user: %w", err)
@@ -165,9 +165,9 @@ func (r *UserRepositoryImpl) Create(user *models.User) (*models.User, error) {
 func (r *UserRepositoryImpl) Update(id types.Snowflake, user *models.User) (*models.User, error) {
 	_, err := r.db.Exec(`
 		UPDATE users 
-		SET username=?, firstname=?, lastname=?, avatar=?, email=?, updated_timestamp=? 
+		SET username=?, firstname=?, lastname=?, type=?, avatar=?, email=?, updated_timestamp=?, totp_forced=?
 		WHERE id=?`,
-		user.Username, user.Firstname, user.Lastname, user.Avatar, user.Email, user.UpdatedTimestamp, id)
+		user.Username, user.Firstname, user.Lastname, user.Type, user.Avatar, user.Email, user.UpdatedTimestamp, user.TOTPForced, id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update user: %w", err)
 	}

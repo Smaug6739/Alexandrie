@@ -58,7 +58,7 @@ async function start2FASetup() {
     totpData.value = data!;
     setupMode.value = true;
   } catch (err) {
-    setupError.value = (err as string) || "Impossible d'initier la configuration 2FA";
+    setupError.value = (err as string) || 'Failed to initiate 2FA setup';
   }
 }
 
@@ -70,7 +70,7 @@ async function confirm2FA() {
     setupCode.value = '';
     modals.add(new Modal(shallowRef(BackupCodes2FA), { size: 'small', props: { backupCodes } }));
   } catch (err) {
-    setupError.value = (err as string) || "Code invalide. L'activation a échoué.";
+    setupError.value = (err as string) || 'Invalid code. Activation failed.';
   }
 }
 
@@ -142,7 +142,7 @@ h3 {
     border-radius: var(--radius-sm);
     font-family: var(--font-mono, monospace);
     font-size: 0.85rem;
-    color: #333; /* Lisible sur fond blanc */
+    color: #333;
     text-align: center;
     word-break: break-all;
     background: var(--surface-background);

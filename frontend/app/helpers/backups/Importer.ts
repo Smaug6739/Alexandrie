@@ -2,15 +2,15 @@ import compile from '~/helpers/markdown';
 import { extractMetadataFromMarkdown } from '~/helpers/node';
 import type { DB_Node } from '~/stores';
 
-export interface ImportJob {
+export interface ImportJob<T = DB_Node, O = ImportOptions> {
   status: 'pending' | 'in_progress' | 'completed' | 'failed';
-  toCreate: DB_Node[];
+  toCreate: T[];
   created: string[];
-  toUpdate: DB_Node[];
+  toUpdate: T[];
   updated: string[];
   failures: number;
   error_message?: string;
-  options: ImportOptions;
+  options: O;
 }
 
 interface ImportOptions {

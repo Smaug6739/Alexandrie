@@ -5,7 +5,6 @@
         <h1>{{ t('admin.dashboard.title') }}</h1>
         <p>{{ t('admin.dashboard.description') }}</p>
       </div>
-      <AppButton type="primary" @click="router.push('/dashboard/admin/users')">{{ t('admin.dashboard.manageUsers') }}</AppButton>
     </header>
 
     <div v-if="store.loadingStats" class="stats-loading">
@@ -50,6 +49,17 @@
           <ul class="month-row">
             <li v-for="item in store.stats.nodes.growth_last_12_months" :key="`nodes-${item.month}`">{{ formatMonth(item.month) }}</li>
           </ul>
+        </article>
+      </section>
+
+      <section class="actions">
+        <article class="action-card">
+          <h2>{{ t('admin.dashboard.manageUsers') }}</h2>
+
+          <div class="actions-row">
+            <AppButton type="primary" @click="router.push('/dashboard/admin/users')">{{ t('admin.dashboard.manageUsers') }}</AppButton>
+            <AppButton type="secondary" @click="openCreateModal">Create Users</AppButton>
+          </div>
         </article>
       </section>
 
@@ -104,12 +114,14 @@
 
 <script setup lang="ts">
 import { readableFileSize } from '~/helpers/resources';
+import UserCreation from './_modals/UserCreation.vue';
 import type { MonthlyCount } from '~/stores';
 
 const router = useRouter();
 const { t } = useI18nT();
 
 const store = useAdminStore();
+const modals = useModal();
 
 void store.fetchAll();
 void store.fetchStats().catch(() => undefined);
@@ -140,6 +152,14 @@ function toPolyline(series: MonthlyCount[]): string {
     })
     .join(' ');
 }
+
+const openCreateModal = () => {
+  modals.add(
+    new Modal(shallowRef(UserCreation), {
+      size: 'medium',
+    }),
+  );
+};
 </script>
 
 <style scoped lang="scss">
@@ -206,6 +226,19 @@ a:hover {
   margin: 0.35rem 0 0;
   font-size: clamp(1.2rem, 2vw, 1.8rem);
   font-weight: 700;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.action-card {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 11%, transparent), transparent 54%), var(--background-100);
 }
 
 .sparkline {

@@ -66,7 +66,7 @@ func InitApp(config Config) *App {
 		SupportedTypes:       config.Cdn.SupportedTypes,
 		SupportedTypesImages: config.Cdn.SupportedTypesImages,
 	}
-	serviceManager, err := services.NewServiceManager(repoManager, app.Snowflake, app.MinioClient, resourceConfig)
+	serviceManager, err := services.NewServiceManager(repoManager, app.Snowflake, app.MinioClient, app.MailClient, resourceConfig)
 	if err != nil {
 		log.Fatalf("Failed to initialize service manager: %v", err)
 	}

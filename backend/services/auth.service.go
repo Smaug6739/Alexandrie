@@ -32,6 +32,7 @@ type AuthService interface {
 	RequestPasswordReset(username string, mailClient *mail.Client) error
 	ResetPassword(token, newPassword string) error
 
+	VerifyPreAuth(preAuthToken string) (types.Snowflake, error)
 	VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent string) (*models.User, *models.Session, error)
 	GenerateTOTPSecret(user *models.User) (string, string, error)
 	EnableTOTP(userId types.Snowflake, secret, code string) ([]string, error)
@@ -76,7 +77,7 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 	if err := bcrypt.CompareHashAndPassword([]byte(*user.Password), []byte(password)); err != nil {
 		return nil, nil, "", errors.New("invalid credentials")
 	}
-	if user.TotpEnabled {
+	if user.TotpEnabled || (user.TOTPForced && !user.TotpEnabled) {
 		user.Password = nil
 		preAuthToken, err := signPreAuthToken(user.Id)
 		if err != nil {
@@ -224,6 +225,28 @@ func (s *authService) ResetPassword(token, newPassword string) error {
 	}
 
 	return s.userRepo.UpdatePassword(user.Id, string(hash))
+}
+
+func (s *authService) VerifyPreAuth(preAuthToken string) (types.Snowflake, error) {
+	token, err := jwt.Parse(preAuthToken, func(token *jwt.Token) (any, error) {
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil || !token.Valid {
+		return types.Snowflake(0), errors.New("invalid or expired pre-authentication token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || claims["pre_auth"] != true {
+		return types.Snowflake(0), errors.New("invalid token type")
+	}
+
+	userIdStr, _ := claims["sub"].(string)
+	userIdUint, err := strconv.ParseUint(userIdStr, 10, 64)
+	if err != nil {
+		return types.Snowflake(0), errors.New("invalid user ID")
+	}
+	userId := types.Snowflake(userIdUint)
+	return userId, nil
 }
 
 func (s *authService) VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent string) (*models.User, *models.Session, error) {

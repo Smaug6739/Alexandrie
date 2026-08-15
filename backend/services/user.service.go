@@ -12,11 +12,15 @@ import (
 	"crypto/rand"
 	"errors"
 	"fmt"
+	"os"
 	"regexp"
 	"slices"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/wneessen/go-mail"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -25,8 +29,8 @@ type UserService interface {
 	GetUserById(ctx context.Context, id types.Snowflake) (*models.User, error)
 	GetUserByUsername(username string) (*models.User, error)
 	SearchPublicUsers(query string) ([]*models.User, error)
-	CreateUser(username string, firstname, lastname, avatar, email string, password *string) (*models.User, error)
-	UpdateUser(ctx context.Context, id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error)
+	CreateUser(username string, firstname, lastname, avatar, email string, user_type int, password string, totp_forced bool) (*models.User, error)
+	UpdateUser(ctx context.Context, id types.Snowflake, firstname, lastname, avatar, email *string, user_type int, totp_forced bool) (*models.User, error)
 	UpdatePassword(ctx context.Context, id types.Snowflake, currentPassword string, newPassword string) error
 	DeleteUser(ctx context.Context, id types.Snowflake, minioService MinioService) error
 	GenerateUniqueUsername(givenName *string, userID types.Snowflake) string
@@ -34,18 +38,20 @@ type UserService interface {
 }
 
 type userService struct {
-	userRepo  repositories.UserRepository
-	logRepo   repositories.LogRepository
-	snowflake *snowflake.Snowflake
-	access    permissions.AccessGuard
+	userRepo   repositories.UserRepository
+	logRepo    repositories.LogRepository
+	snowflake  *snowflake.Snowflake
+	access     permissions.AccessGuard
+	mailClient *mail.Client
 }
 
-func NewUserService(userRepo repositories.UserRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake, access permissions.AccessGuard) UserService {
+func NewUserService(userRepo repositories.UserRepository, logRepo repositories.LogRepository, snowflake *snowflake.Snowflake, access permissions.AccessGuard, mailClient *mail.Client) UserService {
 	userService := &userService{
-		userRepo:  userRepo,
-		logRepo:   logRepo,
-		snowflake: snowflake,
-		access:    access,
+		userRepo:   userRepo,
+		logRepo:    logRepo,
+		snowflake:  snowflake,
+		access:     access,
+		mailClient: mailClient,
 	}
 	userService.LoadAppAdmins() // On startup, ensure admin users are loaded and updated
 	return userService
@@ -83,7 +89,7 @@ func (s *userService) SearchPublicUsers(query string) ([]*models.User, error) {
 	return s.userRepo.SearchPublic(query)
 }
 
-func (s *userService) CreateUser(username, firstname, lastname, avatar, email string, password *string) (*models.User, error) {
+func (s *userService) CreateUser(username, firstname, lastname, avatar, email string, user_type int, password string, totp_forced bool) (*models.User, error) {
 	exists, err := s.userRepo.CheckUsernameExists(username)
 	if err != nil {
 		return nil, err
@@ -92,38 +98,79 @@ func (s *userService) CreateUser(username, firstname, lastname, avatar, email st
 		return nil, errors.New("username already exists")
 	}
 
-	if password == nil || len(*password) == 0 {
-		return nil, errors.New("password is required")
-	}
-
-	hash, err := bcrypt.GenerateFromPassword([]byte(*password), bcrypt.DefaultCost)
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, errors.New("failed to hash password")
 	}
-
 	hashStr := string(hash)
+
 	user := &models.User{
 		Id:               s.snowflake.Generate(),
 		Username:         username,
 		Firstname:        &firstname,
 		Lastname:         &lastname,
+		Type:             user_type,
 		Avatar:           &avatar,
 		Role:             1,
 		Email:            &email,
 		Password:         &hashStr,
 		CreatedTimestamp: time.Now().UnixMilli(),
 		UpdatedTimestamp: time.Now().UnixMilli(),
+		TOTPForced:       totp_forced,
+	}
+
+	if password == "" {
+
+		if user.Email == nil || *user.Email == "" {
+			return nil, errors.New("no email provided") // No email to send to
+		}
+
+		if s.mailClient == nil {
+			return nil, errors.New("mail client is not initialized")
+		}
+
+		resetToken := signSetToken(user.Id)
+		if err := s.userRepo.UpdatePasswordResetToken(user.Id, resetToken); err != nil {
+			return nil, errors.New("failed to update password reset token")
+		}
+
+		mailFrom := os.Getenv("SMTP_MAIL_FROM")
+		if mailFrom == "" {
+			mailFrom = os.Getenv("SMTP_MAIL")
+		}
+
+		message := mail.NewMsg()
+		message.FromFormat("Alexandrie Team", mailFrom)
+		message.To(*user.Email)
+		message.Subject("Alexandrie: Password Set")
+		message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("An app administrator has created an account for you. Please click the link below to set your password: %s", os.Getenv("FRONTEND_URL")+"/login/reset?token="+resetToken))
+
+		if err := s.mailClient.DialAndSend(message); err != nil {
+			return nil, errors.New("failed to send password set email")
+		}
 	}
 
 	createdUser, err := s.userRepo.Create(user)
 	if err != nil {
 		return nil, err
 	}
+
 	createdUser.Password = nil
 	return createdUser, nil
 }
 
-func (s *userService) UpdateUser(ctx context.Context, id types.Snowflake, firstname, lastname, avatar, email *string) (*models.User, error) {
+func signSetToken(userId types.Snowflake) string {
+	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": strconv.FormatUint(uint64(userId), 10),
+	})
+	tokenString, err := claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return ""
+	}
+	return tokenString
+}
+
+func (s *userService) UpdateUser(ctx context.Context, id types.Snowflake, firstname, lastname, avatar, email *string, user_type int, totp_forced bool) (*models.User, error) {
 	actor, err := actorFromContext(ctx)
 	if err != nil {
 		return nil, err
@@ -137,11 +184,21 @@ func (s *userService) UpdateUser(ctx context.Context, id types.Snowflake, firstn
 		return nil, permissions.ErrNotFound
 	}
 
+	if s.access.IsAppAdmin(actor.Role) {
+		if user_type != 0 && user_type != 1 {
+			return nil, errors.New("invalid user type")
+		}
+	} else {
+		user_type = dbUser.Type         // Non-admins cannot change user type
+		totp_forced = dbUser.TOTPForced // Non-admins cannot change TOTP forced status
+	}
+
 	user := &models.User{
 		Id:               id,
 		Username:         dbUser.Username,
 		Firstname:        utils.IfNotNilPointer(firstname, dbUser.Firstname),
 		Lastname:         utils.IfNotNilPointer(lastname, dbUser.Lastname),
+		Type:             user_type,
 		Avatar:           utils.IfNotNilPointer(avatar, dbUser.Avatar),
 		Email:            utils.IfNotNilPointer(email, dbUser.Email),
 		CreatedTimestamp: dbUser.CreatedTimestamp,

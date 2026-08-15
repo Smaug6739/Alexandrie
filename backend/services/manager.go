@@ -8,6 +8,7 @@ import (
 	"fmt"
 
 	"github.com/minio/minio-go/v7"
+	"github.com/wneessen/go-mail"
 )
 
 type ServiceManager struct {
@@ -26,10 +27,10 @@ type ServiceManager struct {
 	initialized  bool
 }
 
-func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, resourceConfig ResourceConfig) (*ServiceManager, error) {
+func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, mailClient *mail.Client, resourceConfig ResourceConfig) (*ServiceManager, error) {
 	sm := &ServiceManager{}
 
-	if err := sm.initializeServices(repos, snowflake, minioClient, resourceConfig); err != nil {
+	if err := sm.initializeServices(repos, snowflake, minioClient, mailClient, resourceConfig); err != nil {
 		return nil, fmt.Errorf("failed to initialize services: %w", err)
 	}
 
@@ -38,10 +39,10 @@ func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowfla
 	return sm, nil
 }
 
-func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, resourceConfig ResourceConfig) error {
+func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, mailClient *mail.Client, resourceConfig ResourceConfig) error {
 	sm.Access = permissions.NewAccessGuard(repos.Node, repos.Permission)
 	sm.Auth = NewAuthService(repos.User, repos.Session, repos.BackupCodes, repos.Log, snowflake)
-	sm.User = NewUserService(repos.User, repos.Log, snowflake, sm.Access)
+	sm.User = NewUserService(repos.User, repos.Log, snowflake, sm.Access, mailClient)
 	sm.Stats = NewStatsService(repos.Stats)
 	sm.Minio = NewMinioService(minioClient)
 	sm.Node = NewNodeService(repos.Node, repos.Permission, sm.Minio, snowflake, sm.Access)

@@ -116,8 +116,11 @@ func (ctr *Controller) CreateUser(c *gin.Context) (int, any) {
 	lastname := utils.StringValue(user.Lastname)
 	avatar := utils.StringValue(user.Avatar)
 	email := utils.StringValue(user.Email)
+	password := utils.StringValue(user.Password)
+	user_type := user.Type
+	totp_forced := user.TOTPForced
 
-	createdUser, err := ctr.app.Services.User.CreateUser(user.Username, firstname, lastname, avatar, email, user.Password)
+	createdUser, err := ctr.app.Services.User.CreateUser(user.Username, firstname, lastname, avatar, email, user_type, password, totp_forced)
 	if err != nil {
 		return http.StatusBadRequest, err
 	}
@@ -150,7 +153,7 @@ func (ctr *Controller) UpdateUser(c *gin.Context) (int, any) {
 		return http.StatusBadRequest, err
 	}
 
-	updatedUser, err := ctr.app.Services.User.UpdateUser(c.Request.Context(), targetUserId, user.Firstname, user.Lastname, user.Avatar, user.Email)
+	updatedUser, err := ctr.app.Services.User.UpdateUser(c.Request.Context(), targetUserId, user.Firstname, user.Lastname, user.Avatar, user.Email, user.Type, user.TOTPForced)
 	if err != nil {
 		return statusFromAccessError(err), err
 	}
