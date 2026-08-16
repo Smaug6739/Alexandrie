@@ -265,7 +265,7 @@ export default {
     title: 'Безпека',
     totp: {
       title: 'Двофакторна автентифікація (2FA)',
-      description: 'Secure your account by requiring a 6-digit code during login.',
+      description: 'Захистіть свій обліковий запис, вимагаючи 6-значного коду під час входу.',
       enable: 'Увімкнути 2FA',
       disable: 'Вимкнути 2FA',
       stateEnabled: '2FA наразі увімкнено на вашому обліковому записі.',
