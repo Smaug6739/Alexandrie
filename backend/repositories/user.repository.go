@@ -37,7 +37,7 @@ func NewUserRepository(db *sqlx.DB) UserRepository {
 func (r *UserRepositoryImpl) GetAll() ([]*models.User, error) {
 	var users []*models.User
 	err := r.db.Select(&users, `
-		SELECT id, username, firstname, lastname, role, avatar, email, totp_enabled, created_timestamp, updated_timestamp 
+		SELECT id, type, username, firstname, lastname, role, avatar, email, totp_enabled, totp_forced, created_timestamp, updated_timestamp 
 		FROM users 
 		ORDER BY created_timestamp DESC`)
 	if err != nil {
