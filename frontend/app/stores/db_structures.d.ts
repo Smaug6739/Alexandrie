@@ -61,6 +61,7 @@ export interface Node extends DB_Node {
 
 export interface User {
   id: string;
+  type: number; // 0: Normal; 1 Supervised
   username: string;
   firstname?: string;
   lastname?: string;
