@@ -83,7 +83,8 @@ export interface PublicUser {
   updated_timestamp: number;
 }
 
-export type UserToCreate = Pick<User, 'username' | 'email' | 'firstname' | 'lastname' | 'totp_forced'>;
+export type UserToCreate = Pick<User, 'username' | 'password' | 'email' | 'firstname' | 'lastname' | 'totp_forced' | 'type'>;
+export type UserToCreateBulk = Pick<User, 'username' | 'email' | 'firstname' | 'lastname' | 'totp_forced' | 'type'>;
 
 export interface NodeSearchResult {
   id: string;

@@ -1,5 +1,5 @@
 import localForage from 'localforage';
-import type { User, PublicUser, UserToCreate, Session } from './db_structures';
+import type { User, PublicUser, UserToCreate, Session, UserToCreateBulk } from './db_structures';
 import type { ImportJob } from '~/helpers/backups/Importer';
 
 export const useUserStore = defineStore('user', {
@@ -77,17 +77,18 @@ export const useUserStore = defineStore('user', {
       throw response.message;
     },
 
-    async register(user: Omit<User, 'created_timestamp' | 'id' | 'updated_timestamp'>): Promise<boolean> {
+    async register(user: UserToCreate): Promise<boolean> {
       const request = await makeRequest('users', 'POST', user);
       if (request.status === 'success') return true;
       throw request.message;
     },
 
-    async bulkRegister(job: ImportJob<UserToCreate, null>) {
+    async bulkRegister(job: ImportJob<UserToCreateBulk, null>) {
       job.status = 'in_progress';
       job.failures = 0;
       job.error_message = '';
       for (const user of job.toCreate) {
+        user.type = 1; // Set type to 1 (Supervised) for all users created via bulk registration
         try {
           await new Promise(resolve => setTimeout(resolve, 75));
           const request = await makeRequest('users', 'POST', user);

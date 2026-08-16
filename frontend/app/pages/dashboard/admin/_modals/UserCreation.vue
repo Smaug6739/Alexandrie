@@ -63,19 +63,19 @@
 
 <script setup lang="ts">
 import type { ImportJob } from '~/helpers/backups/Importer';
-import type { UserToCreate } from '~/stores';
+import type { UserToCreateBulk } from '~/stores';
 
 const users = useUserStore();
 
 const CSV_HEADERS = ['username', 'email', 'firstname', 'lastname', 'totp_forced'] as const;
 const csvContent = ref(CSV_HEADERS.join(','));
-const manualUser = reactive<UserToCreate>({ username: '', email: '', firstname: '', lastname: '', totp_forced: false });
+const manualUser = reactive<UserToCreateBulk>({ username: '', email: '', firstname: '', lastname: '', totp_forced: false, type: 1 });
 const manuelUserError = ref('');
 const parsedResult = computed(() => parseUsersCsv(csvContent.value));
 const parsedUsers = computed(() => parsedResult.value.users);
 const parseErrors = computed(() => parsedResult.value.errors);
 
-const job: ImportJob<UserToCreate, null> = reactive({
+const job: ImportJob<UserToCreateBulk, null> = reactive({
   status: 'pending',
   toCreate: [],
   toUpdate: [],
@@ -110,7 +110,7 @@ async function importAll() {
   await users.bulkRegister(job);
 }
 
-function parseUsersCsv(content: string): { users: UserToCreate[]; errors: string[] } {
+function parseUsersCsv(content: string): { users: UserToCreateBulk[]; errors: string[] } {
   const rows = parseCsv(content);
   if (!rows.length) return { users: [], errors: [] };
   const headers = rows[0]!.map(header => header.trim().toLowerCase());
@@ -118,7 +118,7 @@ function parseUsersCsv(content: string): { users: UserToCreate[]; errors: string
   if (missingHeaders.length) return { users: [], errors: [`Missing CSV column${missingHeaders.length > 1 ? 's' : ''}: ${missingHeaders.join(', ')}.`] };
 
   const positions = Object.fromEntries(CSV_HEADERS.map(header => [header, headers.indexOf(header)])) as Record<(typeof CSV_HEADERS)[number], number>;
-  const users: UserToCreate[] = [];
+  const users: UserToCreateBulk[] = [];
   const errors: string[] = [];
   rows.slice(1).forEach((row, index) => {
     if (row.every(value => !value.trim())) return;
@@ -133,6 +133,7 @@ function parseUsersCsv(content: string): { users: UserToCreate[]; errors: string
       firstname: optionalValue(row[positions.firstname]),
       lastname: optionalValue(row[positions.lastname]),
       totp_forced: ['true', '1', 'yes'].includes(rawTotp || ''),
+      type: 1,
     });
   });
   return { users, errors };
