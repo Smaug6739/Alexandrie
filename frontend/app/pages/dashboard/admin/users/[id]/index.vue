@@ -107,14 +107,17 @@ const saveChanges = async () => {
   gap: 0.5rem;
   width: 100%;
 }
+
 .toggle-row {
   flex-direction: row;
   align-items: center;
 }
+
 .toggle-row span {
   display: flex;
   flex-direction: column;
 }
+
 .avatar {
   width: 40px;
   height: 40px;

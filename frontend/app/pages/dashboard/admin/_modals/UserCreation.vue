@@ -188,23 +188,20 @@ header p,
 .section-heading p,
 .queue-count,
 .toggle-row small {
-  color: var(--text-muted);
   font-size: 0.88rem;
+  color: var(--text-muted);
 }
 
-.manual-form,
-.import-section {
-  padding: 1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--background-100);
-}
 .manual-form,
 .import-section {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
 }
+
 .fields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -214,67 +211,78 @@ header p,
 .required {
   color: var(--red);
 }
+
 .manual-actions,
 .section-heading,
 footer {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 1rem;
 }
+
 .toggle-row {
   flex-direction: row;
   align-items: center;
 }
+
 .toggle-row span {
   display: flex;
   flex-direction: column;
 }
+
 .upload-button {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
   align-items: center;
+  gap: 0.5rem;
   padding: 8px;
   border: 1px solid var(--primary);
   border-radius: var(--radius-sm);
   cursor: pointer;
 }
+
 .upload-button input {
   display: none;
 }
+
 .csv-format {
   margin: 0;
 }
+
 textarea {
   box-sizing: border-box;
   min-height: 150px;
   padding: 0.65rem;
-  resize: vertical;
   font-family: monospace;
   font-size: 0.82rem;
   line-height: 1.45;
+  resize: vertical;
 }
 
 .queue-count {
   min-height: 1.25rem;
 }
+
 footer {
   justify-content: flex-end;
 }
+
 .progress {
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
 }
+
 @media screen and (width <= 560px) {
   .fields {
     grid-template-columns: 1fr;
   }
+
   .manual-actions,
   .section-heading {
-    align-items: flex-start;
     flex-direction: column;
+    align-items: flex-start;
   }
 }
 </style>

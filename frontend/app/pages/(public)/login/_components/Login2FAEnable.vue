@@ -110,9 +110,9 @@ p.reason {
 }
 
 .error {
-  text-align: center;
   margin-top: 0.4rem;
-  font-size: 0.8rem;
   padding: 0.5rem;
+  font-size: 0.8rem;
+  text-align: center;
 }
 </style>
