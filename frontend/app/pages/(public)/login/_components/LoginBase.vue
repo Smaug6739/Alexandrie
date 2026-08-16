@@ -32,7 +32,6 @@
       <p v-if="loginDisabled" class="disabled">{{ t('public.login.disabled') }}</p>
       <OIDCProviders />
 
-      <tag v-if="errors.general" red class="error">{{ errors.general }}</tag>
       <p class="forgot-password-link">
         {{ t('public.login.forgotPassword') }} <NuxtLinkLocale to="/login/request-reset">{{ t('public.login.clickHere') }}</NuxtLinkLocale>
       </p>
@@ -63,7 +62,6 @@ function login() {
 }
 
 watch([username, password], () => {
-  errors.value.general = '';
   errors.value.username = '';
   errors.value.password = '';
 });
