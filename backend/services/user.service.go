@@ -8,10 +8,12 @@ import (
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
+	"bytes"
 	"context"
 	"crypto/rand"
 	"errors"
 	"fmt"
+	"html/template"
 	"os"
 	"regexp"
 	"slices"
@@ -130,23 +132,9 @@ func (s *userService) CreateUser(username, firstname, lastname, avatar, email st
 		}
 
 		resetToken := signSetToken(user.Id)
-		if err := s.userRepo.UpdatePasswordResetToken(user.Id, resetToken); err != nil {
-			return nil, errors.New("failed to update password reset token")
-		}
-
-		mailFrom := os.Getenv("SMTP_MAIL_FROM")
-		if mailFrom == "" {
-			mailFrom = os.Getenv("SMTP_MAIL")
-		}
-
-		message := mail.NewMsg()
-		message.FromFormat("Alexandrie Team", mailFrom)
-		message.To(*user.Email)
-		message.Subject("Alexandrie: Password Set")
-		message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("An app administrator has created an account for you. Please click the link below to set your password: %s", os.Getenv("FRONTEND_URL")+"/login/reset?token="+resetToken))
-
-		if err := s.mailClient.DialAndSend(message); err != nil {
-			return nil, errors.New("failed to send password set email")
+		err = sendPasswordCreatedEmail(s.mailClient, user, resetToken)
+		if err != nil {
+			return nil, err
 		}
 	}
 
@@ -157,6 +145,64 @@ func (s *userService) CreateUser(username, firstname, lastname, avatar, email st
 
 	createdUser.Password = nil
 	return createdUser, nil
+}
+
+type PasswordCreatedEmailData struct {
+	ResetURL    string
+	Username    string
+	FrontendURL string
+}
+
+func sendPasswordCreatedEmail(mailClient *mail.Client, user *models.User, resetToken string) error {
+	mailFrom := os.Getenv("SMTP_MAIL_FROM")
+	if mailFrom == "" {
+		mailFrom = os.Getenv("SMTP_MAIL")
+	}
+
+	resetURL := os.Getenv("FRONTEND_URL") +
+		"/login/reset?token=" +
+		resetToken
+
+	tmpl, err := template.ParseFiles("emails/account-create.html")
+	if err != nil {
+		return err
+	}
+
+	var htmlBody bytes.Buffer
+
+	data := PasswordCreatedEmailData{
+		ResetURL:    resetURL,
+		Username:    user.Username,
+		FrontendURL: os.Getenv("FRONTEND_URL"),
+	}
+
+	if err := tmpl.Execute(&htmlBody, data); err != nil {
+		return err
+	}
+
+	message := mail.NewMsg()
+	message.FromFormat("Alexandrie Team", mailFrom)
+	message.To(*user.Email)
+	message.Subject("Alexandrie: Set your password")
+
+	message.SetBodyString(
+		mail.TypeTextPlain,
+		"An app administrator has created an account for you.\n\n"+
+			"Set your password: "+resetURL+"\n\n"+
+			"Your username: "+user.Username+"\n\n"+
+			"If you did not expect this email, please ignore it.",
+	)
+
+	message.AddAlternativeString(
+		mail.TypeTextHTML,
+		htmlBody.String(),
+	)
+
+	if err := mailClient.DialAndSend(message); err != nil {
+		return errors.New("failed to send password set email")
+	}
+
+	return nil
 }
 
 func signSetToken(userId types.Snowflake) string {

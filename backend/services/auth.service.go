@@ -6,9 +6,11 @@ import (
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
+	"bytes"
 	"crypto/rand"
 	"errors"
 	"fmt"
+	"html/template"
 	"math/big"
 	"os"
 	"strconv"
@@ -180,20 +182,63 @@ func (s *authService) RequestPasswordReset(username string, mailClient *mail.Cli
 		return nil // Don't reveal errors
 	}
 
+	err = sendPasswordResetEmail(mailClient, user, resetToken)
+	if err != nil {
+		return errors.New("failed to send password reset email")
+	}
+	return nil
+}
+
+type PasswordResetEmailData struct {
+	ResetURL    string
+	FrontendURL string
+}
+
+func sendPasswordResetEmail(mailClient *mail.Client, user *models.User, resetToken string) error {
 	mailFrom := os.Getenv("SMTP_MAIL_FROM")
 	if mailFrom == "" {
 		mailFrom = os.Getenv("SMTP_MAIL")
 	}
 
+	resetURL := os.Getenv("FRONTEND_URL") +
+		"/login/reset?token=" +
+		resetToken
+
+	tmpl, err := template.ParseFiles("emails/password-reset.html")
+	if err != nil {
+		return err
+	}
+
+	var htmlBody bytes.Buffer
+
+	data := PasswordResetEmailData{
+		ResetURL:    resetURL,
+		FrontendURL: os.Getenv("FRONTEND_URL"),
+	}
+
+	if err := tmpl.Execute(&htmlBody, data); err != nil {
+		return err
+	}
+
 	message := mail.NewMsg()
 	message.FromFormat("Alexandrie Team", mailFrom)
 	message.To(*user.Email)
-	message.Subject("Alexandrie: Password Reset")
-	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Your password reset link is: %s", os.Getenv("FRONTEND_URL")+"/login/reset?token="+resetToken))
+	message.Subject("Alexandrie: Reset your password")
+
+	message.SetBodyString(
+		mail.TypeTextPlain,
+		"Your password reset link is: "+resetURL+"\n\n"+"If you did not expect this email, please ignore it.",
+	)
+
+	message.AddAlternativeString(
+		mail.TypeTextHTML,
+		htmlBody.String(),
+	)
 
 	if err := mailClient.DialAndSend(message); err != nil {
-		return nil // Don't reveal errors
+		return errors.New("failed to send password reset email")
 	}
+
 	return nil
 }
 
