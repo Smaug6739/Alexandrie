@@ -105,6 +105,10 @@ p.reason {
   }
 }
 
+.footer {
+  margin-top: 1rem;
+}
+
 .error {
   text-align: center;
   margin-top: 0.4rem;
