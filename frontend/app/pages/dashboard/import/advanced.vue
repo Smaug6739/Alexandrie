@@ -66,7 +66,7 @@
       <AppSelect id="default-theme" v-model="importJob.options.defaultValues!.defaultTheme" :items="DOCUMENT_THEMES" />
     </div>
     <h3>{{ t('import.progress.title') }}</h3>
-    <ImportProgress :import-job="importJob" />
+    <ImportJobStatus :import-job="importJob" />
     <section v-if="nodes.length" class="panel">
       <div class="panel-head">
         <h3>{{ t('import.files.toImport') }} ({{ totalItemsToImport }})</h3>
@@ -102,7 +102,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import ImportProgress from './_components/ImportProgress.vue';
 import { Importer, type ResourceImportTask, type ImportJob } from '~/helpers/backups/Importer';
 import { DOCUMENT_THEMES } from '~/helpers/constants';
 import type { DB_Node } from '~/stores';

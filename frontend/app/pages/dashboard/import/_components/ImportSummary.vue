@@ -19,13 +19,12 @@
       </div>
     </div>
     <div class="progess">
-      <ImportProgress :import-job="importJob" />
+      <ImportJobStatus :import-job="importJob" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import ImportProgress from './ImportProgress.vue';
 import type { ImportJob } from '~/helpers/backups/Importer';
 
 defineProps<{

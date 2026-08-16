@@ -20,7 +20,7 @@
           </AppButton>
         </div>
       </div>
-      <ImportProgress :import-job="importJob" />
+      <ImportJobStatus :import-job="importJob" />
       <div class="list">
         <NodeImportPreview
           v-for="node in nodes"
@@ -37,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import ImportProgress from './_components/ImportProgress.vue';
 import { Importer, type ImportJob } from '~/helpers/backups/Importer';
 import type { DB_Node } from '~/stores';
 

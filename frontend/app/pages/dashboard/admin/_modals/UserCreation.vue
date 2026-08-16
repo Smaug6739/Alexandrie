@@ -53,7 +53,7 @@
       <p v-else class="queue-count">{{ parsedUsers.length }} {{ parsedUsers.length === 1 ? 'user' : 'users' }} ready to import</p>
     </section>
     <div class="progress">
-      <ImportProgress :import-job="job" />
+      <ImportJobStatus :import-job="job" />
     </div>
     <footer>
       <AppButton type="primary" :disabled="!parsedUsers.length || parseErrors.length > 0" @click="importAll">Import All ({{ parsedUsers.length }})</AppButton>
@@ -64,7 +64,6 @@
 <script setup lang="ts">
 import type { ImportJob } from '~/helpers/backups/Importer';
 import type { UserToCreate } from '~/stores';
-import ImportProgress from '../../import/_components/ImportProgress.vue';
 
 const users = useUserStore();
 
