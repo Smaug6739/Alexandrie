@@ -123,7 +123,6 @@ const { t } = useI18nT();
 const store = useAdminStore();
 const modals = useModal();
 
-void store.fetchAll();
 void store.fetchStats().catch(() => undefined);
 
 const usersPoints = computed(() => toPolyline(store.stats.users.growth_last_12_months));
