@@ -10,7 +10,7 @@
           <AppBtnIcon v-if="!isOpened && !isMobile" icon="burger" class="open-sidebar inline-burger" @click="toggleSidebar" />
           <Tab class="navbar-tabs" />
         </div>
-
+        <NavbarRouter />
         <div id="navbar-title" class="navbar-title" />
       </div>
 
