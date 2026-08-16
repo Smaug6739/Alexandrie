@@ -19,6 +19,7 @@ export default {
     OTP_2FA: {
       title: 'Two-Factor Authentication',
       description: 'Please enter the 6-digit code from your authenticator app.',
+      placeholder: '000000 or 8-digit backup code',
       code: 'Authentication code',
       submit: 'Verify',
       back: 'Back',

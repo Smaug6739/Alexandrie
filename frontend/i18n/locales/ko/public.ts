@@ -19,6 +19,7 @@ export default {
     OTP_2FA: {
       title: '2단계 인증',
       description: '인증 앱의 6자리 코드를 입력해 주세요.',
+      placeholder: '000000 또는 8자리 백업 코드',
       code: '인증 코드',
       submit: '확인',
       back: '뒤로 가기',

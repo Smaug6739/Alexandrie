@@ -9,7 +9,7 @@
           id="totpCode"
           v-model="totpCode"
           type="text"
-          placeholder="000000 or 8-digit backup code"
+          :placeholder="t('public.login.OTP_2FA.placeholder')"
           maxlength="8"
           pattern="[0-9]*"
           inputmode="numeric"

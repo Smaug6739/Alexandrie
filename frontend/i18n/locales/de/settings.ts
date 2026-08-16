@@ -148,7 +148,8 @@ export default {
     simplifiedMobileView: 'Vereinfachte Mobilansicht',
     simplifiedMobileViewDesc: 'Aktiviere eine vereinfachte Editor-Ansicht auf Mobilgeräten für bessere Benutzerfreundlichkeit.',
     scrollBeyondLastLine: 'Über die letzte Zeile hinaus scrollen',
-    scrollBeyondLastLineDesc: 'Erlaube dem Editor, über das Ende des Dokuments hinaus zu scrollen, damit die letzte Zeile nicht am unteren Bildschirmrand bleibt.',
+    scrollBeyondLastLineDesc:
+      'Erlaube dem Editor, über das Ende des Dokuments hinaus zu scrollen, damit die letzte Zeile nicht am unteren Bildschirmrand bleibt.',
     subtitle: 'Verwalte deine Editor-Einstellungen.',
     title: 'Editor-Einstellungen',
   },
@@ -264,6 +265,26 @@ export default {
     passwordNotMatch: 'Passwörter stimmen nicht überein!',
     subtitle: 'Verwalte deine Sicherheitseinstellungen und überwache die Kontoaktivität.',
     title: 'Sicherheit',
+    totp: {
+      title: 'Zwei-Faktor-Authentisierung (2FA)',
+      description: 'Sichere dein Konto, indem du einen 6-stelligen Code während des Logins verlangst.',
+      enable: '2FA aktivieren',
+      disable: '2FA deaktivieren',
+      stateEnabled: '2FA ist derzeit auf deinem Konto aktiviert.',
+      forced: '2FA ist für dein Konto erforderlich. Bitte aktiviere es, um die App weiterhin zu verwenden.',
+      enableStep1: '1. Scanne diesen QR-Code mit deiner Authenticator-Anwendung (Google Authenticator, Bitwarden, etc.)',
+      enableStep2: '2. Gib den 6-stelligen Code ein, der von deiner Authenticator-App generiert wurde, um die 2FA zu verifizieren und zu aktivieren.',
+      backupCodes: {
+        title: 'Sicherungscodes',
+        warn: 'Sichere diese Codes!',
+        description:
+          'Wenn du dein 2FA-Gerät verlierst, sind diese Codes die einzige Möglichkeit, dein Konto wiederherzustellen. Jeder Code kann nur einmal verwendet werden.',
+        download: 'Sicherungscodes herunterladen',
+        seen: 'Ich habe die Sicherungscodes gesehen und gespeichert',
+        copied: 'Alle Codes kopiert',
+        copy: 'Alle Codes kopieren',
+      },
+    },
     unlink: 'Trennen',
     unrecognizedSession: 'Nicht erkannte Sitzung?',
     unrecognizedSessionDesc:

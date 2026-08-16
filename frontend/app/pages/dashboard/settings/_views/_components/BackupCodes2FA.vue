@@ -1,11 +1,11 @@
 <template>
   <div class="modal">
-    <h2>Backup Recovery Codes</h2>
+    <h2>{{ t('settings.security.totp.backupCodes.title') }}</h2>
 
     <div class="warning-box">
       <p>
-        <strong>Keep these codes safe!</strong>
-        If you lose your 2FA device, these codes are the only way to recover your account. Each code can only be used once.
+        <strong>{{ t('settings.security.totp.backupCodes.warn') }}</strong>
+        {{ t('settings.security.totp.backupCodes.description') }}
       </p>
     </div>
 
@@ -19,27 +19,22 @@
 
       <button class="btn-copy" type="button" @click="copyAllCodes">
         <Icon :name="copied ? 'check' : 'copy'" display="sm" />
-        <span>{{ copied ? 'Codes copied!' : 'Copy all codes' }}</span>
+        <span>{{ copied ? t('settings.security.totp.backupCodes.copied') : t('settings.security.totp.backupCodes.copy') }}</span>
       </button>
     </div>
 
     <div class="footer">
-      <AppButton type="secondary" @click="downloadCodes"> Download text file </AppButton>
-      <AppButton type="primary" @click="emit('close')"> I have saved these codes </AppButton>
+      <AppButton type="secondary" @click="downloadCodes"> {{ t('settings.security.totp.backupCodes.download') }} </AppButton>
+      <AppButton type="primary" @click="emit('close')"> {{ t('settings.security.totp.backupCodes.seen') }} </AppButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+const props = defineProps<{ backupCodes: string[] }>();
+const emit = defineEmits<{ (event: 'close'): void }>();
 
-const props = defineProps<{
-  backupCodes: string[];
-}>();
-
-const emit = defineEmits<{
-  (event: 'close'): void;
-}>();
+const { t } = useI18nT();
 
 const copied = ref(false);
 
