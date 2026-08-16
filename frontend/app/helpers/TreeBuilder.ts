@@ -19,6 +19,7 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
   constructor(
     private readonly collection: ReadonlyIndexedCollection<T>,
     private readonly transform: (item: T) => Omit<TreeItem<T>, 'children'>,
+    private readonly sortNodes: (a: TreeItem<T>, b: TreeItem<T>) => number,
   ) {}
 
   /**
@@ -65,7 +66,7 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
         const mappedChildren = childrenIds.map(childId => buildSubtree(childId)).filter((c): c is TreeItem<T> => !!c);
 
         if (mappedChildren.length > 1) {
-          mappedChildren.sort(sortNodes);
+          mappedChildren.sort(this.sortNodes);
         }
 
         item.children = mappedChildren.length > 0 ? mappedChildren : undefined;
@@ -86,7 +87,7 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
       .filter((item): item is TreeItem<T> => !!item);
 
     if (rootItems.length > 1) {
-      rootItems.sort(sortNodes);
+      rootItems.sort(this.sortNodes);
     }
 
     return rootItems;
@@ -153,16 +154,4 @@ export function flattenTree<T>(items: TreeItem<T>[]): TreeItem<T>[] {
     }
   }
   return result;
-}
-
-function sortNodes<T extends { id: string; parent_id?: string | null; role?: number; order?: number }>(a: TreeItem<T>, b: TreeItem<T>) {
-  if (a.data.role !== b.data.role) {
-    return (b.data.role ?? 0) - (a.data.role ?? 0);
-  }
-  const orderA = a.data.order ?? 0;
-  const orderB = b.data.order ?? 0;
-  if (orderA !== orderB) {
-    return orderA - orderB;
-  }
-  return a.label.localeCompare(b.label);
 }

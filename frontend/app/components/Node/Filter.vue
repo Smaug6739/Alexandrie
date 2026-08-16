@@ -21,18 +21,18 @@
         <!-- Sort & Match -->
         <div class="row">
           <label class="row">
-            <input v-model="options.sortType" type="radio" value="ascending" />
+            <input v-model="sortOrder" type="radio" value="ascending" />
             <span>{{ t('components.filter.ascending') }}</span>
           </label>
           <label class="row">
-            <input v-model="options.sortType" type="radio" value="descending" />
+            <input v-model="sortOrder" type="radio" value="descending" />
             <span>{{ t('components.filter.descending') }}</span>
           </label>
         </div>
         <div class="row">
           <div style="flex: 1">
             <label>{{ t('components.filter.sort') }}</label>
-            <AppSelect v-model="options.sortBy" :items="SORT_OPTIONS" />
+            <AppSelect v-model="sortKey" :items="SORT_OPTIONS" />
           </div>
 
           <div>
@@ -61,11 +61,14 @@ import type { Node, SearchOptions } from '~/stores';
 const props = defineProps<{ nodes: Node[] }>();
 const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
 
+const preferencesStore = usePreferencesStore();
+
+const sortKey = preferencesStore.get('sortKey');
+const sortOrder = preferencesStore.get('sortOrder');
+
 const DEFAULT_OPTIONS: SearchOptions = {
   query: '',
   tags: [],
-  sortType: 'descending',
-  sortBy: 'created',
   matchMode: 'includes',
 };
 

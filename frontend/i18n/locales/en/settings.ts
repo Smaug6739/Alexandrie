@@ -185,6 +185,11 @@ export default {
     subtitle: 'Manage other general application settings.',
     title: 'Other',
     uploads: 'Uploads',
+    sort: 'Items sorting',
+    sortKey: 'Sort by',
+    sortKeyDesc: 'Choose the default sorting key for items in lists.',
+    sortOrder: 'Sort order',
+    sortOrderDesc: 'Choose the default sorting order for items in lists.',
   },
 
   pages: {

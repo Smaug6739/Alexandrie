@@ -187,6 +187,11 @@ export default {
     subtitle: "Gestisci altre impostazioni generali dell'applicazione.",
     title: 'Altro',
     uploads: 'Caricamenti',
+    sort: 'Ordinamento elementi',
+    sortKey: 'Chiave di ordinamento',
+    sortKeyDesc: 'Scegli la chiave di ordinamento predefinita per gli elementi nelle liste.',
+    sortOrder: 'Ordine di ordinamento',
+    sortOrderDesc: "Scegli l'ordine di ordinamento predefinito per gli elementi nelle liste.",
   },
 
   pages: {
