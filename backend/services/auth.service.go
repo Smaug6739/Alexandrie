@@ -251,25 +251,11 @@ func (s *authService) VerifyPreAuth(preAuthToken string) (types.Snowflake, error
 
 func (s *authService) VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent string) (*models.User, *models.Session, error) {
 
-	token, err := jwt.Parse(preAuthToken, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_SECRET")), nil
-	})
-	if err != nil || !token.Valid {
-		return nil, nil, errors.New("invalid or expired pre-authentication token")
-	}
+	userId, err := s.VerifyPreAuth(preAuthToken)
 
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok || claims["pre_auth"] != true {
-		return nil, nil, errors.New("invalid token type")
-	}
-
-	// 2. Extraire le User ID du token
-	userIdStr, _ := claims["sub"].(string)
-	userIdUint, err := strconv.ParseUint(userIdStr, 10, 64)
 	if err != nil {
-		return nil, nil, errors.New("invalid user ID")
+		return nil, nil, err
 	}
-	userId := types.Snowflake(userIdUint)
 
 	user, err := s.userRepo.GetByID(userId, true)
 	if user == nil || err != nil {
@@ -318,7 +304,6 @@ func (s *authService) GenerateTOTPSecret(user *models.User) (string, string, err
 func generateBackupCodes() ([]string, error) {
 	codes := make([]string, 8)
 	for i := range 8 {
-		// Génère un nombre aléatoire entre 10000000 et 99999999
 		nBig, err := rand.Int(rand.Reader, big.NewInt(90000000))
 		if err != nil {
 			return nil, err
@@ -404,9 +389,9 @@ func signPreAuthToken(userId types.Snowflake) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":      strconv.FormatUint(uint64(userId), 10),
 		"iss":      "alexandrie",
-		"exp":      time.Now().Add(3 * time.Minute).Unix(), // Valide seulement 3 minutes
+		"exp":      time.Now().Add(3 * time.Minute).Unix(),
 		"iat":      time.Now().Unix(),
-		"pre_auth": true, // Flag crucial pour identifier qu'il ne s'agit pas d'une session finale
+		"pre_auth": true,
 	})
 	return claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 }
