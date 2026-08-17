@@ -5,7 +5,6 @@ export function useNodesSort() {
   const preferences = usePreferencesStore();
   const sortKey = preferences.get('sortKey');
   const sortOrder = preferences.get('sortOrder');
-  console.log('sortKey', sortKey.value, 'sortOrder', sortOrder.value);
 
   function sortItems<
     T extends { id: string; parent_id?: string | null; role?: number; order?: number; created_timestamp?: number; updated_timestamp?: number },
