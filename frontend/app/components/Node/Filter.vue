@@ -118,7 +118,6 @@ const updatePanelPosition = () => {
   if (!root.value) return;
 
   const button = root.value.querySelector('button');
-
   if (!button) return;
 
   const rect = button.getBoundingClientRect();
@@ -140,9 +139,7 @@ const toggle = () => {
   }
 };
 
-const close = () => {
-  opened.value = false;
-};
+const close = () => (opened.value = false);
 
 const reset = () => {
   options.value = { ...DEFAULT_OPTIONS, tags: [] };
@@ -176,14 +173,12 @@ watchEffect(() => {
 });
 
 function outsideHandler(e: MouseEvent) {
-  const target = e.target;
+  const target = e.target as HTMLElement;
 
-  if (root.value && !root.value.contains(target as HTMLElement)) {
+  if (root.value && !root.value.contains(target)) {
     const panel = document.querySelector('.filter-panel');
 
-    if (!panel?.contains(target as HTMLElement)) {
-      close();
-    }
+    if (!panel?.contains(target)) close();
   }
 }
 
