@@ -19,7 +19,7 @@
     </Teleport>
     <Teleport to="#navbar-actions">
       <AppBtnIcon v-if="view == 'kanban'" nav icon="reset" :tooltip="t('nodes.actions.resetBoard')" @click="resetKanban" />
-      <NodeFilter v-show="!isMobile" :nodes="nodes" @update:nodes="filteredNodes = $event" />
+      <NodeFilter :nodes="nodes" @update:nodes="filteredNodes = $event" />
       <AppBtnIcon
         v-if="parent?.shared && parent.user_id != connectedId"
         nav
@@ -102,7 +102,6 @@ const nodesStore = useNodesStore();
 const nodesPermissionsStore = useNodesPermissionsStore();
 const userStore = useUserStore();
 
-const { isMobile } = useDevice();
 const modals = useModal();
 const { getAppAccent } = useAppColors();
 const { t } = useI18nT();
