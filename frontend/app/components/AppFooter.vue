@@ -163,7 +163,8 @@ const selectLocale = async (nextLocale: string | number) => {
   }
 
   await loadLocaleMessages(normalizedLocale);
-  await setLocale(normalizedLocale);
+  setLocale(normalizedLocale);
+  locale.value = normalizedLocale;
 };
 </script>
 
