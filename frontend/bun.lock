@@ -15,7 +15,7 @@
         "@nuxtjs/color-mode": "^4.0.1",
         "@nuxtjs/i18n": "10.6.0",
         "@pinia/nuxt": "^1.0.2",
-        "@zip.js/zip.js": "^2.8.39",
+        "@zip.js/zip.js": "^2.8.49",
         "etag": "^1.8.1",
         "fast-glob": "^3.3.3",
         "fs-extra": "^11.4.0",
@@ -1000,7 +1000,7 @@
 
     "@vue/shared": ["@vue/shared@3.5.41", "", {}, "sha512-IOnwSCma8j+9xJT6b8H0dEYidC80NsYmNMlZxRsukYcSoGaDBohog5hDxzeUXdFeGWFA++vWvxqOmrr96VlqMA=="],
 
-    "@zip.js/zip.js": ["@zip.js/zip.js@2.8.39", "", {}, "sha512-JQikXn+d1Keybh3eDaiqrF8e6hF7PFvOa/uZ8rx7Z5e4Rm2SSRMek+gx8NMnpv5uf+c+A46y2snc+RJmsTjz4Q=="],
+    "@zip.js/zip.js": ["@zip.js/zip.js@2.8.49", "", {}, "sha512-TY3fKR/IQqPJqrOQAohvW6kv7Qd1aehzU7M7hbqhNNKxVP8uKSMO+aUlBwtdWzTCd62E0YOB+HHW9N0hMihrWw=="],
 
     "abbrev": ["abbrev@3.0.1", "", {}, "sha512-AO2ac6pjRB3SJmGJo+v5/aK6Omggp6fsLrs6wN9bd35ulu4cCwaAU9+7ZhXjeqHVkaHThLuzH0nZr0YpCDhygg=="],
 
