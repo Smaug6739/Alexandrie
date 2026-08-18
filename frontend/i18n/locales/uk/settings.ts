@@ -31,6 +31,8 @@ export default {
     displayUncategorizedResourcesDesc: 'Показувати ресурси без категорії (завантаження CDN) у верхній частині бічної панелі.',
     displayTabs: 'Показувати вкладки',
     displayTabsDesc: 'Увімкнути або вимкнути панель вкладок у верхній частині панелі керування.',
+    displayFeatureTags: 'Показувати позначки функцій',
+    displayFeatureTagsDesc: 'Показувати позначки "New" та "Beta", які вказують на нові або експериментальні функції.',
     enableCompactMode: 'Увімкнути компактний режим',
     enableCompactModeDesc: 'Зменшити розмір елементів бічної панелі, щоб показати більше вмісту.',
     enableDarkMode: 'Увімкнути темний режим',

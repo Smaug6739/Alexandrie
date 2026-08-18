@@ -31,6 +31,8 @@ export default {
     displayUncategorizedResourcesDesc: '사이드바 상단에 미분류 리소스(CDN 업로드)를 표시합니다.',
     displayTabs: '탭 표시',
     displayTabsDesc: '대시보드 상단의 탭 바를 활성화하거나 비활성화합니다.',
+    displayFeatureTags: '기능 배지 표시',
+    displayFeatureTagsDesc: '최근 기능이나 실험적 기능을 표시하는 "New" 및 "Beta" 배지를 표시합니다.',
     enableCompactMode: '컴팩트 모드 활성화',
     enableCompactModeDesc: '사이드바 항목 크기를 줄여 더 많은 콘텐츠를 표시합니다.',
     enableDarkMode: '다크 모드 활성화',

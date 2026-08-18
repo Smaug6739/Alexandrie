@@ -31,6 +31,8 @@ export default {
     displayUncategorizedResourcesDesc: 'Show uncategorized resources (CDN uploads) at the top of the sidebar.',
     displayTabs: 'Show tabs',
     displayTabsDesc: 'Enable or disable the tab bar at the top of the dashboard.',
+    displayFeatureTags: 'Show feature tags',
+    displayFeatureTagsDesc: 'Show the "New" and "Beta" badges that mark recent or experimental features.',
     enableCompactMode: 'Enable compact mode',
     enableCompactModeDesc: 'Reduce sidebar item size to show more content.',
     enableDarkMode: 'Enable dark mode',

@@ -1,6 +1,6 @@
 <template>
   <div class="page-card files-import">
-    <Teleport to="#navbar-title">{{ t('import.files.meta.title') }} <tag class="orange">Beta</tag></Teleport>
+    <Teleport to="#navbar-title">{{ t('import.files.meta.title') }} <tag v-if="displayFeatureTags" class="orange">Beta</tag></Teleport>
     <p class="subtitle">
       {{ t('import.files.meta.description') }}
     </p>
@@ -112,6 +112,7 @@ const nodesImporterStore = useNodesImporterStore();
 
 const nodesTree = useNodesTree();
 const { t } = useI18nT();
+const displayFeatureTags = usePreferencesStore().get('displayFeatureTags');
 
 const categoriesItem = nodesTree.getTreeUpToRole(2);
 

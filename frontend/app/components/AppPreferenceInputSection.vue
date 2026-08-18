@@ -5,7 +5,7 @@
     <div v-for="opt in section.options" :key="opt.key" :class="['form-group', opt.type === 'textarea' ? 'form-group--vertical' : '']">
       <div>
         <label>
-          {{ opt.label }} <tag v-if="opt.tag" blue>{{ opt.tag }}</tag>
+          {{ opt.label }} <tag v-if="opt.tag && displayFeatureTags" blue>{{ opt.tag }}</tag>
         </label>
 
         <p class="description">{{ opt.description }}</p>
@@ -89,6 +89,7 @@ defineProps<{
 }>();
 
 const preferencesStore = usePreferencesStore();
+const displayFeatureTags = preferencesStore.get('displayFeatureTags');
 
 // @ts-expect-error unknown type
 const p = preferencesStore.get as <K extends PreferenceKey>(key: K) => ReturnType<unknown>;
