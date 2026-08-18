@@ -9,6 +9,13 @@ frontend:
 frontendh:
 	cd frontend && bunx --bun nuxt dev --host
 
+update:
+	cd frontend && \
+	rm -rf node_modules .nuxt bun.lock && \
+	bun update
+	cd backend && \
+	go mod tidy
+
 minio:
 	MINIO_ROOT_USER=alexandrie-access MINIO_ROOT_PASSWORD=alexandrie-secret \
 	minio server ./minio --console-address :9001 --address "localhost:9000"
