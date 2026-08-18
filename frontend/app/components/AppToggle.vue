@@ -18,6 +18,15 @@ const toggle = () => {
   emit('update:modelValue', active.value);
   emit('toggle');
 };
+
+watch(
+  () => props.modelValue,
+  newValue => {
+    if (newValue !== undefined) {
+      active.value = newValue;
+    }
+  },
+);
 </script>
 
 <style scoped lang="scss">

@@ -4,6 +4,7 @@
       <h1>{{ t('admin.users.title') }}</h1>
     </header>
     <DataTable v-if="rows?.length" :headers="headers" :rows="rows || []">
+      <template #username="{ cell }"> <UserAvatar :user="cell?.data as User" />&nbsp;&nbsp;&nbsp;{{ (cell?.data as User).username }} </template>
       <template #action="{ cell }">
         <NuxtLink :to="`/dashboard/admin/users/${(cell?.data as User).id}`"><Icon name="view" /></NuxtLink>
       </template>
@@ -18,7 +19,6 @@ import type { User } from '~/stores';
 const adminStore = useAdminStore();
 
 const { t } = useI18nT();
-const { avatarURL } = useApi();
 const { numericDate } = useDateFormatters();
 
 const headers = computed(() => [
@@ -35,8 +35,8 @@ const rows = computed(() =>
   adminStore.users?.map(u => {
     return {
       username: {
-        content: `<img style="border-radius:50%;width:25px;height:25px;" src="${avatarURL(u)}"/>&nbsp;&nbsp;&nbsp;${u.username}`,
-        type: 'html' as const,
+        type: 'slot' as const,
+        data: u,
       },
       firstname: { content: u.firstname, type: 'text' as const },
       lastname: { content: u.lastname, type: 'text' as const },

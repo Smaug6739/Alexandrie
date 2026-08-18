@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 type AuthController interface {
@@ -81,6 +82,15 @@ func (ctr *Controller) Login(c *gin.Context) (int, any) {
 	if err != nil {
 		return http.StatusUnauthorized, err
 	}
+
+	if user.TOTPForced && !user.TotpEnabled {
+		return http.StatusAccepted, gin.H{
+			"message":        "2FA_TO_ENABLE",
+			"pre_auth_token": preAuthToken,
+			"user_id":        user.Id,
+		}
+	}
+
 	if user.TotpEnabled && session == nil {
 		return http.StatusAccepted, gin.H{
 			"message":        "2FA_REQUIRED",
@@ -219,13 +229,31 @@ func (ctr *Controller) LogoutAllDevices(c *gin.Context) (int, any) {
 // @Security Session validation
 // @Success 200 {object} Success
 // @Failure 400 {object} Error
+type PreAuthClaims struct {
+	PreAuthToken string `json:"pre_auth_token"`
+}
+
 func (ctr *Controller) RequestTOTPActivation(c *gin.Context) (int, any) {
+
+	// Two ways to get the user ID:
+	// 1. From the session (if the user is logged in)
+	// 2. From the preauth token (if the user is in the process of logging in and needs to enable 2FA)
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
-		return http.StatusBadRequest, err
+		var claims PreAuthClaims
+		if err := c.BindJSON(&claims); err != nil {
+			return http.StatusBadRequest, err
+		}
+		if claims.PreAuthToken == "" {
+			return http.StatusBadRequest, errors.New("pre_auth_token is required")
+		}
+		userId, err = ctr.app.Services.Auth.VerifyPreAuth(claims.PreAuthToken)
+		if err != nil {
+			return http.StatusUnauthorized, err
+		}
 	}
 
-	user, err := ctr.app.Services.User.GetUserById(c.Request.Context(), userId)
+	user, err := ctr.app.Repos.User.GetByID(userId, false)
 	if err != nil || user == nil {
 		return http.StatusBadRequest, errors.New("user not found")
 	}
@@ -251,16 +279,30 @@ func (ctr *Controller) RequestTOTPActivation(c *gin.Context) (int, any) {
 // @Success 200 {object} Success(string)
 // @Failure 400 {object} Error
 func (ctr *Controller) ConfirmTOTPActivation(c *gin.Context) (int, any) {
+
+	// Two ways to get the user ID:
+	// 1. From the session (if the user is logged in)
+	// 2. From the preauth token (if the user is in the process of logging in and needs to enable 2FA)
 	userId, err := utils.GetUserIdCtx(c)
 	if err != nil {
-		return http.StatusBadRequest, err
+		var claims PreAuthClaims
+		if err := c.ShouldBindBodyWith(&claims, binding.JSON); err != nil {
+			return http.StatusBadRequest, err
+		}
+		if claims.PreAuthToken == "" {
+			return http.StatusBadRequest, errors.New("pre_auth_token is required")
+		}
+		userId, err = ctr.app.Services.Auth.VerifyPreAuth(claims.PreAuthToken)
+		if err != nil {
+			return http.StatusUnauthorized, err
+		}
 	}
 
 	var data struct {
 		Secret string `json:"secret" binding:"required"`
 		Code   string `json:"code" binding:"required"`
 	}
-	if err := c.ShouldBindJSON(&data); err != nil {
+	if err := c.ShouldBindBodyWith(&data, binding.JSON); err != nil {
 		return http.StatusBadRequest, err
 	}
 

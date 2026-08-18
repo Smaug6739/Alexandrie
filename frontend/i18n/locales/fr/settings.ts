@@ -270,6 +270,27 @@ export default {
     passwordNotMatch: 'Les mots de passe ne correspondent pas !',
     subtitle: "Gérez vos paramètres de sécurité et surveillez l'activité de votre compte.",
     title: 'Sécurité',
+    totp: {
+      title: 'Authentification à deux facteurs (2FA)',
+      description: 'écurisez votre compte en exigeant un code à 6 chiffres lors de la connexion.',
+      enable: 'Activer 2FA',
+      disable: 'Désactiver 2FA',
+      stateEnabled: '2FA est actuellement activé sur votre compte.',
+      forced: "2FA est requis pour votre compte. Veuillez l'activer pour continuer à utiliser l'application.",
+      enableStep1:
+        "1. Scannez le code QR ci-dessous avec votre application d'authentification (Google Authenticator, Authy, etc.) ou entrez la clé manuellement.",
+      enableStep2: "2. Entrez le code à 6 chiffres généré par votre application d'authentification ci-dessous pour vérifier et activer le 2FA.",
+      backupCodes: {
+        title: 'Codes de récupération',
+        warn: 'Gardez ces codes en sécurité !',
+        description:
+          "Si vous perdez votre appareil 2FA, ces codes sont le seul moyen de récupérer votre compte. Chaque code ne peut être utilisé qu'une seule fois.",
+        download: 'Télécharger les codes de récupération',
+        seen: "J'ai sauvegardé ces codes",
+        copied: 'Codes copiés !',
+        copy: 'Copier tous les codes',
+      },
+    },
     unlink: 'Délier',
     unrecognizedSession: 'Session non reconnue ?',
     unrecognizedSessionDesc:

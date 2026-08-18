@@ -6,9 +6,11 @@ import (
 	"alexandrie/repositories"
 	"alexandrie/types"
 	"alexandrie/utils"
+	"bytes"
 	"crypto/rand"
 	"errors"
 	"fmt"
+	"html/template"
 	"math/big"
 	"os"
 	"strconv"
@@ -32,6 +34,7 @@ type AuthService interface {
 	RequestPasswordReset(username string, mailClient *mail.Client) error
 	ResetPassword(token, newPassword string) error
 
+	VerifyPreAuth(preAuthToken string) (types.Snowflake, error)
 	VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent string) (*models.User, *models.Session, error)
 	GenerateTOTPSecret(user *models.User) (string, string, error)
 	EnableTOTP(userId types.Snowflake, secret, code string) ([]string, error)
@@ -76,7 +79,7 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 	if err := bcrypt.CompareHashAndPassword([]byte(*user.Password), []byte(password)); err != nil {
 		return nil, nil, "", errors.New("invalid credentials")
 	}
-	if user.TotpEnabled {
+	if user.TotpEnabled || (user.TOTPForced && !user.TotpEnabled) {
 		user.Password = nil
 		preAuthToken, err := signPreAuthToken(user.Id)
 		if err != nil {
@@ -179,20 +182,63 @@ func (s *authService) RequestPasswordReset(username string, mailClient *mail.Cli
 		return nil // Don't reveal errors
 	}
 
+	err = sendPasswordResetEmail(mailClient, user, resetToken)
+	if err != nil {
+		return errors.New("failed to send password reset email")
+	}
+	return nil
+}
+
+type PasswordResetEmailData struct {
+	ResetURL    string
+	FrontendURL string
+}
+
+func sendPasswordResetEmail(mailClient *mail.Client, user *models.User, resetToken string) error {
 	mailFrom := os.Getenv("SMTP_MAIL_FROM")
 	if mailFrom == "" {
 		mailFrom = os.Getenv("SMTP_MAIL")
 	}
 
+	resetURL := os.Getenv("FRONTEND_URL") +
+		"/login/reset?token=" +
+		resetToken
+
+	tmpl, err := template.ParseFiles("emails/password-reset.html")
+	if err != nil {
+		return err
+	}
+
+	var htmlBody bytes.Buffer
+
+	data := PasswordResetEmailData{
+		ResetURL:    resetURL,
+		FrontendURL: os.Getenv("FRONTEND_URL"),
+	}
+
+	if err := tmpl.Execute(&htmlBody, data); err != nil {
+		return err
+	}
+
 	message := mail.NewMsg()
 	message.FromFormat("Alexandrie Team", mailFrom)
 	message.To(*user.Email)
-	message.Subject("Alexandrie: Password Reset")
-	message.SetBodyString(mail.TypeTextPlain, fmt.Sprintf("Your password reset link is: %s", os.Getenv("FRONTEND_URL")+"/login/reset?token="+resetToken))
+	message.Subject("Alexandrie: Reset your password")
+
+	message.SetBodyString(
+		mail.TypeTextPlain,
+		"Your password reset link is: "+resetURL+"\n\n"+"If you did not expect this email, please ignore it.",
+	)
+
+	message.AddAlternativeString(
+		mail.TypeTextHTML,
+		htmlBody.String(),
+	)
 
 	if err := mailClient.DialAndSend(message); err != nil {
-		return nil // Don't reveal errors
+		return errors.New("failed to send password reset email")
 	}
+
 	return nil
 }
 
@@ -226,27 +272,35 @@ func (s *authService) ResetPassword(token, newPassword string) error {
 	return s.userRepo.UpdatePassword(user.Id, string(hash))
 }
 
-func (s *authService) VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent string) (*models.User, *models.Session, error) {
-
-	token, err := jwt.Parse(preAuthToken, func(token *jwt.Token) (interface{}, error) {
+func (s *authService) VerifyPreAuth(preAuthToken string) (types.Snowflake, error) {
+	token, err := jwt.Parse(preAuthToken, func(token *jwt.Token) (any, error) {
 		return []byte(os.Getenv("JWT_SECRET")), nil
 	})
 	if err != nil || !token.Valid {
-		return nil, nil, errors.New("invalid or expired pre-authentication token")
+		return types.Snowflake(0), errors.New("invalid or expired pre-authentication token")
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || claims["pre_auth"] != true {
-		return nil, nil, errors.New("invalid token type")
+		return types.Snowflake(0), errors.New("invalid token type")
 	}
 
-	// 2. Extraire le User ID du token
 	userIdStr, _ := claims["sub"].(string)
 	userIdUint, err := strconv.ParseUint(userIdStr, 10, 64)
 	if err != nil {
-		return nil, nil, errors.New("invalid user ID")
+		return types.Snowflake(0), errors.New("invalid user ID")
 	}
 	userId := types.Snowflake(userIdUint)
+	return userId, nil
+}
+
+func (s *authService) VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent string) (*models.User, *models.Session, error) {
+
+	userId, err := s.VerifyPreAuth(preAuthToken)
+
+	if err != nil {
+		return nil, nil, err
+	}
 
 	user, err := s.userRepo.GetByID(userId, true)
 	if user == nil || err != nil {
@@ -295,7 +349,6 @@ func (s *authService) GenerateTOTPSecret(user *models.User) (string, string, err
 func generateBackupCodes() ([]string, error) {
 	codes := make([]string, 8)
 	for i := range 8 {
-		// Génère un nombre aléatoire entre 10000000 et 99999999
 		nBig, err := rand.Int(rand.Reader, big.NewInt(90000000))
 		if err != nil {
 			return nil, err
@@ -381,9 +434,9 @@ func signPreAuthToken(userId types.Snowflake) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":      strconv.FormatUint(uint64(userId), 10),
 		"iss":      "alexandrie",
-		"exp":      time.Now().Add(3 * time.Minute).Unix(), // Valide seulement 3 minutes
+		"exp":      time.Now().Add(3 * time.Minute).Unix(),
 		"iat":      time.Now().Unix(),
-		"pre_auth": true, // Flag crucial pour identifier qu'il ne s'agit pas d'une session finale
+		"pre_auth": true,
 	})
 	return claims.SignedString([]byte(os.Getenv("JWT_SECRET")))
 }

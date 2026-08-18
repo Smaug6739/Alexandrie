@@ -26,6 +26,19 @@
             <option :value="2">Admin</option>
           </select>
         </div>
+        <div class="user-detail">
+          <label for="role">Account Type</label>
+          <select id="role" v-model="user.type">
+            <option :value="0">Normal</option>
+            <option :value="1">Supervised</option>
+          </select>
+        </div>
+        <div class="actions-row">
+          <label class="toggle-row">
+            <span><strong>Require two-factor authentication</strong><small>The user will need to set up TOTP.</small></span>
+          </label>
+          <AppToggle v-model="user.totp_forced" />
+        </div>
         <div class="container">
           <div class="user-detail">
             <label>Created At</label>
@@ -95,13 +108,19 @@ const saveChanges = async () => {
   width: 100%;
 }
 
+.toggle-row {
+  flex-direction: row;
+  align-items: center;
+}
+
+.toggle-row span {
+  display: flex;
+  flex-direction: column;
+}
+
 .avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-}
-
-label {
-  font-weight: bold;
 }
 </style>

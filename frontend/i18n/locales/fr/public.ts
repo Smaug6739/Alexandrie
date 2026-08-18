@@ -19,6 +19,7 @@ export default {
     OTP_2FA: {
       title: 'Authentification à deux facteurs',
       description: "Veuillez saisir le code à 6 chiffres de votre application d'authentification.",
+      placeholder: '000000 ou code de secours à 8 chiffres',
       code: "Code d'authentification",
       submit: 'Vérifier',
       back: 'Retour',

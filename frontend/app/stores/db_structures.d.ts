@@ -61,6 +61,7 @@ export interface Node extends DB_Node {
 
 export interface User {
   id: string;
+  type: number; // 0: Normal; 1 Supervised
   username: string;
   firstname?: string;
   lastname?: string;
@@ -69,6 +70,7 @@ export interface User {
   password?: string;
   email?: string;
   totp_enabled: boolean;
+  totp_forced?: boolean;
   created_timestamp: number;
   updated_timestamp: number;
 }
@@ -80,6 +82,9 @@ export interface PublicUser {
   created_timestamp: number;
   updated_timestamp: number;
 }
+
+export type UserToCreate = Pick<User, 'username' | 'password' | 'email' | 'firstname' | 'lastname' | 'totp_forced' | 'type'>;
+export type UserToCreateBulk = Pick<User, 'username' | 'email' | 'firstname' | 'lastname' | 'totp_forced' | 'type'>;
 
 export interface NodeSearchResult {
   id: string;

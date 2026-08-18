@@ -107,7 +107,7 @@ watch([username, email, password, confirmPassword], () => {
 
 async function createAccount(username: string, email: string, password: string) {
   userStore
-    .register({ username, email: email || undefined, password, role: 1, totp_enabled: false })
+    .register({ username, email: email || undefined, password, totp_forced: false, type: 0 })
     .then(() => {
       router.push('/login');
     })
