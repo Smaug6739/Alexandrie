@@ -210,13 +210,10 @@ onBeforeUnmount(() => {
 .filter-panel {
   position: fixed;
   z-index: 9999;
-
   width: 320px;
   padding: 12px;
-
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-
   background: var(--surface-base);
   box-shadow: var(--shadow-lg);
 }
