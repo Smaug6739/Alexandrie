@@ -62,8 +62,11 @@ const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
 const preferences = usePreferencesStore();
 
-const props = defineProps<{ doc?: Partial<Node>; public?: boolean }>();
-const emit = defineEmits(['save', 'exit', 'autoSave']);
+defineProps<{ public?: boolean }>();
+const emit = defineEmits<{
+  (e: 'save' | 'autoSave', doc: Partial<Node>): void;
+  (e: 'exit'): void;
+}>();
 
 const editorContainer = ref<HTMLDivElement>();
 const markdownPreviewComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
@@ -81,10 +84,7 @@ const scrollSync = createScrollSync({
 
 const resolveNode = (id: string) => nodesStore.getById(id)?.name;
 
-const document = ref<Partial<Node>>({
-  ...props.doc,
-  content_compiled: compile(props.doc?.content || '', resolveNode),
-});
+const document = defineModel<Partial<Node>>({ required: true });
 
 const commands = createCommands({
   getView: () => editorView.value as EditorView | null,
@@ -96,7 +96,7 @@ const commands = createCommands({
 
 const uploadsHandlers = createUploadsHandlers({
   resourcesStore,
-  nodeId: props.doc?.id,
+  nodeId: document.value.id,
   insertText: (t: string) => commands.exec('insertText', t),
 });
 

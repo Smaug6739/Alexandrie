@@ -1,6 +1,6 @@
 <template>
   <ClientOnly>
-    <LazyMarkdownEditor v-if="document && !error" :doc="document" public @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
+    <LazyMarkdownEditor v-if="document && !error" v-model="document" public @save="data => save(data)" @auto-save="data => autoSave(data)" @exit="exit" />
   </ClientOnly>
 </template>
 <script lang="ts" setup>
@@ -32,15 +32,15 @@ const { data: document, error } = await useAsyncData(`public-doc-e-${route.param
   }
   return undefined;
 });
-function save(doc: Node) {
+function save(doc: Partial<Node>) {
   store
-    .update(doc)
+    .update(doc as Node)
     .then(() => notifications.add({ title: 'Document successfully updated', type: 'success' }))
     .catch(e => notifications.add({ message: e, title: 'Error', type: 'error' }));
 }
 
-function autoSave(doc: Node) {
-  store.update(doc);
+function autoSave(doc: Partial<Node>) {
+  store.update(doc as Node);
 }
 
 const exit = () => router.push(`/doc/${nodeId}`);
