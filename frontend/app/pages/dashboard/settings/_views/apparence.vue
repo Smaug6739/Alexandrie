@@ -12,6 +12,7 @@ const appColors = useAppColors();
 const { t } = useI18nT();
 
 const colorMode = useColorMode();
+const localeOptions = useLocaleOptions();
 
 const options = computed(
   () =>
@@ -33,14 +34,7 @@ const options = computed(
             description: t('settings.appearance.setLanguageDesc'),
             type: 'select' as const,
             key: 'locale' as const,
-            choices: [
-              { label: 'English', id: 'en' },
-              { label: 'Français', id: 'fr' },
-              { label: 'Deutsch', id: 'de' },
-              { label: 'Українська', id: 'uk' },
-              { label: '한국어', id: 'ko' },
-              { label: 'Italian', id: 'it' },
-            ],
+            choices: localeOptions.value,
           },
           {
             label: t('settings.appearance.chooseAccentColor'),
