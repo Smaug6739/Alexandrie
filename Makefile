@@ -9,6 +9,9 @@ frontend:
 frontendh:
 	cd frontend && bunx --bun nuxt dev --host
 
+documentation:
+	cd docs && bunx --bun nuxt dev -p 3001
+
 update:
 	cd frontend && \
 	rm -rf node_modules .nuxt bun.lock && \
