@@ -6,11 +6,11 @@
       </div>
 
       <div class="navbar-center">
+        <NavbarRouter />
         <div v-if="tabEnabled" class="navbar-tabs-wrapper">
           <AppBtnIcon v-if="!isOpened && !isMobile" icon="burger" class="open-sidebar inline-burger" @click="toggleSidebar" />
           <Tab class="navbar-tabs" />
         </div>
-        <NavbarRouter />
         <div id="navbar-title" class="navbar-title" />
       </div>
 
