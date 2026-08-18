@@ -1,5 +1,5 @@
 <template>
-  <LazyMarkdownEditor v-if="node" :doc="node" @save="data => save(data)" @auto-save="autoSave" @exit="exit" />
+  <LazyMarkdownEditor v-if="node" v-model="node" @save="data => save(data)" @auto-save="autoSave" @exit="exit" />
 </template>
 <script lang="ts" setup>
 import type { Node } from '~/stores';
@@ -27,13 +27,13 @@ watchEffect(async () => {
 });
 
 // Actions
-const save = (doc: Node) => {
+const save = (doc: Partial<Node>) => {
   store
-    .update(doc)
+    .update(doc as Node)
     .then(() => notifications.add({ title: 'Document successfully updated', type: 'success' }))
     .catch(e => notifications.add({ message: e, title: 'Error', type: 'error' }));
 };
-const autoSave = (doc: Node) => store.update(doc);
+const autoSave = (doc: Partial<Node>) => store.update(doc as Node);
 
 const exit = () => {
   const redirect = route.query.redirect as string | undefined;

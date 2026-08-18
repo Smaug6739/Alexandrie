@@ -1,15 +1,11 @@
 <template>
-  <LazyMarkdownEditor :doc="document" @save="data => save(data)" @exit="exit" @auto-save="savePending" />
+  <LazyMarkdownEditor v-model="document" @save="data => save(data)" @exit="exit" @auto-save="savePending" />
 </template>
 <script lang="ts" setup>
 import localForage from 'localforage';
 import type { Node } from '~/stores';
 
 definePageMeta({ breadcrumb: { i18n: 'common.actions.new' } });
-
-interface NewDocumentQuery {
-  parent_id?: string;
-}
 
 const store = useNodesStore();
 
@@ -22,16 +18,17 @@ const pendingNode = await localForage.getItem<Node>('pendingNode');
 
 let saved = false;
 
-const routeQuery = computed<NewDocumentQuery>(() => route.query);
-const defaultParent = computed(() => routeQuery.value.parent_id || sidebar.workspaceId.value || undefined);
-const document = computed<Partial<Node>>(() => ({
-  accessibility: 1,
-  parent_id: ['root', 'shared'].includes(defaultParent.value || '') ? undefined : defaultParent.value,
-  role: 3,
-  ...pendingNode,
-}));
+const defaultParent = computed(() => (route.query.parent_id as string) || sidebar.workspaceId.value || undefined);
+const document = computed<Partial<Node>>(() => {
+  return {
+    accessibility: 1,
+    role: 3,
+    ...pendingNode,
+    parent_id: ['root', 'shared'].includes(defaultParent.value || '') ? undefined : defaultParent.value,
+  };
+});
 
-function save(doc: Node) {
+function save(doc: Partial<Node>) {
   store
     .post(doc)
     .then(async d => {
@@ -43,7 +40,7 @@ function save(doc: Node) {
     .catch(e => notifications.add({ message: e, title: 'Error', type: 'error' }));
 }
 
-function savePending(node: Node) {
+function savePending(node: Partial<Node>) {
   if (saved) return;
   localForage.setItem('pendingNode', toRaw(node));
 }
