@@ -145,6 +145,7 @@ export default defineNuxtConfig({
       { code: 'it', file: 'it/index.ts', language: 'it-IT' },
     ],
     strategy: 'prefix_except_default',
+    skipSettingLocaleOnNavigate: true,
 
     baseUrl: import.meta.env.NUXT_PUBLIC_BASE_URL,
     pages: {
