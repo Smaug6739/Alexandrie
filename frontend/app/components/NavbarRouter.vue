@@ -39,6 +39,7 @@ div {
   align-items: center;
   gap: 0.5rem;
 }
+
 .nav {
   display: inline-flex;
   justify-content: center;
