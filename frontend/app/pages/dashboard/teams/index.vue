@@ -38,10 +38,8 @@ import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 const nodesStore = useNodesStore();
 const modals = useModal();
 const { t } = useI18nT();
-const mark = useMark();
 
 const query = ref('');
-mark.dismissMark('teams');
 
 const teams = computed(() => nodesStore.teams.toSorted((a, b) => a.name.localeCompare(b.name)));
 const filteredTeams = computed(() => {

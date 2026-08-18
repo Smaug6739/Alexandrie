@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const markStore = useMark();
 
-const RELEASE_MARK_ID: MarkId = 'v8.11.0';
+const RELEASE_MARK_ID: MarkId = 'v8.13.0';
 
 const isVisible = ref(false);
 
@@ -32,7 +32,7 @@ function handleClose() {
             </div>
             <div>
               <h2>What's new in Alexandrie?</h2>
-              <p class="version-tag">Version 8.11.0</p>
+              <p class="version-tag">Version 8.13.0</p>
             </div>
           </div>
 
@@ -43,22 +43,22 @@ function handleClose() {
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Translations</h3>
-              <p>Improved translations and support two new languages: Korean and Italian</p>
+              <h3>Sort Options</h3>
+              <p>Enhanced sort options for better organization and filtering of content.</p>
             </div>
           </div>
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Markdown Syntax</h3>
-              <p>Enhanced Markdown syntax support for better document formatting: Support internal links, tooltips, snippets, diagrams and more.</p>
+              <h3>Admin Panel</h3>
+              <p>New admin panel with improved controls and settings management. Allow user creation and add security features.</p>
             </div>
           </div>
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Editor & App</h3>
-              <p>Improved design, performance and user experience across the board.</p>
+              <h3>Improved emails, bug fixes</h3>
+              <p>Improved email notifications and fixed several bugs across the application.</p>
             </div>
           </div>
         </div>
@@ -142,7 +142,6 @@ function handleClose() {
   color: var(--text-secondary);
 }
 
-// Organisation en grille responsive
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -199,7 +198,6 @@ function handleClose() {
   justify-content: flex-start;
 }
 
-// Transition d'écrasement fluide à la fermeture
 .welcome-collapse-enter-active {
   transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -220,6 +218,6 @@ function handleClose() {
 
 .welcome-collapse-enter-to,
 .welcome-collapse-leave-from {
-  max-height: 400px; /* Doit être supérieur à la taille max de ta box */
+  max-height: 400px;
 }
 </style>

@@ -63,6 +63,7 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
       {
         label: t('settings.other.sortKey'),
         description: t('settings.other.sortKeyDesc'),
+        tag: t('settings.nav.new'),
         type: 'select',
         key: 'sortKey',
         choices: [
@@ -74,6 +75,7 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
       {
         label: t('settings.other.sortOrder'),
         description: t('settings.other.sortOrderDesc'),
+        tag: t('settings.nav.new'),
         type: 'select',
         key: 'sortOrder',
         choices: [

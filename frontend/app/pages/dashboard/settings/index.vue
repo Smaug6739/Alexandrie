@@ -105,8 +105,8 @@ const navSections = computed<NavSection[]>(() => [
     title: t('settings.nav.general'),
     items: [
       { key: 'profile', label: t('settings.pages.profile'), icon: 'profil' },
-      { key: 'apparence', label: t('settings.pages.appearance'), icon: 'brush', newId: 'tabs' },
-      { key: 'security', label: t('settings.pages.security'), icon: 'security', newId: 'security-2fa' },
+      { key: 'apparence', label: t('settings.pages.appearance'), icon: 'brush' },
+      { key: 'security', label: t('settings.pages.security'), icon: 'security' },
     ],
   },
   {
@@ -116,7 +116,7 @@ const navSections = computed<NavSection[]>(() => [
       { key: 'documents', label: t('settings.pages.documents'), icon: 'bookmark-stack' },
       { key: 'editor', label: t('settings.pages.editor'), icon: 'editor' },
       { key: 'styles', label: t('settings.pages.styles'), icon: 'styles' },
-      { key: 'other', label: t('settings.pages.other'), icon: 'advanced' },
+      { key: 'other', label: t('settings.pages.other'), icon: 'advanced', newId: 'sort-options' },
     ],
   },
   {
@@ -125,7 +125,7 @@ const navSections = computed<NavSection[]>(() => [
       { key: 'snippets', label: t('settings.pages.snippets'), icon: 'snippets' },
       { key: 'backup', label: t('settings.pages.backup'), icon: 'backup' },
       { key: 'advanced', label: t('settings.pages.advanced'), icon: 'build' },
-      { key: 'teams', label: t('settings.pages.teams'), icon: 'users', newId: 'teams' },
+      { key: 'teams', label: t('settings.pages.teams'), icon: 'users' },
     ],
   },
   {

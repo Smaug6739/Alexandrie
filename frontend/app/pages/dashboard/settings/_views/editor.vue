@@ -61,7 +61,6 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
       },
       {
         label: t('settings.editor.simplifiedMobileView'),
-        tag: t('settings.nav.new'),
         description: t('settings.editor.simplifiedMobileViewDesc'),
         type: 'toggle',
         key: 'editorSimplifiedViewOnMobile',
