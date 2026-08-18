@@ -137,28 +137,14 @@
 </template>
 
 <script setup lang="ts">
-const { t, locale, loadLocaleMessages, setLocale } = useI18nT();
+const { t, locale, localeCodes, loadLocaleMessages, setLocale } = useI18nT();
 
-const localeCodes = ['en', 'fr', 'de', 'uk', 'ko', 'it'] as const;
-type LocaleCode = (typeof localeCodes)[number];
-
-const isLocaleCode = (value: string): value is LocaleCode => localeCodes.includes(value as LocaleCode);
-
-const localeItems = computed(() => {
-  const displayNames = typeof Intl.DisplayNames === 'function' ? new Intl.DisplayNames([locale.value], { type: 'language' }) : null;
-
-  return localeCodes.map(code => ({
-    id: code,
-    label: capitalize(displayNames?.of(code) ?? code.toUpperCase()),
-  }));
-});
-
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+const localeItems = useLocaleOptions();
 
 const selectLocale = async (nextLocale: string | number) => {
-  const normalizedLocale = String(nextLocale);
+  const normalizedLocale = localeCodes.value.find(code => code === nextLocale);
 
-  if (!isLocaleCode(normalizedLocale) || normalizedLocale === locale.value) {
+  if (!normalizedLocale || normalizedLocale === locale.value) {
     return;
   }
 

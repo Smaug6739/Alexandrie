@@ -1,9 +1,11 @@
+import type { Locale } from 'vue-i18n';
+
 import type { TreeItem } from '~/helpers/TreeBuilder';
 
 export type ANode<ID = number | string> = Omit<TreeItem<unknown, ID>, 'data' | 'route'>;
 
 export const DEFAULT_PREFERENCES = {
-  locale: 'en' as 'en' | 'fr',
+  locale: 'en' as Locale,
   readAnnouncements: [] as string[],
   printMode: false as boolean,
   darkMode: false as boolean,
