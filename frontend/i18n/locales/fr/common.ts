@@ -1,5 +1,6 @@
 export default {
   actions: {
+    back: 'Retour',
     cancel: 'Annuler',
     clear: 'Effacer',
     close: 'Fermer',

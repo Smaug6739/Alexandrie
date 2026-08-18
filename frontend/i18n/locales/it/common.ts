@@ -1,5 +1,6 @@
 export default {
   actions: {
+    back: 'Indietro',
     cancel: 'Annulla',
     clear: 'Svuota',
     close: 'Chiudi',

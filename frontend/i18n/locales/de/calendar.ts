@@ -1,0 +1,45 @@
+export default {
+  title: 'Kalender',
+  addEvent: 'Termin hinzufügen',
+  editEvent: 'Termin bearbeiten',
+  startDate: 'Startdatum',
+  endDate: 'Enddatum',
+  type: 'Termintyp',
+  linkDocument: 'Dokument verknüpfen',
+  selectDocument: 'Dokument auswählen (optional)',
+  types: {
+    event: 'Termin',
+    homework: 'Hausaufgabe',
+    exam: 'Prüfung',
+    other: 'Sonstiges',
+  },
+  colors: {
+    blue: 'Blau',
+    green: 'Grün',
+    red: 'Rot',
+    orange: 'Orange',
+    pink: 'Rosa',
+  },
+  recurrence: 'Wiederholung',
+  recurrencePatterns: {
+    none: 'Keine',
+    daily: 'Täglich',
+    weekly: 'Wöchentlich',
+    monthly: 'Monatlich',
+  },
+  recurrenceInterval: 'Wiederholen alle',
+  recurrenceEnd: 'Enddatum der Wiederholung',
+  views: {
+    month: 'Monat',
+    week: 'Woche',
+    day: 'Tag',
+  },
+  filters: {
+    title: 'Filter',
+    type: 'Filtern nach Typ',
+    color: 'Filtern nach Farbe',
+  },
+  dialog: {
+    deleteConfirm: 'Sind Sie sicher, dass Sie diesen Termin löschen möchten?',
+  },
+};

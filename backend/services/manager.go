@@ -12,19 +12,20 @@ import (
 )
 
 type ServiceManager struct {
-	Access       permissions.AccessGuard
-	Auth         AuthService
-	User         UserService
-	Stats        StatsService
-	Node         NodeService
-	Permission   PermissionService
-	Session      SessionService
-	Minio        MinioService
-	Resource     ResourceService
-	Backup       BackupService
-	OIDC         OIDCService
-	UserSettings UserSettingsService
-	initialized  bool
+	Access        permissions.AccessGuard
+	Auth          AuthService
+	User          UserService
+	Stats         StatsService
+	Node          NodeService
+	Permission    PermissionService
+	Session       SessionService
+	Minio         MinioService
+	Resource      ResourceService
+	Backup        BackupService
+	OIDC          OIDCService
+	UserSettings  UserSettingsService
+	CalendarEvent CalendarEventService
+	initialized   bool
 }
 
 func NewServiceManager(repos *repositories.RepositoryManager, snowflake *snowflake.Snowflake, minioClient *minio.Client, mailClient *mail.Client, resourceConfig ResourceConfig) (*ServiceManager, error) {
@@ -52,6 +53,7 @@ func (sm *ServiceManager) initializeServices(repos *repositories.RepositoryManag
 	sm.Backup = NewBackupService(repos.Node, repos.UserSettings)
 	sm.OIDC = NewOIDCService(repos.OIDCProvider, repos.User, sm.User, repos.Session, repos.Log, snowflake)
 	sm.UserSettings = NewUserSettingsService(repos.UserSettings)
+	sm.CalendarEvent = NewCalendarEventService(repos, snowflake)
 	return nil
 }
 

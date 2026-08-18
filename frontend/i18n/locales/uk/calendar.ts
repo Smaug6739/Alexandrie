@@ -1,0 +1,45 @@
+export default {
+  title: 'Календар',
+  addEvent: 'Додати подію',
+  editEvent: 'Редагувати подію',
+  startDate: 'Дата початку',
+  endDate: 'Дата завершення',
+  type: 'Тип події',
+  linkDocument: 'Прив’язати документ',
+  selectDocument: 'Вибрати документ (необов’язково)',
+  types: {
+    event: 'Подія',
+    homework: 'Домашнє завдання',
+    exam: 'Іспит',
+    other: 'Інше',
+  },
+  colors: {
+    blue: 'Синій',
+    green: 'Зелений',
+    red: 'Червоний',
+    orange: 'Помаранчевий',
+    pink: 'Рожевий',
+  },
+  recurrence: 'Повторення',
+  recurrencePatterns: {
+    none: 'Ніколи',
+    daily: 'Щодня',
+    weekly: 'Щотижня',
+    monthly: 'Щомісяця',
+  },
+  recurrenceInterval: 'Повторювати кожні',
+  recurrenceEnd: 'Кінець повторення',
+  views: {
+    month: 'Місяць',
+    week: 'Тиждень',
+    day: 'День',
+  },
+  filters: {
+    title: 'Фільтри',
+    type: 'Фільтрувати за типом',
+    color: 'Фільтрувати за кольором',
+  },
+  dialog: {
+    deleteConfirm: 'Ви впевнені, що хочете видалити цю подію?',
+  },
+};
