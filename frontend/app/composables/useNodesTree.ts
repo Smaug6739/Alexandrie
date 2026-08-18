@@ -10,11 +10,11 @@ let globalBuilder: TreeBuilder<Node> | null = null;
 let globalTree: ComputedRef<TreeItem<Node>[]> | null = null;
 let globalTreeMap: ComputedRef<Map<string, TreeItem<Node>>> | null = null;
 
-function initGlobalTree() {
+function initGlobalTree(sortNodes: (a: TreeItem<Node>, b: TreeItem<Node>) => number) {
   const nodesStore = useNodesStore();
 
   if (!globalBuilder) {
-    globalBuilder = new TreeBuilder<Node>(toRaw(nodesStore.nodes), transformNode);
+    globalBuilder = new TreeBuilder<Node>(toRaw(nodesStore.nodes), transformNode, sortNodes);
   }
 
   if (!globalTree) {
@@ -57,8 +57,9 @@ function transformNode(node: Node): Omit<TreeItem<Node>, 'children'> {
 
 export function useNodesTree() {
   const collapseStore = useCollapseStore();
+  const { sortItems } = useNodesSort();
 
-  initGlobalTree();
+  initGlobalTree(sortItems);
 
   const tree = globalTree!;
   const treeMap = globalTreeMap!;

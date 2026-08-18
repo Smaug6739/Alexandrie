@@ -184,6 +184,11 @@ export default {
     subtitle: '기타 일반 애플리케이션 설정을 관리합니다.',
     title: '기타',
     uploads: '업로드',
+    sort: '항목 정렬',
+    sortKey: '정렬 키',
+    sortKeyDesc: '목록의 항목에 대한 기본 정렬 키를 선택합니다.',
+    sortOrder: '정렬 순서',
+    sortOrderDesc: '목록의 항목에 대한 기본 정렬 순서를 선택합니다.',
   },
 
   pages: {

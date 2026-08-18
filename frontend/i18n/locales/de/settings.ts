@@ -148,7 +148,8 @@ export default {
     simplifiedMobileView: 'Vereinfachte Mobilansicht',
     simplifiedMobileViewDesc: 'Aktiviere eine vereinfachte Editor-Ansicht auf Mobilgeräten für bessere Benutzerfreundlichkeit.',
     scrollBeyondLastLine: 'Über die letzte Zeile hinaus scrollen',
-    scrollBeyondLastLineDesc: 'Erlaube dem Editor, über das Ende des Dokuments hinaus zu scrollen, damit die letzte Zeile nicht am unteren Bildschirmrand bleibt.',
+    scrollBeyondLastLineDesc:
+      'Erlaube dem Editor, über das Ende des Dokuments hinaus zu scrollen, damit die letzte Zeile nicht am unteren Bildschirmrand bleibt.',
     subtitle: 'Verwalte deine Editor-Einstellungen.',
     title: 'Editor-Einstellungen',
   },
@@ -186,6 +187,11 @@ export default {
     subtitle: 'Verwalte andere allgemeine Anwendungseinstellungen.',
     title: 'Sonstiges',
     uploads: 'Uploads',
+    sort: 'Sortierung',
+    sortKey: 'Sortierungsschlüssel',
+    sortKeyDesc: 'Wähle den Standard-Sortierschlüssel für Elemente in Listen.',
+    sortOrder: 'Sortierreihenfolge',
+    sortOrderDesc: 'Wähle die Standard-Sortierreihenfolge für Elemente in Listen.',
   },
 
   pages: {

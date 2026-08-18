@@ -17,14 +17,13 @@ export interface SearchOptions {
   dateType?: 'created' | 'modified';
   tags?: string[];
   category?: string;
-  sortBy?: 'created' | 'modified' | 'name';
-  sortType?: 'ascending' | 'descending';
   matchMode?: 'includes' | 'starts' | 'exact';
   role?: NodeRole;
 }
 
 export const useNodesStore = defineStore('nodes', () => {
   const userStore = useUserStore();
+  const { sortNodes } = useNodesSort();
 
   const nodes = shallowRef(new IndexedCollection());
   const allTags = ref<string[]>([]);
@@ -125,7 +124,7 @@ export const useNodesStore = defineStore('nodes', () => {
   };
 
   const search = (options: SearchOptions, nodesToSearch: Node[] | readonly Node[] = nodes.value.toSortedArray()) => {
-    const { query, fromDate, toDate, dateType = 'modified', tags, category, sortBy = 'modified', sortType = 'descending', matchMode = 'includes' } = options;
+    const { query, fromDate, toDate, dateType = 'modified', tags, category, matchMode = 'includes' } = options;
 
     const queryLower = query?.toLowerCase().trim();
     const hasQuery = Boolean(queryLower);
@@ -172,31 +171,7 @@ export const useNodesStore = defineStore('nodes', () => {
     });
 
     // --- Sort results ---
-    filtered.sort((a, b) => {
-      let valA: string | number = '';
-      let valB: string | number = '';
-
-      switch (sortBy) {
-        case 'created':
-          valA = a.created_timestamp;
-          valB = b.created_timestamp;
-          break;
-        case 'modified':
-          valA = a.updated_timestamp;
-          valB = b.updated_timestamp;
-          break;
-        case 'name':
-          valA = a.name.toLowerCase();
-          valB = b.name.toLowerCase();
-          break;
-      }
-
-      if (valA < valB) return sortType === 'ascending' ? -1 : 1;
-      if (valA > valB) return sortType === 'ascending' ? 1 : -1;
-      return 0;
-    });
-
-    return filtered;
+    return filtered.sort(sortNodes);
   };
 
   async function fetch<T extends FetchOptions>(opts?: T): Promise<'id' extends keyof T ? Node : IndexedCollection> {

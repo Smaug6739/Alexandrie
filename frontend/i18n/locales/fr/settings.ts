@@ -186,6 +186,11 @@ export default {
     subtitle: "Gérez les autres paramètres généraux de l'application.",
     title: 'Autre',
     uploads: 'Téléchargements',
+    sort: 'Tri des éléments',
+    sortKey: 'Clé de tri',
+    sortKeyDesc: 'Choisissez la clé de tri par défaut pour les éléments dans les listes.',
+    sortOrder: 'Ordre de tri',
+    sortOrderDesc: "Choisissez l'ordre de tri par défaut pour les éléments dans les listes.",
   },
 
   pages: {
