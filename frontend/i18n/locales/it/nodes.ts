@@ -7,7 +7,6 @@ export default {
     managePermissions: 'Gestisci permessi',
     newDocument: '+ Crea nuovo documento',
     publicLink: 'Link pubblico',
-    qrCode: 'Codice QR',
     removeFromShared: 'Rimuovi dai condivisi',
     resetBoard: 'Ripristina lavagna',
     share: 'Condividi',
@@ -103,11 +102,6 @@ export default {
       searchUser: 'Cerca un utente',
       shareLink: 'Condividi questo link per consentire a chiunque di visualizzare il documento senza un account:',
       title: 'Gestisci permessi',
-    },
-    qrCode: {
-      description: 'Scansiona questo codice per aprire il documento.',
-      download: 'Scarica PNG',
-      title: 'Codice QR',
     },
     removeShared: {
       childWarning: 'Questo documento ha {count} documento/i figlio. Verranno rimossi anche essi.',

@@ -7,7 +7,6 @@ export default {
     managePermissions: 'Gérer les permissions',
     newDocument: '+ Créer un nouveau document',
     publicLink: 'Lien public',
-    qrCode: 'Code QR',
     removeFromShared: 'Retirer du partage',
     resetBoard: 'Réinitialiser le tableau',
     share: 'Partager',
@@ -103,11 +102,6 @@ export default {
       searchUser: 'Rechercher un utilisateur',
       shareLink: "Partagez ce lien pour permettre à n'importe qui de voir le document sans avoir besoin d'un compte :",
       title: 'Gérer les permissions',
-    },
-    qrCode: {
-      description: 'Scannez ce code pour ouvrir le document.',
-      download: 'Télécharger le PNG',
-      title: 'Code QR',
     },
     removeShared: {
       childWarning: 'Ce document a {count} document(s) enfant(s). Ils seront également retirés.',

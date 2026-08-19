@@ -7,7 +7,6 @@ export default {
     managePermissions: 'Manage permissions',
     newDocument: '+ Create new document',
     publicLink: 'Public link',
-    qrCode: 'QR code',
     removeFromShared: 'Remove from shared',
     resetBoard: 'Reset board',
     share: 'Share',
@@ -103,11 +102,6 @@ export default {
       searchUser: 'Search a user',
       shareLink: 'Share this link to let anyone view the document without an account:',
       title: 'Manage permissions',
-    },
-    qrCode: {
-      description: 'Scan this code to open the document.',
-      download: 'Download PNG',
-      title: 'QR code',
     },
     removeShared: {
       childWarning: 'This document has {count} child document(s). They will also be removed.',

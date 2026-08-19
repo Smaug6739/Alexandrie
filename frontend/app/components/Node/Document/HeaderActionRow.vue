@@ -1,6 +1,5 @@
 <template>
   <AppBtnIcon v-if="isPublic" nav icon="link" :tooltip="t('nodes.actions.copyPublicLink')" @click="copyPublicLink" />
-  <AppBtnIcon v-if="isPublic" nav icon="qr_code" :tooltip="t('nodes.actions.qrCode')" @click="openQrModal" />
   <AppBtnIcon v-if="isPublic" nav icon="share" :tooltip="t('nodes.actions.share')" @click="share" />
   <AppBtnIcon v-if="doc.accessibility == 3 && !isPublic" nav icon="link" :tooltip="t('nodes.actions.publicLink')" :to="`/doc/${doc.id}`" :blank="true" />
   <AppBtnIcon
@@ -28,7 +27,6 @@
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
 import DocumentMeta from '~/components/Node/Modals/Metadata.vue';
 import NodePermissions from '~/components/Node/Modals/Permissions.vue';
-import QrCodeModal from '~/components/Node/Modals/QrCode.vue';
 import RemoveSharedNode from '~/components/Node/Modals/RemoveShared.vue';
 import { generateMarkdownWithMetadata } from '~/helpers/node';
 import type { Node } from '~/stores';
@@ -53,8 +51,6 @@ const copyPublicLink = async () => {
     notifications.add({ type: 'error', title: t('common.errors.generic'), message: e as string });
   }
 };
-const openQrModal = () =>
-  modals.add(new Modal(shallowRef(QrCodeModal), { props: { url: publicUrl.value, name: props.doc.name }, size: 'small' }));
 const share = async () => {
   // Not every browser exposes the Web Share API (and it needs a secure context): fall back to copying the link.
   if (!navigator.share) return copyPublicLink();

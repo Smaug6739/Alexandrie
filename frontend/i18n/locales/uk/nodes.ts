@@ -7,7 +7,6 @@ export default {
     managePermissions: 'Керувати правами доступу',
     newDocument: '+ Створити новий документ',
     publicLink: 'Публічне посилання',
-    qrCode: 'QR-код',
     removeFromShared: 'Вилучити зі спільного доступу',
     resetBoard: 'Скинути дошку',
     share: 'Поділитися',
@@ -103,11 +102,6 @@ export default {
       searchUser: 'Знайти користувача',
       shareLink: 'Поділіться цим посиланням, щоб будь-хто міг переглянути документ без облікового запису:',
       title: 'Керувати правами доступу',
-    },
-    qrCode: {
-      description: 'Відскануйте цей код, щоб відкрити документ.',
-      download: 'Завантажити PNG',
-      title: 'QR-код',
     },
     removeShared: {
       childWarning: 'Цей документ має {count} дочірніх документів. Вони також будуть вилучені.',

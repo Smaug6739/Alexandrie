@@ -7,7 +7,6 @@ export default {
     managePermissions: 'Berechtigungen verwalten',
     newDocument: '+ Neues Dokument erstellen',
     publicLink: 'Öffentlicher Link',
-    qrCode: 'QR-Code',
     removeFromShared: 'Aus der Freigabe entfernen',
     resetBoard: 'Board zurücksetzen',
     share: 'Teilen',
@@ -103,11 +102,6 @@ export default {
       searchUser: 'Benutzer suchen',
       shareLink: 'Teile diesen Link, damit jeder das Dokument ohne Konto ansehen kann:',
       title: 'Berechtigungen verwalten',
-    },
-    qrCode: {
-      description: 'Scannen Sie diesen Code, um das Dokument zu öffnen.',
-      download: 'PNG herunterladen',
-      title: 'QR-Code',
     },
     removeShared: {
       childWarning: 'Dieses Dokument hat {count} untergeordnete Dokumente. Diese werden ebenfalls entfernt.',
