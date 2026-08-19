@@ -1,13 +1,16 @@
 export default {
   nodes: 'Вузли',
   actions: {
+    copyPublicLink: 'Копіювати публічне посилання',
     editMeta: 'Редагувати метадані',
     exportAsMarkdown: 'Експортувати як Markdown',
     managePermissions: 'Керувати правами доступу',
     newDocument: '+ Створити новий документ',
     publicLink: 'Публічне посилання',
+    qrCode: 'QR-код',
     removeFromShared: 'Вилучити зі спільного доступу',
     resetBoard: 'Скинути дошку',
+    share: 'Поділитися',
   },
 
   category: {
@@ -101,6 +104,11 @@ export default {
       shareLink: 'Поділіться цим посиланням, щоб будь-хто міг переглянути документ без облікового запису:',
       title: 'Керувати правами доступу',
     },
+    qrCode: {
+      description: 'Відскануйте цей код, щоб відкрити документ.',
+      download: 'Завантажити PNG',
+      title: 'QR-код',
+    },
     removeShared: {
       childWarning: 'Цей документ має {count} дочірніх документів. Вони також будуть вилучені.',
       confirm: 'Ви впевнені, що хочете вилучити цей документ?',
@@ -108,6 +116,10 @@ export default {
       success: 'Документ вилучено',
       title: 'Вилучити цей документ',
     },
+  },
+
+  notifications: {
+    linkCopied: 'Посилання скопійовано в буфер обміну',
   },
 
   // From the shared_target api (PWA)

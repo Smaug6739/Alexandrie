@@ -1,13 +1,16 @@
 export default {
   nodes: 'Nodi',
   actions: {
+    copyPublicLink: 'Copia link pubblico',
     editMeta: 'Modifica metadati',
     exportAsMarkdown: 'Esporta come Markdown',
     managePermissions: 'Gestisci permessi',
     newDocument: '+ Crea nuovo documento',
     publicLink: 'Link pubblico',
+    qrCode: 'Codice QR',
     removeFromShared: 'Rimuovi dai condivisi',
     resetBoard: 'Ripristina lavagna',
+    share: 'Condividi',
   },
 
   category: {
@@ -101,6 +104,11 @@ export default {
       shareLink: 'Condividi questo link per consentire a chiunque di visualizzare il documento senza un account:',
       title: 'Gestisci permessi',
     },
+    qrCode: {
+      description: 'Scansiona questo codice per aprire il documento.',
+      download: 'Scarica PNG',
+      title: 'Codice QR',
+    },
     removeShared: {
       childWarning: 'Questo documento ha {count} documento/i figlio. Verranno rimossi anche essi.',
       confirm: 'Sei sicuro di voler rimuovere questo documento?',
@@ -108,6 +116,10 @@ export default {
       success: 'Documento rimosso',
       title: 'Rimuovi questo documento',
     },
+  },
+
+  notifications: {
+    linkCopied: 'Link copiato negli appunti',
   },
 
   // From the shared_target api (PWA)

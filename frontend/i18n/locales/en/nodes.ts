@@ -1,13 +1,16 @@
 export default {
   nodes: 'Nodes',
   actions: {
+    copyPublicLink: 'Copy public link',
     editMeta: 'Edit metadata',
     exportAsMarkdown: 'Export as Markdown',
     managePermissions: 'Manage permissions',
     newDocument: '+ Create new document',
     publicLink: 'Public link',
+    qrCode: 'QR code',
     removeFromShared: 'Remove from shared',
     resetBoard: 'Reset board',
+    share: 'Share',
   },
 
   category: {
@@ -101,6 +104,11 @@ export default {
       shareLink: 'Share this link to let anyone view the document without an account:',
       title: 'Manage permissions',
     },
+    qrCode: {
+      description: 'Scan this code to open the document.',
+      download: 'Download PNG',
+      title: 'QR code',
+    },
     removeShared: {
       childWarning: 'This document has {count} child document(s). They will also be removed.',
       confirm: 'Are you sure you want to remove this document?',
@@ -108,6 +116,10 @@ export default {
       success: 'Document removed',
       title: 'Remove this document',
     },
+  },
+
+  notifications: {
+    linkCopied: 'Link copied to clipboard',
   },
 
   // From the shared_target api (PWA)

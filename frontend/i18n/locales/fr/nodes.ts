@@ -1,13 +1,16 @@
 export default {
   nodes: 'Nœuds',
   actions: {
+    copyPublicLink: 'Copier le lien public',
     editMeta: 'Modifier les métadonnées',
     exportAsMarkdown: 'Exporter en Markdown',
     managePermissions: 'Gérer les permissions',
     newDocument: '+ Créer un nouveau document',
     publicLink: 'Lien public',
+    qrCode: 'Code QR',
     removeFromShared: 'Retirer du partage',
     resetBoard: 'Réinitialiser le tableau',
+    share: 'Partager',
   },
 
   category: {
@@ -101,6 +104,11 @@ export default {
       shareLink: "Partagez ce lien pour permettre à n'importe qui de voir le document sans avoir besoin d'un compte :",
       title: 'Gérer les permissions',
     },
+    qrCode: {
+      description: 'Scannez ce code pour ouvrir le document.',
+      download: 'Télécharger le PNG',
+      title: 'Code QR',
+    },
     removeShared: {
       childWarning: 'Ce document a {count} document(s) enfant(s). Ils seront également retirés.',
       confirm: 'Êtes-vous sûr de vouloir retirer ce document ?',
@@ -108,6 +116,10 @@ export default {
       success: 'Document retiré',
       title: 'Retirer ce document',
     },
+  },
+
+  notifications: {
+    linkCopied: 'Lien copié dans le presse-papiers',
   },
 
   // From the shared_target api (PWA)

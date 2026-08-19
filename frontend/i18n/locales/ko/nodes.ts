@@ -1,13 +1,16 @@
 export default {
   nodes: '노드',
   actions: {
+    copyPublicLink: '공개 링크 복사',
     editMeta: '메타데이터 편집',
     exportAsMarkdown: '마크다운으로 내보내기',
     managePermissions: '권한 관리',
     newDocument: '+ 새 문서 생성',
     publicLink: '공개 링크',
+    qrCode: 'QR 코드',
     removeFromShared: '공유에서 제거',
     resetBoard: '보드 초기화',
+    share: '공유',
   },
 
   category: {
@@ -100,6 +103,11 @@ export default {
       shareLink: '계정 없이도 문서를 볼 수 있도록 이 링크를 공유하세요:',
       title: '권한 관리',
     },
+    qrCode: {
+      description: '이 코드를 스캔하여 문서를 여세요.',
+      download: 'PNG 다운로드',
+      title: 'QR 코드',
+    },
     removeShared: {
       childWarning: '이 문서에는 {count}개의 하위 문서가 있습니다. 하위 문서도 함께 제거됩니다.',
       confirm: '이 문서를 제거하시겠습니까?',
@@ -107,6 +115,10 @@ export default {
       success: '문서가 제거되었습니다',
       title: '이 문서 제거',
     },
+  },
+
+  notifications: {
+    linkCopied: '링크가 클립보드에 복사되었습니다',
   },
 
   // From the shared_target api (PWA)

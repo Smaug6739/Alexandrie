@@ -1,13 +1,16 @@
 export default {
   nodes: 'Nodes',
   actions: {
+    copyPublicLink: 'Öffentlichen Link kopieren',
     editMeta: 'Metadaten bearbeiten',
     exportAsMarkdown: 'Als Markdown exportieren',
     managePermissions: 'Berechtigungen verwalten',
     newDocument: '+ Neues Dokument erstellen',
     publicLink: 'Öffentlicher Link',
+    qrCode: 'QR-Code',
     removeFromShared: 'Aus der Freigabe entfernen',
     resetBoard: 'Board zurücksetzen',
+    share: 'Teilen',
   },
 
   category: {
@@ -101,6 +104,11 @@ export default {
       shareLink: 'Teile diesen Link, damit jeder das Dokument ohne Konto ansehen kann:',
       title: 'Berechtigungen verwalten',
     },
+    qrCode: {
+      description: 'Scannen Sie diesen Code, um das Dokument zu öffnen.',
+      download: 'PNG herunterladen',
+      title: 'QR-Code',
+    },
     removeShared: {
       childWarning: 'Dieses Dokument hat {count} untergeordnete Dokumente. Diese werden ebenfalls entfernt.',
       confirm: 'Bist du sicher, dass du dieses Dokument löschen möchtest?',
@@ -108,6 +116,10 @@ export default {
       success: 'Dokument entfernt',
       title: 'Dieses Dokument entfernen',
     },
+  },
+
+  notifications: {
+    linkCopied: 'Link in die Zwischenablage kopiert',
   },
 
   // From the shared_target api (PWA)
