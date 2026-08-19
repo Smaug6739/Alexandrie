@@ -31,5 +31,14 @@ module.exports = {
         PORT: 8200,
       },
     },
+    {
+      name: "alexandrie-docs",
+      cwd: "./docs",
+      script: "bun .output/server/index.mjs",
+      env: {
+        NODE_ENV: "production",
+        PORT: 8202,
+      },
+    },
   ],
 };
