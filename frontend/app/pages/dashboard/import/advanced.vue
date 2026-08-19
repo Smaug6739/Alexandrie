@@ -109,12 +109,13 @@ import type { DB_Node } from '~/stores';
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
 const nodesImporterStore = useNodesImporterStore();
+const preferences = usePreferencesStore();
 
 const nodesTree = useNodesTree();
 const { t } = useI18nT();
-const displayFeatureTags = usePreferencesStore().get('displayFeatureTags');
 
 const categoriesItem = nodesTree.getTreeUpToRole(2);
+const displayFeatureTags = preferences.get('displayFeatureTags');
 
 const selectedNodes = ref<string[]>([]);
 
