@@ -1,6 +1,6 @@
 <template>
   <div class="page-card files-import">
-    <Teleport to="#navbar-title">{{ t('import.files.meta.title') }} <tag class="orange">Beta</tag></Teleport>
+    <Teleport to="#navbar-title">{{ t('import.files.meta.title') }} <tag v-if="displayFeatureTags" class="orange">Beta</tag></Teleport>
     <p class="subtitle">
       {{ t('import.files.meta.description') }}
     </p>
@@ -43,8 +43,11 @@ import type { DB_Node } from '~/stores';
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
 const nodesImporterStore = useNodesImporterStore();
+const preferences = usePreferencesStore();
 
 const { t } = useI18nT();
+
+const displayFeatureTags = preferences.get('displayFeatureTags');
 
 const selectedNodes = ref<string[]>([]);
 const nodes = ref<DB_Node[]>([]);

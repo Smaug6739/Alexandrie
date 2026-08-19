@@ -32,6 +32,8 @@ export default {
     displayUncategorizedResourcesDesc: 'Nicht kategorisierte Ressourcen (CDN-Uploads) oben in der Seitenleiste anzeigen.',
     displayTabs: 'Registerkarten anzeigen',
     displayTabsDesc: 'Aktiviere oder deaktiviere die Registerkartenleiste am oberen Rand des Dashboards.',
+    displayFeatureTags: 'Funktions-Badges anzeigen',
+    displayFeatureTagsDesc: 'Zeige die Badges "New" und "Beta", die neue oder experimentelle Funktionen kennzeichnen.',
     enableCompactMode: 'Kompaktmodus aktivieren',
     enableCompactModeDesc: 'Reduziere die Größe der Seitenleistenelemente, um mehr Inhalt anzuzeigen.',
     enableDarkMode: 'Dunkelmodus aktivieren',

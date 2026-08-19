@@ -3,7 +3,7 @@
     <header>
       <div>
         <h3>
-          {{ t('settings.security.totp.title') }} <tag blue>{{ t('common.actions.new') }}</tag>
+          {{ t('settings.security.totp.title') }}
         </h3>
         <p class="section-description">{{ t('settings.security.totp.description') }}</p>
       </div>

@@ -61,6 +61,12 @@ const options = computed(
             key: 'displayTabs' as const,
             tag: t('settings.nav.new'),
           },
+          {
+            label: t('settings.appearance.displayFeatureTags'),
+            description: t('settings.appearance.displayFeatureTagsDesc'),
+            type: 'toggle' as const,
+            key: 'displayFeatureTags' as const,
+          },
         ],
       },
       {
