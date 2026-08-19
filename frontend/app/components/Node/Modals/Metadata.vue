@@ -33,7 +33,7 @@
         <span class="sec-title">{{ t('nodes.modals.metadata.labelAppearance') }}</span>
         <template v-if="node.role == 3">
           <label for="category">{{ t('settings.documents.theme') }}</label>
-          <AppSelect v-model="node.theme" :items="DOCUMENT_THEMES" :placeholder="t('settings.documents.theme')" />
+          <AppSelect v-model="node.theme" :items="DOCUMENT_THEMES" :nullable="true" :placeholder="t('settings.documents.theme')" />
         </template>
         <div class="setting-row">
           <label for="accessibility">{{ t('common.labels.color') }}</label>
