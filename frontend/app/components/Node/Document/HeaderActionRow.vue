@@ -1,4 +1,6 @@
 <template>
+  <AppBtnIcon v-if="isPublic" nav icon="link" :tooltip="t('nodes.actions.copyPublicLink')" @click="copyPublicLink" />
+  <AppBtnIcon v-if="isPublic" nav icon="share" :tooltip="t('nodes.actions.share')" @click="share" />
   <AppBtnIcon v-if="doc.accessibility == 3 && !isPublic" nav icon="link" :tooltip="t('nodes.actions.publicLink')" :to="`/doc/${doc.id}`" :blank="true" />
   <AppBtnIcon
     v-if="nodesPermissionsStore.hasPermissions(doc, 2)"
@@ -35,8 +37,29 @@ const nodesPermissionsStore = useNodesPermissionsStore();
 
 const { t } = useI18nT();
 const modals = useModal();
+const notifications = useNotifications();
+const requestUrl = useRequestURL();
+
+const publicUrl = computed(() => `${requestUrl.origin}/doc/${props.doc.id}`);
 
 // Actions
+const copyPublicLink = async () => {
+  try {
+    await navigator.clipboard.writeText(publicUrl.value);
+    notifications.add({ type: 'success', title: t('nodes.notifications.linkCopied') });
+  } catch (e) {
+    notifications.add({ type: 'error', title: t('common.errors.generic'), message: e as string });
+  }
+};
+const share = async () => {
+  // Not every browser exposes the Web Share API (and it needs a secure context): fall back to copying the link.
+  if (!navigator.share) return copyPublicLink();
+  try {
+    await navigator.share({ title: props.doc.name, text: props.doc.description, url: publicUrl.value });
+  } catch {
+    // The user dismissed the share sheet, nothing to report.
+  }
+};
 const print = () => window.print();
 const openDeleteModal = () =>
   modals.add(

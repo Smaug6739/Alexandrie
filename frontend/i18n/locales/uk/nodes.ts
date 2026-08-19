@@ -1,6 +1,7 @@
 export default {
   nodes: 'Вузли',
   actions: {
+    copyPublicLink: 'Копіювати публічне посилання',
     editMeta: 'Редагувати метадані',
     exportAsMarkdown: 'Експортувати як Markdown',
     managePermissions: 'Керувати правами доступу',
@@ -8,6 +9,7 @@ export default {
     publicLink: 'Публічне посилання',
     removeFromShared: 'Вилучити зі спільного доступу',
     resetBoard: 'Скинути дошку',
+    share: 'Поділитися',
   },
 
   category: {
@@ -108,6 +110,10 @@ export default {
       success: 'Документ вилучено',
       title: 'Вилучити цей документ',
     },
+  },
+
+  notifications: {
+    linkCopied: 'Посилання скопійовано в буфер обміну',
   },
 
   // From the shared_target api (PWA)

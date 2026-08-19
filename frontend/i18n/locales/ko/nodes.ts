@@ -1,6 +1,7 @@
 export default {
   nodes: '노드',
   actions: {
+    copyPublicLink: '공개 링크 복사',
     editMeta: '메타데이터 편집',
     exportAsMarkdown: '마크다운으로 내보내기',
     managePermissions: '권한 관리',
@@ -8,6 +9,7 @@ export default {
     publicLink: '공개 링크',
     removeFromShared: '공유에서 제거',
     resetBoard: '보드 초기화',
+    share: '공유',
   },
 
   category: {
@@ -107,6 +109,10 @@ export default {
       success: '문서가 제거되었습니다',
       title: '이 문서 제거',
     },
+  },
+
+  notifications: {
+    linkCopied: '링크가 클립보드에 복사되었습니다',
   },
 
   // From the shared_target api (PWA)

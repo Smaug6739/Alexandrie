@@ -1,6 +1,7 @@
 export default {
   nodes: 'Nodes',
   actions: {
+    copyPublicLink: 'Copy public link',
     editMeta: 'Edit metadata',
     exportAsMarkdown: 'Export as Markdown',
     managePermissions: 'Manage permissions',
@@ -8,6 +9,7 @@ export default {
     publicLink: 'Public link',
     removeFromShared: 'Remove from shared',
     resetBoard: 'Reset board',
+    share: 'Share',
   },
 
   category: {
@@ -108,6 +110,10 @@ export default {
       success: 'Document removed',
       title: 'Remove this document',
     },
+  },
+
+  notifications: {
+    linkCopied: 'Link copied to clipboard',
   },
 
   // From the shared_target api (PWA)

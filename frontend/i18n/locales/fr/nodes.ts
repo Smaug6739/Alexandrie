@@ -1,6 +1,7 @@
 export default {
   nodes: 'Nœuds',
   actions: {
+    copyPublicLink: 'Copier le lien public',
     editMeta: 'Modifier les métadonnées',
     exportAsMarkdown: 'Exporter en Markdown',
     managePermissions: 'Gérer les permissions',
@@ -8,6 +9,7 @@ export default {
     publicLink: 'Lien public',
     removeFromShared: 'Retirer du partage',
     resetBoard: 'Réinitialiser le tableau',
+    share: 'Partager',
   },
 
   category: {
@@ -108,6 +110,10 @@ export default {
       success: 'Document retiré',
       title: 'Retirer ce document',
     },
+  },
+
+  notifications: {
+    linkCopied: 'Lien copié dans le presse-papiers',
   },
 
   // From the shared_target api (PWA)
