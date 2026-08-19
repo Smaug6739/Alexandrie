@@ -1,5 +1,13 @@
 import { snippet, type CompletionContext } from '@codemirror/autocomplete';
 import { katexSnippets } from '../katex-snippets';
+import { emojiSnippets } from '../emoji-snippets';
+
+const emojiOptions = emojiSnippets.map(s => ({
+  label: s.id,
+  detail: s.emoji,
+  type: 'text',
+  apply: snippet(s.label),
+}));
 
 function isInsideMath(context: CompletionContext): boolean {
   const doc = context.state.doc.toString();
@@ -54,9 +62,12 @@ export function createSnippetSource(enabled: Ref<boolean>, snippets: Ref<ANode<s
     const word = inMath ? context.matchBefore(/\\?[\w!:*]+/) : context.matchBefore(/[\w!:]+/);
     if (!word && !context.explicit) return null;
 
+    const typingEmoji = !inMath && word?.text.startsWith(':');
+
     return {
       from: word ? word.from : context.pos,
       options: [
+        ...(typingEmoji ? emojiOptions : []),
         ...allSnippets.map(s => ({
           label: s.id,
           detail: 'Snippet',

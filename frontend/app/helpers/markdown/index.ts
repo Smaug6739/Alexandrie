@@ -16,6 +16,7 @@ import { markdownItKatexPlugin } from './katex';
 import { sourceMapPlugin } from './source-map';
 import { internalLinkPlugin } from './internal-links';
 import { tooltipPlugin } from './tooltip';
+import { full as emojiPlugin } from 'markdown-it-emoji';
 
 const md = new MarkdownIt({ html: true, linkify: true });
 md.use(containerPlugin);
@@ -37,6 +38,7 @@ md.use(colorPlugin, {
   allowHex: true, // allow #rgb and #rrggbb
 });
 md.use(tooltipPlugin);
+md.use(emojiPlugin);
 md.use(html5MediaPlugin);
 md.use(svgObjectPlugin);
 md.use(internalLinkPlugin);

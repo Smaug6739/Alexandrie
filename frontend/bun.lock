@@ -24,6 +24,7 @@
         "markdown-it": "^15.0.0",
         "markdown-it-anchor": "^9.2.1",
         "markdown-it-container": "^4.0.0",
+        "markdown-it-emoji": "^3.1.0",
         "markdown-it-highlightjs": "^4.3.0",
         "markdown-it-mark": "^4.0.0",
         "mermaid": "^11.16.1",
@@ -47,6 +48,7 @@
         "@types/katex": "^0.16.8",
         "@types/markdown-it": "^14.2.0",
         "@types/markdown-it-container": "^4.0.0",
+        "@types/markdown-it-emoji": "^3.0.1",
         "@types/node": "^26.2.0",
         "@vite-pwa/nuxt": "^1.1.1",
         "eslint": "^10.8.1",
@@ -871,6 +873,8 @@
     "@types/markdown-it": ["@types/markdown-it@14.2.0", "", { "dependencies": { "@types/linkify-it": "^5", "@types/mdurl": "^2" } }, "sha512-NoQ2yGlLWj4wpxMs+TYmRKk3thDrQ97agr7sFqfLsAlvoS8SNQuTrlObhFqG9iugdTtgOE9jpJ6FNM4ZGsa5xQ=="],
 
     "@types/markdown-it-container": ["@types/markdown-it-container@4.0.0", "", { "dependencies": { "@types/markdown-it": ">=14" } }, "sha512-GmD8OECLfzPHv8VyvFRzslqdwXoDBJ2H40fxXFjrarbqvJZSB/BJKZXN5e3k7Mx7GQanSNzTYhzeS3H9o0gAOw=="],
+
+    "@types/markdown-it-emoji": ["@types/markdown-it-emoji@3.0.1", "", { "dependencies": { "@types/markdown-it": "^14" } }, "sha512-cz1j8R35XivBqq9mwnsrP2fsz2yicLhB8+PDtuVkKOExwEdsVBNI+ROL3sbhtR5occRZ66vT0QnwFZCqdjf3pA=="],
 
     "@types/mdurl": ["@types/mdurl@2.0.0", "", {}, "sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg=="],
 
@@ -1943,6 +1947,8 @@
     "markdown-it-anchor": ["markdown-it-anchor@9.2.1", "", { "peerDependencies": { "@types/markdown-it": "*", "markdown-it": "*" } }, "sha512-p6APiLJDFAW2GEvaavDvhIBn7jrX2jLv77NkBGgNacFTurbORYc4pyYySg/mI6mpR6cHQuAtzKtmqgQr4K8dsQ=="],
 
     "markdown-it-container": ["markdown-it-container@4.0.0", "", {}, "sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw=="],
+
+    "markdown-it-emoji": ["markdown-it-emoji@3.1.0", "", {}, "sha512-NhmMEH2ywduD4Nty1E8uB5NqfLhAT1VR0dyvoJyStKOqCzbZmVdn/+8wj7zpDsb/fLBikpCPsWwxqKlvMmbz4g=="],
 
     "markdown-it-highlightjs": ["markdown-it-highlightjs@4.3.0", "", { "dependencies": { "highlight.js": "^11.9.0" } }, "sha512-dTEXpTV2J9WJiO8TA/FJ4DxidrYtTNcfBAdl+CLjQ3UFWj8s4dJyCPTcvoXNLmN5U5ZTCGu7TSkSvBvi4fUqkQ=="],
 
