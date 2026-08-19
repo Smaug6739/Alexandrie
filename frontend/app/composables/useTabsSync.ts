@@ -5,13 +5,11 @@ export function useTabsSync() {
   const { t } = useI18nT();
 
   function resolveTabTitle(): string {
-    // 1. Tenter de récupérer le nom via l'ID du Node dans l'URL
     if (route.params.id) {
       const node = nodesStore.getById(route.params.id as string);
       if (node?.name) return node.name;
     }
 
-    // 2. Tenter de récupérer le titre via les métadonnées/breadcrumbs de la route
     let i = route.matched.length - 1;
     let page = route.matched[i];
     while (page && !page.meta?.breadcrumb && i > 0) {
@@ -37,11 +35,9 @@ export function useTabsSync() {
     return 'Page';
   }
 
-  // Watcher unique pour synchroniser le store avec l'URL active
   watch(
-    () => route.fullPath, // Utilise fullPath au cas où les query params comptent pour tes onglets
+    () => route.path,
     path => {
-      // Évite d'ajouter des pages hors dashboard (ex: login) si nécessaire
       if (!path.startsWith('/dashboard')) return;
 
       tabsStore.syncTab({

@@ -1,12 +1,12 @@
 <template>
-  <template v-if="hasNavigation.navigation">
+  <div v-if="hasNavigation.navigation">
     <button :disabled="!canGoBack" class="nav no-tablet" aria-label="Go back" type="button" @click="goBack">
       <Icon name="left_arrow" display="lg" />
     </button>
     <button :disabled="!canGoForward" class="nav no-tablet" aria-label="Go forward" type="button" @click="goForward">
       <Icon name="right_arrow" display="lg" />
     </button>
-  </template>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -33,6 +33,13 @@ router.afterEach(() => handleState(window.history.state));
 </script>
 
 <style lang="scss" scoped>
+div {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .nav {
   display: inline-flex;
   justify-content: center;
