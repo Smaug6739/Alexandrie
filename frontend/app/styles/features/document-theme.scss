@@ -17,102 +17,6 @@
 	}
 }
 
-.latex-theme {
-	max-width: 100%;
-	font-family: "LMRoman10", serif !important;
-	font-size: 17px;
-
-	h1 {
-		font-size: 1.5em;
-	}
-
-	h2 {
-		margin: 0.5rem 0;
-		font-size: 1.3em;
-	}
-
-	h3 {
-		margin: 0.5rem 0;
-		font-size: 1.1em;
-	}
-
-	p {
-		width: 100%;
-		padding: 0.5em 0;
-	}
-
-	.header-anchor {
-		display: none;
-	}
-
-	.markdown-container {
-		display: flex;
-		gap: 1rem;
-		margin: 0.5em 0;
-		padding: 0;
-		border: none;
-		color: var(--text-body);
-		background-color: transparent;
-
-		.title {
-			min-width: 150px;
-			max-width: 170px;
-			padding: 5px 12px;
-			border-right: 1px solid var(--text-body);
-			font-size: 15px;
-			color: var(--text-primary);
-
-			svg {
-				display: none;
-			}
-		}
-
-		p {
-			padding: 0 0.5em;
-		}
-	}
-
-	.custom-block {
-		display: flex;
-		flex-wrap: wrap;
-		margin: 2em 0;
-		padding: 0;
-		border: none;
-		font-size: 16px;
-		color: var(--text-body);
-		background-color: transparent;
-
-		.custom-block-title {
-			min-width: 150px;
-			max-width: 170px;
-			padding: 5px 12px;
-			border-right: 1px solid var(--text-body);
-			font-weight: bold;
-			color: var(--text-primary);
-		}
-
-
-
-		.custom-block-content {
-			flex: 1;
-			padding: 0 0.5em;
-
-			p {
-				padding: 0 0.5em;
-			}
-		}
-	}
-
-	.katex {
-		font-size: 18px;
-
-		.text {
-			font-family: 'Libertinus Math', serif !important;
-			font-size: 14px;
-		}
-	}
-
-}
 
 .modern-theme {
 	max-width: 100%;
@@ -304,12 +208,11 @@
 .academic-theme {
 	margin: auto;
 	padding: 0 3rem;
-	font-family: "Libertinus Serif", Georgia, serif !important;
+	font-family: "LMRoman10", "Libertinus Serif", Georgia, serif !important;
 	font-size: 18px;
 	line-height: 1.85;
 	color: var(--text-body);
 	text-align: justify;
-	counter-reset: section subsection;
 	hyphens: auto;
 
 	.header-anchor {
@@ -322,47 +225,48 @@
 	}
 
 	&.numbering {
-		h2::before {
-			font-size: 1.8rem;
-			font-weight: 700;
-			color: var(--text-primary);
-			letter-spacing: normal;
-			content: counter(section, decimal-leading-zero);
+		counter-reset: section;
+
+		h2 {
+			counter-reset: subsection;
 			counter-increment: section;
+
+			&::before {
+				font-size: 1.4rem;
+				font-weight: 700;
+				color: var(--text-primary);
+				letter-spacing: normal;
+				content: counter(section, decimal-leading-zero) " ";
+			}
 		}
 
-		h3::before {
-			color: var(--text-muted);
-			content: counter(section) "." counter(subsection) " ";
-			counter-increment: subsection;
+		h3 {
+			&::before {
+				color: var(--text-muted);
+				counter-increment: subsection;
+				content: counter(section) "." counter(subsection) " ";
+			}
 		}
 	}
 
 	/* ---------- Title ---------- */
 
 	h1 {
-		margin: 0 0 4rem;
 		padding-bottom: 1.5rem;
 		border-bottom: 2px solid var(--border);
-		font-size: 3rem;
+		font-size: 1.5rem;
 		font-weight: 700;
 		line-height: 1.15;
 		text-align: center;
-		letter-spacing: -.03em;
 	}
 
 	h2 {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		margin: 2rem 0;
-		font-size: .95rem;
+		font-size: 1.1rem;
 		font-weight: 700;
 		text-transform: uppercase;
-		letter-spacing: .25em;
-		counter-reset: subsection;
-
-
 	}
 
 	h3 {
@@ -518,15 +422,24 @@
 	.markdown-container {
 		display: flex;
 		gap: 1rem;
-		margin: 0.5em 0;
-		padding: 0;
+		margin: 2em 0;
+		padding: 0 !important;
 		border: none !important;
 		color: var(--text-body);
 		background-color: transparent !important;
 
+		* {
+			fill: var(--text-body) !important;
+
+			path {
+				fill: var(--text-body) !important;
+			}
+		}
+
 		.title {
-			min-width: 150px;
-			max-width: 170px;
+			flex: 0 0 150px;
+			box-sizing: border-box;
+
 			padding: 5px 12px;
 			border-right: 1px solid var(--text-body);
 			font-size: 15px;
@@ -538,13 +451,14 @@
 		}
 
 		p {
+			flex: 1;
 			padding: 0 0.5em;
 		}
 	}
 
 	.custom-block {
 		display: flex;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		margin: 2em 0;
 		padding: 0;
 		border: none;
@@ -552,19 +466,27 @@
 		color: var(--text-body);
 		background-color: transparent;
 
+		* {
+			fill: var(--text-body) !important;
+
+			path {
+				fill: var(--text-body) !important;
+			}
+		}
+
 		.custom-block-title {
-			min-width: 150px;
-			max-width: 170px;
+			flex: 0 0 150px;
+			box-sizing: border-box;
+
 			padding: 5px 12px;
 			border-right: 1px solid var(--text-body);
 			font-weight: bold;
 			color: var(--text-primary);
 		}
 
-
-
 		.custom-block-content {
 			flex: 1;
+			min-width: 0;
 			padding: 0 0.5em;
 
 			p {
