@@ -8,63 +8,63 @@
     <AppDrop ref="dropComponent" multiple allow-folders :max-files="200" @select="selectFiles" />
     <small>{{ t('import.files.importable') }}</small>
 
-    <h3>{{ t('import.advanced.options') }}</h3>
-
-    <div class="actions-row">
-      <AppToggle v-model="importJob.options.extractFrontMatter" />
-      <p>{{ t('import.actions.extractFrontMatter') }}</p>
-    </div>
-
-    <div class="actions-row">
-      <AppToggle v-model="importJob.options.normalizeLineEndings" />
-      <p>{{ t('import.actions.normalizeLineEndings') }}</p>
-    </div>
-
-    <div class="actions-row">
-      <AppToggle v-model="importJob.options.preserveTimestamps" />
-      <p>{{ t('import.actions.preserveTimestamps') }}</p>
-    </div>
-    <div>
-      <div>
-        <label for="default-parent">{{ t('import.advanced.defaultParent') }}</label>
-        <AppSelect
-          v-model="importJob.options.defaultValues!!.defaultParent"
-          class="entry"
-          :items="categoriesItem"
-          nullable
-          :placeholder="t('common.labels.parent')"
-        />
+    <AppCollapse :title="t('import.advanced.options')">
+      <div class="actions-row">
+        <AppToggle v-model="importJob.options.extractFrontMatter" />
+        <p>{{ t('import.actions.extractFrontMatter') }}</p>
       </div>
-      <label for="default-description">
-        {{ t('import.advanced.defaultDescription') }}
-      </label>
-      <input
-        id="default-description"
-        v-model="importJob.options.defaultValues!.defaultDescription"
-        type="text"
-        placeholder="Default description for imported nodes"
-      />
-      <label for="default-tags">
-        {{ t('import.advanced.defaultTags') }}
-      </label>
-      <input id="default-tags" v-model="importJob.options.defaultValues!.defaultTags" type="text" placeholder="tag1, tag2, tag3" />
-      <label for="default-color">
-        {{ t('import.advanced.defaultColor') }}
-      </label>
-      <AppColorPicker id="default-color" v-model="importJob.options.defaultValues!.defaultColor" nullable />
-      <label for="default-thumbnail">
-        {{ t('import.advanced.defaultThumbnail') }}
-      </label>
-      <input id="default-thumbnail" v-model="importJob.options.defaultValues!.defaultThumbnail" type="text" />
-      <label for="default-icon">
-        {{ t('import.advanced.defaultIcon') }}
-      </label>
-      <input id="default-icon" v-model="importJob.options.defaultValues!.defaultIcon" type="text" />
-      <label for="default-theme">
-        {{ t('import.advanced.defaultTheme') }}
-      </label>
-      <AppSelect id="default-theme" v-model="importJob.options.defaultValues!.defaultTheme" :items="DOCUMENT_THEMES" />
-    </div>
+
+      <div class="actions-row">
+        <AppToggle v-model="importJob.options.normalizeLineEndings" />
+        <p>{{ t('import.actions.normalizeLineEndings') }}</p>
+      </div>
+
+      <div class="actions-row">
+        <AppToggle v-model="importJob.options.preserveTimestamps" />
+        <p>{{ t('import.actions.preserveTimestamps') }}</p>
+      </div>
+      <div>
+        <div>
+          <label for="default-parent">{{ t('import.advanced.defaultParent') }}</label>
+          <AppSelect
+            v-model="importJob.options.defaultValues!!.defaultParent"
+            class="entry"
+            :items="categoriesItem"
+            nullable
+            :placeholder="t('common.labels.parent')"
+          />
+        </div>
+        <label for="default-description">
+          {{ t('import.advanced.defaultDescription') }}
+        </label>
+        <input
+          id="default-description"
+          v-model="importJob.options.defaultValues!.defaultDescription"
+          type="text"
+          placeholder="Default description for imported nodes"
+        />
+        <label for="default-tags">
+          {{ t('import.advanced.defaultTags') }}
+        </label>
+        <input id="default-tags" v-model="importJob.options.defaultValues!.defaultTags" type="text" placeholder="tag1, tag2, tag3" />
+        <label for="default-color">
+          {{ t('import.advanced.defaultColor') }}
+        </label>
+        <AppColorPicker id="default-color" v-model="importJob.options.defaultValues!.defaultColor" nullable />
+        <label for="default-thumbnail">
+          {{ t('import.advanced.defaultThumbnail') }}
+        </label>
+        <input id="default-thumbnail" v-model="importJob.options.defaultValues!.defaultThumbnail" type="text" />
+        <label for="default-icon">
+          {{ t('import.advanced.defaultIcon') }}
+        </label>
+        <input id="default-icon" v-model="importJob.options.defaultValues!.defaultIcon" type="text" />
+        <label for="default-theme">
+          {{ t('import.advanced.defaultTheme') }}
+        </label>
+        <AppSelect id="default-theme" v-model="importJob.options.defaultValues!.defaultTheme" :items="DOCUMENT_THEMES" />
+      </div>
+    </AppCollapse>
     <h3>{{ t('import.progress.title') }}</h3>
     <ImportJobStatus :import-job="importJob" />
     <section v-if="nodes.length" class="panel">
@@ -102,7 +102,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Importer, type ResourceImportTask, type ImportJob } from '~/helpers/backups/Importer';
+import { Importer, type ResourceImportTask, type ImportJob, type ImportItem } from '~/helpers/backups/Importer';
 import { DOCUMENT_THEMES } from '~/helpers/constants';
 import type { DB_Node } from '~/stores';
 
@@ -125,7 +125,7 @@ const resourcesToUpload = ref<ResourceImportTask[]>([]);
 
 const totalItemsToImport = computed(() => nodes.value.length + resourcesToUpload.value.length);
 
-const importJob = ref<ImportJob>({
+const importJob = ref<ImportJob<ImportItem>>({
   status: 'pending',
   toCreate: [],
   toUpdate: [],
@@ -193,9 +193,27 @@ const importSelected = () => {
 const importAll = () => importNodes(nodes.value, resourcesToUpload.value);
 
 async function importNodes(nodesToImport: DB_Node[], resourcesImport: ResourceImportTask[]) {
-  importJob.value.toCreate = nodesToImport;
+  importJob.value.toCreate = [];
   importJob.value.toUpdate = [];
-  await nodesImporterStore.importAllNodesAndResources({ toCreate: nodesToImport, toUpdate: [], resources: resourcesImport }, importJob);
+  for (const node of nodesToImport) {
+    importJob.value.toCreate.push({
+      type: 'node',
+      data: node,
+      id: node.id,
+      name: node.name,
+      status: 'pending',
+    });
+  }
+  for (const resource of resourcesImport) {
+    importJob.value.toCreate.push({
+      type: 'resource',
+      data: resource,
+      id: resource.id,
+      name: resource.file.name,
+      status: 'pending',
+    });
+  }
+  await nodesImporterStore.importAllNodesAndResources({ toCreate: importJob.value.toCreate, toUpdate: importJob.value.toUpdate }, importJob);
   nodes.value = [];
   resourcesToUpload.value = [];
 }

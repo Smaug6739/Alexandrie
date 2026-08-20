@@ -19,11 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import type { ImportJob } from '~/helpers/backups/Importer';
+import type { ImportBackupJob } from '~/helpers/backups/Importer';
 
 const { t } = useI18nT();
 const props = defineProps<{
-  importJob: ImportJob;
+  importJob: ImportBackupJob;
   resetImport: () => void;
   importAll: () => void;
 }>();
