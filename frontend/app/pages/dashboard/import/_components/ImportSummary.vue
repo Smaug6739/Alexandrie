@@ -25,11 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import type { ImportJob } from '~/helpers/backups/Importer';
+import type { ImportBackupJob } from '~/helpers/backups/Importer';
 
 defineProps<{
   unchangedCount: number;
-  importJob: ImportJob;
+  importJob: ImportBackupJob;
 }>();
 
 const { t } = useI18nT();

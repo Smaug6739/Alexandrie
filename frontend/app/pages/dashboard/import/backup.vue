@@ -46,7 +46,7 @@ import SummaryCard from './_components/ImportSummary.vue';
 import ImportTabs from './_components/ImportTabs.vue';
 import ImportActions from './_components/ImportActions.vue';
 import { handleBackupFile } from '~/helpers/backups';
-import type { ImportJob } from '~/helpers/backups/Importer';
+import type { ImportBackupJob } from '~/helpers/backups/Importer';
 import type { Manifest } from '~/helpers/backups/types';
 import type { DB_Node } from '~/stores/db_structures';
 
@@ -69,7 +69,7 @@ const backupDocuments = ref<DB_Node[]>([]);
 const localData = ref<object | null>(null);
 
 // Import state
-const importJob = ref<ImportJob>({
+const importJob = ref<ImportBackupJob>({
   status: 'pending',
   toCreate: [],
   toUpdate: [],
@@ -110,7 +110,7 @@ async function analyzeFile() {
 
     if (result.documents?.length) {
       backupDocuments.value = result.documents;
-      const { toCreate: create, toUpdate: update } = nodesImporterStore.prepareImport(result.documents);
+      const { toCreate: create, toUpdate: update } = nodesImporterStore.prepareImport(result.documents, result.files);
       importJob.value.toCreate = create;
       importJob.value.toUpdate = update;
     } else {
@@ -149,14 +149,13 @@ function resetImport() {
 }
 
 async function importNodes(type: 'create' | 'update', ids: string[]) {
-  const nodes: DB_Node[] =
-    type === 'create' ? importJob.value.toCreate.filter(d => ids.includes(d.id)) : importJob.value.toUpdate.filter(d => ids.includes(d.id));
+  const nodes = type === 'create' ? importJob.value.toCreate.filter(d => ids.includes(d.id)) : importJob.value.toUpdate.filter(d => ids.includes(d.id));
 
   if (type === 'create') {
-    await nodesImporterStore.importAllNodesAndResources({ toCreate: nodes, toUpdate: [], resources: [] }, importJob);
+    await nodesImporterStore.importAllNodesAndResources({ toCreate: nodes, toUpdate: [] }, importJob);
     importJob.value.toCreate = importJob.value.toCreate.filter(d => !importJob.value.created.includes(d.id));
   } else if (type == 'update') {
-    await nodesImporterStore.importAllNodesAndResources({ toCreate: [], toUpdate: nodes, resources: [] }, importJob);
+    await nodesImporterStore.importAllNodesAndResources({ toCreate: [], toUpdate: nodes }, importJob);
     importJob.value.toUpdate = importJob.value.toUpdate.filter(d => !importJob.value.updated.includes(d.id));
   }
 
@@ -191,7 +190,7 @@ async function importAll() {
   const createDocs = importJob.value.toCreate;
   const updateDocs = importOptions.skipExisting ? [] : importJob.value.toUpdate;
 
-  await nodesImporterStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs, resources: [] }, importJob);
+  await nodesImporterStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs }, importJob);
   importJob.value.toCreate = importJob.value.toCreate.filter(d => !importJob.value.created.includes(d.id));
   importJob.value.toUpdate = importJob.value.toUpdate.filter(d => !importJob.value.updated.includes(d.id));
 

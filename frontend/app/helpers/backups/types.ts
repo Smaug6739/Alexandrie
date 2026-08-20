@@ -14,3 +14,15 @@ export interface Manifest {
     total_size_bytes: number;
   };
 }
+export interface FileIndex {
+  archive_path: string;
+  id: string;
+  metadata: {
+    filetype: string;
+    transformed_path: string;
+  };
+  name: string;
+  size: number;
+}
+
+export type FilesIndex = FileIndex[];
