@@ -143,6 +143,11 @@ export default defineNuxtConfig({
       { code: 'uk', file: 'uk/index.ts', language: 'uk-UA' },
       { code: 'ko', file: 'ko/index.ts', language: 'ko-KR' },
       { code: 'it', file: 'it/index.ts', language: 'it-IT' },
+      // zh-CN is listed first on purpose: any inexact zh-* tag (zh, zh-Hans, zh-Hant)
+      // falls back to the first zh-* entry, and zh-Hans is what Chrome/Android actually send.
+      // Exact zh-TW / zh-HK matches are unaffected by the order.
+      { code: 'zh-CN', file: 'zh-CN/index.ts', language: 'zh-CN' },
+      { code: 'zh-TW', file: 'zh-TW/index.ts', language: 'zh-TW' },
     ],
     strategy: 'prefix_except_default',
     skipSettingLocaleOnNavigate: true,
