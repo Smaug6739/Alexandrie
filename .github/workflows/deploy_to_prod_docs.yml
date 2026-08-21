@@ -1,0 +1,91 @@
+name: Build & deploy documentation to server
+
+on:
+  push:
+    branches:
+      - deploy-docs
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      REMOTE_PATH: /home/deploy/apps/alexandrie
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Build documentation
+        run: |
+          cd docs
+          bun install
+          bun run build
+
+      # -------------------------
+      # Prepare SSH connection
+      # -------------------------
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+          printf "%s" "${DEPLOY_SSH_KEY}" > deploy_key
+          chmod 600 deploy_key
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - name: Test SSH connection
+        run: |
+          ssh -i deploy_key \
+            -o BatchMode=yes \
+            "${SSH_USER}@${SSH_HOST}" \
+            "whoami && test \"\$(whoami)\" = \"deploy\""
+
+      # -------------------------
+      # Deploy files using rsync
+      # -------------------------
+      - name: Deploy documentation to server
+        run: |
+          rsync -avz  --delete --force --exclude 'server/node_modules' -e "ssh -i deploy_key" docs/.output ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/docs
+          rsync -avz --delete --force -e "ssh -i deploy_key" ecosystem.config.js ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}
+
+      - name: Install documentation dependencies on server
+        run: |
+          ssh -i deploy_key ${SSH_USER}@${SSH_HOST} "
+            set -e
+            rm -rf ${REMOTE_PATH}/docs/.output/server/node_modules
+            cd ${REMOTE_PATH}/docs/.output/server
+
+            export BUN_INSTALL=\"/home/deploy/.bun\"
+            export PATH=\"\$BUN_INSTALL/bin:\$PATH\"
+
+            bun install --production
+          "
+      # -------------------------
+      # Restart application with PM2
+      # -------------------------
+      - name: Restart application with pm2
+        run: |
+          ssh -i deploy_key ${SSH_USER}@${SSH_HOST} "
+            set -e
+            cd ${REMOTE_PATH}
+            # Load environment variables
+            set -o allexport
+            source .env.production
+            set +o allexport
+
+            export BUN_INSTALL=\"/home/deploy/.bun\"
+            export PATH=\"\$BUN_INSTALL/bin:\$PATH\"
+            
+            # Reload or start the application
+            pm2 delete ecosystem.config.js || true
+            pm2 start ecosystem.config.js
+            pm2 save
+          "
