@@ -228,8 +228,8 @@
 		counter-reset: section;
 
 		h2 {
-			counter-reset: subsection;
 			counter-increment: section;
+			counter-reset: subsection;
 
 			&::before {
 				font-size: 1.4rem;
@@ -243,8 +243,8 @@
 		h3 {
 			&::before {
 				color: var(--text-muted);
-				counter-increment: subsection;
 				content: counter(section) "." counter(subsection) " ";
+				counter-increment: subsection;
 			}
 		}
 	}
@@ -439,7 +439,6 @@
 		.title {
 			flex: 0 0 150px;
 			box-sizing: border-box;
-
 			padding: 5px 12px;
 			border-right: 1px solid var(--text-body);
 			font-size: 15px;
@@ -477,7 +476,6 @@
 		.custom-block-title {
 			flex: 0 0 150px;
 			box-sizing: border-box;
-
 			padding: 5px 12px;
 			border-right: 1px solid var(--text-body);
 			font-weight: bold;
