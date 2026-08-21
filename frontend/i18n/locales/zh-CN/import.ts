@@ -10,7 +10,7 @@ export default {
     skipExisting: '跳过已存在的文档（仅导入新文档）',
   },
 
-  advanced: {
+  folder: {
     defaultColor: '导入文档的默认颜色',
     defaultDescription: '导入文档的默认描述',
     defaultIcon: '导入文档的默认图标（SVG 或 Unicode emoji）',
@@ -18,7 +18,15 @@ export default {
     defaultTags: '导入文档的默认标签（以逗号分隔）',
     defaultTheme: '导入文档的默认主题',
     defaultThumbnail: '导入文档的默认缩略图（SVG 或 Unicode emoji）',
-    options: '高级导入选项',
+  },
+
+  files: {
+    meta: {
+      title: '从 Markdown 文件导入',
+      description: '快速导入 Markdown 文件，并可设置目的地与处理方式。',
+    },
+    importable: '你可以导入 Markdown 文件，或包含 Markdown 文件的文件夹。文件夹会递归导入；若选择全部导入，将保留原有的结构。',
+    toImport: '待导入的项目',
   },
 
   categories: {
@@ -32,16 +40,10 @@ export default {
     },
     files: {
       description: '通过灵活的选项从 Markdown 文件导入文档。',
-      title: '从文件导入',
     },
-  },
-
-  files: {
-    importable:
-      '你可以导入 Markdown 文件，或包含 Markdown 文件的文件夹。文件夹会递归导入；若选择全部导入，将保留原有的结构。',
-    meta: {
-      description: '快速导入 Markdown 文件，并可设置目的地与处理方式。',
-      title: '从 Markdown 文件导入',
+    advanced: {
+      title: '高级导入',
+      description: '导入整个文件夹（包含子文件夹与上传文件），并使用自定义选项获取最大的控制权。',
     },
     toImport: '待导入的项目',
   },
