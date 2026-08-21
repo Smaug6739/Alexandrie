@@ -10,7 +10,7 @@ export default {
     skipExisting: '跳过已存在的文档（仅导入新文档）',
   },
 
-  advanced: {
+  folder: {
     options: '高级导入选项',
     defaultParent: '导入文档的默认上级分类',
     defaultDescription: '导入文档的默认描述',
@@ -26,8 +26,7 @@ export default {
       title: '从 Markdown 文件导入',
       description: '快速导入 Markdown 文件，并可设置目的地与处理方式。',
     },
-    importable:
-      '你可以导入 Markdown 文件，或包含 Markdown 文件的文件夹。文件夹会递归导入；若选择全部导入，将保留原有的结构。',
+    importable: '你可以导入 Markdown 文件，或包含 Markdown 文件的文件夹。文件夹会递归导入；若选择全部导入，将保留原有的结构。',
     toImport: '待导入的项目',
   },
 
@@ -40,7 +39,7 @@ export default {
       title: '从文件导入',
       description: '通过灵活的选项从 Markdown 文件导入文档。',
     },
-    advanced: {
+    folder: {
       title: '高级导入',
       description: '导入整个文件夹（包含子文件夹与上传文件），并使用自定义选项获取最大的控制权。',
     },
