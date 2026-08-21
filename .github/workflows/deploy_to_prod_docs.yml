@@ -54,6 +54,7 @@ jobs:
       - name: Deploy documentation to server
         run: |
           rsync -avz  --delete --force --exclude 'server/node_modules' -e "ssh -i deploy_key" docs/.output ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/docs
+          rsync -avz --delete --force -e "ssh -i deploy_key" ecosystem.config.js ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}
 
       - name: Install documentation dependencies on server
         run: |
