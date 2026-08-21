@@ -203,7 +203,7 @@ async function importAll() {
   const createDocs = importJob.value.toCreate;
   const updateDocs = importOptions.skipExisting ? [] : importJob.value.toUpdate;
 
-  await nodesImporterStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs }, importJob);
+  await nodesImporterStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs }, importJob, true);
 
   step.value = 'report';
 
