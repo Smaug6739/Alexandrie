@@ -37,11 +37,11 @@ interface ImportItemBase {
   error_message?: string;
 }
 
-interface NodeImportItem extends ImportItemBase {
+export interface NodeImportItem extends ImportItemBase {
   type: 'node';
   data: DB_Node;
 }
-interface ResourceImportItem extends ImportItemBase {
+export interface ResourceImportItem extends ImportItemBase {
   type: 'resource';
   data: ResourceImportTask;
 }
@@ -49,10 +49,10 @@ export type ImportItem = NodeImportItem | ResourceImportItem;
 
 export interface NormalizedEntry<T = 'folder' | 'text_based' | 'resource'> {
   id: string;
+  parent_id?: string;
   filetype: T;
   file: File;
   filename?: string;
-  children?: NormalizedEntry[];
   content: string | ArrayBuffer;
 }
 export interface ResourceImportTask {
@@ -99,35 +99,23 @@ export class Importer {
           const folderName = parts[i]!;
           const previousPath = currentPath;
           currentPath = currentPath ? `${currentPath}/${folderName}` : folderName;
-
+          console.log('Processing folder:', currentPath, 'Previous path:', previousPath);
           // We check if this level of folder already exists in the global tree
           let folderEntry = this.normalized_files.find(e => e.id === currentPath);
-
+          console.log('Existing folder entry:', folderEntry);
           // If we are at the first level ("A"), the parent is the root (undefined),
           // otherwise it's the previous folder ("A/B" has "A" as parent)
           if (!folderEntry) {
             folderEntry = {
               id: currentPath,
+              parent_id: previousPath || undefined,
               filetype: 'folder',
               file: file, // We use the current file as a placeholder for the folder entry
               filename: folderName,
-              children: [],
               content: '',
             };
 
-            if (!previousPath) {
-              // Root folder of the import (ex: "A")
-              this.normalized_files.push(folderEntry);
-            } else {
-              // Find the direct parent folder in the global structure to assign it as a child
-              const parentEntry = this.normalized_files.find(e => e.id === previousPath);
-              if (parentEntry && parentEntry.children) {
-                parentEntry.children.push(folderEntry);
-              } else {
-                // Security: If the parent folder doesn't exist (which shouldn't happen), we add the folder to the root of normalized_files
-                this.normalized_files.push(folderEntry);
-              }
-            }
+            this.normalized_files.push(folderEntry);
           }
         }
       }
@@ -139,20 +127,14 @@ export class Importer {
 
       const fileEntry = {
         id: path,
+        parent_id: finalParentPath || undefined,
         filetype,
         file,
         filename: file.name,
         content,
       };
 
-      // We find the final parent folder in the normalized structure and add the file to its children
-      const finalParentFolder = this.normalized_files.find(e => e.id === finalParentPath);
-      if (finalParentFolder && finalParentFolder.children) {
-        finalParentFolder.children.push(fileEntry);
-      } else {
-        // If the parent folder doesn't exist, we add the file to the root of normalized_files
-        this.normalized_files.push(fileEntry);
-      }
+      this.normalized_files.push(fileEntry);
     }
   }
   async normalizedToNodes() {
@@ -213,8 +195,6 @@ export class Importer {
           file: entry.file,
         });
       }
-
-      if (entry.children?.length) to_process.push(...entry.children);
     }
     return {
       nodesToCreate: this.nodes,

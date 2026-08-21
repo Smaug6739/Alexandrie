@@ -10,7 +10,7 @@ export default {
     skipExisting: 'Ignorer les documents existants (importer uniquement les nouveaux)',
   },
 
-  advanced: {
+  folder: {
     options: "Options d'importation avancées",
     defaultParent: 'Catégorie parente par défaut pour les documents importés',
     defaultDescription: 'Description par défaut pour les documents importés',
@@ -40,7 +40,7 @@ export default {
       title: 'Importer à partir de fichiers',
       description: 'Importez des documents à partir de fichiers markdown avec des options flexibles.',
     },
-    advanced: {
+    folder: {
       title: 'Importation avancée',
       description:
         'Importer un dossier entier (y compris les sous-dossiers et les téléchargements) en utilisant des options personnalisées pour un contrôle maximal.',

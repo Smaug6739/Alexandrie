@@ -1,8 +1,13 @@
 import type { DB_Node, Node } from './db_structures';
-import type { ImportBackupJob, ImportItem, ResourceImportTask } from '~/helpers/backups/Importer';
+import type { ImportBackupJob, ImportItem, NodeImportItem, ResourceImportTask } from '~/helpers/backups/Importer';
+
+const WAIT_BETWEEN_IMPORTS_MS = 50;
 
 export const useNodesImporterStore = defineStore('nodesImporter', () => {
   const nodesStore = useNodesStore();
+  const resourcesStore = useResourcesStore();
+  const preferences = usePreferencesStore();
+  const defaultUploadFolder = preferences.get('defaultUploadFolder').value;
 
   // Prepare nodes for import by checking which nodes need to be created or updated
   function prepareImport(nodesToImport: DB_Node[], filesToImport: ResourceImportTask[] = []): { toCreate: ImportItem[]; toUpdate: ImportItem[] } {
@@ -31,17 +36,10 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
       }
     }
     for (const backupNode of filesToImport) {
+      console.log('Preparing resource for import:', backupNode.file.name, 'with ID:', backupNode.id);
       const existingNode = nodesStore.getById(backupNode.id);
       if (!existingNode) {
         toCreate.push({
-          type: 'resource',
-          data: backupNode,
-          id: backupNode.id,
-          name: backupNode.file.name,
-          status: 'pending',
-        });
-      } else {
-        toUpdate.push({
           type: 'resource',
           data: backupNode,
           id: backupNode.id,
@@ -52,19 +50,20 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
     }
     return { toCreate, toUpdate };
   }
-  async function importAllNodesAndResources(nodes: { toCreate: ImportItem[]; toUpdate: ImportItem[] }, job: Ref<ImportBackupJob>) {
+  async function importAllNodesAndResources(
+    nodes: { toCreate: ImportItem[]; toUpdate: ImportItem[] },
+    job: Ref<ImportBackupJob>,
+    importResourcesFirst: boolean = false,
+  ) {
     job.value.status = 'in_progress';
     job.value.failures = 0;
     nodesStore.nodes.startBulk();
     try {
-      const dbNodesToCreate = nodes.toCreate.filter(n => n.type === 'node').map(n => n.data);
-      const dbNodesToUpdate = nodes.toUpdate.filter(n => n.type === 'node').map(n => n.data);
-      const resourceTasksToCreate = nodes.toCreate.filter(n => n.type === 'resource').map(n => n.data);
-
       const corresponding: Record<string, string> = {};
-      await importAllNodes(dbNodesToCreate, job, corresponding);
-      await updateAllNodes(dbNodesToUpdate, job);
-      await importAllResources(resourceTasksToCreate, job, corresponding);
+      if (importResourcesFirst) await importAllResources(nodes.toCreate, job, corresponding);
+      await importAllNodes(nodes.toCreate, job, corresponding);
+      await updateAllNodes(nodes.toUpdate, job, corresponding);
+      if (!importResourcesFirst) await importAllResources(nodes.toCreate, job, corresponding);
       job.value.status = 'completed';
     } catch (error) {
       job.value.status = 'failed';
@@ -72,14 +71,22 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
     }
     nodesStore.nodes.endBulk();
   }
-  async function importAllNodes(nodes: DB_Node[], job: Ref<ImportBackupJob>, corresponding: Record<string, string>) {
-    const nodesById = new Map(nodes.map(n => [n.id, n]));
+  async function importAllNodes(items: ImportItem[], job: Ref<ImportBackupJob>, corresponding: Record<string, string>) {
+    const nodesById = new Map(items.map(n => [n.id, n]));
 
-    for (const node of nodes) {
-      await importNode(node, nodesById, corresponding, job);
+    for (const item of items) {
+      if (item.type !== 'node') continue;
+      await importNode(item, nodesById, corresponding, job);
     }
   }
-  async function importNode(node: DB_Node, nodesById: Map<string, DB_Node>, corresponding: Record<string, string>, job: Ref<ImportBackupJob>): Promise<void> {
+
+  async function importNode(
+    item: NodeImportItem,
+    nodesById: Map<string, ImportItem>,
+    corresponding: Record<string, string>,
+    job: Ref<ImportBackupJob>,
+  ): Promise<void> {
+    const node = item.data;
     if (corresponding[node.id]) return; // Already imported
 
     if (node.parent_id && !nodesStore.getById(node.parent_id)) {
@@ -89,7 +96,7 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
         const parent = nodesById.get(node.parent_id); // Parent from the backup (future import)
 
         if (parent) {
-          await importNode(parent, nodesById, corresponding, job); // Import the parent first
+          await importNode(parent as NodeImportItem, nodesById, corresponding, job); // Import the parent first
         } else {
           delete node.parent_id; // Parent not found → detach
         }
@@ -98,25 +105,45 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
       if (corresponding[node.parent_id!]) node.parent_id = corresponding[node.parent_id!]; // Update parent_id after import
     }
 
-    // Import of the node
-    const res = await nodesStore.post({ ...node, user_id: undefined });
-    job.value.created.push(node.id);
-    //await new Promise(resolve => setTimeout(resolve, 75));
-    corresponding[node.id] = res.id;
-  }
-  async function updateAllNodes(nodes: DB_Node[], job?: Ref<ImportBackupJob>) {
-    for (const node of nodes) {
-      if (!nodesStore.getById(node.id)) continue;
-      await nodesStore.update({ ...(node as Node), partial: false, shared: false, permissions: [] });
-      if (job) job.value.updated.push(node.id);
-      await new Promise(resolve => setTimeout(resolve, 75));
+    try {
+      // Replace all occurences of old IDs with the new one in the content
+      replaceIdsInContent(node, corresponding);
+
+      // Import of the node
+      const res = await nodesStore.post({ ...node, user_id: undefined });
+      job.value.created.push(node.id);
+      item.status = 'completed';
+      await new Promise(resolve => setTimeout(resolve, WAIT_BETWEEN_IMPORTS_MS));
+      corresponding[node.id] = res.id;
+    } catch (error) {
+      item.status = 'failed';
+      item.error_message = String(error);
+      job.value.failures++;
     }
   }
-  async function importAllResources(resources: ResourceImportTask[], job: Ref<ImportBackupJob>, corresponding: Record<string, string>) {
-    const preferences = usePreferencesStore();
-    const defaultUploadFolder = preferences.get('defaultUploadFolder').value;
-    const resourcesStore = useResourcesStore();
-    for (const task of resources) {
+  async function updateAllNodes(items: ImportItem[], job?: Ref<ImportBackupJob>, corresponding: Record<string, string> = {}) {
+    for (const item of items) {
+      if (item.type !== 'node') continue;
+      const node = item.data;
+      if (!nodesStore.getById(node.id)) continue;
+      try {
+        replaceIdsInContent(node, corresponding);
+
+        await nodesStore.update({ ...(node as Node), partial: false, shared: false, permissions: [] });
+        if (job) job.value.updated.push(node.id);
+        item.status = 'completed';
+        await new Promise(resolve => setTimeout(resolve, WAIT_BETWEEN_IMPORTS_MS));
+      } catch (error) {
+        item.status = 'failed';
+        item.error_message = String(error);
+        if (job) job.value.failures++;
+      }
+    }
+  }
+  async function importAllResources(items: ImportItem[], job: Ref<ImportBackupJob>, corresponding: Record<string, string>) {
+    for (const item of items) {
+      if (item.type !== 'resource') continue;
+      const task = item.data;
       try {
         let finalParentId = undefined;
         if (task.parent_id) finalParentId = corresponding[task.parent_id] || task.parent_id;
@@ -132,11 +159,22 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
         const uploadedResourceNode = await resourcesStore.post(formData);
 
         job.value.created.push(uploadedResourceNode.id);
-
-        await new Promise(resolve => setTimeout(resolve, 50));
+        corresponding[task.id] = uploadedResourceNode.id;
+        item.status = 'completed';
+        await new Promise(resolve => setTimeout(resolve, WAIT_BETWEEN_IMPORTS_MS));
       } catch (error) {
-        console.error(`[Import] Failed to upload resource ${task.file.name}:`, error);
+        item.status = 'failed';
+        item.error_message = String(error);
+        job.value.failures++;
       }
+    }
+  }
+
+  function replaceIdsInContent(node: DB_Node, corresponding: Record<string, string>) {
+    for (const [oldId, newId] of Object.entries(corresponding)) {
+      const regex = new RegExp(`\\b${oldId}\\b`, 'g');
+      if (node.content) node.content = node.content.replace(regex, newId);
+      if (node.content_compiled) node.content_compiled = node.content_compiled?.replace(regex, newId);
     }
   }
 
