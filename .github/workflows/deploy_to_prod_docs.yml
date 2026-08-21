@@ -51,7 +51,7 @@ jobs:
       # -------------------------
       # Deploy files using rsync
       # -------------------------
-      - name: Deploy frontend & backend
+      - name: Deploy documentation to server
         run: |
           rsync -avz  --delete --force --exclude 'server/node_modules' -e "ssh -i deploy_key" docs/.output ${SSH_USER}@${SSH_HOST}:${REMOTE_PATH}/docs
 
@@ -61,6 +61,10 @@ jobs:
             set -e
             rm -rf ${REMOTE_PATH}/docs/.output/server/node_modules
             cd ${REMOTE_PATH}/docs/.output/server
+
+            export BUN_INSTALL=\"/home/deploy/.bun\"
+            export PATH=\"\$BUN_INSTALL/bin:\$PATH\"
+
             bun install --production
           "
       # -------------------------
