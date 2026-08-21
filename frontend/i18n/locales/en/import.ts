@@ -10,7 +10,7 @@ export default {
     skipExisting: 'Skip existing documents (import only new ones)',
   },
 
-  advanced: {
+  folder: {
     defaultColor: 'Default color for imported documents',
     defaultDescription: 'Default description for imported documents',
     defaultIcon: 'Default icon for imported documents (svg or unicode emoji)',
@@ -18,7 +18,18 @@ export default {
     defaultTags: 'Default tags for imported documents (comma-separated)',
     defaultTheme: 'Default theme for imported documents',
     defaultThumbnail: 'Default thumbnail for imported documents (svg or unicode emoji)',
-    options: 'Advanced import options',
+    defaultIcon: 'Default icon for imported documents (svg or unicode emoji)',
+    defaultTheme: 'Default theme for imported documents',
+  },
+
+  files: {
+    meta: {
+      title: 'Import from markdown files',
+      description: 'Quickly import markdown files with options for destination and processing.',
+    },
+    importable:
+      'You can import markdown files or a folder containing markdown files. Folders will be imported recursively, preserving their structure if you choose import all option.',
+    toImport: 'Items to import',
   },
 
   categories: {
@@ -32,16 +43,10 @@ export default {
     },
     files: {
       description: 'Import documents from markdown files with flexible options.',
-      title: 'Import from files',
     },
-  },
-
-  files: {
-    importable:
-      'You can import markdown files or a folder containing markdown files. Folders will be imported recursively, preserving their structure if you choose import all option.',
-    meta: {
-      description: 'Quickly import markdown files with options for destination and processing.',
-      title: 'Import from markdown files',
+    advanced: {
+      title: 'Advanced import',
+      description: 'Import entire folder (including subfolders & uploads) using custom options for maximum control.',
     },
     toImport: 'Items to import',
   },

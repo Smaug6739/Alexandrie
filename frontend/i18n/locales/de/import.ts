@@ -10,7 +10,7 @@ export default {
     skipExisting: 'Bereits vorhandene Dokumente überspringen (nur neue importieren)',
   },
 
-  advanced: {
+  folder: {
     defaultColor: 'Standardfarbe für importierte Dokumente',
     defaultDescription: 'Standardbeschreibung für importierte Dokumente',
     defaultIcon: 'Standard-Symbol für importierte Dokumente (SVG oder Unicode-Emoji)',
@@ -32,16 +32,10 @@ export default {
     },
     files: {
       description: 'Dokumente aus Markdown-Dateien mit variablen Optionen importieren.',
-      title: 'Aus Dateien importieren',
     },
-  },
-
-  files: {
-    importable:
-      'Du kannst Markdown-Dateien oder einen Ordner mit Markdown-Dateien importieren. Ordner werden rekursiv importiert, wobei ihre Struktur beibehalten wird, wenn du die Option „Alle importieren“ wählst.',
-    meta: {
-      description: 'Markdown-Dateien schnell importieren mit Optionen für Speicherort und Verarbeitung.',
-      title: 'Aus Markdown-Dateien importieren',
+    advanced: {
+      title: 'Erweiterter Import',
+      description: 'Importiere gesamte Ordner (einschließlich Unterordner & Uploads) mit benutzerdefinierten Optionen für maximale Kontrolle.',
     },
     toImport: 'Zu importierende Elemente',
   },

@@ -22,7 +22,7 @@
         <span class="version-date">{{ numericDate(node.updated_timestamp) }}</span>
       </div>
     </div>
-    <div class="doc-actions">
+    <div v-if="allowSingleImport" class="doc-actions">
       <AppButton type="primary" size="sm" :disabled="isImporting" @click="importSingle">
         {{ t('import.tabs.importFromBackup') }}
       </AppButton>
@@ -34,7 +34,9 @@
 import { resolveIcon, getRoleName } from '~/helpers/node';
 import type { DB_Node } from '~/stores';
 
-const props = defineProps<{ node: DB_Node; selectable: boolean; selected?: boolean; isImporting?: boolean }>();
+const props = withDefaults(defineProps<{ node: DB_Node; selectable: boolean; selected?: boolean; isImporting?: boolean; allowSingleImport?: boolean }>(), {
+  allowSingleImport: true,
+});
 
 const emit = defineEmits<{
   (e: 'toggleSelection' | 'importSingle'): void;

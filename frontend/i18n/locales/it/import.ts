@@ -10,7 +10,7 @@ export default {
     skipExisting: 'Salta i documenti esistenti (importa solo quelli nuovi)',
   },
 
-  advanced: {
+  folder: {
     defaultColor: 'Colore predefinito per i documenti importati',
     defaultDescription: 'Descrizione predefinita per i documenti importati',
     defaultIcon: 'Icona predefinita per i documenti importati (svg o emoji unicode)',
@@ -18,12 +18,23 @@ export default {
     defaultTags: 'Tag predefiniti per i documenti importati (separati da virgola)',
     defaultTheme: 'Tema predefinito per i documenti importati',
     defaultThumbnail: 'Miniatura predefinita per i documenti importati (svg o emoji unicode)',
-    options: 'Opzioni di importazione avanzate',
+    defaultIcon: 'Icona predefinita per i documenti importati (svg o emoji unicode)',
+    defaultTheme: 'Tema predefinito per i documenti importati',
+  },
+
+  files: {
+    meta: {
+      title: 'Importa da file markdown',
+      description: 'Importa rapidamente file markdown con opzioni di destinazione ed elaborazione.',
+    },
+    importable:
+      "Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l'opzione importa tutto.",
+    toImport: 'Elementi da importare',
   },
 
   categories: {
     advanced: {
-      description: 'Importa un\'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.',
+      description: "Importa un'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.",
       title: 'Importazione avanzata',
     },
     backup: {
@@ -32,16 +43,10 @@ export default {
     },
     files: {
       description: 'Importa documenti da file markdown con opzioni flessibili.',
-      title: 'Importa da file',
     },
-  },
-
-  files: {
-    importable:
-      'Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l\'opzione importa tutto.',
-    meta: {
-      description: 'Importa rapidamente file markdown con opzioni di destinazione ed elaborazione.',
-      title: 'Importa da file markdown',
+    advanced: {
+      title: 'Importazione avanzata',
+      description: "Importa un'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.",
     },
     toImport: 'Elementi da importare',
   },
@@ -69,7 +74,7 @@ export default {
   notifications: {
     importCompleteMessage: 'I documenti sono stati importati con successo.',
     importCompleteTitle: 'Importazione completata',
-    importFailedMessage: 'Si è verificato un errore durante l\'importazione. Riprova.',
+    importFailedMessage: "Si è verificato un errore durante l'importazione. Riprova.",
     importFailedTitle: 'Importazione fallita',
     localImportedMessage: 'Le tue impostazioni locali sono state sostituite con il backup.',
     localImportedTitle: 'Impostazioni locali importate',
