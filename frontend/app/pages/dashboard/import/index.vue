@@ -4,38 +4,29 @@
 
     <p class="page-subtitle">
       {{ t('import.meta.description') }}
-      <NuxtLink to="/dashboard/settings?p=backup">{{ t('import.meta.settingsLink') }}</NuxtLink>
+      <NuxtLink to="/dashboard/settings?p=backup" class="settings-link">{{ t('import.meta.settingsLink') }}</NuxtLink>
     </p>
 
     <section class="cards-grid">
       <NuxtLink class="import-card" to="/dashboard/import/backup">
-        <div class="top">
-          <h3>{{ t('import.categories.backup.title') }}</h3>
-          <tag class="green">{{ t('common.labels.basic') }}</tag>
-        </div>
+        <h3>{{ t('import.categories.backup.title') }}</h3>
         <IconApp class="icon-app" />
         <p>{{ t('import.categories.backup.description') }}</p>
         <span class="cta">{{ t('common.actions.open') }}</span>
       </NuxtLink>
 
       <NuxtLink class="import-card" to="/dashboard/import/files">
-        <div class="top">
-          <h3>{{ t('import.categories.files.title') }}</h3>
-          <tag class="green">{{ t('common.labels.basic') }}</tag>
-        </div>
+        <h3>{{ t('import.categories.files.title') }}</h3>
         <Icon name="files" display="xxl" />
         <p>{{ t('import.categories.files.description') }}</p>
         <span class="cta">{{ t('common.actions.open') }}</span>
       </NuxtLink>
 
-      <NuxtLink class="import-card" to="/dashboard/import/advanced">
-        <div class="top" style="position: relative">
-          <h3>{{ t('import.categories.advanced.title') }}<span class="bubble" /></h3>
-          <tag class="orange">{{ t('common.labels.advanced') }}</tag>
-        </div>
-        <Icon name="advanced" display="xxl" />
-        <p>{{ t('import.categories.advanced.description') }}</p>
-        <span class="cta">{{ t('common.actions.preview') }}</span>
+      <NuxtLink class="import-card" to="/dashboard/import/folder">
+        <h3>{{ t('import.categories.folder.title') }}</h3>
+        <Icon name="folder" display="xxl" />
+        <p>{{ t('import.categories.folder.description') }}</p>
+        <span class="cta">{{ t('common.actions.open') }}</span>
       </NuxtLink>
     </section>
   </div>
@@ -52,6 +43,11 @@ const { t } = useI18nT();
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.settings-link {
+  color: var(--primary);
+  cursor: pointer;
 }
 
 .cards-grid {
@@ -73,13 +69,6 @@ const { t } = useI18nT();
     transform 0.18s ease,
     box-shadow 0.18s ease,
     border-color 0.18s ease;
-
-  .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 0.6rem;
-  }
 
   h3 {
     margin: 0;

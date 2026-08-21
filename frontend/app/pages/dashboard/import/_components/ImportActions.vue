@@ -5,26 +5,24 @@
       <AppCheck v-model="preserveTimestamps"> {{ t('import.actions.preserveTimestamps') }} </AppCheck>
       <AppCheck v-model="skipExisting"> {{ t('import.actions.skipExisting') }} </AppCheck>
     </div>
-    <div class="actions-row">
-      <AppButton type="secondary" @click="resetImport">
-        <Icon name="close" :size="16" />
-        {{ t('import.actions.cancel') }}
-      </AppButton>
-      <AppButton type="primary" :disabled="isImporting || (importJob.toCreate.length === 0 && importJob.toUpdate.length === 0)" @click="importAll">
-        <Icon name="download" :size="16" />
-        {{ isImporting ? t('import.actions.importing') : t('import.actions.importAll') }}
-      </AppButton>
-    </div>
+    <AppButton
+      style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 2rem"
+      type="primary"
+      :disabled="isImporting || (importJob.toCreate.length === 0 && importJob.toUpdate.length === 0)"
+      @click="importAll"
+    >
+      <Icon name="download" :size="16" />
+      {{ isImporting ? t('import.actions.importing') : t('import.actions.importAll') }}
+    </AppButton>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ImportJob } from '~/helpers/backups/Importer';
+import type { ImportBackupJob } from '~/helpers/backups/Importer';
 
 const { t } = useI18nT();
 const props = defineProps<{
-  importJob: ImportJob;
-  resetImport: () => void;
+  importJob: ImportBackupJob;
   importAll: () => void;
 }>();
 const preserveTimestamps = defineModel<boolean>('preserveTimestamps');
@@ -35,10 +33,6 @@ const isImporting = computed(() => props.importJob.status === 'in_progress');
 
 <style scoped lang="scss">
 .actions-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
   border-top: 1px solid var(--border);
 
   .import-options {

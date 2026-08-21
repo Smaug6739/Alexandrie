@@ -13,6 +13,8 @@ export interface ImportJob<T = DB_Node, O = ImportOptions> {
   options: O;
 }
 
+export type ImportBackupJob = ImportJob<ImportItem>;
+
 interface ImportOptions {
   extractFrontMatter?: boolean;
   normalizeLineEndings?: boolean;
@@ -28,12 +30,29 @@ interface ImportOptions {
   };
 }
 
-interface NormalizedEntry<T = 'folder' | 'text_based' | 'resource'> {
+interface ImportItemBase {
   id: string;
+  name: string;
+  status: 'pending' | 'completed' | 'failed';
+  error_message?: string;
+}
+
+export interface NodeImportItem extends ImportItemBase {
+  type: 'node';
+  data: DB_Node;
+}
+export interface ResourceImportItem extends ImportItemBase {
+  type: 'resource';
+  data: ResourceImportTask;
+}
+export type ImportItem = NodeImportItem | ResourceImportItem;
+
+export interface NormalizedEntry<T = 'folder' | 'text_based' | 'resource'> {
+  id: string;
+  parent_id?: string;
   filetype: T;
   file: File;
   filename?: string;
-  children?: NormalizedEntry[];
   content: string | ArrayBuffer;
 }
 export interface ResourceImportTask {
@@ -66,71 +85,56 @@ export class Importer {
     for (const file of fileArray) {
       if (!isImportable(file)) continue;
 
-      const path = file.webkitRelativePath; // ex: "A/B/C/D/file.txt"
+      const path = file.webkitRelativePath || file.name; // webkitRelativePath is only available when the user selects a folder, otherwise we use the file name
       const parts = path.split('/'); // ["A", "B", "C", "D", "file.txt"]
+
+      const isFolder = Boolean(file.webkitRelativePath);
 
       // --- 1. REBUILDING INTERMEDIATE FOLDERS ---
       // We iterate through the parts of the path, creating folder entries in normalized_files as needed.
-      let currentPath: string = '';
+      if (isFolder) {
+        let currentPath: string = '';
 
-      for (let i = 0; i < parts.length - 1; i++) {
-        const folderName = parts[i]!;
-        const previousPath = currentPath;
-        currentPath = currentPath ? `${currentPath}/${folderName}` : folderName;
+        for (let i = 0; i < parts.length - 1; i++) {
+          const folderName = parts[i]!;
+          const previousPath = currentPath;
+          currentPath = currentPath ? `${currentPath}/${folderName}` : folderName;
+          console.log('Processing folder:', currentPath, 'Previous path:', previousPath);
+          // We check if this level of folder already exists in the global tree
+          let folderEntry = this.normalized_files.find(e => e.id === currentPath);
+          console.log('Existing folder entry:', folderEntry);
+          // If we are at the first level ("A"), the parent is the root (undefined),
+          // otherwise it's the previous folder ("A/B" has "A" as parent)
+          if (!folderEntry) {
+            folderEntry = {
+              id: currentPath,
+              parent_id: previousPath || undefined,
+              filetype: 'folder',
+              file: file, // We use the current file as a placeholder for the folder entry
+              filename: folderName,
+              content: '',
+            };
 
-        // We check if this level of folder already exists in the global tree
-        let folderEntry = this.normalized_files.find(e => e.id === currentPath);
-
-        // If we are at the first level ("A"), the parent is the root (undefined),
-        // otherwise it's the previous folder ("A/B" has "A" as parent)
-        if (!folderEntry) {
-          folderEntry = {
-            id: currentPath,
-            filetype: 'folder',
-            file: file, // We use the current file as a placeholder for the folder entry
-            filename: folderName,
-            children: [],
-            content: '',
-          };
-
-          if (!previousPath) {
-            // Root folder of the import (ex: "A")
             this.normalized_files.push(folderEntry);
-          } else {
-            // Find the direct parent folder in the global structure to assign it as a child
-            const parentEntry = this.normalized_files.find(e => e.id === previousPath);
-            if (parentEntry && parentEntry.children) {
-              parentEntry.children.push(folderEntry);
-            } else {
-              // Security: If the parent folder doesn't exist (which shouldn't happen), we add the folder to the root of normalized_files
-              this.normalized_files.push(folderEntry);
-            }
           }
         }
       }
-
       // --- 2. ADDING THE FILE TO ITS FINAL PARENT FOLDER ---
-      const finalParentPath = parts.slice(0, -1).join('/');
+      const finalParentPath = isFolder ? parts.slice(0, -1).join('/') : path;
       const isText = file.type.startsWith('text/') || file.name.endsWith('.md') || file.name.endsWith('.json');
       const filetype: 'folder' | 'text_based' | 'resource' = isText ? 'text_based' : 'resource';
       const content = isText ? await file.text() : '';
 
       const fileEntry = {
         id: path,
+        parent_id: finalParentPath || undefined,
         filetype,
         file,
         filename: file.name,
         content,
       };
 
-      // We find the final parent folder in the normalized structure and add the file to its children
-      const finalParentFolder = this.normalized_files.find(e => e.id === finalParentPath);
-      if (finalParentFolder && finalParentFolder.children) {
-        finalParentFolder.children.push(fileEntry);
-      } else {
-        // If the parent folder doesn't exist (which shouldn't happen), we add the file to the root of normalized_files
-        this.normalized_files.push(fileEntry);
-      }
+      this.normalized_files.push(fileEntry);
     }
   }
   async normalizedToNodes() {
@@ -191,8 +195,6 @@ export class Importer {
           file: entry.file,
         });
       }
-
-      if (entry.children?.length) to_process.push(...entry.children);
     }
     return {
       nodesToCreate: this.nodes,

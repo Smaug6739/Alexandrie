@@ -1,19 +1,15 @@
-import type { FileEntry } from '@zip.js/zip.js';
-import type { Manifest } from './types';
+import { ZipReader, BlobReader, type FileEntry, BlobWriter } from '@zip.js/zip.js';
+import type { FilesIndex, Manifest } from './types';
 import type { DB_Node } from '~/stores';
+import type { ResourceImportTask } from './Importer';
 
 export async function readZipFile(file: File): Promise<FileEntry[]> {
-  const { ZipReader, BlobReader } = await import('@zip.js/zip.js');
-  const entries: FileEntry[] = [];
   const zipReader = new ZipReader(new BlobReader(file));
-  const zipEntries = await zipReader.getEntries();
-  for (const entry of zipEntries) {
-    if (!entry.directory && entry.filename.endsWith('.json')) {
-      entries.push(entry);
-    }
-  }
+  const entries = await zipReader.getEntries();
+
   await zipReader.close();
-  return entries;
+
+  return entries as FileEntry[];
 }
 
 async function _readJSONFile(fileEntry: FileEntry): Promise<object> {
@@ -58,18 +54,48 @@ export async function handleBackupFile(file: File): Promise<{
   manifest: Manifest;
   documents: DB_Node[] | null;
   localData: object | null;
+  files: ResourceImportTask[];
 }> {
   const entries = await readZipFile(file);
+
   let manifest: Manifest | null = null;
   let documents: DB_Node[] | null = null;
   let localData: object | null = null;
+  let filesIndex: FilesIndex | null = null;
+  const files: ResourceImportTask[] = [];
+
   for (const entry of entries) {
+    if (entry.directory) {
+      continue;
+    }
+
     if (entry.filename === 'manifest.json') {
       manifest = await readBackupManifest(entry);
     } else if (entry.filename === 'documents.json') {
       documents = await readBackupDocuments(entry);
     } else if (entry.filename === 'user_settings.json') {
       localData = await readLocalData(entry);
+    } else if (entry.filename === 'files_index.json') {
+      const data = await _readJSONFile(entry);
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid files index structure');
+      }
+      filesIndex = data as FilesIndex;
+    }
+  }
+
+  if (filesIndex) {
+    for (const fileEntry of filesIndex) {
+      const entry = entries.find(e => e.filename === fileEntry.archive_path);
+      if (entry) {
+        const blob = await entry.getData!(new BlobWriter());
+        const file = new File([blob], fileEntry.name, { type: fileEntry.metadata.filetype });
+        files.push({
+          id: fileEntry.id,
+          parent_id: undefined,
+          file,
+        });
+      }
     }
   }
 
@@ -81,5 +107,6 @@ export async function handleBackupFile(file: File): Promise<{
     manifest,
     documents,
     localData,
+    files,
   };
 }

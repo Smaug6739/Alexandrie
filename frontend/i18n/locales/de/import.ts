@@ -10,7 +10,7 @@ export default {
     skipExisting: 'Bereits vorhandene Dokumente überspringen (nur neue importieren)',
   },
 
-  advanced: {
+  folder: {
     options: 'Erweiterte Importoptionen',
     defaultParent: 'Standardübergeordnete Kategorie für importierte Dokumente',
     defaultDescription: 'Standardbeschreibung für importierte Dokumente',
@@ -40,7 +40,7 @@ export default {
       title: 'Aus Dateien importieren',
       description: 'Dokumente aus Markdown-Dateien mit variablen Optionen importieren.',
     },
-    advanced: {
+    folder: {
       title: 'Erweiterter Import',
       description: 'Importiere gesamte Ordner (einschließlich Unterordner & Uploads) mit benutzerdefinierten Optionen für maximale Kontrolle.',
     },

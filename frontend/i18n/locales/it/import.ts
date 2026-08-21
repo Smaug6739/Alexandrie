@@ -10,7 +10,7 @@ export default {
     skipExisting: 'Salta i documenti esistenti (importa solo quelli nuovi)',
   },
 
-  advanced: {
+  folder: {
     options: 'Opzioni di importazione avanzate',
     defaultParent: 'Categoria genitore predefinita per i documenti importati',
     defaultDescription: 'Descrizione predefinita per i documenti importati',
@@ -27,7 +27,7 @@ export default {
       description: 'Importa rapidamente file markdown con opzioni di destinazione ed elaborazione.',
     },
     importable:
-      'Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l\'opzione importa tutto.',
+      "Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l'opzione importa tutto.",
     toImport: 'Elementi da importare',
   },
 
@@ -40,9 +40,9 @@ export default {
       title: 'Importa da file',
       description: 'Importa documenti da file markdown con opzioni flessibili.',
     },
-    advanced: {
+    folder: {
       title: 'Importazione avanzata',
-      description: 'Importa un\'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.',
+      description: "Importa un'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.",
     },
   },
 
@@ -69,7 +69,7 @@ export default {
   notifications: {
     importCompleteMessage: 'I documenti sono stati importati con successo.',
     importCompleteTitle: 'Importazione completata',
-    importFailedMessage: 'Si è verificato un errore durante l\'importazione. Riprova.',
+    importFailedMessage: "Si è verificato un errore durante l'importazione. Riprova.",
     importFailedTitle: 'Importazione fallita',
     localImportedMessage: 'Le tue impostazioni locali sono state sostituite con il backup.',
     localImportedTitle: 'Impostazioni locali importate',

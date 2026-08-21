@@ -1,6 +1,6 @@
 <template>
   <div class="ctn">
-    <h2>{{ t('import.summary.title') }}</h2>
+    <h3>{{ t('import.summary.title') }}</h3>
     <div class="stats">
       <div class="stat new">
         <Icon name="plus" :size="20" />
@@ -18,18 +18,15 @@
         <span class="label">{{ t('import.summary.unchanged') }}</span>
       </div>
     </div>
-    <div class="progess">
-      <ImportJobStatus :import-job="importJob" />
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { ImportJob } from '~/helpers/backups/Importer';
+import type { ImportBackupJob } from '~/helpers/backups/Importer';
 
 defineProps<{
   unchangedCount: number;
-  importJob: ImportJob;
+  importJob: ImportBackupJob;
 }>();
 
 const { t } = useI18nT();
@@ -82,9 +79,5 @@ const { t } = useI18nT();
     color: var(--text-primary);
     background: var(--grey-bg);
   }
-}
-
-.progess {
-  margin-top: 1rem;
 }
 </style>

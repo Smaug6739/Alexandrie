@@ -1,11 +1,11 @@
 <template>
   <div class="page-card files-import">
-    <Teleport to="#navbar-title">{{ t('import.files.meta.title') }} <tag v-if="displayFeatureTags" class="orange">Beta v2</tag></Teleport>
+    <Teleport to="#navbar-title">{{ t('import.categories.folder.title') }} <tag v-if="displayFeatureTags" class="orange">Beta v2</tag></Teleport>
     <p class="subtitle">
-      {{ t('import.files.meta.description') }}
+      {{ t('import.categories.folder.description') }}
     </p>
 
-    <AppDrop ref="dropComponent" multiple :max-files="200" @select="selectFiles" />
+    <AppDrop ref="dropComponent" multiple allow-folders :max-files="200" @select="selectFiles" />
     <small>{{ t('import.files.importable') }}</small>
 
     <AppCollapse :title="t('import.folder.options')">

@@ -13,9 +13,11 @@
     </div>
 
     <!-- eslint-disable-next-line vue/no-v-html -->
-    <small v-if="displayErr" v-html="`${importJob.error_message}`"></small>
-    <small v-if="importJob.failures > 0">{{ importJob.failures }} {{ t('common.status.failed') }}</small>
-    <small v-if="importJob.created.length > 0">{{ importJob.created.length }} {{ t('common.status.completed') }}</small>
+    <div class="footer">
+      <small v-if="displayErr" v-html="`${importJob.error_message}`"></small>
+      <small v-if="importJob.failures > 0">{{ importJob.failures }} {{ t('common.status.failed') }}</small>
+      <small v-if="importJob.created.length > 0">{{ importJob.created.length }} {{ t('common.status.completed') }}</small>
+    </div>
   </div>
 </template>
 
@@ -110,6 +112,12 @@ const displayErr = computed(() => props.importJob.status === 'failed' || props.i
   border-radius: var(--radius-xs);
   background: var(--primary);
   transition: width $transition-medium ease;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 small {

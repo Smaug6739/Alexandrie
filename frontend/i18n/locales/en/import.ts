@@ -10,7 +10,7 @@ export default {
     skipExisting: 'Skip existing documents (import only new ones)',
   },
 
-  advanced: {
+  folder: {
     options: 'Advanced import options',
     defaultParent: 'Default parent category for imported documents',
     defaultDescription: 'Default description for imported documents',
@@ -24,7 +24,7 @@ export default {
   files: {
     meta: {
       title: 'Import from markdown files',
-      description: 'Quickly import markdown files with options for destination and processing.',
+      description: 'Quickly import markdown files and attachments with flexible options.',
     },
     importable:
       'You can import markdown files or a folder containing markdown files. Folders will be imported recursively, preserving their structure if you choose import all option.',
@@ -40,9 +40,9 @@ export default {
       title: 'Import from files',
       description: 'Import documents from markdown files with flexible options.',
     },
-    advanced: {
-      title: 'Advanced import',
-      description: 'Import entire folder (including subfolders & uploads) using custom options for maximum control.',
+    folder: {
+      title: 'Import from folder',
+      description: 'Import entire folder including subfolders & uploads with flexible options.',
     },
   },
 
