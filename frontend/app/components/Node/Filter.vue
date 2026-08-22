@@ -57,6 +57,18 @@
             <AppSelect v-model="options.kanbanAssignStatus" :items="STATUS_OPTIONS" />
           </div>
 
+          <div v-if="props.boardId">
+            <label>Users assigned</label>
+            <AppSelect v-model="options.assignedUserId" nullable :items="assignedUserOptions">
+              <template #node="{ node }">
+                <div class="user-line">
+                  <UserAvatar :user="userStore.getById(node.id as string)" display="sm" />
+                  <span>{{ node.label }}</span>
+                </div>
+              </template>
+            </AppSelect>
+          </div>
+
           <div class="panel-actions">
             <button class="btn" type="button" @click="reset">
               {{ t('common.actions.reset') }}
@@ -78,6 +90,7 @@
 <script setup lang="ts">
 import { parseTags } from '~/helpers/node';
 import type { Node, SearchOptions } from '~/stores';
+import type { KanbanMetadata } from '../Kanban/Board.vue';
 
 const props = defineProps<{ nodes: Node[]; boardId?: string }>();
 const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
@@ -92,10 +105,13 @@ const DEFAULT_OPTIONS: SearchOptions = {
   tags: [],
   matchMode: 'includes',
   boardId: props.boardId,
+  assignedUserId: undefined,
 };
 
-const { t } = useI18nT();
 const store = useNodesStore();
+const userStore = useUserStore();
+
+const { t } = useI18nT();
 const route = useRoute();
 const router = useRouter();
 
@@ -123,6 +139,19 @@ const STATUS_OPTIONS = [
   { id: 'assigned', label: t('components.filter.assigned') },
   { id: 'unassigned', label: t('components.filter.unassigned') },
 ];
+
+const assignedUserOptions = computed(() => {
+  const kanbanBoard = store.getById(props.boardId || '');
+  const users = (kanbanBoard?.metadata as KanbanMetadata)?.kanban?.users || {};
+  const uniqueUserIds = new Set<string>();
+  Object.values(users).forEach((userIds: string[]) => {
+    userIds.forEach(userId => uniqueUserIds.add(userId));
+  });
+  return Array.from(uniqueUserIds).map(userId => {
+    const user = userStore.getById(userId);
+    return { id: userId, label: user?.username || 'Unknown' };
+  });
+});
 
 const filtered = computed(() => store.search(options.value, props.nodes));
 
@@ -235,6 +264,12 @@ onBeforeUnmount(() => {
   justify-content: space-around;
   gap: 8px;
   margin: 4px 0;
+}
+
+.user-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 kbd {

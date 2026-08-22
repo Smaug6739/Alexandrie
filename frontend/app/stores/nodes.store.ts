@@ -22,6 +22,7 @@ export interface SearchOptions {
   role?: NodeRole;
   kanbanAssignStatus?: 'assigned' | 'unassigned' | 'all';
   boardId?: string;
+  assignedUserId?: string;
 }
 
 export const useNodesStore = defineStore('nodes', () => {
@@ -160,6 +161,10 @@ export const useNodesStore = defineStore('nodes', () => {
           const users = kanbanBoard?.kanban?.users ?? {};
           if (options.kanbanAssignStatus === 'assigned' && !users[node.id]) return false;
           if (options.kanbanAssignStatus === 'unassigned' && users[node.id]) return false;
+        }
+        if (options.assignedUserId && kanbanBoard) {
+          const users = kanbanBoard?.kanban?.users ?? {};
+          if (options.assignedUserId && (!users[node.id] || !users[node.id]!.includes(options.assignedUserId))) return false;
         }
       }
 
