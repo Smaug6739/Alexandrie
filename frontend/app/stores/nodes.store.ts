@@ -3,6 +3,7 @@ import { parseTags, mergeNode } from '~/helpers/node';
 import { LocalDbService } from '~/services/localDB';
 import { skipHydrate } from 'pinia';
 import type { DB_Node, Node, NodeSearchResult, Permission } from './db_structures';
+import type { KanbanMetadata } from '~/components/Kanban/Board.vue';
 
 export type TeamRole = 0;
 export type CategoryRole = 1 | 2;
@@ -19,6 +20,8 @@ export interface SearchOptions {
   category?: string;
   matchMode?: 'includes' | 'starts' | 'exact';
   role?: NodeRole;
+  kanbanAssignStatus?: 'assigned' | 'unassigned' | 'all';
+  boardId?: string;
 }
 
 export const useNodesStore = defineStore('nodes', () => {
@@ -130,6 +133,8 @@ export const useNodesStore = defineStore('nodes', () => {
     const hasQuery = Boolean(queryLower);
     const hasTags = tags && tags.length > 0;
 
+    const kanbanBoard: KanbanMetadata | undefined = (nodes.value.get(options.boardId || '')?.metadata as KanbanMetadata) ?? undefined;
+
     const filtered = nodesToSearch.filter(node => {
       // --- Filter by role ---
       if (options.role && node.role !== options.role) return false;
@@ -145,6 +150,16 @@ export const useNodesStore = defineStore('nodes', () => {
             break;
           default: // includes
             if (!content.includes(queryLower!)) return false;
+        }
+      }
+
+      // --- Filter by kanban assignment status ---
+      console.log('Board ID:', options.boardId, 'Kanban Assign Status:', options.kanbanAssignStatus, 'Kanban Board:', kanbanBoard);
+      if (options.boardId) {
+        if (options.kanbanAssignStatus && kanbanBoard) {
+          const users = kanbanBoard?.kanban?.users ?? {};
+          if (options.kanbanAssignStatus === 'assigned' && !users[node.id]) return false;
+          if (options.kanbanAssignStatus === 'unassigned' && users[node.id]) return false;
         }
       }
 
