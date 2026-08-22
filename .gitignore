@@ -4,6 +4,7 @@
 # File storage
 minio.exe
 minio
+minio-data
 
 # Backend
 main.exe
