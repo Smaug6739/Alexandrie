@@ -8,12 +8,15 @@
           :column="column"
           :parent="props.workspace"
           :cards="getCardsForColumn(column.id)"
+          :users="kanbanData.users"
           @drop="handleCardDrop"
           @delete="deleteColumn"
           @update="updateColumn"
           @add-card="$emit('createDocument', $event)"
           @card-drag-start="draggedNode = $event"
           @card-drag-end="draggedNode = null"
+          @assign="assignUserToCard"
+          @unassign="unassignUserFromCard"
         />
       </TransitionGroup>
 
@@ -34,10 +37,10 @@ export interface KanbanMetadata {
   kanban?: {
     columns: KanbanColumnData[];
     cardColumns: Record<string, string>; // nodeId -> columnId
+    users: Record<string, string[]>; // nodeId -> userIds
   };
 }
 
-const { t } = useI18nT();
 const props = defineProps<{
   workspace: Node;
   documents: Node[];
@@ -47,6 +50,10 @@ const emit = defineEmits<{
   updateMetadata: [metadata: KanbanMetadata];
   createDocument: [columnId: string];
 }>();
+
+const { t } = useI18nT();
+
+const usersStore = useUserStore();
 
 const draggedNode = ref<Node | null>(null);
 const boardContent = ref<HTMLElement | null>(null);
@@ -58,6 +65,7 @@ const kanbanData = computed(() => {
     meta?.kanban ?? {
       columns: getDefaultColumns(),
       cardColumns: {},
+      users: {},
     }
   );
 });
@@ -73,6 +81,18 @@ function getDefaultColumns(): KanbanColumnData[] {
     { id: '3', title: 'Done', color: 5, order: 3 },
   ];
 }
+
+watchEffect(async () => {
+  try {
+    for (const userIds of Object.values(kanbanData.value.users)) {
+      for (const userId of userIds) {
+        usersStore.fetchPublicUser(userId);
+      }
+    }
+  } catch {
+    // Ignore errors
+  }
+});
 
 // Get cards for a specific column
 function getCardsForColumn(columnId: string): Node[] {
@@ -97,6 +117,7 @@ function handleCardDrop(columnId: string, nodeId: string) {
     kanban: {
       columns: kanbanData.value.columns,
       cardColumns: newCardColumns,
+      users: kanbanData.value.users,
     },
   });
 }
@@ -114,6 +135,7 @@ function addColumn() {
     kanban: {
       columns: [...kanbanData.value.columns, newColumn],
       cardColumns: kanbanData.value.cardColumns,
+      users: kanbanData.value.users,
     },
   });
 
@@ -148,6 +170,7 @@ function deleteColumn(columnId: string) {
     kanban: {
       columns: remainingColumns,
       cardColumns: newCardColumns,
+      users: kanbanData.value.users,
     },
   });
 }
@@ -160,6 +183,40 @@ function updateColumn(column: KanbanColumnData) {
     kanban: {
       columns,
       cardColumns: kanbanData.value.cardColumns,
+      users: kanbanData.value.users,
+    },
+  });
+}
+
+function assignUserToCard(nodeId: string, userId: string) {
+  const newUsers = { ...kanbanData.value.users };
+  if (!newUsers[nodeId]) {
+    newUsers[nodeId] = [];
+  }
+  if (!newUsers[nodeId].includes(userId)) {
+    newUsers[nodeId].push(userId);
+  }
+
+  emit('updateMetadata', {
+    kanban: {
+      columns: kanbanData.value.columns,
+      cardColumns: kanbanData.value.cardColumns,
+      users: newUsers,
+    },
+  });
+}
+
+function unassignUserFromCard(nodeId: string, userId: string) {
+  const newUsers = { ...kanbanData.value.users };
+  if (newUsers[nodeId]) {
+    newUsers[nodeId] = newUsers[nodeId].filter(id => id !== userId);
+  }
+
+  emit('updateMetadata', {
+    kanban: {
+      columns: kanbanData.value.columns,
+      cardColumns: kanbanData.value.cardColumns,
+      users: newUsers,
     },
   });
 }
@@ -169,6 +226,7 @@ function resetKanbanData() {
     kanban: {
       columns: getDefaultColumns(),
       cardColumns: {},
+      users: {},
     },
   };
   emit('updateMetadata', data);

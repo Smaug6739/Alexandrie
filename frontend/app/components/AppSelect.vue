@@ -32,8 +32,13 @@
           :level="0"
           :disabled="disabled"
           :selected-id="selectedId"
+          :use-slot="useSlot"
           @select="handleSelect"
-        />
+        >
+          <template v-if="$slots.node" #node="{ node }">
+            <slot name="node" :node="node" />
+          </template>
+        </AppSelectNode>
         <slot name="list-footer"></slot>
       </ul>
     </Teleport>
@@ -66,8 +71,13 @@
               :level="0"
               :disabled="disabled"
               :selected-id="selectedId"
+              :use-slot="useSlot"
               @select="handleSelect"
-            />
+            >
+              <template v-if="$slots.node" #node="{ node }">
+                <slot name="node" :node="node" />
+              </template>
+            </AppSelectNode>
             <li v-if="filteredItems.length === 0" class="empty">{{ t('common.search.noResults', { filter: search }) }}</li>
             <slot name="list-footer"></slot>
           </ul>
@@ -87,6 +97,7 @@ const props = withDefaults(
     disabled?: (i: ANode) => boolean;
     nullable?: boolean;
     searchable?: boolean;
+    useSlot?: boolean;
   }>(),
   {
     placeholder: 'Select an option',

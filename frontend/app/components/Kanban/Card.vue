@@ -8,29 +8,42 @@
 
         <NuxtLink :to="`/dashboard/docs/${node.id}`" class="card-title"> {{ node.name }} </NuxtLink>
       </div>
-      <span v-if="node.order === -1" class="pin-badge" title="Pinned">
-        <Icon name="pin" />
-      </span>
+      <div class="card-header-right">
+        <span v-if="node.order === -1" class="pin-badge" title="Pinned">
+          <Icon name="pin" />
+        </span>
+      </div>
     </div>
 
     <p v-if="node.description" class="card-description">{{ node.description }}</p>
+    <div class="assignments">
+      <UserAvatar v-for="userId in users" :key="userId" :user="userStore.getById(userId)" :size="'sm'" />
+    </div>
     <div class="card-footer">
-      <div v-if="node.tags" class="card-tags">
+      <div class="card-tags">
         <span v-for="tag in parsedTags" :key="tag" class="tag">{{ tag }}</span>
       </div>
-      <span class="card-date">{{ shortDate(node.updated_timestamp) }}</span>
+      <div class="card-footer-right">
+        <span class="card-date">{{ shortDate(node.updated_timestamp) }}</span>
+        <span @click="openAssignModal"><Icon name="manage_access" display="sm" /></span>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import AssignModal from './Assign.modal.vue';
 import type { Node } from '~/stores';
+import type { KanbanMetadata } from './Board.vue';
 
 const props = defineProps<{ node: Node; parent: Node }>();
-const emit = defineEmits<{ dragStart: [node: Node]; dragEnd: [] }>();
+const emit = defineEmits<{ dragStart: [node: Node]; dragEnd: []; assign: [userId: string]; unassign: [userId: string] }>();
+
+const userStore = useUserStore();
 
 const { getAppAccent } = useAppColors();
 const { shortDate } = useDateFormatters();
+const modals = useModal();
 
 const parsedTags = computed(() => {
   if (!props.node.tags) return [];
@@ -40,6 +53,11 @@ const parsedTags = computed(() => {
     .map(t => t.trim());
 });
 
+const users = computed(() => {
+  const kanbanBoard = (props.parent.metadata as KanbanMetadata)?.kanban?.users || {};
+  return kanbanBoard[props.node.id] || [];
+});
+
 const onDragStart = (e: DragEvent) => {
   e.dataTransfer?.setData('text/plain', String(props.node.id));
   emit('dragStart', props.node);
@@ -47,6 +65,18 @@ const onDragStart = (e: DragEvent) => {
 
 const onDragEnd = () => {
   emit('dragEnd');
+};
+const openAssignModal = () => {
+  modals.add(
+    new Modal(shallowRef(AssignModal), {
+      props: {
+        nodeId: props.node.id,
+        boardId: props.parent.id,
+        assign: (userId: string) => emit('assign', userId),
+        unassign: (userId: string) => emit('unassign', userId),
+      },
+    }),
+  );
 };
 </script>
 
@@ -82,6 +112,12 @@ const onDragEnd = () => {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.card-header-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .card-icon {
@@ -137,6 +173,13 @@ const onDragEnd = () => {
   overflow: hidden;
 }
 
+.assignments {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
 .card-footer {
   display: flex;
   justify-content: space-between;
@@ -163,6 +206,12 @@ const onDragEnd = () => {
   white-space: nowrap;
   background: var(--surface-raised);
   overflow: hidden;
+}
+
+.card-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .card-date {

@@ -46,6 +46,11 @@ export default {
   },
 
   filter: {
+    all: 'All',
+    assigned: 'Assigned',
+    unassigned: 'Unassigned',
+    status: 'Status',
+    clear: 'Clear',
     ascending: 'Ascending',
     descending: 'Descending',
     match: 'Match',
