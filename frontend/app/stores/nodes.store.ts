@@ -155,7 +155,6 @@ export const useNodesStore = defineStore('nodes', () => {
       }
 
       // --- Filter by kanban assignment status ---
-      console.log('Board ID:', options.boardId, 'Kanban Assign Status:', options.kanbanAssignStatus, 'Kanban Board:', kanbanBoard);
       if (options.boardId) {
         if (options.kanbanAssignStatus && kanbanBoard) {
           const users = kanbanBoard?.kanban?.users ?? {};
