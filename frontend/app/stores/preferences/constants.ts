@@ -39,6 +39,7 @@ export const DEFAULT_PREFERENCES = {
     importation: false as boolean,
     documents: false as boolean,
     newPage: false as boolean,
+    calendar: true as boolean,
   } as const,
   navbarItems: {
     breadcrumbNav: false as boolean,
