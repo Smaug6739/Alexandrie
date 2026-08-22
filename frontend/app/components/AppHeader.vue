@@ -2,14 +2,15 @@
   <nav>
     <NuxtLinkLocale to="/" class="secondary">{{ t('public.nav.home') }}</NuxtLinkLocale>
     <div>
-      <NuxtLinkLocale to="/login" class="primary">{{ t('public.nav.login') }}</NuxtLinkLocale>
-      <NuxtLinkLocale to="/signup" class="secondary">{{ t('public.nav.signup') }}</NuxtLinkLocale>
+      <NuxtLinkLocale v-if="!route.path.includes('/login')" to="/login" class="primary">{{ t('public.nav.login') }}</NuxtLinkLocale>
+      <NuxtLinkLocale v-if="!route.path.includes('/signup')" to="/signup" class="secondary">{{ t('public.nav.signup') }}</NuxtLinkLocale>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
 const { t } = useI18nT();
+const route = useRoute();
 </script>
 
 <style scoped lang="scss">
