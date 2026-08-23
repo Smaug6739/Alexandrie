@@ -17,7 +17,10 @@
 
     <p v-if="node.description" class="card-description">{{ node.description }}</p>
     <div class="assignments">
-      <UserAvatar v-for="userId in users" :key="userId" :user="userStore.getById(userId)" :size="'sm'" />
+      <span v-for="userId in users" :key="userId" class="assignment">
+        <p class="hint-tooltip">{{ userStore.getById(userId)?.username }}</p>
+        <UserAvatar :user="userStore.getById(userId)" :size="'sm'" />
+      </span>
     </div>
     <div class="card-footer">
       <div class="card-tags">
@@ -25,7 +28,7 @@
       </div>
       <div class="card-footer-right">
         <span class="card-date">{{ shortDate(node.updated_timestamp) }}</span>
-        <span @click="openAssignModal"><Icon name="manage_access" display="sm" /></span>
+        <AppBtnIcon icon="manage_access" display="sm" @click="openAssignModal" />
       </div>
     </div>
   </div>
@@ -178,6 +181,15 @@ const openAssignModal = () => {
   align-items: center;
   gap: 4px;
   margin-bottom: 8px;
+  .assignment {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .assignment:hover .hint-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .card-footer {
