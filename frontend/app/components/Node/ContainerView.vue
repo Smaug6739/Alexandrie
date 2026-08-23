@@ -308,6 +308,7 @@ h1 {
 
 .action-btn {
   cursor: pointer;
+
   &:hover {
     background: var(--surface-transparent);
   }
