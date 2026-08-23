@@ -140,7 +140,7 @@ import type { Field } from '~/components/DataTable.vue';
 
 const props = defineProps<{ parent?: Node; nodes: Node[]; parentId?: string }>();
 
-const asNode = (data: any) => data as Node;
+const asNode = (data: unknown) => data as Node;
 
 const nodesStore = useNodesStore();
 const nodesPermissionsStore = useNodesPermissionsStore();
