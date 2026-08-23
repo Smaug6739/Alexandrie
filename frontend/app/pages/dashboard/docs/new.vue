@@ -1,5 +1,5 @@
 <template>
-  <LazyMarkdownEditor v-model="document" @save="data => save(data)" @exit="exit" @auto-save="savePending" />
+  <LazyMarkdownEditor v-model="document" autofocus-title @save="data => save(data)" @exit="exit" @auto-save="savePending" />
 </template>
 <script lang="ts" setup>
 import localForage from 'localforage';
