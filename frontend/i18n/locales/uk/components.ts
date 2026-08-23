@@ -38,33 +38,31 @@ export default {
   },
 
   editor: {
-    title: 'Редактор Markdown',
     placeholder: {
-      title: 'Назва документа',
       description: 'Опис документа',
+      title: 'Назва документа',
     },
+    title: 'Редактор Markdown',
   },
 
   filter: {
     all: 'Усі',
-    assigned: 'Призначено',
-    unassigned: 'Не призначено',
-    status: 'Статус',
     ascending: 'За зростанням',
-    descending: 'За спаданням',
-    match: 'Збіг',
-    sort: 'Сортувати за',
-    created: 'Створено',
-    modified: 'Змінено',
+    assigned: 'Призначено',
     contains: 'Містить',
-    startsWith: 'Починається з',
+    created: 'Створено',
+    descending: 'За спаданням',
     exact: 'Точне співпадіння',
+    match: 'Збіг',
+    modified: 'Змінено',
+    sort: 'Сортувати за',
+    startsWith: 'Починається з',
+    status: 'Статус',
     tags: 'Теги',
+    unassigned: 'Не призначено',
   },
 
   kanban: {
-    manageAssignees: 'Керування призначеннями',
-    usersAssigned: 'Призначені користувачі',
     addColumn: 'Додати стовпець',
     addDocument: 'Додати документ',
     changeColor: 'Змінити колір',
@@ -77,6 +75,7 @@ export default {
     },
     dragHere: 'Перетягніть документи сюди',
     editName: 'Редагувати назву',
+    manageAssignees: 'Керування призначеннями',
     noDocuments: 'Документів немає',
     resetBoard: {
       confirm: 'Ви впевнені, що хочете скинути налаштування дошки Канбан?',
@@ -84,6 +83,7 @@ export default {
       title: 'Скинути дошку Канбан',
       warning: 'Ця дія є незворотною. Усі стовпці будуть видалені, а картки переміщені до першого стовпця.',
     },
+    usersAssigned: 'Призначені користувачі',
   },
 
   navbar: {
@@ -107,19 +107,19 @@ export default {
   },
 
   sidebar: {
-    joinWorkspace: 'Приєднатися до простору',
     allWorkspaces: 'Усі простори',
     closeAll: 'Закрити все',
     editWorkspace: 'Редагувати простір',
+    joinWorkspace: 'Приєднатися до простору',
     nav: {
       cdn: 'CDN',
       documents: 'Документи',
       home: 'Головна',
       imports: 'Імпортування',
       manageCategories: 'Категорії',
-      teams: 'Команди',
       newPage: 'Нова сторінка',
       settings: 'Налаштування',
+      teams: 'Команди',
     },
     newCategory: 'Нова категорія',
     newDoc: 'Новий документ',

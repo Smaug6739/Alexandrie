@@ -13,6 +13,7 @@ export default {
     error: '無法載入統計資料',
     loading: '正在載入統計資料...',
     manageUsers: '管理使用者',
+    title: '管理員儀表板',
     top: {
       byNodes: '節點數最多的使用者',
       byStorage: '儲存空間用量最多的使用者',
@@ -20,7 +21,6 @@ export default {
       storage: '儲存空間',
       user: '使用者',
     },
-    title: '管理員儀表板',
   },
 
   users: {

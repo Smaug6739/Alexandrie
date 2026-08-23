@@ -27,7 +27,7 @@ export default {
   nodes,
   public: publicPages,
   settings,
+  teams,
   time,
   user,
-  teams,
 };

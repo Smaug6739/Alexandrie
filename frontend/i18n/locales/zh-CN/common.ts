@@ -1,7 +1,6 @@
 export default {
   actions: {
     assign: '分配',
-    unassign: '取消分配',
     cancel: '取消',
     clear: '清除',
     close: '关闭',
@@ -26,6 +25,7 @@ export default {
     search: '搜索',
     share: '分享',
     toggleFullscreen: '切换全屏',
+    unassign: '取消分配',
     unpin: '取消置顶',
     update: '更新',
     upload: '上传',

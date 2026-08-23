@@ -1,49 +1,49 @@
 export default {
   actions: {
     cancel: '取消',
+    extractFrontMatter: '將 front matter 擷取為中繼資料',
     importAll: '全部匯入',
     importing: '匯入中...',
-    optionsTitle: '匯入選項',
-    extractFrontMatter: '將 front matter 擷取為中繼資料',
     normalizeLineEndings: '正規化換行字元',
+    optionsTitle: '匯入選項',
     preserveTimestamps: '保留原始時間戳記',
     skipExisting: '略過已存在的文件（僅匯入新文件）',
   },
 
   advanced: {
-    options: '進階匯入選項',
-    defaultParent: '匯入文件的預設上層分類',
-    defaultDescription: '匯入文件的預設描述',
-    defaultTags: '匯入文件的預設標籤（以逗號分隔）',
     defaultColor: '匯入文件的預設顏色',
-    defaultThumbnail: '匯入文件的預設縮圖（SVG 或 Unicode emoji）',
+    defaultDescription: '匯入文件的預設描述',
     defaultIcon: '匯入文件的預設圖示（SVG 或 Unicode emoji）',
+    defaultParent: '匯入文件的預設上層分類',
+    defaultTags: '匯入文件的預設標籤（以逗號分隔）',
     defaultTheme: '匯入文件的預設主題',
-  },
-
-  files: {
-    meta: {
-      title: '從 Markdown 檔案匯入',
-      description: '快速匯入 Markdown 檔案，並可設定目的地與處理方式。',
-    },
-    importable:
-      '你可以匯入 Markdown 檔案，或包含 Markdown 檔案的資料夾。資料夾會遞迴匯入；若選擇全部匯入，將保留原有的結構。',
-    toImport: '待匯入的項目',
+    defaultThumbnail: '匯入文件的預設縮圖（SVG 或 Unicode emoji）',
+    options: '進階匯入選項',
   },
 
   categories: {
+    advanced: {
+      description: '匯入整個資料夾（包含子資料夾與上傳檔案），並使用自訂選項取得最大的控制權。',
+      title: '進階匯入',
+    },
     backup: {
-      title: '從備份匯入',
       description: '還原包含文件與設定的完整 Alexandrie 備份。',
+      title: '從備份匯入',
     },
     files: {
-      title: '從檔案匯入',
       description: '透過彈性的選項從 Markdown 檔案匯入文件。',
+      title: '從檔案匯入',
     },
-    advanced: {
-      title: '進階匯入',
-      description: '匯入整個資料夾（包含子資料夾與上傳檔案），並使用自訂選項取得最大的控制權。',
+  },
+
+  files: {
+    importable:
+      '你可以匯入 Markdown 檔案，或包含 Markdown 檔案的資料夾。資料夾會遞迴匯入；若選擇全部匯入，將保留原有的結構。',
+    meta: {
+      description: '快速匯入 Markdown 檔案，並可設定目的地與處理方式。',
+      title: '從 Markdown 檔案匯入',
     },
+    toImport: '待匯入的項目',
   },
 
   header: {

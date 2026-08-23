@@ -13,6 +13,7 @@ export default {
     error: 'Unable to load stats',
     loading: 'Loading stats...',
     manageUsers: 'Manage users',
+    title: 'Admin dashboard',
     top: {
       byNodes: 'Top users by number of nodes',
       byStorage: 'Top users by storage usage',
@@ -20,7 +21,6 @@ export default {
       storage: 'Storage',
       user: 'User',
     },
-    title: 'Admin dashboard',
   },
 
   users: {

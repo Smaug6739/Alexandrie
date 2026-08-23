@@ -38,33 +38,31 @@ export default {
   },
 
   editor: {
-    title: 'Markdown 编辑器',
     placeholder: {
-      title: '文档标题',
       description: '文档描述',
+      title: '文档标题',
     },
+    title: 'Markdown 编辑器',
   },
 
   filter: {
     all: '全部',
-    assigned: '已分配',
-    unassigned: '未分配',
-    status: '状态',
     ascending: '升序',
-    descending: '降序',
-    match: '匹配方式',
-    sort: '排序依据',
-    created: '创建时间',
-    modified: '修改时间',
+    assigned: '已分配',
     contains: '包含',
-    startsWith: '开头为',
+    created: '创建时间',
+    descending: '降序',
     exact: '完全匹配',
+    match: '匹配方式',
+    modified: '修改时间',
+    sort: '排序依据',
+    startsWith: '开头为',
+    status: '状态',
     tags: '标签',
+    unassigned: '未分配',
   },
 
   kanban: {
-    manageAssignees: '管理分配',
-    usersAssigned: '已分配用户',
     addColumn: '新增列',
     addDocument: '新增文档',
     changeColor: '修改颜色',
@@ -77,6 +75,7 @@ export default {
     },
     dragHere: '将文档拖拽到这里',
     editName: '编辑名称',
+    manageAssignees: '管理分配',
     noDocuments: '没有文档',
     resetBoard: {
       confirm: '你确定要重置看板吗？',
@@ -84,6 +83,7 @@ export default {
       title: '重置看板',
       warning: '此操作无法撤销。所有列都会被移除，卡片将移动到第一列。',
     },
+    usersAssigned: '已分配用户',
   },
 
   navbar: {
@@ -117,9 +117,9 @@ export default {
       home: '首页',
       imports: '导入',
       manageCategories: '管理分类',
-      teams: '团队',
       newPage: '新增页面',
       settings: '设置',
+      teams: '团队',
     },
     newCategory: '新增分类',
     newDoc: '新增文档',

@@ -6,16 +6,16 @@ export default {
     title: 'Кольори',
     useColor: 'Використати колір',
   },
+  drawio: {
+    linked: "Пов'язані діаграми",
+    title: 'Редактор діаграм',
+  },
   image: {
     noImages: 'Зображень не знайдено',
     searchPlaceholder: 'Пошук зображень...',
     subtitle: 'Виберіть зображення, яке потрібно вставити в документ.',
     title: 'Виберіть зображення',
     uploadError: 'Під час завантаження сталася помилка.',
-  },
-  drawio: {
-    linked: "Пов'язані діаграми",
-    title: 'Редактор діаграм',
   },
   stats: {
     chars: 'символів.',
@@ -54,8 +54,8 @@ export default {
     codeBlock: 'Блок коду',
 
     color: 'Колір',
-    editorSettings: 'Налаштування редактора',
     diagram: 'Діаграма',
+    editorSettings: 'Налаштування редактора',
     footnote: 'Примітка',
 
     goToDocument: 'Перейти до документа',

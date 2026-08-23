@@ -1,39 +1,39 @@
 export default {
-  title: 'Team',
-  eyebrown: 'Vista organizzazione',
-  subtitle: 'I team raggruppano aree di lavoro, categorie, documenti e risorse all\'interno di un\'unica struttura organizzativa condivisa.',
-
   actions: {
+    addContent: 'Aggiungi contenuto',
     create: 'Crea team',
     createDescription: 'Crea il primo team per iniziare a raggruppano aree di lavoro e documenti',
     delete: 'Elimina team',
-    addContent: 'Aggiungi contenuto',
     leave: 'Lascia il team',
     noTeams: 'Nessun team presente',
   },
-  teamsCount: 'team',
-  noDescription: 'Nessuna descrizione presente',
-
-  overview: {
-    title: 'Panoramica del team',
-    team: 'Team',
-
-    directItems: 'elementi diretti',
-    totalNodes: 'nodi totali',
-
-    homepageNoContentTitle: 'Nessuna homepage del team',
-    homepageNoContent: 'Non c\'è ancora alcun contenuto nella homepage di questo team.',
-  },
-
+  eyebrown: 'Vista organizzazione',
   insights: {
+    stats: 'Statistiche',
     title: 'Insight',
     trending: 'In tendenza',
-    stats: 'Statistiche',
   },
 
   members: {
-    title: 'Gestisci i membri del team',
-    permissionsTitle: 'Gestisci i permessi nell\'intero team',
     permissionsDescription: 'Aggiungi un nuovo utente e modifica i suoi permessi nella tabella.',
+    permissionsTitle: 'Gestisci i permessi nell\'intero team',
+    title: 'Gestisci i membri del team',
   },
+  noDescription: 'Nessuna descrizione presente',
+  overview: {
+    directItems: 'elementi diretti',
+    homepageNoContent: 'Non c\'è ancora alcun contenuto nella homepage di questo team.',
+
+    homepageNoContentTitle: 'Nessuna homepage del team',
+    team: 'Team',
+
+    title: 'Panoramica del team',
+    totalNodes: 'nodi totali',
+  },
+
+  subtitle: 'I team raggruppano aree di lavoro, categorie, documenti e risorse all\'interno di un\'unica struttura organizzativa condivisa.',
+
+  teamsCount: 'team',
+
+  title: 'Team',
 };

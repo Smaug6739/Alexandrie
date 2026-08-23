@@ -6,16 +6,16 @@ export default {
     title: 'Couleurs',
     useColor: 'Utiliser la couleur',
   },
+  drawio: {
+    linked: 'Diagrammes liés',
+    title: 'Éditeur de diagrammes',
+  },
   image: {
     noImages: 'Aucune image trouvée',
     searchPlaceholder: 'Rechercher des images...',
     subtitle: 'Choisissez une image à insérer dans votre document.',
     title: 'Sélectionner une image',
     uploadError: 'Une erreur est survenue lors du téléchargement.',
-  },
-  drawio: {
-    linked: 'Diagrammes liés',
-    title: 'Éditeur de diagrammes',
   },
   stats: {
     chars: 'car.',
@@ -54,8 +54,8 @@ export default {
     codeBlock: 'Bloc de code',
 
     color: 'Couleur',
-    editorSettings: "Paramètres de l'éditeur",
     diagram: 'Diagramme',
+    editorSettings: "Paramètres de l'éditeur",
     footnote: 'Note de bas de page',
 
     goToDocument: 'Aller au document',

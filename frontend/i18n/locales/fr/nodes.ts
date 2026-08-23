@@ -1,5 +1,4 @@
 export default {
-  nodes: 'Nœuds',
   actions: {
     copyPublicLink: 'Copier le lien public',
     editMeta: 'Modifier les métadonnées',
@@ -11,7 +10,6 @@ export default {
     resetBoard: 'Réinitialiser le tableau',
     share: 'Partager',
   },
-
   category: {
     editTitle: 'Catégorie & espace de travail',
     iconHint: 'SVG supporté',
@@ -65,20 +63,20 @@ export default {
     },
     join: {
       access: 'Accès au nœud',
-      title: 'Rejoindre une équipe ou un espace de travail',
-      subtitle:
-        "Coller un code d'invitation ou un lien d'invitation complet. Si vous avez déjà rejoint cet espace de travail avec un niveau de permission différent, seul le plus élevé sera conservé.",
-      label: "Code d'invitation ou lien",
+      inputPlaceholder: 'ABC123 ou https://.../join-workspace?code=ABC123',
       join: 'Rejoindre',
       joining: 'Rejoindre...',
-      inputPlaceholder: 'ABC123 ou https://.../join-workspace?code=ABC123',
+      label: "Code d'invitation ou lien",
+      subtitle:
+        "Coller un code d'invitation ou un lien d'invitation complet. Si vous avez déjà rejoint cet espace de travail avec un niveau de permission différent, seul le plus élevé sera conservé.",
+      title: 'Rejoindre une équipe ou un espace de travail',
     },
     metadata: {
       emojiOrIcon: 'Emoji ou icône',
       emojiOrIconHint: 'SVG ou emojis supportés',
       labelAppearance: 'Apparence',
-      labelOrganization: 'Organisation',
       labelMedia: 'Media',
+      labelOrganization: 'Organisation',
       pinDescription: 'Épingler ce document en haut de votre espace de travail',
       thumbnail: 'Miniature',
       thumbnailHint: 'SVG supporté',
@@ -88,10 +86,10 @@ export default {
       addPermission: 'Ajouter',
       defaultPermission: 'Permission par défaut pour les nouveaux utilisateurs',
       generalAccess: 'Accès général',
-      inviteLabel: 'Invitations au nœud',
       inviteCreate: 'Créer une invitation',
       inviteCreateProgress: "Création de l'invitation...",
       inviteEmpty: 'Aucune invitation pour le moment',
+      inviteLabel: 'Invitations au nœud',
       invitePermission: 'Permission',
       managePermissions: 'Gérer les permissions',
       noPermissions: 'Aucune permission définie',
@@ -111,6 +109,8 @@ export default {
       title: 'Retirer ce document',
     },
   },
+
+  nodes: 'Nœuds',
 
   notifications: {
     linkCopied: 'Lien copié dans le presse-papiers',

@@ -1,49 +1,49 @@
 export default {
   actions: {
     cancel: '取消',
+    extractFrontMatter: '将 front matter 提取为元数据',
     importAll: '全部导入',
     importing: '导入中...',
-    optionsTitle: '导入选项',
-    extractFrontMatter: '将 front matter 提取为元数据',
     normalizeLineEndings: '规范化换行符',
+    optionsTitle: '导入选项',
     preserveTimestamps: '保留原始时间戳',
     skipExisting: '跳过已存在的文档（仅导入新文档）',
   },
 
   advanced: {
-    options: '高级导入选项',
-    defaultParent: '导入文档的默认上级分类',
-    defaultDescription: '导入文档的默认描述',
-    defaultTags: '导入文档的默认标签（以逗号分隔）',
     defaultColor: '导入文档的默认颜色',
-    defaultThumbnail: '导入文档的默认缩略图（SVG 或 Unicode emoji）',
+    defaultDescription: '导入文档的默认描述',
     defaultIcon: '导入文档的默认图标（SVG 或 Unicode emoji）',
+    defaultParent: '导入文档的默认上级分类',
+    defaultTags: '导入文档的默认标签（以逗号分隔）',
     defaultTheme: '导入文档的默认主题',
-  },
-
-  files: {
-    meta: {
-      title: '从 Markdown 文件导入',
-      description: '快速导入 Markdown 文件，并可设置目的地与处理方式。',
-    },
-    importable:
-      '你可以导入 Markdown 文件，或包含 Markdown 文件的文件夹。文件夹会递归导入；若选择全部导入，将保留原有的结构。',
-    toImport: '待导入的项目',
+    defaultThumbnail: '导入文档的默认缩略图（SVG 或 Unicode emoji）',
+    options: '高级导入选项',
   },
 
   categories: {
+    advanced: {
+      description: '导入整个文件夹（包含子文件夹与上传文件），并使用自定义选项获取最大的控制权。',
+      title: '高级导入',
+    },
     backup: {
-      title: '从备份导入',
       description: '恢复包含文档与设置的完整 Alexandrie 备份。',
+      title: '从备份导入',
     },
     files: {
-      title: '从文件导入',
       description: '通过灵活的选项从 Markdown 文件导入文档。',
+      title: '从文件导入',
     },
-    advanced: {
-      title: '高级导入',
-      description: '导入整个文件夹（包含子文件夹与上传文件），并使用自定义选项获取最大的控制权。',
+  },
+
+  files: {
+    importable:
+      '你可以导入 Markdown 文件，或包含 Markdown 文件的文件夹。文件夹会递归导入；若选择全部导入，将保留原有的结构。',
+    meta: {
+      description: '快速导入 Markdown 文件，并可设置目的地与处理方式。',
+      title: '从 Markdown 文件导入',
     },
+    toImport: '待导入的项目',
   },
 
   header: {

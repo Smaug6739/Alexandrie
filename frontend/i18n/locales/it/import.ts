@@ -1,49 +1,49 @@
 export default {
   actions: {
     cancel: 'Annulla',
+    extractFrontMatter: 'Estrai front matter come metadati',
     importAll: 'Importa tutto',
     importing: 'Importazione in corso...',
-    optionsTitle: 'Opzioni di importazione',
-    extractFrontMatter: 'Estrai front matter come metadati',
     normalizeLineEndings: 'Normalizza le interruzioni di riga',
+    optionsTitle: 'Opzioni di importazione',
     preserveTimestamps: 'Preserva i timestamp originali',
     skipExisting: 'Salta i documenti esistenti (importa solo quelli nuovi)',
   },
 
   advanced: {
-    options: 'Opzioni di importazione avanzate',
-    defaultParent: 'Categoria genitore predefinita per i documenti importati',
-    defaultDescription: 'Descrizione predefinita per i documenti importati',
-    defaultTags: 'Tag predefiniti per i documenti importati (separati da virgola)',
     defaultColor: 'Colore predefinito per i documenti importati',
-    defaultThumbnail: 'Miniatura predefinita per i documenti importati (svg o emoji unicode)',
+    defaultDescription: 'Descrizione predefinita per i documenti importati',
     defaultIcon: 'Icona predefinita per i documenti importati (svg o emoji unicode)',
+    defaultParent: 'Categoria genitore predefinita per i documenti importati',
+    defaultTags: 'Tag predefiniti per i documenti importati (separati da virgola)',
     defaultTheme: 'Tema predefinito per i documenti importati',
-  },
-
-  files: {
-    meta: {
-      title: 'Importa da file markdown',
-      description: 'Importa rapidamente file markdown con opzioni di destinazione ed elaborazione.',
-    },
-    importable:
-      'Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l\'opzione importa tutto.',
-    toImport: 'Elementi da importare',
+    defaultThumbnail: 'Miniatura predefinita per i documenti importati (svg o emoji unicode)',
+    options: 'Opzioni di importazione avanzate',
   },
 
   categories: {
+    advanced: {
+      description: 'Importa un\'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.',
+      title: 'Importazione avanzata',
+    },
     backup: {
-      title: 'Importa da backup',
       description: 'Ripristina un backup completo di Alexandrie con documenti e impostazioni.',
+      title: 'Importa da backup',
     },
     files: {
-      title: 'Importa da file',
       description: 'Importa documenti da file markdown con opzioni flessibili.',
+      title: 'Importa da file',
     },
-    advanced: {
-      title: 'Importazione avanzata',
-      description: 'Importa un\'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.',
+  },
+
+  files: {
+    importable:
+      'Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l\'opzione importa tutto.',
+    meta: {
+      description: 'Importa rapidamente file markdown con opzioni di destinazione ed elaborazione.',
+      title: 'Importa da file markdown',
     },
+    toImport: 'Elementi da importare',
   },
 
   header: {

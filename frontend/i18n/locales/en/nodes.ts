@@ -1,5 +1,4 @@
 export default {
-  nodes: 'Nodes',
   actions: {
     copyPublicLink: 'Copy public link',
     editMeta: 'Edit metadata',
@@ -11,7 +10,6 @@ export default {
     resetBoard: 'Reset board',
     share: 'Share',
   },
-
   category: {
     editTitle: 'Category & workspace',
     iconHint: 'SVG supported',
@@ -65,20 +63,20 @@ export default {
     },
     join: {
       access: 'Node access',
-      title: 'Join a team or workspace',
-      subtitle:
-        'Paste an invitation code or a full invite link. If you have already joined this workspace with a different permission level, only the highest one will be retained.',
-      label: 'Invitation code or link',
+      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
       join: 'Join',
       joining: 'Joining...',
-      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
+      label: 'Invitation code or link',
+      subtitle:
+        'Paste an invitation code or a full invite link. If you have already joined this workspace with a different permission level, only the highest one will be retained.',
+      title: 'Join a team or workspace',
     },
     metadata: {
       emojiOrIcon: 'Emoji or icon',
       emojiOrIconHint: 'SVG or emojis supported',
       labelAppearance: 'Appearance',
-      labelOrganization: 'Organization',
       labelMedia: 'Media',
+      labelOrganization: 'Organization',
       pinDescription: 'Pin this document to the top of your workspace',
       thumbnail: 'Thumbnail',
       thumbnailHint: 'SVG supported',
@@ -88,10 +86,10 @@ export default {
       addPermission: 'Add',
       defaultPermission: 'Default permission for new users',
       generalAccess: 'General access',
-      inviteLabel: 'Node invitations',
       inviteCreate: 'Create invitation',
       inviteCreateProgress: 'Creating invitation...',
       inviteEmpty: 'No invitations yet',
+      inviteLabel: 'Node invitations',
       invitePermission: 'Permission',
       managePermissions: 'Manage permissions',
       noPermissions: 'No permission set',
@@ -111,6 +109,8 @@ export default {
       title: 'Remove this document',
     },
   },
+
+  nodes: 'Nodes',
 
   notifications: {
     linkCopied: 'Link copied to clipboard',

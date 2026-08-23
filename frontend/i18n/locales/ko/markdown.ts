@@ -6,16 +6,16 @@ export default {
     title: '색상',
     useColor: '색상 사용',
   },
+  drawio: {
+    linked: '연결된 다이어그램',
+    title: '다이어그램 편집기',
+  },
   image: {
     noImages: '이미지가 없습니다',
     searchPlaceholder: '이미지 검색...',
     subtitle: '문서에 삽입할 이미지를 선택하세요.',
     title: '이미지 선택',
     uploadError: '업로드 중 오류가 발생했습니다.',
-  },
-  drawio: {
-    linked: '연결된 다이어그램',
-    title: '다이어그램 편집기',
   },
   stats: {
     chars: '자',
@@ -54,8 +54,8 @@ export default {
     codeBlock: '코드 블록',
 
     color: '색상',
-    editorSettings: '에디터 설정',
     diagram: '다이어그램',
+    editorSettings: '에디터 설정',
     footnote: '각주',
 
     goToDocument: '문서로 이동',

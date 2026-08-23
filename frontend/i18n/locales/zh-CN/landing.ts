@@ -1,25 +1,14 @@
 export default {
-  seo: {
-    description: 'Alexandrie 是一个快速、可自托管的 Markdown 工作区，适用于笔记、知识库、协作与公开文档。',
-    keywords: 'Markdown 笔记, 知识库, 自托管笔记, 公开文档, 协作, 笔记应用程序',
-    title: 'Alexandrie | 现代化的 Markdown 工作区',
-  },
-  hero: {
-    badges: {
-      markdown: 'Markdown',
-      openSource: '开源',
-      organization: '组织',
-    },
-    ctaPrimary: '立即开始',
-    ctaSecondary: 'GitHub',
-    titleHighlight: '你的笔记',
-    titleSuffix: '，井然有序又赏心悦目',
-    tagline: '为速度、清晰与创意而生的强大 Markdown 工作区。',
-    previewAlt: 'Alexandrie 应用程序预览',
-  },
   bento: {
-    title: '写得更好所需的一切',
-    subtitle: '将强大的功能浓缩在美观且直观的界面中',
+    cdn: {
+      description: '上传图片与文件',
+      heading: '内置 CDN',
+    },
+    collaboration: {
+      description: '与团队一起协作。分享笔记、管理权限，还有更多功能。',
+      editing: '3 人正在编辑...',
+      heading: '协作与分享',
+    },
     editor: {
       description: '写作时享有语法高亮、实时预览与键盘快捷键，并支持表格、代码块、数学公式等等。',
       heading: '强大的 Markdown 编辑器',
@@ -32,24 +21,13 @@ export default {
       description: '嵌套文件夹、工作区、标签与强大的搜索功能，让每件事都各就各位。',
       heading: '智能整理',
     },
-    collaboration: {
-      description: '与团队一起协作。分享笔记、管理权限，还有更多功能。',
-      heading: '协作与分享',
-      editing: '3 人正在编辑...',
-    },
-    cdn: {
-      description: '上传图片与文件',
-      heading: '内置 CDN',
-    },
-    themes: {
-      description: '各种心情都有对应主题',
-      extra: '你也可以修改配色、文档主题，并加入自定义颜色、图标等等。',
-      heading: '深色与浅色',
-    },
-    search: {
-      description: '跨所有文档的全文搜索，毫秒之间找到任何内容。',
-      heading: '闪电般快速的搜索',
-      input: 'react hooks...',
+    organizationSamples: {
+      development: '开发',
+      ideas: 'Ideas.md',
+      knowledgeBase: '知识库',
+      projects: '项目',
+      reactTips: 'React Tips.md',
+      roadmap: 'Roadmap.md',
     },
     publish: {
       description: '公开分享你的作品，或只分享给特定对象，并生成美观的只读页面。',
@@ -57,23 +35,134 @@ export default {
       status: '上线中',
       url: 'docs.yoursite.com/guide',
     },
-    organizationSamples: {
-      knowledgeBase: '知识库',
-      projects: '项目',
-      roadmap: 'Roadmap.md',
-      ideas: 'Ideas.md',
-      development: '开发',
-      reactTips: 'React Tips.md',
+    search: {
+      description: '跨所有文档的全文搜索，毫秒之间找到任何内容。',
+      heading: '闪电般快速的搜索',
+      input: 'react hooks...',
     },
     searchResults: {
       customHooks: 'Custom Hooks',
-      reactHooksGuide: 'React Hooks 指南',
       path1: '知识库 / 开发',
       path2: '项目 / 前端',
+      reactHooksGuide: 'React Hooks 指南',
     },
+    subtitle: '将强大的功能浓缩在美观且直观的界面中',
     theme: {
       subtitle: '你也可以修改配色、文档主题，并加入自定义颜色、图标等等。',
     },
+    themes: {
+      description: '各种心情都有对应主题',
+      extra: '你也可以修改配色、文档主题，并加入自定义颜色、图标等等。',
+      heading: '深色与浅色',
+    },
+    title: '写得更好所需的一切',
+  },
+  contributors: {
+    commitLabel: '次提交',
+    cta: '成为贡献者',
+    subtitle: '认识让 Alexandrie 得以诞生的这群伙伴',
+    title: '由社区共同打造',
+  },
+  cta: {
+    button: '立即开始',
+    contributionPrefix: '想要参与贡献或讨论吗？欢迎前往我们的',
+    description: '和我们一起踏上更好的笔记之旅。',
+    discord: 'Discord 服务器',
+    title: '准备好开始写出更好的笔记了吗？',
+  },
+  faq: {
+    answer1: '是的，Alexandrie 采用 MIT 许可证，100% 开源。你可以自由使用、修改与分发，没有隐藏费用，也没有付费方案。',
+    answer2: '当然可以！你可以使用 Docker 在自己的基础设施上运行 Alexandrie。我们提供完整文档，帮助你在几分钟内完成部署。',
+    answer3: '可以，Alexandrie 以离线优先的原则设计。你的笔记可在本地访问，并在重新连线时同步。',
+    answer4: '自托管时，你的数据会留在自己的服务器上。我们采用行业标准的安全实践，所有数据传输皆经过加密。',
+    answer5: '可以！你可以从 Notion、Obsidian 或任何 Markdown 编辑器导入 Markdown 文件，也支持导出为排版精美的 PDF。',
+    answer6: '当然！我们支持 100 种以上编程语言的语法高亮，以及 LaTeX 数学公式渲染。',
+    answer7: 'Alexandrie 是响应式网页应用程序，在移动设备浏览器上也能顺畅使用。原生应用程序已列入我们的路线图。',
+    ctaDescription: '找不到你想知道的答案吗？加入我们的社区吧！',
+    ctaTitle: '还有其他问题吗？',
+    discord: '加入 Discord',
+    questions: [
+      'Alexandrie 真的免费且开源吗？',
+      '我可以在自己的服务器上自托管 Alexandrie 吗？',
+      'Alexandrie 可以离线使用吗？',
+      '我的数据如何保存与保护？',
+      '我可以从其他应用程序导入笔记吗？',
+      '支持代码块与数学公式吗？',
+      '有移动设备应用程序吗？',
+    ],
+    subtitle: '关于 Alexandrie，你需要知道的一切',
+    title: '常见问题',
+  },
+  footer: {
+    brandDescription: '为习惯以 Markdown 思考的开发者打造的开源工作区。美观的文档、强大的组织能力、零阻力的体验。',
+    by: '打造，作者为',
+    columns: {
+      community: '社区',
+      legal: '法律信息',
+      product: '产品',
+      resources: '资源',
+    },
+    links: {
+      about: '关于',
+      apiReference: 'API 参考文档',
+      changelog: '更新日志',
+      contribute: '参与贡献',
+      dashboard: '仪表板',
+      discord: 'Discord',
+      documentation: '文档',
+      features: '功能',
+      github: 'GitHub',
+      issues: 'Issues',
+      mitLicense: 'MIT 许可证',
+      privacyPolicy: '隐私政策',
+      roadmap: '路线图',
+      terms: '服务条款',
+    },
+    madeWith: '用',
+  },
+  hero: {
+    badges: {
+      markdown: 'Markdown',
+      openSource: '开源',
+      organization: '组织',
+    },
+    ctaPrimary: '立即开始',
+    ctaSecondary: 'GitHub',
+    previewAlt: 'Alexandrie 应用程序预览',
+    tagline: '为速度、清晰与创意而生的强大 Markdown 工作区。',
+    titleHighlight: '你的笔记',
+    titleSuffix: '，井然有序又赏心悦目',
+  },
+  selfHost: {
+    notes: ['没有遥测数据', '完全掌握数据', 'MIT 许可证', '支持 Docker'],
+    steps: [
+      {
+        description:
+          '从 GitHub 获取配置文件 <br /> <a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/docker-compose.yml">下载 docker-compose.yml 文件</a> <br /><a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/.env.example">下载 .env.example 文件</a> ',
+        title: '克隆仓库',
+      },
+      {
+        code: 'cp .env.example .env && nano .env',
+        description: '根据需要修改环境变量（可选）',
+        title: '设置',
+      },
+      {
+        code: 'docker compose up -d',
+        description: '使用 Docker Compose 启动所有服务',
+        title: '启动',
+      },
+    ],
+    subtitle: '通过简单的部署方式，完全掌控你的数据',
+    terminal: {
+      lines: ['[+] Running 3/3', '✓ Container alexandrie-db Started', '✓ Container alexandrie-minio Started', '✓ Container alexandrie-app Started'],
+      title: '终端',
+    },
+    title: '几分钟内完成自托管',
+  },
+  seo: {
+    description: 'Alexandrie 是一个快速、可自托管的 Markdown 工作区，适用于笔记、知识库、协作与公开文档。',
+    keywords: 'Markdown 笔记, 知识库, 自托管笔记, 公开文档, 协作, 笔记应用程序',
+    title: 'Alexandrie | 现代化的 Markdown 工作区',
   },
   showcase: {
     features: [
@@ -105,32 +194,6 @@ export default {
     subtitle: '看看 Alexandrie 如何简化你的整个工作流程',
     title: '从灵感到发布文档',
   },
-  selfHost: {
-    notes: ['没有遥测数据', '完全掌握数据', 'MIT 许可证', '支持 Docker'],
-    steps: [
-      {
-        description:
-          '从 GitHub 获取配置文件 <br /> <a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/docker-compose.yml">下载 docker-compose.yml 文件</a> <br /><a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/.env.example">下载 .env.example 文件</a> ',
-        title: '克隆仓库',
-      },
-      {
-        code: 'cp .env.example .env && nano .env',
-        description: '根据需要修改环境变量（可选）',
-        title: '设置',
-      },
-      {
-        code: 'docker compose up -d',
-        description: '使用 Docker Compose 启动所有服务',
-        title: '启动',
-      },
-    ],
-    subtitle: '通过简单的部署方式，完全掌控你的数据',
-    terminal: {
-      lines: ['[+] Running 3/3', '✓ Container alexandrie-db Started', '✓ Container alexandrie-minio Started', '✓ Container alexandrie-app Started'],
-      title: '终端',
-    },
-    title: '几分钟内完成自托管',
-  },
   stats: {
     actions: {
       contribute: '参与贡献',
@@ -147,83 +210,20 @@ export default {
     subtitle: '透明的开发流程、由社区主导的决策，以及完整的源代码访问权限',
     title: '公开透明地打造',
   },
-  contributors: {
-    commitLabel: '次提交',
-    cta: '成为贡献者',
-    subtitle: '认识让 Alexandrie 得以诞生的这群伙伴',
-    title: '由社区共同打造',
-  },
-  faq: {
-    answer1: '是的，Alexandrie 采用 MIT 许可证，100% 开源。你可以自由使用、修改与分发，没有隐藏费用，也没有付费方案。',
-    answer2: '当然可以！你可以使用 Docker 在自己的基础设施上运行 Alexandrie。我们提供完整文档，帮助你在几分钟内完成部署。',
-    answer3: '可以，Alexandrie 以离线优先的原则设计。你的笔记可在本地访问，并在重新连线时同步。',
-    answer4: '自托管时，你的数据会留在自己的服务器上。我们采用行业标准的安全实践，所有数据传输皆经过加密。',
-    answer5: '可以！你可以从 Notion、Obsidian 或任何 Markdown 编辑器导入 Markdown 文件，也支持导出为排版精美的 PDF。',
-    answer6: '当然！我们支持 100 种以上编程语言的语法高亮，以及 LaTeX 数学公式渲染。',
-    answer7: 'Alexandrie 是响应式网页应用程序，在移动设备浏览器上也能顺畅使用。原生应用程序已列入我们的路线图。',
-    ctaDescription: '找不到你想知道的答案吗？加入我们的社区吧！',
-    ctaTitle: '还有其他问题吗？',
-    discord: '加入 Discord',
-    subtitle: '关于 Alexandrie，你需要知道的一切',
-    title: '常见问题',
-    questions: [
-      'Alexandrie 真的免费且开源吗？',
-      '我可以在自己的服务器上自托管 Alexandrie 吗？',
-      'Alexandrie 可以离线使用吗？',
-      '我的数据如何保存与保护？',
-      '我可以从其他应用程序导入笔记吗？',
-      '支持代码块与数学公式吗？',
-      '有移动设备应用程序吗？',
-    ],
-  },
-  cta: {
-    discord: 'Discord 服务器',
-    description: '和我们一起踏上更好的笔记之旅。',
-    title: '准备好开始写出更好的笔记了吗？',
-    button: '立即开始',
-    contributionPrefix: '想要参与贡献或讨论吗？欢迎前往我们的',
-  },
   support: {
     badge: '来自作者的话',
-    confirm: '我了解了，谢谢！',
-    paragraph1:
-      'Alexandrie 一开始并不是一门生意，而是我为自己打造的工具。多年之后，我仍利用空闲时间维护与改进它，也很乐意分享给任何觉得它有用的人。',
-    paragraph2:
-      '这个应用程序不会追踪你、不投放广告，而且完全开源。不过，维持线上平台运作仍需要主机与基础设施费用。如果 Alexandrie 为你的日常工作带来价值，欢迎支持它的独立运作。即使是最小额的赞助，也足以支付好几个月的服务器费用。',
-    title: 'Alexandrie 是免费的，未来也会一直如此。',
-    signature: '— Smaug',
     cards: {
       sponsorDesc: '协助分担主机、备份基础设施与开发成本，让 Alexandrie 保持线上且独立。',
       sponsorTitle: '在财务上支持',
       starDesc: '表达你的支持，并帮助其他开发者发现这个项目。这不需要任何花费，却意义非凡。',
       starTitle: '在 GitHub 上加星',
     },
-  },
-  footer: {
-    brandDescription: '为习惯以 Markdown 思考的开发者打造的开源工作区。美观的文档、强大的组织能力、零阻力的体验。',
-    madeWith: '用',
-    columns: {
-      community: '社区',
-      legal: '法律信息',
-      product: '产品',
-      resources: '资源',
-    },
-    links: {
-      about: '关于',
-      apiReference: 'API 参考文档',
-      changelog: '更新日志',
-      contribute: '参与贡献',
-      dashboard: '仪表板',
-      discord: 'Discord',
-      documentation: '文档',
-      features: '功能',
-      github: 'GitHub',
-      issues: 'Issues',
-      mitLicense: 'MIT 许可证',
-      privacyPolicy: '隐私政策',
-      roadmap: '路线图',
-      terms: '服务条款',
-    },
-    by: '打造，作者为',
+    confirm: '我了解了，谢谢！',
+    paragraph1:
+      'Alexandrie 一开始并不是一门生意，而是我为自己打造的工具。多年之后，我仍利用空闲时间维护与改进它，也很乐意分享给任何觉得它有用的人。',
+    paragraph2:
+      '这个应用程序不会追踪你、不投放广告，而且完全开源。不过，维持线上平台运作仍需要主机与基础设施费用。如果 Alexandrie 为你的日常工作带来价值，欢迎支持它的独立运作。即使是最小额的赞助，也足以支付好几个月的服务器费用。',
+    signature: '— Smaug',
+    title: 'Alexandrie 是免费的，未来也会一直如此。',
   },
 };

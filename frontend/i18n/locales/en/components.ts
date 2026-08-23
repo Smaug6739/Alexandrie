@@ -38,33 +38,31 @@ export default {
   },
 
   editor: {
-    title: 'Markdown editor',
     placeholder: {
-      title: 'Document title',
       description: 'Document description',
+      title: 'Document title',
     },
+    title: 'Markdown editor',
   },
 
   filter: {
     all: 'All',
-    assigned: 'Assigned',
-    unassigned: 'Unassigned',
-    status: 'Status',
     ascending: 'Ascending',
-    descending: 'Descending',
-    match: 'Match',
-    sort: 'Sort by',
-    created: 'Created',
-    modified: 'Modified',
+    assigned: 'Assigned',
     contains: 'Contains',
-    startsWith: 'Starts with',
+    created: 'Created',
+    descending: 'Descending',
     exact: 'Exact match',
+    match: 'Match',
+    modified: 'Modified',
+    sort: 'Sort by',
+    startsWith: 'Starts with',
+    status: 'Status',
     tags: 'Tags',
+    unassigned: 'Unassigned',
   },
 
   kanban: {
-    manageAssignees: 'Manage assignees',
-    usersAssigned: 'Users assigned',
     addColumn: 'Add column',
     addDocument: 'Add document',
     changeColor: 'Change color',
@@ -77,6 +75,7 @@ export default {
     },
     dragHere: 'Drag documents here',
     editName: 'Edit name',
+    manageAssignees: 'Manage assignees',
     noDocuments: 'No documents',
     resetBoard: {
       confirm: 'Are you sure you want to reset the Kanban board?',
@@ -84,6 +83,7 @@ export default {
       title: 'Reset Kanban board',
       warning: 'This action is irreversible. All columns will be removed and cards moved to the first column.',
     },
+    usersAssigned: 'Users assigned',
   },
 
   navbar: {
@@ -117,9 +117,9 @@ export default {
       home: 'Home',
       imports: 'Imports',
       manageCategories: 'Manage categories',
-      teams: 'Teams',
       newPage: 'New page',
       settings: 'Settings',
+      teams: 'Teams',
     },
     newCategory: 'New category',
     newDoc: 'New doc',

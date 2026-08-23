@@ -38,33 +38,31 @@ export default {
   },
 
   editor: {
-    title: 'Editor Markdown',
     placeholder: {
-      title: 'Titolo del documento',
       description: 'Descrizione del documento',
+      title: 'Titolo del documento',
     },
+    title: 'Editor Markdown',
   },
 
   filter: {
     all: 'Tutti',
-    assigned: 'Assegnato',
-    unassigned: 'Non assegnato',
-    status: 'Stato',
     ascending: 'Crescente',
-    descending: 'Decrescente',
-    match: 'Corrispondenza',
-    sort: 'Ordina per',
-    created: 'Creato',
-    modified: 'Modificato',
+    assigned: 'Assegnato',
     contains: 'Contiene',
-    startsWith: 'Inizia con',
+    created: 'Creato',
+    descending: 'Decrescente',
     exact: 'Corrispondenza esatta',
+    match: 'Corrispondenza',
+    modified: 'Modificato',
+    sort: 'Ordina per',
+    startsWith: 'Inizia con',
+    status: 'Stato',
     tags: 'Tags',
+    unassigned: 'Non assegnato',
   },
 
   kanban: {
-    manageAssignees: 'Gestisci assegnazioni',
-    usersAssigned: 'Utenti assegnati',
     addColumn: 'Aggiungi colonna',
     addDocument: 'Aggiungi documento',
     changeColor: 'Cambia colore',
@@ -77,6 +75,7 @@ export default {
     },
     dragHere: 'Trascina i documenti qui',
     editName: 'Modifica nome',
+    manageAssignees: 'Gestisci assegnazioni',
     noDocuments: 'Nessun documento',
     resetBoard: {
       confirm: 'Sei sicuro di voler ripristinare la lavagna Kanban?',
@@ -84,6 +83,7 @@ export default {
       title: 'Ripristina lavagna Kanban',
       warning: 'Questa azione è irreversibile. Tutte le colonne verranno rimosse e le schede saranno spostate nella prima colonna.',
     },
+    usersAssigned: 'Utenti assegnati',
   },
 
   navbar: {
@@ -117,9 +117,9 @@ export default {
       home: 'Home',
       imports: 'Importazioni',
       manageCategories: 'Gestisci categorie',
-      teams: 'Team',
       newPage: 'Nuova pagina',
       settings: 'Impostazioni',
+      teams: 'Team',
     },
     newCategory: 'Nuova categoria',
     newDoc: 'Nuovo documento',

@@ -1,39 +1,39 @@
 export default {
-  title: 'Teams',
-  eyebrown: 'Organisationsansicht',
-  subtitle: 'Teams bündeln Arbeitsbereiche, Kategorien, Dokumente und Ressourcen in einer gemeinsamen Organisationsstruktur.',
-
   actions: {
+    addContent: 'Inhalte hinzufügen',
     create: 'Team erstellen',
     createDescription: 'Erstellen Sie das erste Team, um Arbeitsbereiche und Dokumente zu gruppieren',
     delete: 'Team löschen',
-    addContent: 'Inhalte hinzufügen',
     leave: 'Team verlassen',
     noTeams: 'Noch keine Teams',
   },
-  teamsCount: 'Teams',
-  noDescription: 'Noch keine Beschreibung',
-
-  overview: {
-    title: 'Teamübersicht',
-    team: 'Team',
-
-    directItems: 'direkte Elemente',
-    totalNodes: 'Knoten insgesamt',
-
-    homepageNoContentTitle: 'Keine Team-Startseite',
-    homepageNoContent: 'Diese Team-Startseite enthält noch keine Inhalte.',
-  },
-
+  eyebrown: 'Organisationsansicht',
   insights: {
+    stats: 'Statistiken',
     title: 'Einblicke',
     trending: 'Im Trend',
-    stats: 'Statistiken',
   },
 
   members: {
-    title: 'Teammitglieder verwalten',
-    permissionsTitle: 'Berechtigungen für das gesamte Team verwalten',
     permissionsDescription: 'Fügen Sie einen neuen Benutzer hinzu und ändern Sie dessen Berechtigungen in der Tabelle.',
+    permissionsTitle: 'Berechtigungen für das gesamte Team verwalten',
+    title: 'Teammitglieder verwalten',
   },
+  noDescription: 'Noch keine Beschreibung',
+  overview: {
+    directItems: 'direkte Elemente',
+    homepageNoContent: 'Diese Team-Startseite enthält noch keine Inhalte.',
+
+    homepageNoContentTitle: 'Keine Team-Startseite',
+    team: 'Team',
+
+    title: 'Teamübersicht',
+    totalNodes: 'Knoten insgesamt',
+  },
+
+  subtitle: 'Teams bündeln Arbeitsbereiche, Kategorien, Dokumente und Ressourcen in einer gemeinsamen Organisationsstruktur.',
+
+  teamsCount: 'Teams',
+
+  title: 'Teams',
 };

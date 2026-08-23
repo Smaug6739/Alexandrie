@@ -1,5 +1,4 @@
 export default {
-  nodes: 'Nodi',
   actions: {
     copyPublicLink: 'Copia link pubblico',
     editMeta: 'Modifica metadati',
@@ -11,7 +10,6 @@ export default {
     resetBoard: 'Ripristina lavagna',
     share: 'Condividi',
   },
-
   category: {
     editTitle: 'Categoria e area di lavoro',
     iconHint: 'Supporta gli SVG',
@@ -65,20 +63,20 @@ export default {
     },
     join: {
       access: 'Accesso al nodo',
-      title: "Entra in un team o in un'area di lavoro",
-      subtitle:
-        'Incolla un codice di invito o un link di invito completo. Se sei già entrato in questa area di lavoro con un livello di permesso differente, verrà mantenuto solo quello più alto.',
-      label: 'Codice o link di invito',
+      inputPlaceholder: 'ABC123 o https://.../join-workspace?code=ABC123',
       join: 'Entra',
       joining: 'Accesso in corso...',
-      inputPlaceholder: 'ABC123 o https://.../join-workspace?code=ABC123',
+      label: 'Codice o link di invito',
+      subtitle:
+        'Incolla un codice di invito o un link di invito completo. Se sei già entrato in questa area di lavoro con un livello di permesso differente, verrà mantenuto solo quello più alto.',
+      title: "Entra in un team o in un'area di lavoro",
     },
     metadata: {
       emojiOrIcon: 'Emoji o icona',
       emojiOrIconHint: 'Supporta SVG o emoji',
       labelAppearance: 'Apparenza',
-      labelOrganization: 'Organizzazione',
       labelMedia: 'Media',
+      labelOrganization: 'Organizzazione',
       pinDescription: 'Fissa questo documento in alto nel tuo spazio di lavoro',
       thumbnail: 'Miniatura',
       thumbnailHint: 'Supporta gli SVG',
@@ -88,10 +86,10 @@ export default {
       addPermission: 'Aggiungi',
       defaultPermission: 'Permesso predefinito per i nuovi utenti',
       generalAccess: 'Accesso generale',
-      inviteLabel: 'Inviti del nodo',
       inviteCreate: 'Crea invito',
       inviteCreateProgress: 'Creazione invito in corso...',
       inviteEmpty: 'Nessun invito presente',
+      inviteLabel: 'Inviti del nodo',
       invitePermission: 'Permesso',
       managePermissions: 'Gestisci permessi',
       noPermissions: 'Nessun permesso impostato',
@@ -111,6 +109,8 @@ export default {
       title: 'Rimuovi questo documento',
     },
   },
+
+  nodes: 'Nodi',
 
   notifications: {
     linkCopied: 'Link copiato negli appunti',

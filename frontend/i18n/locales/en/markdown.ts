@@ -6,16 +6,16 @@ export default {
     title: 'Colors',
     useColor: 'Use color',
   },
+  drawio: {
+    linked: 'Linked diagrams',
+    title: 'Diagram editor',
+  },
   image: {
     noImages: 'No images found',
     searchPlaceholder: 'Search images...',
     subtitle: 'Choose an image to insert into your document.',
     title: 'Select an image',
     uploadError: 'An error occurred while uploading.',
-  },
-  drawio: {
-    linked: 'Linked diagrams',
-    title: 'Diagram editor',
   },
   stats: {
     chars: 'chars.',
@@ -54,8 +54,8 @@ export default {
     codeBlock: 'Code block',
 
     color: 'Color',
-    editorSettings: 'Editor settings',
     diagram: 'Diagram',
+    editorSettings: 'Editor settings',
     footnote: 'Footnote',
 
     goToDocument: 'Go to document',

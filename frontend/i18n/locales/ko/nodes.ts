@@ -1,5 +1,4 @@
 export default {
-  nodes: '노드',
   actions: {
     copyPublicLink: '공개 링크 복사',
     editMeta: '메타데이터 편집',
@@ -11,7 +10,6 @@ export default {
     resetBoard: '보드 초기화',
     share: '공유',
   },
-
   category: {
     editTitle: '카테고리 및 워크스페이스',
     iconHint: 'SVG 지원',
@@ -65,19 +63,19 @@ export default {
     },
     join: {
       access: '노드 접근 권한',
-      title: '팀 또는 워크스페이스 참여',
-      subtitle: '초대 코드나 전체 초대 링크를 붙여넣으세요. 이미 다른 권한 수준으로 이 워크스페이스에 참여한 경우, 가장 높은 권한만 유지됩니다.',
-      label: '초대 코드 또는 링크',
+      inputPlaceholder: 'ABC123 또는 https://.../join-workspace?code=ABC123',
       join: '참여',
       joining: '참여 중...',
-      inputPlaceholder: 'ABC123 또는 https://.../join-workspace?code=ABC123',
+      label: '초대 코드 또는 링크',
+      subtitle: '초대 코드나 전체 초대 링크를 붙여넣으세요. 이미 다른 권한 수준으로 이 워크스페이스에 참여한 경우, 가장 높은 권한만 유지됩니다.',
+      title: '팀 또는 워크스페이스 참여',
     },
     metadata: {
       emojiOrIcon: '이모지 또는 아이콘',
       emojiOrIconHint: 'SVG 또는 이모지 지원',
       labelAppearance: '외형',
-      labelOrganization: '조직',
       labelMedia: '미디어',
+      labelOrganization: '조직',
       pinDescription: '이 문서를 워크스페이스 상단에 고정합니다',
       thumbnail: '썸네일',
       thumbnailHint: 'SVG 지원',
@@ -87,10 +85,10 @@ export default {
       addPermission: '추가',
       defaultPermission: '신규 사용자의 기본 권한',
       generalAccess: '일반 접근 권한',
-      inviteLabel: '노드 초대',
       inviteCreate: '초대 생성',
       inviteCreateProgress: '초대 생성 중...',
       inviteEmpty: '아직 초대가 없습니다',
+      inviteLabel: '노드 초대',
       invitePermission: '권한',
       managePermissions: '권한 관리',
       noPermissions: '설정된 권한이 없습니다',
@@ -110,6 +108,8 @@ export default {
       title: '이 문서 제거',
     },
   },
+
+  nodes: '노드',
 
   notifications: {
     linkCopied: '링크가 클립보드에 복사되었습니다',

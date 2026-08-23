@@ -13,6 +13,7 @@ export default {
     error: 'Impossible de charger les statistiques',
     loading: 'Chargement des statistiques...',
     manageUsers: 'Gérer les utilisateurs',
+    title: 'Tableau de bord admin',
     top: {
       byNodes: 'Top utilisateurs par nombre de nodes',
       byStorage: 'Top utilisateurs par usage de stockage',
@@ -20,7 +21,6 @@ export default {
       storage: 'Stockage',
       user: 'Utilisateur',
     },
-    title: 'Tableau de bord admin',
   },
 
   users: {

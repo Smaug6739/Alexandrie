@@ -38,33 +38,31 @@ export default {
   },
 
   editor: {
-    title: 'Markdown 編輯器',
     placeholder: {
-      title: '文件標題',
       description: '文件描述',
+      title: '文件標題',
     },
+    title: 'Markdown 編輯器',
   },
 
   filter: {
     all: '全部',
-    assigned: '已分配',
-    unassigned: '未分配',
-    status: '狀態',
     ascending: '遞增',
-    descending: '遞減',
-    match: '比對方式',
-    sort: '排序依據',
-    created: '建立時間',
-    modified: '修改時間',
+    assigned: '已分配',
     contains: '包含',
-    startsWith: '開頭為',
+    created: '建立時間',
+    descending: '遞減',
     exact: '完全相符',
+    match: '比對方式',
+    modified: '修改時間',
+    sort: '排序依據',
+    startsWith: '開頭為',
+    status: '狀態',
     tags: '標籤',
+    unassigned: '未分配',
   },
 
   kanban: {
-    manageAssignees: '管理分配',
-    usersAssigned: '已分配使用者',
     addColumn: '新增欄位',
     addDocument: '新增文件',
     changeColor: '變更顏色',
@@ -77,6 +75,7 @@ export default {
     },
     dragHere: '將文件拖曳到這裡',
     editName: '編輯名稱',
+    manageAssignees: '管理分配',
     noDocuments: '沒有文件',
     resetBoard: {
       confirm: '你確定要重設看板嗎？',
@@ -84,6 +83,7 @@ export default {
       title: '重設看板',
       warning: '此操作無法復原。所有欄位都會被移除，卡片將移動到第一個欄位。',
     },
+    usersAssigned: '已分配使用者',
   },
 
   navbar: {
@@ -117,9 +117,9 @@ export default {
       home: '首頁',
       imports: '匯入',
       manageCategories: '管理分類',
-      teams: '團隊',
       newPage: '新增頁面',
       settings: '設定',
+      teams: '團隊',
     },
     newCategory: '新增分類',
     newDoc: '新增文件',

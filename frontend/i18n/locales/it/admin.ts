@@ -13,6 +13,7 @@ export default {
     error: 'Impossibile caricare le statistiche',
     loading: 'Caricamento statistiche...',
     manageUsers: 'Gestisci utenti',
+    title: 'Dashboard amministratore',
     top: {
       byNodes: 'Primi utenti per numero di nodi',
       byStorage: 'Primi utenti per utilizzo dello spazio',
@@ -20,7 +21,6 @@ export default {
       storage: 'Spazio di archiviazione',
       user: 'Utente',
     },
-    title: 'Dashboard amministratore',
   },
 
   users: {

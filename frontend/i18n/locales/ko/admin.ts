@@ -13,6 +13,7 @@ export default {
     error: '통계를 불러올 수 없습니다',
     loading: '통계를 불러오는 중...',
     manageUsers: '사용자 관리',
+    title: '관리자 대시보드',
     top: {
       byNodes: '노드 수 기준 상위 사용자',
       byStorage: '저장 용량 기준 상위 사용자',
@@ -20,7 +21,6 @@ export default {
       storage: '저장 용량',
       user: '사용자',
     },
-    title: '관리자 대시보드',
   },
 
   users: {

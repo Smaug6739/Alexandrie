@@ -1,39 +1,39 @@
 export default {
-  title: 'Teams',
-  eyebrown: 'Organization view',
-  subtitle: 'Teams group workspaces, categories, documents, and resources in one shared organization shell.',
-
   actions: {
+    addContent: 'Add content',
     create: 'Create team',
     createDescription: 'Create the first team to start grouping workspaces and documents',
     delete: 'Delete team',
-    addContent: 'Add content',
     leave: 'Leave team',
     noTeams: 'No teams yet',
   },
-  teamsCount: 'teams',
-  noDescription: 'No description yet',
-
-  overview: {
-    title: 'Team overview',
-    team: 'Team',
-
-    directItems: 'direct items',
-    totalNodes: 'total nodes',
-
-    homepageNoContentTitle: 'No team homepage',
-    homepageNoContent: 'There is no content in this team homepage yet.',
-  },
-
+  eyebrown: 'Organization view',
   insights: {
+    stats: 'Stats',
     title: 'Insights',
     trending: 'Trending',
-    stats: 'Stats',
   },
 
   members: {
-    title: 'Manage team members',
-    permissionsTitle: 'Manage permissions in entire team',
     permissionsDescription: "Add a new user and change it's permissions in the table.",
+    permissionsTitle: 'Manage permissions in entire team',
+    title: 'Manage team members',
   },
+  noDescription: 'No description yet',
+  overview: {
+    directItems: 'direct items',
+    homepageNoContent: 'There is no content in this team homepage yet.',
+
+    homepageNoContentTitle: 'No team homepage',
+    team: 'Team',
+
+    title: 'Team overview',
+    totalNodes: 'total nodes',
+  },
+
+  subtitle: 'Teams group workspaces, categories, documents, and resources in one shared organization shell.',
+
+  teamsCount: 'teams',
+
+  title: 'Teams',
 };

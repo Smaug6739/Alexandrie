@@ -1,49 +1,49 @@
 export default {
   actions: {
     cancel: 'Abbrechen',
+    extractFrontMatter: 'Anfangstext als Metadaten extrahieren',
     importAll: 'Alle importieren',
     importing: 'Importiere...',
-    optionsTitle: 'Importoptionen',
-    extractFrontMatter: 'Anfangstext als Metadaten extrahieren',
     normalizeLineEndings: 'Zeilenenden normalisieren',
+    optionsTitle: 'Importoptionen',
     preserveTimestamps: 'Ursprüngliche Zeitstempel beibehalten',
     skipExisting: 'Bereits vorhandene Dokumente überspringen (nur neue importieren)',
   },
 
   advanced: {
-    options: 'Erweiterte Importoptionen',
-    defaultParent: 'Standardübergeordnete Kategorie für importierte Dokumente',
-    defaultDescription: 'Standardbeschreibung für importierte Dokumente',
-    defaultTags: 'Standard-Tags für importierte Dokumente (durch Kommas getrennt)',
     defaultColor: 'Standardfarbe für importierte Dokumente',
-    defaultThumbnail: 'Standard-Miniaturansicht für importierte Dokumente (SVG oder Unicode-Emoji)',
+    defaultDescription: 'Standardbeschreibung für importierte Dokumente',
     defaultIcon: 'Standard-Symbol für importierte Dokumente (SVG oder Unicode-Emoji)',
+    defaultParent: 'Standardübergeordnete Kategorie für importierte Dokumente',
+    defaultTags: 'Standard-Tags für importierte Dokumente (durch Kommas getrennt)',
     defaultTheme: 'Standarddesign für importierte Dokumente',
-  },
-
-  files: {
-    meta: {
-      title: 'Aus Markdown-Dateien importieren',
-      description: 'Markdown-Dateien schnell importieren mit Optionen für Speicherort und Verarbeitung.',
-    },
-    importable:
-      'Du kannst Markdown-Dateien oder einen Ordner mit Markdown-Dateien importieren. Ordner werden rekursiv importiert, wobei ihre Struktur beibehalten wird, wenn du die Option „Alle importieren“ wählst.',
-    toImport: 'Zu importierende Elemente',
+    defaultThumbnail: 'Standard-Miniaturansicht für importierte Dokumente (SVG oder Unicode-Emoji)',
+    options: 'Erweiterte Importoptionen',
   },
 
   categories: {
+    advanced: {
+      description: 'Importiere gesamte Ordner (einschließlich Unterordner & Uploads) mit benutzerdefinierten Optionen für maximale Kontrolle.',
+      title: 'Erweiterter Import',
+    },
     backup: {
-      title: 'Aus Backup importieren',
       description: 'Stelle ein vollständiges Alexandrie-Backup mit Dokumenten und Einstellungen wieder her.',
+      title: 'Aus Backup importieren',
     },
     files: {
-      title: 'Aus Dateien importieren',
       description: 'Dokumente aus Markdown-Dateien mit variablen Optionen importieren.',
+      title: 'Aus Dateien importieren',
     },
-    advanced: {
-      title: 'Erweiterter Import',
-      description: 'Importiere gesamte Ordner (einschließlich Unterordner & Uploads) mit benutzerdefinierten Optionen für maximale Kontrolle.',
+  },
+
+  files: {
+    importable:
+      'Du kannst Markdown-Dateien oder einen Ordner mit Markdown-Dateien importieren. Ordner werden rekursiv importiert, wobei ihre Struktur beibehalten wird, wenn du die Option „Alle importieren“ wählst.',
+    meta: {
+      description: 'Markdown-Dateien schnell importieren mit Optionen für Speicherort und Verarbeitung.',
+      title: 'Aus Markdown-Dateien importieren',
     },
+    toImport: 'Zu importierende Elemente',
   },
 
   header: {

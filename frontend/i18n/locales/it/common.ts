@@ -1,7 +1,6 @@
 export default {
   actions: {
     assign: 'Assegna',
-    unassign: 'Rimuovi assegnazione',
     cancel: 'Annulla',
     clear: 'Svuota',
     close: 'Chiudi',
@@ -26,6 +25,7 @@ export default {
     search: 'Cerca',
     share: 'Condividi',
     toggleFullscreen: 'Attiva/disattiva schermo intero',
+    unassign: 'Rimuovi assegnazione',
     unpin: "Rimuovi dall'alto",
     update: 'Aggiorna',
     upload: 'Carica',

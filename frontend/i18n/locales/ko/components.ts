@@ -38,33 +38,31 @@ export default {
   },
 
   editor: {
-    title: '마크다운 에디터',
     placeholder: {
-      title: '문서 제목',
       description: '문서 설명',
+      title: '문서 제목',
     },
+    title: '마크다운 에디터',
   },
 
   filter: {
     all: '전체',
-    assigned: '할당됨',
-    unassigned: '할당되지 않음',
-    status: '상태',
     ascending: '오름차순',
-    descending: '내림차순',
-    match: '일치',
-    sort: '정렬 기준',
-    created: '생성일',
-    modified: '수정일',
+    assigned: '할당됨',
     contains: '포함',
-    startsWith: '시작 문자열',
+    created: '생성일',
+    descending: '내림차순',
     exact: '정확히 일치',
+    match: '일치',
+    modified: '수정일',
+    sort: '정렬 기준',
+    startsWith: '시작 문자열',
+    status: '상태',
     tags: '태그',
+    unassigned: '할당되지 않음',
   },
 
   kanban: {
-    manageAssignees: '담당자 관리',
-    usersAssigned: '할당된 사용자',
     addColumn: '열 추가',
     addDocument: '문서 추가',
     changeColor: '색상 변경',
@@ -77,6 +75,7 @@ export default {
     },
     dragHere: '문서를 여기로 드래그하세요',
     editName: '이름 편집',
+    manageAssignees: '담당자 관리',
     noDocuments: '문서가 없습니다',
     resetBoard: {
       confirm: '칸반 보드를 초기화하시겠습니까?',
@@ -84,6 +83,7 @@ export default {
       title: '칸반 보드 초기화',
       warning: '이 작업은 되돌릴 수 없습니다. 모든 열이 삭제되고 카드는 첫 번째 열로 이동됩니다.',
     },
+    usersAssigned: '할당된 사용자',
   },
 
   navbar: {
@@ -117,9 +117,9 @@ export default {
       home: '홈',
       imports: '가져오기',
       manageCategories: '카테고리 관리',
-      teams: '팀',
       newPage: '새 페이지',
       settings: '설정',
+      teams: '팀',
     },
     newCategory: '새 카테고리',
     newDoc: '새 문서',

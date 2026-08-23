@@ -1,5 +1,4 @@
 export default {
-  nodes: '节点',
   actions: {
     copyPublicLink: '复制公开链接',
     editMeta: '编辑元数据',
@@ -11,7 +10,6 @@ export default {
     resetBoard: '重置看板',
     share: '分享',
   },
-
   category: {
     editTitle: '分类与工作区',
     iconHint: '支持 SVG',
@@ -65,19 +63,19 @@ export default {
     },
     join: {
       access: '节点访问权限',
-      title: '加入团队或工作区',
-      subtitle: '粘贴邀请码或完整的邀请链接。如果你已用其他权限等级加入过这个工作区，系统只会保留最高的权限。',
-      label: '邀请码或链接',
+      inputPlaceholder: 'ABC123 或 https://.../join-workspace?code=ABC123',
       join: '加入',
       joining: '加入中...',
-      inputPlaceholder: 'ABC123 或 https://.../join-workspace?code=ABC123',
+      label: '邀请码或链接',
+      subtitle: '粘贴邀请码或完整的邀请链接。如果你已用其他权限等级加入过这个工作区，系统只会保留最高的权限。',
+      title: '加入团队或工作区',
     },
     metadata: {
       emojiOrIcon: 'Emoji 或图标',
       emojiOrIconHint: '支持 SVG 或 emoji',
       labelAppearance: '外观',
-      labelOrganization: '组织',
       labelMedia: '媒体',
+      labelOrganization: '组织',
       pinDescription: '将此文档置顶至工作区顶部',
       thumbnail: '缩略图',
       thumbnailHint: '支持 SVG',
@@ -87,10 +85,10 @@ export default {
       addPermission: '新增',
       defaultPermission: '新用户的默认权限',
       generalAccess: '常规访问权限',
-      inviteLabel: '节点邀请',
       inviteCreate: '创建邀请',
       inviteCreateProgress: '正在创建邀请...',
       inviteEmpty: '尚无邀请',
+      inviteLabel: '节点邀请',
       invitePermission: '权限',
       managePermissions: '管理权限',
       noPermissions: '尚未设置权限',
@@ -110,6 +108,8 @@ export default {
       title: '移除此文档',
     },
   },
+
+  nodes: '节点',
 
   notifications: {
     linkCopied: '已复制链接到剪贴板',

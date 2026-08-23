@@ -1,5 +1,4 @@
 export default {
-  nodes: '節點',
   actions: {
     copyPublicLink: '複製公開連結',
     editMeta: '編輯中繼資料',
@@ -11,7 +10,6 @@ export default {
     resetBoard: '重設看板',
     share: '分享',
   },
-
   category: {
     editTitle: '分類與工作區',
     iconHint: '支援 SVG',
@@ -65,19 +63,19 @@ export default {
     },
     join: {
       access: '節點存取權',
-      title: '加入團隊或工作區',
-      subtitle: '貼上邀請碼或完整的邀請連結。如果你已用其他權限等級加入過這個工作區，系統只會保留最高的權限。',
-      label: '邀請碼或連結',
+      inputPlaceholder: 'ABC123 或 https://.../join-workspace?code=ABC123',
       join: '加入',
       joining: '加入中...',
-      inputPlaceholder: 'ABC123 或 https://.../join-workspace?code=ABC123',
+      label: '邀請碼或連結',
+      subtitle: '貼上邀請碼或完整的邀請連結。如果你已用其他權限等級加入過這個工作區，系統只會保留最高的權限。',
+      title: '加入團隊或工作區',
     },
     metadata: {
       emojiOrIcon: 'Emoji 或圖示',
       emojiOrIconHint: '支援 SVG 或 emoji',
       labelAppearance: '外觀',
-      labelOrganization: '組織',
       labelMedia: '媒體',
+      labelOrganization: '組織',
       pinDescription: '將此文件釘選至工作區頂端',
       thumbnail: '縮圖',
       thumbnailHint: '支援 SVG',
@@ -87,10 +85,10 @@ export default {
       addPermission: '新增',
       defaultPermission: '新使用者的預設權限',
       generalAccess: '一般存取權',
-      inviteLabel: '節點邀請',
       inviteCreate: '建立邀請',
       inviteCreateProgress: '正在建立邀請...',
       inviteEmpty: '尚無邀請',
+      inviteLabel: '節點邀請',
       invitePermission: '權限',
       managePermissions: '管理權限',
       noPermissions: '尚未設定權限',
@@ -110,6 +108,8 @@ export default {
       title: '移除此文件',
     },
   },
+
+  nodes: '節點',
 
   notifications: {
     linkCopied: '已複製連結到剪貼簿',

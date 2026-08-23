@@ -1,7 +1,6 @@
 export default {
   actions: {
     assign: 'Assign',
-    unassign: 'Unassign',
     cancel: 'Cancel',
     clear: 'Clear',
     close: 'Close',
@@ -26,6 +25,7 @@ export default {
     search: 'Search',
     share: 'Share',
     toggleFullscreen: 'Toggle fullscreen',
+    unassign: 'Unassign',
     unpin: 'Unpin from top',
     update: 'Update',
     upload: 'Upload',

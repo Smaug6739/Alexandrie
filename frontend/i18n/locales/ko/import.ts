@@ -1,48 +1,48 @@
 export default {
   actions: {
     cancel: '취소',
+    extractFrontMatter: '프론트매터를 메타데이터로 추출',
     importAll: '모두 가져오기',
     importing: '가져오는 중...',
-    optionsTitle: '가져오기 옵션',
-    extractFrontMatter: '프론트매터를 메타데이터로 추출',
     normalizeLineEndings: '줄바꿈 정규화',
+    optionsTitle: '가져오기 옵션',
     preserveTimestamps: '원본 타임스탬프 유지',
     skipExisting: '기존 문서 건너뛰기 (새 문서만 가져오기)',
   },
 
   advanced: {
-    options: '고급 가져오기 옵션',
-    defaultParent: '가져온 문서의 기본 상위 카테고리',
-    defaultDescription: '가져온 문서의 기본 설명',
-    defaultTags: '가져온 문서의 기본 태그 (쉼표로 구분)',
     defaultColor: '가져온 문서의 기본 색상',
-    defaultThumbnail: '가져온 문서의 기본 썸네일 (svg 또는 유니코드 이모지)',
+    defaultDescription: '가져온 문서의 기본 설명',
     defaultIcon: '가져온 문서의 기본 아이콘 (svg 또는 유니코드 이모지)',
+    defaultParent: '가져온 문서의 기본 상위 카테고리',
+    defaultTags: '가져온 문서의 기본 태그 (쉼표로 구분)',
     defaultTheme: '가져온 문서의 기본 테마',
-  },
-
-  files: {
-    meta: {
-      title: '마크다운 파일에서 가져오기',
-      description: '대상 및 처리 옵션과 함께 마크다운 파일을 빠르게 가져옵니다.',
-    },
-    importable: '마크다운 파일 또는 마크다운 파일이 포함된 폴더를 가져올 수 있습니다. "모두 가져오기" 옵션을 선택하면 폴더는 구조를 유지한 채 재귀적으로 가져와집니다.',
-    toImport: '가져올 항목',
+    defaultThumbnail: '가져온 문서의 기본 썸네일 (svg 또는 유니코드 이모지)',
+    options: '고급 가져오기 옵션',
   },
 
   categories: {
+    advanced: {
+      description: '최대한의 제어를 위해 사용자 지정 옵션을 사용하여 전체 폴더(하위 폴더 및 업로드 포함)를 가져옵니다.',
+      title: '고급 가져오기',
+    },
     backup: {
-      title: '백업에서 가져오기',
       description: '문서와 설정이 포함된 전체 Alexandrie 백업을 복원합니다.',
+      title: '백업에서 가져오기',
     },
     files: {
-      title: '파일에서 가져오기',
       description: '유연한 옵션으로 마크다운 파일에서 문서를 가져옵니다.',
+      title: '파일에서 가져오기',
     },
-    advanced: {
-      title: '고급 가져오기',
-      description: '최대한의 제어를 위해 사용자 지정 옵션을 사용하여 전체 폴더(하위 폴더 및 업로드 포함)를 가져옵니다.',
+  },
+
+  files: {
+    importable: '마크다운 파일 또는 마크다운 파일이 포함된 폴더를 가져올 수 있습니다. "모두 가져오기" 옵션을 선택하면 폴더는 구조를 유지한 채 재귀적으로 가져와집니다.',
+    meta: {
+      description: '대상 및 처리 옵션과 함께 마크다운 파일을 빠르게 가져옵니다.',
+      title: '마크다운 파일에서 가져오기',
     },
+    toImport: '가져올 항목',
   },
 
   header: {

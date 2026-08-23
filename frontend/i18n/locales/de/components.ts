@@ -38,33 +38,31 @@ export default {
   },
 
   editor: {
-    title: 'Markdown-Editor',
     placeholder: {
-      title: 'Dokumenttitel',
       description: 'Dokumentbeschreibung',
+      title: 'Dokumenttitel',
     },
+    title: 'Markdown-Editor',
   },
 
   filter: {
     all: 'Alle',
-    assigned: 'Zugewiesen',
-    unassigned: 'Nicht zugewiesen',
-    status: 'Status',
     ascending: 'Aufsteigend',
-    descending: 'Absteigend',
-    match: 'Übereinstimmung',
-    sort: 'Sortieren nach',
-    created: 'Erstellt',
-    modified: 'Geändert',
+    assigned: 'Zugewiesen',
     contains: 'Enthält',
-    startsWith: 'Beginnt mit',
+    created: 'Erstellt',
+    descending: 'Absteigend',
     exact: 'Exakte Übereinstimmung',
+    match: 'Übereinstimmung',
+    modified: 'Geändert',
+    sort: 'Sortieren nach',
+    startsWith: 'Beginnt mit',
+    status: 'Status',
     tags: 'Tags',
+    unassigned: 'Nicht zugewiesen',
   },
 
   kanban: {
-    manageAssignees: 'Zuweisungen verwalten',
-    usersAssigned: 'Zugewiesene Benutzer',
     addColumn: 'Spalte hinzufügen',
     addDocument: 'Dokument hinzufügen',
     changeColor: 'Farbe ändern',
@@ -77,6 +75,7 @@ export default {
     },
     dragHere: 'Dokumente hierher ziehen',
     editName: 'Name bearbeiten',
+    manageAssignees: 'Zuweisungen verwalten',
     noDocuments: 'Keine Dokumente',
     resetBoard: {
       confirm: 'Möchten Sie das Kanban-Board wirklich zurücksetzen?',
@@ -84,6 +83,7 @@ export default {
       title: 'Kanban-Board zurücksetzen',
       warning: 'Diese Aktion kann nicht rückgängig gemacht werden. Alle Spalten werden entfernt und die Karten in die erste Spalte verschoben.',
     },
+    usersAssigned: 'Zugewiesene Benutzer',
   },
 
   navbar: {
@@ -107,19 +107,19 @@ export default {
   },
 
   sidebar: {
-    joinWorkspace: 'Arbeitsbereich beitreten',
     allWorkspaces: 'Alle Arbeitsbereiche',
     closeAll: 'Alle schließen',
     editWorkspace: 'Arbeitsbereich bearbeiten',
+    joinWorkspace: 'Arbeitsbereich beitreten',
     nav: {
       cdn: 'CDN',
       documents: 'Dokumente',
       home: 'Startseite',
       imports: 'Importe',
       manageCategories: 'Kategorien verwalten',
-      teams: 'Teams',
       newPage: 'Neue Seite',
       settings: 'Einstellungen',
+      teams: 'Teams',
     },
     newCategory: 'Neue Kategorie',
     newDoc: 'Neues Dokument',

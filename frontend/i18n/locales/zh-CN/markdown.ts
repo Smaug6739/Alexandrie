@@ -6,16 +6,16 @@ export default {
     title: '颜色',
     useColor: '使用颜色',
   },
+  drawio: {
+    linked: '已关联的图表',
+    title: '图表编辑器',
+  },
   image: {
     noImages: '找不到图片',
     searchPlaceholder: '搜索图片...',
     subtitle: '选择要插入文档的图片。',
     title: '选择图片',
     uploadError: '上传时发生错误。',
-  },
-  drawio: {
-    linked: '已关联的图表',
-    title: '图表编辑器',
   },
   stats: {
     chars: '字符',
@@ -54,8 +54,8 @@ export default {
     codeBlock: '代码块',
 
     color: '颜色',
-    editorSettings: '编辑器设置',
     diagram: '图表',
+    editorSettings: '编辑器设置',
     footnote: '脚注',
 
     goToDocument: '前往文档',

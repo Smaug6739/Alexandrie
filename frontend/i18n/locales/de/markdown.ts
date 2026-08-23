@@ -6,16 +6,16 @@ export default {
     title: 'Farben',
     useColor: 'Farbe benutzen',
   },
+  drawio: {
+    linked: 'Verknüpfte Diagramme',
+    title: 'Diagramm-Editor',
+  },
   image: {
     noImages: 'Keine Bilder gefunden',
     searchPlaceholder: 'Bilder suchen...',
     subtitle: 'Wähle ein Bild aus, das du in dein Dokument einfügen möchtest.',
     title: 'Ein Bild auswählen',
     uploadError: 'Beim Hochladen ist ein Fehler aufgetreten.',
-  },
-  drawio: {
-    linked: 'Verknüpfte Diagramme',
-    title: 'Diagramm-Editor',
   },
   stats: {
     chars: 'Zeichen',
@@ -54,8 +54,8 @@ export default {
     codeBlock: 'Code-Block',
 
     color: 'Color',
-    editorSettings: 'Editor-Einstellungen',
     diagram: 'Diagramm',
+    editorSettings: 'Editor-Einstellungen',
     footnote: 'Fußnoten',
 
     goToDocument: 'Zum Dokument',

@@ -1,7 +1,6 @@
 export default {
   actions: {
     assign: '할당',
-    unassign: '할당 해제',
     cancel: '취소',
     clear: '지우기',
     close: '닫기',
@@ -26,6 +25,7 @@ export default {
     search: '검색',
     share: '공유',
     toggleFullscreen: '전체 화면 전환',
+    unassign: '할당 해제',
     unpin: '상단 고정 해제',
     update: '업데이트',
     upload: '업로드',

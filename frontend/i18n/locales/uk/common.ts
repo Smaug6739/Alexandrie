@@ -1,7 +1,6 @@
 export default {
   actions: {
     assign: 'Призначити',
-    unassign: 'Відмінити призначення',
     cancel: 'Скасувати',
     clear: 'Очистити',
     close: 'Закрити',
@@ -26,6 +25,7 @@ export default {
     search: 'Пошук',
     share: 'Поділитися',
     toggleFullscreen: 'Перемкнути повноекранний режим',
+    unassign: 'Відмінити призначення',
     unpin: 'Відкріпити',
     update: 'Оновити',
     upload: 'Завантажити',

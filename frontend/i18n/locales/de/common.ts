@@ -1,7 +1,6 @@
 export default {
   actions: {
     assign: 'Zuweisen',
-    unassign: 'Zuweisung aufheben',
     cancel: 'Abbrechen',
     clear: 'Leeren',
     close: 'Schließen',
@@ -26,6 +25,7 @@ export default {
     search: 'Suchen',
     share: 'Teilen',
     toggleFullscreen: 'Vollbild umschalten',
+    unassign: 'Zuweisung aufheben',
     unpin: 'Anheftung aufheben',
     update: 'Aktualisieren',
     upload: 'Hochladen',

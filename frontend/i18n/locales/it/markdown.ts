@@ -6,16 +6,16 @@ export default {
     title: 'Colori',
     useColor: 'Usa colore',
   },
+  drawio: {
+    linked: 'Diagrammi collegati',
+    title: 'Editor di diagrammi',
+  },
   image: {
     noImages: 'Nessuna immagine trovata',
     searchPlaceholder: 'Cerca immagini...',
     subtitle: 'Scegli un\'immagine da inserire nel tuo documento.',
     title: 'Seleziona un\'immagine',
     uploadError: 'Si è verificato un errore durante il caricamento.',
-  },
-  drawio: {
-    linked: 'Diagrammi collegati',
-    title: 'Editor di diagrammi',
   },
   stats: {
     chars: 'caratteri',
@@ -54,8 +54,8 @@ export default {
     codeBlock: 'Blocco di codice',
 
     color: 'Colore',
-    editorSettings: 'Impostazioni editor',
     diagram: 'Diagramma',
+    editorSettings: 'Impostazioni editor',
     footnote: 'Nota a piè di pagina',
 
     goToDocument: 'Vai al documento',

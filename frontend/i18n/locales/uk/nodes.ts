@@ -1,5 +1,4 @@
 export default {
-  nodes: 'Вузли',
   actions: {
     copyPublicLink: 'Копіювати публічне посилання',
     editMeta: 'Редагувати метадані',
@@ -11,7 +10,6 @@ export default {
     resetBoard: 'Скинути дошку',
     share: 'Поділитися',
   },
-
   category: {
     editTitle: 'Категорія та простір',
     iconHint: 'Підтримка SVG',
@@ -65,20 +63,20 @@ export default {
     },
     join: {
       access: 'Доступ до вузла',
-      title: 'Приєднатися до команди або простору',
-      subtitle:
-        'Вставте код запрошення або повне посилання на запрошення. Якщо ви вже приєдналися до цього простору з іншим рівнем дозволу, буде збережено лише найвищий.',
-      label: 'Код запрошення або посилання',
+      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
       join: 'Приєднатися',
       joining: 'Приєднання...',
-      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
+      label: 'Код запрошення або посилання',
+      subtitle:
+        'Вставте код запрошення або повне посилання на запрошення. Якщо ви вже приєдналися до цього простору з іншим рівнем дозволу, буде збережено лише найвищий.',
+      title: 'Приєднатися до команди або простору',
     },
     metadata: {
       emojiOrIcon: 'Емоджі або іконка',
       emojiOrIconHint: 'Підтримуються SVG та емоджі',
       labelAppearance: 'Зовнішній вигляд',
-      labelOrganization: 'Організація',
       labelMedia: 'Медіа',
+      labelOrganization: 'Організація',
       pinDescription: 'Закріпити цей документ у верхній частині вашого простору',
       thumbnail: 'Мініатюра',
       thumbnailHint: 'Підтримується SVG',
@@ -88,10 +86,10 @@ export default {
       addPermission: 'Додати',
       defaultPermission: 'Права доступу за замовчуванням для нових користувачів',
       generalAccess: 'Загальний доступ',
-      inviteLabel: 'Запрошення до вузла',
       inviteCreate: 'Створити запрошення',
       inviteCreateProgress: 'Створення запрошення...',
       inviteEmpty: 'Поки немає запрошень',
+      inviteLabel: 'Запрошення до вузла',
       invitePermission: 'Права доступу',
       managePermissions: 'Керувати правами доступу',
       noPermissions: 'Права доступу не встановлено',
@@ -111,6 +109,8 @@ export default {
       title: 'Вилучити цей документ',
     },
   },
+
+  nodes: 'Вузли',
 
   notifications: {
     linkCopied: 'Посилання скопійовано в буфер обміну',

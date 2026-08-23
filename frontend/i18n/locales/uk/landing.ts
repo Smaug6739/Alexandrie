@@ -1,26 +1,14 @@
 export default {
-  seo: {
-    description:
-      'Alexandrie — це швидкий Markdown-робочий простір, який можна самостійно хостити, для нотаток, баз знань, співпраці та публічної документації.',
-    keywords: 'Markdown нотатки, база знань, self-hosted нотатки, публічна документація, співпраця, застосунок для нотаток',
-    title: 'Alexandrie | Сучасний Markdown-робочий простір',
-  },
-  hero: {
-    badges: {
-      markdown: 'Markdown',
-      openSource: 'Open source',
-      organization: 'Організація',
-    },
-    ctaPrimary: 'Почати',
-    ctaSecondary: 'GitHub',
-    titleHighlight: 'Ваші нотатки',
-    titleSuffix: ', красиво впорядковані',
-    tagline: 'Потужний Markdown-робочий простір, створений для швидкості, ясності та творчості.',
-    previewAlt: 'Попередній перегляд застосунку Alexandrie',
-  },
   bento: {
-    title: 'Усе, що потрібно для кращого письма',
-    subtitle: 'Потужні можливості в красивому та інтуїтивному інтерфейсі',
+    cdn: {
+      description: 'Завантажуйте зображення та файли',
+      heading: 'Вбудований CDN',
+    },
+    collaboration: {
+      description: 'Працюйте разом із командою. Діліться нотатками, керуйте правами доступу та багато інше.',
+      editing: '3 людини редагують...',
+      heading: 'Співпраця та обмін',
+    },
     editor: {
       description:
         'Пишіть із підсвічуванням синтаксису, живим попереднім переглядом і гарячими клавішами. Підтримуються таблиці, блоки коду, математичні формули та інше.',
@@ -34,24 +22,13 @@ export default {
       description: 'Вкладені папки, робочі простори, теги та потужний пошук, щоб усе залишалося на своєму місці.',
       heading: 'Розумна організація',
     },
-    collaboration: {
-      description: 'Працюйте разом із командою. Діліться нотатками, керуйте правами доступу та багато інше.',
-      heading: 'Співпраця та обмін',
-      editing: '3 людини редагують...',
-    },
-    cdn: {
-      description: 'Завантажуйте зображення та файли',
-      heading: 'Вбудований CDN',
-    },
-    themes: {
-      description: 'Теми на будь-який настрій',
-      extra: 'Також змінюйте кольори, теми документів, додавайте власні кольори, іконки та інше.',
-      heading: 'Темна та світла',
-    },
-    search: {
-      description: 'Повнотекстовий пошук по всіх документах. Знаходьте будь-що за мілісекунди.',
-      heading: 'Миттєвий пошук',
-      input: 'react hooks...',
+    organizationSamples: {
+      development: 'Розробка',
+      ideas: 'Ідеї.md',
+      knowledgeBase: 'База знань',
+      projects: 'Проєкти',
+      reactTips: 'React Tips.md',
+      roadmap: 'Roadmap.md',
     },
     publish: {
       description: 'Діліться своєю роботою публічно або з окремими людьми. Створюйте красиві сторінки лише для читання.',
@@ -59,23 +36,137 @@ export default {
       status: 'Онлайн',
       url: 'docs.vashsait.com/guide',
     },
-    organizationSamples: {
-      knowledgeBase: 'База знань',
-      projects: 'Проєкти',
-      roadmap: 'Roadmap.md',
-      ideas: 'Ідеї.md',
-      development: 'Розробка',
-      reactTips: 'React Tips.md',
+    search: {
+      description: 'Повнотекстовий пошук по всіх документах. Знаходьте будь-що за мілісекунди.',
+      heading: 'Миттєвий пошук',
+      input: 'react hooks...',
     },
     searchResults: {
       customHooks: 'Користувацькі хуки',
-      reactHooksGuide: 'Підручник з React Hooks',
       path1: 'База знань / Розробка',
       path2: 'Проєкти / Frontend',
+      reactHooksGuide: 'Підручник з React Hooks',
     },
+    subtitle: 'Потужні можливості в красивому та інтуїтивному інтерфейсі',
     theme: {
       subtitle: 'Також змінюйте кольори, теми документів, додавайте власні кольори, іконки та інше.',
     },
+    themes: {
+      description: 'Теми на будь-який настрій',
+      extra: 'Також змінюйте кольори, теми документів, додавайте власні кольори, іконки та інше.',
+      heading: 'Темна та світла',
+    },
+    title: 'Усе, що потрібно для кращого письма',
+  },
+  contributors: {
+    commitLabel: 'комітів',
+    cta: 'Стати учасником',
+    subtitle: 'Познайомтеся з чудовими людьми, які роблять Alexandrie можливим',
+    title: 'Створено спільнотою',
+  },
+  cta: {
+    button: 'Почати зараз',
+    contributionPrefix: 'Хочете долучитися або обговорити? Подивіться на наш',
+    description: 'Приєднуйтесь до нас у цій подорожі до кращих нотаток.',
+    discord: 'сервер Discord',
+    title: 'Готові краще вести нотатки?',
+  },
+  faq: {
+    answer1:
+      'Так, Alexandrie на 100 % open source під ліцензією MIT. Ви можете вільно використовувати, змінювати й поширювати його. Жодних прихованих витрат, жодних преміум-рівнів.',
+    answer2: 'Безумовно! Ви можете запускати Alexandrie на власній інфраструктурі з Docker. Повна документація допоможе почати за кілька хвилин.',
+    answer3: 'Так, Alexandrie створено за принципами offline-first. Ваші нотатки доступні локально і синхронізуються після повторного підключення.',
+    answer4: 'Під час self-hosting ваші дані залишаються на вашому сервері. Ми використовуємо стандартні практики безпеки, а передача даних зашифрована.',
+    answer5:
+      'Так! Ви можете імпортувати Markdown-файли з інших застосунків, як-от Notion, Obsidian або будь-якого Markdown-редактора. Експорт у PDF також підтримується.',
+    answer6: 'Звичайно! Ми підтримуємо підсвічування синтаксису для понад 100 мов програмування та рендеринг LaTeX-формул.',
+    answer7: 'Alexandrie — це адаптивний вебзастосунок, який чудово працює на мобільних браузерах. Нативні застосунки є в дорожній карті.',
+    ctaDescription: 'Не можете знайти те, що шукаєте? Приєднуйтесь до нашої спільноти!',
+    ctaTitle: 'Ще є запитання?',
+    discord: 'Приєднатися до Discord',
+    questions: [
+      'Alexandrie справді безкоштовний і open source?',
+      'Чи можу я self-host Alexandrie на власному сервері?',
+      'Чи працює Alexandrie офлайн?',
+      'Як зберігаються та захищаються мої дані?',
+      'Чи можу я імпортувати нотатки з інших застосунків?',
+      'Чи підтримує він блоки коду та математичні формули?',
+      'Чи є мобільний застосунок?',
+    ],
+    subtitle: 'Усе, що потрібно знати про Alexandrie',
+    title: 'Часті запитання',
+  },
+  footer: {
+    brandDescription: 'Open-source робочий простір для розробників, які мислять у Markdown. Гарна документація, потужна організація, жодного тертя.',
+    by: 'від',
+    columns: {
+      community: 'Спільнота',
+      legal: 'Правова інформація',
+      product: 'Продукт',
+      resources: 'Ресурси',
+    },
+    links: {
+      about: 'Про проєкт',
+      apiReference: 'Довідка API',
+      changelog: 'Журнал змін',
+      contribute: 'Долучитися',
+      dashboard: 'Панель',
+      discord: 'Discord',
+      documentation: 'Документація',
+      features: 'Можливості',
+      github: 'GitHub',
+      issues: 'Проблеми',
+      mitLicense: 'Ліцензія MIT',
+      privacyPolicy: 'Політика приватності',
+      roadmap: 'Дорожня карта',
+      terms: 'Умови користування',
+    },
+    madeWith: 'Зроблено з',
+  },
+  hero: {
+    badges: {
+      markdown: 'Markdown',
+      openSource: 'Open source',
+      organization: 'Організація',
+    },
+    ctaPrimary: 'Почати',
+    ctaSecondary: 'GitHub',
+    previewAlt: 'Попередній перегляд застосунку Alexandrie',
+    tagline: 'Потужний Markdown-робочий простір, створений для швидкості, ясності та творчості.',
+    titleHighlight: 'Ваші нотатки',
+    titleSuffix: ', красиво впорядковані',
+  },
+  selfHost: {
+    notes: ['Без телеметрії', 'Повне володіння даними', 'Ліцензія MIT', 'Готово для Docker'],
+    steps: [
+      {
+        description:
+          'Завантажте файли конфігурації з GitHub <br /> <a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/docker-compose.yml">Завантажити docker-compose.yml</a> <br /><a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/.env.example">Завантажити .env.example</a> ',
+        title: 'Клонувати репозиторій',
+      },
+      {
+        code: 'cp .env.example .env && nano .env',
+        description: 'За потреби змініть змінні середовища (необов’язково)',
+        title: 'Налаштувати',
+      },
+      {
+        code: 'docker compose up -d',
+        description: 'Запустіть усі служби через Docker Compose',
+        title: 'Запустити',
+      },
+    ],
+    subtitle: 'Повністю контролюйте свої дані за допомогою простого розгортання',
+    terminal: {
+      lines: ['[+] Running 3/3', '✓ Container alexandrie-db Started', '✓ Container alexandrie-minio Started', '✓ Container alexandrie-app Started'],
+      title: 'Термінал',
+    },
+    title: 'Self-host за кілька хвилин',
+  },
+  seo: {
+    description:
+      'Alexandrie — це швидкий Markdown-робочий простір, який можна самостійно хостити, для нотаток, баз знань, співпраці та публічної документації.',
+    keywords: 'Markdown нотатки, база знань, self-hosted нотатки, публічна документація, співпраця, застосунок для нотаток',
+    title: 'Alexandrie | Сучасний Markdown-робочий простір',
   },
   showcase: {
     features: [
@@ -107,32 +198,6 @@ export default {
     subtitle: 'Подивіться, як Alexandrie спрощує весь ваш робочий процес',
     title: 'Від ідеї до опублікованої документації',
   },
-  selfHost: {
-    notes: ['Без телеметрії', 'Повне володіння даними', 'Ліцензія MIT', 'Готово для Docker'],
-    steps: [
-      {
-        description:
-          'Завантажте файли конфігурації з GitHub <br /> <a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/docker-compose.yml">Завантажити docker-compose.yml</a> <br /><a target="_blank" style="color: var(--primary);text-decoration: underline;font-weight: 500;" href="https://github.com/Smaug6739/Alexandrie/blob/main/.env.example">Завантажити .env.example</a> ',
-        title: 'Клонувати репозиторій',
-      },
-      {
-        code: 'cp .env.example .env && nano .env',
-        description: 'За потреби змініть змінні середовища (необов’язково)',
-        title: 'Налаштувати',
-      },
-      {
-        code: 'docker compose up -d',
-        description: 'Запустіть усі служби через Docker Compose',
-        title: 'Запустити',
-      },
-    ],
-    subtitle: 'Повністю контролюйте свої дані за допомогою простого розгортання',
-    terminal: {
-      lines: ['[+] Running 3/3', '✓ Container alexandrie-db Started', '✓ Container alexandrie-minio Started', '✓ Container alexandrie-app Started'],
-      title: 'Термінал',
-    },
-    title: 'Self-host за кілька хвилин',
-  },
   stats: {
     actions: {
       contribute: 'Долучитися',
@@ -149,85 +214,20 @@ export default {
     subtitle: 'Прозора розробка, рішення, що приймаються спільнотою, і повний доступ до коду',
     title: 'Створено відкрито',
   },
-  contributors: {
-    commitLabel: 'комітів',
-    cta: 'Стати учасником',
-    subtitle: 'Познайомтеся з чудовими людьми, які роблять Alexandrie можливим',
-    title: 'Створено спільнотою',
-  },
-  faq: {
-    answer1:
-      'Так, Alexandrie на 100 % open source під ліцензією MIT. Ви можете вільно використовувати, змінювати й поширювати його. Жодних прихованих витрат, жодних преміум-рівнів.',
-    answer2: 'Безумовно! Ви можете запускати Alexandrie на власній інфраструктурі з Docker. Повна документація допоможе почати за кілька хвилин.',
-    answer3: 'Так, Alexandrie створено за принципами offline-first. Ваші нотатки доступні локально і синхронізуються після повторного підключення.',
-    answer4: 'Під час self-hosting ваші дані залишаються на вашому сервері. Ми використовуємо стандартні практики безпеки, а передача даних зашифрована.',
-    answer5:
-      'Так! Ви можете імпортувати Markdown-файли з інших застосунків, як-от Notion, Obsidian або будь-якого Markdown-редактора. Експорт у PDF також підтримується.',
-    answer6: 'Звичайно! Ми підтримуємо підсвічування синтаксису для понад 100 мов програмування та рендеринг LaTeX-формул.',
-    answer7: 'Alexandrie — це адаптивний вебзастосунок, який чудово працює на мобільних браузерах. Нативні застосунки є в дорожній карті.',
-    ctaDescription: 'Не можете знайти те, що шукаєте? Приєднуйтесь до нашої спільноти!',
-    ctaTitle: 'Ще є запитання?',
-    discord: 'Приєднатися до Discord',
-    subtitle: 'Усе, що потрібно знати про Alexandrie',
-    title: 'Часті запитання',
-    questions: [
-      'Alexandrie справді безкоштовний і open source?',
-      'Чи можу я self-host Alexandrie на власному сервері?',
-      'Чи працює Alexandrie офлайн?',
-      'Як зберігаються та захищаються мої дані?',
-      'Чи можу я імпортувати нотатки з інших застосунків?',
-      'Чи підтримує він блоки коду та математичні формули?',
-      'Чи є мобільний застосунок?',
-    ],
-  },
-  cta: {
-    discord: 'сервер Discord',
-    description: 'Приєднуйтесь до нас у цій подорожі до кращих нотаток.',
-    title: 'Готові краще вести нотатки?',
-    button: 'Почати зараз',
-    contributionPrefix: 'Хочете долучитися або обговорити? Подивіться на наш',
-  },
   support: {
     badge: 'Слово від творця',
-    confirm: 'Розумію, дякую!',
-    paragraph1:
-      'Alexandrie не починався як бізнес. Спочатку це був інструмент, який я хотів для себе. Через роки я все ще підтримую та покращую його у вільний час і радий ділитися ним з усіма, кому він корисний.',
-    paragraph2:
-      'Застосунок не відстежує вас, не показує рекламу і є повністю open source. Проте підтримка живої платформи потребує витрат на хостинг та інфраструктуру. Якщо Alexandrie додає цінності вашому робочому процесу, подумайте про підтримку його незалежності. Навіть невеликий донат допомагає покривати сервери на місяці.',
-    title: 'Alexandrie безкоштовний і таким залишиться.',
-    signature: '— Smaug',
     cards: {
       sponsorDesc: 'Допоможіть покрити хостинг, резервні копії та витрати на розробку, щоб Alexandrie залишався онлайн і незалежним.',
       sponsorTitle: 'Підтримати фінансово',
       starDesc: 'Покажіть свою підтримку й допоможіть іншим розробникам відкрити проєкт. Це нічого не коштує, але означає дуже багато.',
       starTitle: 'Поставити зірку на GitHub',
     },
-  },
-  footer: {
-    brandDescription: 'Open-source робочий простір для розробників, які мислять у Markdown. Гарна документація, потужна організація, жодного тертя.',
-    madeWith: 'Зроблено з',
-    columns: {
-      community: 'Спільнота',
-      legal: 'Правова інформація',
-      product: 'Продукт',
-      resources: 'Ресурси',
-    },
-    links: {
-      about: 'Про проєкт',
-      apiReference: 'Довідка API',
-      changelog: 'Журнал змін',
-      contribute: 'Долучитися',
-      dashboard: 'Панель',
-      discord: 'Discord',
-      documentation: 'Документація',
-      features: 'Можливості',
-      github: 'GitHub',
-      issues: 'Проблеми',
-      mitLicense: 'Ліцензія MIT',
-      privacyPolicy: 'Політика приватності',
-      roadmap: 'Дорожня карта',
-      terms: 'Умови користування',
-    },
-    by: 'від',
+    confirm: 'Розумію, дякую!',
+    paragraph1:
+      'Alexandrie не починався як бізнес. Спочатку це був інструмент, який я хотів для себе. Через роки я все ще підтримую та покращую його у вільний час і радий ділитися ним з усіма, кому він корисний.',
+    paragraph2:
+      'Застосунок не відстежує вас, не показує рекламу і є повністю open source. Проте підтримка живої платформи потребує витрат на хостинг та інфраструктуру. Якщо Alexandrie додає цінності вашому робочому процесу, подумайте про підтримку його незалежності. Навіть невеликий донат допомагає покривати сервери на місяці.',
+    signature: '— Smaug',
+    title: 'Alexandrie безкоштовний і таким залишиться.',
   },
 };

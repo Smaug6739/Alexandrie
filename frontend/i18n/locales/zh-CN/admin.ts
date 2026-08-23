@@ -13,6 +13,7 @@ export default {
     error: '无法加载统计数据',
     loading: '正在加载统计数据...',
     manageUsers: '管理用户',
+    title: '管理员仪表板',
     top: {
       byNodes: '节点数最多的用户',
       byStorage: '存储空间用量最多的用户',
@@ -20,7 +21,6 @@ export default {
       storage: '存储空间',
       user: '用户',
     },
-    title: '管理员仪表板',
   },
 
   users: {

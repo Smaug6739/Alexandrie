@@ -1,5 +1,4 @@
 export default {
-  nodes: 'Nodes',
   actions: {
     copyPublicLink: 'Öffentlichen Link kopieren',
     editMeta: 'Metadaten bearbeiten',
@@ -11,7 +10,6 @@ export default {
     resetBoard: 'Board zurücksetzen',
     share: 'Teilen',
   },
-
   category: {
     editTitle: 'Kategorie & Arbeitsbereich',
     iconHint: 'SVG wird unterstützt',
@@ -65,20 +63,20 @@ export default {
     },
     join: {
       access: 'Zugriff auf Node',
-      title: 'Tritt einem Team oder Arbeitsbereich bei',
-      subtitle:
-        'Füge einen Einladungscode oder einen vollständigen Einladungslink ein. Wenn du diesem Arbeitsbereich bereits mit einer anderen Berechtigungsstufe beigetreten bist, wird nur die höchste beibehalten.',
-      label: 'Einladungscode oder Link',
+      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
       join: 'Beitreten',
       joining: 'Beitreten...',
-      inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
+      label: 'Einladungscode oder Link',
+      subtitle:
+        'Füge einen Einladungscode oder einen vollständigen Einladungslink ein. Wenn du diesem Arbeitsbereich bereits mit einer anderen Berechtigungsstufe beigetreten bist, wird nur die höchste beibehalten.',
+      title: 'Tritt einem Team oder Arbeitsbereich bei',
     },
     metadata: {
       emojiOrIcon: 'Emoji oder Symbol',
       emojiOrIconHint: 'SVG oder Emojis werden unterstützt',
       labelAppearance: 'Erscheinungsbild',
-      labelOrganization: 'Organisation',
       labelMedia: 'Medien',
+      labelOrganization: 'Organisation',
       pinDescription: 'Dieses Dokument oben in Ihrem Arbeitsbereich anheften',
       thumbnail: 'Vorschaubild',
       thumbnailHint: 'SVG wird unterstützt',
@@ -88,10 +86,10 @@ export default {
       addPermission: 'Hinzufügen',
       defaultPermission: 'Standardberechtigung für neue Benutzer',
       generalAccess: 'Allgemeiner Zugang',
-      inviteLabel: 'Node-Einladungen',
       inviteCreate: 'Einladung erstellen',
       inviteCreateProgress: 'Einladung wird erstellt...',
       inviteEmpty: 'Noch keine Einladungen',
+      inviteLabel: 'Node-Einladungen',
       invitePermission: 'Berechtigung',
       managePermissions: 'Berechtigungen verwalten',
       noPermissions: 'Keine Berechtigungen festgelegt',
@@ -111,6 +109,8 @@ export default {
       title: 'Dieses Dokument entfernen',
     },
   },
+
+  nodes: 'Nodes',
 
   notifications: {
     linkCopied: 'Link in die Zwischenablage kopiert',

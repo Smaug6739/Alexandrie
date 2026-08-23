@@ -13,6 +13,7 @@ export default {
     error: 'Statistiken können nicht geladen werden',
     loading: 'Statistiken werden geladen...',
     manageUsers: 'Benutzer verwalten',
+    title: 'Admin-Dashboard',
     top: {
       byNodes: 'Top-Benutzer nach Anzahl der Nodes',
       byStorage: 'Top-Benutzer nach Speicherverbrauch',
@@ -20,7 +21,6 @@ export default {
       storage: 'Speicher',
       user: 'Benutzer',
     },
-    title: 'Admin-Dashboard',
   },
 
   users: {
