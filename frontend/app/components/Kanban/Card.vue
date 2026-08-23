@@ -181,11 +181,13 @@ const openAssignModal = () => {
   align-items: center;
   gap: 4px;
   margin-bottom: 8px;
+
   .assignment {
     position: relative;
     display: flex;
     align-items: center;
   }
+
   .assignment:hover .hint-tooltip {
     opacity: 1;
     visibility: visible;
