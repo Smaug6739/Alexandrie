@@ -10,7 +10,7 @@
         <thead>
           <tr>
             <th>
-              <input type="checkbox" style="width: 20px" :checked="selectedRows.length > 0" @change="toggleSelectAll" />
+              <input type="checkbox" style="width: 20px" :checked="selectedRows.length === data.length && data.length > 0" @change="toggleSelectAll" />
             </th>
             <th v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
               <span>{{ header.label }}</span>

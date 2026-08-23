@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import localForage from 'localforage';
-export type ViewMode = 'kanban' | 'list' | 'table';
+export type ViewMode = 'kanban' | 'list' | 'table' | 'advanced';
 
 const props = withDefaults(
   defineProps<{
@@ -25,8 +25,9 @@ const view = defineModel<ViewMode>();
 
 const viewOptions = computed(() => {
   const options = [
-    { icon: 'table', label: t('components.viewSelection.list'), value: 'list' as ViewMode },
+    { icon: 'grid', label: t('components.viewSelection.list'), value: 'list' as ViewMode },
     { icon: 'list', label: t('components.viewSelection.table'), value: 'table' as ViewMode },
+    { icon: 'table', label: 'Advanced', value: 'advanced' as ViewMode },
   ];
   if (props.showKanban) {
     options.push({ icon: 'kanban', label: t('components.viewSelection.kanban'), value: 'kanban' as ViewMode });
@@ -40,7 +41,7 @@ watch(view, newView => {
 
 onMounted(async () => {
   const storedView = await localForage.getItem<ViewMode>('viewSelection');
-  const list = ['table', 'list'];
+  const list = ['table', 'list', 'advanced'];
   if (props.showKanban) list.push('kanban');
   if (storedView && list.includes(storedView)) view.value = storedView as ViewMode;
   else view.value = 'table';
