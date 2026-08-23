@@ -1,5 +1,7 @@
 export default {
   actions: {
+    assign: 'Assign',
+    unassign: 'Unassign',
     cancel: 'Cancel',
     clear: 'Clear',
     close: 'Close',

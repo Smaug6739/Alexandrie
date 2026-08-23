@@ -1,6 +1,6 @@
 <template>
   <div class="modal-content">
-    <h2 class="title"><Icon name="manage_access" display="lg" /> Manage assignments</h2>
+    <h2 class="title"><Icon name="manage_access" display="lg" /> {{ t('components.kanban.manageAssignees') }}</h2>
 
     <!-- Search + add -->
     <form @submit.prevent>
@@ -14,7 +14,7 @@
             <span>{{ user.username }}</span>
           </span>
           <div class="user-actions">
-            <AppButton type="primary" small @click="assign(user.id)">Assign</AppButton>
+            <AppButton type="primary" small @click="assign(user.id)">{{ t('common.actions.assign') }}</AppButton>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
             <span>{{ usersStore.getById(userId)?.username }}</span>
           </span>
           <div class="user-actions">
-            <AppButton type="danger" small @click="unassign(userId)">Unassign</AppButton>
+            <AppButton type="danger" small @click="unassign(userId)">{{ t('common.actions.unassign') }}</AppButton>
           </div>
         </div>
       </li>

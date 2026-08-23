@@ -64,6 +64,8 @@ export default {
   },
 
   kanban: {
+    manageAssignees: 'Manage assignees',
+    usersAssigned: 'Users assigned',
     addColumn: 'Add column',
     addDocument: 'Add document',
     changeColor: 'Change color',

@@ -58,7 +58,7 @@
           </div>
 
           <div v-if="props.boardId">
-            <label>Users assigned</label>
+            <label>{{ t('components.kanban.usersAssigned') }}</label>
             <AppSelect v-model="options.assignedUserId" nullable :items="assignedUserOptions">
               <template #node="{ node }">
                 <div class="user-line">
