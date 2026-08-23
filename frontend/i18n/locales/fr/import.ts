@@ -10,6 +10,32 @@ export default {
     skipExisting: 'Ignorer les documents existants (importer uniquement les nouveaux)',
   },
 
+  categories: {
+    backup: {
+      description: "Restaurez une sauvegarde complète d'Alexandrie avec les documents et les paramètres.",
+      title: 'Importer depuis une sauvegarde',
+    },
+    files: {
+      description: 'Importez des documents à partir de fichiers markdown avec des options flexibles.',
+      title: 'Importer à partir de fichiers',
+    },
+    folder: {
+      description:
+        'Importer un dossier entier (y compris les sous-dossiers et les téléchargements) en utilisant des options personnalisées pour un contrôle maximal.',
+      title: 'Importer un dossier',
+    },
+  },
+
+  files: {
+    importable:
+      "Vous pouvez importer des fichiers markdown ou un dossier contenant des fichiers markdown. Les dossiers seront importés de manière récursive, en préservant leur structure si vous choisissez l'option importer tout.",
+    meta: {
+      description: 'Importez rapidement des fichiers markdown avec des options pour la destination et le traitement.',
+      title: 'Importer à partir de fichiers markdown',
+    },
+    toImport: 'Éléments à importer',
+  },
+
   folder: {
     defaultColor: 'Couleur par défaut pour les documents importés',
     defaultDescription: 'Description par défaut pour les documents importés',
@@ -19,27 +45,6 @@ export default {
     defaultTheme: 'Thème par défaut pour les documents importés',
     defaultThumbnail: 'Vignette par défaut pour les documents importés (svg ou emoji unicode)',
     options: "Options d'importation avancées",
-  },
-
-  categories: {
-    advanced: {
-      description:
-        'Importer un dossier entier (y compris les sous-dossiers et les téléchargements) en utilisant des options personnalisées pour un contrôle maximal.',
-      title: 'Importation avancée',
-    },
-    backup: {
-      description: "Restaurez une sauvegarde complète d'Alexandrie avec les documents et les paramètres.",
-      title: 'Importer depuis une sauvegarde',
-    },
-    files: {
-      description: 'Importez des documents à partir de fichiers markdown avec des options flexibles.',
-    },
-    advanced: {
-      title: 'Importation avancée',
-      description:
-        'Importer un dossier entier (y compris les sous-dossiers et les téléchargements) en utilisant des options personnalisées pour un contrôle maximal.',
-    },
-    toImport: 'Éléments à importer',
   },
 
   header: {

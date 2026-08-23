@@ -10,6 +10,31 @@ export default {
     skipExisting: 'Salta i documenti esistenti (importa solo quelli nuovi)',
   },
 
+  categories: {
+    backup: {
+      description: 'Ripristina un backup completo di Alexandrie con documenti e impostazioni.',
+      title: 'Importa da backup',
+    },
+    files: {
+      description: 'Importa documenti da file markdown con opzioni flessibili.',
+      title: 'Importa da file',
+    },
+    folder: {
+      description: "Importa un'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.",
+      title: 'Importa cartella',
+    },
+  },
+
+  files: {
+    importable:
+      "Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l'opzione importa tutto.",
+    meta: {
+      description: 'Importa rapidamente file markdown con opzioni di destinazione ed elaborazione.',
+      title: 'Importa da file markdown',
+    },
+    toImport: 'Elementi da importare',
+  },
+
   folder: {
     defaultColor: 'Colore predefinito per i documenti importati',
     defaultDescription: 'Descrizione predefinita per i documenti importati',
@@ -18,37 +43,7 @@ export default {
     defaultTags: 'Tag predefiniti per i documenti importati (separati da virgola)',
     defaultTheme: 'Tema predefinito per i documenti importati',
     defaultThumbnail: 'Miniatura predefinita per i documenti importati (svg o emoji unicode)',
-    defaultIcon: 'Icona predefinita per i documenti importati (svg o emoji unicode)',
-    defaultTheme: 'Tema predefinito per i documenti importati',
-  },
-
-  files: {
-    meta: {
-      title: 'Importa da file markdown',
-      description: 'Importa rapidamente file markdown con opzioni di destinazione ed elaborazione.',
-    },
-    importable:
-      "Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l'opzione importa tutto.",
-    toImport: 'Elementi da importare',
-  },
-
-  categories: {
-    advanced: {
-      description: "Importa un'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.",
-      title: 'Importazione avanzata',
-    },
-    backup: {
-      description: 'Ripristina un backup completo di Alexandrie con documenti e impostazioni.',
-      title: 'Importa da backup',
-    },
-    files: {
-      description: 'Importa documenti da file markdown con opzioni flessibili.',
-    },
-    advanced: {
-      title: 'Importazione avanzata',
-      description: "Importa un'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.",
-    },
-    toImport: 'Elementi da importare',
+    options: 'Opzioni di importazione avanzate',
   },
 
   header: {

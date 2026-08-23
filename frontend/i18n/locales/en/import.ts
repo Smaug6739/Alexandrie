@@ -10,6 +10,31 @@ export default {
     skipExisting: 'Skip existing documents (import only new ones)',
   },
 
+  categories: {
+    backup: {
+      description: 'Restore a complete Alexandrie backup with documents and settings.',
+      title: 'Import from backup',
+    },
+    files: {
+      description: 'Import documents from markdown files with flexible options.',
+      title: 'Import from files',
+    },
+    folder: {
+      description: 'Import entire folder (including subfolders & uploads) using custom options for maximum control.',
+      title: 'Import folder',
+    },
+  },
+
+  files: {
+    importable:
+      'You can import markdown files or a folder containing markdown files. Folders will be imported recursively, preserving their structure if you choose import all option.',
+    meta: {
+      description: 'Quickly import markdown files with options for destination and processing.',
+      title: 'Import from markdown files',
+    },
+    toImport: 'Items to import',
+  },
+
   folder: {
     defaultColor: 'Default color for imported documents',
     defaultDescription: 'Default description for imported documents',
@@ -18,37 +43,7 @@ export default {
     defaultTags: 'Default tags for imported documents (comma-separated)',
     defaultTheme: 'Default theme for imported documents',
     defaultThumbnail: 'Default thumbnail for imported documents (svg or unicode emoji)',
-    defaultIcon: 'Default icon for imported documents (svg or unicode emoji)',
-    defaultTheme: 'Default theme for imported documents',
-  },
-
-  files: {
-    meta: {
-      title: 'Import from markdown files',
-      description: 'Quickly import markdown files with options for destination and processing.',
-    },
-    importable:
-      'You can import markdown files or a folder containing markdown files. Folders will be imported recursively, preserving their structure if you choose import all option.',
-    toImport: 'Items to import',
-  },
-
-  categories: {
-    advanced: {
-      description: 'Import entire folder (including subfolders & uploads) using custom options for maximum control.',
-      title: 'Advanced import',
-    },
-    backup: {
-      description: 'Restore a complete Alexandrie backup with documents and settings.',
-      title: 'Import from backup',
-    },
-    files: {
-      description: 'Import documents from markdown files with flexible options.',
-    },
-    advanced: {
-      title: 'Advanced import',
-      description: 'Import entire folder (including subfolders & uploads) using custom options for maximum control.',
-    },
-    toImport: 'Items to import',
+    options: 'Advanced import options',
   },
 
   header: {
