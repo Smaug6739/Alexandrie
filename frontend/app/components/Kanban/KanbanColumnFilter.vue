@@ -1,6 +1,6 @@
 <template>
   <div ref="root" class="filter-component">
-    <AppBtnIcon ref="trigger" nav icon="filter" :tooltip="t('nodes.filter.title')" @click="toggle">
+    <AppBtnIcon ref="trigger" display="md" nav icon="filter" :tooltip="t('nodes.filter.title')" @click="toggle">
       <span v-if="filtered.length != nodes?.length" class="bubble"></span>
     </AppBtnIcon>
 
@@ -21,10 +21,9 @@
             <input ref="inputRef" v-model="options.query" />
           </div>
 
-          <!-- Tags -->
           <div>
-            <label>{{ t('components.filter.tags') }}</label>
-            <AppTagInput :model-value="(options.tags || []).join(',')" @update:model-value="options.tags = parseTags($event)" />
+            <label>{{ t('common.labels.status') }}</label>
+            <AppSelect v-model="options.kanbanAssignStatus" :items="STATUS_OPTIONS" />
           </div>
 
           <!-- Sort & Match -->
@@ -38,35 +37,6 @@
               <input v-model="sortOrder" type="radio" value="descending" />
               <span>{{ t('components.filter.descending') }}</span>
             </label>
-          </div>
-
-          <div class="row">
-            <div style="flex: 1">
-              <label>{{ t('components.filter.sort') }}</label>
-              <AppSelect v-model="sortKey" :items="SORT_OPTIONS" />
-            </div>
-
-            <div>
-              <label>{{ t('components.filter.match') }}</label>
-              <AppSelect v-model="options.matchMode" :items="MATCH_OPTIONS" size="125px" class="select" />
-            </div>
-          </div>
-
-          <div v-if="props.boardId">
-            <label>{{ t('components.filter.status') }}</label>
-            <AppSelect v-model="options.kanbanAssignStatus" :items="STATUS_OPTIONS" />
-          </div>
-
-          <div v-if="props.boardId">
-            <label>{{ t('components.kanban.usersAssigned') }}</label>
-            <AppSelect v-model="options.assignedUserId" nullable :items="assignedUserOptions">
-              <template #node="{ node }">
-                <div class="user-line">
-                  <UserAvatar :user="userStore.getById(node.id as string)" display="sm" />
-                  <span>{{ node.label }}</span>
-                </div>
-              </template>
-            </AppSelect>
           </div>
 
           <div class="panel-actions">
@@ -88,70 +58,39 @@
 </template>
 
 <script setup lang="ts">
-import { parseTags } from '~/helpers/node';
 import type { Node, SearchOptions } from '~/stores';
-import type { KanbanMetadata } from '../Kanban/Board.vue';
 
-const props = defineProps<{ nodes: Node[]; boardId?: string }>();
+const props = defineProps<{ nodes: Node[]; boardId: string }>();
 const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
 
 const preferencesStore = usePreferencesStore();
 
-const sortKey = preferencesStore.get('sortKey');
 const sortOrder = preferencesStore.get('sortOrder');
 
 const DEFAULT_OPTIONS: SearchOptions = {
   query: '',
-  tags: [],
   matchMode: 'includes',
+  kanbanAssignStatus: 'all',
   boardId: props.boardId,
-  assignedUserId: undefined,
 };
 
-const store = useNodesStore();
-const userStore = useUserStore();
-
 const { t } = useI18nT();
+const store = useNodesStore();
 const route = useRoute();
 const router = useRouter();
 
-const options = ref<SearchOptions>({ ...DEFAULT_OPTIONS, tags: [] });
+const options = ref<SearchOptions>({ ...DEFAULT_OPTIONS });
 const opened = ref(false);
 
 const inputRef = ref<HTMLInputElement | null>(null);
 const root = ref<HTMLDivElement | null>(null);
 const panelStyle = ref<Record<string, string>>({});
 
-const SORT_OPTIONS = [
-  { id: 'created', label: t('components.filter.created') },
-  { id: 'modified', label: t('components.filter.modified') },
-  { id: 'name', label: t('common.labels.name') },
-];
-
-const MATCH_OPTIONS = [
-  { id: 'includes', label: t('components.filter.contains') },
-  { id: 'starts', label: t('components.filter.startsWith') },
-  { id: 'exact', label: t('components.filter.exact') },
-];
-
 const STATUS_OPTIONS = [
-  { id: 'all', label: t('components.filter.all') },
-  { id: 'assigned', label: t('components.filter.assigned') },
-  { id: 'unassigned', label: t('components.filter.unassigned') },
+  { id: 'all', label: 'All' },
+  { id: 'assigned', label: 'Assigned' },
+  { id: 'unassigned', label: 'Unassigned' },
 ];
-
-const assignedUserOptions = computed(() => {
-  const kanbanBoard = store.getById(props.boardId || '');
-  const users = (kanbanBoard?.metadata as KanbanMetadata)?.kanban?.users || {};
-  const uniqueUserIds = new Set<string>();
-  Object.values(users).forEach((userIds: string[]) => {
-    userIds.forEach(userId => uniqueUserIds.add(userId));
-  });
-  return Array.from(uniqueUserIds).map(userId => {
-    const user = userStore.getById(userId);
-    return { id: userId, label: user?.username || 'Unknown' };
-  });
-});
 
 const filtered = computed(() => store.search(options.value, props.nodes));
 
@@ -194,18 +133,6 @@ const reset = () => {
     });
   }
 };
-
-watch(
-  () => route.query.tags,
-  queryTags => {
-    if (!queryTags) return;
-
-    const raw = Array.isArray(queryTags) ? queryTags.filter(Boolean).map(String) : String(queryTags).split(',');
-
-    options.value.tags = raw.map(tag => tag.trim()).filter(Boolean);
-  },
-  { immediate: true },
-);
 
 watchEffect(() => {
   if (props.nodes) {
@@ -264,12 +191,6 @@ onBeforeUnmount(() => {
   justify-content: space-around;
   gap: 8px;
   margin: 4px 0;
-}
-
-.user-line {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
 kbd {

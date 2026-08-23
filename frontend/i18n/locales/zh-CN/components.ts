@@ -46,6 +46,10 @@ export default {
   },
 
   filter: {
+    all: '全部',
+    assigned: '已分配',
+    unassigned: '未分配',
+    status: '状态',
     ascending: '升序',
     descending: '降序',
     match: '匹配方式',
@@ -59,6 +63,8 @@ export default {
   },
 
   kanban: {
+    manageAssignees: '管理分配',
+    usersAssigned: '已分配用户',
     addColumn: '新增列',
     addDocument: '新增文档',
     changeColor: '修改颜色',

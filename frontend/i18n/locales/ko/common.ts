@@ -1,5 +1,7 @@
 export default {
   actions: {
+    assign: '할당',
+    unassign: '할당 해제',
     cancel: '취소',
     clear: '지우기',
     close: '닫기',

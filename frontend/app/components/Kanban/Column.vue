@@ -20,13 +20,14 @@
         <h3 v-else class="column-title" @dblclick="startEdit">{{ column.title }}</h3>
 
         <div class="column-actions">
+          <KanbanColumnFilter :board-id="parent.id" :nodes="cards" @update:nodes="filteredNodes = $event" />
           <button class="action-btn" :title="t('components.kanban.editName')" @click="startEdit">
             <Icon name="edit" />
           </button>
           <button class="action-btn danger" :title="t('components.kanban.deleteColumn')" @click="confirmDelete">
             <Icon name="delete" />
           </button>
-          <span class="column-count">{{ cards.length }}</span>
+          <span class="column-count">{{ filteredNodes.length }}</span>
         </div>
       </div>
 
@@ -47,12 +48,14 @@
     <div ref="contentRef" class="column-content">
       <TransitionGroup name="card-list">
         <KanbanCard
-          v-for="card in cards"
+          v-for="card in filteredNodes"
           :key="card.id"
           :node="card"
           :parent="parent"
           @drag-start="$emit('cardDragStart', $event)"
           @drag-end="$emit('cardDragEnd')"
+          @assign="(userId: string) => emit('assign', card.id, userId)"
+          @unassign="(userId: string) => emit('unassign', card.id, userId)"
         />
       </TransitionGroup>
       <div v-if="!cards.length" class="empty-state">
@@ -94,6 +97,8 @@ const emit = defineEmits<{
   addCard: [columnId: string];
   cardDragStart: [node: Node];
   cardDragEnd: [];
+  assign: [nodeId: string, userId: string];
+  unassign: [nodeId: string, userId: string];
 }>();
 
 const { getAppAccent } = useAppColors();
@@ -103,6 +108,7 @@ const isEditing = ref(false);
 const editedTitle = ref(props.column.title);
 const showColorPicker = ref(false);
 const titleInput = ref<HTMLInputElement | null>(null);
+const filteredNodes = ref<Node[]>(props.cards);
 
 const onDragOver = () => {
   isDragOver.value = true;
@@ -337,7 +343,7 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 8px;
   min-height: 120px;
-  max-height: 60vh;
+  max-height: 70vh;
   margin: -4px;
   padding: 4px;
   overflow-y: auto;

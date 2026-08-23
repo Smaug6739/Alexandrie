@@ -9,7 +9,7 @@ export default {
       from: 'Da',
       modified: 'Modificato',
       searchInContent: 'Cerca nel contenuto',
-      searchInContentHint: 'Cerca all\'interno del corpo del documento (richiede parole intere)',
+      searchInContentHint: "Cerca all'interno del corpo del documento (richiede parole intere)",
       tags: 'Tag',
       title: 'Filtri avanzati',
       to: 'A',
@@ -18,7 +18,7 @@ export default {
     close: 'Chiudi',
     navigate: 'Naviga',
     noResults: 'Nessun risultato per "{query}"',
-    searchPlaceholder: 'Cerca una pagina, un\'azione o un documento...',
+    searchPlaceholder: "Cerca una pagina, un'azione o un documento...",
     sections: {
       documents: 'Documenti',
       pagesAndActions: 'Pagine e azioni',
@@ -46,6 +46,10 @@ export default {
   },
 
   filter: {
+    all: 'Tutti',
+    assigned: 'Assegnato',
+    unassigned: 'Non assegnato',
+    status: 'Stato',
     ascending: 'Crescente',
     descending: 'Decrescente',
     match: 'Corrispondenza',
@@ -55,10 +59,12 @@ export default {
     contains: 'Contiene',
     startsWith: 'Inizia con',
     exact: 'Corrispondenza esatta',
-    tags: "Tags",
+    tags: 'Tags',
   },
 
   kanban: {
+    manageAssignees: 'Gestisci assegnazioni',
+    usersAssigned: 'Utenti assegnati',
     addColumn: 'Aggiungi colonna',
     addDocument: 'Aggiungi documento',
     changeColor: 'Cambia colore',
@@ -104,7 +110,7 @@ export default {
     allWorkspaces: 'Tutte le aree di lavoro',
     closeAll: 'Chiudi tutto',
     editWorkspace: 'Modifica area di lavoro',
-    joinWorkspace: 'Entra nell\'area di lavoro',
+    joinWorkspace: "Entra nell'area di lavoro",
     nav: {
       cdn: 'CDN',
       documents: 'Documenti',

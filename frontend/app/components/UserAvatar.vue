@@ -69,6 +69,10 @@ const avatarHash = computed(() => {
   }
 }
 
+img {
+  margin: 0;
+}
+
 .square {
   border-radius: var(--radius-sm);
 }

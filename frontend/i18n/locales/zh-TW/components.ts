@@ -46,6 +46,10 @@ export default {
   },
 
   filter: {
+    all: '全部',
+    assigned: '已分配',
+    unassigned: '未分配',
+    status: '狀態',
     ascending: '遞增',
     descending: '遞減',
     match: '比對方式',
@@ -59,6 +63,8 @@ export default {
   },
 
   kanban: {
+    manageAssignees: '管理分配',
+    usersAssigned: '已分配使用者',
     addColumn: '新增欄位',
     addDocument: '新增文件',
     changeColor: '變更顏色',
