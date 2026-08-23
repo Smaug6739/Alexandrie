@@ -46,6 +46,10 @@ export default {
   },
 
   filter: {
+    all: 'Tous',
+    assigned: 'Assigné',
+    unassigned: 'Non assigné',
+    status: 'Statut',
     ascending: 'Ascendant',
     descending: 'Descendant',
     match: 'Correspondance',
@@ -59,6 +63,8 @@ export default {
   },
 
   kanban: {
+    manageAssignees: 'Gérer les assignations',
+    usersAssigned: 'Utilisateurs assignés',
     addColumn: 'Ajouter une colonne',
     addDocument: 'Ajouter un document',
     changeColor: 'Changer la couleur',

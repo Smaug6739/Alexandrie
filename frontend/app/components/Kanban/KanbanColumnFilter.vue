@@ -22,7 +22,7 @@
           </div>
 
           <div>
-            <label>Status</label>
+            <label>{{ t('common.labels.status') }}</label>
             <AppSelect v-model="options.kanbanAssignStatus" :items="STATUS_OPTIONS" />
           </div>
 

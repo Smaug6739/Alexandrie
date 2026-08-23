@@ -46,6 +46,10 @@ export default {
   },
 
   filter: {
+    all: '전체',
+    assigned: '할당됨',
+    unassigned: '할당되지 않음',
+    status: '상태',
     ascending: '오름차순',
     descending: '내림차순',
     match: '일치',
@@ -59,6 +63,8 @@ export default {
   },
 
   kanban: {
+    manageAssignees: '담당자 관리',
+    usersAssigned: '할당된 사용자',
     addColumn: '열 추가',
     addDocument: '문서 추가',
     changeColor: '색상 변경',

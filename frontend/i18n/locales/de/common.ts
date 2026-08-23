@@ -1,5 +1,7 @@
 export default {
   actions: {
+    assign: 'Zuweisen',
+    unassign: 'Zuweisung aufheben',
     cancel: 'Abbrechen',
     clear: 'Leeren',
     close: 'Schließen',

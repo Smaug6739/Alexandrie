@@ -1,5 +1,7 @@
 export default {
   actions: {
+    assign: 'Призначити',
+    unassign: 'Відмінити призначення',
     cancel: 'Скасувати',
     clear: 'Очистити',
     close: 'Закрити',

@@ -46,6 +46,10 @@ export default {
   },
 
   filter: {
+    all: 'Alle',
+    assigned: 'Zugewiesen',
+    unassigned: 'Nicht zugewiesen',
+    status: 'Status',
     ascending: 'Aufsteigend',
     descending: 'Absteigend',
     match: 'Übereinstimmung',
@@ -59,6 +63,8 @@ export default {
   },
 
   kanban: {
+    manageAssignees: 'Zuweisungen verwalten',
+    usersAssigned: 'Zugewiesene Benutzer',
     addColumn: 'Spalte hinzufügen',
     addDocument: 'Dokument hinzufügen',
     changeColor: 'Farbe ändern',

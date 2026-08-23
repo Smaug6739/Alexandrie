@@ -46,6 +46,10 @@ export default {
   },
 
   filter: {
+    all: 'Усі',
+    assigned: 'Призначено',
+    unassigned: 'Не призначено',
+    status: 'Статус',
     ascending: 'За зростанням',
     descending: 'За спаданням',
     match: 'Збіг',
@@ -59,6 +63,8 @@ export default {
   },
 
   kanban: {
+    manageAssignees: 'Керування призначеннями',
+    usersAssigned: 'Призначені користувачі',
     addColumn: 'Додати стовпець',
     addDocument: 'Додати документ',
     changeColor: 'Змінити колір',

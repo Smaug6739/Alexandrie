@@ -1,5 +1,7 @@
 export default {
   actions: {
+    assign: '分配',
+    unassign: '取消分配',
     cancel: '取消',
     clear: '清除',
     close: '關閉',

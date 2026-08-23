@@ -50,7 +50,6 @@ export default {
     assigned: 'Assigned',
     unassigned: 'Unassigned',
     status: 'Status',
-    clear: 'Clear',
     ascending: 'Ascending',
     descending: 'Descending',
     match: 'Match',
