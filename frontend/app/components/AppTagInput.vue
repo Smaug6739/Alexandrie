@@ -80,7 +80,7 @@ function stringToTags(str: string): string[] {
 }
 
 const filteredTagSuggestions = computed(() => {
-  if (!tagInput.value) return [];
+  if (!tagInput.value) return nodesStore.allTags;
   const input = tagInput.value.toLowerCase();
   return nodesStore.allTags.filter(tag => tag.toLowerCase().includes(input) && !tagInput.value.includes(tag)).slice(0, 5);
 });
