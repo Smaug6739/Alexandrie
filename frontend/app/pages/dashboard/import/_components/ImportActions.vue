@@ -6,7 +6,7 @@
       <AppCheck v-model="skipExisting"> {{ t('import.actions.skipExisting') }} </AppCheck>
     </div>
     <AppButton
-      style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 0.5rem; margin-top: 2rem"
+      style=" display: flex; justify-content: center; align-items: center; gap: 0.5rem;width: 100%; margin-top: 2rem"
       type="primary"
       :disabled="isImporting || (importJob.toCreate.length === 0 && importJob.toUpdate.length === 0)"
       @click="importAll"

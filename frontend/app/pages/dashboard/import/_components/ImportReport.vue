@@ -119,8 +119,8 @@ const resetImport = () => {
 .report-header {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 0.75rem;
 
   h2 {
@@ -131,8 +131,8 @@ const resetImport = () => {
 
 .summary {
   display: flex;
-  align-items: baseline;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: 0.5rem;
 }
 
@@ -181,9 +181,9 @@ const resetImport = () => {
   td {
     padding: 0.6rem;
     border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
     text-align: left;
     vertical-align: top;
-    font-size: 0.85rem;
   }
 
   th {

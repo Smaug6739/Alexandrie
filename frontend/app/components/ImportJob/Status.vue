@@ -12,8 +12,8 @@
       <div class="progress-bar" :style="{ width: progress + '%' }"></div>
     </div>
 
-    <!-- eslint-disable-next-line vue/no-v-html -->
     <div class="footer">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <small v-if="displayErr" v-html="`${importJob.error_message}`"></small>
       <small v-if="importJob.failures > 0">{{ importJob.failures }} {{ t('common.status.failed') }}</small>
       <small v-if="importJob.created.length > 0">{{ importJob.created.length }} {{ t('common.status.completed') }}</small>

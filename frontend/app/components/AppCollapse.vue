@@ -53,17 +53,17 @@ watch(isOpen, val => {
 }
 
 .collapse-header {
-  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
   padding: 0.75rem 1rem;
-  background: transparent;
   border: none;
-  cursor: pointer;
   font-weight: 600;
   color: inherit;
   text-align: left;
+  background: transparent;
+  cursor: pointer;
 }
 
 .collapse-icon {
@@ -85,10 +85,10 @@ watch(isOpen, val => {
 }
 
 .collapse-content {
-  overflow: hidden;
   /* Optionnel : padding interne si le composant est ouvert */
   padding: 0 1rem;
   transition: padding 0.25s ease-out;
+  overflow: hidden;
 }
 
 .is-open .collapse-content {
