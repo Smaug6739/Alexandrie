@@ -10,6 +10,7 @@ export default {
 
   appdrop: {
     addMore: '파일 추가',
+    file: '파일 | 파일들',
     link: '여기를 클릭',
     max: '최대 {n}개 파일',
     prompt: '파일을 여기로 드래그 앤 드롭하거나 {link}해서 선택하세요',

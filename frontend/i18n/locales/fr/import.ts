@@ -10,23 +10,7 @@ export default {
     skipExisting: 'Ignorer les documents existants (importer uniquement les nouveaux)',
   },
 
-  advanced: {
-    defaultColor: 'Couleur par défaut pour les documents importés',
-    defaultDescription: 'Description par défaut pour les documents importés',
-    defaultIcon: 'Icône par défaut pour les documents importés (svg ou emoji unicode)',
-    defaultParent: 'Catégorie parente par défaut pour les documents importés',
-    defaultTags: 'Balises par défaut pour les documents importés (séparées par des virgules)',
-    defaultTheme: 'Thème par défaut pour les documents importés',
-    defaultThumbnail: 'Vignette par défaut pour les documents importés (svg ou emoji unicode)',
-    options: "Options d'importation avancées",
-  },
-
   categories: {
-    advanced: {
-      description:
-        'Importer un dossier entier (y compris les sous-dossiers et les téléchargements) en utilisant des options personnalisées pour un contrôle maximal.',
-      title: 'Importation avancée',
-    },
     backup: {
       description: "Restaurez une sauvegarde complète d'Alexandrie avec les documents et les paramètres.",
       title: 'Importer depuis une sauvegarde',
@@ -34,6 +18,11 @@ export default {
     files: {
       description: 'Importez des documents à partir de fichiers markdown avec des options flexibles.',
       title: 'Importer à partir de fichiers',
+    },
+    folder: {
+      description:
+        'Importer un dossier entier (y compris les sous-dossiers et les téléchargements) en utilisant des options personnalisées pour un contrôle maximal.',
+      title: 'Importer un dossier',
     },
   },
 
@@ -45,6 +34,17 @@ export default {
       title: 'Importer à partir de fichiers markdown',
     },
     toImport: 'Éléments à importer',
+  },
+
+  folder: {
+    defaultColor: 'Couleur par défaut pour les documents importés',
+    defaultDescription: 'Description par défaut pour les documents importés',
+    defaultIcon: 'Icône par défaut pour les documents importés (svg ou emoji unicode)',
+    defaultParent: 'Catégorie parente par défaut pour les documents importés',
+    defaultTags: 'Balises par défaut pour les documents importés (séparées par des virgules)',
+    defaultTheme: 'Thème par défaut pour les documents importés',
+    defaultThumbnail: 'Vignette par défaut pour les documents importés (svg ou emoji unicode)',
+    options: "Options d'importation avancées",
   },
 
   header: {

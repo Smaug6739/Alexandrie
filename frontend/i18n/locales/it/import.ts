@@ -10,22 +10,7 @@ export default {
     skipExisting: 'Salta i documenti esistenti (importa solo quelli nuovi)',
   },
 
-  advanced: {
-    defaultColor: 'Colore predefinito per i documenti importati',
-    defaultDescription: 'Descrizione predefinita per i documenti importati',
-    defaultIcon: 'Icona predefinita per i documenti importati (svg o emoji unicode)',
-    defaultParent: 'Categoria genitore predefinita per i documenti importati',
-    defaultTags: 'Tag predefiniti per i documenti importati (separati da virgola)',
-    defaultTheme: 'Tema predefinito per i documenti importati',
-    defaultThumbnail: 'Miniatura predefinita per i documenti importati (svg o emoji unicode)',
-    options: 'Opzioni di importazione avanzate',
-  },
-
   categories: {
-    advanced: {
-      description: 'Importa un\'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.',
-      title: 'Importazione avanzata',
-    },
     backup: {
       description: 'Ripristina un backup completo di Alexandrie con documenti e impostazioni.',
       title: 'Importa da backup',
@@ -34,16 +19,31 @@ export default {
       description: 'Importa documenti da file markdown con opzioni flessibili.',
       title: 'Importa da file',
     },
+    folder: {
+      description: "Importa un'intera cartella (incluse sottocartelle e caricamenti) utilizzando opzioni personalizzate per il massimo controllo.",
+      title: 'Importa cartella',
+    },
   },
 
   files: {
     importable:
-      'Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l\'opzione importa tutto.',
+      "Puoi importare file markdown o una cartella contenente file markdown. Le cartelle verranno importate in modo ricorsivo, preservando la loro struttura se scegli l'opzione importa tutto.",
     meta: {
       description: 'Importa rapidamente file markdown con opzioni di destinazione ed elaborazione.',
       title: 'Importa da file markdown',
     },
     toImport: 'Elementi da importare',
+  },
+
+  folder: {
+    defaultColor: 'Colore predefinito per i documenti importati',
+    defaultDescription: 'Descrizione predefinita per i documenti importati',
+    defaultIcon: 'Icona predefinita per i documenti importati (svg o emoji unicode)',
+    defaultParent: 'Categoria genitore predefinita per i documenti importati',
+    defaultTags: 'Tag predefiniti per i documenti importati (separati da virgola)',
+    defaultTheme: 'Tema predefinito per i documenti importati',
+    defaultThumbnail: 'Miniatura predefinita per i documenti importati (svg o emoji unicode)',
+    options: 'Opzioni di importazione avanzate',
   },
 
   header: {
@@ -69,7 +69,7 @@ export default {
   notifications: {
     importCompleteMessage: 'I documenti sono stati importati con successo.',
     importCompleteTitle: 'Importazione completata',
-    importFailedMessage: 'Si è verificato un errore durante l\'importazione. Riprova.',
+    importFailedMessage: "Si è verificato un errore durante l'importazione. Riprova.",
     importFailedTitle: 'Importazione fallita',
     localImportedMessage: 'Le tue impostazioni locali sono state sostituite con il backup.',
     localImportedTitle: 'Impostazioni locali importate',

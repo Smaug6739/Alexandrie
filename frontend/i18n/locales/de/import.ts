@@ -10,22 +10,7 @@ export default {
     skipExisting: 'Bereits vorhandene Dokumente überspringen (nur neue importieren)',
   },
 
-  advanced: {
-    defaultColor: 'Standardfarbe für importierte Dokumente',
-    defaultDescription: 'Standardbeschreibung für importierte Dokumente',
-    defaultIcon: 'Standard-Symbol für importierte Dokumente (SVG oder Unicode-Emoji)',
-    defaultParent: 'Standardübergeordnete Kategorie für importierte Dokumente',
-    defaultTags: 'Standard-Tags für importierte Dokumente (durch Kommas getrennt)',
-    defaultTheme: 'Standarddesign für importierte Dokumente',
-    defaultThumbnail: 'Standard-Miniaturansicht für importierte Dokumente (SVG oder Unicode-Emoji)',
-    options: 'Erweiterte Importoptionen',
-  },
-
   categories: {
-    advanced: {
-      description: 'Importiere gesamte Ordner (einschließlich Unterordner & Uploads) mit benutzerdefinierten Optionen für maximale Kontrolle.',
-      title: 'Erweiterter Import',
-    },
     backup: {
       description: 'Stelle ein vollständiges Alexandrie-Backup mit Dokumenten und Einstellungen wieder her.',
       title: 'Aus Backup importieren',
@@ -33,6 +18,10 @@ export default {
     files: {
       description: 'Dokumente aus Markdown-Dateien mit variablen Optionen importieren.',
       title: 'Aus Dateien importieren',
+    },
+    folder: {
+      description: 'Importiere gesamte Ordner (einschließlich Unterordner & Uploads) mit benutzerdefinierten Optionen für maximale Kontrolle.',
+      title: 'Ordner importieren',
     },
   },
 
@@ -44,6 +33,17 @@ export default {
       title: 'Aus Markdown-Dateien importieren',
     },
     toImport: 'Zu importierende Elemente',
+  },
+
+  folder: {
+    defaultColor: 'Standardfarbe für importierte Dokumente',
+    defaultDescription: 'Standardbeschreibung für importierte Dokumente',
+    defaultIcon: 'Standard-Symbol für importierte Dokumente (SVG oder Unicode-Emoji)',
+    defaultParent: 'Standardübergeordnete Kategorie für importierte Dokumente',
+    defaultTags: 'Standard-Tags für importierte Dokumente (durch Kommas getrennt)',
+    defaultTheme: 'Standarddesign für importierte Dokumente',
+    defaultThumbnail: 'Standard-Miniaturansicht für importierte Dokumente (SVG oder Unicode-Emoji)',
+    options: 'Erweiterte Importoptionen',
   },
 
   header: {

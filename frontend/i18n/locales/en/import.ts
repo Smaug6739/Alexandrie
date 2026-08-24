@@ -10,22 +10,7 @@ export default {
     skipExisting: 'Skip existing documents (import only new ones)',
   },
 
-  advanced: {
-    defaultColor: 'Default color for imported documents',
-    defaultDescription: 'Default description for imported documents',
-    defaultIcon: 'Default icon for imported documents (svg or unicode emoji)',
-    defaultParent: 'Default parent category for imported documents',
-    defaultTags: 'Default tags for imported documents (comma-separated)',
-    defaultTheme: 'Default theme for imported documents',
-    defaultThumbnail: 'Default thumbnail for imported documents (svg or unicode emoji)',
-    options: 'Advanced import options',
-  },
-
   categories: {
-    advanced: {
-      description: 'Import entire folder (including subfolders & uploads) using custom options for maximum control.',
-      title: 'Advanced import',
-    },
     backup: {
       description: 'Restore a complete Alexandrie backup with documents and settings.',
       title: 'Import from backup',
@@ -33,6 +18,10 @@ export default {
     files: {
       description: 'Import documents from markdown files with flexible options.',
       title: 'Import from files',
+    },
+    folder: {
+      description: 'Import entire folder (including subfolders & uploads) using custom options for maximum control.',
+      title: 'Import folder',
     },
   },
 
@@ -44,6 +33,17 @@ export default {
       title: 'Import from markdown files',
     },
     toImport: 'Items to import',
+  },
+
+  folder: {
+    defaultColor: 'Default color for imported documents',
+    defaultDescription: 'Default description for imported documents',
+    defaultIcon: 'Default icon for imported documents (svg or unicode emoji)',
+    defaultParent: 'Default parent category for imported documents',
+    defaultTags: 'Default tags for imported documents (comma-separated)',
+    defaultTheme: 'Default theme for imported documents',
+    defaultThumbnail: 'Default thumbnail for imported documents (svg or unicode emoji)',
+    options: 'Advanced import options',
   },
 
   header: {

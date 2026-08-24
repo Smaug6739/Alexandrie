@@ -10,6 +10,7 @@ export default {
 
   appdrop: {
     addMore: '新增更多文件',
+    file: '文件 | 文件们',
     link: '点击这里',
     max: '最多 {n} 个文件',
     prompt: '将文件拖拽至此，或{link}选择文件',

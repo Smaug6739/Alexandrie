@@ -25,17 +25,25 @@
       <!-- Import Summary -->
       <SummaryCard :unchanged-count="unchangedCount" :import-job="importJob" />
 
-      <!-- Tabs for New / Updates -->
-      <ImportTabs :manifest="manifest" :import-job="importJob" @import="importNodes" @import-local-settings="importLocalSettings" />
+      <AppRadio v-model="type" :items="IMPORT_TYPES" placeholder="Import Type" />
 
-      <!-- Import All Actions -->
+      <!-- Tabs for New / Updates -->
+      <ImportTabs v-if="type === 'selected'" :manifest="manifest" :import-job="importJob" @import="importNodes" @import-local-settings="importLocalSettings" />
       <ImportActions
+        v-if="type === 'all'"
         v-model:preserve-timestamps="importJob.options.preserveTimestamps"
         v-model:skip-existing="importOptions.skipExisting"
         :reset-import="resetImport"
         :import-all="importAll"
         :import-job="importJob"
       />
+      <ImportJobStatus :import-job="importJob" />
+
+      <!-- Import All Actions -->
+    </template>
+    <template v-if="step === 'report'">
+      <ImportHeader v-if="manifest" :manifest="manifest" :reset-import="resetImport" />
+      <ImportReport :import-job="importJob" :skip-existing="importOptions.skipExisting" :reset-import="resetImport" />
     </template>
   </div>
 </template>
@@ -45,10 +53,10 @@ import ImportHeader from './_components/ImportHeader.vue';
 import SummaryCard from './_components/ImportSummary.vue';
 import ImportTabs from './_components/ImportTabs.vue';
 import ImportActions from './_components/ImportActions.vue';
+import ImportReport from './_components/ImportReport.vue';
 import { handleBackupFile } from '~/helpers/backups';
-import type { ImportJob } from '~/helpers/backups/Importer';
+import type { ImportBackupJob } from '~/helpers/backups/Importer';
 import type { Manifest } from '~/helpers/backups/types';
-import type { DB_Node } from '~/stores/db_structures';
 
 definePageMeta({ breadcrumb: { i18n: 'import.meta.breadcrumb' } });
 
@@ -58,18 +66,19 @@ const { t } = useI18nT();
 const notifications = useNotifications();
 
 // State
-const step = ref<'select' | 'preview'>('select');
+const step = ref<'select' | 'preview' | 'report'>('select');
+const type = ref<'all' | 'selected'>('all');
 const selectedFile = ref<File>();
 const isAnalyzing = ref(false);
 const analyzeError = ref('');
 
 // Backup data
 const manifest = ref<Manifest | null>(null);
-const backupDocuments = ref<DB_Node[]>([]);
+const totalItems = ref<number>(0);
 const localData = ref<object | null>(null);
 
 // Import state
-const importJob = ref<ImportJob>({
+const importJob = ref<ImportBackupJob>({
   status: 'pending',
   toCreate: [],
   toUpdate: [],
@@ -81,13 +90,17 @@ const importJob = ref<ImportJob>({
   },
 });
 
+const IMPORT_TYPES = [
+  { id: 'all', label: 'Import All' },
+  { id: 'selected', label: 'Import Selection' },
+];
+
 const importOptions = reactive({
   skipExisting: false,
 });
 
 const unchangedCount = computed(() => {
-  if (!backupDocuments.value.length) return 0;
-  return backupDocuments.value.length - importJob.value.toCreate.length - importJob.value.toUpdate.length;
+  return totalItems.value - importJob.value.toCreate.length - importJob.value.toUpdate.length;
 });
 
 // Methods
@@ -109,12 +122,12 @@ async function analyzeFile() {
     localData.value = result.localData;
 
     if (result.documents?.length) {
-      backupDocuments.value = result.documents;
-      const { toCreate: create, toUpdate: update } = nodesImporterStore.prepareImport(result.documents);
+      totalItems.value = result.documents.length + result.files.length;
+      const { toCreate: create, toUpdate: update } = nodesImporterStore.prepareImport(result.documents, result.files);
       importJob.value.toCreate = create;
       importJob.value.toUpdate = update;
     } else {
-      backupDocuments.value = [];
+      totalItems.value = 0;
       importJob.value.toCreate = [];
       importJob.value.toUpdate = [];
     }
@@ -131,7 +144,7 @@ function resetImport() {
   step.value = 'select';
   selectedFile.value = undefined;
   manifest.value = null;
-  backupDocuments.value = [];
+  totalItems.value = 0;
   importJob.value.toCreate = [];
   importJob.value.toUpdate = [];
 
@@ -149,14 +162,13 @@ function resetImport() {
 }
 
 async function importNodes(type: 'create' | 'update', ids: string[]) {
-  const nodes: DB_Node[] =
-    type === 'create' ? importJob.value.toCreate.filter(d => ids.includes(d.id)) : importJob.value.toUpdate.filter(d => ids.includes(d.id));
+  const nodes = type === 'create' ? importJob.value.toCreate.filter(d => ids.includes(d.id)) : importJob.value.toUpdate.filter(d => ids.includes(d.id));
 
   if (type === 'create') {
-    await nodesImporterStore.importAllNodesAndResources({ toCreate: nodes, toUpdate: [], resources: [] }, importJob);
+    await nodesImporterStore.importAllNodesAndResources({ toCreate: nodes, toUpdate: [] }, importJob, true);
     importJob.value.toCreate = importJob.value.toCreate.filter(d => !importJob.value.created.includes(d.id));
   } else if (type == 'update') {
-    await nodesImporterStore.importAllNodesAndResources({ toCreate: [], toUpdate: nodes, resources: [] }, importJob);
+    await nodesImporterStore.importAllNodesAndResources({ toCreate: [], toUpdate: nodes }, importJob, true);
     importJob.value.toUpdate = importJob.value.toUpdate.filter(d => !importJob.value.updated.includes(d.id));
   }
 
@@ -191,9 +203,18 @@ async function importAll() {
   const createDocs = importJob.value.toCreate;
   const updateDocs = importOptions.skipExisting ? [] : importJob.value.toUpdate;
 
-  await nodesImporterStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs, resources: [] }, importJob);
-  importJob.value.toCreate = importJob.value.toCreate.filter(d => !importJob.value.created.includes(d.id));
-  importJob.value.toUpdate = importJob.value.toUpdate.filter(d => !importJob.value.updated.includes(d.id));
+  await nodesImporterStore.importAllNodesAndResources({ toCreate: createDocs, toUpdate: updateDocs }, importJob, true);
+
+  step.value = 'report';
+
+  if (importJob.value.failures > 0 || importJob.value.status === 'failed') {
+    notifications.add({
+      type: 'error',
+      title: t('import.notifications.importFailedTitle'),
+      message: importJob.value.error_message || `${importJob.value.failures} item(s) failed during import`,
+    });
+    return;
+  }
 
   notifications.add({
     type: 'success',

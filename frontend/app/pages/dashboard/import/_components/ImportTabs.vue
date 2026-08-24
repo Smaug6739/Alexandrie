@@ -27,14 +27,14 @@
         </div>
         <div class="documents-list">
           <NodeImportPreview
-            v-for="doc in importJob.toCreate"
+            v-for="doc in importJob.toCreate.filter(d => d.type === 'node')"
             :key="doc.id"
-            :node="doc"
+            :node="doc.data"
             selectable
             :selected="selectedCreate.includes(doc.id)"
             :is-importing="isImporting"
             @toggle-selection="() => toggleSelection(doc.id, 'create')"
-            @import-single="() => importSingle(doc, 'create')"
+            @import-single="() => importSingle(doc.data, 'create')"
           />
         </div>
       </template>
@@ -56,14 +56,14 @@
         </div>
         <div class="documents-list">
           <NodeImportPreview
-            v-for="doc in importJob.toUpdate"
+            v-for="doc in importJob.toUpdate.filter(d => d.type === 'node')"
             :key="doc.id"
-            :node="doc"
+            :node="doc.data"
             selectable
             :selected="selectedUpdate.includes(doc.id)"
             :is-importing="isImporting"
             @toggle-selection="() => toggleSelection(doc.id, 'update')"
-            @import-single="() => importSingle(doc, 'update')"
+            @import-single="() => importSingle(doc.data, 'update')"
           />
         </div>
       </template>
@@ -89,9 +89,9 @@
 <script setup lang="ts">
 import type { DB_Node } from '~/stores';
 import type { Manifest } from '~/helpers/backups/types';
-import type { ImportJob } from '~/helpers/backups/Importer';
+import type { ImportBackupJob, ResourceImportTask } from '~/helpers/backups/Importer';
 
-const props = defineProps<{ manifest: Manifest; importJob: ImportJob }>();
+const props = defineProps<{ manifest: Manifest; importJob: ImportBackupJob }>();
 const emit = defineEmits<{
   (e: 'import', type: 'create' | 'update', nodeIds: string[]): void;
   (e: 'importLocalSettings'): void;
@@ -134,7 +134,7 @@ function toggleSelectAllUpdate(value: boolean) {
   }
 }
 
-function importSingle(doc: DB_Node, type: 'create' | 'update') {
+function importSingle(doc: DB_Node | ResourceImportTask, type: 'create' | 'update') {
   emit('import', type, [doc.id]);
 }
 function importSelected(type: 'create' | 'update') {
