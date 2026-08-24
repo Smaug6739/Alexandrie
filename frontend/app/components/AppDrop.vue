@@ -21,7 +21,7 @@
         />
       </div>
       <footer>
-        <span class="total">{{ selectedFiles.length }} file{{ selectedFiles.length > 1 ? 's' : '' }} • {{ readableFileSize(totalSize) }}</span>
+        <span class="total">{{ selectedFiles.length }} {{ t('cdn.appdrop.file', { n: selectedFiles.length }) }} • {{ readableFileSize(totalSize) }}</span>
         <span class="link" @click="triggerFileSelect">+ {{ t('cdn.appdrop.addMore') }}</span>
       </footer>
     </div>

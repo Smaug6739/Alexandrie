@@ -10,6 +10,7 @@ export default {
 
   appdrop: {
     addMore: '新增更多檔案',
+    file: '檔案 | 檔案們',
     link: '按這裡',
     max: '最多 {n} 個檔案',
     prompt: '將檔案拖曳至此，或{link}選擇檔案',

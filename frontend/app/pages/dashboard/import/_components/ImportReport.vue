@@ -3,10 +3,10 @@
     <div class="report-header">
       <h3>Import report</h3>
       <div class="summary">
-        <span class="chip success">Success: {{ successCount }}</span>
-        <span class="chip error">Failed: {{ failedCount }}</span>
-        <span class="chip neutral">Skipped: {{ skippedCount }}</span>
-        <span class="chip pending">Pending: {{ pendingCount }}</span>
+        <span class="chip success">{{ t('common.status.success') }}: {{ successCount }}</span>
+        <span class="chip error">{{ t('common.status.failed') }}: {{ failedCount }}</span>
+        <span class="chip neutral">{{ t('common.status.skipped') }}: {{ skippedCount }}</span>
+        <span class="chip pending">{{ t('common.status.pending') }}: {{ pendingCount }}</span>
       </div>
     </div>
 
@@ -16,11 +16,11 @@
       <table class="report-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Kind</th>
-            <th>Action</th>
-            <th>Status</th>
-            <th>Error message</th>
+            <th>{{ t('common.labels.name') }}</th>
+            <th>{{ t('common.labels.kind') }}</th>
+            <th>{{ t('common.labels.action') }}</th>
+            <th>{{ t('common.labels.status') }}</th>
+            <th>{{ t('common.errors.generic') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +69,8 @@ const props = defineProps<{
   skipExisting?: boolean;
   resetImport: () => void;
 }>();
+
+const { t } = useI18nT();
 
 const buildRow = (item: ImportItem, action: ReportAction): ReportRow => {
   const isSkipped = Boolean(props.skipExisting && action === 'update' && item.status === 'pending');
