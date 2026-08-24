@@ -179,10 +179,10 @@ export default {
   },
 
   other: {
-    datatable: 'Datentabelle',
-    defaultItemsCount: 'Standardanzahl von Elementen',
     advancedView: 'Erweiterte Ansicht',
     advancedViewDesc: 'Aktiviere die erweiterte Datentabellenansicht mit Massenaktionen für Kategorien und Arbeitsbereiche.',
+    datatable: 'Datentabelle',
+    defaultItemsCount: 'Standardanzahl von Elementen',
     defaultUploadFolder: 'Standard-Upload-Ordner',
     defaultUploadFolderDesc: 'Wähle den Standardordner, in dem deine Uploads gespeichert werden. Kann pro Upload geändert werden.',
     developerMode: 'Entwicklermodus',
