@@ -15,6 +15,7 @@ export const DEFAULT_PREFERENCES = {
   displayFeatureTags: true as boolean,
   displayUncategorizedResources: true as boolean,
   displayTabs: false as boolean,
+  advancedView: false as boolean,
   datatableItemsCount: 10 as number,
   view_dock: true as boolean,
   primaryColor: -2 as number, // -2 default primary; -1 unset; >= 0 app color index
@@ -100,6 +101,7 @@ export const GENERAL_KEYS: PreferenceKey[] = [
   'displayFeatureTags',
   'displayUncategorizedResources',
   'displayTabs',
+  'advancedView',
   'datatableItemsCount',
   'view_dock',
   'primaryColor',

@@ -133,6 +133,8 @@ function removeTag(tag: string) {
   selectedTags.value = selectedTags.value.filter(t => t !== tag);
   emit('update:modelValue', selectedTags.value.join(','));
 }
+
+defineExpose({ addTag });
 </script>
 
 <style scoped lang="scss">

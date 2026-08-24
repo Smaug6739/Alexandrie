@@ -57,8 +57,11 @@
     </Teleport>
     <!-- Content based on view mode -->
     <div v-if="filteredNodes.length" class="node-content">
+      <!-- Advanced DataTable View -->
+      <NodeAdvancedView v-if="view === 'advanced'" :nodes="filteredNodes" />
+
       <!-- Table/List View -->
-      <div v-if="view === 'table'" class="line-container">
+      <div v-else-if="view === 'table'" class="line-container">
         <NodeListInline v-for="document of filteredNodes" :key="document.id" :document="document" class="line-item" />
       </div>
 
@@ -76,6 +79,12 @@
         @update-metadata="updateKanbanMetadata"
         @create-document="createDocumentInColumn"
       />
+
+      <!-- Fallback View (Just in case view is undefined or unrecognized) -->
+      <div v-else class="line-container fallback-view">
+        <div style="padding: 20px; color: red;">DEBUG: View is unrecognized or undefined. Current value: {{ view }}</div>
+        <NodeListInline v-for="document of filteredNodes" :key="document.id" :document="document" class="line-item" />
+      </div>
     </div>
 
     <NoContent v-else-if="!nodesStore.isFetching" :title="t('nodes.container.noDocuments')" :description="t('nodes.container.noDocumentsDescription')">
@@ -109,6 +118,7 @@ const router = useRouter();
 const slots = useSlots();
 
 const connectedId = userStore.user?.id;
+
 const view = ref<ViewMode>();
 const filteredNodes = ref<Node[]>(props.nodes);
 const kanbanBoard = ref<InstanceType<typeof KanbanBoard> | null>(null);
@@ -121,6 +131,7 @@ watch(
 );
 
 // Actions
+
 const resetKanban = () => {
   modals.add(
     new Modal(shallowRef(ResetBoardModal), {
