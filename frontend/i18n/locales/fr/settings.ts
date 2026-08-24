@@ -180,6 +180,8 @@ export default {
   other: {
     datatable: 'Tableau de données',
     defaultItemsCount: "Nombre d'éléments par défaut",
+    advancedView: 'Vue avancée',
+    advancedViewDesc: 'Activer la vue avancée du tableau de données avec des actions groupées pour les catégories et les espaces de travail.',
     defaultUploadFolder: 'Dossier de téléchargement par défaut',
     defaultUploadFolderDesc: 'Choisissez le dossier par défaut où vos téléchargements seront stockés. Vous pouvez le modifier pour chaque téléchargement.',
     developerMode: 'Mode développeur',

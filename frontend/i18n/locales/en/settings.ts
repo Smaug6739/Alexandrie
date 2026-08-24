@@ -179,6 +179,8 @@ export default {
   other: {
     datatable: 'Data table',
     defaultItemsCount: 'Default items count',
+    advancedView: 'Advanced view',
+    advancedViewDesc: 'Enable the advanced datatable view with bulk actions for Categories and Workspaces.',
     defaultUploadFolder: 'Default upload folder',
     defaultUploadFolderDesc: 'Choose the default folder where your uploads will be stored. Can be changed per upload.',
     developerMode: 'Developer mode',

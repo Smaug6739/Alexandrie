@@ -33,8 +33,8 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
         ],
       },
       {
-        label: 'Enable Advanced View',
-        description: 'Enable the advanced datatable view with bulk actions for Categories and Workspaces.',
+        label: t('settings.other.advancedView'),
+        description: t('settings.other.advancedViewDesc'),
         type: 'toggle',
         key: 'advancedView',
         tag: t('settings.nav.new'),

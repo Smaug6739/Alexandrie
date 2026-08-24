@@ -181,6 +181,8 @@ export default {
   other: {
     datatable: 'Tabella dati',
     defaultItemsCount: 'Numero predefinito di elementi',
+    advancedView: 'Vista avanzata',
+    advancedViewDesc: 'Abilita la vista avanzata della tabella dati con azioni di massa per Categorie e Spazi di lavoro.',
     defaultUploadFolder: 'Cartella di caricamento predefinita',
     defaultUploadFolderDesc: 'Scegli la cartella predefinita in cui verranno memorizzati i tuoi caricamenti. Può essere modificata per singolo caricamento.',
     developerMode: 'Modalità sviluppatore',

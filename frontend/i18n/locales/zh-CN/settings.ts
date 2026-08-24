@@ -178,6 +178,8 @@ export default {
   other: {
     datatable: '数据表格',
     defaultItemsCount: '默认项目数量',
+    advancedView: '高级视图',
+    advancedViewDesc: '启用带有批量操作的高级数据表格视图，用于分类和工作区。',
     defaultUploadFolder: '默认上传文件夹',
     defaultUploadFolderDesc: '选择上传文件的默认保存文件夹，可针对单个上传修改。',
     developerMode: '开发者模式',
