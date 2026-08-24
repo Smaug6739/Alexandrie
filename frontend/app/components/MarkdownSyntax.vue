@@ -217,7 +217,7 @@ Useful for side content or notes.
       <!-- DIAGRAMS -->
       <h2><Icon name="format/diagrams" fill="var(--primary)" /> {{ t('markdown.syntax.diagrams') }}</h2>
       <p>
-        Render live diagrams with <a href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid</a> syntax inside a <code>:::mermaid</code> block.
+        Render live diagrams with <a href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid</a> syntax inside a <code>:::mermaid</code> or <code>```mermaid</code> block.
       </p>
       <div class="demo">
         <pre>
