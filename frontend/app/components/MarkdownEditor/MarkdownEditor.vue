@@ -11,7 +11,15 @@
       <!-- Compact Document Metadata -->
       <div class="document-meta">
         <div class="line">
-          <input v-model="document.name" :placeholder="t('components.editor.placeholder.title')" class="meta-title" @input="autoSaveConditional" />
+          <input
+            ref="titleInput"
+            v-model="document.name"
+            :autofocus="autofocusTitle"
+            :placeholder="t('components.editor.placeholder.title')"
+            class="meta-title"
+            required
+            @input="autoSaveConditional"
+          />
           <input
             v-model="document.description"
             :placeholder="t('components.editor.placeholder.description')"
@@ -62,13 +70,14 @@ const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
 const preferences = usePreferencesStore();
 
-defineProps<{ public?: boolean }>();
+const props = defineProps<{ public?: boolean; autofocusTitle?: boolean }>();
 const emit = defineEmits<{
   (e: 'save' | 'autoSave', doc: Partial<Node>): void;
   (e: 'exit'): void;
 }>();
 
 const editorContainer = ref<HTMLDivElement>();
+const titleInput = ref<HTMLInputElement>();
 const markdownPreviewComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
 const markdownPreview = computed(() => markdownPreviewComponent.value?.rootElement as HTMLElement | undefined);
 const editorView = ref<EditorView | null>(null);
@@ -127,6 +136,7 @@ const state = createEditorState({
 });
 
 onMounted(() => {
+  if (props.autofocusTitle) titleInput.value?.focus();
   if (!editorContainer.value) return;
   editorView.value = new EditorView({
     state,
@@ -185,11 +195,19 @@ const updateDocumentContent = debounce(() => {
 }, 100);
 
 const save = debounce(() => {
+  if (!document.value.name?.trim()) {
+    titleInput.value?.focus();
+    titleInput.value?.reportValidity();
+    return;
+  }
   updateDocumentContent();
   emit('save', document.value);
 }, 1000);
 
 const autoSave = debounceDelayed(() => {
+  // New documents persist locally before they have a title; existing documents
+  // must never overwrite their saved title with an empty value.
+  if (document.value.id && !document.value.name?.trim()) return;
   updateDocumentContent();
   emit('autoSave', document.value);
 }, 2000);
