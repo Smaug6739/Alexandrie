@@ -53,17 +53,6 @@ const zoom = ref<(typeof PDF_SCALES)[number]['id']>('automatic_zoom');
 const resource = computed(() => nodesStore.getById(route.params.id as string));
 const mimeType = computed(() => resource.value?.metadata?.filetype || '');
 
-// Fetch the node if it's missing (e.g. on direct navigation or page refresh)
-useAsyncData(`cdn-preview-${route.params.id}`, async () => {
-  if (!resource.value) {
-    try {
-      await nodesStore.fetch({ id: route.params.id as string });
-    } catch (e) {
-      console.error('Failed to fetch resource for preview', e);
-    }
-  }
-});
-
 // Actions
 const copyLink = () => navigator.clipboard.writeText(resourceURL(resource.value!));
 

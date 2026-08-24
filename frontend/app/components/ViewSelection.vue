@@ -21,14 +21,17 @@ const props = withDefaults(
 );
 
 const { t } = useI18nT();
+const preferences = usePreferencesStore();
 const view = defineModel<ViewMode>();
 
 const viewOptions = computed(() => {
   const options = [
-    { icon: 'grid', label: t('components.viewSelection.list'), value: 'list' as ViewMode },
+    { icon: 'table', label: t('components.viewSelection.list'), value: 'list' as ViewMode },
     { icon: 'list', label: t('components.viewSelection.table'), value: 'table' as ViewMode },
-    { icon: 'table', label: 'Advanced', value: 'advanced' as ViewMode },
   ];
+  if (preferences.get('advancedView').value) {
+    options.push({ icon: 'grid', label: 'Advanced', value: 'advanced' as ViewMode });
+  }
   if (props.showKanban) {
     options.push({ icon: 'kanban', label: t('components.viewSelection.kanban'), value: 'kanban' as ViewMode });
   }
@@ -41,7 +44,8 @@ watch(view, newView => {
 
 onMounted(async () => {
   const storedView = await localForage.getItem<ViewMode>('viewSelection');
-  const list = ['table', 'list', 'advanced'];
+  const list = ['table', 'list'];
+  if (preferences.get('advancedView').value) list.push('advanced');
   if (props.showKanban) list.push('kanban');
   if (storedView && list.includes(storedView)) view.value = storedView as ViewMode;
   else view.value = 'table';
