@@ -81,6 +81,7 @@ services:
       MINIO_ENDPOINT: rustfs:9000
       MINIO_PUBLIC_URL: ${CDN_URL:-http://localhost:${RUSTFS_EXTERNAL_PORT:-9000}}
       MINIO_SECURE: "${MINIO_SECURE:-false}" # Set to 'true' if your S3 endpoint uses HTTPS
+      MINIO_INSECURE_TLS: "${MINIO_INSECURE_TLS:-false}" # Set to 'true' if your S3 endpoint uses self-signed certificates
       MINIO_ACCESSKEY: ${RUSTFS_ACCESS_KEY:-alexandrie-key}
       MINIO_SECRETKEY: ${RUSTFS_SECRET_KEY:-alexandrie-secret}
       MINIO_BUCKET: ${MINIO_BUCKET:-alexandrie}
