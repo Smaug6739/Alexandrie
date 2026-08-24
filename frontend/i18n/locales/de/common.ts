@@ -80,6 +80,7 @@ export default {
   placeholder: {
     parent: 'Wähle einen übergeordneten Eintrag aus',
     search: 'Suchen...',
+    selectOption: 'Wähle eine Option aus',
   },
 
   search: {

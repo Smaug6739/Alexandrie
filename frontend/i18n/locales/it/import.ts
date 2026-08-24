@@ -79,6 +79,12 @@ export default {
     title: 'Avanzamento importazione',
   },
 
+  report: {
+    empty: 'Nessun elemento importato da visualizzare.',
+    startNew: 'Avvia una nuova importazione',
+    title: 'Report di importazione',
+  },
+
   steps: {
     select: {
       analyzing: 'Analisi in corso...',

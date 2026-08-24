@@ -80,6 +80,7 @@ export default {
   placeholder: {
     parent: 'Виберіть батьківський елемент',
     search: 'Пошук...',
+    selectOption: 'Виберіть параметр',
   },
 
   search: {

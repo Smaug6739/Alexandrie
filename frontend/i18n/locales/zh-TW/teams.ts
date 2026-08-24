@@ -6,6 +6,7 @@ export default {
     delete: '刪除團隊',
     leave: '離開團隊',
     noTeams: '尚無團隊',
+    open: '開啟團隊',
   },
   eyebrown: '組織檢視',
   insights: {
@@ -18,6 +19,15 @@ export default {
     permissionsDescription: '在表格中新增使用者並變更其權限。',
     permissionsTitle: '管理整個團隊的權限',
     title: '管理團隊成員',
+  },
+  nav: {
+    insights: '洞察',
+    label: '團隊導覽',
+    members: '成員',
+    nodes: '節點',
+    overview: '總覽',
+    settings: '設定',
+    uploads: '上傳',
   },
   noDescription: '尚無描述',
   overview: {

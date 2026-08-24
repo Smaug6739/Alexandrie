@@ -6,6 +6,7 @@ export default {
     delete: 'Видалити команду',
     leave: 'Покинути команду',
     noTeams: 'Команд ще немає',
+    open: 'Відкрити команду',
   },
   eyebrown: 'Перегляд організації',
   insights: {
@@ -18,6 +19,15 @@ export default {
     permissionsDescription: 'Додайте нового користувача та змініть його дозволи в таблиці.',
     permissionsTitle: 'Керування дозволами для всієї команди',
     title: 'Керування учасниками команди',
+  },
+  nav: {
+    insights: 'Аналітика',
+    label: 'Навігація команди',
+    members: 'Учасники',
+    nodes: 'Вузли',
+    overview: 'Огляд',
+    settings: 'Налаштування',
+    uploads: 'Завантаження',
   },
   noDescription: 'Опис ще не додано',
   overview: {

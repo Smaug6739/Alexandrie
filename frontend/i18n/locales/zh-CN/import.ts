@@ -78,6 +78,12 @@ export default {
     title: '导入进度',
   },
 
+  report: {
+    empty: '没有可显示的已导入项目。',
+    startNew: '开始新的导入',
+    title: '导入报告',
+  },
+
   steps: {
     select: {
       analyzing: '分析中...',

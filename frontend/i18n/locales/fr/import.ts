@@ -80,6 +80,12 @@ export default {
     title: "Avancement de l'importation",
   },
 
+  report: {
+    empty: 'Aucun élément importé à afficher.',
+    startNew: 'Démarrer une nouvelle importation',
+    title: 'Rapport d’importation',
+  },
+
   steps: {
     select: {
       analyzing: 'Analyse en cours...',

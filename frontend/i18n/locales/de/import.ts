@@ -79,6 +79,12 @@ export default {
     title: 'Importfortschritt',
   },
 
+  report: {
+    empty: 'Keine importierten Elemente zum Anzeigen.',
+    startNew: 'Neuen Import starten',
+    title: 'Importbericht',
+  },
+
   steps: {
     select: {
       analyzing: 'Analysiere...',

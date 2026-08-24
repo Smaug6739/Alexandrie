@@ -1,7 +1,7 @@
 <template>
   <div class="report-card">
     <div class="report-header">
-      <h3>Import report</h3>
+      <h3>{{ t('import.report.title') }}</h3>
       <div class="summary">
         <span class="chip success">{{ t('common.status.success') }}: {{ successCount }}</span>
         <span class="chip error">{{ t('common.status.failed') }}: {{ failedCount }}</span>
@@ -37,10 +37,10 @@
       </table>
     </div>
 
-    <p v-else class="empty">No imported item to display.</p>
+    <p v-else class="empty">{{ t('import.report.empty') }}</p>
 
     <div class="actions">
-      <AppButton type="secondary" @click="resetImport">Start a new import</AppButton>
+      <AppButton type="secondary" @click="resetImport">{{ t('import.report.startNew') }}</AppButton>
     </div>
   </div>
 </template>

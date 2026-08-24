@@ -1,39 +1,39 @@
 <template>
-  <nav class="subnav" aria-label="Team navigation">
+  <nav class="subnav" :aria-label="t('teams.nav.label')">
     <span class="subnav__item">
       <NuxtLink :to="`/dashboard/teams/${teamId}`">
         <Icon name="organization" />
-        <span>Overview</span>
+        <span>{{ t('teams.nav.overview') }}</span>
       </NuxtLink>
     </span>
     <span class="subnav__item">
       <NuxtLink :to="`/dashboard/teams/${teamId}/nodes`">
         <Icon name="nodes" />
-        <span>Nodes</span>
+        <span>{{ t('teams.nav.nodes') }}</span>
       </NuxtLink>
     </span>
     <span v-if="isAdmin" class="subnav__item">
       <NuxtLink :to="`/dashboard/teams/${teamId}/manage-members`">
         <Icon name="users" />
-        <span>Members</span>
+        <span>{{ t('teams.nav.members') }}</span>
       </NuxtLink>
     </span>
     <span class="subnav__item">
       <NuxtLink :to="`/dashboard/teams/${teamId}/uploads`">
         <Icon name="cdn" />
-        <span>Uploads</span>
+        <span>{{ t('teams.nav.uploads') }}</span>
       </NuxtLink>
     </span>
     <span class="subnav__item">
       <NuxtLink :to="`/dashboard/teams/${teamId}/insights`">
         <Icon name="insights" />
-        <span>Insights</span>
+        <span>{{ t('teams.nav.insights') }}</span>
       </NuxtLink>
     </span>
     <span v-if="isEditor" class="subnav__item">
       <NuxtLink :to="`/dashboard/teams/${teamId}/settings`">
         <Icon name="settings" />
-        <span>Settings</span>
+        <span>{{ t('teams.nav.settings') }}</span>
       </NuxtLink>
     </span>
   </nav>
@@ -44,6 +44,7 @@ const props = defineProps<{
   teamId: string;
 }>();
 
+const { t } = useI18nT();
 const store = useNodesStore();
 const nodesPermissionsStore = useNodesPermissionsStore();
 const team = computed(() => store.getById(props.teamId));

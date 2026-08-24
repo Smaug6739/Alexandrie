@@ -78,6 +78,12 @@ export default {
     title: '匯入進度',
   },
 
+  report: {
+    empty: '沒有可顯示的已匯入項目。',
+    startNew: '開始新的匯入',
+    title: '匯入報告',
+  },
+
   steps: {
     select: {
       analyzing: '分析中...',

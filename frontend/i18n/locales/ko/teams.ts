@@ -6,6 +6,7 @@ export default {
     delete: '팀 삭제',
     leave: '팀 나가기',
     noTeams: '아직 팀이 없습니다',
+    open: '팀 열기',
   },
   eyebrown: '조직 보기',
   insights: {
@@ -18,6 +19,15 @@ export default {
     permissionsDescription: '테이블에서 새 사용자를 추가하고 권한을 변경하세요.',
     permissionsTitle: '팀 전체 권한 관리',
     title: '팀 구성원 관리',
+  },
+  nav: {
+    insights: '인사이트',
+    label: '팀 탐색 메뉴',
+    members: '구성원',
+    nodes: '노드',
+    overview: '개요',
+    settings: '설정',
+    uploads: '업로드',
   },
   noDescription: '아직 설명이 없습니다',
   overview: {

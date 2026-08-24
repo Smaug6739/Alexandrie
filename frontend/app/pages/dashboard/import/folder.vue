@@ -41,7 +41,7 @@
           id="default-description"
           v-model="importJob.options.defaultValues!.defaultDescription"
           type="text"
-          placeholder="Default description for imported nodes"
+          :placeholder="t('import.folder.defaultDescription')"
         />
         <label for="default-tags">
           {{ t('import.folder.defaultTags') }}
