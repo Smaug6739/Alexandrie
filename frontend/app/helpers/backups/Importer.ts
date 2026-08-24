@@ -99,10 +99,8 @@ export class Importer {
           const folderName = parts[i]!;
           const previousPath = currentPath;
           currentPath = currentPath ? `${currentPath}/${folderName}` : folderName;
-          console.log('Processing folder:', currentPath, 'Previous path:', previousPath);
           // We check if this level of folder already exists in the global tree
           let folderEntry = this.normalized_files.find(e => e.id === currentPath);
-          console.log('Existing folder entry:', folderEntry);
           // If we are at the first level ("A"), the parent is the root (undefined),
           // otherwise it's the previous folder ("A/B" has "A" as parent)
           if (!folderEntry) {

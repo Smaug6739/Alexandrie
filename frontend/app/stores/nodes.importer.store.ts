@@ -36,7 +36,6 @@ export const useNodesImporterStore = defineStore('nodesImporter', () => {
       }
     }
     for (const backupNode of filesToImport) {
-      console.log('Preparing resource for import:', backupNode.file.name, 'with ID:', backupNode.id);
       const existingNode = nodesStore.getById(backupNode.id);
       if (!existingNode) {
         toCreate.push({
