@@ -127,6 +127,10 @@ jobs:
             set -e
             rm -rf ${REMOTE_PATH}/docs/.output/server/node_modules
             cd ${REMOTE_PATH}/docs/.output/server
+
+            export BUN_INSTALL=\"/home/deploy/.bun\"
+            export PATH=\"\$BUN_INSTALL/bin:\$PATH\"
+
             bun install --production
           "
       # -------------------------
