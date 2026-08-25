@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const markStore = useMark();
 
-const RELEASE_MARK_ID: MarkId = 'v8.13.0';
+const RELEASE_MARK_ID: MarkId = 'v8.14.0';
 
 const isVisible = ref(false);
 
@@ -32,7 +32,7 @@ function handleClose() {
             </div>
             <div>
               <h2>What's new in Alexandrie?</h2>
-              <p class="version-tag">Version 8.13.0</p>
+              <p class="version-tag">Version 8.14.0</p>
             </div>
           </div>
 
@@ -43,22 +43,22 @@ function handleClose() {
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Sort Options</h3>
-              <p>Enhanced sort options for better organization and filtering of content.</p>
+              <h3>Kanban</h3>
+              <p>Assign users to tasks and manage workflows more effectively.</p>
             </div>
           </div>
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Admin Panel</h3>
-              <p>New admin panel with improved controls and settings management. Allow user creation and add security features.</p>
+              <h3>Markdown syntax</h3>
+              <p>Improved markdown syntax for diagrams, emojis, new themes etc.</p>
             </div>
           </div>
           <div class="item">
             <div class="indicator"></div>
             <div class="text">
-              <h3>Improved emails, bug fixes</h3>
-              <p>Improved email notifications and fixed several bugs across the application.</p>
+              <h3>UI elements</h3>
+              <p>Imporoved interface, new themes, filter options, bugs fixes, translations.</p>
             </div>
           </div>
         </div>
