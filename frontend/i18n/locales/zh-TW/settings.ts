@@ -176,10 +176,10 @@ export default {
   },
 
   other: {
-    datatable: '資料表格',
-    defaultItemsCount: '預設項目數量',
     advancedView: '進階檢視',
     advancedViewDesc: '啟用進階資料表格檢視，提供分類與工作區的批次操作。',
+    datatable: '資料表格',
+    defaultItemsCount: '預設項目數量',
     defaultUploadFolder: '預設上傳資料夾',
     defaultUploadFolderDesc: '選擇上傳檔案的預設儲存資料夾，可針對個別上傳變更。',
     developerMode: '開發者模式',

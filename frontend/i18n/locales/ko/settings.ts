@@ -176,10 +176,10 @@ export default {
   },
 
   other: {
-    datatable: '데이터 테이블',
-    defaultItemsCount: '기본 항목 수',
     advancedView: '고급 보기',
     advancedViewDesc: '카테고리 및 작업 공간에 대한 대량 작업이 가능한 고급 데이터 테이블 보기를 활성화합니다.',
+    datatable: '데이터 테이블',
+    defaultItemsCount: '기본 항목 수',
     defaultUploadFolder: '기본 업로드 폴더',
     defaultUploadFolderDesc: '업로드가 저장될 기본 폴더를 선택하세요. 업로드별로 변경할 수 있습니다.',
     developerMode: '개발자 모드',
