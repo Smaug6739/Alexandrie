@@ -1,6 +1,6 @@
 import { ViewPlugin, Decoration, type DecorationSet, EditorView } from '@codemirror/view';
 import { RangeSetBuilder, type Text } from '@codemirror/state';
-import { MERMAID_OPEN_RE, MERMAID_CLOSE_RE } from '~/helpers/markdown/mermaid';
+import { MERMAID_OPEN_RE } from '~/helpers/markdown/mermaid';
 
 // Main diagram-type declarations plus the handful of structural keywords that show up
 // across most diagram types. Intentionally not exhaustive (e.g. gantt/pie-specific
@@ -12,14 +12,26 @@ const MERMAID_ARROW_RE = /-->|--x|--o|-\.->|==>|---|<-->/g;
 function findMermaidBodyLineRanges(doc: Text): { startLine: number; endLine: number }[] {
   const ranges: { startLine: number; endLine: number }[] = [];
   let openLine: number | null = null;
+  let currentMarkerChar: string | null = null;
+  let currentMarkerLen: number = 0;
 
   for (let i = 1; i <= doc.lines; i++) {
     const text = doc.line(i).text;
     if (openLine === null) {
-      if (MERMAID_OPEN_RE.test(text)) openLine = i + 1;
-    } else if (MERMAID_CLOSE_RE.test(text)) {
-      if (i - 1 >= openLine) ranges.push({ startLine: openLine, endLine: i - 1 });
-      openLine = null;
+      const match = text.match(MERMAID_OPEN_RE);
+      if (match) {
+        openLine = i + 1;
+        currentMarkerChar = match[1]!.charAt(0);
+        currentMarkerLen = match[1]!.length;
+      }
+    } else {
+      const trimmed = text.trim();
+      if (trimmed.length >= currentMarkerLen && trimmed.split('').every(c => c === currentMarkerChar)) {
+        if (i - 1 >= openLine) ranges.push({ startLine: openLine, endLine: i - 1 });
+        openLine = null;
+        currentMarkerChar = null;
+        currentMarkerLen = 0;
+      }
     }
   }
   if (openLine !== null && openLine <= doc.lines) ranges.push({ startLine: openLine, endLine: doc.lines });

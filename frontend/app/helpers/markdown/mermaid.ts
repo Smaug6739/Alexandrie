@@ -1,7 +1,6 @@
 import type { MarkdownIt } from 'markdown-it';
 
-export const MERMAID_OPEN_RE = /^:{3,}mermaid\s*$/;
-export const MERMAID_CLOSE_RE = /^:{3,}\s*$/;
+export const MERMAID_OPEN_RE = /^(:{3,}|`{3,})mermaid\s*$/;
 
 // Raw-capture block rule (like `fence`) rather than markdown-it-container, so diagram
 // source is never fed through the nested block/inline parser: indentation, [labels],
@@ -13,7 +12,11 @@ export function mermaidPlugin(md: MarkdownIt) {
     (state, startLine, endLine, silent) => {
       const startPos = state.bMarks[startLine]! + state.tShift[startLine]!;
       const startMax = state.eMarks[startLine]!;
-      if (!MERMAID_OPEN_RE.test(state.src.slice(startPos, startMax))) return false;
+      const match = state.src.slice(startPos, startMax).match(MERMAID_OPEN_RE);
+      if (!match) return false;
+
+      const markerChar = match[1]![0];
+      const minMarkerLen = match[1]!.length;
 
       let nextLine = startLine;
       let haveEndMarker = false;
@@ -28,7 +31,8 @@ export function mermaidPlugin(md: MarkdownIt) {
         if (pos < max && state.sCount[nextLine]! < state.blkIndent) break; // de-indented, stop
         if (state.sCount[nextLine]! - state.blkIndent >= 4) continue; // closing marker can't be indented
 
-        if (MERMAID_CLOSE_RE.test(state.src.slice(pos, max))) {
+        const lineText = state.src.slice(pos, max).trim();
+        if (lineText.length >= minMarkerLen && lineText.split('').every(c => c === markerChar)) {
           haveEndMarker = true;
           break;
         }
