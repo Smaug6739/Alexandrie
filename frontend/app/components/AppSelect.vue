@@ -12,7 +12,7 @@
       @click.stop
     />
     <div v-else class="trigger" @click.stop="toggleDropdown">
-      <button class="value">{{ selected?.label || placeholder }}</button>
+      <button class="value">{{ selected?.label || displayPlaceholder }}</button>
       <svg :class="{ rotated: !open }" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="var(--text-body)">
         <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z" />
       </svg>
@@ -48,7 +48,7 @@
       <div v-if="open && isMobile" class="overlay" @click.self="toggleDropdown">
         <div class="sheet">
           <header>
-            <span class="sheet-title">{{ placeholder }}</span>
+            <span class="sheet-title">{{ displayPlaceholder }}</span>
             <button class="close-btn" @click="toggleDropdown">
               <Icon name="close" display="md" fill="var(--text-body)" />
             </button>
@@ -100,7 +100,7 @@ const props = withDefaults(
     useSlot?: boolean;
   }>(),
   {
-    placeholder: 'Select an option',
+    placeholder: undefined,
     searchable: true,
     nullable: false,
     disabled: () => false,
@@ -113,6 +113,7 @@ const emit = defineEmits(['update:modelValue']);
 
 const { isMobile } = useDevice();
 const { t } = useI18nT();
+const displayPlaceholder = computed(() => props.placeholder ?? t('common.placeholder.selectOption'));
 
 const localValue = ref(props.modelValue ?? '');
 

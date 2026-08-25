@@ -6,6 +6,7 @@ export default {
     delete: '删除团队',
     leave: '离开团队',
     noTeams: '尚无团队',
+    open: '打开团队',
   },
   eyebrown: '组织视图',
   insights: {
@@ -18,6 +19,15 @@ export default {
     permissionsDescription: '在表格中新增用户并修改其权限。',
     permissionsTitle: '管理整个团队的权限',
     title: '管理团队成员',
+  },
+  nav: {
+    insights: '洞察',
+    label: '团队导航',
+    members: '成员',
+    nodes: '节点',
+    overview: '总览',
+    settings: '设置',
+    uploads: '上传',
   },
   noDescription: '尚无描述',
   overview: {

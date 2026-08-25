@@ -6,7 +6,7 @@
         <h2 class="page-title">{{ t('settings.snippets.title') }}</h2>
         <p class="page-subtitle">
           {{ t('settings.snippets.subtitle') }}
-          <span class="count">{{ allSnippets.length }} snippets</span>
+          <span class="count">{{ t('settings.snippets.count', { count: allSnippets.length }) }}</span>
         </p>
       </div>
     </header>

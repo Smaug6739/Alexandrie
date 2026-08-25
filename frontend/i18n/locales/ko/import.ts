@@ -79,6 +79,12 @@ export default {
     title: '가져오기 진행 상황',
   },
 
+  report: {
+    empty: '표시할 가져온 항목이 없습니다.',
+    startNew: '새 가져오기 시작',
+    title: '가져오기 보고서',
+  },
+
   steps: {
     select: {
       analyzing: '분석 중...',

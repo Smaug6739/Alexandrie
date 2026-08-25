@@ -6,6 +6,7 @@ export default {
     delete: "Supprimer l'équipe",
     leave: "Quitter l'équipe",
     noTeams: "Pas encore d'équipes",
+    open: 'Ouvrir l’équipe',
   },
   eyebrown: "Vue de l'organisation",
   insights: {
@@ -18,6 +19,15 @@ export default {
     permissionsDescription: 'Ajoutez un nouvel utilisateur et modifiez ses autorisations dans le tableau.',
     permissionsTitle: "Gérer les autorisations de toute l'équipe",
     title: "Gérer les membres de l'équipe",
+  },
+  nav: {
+    insights: 'Analyses',
+    label: 'Navigation de l’équipe',
+    members: 'Membres',
+    nodes: 'Nœuds',
+    overview: 'Vue d’ensemble',
+    settings: 'Paramètres',
+    uploads: 'Téléversements',
   },
   noDescription: 'Aucune description pour le moment',
   overview: {

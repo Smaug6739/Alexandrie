@@ -15,7 +15,7 @@
 
     <div class="team-footer">
       <span class="team-meta">Updated {{ shortDate(team.updated_timestamp) }}</span>
-      <span class="team-open">Open team</span>
+      <span class="team-open">{{ t('teams.actions.open') }}</span>
     </div>
   </NuxtLink>
 </template>

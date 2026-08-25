@@ -81,6 +81,7 @@ export default {
   placeholder: {
     parent: 'Seleziona un elemento genitore',
     search: 'Cerca...',
+    selectOption: 'Seleziona un’opzione',
   },
 
   search: {

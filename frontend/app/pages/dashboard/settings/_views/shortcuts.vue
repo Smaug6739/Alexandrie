@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2 class="page-title">Shortcuts</h2>
-    <p class="page-subtitle">Here you can see the shortcuts for the different pages of the dashboard.</p>
+    <h2 class="page-title">{{ t('settings.shortcuts.title') }}</h2>
+    <p class="page-subtitle">{{ t('settings.shortcuts.subtitle') }}</p>
     <p>{{ t('application.shortcuts.sections.general') }}</p>
     <div class="shortcuts">
       <div class="shortcut">

@@ -6,6 +6,7 @@ export default {
     delete: 'Delete team',
     leave: 'Leave team',
     noTeams: 'No teams yet',
+    open: 'Open team',
   },
   eyebrown: 'Organization view',
   insights: {
@@ -18,6 +19,15 @@ export default {
     permissionsDescription: "Add a new user and change it's permissions in the table.",
     permissionsTitle: 'Manage permissions in entire team',
     title: 'Manage team members',
+  },
+  nav: {
+    insights: 'Insights',
+    label: 'Team navigation',
+    members: 'Members',
+    nodes: 'Nodes',
+    overview: 'Overview',
+    settings: 'Settings',
+    uploads: 'Uploads',
   },
   noDescription: 'No description yet',
   overview: {

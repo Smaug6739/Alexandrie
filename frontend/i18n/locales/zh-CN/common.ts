@@ -80,6 +80,7 @@ export default {
   placeholder: {
     parent: '选择上级项目',
     search: '搜索...',
+    selectOption: '选择一个选项',
   },
 
   search: {

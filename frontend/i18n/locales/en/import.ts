@@ -79,6 +79,12 @@ export default {
     title: 'Import progress',
   },
 
+  report: {
+    empty: 'No imported item to display.',
+    startNew: 'Start a new import',
+    title: 'Import report',
+  },
+
   steps: {
     select: {
       analyzing: 'Analyzing...',

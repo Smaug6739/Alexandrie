@@ -81,6 +81,7 @@ export default {
   placeholder: {
     parent: '상위 항목 선택',
     search: '검색...',
+    selectOption: '옵션 선택',
   },
 
   search: {

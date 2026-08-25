@@ -6,6 +6,7 @@ export default {
     delete: 'Elimina team',
     leave: 'Lascia il team',
     noTeams: 'Nessun team presente',
+    open: 'Apri il team',
   },
   eyebrown: 'Vista organizzazione',
   insights: {
@@ -18,6 +19,15 @@ export default {
     permissionsDescription: 'Aggiungi un nuovo utente e modifica i suoi permessi nella tabella.',
     permissionsTitle: 'Gestisci i permessi nell\'intero team',
     title: 'Gestisci i membri del team',
+  },
+  nav: {
+    insights: 'Insight',
+    label: 'Navigazione del team',
+    members: 'Membri',
+    nodes: 'Nodi',
+    overview: 'Panoramica',
+    settings: 'Impostazioni',
+    uploads: 'Caricamenti',
   },
   noDescription: 'Nessuna descrizione presente',
   overview: {

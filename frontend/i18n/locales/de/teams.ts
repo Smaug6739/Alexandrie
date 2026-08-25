@@ -6,6 +6,7 @@ export default {
     delete: 'Team löschen',
     leave: 'Team verlassen',
     noTeams: 'Noch keine Teams',
+    open: 'Team öffnen',
   },
   eyebrown: 'Organisationsansicht',
   insights: {
@@ -18,6 +19,15 @@ export default {
     permissionsDescription: 'Fügen Sie einen neuen Benutzer hinzu und ändern Sie dessen Berechtigungen in der Tabelle.',
     permissionsTitle: 'Berechtigungen für das gesamte Team verwalten',
     title: 'Teammitglieder verwalten',
+  },
+  nav: {
+    insights: 'Einblicke',
+    label: 'Teamnavigation',
+    members: 'Mitglieder',
+    nodes: 'Nodes',
+    overview: 'Übersicht',
+    settings: 'Einstellungen',
+    uploads: 'Uploads',
   },
   noDescription: 'Noch keine Beschreibung',
   overview: {
