@@ -25,7 +25,7 @@ function markdownItKatexPlugin(md: MarkdownIt) {
           endMathPos = i;
           break;
         }
-        // Si on a $ en fin
+        // If we have $ at the end
         if (!isDisplay && state.src.charCodeAt(i - 1) !== 0x5c) {
           found = true;
           endMathPos = i;

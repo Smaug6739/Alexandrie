@@ -41,14 +41,12 @@ function parseFunctionSyntax(state: StateInline, opts: Required<ColorPluginOptio
   let color = src.slice(start + 7, endBrace).trim();
   if (!color) return false;
 
-  // Vérifier si c’est une couleur valide CSS
   if (!isValidColor(color, opts)) {
     color = `var(--${color})`; // fallback CSS variable
   }
 
   if (src[endBrace + 1] !== '(') return false;
 
-  // Trouver la parenthèse fermante
   let depth = 1;
   let i = endBrace + 2;
   while (i < src.length && depth > 0) {
@@ -61,11 +59,9 @@ function parseFunctionSyntax(state: StateInline, opts: Required<ColorPluginOptio
   const contentStart = endBrace + 2;
   const contentEnd = i - 1;
 
-  // Injecter les tokens
   const open = state.push('span_open', 'span', 1);
   open.attrs = [['style', `color:${color}`]];
 
-  // Tokenize le contenu interne pour supporter le formatage (bold, italic, etc.)
   const oldPos = state.pos;
   const oldMax = state.posMax;
   state.pos = contentStart;
@@ -76,7 +72,7 @@ function parseFunctionSyntax(state: StateInline, opts: Required<ColorPluginOptio
 
   state.push('span_close', 'span', -1);
 
-  state.pos = i; // avancer le curseur
+  state.pos = i;
   return true;
 }
 
@@ -111,7 +107,6 @@ function parseBracketSyntax(state: StateInline, opts: Required<ColorPluginOption
   const openToken = state.push('span_open', 'span', 1);
   openToken.attrSet('style', `color:${colorValue}`);
 
-  // Tokenize le contenu interne pour supporter le formatage (bold, italic, etc.)
   const oldPos = state.pos;
   const oldMax = state.posMax;
   state.pos = innerStart;

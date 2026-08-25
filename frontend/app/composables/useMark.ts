@@ -42,7 +42,6 @@ export function useMark() {
 
       if (currentList.includes(id)) return;
 
-      // Ajout et sauvegarde via le store de préférences
       const newList = [...currentList, id];
       preferencesStore.set('readAnnouncements', newList);
     },

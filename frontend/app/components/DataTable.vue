@@ -97,7 +97,6 @@ paginator.filter(row => {
 });
 const data = paginator.currentPageItems;
 
-// Gestion de la sélection
 const selectedRows = ref<Field[]>([]);
 
 const toggleSelectAll = () => {

@@ -19,7 +19,6 @@ func SnowflakeFromString(s string) (*Snowflake, error) {
 }
 
 func (s Snowflake) MarshalJSON() ([]byte, error) {
-	// Renvoie l'ID entre guillemets, pour JSON
 	return json.Marshal(strconv.FormatUint(uint64(s), 10))
 }
 

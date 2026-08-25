@@ -3,7 +3,6 @@ import localForage from 'localforage';
 
 const COLLAPSE_STORAGE_KEY = 'collapse-states';
 
-// ─── LE SINGLETON VIT ICI DE MANIÈRE UNIQUE ───
 let isInitializing = false;
 let resolveReady: () => void;
 

@@ -23,7 +23,7 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
   ) {}
 
   /**
-   * Transforme un nœud pur en item UI de manière isolée et le met en cache
+   * Transform a raw node into a TreeItem, using the cache if available.
    */
   public getTransformedItem(id: string): TreeItem<T> | undefined {
     if (this.transformCache.has(id)) {
