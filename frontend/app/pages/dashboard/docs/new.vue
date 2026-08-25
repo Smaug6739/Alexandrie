@@ -19,13 +19,11 @@ const pendingNode = await localForage.getItem<Node>('pendingNode');
 let saved = false;
 
 const defaultParent = computed(() => (route.query.parent_id as string) || sidebar.workspaceId.value || undefined);
-const document = computed<Partial<Node>>(() => {
-  return {
-    accessibility: 1,
-    role: 3,
-    ...pendingNode,
-    parent_id: ['root', 'shared'].includes(defaultParent.value || '') ? undefined : defaultParent.value,
-  };
+const document: Ref<Partial<Node>> = ref({
+  accessibility: 1,
+  role: 3,
+  ...pendingNode,
+  parent_id: ['root', 'shared'].includes(defaultParent.value || '') ? undefined : defaultParent.value,
 });
 
 function save(doc: Partial<Node>) {
