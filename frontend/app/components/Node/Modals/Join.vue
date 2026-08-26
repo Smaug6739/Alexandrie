@@ -91,22 +91,22 @@ onMounted(() => {
     background: var(--surface-raised);
 
     &::placeholder {
-      color: var(--text-tertiary, #888);
       font-style: italic;
+      color: var(--text-tertiary, #888);
       opacity: 0.6;
     }
   }
 
   .required {
-    color: var(--red, red);
     margin-left: 0.2rem;
+    color: var(--red, red);
   }
 
   .helper-text {
-    font-size: 0.8rem;
-    color: var(--text-secondary, #666);
     margin-top: -0.25rem;
     margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
   }
 }
 
