@@ -1,18 +1,18 @@
 export default {
   actions: {
-    copyPublicLink: 'Ã–ffentlichen Link kopieren',
+    copyPublicLink: 'Öffentlichen Link kopieren',
     editMeta: 'Metadaten bearbeiten',
     exportAsMarkdown: 'Als Markdown exportieren',
     managePermissions: 'Berechtigungen verwalten',
     newDocument: '+ Neues Dokument erstellen',
-    publicLink: 'Ã–ffentlicher Link',
+    publicLink: 'Öffentlicher Link',
     removeFromShared: 'Aus der Freigabe entfernen',
-    resetBoard: 'Board zurÃ¼cksetzen',
+    resetBoard: 'Board zurücksetzen',
     share: 'Teilen',
   },
   category: {
     editTitle: 'Kategorie & Arbeitsbereich',
-    iconHint: 'SVG wird unterstÃ¼tzt',
+    iconHint: 'SVG wird unterstützt',
     name: 'Kategorie | Kategorien',
     new: 'Neue Kategorie',
     notifications: {
@@ -40,7 +40,7 @@ export default {
     childs: 'Untergeordnete Dokumente',
     editPage: 'Seite bearbeiten',
     lastUpdated: 'Zuletzt aktualisiert',
-    nextPage: 'NÃ¤chste Seite',
+    nextPage: 'Nächste Seite',
     prevPage: 'Vorherige Seite',
     TOC: 'Inhaltsverzeichnis',
   },
@@ -48,18 +48,18 @@ export default {
   filter: {
     footer: '{count} / {total} Treffer',
     title: 'Nodes filtern',
-    toClose: 'zum SchlieÃŸen',
+    toClose: 'zum Schließen',
   },
 
   modals: {
     delete: {
-      bulkCount: 'Durch diesen Vorgang werden {count} Nodes gelÃ¶scht.',
-      confirm: 'MÃ¶chtest du {type} wirklich lÃ¶schen?',
-      confirmBulk: 'MÃ¶chtest du die ausgewÃ¤hlten Nodes wirklich lÃ¶schen?',
-      hasChildren: '{Typ} hat {Anzahl} untergeordnete Dokumente. Diese werden ebenfalls gelÃ¶scht.',
+      bulkCount: 'Durch diesen Vorgang werden {count} Nodes gelöscht.',
+      confirm: 'Möchtest du {type} wirklich löschen?',
+      confirmBulk: 'Möchtest du die ausgewählten Nodes wirklich löschen?',
+      hasChildren: '{Typ} hat {Anzahl} untergeordnete Dokumente. Diese werden ebenfalls gelöscht.',
       irreversible: 'Dieser Vorgang ist unwiderruflich',
-      title: 'LÃ¶sche {type}',
-      titleBulk: 'Nodes lÃ¶schen',
+      title: 'Lösche {type}',
+      titleBulk: 'Nodes löschen',
     },
     join: {
       access: 'Zugriff auf Node',
@@ -69,23 +69,23 @@ export default {
       joining: 'Beitreten...',
       label: 'Einladungscode oder Link',
       subtitle:
-        'FÃ¼ge einen Einladungscode oder einen vollstÃ¤ndigen Einladungslink ein. Wenn du diesem Arbeitsbereich bereits mit einer anderen Berechtigungsstufe beigetreten bist, wird nur die hÃ¶chste beibehalten.',
+        'Füge einen Einladungscode oder einen vollständigen Einladungslink ein. Wenn du diesem Arbeitsbereich bereits mit einer anderen Berechtigungsstufe beigetreten bist, wird nur die höchste beibehalten.',
       title: 'Tritt einem Team oder Arbeitsbereich bei',
     },
     metadata: {
       emojiOrIcon: 'Emoji oder Symbol',
-      emojiOrIconHint: 'SVG oder Emojis werden unterstÃ¼tzt',
+      emojiOrIconHint: 'SVG oder Emojis werden unterstützt',
       labelAppearance: 'Erscheinungsbild',
       labelMedia: 'Medien',
       labelOrganization: 'Organisation',
       pinDescription: 'Dieses Dokument oben in Ihrem Arbeitsbereich anheften',
       thumbnail: 'Vorschaubild',
-      thumbnailHint: 'SVG wird unterstÃ¼tzt',
+      thumbnailHint: 'SVG wird unterstützt',
       title: 'Metadaten',
     },
     permissions: {
-      addPermission: 'HinzufÃ¼gen',
-      defaultPermission: 'Standardberechtigung fÃ¼r neue Benutzer',
+      addPermission: 'Hinzufügen',
+      defaultPermission: 'Standardberechtigung für neue Benutzer',
       generalAccess: 'Allgemeiner Zugang',
       inviteCreate: 'Einladung erstellen',
       inviteCreateProgress: 'Einladung wird erstellt...',
@@ -95,7 +95,7 @@ export default {
       managePermissions: 'Berechtigungen verwalten',
       noPermissions: 'Keine Berechtigungen festgelegt',
       noResults: 'Es wurden keine Ergebnisse gefunden',
-      publicInfo: 'Dieses Dokument wird Ã¼ber eine einzigartige URL Ã¶ffentlich zugÃ¤nglich sein.',
+      publicInfo: 'Dieses Dokument wird über eine einzigartige URL öffentlich zugänglich sein.',
       removePermission: 'Berechtigung entfernen',
       searchPlaceholder: 'Benutzername oder E-Mail-Adresse',
       searchUser: 'Benutzer suchen',
@@ -104,7 +104,7 @@ export default {
     },
     removeShared: {
       childWarning: 'Dieses Dokument hat {count} untergeordnete Dokumente. Diese werden ebenfalls entfernt.',
-      confirm: 'Bist du sicher, dass du dieses Dokument lÃ¶schen mÃ¶chtest?',
+      confirm: 'Bist du sicher, dass du dieses Dokument löschen möchtest?',
       noAccess: 'Nach dieser Aktion hast du keinen Zugriff mehr auf dieses Dokument.',
       success: 'Dokument entfernt',
       title: 'Dieses Dokument entfernen',
@@ -119,13 +119,13 @@ export default {
 
   // From the shared_target api (PWA)
   share: {
-    actionChoose: 'Was mÃ¶chtest du tun?',
+    actionChoose: 'Was möchtest du tun?',
     actionCreateDocument: 'Neues Dokument erstellen',
     actionCreateDocumentDesc: 'Erstelle ein neues Markdown-Dokument mit den freigegebenen Inhalten',
     actionUploadResource: 'Als Ressource hochladen',
     actionUploadResourceDesc:
-      'Lade die freigegebenen Inhalte als Ressource (Bild, PDF, usw.) hoch und erhalte einen Link, den du in deine Dokumente einfÃ¼gen kannst',
-    chooseDestination: 'WÃ¤hle aus, wo du diesen Inhalt speichern mÃ¶chten.',
+      'Lade die freigegebenen Inhalte als Ressource (Bild, PDF, usw.) hoch und erhalte einen Link, den du in deine Dokumente einfügen kannst',
+    chooseDestination: 'Wähle aus, wo du diesen Inhalt speichern möchten.',
     description: 'Von einer anderen App empfangene Inhalte.',
     sharedContent: 'Geteilte Inhalte',
     title: 'Inhalt teilen',
