@@ -53,22 +53,23 @@ export default {
 
   modals: {
     delete: {
-      bulkCount: 'Questa azione eliminerà {count} nodi.',
+      bulkCount: 'Questa azione eliminerÃ  {count} nodi.',
       confirm: 'Sei sicuro di voler eliminare questo {type}?',
       confirmBulk: 'Sei sicuro di voler eliminare i nodi selezionati?',
       hasChildren: 'Questo {type} ha {count} documenti figli. Verranno eliminati anche essi.',
-      irreversible: 'Questa azione è irreversibile',
+      irreversible: 'Questa azione Ã¨ irreversibile',
       title: 'Elimina {type}',
       titleBulk: 'Elimina nodi',
     },
     join: {
       access: 'Accesso al nodo',
+      helperText: 'An invitation code or link is required before proceeding.',
       inputPlaceholder: 'ABC123 o https://.../join-workspace?code=ABC123',
       join: 'Entra',
       joining: 'Accesso in corso...',
       label: 'Codice o link di invito',
       subtitle:
-        'Incolla un codice di invito o un link di invito completo. Se sei già entrato in questa area di lavoro con un livello di permesso differente, verrà mantenuto solo quello più alto.',
+        'Incolla un codice di invito o un link di invito completo. Se sei giÃ  entrato in questa area di lavoro con un livello di permesso differente, verrÃ  mantenuto solo quello piÃ¹ alto.',
       title: "Entra in un team o in un'area di lavoro",
     },
     metadata: {
@@ -94,7 +95,7 @@ export default {
       managePermissions: 'Gestisci permessi',
       noPermissions: 'Nessun permesso impostato',
       noResults: 'Nessun risultato trovato',
-      publicInfo: 'Questo documento sarà accessibile pubblicamente tramite un URL unico.',
+      publicInfo: 'Questo documento sarÃ  accessibile pubblicamente tramite un URL unico.',
       removePermission: 'Rimuovi permesso',
       searchPlaceholder: 'Nome utente o email',
       searchUser: 'Cerca un utente',
@@ -104,7 +105,7 @@ export default {
     removeShared: {
       childWarning: 'Questo documento ha {count} documento/i figlio. Verranno rimossi anche essi.',
       confirm: 'Sei sicuro di voler rimuovere questo documento?',
-      noAccess: 'Dopo questa azione non avrai più accesso a questo documento.',
+      noAccess: 'Dopo questa azione non avrai piÃ¹ accesso a questo documento.',
       success: 'Documento rimosso',
       title: 'Rimuovi questo documento',
     },

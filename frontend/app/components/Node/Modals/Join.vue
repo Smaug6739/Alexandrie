@@ -7,7 +7,7 @@
     <form class="join-form" @submit.prevent="joinWorkspace">
       <label for="invite">{{ t('nodes.modals.join.label') }} <span class="required">*</span></label>
       <input id="invite" v-model="inviteInput" type="text" autocomplete="off" :placeholder="t('nodes.modals.join.inputPlaceholder')" />
-      <p class="helper-text">An invitation code or link is required before proceeding.</p>
+      <p class="helper-text">{{ t('nodes.modals.join.helperText') }}</p>
       <AppButton type="primary" :disabled="isJoining || !inviteInput.trim()">{{ isJoining ? t('nodes.modals.join.joining') : t('nodes.modals.join.join') }}</AppButton>
     </form>
 
