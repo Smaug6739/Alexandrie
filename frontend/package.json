@@ -52,7 +52,7 @@
   },
   "type": "module",
   "devDependencies": {
-    "@nuxt/devtools": "3.4.1",
+    "@nuxt/devtools": "3.4.2",
     "@nuxt/eslint": "1.17.0",
     "@types/etag": "^1.8.4",
     "@types/fs-extra": "^11.0.4",
