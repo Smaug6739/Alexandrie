@@ -30,6 +30,16 @@ const options = computed(
             },
           },
           {
+            label: t('settings.appearance.icons'),
+            description: t('settings.appearance.iconsDesc'),
+            type: 'radio' as const,
+            key: 'icons' as const,
+            choices: [
+              { label: 'Lucid', id: 'lucid' },
+              { label: 'Material', id: 'material' },
+            ],
+          },
+          {
             label: t('settings.appearance.setLanguage'),
             description: t('settings.appearance.setLanguageDesc'),
             type: 'select' as const,
