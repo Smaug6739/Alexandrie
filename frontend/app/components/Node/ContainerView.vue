@@ -177,7 +177,7 @@ function createDocumentInColumn(columnId: string) {
   router.push({
     path: '/dashboard/docs/new',
     query: {
-      parent: String(props.parent.id),
+      parent_id: String(props.parent.id),
       kanbanColumn: columnId,
     },
   });
