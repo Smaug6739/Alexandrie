@@ -63,6 +63,7 @@ export default {
     },
     join: {
       access: '노드 접근 권한',
+      helperText: '계속하려면 초대 코드나 링크가 필요합니다.',
       inputPlaceholder: 'ABC123 또는 https://.../join-workspace?code=ABC123',
       join: '참여',
       joining: '참여 중...',

@@ -5,9 +5,10 @@
     <p class="subtitle">{{ t('nodes.modals.join.subtitle') }}</p>
 
     <form class="join-form" @submit.prevent="joinWorkspace">
-      <label for="invite">{{ t('nodes.modals.join.label') }}</label>
+      <label for="invite">{{ t('nodes.modals.join.label') }} <span class="required">*</span></label>
       <input id="invite" v-model="inviteInput" type="text" autocomplete="off" :placeholder="t('nodes.modals.join.inputPlaceholder')" />
-      <AppButton type="primary" :disabled="isJoining">{{ isJoining ? t('nodes.modals.join.joining') : t('nodes.modals.join.join') }}</AppButton>
+      <p class="helper-text">{{ t('nodes.modals.join.helperText') }}</p>
+      <AppButton type="primary" :disabled="isJoining || !inviteInput.trim()">{{ isJoining ? t('nodes.modals.join.joining') : t('nodes.modals.join.join') }}</AppButton>
     </form>
 
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
@@ -88,6 +89,24 @@ onMounted(() => {
   input {
     min-height: 48px;
     background: var(--surface-raised);
+
+    &::placeholder {
+      font-style: italic;
+      color: var(--text-tertiary, #888);
+      opacity: 0.6;
+    }
+  }
+
+  .required {
+    margin-left: 0.2rem;
+    color: var(--red, red);
+  }
+
+  .helper-text {
+    margin-top: -0.25rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
   }
 }
 

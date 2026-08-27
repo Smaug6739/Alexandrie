@@ -63,6 +63,7 @@ export default {
     },
     join: {
       access: '節點存取權',
+      helperText: '在繼續之前需要邀請碼或連結。',
       inputPlaceholder: 'ABC123 或 https://.../join-workspace?code=ABC123',
       join: '加入',
       joining: '加入中...',
