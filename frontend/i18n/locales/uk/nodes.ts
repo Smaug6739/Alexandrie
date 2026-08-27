@@ -63,7 +63,7 @@ export default {
     },
     join: {
       access: 'Доступ до вузла',
-      helperText: 'An invitation code or link is required before proceeding.',
+      helperText: 'Перед продовженням потрібен код запрошення або посилання.',
       inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
       join: 'Приєднатися',
       joining: 'Приєднання...',

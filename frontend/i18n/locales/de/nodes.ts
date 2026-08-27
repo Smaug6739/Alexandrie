@@ -63,7 +63,7 @@ export default {
     },
     join: {
       access: 'Zugriff auf Node',
-      helperText: 'An invitation code or link is required before proceeding.',
+      helperText: 'Ein Einladungscode oder -link ist erforderlich, bevor Sie fortfahren können.',
       inputPlaceholder: 'ABC123 or https://.../join-workspace?code=ABC123',
       join: 'Beitreten',
       joining: 'Beitreten...',
