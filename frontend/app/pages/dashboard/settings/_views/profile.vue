@@ -25,7 +25,12 @@
       </div>
       <div class="form-group">
         <label>{{ t('settings.profile.avatar') }}</label>
-        <img :src="avatarDisplayed" class="avatar" @click="selectAvatar" />
+        <div class="avatar-wrapper">
+          <img :src="avatarDisplayed" class="avatar" @click="selectAvatar" />
+          <button v-if="avatarDisplayed !== avatarURL(null)" class="remove-avatar-btn" title="Remove" @click.prevent="removeAvatar">
+            <Icon name="close" />
+          </button>
+        </div>
         <input ref="avatarInput" type="file" accept="image/*" style="display: none" @change="previewAvatar" />
       </div>
       <AppButton type="primary">{{ t('common.actions.update') }}</AppButton>
@@ -51,10 +56,20 @@ const { t } = useI18nT();
 
 const avatarInput = ref<HTMLInputElement | null>(null);
 const avatarPreview = ref('');
-const avatarDisplayed = computed(() => avatarPreview.value || avatarURL(userStore.user));
+const avatarDisplayed = computed(() => {
+  if (avatarPreview.value === 'removed') return avatarURL(null);
+  return avatarPreview.value || avatarURL(userStore.user);
+});
 const devMode = preferencesStore.get('developerMode');
 
 const selectAvatar = () => avatarInput.value?.click();
+
+const removeAvatar = () => {
+  avatarPreview.value = 'removed';
+  if (avatarInput.value) {
+    avatarInput.value.value = '';
+  }
+};
 
 const uploadAvatar = async () => {
   if (!userStore.user) return;
@@ -78,7 +93,11 @@ const previewAvatar = (event: Event) => {
 const updateUser = async () => {
   if (!userStore.user) return;
   try {
-    await uploadAvatar();
+    if (avatarPreview.value === 'removed') {
+      userStore.user.avatar = '';
+    } else {
+      await uploadAvatar();
+    }
     await userStore.update(userStore.user);
     useNotifications().add({ type: 'success', title: t('settings.profile.notifications.updated') });
   } catch (e) {
@@ -89,6 +108,35 @@ const updateUser = async () => {
 </script>
 
 <style scoped lang="scss">
+.avatar-wrapper {
+  position: relative;
+  width: max-content;
+}
+
+.remove-avatar-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  color: var(--text-primary);
+  background: var(--surface-raised);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+
+  :deep(svg) {
+    width: 14px;
+    height: 14px;
+    fill: currentcolor;
+  }
+}
+
 .avatar {
   width: 100px;
   height: 100px;
