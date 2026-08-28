@@ -127,8 +127,8 @@ const updateUser = async () => {
   border-radius: 50%;
   color: var(--text-primary);
   background: var(--surface-raised);
-  cursor: pointer;
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
 
   :deep(svg) {
     width: 14px;
