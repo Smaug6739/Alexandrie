@@ -39,6 +39,12 @@
           </label>
           <AppToggle v-model="user.totp_forced" />
         </div>
+        <div class="actions-row">
+          <label class="toggle-row">
+            <span><strong>Suspend Account</strong><small>Block user from logging in and accessing the API.</small></span>
+          </label>
+          <AppToggle :model-value="user.suspended" @update:model-value="toggleSuspend" />
+        </div>
         <div class="container">
           <div class="user-detail">
             <label>Created At</label>
@@ -53,14 +59,31 @@
       <div class="actions-row">
         <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
         <AppButton type="primary" @click="router.push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
+        <AppButton type="primary" @click="changePassword">Change Password</AppButton>
+        <AppButton type="primary" @click="viewSessions">View Sessions</AppButton>
       </div>
     </div>
     <div v-else>No user found.</div>
+
+    <AppModal v-model="showSessionsModal" title="Active Sessions">
+      <div v-if="sessions.length > 0" class="sessions-list">
+        <div v-for="session in sessions" :key="session.id" class="session-item">
+          <div>
+            <strong>IP:</strong> {{ session.ip_addr || 'Unknown' }} <br />
+            <strong>Location:</strong> {{ session.location || 'Unknown' }} <br />
+            <strong>Browser:</strong> {{ session.user_agent || 'Unknown' }}
+          </div>
+          <AppButton type="danger" @click="revokeSession(session.id)">Revoke</AppButton>
+        </div>
+      </div>
+      <div v-else>No active sessions found.</div>
+    </AppModal>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { User } from '~/stores';
+import type { Session } from '~/stores/admin.store';
 
 definePageMeta({ breadcrumb: 'User Details' });
 
@@ -72,6 +95,8 @@ const { avatarURL } = useApi();
 const { numericDate } = useDateFormatters();
 
 const user = ref<User | undefined>(undefined);
+const showSessionsModal = ref(false);
+const sessions = ref<Session[]>([]);
 
 watchEffect(async () => {
   user.value = await store.fetchById(route.params.id as string);
@@ -83,6 +108,52 @@ const saveChanges = async () => {
     .update(user.value)
     .then(() => useNotifications().add({ type: 'success', title: 'User updated successfully' }))
     .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+};
+
+const toggleSuspend = async (value: boolean) => {
+  if (!user.value) return;
+  try {
+    await store.suspendUser(user.value.id, value);
+    user.value.suspended = value;
+    useNotifications().add({ type: 'success', title: value ? 'Account suspended' : 'Account activated' });
+  } catch (e) {
+    useNotifications().add({ type: 'error', title: 'Error', message: String(e) });
+  }
+};
+
+const changePassword = async () => {
+  if (!user.value) return;
+  const newPassword = prompt(`Enter new password for ${user.value.username}:`);
+  if (newPassword) {
+    try {
+      await store.adminUpdatePassword(user.value.id, newPassword);
+      useNotifications().add({ type: 'success', title: 'Password updated successfully' });
+    } catch (e) {
+      useNotifications().add({ type: 'error', title: 'Error', message: String(e) });
+    }
+  }
+};
+
+const viewSessions = async () => {
+  if (!user.value) return;
+  try {
+    const result = await store.fetchUserSessions(user.value.id);
+    sessions.value = result || [];
+    showSessionsModal.value = true;
+  } catch (e) {
+    useNotifications().add({ type: 'error', title: 'Error fetching sessions', message: String(e) });
+  }
+};
+
+const revokeSession = async (sessionId: string) => {
+  if (!user.value) return;
+  try {
+    await store.deleteUserSession(user.value.id, sessionId);
+    sessions.value = sessions.value.filter(s => s.id !== sessionId);
+    useNotifications().add({ type: 'success', title: 'Session revoked successfully' });
+  } catch (e) {
+    useNotifications().add({ type: 'error', title: 'Error revoking session', message: String(e) });
+  }
 };
 </script>
 
@@ -122,5 +193,20 @@ const saveChanges = async () => {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+.sessions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
 }
 </style>
