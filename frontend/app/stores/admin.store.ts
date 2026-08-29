@@ -4,6 +4,13 @@ interface UserData extends User {
   nodes?: Node[];
 }
 
+export interface Session {
+  id: string;
+  ip_addr: string;
+  location: string;
+  user_agent: string;
+}
+
 export const useAdminStore = defineStore('admin', {
   state: () => ({
     users: ref<UserData[]>(),
@@ -66,6 +73,29 @@ export const useAdminStore = defineStore('admin', {
       if (response.status === 'success') {
         return response.result?.node;
       } else throw response.message;
+    },
+    async adminUpdatePassword(userId: string, password: string) {
+      const request = await makeRequest(`users/${userId}/admin-password`, 'PATCH', { password });
+      if (request.status === 'success') return request.result;
+      else throw request.message;
+    },
+    async suspendUser(userId: string, suspend: boolean) {
+      const request = await makeRequest(`users/${userId}/suspend`, 'PATCH', { suspend });
+      if (request.status === 'success') {
+        const user = this.users?.find(u => u.id === userId);
+        if (user) user.suspended = suspend;
+        return request.result;
+      } else throw request.message;
+    },
+    async fetchUserSessions(userId: string) {
+      const response = await makeRequest<Session[]>(`users/${userId}/sessions`, 'GET', {});
+      if (response.status === 'success') return response.result;
+      else throw response.message;
+    },
+    async deleteUserSession(userId: string, sessionId: string) {
+      const request = await makeRequest(`users/${userId}/sessions/${sessionId}`, 'DELETE', {});
+      if (request.status === 'success') return request.result;
+      else throw request.message;
     },
     async fetchOverviewStats() {
       const response = await makeRequest<OverviewStats>('stats/overview', 'GET', {});
