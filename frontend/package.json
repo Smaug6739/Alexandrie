@@ -60,7 +60,7 @@
     "@types/markdown-it": "^14.2.0",
     "@types/markdown-it-container": "^4.0.0",
     "@types/markdown-it-emoji": "^3.0.1",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.3.0",
     "@vite-pwa/nuxt": "^1.1.1",
     "eslint": "^10.9.0",
     "eslint-config-prettier": "^10.1.8",
