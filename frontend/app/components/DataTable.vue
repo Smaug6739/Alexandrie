@@ -44,7 +44,7 @@
                   <span>
                     <span>{{ t('components.dataTable.rowsPerPage') }}</span>
                     <!-- eslint-disable-next-line vue/no-parsing-error -->
-                    <select @change="(e: Event) => paginator.setMaxPerPage(parseInt((<HTMLSelectElement>e.target)?.value) || 10)">
+                    <select :value="itemsPerPage" @change="(e: Event) => paginator.setMaxPerPage(parseInt((<HTMLSelectElement>e.target)?.value) || 10)">
                       <option value="10">10</option>
                       <option value="30">30</option>
                       <option value="50">50</option>
