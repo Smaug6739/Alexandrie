@@ -76,6 +76,7 @@ export default {
     dragHere: '將文件拖曳到這裡',
     editName: '編輯名稱',
     manageAssignees: '管理分配',
+    noAssignees: '尚未分配使用者',
     noDocuments: '沒有文件',
     resetBoard: {
       confirm: '你確定要重設看板嗎？',
@@ -83,6 +84,7 @@ export default {
       title: '重設看板',
       warning: '此操作無法復原。所有欄位都會被移除，卡片將移動到第一個欄位。',
     },
+    searchHint: '請輸入至少 3 個字元進行搜尋。',
     usersAssigned: '已分配使用者',
   },
 

@@ -76,6 +76,7 @@ export default {
     dragHere: 'Drag documents here',
     editName: 'Edit name',
     manageAssignees: 'Manage assignees',
+    noAssignees: 'No users assigned',
     noDocuments: 'No documents',
     resetBoard: {
       confirm: 'Are you sure you want to reset the Kanban board?',
@@ -83,6 +84,7 @@ export default {
       title: 'Reset Kanban board',
       warning: 'This action is irreversible. All columns will be removed and cards moved to the first column.',
     },
+    searchHint: 'Enter at least 3 characters to search.',
     usersAssigned: 'Users assigned',
   },
 

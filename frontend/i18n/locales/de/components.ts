@@ -76,6 +76,7 @@ export default {
     dragHere: 'Dokumente hierher ziehen',
     editName: 'Name bearbeiten',
     manageAssignees: 'Zuweisungen verwalten',
+    noAssignees: 'Keine Benutzer zugewiesen',
     noDocuments: 'Keine Dokumente',
     resetBoard: {
       confirm: 'Möchten Sie das Kanban-Board wirklich zurücksetzen?',
@@ -83,6 +84,7 @@ export default {
       title: 'Kanban-Board zurücksetzen',
       warning: 'Diese Aktion kann nicht rückgängig gemacht werden. Alle Spalten werden entfernt und die Karten in die erste Spalte verschoben.',
     },
+    searchHint: 'Geben Sie mindestens 3 Zeichen ein, um zu suchen.',
     usersAssigned: 'Zugewiesene Benutzer',
   },
 

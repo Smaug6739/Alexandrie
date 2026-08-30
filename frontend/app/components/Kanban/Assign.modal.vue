@@ -4,8 +4,9 @@
 
     <!-- Search + add -->
     <form @submit.prevent>
-      <label for="user">{{ t('nodes.modals.permissions.searchUser') }}</label>
+      <label for="user">{{ t('components.kanban.manageAssignees') }}</label>
       <input id="user" v-model="query" :placeholder="t('nodes.modals.permissions.searchPlaceholder')" autocomplete="off" />
+      <p v-if="query.trim().length > 0 && query.trim().length < 3" class="info-secondary">{{ t('components.kanban.searchHint') }}</p>
 
       <div v-for="user in users" :key="user.id" class="user-card">
         <div class="user-info-row">
@@ -22,9 +23,9 @@
       <p v-else-if="searchError" class="info-secondary">{{ searchError }}</p>
     </form>
 
-    <!-- Current permissions -->
-    <label for="permissions">{{ t('nodes.modals.permissions.managePermissions') }}</label>
-    <p v-if="!userIds.length" class="info-secondary">{{ t('nodes.modals.permissions.noPermissions') }}</p>
+    <!-- Current assignees -->
+    <label for="permissions">{{ t('components.kanban.usersAssigned') }}</label>
+    <p v-if="!userIds.length" class="info-secondary">{{ t('components.kanban.noAssignees') }}</p>
     <ul id="permissions" class="permissions-list">
       <li v-for="userId in userIds" :key="userId" class="permission-item">
         <div class="user-info-row">
@@ -65,9 +66,10 @@ const userIds = computed(() => {
 watch(query, async newQuery => {
   users.value = [];
   searchError.value = null;
-  if (!newQuery) return;
+  const trimmedQuery = newQuery.trim();
+  if (trimmedQuery.length < 3) return;
   isLoading.value = true;
-  searchUsers(newQuery);
+  searchUsers(trimmedQuery);
 });
 
 const searchUsers = debounce((query: unknown) => {
