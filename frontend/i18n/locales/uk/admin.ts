@@ -24,6 +24,16 @@ export default {
   },
 
   users: {
+    actions: {
+      accountActivated: 'Акаунт активовано',
+      accountSuspended: 'Акаунт призупинено',
+      error: 'Помилка',
+      errorFetchingSessions: 'Помилка отримання сеансів',
+      errorRevokingSession: 'Помилка скасування сеансу',
+      passwordUpdated: 'Пароль успішно оновлено',
+      sessionRevoked: 'Сеанс успішно скасовано',
+      userUpdated: 'Користувача успішно оновлено',
+    },
     headers: {
       action: 'Дія',
       createdAt: 'Створено',
@@ -39,15 +49,5 @@ export default {
       user: 'Користувач',
     },
     title: 'Управління користувачами',
-    actions: {
-      accountSuspended: 'Акаунт призупинено',
-      accountActivated: 'Акаунт активовано',
-      passwordUpdated: 'Пароль успішно оновлено',
-      sessionRevoked: 'Сеанс успішно скасовано',
-      userUpdated: 'Користувача успішно оновлено',
-      error: 'Помилка',
-      errorFetchingSessions: 'Помилка отримання сеансів',
-      errorRevokingSession: 'Помилка скасування сеансу',
-    },
   },
 };

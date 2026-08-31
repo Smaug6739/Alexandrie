@@ -24,6 +24,16 @@ export default {
   },
 
   users: {
+    actions: {
+      accountActivated: 'Compte activé',
+      accountSuspended: 'Compte suspendu',
+      error: 'Erreur',
+      errorFetchingSessions: 'Erreur lors de la récupération des sessions',
+      errorRevokingSession: 'Erreur lors de la révocation de la session',
+      passwordUpdated: 'Mot de passe mis à jour avec succès',
+      sessionRevoked: 'Session révoquée avec succès',
+      userUpdated: 'Utilisateur mis à jour avec succès',
+    },
     headers: {
       action: 'Action',
       createdAt: 'Créé le',
@@ -39,15 +49,5 @@ export default {
       user: 'Utilisateur',
     },
     title: 'Gestion des utilisateurs',
-    actions: {
-      accountSuspended: 'Compte suspendu',
-      accountActivated: 'Compte activé',
-      passwordUpdated: 'Mot de passe mis à jour avec succès',
-      sessionRevoked: 'Session révoquée avec succès',
-      userUpdated: 'Utilisateur mis à jour avec succès',
-      error: 'Erreur',
-      errorFetchingSessions: 'Erreur lors de la récupération des sessions',
-      errorRevokingSession: 'Erreur lors de la révocation de la session',
-    },
   },
 };

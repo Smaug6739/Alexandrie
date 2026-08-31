@@ -24,6 +24,16 @@ export default {
   },
 
   users: {
+    actions: {
+      accountActivated: 'Konto aktiviert',
+      accountSuspended: 'Konto gesperrt',
+      error: 'Fehler',
+      errorFetchingSessions: 'Fehler beim Abrufen der Sitzungen',
+      errorRevokingSession: 'Fehler beim Widerrufen der Sitzung',
+      passwordUpdated: 'Passwort erfolgreich aktualisiert',
+      sessionRevoked: 'Sitzung erfolgreich widerrufen',
+      userUpdated: 'Benutzer erfolgreich aktualisiert',
+    },
     headers: {
       action: 'Aktion',
       createdAt: 'Erstellt am',
@@ -39,15 +49,5 @@ export default {
       user: 'Benutzer',
     },
     title: 'Benutzerverwaltung',
-    actions: {
-      accountSuspended: 'Konto gesperrt',
-      accountActivated: 'Konto aktiviert',
-      passwordUpdated: 'Passwort erfolgreich aktualisiert',
-      sessionRevoked: 'Sitzung erfolgreich widerrufen',
-      userUpdated: 'Benutzer erfolgreich aktualisiert',
-      error: 'Fehler',
-      errorFetchingSessions: 'Fehler beim Abrufen der Sitzungen',
-      errorRevokingSession: 'Fehler beim Widerrufen der Sitzung',
-    },
   },
 };

@@ -24,6 +24,16 @@ export default {
   },
 
   users: {
+    actions: {
+      accountActivated: 'Account activated',
+      accountSuspended: 'Account suspended',
+      error: 'Error',
+      errorFetchingSessions: 'Error fetching sessions',
+      errorRevokingSession: 'Error revoking session',
+      passwordUpdated: 'Password updated successfully',
+      sessionRevoked: 'Session revoked successfully',
+      userUpdated: 'User updated successfully',
+    },
     headers: {
       action: 'Action',
       createdAt: 'Created at',
@@ -39,15 +49,5 @@ export default {
       user: 'User',
     },
     title: 'User management',
-    actions: {
-      accountSuspended: 'Account suspended',
-      accountActivated: 'Account activated',
-      passwordUpdated: 'Password updated successfully',
-      sessionRevoked: 'Session revoked successfully',
-      userUpdated: 'User updated successfully',
-      error: 'Error',
-      errorFetchingSessions: 'Error fetching sessions',
-      errorRevokingSession: 'Error revoking session',
-    },
   },
 };
