@@ -92,6 +92,35 @@ function showError(el: HTMLElement, message: string) {
 }
 
 /**
+ * Parse the engine's SVG through an inert document instead of assigning it as
+ * innerHTML. PlantUML escapes diagram text into <text> nodes, so its output is not
+ * a scripting vector today; parsing defensively keeps a future engine bug from
+ * reaching the live DOM, and drops any script or event handler on the way in.
+ */
+function parseSvg(svg: string): Element {
+  const parsed = new DOMParser().parseFromString(svg, 'image/svg+xml');
+  const root = parsed.documentElement;
+
+  // A malformed document parses into a <parsererror> root, or an <html> one, rather
+  // than throwing. Checking the root's local name rather than only its namespace
+  // keeps this working across parser implementations.
+  if (!root || root.localName?.toLowerCase() !== 'svg' || parsed.querySelector('parsererror')) {
+    throw new Error('The diagram engine returned invalid SVG.');
+  }
+
+  for (const node of root.querySelectorAll('script, foreignObject')) node.remove();
+  for (const node of [root, ...root.querySelectorAll('*')]) {
+    for (const attr of [...node.attributes]) {
+      if (/^on/i.test(attr.name) || (/^(href|xlink:href)$/i.test(attr.name) && !/^(#|https?:|mailto:)/i.test(attr.value.trim()))) {
+        node.removeAttributeNode(attr);
+      }
+    }
+  }
+
+  return document.importNode(root, true);
+}
+
+/**
  * Turn the `<pre class="plantuml">` placeholders emitted at compile time into
  * diagrams, either as an <img> pointing at a PlantUML server or as inline SVG
  * produced by the local engine.
@@ -129,7 +158,7 @@ export async function renderPlantumlDiagrams(root: HTMLElement, options: RenderP
 
     try {
       if (engine) {
-        el.innerHTML = await renderLocally(engine, source, options.dark);
+        el.replaceChildren(parseSvg(await renderLocally(engine, source, options.dark)));
       } else {
         const url = buildPlantumlUrl(options.server, await encodePlantumlSource(source), options.dark);
         const img = document.createElement('img');
