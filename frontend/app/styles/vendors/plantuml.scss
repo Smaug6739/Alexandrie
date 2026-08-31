@@ -1,0 +1,20 @@
+pre.plantuml {
+	margin: 1rem 0;
+	text-align: center;
+	background: transparent;
+	overflow-x: auto;
+
+	img,
+	svg {
+		max-width: 100%;
+	}
+}
+
+pre.plantuml.plantuml-error {
+	padding: 0.75rem 1rem;
+	border: 1px solid var(--red-border);
+	color: var(--red);
+	text-align: left;
+	white-space: pre-wrap;
+	background: var(--red-bg);
+}

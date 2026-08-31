@@ -69,6 +69,17 @@
         @input="opt.onChange?.(p(opt.key).value)"
       />
 
+      <!-- Text -->
+      <input
+        v-else-if="opt.type === 'text'"
+        v-model="p(opt.key).value"
+        type="text"
+        class="entry"
+        :placeholder="opt.placeholder || ''"
+        spellcheck="false"
+        @input="opt.onChange?.(p(opt.key).value)"
+      />
+
       <!-- Number -->
       <input
         v-else-if="opt.type === 'number'"

@@ -12,6 +12,7 @@
     "@nuxtjs/color-mode": "^4.0.1",
     "@nuxtjs/i18n": "10.6.0",
     "@pinia/nuxt": "^1.0.2",
+    "@plantuml/core": "^1.2026.6",
     "@zip.js/zip.js": "^2.8.59",
     "etag": "^1.8.1",
     "fast-glob": "^3.3.3",

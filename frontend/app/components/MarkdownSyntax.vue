@@ -230,6 +230,21 @@ graph TD
         >
       </div>
 
+      <p>
+        Diagrams can also be written in <a href="https://plantuml.com" target="_blank" rel="noopener">PlantUML</a> syntax, inside a <code>:::plantuml</code> or
+        <code>```plantuml</code> block. Rendering uses the server configured in your document preferences, or the local engine when offline.
+      </p>
+      <div class="demo">
+        <pre>
+:::plantuml
+@startuml
+Alice -> Bob: Authentication request
+Bob --> Alice: Authentication response
+@enduml
+:::</pre
+        >
+      </div>
+
       <!-- MATH -->
       <h2><Icon name="maths" fill="var(--primary)" /> {{ t('markdown.syntax.mathSyntax') }}</h2>
       <p>Use KaTeX for math expressions: <code>$...$</code> (inline) or <code>$$...$$</code> (block).</p>

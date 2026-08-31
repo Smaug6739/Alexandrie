@@ -14,6 +14,7 @@
 import compile from '~/helpers/markdown';
 import { rerenderImages } from '~/helpers/DOM';
 import { renderMermaidDiagrams } from '~/helpers/mermaid-render';
+import { renderPlantumlDiagrams } from '~/helpers/plantuml-render';
 import type { Node } from '~/stores';
 
 const props = defineProps<{ node?: Partial<Node> }>();
@@ -31,6 +32,8 @@ const documentFontSize = preferences.get('documentFontSize');
 const documentFontFamily = preferences.get('documentFontFamily');
 const documentLineHeight = preferences.get('documentLineHeight');
 const documentTitlesNumbering = preferences.get('documentTitlesNumbering');
+const plantumlRenderer = preferences.get('plantumlRenderer');
+const plantumlServer = preferences.get('plantumlServer');
 
 const rootElement = ref<HTMLElement>();
 
@@ -122,13 +125,15 @@ const handleCheckboxChange = (event: Event) => {
   updateDocumentContent();
 };
 
-function runMermaidRender() {
+function runDiagramsRender() {
   if (!rootElement.value) return;
-  renderMermaidDiagrams(rootElement.value, { dark: colorMode.value === 'dark' });
+  const dark = colorMode.value === 'dark';
+  renderMermaidDiagrams(rootElement.value, { dark });
+  renderPlantumlDiagrams(rootElement.value, { mode: plantumlRenderer.value, server: plantumlServer.value, dark });
 }
 
 onMounted(() => {
-  runMermaidRender();
+  runDiagramsRender();
   const unsub = subscribeDrawioCacheInvalidated(() => {
     rerenderImages(rootElement.value!);
   });
@@ -141,17 +146,16 @@ watch(
   () => props.node?.content_compiled,
   async () => {
     await nextTick();
-    runMermaidRender();
+    runDiagramsRender();
   },
 );
 
-watch(
-  () => colorMode.value,
-  async () => {
-    await nextTick();
-    runMermaidRender();
-  },
-);
+// Re-render on theme and on diagram settings, so switching renderer or server updates
+// already-rendered documents without recompiling them.
+watch([() => colorMode.value, plantumlRenderer, plantumlServer], async () => {
+  await nextTick();
+  runDiagramsRender();
+});
 </script>
 
 <style lang="scss" scoped>

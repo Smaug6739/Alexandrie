@@ -8,6 +8,7 @@ import { rainbowBrackets } from './bracketsRainbow';
 import { containerHighlight } from './customBlocks';
 import type { createInternalLinks } from './internalLinks';
 import { mermaidBlockHighlight } from './mermaidHighlight';
+import { plantumlBlockHighlight } from './plantumlHighlight';
 
 export interface CreateEditorStateParams {
   initialDoc: string;
@@ -37,6 +38,7 @@ export function createEditorState(params: CreateEditorStateParams) {
       rainbowBrackets(),
       containerHighlight(),
       mermaidBlockHighlight(),
+      plantumlBlockHighlight(),
       closeBrackets(),
       keymap.of([...params.keymaps, ...defaultKeymap, ...historyKeymap, indentWithTab, ...searchKeymap, ...closeBracketsKeymap]),
       markdown({ base: markdownLanguage }),

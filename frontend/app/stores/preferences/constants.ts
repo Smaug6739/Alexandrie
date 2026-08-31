@@ -78,6 +78,8 @@ export const DEFAULT_PREFERENCES = {
   developerMode: false as boolean,
   sortKey: 'name' as 'name' | 'created' | 'modified',
   sortOrder: 'ascending' as 'ascending' | 'descending',
+  plantumlRenderer: 'server' as 'server' | 'local',
+  plantumlServer: 'https://www.plantuml.com/plantuml' as string,
   stylesInjectionEnabled: false as boolean,
   stylesInjection: '' as string,
   stylesDocumentsInjection: '' as string,
@@ -133,6 +135,8 @@ export const EDITOR_KEYS: PreferenceKey[] = [
 
 export const ADVANCED_KEYS: PreferenceKey[] = [
   'snippets',
+  'plantumlRenderer',
+  'plantumlServer',
   'developerMode',
   'stylesInjectionEnabled',
   'stylesInjection',

@@ -8,13 +8,15 @@
 </template>
 
 <script setup lang="ts">
-import { DOCUMENT_SIZES, DOCUMENT_THEMES, EDITOR_FONTS } from '~/helpers/constants';
+import { DOCUMENT_SIZES, DOCUMENT_THEMES, EDITOR_FONTS, PLANTUML_RENDERERS } from '~/helpers/constants';
 
 type InterfaceOption = Option & {
   tag?: string;
 };
 
 const { t } = useI18nT();
+const preferencesStore = usePreferencesStore();
+const plantumlRenderer = preferencesStore.get('plantumlRenderer');
 
 const options = computed<Array<{ label: string; options: InterfaceOption[] }>>(() => [
   {
@@ -91,6 +93,30 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
         type: 'number',
         key: 'documentLineHeight',
       },
+    ],
+  },
+  {
+    label: t('settings.documents.diagramsSection'),
+    options: [
+      {
+        label: t('settings.documents.plantumlRenderer'),
+        description: t('settings.documents.plantumlRendererDesc'),
+        type: 'radio',
+        key: 'plantumlRenderer',
+        choices: PLANTUML_RENDERERS,
+        tag: t('common.actions.new'),
+      },
+      ...(plantumlRenderer.value === 'server'
+        ? ([
+            {
+              label: t('settings.documents.plantumlServer'),
+              description: t('settings.documents.plantumlServerDesc'),
+              type: 'text',
+              key: 'plantumlServer',
+              placeholder: 'https://www.plantuml.com/plantuml',
+            },
+          ] satisfies InterfaceOption[])
+        : []),
     ],
   },
 ]);

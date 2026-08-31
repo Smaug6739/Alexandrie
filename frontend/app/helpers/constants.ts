@@ -35,6 +35,12 @@ export const DOCUMENT_SIZES = [
   { label: 'Large', id: 2 },
 ];
 
+// PlantUML rendering modes: a remote server, or the engine bundled in the browser
+export const PLANTUML_RENDERERS = [
+  { label: 'Server', id: 'server' },
+  { label: 'Local (offline)', id: 'local' },
+];
+
 // Editor font options
 export const EDITOR_FONTS = [
   { label: 'JetBrains Mono', id: 'JetBrains Mono' },

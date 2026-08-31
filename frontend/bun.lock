@@ -15,6 +15,7 @@
         "@nuxtjs/color-mode": "^4.0.1",
         "@nuxtjs/i18n": "10.6.0",
         "@pinia/nuxt": "^1.0.2",
+        "@plantuml/core": "^1.2026.6",
         "@zip.js/zip.js": "^2.8.59",
         "etag": "^1.8.1",
         "fast-glob": "^3.3.3",
@@ -659,6 +660,8 @@
     "@pinia/nuxt": ["@pinia/nuxt@1.0.2", "", { "dependencies": { "@nuxt/kit": "^4.4.8" }, "peerDependencies": { "pinia": "^4.0.3" } }, "sha512-x+G/zz7SDjLq3TUf0jpaXiOb03ZY+O3i0q8aMP76Lz3MS/NaE71SJCCZjYiF8dNsz/0oOnCPT2DKghkumXlVRw=="],
 
     "@pkgjs/parseargs": ["@pkgjs/parseargs@0.11.0", "", {}, "sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg=="],
+
+    "@plantuml/core": ["@plantuml/core@1.2026.7", "", {}, "sha512-1yzQmABM9LmbVlCjBW+nxldnk0sAZqyYc927kwz63+PkOH3r26MARSJiz6aui6vZCYlorAE54vhlXskW92VzpA=="],
 
     "@polka/url": ["@polka/url@1.0.0-next.29", "", {}, "sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww=="],
 
