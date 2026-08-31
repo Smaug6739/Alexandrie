@@ -24,6 +24,16 @@ export default {
   },
 
   users: {
+    actions: {
+      accountActivated: '帳號已啟用',
+      accountSuspended: '帳號已停用',
+      error: '錯誤',
+      errorFetchingSessions: '取得會話時發生錯誤',
+      errorRevokingSession: '撤銷會話時發生錯誤',
+      passwordUpdated: '密碼更新成功',
+      sessionRevoked: '會話已成功撤銷',
+      userUpdated: '使用者更新成功',
+    },
     headers: {
       action: '操作',
       createdAt: '建立於',
@@ -39,15 +49,5 @@ export default {
       user: '使用者',
     },
     title: '使用者管理',
-    actions: {
-      accountSuspended: '帳號已停用',
-      accountActivated: '帳號已啟用',
-      passwordUpdated: '密碼更新成功',
-      sessionRevoked: '會話已成功撤銷',
-      userUpdated: '使用者更新成功',
-      error: '錯誤',
-      errorFetchingSessions: '取得會話時發生錯誤',
-      errorRevokingSession: '撤銷會話時發生錯誤',
-    },
   },
 };
