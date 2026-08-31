@@ -12,6 +12,7 @@
     "@nuxtjs/color-mode": "^4.0.1",
     "@nuxtjs/i18n": "10.6.0",
     "@pinia/nuxt": "^1.0.2",
+    "@types/turndown": "^5.0.6",
     "@zip.js/zip.js": "^2.8.59",
     "etag": "^1.8.1",
     "fast-glob": "^3.3.3",
@@ -35,6 +36,7 @@
     "sass": "^1.103.1",
     "svg-baker": "^1.7.0",
     "svgo": "^4.1.0",
+    "turndown": "^7.2.4",
     "vue": "^3.5.41"
   },
   "scripts": {

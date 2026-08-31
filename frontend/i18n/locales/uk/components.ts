@@ -38,6 +38,10 @@ export default {
   },
 
   editor: {
+    clipboard: {
+      partialImport: 'Імпортовано: {uploaded}. Ще {remaining} посилаються на початкове розташування, яке не дозволило доступ.',
+      partialImportTitle: 'Деякі зображення не вдалося імпортувати',
+    },
     placeholder: {
       description: 'Опис документа',
       title: 'Назва документа',

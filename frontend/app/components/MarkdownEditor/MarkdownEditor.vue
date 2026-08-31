@@ -66,7 +66,6 @@ import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompi
 import type { Node } from '~/stores';
 
 const { t } = useI18nT();
-const resourcesStore = useResourcesStore();
 const nodesStore = useNodesStore();
 const preferences = usePreferencesStore();
 
@@ -104,7 +103,6 @@ const commands = createCommands({
 });
 
 const uploadsHandlers = createUploadsHandlers({
-  resourcesStore,
   nodeId: document.value.id,
   insertText: (t: string) => commands.exec('insertText', t),
 });

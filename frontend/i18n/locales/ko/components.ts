@@ -38,6 +38,10 @@ export default {
   },
 
   editor: {
+    clipboard: {
+      partialImport: '{uploaded}개를 가져왔습니다. {remaining}개는 접근이 허용되지 않아 원래 위치를 계속 참조합니다.',
+      partialImportTitle: '일부 이미지를 가져오지 못했습니다',
+    },
     placeholder: {
       description: '문서 설명',
       title: '문서 제목',
