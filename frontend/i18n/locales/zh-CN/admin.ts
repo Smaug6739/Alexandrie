@@ -39,5 +39,15 @@ export default {
       user: '用户',
     },
     title: '用户管理',
+    actions: {
+      accountSuspended: '账号已停用',
+      accountActivated: '账号已激活',
+      passwordUpdated: '密码更新成功',
+      sessionRevoked: '会话已成功撤销',
+      userUpdated: '用户更新成功',
+      error: '错误',
+      errorFetchingSessions: '获取会话时出错',
+      errorRevokingSession: '撤销会话时出错',
+    },
   },
 };

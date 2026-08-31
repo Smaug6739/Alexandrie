@@ -154,8 +154,8 @@ func (r *UserRepositoryImpl) CheckUsernameExists(username string) (bool, error) 
 
 func (r *UserRepositoryImpl) Create(user *models.User) (*models.User, error) {
 	_, err := r.db.NamedExec(`
-		INSERT INTO users (id, username, firstname, lastname, role, type, avatar, email, password, created_timestamp, updated_timestamp, totp_forced, suspended) 
-		VALUES (:id, :username, :firstname, :lastname, :role, :type, :avatar, :email, :password, :created_timestamp, :updated_timestamp, :totp_forced, :suspended)`,
+		INSERT INTO users (id, username, firstname, lastname, role, type, avatar, email, password, created_timestamp, updated_timestamp, totp_forced) 
+		VALUES (:id, :username, :firstname, :lastname, :role, :type, :avatar, :email, :password, :created_timestamp, :updated_timestamp, :totp_forced)`,
 		user)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create user: %w", err)
@@ -166,9 +166,9 @@ func (r *UserRepositoryImpl) Create(user *models.User) (*models.User, error) {
 func (r *UserRepositoryImpl) Update(id types.Snowflake, user *models.User) (*models.User, error) {
 	_, err := r.db.Exec(`
 		UPDATE users 
-		SET username=?, firstname=?, lastname=?, type=?, avatar=?, email=?, updated_timestamp=?, totp_forced=?, suspended=?
+		SET username=?, firstname=?, lastname=?, type=?, avatar=?, email=?, updated_timestamp=?, totp_forced=?
 		WHERE id=?`,
-		user.Username, user.Firstname, user.Lastname, user.Type, user.Avatar, user.Email, user.UpdatedTimestamp, user.TOTPForced, user.Suspended, id)
+		user.Username, user.Firstname, user.Lastname, user.Type, user.Avatar, user.Email, user.UpdatedTimestamp, user.TOTPForced, id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to update user: %w", err)
 	}
