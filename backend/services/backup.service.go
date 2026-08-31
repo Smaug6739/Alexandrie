@@ -218,6 +218,11 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 		TotalNodes: len(nodes),
 	}
 
+	nodeMap := make(map[types.Snowflake]*models.Node)
+	for _, node := range nodes {
+		nodeMap[node.Id] = node
+	}
+
 	var documents []*models.Node
 	var files []*models.Node
 
@@ -235,15 +240,22 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 
 	// Add documents to backup
 	if job.Options.IncludeDocuments {
-		documentsData, err := s.prepareDocumentsData(documents, job.Options.IncludeMetadata)
-		if err != nil {
-			s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to prepare documents: %v", err))
-			return
-		}
+		if job.Options.Format == "markdown" {
+			if err := s.processMarkdownBackup(ctx, job, zipWriter, nodes, documents, nodeMap, &stats); err != nil {
+				s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to generate markdown backup: %v", err))
+				return
+			}
+		} else {
+			documentsData, err := s.prepareDocumentsData(documents, job.Options.IncludeMetadata)
+			if err != nil {
+				s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to prepare documents: %v", err))
+				return
+			}
 
-		if err := s.addJSONToZip(zipWriter, "documents.json", documentsData); err != nil {
-			s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to add documents to archive: %v", err))
-			return
+			if err := s.addJSONToZip(zipWriter, "documents.json", documentsData); err != nil {
+				s.updateJobStatus(job, types.BackupStatusFailed, 0, "", fmt.Sprintf("Failed to add documents to archive: %v", err))
+				return
+			}
 		}
 	}
 
@@ -257,7 +269,7 @@ func (s *backupService) processBackup(ctx context.Context, job *types.BackupJob,
 
 	// Add files to backup
 	if job.Options.IncludeFiles && len(files) > 0 {
-		if err := s.addFilesToZip(ctx, zipWriter, files, job, minioClient, &stats); err != nil {
+		if err := s.addFilesToZip(ctx, zipWriter, files, job, minioClient, &stats, nodeMap); err != nil {
 			if ctx.Err() != nil {
 				return
 			}
@@ -444,7 +456,7 @@ func (s *backupService) addJSONToZip(zipWriter *zip.Writer, filename string, dat
 	return err
 }
 
-func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer, files []*models.Node, job *types.BackupJob, minioClient *minio.Client, stats *types.BackupStats) error {
+func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer, files []*models.Node, job *types.BackupJob, minioClient *minio.Client, stats *types.BackupStats, nodeMap map[types.Snowflake]*models.Node) error {
 	bucket := os.Getenv("MINIO_BUCKET")
 
 	sem := make(chan struct{}, maxConcurrentFiles)
@@ -531,9 +543,19 @@ func (s *backupService) addFilesToZip(ctx context.Context, zipWriter *zip.Writer
 			}
 
 			archivePath := fmt.Sprintf("files/%d%s", f.Id, filepath.Ext(f.Name))
-			if f.Metadata != nil {
-				if originalPath, ok := (*f.Metadata)["original_path"].(string); ok {
-					archivePath = fmt.Sprintf("files/%d_%s", f.Id, filepath.Base(originalPath))
+			if job.Options.Format == "markdown" {
+				// Use the parent path for the file, or fallback to files/ if no parent
+				if f.ParentId != nil {
+					if parent, ok := nodeMap[*f.ParentId]; ok {
+						basePath := getNodeTreePath(parent, nodeMap)
+						archivePath = fmt.Sprintf("%s/%s", basePath, f.Name)
+					}
+				}
+			} else {
+				if f.Metadata != nil {
+					if originalPath, ok := (*f.Metadata)["original_path"].(string); ok {
+						archivePath = fmt.Sprintf("files/%d_%s", f.Id, filepath.Base(originalPath))
+					}
 				}
 			}
 
