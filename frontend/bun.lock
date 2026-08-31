@@ -21,7 +21,7 @@
         "fs-extra": "^11.4.0",
         "katex": "^0.18.4",
         "localforage": "^1.10.0",
-        "markdown-it": "^15.0.0",
+        "markdown-it": "^15.0.1",
         "markdown-it-anchor": "^9.2.1",
         "markdown-it-container": "^4.0.0",
         "markdown-it-emoji": "^3.1.0",
@@ -1944,7 +1944,7 @@
 
     "map-visit": ["map-visit@1.0.0", "", { "dependencies": { "object-visit": "^1.0.0" } }, "sha512-4y7uGv8bd2WdM9vpQsiQNo41Ln1NvhvDRuVt0k2JZQ+ezN2uaQes7lZeZ+QQUHOLQAtDaBJ+7wCbi+ab/KFs+w=="],
 
-    "markdown-it": ["markdown-it@15.0.0", "", { "dependencies": { "argparse": "^3.0.0", "entities": "^8.0.0", "linkify-it": "^6.0.0", "mdurl": "^2.1.0", "punycode.js": "^2.3.1", "uc.micro": "^3.0.0" }, "bin": { "markdown-it": "bin/markdown-it.mjs" } }, "sha512-Lf8ajvVNdRpzSNB4VegxNy7gjs8gU35l4b4+ET49LrQC5PKYwLZ72u60LeJ9gv3qiaesuYjJWCyVeQmv/QWKQw=="],
+    "markdown-it": ["markdown-it@15.0.1", "", { "dependencies": { "argparse": "^3.0.0", "entities": "^8.0.0", "linkify-it": "^6.0.0", "mdurl": "^2.1.0", "punycode.js": "^2.3.1", "uc.micro": "^3.0.0" }, "bin": { "markdown-it": "bin/markdown-it.mjs" } }, "sha512-9/7gE95FNPkfUWrjJIoHZza2iLmuJlPD0UNMxPi7bxUrbCR525YZY0r+zyfes0dZI5ZZ/uNIXUJca0pJvtw41g=="],
 
     "markdown-it-anchor": ["markdown-it-anchor@9.2.1", "", { "peerDependencies": { "@types/markdown-it": "*", "markdown-it": "*" } }, "sha512-p6APiLJDFAW2GEvaavDvhIBn7jrX2jLv77NkBGgNacFTurbORYc4pyYySg/mI6mpR6cHQuAtzKtmqgQr4K8dsQ=="],
 
