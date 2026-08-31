@@ -39,5 +39,15 @@ export default {
       user: 'Користувач',
     },
     title: 'Управління користувачами',
+    actions: {
+      accountSuspended: 'Акаунт призупинено',
+      accountActivated: 'Акаунт активовано',
+      passwordUpdated: 'Пароль успішно оновлено',
+      sessionRevoked: 'Сеанс успішно скасовано',
+      userUpdated: 'Користувача успішно оновлено',
+      error: 'Помилка',
+      errorFetchingSessions: 'Помилка отримання сеансів',
+      errorRevokingSession: 'Помилка скасування сеансу',
+    },
   },
 };

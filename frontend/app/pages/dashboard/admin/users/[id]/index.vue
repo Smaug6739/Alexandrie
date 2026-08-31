@@ -93,6 +93,8 @@ const route = useRoute();
 const router = useRouter();
 const { avatarURL } = useApi();
 const { numericDate } = useDateFormatters();
+const { t } = useI18nT();
+const notifications = useNotifications();
 
 const user = ref<User | undefined>(undefined);
 const showSessionsModal = ref(false);
@@ -106,8 +108,8 @@ const saveChanges = async () => {
   if (!user.value) return;
   store
     .update(user.value)
-    .then(() => useNotifications().add({ type: 'success', title: 'User updated successfully' }))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+    .then(() => notifications.add({ type: 'success', title: t('admin.users.actions.userUpdated') }))
+    .catch(e => notifications.add({ type: 'error', title: t('admin.users.actions.error'), message: e }));
 };
 
 const toggleSuspend = async (value: boolean) => {
@@ -115,9 +117,9 @@ const toggleSuspend = async (value: boolean) => {
   try {
     await store.suspendUser(user.value.id, value);
     user.value.suspended = value;
-    useNotifications().add({ type: 'success', title: value ? 'Account suspended' : 'Account activated' });
+    notifications.add({ type: 'success', title: value ? t('admin.users.actions.accountSuspended') : t('admin.users.actions.accountActivated') });
   } catch (e) {
-    useNotifications().add({ type: 'error', title: 'Error', message: String(e) });
+    notifications.add({ type: 'error', title: t('admin.users.actions.error'), message: String(e) });
   }
 };
 
@@ -127,9 +129,9 @@ const changePassword = async () => {
   if (newPassword) {
     try {
       await store.adminUpdatePassword(user.value.id, newPassword);
-      useNotifications().add({ type: 'success', title: 'Password updated successfully' });
+      notifications.add({ type: 'success', title: t('admin.users.actions.passwordUpdated') });
     } catch (e) {
-      useNotifications().add({ type: 'error', title: 'Error', message: String(e) });
+      notifications.add({ type: 'error', title: t('admin.users.actions.error'), message: String(e) });
     }
   }
 };
@@ -141,7 +143,7 @@ const viewSessions = async () => {
     sessions.value = result || [];
     showSessionsModal.value = true;
   } catch (e) {
-    useNotifications().add({ type: 'error', title: 'Error fetching sessions', message: String(e) });
+    notifications.add({ type: 'error', title: t('admin.users.actions.errorFetchingSessions'), message: String(e) });
   }
 };
 
@@ -150,9 +152,9 @@ const revokeSession = async (sessionId: string) => {
   try {
     await store.deleteUserSession(user.value.id, sessionId);
     sessions.value = sessions.value.filter(s => s.id !== sessionId);
-    useNotifications().add({ type: 'success', title: 'Session revoked successfully' });
+    notifications.add({ type: 'success', title: t('admin.users.actions.sessionRevoked') });
   } catch (e) {
-    useNotifications().add({ type: 'error', title: 'Error revoking session', message: String(e) });
+    notifications.add({ type: 'error', title: t('admin.users.actions.errorRevokingSession'), message: String(e) });
   }
 };
 </script>

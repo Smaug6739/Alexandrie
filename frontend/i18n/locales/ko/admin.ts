@@ -39,5 +39,15 @@ export default {
       user: '사용자',
     },
     title: '사용자 관리',
+    actions: {
+      accountSuspended: '계정이 정지되었습니다',
+      accountActivated: '계정이 활성화되었습니다',
+      passwordUpdated: '비밀번호가 성공적으로 업데이트되었습니다',
+      sessionRevoked: '세션이 성공적으로 취소되었습니다',
+      userUpdated: '사용자가 성공적으로 업데이트되었습니다',
+      error: '오류',
+      errorFetchingSessions: '세션을 가져오는 중 오류 발생',
+      errorRevokingSession: '세션을 취소하는 중 오류 발생',
+    },
   },
 };

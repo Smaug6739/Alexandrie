@@ -39,5 +39,15 @@ export default {
       user: 'Utilisateur',
     },
     title: 'Gestion des utilisateurs',
+    actions: {
+      accountSuspended: 'Compte suspendu',
+      accountActivated: 'Compte activé',
+      passwordUpdated: 'Mot de passe mis à jour avec succès',
+      sessionRevoked: 'Session révoquée avec succès',
+      userUpdated: 'Utilisateur mis à jour avec succès',
+      error: 'Erreur',
+      errorFetchingSessions: 'Erreur lors de la récupération des sessions',
+      errorRevokingSession: 'Erreur lors de la révocation de la session',
+    },
   },
 };
