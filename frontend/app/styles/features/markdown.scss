@@ -171,11 +171,35 @@
 	margin: 1em 0;
 }
 
-.code-copy-btn {
+// Language label and copy button share one row, pinned to the top-right of the block.
+.code-block-actions {
 	position: absolute;
 	top: 20px;
 	right: 8px;
 	z-index: 5;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.code-block-language {
+	padding: 4px 8px;
+	border: 1px solid var(--grey-dark);
+	border-radius: 6px;
+	font-family: var(--font-mono, monospace);
+	font-size: 0.72rem;
+	font-weight: 500;
+	color: #a0a0a0;
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+	background: rgb(30 30 30 / 70%);
+	backdrop-filter: blur(4px);
+	user-select: none;
+}
+
+.code-copy-btn {
+	/* Positioning context for the success tick, which is absolutely placed. */
+	position: relative;
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
