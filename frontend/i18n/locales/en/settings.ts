@@ -36,6 +36,8 @@ export default {
     enableCompactMode: 'Enable compact mode',
     enableCompactModeDesc: 'Reduce sidebar item size to show more content.',
     enableDarkMode: 'Enable dark mode',
+    icons: 'Icons',
+    iconsDesc: 'Choose the icon pack used in the app. The "Lucid" pack is more minimalistic, while the "Material" pack is more detailed.',
     general: 'General',
     interfaceStyle: 'Interface style',
     interfaceStyleDesc: 'Glassmorphism adds transparent surfaces with blur for a modern glass look.',
