@@ -38,6 +38,10 @@ export default {
   },
 
   editor: {
+    clipboard: {
+      partialImport: '已导入 {uploaded} 张。另有 {remaining} 张仍指向原始位置，该位置不允许访问。',
+      partialImportTitle: '部分图片未能导入',
+    },
     placeholder: {
       description: '文档描述',
       title: '文档标题',

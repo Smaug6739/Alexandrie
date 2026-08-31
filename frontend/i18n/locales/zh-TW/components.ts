@@ -38,6 +38,10 @@ export default {
   },
 
   editor: {
+    clipboard: {
+      partialImport: '已匯入 {uploaded} 張。另有 {remaining} 張仍指向原始位置，該位置不允許存取。',
+      partialImportTitle: '部分圖片未能匯入',
+    },
     placeholder: {
       description: '文件描述',
       title: '文件標題',

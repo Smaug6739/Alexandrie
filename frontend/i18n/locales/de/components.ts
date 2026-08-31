@@ -38,6 +38,10 @@ export default {
   },
 
   editor: {
+    clipboard: {
+      partialImport: '{uploaded} importiert. {remaining} verweisen weiterhin auf den Ursprungsort, der keinen Zugriff erlaubt hat.',
+      partialImportTitle: 'Einige Bilder wurden nicht importiert',
+    },
     placeholder: {
       description: 'Dokumentbeschreibung',
       title: 'Dokumenttitel',
