@@ -29,7 +29,7 @@
 
     <div v-else class="empty">
       <Icon name="layers" size="40px" />
-      <p v-if="isMobile">
+      <p v-if="isMobile" class="mobile-prompt">
         {{ t('cdn.appdrop.promptMobile') }}
       </p>
       <p v-else-if="multiple">
@@ -203,6 +203,11 @@ defineExpose({ reset });
     margin: 0;
   }
 
+  .mobile-prompt {
+    max-width: 160px;
+    text-align: center;
+  }
+
   .hint {
     font-size: 12px;
     color: var(--text-secondary);
@@ -247,4 +252,5 @@ footer {
     text-decoration: underline;
   }
 }
+
 </style>
