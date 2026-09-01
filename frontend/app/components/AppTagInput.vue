@@ -169,13 +169,34 @@ input {
   }
 
   &.minimal {
-    padding: 6px 8px;
-    border: none;
-    font-size: 13px;
+    box-sizing: border-box;
+    height: 34px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--surface-raised);
+    outline: none;
+    transition: all $transition-base ease;
 
-    &:hover,
+    &:hover {
+      border-color: var(--border);
+      background: var(--surface-overlay);
+    }
+
     &:focus {
-      background: var(--surface-transparent);
+      border-color: var(--primary);
+      background: var(--surface-base);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+    }
+
+    &::placeholder {
+      font-weight: 400;
+      color: var(--text-secondary);
+      opacity: 0.8;
     }
   }
 }
