@@ -14,6 +14,7 @@ export default {
     link: '按這裡',
     max: '最多 {n} 個檔案',
     prompt: '將檔案拖曳至此，或{link}選擇檔案',
+    promptMobile: '輕觸以選擇裝置中的檔案',
     promptPlural: '將檔案拖曳至此，或{link}選擇檔案',
     removeFile: '移除檔案',
   },

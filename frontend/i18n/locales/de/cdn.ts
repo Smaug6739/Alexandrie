@@ -14,6 +14,7 @@ export default {
     link: 'hier klicken',
     max: 'Maximal {n} Dateien',
     prompt: 'Ziehe deine Datei hierher oder klicke auf {link}, um sie auszuwählen',
+    promptMobile: 'Tippe hier, um Dateien von deinem Gerät auszuwählen',
     promptPlural: 'Ziehe deine Dateien hierher oder klicke auf {link}, um sie auszuwählen',
     removeFile: 'Datei entfernen',
   },

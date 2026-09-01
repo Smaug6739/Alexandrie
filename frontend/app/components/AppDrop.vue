@@ -7,6 +7,7 @@
     @dragenter.prevent="dragEnter"
     @dragleave.prevent="dragLeave"
     @paste.prevent="handlePaste"
+    @click="handleDropAreaClick"
   >
     <input ref="fileInput" type="file" :multiple="multiple" :webkitdirectory="allowFolders" @change="handleFileSelect" />
 
@@ -28,7 +29,10 @@
 
     <div v-else class="empty">
       <Icon name="layers" size="40px" />
-      <p v-if="multiple">
+      <p v-if="isMobile">
+        {{ t('cdn.appdrop.promptMobile') }}
+      </p>
+      <p v-else-if="multiple">
         <i18n-t scope="global" keypath="cdn.appdrop.promptPlural">
           <template #link>
             <span class="link" @click="triggerFileSelect">{{ t('cdn.appdrop.link') }}</span>
@@ -67,6 +71,7 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18nT();
+const { isMobile } = useDevice();
 
 const selectedFiles = ref<File[]>([]);
 const isDragOver = ref(false);
@@ -76,6 +81,12 @@ const totalSize = computed(() => selectedFiles.value.reduce((acc, file) => acc +
 
 // Actions
 const triggerFileSelect = () => fileInput.value!.click();
+
+const handleDropAreaClick = () => {
+  if (isMobile.value && !selectedFiles.value.length) {
+    triggerFileSelect();
+  }
+};
 
 const addFiles = (files?: FileList | File[] | null) => {
   if (!files) return;
