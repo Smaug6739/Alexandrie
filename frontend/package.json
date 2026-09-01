@@ -27,7 +27,7 @@
     "mermaid": "^11.17.2",
     "nuxt": "^4.5.2",
     "pathe": "^2.0.3",
-    "pdfjs-dist": "^6.2.108",
+    "pdfjs-dist": "^6.3.289",
     "pinia": "^4.0.3",
     "postcss-scss": "^4.0.9",
     "punycode": "^2.3.1",
