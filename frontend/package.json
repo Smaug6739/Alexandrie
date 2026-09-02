@@ -35,7 +35,7 @@
     "sass": "^1.103.1",
     "svg-baker": "^1.7.0",
     "svgo": "^4.1.0",
-    "vue": "^3.5.41"
+    "vue": "^3.5.42"
   },
   "scripts": {
     "build": "nuxt build",
