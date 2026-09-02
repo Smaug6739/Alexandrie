@@ -1,0 +1,18 @@
+// =============================================================================
+// MINIMAL THEME
+// =============================================================================
+
+@mixin minimal-theme {
+	--radius-xs: 0;
+	--radius-sm: 0;
+	--radius-md: 0;
+	--radius-lg: 0;
+	--radius-xl: 0;
+	--radius-xxl: 0;
+	--shadow-xs: none;
+	--shadow-sm: none;
+	--shadow-md: none;
+	--shadow-lg: none;
+	--shadow-xl: none;
+	--border-subtle: var(--border);
+}

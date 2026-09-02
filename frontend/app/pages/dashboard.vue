@@ -37,7 +37,14 @@ watch(
 watch(
   interfaceStyle,
   style => {
-    if (import.meta.client) document.documentElement.classList.toggle('glassmorphism', style === 'glassmorphism');
+    if (import.meta.client) {
+      const THEMES = ['glassmorphism', 'minimal', 'github', 'fluent', 'modern'];
+      THEMES.forEach(t => document.documentElement.classList.remove(t));
+      if (style !== 'default') {
+        document.documentElement.classList.add(style);
+      }
+      console.log('[ThemeSwitcher] Applied theme class:', style, 'to documentElement:', document.documentElement.className);
+    }
   },
   { immediate: true },
 );
