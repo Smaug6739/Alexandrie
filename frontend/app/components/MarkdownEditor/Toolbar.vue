@@ -226,7 +226,6 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
   background: var(--surface-base);
   box-shadow: var(--shadow-sm);
   transition: box-shadow $transition-base ease;
-  overflow-x: clip;
   user-select: none;
 
   &:hover {
@@ -270,6 +269,23 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
       opacity: 1;
       visibility: visible;
       transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  /* Fix clipping for the very first button (Bold) */
+  .toolbar-group:first-of-type .group-buttons &:first-child {
+    .tooltip {
+      left: 0;
+      transform: translateY(-4px);
+
+      &::before {
+        left: 9px;
+        transform: none;
+      }
+    }
+
+    &:hover .tooltip {
+      transform: translateY(0);
     }
   }
 }
@@ -405,6 +421,25 @@ const actionTools = computed<ToolItem[]>(() => [{ name: t('markdown.toolbar.prev
   padding: 3px;
   border-radius: var(--radius-sm);
   background: var(--surface-transparent);
+
+  /* Fix clipping for right-aligned buttons */
+  .toolbar-btn {
+    .tooltip {
+      right: 0;
+      left: auto;
+      transform: translateY(-4px);
+
+      &::before {
+        right: 9px;
+        left: auto;
+        transform: none;
+      }
+    }
+
+    &:hover .tooltip {
+      transform: translateY(0);
+    }
+  }
 }
 
 .action-divider {
