@@ -76,6 +76,7 @@ export default {
     dragHere: 'Glissez des documents ici',
     editName: 'Modifier le nom',
     manageAssignees: 'Gérer les assignations',
+    noAssignees: 'Aucun utilisateur assigné',
     noDocuments: 'Aucun document',
     resetBoard: {
       confirm: 'Êtes-vous sûr de vouloir réinitialiser le tableau kanban ?',
@@ -83,6 +84,7 @@ export default {
       title: 'Réinitialiser le tableau kanban',
       warning: 'Cette action est irréversible. Toutes les colonnes seront supprimées et les cartes déplacées vers la première colonne.',
     },
+    searchHint: 'Saisissez au moins 3 caractères pour lancer la recherche.',
     usersAssigned: 'Utilisateurs assignés',
   },
 
