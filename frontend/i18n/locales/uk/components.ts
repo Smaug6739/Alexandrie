@@ -128,7 +128,7 @@ export default {
     newWorkspace: 'Новий простір',
     noWorkspaces: 'Просторів не знайдено',
     openAll: 'Відкрити все',
-    searchPlaceholder: 'Пошук або Ctrl + Q',
+    searchPlaceholder: 'Пошук або Ctrl + K',
     sharedWithMe: 'Поділилися зі мною',
     toggleDock: 'Перемикання дока',
     workspaces: 'Простори',

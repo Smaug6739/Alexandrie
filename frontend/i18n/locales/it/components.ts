@@ -128,7 +128,7 @@ export default {
     newWorkspace: 'Nuova area di lavoro',
     noWorkspaces: 'Nessuna area di lavoro trovata',
     openAll: 'Apri tutto',
-    searchPlaceholder: 'Cerca o ctrl + q',
+    searchPlaceholder: 'Cerca o ctrl + k',
     sharedWithMe: 'Condivisi con me',
     toggleDock: 'Fissa/Sblocca barra',
     workspaces: 'Aree di lavoro',

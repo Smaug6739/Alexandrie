@@ -128,7 +128,7 @@ export default {
     newWorkspace: 'Neuer Arbeitsbereich',
     noWorkspaces: 'Keine Arbeitsbereiche gefunden',
     openAll: 'Alle öffnen',
-    searchPlaceholder: 'Suchen oder Strg + Q',
+    searchPlaceholder: 'Suchen oder Strg + K',
     sharedWithMe: 'Mit mir geteilt',
     toggleDock: 'Dock umschalten',
     workspaces: 'Arbeitsbereiche',

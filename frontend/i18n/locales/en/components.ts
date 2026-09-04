@@ -128,7 +128,7 @@ export default {
     newWorkspace: 'New workspace',
     noWorkspaces: 'No workspaces found',
     openAll: 'Open all',
-    searchPlaceholder: 'Search or ctrl + q',
+    searchPlaceholder: 'Search or ctrl + k',
     sharedWithMe: 'Shared with me',
     toggleDock: 'Toggle dock',
     workspaces: 'Workspaces',
