@@ -1,4 +1,5 @@
 import { appColors } from '~/helpers/constants';
+import { persistThemeColor, resolveThemeColorValue } from '~/helpers/themeColor';
 
 /** Get theme color name by index (-2 = primary, -1 = none, 0+ = color index) */
 function getAppAccent(index: number = 0, defaultPrimary?: boolean): string {
@@ -32,8 +33,10 @@ function setThemeColor(cssVar: string) {
     meta.setAttribute('name', 'theme-color');
     document.head.appendChild(meta);
   }
-  const computedColor = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
+  const styles = getComputedStyle(document.documentElement);
+  const computedColor = resolveThemeColorValue(styles.getPropertyValue(cssVar).trim(), name => styles.getPropertyValue(name).trim());
   meta.setAttribute('content', computedColor);
+  persistThemeColor(computedColor);
 }
 
 export const useAppColors = () => {

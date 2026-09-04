@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config';
 import { resolve } from 'path';
+import { THEME_COLOR_STORAGE_KEY } from './app/helpers/themeColor';
 import { createSvgIconsPlugin } from './vite/plugins/svg-sprite';
 import type { NuxtPage } from 'nuxt/schema';
 
@@ -89,6 +90,11 @@ export default defineNuxtConfig({
           --primary-border: var(--accent-border);
         }
       `,
+        },
+      ],
+      script: [
+        {
+          innerHTML: `(function(){try{var c=window.localStorage.getItem(${JSON.stringify(THEME_COLOR_STORAGE_KEY)});if(!c)return;var m=document.querySelector('meta[name="theme-color"]');if(!m){m=document.createElement('meta');m.setAttribute('name','theme-color');document.head.appendChild(m);}m.setAttribute('content',c);}catch(e){}})();`,
         },
       ],
     },
