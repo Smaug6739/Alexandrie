@@ -76,6 +76,7 @@ export default {
     dragHere: '문서를 여기로 드래그하세요',
     editName: '이름 편집',
     manageAssignees: '담당자 관리',
+    noAssignees: '할당된 사용자가 없습니다',
     noDocuments: '문서가 없습니다',
     resetBoard: {
       confirm: '칸반 보드를 초기화하시겠습니까?',
@@ -83,6 +84,7 @@ export default {
       title: '칸반 보드 초기화',
       warning: '이 작업은 되돌릴 수 없습니다. 모든 열이 삭제되고 카드는 첫 번째 열로 이동됩니다.',
     },
+    searchHint: '검색하려면 3자 이상 입력하세요.',
     usersAssigned: '할당된 사용자',
   },
 

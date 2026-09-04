@@ -76,6 +76,7 @@ export default {
     dragHere: 'Trascina i documenti qui',
     editName: 'Modifica nome',
     manageAssignees: 'Gestisci assegnazioni',
+    noAssignees: 'Nessun utente assegnato',
     noDocuments: 'Nessun documento',
     resetBoard: {
       confirm: 'Sei sicuro di voler ripristinare la lavagna Kanban?',
@@ -83,6 +84,7 @@ export default {
       title: 'Ripristina lavagna Kanban',
       warning: 'Questa azione è irreversibile. Tutte le colonne verranno rimosse e le schede saranno spostate nella prima colonna.',
     },
+    searchHint: 'Inserisci almeno 3 caratteri per cercare.',
     usersAssigned: 'Utenti assegnati',
   },
 

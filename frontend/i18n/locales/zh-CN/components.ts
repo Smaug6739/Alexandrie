@@ -76,6 +76,7 @@ export default {
     dragHere: '将文档拖拽到这里',
     editName: '编辑名称',
     manageAssignees: '管理分配',
+    noAssignees: '暂无已分配用户',
     noDocuments: '没有文档',
     resetBoard: {
       confirm: '你确定要重置看板吗？',
@@ -83,6 +84,7 @@ export default {
       title: '重置看板',
       warning: '此操作无法撤销。所有列都会被移除，卡片将移动到第一列。',
     },
+    searchHint: '请输入至少 3 个字符进行搜索。',
     usersAssigned: '已分配用户',
   },
 

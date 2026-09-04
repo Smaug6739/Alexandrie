@@ -233,6 +233,8 @@ const autoSave = debounceDelayed(() => {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
   }
 
   gap: 8px;
@@ -244,49 +246,70 @@ const autoSave = debounceDelayed(() => {
 
 .meta-title {
   flex: 0 1 auto;
-  min-width: 120px;
-  max-width: 280px;
-  padding: 4px 8px;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 1rem;
-  font-weight: 600;
+  box-sizing: border-box;
+  min-width: 140px;
+  max-width: 320px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: var(--text-primary);
-  background: transparent;
+  background: var(--surface-raised);
   outline: none;
-  transition: background $transition-fast ease;
+  transition: all $transition-base ease;
 
-  &:hover,
+  &:hover {
+    border-color: var(--border);
+    background: var(--surface-overlay);
+  }
+
   &:focus {
-    background: var(--surface-transparent);
+    border-color: var(--primary);
+    background: var(--surface-base);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
   }
 
   &::placeholder {
-    font-weight: 500;
+    font-weight: 400;
     color: var(--text-secondary);
+    opacity: 0.8;
   }
 }
 
 .meta-description {
-  flex: 1 1 150px;
-  min-width: 100px;
-  padding: 4px 8px;
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  color: var(--text-body);
-  background: transparent;
+  flex: 1 1 200px;
+  box-sizing: border-box;
+  min-width: 150px;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--surface-raised);
   outline: none;
-  transition: background $transition-fast ease;
+  transition: all $transition-base ease;
 
-  &:hover,
+  &:hover {
+    border-color: var(--border);
+    background: var(--surface-overlay);
+  }
+
   &:focus {
-    background: var(--surface-transparent);
+    border-color: var(--primary);
+    background: var(--surface-base);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
   }
 
   &::placeholder {
+    font-weight: 400;
     color: var(--text-secondary);
-    opacity: 0.7;
+    opacity: 0.8;
   }
 }
 
