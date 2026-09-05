@@ -11,6 +11,7 @@ import (
 type SessionService interface {
 	GetSessionsByUserId(userId types.Snowflake) ([]models.Session, error)
 	DeleteSession(sessionId types.Snowflake, userId types.Snowflake) error
+	DeleteAllByUser(userId types.Snowflake) error
 	DeleteOldSessions()
 }
 
@@ -37,6 +38,10 @@ func (s *sessionService) GetSessionsByUserId(userId types.Snowflake) ([]models.S
 
 func (s *sessionService) DeleteSession(sessionId types.Snowflake, userId types.Snowflake) error {
 	return s.sessionRepo.Delete(sessionId, userId)
+}
+
+func (s *sessionService) DeleteAllByUser(userId types.Snowflake) error {
+	return s.sessionRepo.DeleteAllByUser(userId)
 }
 
 func (s *sessionService) DeleteOldSessions() {

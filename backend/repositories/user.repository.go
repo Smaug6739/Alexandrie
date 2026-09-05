@@ -27,6 +27,7 @@ type UserRepository interface {
 	UpdatePasswordResetToken(id types.Snowflake, resetToken string) error
 	UpdateTOTP(id types.Snowflake, secret string, enabled bool) error
 	UpdateRole(id types.Snowflake, role int) error // Separate method for security
+	UpdateSuspended(id types.Snowflake, suspended bool) error
 	Delete(id types.Snowflake) error
 }
 
@@ -37,7 +38,7 @@ func NewUserRepository(db *sqlx.DB) UserRepository {
 func (r *UserRepositoryImpl) GetAll() ([]*models.User, error) {
 	var users []*models.User
 	err := r.db.Select(&users, `
-		SELECT id, type, username, firstname, lastname, role, avatar, email, totp_enabled, totp_forced, created_timestamp, updated_timestamp 
+		SELECT id, type, username, firstname, lastname, role, avatar, email, totp_enabled, totp_forced, suspended, created_timestamp, updated_timestamp 
 		FROM users 
 		ORDER BY created_timestamp DESC`)
 	if err != nil {
@@ -51,12 +52,12 @@ func (r *UserRepositoryImpl) GetByID(id types.Snowflake, secrets bool) (*models.
 	var err error
 	if secrets {
 		err = r.db.Get(&user, `
-			SELECT id, username, firstname, lastname, role, avatar, email, password, totp_secret, totp_enabled, totp_forced, created_timestamp, updated_timestamp 
+			SELECT id, username, firstname, lastname, role, avatar, email, password, totp_secret, totp_enabled, totp_forced, suspended, created_timestamp, updated_timestamp 
 			FROM users 
 			WHERE id = ?`, id)
 	} else {
 		err = r.db.Get(&user, `
-		SELECT id, username, firstname, lastname, role, avatar, email, totp_enabled, totp_forced, created_timestamp, updated_timestamp 
+		SELECT id, username, firstname, lastname, role, avatar, email, totp_enabled, totp_forced, suspended, created_timestamp, updated_timestamp 
 		FROM users 
 		WHERE id = ?`, id)
 	}
@@ -72,7 +73,7 @@ func (r *UserRepositoryImpl) GetByID(id types.Snowflake, secrets bool) (*models.
 func (r *UserRepositoryImpl) GetByUsername(username string) (*models.User, error) {
 	var user models.User
 	err := r.db.Get(&user, `
-		SELECT id, username, firstname, lastname, role, avatar, email, password, totp_enabled, created_timestamp, updated_timestamp, totp_forced 
+		SELECT id, username, firstname, lastname, role, avatar, email, password, totp_enabled, created_timestamp, updated_timestamp, totp_forced, suspended 
 		FROM users 
 		WHERE username = ?`, username)
 	if err == sql.ErrNoRows {
@@ -202,6 +203,14 @@ func (r *UserRepositoryImpl) UpdateRole(id types.Snowflake, role int) error {
 	_, err := r.db.Exec(`UPDATE users SET role=? WHERE id=?`, role, id)
 	if err != nil {
 		return fmt.Errorf("failed to update user role: %w", err)
+	}
+	return nil
+}
+
+func (r *UserRepositoryImpl) UpdateSuspended(id types.Snowflake, suspended bool) error {
+	_, err := r.db.Exec(`UPDATE users SET suspended=? WHERE id=?`, suspended, id)
+	if err != nil {
+		return fmt.Errorf("failed to update user suspended state: %w", err)
 	}
 	return nil
 }
