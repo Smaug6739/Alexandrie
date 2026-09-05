@@ -14,6 +14,7 @@ export default {
     link: '여기를 클릭',
     max: '최대 {n}개 파일',
     prompt: '파일을 여기로 드래그 앤 드롭하거나 {link}해서 선택하세요',
+    promptMobile: '기기에서 파일을 선택하려면 탭하세요',
     promptPlural: '파일을 여기로 드래그 앤 드롭하거나 {link}해서 선택하세요',
     removeFile: '파일 제거',
   },

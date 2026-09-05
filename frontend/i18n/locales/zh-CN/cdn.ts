@@ -14,6 +14,7 @@ export default {
     link: '点击这里',
     max: '最多 {n} 个文件',
     prompt: '将文件拖拽至此，或{link}选择文件',
+    promptMobile: '轻触以选择设备中的文件',
     promptPlural: '将文件拖拽至此，或{link}选择文件',
     removeFile: '移除文件',
   },
