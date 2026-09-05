@@ -128,7 +128,7 @@ export default {
     newWorkspace: '새 워크스페이스',
     noWorkspaces: '워크스페이스가 없습니다',
     openAll: '모두 열기',
-    searchPlaceholder: '검색 또는 ctrl + q',
+    searchPlaceholder: '검색 또는 ctrl + k',
     sharedWithMe: '공유받은 항목',
     toggleDock: '독 전환',
     workspaces: '워크스페이스',
