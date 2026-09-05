@@ -11,7 +11,15 @@
       <div class="doc-container">
         <NodeDocumentHeader :doc="data.node" public style="margin: 20px 0" />
 
-        <NodeDocumentContentCompiled v-if="hasContent" ref="elementComponent" :node="data.node" />
+        <div v-if="hasFile" class="preview">
+          <object v-if="resource?.metadata?.drawio" :data="resourceURL(resource)" alt="Preview" />
+          <img v-else-if="isImageFile(mimeType)" :src="resourceURL(resource)" alt="Preview" />
+          <LazyPDFViewer v-else-if="isPdfFile(mimeType)" :src="resourceURL(resource)" />
+          <video v-else-if="isVideoFile(mimeType)" :src="resourceURL(resource)" controls />
+          <audio v-else-if="isAudioFile(mimeType)" :src="resourceURL(resource)" controls />
+        </div>
+
+        <NodeDocumentContentCompiled v-else-if="hasContent" ref="elementComponent" :node="data.node" />
         <NodeTree v-if="data.children.length > 0" :nodes="data.children" :parent-id="data.node.id" />
       </div>
 
@@ -33,10 +41,12 @@
 <script setup lang="ts">
 import NodeDocumentContentCompiled from '~/components/Node/Document/ContentCompiled.vue';
 import type { Node, PublicNodeResponse } from '~/stores';
+import { isImageFile, isPdfFile, isVideoFile, isAudioFile } from '~/helpers/resources';
 
 const route = useRoute();
 const requestUrl = useRequestURL();
 const { isOpened } = useSidebar();
+const { resourceURL } = useApi();
 
 const elementComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
 const element = computed(() => elementComponent.value?.rootElement as HTMLElement | undefined);
@@ -58,6 +68,9 @@ const { data, error } = await useAsyncData(`public-doc-${route.params.id}`, asyn
 
 /** Check if node has displayable content */
 const hasContent = computed(() => !!data.value?.node?.content_compiled?.trim());
+const resource = computed(() => data.value?.node);
+const mimeType = computed(() => data.value?.node?.metadata?.filetype || '');
+const hasFile = computed(() => data.value?.node?.role === 4);
 
 const baseUrl = requestUrl.origin || __BASE_URL__;
 
