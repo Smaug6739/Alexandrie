@@ -15,7 +15,7 @@ const nodesStore = useNodesStore();
 const userStore = useUserStore();
 const preferences = usePreferencesStore();
 
-const { setAppColor } = useAppColors();
+const { setAppColor, themeColor } = useAppColors();
 const { locale: i18nLocale, loadLocaleMessages } = useI18n();
 const { isLoading } = useAppState();
 useStyleInjection(); // Custom styles for the app and documents
@@ -33,6 +33,15 @@ watch(
   },
   { immediate: true },
 );
+
+useHead({
+  meta: [
+    {
+      name: 'theme-color',
+      content: themeColor,
+    },
+  ],
+});
 
 watch(
   interfaceStyle,
