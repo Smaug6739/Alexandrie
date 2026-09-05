@@ -128,7 +128,7 @@ export default {
     newWorkspace: '新增工作區',
     noWorkspaces: '找不到工作區',
     openAll: '全部展開',
-    searchPlaceholder: '搜尋或按 ctrl + q',
+    searchPlaceholder: '搜尋或按 ctrl + k',
     sharedWithMe: '與我共用',
     toggleDock: '切換工具列',
     workspaces: '工作區',
