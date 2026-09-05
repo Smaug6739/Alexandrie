@@ -1,6 +1,6 @@
 <template>
   <li>
-    <NuxtLink :to="node.link">{{ node.title }}</NuxtLink>
+    <a :href="node.link">{{ node.title }}</a>
     <ul v-if="node.childrens?.length">
       <NodeTOCLevel v-for="child in node.childrens" :key="child.link" :node="child" />
     </ul>
