@@ -4,6 +4,12 @@
     <p class="page-subtitle">{{ t('settings.backups.subtitle') }}</p>
 
     <div class="main">
+      <!-- Backup Format -->
+      <div class="options-section">
+        <h3>{{ t('settings.backups.formatTitle') }}</h3>
+        <AppRadio v-model="options.format" :items="FORMAT_TYPES" />
+      </div>
+
       <!-- Backup Options -->
       <div class="options-section">
         <h3>{{ t('settings.backups.options') }}</h3>
@@ -113,6 +119,7 @@ interface BackupOptions {
   local_data?: object;
   include_settings?: boolean;
   include_metadata: boolean;
+  format: string;
 }
 
 const options = reactive({
@@ -120,11 +127,17 @@ const options = reactive({
   includeFiles: true,
   includeSettings: true,
   includeMetadata: true,
+  format: 'json',
 });
 
 const { t } = useI18nT();
 const { numericDate } = useDateFormatters();
 const notifications = useNotifications();
+
+const FORMAT_TYPES = computed(() => [
+  { id: 'json', label: t('settings.backups.formatJson') },
+  { id: 'markdown', label: t('settings.backups.formatMarkdown') },
+]);
 
 const currentJob = ref<BackupJob | null>(null);
 const pollingInterval = ref<ReturnType<typeof setInterval> | null>(null);
@@ -165,6 +178,7 @@ async function startBackup() {
     include_files: options.includeFiles,
     include_settings: options.includeSettings,
     include_metadata: options.includeMetadata,
+    format: options.format,
   });
 
   if (result.status !== 'success' || !result.result?.job_id) {
@@ -241,7 +255,7 @@ function error(message?: string, error?: string) {
     status: 'failed',
     id: '',
     user_id: '',
-    options: { include_documents: false, include_files: false, include_metadata: false },
+    options: { include_documents: false, include_files: false, include_metadata: false, format: 'json' },
     progress: 0,
     message: message || t('settings.backups.notifications.errorFetching'),
     error: error,
