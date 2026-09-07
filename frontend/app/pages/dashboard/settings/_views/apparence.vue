@@ -47,11 +47,15 @@ const options = computed(
           {
             label: t('settings.appearance.interfaceStyle'),
             description: t('settings.appearance.interfaceStyleDesc'),
-            type: 'radio' as const,
+            type: 'select' as const,
             key: 'style' as const,
             choices: [
               { label: t('settings.appearance.styleDefault'), id: 'default' },
               { label: t('settings.appearance.styleGlassmorphism'), id: 'glassmorphism' },
+              { label: t('settings.appearance.styleMinimal'), id: 'minimal' },
+              { label: t('settings.appearance.styleGithub'), id: 'github' },
+              { label: t('settings.appearance.styleFluent'), id: 'fluent' },
+              { label: t('settings.appearance.styleModern'), id: 'modern' },
             ],
           },
           {

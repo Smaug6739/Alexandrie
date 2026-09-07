@@ -1,0 +1,15 @@
+// =============================================================================
+// MODERN THEME
+// =============================================================================
+
+@mixin modern-theme {
+	--radius-xs: 8px;
+	--radius-sm: 12px;
+	--radius-md: 16px;
+	--radius-lg: 24px;
+	--radius-xl: 32px;
+	--radius-xxl: 40px;
+	--shadow-sm: 0 4px 12px rgb(0 0 0 / 6%);
+	--shadow-md: 0 8px 24px rgb(0 0 0 / 8%);
+	--shadow-lg: 0 16px 48px rgb(0 0 0 / 10%);
+}
