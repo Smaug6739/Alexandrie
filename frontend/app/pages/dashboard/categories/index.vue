@@ -10,16 +10,25 @@
       </NuxtLink>
     </Teleport>
 
-    <div style="padding-bottom: 10px">
+    <div style=" display: flex; justify-content: space-between; align-items: center;padding-bottom: 10px;">
       <input v-model="filter" :placeholder="t('nodes.container.searchPlaceholder')" />
+      <ViewSelection v-model="view" :show-graph="true" />
     </div>
-    <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
-      <h3 class="wp-name">
-        <NuxtLink :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
-      </h3>
-      <WorkspaceTree v-for="node in workspace.children" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
+    
+    <div v-if="view !== 'graph'">
+      <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
+        <h3 class="wp-name">
+          <NuxtLink :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
+        </h3>
+        <WorkspaceTree v-for="node in workspace.children" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
+      </div>
+      <div v-if="!filteredItems.length" style="font-style: italic; color: #6c757d">{{ t('nodes.container.noWorkspaces') }}</div>
     </div>
-    <div v-if="!filteredItems.length" style=" font-style: italic;color: #6c757d">{{ t('nodes.container.noWorkspaces') }}</div>
+    
+    <div v-else>
+      <GraphView :nodes="graphItems" @node-click="editNode" />
+      <div v-if="!filteredItems.length" style="font-style: italic; color: #6c757d">{{ t('nodes.container.noWorkspaces') }}</div>
+    </div>
   </div>
 </template>
 
@@ -27,6 +36,8 @@
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
 import DeleteCategoryModal from '~/components/Node/Modals/Delete.vue';
 import WorkspaceTree from './_components/WorkspaceTree.vue';
+import ViewSelection, { type ViewMode } from '~/components/ViewSelection.vue';
+import GraphView from '~/components/Node/GraphView.vue';
 import { filterTreeByLabel, type TreeItem } from '~/helpers/TreeBuilder';
 import type { Node } from '~/stores';
 
@@ -37,9 +48,18 @@ const modals = useModal();
 const router = useRouter();
 
 const filter = ref('');
+const view = ref<ViewMode>('list');
 
 const filteredItems = computed(() => {
   const items = nodesTree.getTreeUpToRole(2).value;
+  if (!filter.value.trim()) return items;
+  return filterTreeByLabel(items, filter.value);
+});
+
+// For the graph view, we include documents (role 3) so users can see the full tree structure,
+// especially useful since many workspaces only contain documents and no sub-categories.
+const graphItems = computed(() => {
+  const items = nodesTree.tree.value;
   if (!filter.value.trim()) return items;
   return filterTreeByLabel(items, filter.value);
 });

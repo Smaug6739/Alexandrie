@@ -19,10 +19,17 @@
         <Icon name="search" />
         <input v-model="query" type="text" placeholder="Search teams" />
       </div>
-      <div class="count-pill">{{ filteredTeams.length }} {{ t('teams.teamsCount') }}</div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="count-pill">{{ filteredTeams.length }} {{ t('teams.teamsCount') }}</div>
+        <ViewSelection v-model="view" :show-graph="true" />
+      </div>
     </section>
 
-    <section v-if="filteredTeams.length" class="team-grid">
+    <div v-if="view === 'graph'">
+      <GraphView :nodes="graphTeams" @node-click="(node) => router.push(`/dashboard/teams/${node.id}`)" />
+    </div>
+    
+    <section v-else-if="filteredTeams.length" class="team-grid">
       <NodeCardTeam v-for="team in filteredTeams" :key="team.id" :team="team" />
     </section>
 
@@ -34,12 +41,19 @@
 
 <script setup lang="ts">
 import CreateCategoryModal from '~/components/Node/Modals/CreateCategory.vue';
+import ViewSelection, { type ViewMode } from '~/components/ViewSelection.vue';
+import GraphView from '~/components/Node/GraphView.vue';
+import type { TreeItem } from '~/helpers/TreeBuilder';
+import type { Node } from '~/stores';
 
 const nodesStore = useNodesStore();
+
 const modals = useModal();
+const router = useRouter();
 const { t } = useI18nT();
 
 const query = ref('');
+const view = ref<ViewMode>('list');
 
 const teams = computed(() => nodesStore.teams.toSorted((a, b) => a.name.localeCompare(b.name)));
 const filteredTeams = computed(() => {
@@ -49,6 +63,19 @@ const filteredTeams = computed(() => {
 });
 
 const openCreateTeam = () => modals.add(new Modal(shallowRef(CreateCategoryModal), { props: { role: 0, parentId: undefined }, size: 'small' }));
+
+// For graph view, we need TreeItem format
+const graphTeams = computed<TreeItem<Node>[]>(() => {
+  return filteredTeams.value.map(team => {
+    return {
+      id: team.id,
+      label: team.name,
+      data: team,
+      route: `/dashboard/teams/${team.id}`,
+      children: [], // Teams could potentially have children, but keeping it flat for now as requested
+    };
+  });
+});
 </script>
 
 <style scoped lang="scss">
