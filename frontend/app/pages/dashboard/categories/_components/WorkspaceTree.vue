@@ -1,13 +1,13 @@
 <template>
   <div v-if="node.data.role === 2" class="tree-node">
-    <div class="tree-content">
+    <div class="tree-content" @click="$emit('edit', node)">
       <div class="tree-label">
         <Icon class="icon item" name="folder" fill="var(--orange)" />
         <span>{{ node.label }}</span>
       </div>
       <div class="tree-actions">
-        <span style="padding: 2px" @click="$emit('edit', node)"><Icon class="icon" name="edit" style="display: inline" /></span>
-        <span style="padding: 2px" @click="$emit('delete', node)"><Icon class="icon" name="delete" style="display: inline" /></span>
+        <span style="padding: 2px" @click.stop="$emit('edit', node)"><Icon class="icon" name="edit" style="display: inline" /></span>
+        <span style="padding: 2px" @click.stop="$emit('delete', node)"><Icon class="icon" name="delete" style="display: inline" /></span>
       </div>
     </div>
 
@@ -38,6 +38,7 @@ defineEmits(['edit', 'delete']);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor:pointer;
 }
 
 .tree-content::before {

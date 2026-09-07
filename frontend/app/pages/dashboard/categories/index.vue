@@ -15,7 +15,7 @@
     </div>
     <div v-for="workspace in filteredItems" :key="workspace.id" class="workspace">
       <h3 class="wp-name">
-        <NuxtLink :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
+        <NuxtLink style="display: block; width: 100%; cursor: pointer;" :to="`/dashboard/categories/${workspace.id}/edit`">{{ workspace.label }}</NuxtLink>
       </h3>
       <WorkspaceTree v-for="node in workspace.children" :key="node.id" :node="node" @edit="editNode" @delete="deleteNode" />
     </div>
