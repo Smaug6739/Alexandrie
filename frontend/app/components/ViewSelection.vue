@@ -9,14 +9,16 @@
 
 <script setup lang="ts">
 import localForage from 'localforage';
-export type ViewMode = 'kanban' | 'list' | 'table' | 'advanced';
+export type ViewMode = 'kanban' | 'list' | 'table' | 'advanced' | 'graph';
 
 const props = withDefaults(
   defineProps<{
     showKanban?: boolean;
+    showGraph?: boolean;
   }>(),
   {
     showKanban: false,
+    showGraph: false,
   },
 );
 
@@ -35,6 +37,9 @@ const viewOptions = computed(() => {
   if (props.showKanban) {
     options.push({ icon: 'kanban', label: t('components.viewSelection.kanban'), value: 'kanban' as ViewMode });
   }
+  if (props.showGraph) {
+    options.push({ icon: 'nodes', label: 'Graph', value: 'graph' as ViewMode });
+  }
   return options;
 });
 
@@ -47,6 +52,7 @@ onMounted(async () => {
   const list = ['table', 'list'];
   if (preferences.get('advancedView').value) list.push('advanced');
   if (props.showKanban) list.push('kanban');
+  if (props.showGraph) list.push('graph');
   if (storedView && list.includes(storedView)) view.value = storedView as ViewMode;
   else view.value = 'table';
 });
