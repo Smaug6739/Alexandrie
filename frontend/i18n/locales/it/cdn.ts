@@ -14,6 +14,7 @@ export default {
     link: 'clicca qui',
     max: 'Massimo {n} file',
     prompt: 'Trascina e rilascia il tuo file qui o {link} per selezionarlo',
+    promptMobile: 'Tocca per selezionare i file dal tuo dispositivo',
     promptPlural: 'Trascina e rilascia i tuoi file qui o {link} per selezionarli',
     removeFile: 'Rimuovi file',
   },

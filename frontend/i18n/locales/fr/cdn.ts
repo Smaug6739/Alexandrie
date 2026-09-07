@@ -14,6 +14,7 @@ export default {
     link: 'cliquez ici',
     max: 'Maximum {n} fichiers',
     prompt: 'Glissez-déposez votre fichier ici ou {link} pour sélectionner',
+    promptMobile: 'Appuyez pour sélectionner des fichiers depuis votre appareil',
     promptPlural: 'Glissez-déposez vos fichiers ici ou {link} pour sélectionner',
     removeFile: 'Supprimer le fichier',
   },

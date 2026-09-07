@@ -14,6 +14,7 @@ export default {
     link: 'click here',
     max: 'Maximum {n} files',
     prompt: 'Drag and drop your file here or {link} to select',
+    promptMobile: 'Tap to select files from your device',
     promptPlural: 'Drag and drop your files here or {link} to select',
     removeFile: 'Remove file',
   },
