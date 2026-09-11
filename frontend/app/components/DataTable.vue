@@ -276,6 +276,16 @@ input {
 }
 
 @media screen and (width <= 768px) {
+  header {
+    flex-wrap: wrap;
+    padding-bottom: 8px;
+  }
+
+  input {
+    width: 100%;
+    max-width: 100%;
+  }
+
   table {
     table-layout: fixed;
   }

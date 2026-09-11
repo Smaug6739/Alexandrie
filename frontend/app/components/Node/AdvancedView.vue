@@ -144,4 +144,16 @@ const deleteNode = (node: Node) => {
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (width <= 768px) {
+  .bulk-actions {
+    flex-wrap: wrap;
+
+    :deep(.select) {
+      flex: 1;
+      min-width: 140px;
+      max-width: 100%;
+    }
+  }
+}
 </style>
