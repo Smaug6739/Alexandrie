@@ -7,6 +7,7 @@
           <span class="divider" />
           <AppSelect
             v-model="bulkParentId"
+            class="bulk-parent"
             :items="parentNodes"
             :placeholder="t('common.placeholder.parent')"
             size="240px"
@@ -17,13 +18,13 @@
         </div>
       </template>
       <template #name="{ cell }">
-        <div style="display:flex;align-items:center;gap:8px;">
+        <div class="node-name" style="display:flex;align-items:center;gap:8px;">
           <Icon :name="asNode(cell?.data)?.icon || 'files'" />
           <NuxtLink :to="`/dashboard/docs/${asNode(cell?.data)?.id}`">{{ asNode(cell?.data)?.name }}</NuxtLink>
         </div>
       </template>
       <template #tags="{ cell }">
-        <NodeTagList v-if="cell?.data" :tags="asNode(cell.data).tags" class="tags" />
+        <NodeTagList v-if="cell?.data" :tags="String(cell.data)" class="tags" />
       </template>
       <template #action="{ cell }">
         <NuxtLink :to="`/dashboard/docs/${asNode(cell?.data)?.id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
@@ -146,14 +147,54 @@ const deleteNode = (node: Node) => {
 }
 
 @media screen and (width <= 768px) {
-  .bulk-actions {
-    flex-wrap: wrap;
+  .line-container,
+  .node-name {
+    min-width: 0;
+    max-width: 100%;
+  }
 
-    :deep(.select) {
-      flex: 1;
-      min-width: 140px;
-      max-width: 100%;
+  .node-name {
+    align-items: flex-start !important;
+
+    > a {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    > :first-child {
+      flex-shrink: 0;
+    }
+  }
+
+  .bulk-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    min-width: 0;
+
+    .divider {
+      display: none;
+    }
+
+    .bulk-parent {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      width: 100% !important;
+      min-width: 0;
+    }
+
+    > span:last-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    :deep(.value) {
+      min-height: 44px;
     }
   }
 }
+
 </style>
