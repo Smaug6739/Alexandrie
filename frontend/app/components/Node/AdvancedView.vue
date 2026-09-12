@@ -166,9 +166,9 @@ const deleteNode = (node: Node) => {
     }
   }
 
-  .bulk-actions {
+   .bulk-actions {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 8px;
     min-width: 0;
 
@@ -177,11 +177,9 @@ const deleteNode = (node: Node) => {
     }
 
     .bulk-parent {
-      grid-column: 1 / -1;
-      grid-row: 2;
-      width: 100% !important;
-      min-width: 0;
-    }
+  width: 100% !important;
+  min-width: 0;
+}
 
     > span:last-child {
       display: flex;

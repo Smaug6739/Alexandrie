@@ -346,21 +346,39 @@ td > .cell-label {
   }
 
   .data-row {
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--border);
+  margin: 8px;
+  width: calc(100% - 16px);
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.data-row > td {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 6px 0;
+  border: 0;
+
+  &:first-child {
+    display: block;
+    padding-bottom: 8px;
   }
 
-  .data-row > td {
-    display: grid;
-    align-items: start;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: 8px;
-    padding: 6px 0;
-    border: 0;
+  &:not(:first-child)::before {
+    content: attr(data-label);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
 
-    &:first-child {
-      display: block;
-    }
+  > span {
+    min-width: 0;
+    width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
 
     > span {
       flex-wrap: wrap;
@@ -368,6 +386,10 @@ td > .cell-label {
       max-width: 100%;
       overflow-wrap: anywhere;
     }
+
+    &.align-center > span {
+  justify-content: flex-start;
+}
 
     > .cell-label {
       display: block;
