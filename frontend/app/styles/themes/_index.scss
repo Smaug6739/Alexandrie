@@ -3,6 +3,10 @@
 @use "material" as *;
 @use "print" as *;
 @use "white" as *;
+@use "minimal" as *;
+@use "github" as *;
+@use "fluent" as *;
+@use "modern" as *;
 
 @forward "colors";
 
@@ -24,6 +28,33 @@
 	&.dark-mode {
 		@include glassmorphism-dark-theme;
 	}
+}
+
+// Application Themes
+:root.minimal {
+	@include minimal-theme;
+}
+
+:root.github {
+	@include github-theme;
+	@include github-theme-white;
+
+	&.dark-mode {
+		@include github-dark-theme;
+	}
+}
+
+:root.fluent {
+	@include fluent-theme;
+	@include fluent-theme-white;
+
+	&.dark-mode {
+		@include fluent-dark-theme;
+	}
+}
+
+:root.modern {
+	@include modern-theme;
 }
 
 @media print {
