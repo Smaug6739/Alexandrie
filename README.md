@@ -82,8 +82,8 @@ Get your instance running in less than a minute:
 
 ```bash
 # 1. Download the .env.example and docker-compose.yml files
-curl https://raw.githubusercontent.com/Smaug6739/Alexandrie/main/.env.example -O .env.example
-curl https://raw.githubusercontent.com/Smaug6739/Alexandrie/main/docker-compose.yml -O docker-compose.yml
+curl -O https://raw.githubusercontent.com/Smaug6739/Alexandrie/main/.env.example
+curl -O https://raw.githubusercontent.com/Smaug6739/Alexandrie/main/docker-compose.yml
 
 # 2. Configure environments
 cp .env.example .env
@@ -92,7 +92,7 @@ cp .env.example .env
 docker compose up -d
 ```
 
-Open http://localhost:8200 to create your primary owner account.
+Open <http://localhost:8200> to create your primary owner account.
 
 For advanced local development guidelines and technical architecture details, please refer to [CONTRIBUTING.md](./CONTRIBUTING.md).
 
