@@ -52,7 +52,7 @@
     <Teleport to="#navbar-infos">
       <header>
         <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }}</span>
-        <ViewSelection v-model="view" :show-kanban="true" />
+        <ViewSelection v-model="view" :show-kanban="!!parent" />
       </header>
     </Teleport>
     <!-- Content based on view mode -->
@@ -82,7 +82,6 @@
 
       <!-- Fallback View (Just in case view is undefined or unrecognized) -->
       <div v-else class="line-container fallback-view">
-        <div style="padding: 20px; color: red;">DEBUG: View is unrecognized or undefined. Current value: {{ view }}</div>
         <NodeListInline v-for="document of filteredNodes" :key="document.id" :document="document" class="line-item" />
       </div>
     </div>
@@ -119,7 +118,7 @@ const slots = useSlots();
 
 const connectedId = userStore.user?.id;
 
-const view = ref<ViewMode>();
+const view = ref<ViewMode>('table');
 const filteredNodes = ref<Node[]>(props.nodes);
 const kanbanBoard = ref<InstanceType<typeof KanbanBoard> | null>(null);
 
