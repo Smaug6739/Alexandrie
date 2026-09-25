@@ -143,10 +143,14 @@ func setupPublicBucket(ctx context.Context, minioClient *minio.Client, bucketNam
   ]
 }`, bucketName)
 
+	// Some S3-compatible providers (e.g. Garage) do not implement PutBucketPolicy.
+	// Public read access can be configured on the provider side instead, so this
+	// is not fatal: warn and keep the backend running.
 	err = minioClient.SetBucketPolicy(ctx, bucketName, policy)
 	if err != nil {
-		logger.Error("s3", fmt.Sprintf("Failed to set bucket policy: %v", err))
-		os.Exit(1)
+		logger.Warn("s3", fmt.Sprintf("Failed to set public bucket policy for %s: %v", bucketName, err))
+		logger.Warn("s3", "Make sure objects in this bucket are publicly readable (configure it in your S3 provider), otherwise uploaded files will not be accessible.")
+		return
 	}
 	logger.Success("s3", "Successfully set public bucket policy for "+bucketName)
 }
