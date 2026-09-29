@@ -72,6 +72,10 @@ func (s *authService) Login(username, password, ip, userAgent string) (*models.U
 		return nil, nil, "", errors.New("invalid credentials")
 	}
 
+	if user.Suspended {
+		return nil, nil, "", errors.New("account is suspended")
+	}
+
 	if user.Password == nil {
 		return nil, nil, "", errors.New("please login with OIDC provider")
 	}
@@ -123,6 +127,9 @@ func (s *authService) RefreshSession(refreshToken string) (*models.User, *models
 	user, err := s.userRepo.GetByID(session.UserId, false)
 	if user == nil || err != nil {
 		return nil, nil, errors.New("failed to get user")
+	}
+	if user.Suspended {
+		return nil, nil, errors.New("account is suspended")
 	}
 
 	session.RefreshToken = signRefreshToken()
@@ -305,6 +312,9 @@ func (s *authService) VerifyTOTPAndLogin(preAuthToken, code, ip, userAgent strin
 	user, err := s.userRepo.GetByID(userId, true)
 	if user == nil || err != nil {
 		return nil, nil, errors.New("user not found")
+	}
+	if user.Suspended {
+		return nil, nil, errors.New("account is suspended")
 	}
 
 	if !s.validateCode(user, code) {

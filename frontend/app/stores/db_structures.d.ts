@@ -71,6 +71,7 @@ export interface User {
   email?: string;
   totp_enabled: boolean;
   totp_forced?: boolean;
+  suspended: boolean;
   created_timestamp: number;
   updated_timestamp: number;
 }

@@ -34,6 +34,8 @@ type UserService interface {
 	CreateUser(username string, firstname, lastname, avatar, email string, user_type int, password string, totp_forced bool) (*models.User, error)
 	UpdateUser(ctx context.Context, id types.Snowflake, firstname, lastname, avatar, email *string, user_type int, totp_forced bool) (*models.User, error)
 	UpdatePassword(ctx context.Context, id types.Snowflake, currentPassword string, newPassword string) error
+	AdminUpdatePassword(ctx context.Context, id types.Snowflake, newPassword string) error
+	SuspendUser(ctx context.Context, id types.Snowflake, suspend bool) error
 	DeleteUser(ctx context.Context, id types.Snowflake, minioService MinioService) error
 	GenerateUniqueUsername(givenName *string, userID types.Snowflake) string
 	LoadAppAdmins()
@@ -280,20 +282,37 @@ func (s *userService) UpdatePassword(ctx context.Context, id types.Snowflake, cu
 		// a password for the first time, so no current-password check applies.
 		if dbUser.Password != nil {
 			if currentPassword == "" {
-				return permissions.ErrInvalidPassword
+				return errors.New("current password is required")
 			}
 			if err := bcrypt.CompareHashAndPassword([]byte(*dbUser.Password), []byte(currentPassword)); err != nil {
-				return permissions.ErrIncorrectPassword
+				return errors.New("invalid current password")
 			}
 		}
 	}
 
-	hash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
 	if err != nil {
-		return errors.New("failed to hash password")
+		return err
 	}
 
-	return s.userRepo.UpdatePassword(id, string(hash))
+	return s.userRepo.UpdatePassword(id, string(hashedPassword))
+}
+
+func (s *userService) AdminUpdatePassword(ctx context.Context, id types.Snowflake, newPassword string) error {
+	if newPassword == "" {
+		return errors.New("password is required")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
+	return s.userRepo.UpdatePassword(id, string(hashedPassword))
+}
+
+func (s *userService) SuspendUser(ctx context.Context, id types.Snowflake, suspend bool) error {
+	return s.userRepo.UpdateSuspended(id, suspend)
 }
 
 func (s *userService) DeleteUser(ctx context.Context, id types.Snowflake, minioService MinioService) error {

@@ -24,6 +24,16 @@ export default {
   },
 
   users: {
+    actions: {
+      accountActivated: 'Konto aktiviert',
+      accountSuspended: 'Konto gesperrt',
+      error: 'Fehler',
+      errorFetchingSessions: 'Fehler beim Abrufen der Sitzungen',
+      errorRevokingSession: 'Fehler beim Widerrufen der Sitzung',
+      passwordUpdated: 'Passwort erfolgreich aktualisiert',
+      sessionRevoked: 'Sitzung erfolgreich widerrufen',
+      userUpdated: 'Benutzer erfolgreich aktualisiert',
+    },
     headers: {
       action: 'Aktion',
       createdAt: 'Erstellt am',
