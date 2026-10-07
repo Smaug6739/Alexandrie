@@ -27,7 +27,7 @@
         <NodeTagList v-if="cell?.data" :tags="String(cell.data)" class="tags" />
       </template>
       <template #action="{ cell }">
-        <NuxtLink :to="`/dashboard/docs/${asNode(cell?.data)?.id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
+        <NuxtLink :to="`/dashboard/docs/${asNode(cell?.data)?.id}`"><Icon name="edit" style="margin-right: 14px" /></NuxtLink>
         <span style="cursor: pointer" @click="() => deleteNode(asNode(cell?.data))"><Icon name="delete" /></span>
       </template>
     </DataTable>
@@ -166,31 +166,30 @@ const deleteNode = (node: Node) => {
     }
   }
 
-   .bulk-actions {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 8px;
-    min-width: 0;
+  .bulk-actions {
+    display: contents;
 
     .divider {
       display: none;
     }
 
     .bulk-parent {
-  width: 100% !important;
-  min-width: 0;
-}
+      width: 100% !important;
+      min-width: 0;
+      max-width: 100%;
+    }
 
     > span:last-child {
       display: flex;
+      flex-shrink: 0;
       justify-content: center;
       align-items: center;
-      min-width: 44px;
-      min-height: 44px;
+      min-width: 32px;
+      min-height: 34px;
     }
 
     :deep(.value) {
-      min-height: 44px;
+      min-height: 34px;
     }
   }
 }

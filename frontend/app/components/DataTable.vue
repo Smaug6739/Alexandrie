@@ -288,23 +288,39 @@ td > .cell-label {
 }
 
 @media screen and (width <= 768px) {
-  .table,
+  .table {
+    min-width: 0;
+    max-width: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+
   .wrapper {
     min-width: 0;
     max-width: 100%;
+    border-top: 0;
+    overflow: visible;
   }
 
   header {
-    flex-direction: column;
-    align-items: stretch;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto;
     gap: 8px;
-    padding-bottom: 8px;
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
   }
 
   input[type='text'] {
     width: 100%;
     max-width: 100%;
-    margin: 8px 0 0;
+    margin: 0;
+
+    &:only-child {
+      grid-column: 1 / -1;
+    }
   }
 
   input[type='checkbox'] {
@@ -312,16 +328,14 @@ td > .cell-label {
     min-height: 24px;
   }
 
-  .wrapper {
-    overflow: visible;
+  thead {
+    display: none;
   }
 
   table,
-  thead,
   tbody,
   tr,
-  td,
-  th.selection-heading {
+  td {
     display: block;
     width: 100%;
     min-width: 0;
@@ -331,124 +345,165 @@ td > .cell-label {
     overflow: visible;
   }
 
-  thead th:not(.selection-heading) {
-    position: absolute;
-    width: 1px;
-    height: 1px;
+  .data-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 6px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Checkbox cell: compact inline header on the left */
+  .data-row > td:first-child {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    width: auto;
+    margin-right: 8px;
+    margin-bottom: 8px;
     padding: 0;
     border: 0;
-    clip-path: inset(50%);
-    overflow: hidden;
+
+    input[type='checkbox'] {
+      margin: 0;
+    }
   }
 
-  th.selection-heading {
-    padding: 4px 12px;
-  }
-
-  .data-row {
-  margin: 8px;
-  width: calc(100% - 16px);
-  padding: 8px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-}
-
-.data-row > td {
-  display: grid;
-  grid-template-columns: 90px minmax(0, 1fr);
-  gap: 8px;
-  align-items: start;
-  padding: 6px 0;
-  border: 0;
-
-  &:first-child {
-    display: block;
-    padding-bottom: 8px;
-  }
-
-  &:not(:first-child)::before {
-    content: attr(data-label);
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  > span {
+  /* Name cell: fills remaining header width right beside checkbox */
+  .data-row > td:nth-child(2) {
+    display: flex;
+    flex: 1 1 calc(100% - 36px);
+    align-items: center;
     min-width: 0;
-    width: 100%;
-    overflow-wrap: anywhere;
-  }
-}
+    margin-bottom: 8px;
+    padding: 0;
+    border: 0;
+
+    > .cell-label {
+      display: none;
+    }
 
     > span {
-      flex-wrap: wrap;
+      display: flex;
+      align-items: center;
       min-width: 0;
       max-width: 100%;
       overflow-wrap: anywhere;
     }
 
-    &.align-center > span {
-  justify-content: flex-start;
-}
+    :deep(.node-name) {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      max-width: 100%;
+      font-weight: 600;
+
+      > a {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+
+  /* All metadata content cells: stack as full-width rows below header */
+  .data-row > td:nth-child(n + 3) {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 70px 1fr;
+    gap: 8px;
+    width: 100%;
+    padding: 2px 0;
+    border: 0;
 
     > .cell-label {
-      display: block;
+      display: inline-flex;
+      align-items: center;
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-primary);
+      text-align: left;
+    }
+
+    > span:not(.cell-label) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      font-size: 0.85rem;
+      text-align: left;
+      word-break: normal;
+      overflow-wrap: normal;
+    }
+
+    &.align-center > span:not(.cell-label),
+    &.align-right > span:not(.cell-label) {
+      justify-content: flex-start;
+      text-align: left;
     }
 
     :deep(tag) {
-      min-width: 0;
+      display: inline-block;
+      width: auto;
       max-width: 100%;
-      white-space: normal;
-      overflow-wrap: anywhere;
+      white-space: nowrap;
+      overflow-wrap: normal;
     }
   }
 
   .footer-cell {
-    padding: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
   }
 
   footer {
-    flex-direction: column;
-    gap: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
     min-width: 0;
   }
 
   .page-summary {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    min-width: 0;
     margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
   }
 
-  .summary-divider {
+  .summary-divider,
+  .page-size {
     display: none;
   }
 
-  .page-size {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-  }
-
-  select {
-    width: auto;
-    min-height: 44px;
-    margin: 0;
-  }
-
   .pagination {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: flex-end;
+    align-items: center;
     gap: 4px;
 
     button {
-      min-width: 44px;
-      min-height: 44px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 36px;
+      min-height: 36px;
       margin: 0;
+      padding: 6px 8px;
+      font-size: 0.875rem;
     }
   }
 }
