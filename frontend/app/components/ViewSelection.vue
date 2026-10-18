@@ -1,6 +1,6 @@
 <template>
   <div class="view-selection">
-    <button v-for="option in viewOptions" :key="option.value" :class="{ active: view === option.value }" @click="view = option.value">
+    <button v-for="option in viewOptions" :key="option.value" :class="{ active: view === option.value }" @click="selectView(option.value)">
       <Icon :name="option.icon" />
       <p class="hint-tooltip">{{ option.label }}</p>
     </button>
@@ -38,17 +38,27 @@ const viewOptions = computed(() => {
   return options;
 });
 
-watch(view, newView => {
-  if (newView) localForage.setItem('viewSelection', newView);
-});
+// Keep the user's saved choice even when this container cannot display it.
+const preferredView = ref<ViewMode>('table');
+let userSelectedView = false;
+const effectiveView = computed<ViewMode>(() =>
+  viewOptions.value.some(option => option.value === preferredView.value) ? preferredView.value : 'table',
+);
+
+watch(effectiveView, newView => (view.value = newView), { immediate: true });
+
+function selectView(newView: ViewMode) {
+  userSelectedView = true;
+  preferredView.value = newView;
+  localForage.setItem('viewSelection', newView);
+}
 
 onMounted(async () => {
-  const storedView = await localForage.getItem<ViewMode>('viewSelection');
-  const list = ['table', 'list'];
-  if (preferences.get('advancedView').value) list.push('advanced');
-  if (props.showKanban) list.push('kanban');
-  if (storedView && list.includes(storedView)) view.value = storedView as ViewMode;
-  else view.value = 'table';
+  const storedView = await localForage.getItem<unknown>('viewSelection');
+  const knownViews: ViewMode[] = ['table', 'list', 'advanced', 'kanban'];
+  if (!userSelectedView && typeof storedView === 'string' && knownViews.includes(storedView as ViewMode)) {
+    preferredView.value = storedView as ViewMode;
+  }
 });
 </script>
 
