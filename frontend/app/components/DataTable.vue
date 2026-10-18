@@ -9,20 +9,21 @@
       <table>
         <thead>
           <tr>
-            <th>
-              <input type="checkbox" style="width: 20px" :checked="selectedRows.length === data.length && data.length > 0" @change="toggleSelectAll" />
+            <th class="selection-heading">
+              <input type="checkbox" aria-label="Select all rows on this page" style="width: 20px" :checked="selectedRows.length === data.length && data.length > 0" @change="toggleSelectAll" />
             </th>
-            <th v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
+            <th v-for="header in headers" :key="header.key" scope="col" :class="header.align && `align-${header.align}`">
               <span>{{ header.label }}</span>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, index) in data" :key="index">
+          <tr v-for="(row, index) in data" :key="index" class="data-row">
             <td>
-              <input v-model="selectedRows" type="checkbox" :value="row" style="width: 20px" />
+              <input v-model="selectedRows" type="checkbox" :aria-label="`Select row ${paginator.startIndex.value + index}`" :value="row" style="width: 20px" />
             </td>
             <td v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
+              <span class="cell-label" aria-hidden="true">{{ header.label }}</span>
               <!-- eslint-disable-next-line vue/no-v-html -->
               <span v-if="row[header.key]?.type === 'html'" v-html="row[header.key]?.content" />
               <span v-else-if="row[header.key]?.type === 'slot'">
@@ -34,14 +35,14 @@
 
           <!-- Footer -->
           <tr>
-            <td colspan="100%">
+            <td :colspan="headers.length + 1" class="footer-cell">
               <footer>
-                <p>
+                <p class="page-summary">
                   {{
                     t('components.dataTable.showing', { start: paginator.startIndex.value, end: paginator.endIndex.value, total: paginator.totalItems.value })
                   }}
-                  |
-                  <span>
+                  <span class="summary-divider">|</span>
+                  <label class="page-size">
                     <span>{{ t('components.dataTable.rowsPerPage') }}</span>
                     <!-- eslint-disable-next-line vue/no-parsing-error -->
                     <select :value="itemsPerPage" @change="(e: Event) => paginator.setMaxPerPage(parseInt((<HTMLSelectElement>e.target)?.value) || 10)">
@@ -51,10 +52,10 @@
                       <option value="100">100</option>
                       <option value="250">250</option>
                     </select>
-                  </span>
+                  </label>
                 </p>
-                <div class="pagination">
-                  <button type="button" :disabled="!paginator.hasPrevious()" @click="paginator.previous()">&lt;</button>
+                <div class="pagination" role="navigation" aria-label="Pagination">
+                  <button type="button" aria-label="Previous page" :disabled="!paginator.hasPrevious()" @click="paginator.previous()">&lt;</button>
                   <button :class="{ active: paginator.currentPage.value === 1 }" @click="paginator.setPage(1)">1</button>
                   <span v-if="shouldShowEllipsisBefore" class="ellipsis">...</span>
                   <button v-for="page in visiblePages" :key="page" :class="{ active: paginator.currentPage.value === page }" @click="paginator.setPage(page)">
@@ -68,7 +69,7 @@
                   >
                     {{ paginator.totalPages.value }}
                   </button>
-                  <button type="button" :disabled="!paginator.hasNext()" @click="paginator.next()">&gt;</button>
+                  <button type="button" aria-label="Next page" :disabled="!paginator.hasNext()" @click="paginator.next()">&gt;</button>
                 </div>
               </footer>
             </td>
@@ -275,14 +276,236 @@ input {
   color: var(--text-primary);
 }
 
+td > .cell-label {
+  display: none;
+}
+
+.page-size {
+  display: inline;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
 @media screen and (width <= 768px) {
-  table {
-    table-layout: fixed;
+  .table {
+    min-width: 0;
+    max-width: 100%;
+    border: 0;
+    border-radius: 0;
   }
 
-  th,
-  td {
+  .wrapper {
+    min-width: 0;
+    max-width: 100%;
+    border-top: 0;
+    overflow: visible;
+  }
+
+  header {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  input[type='text'] {
     width: 100%;
+    max-width: 100%;
+    margin: 0;
+
+    &:only-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  input[type='checkbox'] {
+    flex-shrink: 0;
+    min-height: 24px;
+  }
+
+  thead {
+    display: none;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  table {
+    overflow: visible;
+  }
+
+  .data-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 6px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Checkbox cell: compact inline header on the left */
+  .data-row > td:first-child {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    width: auto;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 0;
+    border: 0;
+
+    input[type='checkbox'] {
+      margin: 0;
+    }
+  }
+
+  /* Name cell: fills remaining header width right beside checkbox */
+  .data-row > td:nth-child(2) {
+    display: flex;
+    flex: 1 1 calc(100% - 36px);
+    align-items: center;
+    min-width: 0;
+    margin-bottom: 8px;
+    padding: 0;
+    border: 0;
+
+    > .cell-label {
+      display: none;
+    }
+
+    > span {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+
+    :deep(.node-name) {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      max-width: 100%;
+      font-weight: 600;
+
+      > a {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+
+  /* All metadata content cells: stack as full-width rows below header */
+  .data-row > td:nth-child(n + 3) {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 70px 1fr;
+    gap: 8px;
+    width: 100%;
+    padding: 2px 0;
+    border: 0;
+
+    > .cell-label {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: left;
+    }
+
+    > span:not(.cell-label) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      min-width: 0;
+      font-size: 0.85rem;
+      text-align: left;
+      word-break: normal;
+      overflow-wrap: normal;
+    }
+
+    &.align-center > span:not(.cell-label),
+    &.align-right > span:not(.cell-label) {
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    :deep(tag) {
+      display: inline-block;
+      width: auto;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow-wrap: normal;
+    }
+  }
+
+  .footer-cell {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .page-summary {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .summary-divider,
+  .page-size {
+    display: none;
+  }
+
+  .pagination {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+
+    button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-width: 36px;
+      min-height: 36px;
+      margin: 0;
+      padding: 6px 8px;
+      font-size: 0.875rem;
+    }
   }
 }
+
 </style>

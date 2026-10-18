@@ -7,6 +7,7 @@
           <span class="divider" />
           <AppSelect
             v-model="bulkParentId"
+            class="bulk-parent"
             :items="parentNodes"
             :placeholder="t('common.placeholder.parent')"
             size="240px"
@@ -17,16 +18,16 @@
         </div>
       </template>
       <template #name="{ cell }">
-        <div style="display:flex;align-items:center;gap:8px;">
+        <div class="node-name" style="display:flex;align-items:center;gap:8px;">
           <Icon :name="asNode(cell?.data)?.icon || 'files'" />
           <NuxtLink :to="`/dashboard/docs/${asNode(cell?.data)?.id}`">{{ asNode(cell?.data)?.name }}</NuxtLink>
         </div>
       </template>
       <template #tags="{ cell }">
-        <NodeTagList v-if="cell?.data" :tags="asNode(cell.data).tags" class="tags" />
+        <NodeTagList v-if="cell?.data" :tags="String(cell.data)" class="tags" />
       </template>
       <template #action="{ cell }">
-        <NuxtLink :to="`/dashboard/docs/${asNode(cell?.data)?.id}`"><Icon name="edit" style="margin-right: 10px" /></NuxtLink>
+        <NuxtLink :to="`/dashboard/docs/${asNode(cell?.data)?.id}`"><Icon name="edit" style="margin-right: 14px" /></NuxtLink>
         <span style="cursor: pointer" @click="() => deleteNode(asNode(cell?.data))"><Icon name="delete" /></span>
       </template>
     </DataTable>
@@ -144,4 +145,53 @@ const deleteNode = (node: Node) => {
   display: flex;
   flex-direction: column;
 }
+
+@media screen and (width <= 768px) {
+  .line-container,
+  .node-name {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .node-name {
+    align-items: flex-start !important;
+
+    > a {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    > :first-child {
+      flex-shrink: 0;
+    }
+  }
+
+  .bulk-actions {
+    display: contents;
+
+    .divider {
+      display: none;
+    }
+
+    .bulk-parent {
+      width: 100% !important;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    > span:last-child {
+      display: flex;
+      flex-shrink: 0;
+      justify-content: center;
+      align-items: center;
+      min-width: 32px;
+      min-height: 34px;
+    }
+
+    :deep(.value) {
+      min-height: 34px;
+    }
+  }
+}
+
 </style>
