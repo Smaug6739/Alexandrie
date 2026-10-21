@@ -311,6 +311,22 @@ func (s *oidcService) createSession(user *models.User, ip, userAgent string) (*m
 	return session, nil
 }
 
+// maxAvatarURLLength keeps the value well inside the users.avatar TEXT column.
+const maxAvatarURLLength = 2048
+
+// avatarFromPicture returns the OIDC picture claim when it is an http(s) URL of a sane length.
+// Providers such as Authentik send a base64 data URI by default; the frontend only renders
+// http(s) avatars or CDN uploads, so those values are skipped instead of stored.
+func avatarFromPicture(picture *string) *string {
+	if picture == nil || len(*picture) > maxAvatarURLLength {
+		return nil
+	}
+	if !strings.HasPrefix(*picture, "https://") && !strings.HasPrefix(*picture, "http://") {
+		return nil
+	}
+	return picture
+}
+
 func (s *oidcService) createUserFromOIDC(userInfo *oidc.UserInfo) (*models.User, error) {
 
 	userID := s.snowflake.Generate()
@@ -331,9 +347,7 @@ func (s *oidcService) createUserFromOIDC(userInfo *oidc.UserInfo) (*models.User,
 	if userInfo.FamilyName != nil && *userInfo.FamilyName != "" {
 		user.Lastname = userInfo.FamilyName
 	}
-	if userInfo.Picture != nil && *userInfo.Picture != "" {
-		user.Avatar = userInfo.Picture
-	}
+	user.Avatar = avatarFromPicture(userInfo.Picture)
 	createdUser, err := s.userRepo.Create(user)
 
 	if err != nil {
