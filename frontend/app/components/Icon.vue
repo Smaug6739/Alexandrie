@@ -1,6 +1,6 @@
 <template>
   <svg v-if="isSpriteIcon" class="icon" :class="display" :style="{ color: fill || 'currentColor', width: size, height: size }" aria-hidden="true">
-    <use :xlink:href="`#icon-${name}`" />
+    <use :xlink:href="`#icon-${iconPack}/${name}`" />
   </svg>
 
   <!-- eslint-disable-next-line vue/no-v-html | OK Because not a user entry-->
@@ -13,6 +13,10 @@ const props = withDefaults(defineProps<{ name: string; fill?: string; display?: 
   fill: 'var(--text-body)',
   size: undefined,
 });
+
+const preferences = usePreferencesStore();
+
+const iconPack = preferences.get('icons');
 
 const isUnicode = (str: string) => Array.from(str).some(char => char.charCodeAt(0) > 255);
 
