@@ -20,4 +20,8 @@ func Users(app *app.App, router *gin.RouterGroup) {
 	usr.PATCH("/:userId", middlewares.Auth(), utils.WP(usrCtrl.UpdateUser))
 	usr.PATCH("/:userId/password", middlewares.Auth(), utils.WP(usrCtrl.UpdatePassword))
 	usr.DELETE("/:userId", middlewares.Auth(), utils.WP(usrCtrl.DeleteUser))
+	usr.PATCH("/:userId/admin-password", middlewares.Auth(), middlewares.Admin(), utils.WP(usrCtrl.AdminUpdatePassword))
+	usr.GET("/:userId/sessions", middlewares.Auth(), middlewares.Admin(), utils.WP(usrCtrl.GetUserSessions))
+	usr.DELETE("/:userId/sessions/:sessionId", middlewares.Auth(), middlewares.Admin(), utils.WP(usrCtrl.DeleteUserSession))
+	usr.PATCH("/:userId/suspend", middlewares.Auth(), middlewares.Admin(), utils.WP(usrCtrl.SuspendUser))
 }
