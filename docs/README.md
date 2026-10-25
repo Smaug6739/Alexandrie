@@ -54,7 +54,7 @@ Only the variables defined in `.env.example` are officially supported.
 ```env
 FRONTEND_URL=http://localhost:8200
 API_URL=http://localhost:8201
-CDN_URL=http://localhost:9005
+CDN_URL=http://localhost:9000
 
 CDN_ENDPOINT=/alexandrie/
 ```
@@ -131,7 +131,7 @@ These variables configure the MySQL database service.
 ### 5. Object Storage — S3 (RustFS / MinIO-compatible) (optional, leave empty to disable)
 
 ```env
-RUSTFS_EXTERNAL_PORT=9005
+RUSTFS_EXTERNAL_PORT=9000
 
 RUSTFS_ACCESS_KEY=alexandrie-key
 RUSTFS_SECRET_KEY=alexandrie-secret

@@ -72,7 +72,7 @@
       <div class="code-block-wrapper">
         <pre><code class="hljs language-env">FRONTEND_URL=http://localhost:8200
 API_URL=http://localhost:8201
-CDN_URL=http://localhost:9005
+CDN_URL=http://localhost:9000
 
 CDN_ENDPOINT=/alexandrie/
 </code></pre>
@@ -172,7 +172,7 @@ MYSQL_ROOT_PASSWORD=rootpassword
       </h3>
 
       <div class="code-block-wrapper">
-        <pre><code class="hljs language-env">RUSTFS_EXTERNAL_PORT=9005
+        <pre><code class="hljs language-env">RUSTFS_EXTERNAL_PORT=9000
 
 RUSTFS_ACCESS_KEY=alexandrie-key
 RUSTFS_SECRET_KEY=alexandrie-secret
