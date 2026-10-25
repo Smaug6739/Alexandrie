@@ -25,21 +25,33 @@
 	font-size: 16px;
 	color: var(--text-body);
 
+
 	.header-anchor {
 		display: none;
 	}
 
-	counter-reset: section subsection;
-
 	&.numbering {
-		h2::before {
-			content: counter(section, upper-roman) ". ";
+		counter-reset: section;
+
+		h2 {
+			margin-top: 2rem;
+			font-size: 1.5rem;
 			counter-increment: section;
+			counter-reset: subsection;
+
+			&::before {
+				content: counter(section, upper-roman) ". ";
+			}
 		}
 
-		h3::before {
-			content: counter(subsection, lower-alpha) ". ";
+		h3 {
+			margin-top: 1rem;
+			font-size: 1.25rem;
 			counter-increment: subsection;
+
+			&::before {
+				content: counter(subsection, lower-alpha) ". ";
+			}
 		}
 	}
 
@@ -523,16 +535,25 @@
 	counter-reset: section subsection;
 
 	&.numbering {
-		h2::before {
-			color: var(--text-primary);
-			content: counter(section, upper-roman) ". ";
+		counter-reset: section;
+
+		h2 {
 			counter-increment: section;
+			counter-reset: subsection;
+
+			&::before {
+				color: var(--text-primary);
+				content: counter(section, upper-roman) ". ";
+			}
 		}
 
-		h3::before {
-			color: var(--text-muted);
-			content: counter(subsection, lower-alpha) ". ";
+		h3 {
 			counter-increment: subsection;
+
+			&::before {
+				color: var(--text-muted);
+				content: counter(subsection, lower-alpha) ". ";
+			}
 		}
 	}
 
