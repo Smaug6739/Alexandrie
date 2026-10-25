@@ -300,6 +300,7 @@ export default defineNuxtConfig({
       },
       short_name: 'Alexandrie',
       start_url: '/dashboard',
+      scope: '/',
       theme_color: '#3956e7',
     },
     registerType: 'autoUpdate',
