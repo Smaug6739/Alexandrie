@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 import { precacheAndRoute, cleanupOutdatedCaches } from 'workbox-precaching';
 import { registerRoute, NavigationRoute } from 'workbox-routing';
-import { NetworkFirst } from 'workbox-strategies';
+import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
 import { clientsClaim } from 'workbox-core';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
@@ -33,6 +33,23 @@ registerRoute(
     }),
     { denylist: [/^\/api\//] },
   ),
+);
+
+// ─── i18n Translations cache ─────────────────────────────────────────────────
+registerRoute(
+  ({ url }) => url.pathname.includes('/_i18n/'),
+  new StaleWhileRevalidate({
+    cacheName: 'i18n-cache',
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+      new ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 10 * 24 * 60 * 60,
+      }),
+    ],
+  }),
 );
 
 // ─── API cache ───────────────────────────────────────────────────────────────
