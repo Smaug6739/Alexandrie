@@ -10,7 +10,12 @@
         <thead>
           <tr>
             <th class="selection-heading">
-              <input type="checkbox" aria-label="Select all rows on this page" style="width: 20px" :checked="selectedRows.length === data.length && data.length > 0" @change="toggleSelectAll" />
+              <input
+                type="checkbox"
+                aria-label="Select all rows on this page"
+                :checked="selectedRows.length === data.length && data.length > 0"
+                @change="toggleSelectAll"
+              />
             </th>
             <th v-for="header in headers" :key="header.key" scope="col" :class="header.align && `align-${header.align}`">
               <span>{{ header.label }}</span>
@@ -20,7 +25,7 @@
         <tbody>
           <tr v-for="(row, index) in data" :key="index" class="data-row">
             <td>
-              <input v-model="selectedRows" type="checkbox" :aria-label="`Select row ${paginator.startIndex.value + index}`" :value="row" style="width: 20px" />
+              <input v-model="selectedRows" type="checkbox" :aria-label="`Select row ${paginator.startIndex.value + index}`" :value="row" />
             </td>
             <td v-for="header in headers" :key="header.key" :class="header.align && `align-${header.align}`">
               <span class="cell-label" aria-hidden="true">{{ header.label }}</span>
@@ -507,5 +512,4 @@ td > .cell-label {
     }
   }
 }
-
 </style>

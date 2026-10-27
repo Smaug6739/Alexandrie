@@ -1,5 +1,5 @@
 <template>
-  <div class="line-container" style="padding-top: 10px;">
+  <div class="line-container" style="padding-top: 10px">
     <DataTable ref="tableRef" :headers="headers" :rows="rows">
       <template #bulk-actions="{ selected }">
         <div class="bulk-actions">
@@ -18,7 +18,7 @@
         </div>
       </template>
       <template #name="{ cell }">
-        <div class="node-name" style="display:flex;align-items:center;gap:8px;">
+        <div class="node-name" style="display: flex; align-items: center; gap: 8px">
           <Icon :name="asNode(cell?.data)?.icon || 'files'" />
           <NuxtLink :to="`/dashboard/docs/${asNode(cell?.data)?.id}`">{{ asNode(cell?.data)?.name }}</NuxtLink>
         </div>
@@ -193,5 +193,4 @@ const deleteNode = (node: Node) => {
     }
   }
 }
-
 </style>
