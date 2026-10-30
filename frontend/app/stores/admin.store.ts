@@ -1,14 +1,7 @@
-import type { User, Node, OverviewStats, UserStats, NodeStats } from './db_structures';
+import type { User, Session, Node, OverviewStats, UserStats, NodeStats } from './db_structures';
 
 interface UserData extends User {
   nodes?: Node[];
-}
-
-export interface Session {
-  id: string;
-  ip_addr: string;
-  location: string;
-  user_agent: string;
 }
 
 export const useAdminStore = defineStore('admin', {

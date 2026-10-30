@@ -9,6 +9,7 @@
         :session="session"
         :is-current="currentSession?.id === session.id"
         :show-user-agent="true"
+        @close="closeSession"
       />
     </div>
     <p v-else class="no-sessions">{{ t('settings.security.noSessions') }}</p>
@@ -23,8 +24,6 @@
 </template>
 
 <script setup lang="ts">
-import SessionCard from './SessionCard.vue';
-
 const userStore = useUserStore();
 
 const { t } = useI18nT();
@@ -39,6 +38,14 @@ const currentSession = computed(() => {
   }
   return userStore.sessions[0] || null;
 });
+
+const closeSession = async (sessionId: string) => {
+  try {
+    await userStore.deleteSession(sessionId);
+  } catch (error) {
+    console.error('Failed to delete session:', error);
+  }
+};
 
 // Check if there might be unrecognized sessions (sessions other than current)
 const hasUnrecognizedSession = computed(() => userStore.sessions.length > 1);
