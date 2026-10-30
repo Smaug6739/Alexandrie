@@ -15,6 +15,7 @@ type User struct {
 	TotpSecret       *string         `json:"-" db:"totp_secret"`
 	TotpEnabled      bool            `json:"totp_enabled" db:"totp_enabled"`
 	TOTPForced       bool            `json:"totp_forced" db:"totp_forced"`
+	Suspended        bool            `json:"suspended" db:"suspended"`
 	CreatedTimestamp int64           `json:"created_timestamp" form:"created_timestamp" binding:"omitempty" db:"created_timestamp"`
 	UpdatedTimestamp int64           `json:"updated_timestamp" form:"updated_timestamp" binding:"omitempty" db:"updated_timestamp"`
 }

@@ -39,6 +39,12 @@
           </label>
           <AppToggle v-model="user.totp_forced" />
         </div>
+        <div class="actions-row">
+          <label class="toggle-row">
+            <span><strong>Suspend Account</strong><small>Block user from logging in and accessing the API.</small></span>
+          </label>
+          <AppToggle :model-value="user.suspended" @update:model-value="toggleSuspend" />
+        </div>
         <div class="container">
           <div class="user-detail">
             <label>Created At</label>
@@ -53,6 +59,8 @@
       <div class="actions-row">
         <AppButton type="success" @click="saveChanges">Save Changes</AppButton>
         <AppButton type="primary" @click="router.push(`/dashboard/admin/users/${user.id}/documents`)">View nodes</AppButton>
+        <AppButton type="secondary" @click="openSessionsModal">View Sessions</AppButton>
+        <AppButton type="danger" @click="openChangePasswordModal">Change Password</AppButton>
       </div>
     </div>
     <div v-else>No user found.</div>
@@ -60,6 +68,8 @@
 </template>
 
 <script setup lang="ts">
+import UserSessionsModal from './_modals/UserSessions.vue';
+import UserChangePasswordModal from './_modals/UserChangePassword.vue';
 import type { User } from '~/stores';
 
 definePageMeta({ breadcrumb: 'User Details' });
@@ -70,6 +80,9 @@ const route = useRoute();
 const router = useRouter();
 const { avatarURL } = useApi();
 const { numericDate } = useDateFormatters();
+const { t } = useI18nT();
+const notifications = useNotifications();
+const modals = useModal();
 
 const user = ref<User | undefined>(undefined);
 
@@ -81,8 +94,39 @@ const saveChanges = async () => {
   if (!user.value) return;
   store
     .update(user.value)
-    .then(() => useNotifications().add({ type: 'success', title: 'User updated successfully' }))
-    .catch(e => useNotifications().add({ type: 'error', title: 'Error', message: e }));
+    .then(() => notifications.add({ type: 'success', title: t('admin.users.actions.userUpdated') }))
+    .catch(e => notifications.add({ type: 'error', title: t('admin.users.actions.error'), message: e }));
+};
+
+const toggleSuspend = async (value: boolean) => {
+  if (!user.value) return;
+  try {
+    await store.suspendUser(user.value.id, value);
+    user.value.suspended = value;
+    notifications.add({ type: 'success', title: value ? t('admin.users.actions.accountSuspended') : t('admin.users.actions.accountActivated') });
+  } catch (e) {
+    notifications.add({ type: 'error', title: t('admin.users.actions.error'), message: String(e) });
+  }
+};
+
+const openChangePasswordModal = async () => {
+  modals.add(
+    new Modal(shallowRef(UserChangePasswordModal), {
+      props: {
+        userId: user.value?.id,
+      },
+    }),
+  );
+};
+
+const openSessionsModal = async () => {
+  modals.add(
+    new Modal(shallowRef(UserSessionsModal), {
+      props: {
+        user: user.value,
+      },
+    }),
+  );
 };
 </script>
 
@@ -122,5 +166,9 @@ const saveChanges = async () => {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+.actions-row {
+  margin-top: 1rem;
 }
 </style>
