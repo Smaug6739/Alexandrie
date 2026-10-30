@@ -4,6 +4,7 @@ import (
 	"alexandrie/app"
 	"alexandrie/router/routes"
 	"os"
+	"strings"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -27,42 +28,7 @@ func InitRouter(app *app.App) *gin.Engine {
 
 	// Config proxy and CORS
 	router.SetTrustedProxies([]string{"127.0.0.1", "localhost"})
-	router.Use(cors.New(cors.Config{
-		AllowOriginFunc: func(origin string) bool {
-			// Main domain from environment variable
-			domain := os.Getenv("FRONTEND_URL")
-
-			if origin == domain {
-				return true
-			}
-
-			// Allow all sub domains (www, api, etc.)
-			originHost := origin
-			if len(originHost) > 0 {
-				if idx := len("http://"); len(originHost) > idx && originHost[:7] == "http://" {
-					originHost = originHost[7:]
-				} else if idx := len("https://"); len(originHost) > idx && originHost[:8] == "https://" {
-					originHost = originHost[8:]
-				}
-			}
-
-			mainDomain := domain
-			if len(mainDomain) > 0 {
-				if idx := len("http://"); len(mainDomain) > idx && mainDomain[:7] == "http://" {
-					mainDomain = mainDomain[7:]
-				} else if idx := len("https://"); len(mainDomain) > idx && mainDomain[:8] == "https://" {
-					mainDomain = mainDomain[8:]
-				}
-			}
-
-			// Allow all sub domains
-			return len(originHost) >= len(mainDomain) && originHost[len(originHost)-len(mainDomain):] == mainDomain
-		},
-		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
-		AllowCredentials: true,
-	}))
+	router.Use(cors.New(frontendCORSConfig(os.Getenv("FRONTEND_URL"))))
 
 	mainGroup := router.Group("/api")
 	routes.Users(app, mainGroup)
@@ -73,4 +39,19 @@ func InitRouter(app *app.App) *gin.Engine {
 	routes.Nodes(app, mainGroup)
 	routes.Stats(app, mainGroup)
 	return router
+}
+
+func frontendCORSConfig(frontendURL string) cors.Config {
+	// Only the frontend application may read credentialed API responses. Public
+	// asset hosts can serve user-controlled content and must not be trusted here.
+	frontendOrigin := strings.TrimSuffix(strings.TrimSpace(frontendURL), "/")
+	return cors.Config{
+		AllowOriginFunc: func(origin string) bool {
+			return frontendOrigin != "" && origin == frontendOrigin
+		},
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}
 }
