@@ -41,9 +41,10 @@ func NewSnowflake(epoch int64) *Snowflake {
 }
 
 func (s *Snowflake) Generate() types.Snowflake {
-	timestamp := time.Now().UnixMilli()
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
+	// Read the clock under the lock, so timestamps never go backwards in call order.
+	timestamp := time.Now().UnixMilli()
 
 	if timestamp < s.epoch {
 		panic("timestamp is before epoch")
@@ -51,9 +52,15 @@ func (s *Snowflake) Generate() types.Snowflake {
 
 	s.increment = (s.increment + 1) & maxIncrement
 	if s.increment == 0 {
-		// Wait for next millisecond to avoid ID collisions
-		for timestamp <= time.Now().UnixMilli() {
-			timestamp = time.Now().UnixMilli()
+		// The increment wrapped, so it will repeat values handed out since the last
+		// wrap: move to a later millisecond so none of those IDs can recur. (The old
+		// loop here waited while the clock was *not* behind, which is always, and
+		// hung every caller after 4,095 IDs.)
+		for next := time.Now().UnixMilli(); ; next = time.Now().UnixMilli() {
+			if next > timestamp {
+				timestamp = next
+				break
+			}
 		}
 	}
 
