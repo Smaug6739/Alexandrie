@@ -91,6 +91,32 @@
         </div>
       </div>
 
+      <h2><Icon name="layers" fill="var(--primary)" /> Counters</h2>
+
+      <p v-pre>
+        Use the special syntax <code>{{ counterName }}</code> or <code>{{ counterName(style) }}</code
+        >to create counters and automatically update their values in documents.
+      </p>
+
+      You can use the following modifiers to customize the counter's styles:
+      <ul v-pre>
+        <li>
+          <strong>{{ counterName(1) }}</strong> : Display the counter as a number.
+        </li>
+        <li>
+          <strong>{{ counterName(r) }}</strong> : Display the counter as a Roman numeral.
+        </li>
+        <li>
+          <strong>{{ counterName(R) }}</strong> : Display the counter as a Roman numeral in uppercase.
+        </li>
+        <li>
+          <strong>{{ counterName(l) }}</strong> : Display the counter as a lowercase letter.
+        </li>
+        <li>
+          <strong>{{ counterName(L) }}</strong> : Display the counter as an uppercase letter.
+        </li>
+      </ul>
+
       <!-- ADVANCED BLOCKS -->
       <h2><Icon name="layers" fill="var(--primary)" /> {{ t('markdown.syntax.advancedBlocks') }}</h2>
       <p>Use info blocks with the syntax <code>:::name TITLE Content :::</code>.</p>
@@ -217,7 +243,8 @@ Useful for side content or notes.
       <!-- DIAGRAMS -->
       <h2><Icon name="format/diagrams" fill="var(--primary)" /> {{ t('markdown.syntax.diagrams') }}</h2>
       <p>
-        Render live diagrams with <a href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid</a> syntax inside a <code>:::mermaid</code> or <code>```mermaid</code> block.
+        Render live diagrams with <a href="https://mermaid.js.org" target="_blank" rel="noopener">Mermaid</a> syntax inside a <code>:::mermaid</code> or
+        <code>```mermaid</code> block.
       </p>
       <div class="demo">
         <pre>
