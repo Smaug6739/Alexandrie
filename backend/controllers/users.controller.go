@@ -19,6 +19,10 @@ type UserController interface {
 	UpdateUser(c *gin.Context) (int, any)
 	UpdatePassword(c *gin.Context) (int, any)
 	DeleteUser(c *gin.Context) (int, any)
+	AdminUpdatePassword(c *gin.Context) (int, any)
+	GetUserSessions(c *gin.Context) (int, any)
+	DeleteUserSession(c *gin.Context) (int, any)
+	SuspendUser(c *gin.Context) (int, any)
 }
 
 func NewUserController(app *app.App) UserController {
@@ -218,4 +222,83 @@ func (ctr *Controller) DeleteUser(c *gin.Context) (int, any) {
 		return statusFromAccessError(err), err
 	}
 	return http.StatusOK, "User deleted successfully"
+}
+
+func (ctr *Controller) AdminUpdatePassword(c *gin.Context) (int, any) {
+	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	var payload struct {
+		Password string `json:"password"`
+	}
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	err = ctr.app.Services.User.AdminUpdatePassword(c.Request.Context(), targetUserId, payload.Password)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return http.StatusOK, "Password updated successfully"
+}
+
+func (ctr *Controller) GetUserSessions(c *gin.Context) (int, any) {
+	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	sessions, err := ctr.app.Services.Session.GetSessionsByUserId(targetUserId)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return http.StatusOK, sessions
+}
+
+func (ctr *Controller) DeleteUserSession(c *gin.Context) (int, any) {
+	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	sessionId, err := utils.GetTargetId(c, c.Param("sessionId"))
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	err = ctr.app.Services.Session.DeleteSession(sessionId, targetUserId)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+	return http.StatusOK, "Session deleted successfully"
+}
+
+func (ctr *Controller) SuspendUser(c *gin.Context) (int, any) {
+	targetUserId, err := utils.GetTargetId(c, c.Param("userId"))
+	if err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	var payload struct {
+		Suspend bool `json:"suspend"`
+	}
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		return http.StatusBadRequest, err
+	}
+
+	err = ctr.app.Services.User.SuspendUser(c.Request.Context(), targetUserId, payload.Suspend)
+	if err != nil {
+		return http.StatusInternalServerError, err
+	}
+
+	if payload.Suspend {
+		err = ctr.app.Services.Session.DeleteAllByUser(targetUserId)
+		if err != nil {
+			return http.StatusInternalServerError, err
+		}
+	}
+
+	return http.StatusOK, "User suspended state updated successfully"
 }
