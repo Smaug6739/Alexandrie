@@ -1,0 +1,23 @@
+// =============================================================================
+// FLUENT THEME
+// =============================================================================
+
+@mixin fluent-theme {
+	--radius-xs: 2px;
+	--radius-sm: 4px;
+	--radius-md: 4px;
+	--radius-lg: 8px;
+	--radius-xl: 12px;
+	--shadow-sm: 0 2px 4px rgb(0 0 0 / 4%);
+	--shadow-md: 0 4px 8px rgb(0 0 0 / 6%);
+}
+
+@mixin fluent-theme-white {
+	--surface-raised: #f3f2f1;
+	--surface-overlay: #edebe9;
+}
+
+@mixin fluent-dark-theme {
+	--surface-raised: #252423;
+	--surface-overlay: #323130;
+}

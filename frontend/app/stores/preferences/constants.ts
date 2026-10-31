@@ -20,7 +20,7 @@ export const DEFAULT_PREFERENCES = {
   view_dock: true as boolean,
   primaryColor: -2 as number, // -2 default primary; -1 unset; >= 0 app color index
   docSize: 1 as number, // 0 = small, 1 = large
-  style: 'default' as 'default' | 'glassmorphism',
+  style: 'default' as 'default' | 'glassmorphism' | 'minimal' | 'github' | 'modern' | 'fluent',
   theme: 'alexandrie' as string,
   documentAutoSave: true as boolean, // Enable automatic saving of documents
   documentFontSize: 16 as number,

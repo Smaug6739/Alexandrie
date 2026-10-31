@@ -1,0 +1,23 @@
+// =============================================================================
+// GITHUB THEME
+// =============================================================================
+
+@mixin github-theme {
+	--radius-xs: 4px;
+	--radius-sm: 6px;
+	--radius-md: 6px;
+	--radius-lg: 8px;
+	--radius-xl: 12px;
+	--shadow-sm: 0 1px 3px rgb(0 0 0 / 12%);
+	--shadow-md: 0 4px 6px rgb(0 0 0 / 10%);
+}
+
+@mixin github-theme-white {
+	--surface-raised: #f6f8fa;
+	--surface-overlay: #f3f4f6;
+}
+
+@mixin github-dark-theme {
+	--surface-raised: #161b22;
+	--surface-overlay: #21262d;
+}
