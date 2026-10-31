@@ -179,6 +179,7 @@ export default defineNuxtConfig({
       // Base URLs
       baseApi: '',
       baseCdn: '',
+      baseUrl: '',
       cdnEndpoint: '/alexandrie/',
       configDisableLandingPage: '',
       configDisableNativeLogin: false,

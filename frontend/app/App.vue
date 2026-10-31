@@ -20,6 +20,7 @@ const route = useRoute();
 const requestUrl = useRequestURL();
 const { t, locale } = useI18n();
 const i18nHead = useLocaleHead();
+const config = useRuntimeConfig();
 
 router.beforeEach((to, from) => {
   if (to.path.startsWith('/dashboard') && (from.path === '/login' || from.path === '/')) {
@@ -28,28 +29,30 @@ router.beforeEach((to, from) => {
   return;
 });
 
-const canonicalUrl = computed(() => new URL(route.path, requestUrl.origin || __BASE_URL__).toString());
+const baseUrl = (config.public.baseUrl as string) || '';
+
+const canonicalUrl = computed(() => new URL(route.path, requestUrl.origin || baseUrl).toString());
 
 useHead({
   link: [
     {
       rel: 'canonical',
-      href: __BASE_URL__,
+      href: baseUrl,
     },
     {
       rel: 'preconnect',
-      href: __BASE_API__,
+      href: config.public.baseApi,
     },
     {
       rel: 'preconnect',
-      href: __BASE_CDN__,
+      href: config.public.baseCdn,
     },
     ...(i18nHead.value.link || []),
   ],
   meta: [
     {
       property: 'og:url',
-      content: __BASE_URL__,
+      content: baseUrl,
     },
   ],
   htmlAttrs: {

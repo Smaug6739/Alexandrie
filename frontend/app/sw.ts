@@ -16,6 +16,18 @@ clientsClaim();
 cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST); // This will be replaced by the build process with the list of assets to precache
 
+let baseApi = '';
+let baseCdn = '';
+
+// Écoute de la configuration envoyée par le client Nuxt
+self.addEventListener('message', event => {
+  console.log('[SW] Received message from client:', event.data);
+  if (event.data && event.data.type === 'SET_RUNTIME_CONFIG') {
+    baseApi = event.data.payload.BASE_API;
+    baseCdn = event.data.payload.BASE_CDN;
+  }
+});
+
 // ─── Navigation (HTML pages) ─────────────────────────────────────────────────
 registerRoute(
   new NavigationRoute(
@@ -54,7 +66,7 @@ registerRoute(
 
 // ─── API cache ───────────────────────────────────────────────────────────────
 registerRoute(
-  ({ url }) => url.origin === __BASE_API__ && !url.pathname.startsWith('/api/backup/'),
+  ({ url }) => url.origin === baseApi && !url.pathname.startsWith('/api/backup/'),
   new NetworkFirst({
     cacheName: 'api-cache',
     networkTimeoutSeconds: 3,
@@ -68,7 +80,7 @@ registerRoute(
 
 // ─── CDN cache ────────────────────────────────────────────────────────────────
 registerRoute(
-  ({ url }) => url.origin === __BASE_CDN__,
+  ({ url }) => url.origin === baseCdn,
   new NetworkFirst({
     cacheName: 'cdn-cache',
     networkTimeoutSeconds: 3,

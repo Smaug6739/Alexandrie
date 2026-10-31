@@ -44,6 +44,7 @@ import type { Node, PublicNodeResponse } from '~/stores';
 import { isImageFile, isPdfFile, isVideoFile, isAudioFile } from '~/helpers/resources';
 
 const route = useRoute();
+const config = useRuntimeConfig();
 const requestUrl = useRequestURL();
 const { isOpened } = useSidebar();
 const { resourceURL } = useApi();
@@ -72,7 +73,7 @@ const resource = computed(() => data.value?.node);
 const mimeType = computed(() => data.value?.node?.metadata?.filetype || '');
 const hasFile = computed(() => data.value?.node?.role === 4);
 
-const baseUrl = requestUrl.origin || __BASE_URL__;
+const baseUrl = requestUrl.origin || config.public.baseUrl || '';
 
 useSeoMeta({
   title: () => data.value?.node?.name || 'Unknown document',
