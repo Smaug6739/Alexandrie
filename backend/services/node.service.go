@@ -134,6 +134,7 @@ func (s *nodeService) CreateNode(ctx context.Context, node *models.Node) (*model
 	}
 
 	escapedHTMLThumbnail := utils.EscapeHTML(node.Thumbnail)
+	escapedIcon := utils.EscapeHTML(node.Icon)
 	escapedHTMLContent := utils.EscapeHTML(node.ContentCompiled)
 
 	// Parent ID: Check if exists and user has permissions to create under it
@@ -161,7 +162,7 @@ func (s *nodeService) CreateNode(ctx context.Context, node *models.Node) (*model
 		Tags:             node.Tags,
 		Thumbnail:        &escapedHTMLThumbnail,
 		Theme:            node.Theme,
-		Icon:             node.Icon,
+		Icon:             &escapedIcon,
 		Color:            node.Color,
 		Accessibility:    node.Accessibility,
 		Access:           node.Access,
@@ -224,6 +225,7 @@ func (s *nodeService) UpdateNode(ctx context.Context, nodeId types.Snowflake, no
 		}
 	}
 	escapedHTMLThumbnail := utils.EscapeHTML(node.Thumbnail)
+	escapedIcon := utils.EscapeHTML(node.Icon)
 	escapedHTMLContent := utils.EscapeHTML(node.ContentCompiled)
 
 	updatedNode := &models.Node{
@@ -236,7 +238,7 @@ func (s *nodeService) UpdateNode(ctx context.Context, nodeId types.Snowflake, no
 		Tags:             node.Tags,
 		Thumbnail:        &escapedHTMLThumbnail,
 		Theme:            node.Theme,
-		Icon:             node.Icon,
+		Icon:             &escapedIcon,
 		Color:            node.Color,
 		Accessibility:    node.Accessibility,
 		Access:           node.Access,
