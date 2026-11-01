@@ -46,7 +46,7 @@ const docSize = preferencesStore.get('docSize');
 const elementComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
 const element = computed(() => elementComponent.value?.rootElement as HTMLElement | undefined);
 
-const error = ref<false | string>(false);
+const error = ref<null | AlexandrieError>(null);
 
 const documentId = computed(() => route.params.id as string);
 
@@ -65,14 +65,17 @@ const width = computed(() => {
 });
 
 async function loadDocument(id: string) {
-  error.value = false;
+  error.value = null;
 
   if (documentsStore.isFetching) return;
 
   const cached = documentsStore.getById(id);
 
   if (!cached) {
-    error.value = 'Document not found';
+    error.value = {
+      code: 404,
+      message: 'Document not found',
+    };
     return;
   }
 
@@ -80,7 +83,10 @@ async function loadDocument(id: string) {
     try {
       await documentsStore.fetch({ id });
     } catch (err: unknown) {
-      error.value = (err as Error).message || 'Failed to fetch document';
+      error.value = {
+        code: 500,
+        message: (err as Error).message || 'An error occurred while fetching the document',
+      };
     }
   }
 

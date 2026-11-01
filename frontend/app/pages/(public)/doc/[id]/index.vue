@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%; padding: 1rem 0">
     <div
-      v-if="!error && data?.node"
+      v-if="!data?.error && data?.node"
       class="reader"
       :style="{
         marginRight: isOpened && hasContent ? '200px' : '0px',
@@ -28,13 +28,13 @@
       </div>
     </div>
 
-    <div v-else-if="!error" class="reader">
+    <div v-else-if="pending" class="reader">
       <div class="doc-container">
         <NodeDocumentSkeleton />
       </div>
     </div>
 
-    <Error v-else :error="error?.message" />
+    <Error v-else :error="data?.error" />
   </div>
 </template>
 
@@ -52,20 +52,25 @@ const { resourceURL } = useApi();
 const elementComponent = ref<InstanceType<typeof NodeDocumentContentCompiled>>();
 const element = computed(() => elementComponent.value?.rootElement as HTMLElement | undefined);
 
-const { data, error } = await useAsyncData(`public-doc-${route.params.id}`, async (): Promise<{ node: Node | undefined; children: Node[] }> => {
-  const documentId = route.params.id;
-  if (!documentId || typeof documentId !== 'string') return { node: undefined, children: [] };
-
-  const request = await makeRequest(`nodes/public/${documentId}`, 'GET', {});
-  if (request.status === 'success') {
-    const response = request.result as PublicNodeResponse;
-    return {
-      node: { ...response.node, shared: false, public: true, permissions: [] } as Node,
-      children: response.children?.map(child => ({ ...child, shared: false, public: true }) as Node) || [],
-    };
-  }
-  return { node: undefined, children: [] };
-});
+const { data, pending } = await useAsyncData(
+  `public-doc-${route.params.id}`,
+  async (): Promise<{ node: Node | undefined; children: Node[]; error: null | AlexandrieError }> => {
+    const documentId = route.params.id;
+    if (!documentId || typeof documentId !== 'string') return { node: undefined, children: [], error: { code: 404, message: '' } };
+    const request = await makeRequest(`nodes/public/${documentId}`, 'GET', {});
+    if (request.status === 'success') {
+      if (!request.result) return { node: undefined, children: [], error: { code: 404, message: '' } };
+      const response = request.result as PublicNodeResponse;
+      return {
+        node: { ...response.node, shared: false, public: true, permissions: [] } as Node,
+        children: response.children?.map(child => ({ ...child, shared: false, public: true }) as Node) || [],
+        error: null,
+      };
+    }
+    if (request.status === 'error' && request.message === 'Invalid parameter') return { node: undefined, children: [], error: { code: 404, message: '' } };
+    return { node: undefined, children: [], error: { code: 500, message: request.message || 'An error occurred while fetching the document' } };
+  },
+);
 
 /** Check if node has displayable content */
 const hasContent = computed(() => !!data.value?.node?.content_compiled?.trim());

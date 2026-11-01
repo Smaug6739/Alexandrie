@@ -1,8 +1,9 @@
 <template>
-  <div class="error-container">
+  <ErrorNotFound v-if="props.error?.status === 404" />
+  <div v-else class="error-container">
     <div class="error-content">
-      <h1 class="error-code">{{ props.error?.statusCode }}</h1>
-      <p class="error-message">{{ props.error?.statusMessage || 'Something went wrong' }}</p>
+      <h1 class="error-code">{{ props.error?.status }}</h1>
+      <p class="error-message">{{ props.error?.statusText || 'Something went wrong' }}</p>
       <p>{{ error }}</p>
       <p class="error-description">An unexpected error has occurred. Please try refreshing the page or go back to the homepage.</p>
       <nuxt-link to="/" class="error-button">Return to Homepage</nuxt-link>
@@ -24,8 +25,8 @@ const props = defineProps({
   error: {
     type: Object as () => NuxtError,
     default: () => ({
-      statusCode: 500,
-      statusMessage: 'Something went wrong',
+      status: 500,
+      statusText: 'Something went wrong',
     }),
   },
 });
