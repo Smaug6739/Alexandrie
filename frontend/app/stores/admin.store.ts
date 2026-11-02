@@ -1,4 +1,4 @@
-import type { User, Node, OverviewStats, UserStats, NodeStats } from './db_structures';
+import type { User, Session, Node, OverviewStats, UserStats, NodeStats } from './db_structures';
 
 interface UserData extends User {
   nodes?: Node[];
@@ -66,6 +66,29 @@ export const useAdminStore = defineStore('admin', {
       if (response.status === 'success') {
         return response.result?.node;
       } else throw response.message;
+    },
+    async adminUpdatePassword(userId: string, password: string) {
+      const request = await makeRequest(`users/${userId}/admin-password`, 'PATCH', { password });
+      if (request.status === 'success') return request.result;
+      else throw request.message;
+    },
+    async suspendUser(userId: string, suspend: boolean) {
+      const request = await makeRequest(`users/${userId}/suspend`, 'PATCH', { suspend });
+      if (request.status === 'success') {
+        const user = this.users?.find(u => u.id === userId);
+        if (user) user.suspended = suspend;
+        return request.result;
+      } else throw request.message;
+    },
+    async fetchUserSessions(userId: string) {
+      const response = await makeRequest<Session[]>(`users/${userId}/sessions`, 'GET', {});
+      if (response.status === 'success') return response.result;
+      else throw response.message;
+    },
+    async deleteUserSession(userId: string, sessionId: string) {
+      const request = await makeRequest(`users/${userId}/sessions/${sessionId}`, 'DELETE', {});
+      if (request.status === 'success') return request.result;
+      else throw request.message;
     },
     async fetchOverviewStats() {
       const response = await makeRequest<OverviewStats>('stats/overview', 'GET', {});

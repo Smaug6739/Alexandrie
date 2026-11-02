@@ -57,7 +57,6 @@ import { parseUserAgent } from '~/helpers/utils';
 import type { Session } from '~/stores';
 
 const { t } = useI18nT();
-const store = useUserStore();
 
 const props = withDefaults(
   defineProps<{
@@ -71,6 +70,10 @@ const props = withDefaults(
   },
 );
 
+const emit = defineEmits<{
+  (e: 'close', sessionId: string): void;
+}>();
+
 const { numericDate, formatRelativeDate } = useDateFormatters();
 
 const parsedUserAgent = computed(() => parseUserAgent(props.session.user_agent || ''));
@@ -83,13 +86,9 @@ const deviceType = computed(() => {
   return 'desktop';
 });
 
-const closeSession = async () => {
-  try {
-    await store.deleteSession(props.session.id);
-  } catch (error) {
-    console.error('Failed to delete session:', error);
-  }
-};
+function closeSession() {
+  emit('close', props.session.id);
+}
 </script>
 
 <style scoped lang="scss">
