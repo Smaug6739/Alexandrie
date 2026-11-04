@@ -44,6 +44,7 @@ func (ctr *Controller) CreateBackup(c *gin.Context) (int, any) {
 		IncludeFiles:     req.IncludeFiles,
 		IncludeMetadata:  req.IncludeMetadata,
 		IncludeSettings:  req.IncludeSettings,
+		Format:           req.Format,
 	}
 
 	// Start async backup
