@@ -12,7 +12,6 @@ function setAppColor(color: string | number) {
   if (typeof color === 'number') {
     color = getAppAccent(color);
   }
-  console.log('Setting app color to:', color);
   if (!import.meta.client) return;
   setThemeColor(`--${color}`);
   if (color === 'primary') color = 'accent';
