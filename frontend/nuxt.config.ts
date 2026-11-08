@@ -140,6 +140,7 @@ export default defineNuxtConfig({
       { code: 'en', file: 'en/index.ts', language: 'en-US' },
       { code: 'fr', file: 'fr/index.ts', language: 'fr-FR' },
       { code: 'de', file: 'de/index.ts', language: 'de-DE' },
+      { code: 'ru', file: 'ru/index.ts', language: 'ru-RU' },
       { code: 'uk', file: 'uk/index.ts', language: 'uk-UA' },
       { code: 'ko', file: 'ko/index.ts', language: 'ko-KR' },
       { code: 'it', file: 'it/index.ts', language: 'it-IT' },
