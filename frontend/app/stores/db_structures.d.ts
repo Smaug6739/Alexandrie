@@ -18,6 +18,7 @@ export interface DB_Node {
   content_compiled?: string;
   size?: number; // in bytes
   metadata?: {
+    documentOrder?: string[];
     filetype?: string;
     original_path?: string;
     transformed_path?: string;

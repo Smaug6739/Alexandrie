@@ -316,6 +316,8 @@ export const useNodesStore = defineStore('nodes', () => {
       await LocalDbService.saveUpdateDelta(node);
       node.synced = false;
       nodes.value.set(node.id, node, true);
+    } else {
+      throw response.message || 'Failed to update node';
     }
     nodes.value.rebuildIndexes();
   }

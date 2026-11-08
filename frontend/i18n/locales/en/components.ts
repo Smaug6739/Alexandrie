@@ -53,6 +53,8 @@ export default {
     created: 'Created',
     descending: 'Descending',
     exact: 'Exact match',
+    manualSort: 'Manual sorting',
+    manualSortHint: 'Drag documents onto sibling documents in the sidebar to reorder them. This order also controls previous/next navigation.',
     match: 'Match',
     modified: 'Modified',
     sort: 'Sort by',

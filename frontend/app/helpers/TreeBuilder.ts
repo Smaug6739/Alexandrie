@@ -106,6 +106,7 @@ export class TreeBuilder<T extends { id: string; parent_id?: string | null; role
       .filter((s): s is TreeItem<T> => !!s);
 
     if (filter) siblings = siblings.filter(s => filter(s.data));
+    siblings.sort(this.sortNodes);
 
     const index = siblings.findIndex(s => s.id === id);
     if (index === -1) return undefined;

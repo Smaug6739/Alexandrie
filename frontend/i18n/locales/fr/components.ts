@@ -53,6 +53,8 @@ export default {
     created: 'Créé',
     descending: 'Descendant',
     exact: 'Correspondance exacte',
+    manualSort: 'Tri manuel',
+    manualSortHint: 'Glissez les documents sur leurs voisins dans la barre latérale pour les réordonner. Cet ordre sert aussi à la navigation précédent/suivant.',
     match: 'Correspondance',
     modified: 'Modifié',
     sort: 'Trier par',

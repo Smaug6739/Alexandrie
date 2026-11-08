@@ -134,8 +134,13 @@ export function useNodesTree() {
   /**
    * Getters for the next and previous documents in the tree, based on the current node ID
    */
-  const nextDocument = (id?: string) => (id ? globalBuilder!.getSibling(id, 1, n => n?.role === 3)?.data : undefined);
-  const prevDocument = (id?: string) => (id ? globalBuilder!.getSibling(id, -1, n => n?.role === 3)?.data : undefined);
+  const siblingDocument = (id: string | undefined, direction: number) => {
+    // Read the reactive tree before using the builder's transformed-item cache.
+    if (!id || !treeMap.value.has(id)) return undefined;
+    return globalBuilder!.getSibling(id, direction, n => n?.role === 3)?.data;
+  };
+  const nextDocument = (id?: string) => siblingDocument(id, 1);
+  const prevDocument = (id?: string) => siblingDocument(id, -1);
 
   return {
     tree,

@@ -27,21 +27,27 @@
             <AppTagInput :model-value="(options.tags || []).join(',')" @update:model-value="options.tags = parseTags($event)" />
           </div>
 
+          <label class="row">
+            <input v-model="manualSort" type="checkbox" />
+            <span>{{ t('components.filter.manualSort') }}</span>
+          </label>
+          <small v-if="manualSort">{{ t('components.filter.manualSortHint') }}</small>
+
           <!-- Sort & Match -->
           <div class="row">
             <label class="row">
-              <input v-model="sortOrder" type="radio" value="ascending" />
+              <input v-model="sortOrder" :disabled="manualSort" type="radio" value="ascending" />
               <span>{{ t('components.filter.ascending') }}</span>
             </label>
 
             <label class="row">
-              <input v-model="sortOrder" type="radio" value="descending" />
+              <input v-model="sortOrder" :disabled="manualSort" type="radio" value="descending" />
               <span>{{ t('components.filter.descending') }}</span>
             </label>
           </div>
 
           <div class="row">
-            <div style="flex: 1">
+            <div v-if="!manualSort" style="flex: 1">
               <label>{{ t('components.filter.sort') }}</label>
               <AppSelect v-model="sortKey" :items="SORT_OPTIONS" />
             </div>
@@ -97,6 +103,7 @@ const emit = defineEmits<{ (e: 'update:nodes', v: Node[]): void }>();
 
 const preferencesStore = usePreferencesStore();
 
+const manualSort = preferencesStore.get('manualSort');
 const sortKey = preferencesStore.get('sortKey');
 const sortOrder = preferencesStore.get('sortOrder');
 

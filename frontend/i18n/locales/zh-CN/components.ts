@@ -53,6 +53,8 @@ export default {
     created: '创建时间',
     descending: '降序',
     exact: '完全匹配',
+    manualSort: '手动排序',
+    manualSortHint: '在侧边栏中将文档拖到同一分类的其他文档上以调整顺序。此顺序也用于上一页和下一页导航。',
     match: '匹配方式',
     modified: '修改时间',
     sort: '排序依据',

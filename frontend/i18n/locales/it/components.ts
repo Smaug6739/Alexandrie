@@ -53,6 +53,8 @@ export default {
     created: 'Creato',
     descending: 'Decrescente',
     exact: 'Corrispondenza esatta',
+    manualSort: 'Ordinamento manuale',
+    manualSortHint: 'Trascina i documenti sui documenti della stessa categoria nella barra laterale. Questo ordine vale anche per la navigazione precedente/successivo.',
     match: 'Corrispondenza',
     modified: 'Modificato',
     sort: 'Ordina per',

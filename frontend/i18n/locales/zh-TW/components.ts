@@ -53,6 +53,8 @@ export default {
     created: '建立時間',
     descending: '遞減',
     exact: '完全相符',
+    manualSort: '手動排序',
+    manualSortHint: '在側邊欄中將文件拖到同一分類的其他文件上以調整順序。此順序也用於上一頁和下一頁導覽。',
     match: '比對方式',
     modified: '修改時間',
     sort: '排序依據',
