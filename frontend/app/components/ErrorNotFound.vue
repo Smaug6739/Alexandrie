@@ -72,10 +72,10 @@
 
 <style lang="scss" scoped>
 .error-page {
-  min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 48px 24px;
   color: var(--text-body);
 }
@@ -98,12 +98,12 @@
 
 .illustration {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 260px;
   height: 220px;
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .illustration-glow {
@@ -118,40 +118,40 @@
 
 .book {
   position: relative;
+  z-index: 2;
   width: 125px;
   height: 155px;
-  z-index: 2;
   transform: rotate(-8deg);
   animation: book-float 4s ease-in-out infinite;
 }
 
 .book-pages {
   position: absolute;
+  top: 5px;
+  right: -8px;
   width: 112px;
   height: 145px;
-  right: -8px;
-  top: 5px;
-  background: #e8e4f4;
   border-radius: 5px 9px 9px 5px;
-  transform: skewY(3deg);
+  background: #e8e4f4;
   box-shadow: 4px 4px 0 #d3cce6;
+  transform: skewY(3deg);
 }
 
 .book-page {
   position: absolute;
-  inset: 7px 8px 7px 13px;
-  background: #faf9ff;
-  border-radius: 2px 5px 5px 2px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  border-radius: 2px 5px 5px 2px;
+  background: #faf9ff;
+  inset: 7px 8px 7px 13px;
 }
 
 .page-lines {
-  width: 60%;
   display: flex;
   flex-direction: column;
   gap: 9px;
+  width: 60%;
 }
 
 .page-lines span {
@@ -170,24 +170,24 @@
 
 .book-cover {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(145deg, var(--primary), var(--primary-dark, #4930a8));
   border-radius: 5px 9px 9px 5px;
+  background: linear-gradient(145deg, var(--primary), var(--primary-dark, #4930a8));
   box-shadow:
-    inset 5px 0 rgba(255, 255, 255, 0.16),
-    5px 8px 18px rgba(50, 30, 100, 0.2);
+    inset 5px 0 rgb(255 255 255 / 16%),
+    5px 8px 18px rgb(50 30 100 / 20%);
+  inset: 0;
 }
 
 .book-cover-content {
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  height: 100%;
   margin: 9px;
+  border: 1px solid rgb(255 255 255 / 30%);
   border-radius: 3px;
+  color: white;
 }
 
 .book-icon {
@@ -207,17 +207,17 @@
   bottom: 10px;
   width: 125px;
   height: 15px;
+  border-radius: 50%;
   background: var(--primary);
   opacity: 0.12;
   filter: blur(12px);
-  border-radius: 50%;
 }
 
 .floating-symbol {
   position: absolute;
+  z-index: 3;
   color: var(--primary);
   opacity: 0.55;
-  z-index: 3;
 }
 
 .symbol-star {
@@ -235,39 +235,39 @@
 }
 
 .symbol-dot {
-  bottom: 40px;
   right: 25px;
+  bottom: 40px;
   font-size: 45px;
 }
 
 .floating-page {
   position: absolute;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: var(--surface, #f1eef9);
+  align-items: center;
   border: 1px solid var(--border, #e5e0ef);
   border-radius: 5px;
-  color: var(--primary);
   font-family: monospace;
   font-weight: bold;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+  color: var(--primary);
+  background: var(--surface, #f1eef9);
+  box-shadow: 0 5px 15px rgb(0 0 0 / 6%);
 }
 
 .page-one {
+  top: 40px;
+  left: 15px;
   width: 44px;
   height: 54px;
-  left: 15px;
-  top: 40px;
   transform: rotate(-17deg);
   animation: symbol-float 3.5s ease-in-out infinite;
 }
 
 .page-two {
-  width: 38px;
-  height: 46px;
   right: 10px;
   bottom: 25px;
+  width: 38px;
+  height: 46px;
   transform: rotate(14deg);
   animation: symbol-float 4s ease-in-out infinite reverse;
 }
@@ -277,6 +277,7 @@
   100% {
     transform: translateY(0) rotate(-8deg);
   }
+
   50% {
     transform: translateY(-10px) rotate(-5deg);
   }
@@ -287,6 +288,7 @@
   100% {
     translate: 0 0;
   }
+
   50% {
     translate: 0 -7px;
   }
@@ -297,11 +299,11 @@
 -------------------------------- */
 
 .error-code {
+  margin-bottom: 14px;
   font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.3em;
   color: var(--primary);
-  margin-bottom: 14px;
+  letter-spacing: 0.3em;
 }
 
 .error-title {
@@ -309,16 +311,16 @@
   font-size: clamp(27px, 5vw, 38px);
   font-weight: 750;
   line-height: 1.2;
-  letter-spacing: -0.04em;
   color: var(--text-primary);
+  letter-spacing: -0.04em;
 }
 
 .error-description {
   max-width: 420px;
   margin: 18px auto 28px;
-  color: var(--text-secondary);
   font-size: 15px;
   line-height: 1.7;
+  color: var(--text-secondary);
 }
 
 /* --------------------------------
@@ -327,17 +329,17 @@
 
 .error-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
 }
 
 .primary-button,
 .secondary-button {
   display: inline-flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 12px;
   min-height: 46px;
   padding: 0 21px;
@@ -354,15 +356,15 @@
 }
 
 .primary-button {
-  background: var(--primary);
-  color: white;
   border: 1px solid transparent;
+  color: white;
+  background: var(--primary);
   box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 25%, transparent);
 }
 
 .primary-button:hover {
-  transform: translateY(-2px);
   box-shadow: 0 7px 18px color-mix(in srgb, var(--primary) 35%, transparent);
+  transform: translateY(-2px);
 }
 
 .button-arrow {
@@ -375,9 +377,9 @@
 }
 
 .secondary-button {
+  border: 1px solid var(--border, #ddd);
   color: var(--text-primary);
   background: var(--surface, transparent);
-  border: 1px solid var(--border, #ddd);
 }
 
 .secondary-button:hover {
@@ -394,8 +396,8 @@
   align-items: center;
   gap: 8px;
   margin-top: 55px;
-  color: var(--text-secondary);
   font-size: 12px;
+  color: var(--text-secondary);
   opacity: 0.8;
 }
 
@@ -407,14 +409,14 @@
    Accessibility & responsive
 -------------------------------- */
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .error-page {
     padding: 32px 20px;
   }
 
   .illustration {
-    transform: scale(0.9);
     margin-bottom: 8px;
+    transform: scale(0.9);
   }
 
   .error-description {
