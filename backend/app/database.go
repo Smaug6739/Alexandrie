@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"net/url"
 	"os"
 	"time"
 
@@ -33,7 +34,12 @@ func DBConnection(config Config, multiStatements bool) *sqlx.DB {
 		multiStatementsConfig = "?multiStatements=true"
 	}
 
-	dsn := User + ":" + Password + "@tcp(" + Host + ":" + Port + ")/" + Database + multiStatementsConfig
+	tlsConfig := ""
+	if tlsMode := os.Getenv("DATABASE_TLS_MODE"); tlsMode != "" {
+		tlsConfig = "&tls=" + url.QueryEscape(tlsMode)
+	}
+
+	dsn := User + ":" + Password + "@tcp(" + Host + ":" + Port + ")/" + Database + multiStatementsConfig + tlsConfig
 	db, err := sqlx.Connect(Driver, dsn)
 	if err != nil {
 		panic(fmt.Sprintf("failed to connect to database: %v", err))
