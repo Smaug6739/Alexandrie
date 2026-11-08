@@ -68,6 +68,12 @@ const options = computed<Array<{ label: string; options: InterfaceOption[] }>>((
     label: t('settings.other.sort'),
     options: [
       {
+        label: t('components.filter.manualSort'),
+        description: t('components.filter.manualSortHint'),
+        type: 'toggle',
+        key: 'manualSort',
+      },
+      {
         label: t('settings.other.sortKey'),
         description: t('settings.other.sortKeyDesc'),
         tag: t('settings.nav.new'),

@@ -53,6 +53,8 @@ export default {
     created: '생성일',
     descending: '내림차순',
     exact: '정확히 일치',
+    manualSort: '수동 정렬',
+    manualSortHint: '사이드바에서 같은 범주의 문서 위로 문서를 끌어 순서를 변경하세요. 이전/다음 탐색에도 이 순서가 적용됩니다.',
     match: '일치',
     modified: '수정일',
     sort: '정렬 기준',

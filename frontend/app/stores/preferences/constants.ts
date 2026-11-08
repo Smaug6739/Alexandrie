@@ -76,6 +76,7 @@ export const DEFAULT_PREFERENCES = {
   editorScrollBeyondLastLine: true as boolean,
   editorSimplifiedViewOnMobile: true as boolean,
   developerMode: false as boolean,
+  manualSort: false as boolean,
   sortKey: 'name' as 'name' | 'created' | 'modified',
   sortOrder: 'ascending' as 'ascending' | 'descending',
   stylesInjectionEnabled: false as boolean,
@@ -138,6 +139,7 @@ export const ADVANCED_KEYS: PreferenceKey[] = [
   'stylesInjection',
   'stylesDocumentsInjection',
   'defaultUploadFolder',
+  'manualSort',
   'sortKey',
   'sortOrder',
 ];

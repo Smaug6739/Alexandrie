@@ -53,6 +53,8 @@ export default {
     created: 'Erstellt',
     descending: 'Absteigend',
     exact: 'Exakte Übereinstimmung',
+    manualSort: 'Manuelle Sortierung',
+    manualSortHint: 'Ziehe Dokumente in der Seitenleiste auf andere Dokumente derselben Kategorie. Diese Reihenfolge gilt auch für die Navigation zur vorherigen/nächsten Seite.',
     match: 'Übereinstimmung',
     modified: 'Geändert',
     sort: 'Sortieren nach',

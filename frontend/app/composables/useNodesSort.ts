@@ -1,3 +1,4 @@
+import { compareManualOrder } from '~/helpers/manualOrder';
 import type { TreeItem } from '~/helpers/TreeBuilder';
 import type { Node } from '~/stores';
 
@@ -5,6 +6,14 @@ export function useNodesSort() {
   const preferences = usePreferencesStore();
   const sortKey = preferences.get('sortKey');
   const sortOrder = preferences.get('sortOrder');
+  const manualSort = preferences.get('manualSort');
+
+  function manualComparison(a: { id: string; parent_id?: string | null; role?: number }, b: typeof a) {
+    if (!manualSort.value || a.role !== 3 || b.role !== 3) return 0;
+    if (a.parent_id !== b.parent_id) return (a.parent_id ?? '').localeCompare(b.parent_id ?? '');
+    const parent = useNodesStore().getById(a.parent_id ?? '');
+    return compareManualOrder(a.id, b.id, parent?.metadata?.documentOrder);
+  }
 
   function sortItems<
     T extends { id: string; parent_id?: string | null; role?: number; order?: number; created_timestamp?: number; updated_timestamp?: number },
@@ -12,6 +21,8 @@ export function useNodesSort() {
     if (a.data.role !== b.data.role) {
       return (b.data.role ?? 0) - (a.data.role ?? 0);
     }
+    const manual = manualComparison(a.data, b.data);
+    if (manual) return manual;
     const orderA = a.data.order ?? 0;
     const orderB = b.data.order ?? 0;
     if (orderA !== orderB) {
@@ -33,6 +44,8 @@ export function useNodesSort() {
     if (a.role !== b.role) {
       return (b.role ?? 0) - (a.role ?? 0);
     }
+    const manual = manualComparison(a, b);
+    if (manual) return manual;
     const orderA = a.order ?? 0;
     const orderB = b.order ?? 0;
     if (orderA !== orderB) {

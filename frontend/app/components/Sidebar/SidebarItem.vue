@@ -2,7 +2,7 @@
   <span
     class="item"
     :draggable="true"
-    :class="{ dragging: isDragOver }"
+    :class="{ dragging: isDragOver, 'insert-before': isDragOver && insertBefore }"
     @click="onClick"
     @dragstart="dragStart"
     @dragover.prevent="dragOver"
@@ -36,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { moveDocument } from '~/helpers/manualOrder';
 import type { Node } from '~/stores';
 
 import NodeContextMenu from '~/components/Node/Action/ContextMenu.vue';
@@ -56,6 +57,10 @@ const mark = useMark();
 
 const props = defineProps<{ item: SidebarItem; level: number }>();
 const isDragOver = ref<boolean>(false);
+const insertBefore = ref(false);
+const manualSort = preferencesStore.get('manualSort');
+const reorderPending = useState('document-reorder-pending', () => false);
+const { sortNodes } = useNodesSort();
 
 const customClass = computed(() => {
   if (props.item?.data && 'color' in props.item.data && props.item.data.color != null && props.item.data.color != -1)
@@ -93,7 +98,11 @@ const dragStart = (event: DragEvent) => {
   event.dataTransfer!.setData('text/plain', props.item.id.toString());
 };
 
-const dragOver = () => (isDragOver.value = true);
+const dragOver = (event: DragEvent) => {
+  isDragOver.value = true;
+  const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+  insertBefore.value = manualSort.value && props.item.data.role === 3 && event.clientY < rect.top + rect.height / 2;
+};
 
 const dragLeave = () => (isDragOver.value = false);
 
@@ -123,6 +132,37 @@ const drop = async (event: DragEvent) => {
   if (props.item.data.role === 4) return; // Prevent dropping on resource items
   if (draggedItem.id === props.item.id) return; // Prevent dropping on itself
   if (draggedItem.role <= 2 && props.item.data.role !== undefined && props.item.data.role > 2) return; // Prevent dropping categories / workspaces on resources / documents
+  // In manual mode, dropping on a sibling document changes its position,
+  // never its parent. Dropping on a category still moves into that category.
+  if (manualSort.value && draggedItem.role === 3 && props.item.data.role === 3 && draggedItem.parent_id === nodesStore.getById(props.item.id)?.parent_id) {
+    if (reorderPending.value || !draggedItem.parent_id) return;
+    const parent = nodesStore.getById(draggedItem.parent_id);
+    if (!parent || parent.role > 2 || !nodesPermissionsStore.hasPermissions(parent, 2)) return;
+    const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+    const after = event.clientY >= rect.top + rect.height / 2;
+    reorderPending.value = true;
+    try {
+      const fullParent = await nodesStore.fetch({ id: parent.id });
+      const siblings = nodesStore.getAll
+        .getChildrenIds(parent.id)
+        .map(id => nodesStore.getById(id)!)
+        .filter(node => node.role === 3)
+        .sort(sortNodes);
+      const documentOrder = moveDocument(
+        siblings.map(node => node.id),
+        draggedItem.id,
+        props.item.id,
+        after,
+      );
+      await nodesStore.update({ ...fullParent, metadata: { ...fullParent.metadata, documentOrder } });
+    } catch (error) {
+      useNotifications().add({ type: 'error', title: t('common.status.error'), message: String(error) });
+    } finally {
+      reorderPending.value = false;
+    }
+    return;
+  }
+
   // Move item to root
   if (props.item.data.role === -1) {
     return nodesStore.update({ ...(draggedItem as Node), parent_id: workspaceId.value });
@@ -181,6 +221,11 @@ const drop = async (event: DragEvent) => {
 .dragging {
   border-bottom: 2px solid var(--primary);
   box-shadow: var(--shadow-sm);
+}
+
+.insert-before {
+  border-top: 2px solid var(--primary);
+  border-bottom: none;
 }
 
 .nav {
