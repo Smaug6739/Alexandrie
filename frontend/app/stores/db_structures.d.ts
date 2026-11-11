@@ -22,6 +22,7 @@ export interface DB_Node {
     original_path?: string;
     transformed_path?: string;
     drawio?: boolean;
+    defaultView?: string; // view used by default when opening a workspace, category or team
   };
   created_timestamp: number;
   updated_timestamp: number;

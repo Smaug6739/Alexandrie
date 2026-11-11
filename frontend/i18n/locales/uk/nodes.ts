@@ -73,6 +73,9 @@ export default {
       title: 'Приєднатися до команди або простору',
     },
     metadata: {
+      defaultView: 'Вигляд за замовчуванням',
+      defaultViewHint: 'Вигляд, що використовується під час відкриття цього елемента. Діє для всіх, хто має доступ.',
+      defaultViewPlaceholder: 'Останній використаний вигляд',
       emojiOrIcon: 'Емоджі або іконка',
       emojiOrIconHint: 'Підтримуються SVG та емоджі',
       labelAppearance: 'Зовнішній вигляд',

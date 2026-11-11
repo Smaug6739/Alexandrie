@@ -73,6 +73,9 @@ export default {
       title: 'Tritt einem Team oder Arbeitsbereich bei',
     },
     metadata: {
+      defaultView: 'Standardansicht',
+      defaultViewHint: 'Ansicht, die beim Öffnen dieses Elements verwendet wird. Gilt für alle mit Zugriff.',
+      defaultViewPlaceholder: 'Zuletzt verwendete Ansicht',
       emojiOrIcon: 'Emoji oder Symbol',
       emojiOrIconHint: 'SVG oder Emojis werden unterstützt',
       labelAppearance: 'Erscheinungsbild',

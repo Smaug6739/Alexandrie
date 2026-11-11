@@ -73,6 +73,9 @@ export default {
       title: "Entra in un team o in un'area di lavoro",
     },
     metadata: {
+      defaultView: 'Vista predefinita',
+      defaultViewHint: 'Vista utilizzata all\'apertura di questo elemento. Si applica a tutti coloro che hanno accesso.',
+      defaultViewPlaceholder: 'Ultima vista utilizzata',
       emojiOrIcon: 'Emoji o icona',
       emojiOrIconHint: 'Supporta SVG o emoji',
       labelAppearance: 'Apparenza',

@@ -72,6 +72,9 @@ export default {
       title: '팀 또는 워크스페이스 참여',
     },
     metadata: {
+      defaultView: '기본 보기',
+      defaultViewHint: '이 항목을 열 때 사용되는 보기입니다. 접근 권한이 있는 모든 사용자에게 적용됩니다.',
+      defaultViewPlaceholder: '마지막으로 사용한 보기',
       emojiOrIcon: '이모지 또는 아이콘',
       emojiOrIconHint: 'SVG 또는 이모지 지원',
       labelAppearance: '외형',

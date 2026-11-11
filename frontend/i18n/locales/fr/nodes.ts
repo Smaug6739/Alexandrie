@@ -73,6 +73,9 @@ export default {
       title: 'Rejoindre une équipe ou un espace de travail',
     },
     metadata: {
+      defaultView: 'Vue par défaut',
+      defaultViewHint: 'Vue utilisée à l\'ouverture de cet élément. S\'applique à tous ceux qui y ont accès.',
+      defaultViewPlaceholder: 'Dernière vue utilisée',
       emojiOrIcon: 'Emoji ou icône',
       emojiOrIconHint: 'SVG ou emojis supportés',
       labelAppearance: 'Apparence',

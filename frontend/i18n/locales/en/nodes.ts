@@ -73,6 +73,9 @@ export default {
       title: 'Join a team or workspace',
     },
     metadata: {
+      defaultView: 'Default view',
+      defaultViewHint: 'View used when opening this item. Applies to everyone with access.',
+      defaultViewPlaceholder: 'Last used view',
       emojiOrIcon: 'Emoji or icon',
       emojiOrIconHint: 'SVG or emojis supported',
       labelAppearance: 'Appearance',

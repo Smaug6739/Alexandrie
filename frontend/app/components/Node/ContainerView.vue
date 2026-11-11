@@ -52,7 +52,7 @@
     <Teleport to="#navbar-infos">
       <header>
         <span class="doc-count no-mobile">{{ filteredNodes.length != nodes.length ? `${filteredNodes.length} /` : '' }} {{ nodes.length }}</span>
-        <ViewSelection v-model="view" :show-kanban="!!parent" />
+        <ViewSelection :key="parent?.id" v-model="view" :show-kanban="!!parent" :default-view="parent?.metadata?.defaultView" />
       </header>
     </Teleport>
     <!-- Content based on view mode -->
