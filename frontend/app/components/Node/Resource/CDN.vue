@@ -71,7 +71,14 @@
             @click="router.push(`/dashboard/cdn/${image.id}/preview`)"
             @contextmenu="event => openContextMenu(event, image)"
           >
-            <img :src="resolvePreviewUrl(image)" :alt="image.name" class="image-preview" />
+            <LazyPDFThumbnail
+              v-if="isPdfFile(image.metadata?.filetype || '')"
+              :src="resourceURL(image)"
+              :alt="image.name"
+              :placeholder="resolvePreviewUrl(image)"
+              class="image-preview"
+            />
+            <img v-else :src="resolvePreviewUrl(image)" :alt="image.name" class="image-preview" />
             <div class="image-info">
               <span class="image-name">{{ image.name }}</span>
               <span class="image-size">{{ readableFileSize(image.size ?? 0) }}</span>
@@ -89,7 +96,7 @@
 <script setup lang="ts">
 import ResourceContextMenu from '~/components/Node/Action/ResourceContextMenu.vue';
 import DeleteNodeModal from '~/components/Node/Modals/Delete.vue';
-import { readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
+import { isPdfFile, readableFileSize, resolvePreviewUrl } from '~/helpers/resources';
 import { assignParent } from '~/helpers/resources-parent';
 import { resolveNodeColor } from '~/helpers/node';
 
