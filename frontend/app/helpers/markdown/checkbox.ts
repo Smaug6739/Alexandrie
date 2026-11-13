@@ -15,16 +15,18 @@ function markdownItCheckbox(md: MarkdownIt) {
         if (match) {
           const isChecked = match[1]?.toLowerCase() === 'x';
           const label = match[2];
+          const index = checkboxIdCounter++;
 
           // Inject HTML tokens for rendering checkboxes
           const checkboxToken = new state.Token('html_inline', '', 0);
           checkboxToken.content = `
             <label class="checkbox-container">
-              <input type="checkbox" ${isChecked ? 'checked' : ''} data-checkbox-index="${checkboxIdCounter++}">
+              <input type="checkbox" ${isChecked ? 'checked' : ''} data-checkbox-index="${index}">
               <span>${label}</span>
             </label>
           `;
 
+          token.meta = { ...token.meta, checkboxIndex: index };
           token.children = [checkboxToken]; // Replace children with the new HTML content
           token.content = ''; // Clear the text content to avoid duplicate rendering
         }
@@ -33,4 +35,9 @@ function markdownItCheckbox(md: MarkdownIt) {
   });
 }
 
-export { markdownItCheckbox };
+// Source line of the checkbox rendered with data-checkbox-index `index`
+function checkboxLine(md: MarkdownIt, markdown: string, index: number): number | undefined {
+  return md.parse(markdown, {}).find(t => t.type === 'inline' && t.meta?.checkboxIndex === index)?.map?.[0];
+}
+
+export { markdownItCheckbox, checkboxLine };
