@@ -72,6 +72,9 @@ export default {
       title: '加入团队或工作区',
     },
     metadata: {
+      defaultView: '默认视图',
+      defaultViewHint: '打开此项目时使用的视图。对所有有权访问的人生效。',
+      defaultViewPlaceholder: '上次使用的视图',
       emojiOrIcon: 'Emoji 或图标',
       emojiOrIconHint: '支持 SVG 或 emoji',
       labelAppearance: '外观',

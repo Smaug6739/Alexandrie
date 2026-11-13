@@ -14,9 +14,12 @@ export type ViewMode = 'kanban' | 'list' | 'table' | 'advanced';
 const props = withDefaults(
   defineProps<{
     showKanban?: boolean;
+    /** View configured on the parent node; takes precedence over the user's last selection */
+    defaultView?: string;
   }>(),
   {
     showKanban: false,
+    defaultView: undefined,
   },
 );
 
@@ -39,7 +42,10 @@ const viewOptions = computed(() => {
 });
 
 // Keep the user's saved choice even when this container cannot display it.
-const preferredView = ref<ViewMode>('table');
+const knownViews: ViewMode[] = ['table', 'list', 'advanced', 'kanban'];
+const isKnownView = (value: unknown): value is ViewMode => typeof value === 'string' && knownViews.includes(value as ViewMode);
+
+const preferredView = ref<ViewMode>(isKnownView(props.defaultView) ? props.defaultView : 'table');
 let userSelectedView = false;
 const effectiveView = computed<ViewMode>(() =>
   viewOptions.value.some(option => option.value === preferredView.value) ? preferredView.value : 'table',
@@ -53,11 +59,18 @@ function selectView(newView: ViewMode) {
   localForage.setItem('viewSelection', newView);
 }
 
+// A view configured on the parent node wins over the user's last selection, also when it is changed while the page is open.
+watch(
+  () => props.defaultView,
+  newDefault => {
+    if (isKnownView(newDefault)) preferredView.value = newDefault;
+  },
+);
+
 onMounted(async () => {
   const storedView = await localForage.getItem<unknown>('viewSelection');
-  const knownViews: ViewMode[] = ['table', 'list', 'advanced', 'kanban'];
-  if (!userSelectedView && typeof storedView === 'string' && knownViews.includes(storedView as ViewMode)) {
-    preferredView.value = storedView as ViewMode;
+  if (!userSelectedView && !isKnownView(props.defaultView) && isKnownView(storedView)) {
+    preferredView.value = storedView;
   }
 });
 </script>

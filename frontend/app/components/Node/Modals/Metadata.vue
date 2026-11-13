@@ -35,6 +35,10 @@
           <label for="category">{{ t('settings.documents.theme') }}</label>
           <AppSelect v-model="node.theme" :items="DOCUMENT_THEMES" :nullable="true" :placeholder="t('settings.documents.theme')" />
         </template>
+        <template v-if="node.role <= 2">
+          <label>{{ t('nodes.modals.metadata.defaultView') }} <AppHint :text="t('nodes.modals.metadata.defaultViewHint')" /></label>
+          <AppSelect v-model="defaultView" :items="viewItems" nullable :placeholder="t('nodes.modals.metadata.defaultViewPlaceholder')" />
+        </template>
         <div class="setting-row">
           <label for="accessibility">{{ t('common.labels.color') }}</label>
           <AppColorPicker v-model="node.color" nullable />
@@ -67,6 +71,28 @@ const { getAppAccent } = useAppColors();
 const node = ref<Node>({ ...props.doc });
 const pinnedToggle = ref(node.value.order == -1);
 const parentsTree = nodesTree.getTreeUpToRole(node.value.role);
+const preferences = usePreferencesStore();
+
+const viewItems = computed(() => {
+  const items = [
+    { id: 'table', label: t('components.viewSelection.table') },
+    { id: 'list', label: t('components.viewSelection.list') },
+    { id: 'kanban', label: t('components.viewSelection.kanban') },
+  ];
+  if (preferences.get('advancedView').value) items.push({ id: 'advanced', label: 'Advanced' });
+  return items;
+});
+
+// The default view is stored in the node metadata, so it is shared with everyone who can access the node
+const defaultView = computed({
+  get: () => node.value.metadata?.defaultView ?? '',
+  set: value => {
+    const metadata = { ...node.value.metadata };
+    if (value) metadata.defaultView = String(value);
+    else delete metadata.defaultView;
+    node.value.metadata = metadata;
+  },
+});
 
 onBeforeMount(async () => {
   const latestNode = await nodeStore.fetch({ id: node.value.id });
