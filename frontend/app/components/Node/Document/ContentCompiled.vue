@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import compile from '~/helpers/markdown';
+import compile, { toggleMarkdownCheckbox } from '~/helpers/markdown';
 import { rerenderImages } from '~/helpers/DOM';
 import { renderMermaidDiagrams } from '~/helpers/mermaid-render';
 import type { Node } from '~/stores';
@@ -39,20 +39,6 @@ defineExpose({ rootElement });
 const updateDocumentContent = debounce(() => {
   nodesStore.update(nodesStore.nodes.get(props.node!.id!) as Node);
 }, 1000);
-
-const updateMarkdownCheckbox = (markdown: string, indexToTarget: number, shouldCheck: boolean): string => {
-  let currentIndex = 0;
-
-  return markdown.replace(/^([ \t]*[-*+]\s+\[)([ xX]?)(\].*)/gm, (match, before, status, after) => {
-    if (currentIndex === indexToTarget) {
-      currentIndex++;
-      const newStatus = shouldCheck ? 'x' : ' ';
-      return `${before}${newStatus}${after}`;
-    }
-    currentIndex++;
-    return match;
-  });
-};
 
 // Handle the "Copy code" button click event
 const handleCodeCopyClick = async (e: MouseEvent) => {
@@ -106,7 +92,7 @@ const handleCheckboxChange = (event: Event) => {
   if (!props.node?.content) return;
 
   const checkboxIndex = parseInt(target.getAttribute('data-checkbox-index') || '0', 10);
-  const updatedMarkdown = updateMarkdownCheckbox(props.node.content, checkboxIndex, target.checked);
+  const updatedMarkdown = toggleMarkdownCheckbox(props.node.content, checkboxIndex, target.checked);
 
   // Recompile from the updated source rather than snapshotting the rendered DOM, so the
   // persisted HTML stays reusable (fresh diagram placeholders, resolved internal links).

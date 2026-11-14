@@ -11,7 +11,7 @@ import highlight from 'markdown-it-highlightjs';
 import mark from 'markdown-it-mark';
 import colorPlugin from './colors';
 import { subscriptPlugin, superscriptPlugin, footNotePlugin, html5MediaPlugin, svgObjectPlugin } from './other';
-import { markdownItCheckbox } from './checkbox';
+import { markdownItCheckbox, checkboxLine } from './checkbox';
 import { markdownItKatexPlugin } from './katex';
 import { sourceMapPlugin } from './source-map';
 import { internalLinkPlugin } from './internal-links';
@@ -46,11 +46,22 @@ md.use(svgObjectPlugin);
 md.use(internalLinkPlugin);
 md.use(sourceMapPlugin);
 
+// Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)
+const unescapeEntities = (str: string) => str.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+
 export default function compile(str: string = '', resolveNode?: (id: string) => string | undefined): string {
-  // Replace &lt; &gt; &amp; to < > & (to avoid markdown-it escape)
-  str = str.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-  return md.render(str, {
+  return md.render(unescapeEntities(str), {
     html: true,
     resolveNode,
   });
+}
+
+// Tick or untick the checkbox the renderer numbered `index`. Its line is found with the
+// same parser, so numbered, quoted or fenced task lines can't shift the count.
+export function toggleMarkdownCheckbox(markdown: string, index: number, checked: boolean): string {
+  const line = checkboxLine(md, unescapeEntities(markdown), index);
+  if (line === undefined) return markdown;
+  const lines = markdown.split('\n');
+  lines[line] = lines[line]!.replace(/\[[ xX]\]/, checked ? '[x]' : '[ ]');
+  return lines.join('\n');
 }
