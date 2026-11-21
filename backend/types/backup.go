@@ -21,6 +21,7 @@ type BackupOptions struct {
 	IncludeFiles     bool `json:"include_files"`     // Include uploaded files (images, PDFs, etc.)
 	IncludeMetadata  bool `json:"include_metadata"`  // Include node metadata
 	IncludeSettings  bool `json:"include_settings"`  // Include user settings and preferences
+	Format           string `json:"format"`          // Backup format: json or markdown
 }
 
 // BackupJob represents an ongoing or completed backup job
